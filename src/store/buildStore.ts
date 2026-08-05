@@ -43,6 +43,8 @@ export interface BuildState {
   setLevel:      (l: number) => void
   addPoint:      (char: Characteristic) => void
   removePoint:   (char: Characteristic) => void
+  addPoints:     (char: Characteristic, amount: number) => void
+  removePoints:  (char: Characteristic, amount: number) => void
   toggleScroll:  (char: Characteristic) => void
   equipItem:     (slot: SlotId, ankama_id: number) => void
   unequipItem:   (slot: SlotId) => void
@@ -122,6 +124,28 @@ export const useBuildStore = create<BuildState>((set) => {
     removePoint: (char) => set(s => {
       if (s.allocated[char] <= 0) return s
       return update({ allocated: { ...s.allocated, [char]: s.allocated[char] - 1 } }, s)
+    }),
+
+    addPoints: (char, amount) => set(s => {
+      const budget = statBudget(s.level)
+      let spent    = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, s.allocated[c]), 0)
+      let current  = s.allocated[char]
+      let added    = 0
+      while (added < amount) {
+        const cost = pointCost(char, current + 1) - pointCost(char, current)
+        if (spent + cost > budget) break
+        spent += cost
+        current++
+        added++
+      }
+      if (added === 0) return s
+      return update({ allocated: { ...s.allocated, [char]: current } }, s)
+    }),
+
+    removePoints: (char, amount) => set(s => {
+      const current = s.allocated[char]
+      if (current <= 0) return s
+      return update({ allocated: { ...s.allocated, [char]: Math.max(0, current - amount) } }, s)
     }),
 
     toggleScroll: (char) => set(s =>
