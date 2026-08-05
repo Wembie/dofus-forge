@@ -5,11 +5,12 @@ import type { BuildState } from '@/store/buildStore.ts'
 const PREFIX = 'v1:'
 
 /** Encode build state to a URL-safe string (schema v1). */
-export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 'allocated' | 'scrolled' | 'equipped'>): string {
+export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 'gender' | 'allocated' | 'scrolled' | 'equipped'>): string {
   const snap: BuildSnapshot = {
     v: 1,
     c: state.selectedClass ?? '',
     l: state.level,
+    g: state.gender === 'female' ? 'f' : 'm',
     a: CHARACTERISTICS.map(c => state.allocated[c]),
     s: CHARACTERISTICS.reduce((mask, c, i) => mask | (state.scrolled[c] ? 1 << i : 0), 0),
     e: ALL_SLOTS.map(slot => state.equipped[slot] ?? null),

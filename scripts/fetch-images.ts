@@ -26,8 +26,10 @@ const STAT_FILES: Array<{ id: number; slug: string }> = [
   { id: 15, slug: 'intelligence' },
 ]
 
-// Class breed head ID -> slug (breed_id * 10 = male portrait; Forgelance is breed 20)
-const CLASS_FILES: Array<{ headId: number; slug: string }> = [
+// Class breed head ID -> slug
+// Even IDs = male (breedId * 10), odd IDs = female (breedId * 10 + 1)
+// Forgelance is breed 20 (headId 200/201)
+const CLASS_BASE: Array<{ headId: number; slug: string }> = [
   { headId: 10,  slug: 'feca'          },
   { headId: 20,  slug: 'osamodas'      },
   { headId: 30,  slug: 'enutrof'       },
@@ -48,6 +50,12 @@ const CLASS_FILES: Array<{ headId: number; slug: string }> = [
   { headId: 180, slug: 'ouginak'       },
   { headId: 200, slug: 'forgelance'    },
 ]
+
+// Expand to male + female entries
+const CLASS_FILES: Array<{ headId: number; slug: string }> = CLASS_BASE.flatMap(c => [
+  { headId: c.headId,     slug: c.slug      },   // male:   {slug}.png
+  { headId: c.headId + 1, slug: `${c.slug}-f` }, // female: {slug}-f.png
+])
 
 async function download(url: string, dest: string): Promise<void> {
   process.stdout.write(`  ↓ ${url.split('/').pop()} ... `)
