@@ -12,6 +12,7 @@ function App() {
           Dofus and all related assets are property of Ankama Games.
           This is an unofficial fan project with no affiliation.
         </p>
+        <p className="text-xs text-forge-muted/40">v{__APP_VERSION__}</p>
       </div>
     </div>
   )
