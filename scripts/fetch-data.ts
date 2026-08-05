@@ -4,17 +4,27 @@
  * Usage:
  *   pnpm fetch-data [--force]
  *
- * Endpoints (verified against DofusDude OpenAPI spec):
- *   GET /dofus3/v1/meta/version
- *   GET /dofus3/v1/{lang}/items/equipment/all
- *   GET /dofus3/v1/{lang}/items/consumables/all
- *   GET /dofus3/v1/{lang}/sets/all
- *   GET /dofus3/v1/{lang}/mounts/all
+ * Verified endpoints (against live DofusDude API 2026-08-05):
+ *   GET /dofus3/v1/meta/version             -> { version, release, update_stamp }
+ *   GET /dofus3/v1/{lang}/items/equipment/all -> { items: RawItem[] }
+ *   GET /dofus3/v1/{lang}/items/consumables/all -> { items: RawItem[] }
+ *   GET /dofus3/v1/{lang}/sets/all           -> { sets: RawSet[] }
+ *   GET /dofus3/v1/{lang}/mounts/all         -> { mounts: RawMount[] }
+ *
+ * Confirmed field shapes:
+ *   image_urls: { icon, sd }  (no "hd" field)
+ *   effects[]: { int_minimum, int_maximum, type: { name, id } }
+ *   parent_set: { id, name }
+ *   sets.effects: Record<"2"|"3"..., effect[]>  (string-keyed by piece count)
+ *   mounts: { ankama_id, name, family: { name }, image_urls }  — no level/type/effects
  */
 
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { normalizeItem, normalizeSet, type AppItem, type RawItem, type RawSet } from './lib/normalize.ts'
+import {
+  normalizeItem, normalizeSet, normalizeMount,
+  type AppItem, type RawItem, type RawSet, type RawMount,
+} from './lib/normalize.ts'
 
 const BASE_URL = 'https://api.dofusdu.de'
 const GAME     = 'dofus3'
@@ -30,24 +40,20 @@ async function get<T>(path: string): Promise<T> {
   return res.json() as Promise<T>
 }
 
-function sortedStringify(data: unknown): string {
+function stringify(data: unknown): string {
   return JSON.stringify(data, null, 2)
 }
 
-function buildSearchIndex(items: AppItem[]): object[] {
-  return items.map(it => ({
-    id:    it.ankama_id,
-    name:  it.name,
-    type:  it.type,
-    slot:  it.slot,
-    level: it.level,
-  })).sort((a, b) => a.id - b.id)
+function buildSearchIndex(items: AppItem[]) {
+  return items
+    .map(it => ({ id: it.ankama_id, name: it.name, type: it.type, slot: it.slot, level: it.level }))
+    .sort((a, b) => a.id - b.id)
 }
 
 async function main() {
   console.log('Fetching game version...')
-  const versionData = await get<{ version: string }>(`/${GAME}/${VER}/meta/version`)
-  const gameVersion = versionData.version
+  const meta = await get<{ version: string }>(`/${GAME}/${VER}/meta/version`)
+  const gameVersion = meta.version
 
   const versionFile = join(DATA_DIR, 'version.json')
   if (!FORCE && existsSync(versionFile)) {
@@ -65,31 +71,31 @@ async function main() {
     const langDir = join(DATA_DIR, lang)
     mkdirSync(langDir, { recursive: true })
 
-    const [rawEquipment, rawConsumables, rawSets, rawMounts] = await Promise.all([
+    const [rawEquip, rawConsum, rawSets, rawMounts] = await Promise.all([
       get<{ items: RawItem[] }>(`/${GAME}/${VER}/${lang}/items/equipment/all`),
       get<{ items: RawItem[] }>(`/${GAME}/${VER}/${lang}/items/consumables/all`),
       get<{ sets: RawSet[] }>(`/${GAME}/${VER}/${lang}/sets/all`),
-      get<{ mounts: RawItem[] }>(`/${GAME}/${VER}/${lang}/mounts/all`),
+      get<{ mounts: RawMount[] }>(`/${GAME}/${VER}/${lang}/mounts/all`),
     ])
 
-    const equipment   = rawEquipment.items.map(normalizeItem)
-    const consumables = rawConsumables.items.map(normalizeItem)
+    const equipment   = rawEquip.items.map(normalizeItem)
+    const consumables = rawConsum.items.map(normalizeItem)
     const sets        = rawSets.sets.map(normalizeSet)
-    const mounts      = rawMounts.mounts.map(normalizeItem)
+    const mounts      = rawMounts.mounts.map(normalizeMount)
 
-    writeFileSync(join(langDir, 'equipment.json'),   sortedStringify(equipment), 'utf-8')
-    writeFileSync(join(langDir, 'consumables.json'), sortedStringify(consumables), 'utf-8')
-    writeFileSync(join(langDir, 'sets.json'),        sortedStringify(sets), 'utf-8')
-    writeFileSync(join(langDir, 'mounts.json'),      sortedStringify(mounts), 'utf-8')
+    writeFileSync(join(langDir, 'equipment.json'),   stringify(equipment),   'utf-8')
+    writeFileSync(join(langDir, 'consumables.json'), stringify(consumables), 'utf-8')
+    writeFileSync(join(langDir, 'sets.json'),        stringify(sets),        'utf-8')
+    writeFileSync(join(langDir, 'mounts.json'),      stringify(mounts),      'utf-8')
 
-    const index = buildSearchIndex([...equipment, ...mounts])
-    writeFileSync(join(langDir, 'index.json'), sortedStringify(index), 'utf-8')
+    // search index: equipment only (has level + slot for filtering)
+    const index = buildSearchIndex(equipment)
+    writeFileSync(join(langDir, 'index.json'), stringify(index), 'utf-8')
 
-    console.log(`  [${lang}] done. equipment=${equipment.length} sets=${sets.length}`)
+    console.log(`  [${lang}] done — equipment:${equipment.length} sets:${sets.length} mounts:${mounts.length}`)
   }
 
-  const versionOut = { gameVersion, generatedAt: new Date().toISOString() }
-  writeFileSync(versionFile, JSON.stringify(versionOut, null, 2), 'utf-8')
+  writeFileSync(versionFile, stringify({ gameVersion, generatedAt: new Date().toISOString() }), 'utf-8')
   console.log(`Done. Version ${gameVersion} written.`)
 }
 
