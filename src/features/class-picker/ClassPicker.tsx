@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { CLASS_DATA, ELEMENT_COLORS } from './classData.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { DofusClass } from '@/engine/types.ts'
 
 export function ClassPicker() {
+  const { t }       = useTranslation()
   const selected    = useBuildStore(s => s.selectedClass)
   const setClass    = useBuildStore(s => s.setClass)
   const level       = useBuildStore(s => s.level)
@@ -10,9 +12,9 @@ export function ClassPicker() {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">Class</h2>
+      <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">{t('class')}</h2>
 
-      <div className="grid grid-cols-3 gap-1.5">
+      <div className="grid grid-cols-3 gap-1.5" role="radiogroup" aria-label={t('class')}>
         {CLASS_DATA.map(cls => {
           const isSelected = selected === cls.id
           const colors     = ELEMENT_COLORS[cls.element]
@@ -20,6 +22,8 @@ export function ClassPicker() {
             <button
               key={cls.id}
               onClick={() => setClass(cls.id as DofusClass)}
+              role="radio"
+              aria-checked={isSelected}
               className={[
                 'relative flex flex-col items-center gap-1 py-2 px-1 rounded-lg border transition-all duration-150',
                 'text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forge-gold',
@@ -27,9 +31,8 @@ export function ClassPicker() {
                   ? `${colors} bg-forge-card shadow-lg scale-[1.03]`
                   : 'border-forge-border text-forge-muted hover:border-forge-gold/40 hover:text-forge-text bg-forge-surface',
               ].join(' ')}
-              aria-pressed={isSelected}
             >
-              <span className="text-lg leading-none select-none" aria-hidden>{cls.icon}</span>
+              <span className="text-lg leading-none select-none" aria-hidden="true">{cls.icon}</span>
               <span className="leading-tight text-center">{cls.name}</span>
             </button>
           )
@@ -37,7 +40,7 @@ export function ClassPicker() {
       </div>
 
       <div className="space-y-1.5">
-        <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">Level</h2>
+        <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">{t('level')}</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setLevel(level - 1)}
@@ -52,7 +55,7 @@ export function ClassPicker() {
             value={level}
             onChange={e => setLevel(Number(e.target.value))}
             className="w-16 text-center bg-forge-surface border border-forge-border rounded text-forge-text text-sm py-1 focus:outline-none focus:border-forge-gold"
-            aria-label="Character level"
+            aria-label={t('level')}
           />
           <button
             onClick={() => setLevel(level + 1)}
@@ -60,7 +63,7 @@ export function ClassPicker() {
             className="w-7 h-7 rounded bg-forge-card border border-forge-border text-forge-muted hover:text-forge-text disabled:opacity-30 transition-colors"
             aria-label="Increase level"
           >+</button>
-          <span className="text-forge-muted text-xs">/ 200</span>
+          <span className="text-forge-muted text-xs">{t('level_max')}</span>
         </div>
       </div>
     </div>

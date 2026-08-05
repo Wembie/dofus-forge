@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
@@ -26,11 +27,11 @@ function Section({ title, children }: SectionProps) {
 }
 
 function StatsFromBlock({ s }: { s: StatBlock }) {
+  const { t } = useTranslation()
   return (
     <div className="space-y-1">
-      {/* Core */}
-      <Section title="Core">
-        <div className="flex gap-4">
+      <Section title={t('stats_core')}>
+        <div className="flex gap-4 py-1">
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-forge-muted">AP</span>
             <span className="text-forge-gold font-display font-bold text-lg leading-none">{s.ap}</span>
@@ -44,12 +45,11 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
             <span className="text-red-400 font-display font-bold text-lg leading-none">{s.maxHp}</span>
           </div>
         </div>
-        <StatRow label="Range"    value={s.range} />
-        <StatRow label="Summons"  value={s.summons} />
+        <StatRow label="Range"   value={s.range} />
+        <StatRow label="Summons" value={s.summons} />
       </Section>
 
-      {/* Characteristics */}
-      <Section title="Characteristics">
+      <Section title={t('stats_characteristics')}>
         <StatRow label="Vitality"     value={s.vitality}     color="text-red-400" />
         <StatRow label="Wisdom"       value={s.wisdom}       color="text-violet-400" />
         <StatRow label="Strength"     value={s.strength}     color="text-forge-earth" />
@@ -58,10 +58,9 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         <StatRow label="Agility"      value={s.agility}      color="text-forge-air" />
       </Section>
 
-      {/* Damage */}
-      <Section title="Damage">
-        <StatRow label="Power"   value={s.power}   color="text-forge-gold" suffix="%" />
-        <StatRow label="Damage"  value={s.damage}  color="text-forge-gold" />
+      <Section title={t('stats_damage')}>
+        <StatRow label="Power"   value={s.power}         color="text-forge-gold"    suffix="%" />
+        <StatRow label="Damage"  value={s.damage}        color="text-forge-gold" />
         <StatRow label="Earth"   value={s.earthDamage}   color="text-forge-earth" />
         <StatRow label="Fire"    value={s.fireDamage}    color="text-forge-fire" />
         <StatRow label="Water"   value={s.waterDamage}   color="text-forge-water" />
@@ -75,20 +74,18 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         <StatRow label="Spell %"  value={s.spellDamagePercent}  suffix="%" />
       </Section>
 
-      {/* Steals */}
       {(s.earthSteal + s.fireSteal + s.waterSteal + s.airSteal + s.neutralSteal + s.bestElemSteal) > 0 && (
-        <Section title="Steal">
-          <StatRow label="Earth"   value={s.earthSteal}    color="text-forge-earth" />
-          <StatRow label="Fire"    value={s.fireSteal}     color="text-forge-fire" />
-          <StatRow label="Water"   value={s.waterSteal}    color="text-forge-water" />
-          <StatRow label="Air"     value={s.airSteal}      color="text-forge-air" />
-          <StatRow label="Neutral" value={s.neutralSteal}  color="text-forge-neutral" />
+        <Section title={t('stats_steal')}>
+          <StatRow label="Earth"   value={s.earthSteal}   color="text-forge-earth" />
+          <StatRow label="Fire"    value={s.fireSteal}    color="text-forge-fire" />
+          <StatRow label="Water"   value={s.waterSteal}   color="text-forge-water" />
+          <StatRow label="Air"     value={s.airSteal}     color="text-forge-air" />
+          <StatRow label="Neutral" value={s.neutralSteal} color="text-forge-neutral" />
           <StatRow label="Best"    value={s.bestElemSteal} />
         </Section>
       )}
 
-      {/* Resistances */}
-      <Section title="Resistances (fixed)">
+      <Section title={t('stats_res_fixed')}>
         <StatRow label="Earth"   value={s.earthResFixed}   color="text-forge-earth" />
         <StatRow label="Fire"    value={s.fireResFixed}    color="text-forge-fire" />
         <StatRow label="Water"   value={s.waterResFixed}   color="text-forge-water" />
@@ -96,20 +93,19 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         <StatRow label="Neutral" value={s.neutralResFixed} color="text-forge-neutral" />
       </Section>
 
-      <Section title="Resistances (%)">
-        <StatRow label="Earth"   value={s.earthResPercent}   color="text-forge-earth" suffix="%" />
-        <StatRow label="Fire"    value={s.fireResPercent}    color="text-forge-fire"  suffix="%" />
-        <StatRow label="Water"   value={s.waterResPercent}   color="text-forge-water" suffix="%" />
-        <StatRow label="Air"     value={s.airResPercent}     color="text-forge-air"   suffix="%" />
+      <Section title={t('stats_res_pct')}>
+        <StatRow label="Earth"   value={s.earthResPercent}   color="text-forge-earth"   suffix="%" />
+        <StatRow label="Fire"    value={s.fireResPercent}    color="text-forge-fire"    suffix="%" />
+        <StatRow label="Water"   value={s.waterResPercent}   color="text-forge-water"   suffix="%" />
+        <StatRow label="Air"     value={s.airResPercent}     color="text-forge-air"     suffix="%" />
         <StatRow label="Neutral" value={s.neutralResPercent} color="text-forge-neutral" suffix="%" />
         <StatRow label="Melee"   value={s.meleeResistPercent}  suffix="%" />
         <StatRow label="Ranged"  value={s.rangedResistPercent} suffix="%" />
         <StatRow label="Crit"    value={s.critResistance}      suffix="%" />
       </Section>
 
-      {/* Combat */}
-      <Section title="Combat">
-        <StatRow label="Critical Hit" value={s.critChance}  suffix="%" />
+      <Section title={t('stats_combat')}>
+        <StatRow label="Critical Hit" value={s.critChance}   suffix="%" />
         <StatRow label="Critical Dmg" value={s.critDamage} />
         <StatRow label="Heals"        value={s.heals} />
         <StatRow label="Initiative"   value={s.initiative} />
@@ -122,11 +118,10 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         <StatRow label="MP Steal"     value={s.mpSteal} />
       </Section>
 
-      {/* Other */}
-      <Section title="Other">
-        <StatRow label="Prospecting" value={s.prospecting} />
-        <StatRow label="Pods"        value={s.pods} />
-        <StatRow label="Trap Power"  value={s.trapPower} suffix="%" />
+      <Section title={t('stats_other')}>
+        <StatRow label="Prospecting"  value={s.prospecting} />
+        <StatRow label="Pods"         value={s.pods} />
+        <StatRow label="Trap Power"   value={s.trapPower}     suffix="%" />
         <StatRow label="Pushback Res" value={s.pushbackResist} />
       </Section>
     </div>
@@ -134,14 +129,15 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
 }
 
 export function StatsPanel() {
-  const stats        = useBuildStore(s => s.stats)
+  const { t }         = useTranslation()
+  const stats         = useBuildStore(s => s.stats)
   const selectedClass = useBuildStore(s => s.selectedClass)
 
   if (!selectedClass) {
     return (
       <div className="flex flex-col items-center justify-center h-48 text-forge-muted text-sm text-center space-y-2">
-        <span className="text-3xl">⚒</span>
-        <p>Select a class to see stats</p>
+        <span className="text-3xl" aria-hidden="true">⚒</span>
+        <p>{t('select_class')}</p>
       </div>
     )
   }
@@ -150,12 +146,12 @@ export function StatsPanel() {
 
   return (
     <div className="space-y-1">
-      <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">Stats</h2>
+      <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">{t('stats')}</h2>
       <StatsFromBlock s={stats} />
       {Object.keys(stats.unknownStats).length > 0 && (
         <details className="mt-2">
           <summary className="text-[10px] text-forge-muted/50 cursor-pointer">
-            {Object.keys(stats.unknownStats).length} unmapped stats
+            {t('unmapped_stats', { count: Object.keys(stats.unknownStats).length })}
           </summary>
           <div className="mt-1 space-y-0.5">
             {Object.entries(stats.unknownStats).map(([k, v]) => (
