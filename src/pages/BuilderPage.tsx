@@ -9,10 +9,13 @@ import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
 import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
+import { SpellsPanel } from '@/features/spells/SpellsPanel.tsx'
+import { useBuildStore } from '@/store/buildStore.ts'
 
 function BuilderContent() {
   const { t, i18n } = useTranslation()
-  const load    = useDataStore(s => s.load)
+  const hasClass = useBuildStore(s => s.selectedClass !== null)
+  const load     = useDataStore(s => s.load)
   const loading = useDataStore(s => s.loading)
   const error   = useDataStore(s => s.error)
 
@@ -66,6 +69,11 @@ function BuilderContent() {
             <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
               <CharacteristicsPanel />
             </div>
+            {hasClass && (
+              <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
+                <SpellsPanel />
+              </div>
+            )}
           </aside>
 
           {/* Center: Equipment */}

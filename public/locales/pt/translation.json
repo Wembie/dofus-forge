@@ -43,5 +43,7 @@
   "elem_fire": "Fogo",
   "elem_water": "Água",
   "elem_air": "Ar",
-  "elem_omni": "Omni"
+  "elem_omni": "Omni",
+  "spells": "Feitiços",
+  "spell_grade": "Grau {{grade}}"
 }
