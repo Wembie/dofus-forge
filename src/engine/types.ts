@@ -1,5 +1,6 @@
+// TODO: Confirm total class count for Dofus 3. Currently 18 known classes.
 export const DOFUS_CLASSES = [
-  'cra', 'ecaflip', 'eniripsa', 'eliotrope', 'feca', 'foggernaut',
+  'cra', 'ecaflip', 'eniripsa', 'enutrof', 'eliotrope', 'feca', 'foggernaut',
   'huppermage', 'iop', 'masqueraider', 'osamodas', 'ouginak', 'pandawa',
   'rogue', 'sacrier', 'sadida', 'sram', 'xelor',
 ] as const
