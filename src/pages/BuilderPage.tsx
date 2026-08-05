@@ -76,8 +76,8 @@ function BuilderContent() {
             )}
           </aside>
 
-          {/* Center: Equipment */}
-          <section aria-label={t('equipment')} className="bg-forge-surface rounded-xl border border-forge-border p-4">
+          {/* Center: Equipment — dark character screen, no inner padding */}
+          <section aria-label={t('equipment')} className="rounded-xl border border-forge-border overflow-hidden">
             <EquipmentGrid />
           </section>
 
