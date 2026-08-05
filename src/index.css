@@ -4,11 +4,86 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS vars: dark (default) ─────────────────────────────────────────── */
 :root {
   color-scheme: dark;
+  --forge-bg:      #0d0f14;
+  --forge-surface: #161b26;
+  --forge-card:    #1c2333;
+  --forge-border:  #2a3347;
+  --forge-gold:    #c9a84c;
+  --forge-gold-l:  #e8c87a;
+  --forge-text:    #e8eaf0;
+  --forge-muted:   #7a8499;
+  --forge-earth:   #b8860b;
+  --forge-fire:    #dc4e22;
+  --forge-water:   #2a8fd4;
+  --forge-air:     #6ab04c;
+  --forge-neutral: #9b9b9b;
+}
+
+/* ── CSS vars: light ──────────────────────────────────────────────────── */
+.light {
+  color-scheme: light;
+  --forge-bg:      #f2efe8;
+  --forge-surface: #ffffff;
+  --forge-card:    #ede9df;
+  --forge-border:  #ccc4ae;
+  --forge-gold:    #8a5c00;
+  --forge-gold-l:  #a87000;
+  --forge-text:    #1a1a2e;
+  --forge-muted:   #5a5a72;
+  --forge-earth:   #7a5800;
+  --forge-fire:    #c0350f;
+  --forge-water:   #1568a8;
+  --forge-air:     #3d7a20;
+  --forge-neutral: #666666;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  @apply bg-forge-bg text-forge-text antialiased;
+  background-color: var(--forge-bg);
+  color: var(--forge-text);
   font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Skip link (a11y) ─────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: var(--forge-gold);
+  color: var(--forge-bg);
+  font-weight: 600;
+  border-radius: 0 0 0.5rem 0;
+  transition: left 0.1s;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--forge-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--forge-muted); }
