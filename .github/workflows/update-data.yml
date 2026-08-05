@@ -41,6 +41,7 @@ jobs:
           fi
           pnpm fetch-data $ARGS
           pnpm fetch-spells $ARGS
+          pnpm fetch-images $ARGS
 
       - name: Check for changes
         id: changes

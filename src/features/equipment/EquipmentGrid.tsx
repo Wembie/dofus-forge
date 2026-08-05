@@ -128,34 +128,36 @@ type SlotButtonProps = {
 function SlotButton({ slotId, item, onOpen, onUnequip, small }: SlotButtonProps) {
   const cfg     = SLOT_MAP[slotId]
   const IconCmp = SLOT_ICON[slotId]
-  const size    = small ? 'w-11 h-11' : 'w-[58px] h-[58px]'
+  const px      = small ? 52 : 66
 
   return (
-    <div className="relative group">
+    <div className="relative group flex flex-col items-center gap-0.5">
       <button
         onClick={onOpen}
         aria-label={`${cfg.label}${item ? `: ${item.name}` : ' (empty)'}`}
-        className={[
-          size,
-          'rounded-lg flex items-center justify-center relative overflow-hidden',
-          'transition-all duration-150 cursor-pointer',
-        ].join(' ')}
+        className="rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer"
         style={{
+          width:  px,
+          height: px,
           background: item
             ? 'linear-gradient(145deg, #1c1530, #0d0b1e)'
-            : 'linear-gradient(145deg, #0e0e28, #080818)',
+            : 'linear-gradient(145deg, #0c0c22, #070714)',
           border: item
-            ? '1px solid rgba(201,168,76,0.45)'
-            : '1px solid rgba(40,40,90,0.8)',
+            ? '1.5px solid rgba(201,168,76,0.55)'
+            : '1px solid rgba(35,35,80,0.9)',
           boxShadow: item
-            ? '0 0 14px rgba(201,168,76,0.08) inset, 0 1px 3px rgba(0,0,0,0.5)'
-            : '0 1px 3px rgba(0,0,0,0.5)',
+            ? '0 0 18px rgba(201,168,76,0.12) inset, 0 2px 6px rgba(0,0,0,0.6)'
+            : '0 2px 6px rgba(0,0,0,0.5)',
         }}
         onMouseEnter={e => {
-          if (!item) (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(80,80,180,0.7)'
+          const el = e.currentTarget as HTMLButtonElement
+          if (!item) el.style.borderColor = 'rgba(70,70,160,0.8)'
+          else       el.style.boxShadow   = '0 0 22px rgba(201,168,76,0.18) inset, 0 2px 6px rgba(0,0,0,0.6)'
         }}
         onMouseLeave={e => {
-          if (!item) (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(40,40,90,0.8)'
+          const el = e.currentTarget as HTMLButtonElement
+          if (!item) el.style.borderColor = 'rgba(35,35,80,0.9)'
+          else       el.style.boxShadow   = '0 0 18px rgba(201,168,76,0.12) inset, 0 2px 6px rgba(0,0,0,0.6)'
         }}
       >
         {item ? (
@@ -166,23 +168,30 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small }: SlotButtonProps)
                 {IconCmp ? <IconCmp /> : cfg.icon}
               </span>
         ) : (
-          <span className="text-[#30306a] opacity-70">
+          <span style={{ color: 'rgba(50,50,100,0.7)' }}>
             {IconCmp ? <IconCmp /> : cfg.icon}
           </span>
         )}
 
         {item && (
           <div className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 55%)' }} />
+            style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.07) 0%, transparent 55%)' }} />
         )}
       </button>
+
+      {/* Slot label (tiny, below slot) */}
+      {!small && (
+        <span className="text-[8px] font-medium tracking-wide select-none" style={{ color: 'rgba(60,65,100,0.8)' }}>
+          {cfg.label.toUpperCase()}
+        </span>
+      )}
 
       {/* Unequip × */}
       {item && (
         <button
           onClick={e => { e.stopPropagation(); onUnequip() }}
           className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center hidden group-hover:flex transition-colors z-10"
-          style={{ background: '#080818', border: '1px solid #2a3347', color: '#7a8499' }}
+          style={{ background: '#06060f', border: '1px solid #2a3347', color: '#7a8499' }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#f87171' }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
           aria-label={`Unequip ${item.name}`}
@@ -191,16 +200,21 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small }: SlotButtonProps)
 
       {/* Tooltip */}
       {item && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 hidden group-hover:block pointer-events-none w-48">
-          <div className="rounded-lg p-2.5 shadow-2xl text-xs"
-            style={{ background: '#0d0f14', border: '1px solid #2a3347' }}>
-            <p className="font-medium text-[#e8eaf0] mb-1 truncate">{item.name}</p>
-            <p className="text-[#7a8499] mb-1.5">Lv {item.level}</p>
-            {item.effects.slice(0, 6).map((e, i) => (
-              <p key={i} className="text-[#9aa0b0]">
-                {e.min !== e.max ? `${e.min}–${e.max}` : `+${e.min}`} {e.stat}
-              </p>
-            ))}
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 hidden group-hover:block pointer-events-none w-52">
+          <div className="rounded-xl p-3 shadow-2xl text-xs space-y-1"
+            style={{ background: '#0b0d18', border: '1px solid #2a3347' }}>
+            <p className="font-semibold text-[#e8eaf0] truncate">{item.name}</p>
+            <p className="text-[#3a4268]">Lv {item.level} · {item.type}</p>
+            <div className="pt-1 space-y-0.5">
+              {item.effects.slice(0, 7).map((e, i) => (
+                <p key={i} className="text-[#7a8499]">
+                  {e.min !== e.max ? `${e.min}–${e.max}` : `+${e.min}`} {e.stat}
+                </p>
+              ))}
+              {item.effects.length > 7 && (
+                <p className="text-[#3a4268]">+{item.effects.length - 7} more</p>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -225,74 +239,72 @@ function CharacterCenter() {
 
   return (
     <div
-      className="relative flex flex-col items-center justify-end rounded-lg overflow-hidden mx-1"
+      className="relative flex flex-col items-center justify-end rounded-lg overflow-hidden mx-1 flex-shrink-0"
       style={{
-        width:      164,
-        height:     322,
-        background: `radial-gradient(ellipse at 50% 30%, ${glow} 0%, transparent 65%),
+        width:      180,
+        height:     360,
+        background: `radial-gradient(ellipse at 50% 28%, ${glow} 0%, transparent 60%),
                      linear-gradient(175deg, #0e0e26 0%, #07071a 100%)`,
       }}
     >
-      {/* Vertical inner glow lines (decorative) */}
       <div className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%)',
-        }} />
+        style={{ background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.55) 100%)' }} />
 
       {/* Class display */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 pb-16">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pb-20">
         {classInfo ? (
           <>
-            <div className="text-6xl drop-shadow-2xl"
-              style={{ filter: 'drop-shadow(0 0 16px currentColor)' }}>
-              {classInfo.icon}
+            {/* Class portrait — large */}
+            <div
+              className="rounded-2xl overflow-hidden shadow-2xl"
+              style={{
+                width:   88,
+                height:  88,
+                border:  `2px solid ${ELEM_GLOW[classInfo.element]?.replace('0.25', '0.5') ?? '#2a3347'}`,
+                boxShadow: `0 0 24px ${glow}`,
+                background: `radial-gradient(ellipse at 50% 30%, ${glow}, transparent 70%)`,
+              }}
+            >
+              <img
+                src={classInfo.imageUrl}
+                alt={classInfo.name}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
             </div>
-            <span className="font-display text-[#c9a84c] text-[11px] tracking-[0.2em] uppercase">
+            <span className="font-display text-[#c9a84c] text-[11px] tracking-[0.22em] uppercase">
               {classInfo.name}
             </span>
           </>
         ) : (
-          <span className="font-display text-[#252545] text-xs tracking-widest">SELECT CLASS</span>
+          <span className="font-display text-[#20204a] text-[10px] tracking-widest">SELECT CLASS</span>
         )}
       </div>
 
       {/* Stone platform */}
       <div className="w-full">
-        {/* Top surface ellipse */}
         <div className="mx-auto rounded-[50%]"
           style={{
-            width:      148,
+            width:      160,
             height:     14,
-            background: 'radial-gradient(ellipse at center, #3c2c2c 0%, #1c1414 100%)',
+            background: 'radial-gradient(ellipse at center, #3a2a2a 0%, #1a1212 100%)',
           }} />
-        {/* Platform body */}
         <div className="mx-auto relative"
           style={{
-            width:  136,
-            height: 52,
-            background: 'linear-gradient(to bottom, #241a1a, #0c0a0a)',
-            borderRadius: '0 0 8px 8px',
+            width:        148,
+            height:       56,
+            background:   'linear-gradient(to bottom, #211818, #0a0808)',
+            borderRadius: '0 0 10px 10px',
           }}>
-          {/* Decorative stone lines */}
           <div className="absolute top-2 inset-x-4 h-px opacity-20"
             style={{ background: 'linear-gradient(to right, transparent, #5a4040, transparent)' }} />
-          <div className="absolute top-4 inset-x-6 h-px opacity-15"
+          <div className="absolute top-4 inset-x-6 h-px opacity-12"
             style={{ background: 'linear-gradient(to right, transparent, #5a4040, transparent)' }} />
-
-          {/* Glowing eyes */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-8">
-            <div className="rounded-full"
-              style={{
-                width: 10, height: 6,
-                background: '#b8ff00',
-                boxShadow: '0 0 10px 4px rgba(184,255,0,0.55)',
-              }} />
-            <div className="rounded-full"
-              style={{
-                width: 10, height: 6,
-                background: '#b8ff00',
-                boxShadow: '0 0 10px 4px rgba(184,255,0,0.55)',
-              }} />
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-9">
+            {[0, 1].map(i => (
+              <div key={i} className="rounded-full"
+                style={{ width: 10, height: 6, background: '#b8ff00', boxShadow: '0 0 10px 4px rgba(184,255,0,0.55)' }} />
+            ))}
           </div>
         </div>
       </div>
