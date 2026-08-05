@@ -234,8 +234,10 @@ const ELEM_GLOW: Record<string, string> = {
 
 function CharacterCenter() {
   const selectedClass = useBuildStore(s => s.selectedClass)
+  const gender        = useBuildStore(s => s.gender)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
   const glow          = classInfo ? (ELEM_GLOW[classInfo.element] ?? ELEM_GLOW.neutral) : 'transparent'
+  const portrait      = classInfo ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : null
 
   return (
     <div
@@ -265,12 +267,14 @@ function CharacterCenter() {
                 background: `radial-gradient(ellipse at 50% 30%, ${glow}, transparent 70%)`,
               }}
             >
-              <img
-                src={classInfo.imageUrl}
-                alt={classInfo.name}
-                className="w-full h-full object-cover"
-                draggable={false}
-              />
+              {portrait && (
+                <img
+                  src={portrait}
+                  alt={classInfo.name}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              )}
             </div>
             <span className="font-display text-[#c9a84c] text-[11px] tracking-[0.22em] uppercase">
               {classInfo.name}

@@ -5,32 +5,43 @@ const BASE = import.meta.env.BASE_URL
 export type Element = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'multi'
 
 export type ClassInfo = {
-  id:       DofusClass
-  name:     string
-  element:  Element
-  imageUrl: string
+  id:        DofusClass
+  name:      string
+  element:   Element
+  imageUrl:  string   // male portrait
+  imageFUrl: string   // female portrait
+}
+
+function cls(id: DofusClass, name: string, element: Element): ClassInfo {
+  return {
+    id,
+    name,
+    element,
+    imageUrl:  `${BASE}data/classes/${id}.png`,
+    imageFUrl: `${BASE}data/classes/${id}-f.png`,
+  }
 }
 
 export const CLASS_DATA: ClassInfo[] = [
-  { id: 'cra',          name: 'Cra',          element: 'air',     imageUrl: `${BASE}data/classes/cra.png` },
-  { id: 'ecaflip',      name: 'Ecaflip',      element: 'fire',    imageUrl: `${BASE}data/classes/ecaflip.png` },
-  { id: 'eniripsa',     name: 'Eniripsa',     element: 'water',   imageUrl: `${BASE}data/classes/eniripsa.png` },
-  { id: 'enutrof',      name: 'Enutrof',      element: 'fire',    imageUrl: `${BASE}data/classes/enutrof.png` },
-  { id: 'eliotrope',    name: 'Eliotrope',    element: 'multi',   imageUrl: `${BASE}data/classes/eliotrope.png` },
-  { id: 'feca',         name: 'Feca',         element: 'earth',   imageUrl: `${BASE}data/classes/feca.png` },
-  { id: 'foggernaut',   name: 'Foggernaut',   element: 'neutral', imageUrl: `${BASE}data/classes/foggernaut.png` },
-  { id: 'forgelance',   name: 'Forgelance',   element: 'earth',   imageUrl: `${BASE}data/classes/forgelance.png` },
-  { id: 'huppermage',   name: 'Huppermage',   element: 'multi',   imageUrl: `${BASE}data/classes/huppermage.png` },
-  { id: 'iop',          name: 'Iop',          element: 'earth',   imageUrl: `${BASE}data/classes/iop.png` },
-  { id: 'masqueraider', name: 'Masqueraider', element: 'earth',   imageUrl: `${BASE}data/classes/masqueraider.png` },
-  { id: 'osamodas',     name: 'Osamodas',     element: 'air',     imageUrl: `${BASE}data/classes/osamodas.png` },
-  { id: 'ouginak',      name: 'Ouginak',      element: 'earth',   imageUrl: `${BASE}data/classes/ouginak.png` },
-  { id: 'pandawa',      name: 'Pandawa',      element: 'water',   imageUrl: `${BASE}data/classes/pandawa.png` },
-  { id: 'rogue',        name: 'Rogue',        element: 'fire',    imageUrl: `${BASE}data/classes/rogue.png` },
-  { id: 'sacrier',      name: 'Sacrier',      element: 'neutral', imageUrl: `${BASE}data/classes/sacrier.png` },
-  { id: 'sadida',       name: 'Sadida',       element: 'earth',   imageUrl: `${BASE}data/classes/sadida.png` },
-  { id: 'sram',         name: 'Sram',         element: 'air',     imageUrl: `${BASE}data/classes/sram.png` },
-  { id: 'xelor',        name: 'Xelor',        element: 'air',     imageUrl: `${BASE}data/classes/xelor.png` },
+  cls('cra',          'Cra',          'air'    ),
+  cls('ecaflip',      'Ecaflip',      'fire'   ),
+  cls('eniripsa',     'Eniripsa',     'water'  ),
+  cls('enutrof',      'Enutrof',      'fire'   ),
+  cls('eliotrope',    'Eliotrope',    'multi'  ),
+  cls('feca',         'Feca',         'earth'  ),
+  cls('foggernaut',   'Foggernaut',   'neutral'),
+  cls('forgelance',   'Forgelance',   'earth'  ),
+  cls('huppermage',   'Huppermage',   'multi'  ),
+  cls('iop',          'Iop',          'earth'  ),
+  cls('masqueraider', 'Masqueraider', 'earth'  ),
+  cls('osamodas',     'Osamodas',     'air'    ),
+  cls('ouginak',      'Ouginak',      'earth'  ),
+  cls('pandawa',      'Pandawa',      'water'  ),
+  cls('rogue',        'Rogue',        'fire'   ),
+  cls('sacrier',      'Sacrier',      'neutral'),
+  cls('sadida',       'Sadida',       'earth'  ),
+  cls('sram',         'Sram',         'air'    ),
+  cls('xelor',        'Xelor',        'air'    ),
 ]
 
 export const ELEMENT_COLORS: Record<Element, string> = {

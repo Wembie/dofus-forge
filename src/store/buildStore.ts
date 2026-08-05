@@ -24,9 +24,12 @@ const NO_SCROLLS: ScrolledCharacteristics = {
   vitality: false, wisdom: false, strength: false, intelligence: false, chance: false, agility: false,
 }
 
+export type Gender = 'male' | 'female'
+
 export interface BuildState {
   selectedClass: DofusClass | null
   level:         number
+  gender:        Gender
   allocated:     AllocatedCharacteristics
   scrolled:      ScrolledCharacteristics
   /** Stores only ankama_id per slot — decoupled from data load state */
@@ -41,6 +44,7 @@ export interface BuildState {
   // actions
   setClass:      (c: DofusClass) => void
   setLevel:      (l: number) => void
+  setGender:     (g: Gender) => void
   addPoint:      (char: Characteristic) => void
   removePoint:   (char: Characteristic) => void
   addPoints:     (char: Characteristic, amount: number) => void
@@ -58,6 +62,7 @@ export type BuildSnapshot = {
   v:  1
   c:  string    // class id ('' = none)
   l:  number    // level
+  g?: 'm' | 'f' // gender (optional, default male)
   a:  number[]  // allocated per CHARACTERISTICS order
   s:  number    // scrolled bitmask (bit i = CHARACTERISTICS[i])
   e:  (number | null)[]  // equipped ankama_ids per ALL_SLOTS order
@@ -102,6 +107,7 @@ export const useBuildStore = create<BuildState>((set) => {
   return {
     selectedClass: null,
     level:         1,
+    gender:        'male',
     allocated:     { ...ZERO_ALLOC },
     scrolled:      { ...NO_SCROLLS },
     equipped:      {},
@@ -109,8 +115,9 @@ export const useBuildStore = create<BuildState>((set) => {
     _equipment:    [],
     _sets:         [],
 
-    setClass: (c) => set(s => update({ selectedClass: c }, s)),
-    setLevel: (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
+    setClass:  (c) => set(s => update({ selectedClass: c }, s)),
+    setLevel:  (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
+    setGender: (g) => set(s => ({ ...s, gender: g })),
 
     addPoint: (char) => set(s => {
       const budget  = statBudget(s.level)
@@ -171,6 +178,7 @@ export const useBuildStore = create<BuildState>((set) => {
       if (snap.v !== 1) return s
       const selectedClass = (snap.c || null) as DofusClass | null
       const level         = Math.max(1, Math.min(200, snap.l))
+      const gender: Gender = snap.g === 'f' ? 'female' : 'male'
       const allocated     = Object.fromEntries(
         CHARACTERISTICS.map((c, i) => [c, snap.a[i] ?? 0])
       ) as AllocatedCharacteristics
@@ -180,12 +188,13 @@ export const useBuildStore = create<BuildState>((set) => {
       const equipped      = Object.fromEntries(
         ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
       ) as Partial<Record<SlotId, number>>
-      return update({ selectedClass, level, allocated, scrolled, equipped }, s)
+      return update({ selectedClass, level, gender, allocated, scrolled, equipped }, s)
     }),
 
     reset: () => set(s => ({
       selectedClass: null,
       level:         1,
+      gender:        'male',
       allocated:     { ...ZERO_ALLOC },
       scrolled:      { ...NO_SCROLLS },
       equipped:      {},

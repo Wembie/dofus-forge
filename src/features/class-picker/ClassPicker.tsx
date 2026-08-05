@@ -2,11 +2,14 @@ import { useTranslation } from 'react-i18next'
 import { CLASS_DATA, ELEMENT_HEX } from './classData.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { DofusClass } from '@/engine/types.ts'
+import type { Gender } from '@/store/buildStore.ts'
 
 export function ClassPicker() {
   const { t }    = useTranslation()
   const selected = useBuildStore(s => s.selectedClass)
   const setClass = useBuildStore(s => s.setClass)
+  const gender   = useBuildStore(s => s.gender)
+  const setGender = useBuildStore(s => s.setGender)
   const level    = useBuildStore(s => s.level)
   const setLevel = useBuildStore(s => s.setLevel)
 
@@ -18,6 +21,7 @@ export function ClassPicker() {
         {CLASS_DATA.map(cls => {
           const isSelected = selected === cls.id
           const elemColor  = ELEMENT_HEX[cls.element]
+          const portrait   = gender === 'female' ? cls.imageFUrl : cls.imageUrl
           return (
             <button
               key={cls.id}
@@ -41,7 +45,6 @@ export function ClassPicker() {
                 if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = '#2a3347'
               }}
             >
-              {/* Element glow dot */}
               {isSelected && (
                 <div
                   className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full"
@@ -49,18 +52,17 @@ export function ClassPicker() {
                 />
               )}
 
-              {/* Class portrait */}
               <div
                 className="rounded-lg overflow-hidden flex-shrink-0"
                 style={{
-                  width:  44,
-                  height: 44,
+                  width:      44,
+                  height:     44,
                   background: `radial-gradient(ellipse at 50% 30%, ${elemColor}22, transparent 70%)`,
-                  border: isSelected ? `1px solid ${elemColor}55` : '1px solid #1c2333',
+                  border:     isSelected ? `1px solid ${elemColor}55` : '1px solid #1c2333',
                 }}
               >
                 <img
-                  src={cls.imageUrl}
+                  src={portrait}
                   alt={cls.name}
                   className="w-full h-full object-cover"
                   draggable={false}
@@ -68,7 +70,6 @@ export function ClassPicker() {
                 />
               </div>
 
-              {/* Class name */}
               <span
                 className="text-[10px] font-medium leading-tight text-center w-full truncate"
                 style={{ color: isSelected ? elemColor : '#7a8499' }}
@@ -78,6 +79,35 @@ export function ClassPicker() {
             </button>
           )
         })}
+      </div>
+
+      {/* Gender toggle */}
+      <div className="flex items-center gap-2">
+        <span className="text-forge-muted/60 text-xs font-display uppercase tracking-widest">
+          {t('gender', 'Genre')}
+        </span>
+        <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: '#2a3347' }}>
+          {(['male', 'female'] as Gender[]).map(g => (
+            <button
+              key={g}
+              onClick={() => setGender(g)}
+              className="flex items-center gap-1 px-3 py-1 text-xs font-medium transition-colors"
+              style={gender === g ? {
+                background: '#c9a84c22',
+                color:      '#c9a84c',
+                borderRight: g === 'male' ? '1px solid #2a3347' : undefined,
+              } : {
+                background: 'transparent',
+                color:      '#3a4268',
+                borderRight: g === 'male' ? '1px solid #2a3347' : undefined,
+              }}
+              aria-pressed={gender === g}
+            >
+              <span>{g === 'male' ? '♂' : '♀'}</span>
+              <span className="capitalize">{g === 'male' ? t('gender_male', 'Male') : t('gender_female', 'Female')}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Level */}
