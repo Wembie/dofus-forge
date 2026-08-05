@@ -43,5 +43,7 @@
   "elem_fire": "Feu",
   "elem_water": "Eau",
   "elem_air": "Air",
-  "elem_omni": "Omni"
+  "elem_omni": "Omni",
+  "spells": "Sorts",
+  "spell_grade": "Niv. {{grade}}"
 }

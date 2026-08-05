@@ -40,6 +40,7 @@ jobs:
             ARGS="--force"
           fi
           pnpm fetch-data $ARGS
+          pnpm fetch-spells $ARGS
 
       - name: Check for changes
         id: changes

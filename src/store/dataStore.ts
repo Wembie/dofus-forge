@@ -1,15 +1,18 @@
 import { create } from 'zustand'
 import { loadIndex, loadEquipment, loadSets, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
+import { fetchSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
 
 interface DataState {
-  lang:      string
-  index:     IndexItem[] | null
-  equipment: AppItem[] | null
-  sets:      AppSet[] | null
-  loading:   boolean
-  error:     string | null
-  load:      (lang: string) => Promise<void>
+  lang:       string
+  index:      IndexItem[] | null
+  equipment:  AppItem[] | null
+  sets:       AppSet[] | null
+  spells:     Map<string, ClassSpells>
+  loading:    boolean
+  error:      string | null
+  load:       (lang: string) => Promise<void>
+  loadSpells: (lang: string, classSlug: string) => Promise<void>
 }
 
 export const useDataStore = create<DataState>((set, get) => ({
@@ -17,12 +20,13 @@ export const useDataStore = create<DataState>((set, get) => ({
   index:     null,
   equipment: null,
   sets:      null,
+  spells:    new Map(),
   loading:   false,
   error:     null,
 
   load: async (lang) => {
     if (get().loading) return
-    set({ loading: true, error: null, lang })
+    set({ loading: true, error: null, lang, spells: new Map() })
     try {
       const [index, equipment, sets] = await Promise.all([
         loadIndex(lang),
@@ -34,6 +38,18 @@ export const useDataStore = create<DataState>((set, get) => ({
       useBuildStore.getState().setSetsData(sets)
     } catch (e) {
       set({ loading: false, error: String(e) })
+    }
+  },
+
+  loadSpells: async (lang, classSlug) => {
+    if (get().spells.has(classSlug)) return
+    try {
+      const data = await fetchSpells(lang, classSlug)
+      const next = new Map(get().spells)
+      next.set(classSlug, data)
+      set({ spells: next })
+    } catch {
+      // spell files absent until ETL runs — fail silently
     }
   },
 }))

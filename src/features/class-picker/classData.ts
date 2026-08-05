@@ -17,6 +17,7 @@ export const CLASS_DATA: ClassInfo[] = [
   { id: 'eliotrope',    name: 'Eliotrope',    element: 'multi',   icon: '🌀' },
   { id: 'feca',         name: 'Feca',         element: 'earth',   icon: '🛡️' },
   { id: 'foggernaut',   name: 'Foggernaut',   element: 'neutral', icon: '⚙️' },
+  { id: 'forgelance',   name: 'Forgelance',   element: 'earth',   icon: '🗡️' },
   { id: 'huppermage',   name: 'Huppermage',   element: 'multi',   icon: '🔮' },
   { id: 'iop',          name: 'Iop',          element: 'earth',   icon: '⚔️' },
   { id: 'masqueraider', name: 'Masqueraider', element: 'earth',   icon: '🎭' },
