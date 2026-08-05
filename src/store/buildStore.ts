@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { DofusClass, Characteristic, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
+import { CHARACTERISTICS } from '@/engine/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
@@ -23,117 +24,150 @@ const NO_SCROLLS: ScrolledCharacteristics = {
   vitality: false, wisdom: false, strength: false, intelligence: false, chance: false, agility: false,
 }
 
-interface BuildState {
+export interface BuildState {
   selectedClass: DofusClass | null
   level:         number
   allocated:     AllocatedCharacteristics
   scrolled:      ScrolledCharacteristics
-  equipped:      Partial<Record<SlotId, AppItem>>
+  /** Stores only ankama_id per slot — decoupled from data load state */
+  equipped:      Partial<Record<SlotId, number>>
 
-  // live computed stats — null until a class is selected
   stats: StatBlock | null
 
-  // data refs needed for stat computation
-  _sets: AppSet[]
+  // data refs — injected by dataStore after load
+  _equipment: AppItem[]
+  _sets:      AppSet[]
 
   // actions
-  setClass:    (c: DofusClass) => void
-  setLevel:    (l: number) => void
-  addPoint:    (char: Characteristic) => void
-  removePoint: (char: Characteristic) => void
-  toggleScroll:(char: Characteristic) => void
-  equipItem:   (slot: SlotId, item: AppItem) => void
-  unequipItem: (slot: SlotId) => void
-  setSetsData: (sets: AppSet[]) => void
-  reset:       () => void
+  setClass:      (c: DofusClass) => void
+  setLevel:      (l: number) => void
+  addPoint:      (char: Characteristic) => void
+  removePoint:   (char: Characteristic) => void
+  toggleScroll:  (char: Characteristic) => void
+  equipItem:     (slot: SlotId, ankama_id: number) => void
+  unequipItem:   (slot: SlotId) => void
+  setEquipment:  (equipment: AppItem[]) => void
+  setSetsData:   (sets: AppSet[]) => void
+  applySnapshot: (snap: BuildSnapshot) => void
+  reset:         () => void
 }
 
-function recompute(state: Omit<BuildState, 'stats' | '_sets' | 'setClass' | 'setLevel' | 'addPoint' | 'removePoint' | 'toggleScroll' | 'equipItem' | 'unequipItem' | 'setSetsData' | 'reset'>, sets: AppSet[]): StatBlock | null {
-  if (!state.selectedClass) return null
-  const items = Object.values(state.equipped).filter(Boolean).map(item => ({
-    ankama_id: item!.ankama_id,
-    effects:   item!.effects,
-    set_id:    item!.set_id,
-  }))
-  return computeStats({
-    class:     state.selectedClass,
-    level:     state.level,
-    allocated: state.allocated,
-    scrolled:  state.scrolled,
-    items,
-    sets,
-  })
+export type BuildSnapshot = {
+  v:  1
+  c:  string    // class id ('' = none)
+  l:  number    // level
+  a:  number[]  // allocated per CHARACTERISTICS order
+  s:  number    // scrolled bitmask (bit i = CHARACTERISTICS[i])
+  e:  (number | null)[]  // equipped ankama_ids per ALL_SLOTS order
 }
 
-export const useBuildStore = create<BuildState>((set, _get) => ({
-  selectedClass: null,
-  level:         1,
-  allocated:     { ...ZERO_ALLOC },
-  scrolled:      { ...NO_SCROLLS },
-  equipped:      {},
-  stats:         null,
-  _sets:         [],
+function recompute(
+  selectedClass: DofusClass | null,
+  level: number,
+  allocated: AllocatedCharacteristics,
+  scrolled: ScrolledCharacteristics,
+  equipped: Partial<Record<SlotId, number>>,
+  equipment: AppItem[],
+  sets: AppSet[],
+): StatBlock | null {
+  if (!selectedClass) return null
 
-  setClass: (c) => set(s => {
-    const next = { ...s, selectedClass: c }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
+  const equipMap = new Map(equipment.map(it => [it.ankama_id, it]))
+  const items = ALL_SLOTS
+    .map(slot => {
+      const id = equipped[slot]
+      if (id == null) return null
+      const it = equipMap.get(id)
+      return it ? { ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id } : null
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null)
 
-  setLevel: (l) => set(s => {
-    const level = Math.max(1, Math.min(200, l))
-    const next  = { ...s, level }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
+  return computeStats({ class: selectedClass, level, allocated, scrolled, items, sets })
+}
 
-  addPoint: (char) => set(s => {
-    const budget  = statBudget(s.level)
-    const spent   = (Object.keys(s.allocated) as Characteristic[])
-      .reduce((acc, c) => acc + pointCost(c, s.allocated[c]), 0)
-    const current = s.allocated[char]
-    const nextCost = pointCost(char, current + 1) - pointCost(char, current)
-    if (spent + nextCost > budget) return s
-    const allocated = { ...s.allocated, [char]: current + 1 }
-    const next = { ...s, allocated }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
+export const useBuildStore = create<BuildState>((set) => {
+  function update(patch: Partial<BuildState>, state: BuildState): Partial<BuildState> {
+    const next = { ...state, ...patch }
+    return {
+      ...patch,
+      stats: recompute(
+        next.selectedClass, next.level, next.allocated, next.scrolled,
+        next.equipped, next._equipment, next._sets,
+      ),
+    }
+  }
 
-  removePoint: (char) => set(s => {
-    if (s.allocated[char] <= 0) return s
-    const allocated = { ...s.allocated, [char]: s.allocated[char] - 1 }
-    const next = { ...s, allocated }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
-
-  toggleScroll: (char) => set(s => {
-    const scrolled = { ...s.scrolled, [char]: !s.scrolled[char] }
-    const next = { ...s, scrolled }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
-
-  equipItem: (slot, item) => set(s => {
-    const equipped = { ...s.equipped, [slot]: item }
-    const next = { ...s, equipped }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
-
-  unequipItem: (slot) => set(s => {
-    const equipped = { ...s.equipped }
-    delete equipped[slot]
-    const next = { ...s, equipped }
-    return { ...next, stats: recompute(next, s._sets) }
-  }),
-
-  setSetsData: (sets) => set(s => {
-    const next = { ...s, _sets: sets }
-    return { ...next, stats: recompute(next, sets) }
-  }),
-
-  reset: () => set({
+  return {
     selectedClass: null,
     level:         1,
     allocated:     { ...ZERO_ALLOC },
     scrolled:      { ...NO_SCROLLS },
     equipped:      {},
     stats:         null,
-  }),
-}))
+    _equipment:    [],
+    _sets:         [],
+
+    setClass: (c) => set(s => update({ selectedClass: c }, s)),
+    setLevel: (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
+
+    addPoint: (char) => set(s => {
+      const budget  = statBudget(s.level)
+      const spent   = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, s.allocated[c]), 0)
+      const current = s.allocated[char]
+      const nextCost = pointCost(char, current + 1) - pointCost(char, current)
+      if (spent + nextCost > budget) return s
+      return update({ allocated: { ...s.allocated, [char]: current + 1 } }, s)
+    }),
+
+    removePoint: (char) => set(s => {
+      if (s.allocated[char] <= 0) return s
+      return update({ allocated: { ...s.allocated, [char]: s.allocated[char] - 1 } }, s)
+    }),
+
+    toggleScroll: (char) => set(s =>
+      update({ scrolled: { ...s.scrolled, [char]: !s.scrolled[char] } }, s)
+    ),
+
+    equipItem:   (slot, id) => set(s => update({ equipped: { ...s.equipped, [slot]: id } }, s)),
+    unequipItem: (slot)     => set(s => {
+      const equipped = { ...s.equipped }
+      delete equipped[slot]
+      return update({ equipped }, s)
+    }),
+
+    setEquipment: (equipment) => set(s =>
+      update({ _equipment: equipment }, s)
+    ),
+
+    setSetsData: (sets) => set(s =>
+      update({ _sets: sets }, s)
+    ),
+
+    applySnapshot: (snap) => set(s => {
+      if (snap.v !== 1) return s
+      const selectedClass = (snap.c || null) as DofusClass | null
+      const level         = Math.max(1, Math.min(200, snap.l))
+      const allocated     = Object.fromEntries(
+        CHARACTERISTICS.map((c, i) => [c, snap.a[i] ?? 0])
+      ) as AllocatedCharacteristics
+      const scrolled      = Object.fromEntries(
+        CHARACTERISTICS.map((c, i) => [c, Boolean(snap.s & (1 << i))])
+      ) as ScrolledCharacteristics
+      const equipped      = Object.fromEntries(
+        ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
+      ) as Partial<Record<SlotId, number>>
+      return update({ selectedClass, level, allocated, scrolled, equipped }, s)
+    }),
+
+    reset: () => set(s => ({
+      selectedClass: null,
+      level:         1,
+      allocated:     { ...ZERO_ALLOC },
+      scrolled:      { ...NO_SCROLLS },
+      equipped:      {},
+      stats:         null,
+      _equipment:    s._equipment,
+      _sets:         s._sets,
+    })),
+  }
+})
