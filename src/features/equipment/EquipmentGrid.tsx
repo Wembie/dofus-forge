@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
@@ -8,9 +8,15 @@ import type { SlotId } from '@/store/buildStore.ts'
 export function EquipmentGrid() {
   const equipped    = useBuildStore(s => s.equipped)
   const unequipItem = useBuildStore(s => s.unequipItem)
+  const equipment   = useDataStore(s => s.equipment)
   const loading     = useDataStore(s => s.loading)
 
   const [openSlot, setOpenSlot] = useState<{ config: SlotConfig; id: SlotId } | null>(null)
+
+  const equipMap = useMemo(
+    () => new Map((equipment ?? []).map(it => [it.ankama_id, it])),
+    [equipment],
+  )
 
   if (loading) {
     return (
@@ -26,7 +32,9 @@ export function EquipmentGrid() {
         <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">Equipment</h2>
         <div className="grid grid-cols-4 gap-2">
           {SLOT_CONFIGS.map(cfg => {
-            const item = equipped[cfg.id]
+            const id   = equipped[cfg.id]
+            const item = id != null ? equipMap.get(id) : undefined
+
             return (
               <div key={cfg.id} className="relative group">
                 <button
@@ -51,7 +59,6 @@ export function EquipmentGrid() {
                   )}
                 </button>
 
-                {/* Unequip button */}
                 {item && (
                   <button
                     onClick={(e) => { e.stopPropagation(); unequipItem(cfg.id) }}
@@ -60,7 +67,6 @@ export function EquipmentGrid() {
                   >×</button>
                 )}
 
-                {/* Tooltip on hover */}
                 {item && (
                   <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-10 hidden group-hover:block pointer-events-none w-48">
                     <div className="bg-forge-card border border-forge-border rounded-lg p-2 shadow-xl text-xs">

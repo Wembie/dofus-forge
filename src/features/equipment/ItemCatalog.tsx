@@ -32,7 +32,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   }, [equipment, slot.apiSlot, minLevel, maxLevel, search])
 
   const handlePick = useCallback((item: AppItem) => {
-    equipItem(slotId, item)
+    equipItem(slotId, item.ankama_id)
     onClose()
   }, [equipItem, slotId, onClose])
 

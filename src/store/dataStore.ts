@@ -30,6 +30,7 @@ export const useDataStore = create<DataState>((set, get) => ({
         loadSets(lang),
       ])
       set({ index, equipment, sets, loading: false })
+      useBuildStore.getState().setEquipment(equipment)
       useBuildStore.getState().setSetsData(sets)
     } catch (e) {
       set({ loading: false, error: String(e) })
