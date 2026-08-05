@@ -187,17 +187,25 @@ async function main() {
     grds.sort((a, b) => a.grade - b.grade)
   }
 
+  // Resolve breed -> classSlug once using English names (CLASS_SLUG keys are English)
+  const enRaw     = await download(`${base}/en.json`)
+  const enEntries = (enRaw as Record<string, unknown>).entries as Record<string, string>
+  const breedSlugMap = new Map<number, string>()
+  for (const [breedId, breed] of breeds) {
+    const name = t(enEntries, Number(breed.shortNameId as unknown))
+    const slug = CLASS_SLUG[name]
+    if (slug) breedSlugMap.set(breedId, slug)
+    else console.warn(`  Unknown breed "${name}" (id=${breedId}) — skipping`)
+  }
+
   for (const lang of LANGS) {
-    const langRaw = await download(`${base}/${lang}.json`)
+    const langRaw = lang === 'en' ? enRaw : await download(`${base}/${lang}.json`)
     const entries = (langRaw as Record<string, unknown>).entries as Record<string, string>
 
-    for (const [, breed] of breeds) {
-      const breedNameEn = t(entries, Number((breed.shortNameId as unknown)))
-      const classSlug   = CLASS_SLUG[breedNameEn]
-      if (!classSlug) {
-        if (lang === 'en') console.warn(`  Unknown breed "${breedNameEn}" — skipping`)
-        continue
-      }
+    let written = 0
+    for (const [breedId, breed] of breeds) {
+      const classSlug = breedSlugMap.get(breedId)
+      if (!classSlug) continue
 
       const spellIds = ((breed.breedSpellsId as Record<string, unknown>)?.Array ?? []) as number[]
       const classSpells: AppSpell[] = []
@@ -218,9 +226,10 @@ async function main() {
       const dir = join(DATA_DIR, lang, 'spells')
       mkdirSync(dir, { recursive: true })
       writeFileSync(join(dir, `${classSlug}.json`), JSON.stringify({ classSlug, spells: classSpells }), 'utf-8')
+      written++
     }
 
-    console.log(`  [${lang}] done — ${breeds.size} classes written`)
+    console.log(`  [${lang}] done — ${written} classes written`)
   }
 
   writeFileSync(spellVersionFile, JSON.stringify({ gameVersion, generatedAt: new Date().toISOString() }), 'utf-8')
