@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "lint": "eslint src --ext ts,tsx",
     "fetch-data": "tsx scripts/fetch-data.ts",
-    "fetch-spells": "tsx scripts/fetch-spells.ts"
+    "fetch-spells": "tsx scripts/fetch-spells.ts",
+    "fetch-images": "tsx scripts/fetch-images.ts"
   },
   "dependencies": {
     "i18next": "^23.16.8",

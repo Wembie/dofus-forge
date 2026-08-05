@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
 import { CHARACTERISTICS, type Characteristic } from '@/engine/types.ts'
 
-// ── Colors ────────────────────────────────────────────────────────────────────
+const BASE = import.meta.env.BASE_URL
+
 const CHAR_COLOR: Record<Characteristic, string> = {
   vitality:     '#e05252',
   wisdom:       '#9b6dff',
@@ -23,58 +24,7 @@ const CHAR_LABEL: Record<Characteristic, string> = {
   agility:      'Agility',
 }
 
-// ── Characteristic icons (SVG) ────────────────────────────────────────────────
-function CharIcon({ char }: { char: Characteristic }) {
-  const color = CHAR_COLOR[char]
-
-  return (
-    <div
-      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-      style={{
-        background: `radial-gradient(circle at 35% 35%, ${color}38, ${color}10)`,
-        border:     `1.5px solid ${color}55`,
-        boxShadow:  `0 0 6px ${color}22`,
-      }}
-    >
-      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px]">
-        {char === 'vitality' && (
-          <path fill={color}
-            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        )}
-        {char === 'wisdom' && (
-          <path fill={color}
-            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-        )}
-        {char === 'strength' && (
-          <>
-            <path fill={color} opacity="0.9"
-              d="M12 2L2 22h20L12 2z"/>
-            <path fill={color} opacity="0.45"
-              d="M17 10L11 22h12L17 10z"/>
-          </>
-        )}
-        {char === 'intelligence' && (
-          <path fill={color}
-            d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
-        )}
-        {char === 'chance' && (
-          <path fill={color}
-            d="M12 2L6.5 10.5C5.05 12.96 5 15 5 16c0 3.86 3.14 7 7 7s7-3.14 7-7c0-1-.05-3.04-1.5-5.5L12 2z"/>
-        )}
-        {char === 'agility' && (
-          <path fill={color}
-            d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 2-11 2 4-4 6-7 6-7z"/>
-        )}
-      </svg>
-    </div>
-  )
-}
-
 // ── Hold-to-repeat hook ────────────────────────────────────────────────────────
-// - single click: +1 / −1
-// - hold (350ms delay): repeats every 80ms; accelerates to ×5 after 15 ticks (~1.5s)
-// - shift+click: ×5 once
-// - ctrl/cmd+click: ×20 once
 function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
   const timerRef    = useRef<ReturnType<typeof setTimeout>>()
   const intervalRef = useRef<ReturnType<typeof setInterval>>()
@@ -138,64 +88,113 @@ type RowProps = {
 
 function CharacteristicRow({ char, allocated, isScrolled, remaining, onAdd, onRemove, onToggleScroll }: RowProps) {
   const { t }    = useTranslation()
+  const color    = CHAR_COLOR[char]
+  const focused  = useRef(false)
+
+  const [inputVal, setInputVal] = useState(String(allocated))
+
+  useEffect(() => {
+    if (!focused.current) setInputVal(String(allocated))
+  }, [allocated])
+
+  function commitInput(raw: string) {
+    const target = Math.max(0, parseInt(raw, 10) || 0)
+    if (target > allocated) onAdd(target - allocated)
+    else if (target < allocated) onRemove(allocated - target)
+    // inputVal will sync via useEffect once allocated updates
+  }
+
   const nextCost = pointCost(char, allocated + 1) - pointCost(char, allocated)
   const canAdd   = remaining >= nextCost
-  const color    = CHAR_COLOR[char]
 
   const { addProps, removeProps } = useHoldRepeat(onAdd, onRemove)
 
-  const btnBase: React.CSSProperties = {
-    background: '#161b26',
-    border:     '1px solid #2a3347',
-    color:      '#9aa0b0',
-    borderRadius: 6,
-    width: 26,
-    height: 26,
-    display: 'flex',
-    alignItems: 'center',
+  const btnStyle: React.CSSProperties = {
+    background:   '#12172200',
+    border:       '1px solid #2a3347',
+    color:        '#7a8499',
+    borderRadius: 5,
+    width:        24,
+    height:       24,
+    display:      'flex',
+    alignItems:   'center',
     justifyContent: 'center',
-    fontWeight: 700,
-    fontSize: 16,
-    cursor: 'pointer',
-    userSelect: 'none',
-    flexShrink: 0,
-    lineHeight: 1,
-    transition: 'border-color 0.1s, background 0.1s',
+    fontWeight:   700,
+    fontSize:     15,
+    cursor:       'pointer',
+    userSelect:   'none',
+    flexShrink:   0,
+    lineHeight:   1,
+    transition:   'border-color 0.1s, color 0.1s',
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <CharIcon char={char} />
+    <div className="flex items-center gap-1.5 py-0.5">
+      {/* Real game stat icon */}
+      <img
+        src={`${BASE}data/stats/${char}.png`}
+        alt={CHAR_LABEL[char]}
+        className="w-6 h-6 object-contain flex-shrink-0"
+        style={{ filter: `drop-shadow(0 0 4px ${color}88)` }}
+        draggable={false}
+      />
 
-      <span className="text-xs font-medium flex-shrink-0" style={{ color, width: 80 }}>
+      {/* Label */}
+      <span
+        className="text-xs font-medium flex-shrink-0 select-none"
+        style={{ color, minWidth: 74 }}
+      >
         {CHAR_LABEL[char]}
       </span>
 
-      {/* Controls */}
+      {/* ─ Controls ─ */}
       <div className="flex items-center gap-1 ml-auto">
         <button
           {...removeProps}
           disabled={allocated <= 0}
-          style={{ ...btnBase, opacity: allocated <= 0 ? 0.25 : 1 }}
-          aria-label={`Remove ${CHAR_LABEL[char]} points (shift ×5, ctrl ×20)`}
+          style={{ ...btnStyle, opacity: allocated <= 0 ? 0.25 : 1 }}
+          aria-label={`Remove ${CHAR_LABEL[char]} (shift ×5, ctrl ×20)`}
         >−</button>
 
-        <div className="flex items-baseline justify-center gap-0.5" style={{ width: 52 }}>
-          <span className="text-sm font-mono font-bold" style={{ color }}>
-            {allocated}
+        {/* Direct number input */}
+        <input
+          type="number"
+          min={0}
+          value={inputVal}
+          onChange={e => setInputVal(e.target.value)}
+          onFocus={e => { focused.current = true; e.target.select() }}
+          onBlur={e => { focused.current = false; commitInput(e.target.value) }}
+          onKeyDown={e => {
+            if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
+            if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
+          }}
+          className="text-center font-mono font-bold text-sm focus:outline-none"
+          style={{
+            width:      52,
+            background: 'transparent',
+            border:     '1px solid transparent',
+            borderRadius: 4,
+            color,
+            MozAppearance: 'textfield',
+            padding:    '1px 2px',
+            transition: 'border-color 0.15s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a3347')}
+          onMouseLeave={e => { if (!focused.current) e.currentTarget.style.borderColor = 'transparent' }}
+          aria-label={`${CHAR_LABEL[char]} points`}
+        />
+
+        {isScrolled && (
+          <span className="font-mono text-[10px] flex-shrink-0" style={{ color: '#c9a84c', minWidth: 16 }}>
+            +{SCROLL_BONUS}
           </span>
-          {isScrolled && (
-            <span className="text-[10px] font-mono" style={{ color: '#c9a84c' }}>
-              +{SCROLL_BONUS}
-            </span>
-          )}
-        </div>
+        )}
 
         <button
           {...addProps}
           disabled={!canAdd}
-          style={{ ...btnBase, opacity: !canAdd ? 0.25 : 1 }}
-          aria-label={`Add ${CHAR_LABEL[char]} points (shift ×5, ctrl ×20)`}
+          style={{ ...btnStyle, opacity: !canAdd ? 0.25 : 1 }}
+          aria-label={`Add ${CHAR_LABEL[char]} (shift ×5, ctrl ×20)`}
         >+</button>
       </div>
 
@@ -203,7 +202,7 @@ function CharacteristicRow({ char, allocated, isScrolled, remaining, onAdd, onRe
       <button
         onClick={onToggleScroll}
         title={t('scroll_title', { bonus: SCROLL_BONUS })}
-        className="flex items-center justify-center text-[9px] font-bold flex-shrink-0 transition-all"
+        className="flex-shrink-0 flex items-center justify-center text-[9px] font-bold transition-all"
         style={isScrolled ? {
           width: 20, height: 20, borderRadius: 4,
           background: '#c9a84c', color: '#0d0f14', border: '1px solid #c9a84c',
@@ -231,19 +230,35 @@ export function CharacteristicsPanel() {
   const budget    = statBudget(level)
   const spent     = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, allocated[c]), 0)
   const remaining = budget - spent
+  const pct       = budget > 0 ? Math.min(100, (spent / budget) * 100) : 0
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
+      {/* Header + remaining */}
       <div className="flex items-center justify-between">
         <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">
           {t('characteristics')}
         </h2>
         <span className={`text-xs font-mono tabular-nums ${remaining <= 0 ? 'text-forge-muted/40' : 'text-forge-gold/80'}`}>
-          {remaining} <span className="text-forge-muted/50 text-[10px]">pts</span>
+          {remaining} <span className="text-forge-muted/50 text-[10px]">/ {budget}</span>
         </span>
       </div>
 
-      <div className="space-y-2" role="group" aria-label={t('characteristics')}>
+      {/* Budget progress bar */}
+      <div className="h-1 rounded-full overflow-hidden" style={{ background: '#1c2333' }}>
+        <div
+          className="h-full rounded-full transition-all duration-300"
+          style={{
+            width: `${pct}%`,
+            background: remaining === 0
+              ? 'linear-gradient(to right, #c9a84c, #e8c87a)'
+              : 'linear-gradient(to right, #c9a84c88, #c9a84c)',
+          }}
+        />
+      </div>
+
+      {/* Rows */}
+      <div className="space-y-0.5" role="group" aria-label={t('characteristics')}>
         {CHARACTERISTICS.map(char => (
           <CharacteristicRow
             key={char}
@@ -258,8 +273,8 @@ export function CharacteristicsPanel() {
         ))}
       </div>
 
-      <p className="text-[10px] text-forge-muted/35 text-center pt-1">
-        Hold · Shift ×5 · Ctrl ×20
+      <p className="text-[9px] text-forge-muted/30 text-center pt-0.5">
+        Click to type · Hold · Shift ×5 · Ctrl ×20
       </p>
     </div>
   )
