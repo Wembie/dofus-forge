@@ -36,5 +36,12 @@
   "loading_data": "Carregando dados…",
   "error_loading": "Erro ao carregar dados",
   "disclaimer": "Ferramenta não oficial. Dofus e todos os seus ativos são propriedade da Ankama Games. Sem afiliação com a Ankama.",
-  "skip_to_main": "Ir para o conteúdo principal"
+  "skip_to_main": "Ir para o conteúdo principal",
+  "active_sets": "Sets ativos",
+  "elem_all": "Todos",
+  "elem_earth": "Terra",
+  "elem_fire": "Fogo",
+  "elem_water": "Água",
+  "elem_air": "Ar",
+  "elem_omni": "Omni"
 }

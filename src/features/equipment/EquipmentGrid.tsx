@@ -3,6 +3,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { ItemCatalog } from './ItemCatalog.tsx'
+import { SetBonusesPanel } from './SetBonusesPanel.tsx'
 import type { SlotId } from '@/store/buildStore.ts'
 
 export function EquipmentGrid() {
@@ -85,6 +86,8 @@ export function EquipmentGrid() {
           })}
         </div>
       </div>
+
+      <SetBonusesPanel />
 
       {openSlot && (
         <ItemCatalog
