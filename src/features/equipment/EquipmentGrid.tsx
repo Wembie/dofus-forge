@@ -119,14 +119,18 @@ const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<
 
 // ── Slot button ──────────────────────────────────────────────────────────────
 type SlotButtonProps = {
-  slotId:    SlotId
-  item:      AppItem | undefined
-  onOpen:    () => void
-  onUnequip: () => void
-  small?:    boolean
+  slotId:      SlotId
+  item:        AppItem | undefined
+  onOpen:      () => void
+  onUnequip:   () => void
+  small?:      boolean
+  setName?:    string
+  setCount?:   number
+  setMax?:     number
+  nextBonus?:  string
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, small }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount, setMax, nextBonus }: SlotButtonProps) {
   const cfg     = SLOT_MAP[slotId]
   const IconCmp = SLOT_ICON[slotId]
   const px      = small ? 52 : 66
@@ -206,6 +210,15 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small }: SlotButtonProps)
             style={{ background: '#0b0d18', border: '1px solid #2a3347' }}>
             <p className="font-semibold truncate" style={{ color: '#c9a84c' }}>{item.name}</p>
             <p style={{ color: '#3a4268' }}>Lv {item.level} · {item.type}</p>
+            {setName && (
+              <div className="flex items-center justify-between gap-2 rounded px-2 py-1" style={{ background: '#0e1020', border: '1px solid #1c2840' }}>
+                <span className="truncate font-medium" style={{ color: '#7a6030' }}>{setName}</span>
+                <span className="font-mono flex-shrink-0" style={{ color: '#c9a84c' }}>{setCount}/{setMax}</span>
+              </div>
+            )}
+            {nextBonus && (
+              <p className="text-[10px]" style={{ color: '#4a5860' }}>▶ at {nextBonus}</p>
+            )}
             <div className="pt-0.5 space-y-0.5" style={{ borderTop: '1px solid #1c2333' }}>
               {item.effects
                 .filter(e => !isIgnored(e.stat))
@@ -343,6 +356,7 @@ function CharacterCenter() {
 // ── EquipmentGrid ─────────────────────────────────────────────────────────────
 export function EquipmentGrid() {
   const equipped    = useBuildStore(s => s.equipped)
+  const _sets       = useBuildStore(s => s._sets)
   const unequipItem = useBuildStore(s => s.unequipItem)
   const equipment   = useDataStore(s => s.equipment)
   const loading     = useDataStore(s => s.loading)
@@ -354,10 +368,39 @@ export function EquipmentGrid() {
     [equipment],
   )
 
+  // Set count map: setId → number of pieces equipped
+  const setCountMap = useMemo(() => {
+    const m = new Map<number, number>()
+    for (const id of Object.values(equipped)) {
+      if (id == null) continue
+      const it = equipMap.get(id)
+      if (it?.set_id != null) m.set(it.set_id, (m.get(it.set_id) ?? 0) + 1)
+    }
+    return m
+  }, [equipped, equipMap])
+
+  const setDataMap = useMemo(
+    () => new Map(_sets.map(s => [s.ankama_id, s])),
+    [_sets],
+  )
+
   const getItem = useCallback((id: SlotId) => {
     const ankId = equipped[id]
     return ankId != null ? equipMap.get(ankId) : undefined
   }, [equipped, equipMap])
+
+  function getSetProps(id: SlotId) {
+    const item = getItem(id)
+    if (!item?.set_id) return {}
+    const s = setDataMap.get(item.set_id)
+    if (!s) return {}
+    const count = setCountMap.get(s.ankama_id) ?? 0
+    const tiers = Object.keys(s.bonuses).map(Number).sort((a, b) => a - b)
+    const maxPieces = tiers.at(-1) ?? 0
+    const nextTier  = tiers.find(t => t > count)
+    const nextBonus = nextTier != null ? `${nextTier}pc` : undefined
+    return { setName: s.name, setCount: count, setMax: maxPieces, nextBonus }
+  }
 
   const openCatalog = useCallback((id: SlotId) => {
     setOpenSlot({ config: SLOT_MAP[id], id })
@@ -386,6 +429,7 @@ export function EquipmentGrid() {
               item={getItem(id)}
               onOpen={() => openCatalog(id)}
               onUnequip={() => unequipItem(id)}
+              {...getSetProps(id)}
             />
           ))}
         </div>
@@ -401,6 +445,7 @@ export function EquipmentGrid() {
               item={getItem(id)}
               onOpen={() => openCatalog(id)}
               onUnequip={() => unequipItem(id)}
+              {...getSetProps(id)}
             />
           ))}
         </div>
@@ -415,6 +460,7 @@ export function EquipmentGrid() {
             onOpen={() => openCatalog(id)}
             onUnequip={() => unequipItem(id)}
             small
+            {...getSetProps(id)}
           />
         ))}
       </div>
