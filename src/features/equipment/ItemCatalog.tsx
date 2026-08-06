@@ -21,22 +21,29 @@ type Props = {
 
 const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
 
-function statDelta(candidate: AppItem, current: AppItem | undefined) {
-  if (!current) return []
+function statDelta(candidate: AppItem, current: AppItem) {
   const sum = (item: AppItem) => {
     const m = new Map<string, number>()
-    for (const e of item.effects) m.set(e.stat, (m.get(e.stat) ?? 0) + e.min)
+    for (const e of item.effects) {
+      if (!isIgnored(e.stat)) m.set(e.stat, (m.get(e.stat) ?? 0) + e.min)
+    }
     return m
   }
   const cMap = sum(candidate)
   const eMap = sum(current)
   const all  = new Set([...cMap.keys(), ...eMap.keys()])
-  const out: Array<{ stat: string; delta: number }> = []
+  const out: Array<{ stat: string; delta: number; hasMeta: boolean }> = []
   for (const stat of all) {
     const d = (cMap.get(stat) ?? 0) - (eMap.get(stat) ?? 0)
-    if (d !== 0) out.push({ stat, delta: d })
+    if (d !== 0) out.push({ stat, delta: d, hasMeta: Boolean(STAT_META[stat]) })
   }
-  return out.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta)).slice(0, 5)
+  // Sort: known stats with biggest abs delta first, then unknowns
+  return out
+    .sort((a, b) => {
+      if (a.hasMeta !== b.hasMeta) return a.hasMeta ? -1 : 1
+      return Math.abs(b.delta) - Math.abs(a.delta)
+    })
+    .slice(0, 6)
 }
 
 function SetSearch({
@@ -454,7 +461,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               const absoluteIdx   = startIdx + i
               const isHighlighted = absoluteIdx === activeIdx
               const isEquipped    = item.ankama_id === currentId
-              const delta         = statDelta(item, currentItem)
+              const delta         = currentItem && !isEquipped ? statDelta(item, currentItem) : []
 
               return (
                 <li
@@ -511,13 +518,26 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     </div>
 
                     {/* Stats / delta */}
-                    <div className="text-right text-[11px] space-y-0.5 flex-shrink-0 max-w-[150px]">
+                    <div className="text-right space-y-0.5 flex-shrink-0 max-w-[150px]">
                       {delta.length > 0
-                        ? delta.map((d, di) => (
-                            <p key={di} className={`truncate font-mono ${d.delta > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                              {d.delta > 0 ? '+' : ''}{d.delta} {d.stat}
-                            </p>
-                          ))
+                        ? delta.map((d, di) => {
+                            const meta  = STAT_META[d.stat]
+                            const isPos = d.delta > 0
+                            const clr   = isPos ? '#4ade80' : '#f87171'
+                            return (
+                              <div key={di} className="flex items-center justify-end gap-1">
+                                {meta?.icon && (
+                                  <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+                                )}
+                                <span className="font-mono font-bold tabular-nums" style={{ color: clr, fontSize: 11 }}>
+                                  {isPos ? '+' : ''}{d.delta}
+                                </span>
+                                <span className="text-[10px] truncate" style={{ color: meta?.color ? `${meta.color}80` : '#3a4268' }}>
+                                  {meta?.label ?? d.stat}
+                                </span>
+                              </div>
+                            )
+                          })
                         : (() => {
                             const visible = item.effects.filter(e => !isIgnored(e.stat))
                             const top4    = visible.slice(0, 4)
@@ -531,18 +551,9 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                                   return (
                                     <div key={ei} className="flex items-center justify-end gap-1">
                                       {meta?.icon && (
-                                        <img
-                                          src={statIconUrl(meta.icon)}
-                                          alt=""
-                                          width={11}
-                                          height={11}
-                                          className="object-contain flex-shrink-0"
-                                        />
+                                        <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
                                       )}
-                                      <span
-                                        className="font-mono font-semibold truncate tabular-nums"
-                                        style={{ color: clr, fontSize: 11 }}
-                                      >
+                                      <span className="font-mono font-semibold truncate tabular-nums" style={{ color: clr, fontSize: 11 }}>
                                         {val}
                                       </span>
                                     </div>

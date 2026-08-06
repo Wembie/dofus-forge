@@ -29,7 +29,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M10 — Vista de Set completo** — click en nombre del set en SetBonusesPanel → modal con todos los ítems del set, botón "equipar pieza" por slot, progreso visual
 
 ### Ítems & Equipamiento
-- [ ] **M11 — Comparación de ítem mejorada** — en vez de solo delta vs equipado, overlay side-by-side con ítem actual vs candidato (todos los stats, no solo diferencias)
+- [x] **M11 — Comparación de ítem mejorada** — delta con iconos + label coloreado, hasta 6 diffs, filtra ignorados, primero los stats conocidos
 - [x] **M12 — Filtro por stat específico en ItemCatalog** — búsqueda de stat con icono + color, filtra ítems que tengan ese stat
 - [ ] **M14 — Ítem favoritos / guardados** — marcar ítems como favoritos (localStorage), filtrar por favoritos en el catálogo
 
