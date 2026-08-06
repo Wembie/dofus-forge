@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppSet, AppEffect } from '@/data/loaders.ts'
+import { SetDetailModal } from './SetDetailModal.tsx'
 
 function effectLabel(e: AppEffect): string {
   const sign = e.min >= 0 ? '+' : ''
@@ -9,7 +10,7 @@ function effectLabel(e: AppEffect): string {
   return `${val} ${e.stat}`
 }
 
-function SetCard({ set, count }: { set: AppSet; count: number }) {
+function SetCard({ set, count, onClick }: { set: AppSet; count: number; onClick: () => void }) {
   const tiers     = Object.entries(set.bonuses)
     .map(([k, v]) => ({ pieces: Number(k), effects: v }))
     .sort((a, b) => a.pieces - b.pieces)
@@ -18,7 +19,13 @@ function SetCard({ set, count }: { set: AppSet; count: number }) {
   return (
     <div className="space-y-1 text-xs">
       <div className="flex items-center justify-between gap-2">
-        <span className="font-medium text-forge-text truncate">{set.name}</span>
+        <button
+          onClick={onClick}
+          className="font-medium text-forge-text truncate text-left hover:text-forge-gold transition-colors text-xs"
+          title={`View ${set.name} set`}
+        >
+          {set.name}
+        </button>
         <span className="font-mono text-[10px] text-forge-gold flex-shrink-0">{count}/{maxPieces}</span>
       </div>
 
@@ -51,6 +58,8 @@ export function SetBonusesPanel() {
   const _equipment = useBuildStore(s => s._equipment)
   const _sets      = useBuildStore(s => s._sets)
 
+  const [openSet, setOpenSet] = useState<AppSet | null>(null)
+
   const activeSets = useMemo(() => {
     const equipMap   = new Map(_equipment.map(it => [it.ankama_id, it]))
     const countBySet = new Map<number, number>()
@@ -72,13 +81,19 @@ export function SetBonusesPanel() {
   if (activeSets.length === 0) return null
 
   return (
-    <div className="mt-4 pt-4 border-t border-forge-border space-y-3">
-      <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">{t('active_sets')}</h2>
-      <div className="space-y-4">
-        {activeSets.map(({ set, count }) => (
-          <SetCard key={set.ankama_id} set={set} count={count} />
-        ))}
+    <>
+      <div className="mt-4 pt-4 border-t border-forge-border space-y-3">
+        <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">{t('active_sets')}</h2>
+        <div className="space-y-4">
+          {activeSets.map(({ set, count }) => (
+            <SetCard key={set.ankama_id} set={set} count={count} onClick={() => setOpenSet(set)} />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {openSet && (
+        <SetDetailModal set={openSet} onClose={() => setOpenSet(null)} />
+      )}
+    </>
   )
 }

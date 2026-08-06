@@ -11,15 +11,22 @@ import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
 import { SpellsPanel } from '@/features/spells/SpellsPanel.tsx'
 import { useBuildStore } from '@/store/buildStore.ts'
+import { useHistoryStore } from '@/store/historyStore.ts'
+import { useHistory } from '@/store/useHistory.ts'
 
 function BuilderContent() {
   const { t, i18n } = useTranslation()
-  const hasClass = useBuildStore(s => s.selectedClass !== null)
-  const load     = useDataStore(s => s.load)
-  const loading = useDataStore(s => s.loading)
-  const error   = useDataStore(s => s.error)
+  const hasClass  = useBuildStore(s => s.selectedClass !== null)
+  const load      = useDataStore(s => s.load)
+  const loading   = useDataStore(s => s.loading)
+  const error     = useDataStore(s => s.error)
+  const canUndo   = useHistoryStore(s => s.canUndo)
+  const canRedo   = useHistoryStore(s => s.canRedo)
+  const undo      = useHistoryStore(s => s.undo)
+  const redo      = useHistoryStore(s => s.redo)
 
   useBuildUrl()
+  useHistory()
 
   useEffect(() => {
     const lang = i18n.language.slice(0, 2)
@@ -53,6 +60,26 @@ function BuilderContent() {
           <div className="ml-auto flex items-center gap-2">
             <LanguageSwitcher />
             <ThemeToggle />
+            <button
+              onClick={undo}
+              disabled={!canUndo}
+              title="Undo (Ctrl+Z)"
+              className="w-7 h-7 rounded flex items-center justify-center text-sm border transition-colors disabled:opacity-20"
+              style={{ background: 'var(--forge-surface)', borderColor: 'var(--forge-border)', color: 'var(--forge-muted)' }}
+              onMouseEnter={e => { if (canUndo) (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-text)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-muted)' }}
+              aria-label="Undo"
+            >↩</button>
+            <button
+              onClick={redo}
+              disabled={!canRedo}
+              title="Redo (Ctrl+Shift+Z)"
+              className="w-7 h-7 rounded flex items-center justify-center text-sm border transition-colors disabled:opacity-20"
+              style={{ background: 'var(--forge-surface)', borderColor: 'var(--forge-border)', color: 'var(--forge-muted)' }}
+              onMouseEnter={e => { if (canRedo) (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-text)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-muted)' }}
+              aria-label="Redo"
+            >↪</button>
             <ShareBar />
           </div>
         </div>
