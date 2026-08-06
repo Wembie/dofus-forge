@@ -38,7 +38,7 @@ Marcar con `[x]` cuando se complete.
 
 ### Build
 - [x] **M16 — Guardar múltiples builds** — localStorage, lista de builds guardados con nombre, load/delete (ShareBar → "My Builds")
-- [ ] **M17 — Undo/redo básico** — deshacer últimas acciones de equipamiento y asignación de puntos
+- [x] **M17 — Undo/redo básico** — Ctrl+Z / Ctrl+Shift+Z, botones ↩↪ en header, historial de 40 estados
 - [ ] **M18 — Export build como imagen** — screenshot del personaje con stats para compartir en redes (canvas/html2canvas)
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 
