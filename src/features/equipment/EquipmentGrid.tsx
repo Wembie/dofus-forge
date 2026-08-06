@@ -7,6 +7,7 @@ import { SetBonusesPanel } from './SetBonusesPanel.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -200,19 +201,42 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small }: SlotButtonProps)
 
       {/* Tooltip */}
       {item && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 hidden group-hover:block pointer-events-none w-52">
-          <div className="rounded-xl p-3 shadow-2xl text-xs space-y-1"
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 hidden group-hover:block pointer-events-none w-56">
+          <div className="rounded-xl p-3 shadow-2xl text-xs space-y-1.5"
             style={{ background: '#0b0d18', border: '1px solid #2a3347' }}>
-            <p className="font-semibold text-[#e8eaf0] truncate">{item.name}</p>
-            <p className="text-[#3a4268]">Lv {item.level} · {item.type}</p>
-            <div className="pt-1 space-y-0.5">
-              {item.effects.slice(0, 7).map((e, i) => (
-                <p key={i} className="text-[#7a8499]">
-                  {e.min !== e.max ? `${e.min}–${e.max}` : `+${e.min}`} {e.stat}
+            <p className="font-semibold truncate" style={{ color: '#c9a84c' }}>{item.name}</p>
+            <p style={{ color: '#3a4268' }}>Lv {item.level} · {item.type}</p>
+            <div className="pt-0.5 space-y-0.5" style={{ borderTop: '1px solid #1c2333' }}>
+              {item.effects
+                .filter(e => !isIgnored(e.stat))
+                .slice(0, 12)
+                .map((e, i) => {
+                  const meta = STAT_META[e.stat]
+                  const val  = fmtValue(e.min, e.max)
+                  const clr  = meta?.color ?? '#7a8499'
+                  return (
+                    <div key={i} className="flex items-center gap-1.5">
+                      {meta?.icon
+                        ? <img
+                            src={statIconUrl(meta.icon)}
+                            alt=""
+                            width={12}
+                            height={12}
+                            className="object-contain flex-shrink-0"
+                            style={{ filter: `drop-shadow(0 0 3px ${clr}55)` }}
+                          />
+                        : <span className="w-3 flex-shrink-0" />
+                      }
+                      <span className="font-mono font-semibold tabular-nums" style={{ color: clr }}>{val}</span>
+                      <span className="truncate" style={{ color: '#5a6480' }}>{meta?.label ?? e.stat}</span>
+                    </div>
+                  )
+                })
+              }
+              {item.effects.filter(e => !isIgnored(e.stat)).length > 12 && (
+                <p style={{ color: '#3a4268' }}>
+                  +{item.effects.filter(e => !isIgnored(e.stat)).length - 12} more
                 </p>
-              ))}
-              {item.effects.length > 7 && (
-                <p className="text-[#3a4268]">+{item.effects.length - 7} more</p>
               )}
             </div>
           </div>

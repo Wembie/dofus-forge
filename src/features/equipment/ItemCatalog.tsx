@@ -7,6 +7,7 @@ import type { SlotConfig } from './slotConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { useVirtualList } from '@/ui/useVirtualList.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 
 const ROW_HEIGHT = 72
 
@@ -171,18 +172,34 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
 
           {/* Element + sort */}
           <div className="flex items-center gap-1 flex-wrap">
-            {ELEM_FILTERS.map(({ filter, i18nKey, activeClass }) => (
-              <button
-                key={filter}
-                onClick={() => setElem(filter)}
-                className={[
-                  'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                  elem === filter
-                    ? activeClass
-                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
-                ].join(' ')}
-              >{t(i18nKey)}</button>
-            ))}
+            {ELEM_FILTERS.map(({ filter, i18nKey, activeClass, label, iconName, color }) => {
+              const isActive = elem === filter
+              const displayLabel = label ?? t(i18nKey)
+              return (
+                <button
+                  key={filter}
+                  onClick={() => setElem(filter)}
+                  className={[
+                    'flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
+                    isActive
+                      ? activeClass
+                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                  ].join(' ')}
+                >
+                  {iconName && (
+                    <img
+                      src={statIconUrl(iconName)}
+                      alt=""
+                      width={14}
+                      height={14}
+                      className="object-contain flex-shrink-0"
+                      style={isActive && color ? { filter: `drop-shadow(0 0 3px ${color}88)` } : undefined}
+                    />
+                  )}
+                  <span style={isActive && color ? { color } : undefined}>{displayLabel}</span>
+                </button>
+              )
+            })}
 
             <div className="ml-auto flex gap-1">
               {(Object.keys(SORT_LABELS) as SortKey[]).map(sk => (
@@ -287,23 +304,49 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     </div>
 
                     {/* Stats / delta */}
-                    <div className="text-right text-[11px] space-y-0.5 flex-shrink-0 max-w-[140px]">
+                    <div className="text-right text-[11px] space-y-0.5 flex-shrink-0 max-w-[150px]">
                       {delta.length > 0
                         ? delta.map((d, di) => (
                             <p key={di} className={`truncate font-mono ${d.delta > 0 ? 'text-green-400' : 'text-red-400'}`}>
                               {d.delta > 0 ? '+' : ''}{d.delta} {d.stat}
                             </p>
                           ))
-                        : <>
-                            {item.effects.slice(0, 4).map((e, ei) => (
-                              <p key={ei} className="truncate" style={{ color: '#4a5268' }}>
-                                {e.min !== e.max ? `${e.min}–${e.max}` : e.min} {e.stat}
-                              </p>
-                            ))}
-                            {item.effects.length > 4 && (
-                              <p style={{ color: '#333a50' }}>+{item.effects.length - 4} more</p>
-                            )}
-                          </>
+                        : (() => {
+                            const visible = item.effects.filter(e => !isIgnored(e.stat))
+                            const top4    = visible.slice(0, 4)
+                            const rest    = visible.length - 4
+                            return (
+                              <>
+                                {top4.map((e, ei) => {
+                                  const meta = STAT_META[e.stat]
+                                  const val  = fmtValue(e.min, e.max)
+                                  const clr  = meta?.color ?? '#4a5268'
+                                  return (
+                                    <div key={ei} className="flex items-center justify-end gap-1">
+                                      {meta?.icon && (
+                                        <img
+                                          src={statIconUrl(meta.icon)}
+                                          alt=""
+                                          width={11}
+                                          height={11}
+                                          className="object-contain flex-shrink-0"
+                                        />
+                                      )}
+                                      <span
+                                        className="font-mono font-semibold truncate tabular-nums"
+                                        style={{ color: clr, fontSize: 11 }}
+                                      >
+                                        {val}
+                                      </span>
+                                    </div>
+                                  )
+                                })}
+                                {rest > 0 && (
+                                  <p style={{ color: '#333a50', fontSize: 10 }}>+{rest} more</p>
+                                )}
+                              </>
+                            )
+                          })()
                       }
                     </div>
                   </button>

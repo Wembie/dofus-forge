@@ -27,13 +27,20 @@ export function itemMatchesElement(item: AppItem, filter: ElemFilter): boolean {
   return true
 }
 
-type ElemMeta = { filter: ElemFilter; i18nKey: string; activeClass: string }
+type ElemMeta = {
+  filter:      ElemFilter
+  i18nKey:     string
+  activeClass: string
+  label?:      string
+  iconName?:   string
+  color?:      string
+}
 
 export const ELEM_FILTERS: readonly ElemMeta[] = [
   { filter: 'all',   i18nKey: 'elem_all',   activeClass: 'border-forge-gold  text-forge-gold'  },
-  { filter: 'earth', i18nKey: 'elem_earth', activeClass: 'border-forge-earth text-forge-earth' },
-  { filter: 'fire',  i18nKey: 'elem_fire',  activeClass: 'border-forge-fire  text-forge-fire'  },
-  { filter: 'water', i18nKey: 'elem_water', activeClass: 'border-forge-water text-forge-water' },
-  { filter: 'air',   i18nKey: 'elem_air',   activeClass: 'border-forge-air   text-forge-air'   },
+  { filter: 'earth', i18nKey: 'elem_earth', activeClass: 'border-forge-earth text-forge-earth', label: 'Strength',     iconName: 'strength',     color: '#c49a2a' },
+  { filter: 'fire',  i18nKey: 'elem_fire',  activeClass: 'border-forge-fire  text-forge-fire',  label: 'Intelligence', iconName: 'intelligence', color: '#dc4e22' },
+  { filter: 'water', i18nKey: 'elem_water', activeClass: 'border-forge-water text-forge-water', label: 'Chance',       iconName: 'chance',       color: '#2a8fd4' },
+  { filter: 'air',   i18nKey: 'elem_air',   activeClass: 'border-forge-air   text-forge-air',   label: 'Agility',      iconName: 'agility',      color: '#6ab04c' },
   { filter: 'omni',  i18nKey: 'elem_omni',  activeClass: 'border-forge-gold  text-forge-gold'  },
 ]
