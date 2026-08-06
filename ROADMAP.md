@@ -14,6 +14,10 @@ Marcar con `[x]` cuando se complete.
 - [x] **M05 — EquipmentGrid tooltip con stats** — hasta 12 stats con icono 12px + valor coloreado + label
 - [x] **M06 — Filtros de elemento con nombre característica** — muestran "Fuerza/Inteligencia/Suerte/Agilidad" con icono en vez de "Tierra/Fuego/Agua/Aire"
 - [x] **M07 — SetBonusesPanel** — panel de sets activos al pie de StatsPanel con progreso X/maxPiezas y bonuses por tier (activo/inactivo)
+- [x] **M08 — Set badge en filas del ItemCatalog** — nombre del set en gris pequeño bajo el nivel del ítem
+- [x] **M09 — Filtro por set en ItemCatalog** — búsqueda de set inline en la barra de filtros, filtra ítems del set seleccionado
+- [x] **M10 — Vista de Set completo** — modal con todos los ítems del set, bonuses activos/inactivos, botón "Equip" por ítem
+- [x] **M13 — Slot "unequip" fácil** — botón ✕ en hover de cada slot del EquipmentGrid para desequipar sin abrir catálogo
 
 ---
 
@@ -27,14 +31,13 @@ Marcar con `[x]` cuando se complete.
 ### Ítems & Equipamiento
 - [ ] **M11 — Comparación de ítem mejorada** — en vez de solo delta vs equipado, overlay side-by-side con ítem actual vs candidato (todos los stats, no solo diferencias)
 - [ ] **M12 — Filtro por stat específico en ItemCatalog** — buscar ítems que tengan X stat (ej: "Vitalidad > 100")
-- [ ] **M13 — Slot "unequip" fácil** — botón ✕ en cada slot del EquipmentGrid para desequipar sin abrir el catálogo
 - [ ] **M14 — Ítem favoritos / guardados** — marcar ítems como favoritos (localStorage), filtrar por favoritos en el catálogo
 
 ### Forjamagia / Magesmithy
 - [ ] **M15 — Sistema Forjamagia** — panel por ítem equipado para agregar/quitar runas, runado básico (PA, PM, Vitalidad, stats principales), visualización del impacto en el StatBlock total
 
 ### Build
-- [ ] **M16 — Guardar múltiples builds** — localStorage, lista de builds guardados con nombre, load/delete/duplicate
+- [x] **M16 — Guardar múltiples builds** — localStorage, lista de builds guardados con nombre, load/delete (ShareBar → "My Builds")
 - [ ] **M17 — Undo/redo básico** — deshacer últimas acciones de equipamiento y asignación de puntos
 - [ ] **M18 — Export build como imagen** — screenshot del personaje con stats para compartir en redes (canvas/html2canvas)
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
