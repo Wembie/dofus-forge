@@ -4,7 +4,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { SlotConfig } from './slotConfig.ts'
-import type { AppItem } from '@/data/loaders.ts'
+import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { useVirtualList } from '@/ui/useVirtualList.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
@@ -39,9 +39,76 @@ function statDelta(candidate: AppItem, current: AppItem | undefined) {
   return out.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta)).slice(0, 5)
 }
 
+function SetSearch({
+  sets, selected, onSelect,
+}: { sets: AppSet[]; selected: AppSet | null; onSelect: (s: AppSet | null) => void }) {
+  const [q, setQ]           = useState('')
+  const [open, setOpen]     = useState(false)
+  const inputRef            = useRef<HTMLInputElement>(null)
+
+  const matches = useMemo(() => {
+    if (!q) return sets.slice(0, 12)
+    const lq = q.toLowerCase()
+    return sets.filter(s => s.name.toLowerCase().includes(lq)).slice(0, 12)
+  }, [sets, q])
+
+  function pick(s: AppSet | null) {
+    onSelect(s)
+    setOpen(false)
+    setQ('')
+  }
+
+  return (
+    <div className="relative flex-1 min-w-0">
+      {selected ? (
+        <div
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border border-forge-gold/50 bg-forge-gold/10 text-forge-gold font-medium cursor-pointer"
+          onClick={() => pick(null)}
+        >
+          <span className="truncate">{selected.name}</span>
+          <span className="ml-auto flex-shrink-0 opacity-60 hover:opacity-100">✕</span>
+        </div>
+      ) : (
+        <div className="relative">
+          <input
+            ref={inputRef}
+            type="text"
+            value={q}
+            placeholder="Set…"
+            onChange={e => { setQ(e.target.value); setOpen(true) }}
+            onFocus={() => setOpen(true)}
+            onBlur={() => setTimeout(() => setOpen(false), 150)}
+            className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-forge-muted/40 focus:outline-none"
+            style={{ background: '#161b26', border: '1px solid #2a3347' }}
+          />
+          {open && matches.length > 0 && (
+            <ul
+              className="absolute left-0 right-0 top-full mt-1 rounded-lg overflow-hidden z-50 shadow-xl"
+              style={{ background: '#131824', border: '1px solid #2a3347', maxHeight: 220, overflowY: 'auto' }}
+            >
+              {matches.map(s => (
+                <li key={s.ankama_id}>
+                  <button
+                    className="w-full text-left px-3 py-1.5 text-[11px] text-forge-text hover:bg-white/5 transition-colors"
+                    onMouseDown={() => pick(s)}
+                  >
+                    <span className="font-medium">{s.name}</span>
+                    <span className="ml-1.5 text-forge-muted/50 text-[10px]">{s.items.length}pc</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const { t }     = useTranslation()
   const equipment = useDataStore(s => s.equipment)
+  const setsData  = useDataStore(s => s.sets)
   const equipItem = useBuildStore(s => s.equipItem)
 
   const currentId   = useBuildStore(s => s.equipped[slotId])
@@ -50,11 +117,38 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     [currentId, equipment],
   )
 
+  // Build set lookup maps
+  const { setMap, itemSetMap } = useMemo(() => {
+    const setMap     = new Map<number, AppSet>()
+    const itemSetMap = new Map<number, AppSet>()
+    for (const s of setsData ?? []) {
+      setMap.set(s.ankama_id, s)
+      for (const id of s.items) itemSetMap.set(id, s)
+    }
+    return { setMap, itemSetMap }
+  }, [setsData])
+
+  // Sets that have at least one item for this slot
+  const slotSets = useMemo(() => {
+    const ids = new Set<number>()
+    const out: AppSet[] = []
+    for (const it of equipment ?? []) {
+      if (it.slot !== slot.apiSlot || it.set_id == null) continue
+      if (!ids.has(it.set_id)) {
+        ids.add(it.set_id)
+        const s = setMap.get(it.set_id)
+        if (s) out.push(s)
+      }
+    }
+    return out.sort((a, b) => a.name.localeCompare(b.name))
+  }, [equipment, slot.apiSlot, setMap])
+
   const [search,    setSearch]    = useState('')
   const [minLevel,  setMinLevel]  = useState(0)
   const [maxLevel,  setMaxLevel]  = useState(200)
   const [elem,      setElem]      = useState<ElemFilter>('all')
   const [sort,      setSort]      = useState<SortKey>('level-desc')
+  const [setFilter, setSetFilter] = useState<AppSet | null>(null)
   const [activeIdx, setActiveIdx] = useState(-1)
   const activeIdxRef              = useRef(-1)
 
@@ -67,12 +161,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       it.level >= minLevel &&
       it.level <= maxLevel &&
       itemMatchesElement(it, elem) &&
+      (setFilter == null || it.set_id === setFilter.ankama_id) &&
       (search === '' || it.name.toLowerCase().includes(search.toLowerCase()))
     )
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort])
+  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort, setFilter])
 
   useEffect(() => { setActiveIdx(-1) }, [items])
 
@@ -170,7 +265,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             onBlur={e =>  (e.currentTarget.style.borderColor = '#2a3347')}
           />
 
-          {/* Element + sort */}
+          {/* Element + sort + set */}
           <div className="flex items-center gap-1 flex-wrap">
             {ELEM_FILTERS.map(({ filter, i18nKey, activeClass, label, iconName, color }) => {
               const isActive = elem === filter
@@ -200,6 +295,10 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                 </button>
               )
             })}
+
+            {slotSets.length > 0 && (
+              <SetSearch sets={slotSets} selected={setFilter} onSelect={setSetFilter} />
+            )}
 
             <div className="ml-auto flex gap-1">
               {(Object.keys(SORT_LABELS) as SortKey[]).map(sk => (
@@ -294,13 +393,24 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       }
                     </div>
 
-                    {/* Name + level */}
+                    {/* Name + level + set */}
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-medium truncate leading-tight ${isEquipped ? 'text-forge-gold' : 'text-forge-text'}`}>
                         {item.name}
                         {isEquipped && <span className="ml-1.5 text-[10px] text-forge-gold/70">✓ equipped</span>}
                       </p>
-                      <p className="text-[11px] mt-0.5" style={{ color: '#4a5268' }}>Lv {item.level}</p>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="text-[11px]" style={{ color: '#4a5268' }}>Lv {item.level}</span>
+                        {item.set_id != null && itemSetMap.get(item.ankama_id) && (
+                          <span
+                            className="text-[10px] truncate font-medium"
+                            style={{ color: '#7a6030' }}
+                            title={itemSetMap.get(item.ankama_id)!.name}
+                          >
+                            · {itemSetMap.get(item.ankama_id)!.name}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Stats / delta */}
