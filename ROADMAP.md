@@ -30,7 +30,7 @@ Marcar con `[x]` cuando se complete.
 
 ### Ítems & Equipamiento
 - [ ] **M11 — Comparación de ítem mejorada** — en vez de solo delta vs equipado, overlay side-by-side con ítem actual vs candidato (todos los stats, no solo diferencias)
-- [ ] **M12 — Filtro por stat específico en ItemCatalog** — buscar ítems que tengan X stat (ej: "Vitalidad > 100")
+- [x] **M12 — Filtro por stat específico en ItemCatalog** — búsqueda de stat con icono + color, filtra ítems que tengan ese stat
 - [ ] **M14 — Ítem favoritos / guardados** — marcar ítems como favoritos (localStorage), filtrar por favoritos en el catálogo
 
 ### Forjamagia / Magesmithy

@@ -105,6 +105,82 @@ function SetSearch({
   )
 }
 
+function StatFilter({
+  stats, selected, onSelect,
+}: { stats: string[]; selected: string | null; onSelect: (s: string | null) => void }) {
+  const [q, setQ]       = useState('')
+  const [open, setOpen] = useState(false)
+
+  const matches = useMemo(() => {
+    if (!q) return stats.slice(0, 14)
+    const lq = q.toLowerCase()
+    return stats.filter(s => s.toLowerCase().includes(lq)).slice(0, 14)
+  }, [stats, q])
+
+  function pick(s: string | null) {
+    onSelect(s)
+    setOpen(false)
+    setQ('')
+  }
+
+  if (selected) {
+    const meta = STAT_META[selected]
+    const clr  = meta?.color ?? '#7a8499'
+    return (
+      <div
+        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer"
+        style={{ borderColor: `${clr}50`, background: `${clr}15`, color: clr }}
+        onClick={() => pick(null)}
+      >
+        {meta?.icon && (
+          <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain" />
+        )}
+        <span className="truncate">{meta?.label ?? selected}</span>
+        <span className="ml-auto flex-shrink-0 opacity-60">✕</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        value={q}
+        placeholder="Stat…"
+        onChange={e => { setQ(e.target.value); setOpen(true) }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-forge-muted/40 focus:outline-none"
+        style={{ background: '#161b26', border: '1px solid #2a3347', minWidth: 70 }}
+      />
+      {open && matches.length > 0 && (
+        <ul
+          className="absolute left-0 top-full mt-1 rounded-lg overflow-hidden z-50 shadow-xl"
+          style={{ background: '#131824', border: '1px solid #2a3347', maxHeight: 220, overflowY: 'auto', minWidth: 160 }}
+        >
+          {matches.map(stat => {
+            const meta = STAT_META[stat]
+            const clr  = meta?.color ?? '#7a8499'
+            return (
+              <li key={stat}>
+                <button
+                  className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-white/5 transition-colors flex items-center gap-2"
+                  onMouseDown={() => pick(stat)}
+                >
+                  {meta?.icon && (
+                    <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+                  )}
+                  <span style={{ color: clr }}>{meta?.label ?? stat}</span>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const { t }     = useTranslation()
   const equipment = useDataStore(s => s.equipment)
@@ -143,14 +219,31 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     return out.sort((a, b) => a.name.localeCompare(b.name))
   }, [equipment, slot.apiSlot, setMap])
 
-  const [search,    setSearch]    = useState('')
-  const [minLevel,  setMinLevel]  = useState(0)
-  const [maxLevel,  setMaxLevel]  = useState(200)
-  const [elem,      setElem]      = useState<ElemFilter>('all')
-  const [sort,      setSort]      = useState<SortKey>('level-desc')
-  const [setFilter, setSetFilter] = useState<AppSet | null>(null)
-  const [activeIdx, setActiveIdx] = useState(-1)
-  const activeIdxRef              = useRef(-1)
+  // Unique stats available in this slot (non-ignored, sorted by STAT_META label then raw)
+  const slotStats = useMemo(() => {
+    const seen = new Set<string>()
+    for (const it of equipment ?? []) {
+      if (it.slot !== slot.apiSlot) continue
+      for (const e of it.effects) {
+        if (!isIgnored(e.stat) && STAT_META[e.stat]) seen.add(e.stat)
+      }
+    }
+    return [...seen].sort((a, b) => {
+      const la = STAT_META[a]?.label ?? a
+      const lb = STAT_META[b]?.label ?? b
+      return la.localeCompare(lb)
+    })
+  }, [equipment, slot.apiSlot])
+
+  const [search,     setSearch]     = useState('')
+  const [minLevel,   setMinLevel]   = useState(0)
+  const [maxLevel,   setMaxLevel]   = useState(200)
+  const [elem,       setElem]       = useState<ElemFilter>('all')
+  const [sort,       setSort]       = useState<SortKey>('level-desc')
+  const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
+  const [statFilter, setStatFilter] = useState<string | null>(null)
+  const [activeIdx,  setActiveIdx]  = useState(-1)
+  const activeIdxRef                = useRef(-1)
 
   useEffect(() => { activeIdxRef.current = activeIdx }, [activeIdx])
 
@@ -161,13 +254,14 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       it.level >= minLevel &&
       it.level <= maxLevel &&
       itemMatchesElement(it, elem) &&
-      (setFilter == null || it.set_id === setFilter.ankama_id) &&
+      (setFilter  == null || it.set_id === setFilter.ankama_id) &&
+      (statFilter == null || it.effects.some(e => e.stat === statFilter)) &&
       (search === '' || it.name.toLowerCase().includes(search.toLowerCase()))
     )
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort, setFilter])
+  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter])
 
   useEffect(() => { setActiveIdx(-1) }, [items])
 
@@ -316,9 +410,12 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             </div>
           </div>
 
-          {/* Level range */}
-          <div className="flex gap-2 text-xs text-forge-muted items-center">
-            <span className="text-forge-muted/60">{t('level_range')}</span>
+          {/* Stat + level range */}
+          <div className="flex gap-2 text-xs text-forge-muted items-center flex-wrap">
+            {slotStats.length > 0 && (
+              <StatFilter stats={slotStats} selected={statFilter} onSelect={setStatFilter} />
+            )}
+            <span className="text-forge-muted/60 flex-shrink-0">{t('level_range')}</span>
             <select
               value={minLevel}
               onChange={e => setMinLevel(Number(e.target.value))}
