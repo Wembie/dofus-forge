@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
 import { CHARACTERISTICS, type Characteristic } from '@/engine/types.ts'
+import type { StatBlock } from '@/engine/types.ts'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -24,7 +25,7 @@ const CHAR_LABEL: Record<Characteristic, string> = {
   agility:      'Agility',
 }
 
-// ── Hold-to-repeat hook ────────────────────────────────────────────────────────
+// ── Hold-to-repeat ────────────────────────────────────────────────────────────
 function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
   const timerRef    = useRef<ReturnType<typeof setTimeout>>()
   const intervalRef = useRef<ReturnType<typeof setInterval>>()
@@ -75,10 +76,25 @@ function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void
   }
 }
 
-// ── Characteristic row ────────────────────────────────────────────────────────
+// ── Stat icon ─────────────────────────────────────────────────────────────────
+function StatIcon({ name, size = 20, color }: { name: string; size?: number; color?: string }) {
+  return (
+    <img
+      src={`${BASE}data/stats/${name}.png`}
+      alt=""
+      width={size}
+      height={size}
+      style={{ objectFit: 'contain', flexShrink: 0, filter: color ? `drop-shadow(0 0 3px ${color}88)` : undefined }}
+      draggable={false}
+    />
+  )
+}
+
+// ── Characteristic allocation row ─────────────────────────────────────────────
 type RowProps = {
   char:           Characteristic
   allocated:      number
+  total:          number
   isScrolled:     boolean
   remaining:      number
   onAdd:          (n: number) => void
@@ -86,11 +102,10 @@ type RowProps = {
   onToggleScroll: () => void
 }
 
-function CharacteristicRow({ char, allocated, isScrolled, remaining, onAdd, onRemove, onToggleScroll }: RowProps) {
-  const { t }    = useTranslation()
-  const color    = CHAR_COLOR[char]
-  const focused  = useRef(false)
-
+function CharacteristicRow({ char, allocated, total, isScrolled, remaining, onAdd, onRemove, onToggleScroll }: RowProps) {
+  const { t }   = useTranslation()
+  const color   = CHAR_COLOR[char]
+  const focused = useRef(false)
   const [inputVal, setInputVal] = useState(String(allocated))
 
   useEffect(() => {
@@ -101,7 +116,6 @@ function CharacteristicRow({ char, allocated, isScrolled, remaining, onAdd, onRe
     const target = Math.max(0, parseInt(raw, 10) || 0)
     if (target > allocated) onAdd(target - allocated)
     else if (target < allocated) onRemove(allocated - target)
-    // inputVal will sync via useEffect once allocated updates
   }
 
   const nextCost = pointCost(char, allocated + 1) - pointCost(char, allocated)
@@ -109,111 +123,140 @@ function CharacteristicRow({ char, allocated, isScrolled, remaining, onAdd, onRe
 
   const { addProps, removeProps } = useHoldRepeat(onAdd, onRemove)
 
-  const btnStyle: React.CSSProperties = {
-    background:   '#12172200',
-    border:       '1px solid #2a3347',
-    color:        '#7a8499',
-    borderRadius: 5,
-    width:        24,
-    height:       24,
-    display:      'flex',
-    alignItems:   'center',
-    justifyContent: 'center',
-    fontWeight:   700,
-    fontSize:     15,
-    cursor:       'pointer',
-    userSelect:   'none',
-    flexShrink:   0,
-    lineHeight:   1,
-    transition:   'border-color 0.1s, color 0.1s',
+  const btnBase: React.CSSProperties = {
+    border: '1px solid #2a3347', borderRadius: 4,
+    width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontWeight: 700, fontSize: 14, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
+    background: 'transparent', transition: 'border-color 0.1s, color 0.1s',
   }
 
   return (
-    <div className="flex items-center gap-1.5 py-0.5">
-      {/* Real game stat icon */}
-      <img
-        src={`${BASE}data/stats/${char}.png`}
-        alt={CHAR_LABEL[char]}
-        className="w-6 h-6 object-contain flex-shrink-0"
-        style={{ filter: `drop-shadow(0 0 4px ${color}88)` }}
-        draggable={false}
-      />
+    <div
+      className="flex items-center gap-1.5 px-2 py-1 rounded-lg transition-colors"
+      style={{ background: '#0d1018' }}
+      onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = '#111620'}
+      onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = '#0d1018'}
+    >
+      {/* Icon */}
+      <StatIcon name={char} size={22} color={color} />
 
-      {/* Label */}
-      <span
-        className="text-xs font-medium flex-shrink-0 select-none"
-        style={{ color, minWidth: 74 }}
-      >
+      {/* Name */}
+      <span className="text-xs font-medium select-none" style={{ color, minWidth: 74, flexShrink: 0 }}>
         {CHAR_LABEL[char]}
       </span>
 
-      {/* ─ Controls ─ */}
-      <div className="flex items-center gap-1 ml-auto">
-        <button
-          {...removeProps}
-          disabled={allocated <= 0}
-          style={{ ...btnStyle, opacity: allocated <= 0 ? 0.25 : 1 }}
-          aria-label={`Remove ${CHAR_LABEL[char]} (shift ×5, ctrl ×20)`}
-        >−</button>
+      {/* Total value */}
+      <span
+        className="font-mono font-bold text-sm tabular-nums flex-1 text-right pr-2"
+        style={{ color }}
+      >
+        {total.toLocaleString()}
+      </span>
 
-        {/* Direct number input */}
-        <input
-          type="number"
-          min={0}
-          value={inputVal}
-          onChange={e => setInputVal(e.target.value)}
-          onFocus={e => { focused.current = true; e.target.select() }}
-          onBlur={e => { focused.current = false; commitInput(e.target.value) }}
-          onKeyDown={e => {
-            if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
-            if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
-          }}
-          className="text-center font-mono font-bold text-sm focus:outline-none"
-          style={{
-            width:      52,
-            background: 'transparent',
-            border:     '1px solid transparent',
-            borderRadius: 4,
-            color,
-            MozAppearance: 'textfield',
-            padding:    '1px 2px',
-            transition: 'border-color 0.15s',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a3347')}
-          onMouseLeave={e => { if (!focused.current) e.currentTarget.style.borderColor = 'transparent' }}
-          aria-label={`${CHAR_LABEL[char]} points`}
-        />
+      {/* Controls */}
+      <button
+        {...removeProps}
+        disabled={allocated <= 0}
+        style={{ ...btnBase, color: '#7a8499', opacity: allocated <= 0 ? 0.25 : 1 }}
+        aria-label={`Remove ${CHAR_LABEL[char]}`}
+      >−</button>
 
-        {isScrolled && (
-          <span className="font-mono text-[10px] flex-shrink-0" style={{ color: '#c9a84c', minWidth: 16 }}>
-            +{SCROLL_BONUS}
-          </span>
-        )}
+      <input
+        type="number"
+        min={0}
+        value={inputVal}
+        onChange={e => setInputVal(e.target.value)}
+        onFocus={e => { focused.current = true; e.target.select() }}
+        onBlur={e => { focused.current = false; commitInput(e.target.value) }}
+        onKeyDown={e => {
+          if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
+          if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
+        }}
+        className="text-center font-mono font-bold text-xs focus:outline-none"
+        style={{
+          width: 44, background: 'transparent',
+          border: '1px solid transparent', borderRadius: 3,
+          color, MozAppearance: 'textfield', padding: '1px 2px',
+          transition: 'border-color 0.15s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a3347')}
+        onMouseLeave={e => { if (!focused.current) e.currentTarget.style.borderColor = 'transparent' }}
+        aria-label={`${CHAR_LABEL[char]} points`}
+      />
 
-        <button
-          {...addProps}
-          disabled={!canAdd}
-          style={{ ...btnStyle, opacity: !canAdd ? 0.25 : 1 }}
-          aria-label={`Add ${CHAR_LABEL[char]} (shift ×5, ctrl ×20)`}
-        >+</button>
-      </div>
+      <button
+        {...addProps}
+        disabled={!canAdd}
+        style={{ ...btnBase, color: '#7a8499', opacity: !canAdd ? 0.25 : 1 }}
+        aria-label={`Add ${CHAR_LABEL[char]}`}
+      >+</button>
 
-      {/* Scroll toggle */}
+      {/* Scroll badge */}
       <button
         onClick={onToggleScroll}
         title={t('scroll_title', { bonus: SCROLL_BONUS })}
         className="flex-shrink-0 flex items-center justify-center text-[9px] font-bold transition-all"
         style={isScrolled ? {
-          width: 20, height: 20, borderRadius: 4,
+          width: 18, height: 18, borderRadius: 3,
           background: '#c9a84c', color: '#0d0f14', border: '1px solid #c9a84c',
         } : {
-          width: 20, height: 20, borderRadius: 4,
+          width: 18, height: 18, borderRadius: 3,
           background: 'transparent', color: '#3a4060', border: '1px solid #2a3347',
         }}
         aria-pressed={isScrolled}
-        aria-label={`${isScrolled ? 'Remove' : 'Apply'} scroll for ${CHAR_LABEL[char]}`}
       >{t('scroll_label')}</button>
     </div>
+  )
+}
+
+// ── Combat stat pill ──────────────────────────────────────────────────────────
+function CombatStat({ icon, label, value, color, fmt }: {
+  icon: string; label: string; value: number; color?: string; fmt?: 'num' | 'pct'
+}) {
+  if (value === 0) return null
+  const display = fmt === 'pct' ? `${value}%` : value.toLocaleString()
+  return (
+    <div className="flex items-center gap-1 px-1.5 py-0.5 rounded" style={{ background: '#0a0d14' }}>
+      <StatIcon name={icon} size={14} />
+      <span className="text-[9px] text-forge-muted/60 flex-1 leading-none">{label}</span>
+      <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: color ?? '#c8cad4' }}>
+        {display}
+      </span>
+    </div>
+  )
+}
+
+// ── Element damage/resistance row ─────────────────────────────────────────────
+function ElementRow({ icon, label, color, damage, resFixed, resPercent, showPercent = true }: {
+  icon: string; label: string; color: string
+  damage: number; resFixed: number; resPercent?: number; showPercent?: boolean
+}) {
+  return (
+    <tr className="border-t" style={{ borderColor: '#151a27' }}>
+      <td className="py-0.5 pr-2">
+        <div className="flex items-center gap-1.5">
+          <StatIcon name={icon} size={14} color={color} />
+          <span className="text-[10px]" style={{ color }}>{label}</span>
+        </div>
+      </td>
+      <td className="text-right py-0.5 pr-3">
+        <span className="font-mono text-[11px] tabular-nums" style={{ color: damage > 0 ? '#e8eaf0' : '#3a4268' }}>
+          {damage > 0 ? `+${damage}` : damage === 0 ? '—' : damage}
+        </span>
+      </td>
+      <td className="text-right py-0.5 pr-3">
+        <span className="font-mono text-[11px] tabular-nums" style={{ color: resFixed > 0 ? '#6ab04c' : resFixed < 0 ? '#dc4e22' : '#3a4268' }}>
+          {resFixed !== 0 ? resFixed : '—'}
+        </span>
+      </td>
+      {showPercent && (
+        <td className="text-right py-0.5">
+          <span className="font-mono text-[11px] tabular-nums" style={{ color: (resPercent ?? 0) > 0 ? '#6ab04c' : (resPercent ?? 0) < 0 ? '#dc4e22' : '#3a4268' }}>
+            {(resPercent ?? 0) !== 0 ? `${resPercent}%` : '—'}
+          </span>
+        </td>
+      )}
+    </tr>
   )
 }
 
@@ -223,28 +266,48 @@ export function CharacteristicsPanel() {
   const level        = useBuildStore(s => s.level)
   const allocated    = useBuildStore(s => s.allocated)
   const scrolled     = useBuildStore(s => s.scrolled)
+  const stats        = useBuildStore(s => s.stats)
   const addPoints    = useBuildStore(s => s.addPoints)
   const removePoints = useBuildStore(s => s.removePoints)
   const toggleScroll = useBuildStore(s => s.toggleScroll)
+
+  const [showCombat, setShowCombat] = useState(true)
 
   const budget    = statBudget(level)
   const spent     = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, allocated[c]), 0)
   const remaining = budget - spent
   const pct       = budget > 0 ? Math.min(100, (spent / budget) * 100) : 0
 
+  const s: StatBlock = stats ?? {
+    ap: 6, mp: 3, range: 0, vitality: 0, wisdom: 0, strength: 0, intelligence: 0, chance: 0, agility: 0,
+    maxHp: 0, power: 0, damage: 0,
+    neutralDamage: 0, earthDamage: 0, fireDamage: 0, waterDamage: 0, airDamage: 0,
+    neutralSteal: 0, earthSteal: 0, fireSteal: 0, waterSteal: 0, airSteal: 0,
+    bestElemSteal: 0, bestElemDamage: 0,
+    neutralResFixed: 0, earthResFixed: 0, fireResFixed: 0, waterResFixed: 0, airResFixed: 0,
+    neutralResPercent: 0, earthResPercent: 0, fireResPercent: 0, waterResPercent: 0, airResPercent: 0,
+    critChance: 0, critDamage: 0, critResistance: 0,
+    meleeDamagePercent: 0, rangedDamagePercent: 0, spellDamagePercent: 0, weaponDamagePercent: 0,
+    meleeResistPercent: 0, rangedResistPercent: 0,
+    trapDamage: 0, trapPower: 0, pushbackDamage: 0, pushbackResist: 0, reflectedDamage: 0,
+    heals: 0, initiative: 0, lock: 0, dodge: 0, prospecting: 0, summons: 0, pods: 0,
+    apReduction: 0, mpReduction: 0, apParry: 0, mpParry: 0, mpSteal: 0,
+    unknownStats: {}, pointsBudget: budget, pointsSpent: spent,
+  }
+
   return (
-    <div className="space-y-2.5">
-      {/* Header + remaining */}
+    <div className="space-y-2">
+
+      {/* ── Header + budget ──────────────────────────────────────────────── */}
       <div className="flex items-center justify-between">
         <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">
           {t('characteristics')}
         </h2>
         <span className={`text-xs font-mono tabular-nums ${remaining <= 0 ? 'text-forge-muted/40' : 'text-forge-gold/80'}`}>
-          {remaining} <span className="text-forge-muted/50 text-[10px]">/ {budget}</span>
+          {remaining} <span className="text-forge-muted/40 text-[10px]">/ {budget}</span>
         </span>
       </div>
 
-      {/* Budget progress bar */}
       <div className="h-1 rounded-full overflow-hidden" style={{ background: '#1c2333' }}>
         <div
           className="h-full rounded-full transition-all duration-300"
@@ -257,13 +320,14 @@ export function CharacteristicsPanel() {
         />
       </div>
 
-      {/* Rows */}
+      {/* ── 6 main characteristics ───────────────────────────────────────── */}
       <div className="space-y-0.5" role="group" aria-label={t('characteristics')}>
         {CHARACTERISTICS.map(char => (
           <CharacteristicRow
             key={char}
             char={char}
             allocated={allocated[char]}
+            total={s[char]}
             isScrolled={scrolled[char]}
             remaining={remaining}
             onAdd={n    => addPoints(char, n)}
@@ -273,9 +337,110 @@ export function CharacteristicsPanel() {
         ))}
       </div>
 
-      <p className="text-[9px] text-forge-muted/30 text-center pt-0.5">
-        Click to type · Hold · Shift ×5 · Ctrl ×20
+      <p className="text-[9px] text-forge-muted/30 text-center">
+        Click · Hold · Shift ×5 · Ctrl ×20
       </p>
+
+      {/* ── Combat stats toggle ──────────────────────────────────────────── */}
+      <button
+        onClick={() => setShowCombat(o => !o)}
+        className="w-full flex items-center justify-between px-2 py-1 rounded-lg transition-colors"
+        style={{ background: '#0d1018', border: '1px solid #1c2333' }}
+      >
+        <span className="font-display text-forge-gold text-xs uppercase tracking-widest">Combat Stats</span>
+        <span className="text-[9px]" style={{ color: '#3a4268' }}>{showCombat ? '▲' : '▼'}</span>
+      </button>
+
+      {showCombat && (
+        <div className="space-y-2">
+
+          {/* HP + AP/MP/Range row */}
+          <div
+            className="flex items-center gap-2 px-3 py-2 rounded-xl"
+            style={{ background: 'linear-gradient(135deg, #1a0808 0%, #0d1018 100%)', border: '1px solid #2a1515' }}
+          >
+            <StatIcon name="vitality" size={28} color="#e05252" />
+            <div>
+              <div className="font-mono font-bold text-lg leading-none" style={{ color: '#e05252' }}>
+                {s.maxHp.toLocaleString()}
+              </div>
+              <div className="text-[9px] text-forge-muted/50 leading-none mt-0.5">HP</div>
+            </div>
+            <div className="ml-auto flex gap-3">
+              {[
+                { icon: 'ap',    label: 'PA', value: s.ap,    color: '#f5c518' },
+                { icon: 'mp',    label: 'PM', value: s.mp,    color: '#6ab04c' },
+                { icon: 'range', label: 'PO', value: s.range, color: '#2a8fd4' },
+              ].map(({ icon, label, value, color }) => (
+                <div key={icon} className="flex flex-col items-center">
+                  <StatIcon name={icon} size={18} color={color} />
+                  <span className="font-mono font-bold text-[11px] tabular-nums leading-none mt-0.5" style={{ color }}>
+                    {value}
+                  </span>
+                  <span className="text-[8px] text-forge-muted/40 leading-none">{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Secondary stats grid */}
+          <div className="grid grid-cols-2 gap-0.5">
+            <CombatStat icon="initiative"  label="Initiative"   value={s.initiative}  color="#c9a84c" />
+            <CombatStat icon="lock"        label="Lock"         value={s.lock}        color="#b8860b" />
+            <CombatStat icon="dodge"       label="Dodge"        value={s.dodge}       color="#6ab04c" />
+            <CombatStat icon="prospecting" label="Prospecting"  value={s.prospecting} color="#c9a84c" />
+            <CombatStat icon="summons"     label="Summons"      value={s.summons}     color="#9b6dff" />
+            <CombatStat icon="heals"       label="Heals"        value={s.heals}       color="#e05252" />
+            <CombatStat icon="power"       label="Power"        value={s.power}       color="#c9a84c" />
+            <CombatStat icon="crit"        label="Critical"     value={s.critChance}  color="#dc4e22" fmt="pct" />
+            <CombatStat icon="ap_reduction" label="AP Removal"  value={s.apReduction} color="#9b6dff" />
+            <CombatStat icon="mp_reduction" label="MP Removal"  value={s.mpReduction} color="#9b6dff" />
+            <CombatStat icon="ap_parry"    label="AP Parry"     value={s.apParry}     color="#2a8fd4" />
+            <CombatStat icon="mp_parry"    label="MP Parry"     value={s.mpParry}     color="#2a8fd4" />
+          </div>
+
+          {/* Elemental damage / resistance table */}
+          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid #1c2333' }}>
+            <div
+              className="flex items-center justify-between px-2 py-1"
+              style={{ background: '#0d1018', borderBottom: '1px solid #1c2333' }}
+            >
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider flex-1">Element</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-10 text-right">DMG</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-8 text-right">RES</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-8 text-right">RES%</span>
+            </div>
+            <table className="w-full px-2" style={{ background: '#080c14' }}>
+              <tbody className="px-2">
+                <tr><td colSpan={4} className="px-2">
+                  <table className="w-full">
+                    <tbody>
+                      <ElementRow icon="strength"     label="Earth"   color="#c49a2a" damage={s.earthDamage}   resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
+                      <ElementRow icon="intelligence" label="Fire"    color="#dc4e22" damage={s.fireDamage}    resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
+                      <ElementRow icon="chance"       label="Water"   color="#2a8fd4" damage={s.waterDamage}   resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
+                      <ElementRow icon="agility"      label="Air"     color="#6ab04c" damage={s.airDamage}     resFixed={s.airResFixed}     resPercent={s.airResPercent} />
+                      <ElementRow icon="neutral_damage" label="Neutral" color="#9b9b9b" damage={s.neutralDamage} resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
+                      <ElementRow icon="crit_damage"  label="Critical" color="#dc4e22" damage={s.critDamage}   resFixed={s.critResistance}  showPercent={false} />
+                      <ElementRow icon="push_damage"  label="Push"    color="#b8860b" damage={s.pushbackDamage} resFixed={s.pushbackResist} showPercent={false} />
+                    </tbody>
+                  </table>
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* % damage modifiers (only show if non-zero) */}
+          {(s.meleeDamagePercent || s.rangedDamagePercent || s.spellDamagePercent || s.weaponDamagePercent || s.meleeResistPercent || s.rangedResistPercent) > 0 && (
+            <div className="grid grid-cols-2 gap-0.5">
+              <CombatStat icon="melee_damage"  label="% Melee Dmg"   value={s.meleeDamagePercent}  fmt="pct" />
+              <CombatStat icon="ranged_damage" label="% Ranged Dmg"  value={s.rangedDamagePercent} fmt="pct" />
+              <CombatStat icon="spell_damage"  label="% Spell Dmg"   value={s.spellDamagePercent}  fmt="pct" />
+              <CombatStat icon="weapon_damage" label="% Weapon Dmg"  value={s.weaponDamagePercent} fmt="pct" />
+            </div>
+          )}
+
+        </div>
+      )}
     </div>
   )
 }
