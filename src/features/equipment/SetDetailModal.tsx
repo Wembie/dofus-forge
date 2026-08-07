@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useBuildStore, type SlotId, ALL_SLOTS } from '@/store/buildStore.ts'
+import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { SLOT_CONFIGS } from './slotConfig.ts'

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useBuildStore } from './buildStore.ts'
 import { useHistoryStore } from './historyStore.ts'
+import { encodeBuild } from '@/features/share/codec.ts'
 
 let lastEncoded = ''
 
@@ -15,14 +16,10 @@ export function useHistory() {
     const unsub = useBuildStore.subscribe(state => {
       if (skipRef.current) return
       if (!state.selectedClass) return
-
-      // Lazy-encode to detect meaningful changes
-      import('@/features/share/codec.ts').then(({ encodeBuild }) => {
-        const encoded = encodeBuild(state)
-        if (encoded === lastEncoded) return
-        lastEncoded = encoded
-        push(state)
-      })
+      const encoded = encodeBuild(state)
+      if (encoded === lastEncoded) return
+      lastEncoded = encoded
+      push(state)
     })
     return unsub
   }, [push])
