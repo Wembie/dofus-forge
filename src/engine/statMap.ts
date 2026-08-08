@@ -2,8 +2,8 @@ import type { StatBlock } from './types.ts'
 
 // Maps API stat name strings (English) to StatBlock keys.
 // Stat names verified against live DofusDude EN equipment data (2026-08-05).
-// "min" value of the effect is used; "max" is only non-zero for range effects
-// (e.g., "+16 to +20 Strength"). The UI can show the range; the engine sums min.
+// "max" value is used when valid (max > min && max !== 0); otherwise "min" is used.
+// Range effects (e.g., "+16 to +20 Strength") use max for optimistic stat totals.
 //
 // Note: "Earth damage" (lowercase d) and "Earth Damage" (uppercase D) both appear
 // in the data. The lowercase variant seems to be weapon-specific display.
