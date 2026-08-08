@@ -26,3 +26,7 @@ Thumbs.db
 
 # cache
 *.tsbuildinfo
+
+# local dev tools
+CLAUDE.md
+public/data/stats-browse/
