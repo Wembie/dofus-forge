@@ -17,21 +17,19 @@ Marcar con `[x]` cuando se complete.
 - [x] **M08 — Set badge en filas del ItemCatalog** — nombre del set en gris pequeño bajo el nivel del ítem
 - [x] **M09 — Filtro por set en ItemCatalog** — búsqueda de set inline en la barra de filtros, filtra ítems del set seleccionado
 - [x] **M10 — Vista de Set completo** — modal con todos los ítems del set, bonuses activos/inactivos, botón "Equip" por ítem
+- [x] **M11 — Comparación de ítem mejorada** — delta con iconos + label coloreado, hasta 6 diffs, filtra ignorados, primero los stats conocidos
+- [x] **M12 — Filtro por stat específico en ItemCatalog** — búsqueda de stat con icono + color, filtra ítems que tengan ese stat
 - [x] **M13 — Slot "unequip" fácil** — botón ✕ en hover de cada slot del EquipmentGrid para desequipar sin abrir catálogo
+- [x] **M16 — Guardar múltiples builds** — localStorage, lista de builds guardados con nombre, load/delete (ShareBar → "My Builds")
+- [x] **M17 — Undo/redo básico** — Ctrl+Z / Ctrl+Shift+Z, botones ↩↪ en header, historial de 40 estados
+- [x] **M24 — Tooltip de set en hover** — en el EquipmentGrid, hover sobre ítem con set → mini-card del set con piezas activas y próximo bonus
 
 ---
 
 ## Pendientes 🔧
 
-### Sets
-- [ ] **M08 — Set badge en filas del ItemCatalog** — mostrar nombre del set en gris pequeño bajo el nivel del ítem si pertenece a un set
-- [ ] **M09 — Filtro por set en ItemCatalog** — botón "Set" en filtros, dropdown/search de sets, mostrar solo ítems de ese set
-- [ ] **M10 — Vista de Set completo** — click en nombre del set en SetBonusesPanel → modal con todos los ítems del set, botón "equipar pieza" por slot, progreso visual
-
 ### Ítems & Equipamiento
-- [x] **M11 — Comparación de ítem mejorada** — delta con iconos + label coloreado, hasta 6 diffs, filtra ignorados, primero los stats conocidos
-- [x] **M12 — Filtro por stat específico en ItemCatalog** — búsqueda de stat con icono + color, filtra ítems que tengan ese stat
-- [ ] **M14 — Ítem favoritos / guardados** — marcar ítems como favoritos (localStorage), filtrar por favoritos en el catálogo
+- [x] **M14 — Ítem favoritos / guardados** — estrella ★ por ítem (localStorage), filtro "★ N" en barra, `useSyncExternalStore` reactivo
 
 ### Forjamagia / Magesmithy
 - [ ] **M15 — Sistema Forjamagia** — panel por ítem equipado para agregar/quitar runas, runado básico (PA, PM, Vitalidad, stats principales), visualización del impacto en el StatBlock total
@@ -43,8 +41,8 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 
 ### Hechizos
-- [ ] **M20 — Selector de nivel de hechizo** — en SpellsPanel, elegir nivel 1-6 por hechizo, ver daño calculado con los stats actuales del build
-- [ ] **M21 — Daños calculados de hechizo** — mostrar daño estimado (mín/máx) por elemento según características allocadas + equipo
+- [x] **M20 — Selector de nivel de hechizo** — botones 1-6 en header de SpellsPanel, auto-grade por nivel del build, reset ↺
+- [x] **M21 — Daños calculados de hechizo** — fórmula (base+mastery)*(100+Power)/100+flat, preview inline en fila + expandido con indicador ★
 
 ### UI / Polish
 - [ ] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
