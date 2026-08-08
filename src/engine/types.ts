@@ -33,12 +33,13 @@ export type SetData = {
 }
 
 export type BuildInput = {
-  class:     DofusClass
-  level:     number
-  allocated: AllocatedCharacteristics
-  scrolled:  ScrolledCharacteristics
-  items:     EquippedItem[]
-  sets:      SetData[]
+  class:        DofusClass
+  level:        number
+  allocated:    AllocatedCharacteristics
+  scrolled:     ScrolledCharacteristics
+  items:        EquippedItem[]
+  sets:         SetData[]
+  runeEffects?: ItemEffect[]
 }
 
 export type StatBlock = {

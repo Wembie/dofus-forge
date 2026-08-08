@@ -4,6 +4,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { ItemCatalog } from './ItemCatalog.tsx'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
+import { RuneModal } from './RuneModal.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -123,6 +124,8 @@ type SlotButtonProps = {
   item:         AppItem | undefined
   onOpen:       () => void
   onUnequip:    () => void
+  onRune?:      () => void
+  runeCount?:   number
   small?:       boolean
   setName?:     string
   setCount?:    number
@@ -131,7 +134,7 @@ type SlotButtonProps = {
   tooltipSide?: 'right' | 'left' | 'top'
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
   const cfg     = SLOT_MAP[slotId]
   const IconCmp = SLOT_ICON[slotId]
   const px      = small ? 52 : 66
@@ -202,6 +205,29 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount,
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
           aria-label={`Unequip ${item.name}`}
         >×</button>
+      )}
+
+      {/* Magesmithy rune button */}
+      {item && onRune && (
+        <button
+          onClick={e => { e.stopPropagation(); onRune() }}
+          className="absolute -bottom-1.5 -left-1.5 w-4 h-4 rounded-full text-[9px] leading-none items-center justify-center hidden group-hover:flex transition-colors z-10"
+          style={{
+            background:  (runeCount ?? 0) > 0 ? '#1a1530' : '#06060f',
+            border:      (runeCount ?? 0) > 0 ? '1px solid #c9a84c88' : '1px solid #2a3347',
+            color:       (runeCount ?? 0) > 0 ? '#c9a84c' : '#4a5268',
+          }}
+          onMouseEnter={e => {
+            ;(e.currentTarget as HTMLButtonElement).style.color = '#c9a84c'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#c9a84caa'
+          }}
+          onMouseLeave={e => {
+            ;(e.currentTarget as HTMLButtonElement).style.color = (runeCount ?? 0) > 0 ? '#c9a84c' : '#4a5268'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = (runeCount ?? 0) > 0 ? '#c9a84c88' : '#2a3347'
+          }}
+          aria-label={`Magesmithy: ${item.name}`}
+          title="Magesmithy (add runes)"
+        >✦</button>
       )}
 
       {/* Tooltip — side determined by column to avoid overflow-hidden clipping */}
@@ -357,11 +383,13 @@ function CharacterCenter() {
 export function EquipmentGrid() {
   const equipped    = useBuildStore(s => s.equipped)
   const _sets       = useBuildStore(s => s._sets)
+  const runes       = useBuildStore(s => s.runes)
   const unequipItem = useBuildStore(s => s.unequipItem)
   const equipment   = useDataStore(s => s.equipment)
   const loading     = useDataStore(s => s.loading)
 
   const [openSlot, setOpenSlot] = useState<{ config: SlotConfig; id: SlotId } | null>(null)
+  const [runeSlot, setRuneSlot] = useState<SlotId | null>(null)
 
   const equipMap = useMemo(
     () => new Map((equipment ?? []).map(it => [it.ankama_id, it])),
@@ -429,6 +457,8 @@ export function EquipmentGrid() {
               item={getItem(id)}
               onOpen={() => openCatalog(id)}
               onUnequip={() => unequipItem(id)}
+              onRune={() => setRuneSlot(id)}
+              runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
               tooltipSide="right"
               {...getSetProps(id)}
             />
@@ -446,6 +476,8 @@ export function EquipmentGrid() {
               item={getItem(id)}
               onOpen={() => openCatalog(id)}
               onUnequip={() => unequipItem(id)}
+              onRune={() => setRuneSlot(id)}
+              runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
               tooltipSide="left"
               {...getSetProps(id)}
             />
@@ -461,6 +493,8 @@ export function EquipmentGrid() {
             item={getItem(id)}
             onOpen={() => openCatalog(id)}
             onUnequip={() => unequipItem(id)}
+            onRune={() => setRuneSlot(id)}
+            runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
             small
             tooltipSide="top"
             {...getSetProps(id)}
@@ -475,6 +509,14 @@ export function EquipmentGrid() {
           slot={openSlot.config}
           slotId={openSlot.id}
           onClose={() => setOpenSlot(null)}
+        />
+      )}
+
+      {runeSlot && getItem(runeSlot) && (
+        <RuneModal
+          slotId={runeSlot}
+          item={getItem(runeSlot)!}
+          onClose={() => setRuneSlot(null)}
         />
       )}
     </div>
