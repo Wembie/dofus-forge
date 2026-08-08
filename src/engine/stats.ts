@@ -39,14 +39,15 @@ function emptyStatBlock(): StatBlock {
 }
 
 function applyEffect(block: StatBlock, effect: ItemEffect): void {
-  const { stat, min } = effect
+  const { stat, min, max } = effect
   if (IGNORED_STATS.has(stat)) return
 
+  const value = (max !== 0 && max > min) ? max : min
   const key = STAT_MAP[stat]
   if (key !== undefined) {
-    (block as unknown as Record<string, number>)[key] += min
+    (block as unknown as Record<string, number>)[key] += value
   } else {
-    block.unknownStats[stat] = (block.unknownStats[stat] ?? 0) + min
+    block.unknownStats[stat] = (block.unknownStats[stat] ?? 0) + value
   }
 }
 
