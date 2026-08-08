@@ -221,7 +221,7 @@ function CombatGrid({ s }: { s: StatBlock }) {
     { iconName: 'lock',         label: 'Lock',         value: s.lock,              color: '#b8860b' },
     { iconName: 'dodge',        label: 'Dodge',        value: s.dodge,             color: '#6ab04c' },
     { iconName: 'heals',        label: 'Heals',        value: s.heals,             color: '#e05252' },
-    { iconName: 'power',        label: 'Power',        value: s.power,             color: '#c9a84c', suffix: '%' },
+    { iconName: 'power',        label: 'Power',        value: s.power,             color: '#c9a84c' },
     { iconName: 'crit',         label: 'Crit %',       value: s.critChance,        color: '#f5a623', suffix: '%' },
     { iconName: 'prospecting',  label: 'Prospecting',  value: s.prospecting,       color: '#c9a84c' },
     { iconName: 'summons',      label: 'Summons',      value: s.summons,           color: '#9b6dff' },
