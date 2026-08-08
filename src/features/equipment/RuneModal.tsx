@@ -3,22 +3,16 @@ import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl } from './statDisplay.ts'
 
-const RUNE_STATS = [
-  'AP', 'MP', 'Range',
-  'Vitality', 'Wisdom', 'Strength', 'Intelligence', 'Chance', 'Agility',
-  'Power',
-  'Damage',
-  'Earth Damage', 'Fire Damage', 'Water Damage', 'Air Damage', 'Neutral Damage',
-  'Earth steal', 'Fire steal', 'Water steal', 'Air steal', 'Neutral steal',
+// Ordered grid: most-used rune stats, 7 per row
+const RUNE_GRID = [
+  'Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power',
+  'AP', 'MP', 'Range', 'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage',
+  'Air Damage', 'Neutral Damage', '% Critical', 'Critical Damage', 'Critical Resistance',
   'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
-  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-  '% Critical', 'Critical Damage', 'Critical Resistance',
-  'Initiative', 'Lock', 'Dodge', 'Prospecting', 'Summons', 'Heal',
-  'AP Reduction', 'MP Reduction', 'AP Parry', 'MP Parry',
-  'Pushback Damage', 'Pushback Resistance', 'Trap Damage', 'Power (traps)',
-  '% Melee Damage', '% Ranged Damage', '% Spell Damage', '% Weapon Damage',
-  '% Melee Resistance', '% Ranged Resistance',
+  'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'AP Reduction', 'MP Reduction',
 ]
+
+const QUICK_VALUES = [1, 5, 10, 25, 50, 100]
 
 type Props = {
   slotId:  SlotId
@@ -31,165 +25,358 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const setRune   = useBuildStore(s => s.setRune)
   const clearRune = useBuildStore(s => s.clearRune)
 
-  const [selectedStat, setSelectedStat] = useState(RUNE_STATS[0])
-  const [addValue, setAddValue]         = useState(1)
+  const [selected, setSelected] = useState(RUNE_GRID[0])
+  const [addValue, setAddValue] = useState(10)
 
   const runeEntries = Object.entries(runes).filter(([, v]) => v > 0)
+  const selMeta     = STAT_META[selected]
 
   function addRune() {
     if (addValue <= 0) return
-    const existing = runes[selectedStat] ?? 0
-    setRune(slotId, selectedStat, existing + addValue)
+    setRune(slotId, selected, (runes[selected] ?? 0) + addValue)
   }
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(6px)' }}
+      style={{ background: 'rgba(4,4,14,0.88)', backdropFilter: 'blur(8px)' }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full max-w-md flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ background: '#0f1320', border: '1px solid #2a3347', maxHeight: '85vh' }}
+        className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden"
+        style={{
+          maxWidth:    480,
+          maxHeight:   '90vh',
+          background:  'linear-gradient(175deg, #0e1122 0%, #090c18 100%)',
+          border:      '1px solid #2a3347',
+          boxShadow:   '0 0 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(201,168,76,0.08) inset',
+        }}
       >
-        {/* Header */}
+        {/* ── Header ─────────────────────────────────────────────────── */}
         <div
-          className="flex items-center gap-3 px-5 py-3.5"
-          style={{ background: 'linear-gradient(180deg, #1a2035 0%, #141929 100%)', borderBottom: '1px solid #2a3347' }}
+          className="flex items-center gap-3 px-5 py-4 flex-shrink-0"
+          style={{
+            background:   'linear-gradient(180deg, #141829 0%, #0f1220 100%)',
+            borderBottom: '1px solid #1c2740',
+          }}
         >
           {item.image_url && (
-            <div className="flex-shrink-0 w-10 h-10 rounded overflow-hidden"
-              style={{ background: 'linear-gradient(145deg, #1c1530, #0d0b1e)', border: '1px solid #c9a84c44' }}>
-              <img src={item.image_url} alt="" className="w-full h-full object-contain p-0.5" loading="lazy" />
+            <div
+              className="flex-shrink-0 rounded-xl overflow-hidden flex items-center justify-center"
+              style={{
+                width: 48, height: 48,
+                background: 'linear-gradient(145deg, #1c1530, #0d0b1e)',
+                border:     '1.5px solid rgba(201,168,76,0.4)',
+                boxShadow:  '0 0 12px rgba(201,168,76,0.1) inset',
+              }}
+            >
+              <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
             </div>
           )}
+
           <div className="flex-1 min-w-0">
-            <h3 className="font-display text-forge-gold font-bold text-sm truncate">{item.name}</h3>
-            <p className="text-[11px] mt-0.5" style={{ color: '#4a5268' }}>Magesmithy · Lv {item.level}</p>
+            <p className="font-display font-bold truncate leading-tight" style={{ color: '#c9a84c', fontSize: 13 }}>
+              {item.name}
+            </p>
+            <p className="text-[11px] mt-0.5 flex items-center gap-1.5" style={{ color: '#4a5268' }}>
+              <span
+                className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium"
+                style={{ background: '#1a1530', border: '1px solid #c9a84c33', color: '#c9a84c99' }}
+              >✦ Magesmithy</span>
+              <span>Lv {item.level}</span>
+            </p>
           </div>
+
           <button
             onClick={onClose}
-            className="flex-shrink-0 w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none"
-            style={{ background: '#1c2333', border: '1px solid #2a3347', color: '#7a8499' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#e8eaf0' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
+            className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-base transition-colors"
+            style={{ background: '#1c2333', border: '1px solid #2a3347', color: '#5a6480' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#e0e8f0' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#5a6480' }}
             aria-label="Close"
           >×</button>
         </div>
 
-        <div className="overflow-y-auto flex-1 p-4 space-y-4">
-          {/* Active runes */}
-          {runeEntries.length > 0 && (
-            <div>
-              <p className="text-[10px] uppercase tracking-widest mb-2 font-medium" style={{ color: '#4a5268' }}>
-                Active Runes
-              </p>
-              <div className="space-y-1.5">
+        <div className="overflow-y-auto flex-1">
+          {/* ── Active runes ─────────────────────────────────────────── */}
+          <div className="px-4 pt-4">
+            <div className="flex items-center gap-2 mb-2.5">
+              <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: '#3a4a68' }}>
+                Runas activas
+              </span>
+              {runeEntries.length > 0 && (
+                <span
+                  className="text-[10px] font-mono rounded px-1.5 py-0.5"
+                  style={{ background: '#c9a84c18', color: '#c9a84c88', border: '1px solid #c9a84c22' }}
+                >
+                  {runeEntries.length}
+                </span>
+              )}
+            </div>
+
+            {runeEntries.length === 0 ? (
+              <div
+                className="rounded-xl flex items-center justify-center py-4 text-[11px]"
+                style={{ background: '#080b14', border: '1px dashed #1c2333', color: '#2a3347' }}
+              >
+                Sin runas aplicadas — agrega una abajo
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
                 {runeEntries.map(([stat, val]) => {
                   const meta = STAT_META[stat]
                   return (
                     <div
                       key={stat}
-                      className="flex items-center gap-2.5 rounded-lg px-3 py-2"
-                      style={{ background: '#131828', border: '1px solid #c9a84c33' }}
+                      className="flex items-center gap-1.5 rounded-full pl-1.5 pr-1 py-1 transition-all"
+                      style={{
+                        background: meta ? `${meta.color}18` : '#1a1f30',
+                        border:     meta ? `1px solid ${meta.color}44` : '1px solid #2a3347',
+                      }}
                     >
-                      {meta?.icon
-                        ? <img src={statIconUrl(meta.icon)} alt="" width={14} height={14}
-                            className="flex-shrink-0 object-contain"
-                            style={{ filter: `drop-shadow(0 0 3px ${meta.color}88)` }}
-                          />
-                        : <span className="w-3.5 flex-shrink-0" />
-                      }
-                      <span className="flex-1 text-xs font-mono tabular-nums" style={{ color: meta?.color ?? '#c0c8e0' }}>
+                      {meta?.icon && (
+                        <img
+                          src={statIconUrl(meta.icon)}
+                          alt=""
+                          width={14}
+                          height={14}
+                          className="object-contain flex-shrink-0"
+                          style={{ filter: `drop-shadow(0 0 4px ${meta.color}88)` }}
+                        />
+                      )}
+                      <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: meta?.color ?? '#c9a84c' }}>
                         +{val}
                       </span>
-                      <span className="flex-1 text-xs truncate" style={{ color: '#8090b0' }}>
+                      <span className="text-[10px] pr-0.5" style={{ color: `${meta?.color ?? '#c0c8e0'}99` }}>
                         {meta?.label ?? stat}
                       </span>
                       <button
                         onClick={() => clearRune(slotId, stat)}
-                        className="flex-shrink-0 w-5 h-5 rounded flex items-center justify-center text-xs transition-colors"
-                        style={{ background: '#1c2333', color: '#4a5268' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#f87171' }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#4a5268' }}
-                        aria-label={`Remove ${stat} rune`}
+                        className="w-4 h-4 rounded-full flex items-center justify-center text-[10px] leading-none transition-colors flex-shrink-0"
+                        style={{ background: '#0e1020', color: '#3a4268', border: '1px solid #2a3347' }}
+                        onMouseEnter={e => {
+                          ;(e.currentTarget as HTMLButtonElement).style.color = '#f87171'
+                          ;(e.currentTarget as HTMLButtonElement).style.background = '#2a1020'
+                        }}
+                        onMouseLeave={e => {
+                          ;(e.currentTarget as HTMLButtonElement).style.color = '#3a4268'
+                          ;(e.currentTarget as HTMLButtonElement).style.background = '#0e1020'
+                        }}
+                        aria-label={`Quitar runa ${stat}`}
                       >×</button>
                     </div>
                   )
                 })}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Add rune */}
-          <div className="rounded-lg p-3 space-y-3" style={{ background: '#080c14', border: '1px solid #1c2333' }}>
-            <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#4a5268' }}>Add Rune</p>
+          {/* ── Divider ──────────────────────────────────────────────── */}
+          <div className="flex items-center gap-3 px-4 mt-4 mb-3">
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, #1c2740)' }} />
+            <span className="text-[10px] uppercase tracking-widest font-semibold flex-shrink-0" style={{ color: '#3a4a68' }}>
+              Agregar runa
+            </span>
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, #1c2740)' }} />
+          </div>
 
-            {/* Stat select */}
-            <select
-              value={selectedStat}
-              onChange={e => setSelectedStat(e.target.value)}
-              className="w-full rounded px-2 py-1.5 text-xs appearance-none cursor-pointer"
-              style={{ background: '#0b0d18', border: '1px solid #2a3347', color: '#c0c8e0', outline: 'none' }}
+          {/* ── Stat icon grid ───────────────────────────────────────── */}
+          <div className="px-4">
+            <div
+              className="grid gap-1.5 p-3 rounded-xl"
+              style={{
+                gridTemplateColumns: 'repeat(7, 1fr)',
+                background: '#080b14',
+                border:     '1px solid #1c2333',
+              }}
             >
-              {RUNE_STATS.map(s => {
-                const meta = STAT_META[s]
-                return <option key={s} value={s}>{meta?.label ?? s}</option>
-              })}
-            </select>
+              {RUNE_GRID.map(stat => {
+                const meta   = STAT_META[stat]
+                const active = stat === selected
+                const hasRune = (runes[stat] ?? 0) > 0
 
-            {/* Value input + Add button */}
-            <div className="flex gap-2">
-              <div
-                className="flex items-center gap-0.5 flex-1 rounded px-1"
-                style={{ background: '#0b0d18', border: '1px solid #2a3347' }}
-              >
-                <button
-                  onClick={() => setAddValue(v => Math.max(1, v - 1))}
-                  className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors"
-                  style={{ color: '#4a5268' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#c0c8e0' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#4a5268' }}
-                >−</button>
-                <input
-                  type="number"
-                  value={addValue}
-                  min={1}
-                  max={999}
-                  onChange={e => setAddValue(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="flex-1 bg-transparent text-center text-xs py-1 font-mono tabular-nums"
-                  style={{ color: '#c0c8e0', outline: 'none', minWidth: 0 }}
-                />
-                <button
-                  onClick={() => setAddValue(v => v + 1)}
-                  className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors"
-                  style={{ color: '#4a5268' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#c0c8e0' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#4a5268' }}
-                >+</button>
+                return (
+                  <button
+                    key={stat}
+                    onClick={() => setSelected(stat)}
+                    title={meta?.label ?? stat}
+                    className="relative flex items-center justify-center rounded-lg transition-all"
+                    style={{
+                      aspectRatio: '1',
+                      background:  active
+                        ? `${meta?.color ?? '#c9a84c'}22`
+                        : hasRune
+                        ? `${meta?.color ?? '#c9a84c'}0e`
+                        : '#0b0e1a',
+                      border: active
+                        ? `1.5px solid ${meta?.color ?? '#c9a84c'}cc`
+                        : hasRune
+                        ? `1px solid ${meta?.color ?? '#c9a84c'}55`
+                        : '1px solid #1c2333',
+                      boxShadow: active ? `0 0 8px ${meta?.color ?? '#c9a84c'}44` : 'none',
+                    }}
+                    onMouseEnter={e => {
+                      if (!active) {
+                        const el = e.currentTarget as HTMLButtonElement
+                        el.style.background = `${meta?.color ?? '#c9a84c'}18`
+                        el.style.borderColor = `${meta?.color ?? '#c9a84c'}88`
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (!active) {
+                        const el = e.currentTarget as HTMLButtonElement
+                        el.style.background = hasRune ? `${meta?.color ?? '#c9a84c'}0e` : '#0b0e1a'
+                        el.style.borderColor = hasRune ? `${meta?.color ?? '#c9a84c'}55` : '#1c2333'
+                      }
+                    }}
+                  >
+                    {meta?.icon ? (
+                      <img
+                        src={statIconUrl(meta.icon)}
+                        alt={meta.label}
+                        width={20}
+                        height={20}
+                        className="object-contain"
+                        style={{
+                          filter: active
+                            ? `drop-shadow(0 0 5px ${meta.color}bb) brightness(1.2)`
+                            : hasRune
+                            ? `drop-shadow(0 0 3px ${meta.color}77) brightness(0.9)`
+                            : 'brightness(0.55)',
+                        }}
+                      />
+                    ) : (
+                      <span className="text-[9px] font-bold" style={{ color: active ? '#c9a84c' : '#3a4268' }}>
+                        {(meta?.label ?? stat).slice(0, 3)}
+                      </span>
+                    )}
+
+                    {/* Tiny dot if already has rune */}
+                    {hasRune && !active && (
+                      <span
+                        className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full"
+                        style={{ background: meta?.color ?? '#c9a84c', boxShadow: `0 0 4px ${meta?.color ?? '#c9a84c'}` }}
+                      />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* ── Selected stat info + controls ─────────────────────── */}
+            <div className="mt-3 rounded-xl p-3 space-y-3"
+              style={{ background: '#080b14', border: `1px solid ${selMeta?.color ?? '#c9a84c'}33` }}>
+
+              {/* Stat info row */}
+              <div className="flex items-center gap-2">
+                {selMeta?.icon && (
+                  <img
+                    src={statIconUrl(selMeta.icon)}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="object-contain flex-shrink-0"
+                    style={{ filter: `drop-shadow(0 0 5px ${selMeta.color}99)` }}
+                  />
+                )}
+                <span className="font-semibold text-sm" style={{ color: selMeta?.color ?? '#c9a84c' }}>
+                  {selMeta?.label ?? selected}
+                </span>
+                {(runes[selected] ?? 0) > 0 && (
+                  <span className="ml-auto text-[11px] font-mono" style={{ color: `${selMeta?.color ?? '#c9a84c'}99` }}>
+                    ya: +{runes[selected]}
+                  </span>
+                )}
               </div>
 
-              <button
-                onClick={addRune}
-                className="px-4 py-1.5 rounded text-xs font-medium transition-colors"
-                style={{ background: '#1c2740', border: '1px solid #c9a84c55', color: '#c9a84c' }}
-                onMouseEnter={e => {
-                  ;(e.currentTarget as HTMLButtonElement).style.background = '#22304e'
-                  ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#c9a84c99'
-                }}
-                onMouseLeave={e => {
-                  ;(e.currentTarget as HTMLButtonElement).style.background = '#1c2740'
-                  ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#c9a84c55'
-                }}
-              >Add</button>
+              {/* Quick value buttons */}
+              <div className="flex gap-1.5">
+                {QUICK_VALUES.map(v => (
+                  <button
+                    key={v}
+                    onClick={() => setAddValue(v)}
+                    className="flex-1 py-1 rounded-lg text-[11px] font-mono font-bold transition-all"
+                    style={{
+                      background:  addValue === v ? `${selMeta?.color ?? '#c9a84c'}22` : '#0e1020',
+                      border:      addValue === v ? `1.5px solid ${selMeta?.color ?? '#c9a84c'}88` : '1px solid #1c2333',
+                      color:       addValue === v ? (selMeta?.color ?? '#c9a84c') : '#3a4268',
+                    }}
+                    onMouseEnter={e => {
+                      if (addValue !== v) {
+                        const el = e.currentTarget as HTMLButtonElement
+                        el.style.borderColor = `${selMeta?.color ?? '#c9a84c'}55`
+                        el.style.color = '#8090b0'
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (addValue !== v) {
+                        const el = e.currentTarget as HTMLButtonElement
+                        el.style.borderColor = '#1c2333'
+                        el.style.color = '#3a4268'
+                      }
+                    }}
+                  >+{v}</button>
+                ))}
+              </div>
+
+              {/* Custom input + Add button */}
+              <div className="flex gap-2">
+                <div
+                  className="flex items-center gap-1 flex-1 rounded-lg px-2"
+                  style={{ background: '#0b0e1a', border: '1px solid #1c2740' }}
+                >
+                  <button
+                    onClick={() => setAddValue(v => Math.max(1, v - 1))}
+                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors"
+                    style={{ color: '#3a4268' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#8090b0' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#3a4268' }}
+                  >−</button>
+                  <input
+                    type="number"
+                    value={addValue}
+                    min={1}
+                    max={9999}
+                    onChange={e => setAddValue(Math.max(1, parseInt(e.target.value) || 1))}
+                    className="flex-1 bg-transparent text-center text-xs py-1 font-mono tabular-nums"
+                    style={{ color: selMeta?.color ?? '#c9a84c', outline: 'none', minWidth: 0 }}
+                  />
+                  <button
+                    onClick={() => setAddValue(v => v + 1)}
+                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors"
+                    style={{ color: '#3a4268' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#8090b0' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#3a4268' }}
+                  >+</button>
+                </div>
+
+                <button
+                  onClick={addRune}
+                  className="px-5 py-1.5 rounded-lg text-sm font-bold transition-all"
+                  style={{
+                    background: `linear-gradient(135deg, ${selMeta?.color ?? '#c9a84c'}22, ${selMeta?.color ?? '#c9a84c'}11)`,
+                    border:     `1.5px solid ${selMeta?.color ?? '#c9a84c'}77`,
+                    color:      selMeta?.color ?? '#c9a84c',
+                    boxShadow:  `0 0 12px ${selMeta?.color ?? '#c9a84c'}22`,
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLButtonElement
+                    el.style.background = `linear-gradient(135deg, ${selMeta?.color ?? '#c9a84c'}33, ${selMeta?.color ?? '#c9a84c'}22)`
+                    el.style.boxShadow  = `0 0 18px ${selMeta?.color ?? '#c9a84c'}44`
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLButtonElement
+                    el.style.background = `linear-gradient(135deg, ${selMeta?.color ?? '#c9a84c'}22, ${selMeta?.color ?? '#c9a84c'}11)`
+                    el.style.boxShadow  = `0 0 12px ${selMeta?.color ?? '#c9a84c'}22`
+                  }}
+                >
+                  Agregar
+                </button>
+              </div>
             </div>
           </div>
 
-          {runeEntries.length === 0 && (
-            <p className="text-center text-[11px] py-2" style={{ color: '#2a3347' }}>
-              No runes applied to this item
-            </p>
-          )}
+          <div className="h-4" />
         </div>
       </div>
     </div>

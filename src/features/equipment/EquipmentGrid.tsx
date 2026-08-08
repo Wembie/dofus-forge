@@ -8,7 +8,7 @@ import { RuneModal } from './RuneModal.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -126,6 +126,7 @@ type SlotButtonProps = {
   onUnequip:    () => void
   onRune?:      () => void
   runeCount?:   number
+  slotRunes?:   Record<string, number>
   small?:       boolean
   setName?:     string
   setCount?:    number
@@ -134,7 +135,7 @@ type SlotButtonProps = {
   tooltipSide?: 'right' | 'left' | 'top'
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRunes, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
   const cfg     = SLOT_MAP[slotId]
   const IconCmp = SLOT_ICON[slotId]
   const px      = small ? 52 : 66
@@ -207,77 +208,137 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, small,
         >×</button>
       )}
 
-      {/* Magesmithy rune button */}
+      {/* Magesmithy ✦ — always visible when runes active, hover-only when none */}
       {item && onRune && (
         <button
           onClick={e => { e.stopPropagation(); onRune() }}
-          className="absolute -bottom-1.5 -left-1.5 w-4 h-4 rounded-full text-[9px] leading-none items-center justify-center hidden group-hover:flex transition-colors z-10"
+          className={`absolute -bottom-1.5 -left-1.5 w-4 h-4 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
           style={{
-            background:  (runeCount ?? 0) > 0 ? '#1a1530' : '#06060f',
-            border:      (runeCount ?? 0) > 0 ? '1px solid #c9a84c88' : '1px solid #2a3347',
-            color:       (runeCount ?? 0) > 0 ? '#c9a84c' : '#4a5268',
+            background:  (runeCount ?? 0) > 0 ? '#12102a' : '#06060f',
+            border:      (runeCount ?? 0) > 0 ? '1px solid #5a8dff99' : '1px solid #2a3347',
+            color:       (runeCount ?? 0) > 0 ? '#7aaeff' : '#4a5268',
+            boxShadow:   (runeCount ?? 0) > 0 ? '0 0 6px #5a8dff44' : 'none',
           }}
           onMouseEnter={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#c9a84c'
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#c9a84caa'
+            ;(e.currentTarget as HTMLButtonElement).style.color = '#aaccff'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#7aaeffcc'
+            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 8px #5a8dff88'
           }}
           onMouseLeave={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.color = (runeCount ?? 0) > 0 ? '#c9a84c' : '#4a5268'
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = (runeCount ?? 0) > 0 ? '#c9a84c88' : '#2a3347'
+            const active = (runeCount ?? 0) > 0
+            ;(e.currentTarget as HTMLButtonElement).style.color = active ? '#7aaeff' : '#4a5268'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = active ? '#5a8dff99' : '#2a3347'
+            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = active ? '0 0 6px #5a8dff44' : 'none'
           }}
           aria-label={`Magesmithy: ${item.name}`}
-          title="Magesmithy (add runes)"
+          title="Magesmithy (agregar runas)"
         >✦</button>
       )}
 
-      {/* Tooltip — side determined by column to avoid overflow-hidden clipping */}
+      {/* Tooltip — game-faithful style, side chosen per column */}
       {item && (
         <div
-          className="absolute z-30 hidden group-hover:block pointer-events-none w-56"
-          style={
-            tooltipSide === 'right'
+          className="absolute z-30 hidden group-hover:block pointer-events-none"
+          style={{
+            width: 288,
+            ...(tooltipSide === 'right'
               ? { left: '100%', marginLeft: 8, top: 0 }
               : tooltipSide === 'left'
               ? { right: '100%', marginRight: 8, top: 0 }
-              : { left: '50%', transform: 'translateX(-50%)', bottom: '100%', marginBottom: 8 }
-          }
+              : { left: '50%', transform: 'translateX(-50%)', bottom: '100%', marginBottom: 8 })
+          }}
         >
-          <div className="rounded-xl p-3 shadow-2xl text-xs space-y-1.5"
-            style={{ background: '#0b0d18', border: '1px solid #2a3347' }}>
-            <p className="font-semibold truncate" style={{ color: '#c9a84c' }}>{item.name}</p>
-            <p style={{ color: '#3a4268' }}>Lv {item.level} · {item.type}</p>
-            {setName && (
-              <div className="flex items-center justify-between gap-2 rounded px-2 py-1" style={{ background: '#0e1020', border: '1px solid #1c2840' }}>
-                <span className="truncate font-medium" style={{ color: '#7a6030' }}>{setName}</span>
-                <span className="font-mono flex-shrink-0" style={{ color: '#c9a84c' }}>{setCount}/{setMax}</span>
-              </div>
-            )}
-            {nextBonus && (
-              <p className="text-[10px]" style={{ color: '#4a5860' }}>▶ next: {nextBonus}</p>
-            )}
-            <div className="pt-0.5 space-y-0.5" style={{ borderTop: '1px solid #1c2333' }}>
-              {item.effects
-                .filter(e => !isIgnored(e.stat))
-                .map((e, i) => {
-                  const meta = STAT_META[e.stat]
-                  const val  = fmtValue(e.min, e.max)
-                  const clr  = meta?.color ?? '#7a8499'
+          <div className="rounded-xl shadow-2xl overflow-hidden"
+            style={{ background: '#09090f', border: '1px solid #1e2640', boxShadow: '0 8px 40px rgba(0,0,0,0.85)' }}>
+
+            {/* Item header */}
+            <div className="px-3 pt-2.5 pb-2" style={{ background: 'linear-gradient(180deg, #121624 0%, #0c0f1a 100%)', borderBottom: '1px solid #1e2640' }}>
+              <p className="font-bold text-[13px] leading-tight" style={{ color: '#e8eaf8' }}>{item.name}</p>
+              <p className="text-[10px] mt-0.5" style={{ color: '#3a4268' }}>
+                Nivel {item.level} · {item.type}
+              </p>
+              {setName && (
+                <p className="text-[11px] mt-1 font-semibold" style={{ color: '#4a8fcc' }}>
+                  {setName}
+                  <span className="ml-1.5 font-mono text-[10px]" style={{ color: '#2a5888' }}>{setCount}/{setMax}</span>
+                </p>
+              )}
+            </div>
+
+            {/* EFECTOS */}
+            <div className="px-3 pt-2 pb-1">
+              <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: '#2a3347' }}>
+                Efectos
+              </p>
+              <div className="space-y-0.5">
+                {item.effects.filter(e => !isIgnored(e.stat)).map((e, i) => {
+                  const meta    = STAT_META[e.stat]
+                  const clr     = meta?.color ?? '#7a8499'
+                  const useMax  = e.max !== 0 && e.max > e.min
+                  const display = useMax ? e.max : e.min
                   return (
-                    <div key={i} className="flex items-center gap-1.5">
+                    <div key={i} className="flex items-center gap-1.5 min-w-0">
                       {meta?.icon
                         ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
                             className="object-contain flex-shrink-0"
-                            style={{ filter: `drop-shadow(0 0 3px ${clr}55)` }}
+                            style={{ filter: `drop-shadow(0 0 2px ${clr}55)` }}
                           />
                         : <span className="w-3 flex-shrink-0" />
                       }
-                      <span className="font-mono font-semibold tabular-nums" style={{ color: clr }}>{val}</span>
-                      <span className="truncate" style={{ color: '#5a6480' }}>{meta?.label ?? e.stat}</span>
+                      <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
+                        {display}
+                      </span>
+                      <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>
+                        {meta?.label ?? e.stat}
+                      </span>
+                      {useMax && (
+                        <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: '#252c42' }}>
+                          [{e.min} a {e.max}]
+                        </span>
+                      )}
                     </div>
                   )
-                })
-              }
+                })}
+              </div>
             </div>
+
+            {/* FORJAMAGIA section — blue, only if runes exist */}
+            {Object.entries(slotRunes ?? {}).some(([, v]) => v > 0) && (
+              <div className="px-3 pt-1.5 pb-2" style={{ borderTop: '1px solid #1a2040' }}>
+                <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5 flex items-center gap-1"
+                  style={{ color: '#2a4880' }}>
+                  <span style={{ color: '#4a78cc' }}>✦</span> Forjamagia
+                </p>
+                <div className="space-y-0.5">
+                  {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).map(([stat, val]) => {
+                    const meta = STAT_META[stat]
+                    return (
+                      <div key={stat} className="flex items-center gap-1.5">
+                        {meta?.icon
+                          ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
+                              className="object-contain flex-shrink-0"
+                              style={{ filter: 'saturate(0.3) hue-rotate(200deg) brightness(1.4)' }}
+                            />
+                          : <span className="w-3 flex-shrink-0" />
+                        }
+                        <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: '#6a9fff' }}>
+                          +{val}
+                        </span>
+                        <span className="text-[11px]" style={{ color: '#4a70cc' }}>
+                          {meta?.label ?? stat}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {nextBonus && (
+              <div className="px-3 py-1.5" style={{ borderTop: '1px solid #1a2040' }}>
+                <p className="text-[10px]" style={{ color: '#2a4060' }}>▶ siguiente bonus: {nextBonus}</p>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -459,6 +520,7 @@ export function EquipmentGrid() {
               onUnequip={() => unequipItem(id)}
               onRune={() => setRuneSlot(id)}
               runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
+              slotRunes={runes[id]}
               tooltipSide="right"
               {...getSetProps(id)}
             />
@@ -478,6 +540,7 @@ export function EquipmentGrid() {
               onUnequip={() => unequipItem(id)}
               onRune={() => setRuneSlot(id)}
               runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
+              slotRunes={runes[id]}
               tooltipSide="left"
               {...getSetProps(id)}
             />
@@ -495,6 +558,7 @@ export function EquipmentGrid() {
             onUnequip={() => unequipItem(id)}
             onRune={() => setRuneSlot(id)}
             runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
+            slotRunes={runes[id]}
             small
             tooltipSide="top"
             {...getSetProps(id)}
