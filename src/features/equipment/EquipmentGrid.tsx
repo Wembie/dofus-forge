@@ -119,18 +119,19 @@ const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<
 
 // ── Slot button ──────────────────────────────────────────────────────────────
 type SlotButtonProps = {
-  slotId:      SlotId
-  item:        AppItem | undefined
-  onOpen:      () => void
-  onUnequip:   () => void
-  small?:      boolean
-  setName?:    string
-  setCount?:   number
-  setMax?:     number
-  nextBonus?:  string
+  slotId:       SlotId
+  item:         AppItem | undefined
+  onOpen:       () => void
+  onUnequip:    () => void
+  small?:       boolean
+  setName?:     string
+  setCount?:    number
+  setMax?:      number
+  nextBonus?:   string
+  tooltipSide?: 'right' | 'left' | 'top'
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount, setMax, nextBonus }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
   const cfg     = SLOT_MAP[slotId]
   const IconCmp = SLOT_ICON[slotId]
   const px      = small ? 52 : 66
@@ -203,9 +204,18 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount,
         >×</button>
       )}
 
-      {/* Tooltip */}
+      {/* Tooltip — side determined by column to avoid overflow-hidden clipping */}
       {item && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-30 hidden group-hover:block pointer-events-none w-56">
+        <div
+          className="absolute z-30 hidden group-hover:block pointer-events-none w-56"
+          style={
+            tooltipSide === 'right'
+              ? { left: '100%', marginLeft: 8, top: 0 }
+              : tooltipSide === 'left'
+              ? { right: '100%', marginRight: 8, top: 0 }
+              : { left: '50%', transform: 'translateX(-50%)', bottom: '100%', marginBottom: 8 }
+          }
+        >
           <div className="rounded-xl p-3 shadow-2xl text-xs space-y-1.5"
             style={{ background: '#0b0d18', border: '1px solid #2a3347' }}>
             <p className="font-semibold truncate" style={{ color: '#c9a84c' }}>{item.name}</p>
@@ -217,12 +227,11 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount,
               </div>
             )}
             {nextBonus && (
-              <p className="text-[10px]" style={{ color: '#4a5860' }}>▶ at {nextBonus}</p>
+              <p className="text-[10px]" style={{ color: '#4a5860' }}>▶ next: {nextBonus}</p>
             )}
             <div className="pt-0.5 space-y-0.5" style={{ borderTop: '1px solid #1c2333' }}>
               {item.effects
                 .filter(e => !isIgnored(e.stat))
-                .slice(0, 12)
                 .map((e, i) => {
                   const meta = STAT_META[e.stat]
                   const val  = fmtValue(e.min, e.max)
@@ -230,11 +239,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount,
                   return (
                     <div key={i} className="flex items-center gap-1.5">
                       {meta?.icon
-                        ? <img
-                            src={statIconUrl(meta.icon)}
-                            alt=""
-                            width={12}
-                            height={12}
+                        ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
                             className="object-contain flex-shrink-0"
                             style={{ filter: `drop-shadow(0 0 3px ${clr}55)` }}
                           />
@@ -246,11 +251,6 @@ function SlotButton({ slotId, item, onOpen, onUnequip, small, setName, setCount,
                   )
                 })
               }
-              {item.effects.filter(e => !isIgnored(e.stat)).length > 12 && (
-                <p style={{ color: '#3a4268' }}>
-                  +{item.effects.filter(e => !isIgnored(e.stat)).length - 12} more
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -421,7 +421,7 @@ export function EquipmentGrid() {
       {/* Main character screen */}
       <div className="flex items-start justify-center pt-5 pb-2 px-3">
 
-        {/* Left column */}
+        {/* Left column — tooltip to the right to avoid overflow-hidden clip */}
         <div className="flex flex-col gap-2">
           {LEFT_SLOTS.map(id => (
             <SlotButton
@@ -429,6 +429,7 @@ export function EquipmentGrid() {
               item={getItem(id)}
               onOpen={() => openCatalog(id)}
               onUnequip={() => unequipItem(id)}
+              tooltipSide="right"
               {...getSetProps(id)}
             />
           ))}
@@ -437,7 +438,7 @@ export function EquipmentGrid() {
         {/* Character center */}
         <CharacterCenter />
 
-        {/* Right column */}
+        {/* Right column — tooltip to the left */}
         <div className="flex flex-col gap-2">
           {RIGHT_SLOTS.map(id => (
             <SlotButton
@@ -445,13 +446,14 @@ export function EquipmentGrid() {
               item={getItem(id)}
               onOpen={() => openCatalog(id)}
               onUnequip={() => unequipItem(id)}
+              tooltipSide="left"
               {...getSetProps(id)}
             />
           ))}
         </div>
       </div>
 
-      {/* Dofus row */}
+      {/* Dofus row — tooltip above, enough vertical space */}
       <div className="flex justify-center gap-2 pb-5">
         {DOFUS_SLOTS.map(id => (
           <SlotButton
@@ -460,6 +462,7 @@ export function EquipmentGrid() {
             onOpen={() => openCatalog(id)}
             onUnequip={() => unequipItem(id)}
             small
+            tooltipSide="top"
             {...getSetProps(id)}
           />
         ))}
