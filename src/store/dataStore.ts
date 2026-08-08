@@ -28,10 +28,13 @@ export const useDataStore = create<DataState>((set, get) => ({
     if (get().loading) return
     set({ loading: true, error: null, lang, spells: new Map() })
     try {
+      // Always load item/stat data in English — STAT_META and STAT_MAP keys are
+      // English-only. Non-English data would produce unmatched stat names with no
+      // icons, colors, or labels. UI language (i18next) handles UI strings separately.
       const [index, equipment, sets] = await Promise.all([
-        loadIndex(lang),
-        loadEquipment(lang),
-        loadSets(lang),
+        loadIndex('en'),
+        loadEquipment('en'),
+        loadSets('en'),
       ])
       set({ index, equipment, sets, loading: false })
       useBuildStore.getState().setEquipment(equipment)
@@ -41,10 +44,10 @@ export const useDataStore = create<DataState>((set, get) => ({
     }
   },
 
-  loadSpells: async (lang, classSlug) => {
+  loadSpells: async (_lang, classSlug) => {
     if (get().spells.has(classSlug)) return
     try {
-      const data = await fetchSpells(lang, classSlug)
+      const data = await fetchSpells('en', classSlug)
       const next = new Map(get().spells)
       next.set(classSlug, data)
       set({ spells: next })
