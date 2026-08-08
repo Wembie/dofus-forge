@@ -106,6 +106,14 @@ export function computeStats(input: BuildInput): StatBlock {
   // 3.5. Rune effects (magesmithy bonuses added per item slot)
   if (input.runeEffects) applyEffects(block, input.runeEffects)
 
+  // 3.8. Power distributes flat to all elemental characteristics (1 Power = +1 to each)
+  if (block.power > 0) {
+    block.strength     += block.power
+    block.intelligence += block.power
+    block.chance       += block.power
+    block.agility      += block.power
+  }
+
   // 4. Characteristic points (allocated + scrolls)
   const { allocated, scrolled } = input
   block.vitality     += allocated.vitality     + (scrolled.vitality     ? SCROLL_BONUS : 0)
