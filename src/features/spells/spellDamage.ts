@@ -24,12 +24,12 @@ function flatBonus(elem: ElemKey, stats: StatBlock): number {
   }
 }
 
-/** Classic Dofus formula: (base + mastery) * (100 + Power) / 100 + flat */
+/** Dofus formula: (base + mastery) + flat. Power is already baked into mastery stats. */
 export function calcDamage(base: number, elem: ElemKey, stats: StatBlock): number {
   if (base <= 0) return 0
   const m = mastery(elem, stats)
   const f = flatBonus(elem, stats)
-  return Math.floor((base + m) * (100 + stats.power) / 100 + f)
+  return Math.floor(base + m + f)
 }
 
 export type CalcedEffect = AppSpellEffect & { calcMin: number; calcMax: number }
