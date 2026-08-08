@@ -8,6 +8,7 @@ import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { useVirtualList } from '@/ui/useVirtualList.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
+import { useFavorites } from '@/store/useFavorites.ts'
 
 const ROW_HEIGHT = 72
 
@@ -242,6 +243,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     })
   }, [equipment, slot.apiSlot])
 
+  const { isFav, toggle: toggleFav, favCount } = useFavorites()
+
   const [search,     setSearch]     = useState('')
   const [minLevel,   setMinLevel]   = useState(0)
   const [maxLevel,   setMaxLevel]   = useState(200)
@@ -249,6 +252,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [sort,       setSort]       = useState<SortKey>('level-desc')
   const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
   const [statFilter, setStatFilter] = useState<string | null>(null)
+  const [favsOnly,   setFavsOnly]   = useState(false)
   const [activeIdx,  setActiveIdx]  = useState(-1)
   const activeIdxRef                = useRef(-1)
 
@@ -263,12 +267,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       itemMatchesElement(it, elem) &&
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
       (statFilter == null || it.effects.some(e => e.stat === statFilter)) &&
+      (!favsOnly || isFav(it.ankama_id)) &&
       (search === '' || it.name.toLowerCase().includes(search.toLowerCase()))
     )
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter])
+  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav])
 
   useEffect(() => { setActiveIdx(-1) }, [items])
 
@@ -402,6 +407,18 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             )}
 
             <div className="ml-auto flex gap-1">
+              <button
+                onClick={() => setFavsOnly(v => !v)}
+                className={[
+                  'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
+                  favsOnly
+                    ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
+                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                ].join(' ')}
+                title="Show favorites only"
+              >
+                ★{favCount > 0 && <span className="font-mono">{favCount}</span>}
+              </button>
               {(Object.keys(SORT_LABELS) as SortKey[]).map(sk => (
                 <button
                   key={sk}
@@ -471,7 +488,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                   style={{ borderBottom: '1px solid #1a1f2e' }}
                 >
                   <button
-                    className="w-full flex items-center gap-3 px-4 transition-colors text-left"
+                    className="w-full flex items-center gap-3 px-4 transition-colors text-left relative"
                     style={{
                       height:     ROW_HEIGHT,
                       background: isHighlighted || isEquipped
@@ -481,6 +498,21 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     onClick={() => handlePick(item)}
                     onMouseEnter={() => setActiveIdx(absoluteIdx)}
                   >
+                    {/* Fav star */}
+                    <span
+                      role="button"
+                      tabIndex={-1}
+                      title={isFav(item.ankama_id) ? 'Remove from favorites' : 'Add to favorites'}
+                      className="absolute top-1 right-1 z-10 text-[13px] leading-none transition-colors select-none"
+                      style={{ color: isFav(item.ankama_id) ? '#c9a84c' : '#2a3347' }}
+                      onMouseEnter={e => {
+                        if (!isFav(item.ankama_id)) (e.currentTarget as HTMLElement).style.color = '#5a4a20'
+                      }}
+                      onMouseLeave={e => {
+                        ;(e.currentTarget as HTMLElement).style.color = isFav(item.ankama_id) ? '#c9a84c' : '#2a3347'
+                      }}
+                      onClick={e => { e.stopPropagation(); toggleFav(item.ankama_id) }}
+                    >★</span>
                     {/* Item image */}
                     <div
                       className="flex-shrink-0 rounded-lg overflow-hidden flex items-center justify-center"
