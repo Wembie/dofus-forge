@@ -15,6 +15,7 @@
     "fetch-images": "tsx scripts/fetch-images.ts"
   },
   "dependencies": {
+    "html-to-image": "^1.11.13",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^8.0.5",
     "i18next-http-backend": "^2.6.2",

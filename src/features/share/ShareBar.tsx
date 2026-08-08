@@ -2,13 +2,18 @@ import { useState, useCallback } from 'react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild, decodeBuild } from './codec.ts'
 import { saveBuild, listBuilds, deleteBuild, type SavedBuild } from './savedBuilds.ts'
+import { triggerExport, type ExportData } from './ExportCard.tsx'
+import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 
 export function ShareBar() {
   const store       = useBuildStore()
-  const [copied,    setCopied]   = useState(false)
-  const [saveName,  setSaveName] = useState('')
-  const [builds,    setBuilds]   = useState<SavedBuild[]>(listBuilds)
-  const [showPanel, setShowPanel]= useState(false)
+  const stats       = useBuildStore(s => s.stats)
+  const equipment   = useBuildStore(s => s._equipment)
+  const [copied,    setCopied]    = useState(false)
+  const [exporting, setExporting] = useState(false)
+  const [saveName,  setSaveName]  = useState('')
+  const [builds,    setBuilds]    = useState<SavedBuild[]>(listBuilds)
+  const [showPanel, setShowPanel] = useState(false)
 
   const hasClass = Boolean(store.selectedClass)
 
@@ -46,8 +51,40 @@ export function ShareBar() {
     setShowPanel(false)
   }, [store])
 
+  const handleExport = useCallback(async () => {
+    if (!store.selectedClass || !stats) return
+    setExporting(true)
+    try {
+      const clsInfo  = CLASS_DATA.find(c => c.id === store.selectedClass)
+      const equipMap = new Map(equipment.map(it => [it.ankama_id, it.name]))
+      const equippedNames = Object.fromEntries(
+        Object.entries(store.equipped).map(([slot, id]) => [slot, equipMap.get(id as number) ?? ''])
+      ) as ExportData['equipped']
+      await triggerExport({
+        classLabel: clsInfo?.name ?? store.selectedClass,
+        classSlug:  store.selectedClass,
+        level:      store.level,
+        gender:     store.gender,
+        equipped:   equippedNames,
+        stats,
+      })
+    } finally {
+      setExporting(false)
+    }
+  }, [store, stats, equipment])
+
   return (
     <div className="flex items-center gap-2">
+      {/* Export as image */}
+      <button
+        onClick={handleExport}
+        disabled={!hasClass || !stats || exporting}
+        title="Export build as image"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-forge-border bg-forge-surface text-forge-muted hover:text-forge-text hover:border-forge-gold/40 disabled:opacity-30 text-xs transition-colors"
+      >
+        {exporting ? '⏳ Exporting…' : '🖼 Export'}
+      </button>
+
       {/* Copy URL */}
       <button
         onClick={handleCopy}
