@@ -96,7 +96,7 @@ export function isIgnored(stat: string): boolean {
 export function fmtValue(min: number, max: number): string {
   const sign = min >= 0 ? '+' : ''
   if (min === max || max === 0 || max < min) return `${sign}${min}`
-  return `${sign}${min} [${min} à ${max}]`
+  return `${sign}${min}–${max}`
 }
 
 export function statIconUrl(icon: string): string {
