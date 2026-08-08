@@ -72,6 +72,7 @@ export type BuildSnapshot = {
   a:  number[]  // allocated per CHARACTERISTICS order
   s:  number    // scrolled bitmask (bit i = CHARACTERISTICS[i])
   e:  (number | null)[]  // equipped ankama_ids per ALL_SLOTS order
+  r?: Record<string, Record<string, number>>  // runes: slot → stat → value (optional)
 }
 
 function recompute(
@@ -215,7 +216,10 @@ export const useBuildStore = create<BuildState>((set) => {
       const equipped      = Object.fromEntries(
         ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
       ) as Partial<Record<SlotId, number>>
-      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes: {} }, s)
+      const runes = snap.r
+        ? (snap.r as Partial<Record<SlotId, RuneMap>>)
+        : {}
+      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes }, s)
     }),
 
     reset: () => set(s => ({
