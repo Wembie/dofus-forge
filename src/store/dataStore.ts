@@ -28,14 +28,37 @@ export const useDataStore = create<DataState>((set, get) => ({
     if (get().loading) return
     set({ loading: true, error: null, lang, spells: new Map() })
     try {
-      // Always load item/stat data in English — STAT_META and STAT_MAP keys are
-      // English-only. Non-English data would produce unmatched stat names with no
-      // icons, colors, or labels. UI language (i18next) handles UI strings separately.
-      const [index, equipment, sets] = await Promise.all([
+      // Base data always English — STAT_META/STAT_MAP keys must match stat names.
+      // Non-English stat strings (e.g. "fuerza", "vitalidad") are not in STAT_MAP
+      // so they'd produce no icons, colors, or engine values.
+      const [indexEn, equipmentEn, setsEn] = await Promise.all([
         loadIndex('en'),
         loadEquipment('en'),
         loadSets('en'),
       ])
+
+      let index     = indexEn
+      let equipment = equipmentEn
+      let sets      = setsEn
+
+      // For non-English: overlay translated item/set names onto the English base.
+      // Effects and slot identifiers stay English so the engine keeps working.
+      if (lang !== 'en') {
+        const [indexLang, equipLang, setsLang] = await Promise.all([
+          loadIndex(lang),
+          loadEquipment(lang),
+          loadSets(lang),
+        ])
+
+        const indexNames = new Map(indexLang.map(it => [it.id,         it.name]))
+        const itemNames  = new Map(equipLang.map (it => [it.ankama_id, it.name]))
+        const setNames   = new Map(setsLang.map  (s  => [s.ankama_id,  s.name]))
+
+        index     = indexEn.map(it => ({ ...it, name: indexNames.get(it.id)           ?? it.name }))
+        equipment = equipmentEn.map(it => ({ ...it, name: itemNames.get(it.ankama_id) ?? it.name }))
+        sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id)        ?? s.name  }))
+      }
+
       set({ index, equipment, sets, loading: false })
       useBuildStore.getState().setEquipment(equipment)
       useBuildStore.getState().setSetsData(sets)
@@ -44,6 +67,7 @@ export const useDataStore = create<DataState>((set, get) => ({
     }
   },
 
+  // Spells always English — spell effect stat names must match STAT_MAP keys.
   loadSpells: async (_lang, classSlug) => {
     if (get().spells.has(classSlug)) return
     try {
