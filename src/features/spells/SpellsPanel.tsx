@@ -24,13 +24,13 @@ const ELEM_COLOR: Record<AppSpellElement, string> = {
   mixed:   '#c9a84c',
 }
 
-const ELEM_LABEL: Record<AppSpellElement, string> = {
-  earth:   'Earth',
-  fire:    'Fire',
-  water:   'Water',
-  air:     'Air',
-  neutral: 'Neutral',
-  mixed:   'Mixed',
+const ELEM_KEYS: Record<AppSpellElement, string> = {
+  earth:   'elem_earth',
+  fire:    'elem_fire',
+  water:   'elem_water',
+  air:     'elem_air',
+  neutral: 'elem_neutral',
+  mixed:   'elem_mixed',
 }
 
 type ElemFilter = AppSpellElement | 'all'
@@ -50,6 +50,7 @@ function EffectLine({
 }
 
 function SpellRow({ spell, grade, stats }: { spell: AppSpell; grade: number; stats: StatBlock | null }) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const lvl   = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
   const color = ELEM_COLOR[spell.element]
@@ -155,12 +156,12 @@ function SpellRow({ spell, grade, stats }: { spell: AppSpell; grade: number; sta
           </div>
           {showCalc && (
             <p className="text-[9px]" style={{ color: '#3a4268' }}>
-              ★ Calculated with your stats
+              {t('spell_calculated')}
             </p>
           )}
           {lvl.maxPerTurn > 0 && (
             <p className="text-[9px]" style={{ color: '#3a4268' }}>
-              Max {lvl.maxPerTurn}× / turn
+              {t('spell_max_per_turn', { count: lvl.maxPerTurn })}
             </p>
           )}
         </div>
@@ -252,7 +253,7 @@ export function SpellsPanel() {
               color:       '#3a4268',
             }}
           >
-            {f === 'all' ? 'All' : ELEM_LABEL[f as AppSpellElement]}
+            {f === 'all' ? t('elem_all') : t(ELEM_KEYS[f as AppSpellElement])}
           </button>
         ))}
       </div>
@@ -260,7 +261,7 @@ export function SpellsPanel() {
       {/* Stats indicator */}
       {stats && (
         <p className="text-[9px]" style={{ color: '#3a4268' }}>
-          ★ Dmg calculated · STR {stats.strength} / INT {stats.intelligence} / CHA {stats.chance} / AGI {stats.agility}
+          ★ {t('stat_strength')} {stats.strength} / {t('stat_intelligence')} {stats.intelligence} / {t('stat_chance')} {stats.chance} / {t('stat_agility')} {stats.agility}
         </p>
       )}
 
@@ -268,7 +269,7 @@ export function SpellsPanel() {
       {!data ? (
         <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
       ) : filtered.length === 0 ? (
-        <p className="text-[11px] py-2" style={{ color: '#3a4268' }}>No spells for this filter.</p>
+        <p className="text-[11px] py-2" style={{ color: '#3a4268' }}>{t('no_spells_filter')}</p>
       ) : (
         <ul className="max-h-[320px] overflow-y-auto space-y-px pr-0.5">
           {filtered.map(spell => (

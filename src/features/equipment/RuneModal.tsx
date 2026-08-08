@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl } from './statDisplay.ts'
@@ -21,6 +22,7 @@ type Props = {
 }
 
 export function RuneModal({ slotId, item, onClose }: Props) {
+  const { t }     = useTranslation()
   const runes     = useBuildStore(s => s.runes[slotId] ?? {})
   const setRune   = useBuildStore(s => s.setRune)
   const clearRune = useBuildStore(s => s.clearRune)
@@ -82,7 +84,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               <span
                 className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium"
                 style={{ background: '#1a1530', border: '1px solid #c9a84c33', color: '#c9a84c99' }}
-              >✦ Magesmithy</span>
+              >✦ {t('magesmithy')}</span>
               <span>Lv {item.level}</span>
             </p>
           </div>
@@ -102,7 +104,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           <div className="px-4 pt-4">
             <div className="flex items-center gap-2 mb-2.5">
               <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: '#3a4a68' }}>
-                Runas activas
+                {t('active_runes')}
               </span>
               {runeEntries.length > 0 && (
                 <span
@@ -119,7 +121,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 className="rounded-xl flex items-center justify-center py-4 text-[11px]"
                 style={{ background: '#080b14', border: '1px dashed #1c2333', color: '#2a3347' }}
               >
-                Sin runas aplicadas — agrega una abajo
+                {t('no_runes')}
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
@@ -162,7 +164,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                           ;(e.currentTarget as HTMLButtonElement).style.color = '#3a4268'
                           ;(e.currentTarget as HTMLButtonElement).style.background = '#0e1020'
                         }}
-                        aria-label={`Quitar runa ${stat}`}
+                        aria-label={t('rune_remove', { stat })}
                       >×</button>
                     </div>
                   )
@@ -175,7 +177,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           <div className="flex items-center gap-3 px-4 mt-4 mb-3">
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, #1c2740)' }} />
             <span className="text-[10px] uppercase tracking-widest font-semibold flex-shrink-0" style={{ color: '#3a4a68' }}>
-              Agregar runa
+              {t('add_rune')}
             </span>
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, #1c2740)' }} />
           </div>
@@ -284,7 +286,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 </span>
                 {(runes[selected] ?? 0) > 0 && (
                   <span className="ml-auto text-[11px] font-mono" style={{ color: `${selMeta?.color ?? '#c9a84c'}99` }}>
-                    ya: +{runes[selected]}
+                    {t('rune_current', { value: runes[selected] })}
                   </span>
                 )}
               </div>
@@ -370,7 +372,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     el.style.boxShadow  = `0 0 12px ${selMeta?.color ?? '#c9a84c'}22`
                   }}
                 >
-                  Agregar
+                  {t('rune_add_btn')}
                 </button>
               </div>
             </div>
