@@ -32,12 +32,12 @@ Marcar con `[x]` cuando se complete.
 - [x] **M14 — Ítem favoritos / guardados** — estrella ★ por ítem (localStorage), filtro "★ N" en barra, `useSyncExternalStore` reactivo
 
 ### Forjamagia / Magesmithy
-- [ ] **M15 — Sistema Forjamagia** — panel por ítem equipado para agregar/quitar runas, runado básico (PA, PM, Vitalidad, stats principales), visualización del impacto en el StatBlock total
+- [x] **M15 — Sistema Forjamagia** — panel por ítem equipado para agregar/quitar runas, runado básico (PA, PM, Vitalidad, stats principales), visualización del impacto en el StatBlock total
 
 ### Build
 - [x] **M16 — Guardar múltiples builds** — localStorage, lista de builds guardados con nombre, load/delete (ShareBar → "My Builds")
 - [x] **M17 — Undo/redo básico** — Ctrl+Z / Ctrl+Shift+Z, botones ↩↪ en header, historial de 40 estados
-- [ ] **M18 — Export build como imagen** — screenshot del personaje con stats para compartir en redes (canvas/html2canvas)
+- [x] **M18 — Export build como imagen** — screenshot del personaje con stats para compartir en redes (canvas/html2canvas)
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 
 ### Hechizos
