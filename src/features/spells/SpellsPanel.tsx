@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement } from '@/data/spellLoaders.ts'
+import { calcEffects } from './spellDamage.ts'
+import type { StatBlock } from '@/engine/types.ts'
 
 function spellGrade(level: number): number {
   if (level >= 200) return 6
@@ -32,23 +34,24 @@ const ELEM_LABEL: Record<AppSpellElement, string> = {
 }
 
 type ElemFilter = AppSpellElement | 'all'
-
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral', 'mixed']
 
-function EffectLine({ effect }: { effect: { element: Exclude<AppSpellElement, 'mixed'>; min: number; max: number } }) {
-  const color = ELEM_COLOR[effect.element]
-  const dmg   = effect.min === effect.max ? String(effect.min) : `${effect.min}–${effect.max}`
+function EffectLine({
+  calcMin, calcMax, element, showCalc,
+}: { calcMin: number; calcMax: number; element: Exclude<AppSpellElement, 'mixed'>; showCalc: boolean }) {
+  const color = ELEM_COLOR[element]
+  const dmg   = calcMin === calcMax ? String(calcMin) : `${calcMin}–${calcMax}`
   return (
     <span className="flex items-center gap-1 text-[10px]" style={{ color }}>
       <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: color }} />
-      {dmg}
+      <span className={showCalc ? 'font-bold' : ''}>{dmg}</span>
     </span>
   )
 }
 
-function SpellRow({ spell, grade }: { spell: AppSpell; grade: number }) {
+function SpellRow({ spell, grade, stats }: { spell: AppSpell; grade: number; stats: StatBlock | null }) {
   const [open, setOpen] = useState(false)
-  const lvl = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
+  const lvl   = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
   const color = ELEM_COLOR[spell.element]
 
   const rangeStr = !lvl || lvl.maxRange === 0
@@ -58,6 +61,18 @@ function SpellRow({ spell, grade }: { spell: AppSpell; grade: number }) {
       : `${lvl.minRange}–${lvl.maxRange}`
 
   const hasEffects = lvl && lvl.effects.length > 0
+
+  // Compute effects: either calculated (with stats) or raw
+  const displayEffects = lvl ? (
+    stats && lvl.effects.length > 0
+      ? calcEffects(lvl.effects, stats)
+      : lvl.effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+  ) : []
+
+  const showCalc = Boolean(stats)
+
+  // Quick preview: top 2 effects inline in row
+  const preview = displayEffects.slice(0, 2)
 
   return (
     <li>
@@ -89,6 +104,15 @@ function SpellRow({ spell, grade }: { spell: AppSpell; grade: number }) {
           <span className="flex-1 text-[11px] text-forge-text truncate font-medium">
             {spell.name}
           </span>
+
+          {/* Inline damage preview */}
+          {!open && preview.length > 0 && (
+            <span className="flex items-center gap-1.5 flex-shrink-0">
+              {preview.map((e, i) => (
+                <EffectLine key={i} {...e} showCalc={showCalc} />
+              ))}
+            </span>
+          )}
 
           {/* AP badge */}
           {lvl && (
@@ -123,10 +147,17 @@ function SpellRow({ spell, grade }: { spell: AppSpell; grade: number }) {
 
       {/* Expanded effects */}
       {open && lvl && (
-        <div className="px-4 pb-2 space-y-0.5">
+        <div className="px-4 pb-2 space-y-1">
           <div className="flex flex-wrap gap-x-3 gap-y-0.5">
-            {lvl.effects.map((e, i) => <EffectLine key={i} effect={e} />)}
+            {displayEffects.map((e, i) => (
+              <EffectLine key={i} {...e} showCalc={showCalc} />
+            ))}
           </div>
+          {showCalc && (
+            <p className="text-[9px]" style={{ color: '#3a4268' }}>
+              ★ Calculated with your stats
+            </p>
+          )}
           {lvl.maxPerTurn > 0 && (
             <p className="text-[9px]" style={{ color: '#3a4268' }}>
               Max {lvl.maxPerTurn}× / turn
@@ -142,11 +173,18 @@ export function SpellsPanel() {
   const { t }         = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
   const level         = useBuildStore(s => s.level)
+  const stats         = useBuildStore(s => s.stats)
   const lang          = useDataStore(s => s.lang)
   const loadSpells    = useDataStore(s => s.loadSpells)
   const spells        = useDataStore(s => s.spells)
 
+  const autoGrade               = spellGrade(level)
+  const [manualGrade, setManual] = useState<number | null>(null)
+  const grade                   = manualGrade ?? autoGrade
   const [elemFilter, setElemFilter] = useState<ElemFilter>('all')
+
+  // Reset manual grade when class changes
+  useEffect(() => { setManual(null) }, [selectedClass])
 
   useEffect(() => {
     if (selectedClass) loadSpells(lang, selectedClass)
@@ -154,9 +192,7 @@ export function SpellsPanel() {
 
   if (!selectedClass) return null
 
-  const data  = spells.get(selectedClass)
-  const grade = spellGrade(level)
-
+  const data     = spells.get(selectedClass)
   const filtered = data?.spells.filter(sp =>
     elemFilter === 'all' || sp.element === elemFilter
   ) ?? []
@@ -164,16 +200,39 @@ export function SpellsPanel() {
   return (
     <div className="space-y-2">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <h3 className="font-display text-forge-gold text-sm uppercase tracking-widest">
           {t('spells')}
         </h3>
-        <span
-          className="text-[10px] font-mono font-bold px-2 py-0.5 rounded"
-          style={{ background: '#c9a84c18', color: '#c9a84c', border: '1px solid #c9a84c33' }}
-        >
-          {t('spell_grade', { grade })}
-        </span>
+
+        {/* Grade selector: 1-6 buttons */}
+        <div className="flex items-center gap-0.5">
+          {[1,2,3,4,5,6].map(g => {
+            const isAuto   = g === autoGrade && manualGrade == null
+            const isActive = g === grade
+            return (
+              <button
+                key={g}
+                onClick={() => setManual(g === autoGrade && manualGrade === g ? null : g)}
+                title={`Grade ${g}${g === autoGrade ? ' (auto)' : ''}`}
+                className="w-5 h-5 rounded text-[10px] font-bold font-mono transition-colors"
+                style={{
+                  background:  isActive ? '#c9a84c' : isAuto ? '#c9a84c18' : 'transparent',
+                  color:       isActive ? '#0f1320' : isAuto ? '#c9a84c' : '#3a4268',
+                  border:      isActive ? '1px solid #c9a84c' : '1px solid #2a3347',
+                }}
+              >{g}</button>
+            )
+          })}
+          {manualGrade != null && (
+            <button
+              onClick={() => setManual(null)}
+              className="ml-0.5 text-[9px] transition-colors"
+              style={{ color: '#3a4268' }}
+              title="Reset to auto grade"
+            >↺</button>
+          )}
+        </div>
       </div>
 
       {/* Element filter */}
@@ -198,6 +257,13 @@ export function SpellsPanel() {
         ))}
       </div>
 
+      {/* Stats indicator */}
+      {stats && (
+        <p className="text-[9px]" style={{ color: '#3a4268' }}>
+          ★ Dmg calculated · STR {stats.strength} / INT {stats.intelligence} / CHA {stats.chance} / AGI {stats.agility}
+        </p>
+      )}
+
       {/* Spell list */}
       {!data ? (
         <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
@@ -206,14 +272,10 @@ export function SpellsPanel() {
       ) : (
         <ul className="max-h-[320px] overflow-y-auto space-y-px pr-0.5">
           {filtered.map(spell => (
-            <SpellRow key={spell.id} spell={spell} grade={grade} />
+            <SpellRow key={spell.id} spell={spell} grade={grade} stats={stats} />
           ))}
         </ul>
       )}
-
-      <p className="text-[9px] text-center" style={{ color: '#2a3247' }}>
-        Click spell to see effects
-      </p>
     </div>
   )
 }

@@ -41,8 +41,8 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 
 ### Hechizos
-- [ ] **M20 — Selector de nivel de hechizo** — en SpellsPanel, elegir nivel 1-6 por hechizo, ver daño calculado con los stats actuales del build
-- [ ] **M21 — Daños calculados de hechizo** — mostrar daño estimado (mín/máx) por elemento según características allocadas + equipo
+- [x] **M20 — Selector de nivel de hechizo** — botones 1-6 en header de SpellsPanel, auto-grade por nivel del build, reset ↺
+- [x] **M21 — Daños calculados de hechizo** — fórmula (base+mastery)*(100+Power)/100+flat, preview inline en fila + expandido con indicador ★
 
 ### UI / Polish
 - [ ] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
