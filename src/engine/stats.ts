@@ -71,12 +71,13 @@ function computeSetBonuses(items: BuildInput['items'], sets: BuildInput['sets'])
     const setData = sets.find(s => s.ankama_id === setId)
     if (!setData) continue
 
-    // Apply all bonuses for piece counts <= how many are equipped
-    for (const [pieces, effects] of Object.entries(setData.bonuses)) {
-      if (Number(pieces) <= count) {
-        bonusEffects.push(...effects)
-      }
-    }
+    // Only apply the highest reached tier (tiers are not cumulative in Dofus 3)
+    const tiers = Object.entries(setData.bonuses)
+      .map(([k, v]) => ({ pieces: Number(k), effects: v }))
+      .filter(t => t.pieces <= count)
+      .sort((a, b) => b.pieces - a.pieces)
+
+    if (tiers.length > 0) bonusEffects.push(...tiers[0].effects)
   }
 
   return bonusEffects
