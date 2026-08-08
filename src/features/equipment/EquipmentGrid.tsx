@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
@@ -118,6 +119,12 @@ const DOFUS_SLOTS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5',
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
+function slotTKey(id: SlotId): string {
+  if (id.startsWith('ring'))  return 'slot_ring'
+  if (id.startsWith('dofus')) return 'slot_dofus'
+  return `slot_${id}`
+}
+
 // ── Slot button ──────────────────────────────────────────────────────────────
 type SlotButtonProps = {
   slotId:       SlotId
@@ -136,15 +143,17 @@ type SlotButtonProps = {
 }
 
 function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRunes, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
+  const { t }   = useTranslation()
   const cfg     = SLOT_MAP[slotId]
   const IconCmp = SLOT_ICON[slotId]
   const px      = small ? 52 : 66
+  const slotLabel = t(slotTKey(slotId))
 
   return (
     <div className="relative group flex flex-col items-center gap-0.5">
       <button
         onClick={onOpen}
-        aria-label={`${cfg.label}${item ? `: ${item.name}` : ' (empty)'}`}
+        aria-label={`${slotLabel}${item ? `: ${item.name}` : ' (empty)'}`}
         className="rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer"
         style={{
           width:  px,
@@ -192,7 +201,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
       {/* Slot label (tiny, below slot) */}
       {!small && (
         <span className="text-[8px] font-medium tracking-wide select-none" style={{ color: 'rgba(60,65,100,0.8)' }}>
-          {cfg.label.toUpperCase()}
+          {slotLabel.toUpperCase()}
         </span>
       )}
 
@@ -231,7 +240,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
             ;(e.currentTarget as HTMLButtonElement).style.boxShadow = active ? '0 0 6px #5a8dff44' : 'none'
           }}
           aria-label={`Magesmithy: ${item.name}`}
-          title="Magesmithy (agregar runas)"
+          title={t('magesmithy_title')}
         >✦</button>
       )}
 
@@ -255,7 +264,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
             <div className="px-3 pt-2.5 pb-2" style={{ background: 'linear-gradient(180deg, #121624 0%, #0c0f1a 100%)', borderBottom: '1px solid #1e2640' }}>
               <p className="font-bold text-[13px] leading-tight" style={{ color: '#e8eaf8' }}>{item.name}</p>
               <p className="text-[10px] mt-0.5" style={{ color: '#3a4268' }}>
-                Nivel {item.level} · {item.type}
+                {t('level')} {item.level} · {item.type}
               </p>
               {setName && (
                 <p className="text-[11px] mt-1 font-semibold" style={{ color: '#4a8fcc' }}>
@@ -268,7 +277,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
             {/* EFECTOS */}
             <div className="px-3 pt-2 pb-1">
               <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: '#2a3347' }}>
-                Efectos
+                {t('effects')}
               </p>
               <div className="space-y-0.5">
                 {item.effects.filter(e => !isIgnored(e.stat)).map((e, i) => {
@@ -307,7 +316,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
               <div className="px-3 pt-1.5 pb-2" style={{ borderTop: '1px solid #1a2040' }}>
                 <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5 flex items-center gap-1"
                   style={{ color: '#2a4880' }}>
-                  <span style={{ color: '#4a78cc' }}>✦</span> Forjamagia
+                  <span style={{ color: '#4a78cc' }}>✦</span> {t('magesmithy')}
                 </p>
                 <div className="space-y-0.5">
                   {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).map(([stat, val]) => {
@@ -336,7 +345,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
 
             {nextBonus && (
               <div className="px-3 py-1.5" style={{ borderTop: '1px solid #1a2040' }}>
-                <p className="text-[10px]" style={{ color: '#2a4060' }}>▶ siguiente bonus: {nextBonus}</p>
+                <p className="text-[10px]" style={{ color: '#2a4060' }}>▶ {t('next_bonus')}: {nextBonus}</p>
               </div>
             )}
           </div>
@@ -357,6 +366,7 @@ const ELEM_GLOW: Record<string, string> = {
 }
 
 function CharacterCenter() {
+  const { t }         = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
@@ -405,7 +415,7 @@ function CharacterCenter() {
             </span>
           </>
         ) : (
-          <span className="font-display text-[#20204a] text-[10px] tracking-widest">SELECT CLASS</span>
+          <span className="font-display text-[#20204a] text-[10px] tracking-widest">{t('select_class_prompt')}</span>
         )}
       </div>
 
@@ -442,6 +452,7 @@ function CharacterCenter() {
 
 // ── EquipmentGrid ─────────────────────────────────────────────────────────────
 export function EquipmentGrid() {
+  const { t }       = useTranslation()
   const equipped    = useBuildStore(s => s.equipped)
   const _sets       = useBuildStore(s => s._sets)
   const runes       = useBuildStore(s => s.runes)
@@ -499,7 +510,7 @@ export function EquipmentGrid() {
     return (
       <div className="flex items-center justify-center h-80 text-[#3a3a6a] text-sm font-display tracking-widest"
         style={{ background: 'linear-gradient(160deg, #0d0d22, #080818)' }}>
-        LOADING…
+        {t('loading_data')}
       </div>
     )
   }

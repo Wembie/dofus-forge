@@ -16,14 +16,6 @@ const CHAR_COLOR: Record<Characteristic, string> = {
   agility:      '#6ab04c',
 }
 
-const CHAR_LABEL: Record<Characteristic, string> = {
-  vitality:     'Vitality',
-  wisdom:       'Wisdom',
-  strength:     'Strength',
-  intelligence: 'Intelligence',
-  chance:       'Chance',
-  agility:      'Agility',
-}
 
 // ── Hold-to-repeat ────────────────────────────────────────────────────────────
 function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
@@ -142,7 +134,7 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, onAd
 
       {/* Name */}
       <span className="text-xs font-medium select-none" style={{ color, minWidth: 74, flexShrink: 0 }}>
-        {CHAR_LABEL[char]}
+        {t(`stat_${char}`)}
       </span>
 
       {/* Total value */}
@@ -158,7 +150,7 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, onAd
         {...removeProps}
         disabled={allocated <= 0}
         style={{ ...btnBase, color: '#7a8499', opacity: allocated <= 0 ? 0.25 : 1 }}
-        aria-label={`Remove ${CHAR_LABEL[char]}`}
+        aria-label={`Remove ${t(`stat_${char}`)}`}
       >−</button>
 
       <input
@@ -181,14 +173,14 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, onAd
         }}
         onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a3347')}
         onMouseLeave={e => { if (!focused.current) e.currentTarget.style.borderColor = 'transparent' }}
-        aria-label={`${CHAR_LABEL[char]} points`}
+        aria-label={`${t(`stat_${char}`)} points`}
       />
 
       <button
         {...addProps}
         disabled={!canAdd}
         style={{ ...btnBase, color: '#7a8499', opacity: !canAdd ? 0.25 : 1 }}
-        aria-label={`Add ${CHAR_LABEL[char]}`}
+        aria-label={`Add ${t(`stat_${char}`)}`}
       >+</button>
 
       {/* Scroll badge */}
@@ -338,7 +330,7 @@ export function CharacteristicsPanel() {
       </div>
 
       <p className="text-[9px] text-forge-muted/30 text-center">
-        Click · Hold · Shift ×5 · Ctrl ×20
+        {t('click_hint')}
       </p>
 
       {/* ── Combat stats toggle ──────────────────────────────────────────── */}
@@ -347,7 +339,7 @@ export function CharacteristicsPanel() {
         className="w-full flex items-center justify-between px-2 py-1 rounded-lg transition-colors"
         style={{ background: '#0d1018', border: '1px solid #1c2333' }}
       >
-        <span className="font-display text-forge-gold text-xs uppercase tracking-widest">Combat Stats</span>
+        <span className="font-display text-forge-gold text-xs uppercase tracking-widest">{t('combat_stats')}</span>
         <span className="text-[9px]" style={{ color: '#3a4268' }}>{showCombat ? '▲' : '▼'}</span>
       </button>
 
@@ -364,13 +356,13 @@ export function CharacteristicsPanel() {
               <div className="font-mono font-bold text-lg leading-none" style={{ color: '#e05252' }}>
                 {s.maxHp.toLocaleString()}
               </div>
-              <div className="text-[9px] text-forge-muted/50 leading-none mt-0.5">HP</div>
+              <div className="text-[9px] text-forge-muted/50 leading-none mt-0.5">{t('badge_hp')}</div>
             </div>
             <div className="ml-auto flex gap-3">
               {[
-                { icon: 'ap',    label: 'PA', value: s.ap,    color: '#f5c518' },
-                { icon: 'mp',    label: 'PM', value: s.mp,    color: '#6ab04c' },
-                { icon: 'range', label: 'PO', value: s.range, color: '#2a8fd4' },
+                { icon: 'ap',    label: t('badge_ap'),    value: s.ap,    color: '#f5c518' },
+                { icon: 'mp',    label: t('badge_mp'),    value: s.mp,    color: '#6ab04c' },
+                { icon: 'range', label: t('badge_range'), value: s.range, color: '#2a8fd4' },
               ].map(({ icon, label, value, color }) => (
                 <div key={icon} className="flex flex-col items-center">
                   <StatIcon name={icon} size={18} color={color} />
@@ -385,18 +377,18 @@ export function CharacteristicsPanel() {
 
           {/* Secondary stats grid */}
           <div className="grid grid-cols-2 gap-0.5">
-            <CombatStat icon="initiative"  label="Initiative"   value={s.initiative}  color="#c9a84c" />
-            <CombatStat icon="lock"        label="Lock"         value={s.lock}        color="#b8860b" />
-            <CombatStat icon="dodge"       label="Dodge"        value={s.dodge}       color="#6ab04c" />
-            <CombatStat icon="prospecting" label="Prospecting"  value={s.prospecting} color="#c9a84c" />
-            <CombatStat icon="summons"     label="Summons"      value={s.summons}     color="#9b6dff" />
-            <CombatStat icon="heals"       label="Heals"        value={s.heals}       color="#e05252" />
-            <CombatStat icon="power"       label="Power"        value={s.power}       color="#c9a84c" />
-            <CombatStat icon="crit"        label="Critical"     value={s.critChance}  color="#dc4e22" fmt="pct" />
-            <CombatStat icon="ap_reduction" label="AP Removal"  value={s.apReduction} color="#9b6dff" />
-            <CombatStat icon="mp_reduction" label="MP Removal"  value={s.mpReduction} color="#9b6dff" />
-            <CombatStat icon="ap_parry"    label="AP Parry"     value={s.apParry}     color="#2a8fd4" />
-            <CombatStat icon="mp_parry"    label="MP Parry"     value={s.mpParry}     color="#2a8fd4" />
+            <CombatStat icon="initiative"  label={t('stat_initiative')}  value={s.initiative}  color="#c9a84c" />
+            <CombatStat icon="lock"        label={t('stat_lock')}        value={s.lock}        color="#b8860b" />
+            <CombatStat icon="dodge"       label={t('stat_dodge')}       value={s.dodge}       color="#6ab04c" />
+            <CombatStat icon="prospecting" label={t('stat_prospecting')} value={s.prospecting} color="#c9a84c" />
+            <CombatStat icon="summons"     label={t('stat_summons')}     value={s.summons}     color="#9b6dff" />
+            <CombatStat icon="heals"       label={t('stat_heals')}       value={s.heals}       color="#e05252" />
+            <CombatStat icon="power"       label={t('stat_power')}       value={s.power}       color="#c9a84c" />
+            <CombatStat icon="crit"        label={t('stat_crit_chance')} value={s.critChance}  color="#dc4e22" fmt="pct" />
+            <CombatStat icon="ap_reduction" label={t('stat_ap_removal')} value={s.apReduction} color="#9b6dff" />
+            <CombatStat icon="mp_reduction" label={t('stat_mp_removal')} value={s.mpReduction} color="#9b6dff" />
+            <CombatStat icon="ap_parry"    label={t('stat_ap_parry')}    value={s.apParry}     color="#2a8fd4" />
+            <CombatStat icon="mp_parry"    label={t('stat_mp_parry')}    value={s.mpParry}     color="#2a8fd4" />
           </div>
 
           {/* Elemental damage / resistance table */}
@@ -405,23 +397,23 @@ export function CharacteristicsPanel() {
               className="flex items-center justify-between px-2 py-1"
               style={{ background: '#0d1018', borderBottom: '1px solid #1c2333' }}
             >
-              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider flex-1">Element</span>
-              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-10 text-right">DMG</span>
-              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-8 text-right">RES</span>
-              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-8 text-right">RES%</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider flex-1">{t('element_header')}</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-10 text-right">{t('header_dmg')}</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-8 text-right">{t('header_res')}</span>
+              <span className="text-[9px] text-forge-muted/50 font-display uppercase tracking-wider w-8 text-right">{t('header_res_pct')}</span>
             </div>
             <table className="w-full px-2" style={{ background: '#080c14' }}>
               <tbody className="px-2">
                 <tr><td colSpan={4} className="px-2">
                   <table className="w-full">
                     <tbody>
-                      <ElementRow icon="strength"     label="Earth"   color="#c49a2a" damage={s.earthDamage}   resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
-                      <ElementRow icon="intelligence" label="Fire"    color="#dc4e22" damage={s.fireDamage}    resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
-                      <ElementRow icon="chance"       label="Water"   color="#2a8fd4" damage={s.waterDamage}   resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
-                      <ElementRow icon="agility"      label="Air"     color="#6ab04c" damage={s.airDamage}     resFixed={s.airResFixed}     resPercent={s.airResPercent} />
-                      <ElementRow icon="neutral_damage" label="Neutral" color="#9b9b9b" damage={s.neutralDamage} resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
-                      <ElementRow icon="crit_damage"  label="Critical" color="#dc4e22" damage={s.critDamage}   resFixed={s.critResistance}  showPercent={false} />
-                      <ElementRow icon="push_damage"  label="Push"    color="#b8860b" damage={s.pushbackDamage} resFixed={s.pushbackResist} showPercent={false} />
+                      <ElementRow icon="strength"       label={t('elem_earth')}    color="#c49a2a" damage={s.earthDamage}   resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
+                      <ElementRow icon="intelligence"  label={t('elem_fire')}     color="#dc4e22" damage={s.fireDamage}    resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
+                      <ElementRow icon="chance"        label={t('elem_water')}    color="#2a8fd4" damage={s.waterDamage}   resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
+                      <ElementRow icon="agility"       label={t('elem_air')}      color="#6ab04c" damage={s.airDamage}     resFixed={s.airResFixed}     resPercent={s.airResPercent} />
+                      <ElementRow icon="neutral_damage" label={t('elem_neutral')} color="#9b9b9b" damage={s.neutralDamage} resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
+                      <ElementRow icon="crit_damage"   label={t('elem_critical')} color="#dc4e22" damage={s.critDamage}   resFixed={s.critResistance}  showPercent={false} />
+                      <ElementRow icon="push_damage"   label={t('elem_push')}     color="#b8860b" damage={s.pushbackDamage} resFixed={s.pushbackResist} showPercent={false} />
                     </tbody>
                   </table>
                 </td></tr>
@@ -432,10 +424,10 @@ export function CharacteristicsPanel() {
           {/* % damage modifiers (only show if non-zero) */}
           {(s.meleeDamagePercent || s.rangedDamagePercent || s.spellDamagePercent || s.weaponDamagePercent || s.meleeResistPercent || s.rangedResistPercent) > 0 && (
             <div className="grid grid-cols-2 gap-0.5">
-              <CombatStat icon="melee_damage"  label="% Melee Dmg"   value={s.meleeDamagePercent}  fmt="pct" />
-              <CombatStat icon="ranged_damage" label="% Ranged Dmg"  value={s.rangedDamagePercent} fmt="pct" />
-              <CombatStat icon="spell_damage"  label="% Spell Dmg"   value={s.spellDamagePercent}  fmt="pct" />
-              <CombatStat icon="weapon_damage" label="% Weapon Dmg"  value={s.weaponDamagePercent} fmt="pct" />
+              <CombatStat icon="melee_damage"  label={t('stat_melee_dmg')}   value={s.meleeDamagePercent}  fmt="pct" />
+              <CombatStat icon="ranged_damage" label={t('stat_ranged_dmg')}  value={s.rangedDamagePercent} fmt="pct" />
+              <CombatStat icon="spell_damage"  label={t('stat_spell_dmg')}   value={s.spellDamagePercent}  fmt="pct" />
+              <CombatStat icon="weapon_damage" label={t('stat_weapon_dmg')}  value={s.weaponDamagePercent} fmt="pct" />
             </div>
           )}
 

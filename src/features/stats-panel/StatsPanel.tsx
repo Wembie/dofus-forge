@@ -3,6 +3,8 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { SetBonusesPanel } from '../equipment/SetBonusesPanel.tsx'
 
+function useT() { return useTranslation().t }
+
 const BASE = import.meta.env.BASE_URL
 
 function icon(name: string, size = 16, color?: string) {
@@ -118,27 +120,28 @@ function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct, steal }: 
 }
 
 function ElementTable({ s }: { s: StatBlock }) {
+  const t = useT()
   const hasAnySteal = s.earthSteal + s.fireSteal + s.waterSteal + s.airSteal + s.neutralSteal + s.bestElemSteal > 0
 
   const rows: ElemRow[] = [
-    { iconName: 'strength',      label: 'Earth',   color: '#c49a2a', dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   steal: s.earthSteal   },
-    { iconName: 'intelligence',  label: 'Fire',    color: '#dc4e22', dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    steal: s.fireSteal    },
-    { iconName: 'chance',        label: 'Water',   color: '#2a8fd4', dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   steal: s.waterSteal   },
-    { iconName: 'agility',       label: 'Air',     color: '#6ab04c', dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     steal: s.airSteal     },
-    { iconName: 'neutral_damage',label: 'Neutral', color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
+    { iconName: 'strength',       label: t('elem_earth'),   color: '#c49a2a', dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   steal: s.earthSteal   },
+    { iconName: 'intelligence',   label: t('elem_fire'),    color: '#dc4e22', dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    steal: s.fireSteal    },
+    { iconName: 'chance',         label: t('elem_water'),   color: '#2a8fd4', dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   steal: s.waterSteal   },
+    { iconName: 'agility',        label: t('elem_air'),     color: '#6ab04c', dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     steal: s.airSteal     },
+    { iconName: 'neutral_damage', label: t('elem_neutral'), color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
   ]
 
   return (
-    <Section title="Elements">
+    <Section title={t('section_elements')}>
       <table className="w-full border-collapse">
         <thead>
           <tr>
             <th className="text-left pb-1.5" />
-            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal" style={{ color: '#3a4268' }}>DMG</th>
-            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal" style={{ color: '#3a4268' }}>RES</th>
-            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal pl-2" style={{ color: '#3a4268' }}>% RES</th>
+            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal" style={{ color: '#3a4268' }}>{t('header_dmg')}</th>
+            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal" style={{ color: '#3a4268' }}>{t('header_res')}</th>
+            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal pl-2" style={{ color: '#3a4268' }}>{t('header_res_pct')}</th>
             {hasAnySteal && (
-              <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal pl-2" style={{ color: '#3a4268' }}>STEAL</th>
+              <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal pl-2" style={{ color: '#3a4268' }}>{t('header_steal')}</th>
             )}
           </tr>
         </thead>
@@ -151,7 +154,7 @@ function ElementTable({ s }: { s: StatBlock }) {
             <td className="pt-1.5 py-0.5 pr-2">
               <div className="flex items-center gap-1.5">
                 {icon('crit_damage', 14, '#f5a623')}
-                <span className="text-[11px] font-medium" style={{ color: '#f5a623' }}>Critical</span>
+                <span className="text-[11px] font-medium" style={{ color: '#f5a623' }}>{t('elem_critical')}</span>
               </div>
             </td>
             <td className="pt-1.5 py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
@@ -170,7 +173,7 @@ function ElementTable({ s }: { s: StatBlock }) {
             <td className="py-0.5 pr-2">
               <div className="flex items-center gap-1.5">
                 {icon('push_damage', 14, '#b8860b')}
-                <span className="text-[11px] font-medium" style={{ color: '#b8860b' }}>Push</span>
+                <span className="text-[11px] font-medium" style={{ color: '#b8860b' }}>{t('elem_push')}</span>
               </div>
             </td>
             <td className="py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
@@ -216,26 +219,27 @@ function CombatStatCell({ iconName, label, value, color, suffix = '' }: CombatSt
 }
 
 function CombatGrid({ s }: { s: StatBlock }) {
+  const t = useT()
   const cells: CombatStat[] = [
-    { iconName: 'initiative',   label: 'Initiative',   value: s.initiative,        color: '#c9a84c' },
-    { iconName: 'lock',         label: 'Lock',         value: s.lock,              color: '#b8860b' },
-    { iconName: 'dodge',        label: 'Dodge',        value: s.dodge,             color: '#6ab04c' },
-    { iconName: 'heals',        label: 'Heals',        value: s.heals,             color: '#e05252' },
-    { iconName: 'power',        label: 'Power',        value: s.power,             color: '#c9a84c' },
-    { iconName: 'crit',         label: 'Crit %',       value: s.critChance,        color: '#f5a623', suffix: '%' },
-    { iconName: 'prospecting',  label: 'Prospecting',  value: s.prospecting,       color: '#c9a84c' },
-    { iconName: 'summons',      label: 'Summons',      value: s.summons,           color: '#9b6dff' },
-    { iconName: 'ap_parry',     label: 'AP Parry',     value: s.apParry,           color: '#2a8fd4' },
-    { iconName: 'mp_parry',     label: 'MP Parry',     value: s.mpParry,           color: '#2a8fd4' },
-    { iconName: 'ap_reduction', label: 'AP Remove',    value: s.apReduction,       color: '#9b6dff' },
-    { iconName: 'mp_reduction', label: 'MP Remove',    value: s.mpReduction,       color: '#9b6dff' },
+    { iconName: 'initiative',   label: t('stat_initiative'),  value: s.initiative,  color: '#c9a84c' },
+    { iconName: 'lock',         label: t('stat_lock'),        value: s.lock,        color: '#b8860b' },
+    { iconName: 'dodge',        label: t('stat_dodge'),       value: s.dodge,       color: '#6ab04c' },
+    { iconName: 'heals',        label: t('stat_heals'),       value: s.heals,       color: '#e05252' },
+    { iconName: 'power',        label: t('stat_power'),       value: s.power,       color: '#c9a84c' },
+    { iconName: 'crit',         label: t('stat_crit_chance'), value: s.critChance,  color: '#f5a623', suffix: '%' },
+    { iconName: 'prospecting',  label: t('stat_prospecting'), value: s.prospecting, color: '#c9a84c' },
+    { iconName: 'summons',      label: t('stat_summons'),     value: s.summons,     color: '#9b6dff' },
+    { iconName: 'ap_parry',     label: t('stat_ap_parry'),    value: s.apParry,     color: '#2a8fd4' },
+    { iconName: 'mp_parry',     label: t('stat_mp_parry'),    value: s.mpParry,     color: '#2a8fd4' },
+    { iconName: 'ap_reduction', label: t('stat_ap_removal'),  value: s.apReduction, color: '#9b6dff' },
+    { iconName: 'mp_reduction', label: t('stat_mp_removal'),  value: s.mpReduction, color: '#9b6dff' },
   ]
 
   const visible = cells.filter(c => c.value !== 0)
   if (visible.length === 0) return null
 
   return (
-    <Section title="Combat">
+    <Section title={t('stats_combat')}>
       <div className="grid grid-cols-2 gap-1">
         {visible.map(c => (
           <CombatStatCell key={c.label} {...c} />
@@ -248,20 +252,21 @@ function CombatGrid({ s }: { s: StatBlock }) {
 // ── % Damage modifiers ────────────────────────────────────────────────────────
 
 function DamageMods({ s }: { s: StatBlock }) {
+  const t = useT()
   type Mod = { iconName: string; label: string; value: number; color: string }
   const mods: Mod[] = [
-    { iconName: 'melee_damage',  label: '% Melee DMG',  value: s.meleeDamagePercent,  color: '#c49a2a' },
-    { iconName: 'ranged_damage', label: '% Ranged DMG', value: s.rangedDamagePercent, color: '#2a8fd4' },
-    { iconName: 'spell_damage',  label: '% Spell DMG',  value: s.spellDamagePercent,  color: '#9b6dff' },
-    { iconName: 'weapon_damage', label: '% Weapon DMG', value: s.weaponDamagePercent, color: '#c9a84c' },
-    { iconName: 'melee_damage',  label: '% Melee RES',  value: s.meleeResistPercent,  color: '#c49a2a' },
-    { iconName: 'ranged_damage', label: '% Ranged RES', value: s.rangedResistPercent, color: '#2a8fd4' },
+    { iconName: 'melee_damage',  label: t('stat_melee_dmg'),   value: s.meleeDamagePercent,  color: '#c49a2a' },
+    { iconName: 'ranged_damage', label: t('stat_ranged_dmg'),  value: s.rangedDamagePercent, color: '#2a8fd4' },
+    { iconName: 'spell_damage',  label: t('stat_spell_dmg'),   value: s.spellDamagePercent,  color: '#9b6dff' },
+    { iconName: 'weapon_damage', label: t('stat_weapon_dmg'),  value: s.weaponDamagePercent, color: '#c9a84c' },
+    { iconName: 'melee_damage',  label: t('stat_melee_res'),   value: s.meleeResistPercent,  color: '#c49a2a' },
+    { iconName: 'ranged_damage', label: t('stat_ranged_res'),  value: s.rangedResistPercent, color: '#2a8fd4' },
   ]
   const visible = mods.filter(m => m.value !== 0)
   if (visible.length === 0) return null
 
   return (
-    <Section title="Damage Modifiers">
+    <Section title={t('section_damage_mods')}>
       <div className="space-y-0.5">
         {visible.map(m => (
           <div key={m.label} className="flex items-center gap-1.5 py-0.5">
@@ -298,16 +303,17 @@ function CharRow({ iconName, label, value, color }: CharStat) {
 }
 
 function CharacteristicsSection({ s }: { s: StatBlock }) {
+  const t = useT()
   const chars: CharStat[] = [
-    { iconName: 'vitality',     label: 'Vitality',      value: s.vitality,     color: '#e05252' },
-    { iconName: 'wisdom',       label: 'Wisdom',         value: s.wisdom,       color: '#9b6dff' },
-    { iconName: 'strength',     label: 'Strength',       value: s.strength,     color: '#c49a2a' },
-    { iconName: 'intelligence', label: 'Intelligence',   value: s.intelligence, color: '#dc4e22' },
-    { iconName: 'chance',       label: 'Chance',         value: s.chance,       color: '#2a8fd4' },
-    { iconName: 'agility',      label: 'Agility',        value: s.agility,      color: '#6ab04c' },
+    { iconName: 'vitality',     label: t('stat_vitality'),     value: s.vitality,     color: '#e05252' },
+    { iconName: 'wisdom',       label: t('stat_wisdom'),       value: s.wisdom,       color: '#9b6dff' },
+    { iconName: 'strength',     label: t('stat_strength'),     value: s.strength,     color: '#c49a2a' },
+    { iconName: 'intelligence', label: t('stat_intelligence'), value: s.intelligence, color: '#dc4e22' },
+    { iconName: 'chance',       label: t('stat_chance'),       value: s.chance,       color: '#2a8fd4' },
+    { iconName: 'agility',      label: t('stat_agility'),      value: s.agility,      color: '#6ab04c' },
   ]
   return (
-    <Section title="Characteristics">
+    <Section title={t('characteristics')}>
       {chars.map(c => <CharRow key={c.label} {...c} />)}
     </Section>
   )
@@ -322,11 +328,11 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
     <div className="space-y-2">
       {/* Top badges: AP / MP / HP / Range */}
       <div className="flex gap-1.5">
-        <TopBadge iconName="ap"  label="AP"    value={s.ap}    color="#f5c518" />
-        <TopBadge iconName="mp"  label="MP"    value={s.mp}    color="#6ab04c" />
-        <TopBadge iconName="vitality" label="HP" value={s.maxHp} color="#e05252" />
+        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    color="#f5c518" />
+        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    color="#6ab04c" />
+        <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="#e05252" />
         {s.range > 0 && (
-          <TopBadge iconName="range" label="Range" value={s.range} color="#2a8fd4" />
+          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} color="#2a8fd4" />
         )}
       </div>
 
