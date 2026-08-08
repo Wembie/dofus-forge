@@ -103,6 +103,9 @@ export function computeStats(input: BuildInput): StatBlock {
   const setBonuses = computeSetBonuses(input.items, input.sets)
   applyEffects(block, setBonuses)
 
+  // 3.5. Rune effects (magesmithy bonuses added per item slot)
+  if (input.runeEffects) applyEffects(block, input.runeEffects)
+
   // 4. Characteristic points (allocated + scrolls)
   const { allocated, scrolled } = input
   block.vitality     += allocated.vitality     + (scrolled.vitality     ? SCROLL_BONUS : 0)

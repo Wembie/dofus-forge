@@ -1,10 +1,12 @@
 import { create } from 'zustand'
-import type { DofusClass, Characteristic, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
+import type { DofusClass, Characteristic, AllocatedCharacteristics, ScrolledCharacteristics, ItemEffect } from '@/engine/types.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
 import type { StatBlock } from '@/engine/types.ts'
+
+export type RuneMap = Record<string, number>
 
 export type SlotId =
   | 'hat' | 'cape' | 'amulet' | 'ring1' | 'ring2'
@@ -34,6 +36,8 @@ export interface BuildState {
   scrolled:      ScrolledCharacteristics
   /** Stores only ankama_id per slot — decoupled from data load state */
   equipped:      Partial<Record<SlotId, number>>
+  /** Magesmithy rune bonuses per slot: stat label → flat bonus amount */
+  runes:         Partial<Record<SlotId, RuneMap>>
 
   stats: StatBlock | null
 
@@ -54,6 +58,8 @@ export interface BuildState {
   unequipItem:   (slot: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
   setSetsData:   (sets: AppSet[]) => void
+  setRune:       (slot: SlotId, stat: string, value: number) => void
+  clearRune:     (slot: SlotId, stat: string) => void
   applySnapshot: (snap: BuildSnapshot) => void
   reset:         () => void
 }
@@ -76,6 +82,7 @@ function recompute(
   equipped: Partial<Record<SlotId, number>>,
   equipment: AppItem[],
   sets: AppSet[],
+  runes: Partial<Record<SlotId, RuneMap>>,
 ): StatBlock | null {
   if (!selectedClass) return null
 
@@ -89,7 +96,15 @@ function recompute(
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
 
-  return computeStats({ class: selectedClass, level, allocated, scrolled, items, sets })
+  const runeEffects: ItemEffect[] = []
+  for (const runeMap of Object.values(runes)) {
+    if (!runeMap) continue
+    for (const [stat, value] of Object.entries(runeMap)) {
+      if (value > 0) runeEffects.push({ stat, min: value, max: value })
+    }
+  }
+
+  return computeStats({ class: selectedClass, level, allocated, scrolled, items, sets, runeEffects })
 }
 
 export const useBuildStore = create<BuildState>((set) => {
@@ -99,7 +114,7 @@ export const useBuildStore = create<BuildState>((set) => {
       ...patch,
       stats: recompute(
         next.selectedClass, next.level, next.allocated, next.scrolled,
-        next.equipped, next._equipment, next._sets,
+        next.equipped, next._equipment, next._sets, next.runes,
       ),
     }
   }
@@ -111,6 +126,7 @@ export const useBuildStore = create<BuildState>((set) => {
     allocated:     { ...ZERO_ALLOC },
     scrolled:      { ...NO_SCROLLS },
     equipped:      {},
+    runes:         {},
     stats:         null,
     _equipment:    [],
     _sets:         [],
@@ -166,6 +182,17 @@ export const useBuildStore = create<BuildState>((set) => {
       return update({ equipped }, s)
     }),
 
+    setRune: (slot, stat, value) => set(s => {
+      const slotRunes = { ...(s.runes[slot] ?? {}), [stat]: value }
+      return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
+    }),
+
+    clearRune: (slot, stat) => set(s => {
+      const slotRunes = { ...(s.runes[slot] ?? {}) }
+      delete slotRunes[stat]
+      return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
+    }),
+
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
     ),
@@ -188,7 +215,7 @@ export const useBuildStore = create<BuildState>((set) => {
       const equipped      = Object.fromEntries(
         ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
       ) as Partial<Record<SlotId, number>>
-      return update({ selectedClass, level, gender, allocated, scrolled, equipped }, s)
+      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes: {} }, s)
     }),
 
     reset: () => set(s => ({
@@ -198,6 +225,7 @@ export const useBuildStore = create<BuildState>((set) => {
       allocated:     { ...ZERO_ALLOC },
       scrolled:      { ...NO_SCROLLS },
       equipped:      {},
+      runes:         {},
       stats:         null,
       _equipment:    s._equipment,
       _sets:         s._sets,
