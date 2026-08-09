@@ -185,5 +185,9 @@
   "unequip_btn": "Quitar",
   "spell_col_normal": "Hechizos",
   "spell_col_variant": "Variantes",
-  "spell_melee": "Cuerpo a cuerpo"
+  "spell_melee": "Cuerpo a cuerpo",
+  "spell_support": "Soporte / Utilidad",
+  "spell_push": "Empuja {{cells}}",
+  "spell_steal_ap": "−{{n}} PA",
+  "spell_steal_mp": "−{{n}} PM"
 }

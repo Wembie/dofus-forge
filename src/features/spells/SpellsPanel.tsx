@@ -111,10 +111,25 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
           </div>
         )}
 
-        {/* Damage effects */}
-        {displayEffects.length > 0 && (
+        {/* Effects: damage, push, ap/mp */}
+        {displayEffects.length > 0 ? (
           <div className="flex flex-wrap gap-x-2 gap-y-0.5">
             {displayEffects.map((e, i) => {
+              if (e.kind === 'push') {
+                return (
+                  <span key={i} className="text-[10px] font-mono" style={{ color: '#6b7fa8' }}>
+                    {t('spell_push', { cells: e.calcMin })}
+                  </span>
+                )
+              }
+              if (e.kind === 'ap' || e.kind === 'mp') {
+                const label = e.kind === 'ap' ? t('spell_steal_ap', { n: e.calcMin }) : t('spell_steal_mp', { n: e.calcMin })
+                return (
+                  <span key={i} className="text-[10px] font-mono" style={{ color: '#c9a84c' }}>
+                    {label}
+                  </span>
+                )
+              }
               const c   = ELEM_COLOR[e.element]
               const dmg = e.calcMin === e.calcMax ? String(e.calcMin) : `${e.calcMin}–${e.calcMax}`
               return (
@@ -128,6 +143,10 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
               )
             })}
           </div>
+        ) : (
+          <span className="text-[9px] uppercase tracking-wide" style={{ color: '#2a3347' }}>
+            {t('spell_support')}
+          </span>
         )}
       </div>
     </div>

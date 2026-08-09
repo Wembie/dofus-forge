@@ -35,9 +35,12 @@ export function calcDamage(base: number, elem: ElemKey, stats: StatBlock): numbe
 export type CalcedEffect = AppSpellEffect & { calcMin: number; calcMax: number }
 
 export function calcEffects(effects: AppSpellEffect[], stats: StatBlock): CalcedEffect[] {
-  return effects.map(e => ({
-    ...e,
-    calcMin: calcDamage(e.min, e.element, stats),
-    calcMax: calcDamage(e.max, e.element, stats),
-  }))
+  return effects.map(e => {
+    if (e.kind !== 'damage') return { ...e, calcMin: e.min, calcMax: e.max }
+    return {
+      ...e,
+      calcMin: calcDamage(e.min, e.element, stats),
+      calcMax: calcDamage(e.max, e.element, stats),
+    }
+  })
 }

@@ -185,5 +185,9 @@
   "unequip_btn": "Retirer",
   "spell_col_normal": "Sorts",
   "spell_col_variant": "Variantes",
-  "spell_melee": "Mêlée"
+  "spell_melee": "Mêlée",
+  "spell_support": "Soutien / Utilité",
+  "spell_push": "Recule {{cells}}",
+  "spell_steal_ap": "−{{n}} PA",
+  "spell_steal_mp": "−{{n}} PM"
 }
