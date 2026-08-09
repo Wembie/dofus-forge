@@ -178,10 +178,11 @@ type SetModalProps = {
   equipment:   AppItem[]
   equippedIds: Set<number>
   onEquip:     (item: AppItem) => void
+  onUnequip:   (item: AppItem) => void
   onClose:     () => void
 }
 
-function SetDetailModal({ set, equipment, equippedIds, onEquip, onClose }: SetModalProps) {
+function SetDetailModal({ set, equipment, equippedIds, onEquip, onUnequip, onClose }: SetModalProps) {
   const { t } = useTranslation()
 
   const setItems = useMemo(() => {
@@ -257,8 +258,7 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onClose }: SetMo
             </p>
             <div className="space-y-1.5">
               {setItems.map(item => {
-                const isEquipped   = equippedIds.has(item.ankama_id)
-                const canEquipHere = !isEquipped
+                const isEquipped = equippedIds.has(item.ankama_id)
                 return (
                   <div
                     key={item.ankama_id}
@@ -266,15 +266,15 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onClose }: SetMo
                     style={{
                       background: isEquipped ? 'rgba(201,168,76,0.07)' : '#131929',
                       border:     isEquipped ? '1px solid rgba(201,168,76,0.28)' : '1px solid #1c2333',
-                      cursor:     canEquipHere ? 'pointer' : 'default',
+                      cursor:     !isEquipped ? 'pointer' : 'default',
                     }}
-                    onClick={() => canEquipHere && onEquip(item)}
+                    onClick={() => !isEquipped && onEquip(item)}
                     onMouseEnter={e => {
-                      if (canEquipHere && !isEquipped)
+                      if (!isEquipped)
                         (e.currentTarget as HTMLElement).style.background = '#1a2235'
                     }}
                     onMouseLeave={e => {
-                      if (canEquipHere && !isEquipped)
+                      if (!isEquipped)
                         (e.currentTarget as HTMLElement).style.background = '#131929'
                     }}
                   >
@@ -299,12 +299,21 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onClose }: SetMo
                         Lv {item.level} · {t(`item_type_${item.type}`, { defaultValue: item.type })}
                       </p>
                     </div>
-                    {canEquipHere && !isEquipped && (
+                    {!isEquipped && (
                       <span
                         className="text-[10px] px-2 py-0.5 rounded flex-shrink-0"
                         style={{ background: '#1c2d4a', color: '#4a8fcc', border: '1px solid #2a4a6a' }}
                       >
                         {t('equip_item')}
+                      </span>
+                    )}
+                    {isEquipped && (
+                      <span
+                        className="text-[10px] px-2 py-0.5 rounded flex-shrink-0 cursor-pointer"
+                        style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}
+                        onClick={e => { e.stopPropagation(); onUnequip(item) }}
+                      >
+                        {t('unequip_btn')}
                       </span>
                     )}
                   </div>
@@ -394,6 +403,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const equipment = useDataStore(s => s.equipment)
   const setsData  = useDataStore(s => s.sets)
   const equipItem   = useBuildStore(s => s.equipItem)
+  const unequipItem = useBuildStore(s => s.unequipItem)
   const currentId   = useBuildStore(s => s.equipped[slotId])
   const equipped    = useBuildStore(s => s.equipped)
 
@@ -883,7 +893,11 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
           const empty  = matching.find(cfg => equipped[cfg.id] == null)
           const target = empty ?? matching[0]
           equipItem(target.id, item.ankama_id)
-          setSetModal(null)
+        }}
+        onUnequip={(item) => {
+          const slotId = (Object.entries(equipped) as [SlotId, number | null][])
+            .find(([, id]) => id === item.ankama_id)?.[0]
+          if (slotId) unequipItem(slotId)
         }}
         onClose={() => setSetModal(null)}
       />

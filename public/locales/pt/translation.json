@@ -181,5 +181,6 @@
   "set_bonuses_title": "Bônus do Set",
   "set_bonus_count": "{{n}} peças",
   "set_bonus_active": "ativo",
-  "range_sep_neg": "a"
+  "range_sep_neg": "a",
+  "unequip_btn": "Retirar"
 }

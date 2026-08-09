@@ -181,5 +181,6 @@
   "set_bonuses_title": "Bonificaciones del Set",
   "set_bonus_count": "{{n}} piezas",
   "set_bonus_active": "activo",
-  "range_sep_neg": "a"
+  "range_sep_neg": "a",
+  "unequip_btn": "Quitar"
 }
