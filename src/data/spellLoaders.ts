@@ -27,5 +27,10 @@ export type ClassSpells = {
 export async function fetchSpells(lang: string, classSlug: string): Promise<ClassSpells> {
   const res = await fetch(`${BASE}data/${lang}/spells/${classSlug}.json`)
   if (!res.ok) throw new Error(`Spells not found: ${classSlug} (${lang}) — ${res.status}`)
-  return res.json() as Promise<ClassSpells>
+  const data = await res.json() as ClassSpells
+  data.spells = data.spells.map(sp => ({
+    ...sp,
+    image_url: sp.image_url ? BASE + sp.image_url.replace(/^\//, '') : null,
+  }))
+  return data
 }
