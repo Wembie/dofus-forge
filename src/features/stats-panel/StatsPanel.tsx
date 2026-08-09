@@ -72,13 +72,15 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 // ── Element table ─────────────────────────────────────────────────────────────
 
 type ElemRow = {
-  iconName:  string
-  label:     string
-  color:     string
-  dmg:       number
-  resFixed:  number
-  resPct:    number
-  steal?:    number
+  iconName:    string
+  dmgIconName: string
+  resIconName: string
+  label:       string
+  color:       string
+  dmg:         number
+  resFixed:    number
+  resPct:      number
+  steal?:      number
 }
 
 function fmtNum(v: number, suffix = ''): string {
@@ -86,7 +88,7 @@ function fmtNum(v: number, suffix = ''): string {
   return `${v > 0 ? '+' : ''}${v}${suffix}`
 }
 
-function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct, steal }: ElemRow) {
+function ElemTableRow({ iconName, dmgIconName, resIconName, label, color, dmg, resFixed, resPct, steal }: ElemRow) {
   const allZero = dmg === 0 && resFixed === 0 && resPct === 0 && (steal ?? 0) === 0
   return (
     <tr style={{ opacity: allZero ? 0.35 : 1 }}>
@@ -96,17 +98,23 @@ function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct, steal }: 
           <span className="text-[11px] font-medium" style={{ color }}>{label}</span>
         </div>
       </td>
-      <td className="py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
-        style={{ color: dmg !== 0 ? color : '#3a4268' }}>
-        {fmtNum(dmg)}
+      <td className="py-0.5 px-2 text-right">
+        <div className="flex items-center justify-end gap-0.5">
+          {icon(dmgIconName, 10)}
+          <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: dmg !== 0 ? color : '#3a4268' }}>{fmtNum(dmg)}</span>
+        </div>
       </td>
-      <td className="py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
-        style={{ color: resFixed !== 0 ? color : '#3a4268' }}>
-        {fmtNum(resFixed)}
+      <td className="py-0.5 px-2 text-right">
+        <div className="flex items-center justify-end gap-0.5">
+          {icon(resIconName, 10)}
+          <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: resFixed !== 0 ? color : '#3a4268' }}>{fmtNum(resFixed)}</span>
+        </div>
       </td>
-      <td className="py-0.5 pl-2 text-right font-mono font-bold text-[11px] tabular-nums"
-        style={{ color: resPct !== 0 ? color : '#3a4268' }}>
-        {fmtNum(resPct, '%')}
+      <td className="py-0.5 pl-2 text-right">
+        <div className="flex items-center justify-end gap-0.5">
+          {icon(resIconName, 10)}
+          <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: resPct !== 0 ? color : '#3a4268' }}>{fmtNum(resPct, '%')}</span>
+        </div>
       </td>
       {steal !== undefined && (
         <td className="py-0.5 pl-2 text-right font-mono font-bold text-[11px] tabular-nums"
@@ -123,11 +131,11 @@ function ElementTable({ s }: { s: StatBlock }) {
   const hasAnySteal = s.earthSteal + s.fireSteal + s.waterSteal + s.airSteal + s.neutralSteal + s.bestElemSteal > 0
 
   const rows: ElemRow[] = [
-    { iconName: 'strength',       label: t('elem_earth'),   color: '#c49a2a', dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   steal: s.earthSteal   },
-    { iconName: 'intelligence',   label: t('elem_fire'),    color: '#dc4e22', dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    steal: s.fireSteal    },
-    { iconName: 'chance',         label: t('elem_water'),   color: '#2a8fd4', dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   steal: s.waterSteal   },
-    { iconName: 'agility',        label: t('elem_air'),     color: '#6ab04c', dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     steal: s.airSteal     },
-    { iconName: 'neutral',        label: t('elem_neutral'), color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
+    { iconName: 'strength',     dmgIconName: 'strength_damage',     resIconName: 'earth_resistance',   label: t('elem_earth'),   color: '#c49a2a', dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   steal: s.earthSteal   },
+    { iconName: 'intelligence', dmgIconName: 'intelligence_damage',  resIconName: 'fire_resistance',    label: t('elem_fire'),    color: '#dc4e22', dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    steal: s.fireSteal    },
+    { iconName: 'chance',       dmgIconName: 'chance_damage',        resIconName: 'water_resistance',   label: t('elem_water'),   color: '#2a8fd4', dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   steal: s.waterSteal   },
+    { iconName: 'agility',      dmgIconName: 'agility_damage',       resIconName: 'air_resistance',     label: t('elem_air'),     color: '#6ab04c', dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     steal: s.airSteal     },
+    { iconName: 'neutral',      dmgIconName: 'neutral',              resIconName: 'neutral_resistance', label: t('elem_neutral'), color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
   ]
 
   return (
@@ -156,15 +164,24 @@ function ElementTable({ s }: { s: StatBlock }) {
                 <span className="text-[11px] font-medium" style={{ color: '#f5a623' }}>{t('elem_critical')}</span>
               </div>
             </td>
-            <td className="pt-1.5 py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
-              style={{ color: s.critDamage !== 0 ? '#f5a623' : '#3a4268' }}>
-              {fmtNum(s.critDamage)}
+            <td className="pt-1.5 py-0.5 px-2 text-right">
+              <div className="flex items-center justify-end gap-0.5">
+                {icon('crit_damage', 10)}
+                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.critDamage !== 0 ? '#f5a623' : '#3a4268' }}>{fmtNum(s.critDamage)}</span>
+              </div>
             </td>
-            <td className="pt-1.5 py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
-              style={{ color: s.critResistance !== 0 ? '#f5a623' : '#3a4268' }}>
-              {fmtNum(s.critResistance)}
+            <td className="pt-1.5 py-0.5 px-2 text-right">
+              <div className="flex items-center justify-end gap-0.5">
+                {icon('crit_res', 10)}
+                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.critResistance !== 0 ? '#f5a623' : '#3a4268' }}>{fmtNum(s.critResistance)}</span>
+              </div>
             </td>
-            <td className="pt-1.5 py-0.5 pl-2 text-right text-[11px]" style={{ color: '#3a4268' }}>—</td>
+            <td className="pt-1.5 py-0.5 pl-2 text-right">
+              <div className="flex items-center justify-end gap-0.5">
+                {icon('crit_res', 10)}
+                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: '#3a4268' }}>—</span>
+              </div>
+            </td>
             {hasAnySteal && <td />}
           </tr>
           {/* Push row */}
@@ -175,15 +192,24 @@ function ElementTable({ s }: { s: StatBlock }) {
                 <span className="text-[11px] font-medium" style={{ color: '#b8860b' }}>{t('elem_push')}</span>
               </div>
             </td>
-            <td className="py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
-              style={{ color: s.pushbackDamage !== 0 ? '#b8860b' : '#3a4268' }}>
-              {fmtNum(s.pushbackDamage)}
+            <td className="py-0.5 px-2 text-right">
+              <div className="flex items-center justify-end gap-0.5">
+                {icon('push_damage', 10)}
+                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.pushbackDamage !== 0 ? '#b8860b' : '#3a4268' }}>{fmtNum(s.pushbackDamage)}</span>
+              </div>
             </td>
-            <td className="py-0.5 px-2 text-right font-mono font-bold text-[11px] tabular-nums"
-              style={{ color: s.pushbackResist !== 0 ? '#b8860b' : '#3a4268' }}>
-              {fmtNum(s.pushbackResist)}
+            <td className="py-0.5 px-2 text-right">
+              <div className="flex items-center justify-end gap-0.5">
+                {icon('push_resistance', 10)}
+                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.pushbackResist !== 0 ? '#b8860b' : '#3a4268' }}>{fmtNum(s.pushbackResist)}</span>
+              </div>
             </td>
-            <td className="py-0.5 pl-2 text-right text-[11px]" style={{ color: '#3a4268' }}>—</td>
+            <td className="py-0.5 pl-2 text-right">
+              <div className="flex items-center justify-end gap-0.5">
+                {icon('push_resistance', 10)}
+                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: '#3a4268' }}>—</span>
+              </div>
+            </td>
             {hasAnySteal && <td />}
           </tr>
         </tbody>
