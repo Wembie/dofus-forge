@@ -182,5 +182,8 @@
   "set_bonus_count": "{{n}} piezas",
   "set_bonus_active": "activo",
   "range_sep_neg": "a",
-  "unequip_btn": "Quitar"
+  "unequip_btn": "Quitar",
+  "spell_col_normal": "Hechizos",
+  "spell_col_variant": "Variantes",
+  "spell_melee": "Cuerpo a cuerpo"
 }

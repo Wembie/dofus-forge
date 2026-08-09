@@ -290,7 +290,7 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onUnequip, onClo
                     <div className="flex-1 min-w-0">
                       <p
                         className="text-[11px] font-semibold truncate"
-                        style={{ color: isEquipped ? '#c9a84c' : canEquipHere ? '#e8eaf0' : '#7a8499' }}
+                        style={{ color: isEquipped ? '#c9a84c' : '#e8eaf0' }}
                       >
                         {item.name}
                         {isEquipped && <span className="ml-1.5 text-[9px]" style={{ color: '#c9a84c70' }}>✓</span>}

@@ -182,5 +182,8 @@
   "set_bonus_count": "{{n}} pièces",
   "set_bonus_active": "actif",
   "range_sep_neg": "à",
-  "unequip_btn": "Retirer"
+  "unequip_btn": "Retirer",
+  "spell_col_normal": "Sorts",
+  "spell_col_variant": "Variantes",
+  "spell_melee": "Mêlée"
 }

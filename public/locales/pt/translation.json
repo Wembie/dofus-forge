@@ -182,5 +182,8 @@
   "set_bonus_count": "{{n}} peças",
   "set_bonus_active": "ativo",
   "range_sep_neg": "a",
-  "unequip_btn": "Retirar"
+  "unequip_btn": "Retirar",
+  "spell_col_normal": "Feitiços",
+  "spell_col_variant": "Variantes",
+  "spell_melee": "Corpo a corpo"
 }

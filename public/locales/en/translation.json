@@ -182,5 +182,8 @@
   "set_bonus_count": "{{n}} pieces",
   "set_bonus_active": "active",
   "range_sep_neg": "to",
-  "unequip_btn": "Unequip"
+  "unequip_btn": "Unequip",
+  "spell_col_normal": "Spells",
+  "spell_col_variant": "Variants",
+  "spell_melee": "Melee"
 }
