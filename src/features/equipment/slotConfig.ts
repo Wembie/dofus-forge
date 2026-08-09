@@ -3,8 +3,8 @@ import type { SlotId } from '@/store/buildStore.ts'
 export type SlotConfig = {
   id:        SlotId
   label:     string
-  apiSlot:   string    // matches AppItem.slot values
-  apiTypes?: string[]  // optional type filter; if absent, show all in this slot
+  apiSlot:   string | string[]
+  apiTypes?: string[]
   icon:      string
 }
 
@@ -18,10 +18,13 @@ export const SLOT_CONFIGS: SlotConfig[] = [
   { id: 'boots',     label: 'Boots',     apiSlot: 'boots',  icon: '👢' },
   { id: 'weapon',    label: 'Weapon',    apiSlot: 'weapon', icon: '⚔️' },
   { id: 'shield',    label: 'Shield',    apiSlot: 'shield', icon: '🛡️' },
-  { id: 'pet',       label: 'Pet',       apiSlot: 'pet',    apiTypes: ['Pet'],       icon: '🐾' },
-  { id: 'petsmount', label: 'Petsmount', apiSlot: 'pet',    apiTypes: ['Petsmount'], icon: '🦄' },
-  { id: 'mount',     label: 'Mount',     apiSlot: 'other',  apiTypes: ['Dragoturkey', 'Seemyool', 'Rhineetle'], icon: '🐴' },
-  { id: 'sidekick',  label: 'Sidekick',  apiSlot: 'other',  apiTypes: ['Sidekick'],  icon: '🗡️' },
+  {
+    id: 'companion', label: 'Companion',
+    apiSlot:   ['pet', 'other'],
+    apiTypes:  ['Pet', 'Petsmount', 'Dragoturkey', 'Seemyool', 'Rhineetle'],
+    icon: '🐾',
+  },
+  { id: 'sidekick',  label: 'Sidekick',  apiSlot: 'other', apiTypes: ['Sidekick'],  icon: '🗡️' },
   { id: 'dofus1',    label: 'Dofus',     apiSlot: 'dofus',  icon: '🥚' },
   { id: 'dofus2',    label: 'Dofus',     apiSlot: 'dofus',  icon: '🥚' },
   { id: 'dofus3',    label: 'Dofus',     apiSlot: 'dofus',  icon: '🥚' },

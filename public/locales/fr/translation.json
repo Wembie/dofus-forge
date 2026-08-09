@@ -152,7 +152,11 @@
   "stat_trap_damage": "Dom Piège",
   "stat_reflect_dmg": "Dom Renvoyé",
   "stat_pods": "Pods",
-  "slot_petsmount": "Familier-monture",
-  "slot_mount": "Monture",
-  "slot_sidekick": "Compagnon"
+  "slot_companion": "Familier",
+  "slot_sidekick": "Compagnon",
+  "item_type_Pet": "Familier",
+  "item_type_Petsmount": "Familier-monture",
+  "item_type_Dragoturkey": "Dragodinde",
+  "item_type_Seemyool": "Volkorne",
+  "item_type_Rhineetle": "Muldo"
 }

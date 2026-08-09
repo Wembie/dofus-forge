@@ -152,7 +152,11 @@
   "stat_trap_damage": "Dano Armadilha",
   "stat_reflect_dmg": "Dano Refletido",
   "stat_pods": "Pods",
-  "slot_petsmount": "Mascoturas",
-  "slot_mount": "Montaria",
-  "slot_sidekick": "Companheiro"
+  "slot_companion": "Mascote",
+  "slot_sidekick": "Companheiro",
+  "item_type_Pet": "Mascote",
+  "item_type_Petsmount": "Mascote-montura",
+  "item_type_Dragoturkey": "Dragopavo",
+  "item_type_Seemyool": "Seemyool",
+  "item_type_Rhineetle": "Mulagua"
 }

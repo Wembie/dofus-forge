@@ -21,12 +21,15 @@ export function SetDetailModal({ set, onClose }: Props) {
   const equipped  = useBuildStore(s => s.equipped)
   const equipItem = useBuildStore(s => s.equipItem)
 
-  // Build slot→apiSlot map for equipping
+  // Build apiSlot→slotId map for equipping (handles string | string[] apiSlot)
   const slotByApiSlot = useMemo(() => {
     const map = new Map<string, SlotId[]>()
     for (const sc of SLOT_CONFIGS) {
-      if (!map.has(sc.apiSlot)) map.set(sc.apiSlot, [])
-      map.get(sc.apiSlot)!.push(sc.id)
+      const apiSlots = Array.isArray(sc.apiSlot) ? sc.apiSlot : [sc.apiSlot]
+      for (const s of apiSlots) {
+        if (!map.has(s)) map.set(s, [])
+        map.get(s)!.push(sc.id)
+      }
     }
     return map
   }, [])

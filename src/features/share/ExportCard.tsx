@@ -21,7 +21,7 @@ const SLOT_LABELS: Record<SlotId, string> = {
   hat:    'Hat',    cape:   'Cape',   amulet: 'Amulet',
   ring1:  'Ring 1', ring2:  'Ring 2', belt:   'Belt',
   boots:  'Boots',  weapon: 'Weapon', shield: 'Shield',
-  pet:      'Pet',    petsmount: 'Petsmount', mount: 'Mount', sidekick: 'Sidekick',
+  companion: 'Pet', sidekick: 'Sidekick',
   dofus1: 'Dofus 1', dofus2: 'Dofus 2', dofus3: 'Dofus 3',
   dofus4: 'Dofus 4', dofus5: 'Dofus 5', dofus6: 'Dofus 6',
 }

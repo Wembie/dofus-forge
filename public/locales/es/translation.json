@@ -152,7 +152,11 @@
   "stat_trap_damage": "Daño Trampa",
   "stat_reflect_dmg": "DMG Reflejo",
   "stat_pods": "Pods",
-  "slot_petsmount": "Mascoturas",
-  "slot_mount": "Montura",
-  "slot_sidekick": "Acólito"
+  "slot_companion": "Mascota",
+  "slot_sidekick": "Acólito",
+  "item_type_Pet": "Mascota",
+  "item_type_Petsmount": "Mascoturas",
+  "item_type_Dragoturkey": "Dragopavo",
+  "item_type_Seemyool": "Vueloceronte",
+  "item_type_Rhineetle": "Mulagua"
 }

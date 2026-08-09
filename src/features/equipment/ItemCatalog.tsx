@@ -10,7 +10,8 @@ import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
-  return it.slot === slot.apiSlot && (!slot.apiTypes || slot.apiTypes.includes(it.type))
+  const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
+  return slots.includes(it.slot) && (!slot.apiTypes || slot.apiTypes.includes(it.type))
 }
 
 function slotTKey(id: SlotId): string {
@@ -230,9 +231,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
   const [statFilter, setStatFilter] = useState<string | null>(null)
   const [favsOnly,   setFavsOnly]   = useState(false)
+  const [typeFilter, setTypeFilter] = useState<string | null>(null)
+
+  const hasTypeFilter = (slot.apiTypes?.length ?? 0) > 1
 
   const items = useMemo<AppItem[]>(() => {
     if (!equipment) return []
+    const nameSearch = search.trim().toLowerCase()
     const filtered = equipment.filter(it =>
       matchesSlot(it, slot) &&
       it.level >= minLevel &&
@@ -240,13 +245,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       itemMatchesElement(it, elem) &&
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
       (statFilter == null || it.effects.some(e => e.stat === statFilter)) &&
-      (!favsOnly || isFav(it.ankama_id)) &&
-      (search === '' || it.name.toLowerCase().includes(search.toLowerCase()))
+      (!favsOnly  || isFav(it.ankama_id)) &&
+      // name search is global across all types; type filter only applies when no name search
+      (nameSearch === '' || it.name.toLowerCase().includes(nameSearch)) &&
+      (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
     )
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav])
+  }, [equipment, slot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav, typeFilter, hasTypeFilter])
 
   const handlePick = useCallback((item: AppItem) => {
     equipItem(slotId, item.ankama_id)
@@ -380,6 +387,40 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               ))}
             </div>
           </div>
+
+          {/* Species / type filter — only shown for multi-type slots like companion */}
+          {hasTypeFilter && slot.apiTypes && (
+            <div className="flex items-center gap-1 flex-wrap">
+              <button
+                onClick={() => setTypeFilter(null)}
+                className={[
+                  'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
+                  typeFilter === null
+                    ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
+                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                ].join(' ')}
+              >
+                {t('elem_all')}
+              </button>
+              {slot.apiTypes.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setTypeFilter(typeFilter === type ? null : type)}
+                  className={[
+                    'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
+                    typeFilter === type
+                      ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
+                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                  ].join(' ')}
+                >
+                  {t(`item_type_${type}`, { defaultValue: type })}
+                </button>
+              ))}
+              {search.trim() !== '' && (
+                <span className="text-[10px] text-forge-muted/50 ml-1">({t('elem_all')})</span>
+              )}
+            </div>
+          )}
 
           <div className="flex gap-2 text-xs text-forge-muted items-center flex-wrap">
             {slotStats.length > 0 && (
