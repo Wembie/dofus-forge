@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
-import type { SlotConfig } from './slotConfig.ts'
+import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
@@ -177,12 +177,11 @@ type SetModalProps = {
   set:         AppSet
   equipment:   AppItem[]
   equippedIds: Set<number>
-  slot:        SlotConfig
   onEquip:     (item: AppItem) => void
   onClose:     () => void
 }
 
-function SetDetailModal({ set, equipment, equippedIds, slot, onEquip, onClose }: SetModalProps) {
+function SetDetailModal({ set, equipment, equippedIds, onEquip, onClose }: SetModalProps) {
   const { t } = useTranslation()
 
   const setItems = useMemo(() => {
@@ -259,16 +258,15 @@ function SetDetailModal({ set, equipment, equippedIds, slot, onEquip, onClose }:
             <div className="space-y-1.5">
               {setItems.map(item => {
                 const isEquipped   = equippedIds.has(item.ankama_id)
-                const canEquipHere = matchesSlot(item, slot)
+                const canEquipHere = !isEquipped
                 return (
                   <div
                     key={item.ankama_id}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors"
                     style={{
-                      background: isEquipped ? 'rgba(201,168,76,0.07)' : canEquipHere ? '#131929' : '#0d1120',
+                      background: isEquipped ? 'rgba(201,168,76,0.07)' : '#131929',
                       border:     isEquipped ? '1px solid rgba(201,168,76,0.28)' : '1px solid #1c2333',
                       cursor:     canEquipHere ? 'pointer' : 'default',
-                      opacity:    !isEquipped && !canEquipHere ? 0.5 : 1,
                     }}
                     onClick={() => canEquipHere && onEquip(item)}
                     onMouseEnter={e => {
@@ -879,10 +877,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
         set={setModal}
         equipment={equipment ?? []}
         equippedIds={equippedIds}
-        slot={slot}
         onEquip={(item) => {
+          const matching = SLOT_CONFIGS.filter(cfg => matchesSlot(item, cfg))
+          if (matching.length === 0) return
+          const empty  = matching.find(cfg => equipped[cfg.id] == null)
+          const target = empty ?? matching[0]
+          equipItem(target.id, item.ankama_id)
           setSetModal(null)
-          handlePick(item)
         }}
         onClose={() => setSetModal(null)}
       />
