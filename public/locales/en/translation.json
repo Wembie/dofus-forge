@@ -181,5 +181,6 @@
   "set_bonuses_title": "Set Bonuses",
   "set_bonus_count": "{{n}} pieces",
   "set_bonus_active": "active",
-  "range_sep_neg": "to"
+  "range_sep_neg": "to",
+  "unequip_btn": "Unequip"
 }

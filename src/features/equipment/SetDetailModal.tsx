@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
+import { useBuildStore } from '@/store/buildStore.ts'
+import type { SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { SLOT_CONFIGS } from './slotConfig.ts'
@@ -20,9 +21,10 @@ type Props = {
 
 export function SetDetailModal({ set, onClose }: Props) {
   const { t }     = useTranslation()
-  const equipment = useDataStore(s => s.equipment)
-  const equipped  = useBuildStore(s => s.equipped)
-  const equipItem = useBuildStore(s => s.equipItem)
+  const equipment   = useDataStore(s => s.equipment)
+  const equipped    = useBuildStore(s => s.equipped)
+  const equipItem   = useBuildStore(s => s.equipItem)
+  const unequipItem = useBuildStore(s => s.unequipItem)
 
   // Build apiSlot→slotId map for equipping (handles string | string[] apiSlot)
   const slotByApiSlot = useMemo(() => {
@@ -65,10 +67,15 @@ export function SetDetailModal({ set, onClose }: Props) {
   )
 
   function handleEquip(item: AppItem) {
-    const slots = slotByApiSlot.get(item.slot) ?? []
-    // prefer first unoccupied slot, else use first slot
+    const slots  = slotByApiSlot.get(item.slot) ?? []
     const target = slots.find(sid => equipped[sid] == null) ?? slots[0]
     if (target) equipItem(target, item.ankama_id)
+  }
+
+  function handleUnequip(item: AppItem) {
+    const slotId = (Object.entries(equipped) as [SlotId, number | null][])
+      .find(([, id]) => id === item.ankama_id)?.[0]
+    if (slotId) unequipItem(slotId)
   }
 
   const isEquipped = (item: AppItem) => equippedIds.has(item.ankama_id)
@@ -192,8 +199,8 @@ export function SetDetailModal({ set, onClose }: Props) {
                     </div>
                   </div>
 
-                  {/* Equip button */}
-                  {!eq && (
+                  {/* Equip / Unequip */}
+                  {!eq ? (
                     <button
                       onClick={() => handleEquip(item)}
                       className="flex-shrink-0 px-2.5 py-1 rounded text-[11px] font-medium transition-colors"
@@ -207,7 +214,21 @@ export function SetDetailModal({ set, onClose }: Props) {
                         ;(e.currentTarget as HTMLButtonElement).style.color = '#7a9ab8'
                       }}
                     >
-                      Equip
+                      {t('equip_item')}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleUnequip(item)}
+                      className="flex-shrink-0 px-2.5 py-1 rounded text-[11px] font-medium transition-colors"
+                      style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.3)', color: '#f87171' }}
+                      onMouseEnter={e => {
+                        ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(248,113,113,0.2)'
+                      }}
+                      onMouseLeave={e => {
+                        ;(e.currentTarget as HTMLButtonElement).style.background = 'rgba(248,113,113,0.1)'
+                      }}
+                    >
+                      {t('unequip_btn')}
                     </button>
                   )}
                 </div>
