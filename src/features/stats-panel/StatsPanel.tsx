@@ -2,15 +2,14 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { SetBonusesPanel } from '../equipment/SetBonusesPanel.tsx'
+import { statIconUrl } from '../equipment/statDisplay.ts'
 
 function useT() { return useTranslation().t }
-
-const BASE = import.meta.env.BASE_URL
 
 function icon(name: string, size = 16, color?: string) {
   return (
     <img
-      src={`${BASE}data/stats/${name}.png`}
+      src={statIconUrl(name)}
       alt=""
       width={size}
       height={size}
@@ -128,7 +127,7 @@ function ElementTable({ s }: { s: StatBlock }) {
     { iconName: 'intelligence',   label: t('elem_fire'),    color: '#dc4e22', dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    steal: s.fireSteal    },
     { iconName: 'chance',         label: t('elem_water'),   color: '#2a8fd4', dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   steal: s.waterSteal   },
     { iconName: 'agility',        label: t('elem_air'),     color: '#6ab04c', dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     steal: s.airSteal     },
-    { iconName: 'neutral_damage', label: t('elem_neutral'), color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
+    { iconName: 'neutral',        label: t('elem_neutral'), color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
   ]
 
   return (
@@ -259,8 +258,8 @@ function DamageMods({ s }: { s: StatBlock }) {
     { iconName: 'ranged_damage', label: t('stat_ranged_dmg'),  value: s.rangedDamagePercent, color: '#2a8fd4' },
     { iconName: 'spell_damage',  label: t('stat_spell_dmg'),   value: s.spellDamagePercent,  color: '#9b6dff' },
     { iconName: 'weapon_damage', label: t('stat_weapon_dmg'),  value: s.weaponDamagePercent, color: '#c9a84c' },
-    { iconName: 'melee_damage',  label: t('stat_melee_res'),   value: s.meleeResistPercent,  color: '#c49a2a' },
-    { iconName: 'ranged_damage', label: t('stat_ranged_res'),  value: s.rangedResistPercent, color: '#2a8fd4' },
+    { iconName: 'melee_resistance',  label: t('stat_melee_res'),   value: s.meleeResistPercent,  color: '#c49a2a' },
+    { iconName: 'ranged_resistance', label: t('stat_ranged_res'),  value: s.rangedResistPercent, color: '#2a8fd4' },
   ]
   const visible = mods.filter(m => m.value !== 0)
   if (visible.length === 0) return null

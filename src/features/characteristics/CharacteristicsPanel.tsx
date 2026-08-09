@@ -4,8 +4,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
 import { CHARACTERISTICS, type Characteristic } from '@/engine/types.ts'
 import type { StatBlock } from '@/engine/types.ts'
-
-const BASE = import.meta.env.BASE_URL
+import { statIconUrl } from '../equipment/statDisplay.ts'
 
 const CHAR_COLOR: Record<Characteristic, string> = {
   vitality:     '#e05252',
@@ -72,7 +71,7 @@ function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void
 function StatIcon({ name, size = 20, color }: { name: string; size?: number; color?: string }) {
   return (
     <img
-      src={`${BASE}data/stats/${name}.png`}
+      src={statIconUrl(name)}
       alt=""
       width={size}
       height={size}
@@ -411,7 +410,7 @@ export function CharacteristicsPanel() {
                       <ElementRow icon="intelligence"  label={t('elem_fire')}     color="#dc4e22" damage={s.fireDamage}    resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
                       <ElementRow icon="chance"        label={t('elem_water')}    color="#2a8fd4" damage={s.waterDamage}   resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
                       <ElementRow icon="agility"       label={t('elem_air')}      color="#6ab04c" damage={s.airDamage}     resFixed={s.airResFixed}     resPercent={s.airResPercent} />
-                      <ElementRow icon="neutral_damage" label={t('elem_neutral')} color="#9b9b9b" damage={s.neutralDamage} resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
+                      <ElementRow icon="neutral"        label={t('elem_neutral')} color="#9b9b9b" damage={s.neutralDamage} resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
                       <ElementRow icon="crit_damage"   label={t('elem_critical')} color="#dc4e22" damage={s.critDamage}   resFixed={s.critResistance}  showPercent={false} />
                       <ElementRow icon="push_damage"   label={t('elem_push')}     color="#b8860b" damage={s.pushbackDamage} resFixed={s.pushbackResist} showPercent={false} />
                     </tbody>
