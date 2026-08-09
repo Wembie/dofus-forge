@@ -4,13 +4,14 @@ export type AppSpellElement    = 'earth' | 'fire' | 'water' | 'air' | 'neutral' 
 export type AppSpellEffectKind = 'damage' | 'push' | 'ap' | 'mp'
 export type AppSpellEffect     = { element: Exclude<AppSpellElement, 'mixed'>; min: number; max: number; kind: AppSpellEffectKind }
 export type AppSpellLevel = {
-  grade:      number
-  ap:         number
-  minRange:   number
-  maxRange:   number
-  maxPerTurn: number
-  critChance: number
-  effects:    AppSpellEffect[]
+  grade:        number
+  ap:           number
+  minRange:     number
+  maxRange:     number
+  maxPerTurn:   number
+  critChance:   number
+  effects:      AppSpellEffect[]
+  critEffects?: AppSpellEffect[]
 }
 export type AppSpell = {
   id:         number

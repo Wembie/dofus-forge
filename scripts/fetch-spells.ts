@@ -69,13 +69,14 @@ export type AppSpellEffect = {
 }
 
 export type AppSpellLevel = {
-  grade:      number
-  ap:         number
-  minRange:   number
-  maxRange:   number   // 0 = melee
-  maxPerTurn: number   // 0 = unlimited
-  critChance: number   // %
-  effects:    AppSpellEffect[]
+  grade:       number
+  ap:          number
+  minRange:    number
+  maxRange:    number   // 0 = melee
+  maxPerTurn:  number   // 0 = unlimited
+  critChance:  number   // %
+  effects:     AppSpellEffect[]
+  critEffects?: AppSpellEffect[]  // crit hit effects (absent = same as normal or no crit)
 }
 
 export type AppSpell = {
@@ -150,12 +151,10 @@ const OMNI_DMG_IDS = new Set([2822, 2832])
 // Percentage modifiers accompanying steal effects — skip these (not damage values)
 const LIFESTEAL_PCT_IDS = new Set([118, 119, 123, 126])
 
-function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
-  const rawEffects = ((raw.effects as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
+function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEffect[] {
   const effects: AppSpellEffect[] = []
 
-  // Elemental damage / steal effects (effectElement 0-4)
-  // Exclude percentage-lifesteal modifiers (category=0, not actual damage values)
+  // Elemental damage effects (effectElement 0-4); skip lifesteal % modifiers
   for (const e of rawEffects) {
     const el  = Number(e.effectElement)
     const eid = Number(e.effectId)
@@ -169,30 +168,34 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
     }
   }
 
-  // Best/worst-element damage (effectElement=-1, no fixed element)
-  // Shown as neutral since the actual element depends on character stats
+  // Best/worst-element damage (effectElement=-1, displayed as neutral)
   for (const e of rawEffects) {
     const eid = Number(e.effectId)
     if (OMNI_DMG_IDS.has(eid)) {
       const min = Number(e.diceNum)
-      if (min > 0) {
-        effects.push({
-          element: 'neutral',
-          min,
-          max: Number(e.diceSide),
-          kind: 'damage',
-        })
-      }
+      if (min > 0) effects.push({ element: 'neutral', min, max: Number(e.diceSide), kind: 'damage' })
     }
   }
 
-  // Push effects (effectId=5, diceNum=cells pushed, small integer)
+  return effects
+}
+
+function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
+  const rawEffects    = ((raw.effects        as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
+  const rawCritEffs   = ((raw.criticalEffect as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
+
+  const effects     = extractDamageEffects(rawEffects)
+  // criticalEffect contains the COMPLETE crit-hit damage set (not additive bonus).
+  // If empty, no crit display. extractDamageEffects filters to damage-only effects.
+  const critEffects = extractDamageEffects(rawCritEffs)
+
+  // Push effects (effectId=5, normal effects only)
   for (const e of rawEffects) {
     if (Number(e.effectId) === PUSH_ID) {
       const cells = Number(e.diceNum)
       if (cells > 0 && cells <= 20) {
         effects.push({ element: 'neutral', min: cells, max: cells, kind: 'push' })
-        break // only one push entry per level
+        break
       }
     }
   }
@@ -212,7 +215,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
     }
   }
 
-  return {
+  const level: AppSpellLevel = {
     grade:      Number(raw.grade),
     ap:         Number(raw.apCost),
     minRange:   Number(raw.minRange) || 0,
@@ -221,6 +224,8 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
     critChance: Number(raw.criticalHitProbability) || 0,
     effects,
   }
+  if (critEffects.length > 0) level.critEffects = critEffects
+  return level
 }
 
 // Decompress gzip buffer using Node's built-in zlib
