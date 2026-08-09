@@ -103,3 +103,65 @@ export function fmtValue(min: number, max: number, negSep = '–'): string {
 export function statIconUrl(icon: string): string {
   return `${BASE}data/stats/${icon}.png`
 }
+
+export const RUNE_ICON: Record<string, string> = {
+  'Vitality':             'Vit_Rune.webp',
+  'Wisdom':               'Wis_Rune.webp',
+  'Strength':             'Str_Rune.webp',
+  'Intelligence':         'Int_Rune.webp',
+  'Chance':               'Cha_Rune.webp',
+  'Agility':              'Agi_Rune.webp',
+  'AP':                   'Ap_Ga_Rune.webp',
+  'MP':                   'Mp_Ga_Rune.webp',
+  'Range':                'Range_Rune.webp',
+  'Damage':               'Dam_Rune.webp',
+  'Earth Damage':         'Earth_Dam_Rune.webp',
+  'Fire Damage':          'Fire_Dam_Rune.webp',
+  'Water Damage':         'Water_Dam_Rune.webp',
+  'Air Damage':           'Air_Dam_Rune.webp',
+  'Neutral Damage':       'Neutral_Dam_Rune.webp',
+  '% Critical':           'Cri_Rune.webp',
+  'Critical Damage':      'Cri_Dam_Rune.webp',
+  'Critical Resistance':  'Cri_Res_Rune.webp',
+  'Earth Resistance':     'Earth_Res_Rune.webp',
+  'Fire Resistance':      'Fire_Res_Rune.webp',
+  'Water Resistance':     'Water_Res_Rune.webp',
+  'Air Resistance':       'Air_Res_Rune.webp',
+  'Neutral Resistance':   'Neutral_Res_Rune.webp',
+  '% Earth Resistance':   'Earth_Res_Per_Rune.webp',
+  '% Fire Resistance':    'Fire_Res_Per_Rune.webp',
+  '% Water Resistance':   'Water_Res_Per_Rune.webp',
+  '% Air Resistance':     'Air_Res_Per_Rune.webp',
+  '% Neutral Resistance': 'Neutral_Res_Per_Rune.webp',
+  'Initiative':           'Ini_Rune.webp',
+  'Lock':                 'Loc_Rune.webp',
+  'Dodge':                'Dod_Rune.webp',
+  'Heal':                 'Hea_Rune.webp',
+  'Prospecting':          'Pp_Rune.webp',
+  'AP Reduction':         'Ap_Red_Rune.webp',
+  'MP Reduction':         'Mp_Red_Rune.webp',
+  'AP Parry':             'Ap_Res_Rune.webp',
+  'MP Parry':             'Mp_Res_Rune.webp',
+  '% Ranged Damage':      'Dis_Dam_Per_Rune.webp',
+  '% Ranged Resistance':  'Dis_Res_Per_Rune.webp',
+  '% Melee Damage':       'Mel_Dam_Per_Rune.webp',
+  '% Melee Resistance':   'Mel_Res_Per_Rune.webp',
+  '% Spell Damage':       'Spe_Dam_Per_Rune.webp',
+  '% Weapon Damage':      'Wep_Dam_Per_Rune.webp',
+  'Pushback Damage':      'Psh_Dam_Rune.webp',
+  'Pushback Resistance':  'Psh_Res_Rune.webp',
+  'Trap Damage':          'Trp_Dam_Rune.webp',
+  'Power (traps)':        'Trp_Per_Rune.webp',
+  'Summons':              'Sum_Rune.webp',
+  'Pod':                  'Pod_Rune.webp',
+  'reflected damage':     'Dam_Ref_Rune.webp',
+}
+
+export function runeIconUrl(stat: string): string | null {
+  const file = RUNE_ICON[stat]
+  return file ? `${BASE}data/runes/${file}` : null
+}
+
+export function signatureRuneUrl(): string {
+  return `${BASE}data/runes/Signature_Rune.webp`
+}

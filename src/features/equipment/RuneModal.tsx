@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { STAT_META, statIconUrl } from './statDisplay.ts'
+import { STAT_META, statIconUrl, runeIconUrl } from './statDisplay.ts'
 
 // Ordered grid: most-used rune stats, 7 per row
 const RUNE_GRID = [
@@ -130,22 +130,28 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   return (
                     <div
                       key={stat}
-                      className="flex items-center gap-1.5 rounded-full pl-1.5 pr-1 py-1 transition-all"
+                      className="flex items-center gap-1.5 rounded-full pl-1 pr-1 py-0.5 transition-all"
                       style={{
                         background: meta ? `${meta.color}18` : '#1a1f30',
                         border:     meta ? `1px solid ${meta.color}44` : '1px solid #2a3347',
                       }}
                     >
-                      {meta?.icon && (
-                        <img
-                          src={statIconUrl(meta.icon)}
-                          alt=""
-                          width={14}
-                          height={14}
-                          className="object-contain flex-shrink-0"
-                          style={{ filter: `drop-shadow(0 0 4px ${meta.color}88)` }}
-                        />
-                      )}
+                      {(() => {
+                        const rUrl = runeIconUrl(stat)
+                        if (rUrl) return (
+                          <img src={rUrl} alt="" width={20} height={20}
+                            className="object-contain flex-shrink-0"
+                            style={{ filter: `drop-shadow(0 0 4px ${meta?.color ?? '#c9a84c'}88)` }}
+                          />
+                        )
+                        if (meta?.icon) return (
+                          <img src={statIconUrl(meta.icon)} alt="" width={14} height={14}
+                            className="object-contain flex-shrink-0"
+                            style={{ filter: `drop-shadow(0 0 4px ${meta.color}88)` }}
+                          />
+                        )
+                        return null
+                      })()}
                       <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: meta?.color ?? '#c9a84c' }}>
                         +{val}
                       </span>
@@ -232,26 +238,46 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                       }
                     }}
                   >
-                    {meta?.icon ? (
-                      <img
-                        src={statIconUrl(meta.icon)}
-                        alt={t(meta.tKey)}
-                        width={20}
-                        height={20}
-                        className="object-contain"
-                        style={{
-                          filter: active
-                            ? `drop-shadow(0 0 5px ${meta.color}bb) brightness(1.2)`
-                            : hasRune
-                            ? `drop-shadow(0 0 3px ${meta.color}77) brightness(0.9)`
-                            : 'brightness(0.55)',
-                        }}
-                      />
-                    ) : (
-                      <span className="text-[9px] font-bold" style={{ color: active ? '#c9a84c' : '#3a4268' }}>
-                        {(meta ? t(meta.tKey) : stat).slice(0, 3)}
-                      </span>
-                    )}
+                    {(() => {
+                      const rUrl = runeIconUrl(stat)
+                      if (rUrl) return (
+                        <img
+                          src={rUrl}
+                          alt={meta ? t(meta.tKey) : stat}
+                          width={30}
+                          height={30}
+                          className="object-contain"
+                          style={{
+                            filter: active
+                              ? `drop-shadow(0 0 6px ${meta?.color ?? '#c9a84c'}cc) brightness(1.15)`
+                              : hasRune
+                              ? `drop-shadow(0 0 3px ${meta?.color ?? '#c9a84c'}66) brightness(0.95)`
+                              : 'brightness(0.5) saturate(0.4)',
+                          }}
+                        />
+                      )
+                      if (meta?.icon) return (
+                        <img
+                          src={statIconUrl(meta.icon)}
+                          alt={t(meta.tKey)}
+                          width={20}
+                          height={20}
+                          className="object-contain"
+                          style={{
+                            filter: active
+                              ? `drop-shadow(0 0 5px ${meta.color}bb) brightness(1.2)`
+                              : hasRune
+                              ? `drop-shadow(0 0 3px ${meta.color}77) brightness(0.9)`
+                              : 'brightness(0.55)',
+                          }}
+                        />
+                      )
+                      return (
+                        <span className="text-[9px] font-bold" style={{ color: active ? '#c9a84c' : '#3a4268' }}>
+                          {(meta ? t(meta.tKey) : stat).slice(0, 3)}
+                        </span>
+                      )
+                    })()}
 
                     {/* Tiny dot if already has rune */}
                     {hasRune && !active && (
@@ -271,16 +297,22 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
               {/* Stat info row */}
               <div className="flex items-center gap-2">
-                {selMeta?.icon && (
-                  <img
-                    src={statIconUrl(selMeta.icon)}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className="object-contain flex-shrink-0"
-                    style={{ filter: `drop-shadow(0 0 5px ${selMeta.color}99)` }}
-                  />
-                )}
+                {(() => {
+                  const rUrl = runeIconUrl(selected)
+                  if (rUrl) return (
+                    <img src={rUrl} alt="" width={28} height={28}
+                      className="object-contain flex-shrink-0"
+                      style={{ filter: `drop-shadow(0 0 6px ${selMeta?.color ?? '#c9a84c'}aa)` }}
+                    />
+                  )
+                  if (selMeta?.icon) return (
+                    <img src={statIconUrl(selMeta.icon)} alt="" width={20} height={20}
+                      className="object-contain flex-shrink-0"
+                      style={{ filter: `drop-shadow(0 0 5px ${selMeta.color}99)` }}
+                    />
+                  )
+                  return null
+                })()}
                 <span className="font-semibold text-sm" style={{ color: selMeta?.color ?? '#c9a84c' }}>
                   {selMeta ? t(selMeta.tKey) : selected}
                 </span>

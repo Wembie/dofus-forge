@@ -9,7 +9,7 @@ import { RuneModal } from './RuneModal.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -197,6 +197,21 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
           <div className="absolute inset-0 pointer-events-none"
             style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.07) 0%, transparent 55%)' }} />
         )}
+
+        {/* Rune mini-strip: up to 3 rune images at bottom when forjamaged */}
+        {item && (runeCount ?? 0) > 0 && slotRunes && (
+          <div className="absolute bottom-0.5 right-0.5 flex gap-px pointer-events-none">
+            {Object.entries(slotRunes).filter(([, v]) => v > 0).slice(0, 3).map(([stat]) => {
+              const url = runeIconUrl(stat)
+              return url ? (
+                <img key={stat} src={url} alt="" width={12} height={12}
+                  className="object-contain"
+                  style={{ filter: 'brightness(0.9) drop-shadow(0 0 2px #5a8dffaa)' }}
+                />
+              ) : null
+            })}
+          </div>
+        )}
       </button>
 
       {/* Slot label (tiny, below slot) */}
@@ -218,31 +233,34 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
         >×</button>
       )}
 
-      {/* Magesmithy ✦ — always visible when runes active, hover-only when none */}
+      {/* Magesmithy button — Signature_Rune when active, ✦ on hover when none */}
       {item && onRune && (
         <button
           onClick={e => { e.stopPropagation(); onRune() }}
-          className={`absolute -bottom-1.5 -left-1.5 w-4 h-4 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+          className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
           style={{
-            background:  (runeCount ?? 0) > 0 ? '#12102a' : '#06060f',
-            border:      (runeCount ?? 0) > 0 ? '1px solid #5a8dff99' : '1px solid #2a3347',
-            color:       (runeCount ?? 0) > 0 ? '#7aaeff' : '#4a5268',
-            boxShadow:   (runeCount ?? 0) > 0 ? '0 0 6px #5a8dff44' : 'none',
+            background: (runeCount ?? 0) > 0 ? '#12102a' : '#06060f',
+            border:     (runeCount ?? 0) > 0 ? '1px solid #5a8dff99' : '1px solid #2a3347',
+            color:      (runeCount ?? 0) > 0 ? '#7aaeff' : '#4a5268',
+            boxShadow:  (runeCount ?? 0) > 0 ? '0 0 8px #5a8dff55' : 'none',
           }}
           onMouseEnter={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#aaccff'
             ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#7aaeffcc'
-            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 8px #5a8dff88'
+            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 10px #5a8dff88'
           }}
           onMouseLeave={e => {
             const active = (runeCount ?? 0) > 0
-            ;(e.currentTarget as HTMLButtonElement).style.color = active ? '#7aaeff' : '#4a5268'
             ;(e.currentTarget as HTMLButtonElement).style.borderColor = active ? '#5a8dff99' : '#2a3347'
-            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = active ? '0 0 6px #5a8dff44' : 'none'
+            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = active ? '0 0 8px #5a8dff55' : 'none'
           }}
           aria-label={`Magesmithy: ${item.name}`}
           title={t('magesmithy_title')}
-        >✦</button>
+        >
+          {(runeCount ?? 0) > 0
+            ? <img src={signatureRuneUrl()} alt="" width={13} height={13} className="object-contain" />
+            : '✦'
+          }
+        </button>
       )}
 
       {/* Tooltip — game-faithful style, side chosen per column */}
@@ -322,9 +340,15 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
                 <div className="space-y-0.5">
                   {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).map(([stat, val]) => {
                     const meta = STAT_META[stat]
+                    const rUrl = runeIconUrl(stat)
                     return (
                       <div key={stat} className="flex items-center gap-1.5">
-                        {meta?.icon
+                        {rUrl
+                          ? <img src={rUrl} alt="" width={16} height={16}
+                              className="object-contain flex-shrink-0"
+                              style={{ filter: 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }}
+                            />
+                          : meta?.icon
                           ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
                               className="object-contain flex-shrink-0"
                               style={{ filter: 'saturate(0.3) hue-rotate(200deg) brightness(1.4)' }}
