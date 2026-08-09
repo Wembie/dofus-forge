@@ -2,12 +2,13 @@ const BASE = import.meta.env.BASE_URL  // '/dofus-forge/'
 
 const cache = new Map<string, unknown>()
 
-async function fetchJson<T>(path: string): Promise<T> {
-  if (cache.has(path)) return cache.get(path) as T
-  const res = await fetch(`${BASE}${path}`)
+async function fetchJson<T>(path: string, bust?: string): Promise<T> {
+  const key = bust ? `${path}?v=${encodeURIComponent(bust)}` : path
+  if (cache.has(key)) return cache.get(key) as T
+  const res = await fetch(`${BASE}${key}`)
   if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`)
   const data = await res.json() as T
-  cache.set(path, data)
+  cache.set(key, data)
   return data
 }
 
@@ -41,18 +42,18 @@ export type AppSet = {
   bonuses:   Record<number, AppEffect[]>
 }
 
-export async function loadIndex(lang: string): Promise<IndexItem[]> {
-  return fetchJson<IndexItem[]>(`data/${lang}/index.json`)
-}
-
-export async function loadEquipment(lang: string): Promise<AppItem[]> {
-  return fetchJson<AppItem[]>(`data/${lang}/equipment.json`)
-}
-
-export async function loadSets(lang: string): Promise<AppSet[]> {
-  return fetchJson<AppSet[]>(`data/${lang}/sets.json`)
-}
-
 export async function loadVersion(): Promise<{ gameVersion: string; generatedAt: string }> {
   return fetchJson('data/version.json')
+}
+
+export async function loadIndex(lang: string, bust: string): Promise<IndexItem[]> {
+  return fetchJson<IndexItem[]>(`data/${lang}/index.json`, bust)
+}
+
+export async function loadEquipment(lang: string, bust: string): Promise<AppItem[]> {
+  return fetchJson<AppItem[]>(`data/${lang}/equipment.json`, bust)
+}
+
+export async function loadSets(lang: string, bust: string): Promise<AppSet[]> {
+  return fetchJson<AppSet[]>(`data/${lang}/sets.json`, bust)
 }
