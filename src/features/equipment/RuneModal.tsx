@@ -26,7 +26,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const runes            = useBuildStore(s => s.runes[slotId] ?? {})
   const setRune          = useBuildStore(s => s.setRune)
   const clearRune        = useBuildStore(s => s.clearRune)
-  const forjamagoName    = useBuildStore(s => s.forjamagoName)
+  const forjamagoName    = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const setForjamagoName = useBuildStore(s => s.setForjamagoName)
 
   const [selected, setSelected] = useState(RUNE_GRID[0])
@@ -427,7 +427,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               <input
                 type="text"
                 value={forjamagoName}
-                onChange={e => setForjamagoName(e.target.value)}
+                onChange={e => setForjamagoName(slotId, e.target.value)}
                 placeholder={t('forjamago_name_placeholder')}
                 className="flex-1 bg-transparent text-[11px] outline-none"
                 style={{ color: '#6a9fff', caretColor: '#6a9fff' }}
