@@ -19,20 +19,20 @@ export const STAT_META: Record<string, StatMeta> = {
   'Power':               { icon: 'power',              color: '#c9a84c', tKey: 'stat_power'         },
   'Power (traps)':       { icon: 'trap_power',         color: '#c9a84c', tKey: 'stat_trap_power'    },
   'Damage':              { icon: 'damage',             color: '#9b9b9b', tKey: 'stat_damage'        },
-  'Earth Damage':        { icon: 'strength',           color: '#c49a2a', tKey: 'stat_earth_damage'  },
-  'Earth damage':        { icon: 'strength',           color: '#c49a2a', tKey: 'stat_earth_damage'  },
-  'Fire Damage':         { icon: 'intelligence',       color: '#dc4e22', tKey: 'stat_fire_damage'   },
-  'Fire damage':         { icon: 'intelligence',       color: '#dc4e22', tKey: 'stat_fire_damage'   },
-  'Water Damage':        { icon: 'chance',             color: '#2a8fd4', tKey: 'stat_water_damage'  },
-  'Water damage':        { icon: 'chance',             color: '#2a8fd4', tKey: 'stat_water_damage'  },
-  'Air Damage':          { icon: 'agility',            color: '#6ab04c', tKey: 'stat_air_damage'    },
-  'Air damage':          { icon: 'agility',            color: '#6ab04c', tKey: 'stat_air_damage'    },
+  'Earth Damage':        { icon: 'strength_damage',    color: '#c49a2a', tKey: 'stat_earth_damage'  },
+  'Earth damage':        { icon: 'strength_damage',    color: '#c49a2a', tKey: 'stat_earth_damage'  },
+  'Fire Damage':         { icon: 'intelligence_damage',color: '#dc4e22', tKey: 'stat_fire_damage'   },
+  'Fire damage':         { icon: 'intelligence_damage',color: '#dc4e22', tKey: 'stat_fire_damage'   },
+  'Water Damage':        { icon: 'chance_damage',      color: '#2a8fd4', tKey: 'stat_water_damage'  },
+  'Water damage':        { icon: 'chance_damage',      color: '#2a8fd4', tKey: 'stat_water_damage'  },
+  'Air Damage':          { icon: 'agility_damage',     color: '#6ab04c', tKey: 'stat_air_damage'    },
+  'Air damage':          { icon: 'agility_damage',     color: '#6ab04c', tKey: 'stat_air_damage'    },
   'Neutral Damage':      { icon: 'neutral',            color: '#9b9b9b', tKey: 'stat_neutral_damage'},
   'Neutral damage':      { icon: 'neutral',            color: '#9b9b9b', tKey: 'stat_neutral_damage'},
-  'Earth steal':         { icon: 'strength',           color: '#c49a2a', tKey: 'stat_earth_steal'   },
-  'Fire steal':          { icon: 'intelligence',       color: '#dc4e22', tKey: 'stat_fire_steal'    },
-  'Fire heals':          { icon: 'intelligence',       color: '#dc4e22', tKey: 'stat_fire_steal'    },
-  'Air steal':           { icon: 'agility',            color: '#6ab04c', tKey: 'stat_air_steal'     },
+  'Earth steal':         { icon: 'strength_damage',    color: '#c49a2a', tKey: 'stat_earth_steal'   },
+  'Fire steal':          { icon: 'intelligence_damage',color: '#dc4e22', tKey: 'stat_fire_steal'    },
+  'Fire heals':          { icon: 'intelligence_damage',color: '#dc4e22', tKey: 'stat_fire_steal'    },
+  'Air steal':           { icon: 'agility_damage',     color: '#6ab04c', tKey: 'stat_air_steal'     },
   'Neutral steal':       { icon: 'neutral',            color: '#9b9b9b', tKey: 'stat_neutral_steal' },
   'best-element damage': { icon: 'power',              color: '#c9a84c', tKey: 'stat_best_elem_dmg' },
   'best-element steal':  { icon: 'power',              color: '#c9a84c', tKey: 'stat_best_elem_steal'},
@@ -100,8 +100,11 @@ export function fmtValue(min: number, max: number, negSep = '–'): string {
   return `+${min}–${max}`
 }
 
+const PNG_ICONS = new Set(['strength_damage', 'intelligence_damage', 'chance_damage', 'agility_damage'])
+
 export function statIconUrl(icon: string): string {
-  return `${BASE}data/stats/${icon}.webp`
+  const ext = PNG_ICONS.has(icon) ? 'png' : 'webp'
+  return `${BASE}data/stats/${icon}.${ext}`
 }
 
 export const RUNE_ICON: Record<string, string> = {
