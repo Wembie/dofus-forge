@@ -43,6 +43,7 @@ Marcar con `[x]` cuando se complete.
 ### Hechizos
 - [x] **M20 — Selector de nivel de hechizo** — botones 1-6 en header de SpellsPanel, auto-grade por nivel del build, reset ↺
 - [x] **M21 — Daños calculados de hechizo** — fórmula (base+mastery)*(100+Power)/100+flat, preview inline en fila + expandido con indicador ★
+- [x] **M26 — Rediseño full hechizos: imágenes + variantes** — sección aparte ancho completo, dos columnas (normales | variantes), tarjetas con imagen 48px real, AP, rango, crit%, max/turno, daños por elemento. ETL extrae 836 imágenes del tar de dofusdude, detecta variantes via spell_variants.json (44 hechizos/clase = 22 + 22)
 
 ### UI / Polish
 - [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
