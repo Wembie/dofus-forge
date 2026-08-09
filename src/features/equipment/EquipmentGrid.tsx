@@ -298,7 +298,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
                         {display}
                       </span>
                       <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>
-                        {meta?.label ?? e.stat}
+                        {meta ? t(meta.tKey) : e.stat}
                       </span>
                       {useMax && (
                         <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: '#252c42' }}>
@@ -334,7 +334,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
                           +{val}
                         </span>
                         <span className="text-[11px]" style={{ color: '#4a70cc' }}>
-                          {meta?.label ?? stat}
+                          {meta ? t(meta.tKey) : stat}
                         </span>
                       </div>
                     )
