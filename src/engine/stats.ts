@@ -122,6 +122,8 @@ export function computeStats(input: BuildInput): StatBlock {
   block.lock         += Math.floor(block.agility / 10)
   block.apParry      += Math.floor(block.wisdom  / 10)
   block.mpParry      += Math.floor(block.wisdom  / 10)
+  block.apReduction  += Math.floor(block.wisdom  / 10)
+  block.mpReduction  += Math.floor(block.wisdom  / 10)
   block.pods         += block.strength * 5
   block.prospecting  += Math.floor(block.chance  / 10)
 
