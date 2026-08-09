@@ -368,7 +368,7 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onClose }: SetMo
                                 : <span style={{ width: 11, flexShrink: 0 }} />
                               }
                               <span style={{ color: isActive ? clr : `${clr}44`, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
-                                {fmtValue(e.min, e.max)}
+                                {fmtValue(e.min, e.max, t('range_sep_neg'))}
                               </span>
                               <span style={{ color: isActive ? (meta?.color ? `${meta.color}bb` : '#7a8499') : '#2a3347', fontSize: 10 }}>
                                 {meta ? t(meta.tKey) : e.stat}
@@ -816,7 +816,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           const meta  = STAT_META[e.stat]
                           const isNeg = e.min < 0
                           const clr   = isNeg ? '#f87171' : (meta?.color ?? '#4a5268')
-                          const val   = fmtValue(e.min, e.max)
+                          const val   = fmtValue(e.min, e.max, t('range_sep_neg'))
                           return (
                             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                               {meta?.icon

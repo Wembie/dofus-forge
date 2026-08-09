@@ -1,14 +1,16 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { SLOT_CONFIGS } from './slotConfig.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 
-function effectLabel(e: AppEffect): string {
+function effectLabel(e: AppEffect, negSep: string): string {
   const sign = e.min >= 0 ? '+' : ''
-  const val  = e.min !== e.max ? `${e.min}–${e.max}` : `${sign}${e.min}`
-  return `${val} ${e.stat}`
+  if (e.min === e.max) return `${sign}${e.min} ${e.stat}`
+  if (e.max < 0)       return `${e.max} ${negSep} ${e.min} ${e.stat}`
+  return `${sign}${e.min}–${e.max} ${e.stat}`
 }
 
 type Props = {
@@ -17,6 +19,7 @@ type Props = {
 }
 
 export function SetDetailModal({ set, onClose }: Props) {
+  const { t }     = useTranslation()
   const equipment = useDataStore(s => s.equipment)
   const equipped  = useBuildStore(s => s.equipped)
   const equipItem = useBuildStore(s => s.equipItem)
@@ -122,7 +125,7 @@ export function SetDetailModal({ set, onClose }: Props) {
                     {effects.map((e: AppEffect, i: number) => (
                       <span key={i}>
                         {i > 0 && <span className="mx-1 text-forge-border">·</span>}
-                        {effectLabel(e)}
+                        {effectLabel(e, t('range_sep_neg'))}
                       </span>
                     ))}
                   </span>
@@ -181,7 +184,7 @@ export function SetDetailModal({ set, onClose }: Props) {
                               <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain" />
                             )}
                             <span className="text-[10px] font-mono tabular-nums" style={{ color: clr }}>
-                              {fmtValue(e.min, e.max)}
+                              {fmtValue(e.min, e.max, t('range_sep_neg'))}
                             </span>
                           </span>
                         )

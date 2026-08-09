@@ -93,10 +93,10 @@ export function isIgnored(stat: string): boolean {
 }
 
 /** Show value for a stat effect. Handles fixed (min=max), range, and max=0 quirk. */
-export function fmtValue(min: number, max: number): string {
+export function fmtValue(min: number, max: number, negSep = '–'): string {
   if (min === max || max === 0 || max < min) return `${min >= 0 ? '+' : ''}${min}`
-  // Negative range: show less-negative (smaller absolute) first → -401–-500 not -500–-401
-  if (max < 0) return `${max}–${min}`
+  // Negative range: show less-negative (smaller absolute) first → -401 a -500 / -401 to -500
+  if (max < 0) return `${max} ${negSep} ${min}`
   return `+${min}–${max}`
 }
 
