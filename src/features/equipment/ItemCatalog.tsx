@@ -6,14 +6,17 @@ import type { SlotId } from '@/store/buildStore.ts'
 import type { SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
-import { useVirtualList } from '@/ui/useVirtualList.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 
-const ROW_HEIGHT = 72
-
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   return it.slot === slot.apiSlot && (!slot.apiTypes || slot.apiTypes.includes(it.type))
+}
+
+function slotTKey(id: SlotId): string {
+  if (id.startsWith('ring'))  return 'slot_ring'
+  if (id.startsWith('dofus')) return 'slot_dofus'
+  return `slot_${id}`
 }
 
 type SortKey = 'level-desc' | 'level-asc' | 'name-az'
@@ -25,31 +28,6 @@ type Props = {
 }
 
 const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
-
-function statDelta(candidate: AppItem, current: AppItem) {
-  const sum = (item: AppItem) => {
-    const m = new Map<string, number>()
-    for (const e of item.effects) {
-      if (!isIgnored(e.stat)) m.set(e.stat, (m.get(e.stat) ?? 0) + e.min)
-    }
-    return m
-  }
-  const cMap = sum(candidate)
-  const eMap = sum(current)
-  const all  = new Set([...cMap.keys(), ...eMap.keys()])
-  const out: Array<{ stat: string; delta: number; hasMeta: boolean }> = []
-  for (const stat of all) {
-    const d = (cMap.get(stat) ?? 0) - (eMap.get(stat) ?? 0)
-    if (d !== 0) out.push({ stat, delta: d, hasMeta: Boolean(STAT_META[stat]) })
-  }
-  // Sort: known stats with biggest abs delta first, then unknowns
-  return out
-    .sort((a, b) => {
-      if (a.hasMeta !== b.hasMeta) return a.hasMeta ? -1 : 1
-      return Math.abs(b.delta) - Math.abs(a.delta)
-    })
-    .slice(0, 6)
-}
 
 function SetSearch({
   sets, selected, onSelect,
@@ -199,14 +177,10 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const equipment = useDataStore(s => s.equipment)
   const setsData  = useDataStore(s => s.sets)
   const equipItem = useBuildStore(s => s.equipItem)
+  const currentId = useBuildStore(s => s.equipped[slotId])
 
-  const currentId   = useBuildStore(s => s.equipped[slotId])
-  const currentItem = useMemo(
-    () => currentId != null ? (equipment ?? []).find(it => it.ankama_id === currentId) : undefined,
-    [currentId, equipment],
-  )
+  const slotLabel = t(slotTKey(slotId))
 
-  // Build set lookup maps
   const { setMap, itemSetMap } = useMemo(() => {
     const setMap     = new Map<number, AppSet>()
     const itemSetMap = new Map<number, AppSet>()
@@ -217,7 +191,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     return { setMap, itemSetMap }
   }, [setsData])
 
-  // Sets that have at least one item for this slot
   const slotSets = useMemo(() => {
     const ids = new Set<number>()
     const out: AppSet[] = []
@@ -232,7 +205,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     return out.sort((a, b) => a.name.localeCompare(b.name))
   }, [equipment, slot, setMap])
 
-  // Unique stats available in this slot (non-ignored, sorted by STAT_META label then raw)
   const slotStats = useMemo(() => {
     const seen = new Set<string>()
     for (const it of equipment ?? []) {
@@ -258,10 +230,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
   const [statFilter, setStatFilter] = useState<string | null>(null)
   const [favsOnly,   setFavsOnly]   = useState(false)
-  const [activeIdx,  setActiveIdx]  = useState(-1)
-  const activeIdxRef                = useRef(-1)
-
-  useEffect(() => { activeIdxRef.current = activeIdx }, [activeIdx])
 
   const items = useMemo<AppItem[]>(() => {
     if (!equipment) return []
@@ -280,20 +248,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
   }, [equipment, slot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav])
 
-  useEffect(() => { setActiveIdx(-1) }, [items])
-
-  const { containerRef, onScroll, visibleItems, paddingTop, paddingBottom, startIdx } =
-    useVirtualList(items, ROW_HEIGHT)
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el || activeIdx < 0) return
-    const top = activeIdx * ROW_HEIGHT
-    const bot = top + ROW_HEIGHT
-    if (top < el.scrollTop) el.scrollTop = top
-    else if (bot > el.scrollTop + el.clientHeight) el.scrollTop = bot - el.clientHeight
-  }, [activeIdx, containerRef])
-
   const handlePick = useCallback((item: AppItem) => {
     equipItem(slotId, item.ankama_id)
     onClose()
@@ -301,17 +255,11 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'Escape')    { onClose(); return }
-      if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIdx(i => Math.min(items.length - 1, i + 1)) }
-      if (e.key === 'ArrowUp')   { e.preventDefault(); setActiveIdx(i => Math.max(0, i - 1)) }
-      if (e.key === 'Enter') {
-        const item = items[activeIdxRef.current]
-        if (item) handlePick(item)
-      }
+      if (e.key === 'Escape') onClose()
     }
     window.addEventListener('keydown', down)
     return () => window.removeEventListener('keydown', down)
-  }, [items, handlePick, onClose])
+  }, [onClose])
 
   const SORT_LABELS: Record<SortKey, string> = { 'level-desc': 'Lv ↓', 'level-asc': 'Lv ↑', 'name-az': 'A–Z' }
 
@@ -321,27 +269,27 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       style={{ background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(4px)' }}
       role="dialog"
       aria-modal
-      aria-label={`Select ${slot.label}`}
+      aria-label={slotLabel}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full max-w-2xl flex flex-col rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-4xl flex flex-col rounded-xl shadow-2xl overflow-hidden"
         style={{
           background: '#0f1320',
           border:     '1px solid #2a3347',
-          maxHeight:  '88vh',
+          maxHeight:  '90vh',
         }}
       >
         {/* Header */}
         <div
           className="flex items-center justify-between px-5 py-3.5"
           style={{
-            background:  'linear-gradient(180deg, #1a2035 0%, #141929 100%)',
+            background:   'linear-gradient(180deg, #1a2035 0%, #141929 100%)',
             borderBottom: '1px solid #2a3347',
           }}
         >
           <h3 className="font-display text-forge-gold font-bold text-base tracking-wide">
-            {slot.label}
+            {slotLabel}
           </h3>
           <div className="flex items-center gap-3">
             <span className="text-[11px] text-forge-muted/60 font-mono">
@@ -360,7 +308,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
 
         {/* Filters */}
         <div className="px-4 py-3 space-y-2.5" style={{ borderBottom: '1px solid #1c2333' }}>
-          {/* Search */}
           <input
             type="search"
             placeholder={t('search_items')}
@@ -368,18 +315,14 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             onChange={e => setSearch(e.target.value)}
             autoFocus
             className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-forge-muted/40 focus:outline-none transition-colors"
-            style={{
-              background:   '#161b26',
-              border:       '1px solid #2a3347',
-            }}
+            style={{ background: '#161b26', border: '1px solid #2a3347' }}
             onFocus={e => (e.currentTarget.style.borderColor = '#c9a84c66')}
             onBlur={e =>  (e.currentTarget.style.borderColor = '#2a3347')}
           />
 
-          {/* Element + sort + set */}
           <div className="flex items-center gap-1 flex-wrap">
             {ELEM_FILTERS.map(({ filter, i18nKey, activeClass, label, iconName, color }) => {
-              const isActive = elem === filter
+              const isActive     = elem === filter
               const displayLabel = label ?? t(i18nKey)
               return (
                 <button
@@ -420,7 +363,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
                     : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
                 ].join(' ')}
-                title="Show favorites only"
               >
                 ★{favCount > 0 && <span className="font-mono">{favCount}</span>}
               </button>
@@ -439,7 +381,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             </div>
           </div>
 
-          {/* Stat + level range */}
           <div className="flex gap-2 text-xs text-forge-muted items-center flex-wrap">
             {slotStats.length > 0 && (
               <StatFilter stats={slotStats} selected={statFilter} onSelect={setStatFilter} />
@@ -465,159 +406,154 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
           </div>
         </div>
 
-        {/* Item list */}
-        {items.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center py-16">
-            <p className="text-forge-muted text-sm">{t('no_items')}</p>
-          </div>
-        ) : (
-          <ul
-            ref={containerRef}
-            onScroll={onScroll}
-            className="overflow-y-auto flex-1"
-            role="listbox"
-            aria-label={slot.label}
-          >
-            <li aria-hidden style={{ height: paddingTop }} />
-            {visibleItems.map((item, i) => {
-              const absoluteIdx   = startIdx + i
-              const isHighlighted = absoluteIdx === activeIdx
-              const isEquipped    = item.ankama_id === currentId
-              const delta         = currentItem && !isEquipped ? statDelta(item, currentItem) : []
+        {/* Card grid */}
+        <div className="overflow-y-auto flex-1 p-4">
+          {items.length === 0 ? (
+            <div className="flex items-center justify-center py-16">
+              <p className="text-forge-muted text-sm">{t('no_items')}</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {items.map(item => {
+                const isEquipped = item.ankama_id === currentId
+                const itemSet    = item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined
+                const effects    = item.effects.filter(e => !isIgnored(e.stat))
 
-              return (
-                <li
-                  key={item.ankama_id}
-                  role="option"
-                  aria-selected={isEquipped}
-                  style={{ borderBottom: '1px solid #1a1f2e' }}
-                >
+                return (
                   <button
-                    className="w-full flex items-center gap-3 px-4 transition-colors text-left relative"
-                    style={{
-                      height:     ROW_HEIGHT,
-                      background: isHighlighted || isEquipped
-                        ? 'linear-gradient(90deg, #1c2333 0%, #161b2680 100%)'
-                        : 'transparent',
-                    }}
+                    key={item.ankama_id}
                     onClick={() => handlePick(item)}
-                    onMouseEnter={() => setActiveIdx(absoluteIdx)}
+                    className="text-left relative rounded-xl overflow-hidden w-full group"
+                    style={{
+                      background:  isEquipped
+                        ? 'linear-gradient(145deg, #1c1530, #0d0b1e)'
+                        : '#0d1120',
+                      border:      isEquipped
+                        ? '1px solid rgba(201,168,76,0.45)'
+                        : '1px solid #1c2333',
+                      transition:  'border-color 0.15s, box-shadow 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLButtonElement
+                      el.style.borderColor = isEquipped ? 'rgba(201,168,76,0.7)' : '#2a3347'
+                      if (!isEquipped) el.style.background = '#101525'
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLButtonElement
+                      el.style.borderColor = isEquipped ? 'rgba(201,168,76,0.45)' : '#1c2333'
+                      if (!isEquipped) el.style.background = '#0d1120'
+                    }}
                   >
-                    {/* Fav star */}
-                    <span
-                      role="button"
-                      tabIndex={-1}
-                      title={isFav(item.ankama_id) ? 'Remove from favorites' : 'Add to favorites'}
-                      className="absolute top-1 right-1 z-10 text-[13px] leading-none transition-colors select-none"
-                      style={{ color: isFav(item.ankama_id) ? '#c9a84c' : '#2a3347' }}
-                      onMouseEnter={e => {
-                        if (!isFav(item.ankama_id)) (e.currentTarget as HTMLElement).style.color = '#5a4a20'
-                      }}
-                      onMouseLeave={e => {
-                        ;(e.currentTarget as HTMLElement).style.color = isFav(item.ankama_id) ? '#c9a84c' : '#2a3347'
-                      }}
-                      onClick={e => { e.stopPropagation(); toggleFav(item.ankama_id) }}
-                    >★</span>
-                    {/* Item image */}
-                    <div
-                      className="flex-shrink-0 rounded-lg overflow-hidden flex items-center justify-center"
-                      style={{
-                        width:   52,
-                        height:  52,
-                        background: 'linear-gradient(145deg, #1a1f30, #0f1220)',
-                        border:  isEquipped ? '1px solid #c9a84c55' : '1px solid #1c2333',
-                      }}
-                    >
-                      {item.image_url
-                        ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
-                        : <span className="text-forge-muted/40 text-xl">{slot.icon}</span>
-                      }
-                    </div>
+                    {/* Card header: image + name + level + fav */}
+                    <div className="flex gap-2.5 p-3 pb-2">
+                      <div
+                        className="w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
+                        style={{
+                          background: 'linear-gradient(145deg, #1a1f30, #0f1220)',
+                          border:     isEquipped ? '1px solid #c9a84c55' : '1px solid #1c2333',
+                        }}
+                      >
+                        {item.image_url
+                          ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                          : <span className="text-forge-muted/40 text-xl">{slot.icon}</span>
+                        }
+                      </div>
 
-                    {/* Name + level + set */}
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate leading-tight ${isEquipped ? 'text-forge-gold' : 'text-forge-text'}`}>
-                        {item.name}
-                        {isEquipped && <span className="ml-1.5 text-[10px] text-forge-gold/70">✓ equipped</span>}
-                      </p>
-                      <div className="flex items-center gap-1.5 mt-0.5">
-                        <span className="text-[11px]" style={{ color: '#4a5268' }}>Lv {item.level}</span>
-                        {item.set_id != null && itemSetMap.get(item.ankama_id) && (
-                          <span
-                            className="text-[10px] truncate font-medium"
-                            style={{ color: '#7a6030' }}
-                            title={itemSetMap.get(item.ankama_id)!.name}
-                          >
-                            · {itemSetMap.get(item.ankama_id)!.name}
-                          </span>
+                      <div className="flex-1 min-w-0 pt-0.5">
+                        <p
+                          className="font-semibold text-[12px] leading-tight"
+                          style={{
+                            color: isEquipped ? '#c9a84c' : '#e8eaf0',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                          } as React.CSSProperties}
+                        >
+                          {item.name}
+                          {isEquipped && <span className="ml-1 text-[10px]" style={{ color: '#c9a84c99' }}>✓</span>}
+                        </p>
+                        <p className="text-[10px] mt-0.5" style={{ color: '#4a5268' }}>
+                          Lv {item.level}
+                        </p>
+                        {itemSet && (
+                          <p className="text-[10px] font-medium truncate" style={{ color: '#4a8fcc' }}>
+                            {itemSet.name}
+                          </p>
                         )}
                       </div>
+
+                      {/* Fav star */}
+                      <span
+                        role="button"
+                        tabIndex={-1}
+                        className="text-[14px] leading-none flex-shrink-0 transition-colors select-none mt-0.5"
+                        style={{ color: isFav(item.ankama_id) ? '#c9a84c' : '#2a3347' }}
+                        onMouseEnter={e => {
+                          if (!isFav(item.ankama_id))
+                            (e.currentTarget as HTMLElement).style.color = '#5a4a20'
+                        }}
+                        onMouseLeave={e => {
+                          (e.currentTarget as HTMLElement).style.color =
+                            isFav(item.ankama_id) ? '#c9a84c' : '#2a3347'
+                        }}
+                        onClick={e => { e.stopPropagation(); toggleFav(item.ankama_id) }}
+                      >★</span>
                     </div>
 
-                    {/* Stats / delta */}
-                    <div className="text-right space-y-0.5 flex-shrink-0 max-w-[150px]">
-                      {delta.length > 0
-                        ? delta.map((d, di) => {
-                            const meta  = STAT_META[d.stat]
-                            const isPos = d.delta > 0
-                            const clr   = isPos ? '#4ade80' : '#f87171'
-                            return (
-                              <div key={di} className="flex items-center justify-end gap-1">
-                                {meta?.icon && (
-                                  <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                                )}
-                                <span className="font-mono font-bold tabular-nums" style={{ color: clr, fontSize: 11 }}>
-                                  {isPos ? '+' : ''}{d.delta}
-                                </span>
-                                <span className="text-[10px] truncate" style={{ color: meta?.color ? `${meta.color}80` : '#3a4268' }}>
-                                  {meta ? t(meta.tKey) : d.stat}
-                                </span>
-                              </div>
-                            )
-                          })
-                        : (() => {
-                            const visible = item.effects.filter(e => !isIgnored(e.stat))
-                            const top4    = visible.slice(0, 4)
-                            const rest    = visible.length - 4
-                            return (
-                              <>
-                                {top4.map((e, ei) => {
-                                  const meta = STAT_META[e.stat]
-                                  const val  = fmtValue(e.min, e.max)
-                                  const clr  = meta?.color ?? '#4a5268'
-                                  return (
-                                    <div key={ei} className="flex items-center justify-end gap-1">
-                                      {meta?.icon && (
-                                        <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                                      )}
-                                      <span className="font-mono font-semibold truncate tabular-nums" style={{ color: clr, fontSize: 11 }}>
-                                        {val}
-                                      </span>
-                                    </div>
-                                  )
-                                })}
-                                {rest > 0 && (
-                                  <p style={{ color: '#333a50', fontSize: 10 }}>+{rest} more</p>
-                                )}
-                              </>
-                            )
-                          })()
-                      }
-                    </div>
+                    {/* Stats — all of them */}
+                    {effects.length > 0 && (
+                      <div
+                        className="px-3 pb-3"
+                        style={{
+                          borderTop:  '1px solid #131a28',
+                          paddingTop: 8,
+                          display:    'flex',
+                          flexDirection: 'column',
+                          gap: 3,
+                        }}
+                      >
+                        {effects.map((e, i) => {
+                          const meta  = STAT_META[e.stat]
+                          const isNeg = e.min < 0
+                          const clr   = isNeg ? '#f87171' : (meta?.color ?? '#4a5268')
+                          const val   = fmtValue(e.min, e.max)
+                          return (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                              {meta?.icon
+                                ? <img
+                                    src={statIconUrl(meta.icon)}
+                                    alt=""
+                                    width={11}
+                                    height={11}
+                                    style={{ objectFit: 'contain', flexShrink: 0, filter: `drop-shadow(0 0 2px ${clr}44)` }}
+                                  />
+                                : <span style={{ width: 11, flexShrink: 0 }} />
+                              }
+                              <span style={{ color: clr, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0, tabularNums: true } as React.CSSProperties}>
+                                {val}
+                              </span>
+                              <span style={{ color: isNeg ? '#f87171cc' : meta?.color ? `${meta.color}bb` : '#4a5268', fontSize: 10, lineHeight: 1.3 }}>
+                                {meta ? t(meta.tKey) : e.stat}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
                   </button>
-                </li>
-              )
-            })}
-            <li aria-hidden style={{ height: paddingBottom }} />
-          </ul>
-        )}
+                )
+              })}
+            </div>
+          )}
+        </div>
 
-        {/* Footer hint */}
+        {/* Footer */}
         <div
           className="flex items-center justify-between px-4 py-2 text-[10px]"
           style={{ borderTop: '1px solid #1a1f2e', color: '#3a4268' }}
         >
-          <span>↑↓ navigate · Enter select · Esc close</span>
+          <span>Esc · close</span>
           <span>{items.length} items</span>
         </div>
       </div>
