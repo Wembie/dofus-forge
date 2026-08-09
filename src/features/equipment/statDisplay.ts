@@ -70,6 +70,8 @@ export const STAT_META: Record<string, StatMeta> = {
   '% Weapon Damage':     { icon: 'weapon_damage',      color: '#c9a84c', tKey: 'stat_weapon_dmg'    },
   '% Melee Resistance':  { icon: 'melee_resistance',   color: '#c49a2a', tKey: 'stat_melee_res'     },
   '% Ranged Resistance': { icon: 'ranged_resistance',  color: '#2a8fd4', tKey: 'stat_ranged_res'    },
+  '% Spell Resistance':  { icon: 'spell_damage',       color: '#9b6dff', tKey: 'stat_spell_res'     },
+  '% Weapon Resistance': { icon: 'weapon_damage',      color: '#c9a84c', tKey: 'stat_weapon_res'    },
   'Pod':                 { icon: 'pods',               color: '#c9a84c', tKey: 'stat_pods'          },
 }
 

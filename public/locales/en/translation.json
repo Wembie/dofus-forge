@@ -79,6 +79,8 @@
   "stat_weapon_dmg": "% Weapon DMG",
   "stat_melee_res": "% Melee RES",
   "stat_ranged_res": "% Ranged RES",
+  "stat_spell_res": "% Spell RES",
+  "stat_weapon_res": "% Weapon RES",
   "badge_ap": "AP",
   "badge_mp": "MP",
   "badge_hp": "HP",

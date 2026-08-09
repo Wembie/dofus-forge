@@ -79,6 +79,8 @@
   "stat_weapon_dmg": "% Dégâts Arme",
   "stat_melee_res": "% Rés. Mêlée",
   "stat_ranged_res": "% Rés. Distance",
+  "stat_spell_res": "% Rés. Sort",
+  "stat_weapon_res": "% Rés. Arme",
   "badge_ap": "PA",
   "badge_mp": "PM",
   "badge_hp": "PV",

@@ -79,6 +79,8 @@
   "stat_weapon_dmg": "% Dano Arma",
   "stat_melee_res": "% Res Corpo",
   "stat_ranged_res": "% Res Distância",
+  "stat_spell_res": "% Res Feitiço",
+  "stat_weapon_res": "% Res Arma",
   "badge_ap": "PA",
   "badge_mp": "PM",
   "badge_hp": "PV",
