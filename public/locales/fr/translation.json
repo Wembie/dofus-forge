@@ -151,5 +151,8 @@
   "stat_push_res": "Rés Recul",
   "stat_trap_damage": "Dom Piège",
   "stat_reflect_dmg": "Dom Renvoyé",
-  "stat_pods": "Pods"
+  "stat_pods": "Pods",
+  "slot_petsmount": "Familier-monture",
+  "slot_mount": "Monture",
+  "slot_sidekick": "Compagnon"
 }

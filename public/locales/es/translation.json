@@ -151,5 +151,8 @@
   "stat_push_res": "Res Retroceso",
   "stat_trap_damage": "Daño Trampa",
   "stat_reflect_dmg": "DMG Reflejo",
-  "stat_pods": "Pods"
+  "stat_pods": "Pods",
+  "slot_petsmount": "Mascoturas",
+  "slot_mount": "Montura",
+  "slot_sidekick": "Acólito"
 }
