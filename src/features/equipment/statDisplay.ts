@@ -33,6 +33,7 @@ export const STAT_META: Record<string, StatMeta> = {
   'Fire steal':          { icon: 'intelligence_damage',color: '#dc4e22', tKey: 'stat_fire_steal'    },
   'Fire heals':          { icon: 'intelligence_damage',color: '#dc4e22', tKey: 'stat_fire_steal'    },
   'Air steal':           { icon: 'agility_damage',     color: '#6ab04c', tKey: 'stat_air_steal'     },
+  'Water steal':         { icon: 'chance_damage',      color: '#2a8fd4', tKey: 'stat_water_steal'   },
   'Neutral steal':       { icon: 'neutral',            color: '#9b9b9b', tKey: 'stat_neutral_steal' },
   'best-element damage': { icon: 'power',              color: '#c9a84c', tKey: 'stat_best_elem_dmg' },
   'best-element steal':  { icon: 'power',              color: '#c9a84c', tKey: 'stat_best_elem_steal'},
