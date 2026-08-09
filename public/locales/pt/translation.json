@@ -174,5 +174,11 @@
   "item_type_Shovel": "Pá",
   "item_type_Staff": "Cajado",
   "item_type_Wand": "Varinha",
-  "item_type_Tool": "Ferramenta"
+  "item_type_Tool": "Ferramenta",
+  "equip_item": "Equipar",
+  "set_pieces_equipped": "{{n}} / {{total}} equipados",
+  "set_items_title": "Items do Set",
+  "set_bonuses_title": "Bônus do Set",
+  "set_bonus_count": "{{n}} peças",
+  "set_bonus_active": "ativo"
 }
