@@ -22,14 +22,16 @@ export type IndexItem = {
 export type AppEffect = { stat: string; min: number; max: number }
 
 export type AppItem = {
-  ankama_id: number
-  name:      string
-  level:     number
-  type:      string
-  slot:      string
-  effects:   AppEffect[]
-  set_id:    number | null
-  image_url: string | null
+  ankama_id:   number
+  name:        string
+  level:       number
+  type:        string
+  slot:        string
+  effects:     AppEffect[]
+  set_id:      number | null
+  image_url:   string | null
+  description?: string
+  ability?:    string
 }
 
 export type AppSet = {

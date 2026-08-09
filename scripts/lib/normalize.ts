@@ -13,6 +13,8 @@ export type AppItem = {
   effects: AppEffect[]
   set_id: number | null
   image_url: string | null
+  description?: string
+  ability?: string
 }
 
 export type AppSet = {
@@ -30,9 +32,10 @@ export type AppMount = {
 }
 
 export type RawEffect = {
-  type?: { name?: string }
+  type?: { name?: string; is_meta?: boolean }
   int_minimum?: number
   int_maximum?: number
+  formatted?: string
 }
 
 export type RawItem = {
@@ -43,6 +46,7 @@ export type RawItem = {
   effects?: RawEffect[]
   parent_set?: { id?: number }
   image_urls?: { icon?: string; sd?: string }
+  description?: string
 }
 
 export type RawSet = {
@@ -81,7 +85,8 @@ function slotFromType(type: string): string {
 }
 
 export function normalizeItem(raw: RawItem): AppItem {
-  return {
+  const abilityEffect = raw.effects?.find(e => e.type?.is_meta && e.formatted)
+  const item: AppItem = {
     ankama_id: raw.ankama_id ?? 0,
     name:      raw.name ?? '',
     level:     raw.level ?? 1,
@@ -95,6 +100,9 @@ export function normalizeItem(raw: RawItem): AppItem {
     set_id:    raw.parent_set?.id ?? null,
     image_url: raw.image_urls?.sd ?? raw.image_urls?.icon ?? null,
   }
+  if (raw.description) item.description = raw.description
+  if (abilityEffect?.formatted) item.ability = abilityEffect.formatted
+  return item
 }
 
 export function normalizeSet(raw: RawSet): AppSet {
