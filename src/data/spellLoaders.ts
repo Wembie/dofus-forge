@@ -12,10 +12,12 @@ export type AppSpellLevel = {
   effects:    AppSpellEffect[]
 }
 export type AppSpell = {
-  id:      number
-  name:    string
-  element: AppSpellElement
-  levels:  AppSpellLevel[]
+  id:         number
+  name:       string
+  element:    AppSpellElement
+  is_variant: boolean
+  image_url:  string | null
+  levels:     AppSpellLevel[]
 }
 export type ClassSpells = {
   classSlug: string

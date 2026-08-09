@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -24,149 +24,113 @@ const ELEM_COLOR: Record<AppSpellElement, string> = {
   mixed:   '#c9a84c',
 }
 
-const ELEM_KEYS: Record<AppSpellElement, string> = {
-  earth:   'elem_earth',
-  fire:    'elem_fire',
-  water:   'elem_water',
-  air:     'elem_air',
-  neutral: 'elem_neutral',
-  mixed:   'elem_mixed',
-}
-
 type ElemFilter = AppSpellElement | 'all'
-const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral', 'mixed']
+const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
-function EffectLine({
-  calcMin, calcMax, element, showCalc,
-}: { calcMin: number; calcMax: number; element: Exclude<AppSpellElement, 'mixed'>; showCalc: boolean }) {
-  const color = ELEM_COLOR[element]
-  const dmg   = calcMin === calcMax ? String(calcMin) : `${calcMin}–${calcMax}`
-  return (
-    <span className="flex items-center gap-1 text-[10px]" style={{ color }}>
-      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: color }} />
-      <span className={showCalc ? 'font-bold' : ''}>{dmg}</span>
-    </span>
-  )
-}
+function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; stats: StatBlock | null }) {
+  const { t }    = useTranslation()
+  const lvl      = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
+  const color    = ELEM_COLOR[spell.element]
+  const showCalc = Boolean(stats)
 
-function SpellRow({ spell, grade, stats }: { spell: AppSpell; grade: number; stats: StatBlock | null }) {
-  const { t } = useTranslation()
-  const [open, setOpen] = useState(false)
-  const lvl   = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
-  const color = ELEM_COLOR[spell.element]
+  const displayEffects = useMemo(() => {
+    if (!lvl) return []
+    if (stats && lvl.effects.length > 0) return calcEffects(lvl.effects, stats)
+    return lvl.effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+  }, [lvl, stats])
 
   const rangeStr = !lvl || lvl.maxRange === 0
-    ? 'Melee'
+    ? t('spell_melee')
     : lvl.minRange === lvl.maxRange
       ? `${lvl.maxRange}`
       : `${lvl.minRange}–${lvl.maxRange}`
 
-  const hasEffects = lvl && lvl.effects.length > 0
-
-  // Compute effects: either calculated (with stats) or raw
-  const displayEffects = lvl ? (
-    stats && lvl.effects.length > 0
-      ? calcEffects(lvl.effects, stats)
-      : lvl.effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-  ) : []
-
-  const showCalc = Boolean(stats)
-
-  // Quick preview: top 2 effects inline in row
-  const preview = displayEffects.slice(0, 2)
-
   return (
-    <li>
-      <button
-        className="w-full text-left transition-colors"
-        onClick={() => hasEffects && setOpen(o => !o)}
-        style={{ cursor: hasEffects ? 'pointer' : 'default' }}
+    <div
+      className="rounded-lg p-2.5 flex gap-2.5"
+      style={{
+        background:  '#0d1219',
+        border:      `1px solid ${color}22`,
+      }}
+    >
+      {/* Spell image */}
+      <div
+        className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
+        style={{
+          width: 44, height: 44,
+          background: 'linear-gradient(145deg, #151c2a, #0d1219)',
+          border: `1px solid ${color}33`,
+        }}
       >
-        <div
-          className="flex items-center gap-2 px-2 py-1.5 rounded-lg"
-          style={{
-            background: open ? `${color}10` : 'transparent',
-            borderLeft: open ? `2px solid ${color}` : '2px solid transparent',
-          }}
-          onMouseEnter={e => {
-            if (!open) (e.currentTarget as HTMLDivElement).style.background = '#1c2333'
-          }}
-          onMouseLeave={e => {
-            if (!open) (e.currentTarget as HTMLDivElement).style.background = 'transparent'
-          }}
+        {spell.image_url
+          ? <img
+              src={spell.image_url}
+              alt=""
+              width={44}
+              height={44}
+              loading="lazy"
+              className="object-contain"
+            />
+          : <span className="text-xl" style={{ color }}>✦</span>
+        }
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        {/* Name row */}
+        <p
+          className="text-[11px] font-semibold truncate leading-tight mb-1"
+          style={{ color }}
         >
-          {/* Element dot */}
-          <span
-            className="w-2 h-2 rounded-full flex-shrink-0"
-            style={{ background: color, boxShadow: `0 0 4px ${color}88` }}
-          />
+          {spell.name}
+        </p>
 
-          {/* Name */}
-          <span className="flex-1 text-[11px] text-forge-text truncate font-medium">
-            {spell.name}
-          </span>
-
-          {/* Inline damage preview */}
-          {!open && preview.length > 0 && (
-            <span className="flex items-center gap-1.5 flex-shrink-0">
-              {preview.map((e, i) => (
-                <EffectLine key={i} {...e} showCalc={showCalc} />
-              ))}
-            </span>
-          )}
-
-          {/* AP badge */}
-          {lvl && (
+        {/* Stats row */}
+        {lvl && (
+          <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
             <span
-              className="text-[10px] font-bold font-mono flex-shrink-0 px-1 rounded"
+              className="text-[10px] font-bold font-mono px-1 rounded"
               style={{ color: '#c9a84c', background: '#c9a84c18' }}
-            >
-              {lvl.ap}AP
+            >{lvl.ap}AP</span>
+
+            <span className="text-[10px] font-mono" style={{ color: '#4a5580' }}>
+              {rangeStr}
             </span>
-          )}
 
-          {/* Range */}
-          <span className="text-[10px] flex-shrink-0" style={{ color: '#4a5268', minWidth: 32, textAlign: 'right' }}>
-            {rangeStr}
-          </span>
+            {lvl.critChance > 0 && (
+              <span className="text-[10px]" style={{ color: '#dc4e22' }}>
+                {lvl.critChance}%
+              </span>
+            )}
 
-          {/* Crit */}
-          {lvl && lvl.critChance > 0 && (
-            <span className="text-[10px] flex-shrink-0" style={{ color: '#dc4e22' }}>
-              {lvl.critChance}%
-            </span>
-          )}
-
-          {/* Expand arrow */}
-          {hasEffects && (
-            <span className="text-[9px] flex-shrink-0" style={{ color: '#3a4268' }}>
-              {open ? '▲' : '▼'}
-            </span>
-          )}
-        </div>
-      </button>
-
-      {/* Expanded effects */}
-      {open && lvl && (
-        <div className="px-4 pb-2 space-y-1">
-          <div className="flex flex-wrap gap-x-3 gap-y-0.5">
-            {displayEffects.map((e, i) => (
-              <EffectLine key={i} {...e} showCalc={showCalc} />
-            ))}
+            {lvl.maxPerTurn > 0 && (
+              <span className="text-[10px]" style={{ color: '#3a4a68' }}>
+                {t('spell_max_per_turn', { count: lvl.maxPerTurn })}
+              </span>
+            )}
           </div>
-          {showCalc && (
-            <p className="text-[9px]" style={{ color: '#3a4268' }}>
-              {t('spell_calculated')}
-            </p>
-          )}
-          {lvl.maxPerTurn > 0 && (
-            <p className="text-[9px]" style={{ color: '#3a4268' }}>
-              {t('spell_max_per_turn', { count: lvl.maxPerTurn })}
-            </p>
-          )}
-        </div>
-      )}
-    </li>
+        )}
+
+        {/* Damage effects */}
+        {displayEffects.length > 0 && (
+          <div className="flex flex-wrap gap-x-2 gap-y-0.5">
+            {displayEffects.map((e, i) => {
+              const c   = ELEM_COLOR[e.element]
+              const dmg = e.calcMin === e.calcMax ? String(e.calcMin) : `${e.calcMin}–${e.calcMax}`
+              return (
+                <span key={i} className="flex items-center gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
+                  <span
+                    className="text-[10px] font-mono tabular-nums"
+                    style={{ color: c, fontWeight: showCalc ? 700 : 400 }}
+                  >{dmg}</span>
+                </span>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -179,12 +143,11 @@ export function SpellsPanel() {
   const loadSpells    = useDataStore(s => s.loadSpells)
   const spells        = useDataStore(s => s.spells)
 
-  const autoGrade               = spellGrade(level)
+  const autoGrade                = spellGrade(level)
   const [manualGrade, setManual] = useState<number | null>(null)
-  const grade                   = manualGrade ?? autoGrade
+  const grade                    = manualGrade ?? autoGrade
   const [elemFilter, setElemFilter] = useState<ElemFilter>('all')
 
-  // Reset manual grade when class changes
   useEffect(() => { setManual(null) }, [selectedClass])
 
   useEffect(() => {
@@ -194,19 +157,29 @@ export function SpellsPanel() {
   if (!selectedClass) return null
 
   const data     = spells.get(selectedClass)
-  const filtered = data?.spells.filter(sp =>
-    elemFilter === 'all' || sp.element === elemFilter
-  ) ?? []
+  const allSpells = data?.spells ?? []
+
+  const normalSpells  = allSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+  const variantSpells = allSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+
+  const ELEM_KEYS: Record<AppSpellElement, string> = {
+    earth:   'elem_earth',
+    fire:    'elem_fire',
+    water:   'elem_water',
+    air:     'elem_air',
+    neutral: 'elem_neutral',
+    mixed:   'elem_mixed',
+  }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <h3 className="font-display text-forge-gold text-sm uppercase tracking-widest">
           {t('spells')}
         </h3>
 
-        {/* Grade selector: 1-6 buttons */}
+        {/* Grade selector */}
         <div className="flex items-center gap-0.5">
           {[1,2,3,4,5,6].map(g => {
             const isAuto   = g === autoGrade && manualGrade == null
@@ -215,7 +188,7 @@ export function SpellsPanel() {
               <button
                 key={g}
                 onClick={() => setManual(g === autoGrade && manualGrade === g ? null : g)}
-                title={`Grade ${g}${g === autoGrade ? ' (auto)' : ''}`}
+                title={`${t('spell_grade', { grade: g })}${g === autoGrade ? ' (auto)' : ''}`}
                 className="w-5 h-5 rounded text-[10px] font-bold font-mono transition-colors"
                 style={{
                   background:  isActive ? '#c9a84c' : isAuto ? '#c9a84c18' : 'transparent',
@@ -261,21 +234,39 @@ export function SpellsPanel() {
       {/* Stats indicator */}
       {stats && (
         <p className="text-[9px]" style={{ color: '#3a4268' }}>
-          ★ {t('stat_strength')} {stats.strength} / {t('stat_intelligence')} {stats.intelligence} / {t('stat_chance')} {stats.chance} / {t('stat_agility')} {stats.agility}
+          ★ {t('spell_calculated')}
         </p>
       )}
 
-      {/* Spell list */}
+      {/* Two-column spell grid */}
       {!data ? (
         <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
-      ) : filtered.length === 0 ? (
-        <p className="text-[11px] py-2" style={{ color: '#3a4268' }}>{t('no_spells_filter')}</p>
       ) : (
-        <ul className="max-h-[320px] overflow-y-auto space-y-px pr-0.5">
-          {filtered.map(spell => (
-            <SpellRow key={spell.id} spell={spell} grade={grade} stats={stats} />
-          ))}
-        </ul>
+        <div className="grid grid-cols-2 gap-x-3">
+          {/* Left: Normal spells */}
+          <div className="space-y-1.5">
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
+              {t('spell_col_normal')}
+            </p>
+            {normalSpells.length === 0 ? (
+              <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+            ) : normalSpells.map(spell => (
+              <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+            ))}
+          </div>
+
+          {/* Right: Variant spells */}
+          <div className="space-y-1.5">
+            <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
+              {t('spell_col_variant')}
+            </p>
+            {variantSpells.length === 0 ? (
+              <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+            ) : variantSpells.map(spell => (
+              <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+            ))}
+          </div>
+        </div>
       )}
     </div>
   )

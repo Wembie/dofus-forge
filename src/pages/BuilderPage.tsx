@@ -129,11 +129,6 @@ function BuilderContent() {
             <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
               <CharacteristicsPanel />
             </div>
-            {hasClass && (
-              <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
-                <SpellsPanel />
-              </div>
-            )}
           </aside>
 
           {/* Center: Equipment — dark character screen, no inner padding */}
@@ -150,6 +145,15 @@ function BuilderContent() {
             <StatsPanel />
           </aside>
         </div>
+
+        {/* Spells: full-width section below 3-col grid (desktop) */}
+        {hasClass && (
+          <div className="hidden lg:block mt-6">
+            <div className="bg-forge-surface rounded-xl border border-forge-border p-5">
+              <SpellsPanel />
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Mobile bottom tab bar (< lg) */}
