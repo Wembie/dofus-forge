@@ -114,5 +114,8 @@
   "click_hint": "Click · Hold · Shift ×5 · Ctrl ×20",
   "gender": "Gender",
   "gender_male": "Male",
-  "gender_female": "Female"
+  "gender_female": "Female",
+  "credits_server": "Server",
+  "credits_creator": "Creator",
+  "credits_ingame": "In-game"
 }

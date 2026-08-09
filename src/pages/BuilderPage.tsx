@@ -177,9 +177,14 @@ function BuilderContent() {
         })}
       </nav>
 
-      <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center">
+      <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
         <p className="text-[10px] text-forge-muted/40 max-w-xl mx-auto">
           {t('disclaimer')}
+        </p>
+        <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: '#3a4268' }}>
+          <span><span style={{ color: '#4a5580' }}>{t('credits_server')}: </span>Tal Kasha</span>
+          <span><span style={{ color: '#4a5580' }}>{t('credits_creator')}: </span>Juan / Wembie</span>
+          <span><span style={{ color: '#4a5580' }}>{t('credits_ingame')}: </span>Raik-Luck</span>
         </p>
       </footer>
     </div>
