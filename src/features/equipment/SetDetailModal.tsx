@@ -66,6 +66,12 @@ export function SetDetailModal({ set, onClose }: Props) {
     [set],
   )
 
+  function handleEquipAll() {
+    for (const item of setItems) {
+      if (!isEquipped(item)) handleEquip(item)
+    }
+  }
+
   function handleEquip(item: AppItem) {
     const slots  = slotByApiSlot.get(item.slot) ?? []
     const target = slots.find(sid => equipped[sid] == null) ?? slots[0]
@@ -101,9 +107,23 @@ export function SetDetailModal({ set, onClose }: Props) {
           <div>
             <h3 className="font-display text-forge-gold font-bold text-base tracking-wide">{set.name}</h3>
             <p className="text-[11px] text-forge-muted/60 mt-0.5">
-              {equippedCount}/{setItems.length} equipped
+              {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
             </p>
           </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleEquipAll}
+              className="px-3 py-1 rounded text-[11px] font-medium transition-colors"
+              style={{ background: '#1c2740', border: '1px solid #2a3f60', color: '#7a9ab8' }}
+              onMouseEnter={e => {
+                ;(e.currentTarget as HTMLButtonElement).style.background = '#22304e'
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#a8c4e0'
+              }}
+              onMouseLeave={e => {
+                ;(e.currentTarget as HTMLButtonElement).style.background = '#1c2740'
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#7a9ab8'
+              }}
+            >{t('equip_all')}</button>
           <button
             onClick={onClose}
             className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none"
@@ -112,12 +132,13 @@ export function SetDetailModal({ set, onClose }: Props) {
             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
             aria-label="Close"
           >×</button>
+          </div>
         </div>
 
         <div className="overflow-y-auto flex-1 p-4 space-y-4">
           {/* Set bonuses */}
           <div className="rounded-lg p-3 space-y-2" style={{ background: '#080c14', border: '1px solid #1c2333' }}>
-            <p className="text-[10px] uppercase tracking-widest text-forge-muted/50 font-medium mb-2">Set Bonuses</p>
+            <p className="text-[10px] uppercase tracking-widest text-forge-muted/50 font-medium mb-2">{t('set_bonuses_title')}</p>
             {tiers.map(({ pieces, effects }) => {
               const active = pieces <= equippedCount
               return (
@@ -143,7 +164,7 @@ export function SetDetailModal({ set, onClose }: Props) {
 
           {/* Items list */}
           <div className="space-y-1">
-            <p className="text-[10px] uppercase tracking-widest text-forge-muted/50 font-medium mb-2">Items</p>
+            <p className="text-[10px] uppercase tracking-widest text-forge-muted/50 font-medium mb-2">{t('set_items_title')}</p>
             {setItems.map(item => {
               const eq = isEquipped(item)
               const slot = SLOT_CONFIGS.find(sc => sc.apiSlot === item.slot)

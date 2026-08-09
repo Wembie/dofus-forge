@@ -6,6 +6,7 @@ import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { ItemCatalog } from './ItemCatalog.tsx'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
 import { RuneModal } from './RuneModal.tsx'
+import { SetDetailModal } from './SetDetailModal.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -133,6 +134,7 @@ type SlotButtonProps = {
   onOpen:       () => void
   onUnequip:    () => void
   onRune?:      () => void
+  onViewSet?:   () => void
   runeCount?:   number
   slotRunes?:   Record<string, number>
   small?:       boolean
@@ -143,10 +145,11 @@ type SlotButtonProps = {
   tooltipSide?: 'right' | 'left' | 'top'
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRunes, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
-  const { t }   = useTranslation()
-  const cfg     = SLOT_MAP[slotId]
-  const IconCmp = SLOT_ICON[slotId]
+function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
+  const { t }         = useTranslation()
+  const cfg           = SLOT_MAP[slotId]
+  const IconCmp       = SLOT_ICON[slotId]
+  const forjamagoName = useBuildStore(s => s.forjamagoName)
   const px      = small ? 52 : 66
   const slotLabel = t(slotTKey(slotId))
 
@@ -263,6 +266,24 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
         </button>
       )}
 
+      {/* Set detail button — bottom-right */}
+      {item && onViewSet && (
+        <button
+          onClick={e => { e.stopPropagation(); onViewSet() }}
+          className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 opacity-0 group-hover:opacity-100"
+          style={{ background: '#06060f', border: '1px solid #2a5888', color: '#4a88cc' }}
+          onMouseEnter={e => {
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#5a9addcc'
+            ;(e.currentTarget as HTMLButtonElement).style.color = '#7ab0ff'
+          }}
+          onMouseLeave={e => {
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#2a5888'
+            ;(e.currentTarget as HTMLButtonElement).style.color = '#4a88cc'
+          }}
+          title={t('view_set')}
+        >⊕</button>
+      )}
+
       {/* Tooltip — game-faithful style, side chosen per column */}
       {item && (
         <div
@@ -365,6 +386,16 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, runeCount, slotRu
                     )
                   })}
                 </div>
+              </div>
+            )}
+
+            {forjamagoName && Object.entries(slotRunes ?? {}).some(([, v]) => v > 0) && (
+              <div className="px-3 pb-1.5" style={{ borderTop: '1px solid #1a2040', paddingTop: 6 }}>
+                <p className="text-[10px] flex items-center gap-1" style={{ color: '#3a5888' }}>
+                  <span style={{ color: '#4a68aa' }}>✦</span>
+                  <span>{t('modified_by')}:</span>
+                  <span style={{ color: '#7aaeff' }}>{forjamagoName}</span>
+                </p>
               </div>
             )}
 
@@ -487,6 +518,7 @@ export function EquipmentGrid() {
 
   const [openSlot, setOpenSlot] = useState<{ config: SlotConfig; id: SlotId } | null>(null)
   const [runeSlot, setRuneSlot] = useState<SlotId | null>(null)
+  const [openSetId, setOpenSetId] = useState<number | null>(null)
 
   const equipMap = useMemo(
     () => new Map((equipment ?? []).map(it => [it.ankama_id, it])),
@@ -524,7 +556,7 @@ export function EquipmentGrid() {
     const maxPieces = tiers.at(-1) ?? 0
     const nextTier  = tiers.find(t => t > count)
     const nextBonus = nextTier != null ? `${nextTier}pc` : undefined
-    return { setName: s.name, setCount: count, setMax: maxPieces, nextBonus }
+    return { setName: s.name, setCount: count, setMax: maxPieces, nextBonus, onViewSet: () => setOpenSetId(s.ankama_id) }
   }
 
   const openCatalog = useCallback((id: SlotId) => {
@@ -635,6 +667,13 @@ export function EquipmentGrid() {
           slotId={runeSlot}
           item={getItem(runeSlot)!}
           onClose={() => setRuneSlot(null)}
+        />
+      )}
+
+      {openSetId != null && setDataMap.get(openSetId) && (
+        <SetDetailModal
+          set={setDataMap.get(openSetId)!}
+          onClose={() => setOpenSetId(null)}
         />
       )}
     </div>

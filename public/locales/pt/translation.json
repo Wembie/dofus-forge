@@ -195,5 +195,10 @@
   "spell_steal_mp": "−{{n}} PM",
   "weapon_attack": "Ataque de Arma",
   "weapon_fist": "Desarmado (Punho)",
-  "common_spells": "Feitiços Comuns"
+  "common_spells": "Feitiços Comuns",
+  "equip_all": "Equipar tudo",
+  "modified_by": "Modificado por",
+  "forjamago_name_label": "Assinatura Forjamago",
+  "forjamago_name_placeholder": "Seu nome de forjamago…",
+  "view_set": "Ver set"
 }

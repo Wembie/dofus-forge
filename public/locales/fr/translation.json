@@ -195,5 +195,10 @@
   "spell_steal_mp": "−{{n}} PM",
   "weapon_attack": "Attaque d'arme",
   "weapon_fist": "Sans arme (Poing)",
-  "common_spells": "Sorts communs"
+  "common_spells": "Sorts communs",
+  "equip_all": "Équiper tout",
+  "modified_by": "Modifié par",
+  "forjamago_name_label": "Signature Forgeron",
+  "forjamago_name_placeholder": "Votre nom de forgeron…",
+  "view_set": "Voir le set"
 }

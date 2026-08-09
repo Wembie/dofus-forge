@@ -148,10 +148,10 @@
   "stat_pct_air_res": "% Air Res",
   "stat_pct_neutral_res": "% Neutral Res",
   "stat_crit_damage": "Crit Damage",
-  "stat_crit_res": "Crit Res",
+  "stat_crit_res": "Crit Resistance",
   "stat_mp_steal": "MP Steal",
   "stat_push_damage": "Push Damage",
-  "stat_push_res": "Push Res",
+  "stat_push_res": "Push Resistance",
   "stat_trap_damage": "Trap Damage",
   "stat_reflect_dmg": "Reflect DMG",
   "stat_pods": "Pods",
@@ -195,5 +195,10 @@
   "spell_steal_mp": "−{{n}} MP",
   "weapon_attack": "Weapon Attack",
   "weapon_fist": "Unarmed (Fist)",
-  "common_spells": "Common Spells"
+  "common_spells": "Common Spells",
+  "equip_all": "Equip All",
+  "modified_by": "Modified by",
+  "forjamago_name_label": "Magesmith Signature",
+  "forjamago_name_placeholder": "Your magesmith name…",
+  "view_set": "View set"
 }

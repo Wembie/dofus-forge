@@ -23,9 +23,11 @@ type Props = {
 
 export function RuneModal({ slotId, item, onClose }: Props) {
   const { t }     = useTranslation()
-  const runes     = useBuildStore(s => s.runes[slotId] ?? {})
-  const setRune   = useBuildStore(s => s.setRune)
-  const clearRune = useBuildStore(s => s.clearRune)
+  const runes            = useBuildStore(s => s.runes[slotId] ?? {})
+  const setRune          = useBuildStore(s => s.setRune)
+  const clearRune        = useBuildStore(s => s.clearRune)
+  const forjamagoName    = useBuildStore(s => s.forjamagoName)
+  const setForjamagoName = useBuildStore(s => s.setForjamagoName)
 
   const [selected, setSelected] = useState(RUNE_GRID[0])
   const [addValue, setAddValue] = useState(10)
@@ -410,7 +412,28 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             </div>
           </div>
 
-          <div className="h-4" />
+          {/* ── Forjamago signature ─────────────────────────────────── */}
+          <div className="px-4 pt-2 pb-4">
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: '#3a4a68' }}>
+                {t('forjamago_name_label')}
+              </span>
+            </div>
+            <div
+              className="flex items-center gap-2 rounded-xl px-3 py-2"
+              style={{ background: '#080b14', border: '1px solid #1c2333' }}
+            >
+              <span className="text-[11px] flex-shrink-0" style={{ color: '#3a5888' }}>✦</span>
+              <input
+                type="text"
+                value={forjamagoName}
+                onChange={e => setForjamagoName(e.target.value)}
+                placeholder={t('forjamago_name_placeholder')}
+                className="flex-1 bg-transparent text-[11px] outline-none"
+                style={{ color: '#6a9fff', caretColor: '#6a9fff' }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
