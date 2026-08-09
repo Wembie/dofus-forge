@@ -50,17 +50,19 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   const color    = ELEM_COLOR[spell.element]
   const showCalc = Boolean(stats)
 
+  const spellPct = stats?.spellDamagePercent ?? 0
+
   const displayEffects = useMemo(() => {
     if (!lvl) return []
-    if (stats && lvl.effects.length > 0) return calcEffects(lvl.effects, stats)
+    if (stats && lvl.effects.length > 0) return calcEffects(lvl.effects, stats, spellPct)
     return lvl.effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-  }, [lvl, stats])
+  }, [lvl, stats, spellPct])
 
   const critDisplayEffects = useMemo(() => {
     if (!lvl?.critEffects || lvl.critEffects.length === 0) return []
-    if (stats) return calcEffects(lvl.critEffects, stats)
+    if (stats) return calcEffects(lvl.critEffects, stats, spellPct)
     return lvl.critEffects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-  }, [lvl, stats])
+  }, [lvl, stats, spellPct])
 
   const hasCrit         = critDisplayEffects.length > 0
   const damageEffects   = displayEffects.filter(e => e.kind === 'damage')
@@ -242,12 +244,14 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const showTotal = attackEffects.length >= 2
   const hasCrit   = crit > 0 && critBon > 0 && stats != null
 
+  const weaponPct = stats?.weaponDamagePercent ?? 0
+
   const computed = attackEffects.map(e => {
     const elem    = WEAPON_ATTACK_STAT[e.stat]!
     const c       = ELEM_COLOR[elem]
     const baseMax = e.max > 0 ? e.max : e.min
-    const low     = stats ? calcDamage(e.min,    elem, stats) : e.min
-    const high    = stats ? calcDamage(baseMax,  elem, stats) : baseMax
+    const low     = stats ? calcDamage(e.min,   elem, stats, weaponPct) : e.min
+    const high    = stats ? calcDamage(baseMax, elem, stats, weaponPct) : baseMax
     return { elem, c, low, high }
   })
 
