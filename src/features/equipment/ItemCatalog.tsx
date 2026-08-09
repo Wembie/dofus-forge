@@ -12,6 +12,10 @@ import { useFavorites } from '@/store/useFavorites.ts'
 
 const ROW_HEIGHT = 72
 
+function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
+  return it.slot === slot.apiSlot && (!slot.apiTypes || slot.apiTypes.includes(it.type))
+}
+
 type SortKey = 'level-desc' | 'level-asc' | 'name-az'
 
 type Props = {
@@ -218,7 +222,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     const ids = new Set<number>()
     const out: AppSet[] = []
     for (const it of equipment ?? []) {
-      if (it.slot !== slot.apiSlot || it.set_id == null) continue
+      if (!matchesSlot(it, slot) || it.set_id == null) continue
       if (!ids.has(it.set_id)) {
         ids.add(it.set_id)
         const s = setMap.get(it.set_id)
@@ -226,13 +230,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       }
     }
     return out.sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot.apiSlot, setMap])
+  }, [equipment, slot, setMap])
 
   // Unique stats available in this slot (non-ignored, sorted by STAT_META label then raw)
   const slotStats = useMemo(() => {
     const seen = new Set<string>()
     for (const it of equipment ?? []) {
-      if (it.slot !== slot.apiSlot) continue
+      if (!matchesSlot(it, slot)) continue
       for (const e of it.effects) {
         if (!isIgnored(e.stat) && STAT_META[e.stat]) seen.add(e.stat)
       }
@@ -242,7 +246,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
       return la.localeCompare(lb)
     })
-  }, [equipment, slot.apiSlot, t])
+  }, [equipment, slot, t])
 
   const { isFav, toggle: toggleFav, favCount } = useFavorites()
 
@@ -262,7 +266,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const items = useMemo<AppItem[]>(() => {
     if (!equipment) return []
     const filtered = equipment.filter(it =>
-      it.slot === slot.apiSlot &&
+      matchesSlot(it, slot) &&
       it.level >= minLevel &&
       it.level <= maxLevel &&
       itemMatchesElement(it, elem) &&
@@ -274,7 +278,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot.apiSlot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav])
+  }, [equipment, slot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav])
 
   useEffect(() => { setActiveIdx(-1) }, [items])
 

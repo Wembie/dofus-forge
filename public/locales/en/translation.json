@@ -151,5 +151,8 @@
   "stat_push_res": "Push Res",
   "stat_trap_damage": "Trap Damage",
   "stat_reflect_dmg": "Reflect DMG",
-  "stat_pods": "Pods"
+  "stat_pods": "Pods",
+  "slot_petsmount": "Petsmount",
+  "slot_mount": "Mount",
+  "slot_sidekick": "Sidekick"
 }

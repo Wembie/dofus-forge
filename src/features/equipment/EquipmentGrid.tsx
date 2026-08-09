@@ -113,9 +113,10 @@ const SLOT_ICON: Record<string, () => JSX.Element> = {
 }
 
 // ── Layout groups ────────────────────────────────────────────────────────────
-const LEFT_SLOTS:  SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'pet']
-const RIGHT_SLOTS: SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
-const DOFUS_SLOTS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+const LEFT_SLOTS:   SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'pet']
+const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
+const EXTRAS_SLOTS: SlotId[] = ['petsmount', 'mount', 'sidekick']
+const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
@@ -557,6 +558,24 @@ export function EquipmentGrid() {
             />
           ))}
         </div>
+      </div>
+
+      {/* Extras row: Petsmount, Mount, Sidekick */}
+      <div className="flex justify-center gap-2 pb-2">
+        {EXTRAS_SLOTS.map(id => (
+          <SlotButton
+            key={id} slotId={id}
+            item={getItem(id)}
+            onOpen={() => openCatalog(id)}
+            onUnequip={() => unequipItem(id)}
+            onRune={() => setRuneSlot(id)}
+            runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
+            slotRunes={runes[id]}
+            small
+            tooltipSide="top"
+            {...getSetProps(id)}
+          />
+        ))}
       </div>
 
       {/* Dofus row — tooltip above, enough vertical space */}
