@@ -45,7 +45,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M21 — Daños calculados de hechizo** — fórmula (base+mastery)*(100+Power)/100+flat, preview inline en fila + expandido con indicador ★
 
 ### UI / Polish
-- [ ] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
+- [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
 - [x] **M24 — Tooltip de set en hover** — en el EquipmentGrid, hover sobre ítem con set → mini-card del set con piezas activas y próximo bonus
 - [ ] **M25 — Búsqueda global** — barra de búsqueda en header que busca ítems, sets, hechizos a la vez
