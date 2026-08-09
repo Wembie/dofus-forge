@@ -44,6 +44,8 @@ Marcar con `[x]` cuando se complete.
 - [x] **M20 — Selector de nivel de hechizo** — botones 1-6 en header de SpellsPanel, auto-grade por nivel del build, reset ↺
 - [x] **M21 — Daños calculados de hechizo** — fórmula (base+mastery)*(100+Power)/100+flat, preview inline en fila + expandido con indicador ★
 - [x] **M26 — Rediseño full hechizos: imágenes + variantes** — sección aparte ancho completo, dos columnas (normales | variantes), tarjetas con imagen 48px real, AP, rango, crit%, max/turno, daños por elemento. ETL extrae 836 imágenes del tar de dofusdude, detecta variantes via spell_variants.json (44 hechizos/clase = 22 + 22)
+- [x] **M27 — Ataque de arma en panel de hechizos** — tarjeta WeaponCard al tope del panel con imagen, AP, rango, crit% y daños calculados del arma equipada; puño/desarmado como fallback. ETL extrae ap_cost, crit_chance, crit_bonus, min_range, max_range del API dofusdude.
+- [x] **M28 — Hechizos comunes** — sección "Common Spells" al pie del panel con los 26 hechizos aprendibles (13 normales + 13 variantes, breedId=19 en spell_variants.json). ETL detecta pares via Spell-learning scrolls (type id=198), extrae efectos correctos (omit lifesteal %, añade worst/best-element damage).
 
 ### UI / Polish
 - [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña

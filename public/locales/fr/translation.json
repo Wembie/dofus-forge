@@ -189,5 +189,8 @@
   "spell_support": "Soutien / Utilité",
   "spell_push": "Recule {{cells}}",
   "spell_steal_ap": "−{{n}} PA",
-  "spell_steal_mp": "−{{n}} PM"
+  "spell_steal_mp": "−{{n}} PM",
+  "weapon_attack": "Attaque d'arme",
+  "weapon_fist": "Sans arme (Poing)",
+  "common_spells": "Sorts communs"
 }

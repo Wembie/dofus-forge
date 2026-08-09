@@ -189,5 +189,8 @@
   "spell_support": "Support / Utility",
   "spell_push": "Push {{cells}}",
   "spell_steal_ap": "−{{n}} AP",
-  "spell_steal_mp": "−{{n}} MP"
+  "spell_steal_mp": "−{{n}} MP",
+  "weapon_attack": "Weapon Attack",
+  "weapon_fist": "Unarmed (Fist)",
+  "common_spells": "Common Spells"
 }

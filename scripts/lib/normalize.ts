@@ -15,6 +15,13 @@ export type AppItem = {
   image_url: string | null
   description?: string
   ability?: string
+  // Weapon combat stats (only present for weapon-slot items)
+  ap_cost?: number
+  crit_chance?: number
+  crit_bonus?: number
+  min_range?: number
+  max_range?: number
+  max_per_turn?: number
 }
 
 export type AppSet = {
@@ -47,6 +54,12 @@ export type RawItem = {
   parent_set?: { id?: number }
   image_urls?: { icon?: string; sd?: string }
   description?: string
+  is_weapon?: boolean
+  ap_cost?: number
+  critical_hit_probability?: number
+  critical_hit_bonus?: number
+  range?: { min?: number; max?: number }
+  max_cast_per_turn?: number
 }
 
 export type RawSet = {
@@ -102,6 +115,14 @@ export function normalizeItem(raw: RawItem): AppItem {
   }
   if (raw.description) item.description = raw.description
   if (abilityEffect?.formatted) item.ability = abilityEffect.formatted
+  if (raw.is_weapon) {
+    item.ap_cost     = raw.ap_cost                   ?? 0
+    item.crit_chance = raw.critical_hit_probability  ?? 0
+    item.crit_bonus  = raw.critical_hit_bonus         ?? 0
+    item.min_range   = raw.range?.min                ?? 0
+    item.max_range   = raw.range?.max                ?? 0
+    item.max_per_turn = raw.max_cast_per_turn         ?? 0
+  }
   return item
 }
 
