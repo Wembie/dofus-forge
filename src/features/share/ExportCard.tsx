@@ -4,6 +4,7 @@ import { toPng } from 'html-to-image'
 import type { StatBlock } from '@/engine/types.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
+import { statIconUrl } from '../equipment/statDisplay.ts'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -38,7 +39,7 @@ export type ExportData = {
 function StatIcon({ name, size = 14 }: { name: string; size?: number }) {
   return (
     <img
-      src={`${BASE}data/stats/${name}.png`}
+      src={statIconUrl(name)}
       width={size} height={size}
       style={{ objectFit: 'contain', display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 }}
       alt=""
@@ -76,7 +77,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
     { icon: 'intelligence',   label: 'Fire',    color: '#dc4e22', dmg: stats.fireDamage,    res: stats.fireResFixed,    pct: stats.fireResPercent    },
     { icon: 'chance',         label: 'Water',   color: '#2a8fd4', dmg: stats.waterDamage,   res: stats.waterResFixed,   pct: stats.waterResPercent   },
     { icon: 'agility',        label: 'Air',     color: '#6ab04c', dmg: stats.airDamage,     res: stats.airResFixed,     pct: stats.airResPercent     },
-    { icon: 'neutral_damage', label: 'Neutral', color: '#9b9b9b', dmg: stats.neutralDamage, res: stats.neutralResFixed, pct: stats.neutralResPercent },
+    { icon: 'neutral',        label: 'Neutral', color: '#9b9b9b', dmg: stats.neutralDamage, res: stats.neutralResFixed, pct: stats.neutralResPercent },
   ].filter(e => e.dmg !== 0 || e.res !== 0 || e.pct !== 0)
 
   const combatStats: { icon: string; label: string; value: number; color: string; suffix?: string }[] = [
