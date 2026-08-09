@@ -117,12 +117,13 @@ export function computeStats(input: BuildInput): StatBlock {
   block.agility      += allocated.agility      + (scrolled.agility      ? SCROLL_BONUS : 0)
 
   // 5. Derived stats from characteristics (official Dofus 3 formulas)
-  block.initiative += block.strength + block.intelligence + block.chance + block.agility
-  block.dodge      += Math.floor(block.agility / 10)
-  block.lock       += Math.floor(block.agility / 10)
-  block.apParry    += Math.floor(block.wisdom  / 10)
-  block.mpParry    += Math.floor(block.wisdom  / 10)
-  block.pods       += block.strength * 5
+  block.initiative   += block.strength + block.intelligence + block.chance + block.agility
+  block.dodge        += Math.floor(block.agility / 10)
+  block.lock         += Math.floor(block.agility / 10)
+  block.apParry      += Math.floor(block.wisdom  / 10)
+  block.mpParry      += Math.floor(block.wisdom  / 10)
+  block.pods         += block.strength * 5
+  block.prospecting  += Math.floor(block.chance  / 10)
 
   // 6. Point budget accounting
 
