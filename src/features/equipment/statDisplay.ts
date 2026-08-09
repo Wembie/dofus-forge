@@ -94,9 +94,10 @@ export function isIgnored(stat: string): boolean {
 
 /** Show value for a stat effect. Handles fixed (min=max), range, and max=0 quirk. */
 export function fmtValue(min: number, max: number): string {
-  const sign = min >= 0 ? '+' : ''
-  if (min === max || max === 0 || max < min) return `${sign}${min}`
-  return `${sign}${min}–${max}`
+  if (min === max || max === 0 || max < min) return `${min >= 0 ? '+' : ''}${min}`
+  // Negative range: show less-negative (smaller absolute) first → -401–-500 not -500–-401
+  if (max < 0) return `${max}–${min}`
+  return `+${min}–${max}`
 }
 
 export function statIconUrl(icon: string): string {
