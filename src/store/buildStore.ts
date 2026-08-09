@@ -40,6 +40,7 @@ export interface BuildState {
   equipped:      Partial<Record<SlotId, number>>
   /** Magesmithy rune bonuses per slot: stat label → flat bonus amount */
   runes:         Partial<Record<SlotId, RuneMap>>
+  forjamagoName: string
 
   stats: StatBlock | null
 
@@ -60,9 +61,10 @@ export interface BuildState {
   unequipItem:   (slot: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
   setSetsData:   (sets: AppSet[]) => void
-  setRune:       (slot: SlotId, stat: string, value: number) => void
-  clearRune:     (slot: SlotId, stat: string) => void
-  applySnapshot: (snap: BuildSnapshot) => void
+  setRune:          (slot: SlotId, stat: string, value: number) => void
+  clearRune:        (slot: SlotId, stat: string) => void
+  setForjamagoName: (name: string) => void
+  applySnapshot:    (snap: BuildSnapshot) => void
   reset:         () => void
 }
 
@@ -130,6 +132,7 @@ export const useBuildStore = create<BuildState>((set) => {
     scrolled:      { ...NO_SCROLLS },
     equipped:      {},
     runes:         {},
+    forjamagoName: '',
     stats:         null,
     _equipment:    [],
     _sets:         [],
@@ -196,6 +199,8 @@ export const useBuildStore = create<BuildState>((set) => {
       return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
     }),
 
+    setForjamagoName: (name) => set(s => ({ ...s, forjamagoName: name })),
+
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
     ),
@@ -232,6 +237,7 @@ export const useBuildStore = create<BuildState>((set) => {
       scrolled:      { ...NO_SCROLLS },
       equipped:      {},
       runes:         {},
+      forjamagoName: '',
       stats:         null,
       _equipment:    s._equipment,
       _sets:         s._sets,
