@@ -420,13 +420,15 @@ export function CharacteristicsPanel() {
             </table>
           </div>
 
-          {/* % damage modifiers (only show if non-zero) */}
+          {/* % damage / resistance modifiers (only show if non-zero) */}
           {(s.meleeDamagePercent || s.rangedDamagePercent || s.spellDamagePercent || s.weaponDamagePercent || s.meleeResistPercent || s.rangedResistPercent) > 0 && (
             <div className="grid grid-cols-2 gap-0.5">
-              <CombatStat icon="melee_damage"  label={t('stat_melee_dmg')}   value={s.meleeDamagePercent}  fmt="pct" />
-              <CombatStat icon="ranged_damage" label={t('stat_ranged_dmg')}  value={s.rangedDamagePercent} fmt="pct" />
-              <CombatStat icon="spell_damage"  label={t('stat_spell_dmg')}   value={s.spellDamagePercent}  fmt="pct" />
-              <CombatStat icon="weapon_damage" label={t('stat_weapon_dmg')}  value={s.weaponDamagePercent} fmt="pct" />
+              <CombatStat icon="melee_damage"      label={t('stat_melee_dmg')}   value={s.meleeDamagePercent}  fmt="pct" />
+              <CombatStat icon="ranged_damage"     label={t('stat_ranged_dmg')}  value={s.rangedDamagePercent} fmt="pct" />
+              <CombatStat icon="spell_damage"      label={t('stat_spell_dmg')}   value={s.spellDamagePercent}  fmt="pct" />
+              <CombatStat icon="weapon_damage"     label={t('stat_weapon_dmg')}  value={s.weaponDamagePercent} fmt="pct" />
+              <CombatStat icon="melee_resistance"  label={t('stat_melee_res')}   value={s.meleeResistPercent}  fmt="pct" />
+              <CombatStat icon="ranged_resistance" label={t('stat_ranged_res')}  value={s.rangedResistPercent} fmt="pct" />
             </div>
           )}
 
