@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { loadIndex, loadEquipment, loadSets, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
+import { loadVersion, loadIndex, loadEquipment, loadSets, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
 import { fetchSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
 
@@ -28,13 +28,18 @@ export const useDataStore = create<DataState>((set, get) => ({
     if (get().loading) return
     set({ loading: true, error: null, lang, spells: new Map() })
     try {
+      // Load version first — use gameVersion as cache-buster so when game data
+      // updates the browser fetches fresh JSON instead of serving stale cache.
+      const { gameVersion } = await loadVersion()
+      const v = gameVersion
+
       // Base data always English — STAT_META/STAT_MAP keys must match stat names.
       // Non-English stat strings (e.g. "fuerza", "vitalidad") are not in STAT_MAP
       // so they'd produce no icons, colors, or engine values.
       const [indexEn, equipmentEn, setsEn] = await Promise.all([
-        loadIndex('en'),
-        loadEquipment('en'),
-        loadSets('en'),
+        loadIndex('en', v),
+        loadEquipment('en', v),
+        loadSets('en', v),
       ])
 
       let index     = indexEn
@@ -45,9 +50,9 @@ export const useDataStore = create<DataState>((set, get) => ({
       // Effects and slot identifiers stay English so the engine keeps working.
       if (lang !== 'en') {
         const [indexLang, equipLang, setsLang] = await Promise.all([
-          loadIndex(lang),
-          loadEquipment(lang),
-          loadSets(lang),
+          loadIndex(lang, v),
+          loadEquipment(lang, v),
+          loadSets(lang, v),
         ])
 
         const indexNames = new Map(indexLang.map(it => [it.id,         it.name]))
