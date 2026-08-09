@@ -91,8 +91,8 @@ function computeSetBonuses(items: BuildInput['items'], sets: BuildInput['sets'])
 export function computeStats(input: BuildInput): StatBlock {
   const block = emptyStatBlock()
 
-  // 1. Base AP/MP
-  block.ap = BASE_AP
+  // 1. Base AP/MP (+ Dofus 2: +1 AP bonus at level 100)
+  block.ap = BASE_AP + (input.level >= 100 ? 1 : 0)
   block.mp = BASE_MP
 
   // 2. Aggregate item effects
