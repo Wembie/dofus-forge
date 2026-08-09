@@ -150,7 +150,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                         +{val}
                       </span>
                       <span className="text-[10px] pr-0.5" style={{ color: `${meta?.color ?? '#c0c8e0'}99` }}>
-                        {meta?.label ?? stat}
+                        {meta ? t(meta.tKey) : stat}
                       </span>
                       <button
                         onClick={() => clearRune(slotId, stat)}
@@ -201,7 +201,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   <button
                     key={stat}
                     onClick={() => setSelected(stat)}
-                    title={meta?.label ?? stat}
+                    title={meta ? t(meta.tKey) : stat}
                     className="relative flex items-center justify-center rounded-lg transition-all"
                     style={{
                       aspectRatio: '1',
@@ -235,7 +235,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     {meta?.icon ? (
                       <img
                         src={statIconUrl(meta.icon)}
-                        alt={meta.label}
+                        alt={t(meta.tKey)}
                         width={20}
                         height={20}
                         className="object-contain"
@@ -249,7 +249,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                       />
                     ) : (
                       <span className="text-[9px] font-bold" style={{ color: active ? '#c9a84c' : '#3a4268' }}>
-                        {(meta?.label ?? stat).slice(0, 3)}
+                        {(meta ? t(meta.tKey) : stat).slice(0, 3)}
                       </span>
                     )}
 
@@ -282,7 +282,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   />
                 )}
                 <span className="font-semibold text-sm" style={{ color: selMeta?.color ?? '#c9a84c' }}>
-                  {selMeta?.label ?? selected}
+                  {selMeta ? t(selMeta.tKey) : selected}
                 </span>
                 {(runes[selected] ?? 0) > 0 && (
                   <span className="ml-auto text-[11px] font-mono" style={{ color: `${selMeta?.color ?? '#c9a84c'}99` }}>

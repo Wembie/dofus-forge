@@ -116,6 +116,7 @@ function SetSearch({
 function StatFilter({
   stats, selected, onSelect,
 }: { stats: string[]; selected: string | null; onSelect: (s: string | null) => void }) {
+  const { t }           = useTranslation()
   const [q, setQ]       = useState('')
   const [open, setOpen] = useState(false)
 
@@ -143,7 +144,7 @@ function StatFilter({
         {meta?.icon && (
           <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain" />
         )}
-        <span className="truncate">{meta?.label ?? selected}</span>
+        <span className="truncate">{meta ? t(meta.tKey) : selected}</span>
         <span className="ml-auto flex-shrink-0 opacity-60">✕</span>
       </div>
     )
@@ -178,7 +179,7 @@ function StatFilter({
                   {meta?.icon && (
                     <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
                   )}
-                  <span style={{ color: clr }}>{meta?.label ?? stat}</span>
+                  <span style={{ color: clr }}>{meta ? t(meta.tKey) : stat}</span>
                 </button>
               </li>
             )
@@ -237,11 +238,11 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       }
     }
     return [...seen].sort((a, b) => {
-      const la = STAT_META[a]?.label ?? a
-      const lb = STAT_META[b]?.label ?? b
+      const la = STAT_META[a] ? t(STAT_META[a].tKey) : a
+      const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
       return la.localeCompare(lb)
     })
-  }, [equipment, slot.apiSlot])
+  }, [equipment, slot.apiSlot, t])
 
   const { isFav, toggle: toggleFav, favCount } = useFavorites()
 
@@ -565,7 +566,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                                   {isPos ? '+' : ''}{d.delta}
                                 </span>
                                 <span className="text-[10px] truncate" style={{ color: meta?.color ? `${meta.color}80` : '#3a4268' }}>
-                                  {meta?.label ?? d.stat}
+                                  {meta ? t(meta.tKey) : d.stat}
                                 </span>
                               </div>
                             )
