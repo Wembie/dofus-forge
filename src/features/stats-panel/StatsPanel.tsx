@@ -83,52 +83,58 @@ type ElemRow = {
   steal?:      number
 }
 
-function fmtNum(v: number, suffix = ''): string {
-  if (v === 0) return '—'
-  return `${v > 0 ? '+' : ''}${v}${suffix}`
+// ── Chip: icon + value, styled by empty/active state ─────────────────────────
+function ElemChip({ iconName, value, elemColor, isRes = false, suffix = '' }: {
+  iconName: string; value: number; elemColor: string; isRes?: boolean; suffix?: string
+}) {
+  const empty    = value === 0
+  const valColor = empty ? '#2a3347' : isRes ? (value > 0 ? '#6ab04c' : '#dc4e22') : elemColor
+  return (
+    <div className="flex items-center justify-end gap-1 rounded-md" style={{
+      padding: '3px 7px',
+      background: empty ? 'transparent' : `${elemColor}14`,
+      border:     `1px solid ${empty ? 'transparent' : elemColor + '38'}`,
+    }}>
+      <img
+        src={statIconUrl(iconName)} alt=""
+        width={12} height={12}
+        style={{ objectFit: 'contain', flexShrink: 0, opacity: empty ? 0.18 : 0.80 }}
+      />
+      <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: valColor }}>
+        {empty ? '—' : `${value > 0 ? '+' : ''}${value}${suffix}`}
+      </span>
+    </div>
+  )
 }
 
-function ElemTableRow({ iconName, dmgIconName, resIconName, label, color, dmg, resFixed, resPct, steal }: ElemRow) {
-  const allZero = dmg === 0 && resFixed === 0 && resPct === 0 && (steal ?? 0) === 0
+function ElemTableRow({ iconName, dmgIconName, resIconName, label, color, dmg, resFixed, resPct, steal, cols, hasSteal }: ElemRow & { cols: string; hasSteal: boolean }) {
+  const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0 || (steal ?? 0) !== 0
   return (
-    <tr style={{ opacity: allZero ? 0.35 : 1 }}>
-      <td className="py-0.5 pr-2">
-        <div className="flex items-center gap-1.5">
-          {icon(iconName, 14, color)}
-          <span className="text-[11px] font-medium" style={{ color }}>{label}</span>
-        </div>
-      </td>
-      <td className="py-0.5 px-2 text-right">
-        <div className="flex items-center justify-end gap-0.5">
-          {icon(dmgIconName, 10)}
-          <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: dmg !== 0 ? color : '#3a4268' }}>{fmtNum(dmg)}</span>
-        </div>
-      </td>
-      <td className="py-0.5 px-2 text-right">
-        <div className="flex items-center justify-end gap-0.5">
-          {icon(resIconName, 10)}
-          <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: resFixed !== 0 ? color : '#3a4268' }}>{fmtNum(resFixed)}</span>
-        </div>
-      </td>
-      <td className="py-0.5 pl-2 text-right">
-        <div className="flex items-center justify-end gap-0.5">
-          {icon(resIconName, 10)}
-          <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: resPct !== 0 ? color : '#3a4268' }}>{fmtNum(resPct, '%')}</span>
-        </div>
-      </td>
-      {steal !== undefined && (
-        <td className="py-0.5 pl-2 text-right font-mono font-bold text-[11px] tabular-nums"
-          style={{ color: steal !== 0 ? color : '#3a4268' }}>
-          {fmtNum(steal)}
-        </td>
-      )}
-    </tr>
+    <div
+      className="grid items-center rounded-lg"
+      style={{
+        gridTemplateColumns: cols, gap: 4, padding: '5px 8px',
+        background:  hasData ? `${color}08` : 'transparent',
+        borderLeft:  `2px solid ${hasData ? color + '55' : '#1c2333'}`,
+        opacity:     hasData ? 1 : 0.35,
+      }}
+    >
+      <div className="flex items-center gap-2">
+        {icon(iconName, 15, color)}
+        <span className="text-[11px] font-semibold" style={{ color }}>{label}</span>
+      </div>
+      <ElemChip iconName={dmgIconName} value={dmg}     elemColor={color} />
+      <ElemChip iconName={resIconName} value={resFixed} elemColor={color} isRes />
+      <ElemChip iconName={resIconName} value={resPct}   elemColor={color} isRes suffix="%" />
+      {hasSteal && <ElemChip iconName={dmgIconName} value={steal ?? 0} elemColor={color} />}
+    </div>
   )
 }
 
 function ElementTable({ s }: { s: StatBlock }) {
-  const t = useT()
-  const hasAnySteal = s.earthSteal + s.fireSteal + s.waterSteal + s.airSteal + s.neutralSteal + s.bestElemSteal > 0
+  const t        = useT()
+  const hasSteal = s.earthSteal + s.fireSteal + s.waterSteal + s.airSteal + s.neutralSteal + s.bestElemSteal > 0
+  const cols     = hasSteal ? '1fr 66px 66px 66px 66px' : '1fr 66px 66px 66px'
 
   const rows: ElemRow[] = [
     { iconName: 'strength',     dmgIconName: 'strength_damage',     resIconName: 'earth_resistance',   label: t('elem_earth'),   color: '#c49a2a', dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   steal: s.earthSteal   },
@@ -138,82 +144,42 @@ function ElementTable({ s }: { s: StatBlock }) {
     { iconName: 'neutral',      dmgIconName: 'neutral',              resIconName: 'neutral_resistance', label: t('elem_neutral'), color: '#9b9b9b', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
   ]
 
+  const headerStyle: React.CSSProperties = { color: '#3a4268', fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'right', alignSelf: 'center' }
+
   return (
     <Section title={t('section_elements')}>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="text-left pb-1.5" />
-            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal" style={{ color: '#3a4268' }}>{t('header_dmg')}</th>
-            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal" style={{ color: '#3a4268' }}>{t('header_res')}</th>
-            <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal pl-2" style={{ color: '#3a4268' }}>{t('header_res_pct')}</th>
-            {hasAnySteal && (
-              <th className="text-right pb-1.5 text-[9px] uppercase tracking-widest font-normal pl-2" style={{ color: '#3a4268' }}>{t('header_steal')}</th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(r => (
-            <ElemTableRow key={r.label} {...r} steal={hasAnySteal ? r.steal : undefined} />
-          ))}
-          {/* Critical row */}
-          <tr style={{ opacity: s.critDamage === 0 && s.critResistance === 0 ? 0.35 : 1 }}>
-            <td className="pt-1.5 py-0.5 pr-2">
-              <div className="flex items-center gap-1.5">
-                {icon('crit_damage', 14, '#f5a623')}
-                <span className="text-[11px] font-medium" style={{ color: '#f5a623' }}>{t('elem_critical')}</span>
-              </div>
-            </td>
-            <td className="pt-1.5 py-0.5 px-2 text-right">
-              <div className="flex items-center justify-end gap-0.5">
-                {icon('crit_damage', 10)}
-                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.critDamage !== 0 ? '#f5a623' : '#3a4268' }}>{fmtNum(s.critDamage)}</span>
-              </div>
-            </td>
-            <td className="pt-1.5 py-0.5 px-2 text-right">
-              <div className="flex items-center justify-end gap-0.5">
-                {icon('crit_res', 10)}
-                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.critResistance !== 0 ? '#f5a623' : '#3a4268' }}>{fmtNum(s.critResistance)}</span>
-              </div>
-            </td>
-            <td className="pt-1.5 py-0.5 pl-2 text-right">
-              <div className="flex items-center justify-end gap-0.5">
-                {icon('crit_res', 10)}
-                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: '#3a4268' }}>—</span>
-              </div>
-            </td>
-            {hasAnySteal && <td />}
-          </tr>
-          {/* Push row */}
-          <tr style={{ opacity: s.pushbackDamage === 0 && s.pushbackResist === 0 ? 0.35 : 1 }}>
-            <td className="py-0.5 pr-2">
-              <div className="flex items-center gap-1.5">
-                {icon('push_damage', 14, '#b8860b')}
-                <span className="text-[11px] font-medium" style={{ color: '#b8860b' }}>{t('elem_push')}</span>
-              </div>
-            </td>
-            <td className="py-0.5 px-2 text-right">
-              <div className="flex items-center justify-end gap-0.5">
-                {icon('push_damage', 10)}
-                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.pushbackDamage !== 0 ? '#b8860b' : '#3a4268' }}>{fmtNum(s.pushbackDamage)}</span>
-              </div>
-            </td>
-            <td className="py-0.5 px-2 text-right">
-              <div className="flex items-center justify-end gap-0.5">
-                {icon('push_resistance', 10)}
-                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: s.pushbackResist !== 0 ? '#b8860b' : '#3a4268' }}>{fmtNum(s.pushbackResist)}</span>
-              </div>
-            </td>
-            <td className="py-0.5 pl-2 text-right">
-              <div className="flex items-center justify-end gap-0.5">
-                {icon('push_resistance', 10)}
-                <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: '#3a4268' }}>—</span>
-              </div>
-            </td>
-            {hasAnySteal && <td />}
-          </tr>
-        </tbody>
-      </table>
+      {/* Column headers — same grid as rows */}
+      <div className="grid mb-2" style={{ gridTemplateColumns: cols, gap: 4 }}>
+        <span />
+        <span style={headerStyle}>{t('header_dmg')}</span>
+        <span style={headerStyle}>{t('header_res')}</span>
+        <span style={headerStyle}>{t('header_res_pct')}</span>
+        {hasSteal && <span style={headerStyle}>{t('header_steal')}</span>}
+      </div>
+
+      {/* Element rows */}
+      <div className="space-y-1">
+        {rows.map(r => (
+          <ElemTableRow key={r.label} {...r} cols={cols} hasSteal={hasSteal} />
+        ))}
+
+        <div className="my-1" style={{ borderTop: '1px solid #1c2333' }} />
+
+        {/* Crit row — no % resistance */}
+        <ElemTableRow
+          iconName="crit_damage" dmgIconName="crit_damage" resIconName="crit_res"
+          label={t('elem_critical')} color="#f5a623"
+          dmg={s.critDamage} resFixed={s.critResistance} resPct={0}
+          cols={cols} hasSteal={hasSteal}
+        />
+        {/* Push row — no % resistance */}
+        <ElemTableRow
+          iconName="push_damage" dmgIconName="push_damage" resIconName="push_resistance"
+          label={t('elem_push')} color="#b8860b"
+          dmg={s.pushbackDamage} resFixed={s.pushbackResist} resPct={0}
+          cols={cols} hasSteal={hasSteal}
+        />
+      </div>
     </Section>
   )
 }
