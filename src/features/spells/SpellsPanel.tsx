@@ -41,6 +41,16 @@ function fmtRange(min: number, max: number): string {
   return min === max ? String(min) : `${min}–${max}`
 }
 
+/** % melee or ranged bonus from stats, inferred from spell/weapon range values.
+ *  maxRange=0 → self-cast, no distance modifier.
+ *  minRange=0 → can hit adjacent → melee bonus applies.
+ *  minRange>0 → always ranged → ranged bonus applies.
+ */
+function rangePct(minRange: number, maxRange: number, stats: StatBlock): number {
+  if (maxRange === 0) return 0
+  return minRange === 0 ? stats.meleeDamagePercent : stats.rangedDamagePercent
+}
+
 type ElemFilter = AppSpellElement | 'all'
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
@@ -50,7 +60,10 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   const color    = ELEM_COLOR[spell.element]
   const showCalc = Boolean(stats)
 
-  const spellPct = stats?.spellDamagePercent ?? 0
+  // spellDamagePercent + melee/ranged inferred from spell range
+  const spellPct = stats && lvl
+    ? stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
+    : 0
 
   const displayEffects = useMemo(() => {
     if (!lvl) return []
@@ -244,7 +257,10 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const showTotal = attackEffects.length >= 2
   const hasCrit   = crit > 0 && critBon > 0 && stats != null
 
-  const weaponPct = stats?.weaponDamagePercent ?? 0
+  // weaponDamagePercent + melee/ranged inferred from weapon range
+  const weaponPct = stats
+    ? stats.weaponDamagePercent + rangePct(minR, maxR, stats)
+    : 0
 
   const computed = attackEffects.map(e => {
     const elem    = WEAPON_ATTACK_STAT[e.stat]!
