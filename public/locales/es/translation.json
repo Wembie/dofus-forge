@@ -8,6 +8,7 @@
   "scroll_label": "P",
   "scroll_title": "Pergamino (+{{bonus}})",
   "cost_hint": "{{cost}}pt",
+  "character": "Personaje",
   "equipment": "Equipo",
   "empty_slot": "vacío",
   "unequip": "Desequipar {{name}}",

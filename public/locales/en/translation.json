@@ -8,6 +8,7 @@
   "scroll_label": "S",
   "scroll_title": "Scroll (+{{bonus}})",
   "cost_hint": "{{cost}}pt",
+  "character": "Character",
   "equipment": "Equipment",
   "empty_slot": "empty",
   "unequip": "Unequip {{name}}",

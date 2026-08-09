@@ -8,6 +8,7 @@
   "scroll_label": "P",
   "scroll_title": "Parchemin (+{{bonus}})",
   "cost_hint": "{{cost}}pt",
+  "character": "Personnage",
   "equipment": "Équipement",
   "empty_slot": "vide",
   "unequip": "Déséquiper {{name}}",
