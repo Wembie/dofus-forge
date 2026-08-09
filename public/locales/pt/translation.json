@@ -158,5 +158,21 @@
   "item_type_Petsmount": "Mascote-montura",
   "item_type_Dragoturkey": "Dragopavo",
   "item_type_Seemyool": "Seemyool",
-  "item_type_Rhineetle": "Mulagua"
+  "item_type_Rhineetle": "Mulagua",
+  "item_type_Dofus": "Dofus",
+  "item_type_Trophy": "Troféu",
+  "item_type_Prysmaradite": "Prysmaradite",
+  "item_type_Sword": "Espada",
+  "item_type_Axe": "Machado",
+  "item_type_Bow": "Arco",
+  "item_type_Dagger": "Adaga",
+  "item_type_Hammer": "Martelo",
+  "item_type_Lance": "Lança",
+  "item_type_Magic weapon": "Arma Mágica",
+  "item_type_Pickaxe": "Picareta",
+  "item_type_Scythe": "Foice",
+  "item_type_Shovel": "Pá",
+  "item_type_Staff": "Cajado",
+  "item_type_Wand": "Varinha",
+  "item_type_Tool": "Ferramenta"
 }

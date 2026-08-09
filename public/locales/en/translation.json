@@ -158,5 +158,21 @@
   "item_type_Petsmount": "Petsmount",
   "item_type_Dragoturkey": "Dragoturkey",
   "item_type_Seemyool": "Seemyool",
-  "item_type_Rhineetle": "Rhineetle"
+  "item_type_Rhineetle": "Rhineetle",
+  "item_type_Dofus": "Dofus",
+  "item_type_Trophy": "Trophy",
+  "item_type_Prysmaradite": "Prysmaradite",
+  "item_type_Sword": "Sword",
+  "item_type_Axe": "Axe",
+  "item_type_Bow": "Bow",
+  "item_type_Dagger": "Dagger",
+  "item_type_Hammer": "Hammer",
+  "item_type_Lance": "Lance",
+  "item_type_Magic weapon": "Magic Weapon",
+  "item_type_Pickaxe": "Pickaxe",
+  "item_type_Scythe": "Scythe",
+  "item_type_Shovel": "Shovel",
+  "item_type_Staff": "Staff",
+  "item_type_Wand": "Wand",
+  "item_type_Tool": "Tool"
 }

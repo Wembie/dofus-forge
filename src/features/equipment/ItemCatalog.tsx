@@ -233,7 +233,17 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [favsOnly,   setFavsOnly]   = useState(false)
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
 
-  const hasTypeFilter = (slot.apiTypes?.length ?? 0) > 1
+  // Auto-detect all distinct types present in this slot's data
+  const availableTypes = useMemo(() => {
+    const seen = new Set<string>()
+    for (const it of equipment ?? []) {
+      if (matchesSlot(it, slot)) seen.add(it.type)
+    }
+    const types = [...seen]
+    return types.length > 1 ? types.sort() : []
+  }, [equipment, slot])
+
+  const hasTypeFilter = availableTypes.length > 0
 
   const items = useMemo<AppItem[]>(() => {
     if (!equipment) return []
@@ -388,8 +398,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             </div>
           </div>
 
-          {/* Species / type filter — only shown for multi-type slots like companion */}
-          {hasTypeFilter && slot.apiTypes && (
+          {/* Type filter tabs — auto-shown for any slot with >1 distinct item types */}
+          {hasTypeFilter && (
             <div className="flex items-center gap-1 flex-wrap">
               <button
                 onClick={() => setTypeFilter(null)}
@@ -402,7 +412,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               >
                 {t('elem_all')}
               </button>
-              {slot.apiTypes.map(type => (
+              {availableTypes.map(type => (
                 <button
                   key={type}
                   onClick={() => setTypeFilter(typeFilter === type ? null : type)}
@@ -416,8 +426,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                   {t(`item_type_${type}`, { defaultValue: type })}
                 </button>
               ))}
-              {search.trim() !== '' && (
-                <span className="text-[10px] text-forge-muted/50 ml-1">({t('elem_all')})</span>
+              {search.trim() !== '' && typeFilter !== null && (
+                <span className="text-[10px] text-forge-muted/50 ml-1">· {t('elem_all')}</span>
               )}
             </div>
           )}

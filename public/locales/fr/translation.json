@@ -158,5 +158,21 @@
   "item_type_Petsmount": "Familier-monture",
   "item_type_Dragoturkey": "Dragodinde",
   "item_type_Seemyool": "Volkorne",
-  "item_type_Rhineetle": "Muldo"
+  "item_type_Rhineetle": "Muldo",
+  "item_type_Dofus": "Dofus",
+  "item_type_Trophy": "Trophée",
+  "item_type_Prysmaradite": "Prysmaradite",
+  "item_type_Sword": "Épée",
+  "item_type_Axe": "Hache",
+  "item_type_Bow": "Arc",
+  "item_type_Dagger": "Dague",
+  "item_type_Hammer": "Marteau",
+  "item_type_Lance": "Lance",
+  "item_type_Magic weapon": "Arme Magique",
+  "item_type_Pickaxe": "Pioche",
+  "item_type_Scythe": "Faux",
+  "item_type_Shovel": "Pelle",
+  "item_type_Staff": "Bâton",
+  "item_type_Wand": "Baguette",
+  "item_type_Tool": "Outil"
 }
