@@ -114,5 +114,8 @@
   "click_hint": "Clique · Segurar · Shift ×5 · Ctrl ×20",
   "gender": "Gênero",
   "gender_male": "Masculino",
-  "gender_female": "Feminino"
+  "gender_female": "Feminino",
+  "credits_server": "Servidor",
+  "credits_creator": "Criador",
+  "credits_ingame": "No jogo"
 }
