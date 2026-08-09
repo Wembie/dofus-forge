@@ -556,13 +556,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     {item.ability && (
                       <div className="px-3 pb-2">
                         <div style={{
-                          background:   'rgba(201,168,76,0.07)',
-                          border:       '1px solid rgba(201,168,76,0.22)',
+                          background:   'rgba(201,168,76,0.10)',
+                          border:       '1px solid rgba(201,168,76,0.35)',
                           borderRadius: 6,
-                          padding:      '5px 7px',
+                          padding:      '6px 8px',
                         }}>
                           {item.ability.split('\n').filter(Boolean).map((line, i) => (
-                            <p key={i} style={{ fontSize: 10, color: i === 0 ? '#c9a84c' : '#a8893c', lineHeight: 1.45, margin: 0 }}>
+                            <p key={i} style={{ fontSize: 10, color: i === 0 ? '#d4af50' : '#b89840', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
                               {line}
                             </p>
                           ))}
@@ -613,8 +613,14 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
 
                     {/* Lore description */}
                     {item.description && (
-                      <div className="px-3 pb-3" style={{ borderTop: (effects.length > 0 || item.ability) ? '1px solid #131a28' : undefined, paddingTop: (effects.length > 0 || item.ability) ? 7 : 0 }}>
-                        <p style={{ fontSize: 9, color: '#3a4460', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
+                      <div
+                        className="px-3 pb-3"
+                        style={{
+                          borderTop:  (effects.length > 0 || item.ability) ? '1px solid #131a28' : undefined,
+                          paddingTop: (effects.length > 0 || item.ability) ? 7 : 4,
+                        }}
+                      >
+                        <p style={{ fontSize: 10, color: '#6b7a99', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
                           {item.description}
                         </p>
                       </div>
