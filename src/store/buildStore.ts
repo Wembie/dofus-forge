@@ -10,14 +10,14 @@ export type RuneMap = Record<string, number>
 
 export type SlotId =
   | 'hat' | 'cape' | 'amulet' | 'ring1' | 'ring2'
-  | 'belt' | 'boots' | 'weapon' | 'shield' | 'pet'
-  | 'petsmount' | 'mount' | 'sidekick'
+  | 'belt' | 'boots' | 'weapon' | 'shield' | 'companion'
+  | 'sidekick'
   | 'dofus1' | 'dofus2' | 'dofus3' | 'dofus4' | 'dofus5' | 'dofus6'
 
 export const ALL_SLOTS: SlotId[] = [
   'hat', 'cape', 'amulet', 'ring1', 'ring2',
-  'belt', 'boots', 'weapon', 'shield', 'pet',
-  'petsmount', 'mount', 'sidekick',
+  'belt', 'boots', 'weapon', 'shield', 'companion',
+  'sidekick',
   'dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6',
 ]
 

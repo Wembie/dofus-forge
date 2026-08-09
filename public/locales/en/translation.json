@@ -152,7 +152,11 @@
   "stat_trap_damage": "Trap Damage",
   "stat_reflect_dmg": "Reflect DMG",
   "stat_pods": "Pods",
-  "slot_petsmount": "Petsmount",
-  "slot_mount": "Mount",
-  "slot_sidekick": "Sidekick"
+  "slot_companion": "Pet",
+  "slot_sidekick": "Sidekick",
+  "item_type_Pet": "Pet",
+  "item_type_Petsmount": "Petsmount",
+  "item_type_Dragoturkey": "Dragoturkey",
+  "item_type_Seemyool": "Seemyool",
+  "item_type_Rhineetle": "Rhineetle"
 }

@@ -98,24 +98,24 @@ function DofusIcon() {
 }
 
 const SLOT_ICON: Record<string, () => JSX.Element> = {
-  hat:    HatIcon,
-  cape:   CapeIcon,
-  amulet: AmuletIcon,
-  ring1:  RingIcon,
-  ring2:  RingIcon,
-  weapon: WeaponIcon,
-  shield: ShieldIcon,
-  belt:   BeltIcon,
-  boots:  BootsIcon,
-  pet:    PetIcon,
+  hat:       HatIcon,
+  cape:      CapeIcon,
+  amulet:    AmuletIcon,
+  ring1:     RingIcon,
+  ring2:     RingIcon,
+  weapon:    WeaponIcon,
+  shield:    ShieldIcon,
+  belt:      BeltIcon,
+  boots:     BootsIcon,
+  companion: PetIcon,
   dofus1: DofusIcon, dofus2: DofusIcon, dofus3: DofusIcon,
   dofus4: DofusIcon, dofus5: DofusIcon, dofus6: DofusIcon,
 }
 
 // ── Layout groups ────────────────────────────────────────────────────────────
-const LEFT_SLOTS:   SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'pet']
+const LEFT_SLOTS:   SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
 const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
-const EXTRAS_SLOTS: SlotId[] = ['petsmount', 'mount', 'sidekick']
+const EXTRAS_SLOTS: SlotId[] = ['sidekick']
 const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
