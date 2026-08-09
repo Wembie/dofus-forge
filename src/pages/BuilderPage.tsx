@@ -1,4 +1,4 @@
-import { useEffect, Suspense } from 'react'
+import { useEffect, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
@@ -14,9 +14,12 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
 
+type MobileTab = 'equipment' | 'character' | 'stats'
+
 function BuilderContent() {
   const { t, i18n } = useTranslation()
   const hasClass  = useBuildStore(s => s.selectedClass !== null)
+  const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
   const load      = useDataStore(s => s.load)
   const loading   = useDataStore(s => s.loading)
   const error     = useDataStore(s => s.error)
@@ -85,9 +88,39 @@ function BuilderContent() {
         </div>
       </header>
 
-      {/* Main 3-column layout */}
-      <main id="main-content" className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_240px] gap-4 lg:gap-6">
+      {/* Main content */}
+      <main id="main-content" className="max-w-7xl mx-auto px-4 py-6 pb-24 lg:pb-6">
+        {/* Mobile: single active tab panel (< lg) */}
+        <div className="lg:hidden">
+          {activeTab === 'equipment' && (
+            <section aria-label={t('equipment')} className="rounded-xl border border-forge-border overflow-hidden">
+              <EquipmentGrid />
+            </section>
+          )}
+          {activeTab === 'character' && (
+            <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
+              <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
+                <ClassPicker />
+              </div>
+              <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
+                <CharacteristicsPanel />
+              </div>
+              {hasClass && (
+                <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
+                  <SpellsPanel />
+                </div>
+              )}
+            </aside>
+          )}
+          {activeTab === 'stats' && (
+            <aside aria-label={t('stats')} aria-live="polite" className="bg-forge-surface rounded-xl border border-forge-border p-4">
+              <StatsPanel />
+            </aside>
+          )}
+        </div>
+
+        {/* Desktop: 3-column grid (lg+) */}
+        <div className="hidden lg:grid lg:grid-cols-[280px_1fr_240px] gap-6">
           {/* Left: Class + Characteristics */}
           <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
             <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
@@ -112,12 +145,37 @@ function BuilderContent() {
           <aside
             aria-label={t('stats')}
             aria-live="polite"
-            className="bg-forge-surface rounded-xl border border-forge-border p-4 lg:overflow-y-auto lg:max-h-[calc(100vh-120px)] lg:sticky lg:top-20"
+            className="bg-forge-surface rounded-xl border border-forge-border p-4 overflow-y-auto max-h-[calc(100vh-120px)] sticky top-20"
           >
             <StatsPanel />
           </aside>
         </div>
       </main>
+
+      {/* Mobile bottom tab bar (< lg) */}
+      <nav
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 flex border-t border-forge-border"
+        style={{ background: 'var(--forge-surface)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+        aria-label="Navigation"
+      >
+        {([ 'equipment', 'character', 'stats' ] as MobileTab[]).map(tab => {
+          const label = tab === 'equipment' ? t('equipment') : tab === 'character' ? t('character') : t('stats')
+          const icon  = tab === 'equipment' ? '⚔' : tab === 'character' ? '👤' : '📊'
+          const active = tab === activeTab
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition-colors"
+              style={{ color: active ? 'var(--forge-gold)' : 'var(--forge-muted)' }}
+              aria-current={active ? 'page' : undefined}
+            >
+              <span className="text-base leading-none">{icon}</span>
+              <span>{label}</span>
+            </button>
+          )
+        })}
+      </nav>
 
       <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center">
         <p className="text-[10px] text-forge-muted/40 max-w-xl mx-auto">
