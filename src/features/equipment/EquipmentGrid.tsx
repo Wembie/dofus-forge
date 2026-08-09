@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -149,12 +149,17 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const { t }         = useTranslation()
   const cfg           = SLOT_MAP[slotId]
   const IconCmp       = SLOT_ICON[slotId]
-  const forjamagoName = useBuildStore(s => s.forjamagoName)
+  const forjamagoName = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
+
+  const [hovered, setHovered]   = useState(false)
+  const leaveRef                = useRef<ReturnType<typeof setTimeout>>()
+  const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
+  const leave = () => { leaveRef.current = setTimeout(() => setHovered(false), 250) }
   const px      = small ? 52 : 66
   const slotLabel = t(slotTKey(slotId))
 
   return (
-    <div className="relative group flex flex-col items-center gap-0.5">
+    <div className="relative flex flex-col items-center gap-0.5" onMouseEnter={enter} onMouseLeave={leave}>
       <button
         onClick={onOpen}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ' (empty)'}`}
@@ -228,7 +233,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {item && (
         <button
           onClick={e => { e.stopPropagation(); onUnequip() }}
-          className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center hidden group-hover:flex transition-colors z-10"
+          className={`absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 ${hovered ? 'flex' : 'hidden'}`}
           style={{ background: '#06060f', border: '1px solid #2a3347', color: '#7a8499' }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#f87171' }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
@@ -240,7 +245,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {item && onRune && (
         <button
           onClick={e => { e.stopPropagation(); onRune() }}
-          className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+          className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : hovered ? 'opacity-100' : 'opacity-0'}`}
           style={{
             background: (runeCount ?? 0) > 0 ? '#12102a' : '#06060f',
             border:     (runeCount ?? 0) > 0 ? '1px solid #5a8dff99' : '1px solid #2a3347',
@@ -270,7 +275,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {item && onViewSet && (
         <button
           onClick={e => { e.stopPropagation(); onViewSet() }}
-          className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 opacity-0 group-hover:opacity-100"
+          className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${hovered ? 'opacity-100' : 'opacity-0'}`}
           style={{ background: '#06060f', border: '1px solid #2a5888', color: '#4a88cc' }}
           onMouseEnter={e => {
             ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#5a9addcc'
@@ -287,7 +292,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {/* Tooltip — game-faithful style, side chosen per column */}
       {item && (
         <div
-          className="absolute z-30 hidden group-hover:block pointer-events-none"
+          className={`absolute z-30 pointer-events-none ${hovered ? 'block' : 'hidden'}`}
           style={{
             width: 288,
             ...(tooltipSide === 'right'

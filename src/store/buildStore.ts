@@ -39,8 +39,9 @@ export interface BuildState {
   /** Stores only ankama_id per slot — decoupled from data load state */
   equipped:      Partial<Record<SlotId, number>>
   /** Magesmithy rune bonuses per slot: stat label → flat bonus amount */
-  runes:         Partial<Record<SlotId, RuneMap>>
-  forjamagoName: string
+  runes:          Partial<Record<SlotId, RuneMap>>
+  /** Craftsman signature per slot (only meaningful when runes are present) */
+  forjamagoNames: Partial<Record<SlotId, string>>
 
   stats: StatBlock | null
 
@@ -63,7 +64,7 @@ export interface BuildState {
   setSetsData:   (sets: AppSet[]) => void
   setRune:          (slot: SlotId, stat: string, value: number) => void
   clearRune:        (slot: SlotId, stat: string) => void
-  setForjamagoName: (name: string) => void
+  setForjamagoName: (slot: SlotId, name: string) => void
   applySnapshot:    (snap: BuildSnapshot) => void
   reset:         () => void
 }
@@ -130,12 +131,12 @@ export const useBuildStore = create<BuildState>((set) => {
     gender:        'male',
     allocated:     { ...ZERO_ALLOC },
     scrolled:      { ...NO_SCROLLS },
-    equipped:      {},
-    runes:         {},
-    forjamagoName: '',
-    stats:         null,
-    _equipment:    [],
-    _sets:         [],
+    equipped:       {},
+    runes:          {},
+    forjamagoNames: {},
+    stats:          null,
+    _equipment:     [],
+    _sets:          [],
 
     setClass:  (c) => set(s => update({ selectedClass: c }, s)),
     setLevel:  (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
@@ -199,7 +200,7 @@ export const useBuildStore = create<BuildState>((set) => {
       return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
     }),
 
-    setForjamagoName: (name) => set(s => ({ ...s, forjamagoName: name })),
+    setForjamagoName: (slot, name) => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
 
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
@@ -235,10 +236,10 @@ export const useBuildStore = create<BuildState>((set) => {
       gender:        'male',
       allocated:     { ...ZERO_ALLOC },
       scrolled:      { ...NO_SCROLLS },
-      equipped:      {},
-      runes:         {},
-      forjamagoName: '',
-      stats:         null,
+      equipped:       {},
+      runes:          {},
+      forjamagoNames: {},
+      stats:          null,
       _equipment:    s._equipment,
       _sets:         s._sets,
     })),
