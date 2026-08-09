@@ -174,5 +174,11 @@
   "item_type_Shovel": "Pala",
   "item_type_Staff": "Bastón",
   "item_type_Wand": "Varita",
-  "item_type_Tool": "Herramienta"
+  "item_type_Tool": "Herramienta",
+  "equip_item": "Equipar",
+  "set_pieces_equipped": "{{n}} / {{total}} equipados",
+  "set_items_title": "Items del Set",
+  "set_bonuses_title": "Bonificaciones del Set",
+  "set_bonus_count": "{{n}} piezas",
+  "set_bonus_active": "activo"
 }

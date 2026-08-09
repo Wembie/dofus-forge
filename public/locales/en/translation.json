@@ -174,5 +174,11 @@
   "item_type_Shovel": "Shovel",
   "item_type_Staff": "Staff",
   "item_type_Wand": "Wand",
-  "item_type_Tool": "Tool"
+  "item_type_Tool": "Tool",
+  "equip_item": "Equip",
+  "set_pieces_equipped": "{{n}} / {{total}} equipped",
+  "set_items_title": "Set Items",
+  "set_bonuses_title": "Set Bonuses",
+  "set_bonus_count": "{{n}} pieces",
+  "set_bonus_active": "active"
 }

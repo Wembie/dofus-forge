@@ -173,12 +173,231 @@ function StatFilter({
   )
 }
 
+type SetModalProps = {
+  set:         AppSet
+  equipment:   AppItem[]
+  equippedIds: Set<number>
+  slot:        SlotConfig
+  onEquip:     (item: AppItem) => void
+  onClose:     () => void
+}
+
+function SetDetailModal({ set, equipment, equippedIds, slot, onEquip, onClose }: SetModalProps) {
+  const { t } = useTranslation()
+
+  const setItems = useMemo(() => {
+    const ids = new Set(set.items)
+    return equipment
+      .filter(it => ids.has(it.ankama_id))
+      .sort((a, b) => b.level - a.level)
+  }, [set, equipment])
+
+  const equippedCount = setItems.filter(it => equippedIds.has(it.ankama_id)).length
+  const bonusCounts   = Object.keys(set.bonuses).map(Number).sort((a, b) => a - b)
+  const activeTier    = [...bonusCounts].reverse().find(n => n <= equippedCount) ?? null
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.55)' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+    >
+      <div
+        className="w-full max-w-lg flex flex-col rounded-xl shadow-2xl overflow-hidden"
+        style={{ background: '#0f1320', border: '1px solid #2a3347', maxHeight: '85vh' }}
+      >
+        {/* Header */}
+        <div
+          className="flex items-center justify-between px-5 py-3.5 flex-shrink-0"
+          style={{ background: 'linear-gradient(180deg, #1a2035 0%, #141929 100%)', borderBottom: '1px solid #2a3347' }}
+        >
+          <div>
+            <h3 className="font-display font-bold text-sm tracking-wide" style={{ color: '#4a8fcc' }}>
+              {set.name}
+            </h3>
+            <p className="text-[10px] mt-0.5" style={{ color: '#4a5268' }}>
+              {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 rounded flex items-center justify-center text-lg leading-none transition-colors"
+            style={{ background: '#1c2333', border: '1px solid #2a3347', color: '#7a8499' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#e8eaf0' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
+          >×</button>
+        </div>
+
+        <div className="overflow-y-auto flex-1 p-4 space-y-4">
+          {/* Piece progress dots */}
+          {setItems.length > 0 && (
+            <div className="flex gap-1.5 items-center flex-wrap">
+              {Array.from({ length: setItems.length }, (_, i) => (
+                <div
+                  key={i}
+                  className="rounded-full flex-shrink-0"
+                  style={{
+                    width:      i < equippedCount ? 10 : 8,
+                    height:     i < equippedCount ? 10 : 8,
+                    background: i < equippedCount ? '#4a8fcc' : '#1c2333',
+                    border:     i < equippedCount ? '1px solid #6aaee6' : '1px solid #2a3347',
+                    transition: 'all 0.15s',
+                  }}
+                />
+              ))}
+              <span className="text-[10px] ml-1" style={{ color: '#4a5268' }}>
+                {equippedCount} / {setItems.length}
+              </span>
+            </div>
+          )}
+
+          {/* Items */}
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: '#3a4268' }}>
+              {t('set_items_title')}
+            </p>
+            <div className="space-y-1.5">
+              {setItems.map(item => {
+                const isEquipped   = equippedIds.has(item.ankama_id)
+                const canEquipHere = matchesSlot(item, slot)
+                return (
+                  <div
+                    key={item.ankama_id}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors"
+                    style={{
+                      background: isEquipped ? 'rgba(201,168,76,0.07)' : canEquipHere ? '#131929' : '#0d1120',
+                      border:     isEquipped ? '1px solid rgba(201,168,76,0.28)' : '1px solid #1c2333',
+                      cursor:     canEquipHere ? 'pointer' : 'default',
+                      opacity:    !isEquipped && !canEquipHere ? 0.5 : 1,
+                    }}
+                    onClick={() => canEquipHere && onEquip(item)}
+                    onMouseEnter={e => {
+                      if (canEquipHere && !isEquipped)
+                        (e.currentTarget as HTMLElement).style.background = '#1a2235'
+                    }}
+                    onMouseLeave={e => {
+                      if (canEquipHere && !isEquipped)
+                        (e.currentTarget as HTMLElement).style.background = '#131929'
+                    }}
+                  >
+                    <div
+                      className="w-9 h-9 flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
+                      style={{ background: '#0d1120', border: '1px solid #1c2333' }}
+                    >
+                      {item.image_url
+                        ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                        : <span style={{ fontSize: 14, color: '#3a4268' }}>?</span>
+                      }
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p
+                        className="text-[11px] font-semibold truncate"
+                        style={{ color: isEquipped ? '#c9a84c' : canEquipHere ? '#e8eaf0' : '#7a8499' }}
+                      >
+                        {item.name}
+                        {isEquipped && <span className="ml-1.5 text-[9px]" style={{ color: '#c9a84c70' }}>✓</span>}
+                      </p>
+                      <p className="text-[10px]" style={{ color: '#3a4268' }}>
+                        Lv {item.level} · {t(`item_type_${item.type}`, { defaultValue: item.type })}
+                      </p>
+                    </div>
+                    {canEquipHere && !isEquipped && (
+                      <span
+                        className="text-[10px] px-2 py-0.5 rounded flex-shrink-0"
+                        style={{ background: '#1c2d4a', color: '#4a8fcc', border: '1px solid #2a4a6a' }}
+                      >
+                        {t('equip_item')}
+                      </span>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Bonuses */}
+          {bonusCounts.length > 0 && (
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: '#3a4268' }}>
+                {t('set_bonuses_title')}
+              </p>
+              <div className="space-y-2">
+                {bonusCounts.map(count => {
+                  const isActive  = count <= equippedCount
+                  const isCurrent = count === activeTier
+                  const effects   = set.bonuses[count] ?? []
+                  return (
+                    <div
+                      key={count}
+                      className="rounded-lg p-3"
+                      style={{
+                        background: isActive ? 'rgba(74,143,204,0.07)' : '#141929',
+                        border:     isCurrent
+                          ? '1px solid rgba(74,143,204,0.4)'
+                          : isActive
+                          ? '1px solid rgba(74,143,204,0.18)'
+                          : '1px solid #1c2333',
+                      }}
+                    >
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-[10px] font-bold" style={{ color: isActive ? '#4a8fcc' : '#3a4268' }}>
+                          {t('set_bonus_count', { n: count })}
+                        </span>
+                        {isCurrent && (
+                          <span
+                            className="text-[9px] px-1.5 py-0.5 rounded"
+                            style={{ background: 'rgba(74,143,204,0.2)', color: '#4a8fcc' }}
+                          >
+                            {t('set_bonus_active')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {effects.map((e, i) => {
+                          const meta  = STAT_META[e.stat]
+                          const isNeg = e.min < 0
+                          const clr   = isNeg ? '#f87171' : (meta?.color ?? '#4a5268')
+                          return (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                              {meta?.icon
+                                ? <img
+                                    src={statIconUrl(meta.icon)}
+                                    alt=""
+                                    width={11}
+                                    height={11}
+                                    style={{ objectFit: 'contain', flexShrink: 0, opacity: isActive ? 1 : 0.35 }}
+                                  />
+                                : <span style={{ width: 11, flexShrink: 0 }} />
+                              }
+                              <span style={{ color: isActive ? clr : `${clr}44`, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
+                                {fmtValue(e.min, e.max)}
+                              </span>
+                              <span style={{ color: isActive ? (meta?.color ? `${meta.color}bb` : '#7a8499') : '#2a3347', fontSize: 10 }}>
+                                {meta ? t(meta.tKey) : e.stat}
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const { t }     = useTranslation()
   const equipment = useDataStore(s => s.equipment)
   const setsData  = useDataStore(s => s.sets)
-  const equipItem = useBuildStore(s => s.equipItem)
-  const currentId = useBuildStore(s => s.equipped[slotId])
+  const equipItem   = useBuildStore(s => s.equipItem)
+  const currentId   = useBuildStore(s => s.equipped[slotId])
+  const equipped    = useBuildStore(s => s.equipped)
 
   const slotLabel = t(slotTKey(slotId))
 
@@ -191,6 +410,11 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     }
     return { setMap, itemSetMap }
   }, [setsData])
+
+  const equippedIds = useMemo(
+    () => new Set(Object.values(equipped).filter((v): v is number => v != null)),
+    [equipped]
+  )
 
   const slotSets = useMemo(() => {
     const ids = new Set<number>()
@@ -232,6 +456,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [statFilter, setStatFilter] = useState<string | null>(null)
   const [favsOnly,   setFavsOnly]   = useState(false)
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
+  const [setModal,   setSetModal]   = useState<AppSet | null>(null)
 
   // Auto-detect all distinct types present in this slot's data
   const availableTypes = useMemo(() => {
@@ -281,6 +506,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const SORT_LABELS: Record<SortKey, string> = { 'level-desc': 'Lv ↓', 'level-asc': 'Lv ↑', 'name-az': 'A–Z' }
 
   return (
+    <>
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(4px)' }}
@@ -528,9 +754,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           Lv {item.level}
                         </p>
                         {itemSet && (
-                          <p className="text-[10px] font-medium truncate" style={{ color: '#4a8fcc' }}>
+                          <span
+                            role="button"
+                            tabIndex={-1}
+                            className="text-[10px] font-medium truncate block cursor-pointer hover:underline"
+                            style={{ color: '#4a8fcc' }}
+                            onClick={e => { e.stopPropagation(); setSetModal(itemSet) }}
+                          >
                             {itemSet.name}
-                          </p>
+                          </span>
                         )}
                       </div>
 
@@ -642,5 +874,19 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
         </div>
       </div>
     </div>
+    {setModal && (
+      <SetDetailModal
+        set={setModal}
+        equipment={equipment ?? []}
+        equippedIds={equippedIds}
+        slot={slot}
+        onEquip={(item) => {
+          setSetModal(null)
+          handlePick(item)
+        }}
+        onClose={() => setSetModal(null)}
+      />
+    )}
+    </>
   )
 }
