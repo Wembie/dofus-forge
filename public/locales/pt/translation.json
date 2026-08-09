@@ -185,5 +185,9 @@
   "unequip_btn": "Retirar",
   "spell_col_normal": "Feitiços",
   "spell_col_variant": "Variantes",
-  "spell_melee": "Corpo a corpo"
+  "spell_melee": "Corpo a corpo",
+  "spell_support": "Suporte / Utilidade",
+  "spell_push": "Recua {{cells}}",
+  "spell_steal_ap": "−{{n}} PA",
+  "spell_steal_mp": "−{{n}} PM"
 }

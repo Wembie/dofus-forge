@@ -59,10 +59,13 @@ const CLASS_SLUG: Record<string, string> = {
 
 export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
 
+export type AppSpellEffectKind = 'damage' | 'push' | 'ap' | 'mp'
+
 export type AppSpellEffect = {
   element: Exclude<AppSpellElement, 'mixed'>
   min:     number
   max:     number
+  kind:    AppSpellEffectKind
 }
 
 export type AppSpellLevel = {
@@ -130,18 +133,58 @@ function dominantElement(effects: AppSpellEffect[]): AppSpellElement {
   return [...elems][0]
 }
 
+// effectId constants (verified from dofus3-main Unity data, 2026-08-09):
+//   5  = push (diceNum = cells)
+//   128 = steal/modify AP (diceNum = amount)
+//   141 = steal/modify MP (diceNum = amount)
+//   96-100 = elemental damage (elem=3,1,4,2,0 → water,earth,air,fire,neutral)
+//   91-95  = elemental steal/lifesteal (same elem pattern)
+const PUSH_ID   = 5
+const AP_IDS    = new Set([128])
+const MP_IDS    = new Set([141])
+
 function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
   const rawEffects = ((raw.effects as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
-  const effects: AppSpellEffect[] = rawEffects
-    .filter(e => {
-      const el = Number(e.effectElement)
-      return el >= 0 && el <= 4
-    })
-    .map(e => ({
-      element: ELEMENT_OF[Number(e.effectElement)] as Exclude<AppSpellElement, 'mixed'>,
-      min:     Number(e.diceNum),
-      max:     Number(e.diceSide),
-    }))
+  const effects: AppSpellEffect[] = []
+
+  // Elemental damage / steal effects (effectElement 0-4)
+  for (const e of rawEffects) {
+    const el = Number(e.effectElement)
+    if (el >= 0 && el <= 4) {
+      effects.push({
+        element: ELEMENT_OF[el] as Exclude<AppSpellElement, 'mixed'>,
+        min:     Number(e.diceNum),
+        max:     Number(e.diceSide),
+        kind:    'damage',
+      })
+    }
+  }
+
+  // Push effects (effectId=5, diceNum=cells pushed, small integer)
+  for (const e of rawEffects) {
+    if (Number(e.effectId) === PUSH_ID) {
+      const cells = Number(e.diceNum)
+      if (cells > 0 && cells <= 20) {
+        effects.push({ element: 'neutral', min: cells, max: cells, kind: 'push' })
+        break // only one push entry per level
+      }
+    }
+  }
+
+  // AP/MP modification effects
+  const seenAP = new Set<number>(), seenMP = new Set<number>()
+  for (const e of rawEffects) {
+    const eid = Number(e.effectId)
+    const amt = Number(e.diceNum)
+    if (AP_IDS.has(eid) && amt > 0 && amt <= 20 && !seenAP.has(amt)) {
+      effects.push({ element: 'neutral', min: amt, max: amt, kind: 'ap' })
+      seenAP.add(amt)
+    }
+    if (MP_IDS.has(eid) && amt > 0 && amt <= 20 && !seenMP.has(amt)) {
+      effects.push({ element: 'neutral', min: amt, max: amt, kind: 'mp' })
+      seenMP.add(amt)
+    }
+  }
 
   return {
     grade:      Number(raw.grade),

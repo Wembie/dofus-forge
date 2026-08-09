@@ -185,5 +185,9 @@
   "unequip_btn": "Unequip",
   "spell_col_normal": "Spells",
   "spell_col_variant": "Variants",
-  "spell_melee": "Melee"
+  "spell_melee": "Melee",
+  "spell_support": "Support / Utility",
+  "spell_push": "Push {{cells}}",
+  "spell_steal_ap": "−{{n}} AP",
+  "spell_steal_mp": "−{{n}} MP"
 }

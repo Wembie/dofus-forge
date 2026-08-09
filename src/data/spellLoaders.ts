@@ -1,7 +1,8 @@
 const BASE = import.meta.env.BASE_URL
 
-export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
-export type AppSpellEffect = { element: Exclude<AppSpellElement, 'mixed'>; min: number; max: number }
+export type AppSpellElement    = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
+export type AppSpellEffectKind = 'damage' | 'push' | 'ap' | 'mp'
+export type AppSpellEffect     = { element: Exclude<AppSpellElement, 'mixed'>; min: number; max: number; kind: AppSpellEffectKind }
 export type AppSpellLevel = {
   grade:      number
   ap:         number
