@@ -134,29 +134,55 @@ function dominantElement(effects: AppSpellEffect[]): AppSpellElement {
 }
 
 // effectId constants (verified from dofus3-main Unity data, 2026-08-09):
-//   5  = push (diceNum = cells)
-//   128 = steal/modify AP (diceNum = amount)
-//   141 = steal/modify MP (diceNum = amount)
+//   5    = push (diceNum = cells)
+//   128  = steal/modify AP (diceNum = amount)
+//   141  = steal/modify MP (diceNum = amount)
 //   96-100 = elemental damage (elem=3,1,4,2,0 → water,earth,air,fire,neutral)
 //   91-95  = elemental steal/lifesteal (same elem pattern)
+//   2822 = best-element damage (effectElement=-1, diceNum/diceSide = base dmg)
+//   2832 = worst-element damage (effectElement=-1, diceNum/diceSide = base dmg)
+//   118,119,123,126 = lifesteal % modifiers (category=0, NOT actual damage — filter out)
 const PUSH_ID   = 5
 const AP_IDS    = new Set([128])
 const MP_IDS    = new Set([141])
+// Best/worst element damage (effectElement=-1, treated as neutral for display)
+const OMNI_DMG_IDS = new Set([2822, 2832])
+// Percentage modifiers accompanying steal effects — skip these (not damage values)
+const LIFESTEAL_PCT_IDS = new Set([118, 119, 123, 126])
 
 function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
   const rawEffects = ((raw.effects as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
   const effects: AppSpellEffect[] = []
 
   // Elemental damage / steal effects (effectElement 0-4)
+  // Exclude percentage-lifesteal modifiers (category=0, not actual damage values)
   for (const e of rawEffects) {
-    const el = Number(e.effectElement)
-    if (el >= 0 && el <= 4) {
+    const el  = Number(e.effectElement)
+    const eid = Number(e.effectId)
+    if (el >= 0 && el <= 4 && !LIFESTEAL_PCT_IDS.has(eid)) {
       effects.push({
         element: ELEMENT_OF[el] as Exclude<AppSpellElement, 'mixed'>,
         min:     Number(e.diceNum),
         max:     Number(e.diceSide),
         kind:    'damage',
       })
+    }
+  }
+
+  // Best/worst-element damage (effectElement=-1, no fixed element)
+  // Shown as neutral since the actual element depends on character stats
+  for (const e of rawEffects) {
+    const eid = Number(e.effectId)
+    if (OMNI_DMG_IDS.has(eid)) {
+      const min = Number(e.diceNum)
+      if (min > 0) {
+        effects.push({
+          element: 'neutral',
+          min,
+          max: Number(e.diceSide),
+          kind: 'damage',
+        })
+      }
     }
   }
 
@@ -347,7 +373,7 @@ async function main() {
     else console.warn(`  Unknown breed "${name}" (id=${breedId}) — skipping`)
   }
 
-  // Collect all needed iconIds across all classes
+  // Collect all needed iconIds across all classes + common spells
   const neededIconIds = new Set<number>()
   const allClassSpells = new Map<number, { slug: string; spells: AppSpell[] }>()
 
@@ -397,6 +423,33 @@ async function main() {
     allClassSpells.set(breedId, { slug: classSlug, spells: classSpells })
   }
 
+  // Common spells (breedId=19 in spell_variants.json — not in breeds.json)
+  // Normal spell = pair[0], variant = pair[1]
+  const commonSpells: AppSpell[] = []
+  for (const [, v] of variants) {
+    if (Number(v.breedId) !== 19) continue
+    const pair = ((v.spellIds as Record<string, unknown>)?.Array ?? []) as number[]
+    if (pair.length < 2) continue
+
+    const normalId  = Number(pair[0])
+    const variantId = Number(pair[1])
+
+    for (const [spellId, isVariant] of [[normalId, false], [variantId, true]] as [number, boolean][]) {
+      const spell = spells.get(spellId)
+      if (!spell) continue
+      const lvls   = levelsBySpell.get(spellId) ?? []
+      const grade1 = lvls.find(l => l.grade === 1) ?? lvls[0]
+      const elem   = grade1 ? dominantElement(grade1.effects) : 'neutral'
+      const iconId = iconIdMap.get(spellId) ?? 0
+      if (iconId > 0) neededIconIds.add(iconId)
+      commonSpells.push({
+        id: spellId, name: '', element: elem, is_variant: isVariant,
+        image_url: iconId > 0 ? `/data/spells/img/sort_${iconId}-48.png` : null,
+        levels: lvls,
+      })
+    }
+  }
+
   // Extract spell images
   const imgDir = join(DATA_DIR, 'spells', 'img')
   await extractSpellImages(
@@ -429,7 +482,20 @@ async function main() {
       void breedId
     }
 
-    console.log(`  [${lang}] done — ${written} classes written`)
+    // Write common spells
+    const namedCommon: AppSpell[] = []
+    for (const sp of commonSpells) {
+      const spell     = spells.get(sp.id)
+      if (!spell) continue
+      const spellName = t(entries, Number(spell.nameId))
+      if (!spellName) continue
+      namedCommon.push({ ...sp, name: spellName })
+    }
+    const commonDir = join(DATA_DIR, lang, 'spells')
+    mkdirSync(commonDir, { recursive: true })
+    writeFileSync(join(commonDir, 'common.json'), JSON.stringify({ classSlug: 'common', spells: namedCommon }), 'utf-8')
+
+    console.log(`  [${lang}] done — ${written} classes + ${namedCommon.length} common spells written`)
   }
 
   writeFileSync(spellVersionFile, JSON.stringify({ gameVersion, generatedAt: new Date().toISOString() }), 'utf-8')

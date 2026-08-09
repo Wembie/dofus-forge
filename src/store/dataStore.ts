@@ -74,11 +74,20 @@ export const useDataStore = create<DataState>((set, get) => ({
 
   // Spells always English — spell effect stat names must match STAT_MAP keys.
   loadSpells: async (_lang, classSlug) => {
-    if (get().spells.has(classSlug)) return
+    const current = get().spells
+    if (current.has(classSlug) && current.has('common')) return
     try {
-      const data = await fetchSpells('en', classSlug)
-      const next = new Map(get().spells)
-      next.set(classSlug, data)
+      const next = new Map(current)
+      if (!next.has(classSlug)) {
+        const data = await fetchSpells('en', classSlug)
+        next.set(classSlug, data)
+      }
+      if (!next.has('common')) {
+        try {
+          const commonData = await fetchSpells('en', 'common')
+          next.set('common', commonData)
+        } catch { /* common spells optional */ }
+      }
       set({ spells: next })
     } catch {
       // spell files absent until ETL runs — fail silently

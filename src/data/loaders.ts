@@ -33,6 +33,13 @@ export type AppItem = {
   image_url:   string | null
   description?: string
   ability?:    string
+  // Weapon combat stats (only present for weapon-slot items)
+  ap_cost?:     number
+  crit_chance?: number
+  crit_bonus?:  number
+  min_range?:   number
+  max_range?:   number
+  max_per_turn?: number
 }
 
 export type AppSet = {

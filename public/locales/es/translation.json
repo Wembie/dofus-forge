@@ -189,5 +189,8 @@
   "spell_support": "Soporte / Utilidad",
   "spell_push": "Empuja {{cells}}",
   "spell_steal_ap": "−{{n}} PA",
-  "spell_steal_mp": "−{{n}} PM"
+  "spell_steal_mp": "−{{n}} PM",
+  "weapon_attack": "Ataque de Arma",
+  "weapon_fist": "Sin Arma (Puño)",
+  "common_spells": "Hechizos Comunes"
 }

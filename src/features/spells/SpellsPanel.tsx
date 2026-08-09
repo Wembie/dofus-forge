@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement } from '@/data/spellLoaders.ts'
+import type { AppItem } from '@/data/loaders.ts'
 import { calcEffects } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
@@ -22,6 +23,19 @@ const ELEM_COLOR: Record<AppSpellElement, string> = {
   air:     '#6ab04c',
   neutral: '#9b9b9b',
   mixed:   '#c9a84c',
+}
+
+// Weapon attack effect stat names (lowercase "damage" = combat effect, not passive bonus)
+const WEAPON_ATTACK_STAT: Record<string, AppSpellElement> = {
+  'Neutral damage': 'neutral',
+  'Earth damage':   'earth',
+  'Fire damage':    'fire',
+  'Water damage':   'water',
+  'Air damage':     'air',
+  'Earth steal':    'earth',
+  'Fire steal':     'fire',
+  'Air steal':      'air',
+  'Neutral steal':  'neutral',
 }
 
 type ElemFilter = AppSpellElement | 'all'
@@ -153,11 +167,117 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   )
 }
 
+function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBlock | null }) {
+  const { t } = useTranslation()
+
+  const attackEffects = useMemo(() => {
+    if (!weapon) return []
+    return weapon.effects.filter(e => Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat))
+  }, [weapon])
+
+  if (!weapon) {
+    return (
+      <div
+        className="rounded-lg p-2.5 flex gap-2.5"
+        style={{ background: '#0d1219', border: '1px solid #2a334733' }}
+      >
+        <div
+          className="flex-shrink-0 rounded flex items-center justify-center text-lg"
+          style={{ width: 44, height: 44, background: '#0f1623', border: '1px solid #2a334744' }}
+        >
+          ✊
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: '#4a5580' }}>
+            {t('weapon_fist')}
+          </p>
+          <div className="flex items-center gap-x-2">
+            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: '#c9a84c', background: '#c9a84c18' }}>1AP</span>
+            <span className="text-[10px] font-mono" style={{ color: '#4a5580' }}>{t('spell_melee')}</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const ap      = weapon.ap_cost     ?? 0
+  const minR    = weapon.min_range   ?? 0
+  const maxR    = weapon.max_range   ?? 0
+  const crit    = weapon.crit_chance ?? 0
+  const critBon = weapon.crit_bonus  ?? 0
+  const rangeStr = maxR === 0
+    ? t('spell_melee')
+    : minR === maxR ? `${maxR}` : `${minR}–${maxR}`
+
+  return (
+    <div
+      className="rounded-lg p-2.5 flex gap-2.5"
+      style={{ background: '#0d1219', border: '1px solid #2a334733' }}
+    >
+      {/* Weapon image */}
+      <div
+        className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
+        style={{ width: 44, height: 44, background: '#0f1623', border: '1px solid #2a334744' }}
+      >
+        {weapon.image_url
+          ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
+          : <span className="text-xl" style={{ color: '#4a5580' }}>⚔</span>
+        }
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: '#8090b0' }}>
+          {weapon.name}
+        </p>
+        <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
+          {ap > 0 && (
+            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: '#c9a84c', background: '#c9a84c18' }}>
+              {ap}AP
+            </span>
+          )}
+          <span className="text-[10px] font-mono" style={{ color: '#4a5580' }}>{rangeStr}</span>
+          {crit > 0 && (
+            <span className="text-[10px]" style={{ color: '#dc4e22' }}>
+              {crit}%{critBon > 0 ? ` (+${critBon})` : ''}
+            </span>
+          )}
+        </div>
+
+        {attackEffects.length > 0 ? (
+          <div className="flex flex-wrap gap-x-2 gap-y-0.5">
+            {attackEffects.map((e, i) => {
+              const elem = WEAPON_ATTACK_STAT[e.stat]!
+              const c    = ELEM_COLOR[elem]
+              const base = e.max > 0 ? e.max : e.min
+              const calcLow  = stats ? Math.floor(e.min + (stats as unknown as Record<string, number>)[elem === 'earth' || elem === 'neutral' ? 'strength' : elem === 'fire' ? 'intelligence' : elem === 'water' ? 'chance' : 'agility'] + stats.damage + (stats as unknown as Record<string, number>)[`${elem}Damage`]) : e.min
+              const calcHigh = stats ? Math.floor(base + (stats as unknown as Record<string, number>)[elem === 'earth' || elem === 'neutral' ? 'strength' : elem === 'fire' ? 'intelligence' : elem === 'water' ? 'chance' : 'agility'] + stats.damage + (stats as unknown as Record<string, number>)[`${elem}Damage`]) : base
+              const dmg  = calcLow === calcHigh ? String(calcLow) : `${calcLow}–${calcHigh}`
+              return (
+                <span key={i} className="flex items-center gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
+                  <span className="text-[10px] font-mono tabular-nums" style={{ color: c, fontWeight: stats ? 700 : 400 }}>{dmg}</span>
+                </span>
+              )
+            })}
+          </div>
+        ) : (
+          <span className="text-[9px] uppercase tracking-wide" style={{ color: '#2a3347' }}>
+            {t('spell_support')}
+          </span>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export function SpellsPanel() {
   const { t }         = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
   const level         = useBuildStore(s => s.level)
   const stats         = useBuildStore(s => s.stats)
+  const equipped      = useBuildStore(s => s.equipped)
+  const _equipment    = useBuildStore(s => s._equipment)
   const lang          = useDataStore(s => s.lang)
   const loadSpells    = useDataStore(s => s.loadSpells)
   const spells        = useDataStore(s => s.spells)
@@ -173,13 +293,23 @@ export function SpellsPanel() {
     if (selectedClass) loadSpells(lang, selectedClass)
   }, [loadSpells, lang, selectedClass])
 
-  if (!selectedClass) return null
+  // Equipped weapon
+  const equippedWeapon = useMemo((): AppItem | null => {
+    const weaponId = equipped.weapon
+    if (weaponId == null) return null
+    return _equipment.find(it => it.ankama_id === weaponId) ?? null
+  }, [equipped.weapon, _equipment])
 
-  const data     = spells.get(selectedClass)
-  const allSpells = data?.spells ?? []
+  const classData     = selectedClass ? spells.get(selectedClass) : null
+  const commonData    = spells.get('common')
 
-  const normalSpells  = allSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
-  const variantSpells = allSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+  const allClassSpells = classData?.spells ?? []
+  const allCommonSpells = commonData?.spells ?? []
+
+  const normalSpells  = allClassSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+  const variantSpells = allClassSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+  const normalCommon  = allCommonSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+  const variantCommon = allCommonSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
 
   const ELEM_KEYS: Record<AppSpellElement, string> = {
     earth:   'elem_earth',
@@ -257,33 +387,74 @@ export function SpellsPanel() {
         </p>
       )}
 
-      {/* Two-column spell grid */}
-      {!data ? (
-        <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
-      ) : (
-        <div className="grid grid-cols-2 gap-x-3">
-          {/* Left: Normal spells */}
-          <div className="space-y-1.5">
-            <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
-              {t('spell_col_normal')}
-            </p>
-            {normalSpells.length === 0 ? (
-              <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
-            ) : normalSpells.map(spell => (
-              <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
-            ))}
-          </div>
+      {/* Weapon attack */}
+      <div className="space-y-1">
+        <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#3a4a68' }}>
+          {t('weapon_attack')}
+        </p>
+        <WeaponCard weapon={equippedWeapon} stats={stats} />
+      </div>
 
-          {/* Right: Variant spells */}
-          <div className="space-y-1.5">
-            <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
-              {t('spell_col_variant')}
-            </p>
-            {variantSpells.length === 0 ? (
-              <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
-            ) : variantSpells.map(spell => (
-              <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
-            ))}
+      {/* Class spells */}
+      {selectedClass && (
+        !classData ? (
+          <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-x-3">
+            {/* Left: Normal spells */}
+            <div className="space-y-1.5">
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
+                {t('spell_col_normal')}
+              </p>
+              {normalSpells.length === 0 ? (
+                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+              ) : normalSpells.map(spell => (
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+              ))}
+            </div>
+
+            {/* Right: Variant spells */}
+            <div className="space-y-1.5">
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
+                {t('spell_col_variant')}
+              </p>
+              {variantSpells.length === 0 ? (
+                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+              ) : variantSpells.map(spell => (
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+              ))}
+            </div>
+          </div>
+        )
+      )}
+
+      {/* Common spells */}
+      {commonData && (normalCommon.length > 0 || variantCommon.length > 0) && (
+        <div className="space-y-2">
+          <p className="text-[10px] uppercase tracking-widest font-medium pt-1" style={{ color: '#3a4a68', borderTop: '1px solid #1c2333' }}>
+            {t('common_spells')}
+          </p>
+          <div className="grid grid-cols-2 gap-x-3">
+            <div className="space-y-1.5">
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#2a3a50' }}>
+                {t('spell_col_normal')}
+              </p>
+              {normalCommon.length === 0 ? (
+                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+              ) : normalCommon.map(spell => (
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+              ))}
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#2a3a50' }}>
+                {t('spell_col_variant')}
+              </p>
+              {variantCommon.length === 0 ? (
+                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+              ) : variantCommon.map(spell => (
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+              ))}
+            </div>
           </div>
         </div>
       )}
