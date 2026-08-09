@@ -218,8 +218,9 @@ function CombatStat({ icon, label, value, color, fmt }: {
 }
 
 // ── Element damage/resistance row ─────────────────────────────────────────────
-function ElementRow({ icon, label, color, damage, resFixed, resPercent, showPercent = true }: {
-  icon: string; label: string; color: string
+function ElementRow({ icon, dmgIcon, resIcon, label, color, damage, resFixed, resPercent, showPercent = true }: {
+  icon: string; dmgIcon: string; resIcon: string
+  label: string; color: string
   damage: number; resFixed: number; resPercent?: number; showPercent?: boolean
 }) {
   return (
@@ -231,20 +232,29 @@ function ElementRow({ icon, label, color, damage, resFixed, resPercent, showPerc
         </div>
       </td>
       <td className="text-right py-0.5 pr-3">
-        <span className="font-mono text-[11px] tabular-nums" style={{ color: damage > 0 ? '#e8eaf0' : '#3a4268' }}>
-          {damage > 0 ? `+${damage}` : damage === 0 ? '—' : damage}
-        </span>
+        <div className="flex items-center justify-end gap-0.5">
+          <StatIcon name={dmgIcon} size={10} />
+          <span className="font-mono text-[11px] tabular-nums" style={{ color: damage > 0 ? '#e8eaf0' : '#3a4268' }}>
+            {damage > 0 ? `+${damage}` : damage === 0 ? '—' : damage}
+          </span>
+        </div>
       </td>
       <td className="text-right py-0.5 pr-3">
-        <span className="font-mono text-[11px] tabular-nums" style={{ color: resFixed > 0 ? '#6ab04c' : resFixed < 0 ? '#dc4e22' : '#3a4268' }}>
-          {resFixed !== 0 ? resFixed : '—'}
-        </span>
+        <div className="flex items-center justify-end gap-0.5">
+          <StatIcon name={resIcon} size={10} />
+          <span className="font-mono text-[11px] tabular-nums" style={{ color: resFixed > 0 ? '#6ab04c' : resFixed < 0 ? '#dc4e22' : '#3a4268' }}>
+            {resFixed !== 0 ? resFixed : '—'}
+          </span>
+        </div>
       </td>
       {showPercent && (
         <td className="text-right py-0.5">
-          <span className="font-mono text-[11px] tabular-nums" style={{ color: (resPercent ?? 0) > 0 ? '#6ab04c' : (resPercent ?? 0) < 0 ? '#dc4e22' : '#3a4268' }}>
-            {(resPercent ?? 0) !== 0 ? `${resPercent}%` : '—'}
-          </span>
+          <div className="flex items-center justify-end gap-0.5">
+            <StatIcon name={resIcon} size={10} />
+            <span className="font-mono text-[11px] tabular-nums" style={{ color: (resPercent ?? 0) > 0 ? '#6ab04c' : (resPercent ?? 0) < 0 ? '#dc4e22' : '#3a4268' }}>
+              {(resPercent ?? 0) !== 0 ? `${resPercent}%` : '—'}
+            </span>
+          </div>
         </td>
       )}
     </tr>
@@ -406,13 +416,13 @@ export function CharacteristicsPanel() {
                 <tr><td colSpan={4} className="px-2">
                   <table className="w-full">
                     <tbody>
-                      <ElementRow icon="strength"       label={t('elem_earth')}    color="#c49a2a" damage={s.earthDamage}   resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
-                      <ElementRow icon="intelligence"  label={t('elem_fire')}     color="#dc4e22" damage={s.fireDamage}    resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
-                      <ElementRow icon="chance"        label={t('elem_water')}    color="#2a8fd4" damage={s.waterDamage}   resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
-                      <ElementRow icon="agility"       label={t('elem_air')}      color="#6ab04c" damage={s.airDamage}     resFixed={s.airResFixed}     resPercent={s.airResPercent} />
-                      <ElementRow icon="neutral"        label={t('elem_neutral')} color="#9b9b9b" damage={s.neutralDamage} resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
-                      <ElementRow icon="crit_damage"   label={t('elem_critical')} color="#dc4e22" damage={s.critDamage}   resFixed={s.critResistance}  showPercent={false} />
-                      <ElementRow icon="push_damage"   label={t('elem_push')}     color="#b8860b" damage={s.pushbackDamage} resFixed={s.pushbackResist} showPercent={false} />
+                      <ElementRow icon="strength"     dmgIcon="strength_damage"     resIcon="earth_resistance"   label={t('elem_earth')}    color="#c49a2a" damage={s.earthDamage}    resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
+                      <ElementRow icon="intelligence" dmgIcon="intelligence_damage"  resIcon="fire_resistance"    label={t('elem_fire')}     color="#dc4e22" damage={s.fireDamage}     resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
+                      <ElementRow icon="chance"       dmgIcon="chance_damage"        resIcon="water_resistance"   label={t('elem_water')}    color="#2a8fd4" damage={s.waterDamage}    resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
+                      <ElementRow icon="agility"      dmgIcon="agility_damage"       resIcon="air_resistance"     label={t('elem_air')}      color="#6ab04c" damage={s.airDamage}      resFixed={s.airResFixed}     resPercent={s.airResPercent} />
+                      <ElementRow icon="neutral"      dmgIcon="neutral"              resIcon="neutral_resistance" label={t('elem_neutral')}  color="#9b9b9b" damage={s.neutralDamage}   resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
+                      <ElementRow icon="crit_damage"  dmgIcon="crit_damage"          resIcon="crit_res"           label={t('elem_critical')} color="#dc4e22" damage={s.critDamage}     resFixed={s.critResistance}  showPercent={false} />
+                      <ElementRow icon="push_damage"  dmgIcon="push_damage"          resIcon="push_resistance"    label={t('elem_push')}     color="#b8860b" damage={s.pushbackDamage}  resFixed={s.pushbackResist}  showPercent={false} />
                     </tbody>
                   </table>
                 </td></tr>
