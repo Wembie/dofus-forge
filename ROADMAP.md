@@ -48,6 +48,8 @@ Marcar con `[x]` cuando se complete.
 - [x] **M28 — Hechizos comunes** — sección "Common Spells" al pie del panel con los 26 hechizos aprendibles (13 normales + 13 variantes, breedId=19 en spell_variants.json). ETL detecta pares via Spell-learning scrolls (type id=198), extrae efectos correctos (omit lifesteal %, añade worst/best-element damage).
 - [x] **M29 — Imágenes de runas en Forjamagia** — carpeta public/data/runes/ (52 .webp, extraídas del juego). La grilla del RuneModal muestra imágenes 3D de la runa en lugar del ícono de stat. Los chips de runas activas muestran la imagen de runa (20px). El slot equipado con runas muestra una tira de hasta 3 mini-runas (12px) en esquina inferior derecha. El botón ✦ de forjamagia muestra Signature_Rune.webp cuando tiene runas aplicadas. El tooltip de forjamagia en el slot también muestra imágenes de runa (16px, tinte azul).
 - [x] **M30 — Daños críticos en panel de hechizos** — cada línea de daño muestra golpe normal y crítico (✦) en paralelo. SpellCard lee critEffects extraídos del Unity criticalEffect array. WeaponCard usa calcDamage() y añade crit_bonus al valor crítico. Fila Σ total para hechizos/armas con 2+ elementos.
+- [x] **M31 — Daño de empuje en SpellCard** — hechizos con efecto de empuje muestran stats.pushbackDamage (plano) junto al texto "Empuja X celdas". Incluido en Σ total (normal + crítico). Fórmula: valor plano, no escala con crits.
+- [x] **M32 — Nombres de hechizos en idioma seleccionado** — loadSpells carga EN para efectos (claves STAT_MAP) y superpone nombres del archivo de idioma destino. Mismo patrón overlay que items/sets.
 
 ### UI / Polish
 - [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
@@ -63,3 +65,5 @@ Marcar con `[x]` cuando se complete.
 - Importar build desde Dofus client (clipboard de stats del personaje)
 - Comparar dos builds en paralelo
 - Modo "tier list" de ítems por slot y nivel
+
+- [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms para que el tooltip no desaparezca al mover el mouse hacia él.
