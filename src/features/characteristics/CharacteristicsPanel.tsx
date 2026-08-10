@@ -110,8 +110,9 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
     else if (target < allocated) onRemove(allocated - target)
   }
 
-  const nextCost = pointCost(char, allocated + 1) - pointCost(char, allocated)
-  const canAdd   = remaining >= nextCost
+  const nextCost  = pointCost(char, allocated + 1) - pointCost(char, allocated)
+  const canAdd    = remaining >= nextCost
+  const equipBonus = total - allocated - (isScrolled ? SCROLL_BONUS : 0)
 
   const { addProps, removeProps } = useHoldRepeat(onAdd, onRemove)
 
@@ -134,11 +135,16 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
       </span>
 
       <span
-        className="font-mono font-bold text-sm tabular-nums flex-1 text-right pr-2"
+        className="font-mono font-bold text-sm tabular-nums flex-1 text-right pr-2 leading-none"
         style={{ color }}
         title={POWER_ELEMS.has(char) && power > 0 ? `${total} + ${power} Potencia = ${total + power}` : undefined}
       >
         {total.toLocaleString()}
+        {equipBonus > 0 && (
+          <span className="ml-1 text-[9px] font-normal align-middle" style={{ color: 'var(--ink-faint)' }}>
+            +{equipBonus}
+          </span>
+        )}
       </span>
 
       <button
