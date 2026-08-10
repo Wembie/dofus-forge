@@ -50,6 +50,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M30 — Daños críticos en panel de hechizos** — cada línea de daño muestra golpe normal y crítico (✦) en paralelo. SpellCard lee critEffects extraídos del Unity criticalEffect array. WeaponCard usa calcDamage() y añade crit_bonus al valor crítico. Fila Σ total para hechizos/armas con 2+ elementos.
 - [x] **M31 — Daño de empuje en SpellCard** — hechizos con efecto de empuje muestran stats.pushbackDamage (plano) junto al texto "Empuja X celdas". Incluido en Σ total (normal + crítico). Fórmula: valor plano, no escala con crits.
 - [x] **M32 — Nombres de hechizos en idioma seleccionado** — loadSpells carga EN para efectos (claves STAT_MAP) y superpone nombres del archivo de idioma destino. Mismo patrón overlay que items/sets.
+- [x] **Fix — Crit de hechizos por índice** — SpellCard usaba `critDmgEffects.find(by element)` que retornaba siempre el primer efecto con ese elemento. Multi-hit del mismo elemento (ej. Flecha de Abolición 3×tierra) mostraban todos el mismo crit. Fix: map `displayIndex → critDmgEffects[dmgIdx]` rastreando índice de efecto de daño por separado.
 
 ### UI / Polish
 - [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
@@ -67,3 +68,43 @@ Marcar con `[x]` cuando se complete.
 - Modo "tier list" de ítems por slot y nivel
 
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms para que el tooltip no desaparezca al mover el mouse hacia él.
+
+- Para las armas de y demas, tienen bonus de criticos y demas, entonces validar esa parte ya que con el mismo set:
+
+Nosotros:
+
+Rodillo de Mami Ayuto
+
+5AP
+1
+10% (+3)
+516–597
+207–247
+Σ
+723–844
+✦
+726–847
+
+Otra Plataforma:
+Rodillo de Mami Ayuto
+Nivel: 200
+PA: 5
+Distancia: 1 - 1
+GC: 48%
+Daño:
+511 a 591
+Critico:
+644 a 724
+Robo:
+205 a 245
+♥ 102 a 122
+Critico:
+338 a 378
+♥ 169 a 189
+Total:
+716 a 836
+♥ 102 a 122
+982 a 1102
+♥ 169 a 189
+
+de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra plataforma, ya que la nuestra es muy simple y no tiene toda la información que tiene la otra plataforma.

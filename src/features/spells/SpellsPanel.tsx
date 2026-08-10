@@ -78,8 +78,25 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   const hasCrit         = critDisplayEffects.length > 0
   const damageEffects   = displayEffects.filter(e => e.kind === 'damage')
   const critDmgEffects  = critDisplayEffects.filter(e => e.kind === 'damage')
-  const pushDmg         = (stats && displayEffects.some(e => e.kind === 'push')) ? stats.pushbackDamage : 0
-  const showTotal       = damageEffects.length >= 2 || (damageEffects.length >= 1 && pushDmg > 0)
+  // push damage formula: floor(pushbackDamage / 3) × cells_pushed per effect
+  const pushDmgPerCell  = stats ? Math.floor(stats.pushbackDamage / 3) : 0
+  const totalPushDmg    = displayEffects
+    .filter(e => e.kind === 'push')
+    .reduce((sum, e) => sum + pushDmgPerCell * e.calcMin, 0)
+  const showTotal       = damageEffects.length >= 2 || (damageEffects.length >= 1 && totalPushDmg > 0)
+
+  // Map display-index → crit effect by damage-slot index (not element match)
+  const critByDisplayIdx = useMemo(() => {
+    const map = new Map<number, (typeof critDmgEffects)[0]>()
+    let dmgIdx = 0
+    displayEffects.forEach((e, i) => {
+      if (e.kind === 'damage') {
+        if (dmgIdx < critDmgEffects.length) map.set(i, critDmgEffects[dmgIdx])
+        dmgIdx++
+      }
+    })
+    return map
+  }, [displayEffects, critDmgEffects])
 
   const rangeStr = !lvl || lvl.maxRange === 0
     ? t('spell_melee')
@@ -144,9 +161,9 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                     <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
                       {t('spell_push', { cells: e.calcMin })}
                     </span>
-                    {pushDmg > 0 && (
+                    {pushDmgPerCell > 0 && (
                       <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
-                        {pushDmg}
+                        {pushDmgPerCell * e.calcMin}
                       </span>
                     )}
                   </div>
@@ -161,7 +178,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                 )
               }
               const c     = ELEM_COLOR[e.element]
-              const critE = hasCrit ? critDmgEffects.find(ce => ce.element === e.element) : null
+              const critE = hasCrit ? (critByDisplayIdx.get(i) ?? null) : null
               return (
                 <div key={i} className="flex items-center gap-1.5">
                   <span className="flex items-center gap-0.5">
@@ -193,8 +210,8 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                   <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>Σ</span>
                   <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
                     {fmtRange(
-                      damageEffects.reduce((s, e) => s + e.calcMin, 0) + pushDmg,
-                      damageEffects.reduce((s, e) => s + e.calcMax, 0) + pushDmg,
+                      damageEffects.reduce((s, e) => s + e.calcMin, 0) + totalPushDmg,
+                      damageEffects.reduce((s, e) => s + e.calcMax, 0) + totalPushDmg,
                     )}
                   </span>
                 </span>
@@ -203,8 +220,8 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                     <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
                     <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
                       {fmtRange(
-                        critDmgEffects.reduce((s, e) => s + e.calcMin, 0) + pushDmg,
-                        critDmgEffects.reduce((s, e) => s + e.calcMax, 0) + pushDmg,
+                        critDmgEffects.reduce((s, e) => s + e.calcMin, 0) + totalPushDmg,
+                        critDmgEffects.reduce((s, e) => s + e.calcMax, 0) + totalPushDmg,
                       )}
                     </span>
                   </span>
