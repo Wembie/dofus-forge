@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
@@ -192,7 +193,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           item.image_url
             ? <img src={item.image_url} alt={item.name}
                 className="w-full h-full object-contain p-1.5" loading="lazy" />
-            : <span className="text-[#c9a84c] opacity-80">
+            : <span className="opacity-80" style={{ color: 'var(--gold)' }}>
                 {IconCmp ? <IconCmp /> : cfg.icon}
               </span>
         ) : (
@@ -224,7 +225,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
       {/* Slot label (tiny, below slot) */}
       {!small && (
-        <span className="text-[8px] font-medium tracking-wide select-none" style={{ color: 'rgba(60,65,100,0.8)' }}>
+        <span className="text-[8px] font-medium tracking-wide select-none" style={{ color: 'var(--ink-faint)' }}>
           {slotLabel.toUpperCase()}
         </span>
       )}
@@ -233,10 +234,8 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {item && (
         <button
           onClick={e => { e.stopPropagation(); onUnequip() }}
-          className={`absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 ${hovered ? 'flex' : 'hidden'}`}
-          style={{ background: '#06060f', border: '1px solid #2a3347', color: '#7a8499' }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#f87171' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
+          className={`absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 text-ink-muted hover:text-red-400 ${hovered ? 'flex' : 'hidden'}`}
+          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
           aria-label={`Unequip ${item.name}`}
         >×</button>
       )}
@@ -247,19 +246,16 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           onClick={e => { e.stopPropagation(); onRune() }}
           className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : hovered ? 'opacity-100' : 'opacity-0'}`}
           style={{
-            background: (runeCount ?? 0) > 0 ? '#12102a' : '#06060f',
-            border:     (runeCount ?? 0) > 0 ? '1px solid #5a8dff99' : '1px solid #2a3347',
-            color:      (runeCount ?? 0) > 0 ? '#7aaeff' : '#4a5268',
-            boxShadow:  (runeCount ?? 0) > 0 ? '0 0 8px #5a8dff55' : 'none',
+            background: (runeCount ?? 0) > 0 ? 'color-mix(in srgb, var(--ap) 12%, var(--surface-void))' : 'var(--surface-void)',
+            border:     (runeCount ?? 0) > 0 ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
+            color:      (runeCount ?? 0) > 0 ? 'var(--ap)' : 'var(--ink-faint)',
           }}
           onMouseEnter={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#7aaeffcc'
-            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = '0 0 10px #5a8dff88'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--ap)'
           }}
           onMouseLeave={e => {
             const active = (runeCount ?? 0) > 0
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = active ? '#5a8dff99' : '#2a3347'
-            ;(e.currentTarget as HTMLButtonElement).style.boxShadow = active ? '0 0 8px #5a8dff55' : 'none'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = active ? 'color-mix(in srgb, var(--ap) 60%, transparent)' : 'var(--metal-edge)'
           }}
           aria-label={`Magesmithy: ${item.name}`}
           title={t('magesmithy_title')}
@@ -275,18 +271,12 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {item && onViewSet && (
         <button
           onClick={e => { e.stopPropagation(); onViewSet() }}
-          className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${hovered ? 'opacity-100' : 'opacity-0'}`}
-          style={{ background: '#06060f', border: '1px solid #2a5888', color: '#4a88cc' }}
-          onMouseEnter={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#5a9addcc'
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#7ab0ff'
-          }}
-          onMouseLeave={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = '#2a5888'
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#4a88cc'
-          }}
+          className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center transition-all z-10 hover:text-ap ${hovered ? 'opacity-100' : 'opacity-0'}`}
+          style={{ background: 'var(--surface-void)', border: '1px solid var(--water)', color: 'var(--water)' }}
           title={t('view_set')}
-        >⊕</button>
+        >
+          <Eye size={10} />
+        </button>
       )}
 
       {/* Tooltip — game-faithful style, side chosen per column */}
@@ -303,31 +293,31 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           }}
         >
           <div className="rounded-xl shadow-2xl overflow-hidden"
-            style={{ background: '#09090f', border: '1px solid #1e2640', boxShadow: '0 8px 40px rgba(0,0,0,0.85)' }}>
+            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', boxShadow: '0 8px 40px rgba(0,0,0,0.85)' }}>
 
             {/* Item header */}
-            <div className="px-3 pt-2.5 pb-2" style={{ background: 'linear-gradient(180deg, #121624 0%, #0c0f1a 100%)', borderBottom: '1px solid #1e2640' }}>
-              <p className="font-bold text-[13px] leading-tight" style={{ color: '#e8eaf8' }}>{item.name}</p>
-              <p className="text-[10px] mt-0.5" style={{ color: '#3a4268' }}>
+            <div className="px-3 pt-2.5 pb-2" style={{ background: 'linear-gradient(180deg, var(--surface-parchment) 0%, var(--surface-panel) 100%)', borderBottom: '1px solid var(--metal-edge)' }}>
+              <p className="font-bold text-[13px] leading-tight" style={{ color: 'var(--ink)' }}>{item.name}</p>
+              <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
                 {t('level')} {item.level} · {item.type}
               </p>
               {setName && (
-                <p className="text-[11px] mt-1 font-semibold" style={{ color: '#4a8fcc' }}>
+                <p className="text-[11px] mt-1 font-semibold" style={{ color: 'var(--water)' }}>
                   {setName}
-                  <span className="ml-1.5 font-mono text-[10px]" style={{ color: '#2a5888' }}>{setCount}/{setMax}</span>
+                  <span className="ml-1.5 font-mono text-[10px]" style={{ color: 'var(--ink-faint)' }}>{setCount}/{setMax}</span>
                 </p>
               )}
             </div>
 
             {/* EFECTOS */}
             <div className="px-3 pt-2 pb-1">
-              <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: '#2a3347' }}>
+              <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                 {t('effects')}
               </p>
               <div className="space-y-0.5">
                 {item.effects.filter(e => !isIgnored(e.stat)).map((e, i) => {
                   const meta    = STAT_META[e.stat]
-                  const clr     = meta?.color ?? '#7a8499'
+                  const clr     = meta?.color ?? 'var(--ink-muted)'
                   const useMax  = e.max !== 0 && e.max > e.min
                   const display = useMax ? e.max : e.min
                   return (
@@ -335,7 +325,6 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                       {meta?.icon
                         ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
                             className="object-contain flex-shrink-0"
-                            style={{ filter: `drop-shadow(0 0 2px ${clr}55)` }}
                           />
                         : <span className="w-3 flex-shrink-0" />
                       }
@@ -346,7 +335,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                         {meta ? t(meta.tKey) : e.stat}
                       </span>
                       {useMax && (
-                        <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: '#252c42' }}>
+                        <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
                           [{e.min} a {e.max}]
                         </span>
                       )}
@@ -358,10 +347,10 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
             {/* FORJAMAGIA section — blue, only if runes exist */}
             {Object.entries(slotRunes ?? {}).some(([, v]) => v > 0) && (
-              <div className="px-3 pt-1.5 pb-2" style={{ borderTop: '1px solid #1a2040' }}>
+              <div className="px-3 pt-1.5 pb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
                 <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5 flex items-center gap-1"
-                  style={{ color: '#2a4880' }}>
-                  <span style={{ color: '#4a78cc' }}>✦</span> {t('magesmithy')}
+                  style={{ color: 'var(--ink-faint)' }}>
+                  <span style={{ color: 'var(--ap)' }}>✦</span> {t('magesmithy')}
                 </p>
                 <div className="space-y-0.5">
                   {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).map(([stat, val]) => {
@@ -381,10 +370,10 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                             />
                           : <span className="w-3 flex-shrink-0" />
                         }
-                        <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: '#6a9fff' }}>
+                        <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: 'var(--ap)' }}>
                           +{val}
                         </span>
-                        <span className="text-[11px]" style={{ color: '#4a70cc' }}>
+                        <span className="text-[11px]" style={{ color: 'var(--water)' }}>
                           {meta ? t(meta.tKey) : stat}
                         </span>
                       </div>
@@ -395,18 +384,18 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             )}
 
             {forjamagoName && Object.entries(slotRunes ?? {}).some(([, v]) => v > 0) && (
-              <div className="px-3 pb-1.5" style={{ borderTop: '1px solid #1a2040', paddingTop: 6 }}>
-                <p className="text-[10px] flex items-center gap-1" style={{ color: '#3a5888' }}>
-                  <span style={{ color: '#4a68aa' }}>✦</span>
+              <div className="px-3 pb-1.5" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 6 }}>
+                <p className="text-[10px] flex items-center gap-1" style={{ color: 'var(--ink-faint)' }}>
+                  <span style={{ color: 'var(--water)' }}>✦</span>
                   <span>{t('modified_by')}:</span>
-                  <span style={{ color: '#7aaeff' }}>{forjamagoName}</span>
+                  <span style={{ color: 'var(--ap)' }}>{forjamagoName}</span>
                 </p>
               </div>
             )}
 
             {nextBonus && (
-              <div className="px-3 py-1.5" style={{ borderTop: '1px solid #1a2040' }}>
-                <p className="text-[10px]" style={{ color: '#2a4060' }}>▶ {t('next_bonus')}: {nextBonus}</p>
+              <div className="px-3 py-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>▶ {t('next_bonus')}: {nextBonus}</p>
               </div>
             )}
           </div>
@@ -471,12 +460,12 @@ function CharacterCenter() {
                 />
               )}
             </div>
-            <span className="font-display text-[#c9a84c] text-[11px] tracking-[0.22em] uppercase">
+            <span className="font-display text-[11px] tracking-[0.22em] uppercase" style={{ color: 'var(--gold)' }}>
               {classInfo.name}
             </span>
           </>
         ) : (
-          <span className="font-display text-[#20204a] text-[10px] tracking-widest">{t('select_class_prompt')}</span>
+          <span className="font-display text-[10px] tracking-widest" style={{ color: 'var(--ink-faint)' }}>{t('select_class_prompt')}</span>
         )}
       </div>
 
@@ -570,8 +559,8 @@ export function EquipmentGrid() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-80 text-[#3a3a6a] text-sm font-display tracking-widest"
-        style={{ background: 'linear-gradient(160deg, #0d0d22, #080818)' }}>
+      <div className="flex items-center justify-center h-80 text-sm font-display tracking-widest"
+        style={{ background: 'linear-gradient(160deg, #0d0d22, #080818)', color: 'var(--ink-faint)' }}>
         {t('loading_data')}
       </div>
     )
