@@ -30,19 +30,30 @@ type BadgeProps = {
 function TopBadge({ iconName, label, value, color }: BadgeProps) {
   return (
     <div
-      className="flex flex-col items-center gap-1 px-3 py-2 rounded-frame flex-1"
-      style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+      className="flex flex-col items-center gap-1.5 px-2 py-2.5 rounded-lg flex-1 relative overflow-hidden"
+      style={{
+        background:   'var(--surface-void)',
+        borderTop:    `2px solid ${color}`,
+        borderRight:  '1px solid var(--metal-edge)',
+        borderBottom: '1px solid var(--metal-edge)',
+        borderLeft:   '1px solid var(--metal-edge)',
+        boxShadow:    `inset 0 0 20px color-mix(in srgb, ${color} 8%, transparent), 0 2px 8px rgba(0,0,0,0.45)`,
+      }}
     >
-      <div className="flex items-center gap-1.5">
-        {icon(iconName, 18)}
+      <div
+        className="absolute inset-x-0 top-0 pointer-events-none"
+        style={{ height: 40, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 12%, transparent), transparent)` }}
+      />
+      <div className="flex items-center gap-1 relative z-10">
+        {icon(iconName, 15)}
         <span
-          className="font-mono font-bold text-xl leading-none tabular-nums"
-          style={{ color }}
+          className="font-display font-bold text-2xl leading-none tabular-nums"
+          style={{ color, textShadow: `0 0 14px color-mix(in srgb, ${color} 45%, transparent)` }}
         >
           {value}
         </span>
       </div>
-      <span className="text-[9px] uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}>{label}</span>
+      <span className="text-[8px] uppercase tracking-[0.14em] relative z-10" style={{ color: 'var(--ink-faint)' }}>{label}</span>
     </div>
   )
 }

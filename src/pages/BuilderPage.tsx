@@ -59,7 +59,14 @@ function BuilderContent() {
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3 relative flex-wrap">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
-          <h1 className="font-display text-forge-gold text-xl font-bold tracking-wide">
+          <h1
+            className="font-display text-xl font-bold tracking-wide"
+            style={{
+              color:      'var(--gold)',
+              textShadow: '0 0 24px rgba(201,162,75,0.4), 0 1px 0 rgba(0,0,0,0.6)',
+              letterSpacing: '0.06em',
+            }}
+          >
             {t('app_title')}
           </h1>
           <span className="text-forge-muted/40 text-xs font-mono hidden sm:inline">
@@ -141,7 +148,7 @@ function BuilderContent() {
 
           {/* Right: Stats */}
           <aside aria-label={t('stats')} aria-live="polite" className="overflow-y-auto max-h-[calc(100vh-120px)] sticky top-20">
-            <Frame><StatsPanel /></Frame>
+            <Frame material="parchment"><StatsPanel /></Frame>
           </aside>
         </div>
 
