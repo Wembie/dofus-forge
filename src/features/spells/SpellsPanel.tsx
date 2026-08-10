@@ -263,24 +263,30 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
     : minR === maxR ? `${maxR}` : `${minR}–${maxR}`
 
   const showTotal = attackEffects.length >= 2
-  const hasCrit   = crit > 0 && critBon > 0 && stats != null
+  const hasCrit   = crit > 0 && stats != null
 
   // weaponDamagePercent + melee/ranged inferred from weapon range
   const weaponPct = stats
     ? stats.weaponDamagePercent + rangePct(minR, maxR, stats)
     : 0
 
+  // crit_bonus is bonus crit CHANCE (shown in the crit% badge), not damage.
+  // Actual crit damage bonus = stats.critDamage (flat from equipped items).
+  const critDmgBonus = hasCrit ? stats.critDamage : 0
+
   const computed = attackEffects.map(e => {
-    const elem    = WEAPON_ATTACK_STAT[e.stat]!
-    const c       = ELEM_COLOR[elem]
-    const baseMax = e.max > 0 ? e.max : e.min
-    const low     = stats ? calcDamage(e.min,   elem, stats, weaponPct) : e.min
-    const high    = stats ? calcDamage(baseMax, elem, stats, weaponPct) : baseMax
-    return { elem, c, low, high }
+    const elem     = WEAPON_ATTACK_STAT[e.stat]!
+    const c        = ELEM_COLOR[elem]
+    const baseMax  = e.max > 0 ? e.max : e.min
+    const low      = stats ? calcDamage(e.min,   elem, stats, weaponPct) : e.min
+    const high     = stats ? calcDamage(baseMax, elem, stats, weaponPct) : baseMax
+    return { elem, c, low, high, critLow: low + critDmgBonus, critHigh: high + critDmgBonus }
   })
 
-  const totalNormMin = computed.reduce((s, e) => s + e.low,  0)
-  const totalNormMax = computed.reduce((s, e) => s + e.high, 0)
+  const totalNormMin = computed.reduce((s, e) => s + e.low,      0)
+  const totalNormMax = computed.reduce((s, e) => s + e.high,     0)
+  const totalCritMin = computed.reduce((s, e) => s + e.critLow,  0)
+  const totalCritMax = computed.reduce((s, e) => s + e.critHigh, 0)
 
   return (
     <div
@@ -319,7 +325,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
         {computed.length > 0 ? (
           <div className="space-y-0.5">
-            {computed.map(({ c, low, high }, i) => (
+            {computed.map(({ c, low, high, critLow, critHigh }, i) => (
               <div key={i} className="flex items-center gap-1.5">
                 <span className="flex items-center gap-0.5">
                   <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
@@ -327,12 +333,11 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                     {fmtRange(low, high)}
                   </span>
                 </span>
-                {/* Per-row crit only for single-element weapons */}
-                {hasCrit && !showTotal && (
+                {hasCrit && (
                   <span className="flex items-center gap-0.5">
                     <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
                     <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#e8a020' }}>
-                      {fmtRange(low + critBon, high + critBon)}
+                      {fmtRange(critLow, critHigh)}
                     </span>
                   </span>
                 )}
@@ -355,7 +360,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                   <span className="flex items-center gap-0.5">
                     <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
                     <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#e8a020' }}>
-                      {fmtRange(totalNormMin + critBon, totalNormMax + critBon)}
+                      {fmtRange(totalCritMin, totalCritMax)}
                     </span>
                   </span>
                 )}
