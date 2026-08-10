@@ -87,7 +87,13 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   return (
     <div
       className="rounded-lg p-2.5 flex gap-2.5"
-      style={{ background: 'var(--surface-void)', border: `1px solid color-mix(in srgb, ${color} 13%, transparent)` }}
+      style={{
+        background:   'var(--surface-void)',
+        borderTop:    `1px solid color-mix(in srgb, ${color} 13%, transparent)`,
+        borderRight:  `1px solid color-mix(in srgb, ${color} 13%, transparent)`,
+        borderBottom: `1px solid color-mix(in srgb, ${color} 13%, transparent)`,
+        borderLeft:   `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
+      }}
     >
       <div
         className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
@@ -415,7 +421,7 @@ export function SpellsPanel() {
     <div className="space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
-        <h3 className="font-display text-forge-gold text-sm uppercase tracking-widest">
+        <h3 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
           {t('spells')}
         </h3>
 
@@ -479,9 +485,12 @@ export function SpellsPanel() {
 
       {/* Weapon attack */}
       <div className="space-y-1">
-        <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--ink-muted)' }}>
-          {t('weapon_attack')}
-        </p>
+        <div className="flex items-center gap-2">
+          <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1, flexShrink: 0 }} />
+          <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+            {t('weapon_attack')}
+          </p>
+        </div>
         <WeaponCard weapon={equippedWeapon} stats={stats} />
       </div>
 
@@ -492,9 +501,12 @@ export function SpellsPanel() {
         ) : (
           <div className="grid grid-cols-2 gap-x-3">
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-muted)' }}>
-                {t('spell_col_normal')}
-              </p>
+              <div className="flex items-center gap-1.5 mb-2">
+                <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
+                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                  {t('spell_col_normal')}
+                </p>
+              </div>
               {normalSpells.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalSpells.map(spell => (
@@ -502,9 +514,12 @@ export function SpellsPanel() {
               ))}
             </div>
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-muted)' }}>
-                {t('spell_col_variant')}
-              </p>
+              <div className="flex items-center gap-1.5 mb-2">
+                <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
+                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                  {t('spell_col_variant')}
+                </p>
+              </div>
               {variantSpells.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantSpells.map(spell => (
@@ -518,14 +533,20 @@ export function SpellsPanel() {
       {/* Common spells */}
       {commonData && (normalCommon.length > 0 || variantCommon.length > 0) && (
         <div className="space-y-2">
-          <p className="text-[10px] uppercase tracking-widest font-medium pt-1" style={{ color: 'var(--ink-muted)', borderTop: '1px solid var(--metal-edge)' }}>
-            {t('common_spells')}
-          </p>
+          <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+            <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
+            <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+              {t('common_spells')}
+            </p>
+          </div>
           <div className="grid grid-cols-2 gap-x-3">
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-faint)' }}>
-                {t('spell_col_normal')}
-              </p>
+              <div className="flex items-center gap-1.5 mb-2">
+                <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />
+                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
+                  {t('spell_col_normal')}
+                </p>
+              </div>
               {normalCommon.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalCommon.map(spell => (
@@ -533,9 +554,12 @@ export function SpellsPanel() {
               ))}
             </div>
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-faint)' }}>
-                {t('spell_col_variant')}
-              </p>
+              <div className="flex items-center gap-1.5 mb-2">
+                <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />
+                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
+                  {t('spell_col_variant')}
+                </p>
+              </div>
               {variantCommon.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantCommon.map(spell => (
