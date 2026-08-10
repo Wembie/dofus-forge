@@ -4,7 +4,6 @@ import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl, runeIconUrl } from './statDisplay.ts'
 
-// Ordered grid: most-used rune stats, 7 per row
 const RUNE_GRID = [
   'Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power',
   'AP', 'MP', 'Range', 'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage',
@@ -49,29 +48,26 @@ export function RuneModal({ slotId, item, onClose }: Props) {
       <div
         className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden"
         style={{
-          maxWidth:    480,
-          maxHeight:   '90vh',
-          background:  'linear-gradient(175deg, #0e1122 0%, #090c18 100%)',
-          border:      '1px solid #2a3347',
-          boxShadow:   '0 0 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(201,168,76,0.08) inset',
+          maxWidth:   480,
+          maxHeight:  '90vh',
+          background: 'var(--surface-void)',
+          border:     '1px solid var(--metal-edge)',
+          boxShadow:  `0 0 60px rgba(0,0,0,0.9), 0 0 0 1px color-mix(in srgb, var(--gold) 8%, transparent) inset`,
         }}
       >
-        {/* ── Header ─────────────────────────────────────────────────── */}
+        {/* Header */}
         <div
           className="flex items-center gap-3 px-5 py-4 flex-shrink-0"
-          style={{
-            background:   'linear-gradient(180deg, #141829 0%, #0f1220 100%)',
-            borderBottom: '1px solid #1c2740',
-          }}
+          style={{ background: 'var(--surface-panel)', borderBottom: '1px solid var(--metal-edge)' }}
         >
           {item.image_url && (
             <div
               className="flex-shrink-0 rounded-xl overflow-hidden flex items-center justify-center"
               style={{
                 width: 48, height: 48,
-                background: 'linear-gradient(145deg, #1c1530, #0d0b1e)',
-                border:     '1.5px solid rgba(201,168,76,0.4)',
-                boxShadow:  '0 0 12px rgba(201,168,76,0.1) inset',
+                background: 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))',
+                border:     `1.5px solid color-mix(in srgb, var(--gold) 40%, transparent)`,
+                boxShadow:  `color-mix(in srgb, var(--gold) 10%, transparent) 0 0 12px inset`,
               }}
             >
               <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
@@ -79,13 +75,18 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           )}
 
           <div className="flex-1 min-w-0">
-            <p className="font-display font-bold truncate leading-tight" style={{ color: '#c9a84c', fontSize: 13 }}>
+            <p className="font-display font-bold truncate leading-tight" style={{ color: 'var(--gold)', fontSize: 13 }}>
               {item.name}
             </p>
-            <p className="text-[11px] mt-0.5 flex items-center gap-1.5" style={{ color: '#4a5268' }}>
+            <p className="text-[11px] mt-0.5 flex items-center gap-1.5" style={{ color: 'var(--ink-faint)' }}>
               <span
                 className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium"
-                style={{ background: '#1a1530', border: '1px solid #c9a84c33', color: '#c9a84c99' }}
+                style={{
+                  background: 'color-mix(in srgb, var(--gold) 9%, transparent)',
+                  border:     '1px solid color-mix(in srgb, var(--gold) 13%, transparent)',
+                  color:      'var(--gold)',
+                  opacity:    0.8,
+                }}
               >✦ {t('magesmithy')}</span>
               <span>Lv {item.level}</span>
             </p>
@@ -93,25 +94,27 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
           <button
             onClick={onClose}
-            className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-base transition-colors"
-            style={{ background: '#1c2333', border: '1px solid #2a3347', color: '#5a6480' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#e0e8f0' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#5a6480' }}
+            className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-base transition-colors text-ink-muted hover:text-ink"
+            style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
             aria-label="Close"
           >×</button>
         </div>
 
         <div className="overflow-y-auto flex-1">
-          {/* ── Active runes ─────────────────────────────────────────── */}
+          {/* Active runes */}
           <div className="px-4 pt-4">
             <div className="flex items-center gap-2 mb-2.5">
-              <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: '#3a4a68' }}>
+              <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                 {t('active_runes')}
               </span>
               {runeEntries.length > 0 && (
                 <span
                   className="text-[10px] font-mono rounded px-1.5 py-0.5"
-                  style={{ background: '#c9a84c18', color: '#c9a84c88', border: '1px solid #c9a84c22' }}
+                  style={{
+                    background: 'color-mix(in srgb, var(--gold) 9%, transparent)',
+                    color:      'color-mix(in srgb, var(--gold) 55%, transparent)',
+                    border:     '1px solid color-mix(in srgb, var(--gold) 13%, transparent)',
+                  }}
                 >
                   {runeEntries.length}
                 </span>
@@ -121,7 +124,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             {runeEntries.length === 0 ? (
               <div
                 className="rounded-xl flex items-center justify-center py-4 text-[11px]"
-                style={{ background: '#080b14', border: '1px dashed #1c2333', color: '#2a3347' }}
+                style={{ background: 'var(--surface-void)', border: '1px dashed var(--metal-edge)', color: 'var(--ink-faint)', opacity: 0.5 }}
               >
                 {t('no_runes')}
               </div>
@@ -129,13 +132,14 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               <div className="flex flex-wrap gap-2">
                 {runeEntries.map(([stat, val]) => {
                   const meta = STAT_META[stat]
+                  const clr  = meta?.color ?? 'var(--gold)'
                   return (
                     <div
                       key={stat}
                       className="flex items-center gap-1.5 rounded-full pl-1 pr-1 py-0.5 transition-all"
                       style={{
-                        background: meta ? `${meta.color}18` : '#1a1f30',
-                        border:     meta ? `1px solid ${meta.color}44` : '1px solid #2a3347',
+                        background: `color-mix(in srgb, ${clr} 9%, transparent)`,
+                        border:     `1px solid color-mix(in srgb, ${clr} 27%, transparent)`,
                       }}
                     >
                       {(() => {
@@ -143,34 +147,34 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                         if (rUrl) return (
                           <img src={rUrl} alt="" width={20} height={20}
                             className="object-contain flex-shrink-0"
-                            style={{ filter: `drop-shadow(0 0 4px ${meta?.color ?? '#c9a84c'}88)` }}
+                            style={{ filter: `drop-shadow(0 0 4px color-mix(in srgb, ${clr} 53%, transparent))` }}
                           />
                         )
                         if (meta?.icon) return (
                           <img src={statIconUrl(meta.icon)} alt="" width={14} height={14}
                             className="object-contain flex-shrink-0"
-                            style={{ filter: `drop-shadow(0 0 4px ${meta.color}88)` }}
+                            style={{ filter: `drop-shadow(0 0 4px color-mix(in srgb, ${clr} 53%, transparent))` }}
                           />
                         )
                         return null
                       })()}
-                      <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: meta?.color ?? '#c9a84c' }}>
+                      <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: clr }}>
                         +{val}
                       </span>
-                      <span className="text-[10px] pr-0.5" style={{ color: `${meta?.color ?? '#c0c8e0'}99` }}>
+                      <span className="text-[10px] pr-0.5" style={{ color: clr, opacity: 0.6 }}>
                         {meta ? t(meta.tKey) : stat}
                       </span>
                       <button
                         onClick={() => clearRune(slotId, stat)}
                         className="w-4 h-4 rounded-full flex items-center justify-center text-[10px] leading-none transition-colors flex-shrink-0"
-                        style={{ background: '#0e1020', color: '#3a4268', border: '1px solid #2a3347' }}
+                        style={{ background: 'var(--surface-void)', color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)' }}
                         onMouseEnter={e => {
-                          ;(e.currentTarget as HTMLButtonElement).style.color = '#f87171'
-                          ;(e.currentTarget as HTMLButtonElement).style.background = '#2a1020'
+                          ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--negative)'
+                          ;(e.currentTarget as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--negative) 15%, var(--surface-void))'
                         }}
                         onMouseLeave={e => {
-                          ;(e.currentTarget as HTMLButtonElement).style.color = '#3a4268'
-                          ;(e.currentTarget as HTMLButtonElement).style.background = '#0e1020'
+                          ;(e.currentTarget as HTMLButtonElement).style.color = 'var(--ink-faint)'
+                          ;(e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-void)'
                         }}
                         aria-label={t('rune_remove', { stat })}
                       >×</button>
@@ -181,28 +185,25 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             )}
           </div>
 
-          {/* ── Divider ──────────────────────────────────────────────── */}
+          {/* Divider */}
           <div className="flex items-center gap-3 px-4 mt-4 mb-3">
-            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, #1c2740)' }} />
-            <span className="text-[10px] uppercase tracking-widest font-semibold flex-shrink-0" style={{ color: '#3a4a68' }}>
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--metal-edge))' }} />
+            <span className="text-[10px] uppercase tracking-widest font-semibold flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
               {t('add_rune')}
             </span>
-            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, #1c2740)' }} />
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, var(--metal-edge))' }} />
           </div>
 
-          {/* ── Stat icon grid ───────────────────────────────────────── */}
+          {/* Stat icon grid */}
           <div className="px-4">
             <div
               className="grid gap-1.5 p-3 rounded-xl"
-              style={{
-                gridTemplateColumns: 'repeat(7, 1fr)',
-                background: '#080b14',
-                border:     '1px solid #1c2333',
-              }}
+              style={{ gridTemplateColumns: 'repeat(7, 1fr)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
               {RUNE_GRID.map(stat => {
-                const meta   = STAT_META[stat]
-                const active = stat === selected
+                const meta    = STAT_META[stat]
+                const clr     = meta?.color ?? 'var(--gold)'
+                const active  = stat === selected
                 const hasRune = (runes[stat] ?? 0) > 0
 
                 return (
@@ -214,29 +215,35 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     style={{
                       aspectRatio: '1',
                       background:  active
-                        ? `${meta?.color ?? '#c9a84c'}22`
+                        ? `color-mix(in srgb, ${clr} 13%, transparent)`
                         : hasRune
-                        ? `${meta?.color ?? '#c9a84c'}0e`
-                        : '#0b0e1a',
+                        ? `color-mix(in srgb, ${clr} 6%, transparent)`
+                        : 'var(--surface-void)',
                       border: active
-                        ? `1.5px solid ${meta?.color ?? '#c9a84c'}cc`
+                        ? `1.5px solid color-mix(in srgb, ${clr} 80%, transparent)`
                         : hasRune
-                        ? `1px solid ${meta?.color ?? '#c9a84c'}55`
-                        : '1px solid #1c2333',
-                      boxShadow: active ? `0 0 8px ${meta?.color ?? '#c9a84c'}44` : 'none',
+                        ? `1px solid color-mix(in srgb, ${clr} 33%, transparent)`
+                        : '1px solid var(--metal-edge)',
+                      boxShadow: active
+                        ? `0 0 8px color-mix(in srgb, ${clr} 27%, transparent)`
+                        : 'none',
                     }}
                     onMouseEnter={e => {
                       if (!active) {
                         const el = e.currentTarget as HTMLButtonElement
-                        el.style.background = `${meta?.color ?? '#c9a84c'}18`
-                        el.style.borderColor = `${meta?.color ?? '#c9a84c'}88`
+                        el.style.background   = `color-mix(in srgb, ${clr} 9%, transparent)`
+                        el.style.borderColor  = `color-mix(in srgb, ${clr} 53%, transparent)`
                       }
                     }}
                     onMouseLeave={e => {
                       if (!active) {
                         const el = e.currentTarget as HTMLButtonElement
-                        el.style.background = hasRune ? `${meta?.color ?? '#c9a84c'}0e` : '#0b0e1a'
-                        el.style.borderColor = hasRune ? `${meta?.color ?? '#c9a84c'}55` : '#1c2333'
+                        el.style.background  = hasRune
+                          ? `color-mix(in srgb, ${clr} 6%, transparent)`
+                          : 'var(--surface-void)'
+                        el.style.borderColor = hasRune
+                          ? `color-mix(in srgb, ${clr} 33%, transparent)`
+                          : 'var(--metal-edge)'
                       }
                     }}
                   >
@@ -251,9 +258,9 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                           className="object-contain"
                           style={{
                             filter: active
-                              ? `drop-shadow(0 0 6px ${meta?.color ?? '#c9a84c'}cc) brightness(1.15)`
+                              ? `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 80%, transparent)) brightness(1.15)`
                               : hasRune
-                              ? `drop-shadow(0 0 3px ${meta?.color ?? '#c9a84c'}66) brightness(0.95)`
+                              ? `drop-shadow(0 0 3px color-mix(in srgb, ${clr} 40%, transparent)) brightness(0.95)`
                               : 'brightness(0.5) saturate(0.4)',
                           }}
                         />
@@ -267,25 +274,24 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                           className="object-contain"
                           style={{
                             filter: active
-                              ? `drop-shadow(0 0 5px ${meta.color}bb) brightness(1.2)`
+                              ? `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 73%, transparent)) brightness(1.2)`
                               : hasRune
-                              ? `drop-shadow(0 0 3px ${meta.color}77) brightness(0.9)`
+                              ? `drop-shadow(0 0 3px color-mix(in srgb, ${clr} 47%, transparent)) brightness(0.9)`
                               : 'brightness(0.55)',
                           }}
                         />
                       )
                       return (
-                        <span className="text-[9px] font-bold" style={{ color: active ? '#c9a84c' : '#3a4268' }}>
+                        <span className="text-[9px] font-bold" style={{ color: active ? 'var(--gold)' : 'var(--ink-faint)' }}>
                           {(meta ? t(meta.tKey) : stat).slice(0, 3)}
                         </span>
                       )
                     })()}
 
-                    {/* Tiny dot if already has rune */}
                     {hasRune && !active && (
                       <span
                         className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full"
-                        style={{ background: meta?.color ?? '#c9a84c', boxShadow: `0 0 4px ${meta?.color ?? '#c9a84c'}` }}
+                        style={{ background: clr, boxShadow: `0 0 4px ${clr}` }}
                       />
                     )}
                   </button>
@@ -293,33 +299,38 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               })}
             </div>
 
-            {/* ── Selected stat info + controls ─────────────────────── */}
-            <div className="mt-3 rounded-xl p-3 space-y-3"
-              style={{ background: '#080b14', border: `1px solid ${selMeta?.color ?? '#c9a84c'}33` }}>
-
+            {/* Selected stat info + controls */}
+            <div
+              className="mt-3 rounded-xl p-3 space-y-3"
+              style={{
+                background: 'var(--surface-void)',
+                border:     `1px solid color-mix(in srgb, ${selMeta?.color ?? 'var(--gold)'} 20%, transparent)`,
+              }}
+            >
               {/* Stat info row */}
               <div className="flex items-center gap-2">
                 {(() => {
                   const rUrl = runeIconUrl(selected)
+                  const clr  = selMeta?.color ?? 'var(--gold)'
                   if (rUrl) return (
                     <img src={rUrl} alt="" width={28} height={28}
                       className="object-contain flex-shrink-0"
-                      style={{ filter: `drop-shadow(0 0 6px ${selMeta?.color ?? '#c9a84c'}aa)` }}
+                      style={{ filter: `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 67%, transparent))` }}
                     />
                   )
                   if (selMeta?.icon) return (
                     <img src={statIconUrl(selMeta.icon)} alt="" width={20} height={20}
                       className="object-contain flex-shrink-0"
-                      style={{ filter: `drop-shadow(0 0 5px ${selMeta.color}99)` }}
+                      style={{ filter: `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 60%, transparent))` }}
                     />
                   )
                   return null
                 })()}
-                <span className="font-semibold text-sm" style={{ color: selMeta?.color ?? '#c9a84c' }}>
+                <span className="font-semibold text-sm" style={{ color: selMeta?.color ?? 'var(--gold)' }}>
                   {selMeta ? t(selMeta.tKey) : selected}
                 </span>
                 {(runes[selected] ?? 0) > 0 && (
-                  <span className="ml-auto text-[11px] font-mono" style={{ color: `${selMeta?.color ?? '#c9a84c'}99` }}>
+                  <span className="ml-auto text-[11px] font-mono" style={{ color: selMeta?.color ?? 'var(--gold)', opacity: 0.6 }}>
                     {t('rune_current', { value: runes[selected] })}
                   </span>
                 )}
@@ -327,46 +338,50 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
               {/* Quick value buttons */}
               <div className="flex gap-1.5">
-                {QUICK_VALUES.map(v => (
-                  <button
-                    key={v}
-                    onClick={() => setAddValue(v)}
-                    className="flex-1 py-1 rounded-lg text-[11px] font-mono font-bold transition-all"
-                    style={{
-                      background:  addValue === v ? `${selMeta?.color ?? '#c9a84c'}22` : '#0e1020',
-                      border:      addValue === v ? `1.5px solid ${selMeta?.color ?? '#c9a84c'}88` : '1px solid #1c2333',
-                      color:       addValue === v ? (selMeta?.color ?? '#c9a84c') : '#3a4268',
-                    }}
-                    onMouseEnter={e => {
-                      if (addValue !== v) {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.borderColor = `${selMeta?.color ?? '#c9a84c'}55`
-                        el.style.color = '#8090b0'
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (addValue !== v) {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.borderColor = '#1c2333'
-                        el.style.color = '#3a4268'
-                      }
-                    }}
-                  >+{v}</button>
-                ))}
+                {QUICK_VALUES.map(v => {
+                  const clr = selMeta?.color ?? 'var(--gold)'
+                  return (
+                    <button
+                      key={v}
+                      onClick={() => setAddValue(v)}
+                      className="flex-1 py-1 rounded-lg text-[11px] font-mono font-bold transition-all"
+                      style={{
+                        background: addValue === v
+                          ? `color-mix(in srgb, ${clr} 13%, transparent)`
+                          : 'var(--surface-void)',
+                        border: addValue === v
+                          ? `1.5px solid color-mix(in srgb, ${clr} 53%, transparent)`
+                          : '1px solid var(--metal-edge)',
+                        color: addValue === v ? clr : 'var(--ink-faint)',
+                      }}
+                      onMouseEnter={e => {
+                        if (addValue !== v) {
+                          const el = e.currentTarget as HTMLButtonElement
+                          el.style.borderColor = `color-mix(in srgb, ${clr} 33%, transparent)`
+                          el.style.color = 'var(--ink-muted)'
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (addValue !== v) {
+                          const el = e.currentTarget as HTMLButtonElement
+                          el.style.borderColor = 'var(--metal-edge)'
+                          el.style.color = 'var(--ink-faint)'
+                        }
+                      }}
+                    >+{v}</button>
+                  )
+                })}
               </div>
 
               {/* Custom input + Add button */}
               <div className="flex gap-2">
                 <div
                   className="flex items-center gap-1 flex-1 rounded-lg px-2"
-                  style={{ background: '#0b0e1a', border: '1px solid #1c2740' }}
+                  style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
                 >
                   <button
                     onClick={() => setAddValue(v => Math.max(1, v - 1))}
-                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors"
-                    style={{ color: '#3a4268' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#8090b0' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#3a4268' }}
+                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors text-ink-faint hover:text-ink-muted"
                   >−</button>
                   <input
                     type="number"
@@ -375,62 +390,64 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     max={9999}
                     onChange={e => setAddValue(Math.max(1, parseInt(e.target.value) || 1))}
                     className="flex-1 bg-transparent text-center text-xs py-1 font-mono tabular-nums"
-                    style={{ color: selMeta?.color ?? '#c9a84c', outline: 'none', minWidth: 0 }}
+                    style={{ color: selMeta?.color ?? 'var(--gold)', outline: 'none', minWidth: 0 }}
                   />
                   <button
                     onClick={() => setAddValue(v => v + 1)}
-                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors"
-                    style={{ color: '#3a4268' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#8090b0' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#3a4268' }}
+                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors text-ink-faint hover:text-ink-muted"
                   >+</button>
                 </div>
 
-                <button
-                  onClick={addRune}
-                  className="px-5 py-1.5 rounded-lg text-sm font-bold transition-all"
-                  style={{
-                    background: `linear-gradient(135deg, ${selMeta?.color ?? '#c9a84c'}22, ${selMeta?.color ?? '#c9a84c'}11)`,
-                    border:     `1.5px solid ${selMeta?.color ?? '#c9a84c'}77`,
-                    color:      selMeta?.color ?? '#c9a84c',
-                    boxShadow:  `0 0 12px ${selMeta?.color ?? '#c9a84c'}22`,
-                  }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget as HTMLButtonElement
-                    el.style.background = `linear-gradient(135deg, ${selMeta?.color ?? '#c9a84c'}33, ${selMeta?.color ?? '#c9a84c'}22)`
-                    el.style.boxShadow  = `0 0 18px ${selMeta?.color ?? '#c9a84c'}44`
-                  }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget as HTMLButtonElement
-                    el.style.background = `linear-gradient(135deg, ${selMeta?.color ?? '#c9a84c'}22, ${selMeta?.color ?? '#c9a84c'}11)`
-                    el.style.boxShadow  = `0 0 12px ${selMeta?.color ?? '#c9a84c'}22`
-                  }}
-                >
-                  {t('rune_add_btn')}
-                </button>
+                {(() => {
+                  const clr = selMeta?.color ?? 'var(--gold)'
+                  return (
+                    <button
+                      onClick={addRune}
+                      className="px-5 py-1.5 rounded-lg text-sm font-bold transition-all"
+                      style={{
+                        background: `linear-gradient(135deg, color-mix(in srgb, ${clr} 13%, transparent), color-mix(in srgb, ${clr} 7%, transparent))`,
+                        border:     `1.5px solid color-mix(in srgb, ${clr} 47%, transparent)`,
+                        color:      clr,
+                        boxShadow:  `0 0 12px color-mix(in srgb, ${clr} 13%, transparent)`,
+                      }}
+                      onMouseEnter={e => {
+                        const el = e.currentTarget as HTMLButtonElement
+                        el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${clr} 20%, transparent), color-mix(in srgb, ${clr} 13%, transparent))`
+                        el.style.boxShadow  = `0 0 18px color-mix(in srgb, ${clr} 27%, transparent)`
+                      }}
+                      onMouseLeave={e => {
+                        const el = e.currentTarget as HTMLButtonElement
+                        el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${clr} 13%, transparent), color-mix(in srgb, ${clr} 7%, transparent))`
+                        el.style.boxShadow  = `0 0 12px color-mix(in srgb, ${clr} 13%, transparent)`
+                      }}
+                    >
+                      {t('rune_add_btn')}
+                    </button>
+                  )
+                })()}
               </div>
             </div>
           </div>
 
-          {/* ── Forjamago signature ─────────────────────────────────── */}
+          {/* Forjamago signature */}
           <div className="px-4 pt-2 pb-4">
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: '#3a4a68' }}>
+              <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                 {t('forjamago_name_label')}
               </span>
             </div>
             <div
               className="flex items-center gap-2 rounded-xl px-3 py-2"
-              style={{ background: '#080b14', border: '1px solid #1c2333' }}
+              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
-              <span className="text-[11px] flex-shrink-0" style={{ color: '#3a5888' }}>✦</span>
+              <span className="text-[11px] flex-shrink-0" style={{ color: 'var(--ap)', opacity: 0.6 }}>✦</span>
               <input
                 type="text"
                 value={forjamagoName}
                 onChange={e => setForjamagoName(slotId, e.target.value)}
                 placeholder={t('forjamago_name_placeholder')}
                 className="flex-1 bg-transparent text-[11px] outline-none"
-                style={{ color: '#6a9fff', caretColor: '#6a9fff' }}
+                style={{ color: 'var(--ap)', caretColor: 'var(--ap)' }}
               />
             </div>
           </div>
