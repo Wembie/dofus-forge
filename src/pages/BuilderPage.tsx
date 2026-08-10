@@ -48,7 +48,14 @@ function BuilderContent() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       {/* Header */}
-      <header className="border-b border-forge-border bg-forge-surface/80 backdrop-blur-sm sticky top-0 z-40">
+      <header
+        className="sticky top-0 z-40 backdrop-blur-sm"
+        style={{
+          background:   'color-mix(in srgb, var(--surface-panel) 92%, transparent)',
+          borderBottom: '1px solid var(--gold-deep)',
+          boxShadow:    '0 1px 0 var(--metal-edge), 0 4px 20px rgba(0,0,0,0.45)',
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3 relative flex-wrap">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
