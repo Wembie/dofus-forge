@@ -269,7 +269,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const hasCrit = crit > 0 && stats != null
 
   const weaponPct    = stats ? stats.weaponDamagePercent + rangePct(minR, maxR, stats) + mastery : mastery
-  const critDmgBonus = hasCrit ? stats.critDamage : 0
+  const critDmgBonus = hasCrit ? stats.critDamage + critBon : 0
 
   const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat))
   const stealEffects = attackEffects.filter(e =>  IS_STEAL(e.stat))
