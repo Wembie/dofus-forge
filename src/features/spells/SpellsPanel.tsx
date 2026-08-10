@@ -224,8 +224,9 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
 
 function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBlock | null }) {
   const { t } = useTranslation()
-  const [mastery, setMastery] = useState(0)
-  const [masteryInput, setMasteryInput] = useState('0')
+  const [dominioActive, setDominioActive] = useState(false)
+  const [dominioNorm, setDominioNorm]     = useState(300)
+  const [dominioCrit, setDominioCrit]     = useState(360)
 
   const attackEffects = useMemo(() => {
     if (!weapon) return []
@@ -269,8 +270,10 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
   const hasCrit = crit > 0 && stats != null
 
-  const weaponPct    = stats ? stats.weaponDamagePercent + rangePct(minR, maxR, stats) + mastery : mastery
-  const critDmgBonus = hasCrit ? stats.critDamage + critBon : 0
+  const baseWeaponPct = stats ? stats.weaponDamagePercent + rangePct(minR, maxR, stats) : 0
+  const normalPct     = baseWeaponPct + (dominioActive ? dominioNorm : 0)
+  const critWeaponPct = baseWeaponPct + (dominioActive ? dominioCrit : 0)
+
 
   const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat))
   const stealEffects = attackEffects.filter(e =>  IS_STEAL(e.stat))
@@ -279,9 +282,12 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
     const elem    = WEAPON_ATTACK_STAT[e.stat]!
     const c       = ELEM_COLOR[elem]
     const baseMax = e.max > 0 ? e.max : e.min
-    const low     = stats ? calcDamage(e.min,   elem, stats, weaponPct) : e.min
-    const high    = stats ? calcDamage(baseMax, elem, stats, weaponPct) : baseMax
-    return { elem, c, low, high, critLow: low + critDmgBonus, critHigh: high + critDmgBonus }
+    const low      = stats ? calcDamage(e.min,            elem, stats, normalPct)     : e.min
+    const high     = stats ? calcDamage(baseMax,           elem, stats, normalPct)     : baseMax
+    // crit_bonus is an additional base damage amplified by the mastery formula (not flat)
+    const critLow  = stats ? calcDamage(e.min   + critBon, elem, stats, critWeaponPct) + stats.critDamage : e.min
+    const critHigh = stats ? calcDamage(baseMax + critBon, elem, stats, critWeaponPct) + stats.critDamage : baseMax
+    return { elem, c, low, high, critLow, critHigh }
   }
 
   const dmgRows   = dmgEffects.map(computeRow)
@@ -338,41 +344,49 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
         </div>
       </div>
 
-      {/* Dominio del Arma input */}
+      {/* Dominio del Arma toggle */}
       <div
         className="flex items-center gap-2 px-3 py-1.5"
         style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-void)' }}
       >
-        <span className="text-[10px] font-medium flex-shrink-0" style={{ color: 'var(--ink-faint)' }} title={t('weapon_mastery_tip')}>
-          {t('weapon_mastery')}
-        </span>
         <input
-          type="number"
-          min={0}
-          value={masteryInput}
-          onChange={e => setMasteryInput(e.target.value)}
-          onBlur={e => {
-            const v = Math.max(0, parseInt(e.target.value, 10) || 0)
-            setMastery(v)
-            setMasteryInput(String(v))
-          }}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              const v = Math.max(0, parseInt(masteryInput, 10) || 0)
-              setMastery(v)
-              setMasteryInput(String(v))
-              ;(e.target as HTMLInputElement).blur()
-            }
-          }}
-          className="w-16 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border transition-colors"
-          style={{
-            background: 'var(--surface-panel)',
-            border: mastery > 0 ? '1px solid color-mix(in srgb, var(--gold) 45%, transparent)' : '1px solid var(--metal-edge)',
-            color: mastery > 0 ? 'var(--gold)' : 'var(--ink-muted)',
-          }}
+          type="checkbox"
+          id="dominio-toggle"
+          checked={dominioActive}
+          onChange={e => setDominioActive(e.target.checked)}
+          className="flex-shrink-0 cursor-pointer"
+          style={{ width: 13, height: 13, accentColor: 'var(--gold)' }}
         />
-        {mastery > 0 && (
-          <span className="text-[9px] font-mono" style={{ color: 'var(--gold-deep)' }}>+{mastery} pot.</span>
+        <label
+          htmlFor="dominio-toggle"
+          className="text-[10px] font-medium flex-shrink-0 cursor-pointer"
+          style={{ color: dominioActive ? 'var(--gold)' : 'var(--ink-faint)' }}
+          title={t('weapon_mastery_tip')}
+        >
+          {t('weapon_mastery')}
+        </label>
+
+        {dominioActive && (
+          <div className="flex items-center gap-1.5 ml-1">
+            <input
+              type="number"
+              min={0}
+              value={dominioNorm}
+              onChange={e => setDominioNorm(Math.max(0, parseInt(e.target.value, 10) || 0))}
+              className="w-14 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border"
+              style={{ background: 'var(--surface-panel)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', color: 'var(--gold)' }}
+            />
+            <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>/</span>
+            <span className="text-[9px]" style={{ color: 'var(--crit)' }}>✦</span>
+            <input
+              type="number"
+              min={0}
+              value={dominioCrit}
+              onChange={e => setDominioCrit(Math.max(0, parseInt(e.target.value, 10) || 0))}
+              className="w-14 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border"
+              style={{ background: 'var(--surface-panel)', border: '1px solid color-mix(in srgb, var(--crit) 40%, transparent)', color: 'var(--crit)' }}
+            />
+          </div>
         )}
       </div>
 
