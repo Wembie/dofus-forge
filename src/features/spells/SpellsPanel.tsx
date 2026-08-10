@@ -80,7 +80,8 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   const hasCrit         = critDisplayEffects.length > 0
   const damageEffects   = displayEffects.filter(e => e.kind === 'damage')
   const critDmgEffects  = critDisplayEffects.filter(e => e.kind === 'damage')
-  const showTotal       = damageEffects.length >= 2
+  const pushDmg         = (stats && displayEffects.some(e => e.kind === 'push')) ? stats.pushbackDamage : 0
+  const showTotal       = damageEffects.length >= 2 || (damageEffects.length >= 1 && pushDmg > 0)
 
   const rangeStr = !lvl || lvl.maxRange === 0
     ? t('spell_melee')
@@ -137,9 +138,16 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
             {displayEffects.map((e, i) => {
               if (e.kind === 'push') {
                 return (
-                  <span key={i} className="text-[10px] font-mono block" style={{ color: '#6b7fa8' }}>
-                    {t('spell_push', { cells: e.calcMin })}
-                  </span>
+                  <div key={i} className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono" style={{ color: '#6b7fa8' }}>
+                      {t('spell_push', { cells: e.calcMin })}
+                    </span>
+                    {pushDmg > 0 && (
+                      <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#6b7fa8' }}>
+                        {pushDmg}
+                      </span>
+                    )}
+                  </div>
                 )
               }
               if (e.kind === 'ap' || e.kind === 'mp') {
@@ -183,18 +191,18 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                   <span className="text-[9px] font-mono" style={{ color: '#4a5580' }}>Σ</span>
                   <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#8090b0' }}>
                     {fmtRange(
-                      damageEffects.reduce((s, e) => s + e.calcMin, 0),
-                      damageEffects.reduce((s, e) => s + e.calcMax, 0),
+                      damageEffects.reduce((s, e) => s + e.calcMin, 0) + pushDmg,
+                      damageEffects.reduce((s, e) => s + e.calcMax, 0) + pushDmg,
                     )}
                   </span>
                 </span>
-                {hasCrit && critDmgEffects.length >= 2 && (
+                {hasCrit && critDmgEffects.length >= 1 && (
                   <span className="flex items-center gap-0.5">
                     <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
                     <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#e8a020' }}>
                       {fmtRange(
-                        critDmgEffects.reduce((s, e) => s + e.calcMin, 0),
-                        critDmgEffects.reduce((s, e) => s + e.calcMax, 0),
+                        critDmgEffects.reduce((s, e) => s + e.calcMin, 0) + pushDmg,
+                        critDmgEffects.reduce((s, e) => s + e.calcMax, 0) + pushDmg,
                       )}
                     </span>
                   </span>

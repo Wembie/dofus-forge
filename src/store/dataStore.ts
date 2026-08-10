@@ -72,19 +72,33 @@ export const useDataStore = create<DataState>((set, get) => ({
     }
   },
 
-  // Spells always English — spell effect stat names must match STAT_MAP keys.
-  loadSpells: async (_lang, classSlug) => {
+  // Effects stay English (STAT_MAP keys). Overlay translated spell names for display.
+  loadSpells: async (lang, classSlug) => {
     const current = get().spells
     if (current.has(classSlug) && current.has('common')) return
     try {
       const next = new Map(current)
       if (!next.has(classSlug)) {
         const data = await fetchSpells('en', classSlug)
+        if (lang !== 'en') {
+          try {
+            const langData = await fetchSpells(lang, classSlug)
+            const nameMap = new Map(langData.spells.map(sp => [sp.id, sp.name]))
+            data.spells = data.spells.map(sp => ({ ...sp, name: nameMap.get(sp.id) ?? sp.name }))
+          } catch { /* lang spell file optional */ }
+        }
         next.set(classSlug, data)
       }
       if (!next.has('common')) {
         try {
           const commonData = await fetchSpells('en', 'common')
+          if (lang !== 'en') {
+            try {
+              const langCommon = await fetchSpells(lang, 'common')
+              const nameMap = new Map(langCommon.spells.map(sp => [sp.id, sp.name]))
+              commonData.spells = commonData.spells.map(sp => ({ ...sp, name: nameMap.get(sp.id) ?? sp.name }))
+            } catch { /* lang common file optional */ }
+          }
           next.set('common', commonData)
         } catch { /* common spells optional */ }
       }
