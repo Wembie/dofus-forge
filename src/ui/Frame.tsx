@@ -45,11 +45,16 @@ export function Frame({
     inset     ? 'var(--well-inset)'   : null,
   ].filter(Boolean).join(', ')
 
+  const parchmentImage = material === 'parchment'
+    ? 'radial-gradient(ellipse at 50% 0%, rgba(201,162,75,0.06) 0%, transparent 60%)'
+    : undefined
+
   return (
     <div
       className={cn('rounded-frame overflow-hidden', materialBg[material], paddingCls[padding], className)}
       style={{
-        borderTop:    '1px solid var(--gold-deep)',
+        backgroundImage: parchmentImage,
+        borderTop:    `1px solid ${gold ? 'var(--gold)' : 'var(--gold-deep)'}`,
         borderRight:  `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
         borderBottom: `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
         borderLeft:   `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,

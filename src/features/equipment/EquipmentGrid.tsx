@@ -408,14 +408,14 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
 // ── Character center (The Crucible) ──────────────────────────────────────────
 
-// Gem ring at radius 54px from portrait center; earth=top, clockwise
+// Gem ring at radius 68px from portrait center; earth=top, clockwise
 const GEM_RING = [
-  { element: 'earth',    dx:   0, dy: -54 },
-  { element: 'fire',     dx:  47, dy: -27 },
-  { element: 'air',      dx:  47, dy:  27 },
-  { element: 'neutral',  dx:   0, dy:  54 },
-  { element: 'water',    dx: -47, dy:  27 },
-  { element: 'vitality', dx: -47, dy: -27 },
+  { element: 'earth',    dx:   0, dy: -68 },
+  { element: 'fire',     dx:  59, dy: -34 },
+  { element: 'air',      dx:  59, dy:  34 },
+  { element: 'neutral',  dx:   0, dy:  68 },
+  { element: 'water',    dx: -59, dy:  34 },
+  { element: 'vitality', dx: -59, dy: -34 },
 ] as const
 
 function elemVar(elem: string | null | undefined): string {
@@ -449,22 +449,31 @@ function CharacterCenter() {
     >
       {/* Portrait + gem ring */}
       <div
-        className="relative flex items-center justify-center mt-8"
-        style={{ width: 160, height: 180 }}
+        className="relative flex items-center justify-center mt-6"
+        style={{ width: 160, height: 220 }}
       >
         {/* Dashed ring guide */}
         <svg
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-          viewBox="0 0 160 180"
+          viewBox="0 0 160 220"
         >
           <circle
-            cx="80" cy="90"
-            r="54"
+            cx="80" cy="110"
+            r="68"
             fill="none"
             stroke={primaryColor}
             strokeOpacity="0.18"
             strokeWidth="1"
             strokeDasharray="3 7"
+          />
+          {/* Outer decorative ring */}
+          <circle
+            cx="80" cy="110"
+            r="74"
+            fill="none"
+            stroke={primaryColor}
+            strokeOpacity="0.07"
+            strokeWidth="1"
           />
         </svg>
 
@@ -479,7 +488,7 @@ function CharacterCenter() {
               transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`,
             }}
           >
-            <ElementGem element={element} intensity={gemIntensity(element)} size={12} />
+            <ElementGem element={element} intensity={gemIntensity(element)} size={14} />
           </div>
         ))}
 
@@ -487,12 +496,12 @@ function CharacterCenter() {
         <div
           className="rounded-2xl overflow-hidden flex-shrink-0"
           style={{
-            width:     88,
-            height:    88,
+            width:     110,
+            height:    110,
             position:  'relative',
             zIndex:    1,
             border:    `2px solid color-mix(in srgb, ${primaryColor} 50%, transparent)`,
-            boxShadow: `0 0 24px color-mix(in srgb, ${primaryColor} 30%, transparent), var(--inset-bevel)`,
+            boxShadow: `0 0 32px color-mix(in srgb, ${primaryColor} 35%, transparent), 0 0 8px color-mix(in srgb, ${primaryColor} 15%, transparent), var(--inset-bevel)`,
             background: 'var(--surface-panel)',
           }}
         >
@@ -500,16 +509,19 @@ function CharacterCenter() {
             <img src={portrait} alt={classInfo?.name ?? ''} className="w-full h-full object-cover" draggable={false} />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="text-2xl" style={{ color: 'var(--ink-faint)' }}>?</span>
+              <span className="text-3xl" style={{ color: 'var(--ink-faint)' }}>?</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Class name + separator */}
-      <div className="flex flex-col items-center gap-1.5 mt-2">
+      <div className="flex flex-col items-center gap-2 mt-3">
         {classInfo ? (
-          <span className="font-display text-[11px] tracking-[0.22em] uppercase" style={{ color: 'var(--gold)' }}>
+          <span
+            className="font-display text-[13px] tracking-[0.26em] uppercase"
+            style={{ color: 'var(--gold)', textShadow: '0 0 16px rgba(201,162,75,0.4)' }}
+          >
             {classInfo.name}
           </span>
         ) : (
@@ -518,9 +530,10 @@ function CharacterCenter() {
           </span>
         )}
         <div style={{
-          width:      80,
+          width:      100,
           height:     1,
-          background: 'linear-gradient(to right, transparent, var(--gold-deep) 20%, var(--gold-deep) 80%, transparent)',
+          background: 'linear-gradient(to right, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent)',
+          opacity:    0.6,
         }} />
       </div>
     </div>
