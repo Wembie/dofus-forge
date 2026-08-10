@@ -7,14 +7,13 @@ import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
 
 const CHAR_COLOR: Record<Characteristic, string> = {
-  vitality:     '#e05252',
-  wisdom:       '#9b6dff',
-  strength:     '#c49a2a',
-  intelligence: '#dc4e22',
-  chance:       '#2a8fd4',
-  agility:      '#6ab04c',
+  vitality:     'var(--vitality)',
+  wisdom:       'var(--wisdom)',
+  strength:     'var(--earth)',
+  intelligence: 'var(--fire)',
+  chance:       'var(--water)',
+  agility:      'var(--air)',
 }
-
 
 // ── Hold-to-repeat ────────────────────────────────────────────────────────────
 function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
@@ -68,14 +67,14 @@ function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void
 }
 
 // ── Stat icon ─────────────────────────────────────────────────────────────────
-function StatIcon({ name, size = 20, color }: { name: string; size?: number; color?: string }) {
+function StatIcon({ name, size = 20 }: { name: string; size?: number }) {
   return (
     <img
       src={statIconUrl(name)}
       alt=""
       width={size}
       height={size}
-      style={{ objectFit: 'contain', flexShrink: 0, filter: color ? `drop-shadow(0 0 3px ${color}88)` : undefined }}
+      style={{ objectFit: 'contain', flexShrink: 0 }}
       draggable={false}
     />
   )
@@ -118,7 +117,7 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
   const { addProps, removeProps } = useHoldRepeat(onAdd, onRemove)
 
   const btnBase: React.CSSProperties = {
-    border: '1px solid #2a3347', borderRadius: 4,
+    border: '1px solid var(--metal-edge)', borderRadius: 4,
     width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center',
     fontWeight: 700, fontSize: 14, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
     background: 'transparent', transition: 'border-color 0.1s, color 0.1s',
@@ -126,20 +125,14 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
 
   return (
     <div
-      className="flex items-center gap-1.5 px-2 py-1 rounded-lg transition-colors"
-      style={{ background: '#0d1018' }}
-      onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = '#111620'}
-      onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = '#0d1018'}
+      className="flex items-center gap-1.5 px-2 py-1 rounded-lg transition-colors bg-surface-void hover:bg-surface-panel"
     >
-      {/* Icon */}
-      <StatIcon name={char} size={22} color={color} />
+      <StatIcon name={char} size={22} />
 
-      {/* Name */}
       <span className="text-xs font-medium select-none" style={{ color, minWidth: 74, flexShrink: 0 }}>
         {t(`stat_${char}`)}
       </span>
 
-      {/* Total value */}
       <span
         className="font-mono font-bold text-sm tabular-nums flex-1 text-right pr-2"
         style={{ color }}
@@ -148,11 +141,10 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
         {total.toLocaleString()}
       </span>
 
-      {/* Controls */}
       <button
         {...removeProps}
         disabled={allocated <= 0}
-        style={{ ...btnBase, color: '#7a8499', opacity: allocated <= 0 ? 0.25 : 1 }}
+        style={{ ...btnBase, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
         aria-label={`Remove ${t(`stat_${char}`)}`}
       >−</button>
 
@@ -167,36 +159,31 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
           if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
           if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
         }}
-        className="text-center font-mono font-bold text-xs focus:outline-none"
+        className="text-center font-mono font-bold text-xs focus:outline-none border border-transparent hover:border-metal-edge focus:border-metal-edge rounded-sm transition-colors"
         style={{
           width: 44, background: 'transparent',
-          border: '1px solid transparent', borderRadius: 3,
           color, MozAppearance: 'textfield', padding: '1px 2px',
-          transition: 'border-color 0.15s',
         }}
-        onMouseEnter={e => (e.currentTarget.style.borderColor = '#2a3347')}
-        onMouseLeave={e => { if (!focused.current) e.currentTarget.style.borderColor = 'transparent' }}
         aria-label={`${t(`stat_${char}`)} points`}
       />
 
       <button
         {...addProps}
         disabled={!canAdd}
-        style={{ ...btnBase, color: '#7a8499', opacity: !canAdd ? 0.25 : 1 }}
+        style={{ ...btnBase, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
         aria-label={`Add ${t(`stat_${char}`)}`}
       >+</button>
 
-      {/* Scroll badge */}
       <button
         onClick={onToggleScroll}
         title={t('scroll_title', { bonus: SCROLL_BONUS })}
         className="flex-shrink-0 flex items-center justify-center text-[9px] font-bold transition-all"
         style={isScrolled ? {
           width: 18, height: 18, borderRadius: 3,
-          background: '#c9a84c', color: '#0d0f14', border: '1px solid #c9a84c',
+          background: 'var(--gold)', color: 'var(--ink-invert)', border: '1px solid var(--gold)',
         } : {
           width: 18, height: 18, borderRadius: 3,
-          background: 'transparent', color: '#3a4060', border: '1px solid #2a3347',
+          background: 'transparent', color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)',
         }}
         aria-pressed={isScrolled}
       >{t('scroll_label')}</button>
@@ -211,21 +198,21 @@ function CombatStat({ icon, label, value, color, fmt }: {
   if (value === 0) return null
   const display = fmt === 'pct' ? `${value}%` : value.toLocaleString()
   return (
-    <div className="flex items-center gap-1 px-1.5 py-0.5 rounded" style={{ background: '#0a0d14' }}>
+    <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface-void">
       <StatIcon name={icon} size={14} />
-      <span className="text-[9px] text-forge-muted/60 flex-1 leading-none">{label}</span>
-      <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: color ?? '#c8cad4' }}>
+      <span className="text-[9px] flex-1 leading-none" style={{ color: 'var(--ink-muted)' }}>{label}</span>
+      <span className="text-[11px] font-mono font-bold tabular-nums" style={{ color: color ?? 'var(--ink)' }}>
         {display}
       </span>
     </div>
   )
 }
 
-// ── Element value cell (plain text, muted when zero) ─────────────────────────
+// ── Element value cell ────────────────────────────────────────────────────────
 function ValCell({ value, color, suffix = '' }: { value: number; color: string; suffix?: string }) {
   return (
     <span className="font-mono font-bold text-[11px] tabular-nums leading-none text-right"
-      style={{ color: value === 0 ? '#283045' : color }}>
+      style={{ color: value === 0 ? 'var(--ink-faint)' : color }}>
       {value === 0 ? '—' : `${value > 0 ? '+' : ''}${value}${suffix}`}
     </span>
   )
@@ -244,19 +231,19 @@ function ElementRow({ icon, label, color, damage, resFixed, resPercent, showPerc
       className="grid items-center rounded-md"
       style={{
         gridTemplateColumns: ELEM_COLS, gap: 6, padding: '5px 8px',
-        background:  hasData ? `${color}0a` : 'transparent',
-        borderLeft:  `2px solid ${hasData ? color + '40' : 'transparent'}`,
+        background:  hasData ? `color-mix(in srgb, ${color} 6%, transparent)` : 'transparent',
+        borderLeft:  `2px solid ${hasData ? `color-mix(in srgb, ${color} 25%, transparent)` : 'transparent'}`,
         opacity:     hasData ? 1 : 0.40,
       }}
     >
       <div className="flex items-center gap-1.5 min-w-0">
         <StatIcon name={icon} size={13} />
-        <span className="text-[10px] font-semibold truncate" style={{ color: hasData ? color : '#4a5268' }}>{label}</span>
+        <span className="text-[10px] font-semibold truncate" style={{ color: hasData ? color : 'var(--ink-faint)' }}>{label}</span>
       </div>
       <ValCell value={damage}         color={color} />
-      <ValCell value={resFixed}       color={resFixed  > 0 ? '#6ab04c' : '#e05252'} />
+      <ValCell value={resFixed}       color={resFixed  > 0 ? 'var(--positive)' : 'var(--negative)'} />
       {showPercent
-        ? <ValCell value={resPercent ?? 0} color={(resPercent ?? 0) > 0 ? '#6ab04c' : '#e05252'} suffix="%" />
+        ? <ValCell value={resPercent ?? 0} color={(resPercent ?? 0) > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
         : <span />
       }
     </div>
@@ -311,14 +298,14 @@ export function CharacteristicsPanel() {
         </span>
       </div>
 
-      <div className="h-1 rounded-full overflow-hidden" style={{ background: '#1c2333' }}>
+      <div className="h-1 rounded-full overflow-hidden" style={{ background: 'var(--metal-edge)' }}>
         <div
           className="h-full rounded-full transition-all duration-300"
           style={{
             width: `${pct}%`,
             background: remaining === 0
-              ? 'linear-gradient(to right, #c9a84c, #e8c87a)'
-              : 'linear-gradient(to right, #c9a84c88, #c9a84c)',
+              ? 'linear-gradient(to right, var(--gold), var(--gold-bright))'
+              : 'linear-gradient(to right, color-mix(in srgb, var(--gold) 55%, transparent), var(--gold))',
           }}
         />
       </div>
@@ -349,10 +336,10 @@ export function CharacteristicsPanel() {
       <button
         onClick={() => setShowCombat(o => !o)}
         className="w-full flex items-center justify-between px-2 py-1 rounded-lg transition-colors"
-        style={{ background: '#0d1018', border: '1px solid #1c2333' }}
+        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
       >
         <span className="font-display text-forge-gold text-xs uppercase tracking-widest">{t('combat_stats')}</span>
-        <span className="text-[9px]" style={{ color: '#3a4268' }}>{showCombat ? '▲' : '▼'}</span>
+        <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{showCombat ? '▲' : '▼'}</span>
       </button>
 
       {showCombat && (
@@ -361,27 +348,30 @@ export function CharacteristicsPanel() {
           {/* HP + AP/MP/Range row */}
           <div
             className="flex items-center gap-2 px-3 py-2 rounded-xl"
-            style={{ background: 'linear-gradient(135deg, #1a0808 0%, #0d1018 100%)', border: '1px solid #2a1515' }}
+            style={{
+              background: `color-mix(in srgb, var(--vitality) 8%, var(--surface-void))`,
+              border: `1px solid color-mix(in srgb, var(--vitality) 20%, var(--metal-edge))`,
+            }}
           >
-            <StatIcon name="vitality" size={28} color="#e05252" />
+            <StatIcon name="vitality" size={28} />
             <div>
-              <div className="font-mono font-bold text-lg leading-none" style={{ color: '#e05252' }}>
+              <div className="font-mono font-bold text-lg leading-none" style={{ color: 'var(--vitality)' }}>
                 {s.maxHp.toLocaleString()}
               </div>
-              <div className="text-[9px] text-forge-muted/50 leading-none mt-0.5">{t('badge_hp')}</div>
+              <div className="text-[9px] leading-none mt-0.5" style={{ color: 'var(--ink-faint)' }}>{t('badge_hp')}</div>
             </div>
             <div className="ml-auto flex gap-3">
               {[
-                { icon: 'ap',    label: t('badge_ap'),    value: s.ap,    color: '#f5c518' },
-                { icon: 'mp',    label: t('badge_mp'),    value: s.mp,    color: '#6ab04c' },
-                { icon: 'range', label: t('badge_range'), value: s.range, color: '#2a8fd4' },
+                { icon: 'ap',    label: t('badge_ap'),    value: s.ap,    color: 'var(--gold)'  },
+                { icon: 'mp',    label: t('badge_mp'),    value: s.mp,    color: 'var(--mp)'    },
+                { icon: 'range', label: t('badge_range'), value: s.range, color: 'var(--water)' },
               ].map(({ icon, label, value, color }) => (
                 <div key={icon} className="flex flex-col items-center">
-                  <StatIcon name={icon} size={18} color={color} />
+                  <StatIcon name={icon} size={18} />
                   <span className="font-mono font-bold text-[11px] tabular-nums leading-none mt-0.5" style={{ color }}>
                     {value}
                   </span>
-                  <span className="text-[8px] text-forge-muted/40 leading-none">{label}</span>
+                  <span className="text-[8px] leading-none" style={{ color: 'var(--ink-faint)' }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -389,50 +379,49 @@ export function CharacteristicsPanel() {
 
           {/* Secondary stats grid */}
           <div className="grid grid-cols-2 gap-0.5">
-            <CombatStat icon="initiative"  label={t('stat_initiative')}  value={s.initiative}  color="#c9a84c" />
-            <CombatStat icon="lock"        label={t('stat_lock')}        value={s.lock}        color="#b8860b" />
-            <CombatStat icon="dodge"       label={t('stat_dodge')}       value={s.dodge}       color="#6ab04c" />
-            <CombatStat icon="prospecting" label={t('stat_prospecting')} value={s.prospecting} color="#c9a84c" />
-            <CombatStat icon="summons"     label={t('stat_summons')}     value={s.summons}     color="#9b6dff" />
-            <CombatStat icon="heals"       label={t('stat_heals')}       value={s.heals}       color="#e05252" />
-            <CombatStat icon="power"       label={t('stat_power')}       value={s.power}       color="#c9a84c" />
-            <CombatStat icon="crit"        label={t('stat_crit_chance')} value={s.critChance}  color="#dc4e22" fmt="pct" />
-            <CombatStat icon="ap_reduction" label={t('stat_ap_removal')} value={s.apReduction} color="#9b6dff" />
-            <CombatStat icon="mp_reduction" label={t('stat_mp_removal')} value={s.mpReduction} color="#9b6dff" />
-            <CombatStat icon="ap_parry"    label={t('stat_ap_parry')}    value={s.apParry}     color="#2a8fd4" />
-            <CombatStat icon="mp_parry"    label={t('stat_mp_parry')}    value={s.mpParry}     color="#2a8fd4" />
+            <CombatStat icon="initiative"  label={t('stat_initiative')}  value={s.initiative}  color="var(--gold)"    />
+            <CombatStat icon="lock"        label={t('stat_lock')}        value={s.lock}        color="var(--earth)"   />
+            <CombatStat icon="dodge"       label={t('stat_dodge')}       value={s.dodge}       color="var(--air)"     />
+            <CombatStat icon="prospecting" label={t('stat_prospecting')} value={s.prospecting} color="var(--gold)"    />
+            <CombatStat icon="summons"     label={t('stat_summons')}     value={s.summons}     color="var(--wisdom)"  />
+            <CombatStat icon="heals"       label={t('stat_heals')}       value={s.heals}       color="var(--vitality)" />
+            <CombatStat icon="power"       label={t('stat_power')}       value={s.power}       color="var(--gold)"    />
+            <CombatStat icon="crit"        label={t('stat_crit_chance')} value={s.critChance}  color="var(--crit)"    fmt="pct" />
+            <CombatStat icon="ap_reduction" label={t('stat_ap_removal')} value={s.apReduction} color="var(--wisdom)"  />
+            <CombatStat icon="mp_reduction" label={t('stat_mp_removal')} value={s.mpReduction} color="var(--wisdom)"  />
+            <CombatStat icon="ap_parry"    label={t('stat_ap_parry')}    value={s.apParry}     color="var(--ap)"      />
+            <CombatStat icon="mp_parry"    label={t('stat_mp_parry')}    value={s.mpParry}     color="var(--ap)"      />
           </div>
 
           {/* Elemental damage / resistance */}
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid #1c2333' }}>
-            {/* Column headers — same grid as ElementRow */}
-            <div className="grid px-3 py-1.5" style={{ gridTemplateColumns: ELEM_COLS, gap: 6, background: '#0d1018', borderBottom: '1px solid #1c2333' }}>
-              <span className="text-[9px] font-display uppercase tracking-wider self-center" style={{ color: '#3a4268' }}>{t('element_header')}</span>
-              <span className="text-[9px] font-display uppercase tracking-wider text-right self-center" style={{ color: '#3a4268' }}>{t('header_dmg')}</span>
-              <span className="text-[9px] font-display uppercase tracking-wider text-right self-center" style={{ color: '#3a4268' }}>{t('header_res')}</span>
-              <span className="text-[9px] font-display uppercase tracking-wider text-right self-center" style={{ color: '#3a4268' }}>{t('header_res_pct')}</span>
+          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
+            <div className="grid px-3 py-1.5" style={{ gridTemplateColumns: ELEM_COLS, gap: 6, background: 'var(--surface-void)', borderBottom: '1px solid var(--metal-edge)' }}>
+              <span className="text-[9px] font-display uppercase tracking-wider self-center" style={{ color: 'var(--ink-faint)' }}>{t('element_header')}</span>
+              <span className="text-[9px] font-display uppercase tracking-wider text-right self-center" style={{ color: 'var(--ink-faint)' }}>{t('header_dmg')}</span>
+              <span className="text-[9px] font-display uppercase tracking-wider text-right self-center" style={{ color: 'var(--ink-faint)' }}>{t('header_res')}</span>
+              <span className="text-[9px] font-display uppercase tracking-wider text-right self-center" style={{ color: 'var(--ink-faint)' }}>{t('header_res_pct')}</span>
             </div>
-            <div className="p-2 space-y-1" style={{ background: '#080c14' }}>
-              <ElementRow icon="strength"     label={t('elem_earth')}    color="#c49a2a" damage={s.earthDamage}    resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
-              <ElementRow icon="intelligence" label={t('elem_fire')}     color="#dc4e22" damage={s.fireDamage}     resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
-              <ElementRow icon="chance"       label={t('elem_water')}    color="#2a8fd4" damage={s.waterDamage}    resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
-              <ElementRow icon="agility"      label={t('elem_air')}      color="#6ab04c" damage={s.airDamage}      resFixed={s.airResFixed}     resPercent={s.airResPercent} />
-              <ElementRow icon="neutral"      label={t('elem_neutral')}  color="#9b9b9b" damage={s.neutralDamage}  resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
-              <div className="my-0.5" style={{ borderTop: '1px solid #1c2333' }} />
-              <ElementRow icon="crit_damage"  label={t('elem_critical')} color="#f5a623" damage={s.critDamage}     resFixed={s.critResistance}  showPercent={false} />
-              <ElementRow icon="push_damage"  label={t('elem_push')}     color="#b8860b" damage={s.pushbackDamage} resFixed={s.pushbackResist}  showPercent={false} />
+            <div className="p-2 space-y-1 bg-surface-void">
+              <ElementRow icon="strength"     label={t('elem_earth')}    color="var(--earth)"   damage={s.earthDamage}    resFixed={s.earthResFixed}   resPercent={s.earthResPercent} />
+              <ElementRow icon="intelligence" label={t('elem_fire')}     color="var(--fire)"    damage={s.fireDamage}     resFixed={s.fireResFixed}    resPercent={s.fireResPercent} />
+              <ElementRow icon="chance"       label={t('elem_water')}    color="var(--water)"   damage={s.waterDamage}    resFixed={s.waterResFixed}   resPercent={s.waterResPercent} />
+              <ElementRow icon="agility"      label={t('elem_air')}      color="var(--air)"     damage={s.airDamage}      resFixed={s.airResFixed}     resPercent={s.airResPercent} />
+              <ElementRow icon="neutral"      label={t('elem_neutral')}  color="var(--neutral)" damage={s.neutralDamage}  resFixed={s.neutralResFixed} resPercent={s.neutralResPercent} />
+              <div className="my-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }} />
+              <ElementRow icon="crit_damage"  label={t('elem_critical')} color="var(--crit)"    damage={s.critDamage}     resFixed={s.critResistance}  showPercent={false} />
+              <ElementRow icon="push_damage"  label={t('elem_push')}     color="var(--earth)"   damage={s.pushbackDamage} resFixed={s.pushbackResist}  showPercent={false} />
             </div>
           </div>
 
-          {/* % damage / resistance modifiers (only show if non-zero) */}
+          {/* % damage / resistance modifiers */}
           {(s.meleeDamagePercent || s.rangedDamagePercent || s.spellDamagePercent || s.weaponDamagePercent || s.meleeResistPercent || s.rangedResistPercent) > 0 && (
             <div className="grid grid-cols-2 gap-0.5">
-              <CombatStat icon="melee_damage"      label={t('stat_melee_dmg')}   value={s.meleeDamagePercent}  fmt="pct" />
-              <CombatStat icon="ranged_damage"     label={t('stat_ranged_dmg')}  value={s.rangedDamagePercent} fmt="pct" />
-              <CombatStat icon="spell_damage"      label={t('stat_spell_dmg')}   value={s.spellDamagePercent}  fmt="pct" />
-              <CombatStat icon="weapon_damage"     label={t('stat_weapon_dmg')}  value={s.weaponDamagePercent} fmt="pct" />
-              <CombatStat icon="melee_resistance"  label={t('stat_melee_res')}   value={s.meleeResistPercent}  fmt="pct" />
-              <CombatStat icon="ranged_resistance" label={t('stat_ranged_res')}  value={s.rangedResistPercent} fmt="pct" />
+              <CombatStat icon="melee_damage"      label={t('stat_melee_dmg')}  value={s.meleeDamagePercent}  fmt="pct" />
+              <CombatStat icon="ranged_damage"     label={t('stat_ranged_dmg')} value={s.rangedDamagePercent} fmt="pct" />
+              <CombatStat icon="spell_damage"      label={t('stat_spell_dmg')}  value={s.spellDamagePercent}  fmt="pct" />
+              <CombatStat icon="weapon_damage"     label={t('stat_weapon_dmg')} value={s.weaponDamagePercent} fmt="pct" />
+              <CombatStat icon="melee_resistance"  label={t('stat_melee_res')}  value={s.meleeResistPercent}  fmt="pct" />
+              <CombatStat icon="ranged_resistance" label={t('stat_ranged_res')} value={s.rangedResistPercent} fmt="pct" />
             </div>
           )}
 
