@@ -54,7 +54,7 @@ function SetSearch({
     <div className="relative flex-1 min-w-0">
       {selected ? (
         <div
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border border-forge-gold/50 bg-forge-gold/10 text-forge-gold font-medium cursor-pointer"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer filter-btn-active"
           onClick={() => pick(null)}
         >
           <span className="truncate">{selected.name}</span>
@@ -70,7 +70,7 @@ function SetSearch({
             onChange={e => { setQ(e.target.value); setOpen(true) }}
             onFocus={() => setOpen(true)}
             onBlur={() => setTimeout(() => setOpen(false), 150)}
-            className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-forge-muted/40 focus:outline-none"
+            className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-ink-faint focus:outline-none"
             style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
           />
           {open && matches.length > 0 && (
@@ -85,7 +85,7 @@ function SetSearch({
                     onMouseDown={() => pick(s)}
                   >
                     <span className="font-medium">{s.name}</span>
-                    <span className="ml-1.5 text-forge-muted/50 text-[10px]">{s.items.length}pc</span>
+                    <span className="ml-1.5 text-ink-faint text-[10px]">{s.items.length}pc</span>
                   </button>
                 </li>
               ))}
@@ -147,7 +147,7 @@ function StatFilter({
         onChange={e => { setQ(e.target.value); setOpen(true) }}
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
-        className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-forge-muted/40 focus:outline-none"
+        className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-ink-faint focus:outline-none"
         style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', minWidth: 70 }}
       />
       {open && matches.length > 0 && (
@@ -491,7 +491,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             {slotLabel}
           </h3>
           <div className="flex items-center gap-3">
-            <span className="text-[11px] text-forge-muted/60 font-mono">
+            <span className="text-[11px] text-ink-faint font-mono">
               {items.length} {t('item_count', { count: items.length }).replace(/\d+\s*/, '')}
             </span>
             <button
@@ -511,7 +511,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             value={search}
             onChange={e => setSearch(e.target.value)}
             autoFocus
-            className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-forge-muted/40 focus:outline-none transition-colors"
+            className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-ink-faint focus:outline-none transition-colors"
             style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
             onBlur={e =>  (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
@@ -529,7 +529,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     'flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                     isActive
                       ? activeClass
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
                   ].join(' ')}
                 >
                   {iconName && (
@@ -557,8 +557,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                 className={[
                   'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
                   favsOnly
-                    ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
-                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                    ? 'filter-btn-active'
+                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
                 ].join(' ')}
               >
                 ★{favCount > 0 && <span className="font-mono">{favCount}</span>}
@@ -570,8 +570,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                   className={[
                     'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                     sort === sk
-                      ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                      ? 'filter-btn-active'
+                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
                   ].join(' ')}
                 >{SORT_LABELS[sk]}</button>
               ))}
@@ -585,8 +585,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                 className={[
                   'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                   typeFilter === null
-                    ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
-                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                    ? 'filter-btn-active'
+                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
                 ].join(' ')}
               >
                 {t('elem_all')}
@@ -598,15 +598,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                   className={[
                     'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                     typeFilter === type
-                      ? 'border-forge-gold bg-forge-gold/10 text-forge-gold'
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-forge-gold/40',
+                      ? 'filter-btn-active'
+                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
                   ].join(' ')}
                 >
                   {t(`item_type_${type}`, { defaultValue: type })}
                 </button>
               ))}
               {search.trim() !== '' && typeFilter !== null && (
-                <span className="text-[10px] text-forge-muted/50 ml-1">· {t('elem_all')}</span>
+                <span className="text-[10px] text-ink-faint ml-1">· {t('elem_all')}</span>
               )}
             </div>
           )}
@@ -615,7 +615,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             {slotStats.length > 0 && (
               <StatFilter stats={slotStats} selected={statFilter} onSelect={setStatFilter} />
             )}
-            <span className="text-forge-muted/60 flex-shrink-0">{t('level_range')}</span>
+            <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
             <select
               value={minLevel}
               onChange={e => setMinLevel(Number(e.target.value))}
@@ -624,7 +624,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             >
               {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
             </select>
-            <span className="text-forge-muted/40">–</span>
+            <span className="text-ink-faint">–</span>
             <select
               value={maxLevel}
               onChange={e => setMaxLevel(Number(e.target.value))}
@@ -687,7 +687,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       >
                         {item.image_url
                           ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
-                          : <span className="text-forge-muted/40 text-xl">{slot.icon}</span>
+                          : <span className="text-ink-faint text-xl">{slot.icon}</span>
                         }
                       </div>
 
