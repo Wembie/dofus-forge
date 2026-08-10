@@ -35,14 +35,14 @@ export function ClassPicker() {
                 boxShadow:   `0 0 12px ${elemColor}30`,
                 transform:   'scale(1.04)',
               } : {
-                borderColor: '#2a3347',
-                background:  '#161b2680',
+                borderColor: 'var(--metal-edge)',
+                background:  'color-mix(in srgb, var(--surface-parchment) 50%, transparent)',
               }}
               onMouseEnter={e => {
                 if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = `${elemColor}88`
               }}
               onMouseLeave={e => {
-                if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = '#2a3347'
+                if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--metal-edge)'
               }}
             >
               {isSelected && (
@@ -58,7 +58,7 @@ export function ClassPicker() {
                   width:      44,
                   height:     44,
                   background: `radial-gradient(ellipse at 50% 30%, ${elemColor}22, transparent 70%)`,
-                  border:     isSelected ? `1px solid ${elemColor}55` : '1px solid #1c2333',
+                  border:     isSelected ? `1px solid ${elemColor}55` : '1px solid var(--metal-edge)',
                 }}
               >
                 <img
@@ -72,7 +72,7 @@ export function ClassPicker() {
 
               <span
                 className="text-[10px] font-medium leading-tight text-center w-full truncate"
-                style={{ color: isSelected ? elemColor : '#7a8499' }}
+                style={{ color: isSelected ? elemColor : 'var(--ink-muted)' }}
               >
                 {cls.name}
               </span>
@@ -86,20 +86,20 @@ export function ClassPicker() {
         <span className="text-forge-muted/60 text-xs font-display uppercase tracking-widest">
           {t('gender', 'Genre')}
         </span>
-        <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: '#2a3347' }}>
+        <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: 'var(--metal-edge)' }}>
           {(['male', 'female'] as Gender[]).map(g => (
             <button
               key={g}
               onClick={() => setGender(g)}
               className="flex items-center gap-1 px-3 py-1 text-xs font-medium transition-colors"
               style={gender === g ? {
-                background: '#c9a84c22',
-                color:      '#c9a84c',
-                borderRight: g === 'male' ? '1px solid #2a3347' : undefined,
+                background: 'color-mix(in srgb, var(--gold) 13%, transparent)',
+                color:      'var(--gold)',
+                borderRight: g === 'male' ? '1px solid var(--metal-edge)' : undefined,
               } : {
                 background: 'transparent',
-                color:      '#3a4268',
-                borderRight: g === 'male' ? '1px solid #2a3347' : undefined,
+                color:      'var(--ink-faint)',
+                borderRight: g === 'male' ? '1px solid var(--metal-edge)' : undefined,
               }}
               aria-pressed={gender === g}
             >

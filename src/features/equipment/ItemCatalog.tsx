@@ -8,6 +8,7 @@ import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
+import { Modal, Button } from '@/ui'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
@@ -33,9 +34,9 @@ const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
 function SetSearch({
   sets, selected, onSelect,
 }: { sets: AppSet[]; selected: AppSet | null; onSelect: (s: AppSet | null) => void }) {
-  const [q, setQ]           = useState('')
-  const [open, setOpen]     = useState(false)
-  const inputRef            = useRef<HTMLInputElement>(null)
+  const [q, setQ]       = useState('')
+  const [open, setOpen] = useState(false)
+  const inputRef        = useRef<HTMLInputElement>(null)
 
   const matches = useMemo(() => {
     if (!q) return sets.slice(0, 12)
@@ -70,12 +71,12 @@ function SetSearch({
             onFocus={() => setOpen(true)}
             onBlur={() => setTimeout(() => setOpen(false), 150)}
             className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-forge-muted/40 focus:outline-none"
-            style={{ background: '#161b26', border: '1px solid #2a3347' }}
+            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
           />
           {open && matches.length > 0 && (
             <ul
               className="absolute left-0 right-0 top-full mt-1 rounded-lg overflow-hidden z-50 shadow-xl"
-              style={{ background: '#131824', border: '1px solid #2a3347', maxHeight: 220, overflowY: 'auto' }}
+              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: 220, overflowY: 'auto' }}
             >
               {matches.map(s => (
                 <li key={s.ankama_id}>
@@ -117,11 +118,15 @@ function StatFilter({
 
   if (selected) {
     const meta = STAT_META[selected]
-    const clr  = meta?.color ?? '#7a8499'
+    const clr  = meta?.color ?? 'var(--ink-muted)'
     return (
       <div
         className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer"
-        style={{ borderColor: `${clr}50`, background: `${clr}15`, color: clr }}
+        style={{
+          borderColor: `color-mix(in srgb, ${clr} 31%, transparent)`,
+          background:  `color-mix(in srgb, ${clr} 8%, transparent)`,
+          color:       clr,
+        }}
         onClick={() => pick(null)}
       >
         {meta?.icon && (
@@ -143,16 +148,16 @@ function StatFilter({
         onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
         className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-forge-muted/40 focus:outline-none"
-        style={{ background: '#161b26', border: '1px solid #2a3347', minWidth: 70 }}
+        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', minWidth: 70 }}
       />
       {open && matches.length > 0 && (
         <ul
           className="absolute left-0 top-full mt-1 rounded-lg overflow-hidden z-50 shadow-xl"
-          style={{ background: '#131824', border: '1px solid #2a3347', maxHeight: 220, overflowY: 'auto', minWidth: 160 }}
+          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: 220, overflowY: 'auto', minWidth: 160 }}
         >
           {matches.map(stat => {
             const meta = STAT_META[stat]
-            const clr  = meta?.color ?? '#7a8499'
+            const clr  = meta?.color ?? 'var(--ink-muted)'
             return (
               <li key={stat}>
                 <button
@@ -197,204 +202,158 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onUnequip, onClo
   const activeTier    = [...bonusCounts].reverse().find(n => n <= equippedCount) ?? null
 
   return (
-    <div
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.55)' }}
-      onClick={e => { if (e.target === e.currentTarget) onClose() }}
-    >
-      <div
-        className="w-full max-w-lg flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ background: '#0f1320', border: '1px solid #2a3347', maxHeight: '85vh' }}
-      >
-        {/* Header */}
-        <div
-          className="flex items-center justify-between px-5 py-3.5 flex-shrink-0"
-          style={{ background: 'linear-gradient(180deg, #1a2035 0%, #141929 100%)', borderBottom: '1px solid #2a3347' }}
-        >
-          <div>
-            <h3 className="font-display font-bold text-sm tracking-wide" style={{ color: '#4a8fcc' }}>
-              {set.name}
-            </h3>
-            <p className="text-[10px] mt-0.5" style={{ color: '#4a5268' }}>
-              {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
-            </p>
+    <Modal open onClose={onClose} size="lg" title={set.name}>
+      <div className="p-4 space-y-4">
+        {setItems.length > 0 && (
+          <div className="flex gap-1.5 items-center flex-wrap">
+            {Array.from({ length: setItems.length }, (_, i) => (
+              <div
+                key={i}
+                className="rounded-full flex-shrink-0 transition-all duration-150"
+                style={{
+                  width:      i < equippedCount ? 10 : 8,
+                  height:     i < equippedCount ? 10 : 8,
+                  background: i < equippedCount ? 'var(--gold)' : 'var(--surface-raised)',
+                  border:     i < equippedCount
+                    ? '1px solid color-mix(in srgb, var(--gold) 60%, transparent)'
+                    : '1px solid var(--metal-edge)',
+                }}
+              />
+            ))}
+            <span className="text-[10px] ml-1" style={{ color: 'var(--ink-faint)' }}>
+              {equippedCount} / {setItems.length}
+            </span>
           </div>
-          <button
-            onClick={onClose}
-            className="w-7 h-7 rounded flex items-center justify-center text-lg leading-none transition-colors"
-            style={{ background: '#1c2333', border: '1px solid #2a3347', color: '#7a8499' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#e8eaf0' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
-          >×</button>
+        )}
+
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--ink-faint)' }}>
+            {t('set_items_title')}
+          </p>
+          <div className="space-y-1.5">
+            {setItems.map(item => {
+              const isEq = equippedIds.has(item.ankama_id)
+              return (
+                <div
+                  key={item.ankama_id}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors"
+                  style={{
+                    background: isEq
+                      ? 'color-mix(in srgb, var(--gold) 7%, var(--surface-void))'
+                      : 'var(--surface-stone)',
+                    border:  isEq
+                      ? '1px solid color-mix(in srgb, var(--gold) 28%, transparent)'
+                      : '1px solid var(--metal-edge)',
+                    cursor: !isEq ? 'pointer' : 'default',
+                  }}
+                  onClick={() => !isEq && onEquip(item)}
+                  onMouseEnter={e => {
+                    if (!isEq) (e.currentTarget as HTMLElement).style.background = 'var(--surface-panel)'
+                  }}
+                  onMouseLeave={e => {
+                    if (!isEq) (e.currentTarget as HTMLElement).style.background = 'var(--surface-stone)'
+                  }}
+                >
+                  <div
+                    className="w-9 h-9 flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
+                    style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+                  >
+                    {item.image_url
+                      ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                      : <span style={{ fontSize: 14, color: 'var(--ink-faint)' }}>?</span>
+                    }
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] font-semibold truncate" style={{ color: isEq ? 'var(--gold)' : 'var(--ink)' }}>
+                      {item.name}
+                      {isEq && <span className="ml-1.5 text-[9px]" style={{ color: 'var(--gold)', opacity: 0.5 }}>✓</span>}
+                    </p>
+                    <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+                      Lv {item.level} · {t(`item_type_${item.type}`, { defaultValue: item.type })}
+                    </p>
+                  </div>
+                  {!isEq ? (
+                    <Button variant="ghost" size="sm" onClick={e => { e.stopPropagation(); onEquip(item) }}>
+                      {t('equip_item')}
+                    </Button>
+                  ) : (
+                    <Button variant="danger" size="sm" onClick={e => { e.stopPropagation(); onUnequip(item) }}>
+                      {t('unequip_btn')}
+                    </Button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
 
-        <div className="overflow-y-auto flex-1 p-4 space-y-4">
-          {/* Piece progress dots */}
-          {setItems.length > 0 && (
-            <div className="flex gap-1.5 items-center flex-wrap">
-              {Array.from({ length: setItems.length }, (_, i) => (
-                <div
-                  key={i}
-                  className="rounded-full flex-shrink-0"
-                  style={{
-                    width:      i < equippedCount ? 10 : 8,
-                    height:     i < equippedCount ? 10 : 8,
-                    background: i < equippedCount ? '#4a8fcc' : '#1c2333',
-                    border:     i < equippedCount ? '1px solid #6aaee6' : '1px solid #2a3347',
-                    transition: 'all 0.15s',
-                  }}
-                />
-              ))}
-              <span className="text-[10px] ml-1" style={{ color: '#4a5268' }}>
-                {equippedCount} / {setItems.length}
-              </span>
-            </div>
-          )}
-
-          {/* Items */}
+        {bonusCounts.length > 0 && (
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: '#3a4268' }}>
-              {t('set_items_title')}
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--ink-faint)' }}>
+              {t('set_bonuses_title')}
             </p>
-            <div className="space-y-1.5">
-              {setItems.map(item => {
-                const isEquipped = equippedIds.has(item.ankama_id)
+            <div className="space-y-2">
+              {bonusCounts.map(count => {
+                const isActive  = count <= equippedCount
+                const isCurrent = count === activeTier
+                const effects   = set.bonuses[count] ?? []
                 return (
                   <div
-                    key={item.ankama_id}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors"
+                    key={count}
+                    className="rounded-lg p-3"
                     style={{
-                      background: isEquipped ? 'rgba(201,168,76,0.07)' : '#131929',
-                      border:     isEquipped ? '1px solid rgba(201,168,76,0.28)' : '1px solid #1c2333',
-                      cursor:     !isEquipped ? 'pointer' : 'default',
-                    }}
-                    onClick={() => !isEquipped && onEquip(item)}
-                    onMouseEnter={e => {
-                      if (!isEquipped)
-                        (e.currentTarget as HTMLElement).style.background = '#1a2235'
-                    }}
-                    onMouseLeave={e => {
-                      if (!isEquipped)
-                        (e.currentTarget as HTMLElement).style.background = '#131929'
+                      background: isActive
+                        ? 'color-mix(in srgb, var(--gold) 7%, var(--surface-void))'
+                        : 'var(--surface-stone)',
+                      border: isCurrent
+                        ? '1px solid color-mix(in srgb, var(--gold) 40%, transparent)'
+                        : isActive
+                        ? '1px solid color-mix(in srgb, var(--gold) 18%, transparent)'
+                        : '1px solid var(--metal-edge)',
                     }}
                   >
-                    <div
-                      className="w-9 h-9 flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
-                      style={{ background: '#0d1120', border: '1px solid #1c2333' }}
-                    >
-                      {item.image_url
-                        ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
-                        : <span style={{ fontSize: 14, color: '#3a4268' }}>?</span>
-                      }
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p
-                        className="text-[11px] font-semibold truncate"
-                        style={{ color: isEquipped ? '#c9a84c' : '#e8eaf0' }}
-                      >
-                        {item.name}
-                        {isEquipped && <span className="ml-1.5 text-[9px]" style={{ color: '#c9a84c70' }}>✓</span>}
-                      </p>
-                      <p className="text-[10px]" style={{ color: '#3a4268' }}>
-                        Lv {item.level} · {t(`item_type_${item.type}`, { defaultValue: item.type })}
-                      </p>
-                    </div>
-                    {!isEquipped && (
-                      <span
-                        className="text-[10px] px-2 py-0.5 rounded flex-shrink-0"
-                        style={{ background: '#1c2d4a', color: '#4a8fcc', border: '1px solid #2a4a6a' }}
-                      >
-                        {t('equip_item')}
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-[10px] font-bold" style={{ color: isActive ? 'var(--gold)' : 'var(--ink-faint)' }}>
+                        {t('set_bonus_count', { n: count })}
                       </span>
-                    )}
-                    {isEquipped && (
-                      <span
-                        className="text-[10px] px-2 py-0.5 rounded flex-shrink-0 cursor-pointer"
-                        style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}
-                        onClick={e => { e.stopPropagation(); onUnequip(item) }}
-                      >
-                        {t('unequip_btn')}
-                      </span>
-                    )}
+                      {isCurrent && (
+                        <span
+                          className="text-[9px] px-1.5 py-0.5 rounded"
+                          style={{ background: 'color-mix(in srgb, var(--gold) 20%, transparent)', color: 'var(--gold)' }}
+                        >
+                          {t('set_bonus_active')}
+                        </span>
+                      )}
+                    </div>
+                    <div className="space-y-1">
+                      {effects.map((e, i) => {
+                        const meta  = STAT_META[e.stat]
+                        const isNeg = e.min < 0
+                        const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
+                        return (
+                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, opacity: isActive ? 1 : 0.3 }}>
+                            {meta?.icon
+                              ? <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                              : <span style={{ width: 11, flexShrink: 0 }} />
+                            }
+                            <span style={{ color: clr, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
+                              {fmtValue(e.min, e.max, t('range_sep_neg'))}
+                            </span>
+                            <span style={{ color: meta?.color ?? 'var(--ink-faint)', fontSize: 10, opacity: 0.8 }}>
+                              {meta ? t(meta.tKey) : e.stat}
+                            </span>
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
                 )
               })}
             </div>
           </div>
-
-          {/* Bonuses */}
-          {bonusCounts.length > 0 && (
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: '#3a4268' }}>
-                {t('set_bonuses_title')}
-              </p>
-              <div className="space-y-2">
-                {bonusCounts.map(count => {
-                  const isActive  = count <= equippedCount
-                  const isCurrent = count === activeTier
-                  const effects   = set.bonuses[count] ?? []
-                  return (
-                    <div
-                      key={count}
-                      className="rounded-lg p-3"
-                      style={{
-                        background: isActive ? 'rgba(74,143,204,0.07)' : '#141929',
-                        border:     isCurrent
-                          ? '1px solid rgba(74,143,204,0.4)'
-                          : isActive
-                          ? '1px solid rgba(74,143,204,0.18)'
-                          : '1px solid #1c2333',
-                      }}
-                    >
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-[10px] font-bold" style={{ color: isActive ? '#4a8fcc' : '#3a4268' }}>
-                          {t('set_bonus_count', { n: count })}
-                        </span>
-                        {isCurrent && (
-                          <span
-                            className="text-[9px] px-1.5 py-0.5 rounded"
-                            style={{ background: 'rgba(74,143,204,0.2)', color: '#4a8fcc' }}
-                          >
-                            {t('set_bonus_active')}
-                          </span>
-                        )}
-                      </div>
-                      <div className="space-y-1">
-                        {effects.map((e, i) => {
-                          const meta  = STAT_META[e.stat]
-                          const isNeg = e.min < 0
-                          const clr   = isNeg ? '#f87171' : (meta?.color ?? '#4a5268')
-                          return (
-                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                              {meta?.icon
-                                ? <img
-                                    src={statIconUrl(meta.icon)}
-                                    alt=""
-                                    width={11}
-                                    height={11}
-                                    style={{ objectFit: 'contain', flexShrink: 0, opacity: isActive ? 1 : 0.35 }}
-                                  />
-                                : <span style={{ width: 11, flexShrink: 0 }} />
-                              }
-                              <span style={{ color: isActive ? clr : `${clr}44`, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
-                                {fmtValue(e.min, e.max, t('range_sep_neg'))}
-                              </span>
-                              <span style={{ color: isActive ? (meta?.color ? `${meta.color}bb` : '#7a8499') : '#2a3347', fontSize: 10 }}>
-                                {meta ? t(meta.tKey) : e.stat}
-                              </span>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
-    </div>
+    </Modal>
   )
 }
 
@@ -466,7 +425,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
   const [setModal,   setSetModal]   = useState<AppSet | null>(null)
 
-  // Auto-detect all distinct types present in this slot's data
   const availableTypes = useMemo(() => {
     const seen = new Set<string>()
     for (const it of equipment ?? []) {
@@ -489,7 +447,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
       (statFilter == null || it.effects.some(e => e.stat === statFilter)) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
-      // name search is global across all types; type filter only applies when no name search
       (nameSearch === '' || it.name.toLowerCase().includes(nameSearch)) &&
       (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
     )
@@ -504,9 +461,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   }, [equipItem, slotId, onClose])
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
+    const down = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', down)
     return () => window.removeEventListener('keydown', down)
   }, [onClose])
@@ -525,19 +480,12 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     >
       <div
         className="w-full max-w-4xl flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{
-          background: '#0f1320',
-          border:     '1px solid #2a3347',
-          maxHeight:  '90vh',
-        }}
+        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: '90vh' }}
       >
         {/* Header */}
         <div
           className="flex items-center justify-between px-5 py-3.5"
-          style={{
-            background:   'linear-gradient(180deg, #1a2035 0%, #141929 100%)',
-            borderBottom: '1px solid #2a3347',
-          }}
+          style={{ background: 'var(--surface-panel)', borderBottom: '1px solid var(--metal-edge)' }}
         >
           <h3 className="font-display text-forge-gold font-bold text-base tracking-wide">
             {slotLabel}
@@ -548,17 +496,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             </span>
             <button
               onClick={onClose}
-              className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none"
-              style={{ background: '#1c2333', border: '1px solid #2a3347', color: '#7a8499' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#e8eaf0' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#7a8499' }}
+              className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none text-ink-muted hover:text-ink"
+              style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
               aria-label="Close"
             >×</button>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="px-4 py-3 space-y-2.5" style={{ borderBottom: '1px solid #1c2333' }}>
+        <div className="px-4 py-3 space-y-2.5" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
           <input
             type="search"
             placeholder={t('search_items')}
@@ -566,9 +512,9 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             onChange={e => setSearch(e.target.value)}
             autoFocus
             className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-forge-muted/40 focus:outline-none transition-colors"
-            style={{ background: '#161b26', border: '1px solid #2a3347' }}
-            onFocus={e => (e.currentTarget.style.borderColor = '#c9a84c66')}
-            onBlur={e =>  (e.currentTarget.style.borderColor = '#2a3347')}
+            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+            onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
+            onBlur={e =>  (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
           />
 
           <div className="flex items-center gap-1 flex-wrap">
@@ -632,7 +578,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
             </div>
           </div>
 
-          {/* Type filter tabs — auto-shown for any slot with >1 distinct item types */}
           {hasTypeFilter && (
             <div className="flex items-center gap-1 flex-wrap">
               <button
@@ -675,7 +620,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               value={minLevel}
               onChange={e => setMinLevel(Number(e.target.value))}
               className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
-              style={{ background: '#161b26', border: '1px solid #2a3347' }}
+              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
               {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
             </select>
@@ -684,7 +629,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               value={maxLevel}
               onChange={e => setMaxLevel(Number(e.target.value))}
               className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
-              style={{ background: '#161b26', border: '1px solid #2a3347' }}
+              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
               {LEVELS.map(l => <option key={l} value={l}>{l === 0 ? '—' : l}</option>)}
             </select>
@@ -710,23 +655,23 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     onClick={() => handlePick(item)}
                     className="text-left relative rounded-xl overflow-hidden w-full group"
                     style={{
-                      background:  isEquipped
-                        ? 'linear-gradient(145deg, #1c1530, #0d0b1e)'
-                        : '#0d1120',
-                      border:      isEquipped
-                        ? '1px solid rgba(201,168,76,0.45)'
-                        : '1px solid #1c2333',
-                      transition:  'border-color 0.15s, box-shadow 0.15s',
+                      background: isEquipped
+                        ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
+                        : 'var(--surface-void)',
+                      border: isEquipped
+                        ? '1px solid color-mix(in srgb, var(--gold) 45%, transparent)'
+                        : '1px solid var(--metal-edge)',
+                      transition: 'border-color 0.15s, background 0.15s',
                     }}
                     onMouseEnter={e => {
                       const el = e.currentTarget as HTMLButtonElement
-                      el.style.borderColor = isEquipped ? 'rgba(201,168,76,0.7)' : '#2a3347'
-                      if (!isEquipped) el.style.background = '#101525'
+                      if (isEquipped) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
+                      else el.style.background = 'var(--surface-panel)'
                     }}
                     onMouseLeave={e => {
                       const el = e.currentTarget as HTMLButtonElement
-                      el.style.borderColor = isEquipped ? 'rgba(201,168,76,0.45)' : '#1c2333'
-                      if (!isEquipped) el.style.background = '#0d1120'
+                      if (isEquipped) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
+                      else el.style.background = 'var(--surface-void)'
                     }}
                   >
                     {/* Card header: image + name + level + fav */}
@@ -734,8 +679,10 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       <div
                         className="w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
                         style={{
-                          background: 'linear-gradient(145deg, #1a1f30, #0f1220)',
-                          border:     isEquipped ? '1px solid #c9a84c55' : '1px solid #1c2333',
+                          background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))',
+                          border: isEquipped
+                            ? '1px solid color-mix(in srgb, var(--gold) 33%, transparent)'
+                            : '1px solid var(--metal-edge)',
                         }}
                       >
                         {item.image_url
@@ -748,7 +695,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                         <p
                           className="font-semibold text-[12px] leading-tight"
                           style={{
-                            color: isEquipped ? '#c9a84c' : '#e8eaf0',
+                            color: isEquipped ? 'var(--gold)' : 'var(--ink)',
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: 'vertical',
@@ -756,9 +703,9 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           } as React.CSSProperties}
                         >
                           {item.name}
-                          {isEquipped && <span className="ml-1 text-[10px]" style={{ color: '#c9a84c99' }}>✓</span>}
+                          {isEquipped && <span className="ml-1 text-[10px]" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
                         </p>
-                        <p className="text-[10px] mt-0.5" style={{ color: '#4a5268' }}>
+                        <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
                           Lv {item.level}
                         </p>
                         {itemSet && (
@@ -766,7 +713,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                             role="button"
                             tabIndex={-1}
                             className="text-[10px] font-medium truncate block cursor-pointer hover:underline"
-                            style={{ color: '#4a8fcc' }}
+                            style={{ color: 'var(--water)' }}
                             onClick={e => { e.stopPropagation(); setSetModal(itemSet) }}
                           >
                             {itemSet.name}
@@ -778,15 +725,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       <span
                         role="button"
                         tabIndex={-1}
-                        className="text-[14px] leading-none flex-shrink-0 transition-colors select-none mt-0.5"
-                        style={{ color: isFav(item.ankama_id) ? '#c9a84c' : '#2a3347' }}
+                        className="text-[14px] leading-none flex-shrink-0 transition-colors select-none mt-0.5 cursor-pointer"
+                        style={{ color: isFav(item.ankama_id) ? 'var(--gold)' : 'var(--metal-edge)' }}
                         onMouseEnter={e => {
                           if (!isFav(item.ankama_id))
-                            (e.currentTarget as HTMLElement).style.color = '#5a4a20'
+                            (e.currentTarget as HTMLElement).style.color = 'var(--gold-deep)'
                         }}
                         onMouseLeave={e => {
                           (e.currentTarget as HTMLElement).style.color =
-                            isFav(item.ankama_id) ? '#c9a84c' : '#2a3347'
+                            isFav(item.ankama_id) ? 'var(--gold)' : 'var(--metal-edge)'
                         }}
                         onClick={e => { e.stopPropagation(); toggleFav(item.ankama_id) }}
                       >★</span>
@@ -796,13 +743,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     {item.ability && (
                       <div className="px-3 pb-2">
                         <div style={{
-                          background:   'rgba(201,168,76,0.10)',
-                          border:       '1px solid rgba(201,168,76,0.35)',
+                          background:   'color-mix(in srgb, var(--gold) 10%, transparent)',
+                          border:       '1px solid color-mix(in srgb, var(--gold) 35%, transparent)',
                           borderRadius: 6,
                           padding:      '6px 8px',
                         }}>
                           {item.ability.split('\n').filter(Boolean).map((line, i) => (
-                            <p key={i} style={{ fontSize: 10, color: i === 0 ? '#d4af50' : '#b89840', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
+                            <p key={i} style={{ fontSize: 10, color: i === 0 ? 'var(--gold)' : 'var(--gold-deep)', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
                               {line}
                             </p>
                           ))}
@@ -810,39 +757,27 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       </div>
                     )}
 
-                    {/* Stats — all of them */}
+                    {/* Stats */}
                     {effects.length > 0 && (
                       <div
                         className="px-3 pb-2"
-                        style={{
-                          borderTop:  '1px solid #131a28',
-                          paddingTop: 8,
-                          display:    'flex',
-                          flexDirection: 'column',
-                          gap: 3,
-                        }}
+                        style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 8, display: 'flex', flexDirection: 'column', gap: 3 }}
                       >
                         {effects.map((e, i) => {
                           const meta  = STAT_META[e.stat]
                           const isNeg = e.min < 0
-                          const clr   = isNeg ? '#f87171' : (meta?.color ?? '#4a5268')
+                          const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
                           const val   = fmtValue(e.min, e.max, t('range_sep_neg'))
                           return (
                             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                               {meta?.icon
-                                ? <img
-                                    src={statIconUrl(meta.icon)}
-                                    alt=""
-                                    width={11}
-                                    height={11}
-                                    style={{ objectFit: 'contain', flexShrink: 0, filter: `drop-shadow(0 0 2px ${clr}44)` }}
-                                  />
+                                ? <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} style={{ objectFit: 'contain', flexShrink: 0 }} />
                                 : <span style={{ width: 11, flexShrink: 0 }} />
                               }
-                              <span style={{ color: clr, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0, tabularNums: true } as React.CSSProperties}>
+                              <span style={{ color: clr, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
                                 {val}
                               </span>
-                              <span style={{ color: isNeg ? '#f87171cc' : meta?.color ? `${meta.color}bb` : '#4a5268', fontSize: 10, lineHeight: 1.3 }}>
+                              <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 10, lineHeight: 1.3, opacity: 0.7 }}>
                                 {meta ? t(meta.tKey) : e.stat}
                               </span>
                             </div>
@@ -856,11 +791,11 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       <div
                         className="px-3 pb-3"
                         style={{
-                          borderTop:  (effects.length > 0 || item.ability) ? '1px solid #131a28' : undefined,
+                          borderTop:  (effects.length > 0 || item.ability) ? '1px solid var(--metal-edge)' : undefined,
                           paddingTop: (effects.length > 0 || item.ability) ? 7 : 4,
                         }}
                       >
-                        <p style={{ fontSize: 10, color: '#6b7a99', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
+                        <p style={{ fontSize: 10, color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
                           {item.description}
                         </p>
                       </div>
@@ -875,7 +810,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
         {/* Footer */}
         <div
           className="flex items-center justify-between px-4 py-2 text-[10px]"
-          style={{ borderTop: '1px solid #1a1f2e', color: '#3a4268' }}
+          style={{ borderTop: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
         >
           <span>Esc · close</span>
           <span>{items.length} items</span>
@@ -895,9 +830,9 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
           equipItem(target.id, item.ankama_id)
         }}
         onUnequip={(item) => {
-          const slotId = (Object.entries(equipped) as [SlotId, number | null][])
+          const sid = (Object.entries(equipped) as [SlotId, number | null][])
             .find(([, id]) => id === item.ankama_id)?.[0]
-          if (slotId) unequipItem(slotId)
+          if (sid) unequipItem(sid)
         }}
         onClose={() => setSetModal(null)}
       />
