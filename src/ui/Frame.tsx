@@ -49,7 +49,10 @@ export function Frame({
     <div
       className={cn('rounded-frame overflow-hidden', materialBg[material], paddingCls[padding], className)}
       style={{
-        border:    `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
+        borderTop:    '1px solid var(--gold-deep)',
+        borderRight:  `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
+        borderBottom: `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
+        borderLeft:   `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
         boxShadow: shadows,
         ...style,
       }}

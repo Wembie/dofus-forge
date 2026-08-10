@@ -12,6 +12,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
+import { ElementGem } from '@/ui'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -169,24 +170,24 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           width:  px,
           height: px,
           background: item
-            ? 'linear-gradient(145deg, #1c1530, #0d0b1e)'
-            : 'linear-gradient(145deg, #0c0c22, #070714)',
+            ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
+            : 'linear-gradient(145deg, var(--surface-stone), var(--surface-void))',
           border: item
-            ? '1.5px solid rgba(201,168,76,0.55)'
-            : '1px solid rgba(35,35,80,0.9)',
+            ? '1.5px solid color-mix(in srgb, var(--gold) 55%, transparent)'
+            : '1px solid var(--metal-edge)',
           boxShadow: item
-            ? '0 0 18px rgba(201,168,76,0.12) inset, 0 2px 6px rgba(0,0,0,0.6)'
-            : '0 2px 6px rgba(0,0,0,0.5)',
+            ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 12%, transparent), 0 2px 6px rgba(0,0,0,0.6)'
+            : 'var(--well-inset)',
         }}
         onMouseEnter={e => {
           const el = e.currentTarget as HTMLButtonElement
-          if (!item) el.style.borderColor = 'rgba(70,70,160,0.8)'
-          else       el.style.boxShadow   = '0 0 22px rgba(201,168,76,0.18) inset, 0 2px 6px rgba(0,0,0,0.6)'
+          if (!item) el.style.borderColor = 'var(--gold-deep)'
+          else       el.style.boxShadow   = 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 2px 6px rgba(0,0,0,0.6)'
         }}
         onMouseLeave={e => {
           const el = e.currentTarget as HTMLButtonElement
-          if (!item) el.style.borderColor = 'rgba(35,35,80,0.9)'
-          else       el.style.boxShadow   = '0 0 18px rgba(201,168,76,0.12) inset, 0 2px 6px rgba(0,0,0,0.6)'
+          if (!item) el.style.borderColor = 'var(--metal-edge)'
+          else       el.style.boxShadow   = 'inset 0 0 18px color-mix(in srgb, var(--gold) 12%, transparent), 0 2px 6px rgba(0,0,0,0.6)'
         }}
       >
         {item ? (
@@ -204,7 +205,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
         {item && (
           <div className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.07) 0%, transparent 55%)' }} />
+            style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 55%)' }} />
         )}
 
         {/* Rune mini-strip: up to 3 rune images at bottom when forjamaged */}
@@ -405,14 +406,21 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   )
 }
 
-// ── Character center ─────────────────────────────────────────────────────────
-const ELEM_GLOW: Record<string, string> = {
-  earth:   'rgba(184,134,11,0.25)',
-  fire:    'rgba(220,78,34,0.25)',
-  water:   'rgba(42,143,212,0.25)',
-  air:     'rgba(106,176,76,0.25)',
-  multi:   'rgba(201,168,76,0.22)',
-  neutral: 'rgba(110,110,110,0.18)',
+// ── Character center (The Crucible) ──────────────────────────────────────────
+
+// Gem ring at radius 54px from portrait center; earth=top, clockwise
+const GEM_RING = [
+  { element: 'earth',    dx:   0, dy: -54 },
+  { element: 'fire',     dx:  47, dy: -27 },
+  { element: 'air',      dx:  47, dy:  27 },
+  { element: 'neutral',  dx:   0, dy:  54 },
+  { element: 'water',    dx: -47, dy:  27 },
+  { element: 'vitality', dx: -47, dy: -27 },
+] as const
+
+function elemVar(elem: string | null | undefined): string {
+  if (!elem || elem === 'multi') return 'var(--gold)'
+  return `var(--${elem})`
 }
 
 function CharacterCenter() {
@@ -420,81 +428,100 @@ function CharacterCenter() {
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
-  const glow          = classInfo ? (ELEM_GLOW[classInfo.element] ?? ELEM_GLOW.neutral) : 'transparent'
   const portrait      = classInfo ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : null
+  const classElem     = classInfo?.element ?? null
+  const primaryColor  = elemVar(classElem)
+
+  function gemIntensity(element: string): number {
+    if (!classElem)            return 0.15
+    if (classElem === 'multi') return 0.75
+    return classElem === element ? 1.0 : 0.22
+  }
 
   return (
     <div
-      className="relative flex flex-col items-center justify-end rounded-lg overflow-hidden mx-1 flex-shrink-0"
+      className="relative flex flex-col items-center flex-shrink-0"
       style={{
-        width:      180,
-        height:     360,
-        background: `radial-gradient(ellipse at 50% 28%, ${glow} 0%, transparent 60%),
-                     linear-gradient(175deg, #0e0e26 0%, #07071a 100%)`,
+        width:     180,
+        minHeight: 340,
+        background: `radial-gradient(ellipse at 50% 30%, color-mix(in srgb, ${primaryColor} 14%, transparent) 0%, transparent 55%), var(--surface-void)`,
       }}
     >
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.55) 100%)' }} />
+      {/* Portrait + gem ring */}
+      <div
+        className="relative flex items-center justify-center mt-8"
+        style={{ width: 160, height: 180 }}
+      >
+        {/* Dashed ring guide */}
+        <svg
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+          viewBox="0 0 160 180"
+        >
+          <circle
+            cx="80" cy="90"
+            r="54"
+            fill="none"
+            stroke={primaryColor}
+            strokeOpacity="0.18"
+            strokeWidth="1"
+            strokeDasharray="3 7"
+          />
+        </svg>
 
-      {/* Class display */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pb-20">
-        {classInfo ? (
-          <>
-            {/* Class portrait — large */}
-            <div
-              className="rounded-2xl overflow-hidden shadow-2xl"
-              style={{
-                width:   88,
-                height:  88,
-                border:  `2px solid ${ELEM_GLOW[classInfo.element]?.replace('0.25', '0.5') ?? '#2a3347'}`,
-                boxShadow: `0 0 24px ${glow}`,
-                background: `radial-gradient(ellipse at 50% 30%, ${glow}, transparent 70%)`,
-              }}
-            >
-              {portrait && (
-                <img
-                  src={portrait}
-                  alt={classInfo.name}
-                  className="w-full h-full object-cover"
-                  draggable={false}
-                />
-              )}
+        {/* Gem ring */}
+        {GEM_RING.map(({ element, dx, dy }) => (
+          <div
+            key={element}
+            style={{
+              position:  'absolute',
+              left:      '50%',
+              top:       '50%',
+              transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`,
+            }}
+          >
+            <ElementGem element={element} intensity={gemIntensity(element)} size={12} />
+          </div>
+        ))}
+
+        {/* Portrait */}
+        <div
+          className="rounded-2xl overflow-hidden flex-shrink-0"
+          style={{
+            width:     88,
+            height:    88,
+            position:  'relative',
+            zIndex:    1,
+            border:    `2px solid color-mix(in srgb, ${primaryColor} 50%, transparent)`,
+            boxShadow: `0 0 24px color-mix(in srgb, ${primaryColor} 30%, transparent), var(--inset-bevel)`,
+            background: 'var(--surface-panel)',
+          }}
+        >
+          {portrait ? (
+            <img src={portrait} alt={classInfo?.name ?? ''} className="w-full h-full object-cover" draggable={false} />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-2xl" style={{ color: 'var(--ink-faint)' }}>?</span>
             </div>
-            <span className="font-display text-[11px] tracking-[0.22em] uppercase" style={{ color: 'var(--gold)' }}>
-              {classInfo.name}
-            </span>
-          </>
-        ) : (
-          <span className="font-display text-[10px] tracking-widest" style={{ color: 'var(--ink-faint)' }}>{t('select_class_prompt')}</span>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Stone platform */}
-      <div className="w-full">
-        <div className="mx-auto rounded-[50%]"
-          style={{
-            width:      160,
-            height:     14,
-            background: 'radial-gradient(ellipse at center, #3a2a2a 0%, #1a1212 100%)',
-          }} />
-        <div className="mx-auto relative"
-          style={{
-            width:        148,
-            height:       56,
-            background:   'linear-gradient(to bottom, #211818, #0a0808)',
-            borderRadius: '0 0 10px 10px',
-          }}>
-          <div className="absolute top-2 inset-x-4 h-px opacity-20"
-            style={{ background: 'linear-gradient(to right, transparent, #5a4040, transparent)' }} />
-          <div className="absolute top-4 inset-x-6 h-px opacity-12"
-            style={{ background: 'linear-gradient(to right, transparent, #5a4040, transparent)' }} />
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-9">
-            {[0, 1].map(i => (
-              <div key={i} className="rounded-full"
-                style={{ width: 10, height: 6, background: '#b8ff00', boxShadow: '0 0 10px 4px rgba(184,255,0,0.55)' }} />
-            ))}
-          </div>
-        </div>
+      {/* Class name + separator */}
+      <div className="flex flex-col items-center gap-1.5 mt-2">
+        {classInfo ? (
+          <span className="font-display text-[11px] tracking-[0.22em] uppercase" style={{ color: 'var(--gold)' }}>
+            {classInfo.name}
+          </span>
+        ) : (
+          <span className="font-display text-[9px] tracking-widest text-center px-4" style={{ color: 'var(--ink-faint)' }}>
+            {t('select_class_prompt')}
+          </span>
+        )}
+        <div style={{
+          width:      80,
+          height:     1,
+          background: 'linear-gradient(to right, transparent, var(--gold-deep) 20%, var(--gold-deep) 80%, transparent)',
+        }} />
       </div>
     </div>
   )
@@ -560,14 +587,14 @@ export function EquipmentGrid() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-80 text-sm font-display tracking-widest"
-        style={{ background: 'linear-gradient(160deg, #0d0d22, #080818)', color: 'var(--ink-faint)' }}>
+        style={{ background: 'var(--surface-void)', color: 'var(--ink-faint)' }}>
         {t('loading_data')}
       </div>
     )
   }
 
   return (
-    <div style={{ background: 'linear-gradient(160deg, #0d0d22 0%, #070718 100%)' }}>
+    <div style={{ background: 'var(--surface-void)' }}>
 
       {/* Main character screen */}
       <div className="flex items-start justify-center pt-5 pb-2 px-3">

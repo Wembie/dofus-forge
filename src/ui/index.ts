@@ -9,6 +9,7 @@ export { StatRow }        from './StatRow'
 export { Tooltip }        from './Tooltip'
 export { Tabs }           from './Tabs'
 export { Modal }          from './Modal'
+export { ElementGem }     from './ElementGem'
 
 export type { FrameProps }       from './Frame'
 export type { ButtonProps, ButtonVariant, ButtonSize } from './Button'

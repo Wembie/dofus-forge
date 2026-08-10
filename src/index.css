@@ -156,8 +156,9 @@
 }
 
 body {
-  background-color: var(--forge-bg);
-  color: var(--forge-text);
+  background-color: var(--surface-void);
+  background-image: radial-gradient(ellipse 120% 40% at 50% 0%, rgba(201,162,75,0.06) 0%, transparent 100%);
+  color: var(--ink);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
