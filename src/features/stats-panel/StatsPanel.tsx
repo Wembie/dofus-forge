@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { Hammer } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
-import { SetBonusesPanel } from '../equipment/SetBonusesPanel.tsx'
 import { statIconUrl } from '../equipment/statDisplay.ts'
 import { Frame, SectionHeader } from '@/ui'
 
@@ -251,40 +250,6 @@ function DamageMods({ s }: { s: StatBlock }) {
   )
 }
 
-// ── Characteristics section ───────────────────────────────────────────────────
-
-type CharStat = { iconName: string; label: string; value: number; color: string }
-
-function CharRow({ iconName, label, value, color }: CharStat) {
-  const dimmed = value === 0
-  return (
-    <div className="flex items-center gap-2 py-0.5" style={{ opacity: dimmed ? 0.4 : 1 }}>
-      {icon(iconName, 14)}
-      <span className="text-[11px] flex-1" style={{ color: dimmed ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>{label}</span>
-      <span className="font-mono font-bold text-xs tabular-nums" style={{ color: dimmed ? 'var(--ink-faint)' : color }}>
-        {value > 0 ? '+' : ''}{value}
-      </span>
-    </div>
-  )
-}
-
-function CharacteristicsSection({ s }: { s: StatBlock }) {
-  const { t } = useTranslation()
-  const chars: CharStat[] = [
-    { iconName: 'vitality',     label: t('stat_vitality'),     value: s.vitality,     color: 'var(--vitality)' },
-    { iconName: 'wisdom',       label: t('stat_wisdom'),       value: s.wisdom,       color: 'var(--wisdom)'   },
-    { iconName: 'strength',     label: t('stat_strength'),     value: s.strength,     color: 'var(--earth)'    },
-    { iconName: 'intelligence', label: t('stat_intelligence'), value: s.intelligence, color: 'var(--fire)'     },
-    { iconName: 'chance',       label: t('stat_chance'),       value: s.chance,       color: 'var(--water)'    },
-    { iconName: 'agility',      label: t('stat_agility'),      value: s.agility,      color: 'var(--air)'      },
-  ]
-  return (
-    <Section title={t('characteristics')}>
-      {chars.map(c => <CharRow key={c.label} {...c} />)}
-    </Section>
-  )
-}
-
 // ── Main component ─────────────────────────────────────────────────────────────
 
 function StatsFromBlock({ s }: { s: StatBlock }) {
@@ -302,7 +267,6 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         )}
       </div>
 
-      <CharacteristicsSection s={s} />
       <ElementTable s={s} />
       <CombatGrid s={s} />
       <DamageMods s={s} />
@@ -322,8 +286,6 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
           </Frame>
         </details>
       )}
-
-      <SetBonusesPanel />
     </div>
   )
 }
