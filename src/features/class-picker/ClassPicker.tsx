@@ -83,10 +83,10 @@ export function ClassPicker() {
 
       {/* Gender toggle */}
       <div className="flex items-center gap-2">
-        <span className="text-forge-muted/60 text-xs font-display uppercase tracking-widest">
+        <span className="text-xs font-display uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}>
           {t('gender', 'Genre')}
         </span>
-        <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: 'var(--metal-edge)' }}>
+        <div className="flex rounded-lg overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
           {(['male', 'female'] as Gender[]).map(g => (
             <button
               key={g}
@@ -112,12 +112,13 @@ export function ClassPicker() {
 
       {/* Level */}
       <div className="space-y-1.5">
-        <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest">{t('level')}</h2>
+        <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>{t('level')}</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setLevel(level - 1)}
             disabled={level <= 1}
-            className="w-7 h-7 rounded bg-forge-card border border-forge-border text-forge-muted hover:text-forge-text disabled:opacity-30 transition-colors text-sm font-bold"
+            className="w-7 h-7 rounded-sm disabled:opacity-30 transition-colors text-sm font-bold"
+            style={{ background: 'var(--surface-stone)', border: '1px solid var(--metal-edge)', color: 'var(--ink-muted)' }}
             aria-label="Decrease level"
           >−</button>
           <input
@@ -126,16 +127,18 @@ export function ClassPicker() {
             max={200}
             value={level}
             onChange={e => setLevel(Number(e.target.value))}
-            className="w-16 text-center bg-forge-surface border border-forge-border rounded text-forge-text text-sm py-1 focus:outline-none focus:border-forge-gold"
+            className="w-16 text-center rounded text-sm py-1 focus:outline-none transition-colors"
+            style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
             aria-label={t('level')}
           />
           <button
             onClick={() => setLevel(level + 1)}
             disabled={level >= 200}
-            className="w-7 h-7 rounded bg-forge-card border border-forge-border text-forge-muted hover:text-forge-text disabled:opacity-30 transition-colors text-sm font-bold"
+            className="w-7 h-7 rounded-sm disabled:opacity-30 transition-colors text-sm font-bold"
+            style={{ background: 'var(--surface-stone)', border: '1px solid var(--metal-edge)', color: 'var(--ink-muted)' }}
             aria-label="Increase level"
           >+</button>
-          <span className="text-forge-muted text-xs">{t('level_max')}</span>
+          <span className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('level_max')}</span>
         </div>
       </div>
     </div>
