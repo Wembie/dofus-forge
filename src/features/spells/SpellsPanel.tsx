@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Sword } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement } from '@/data/spellLoaders.ts'
@@ -17,12 +18,12 @@ function spellGrade(level: number): number {
 }
 
 const ELEM_COLOR: Record<AppSpellElement, string> = {
-  earth:   '#b8860b',
-  fire:    '#dc4e22',
-  water:   '#2a8fd4',
-  air:     '#6ab04c',
-  neutral: '#9b9b9b',
-  mixed:   '#c9a84c',
+  earth:   'var(--earth)',
+  fire:    'var(--fire)',
+  water:   'var(--water)',
+  air:     'var(--air)',
+  neutral: 'var(--neutral)',
+  mixed:   'var(--gold)',
 }
 
 const WEAPON_ATTACK_STAT: Record<string, Exclude<AppSpellElement, 'mixed'>> = {
@@ -41,11 +42,6 @@ function fmtRange(min: number, max: number): string {
   return min === max ? String(min) : `${min}–${max}`
 }
 
-/** % melee or ranged bonus from stats, inferred from spell/weapon range values.
- *  maxRange=0 → self-cast, no distance modifier.
- *  minRange=0 → can hit adjacent → melee bonus applies.
- *  minRange>0 → always ranged → ranged bonus applies.
- */
 function rangePct(minRange: number, maxRange: number, stats: StatBlock): number {
   if (maxRange === 0) return 0
   return minRange === 0 ? stats.meleeDamagePercent : stats.rangedDamagePercent
@@ -60,7 +56,6 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   const color    = ELEM_COLOR[spell.element]
   const showCalc = Boolean(stats)
 
-  // spellDamagePercent + melee/ranged inferred from spell range
   const spellPct = stats && lvl
     ? stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
     : 0
@@ -92,15 +87,14 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   return (
     <div
       className="rounded-lg p-2.5 flex gap-2.5"
-      style={{ background: '#0d1219', border: `1px solid ${color}22` }}
+      style={{ background: 'var(--surface-void)', border: `1px solid color-mix(in srgb, ${color} 13%, transparent)` }}
     >
-      {/* Spell image */}
       <div
         className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
         style={{
           width: 44, height: 44,
-          background: 'linear-gradient(145deg, #151c2a, #0d1219)',
-          border: `1px solid ${color}33`,
+          background: 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))',
+          border: `1px solid color-mix(in srgb, ${color} 20%, transparent)`,
         }}
       >
         {spell.image_url
@@ -109,7 +103,6 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
         }
       </div>
 
-      {/* Info */}
       <div className="flex-1 min-w-0">
         <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color }}>
           {spell.name}
@@ -119,14 +112,14 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
           <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
             <span
               className="text-[10px] font-bold font-mono px-1 rounded"
-              style={{ color: '#c9a84c', background: '#c9a84c18' }}
+              style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
             >{lvl.ap}AP</span>
-            <span className="text-[10px] font-mono" style={{ color: '#4a5580' }}>{rangeStr}</span>
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{rangeStr}</span>
             {lvl.critChance > 0 && (
-              <span className="text-[10px]" style={{ color: '#dc4e22' }}>{lvl.critChance}%</span>
+              <span className="text-[10px]" style={{ color: 'var(--crit)' }}>{lvl.critChance}%</span>
             )}
             {lvl.maxPerTurn > 0 && (
-              <span className="text-[10px]" style={{ color: '#3a4a68' }}>
+              <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
                 {t('spell_max_per_turn', { count: lvl.maxPerTurn })}
               </span>
             )}
@@ -139,11 +132,11 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
               if (e.kind === 'push') {
                 return (
                   <div key={i} className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-mono" style={{ color: '#6b7fa8' }}>
+                    <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
                       {t('spell_push', { cells: e.calcMin })}
                     </span>
                     {pushDmg > 0 && (
-                      <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#6b7fa8' }}>
+                      <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
                         {pushDmg}
                       </span>
                     )}
@@ -155,7 +148,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                   ? t('spell_steal_ap', { n: e.calcMin })
                   : t('spell_steal_mp', { n: e.calcMin })
                 return (
-                  <span key={i} className="text-[10px] font-mono block" style={{ color: '#c9a84c' }}>{label}</span>
+                  <span key={i} className="text-[10px] font-mono block" style={{ color: 'var(--gold)' }}>{label}</span>
                 )
               }
               const c     = ELEM_COLOR[e.element]
@@ -171,10 +164,10 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                   </span>
                   {critE && (
                     <span className="flex items-center gap-0.5">
-                      <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
+                      <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
                       <span
                         className="text-[10px] font-mono tabular-nums font-bold"
-                        style={{ color: '#e8a020' }}
+                        style={{ color: 'var(--crit)' }}
                       >{fmtRange(critE.calcMin, critE.calcMax)}</span>
                     </span>
                   )}
@@ -185,11 +178,11 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
             {showTotal && (
               <div
                 className="flex items-center gap-1.5 mt-0.5 pt-0.5"
-                style={{ borderTop: '1px solid #1c2333' }}
+                style={{ borderTop: '1px solid var(--metal-edge)' }}
               >
                 <span className="flex items-center gap-0.5">
-                  <span className="text-[9px] font-mono" style={{ color: '#4a5580' }}>Σ</span>
-                  <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#8090b0' }}>
+                  <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>Σ</span>
+                  <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
                     {fmtRange(
                       damageEffects.reduce((s, e) => s + e.calcMin, 0) + pushDmg,
                       damageEffects.reduce((s, e) => s + e.calcMax, 0) + pushDmg,
@@ -198,8 +191,8 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                 </span>
                 {hasCrit && critDmgEffects.length >= 1 && (
                   <span className="flex items-center gap-0.5">
-                    <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
-                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#e8a020' }}>
+                    <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
+                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
                       {fmtRange(
                         critDmgEffects.reduce((s, e) => s + e.calcMin, 0) + pushDmg,
                         critDmgEffects.reduce((s, e) => s + e.calcMax, 0) + pushDmg,
@@ -211,7 +204,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
             )}
           </div>
         ) : (
-          <span className="text-[9px] uppercase tracking-wide" style={{ color: '#2a3347' }}>
+          <span className="text-[9px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
             {t('spell_support')}
           </span>
         )}
@@ -232,21 +225,21 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
     return (
       <div
         className="rounded-lg p-2.5 flex gap-2.5"
-        style={{ background: '#0d1219', border: '1px solid #2a334733' }}
+        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
       >
         <div
-          className="flex-shrink-0 rounded flex items-center justify-center text-lg"
-          style={{ width: 44, height: 44, background: '#0f1623', border: '1px solid #2a334744' }}
+          className="flex-shrink-0 rounded flex items-center justify-center"
+          style={{ width: 44, height: 44, background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
         >
-          ✊
+          <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: '#4a5580' }}>
+          <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: 'var(--ink-faint)' }}>
             {t('weapon_fist')}
           </p>
           <div className="flex items-center gap-x-2">
-            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: '#c9a84c', background: '#c9a84c18' }}>1AP</span>
-            <span className="text-[10px] font-mono" style={{ color: '#4a5580' }}>{t('spell_melee')}</span>
+            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}>1AP</span>
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{t('spell_melee')}</span>
           </div>
         </div>
       </div>
@@ -265,13 +258,10 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const showTotal = attackEffects.length >= 2
   const hasCrit   = crit > 0 && stats != null
 
-  // weaponDamagePercent + melee/ranged inferred from weapon range
   const weaponPct = stats
     ? stats.weaponDamagePercent + rangePct(minR, maxR, stats)
     : 0
 
-  // crit_bonus is bonus crit CHANCE (shown in the crit% badge), not damage.
-  // Actual crit damage bonus = stats.critDamage (flat from equipped items).
   const critDmgBonus = hasCrit ? stats.critDamage : 0
 
   const computed = attackEffects.map(e => {
@@ -291,33 +281,31 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   return (
     <div
       className="rounded-lg p-2.5 flex gap-2.5"
-      style={{ background: '#0d1219', border: '1px solid #2a334733' }}
+      style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
     >
-      {/* Weapon image */}
       <div
         className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
-        style={{ width: 44, height: 44, background: '#0f1623', border: '1px solid #2a334744' }}
+        style={{ width: 44, height: 44, background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
       >
         {weapon.image_url
           ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
-          : <span className="text-xl" style={{ color: '#4a5580' }}>⚔</span>
+          : <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
         }
       </div>
 
-      {/* Info */}
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: '#8090b0' }}>
+        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: 'var(--ink-muted)' }}>
           {weapon.name}
         </p>
         <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
           {ap > 0 && (
-            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: '#c9a84c', background: '#c9a84c18' }}>
+            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}>
               {ap}AP
             </span>
           )}
-          <span className="text-[10px] font-mono" style={{ color: '#4a5580' }}>{rangeStr}</span>
+          <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{rangeStr}</span>
           {crit > 0 && (
-            <span className="text-[10px]" style={{ color: '#dc4e22' }}>
+            <span className="text-[10px]" style={{ color: 'var(--crit)' }}>
               {crit}%{critBon > 0 ? ` (+${critBon})` : ''}
             </span>
           )}
@@ -335,8 +323,8 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                 </span>
                 {hasCrit && (
                   <span className="flex items-center gap-0.5">
-                    <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
-                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#e8a020' }}>
+                    <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
+                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
                       {fmtRange(critLow, critHigh)}
                     </span>
                   </span>
@@ -344,22 +332,21 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
               </div>
             ))}
 
-            {/* Total row for multi-element weapons */}
             {showTotal && (
               <div
                 className="flex items-center gap-1.5 mt-0.5 pt-0.5"
-                style={{ borderTop: '1px solid #1c2333' }}
+                style={{ borderTop: '1px solid var(--metal-edge)' }}
               >
                 <span className="flex items-center gap-0.5">
-                  <span className="text-[9px] font-mono" style={{ color: '#4a5580' }}>Σ</span>
-                  <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#8090b0' }}>
+                  <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>Σ</span>
+                  <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
                     {fmtRange(totalNormMin, totalNormMax)}
                   </span>
                 </span>
                 {hasCrit && (
                   <span className="flex items-center gap-0.5">
-                    <span className="text-[9px]" style={{ color: '#c9a84c' }}>✦</span>
-                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: '#e8a020' }}>
+                    <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
+                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
                       {fmtRange(totalCritMin, totalCritMax)}
                     </span>
                   </span>
@@ -368,7 +355,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
             )}
           </div>
         ) : (
-          <span className="text-[9px] uppercase tracking-wide" style={{ color: '#2a3347' }}>
+          <span className="text-[9px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
             {t('spell_support')}
           </span>
         )}
@@ -444,9 +431,9 @@ export function SpellsPanel() {
                 title={`${t('spell_grade', { grade: g })}${g === autoGrade ? ' (auto)' : ''}`}
                 className="w-5 h-5 rounded text-[10px] font-bold font-mono transition-colors"
                 style={{
-                  background:  isActive ? '#c9a84c' : isAuto ? '#c9a84c18' : 'transparent',
-                  color:       isActive ? '#0f1320' : isAuto ? '#c9a84c' : '#3a4268',
-                  border:      isActive ? '1px solid #c9a84c' : '1px solid #2a3347',
+                  background:  isActive ? 'var(--gold)' : isAuto ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'transparent',
+                  color:       isActive ? 'var(--ink-invert)' : isAuto ? 'var(--gold)' : 'var(--ink-faint)',
+                  border:      isActive ? '1px solid var(--gold)' : '1px solid var(--metal-edge)',
                 }}
               >{g}</button>
             )
@@ -455,7 +442,7 @@ export function SpellsPanel() {
             <button
               onClick={() => setManual(null)}
               className="ml-0.5 text-[9px] transition-colors"
-              style={{ color: '#3a4268' }}
+              style={{ color: 'var(--ink-faint)' }}
               title="Reset to auto grade"
             >↺</button>
           )}
@@ -470,13 +457,13 @@ export function SpellsPanel() {
             onClick={() => setElemFilter(f)}
             className="px-2 py-0.5 rounded text-[10px] font-medium transition-colors border"
             style={elemFilter === f ? {
-              background:  f === 'all' ? '#1c2333' : `${ELEM_COLOR[f as AppSpellElement]}22`,
-              borderColor: f === 'all' ? '#4a5268' : ELEM_COLOR[f as AppSpellElement],
-              color:       f === 'all' ? '#e8eaf0' : ELEM_COLOR[f as AppSpellElement],
+              background:  f === 'all' ? 'var(--metal-edge)' : `color-mix(in srgb, ${ELEM_COLOR[f as AppSpellElement]} 13%, transparent)`,
+              borderColor: f === 'all' ? 'var(--ink-muted)' : ELEM_COLOR[f as AppSpellElement],
+              color:       f === 'all' ? 'var(--ink)' : ELEM_COLOR[f as AppSpellElement],
             } : {
               background:  'transparent',
-              borderColor: '#2a3347',
-              color:       '#3a4268',
+              borderColor: 'var(--metal-edge)',
+              color:       'var(--ink-faint)',
             }}
           >
             {f === 'all' ? t('elem_all') : t(ELEM_KEYS[f as AppSpellElement])}
@@ -484,16 +471,15 @@ export function SpellsPanel() {
         ))}
       </div>
 
-      {/* Stats indicator */}
       {stats && (
-        <p className="text-[9px]" style={{ color: '#3a4268' }}>
+        <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>
           ★ {t('spell_calculated')}
         </p>
       )}
 
       {/* Weapon attack */}
       <div className="space-y-1">
-        <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: '#3a4a68' }}>
+        <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--ink-muted)' }}>
           {t('weapon_attack')}
         </p>
         <WeaponCard weapon={equippedWeapon} stats={stats} />
@@ -506,21 +492,21 @@ export function SpellsPanel() {
         ) : (
           <div className="grid grid-cols-2 gap-x-3">
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-muted)' }}>
                 {t('spell_col_normal')}
               </p>
               {normalSpells.length === 0 ? (
-                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalSpells.map(spell => (
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
               ))}
             </div>
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#3a4a68' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-muted)' }}>
                 {t('spell_col_variant')}
               </p>
               {variantSpells.length === 0 ? (
-                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantSpells.map(spell => (
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
               ))}
@@ -532,26 +518,26 @@ export function SpellsPanel() {
       {/* Common spells */}
       {commonData && (normalCommon.length > 0 || variantCommon.length > 0) && (
         <div className="space-y-2">
-          <p className="text-[10px] uppercase tracking-widest font-medium pt-1" style={{ color: '#3a4a68', borderTop: '1px solid #1c2333' }}>
+          <p className="text-[10px] uppercase tracking-widest font-medium pt-1" style={{ color: 'var(--ink-muted)', borderTop: '1px solid var(--metal-edge)' }}>
             {t('common_spells')}
           </p>
           <div className="grid grid-cols-2 gap-x-3">
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#2a3a50' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-faint)' }}>
                 {t('spell_col_normal')}
               </p>
               {normalCommon.length === 0 ? (
-                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalCommon.map(spell => (
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
               ))}
             </div>
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: '#2a3a50' }}>
+              <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-faint)' }}>
                 {t('spell_col_variant')}
               </p>
               {variantCommon.length === 0 ? (
-                <p className="text-[10px]" style={{ color: '#2a3347' }}>{t('no_spells_filter')}</p>
+                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantCommon.map(spell => (
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
               ))}
