@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import tailwindAnimate from 'tailwindcss-animate'
 
 export default {
   darkMode: 'class',
@@ -15,19 +16,19 @@ export default {
       colors: {
         /* ── Legacy forge-* — kept for Phase 2 component migration ── */
         forge: {
-          bg:          'var(--forge-bg)',
-          surface:     'var(--forge-surface)',
-          card:        'var(--forge-card)',
-          border:      'var(--forge-border)',
-          gold:        'var(--gold)',
+          bg:           'var(--forge-bg)',
+          surface:      'var(--forge-surface)',
+          card:         'var(--forge-card)',
+          border:       'var(--forge-border)',
+          gold:         'var(--gold)',
           'gold-light': 'var(--gold-bright)',
-          text:        'var(--ink)',
-          muted:       'var(--ink-muted)',
-          earth:       'var(--earth)',
-          fire:        'var(--fire)',
-          water:       'var(--water)',
-          air:         'var(--air)',
-          neutral:     'var(--neutral)',
+          text:         'var(--ink)',
+          muted:        'var(--ink-muted)',
+          earth:        'var(--earth)',
+          fire:         'var(--fire)',
+          water:        'var(--water)',
+          air:          'var(--air)',
+          neutral:      'var(--neutral)',
         },
         /* ── New semantic tokens ── */
         surface: {
@@ -74,6 +75,7 @@ export default {
         frame: 'var(--shadow-frame)',
         well:  'var(--well-inset)',
         gold:  'var(--glow-gold)',
+        bevel: 'var(--inset-bevel)',
       },
       borderRadius: {
         xs:    '3px',
@@ -83,17 +85,17 @@ export default {
         frame: '10px',
       },
       transitionDuration: {
-        fast:      'var(--dur-fast)',
-        base:      'var(--dur-base)',
-        slow:      'var(--dur-slow)',
-        cinematic: 'var(--dur-cinematic)',
+        fast:      '120',
+        base:      '200',
+        slow:      '360',
+        cinematic: '620',
       },
       transitionTimingFunction: {
-        'out':   'var(--ease-out)',
-        'inout': 'var(--ease-inout)',
-        'forge': 'var(--ease-forge)',
+        'out':   'cubic-bezier(.22,.61,.36,1)',
+        'inout': 'cubic-bezier(.65,.05,.36,1)',
+        'forge': 'cubic-bezier(.34,1.2,.64,1)',
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindAnimate],
 } satisfies Config
