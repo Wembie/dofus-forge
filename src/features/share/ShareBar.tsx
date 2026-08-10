@@ -80,7 +80,7 @@ export function ShareBar() {
         onClick={handleExport}
         disabled={!hasClass || !stats || exporting}
         title="Export build as image"
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-forge-border bg-forge-surface text-forge-muted hover:text-forge-text hover:border-forge-gold/40 disabled:opacity-30 text-xs transition-colors"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
       >
         {exporting ? '⏳ Exporting…' : '🖼 Export'}
       </button>
@@ -90,7 +90,7 @@ export function ShareBar() {
         onClick={handleCopy}
         disabled={!hasClass}
         title="Copy share URL"
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-forge-border bg-forge-surface text-forge-muted hover:text-forge-text hover:border-forge-gold/40 disabled:opacity-30 text-xs transition-colors"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
       >
         {copied ? '✓ Copied!' : '🔗 Share'}
       </button>
@@ -98,7 +98,7 @@ export function ShareBar() {
       {/* My Builds */}
       <button
         onClick={() => setShowPanel(!showPanel)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-forge-border bg-forge-surface text-forge-muted hover:text-forge-text hover:border-forge-gold/40 text-xs transition-colors"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep text-xs transition-colors"
       >
         📋 Builds {builds.length > 0 && <span className="text-forge-gold">({builds.length})</span>}
       </button>
@@ -120,7 +120,7 @@ export function ShareBar() {
                 value={saveName}
                 onChange={e => setSaveName(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') handleSave() }}
-                className="flex-1 bg-forge-surface border border-forge-border rounded px-2 py-1 text-xs text-forge-text placeholder:text-forge-muted/50 focus:outline-none focus:border-forge-gold"
+                className="flex-1 bg-surface-stone border border-metal-edge rounded px-2 py-1 text-xs text-ink placeholder:text-ink-faint focus:outline-none focus:border-gold"
               />
               <button
                 onClick={handleSave}
@@ -130,12 +130,12 @@ export function ShareBar() {
           )}
 
           {/* List */}
-          <ul className="max-h-64 overflow-y-auto divide-y divide-forge-border/50">
+          <ul className="max-h-64 overflow-y-auto divide-y divide-metal-edge">
             {builds.length === 0 && (
               <li className="p-4 text-center text-forge-muted text-xs">No saved builds</li>
             )}
             {builds.map(b => (
-              <li key={b.id} className="flex items-center gap-2 p-2.5 hover:bg-forge-surface/50 transition-colors">
+              <li key={b.id} className="flex items-center gap-2 p-2.5 hover:bg-surface-stone transition-colors">
                 <button
                   className="flex-1 text-left text-xs text-forge-text truncate hover:text-forge-gold transition-colors"
                   onClick={() => handleLoad(b.encoded)}
@@ -143,7 +143,7 @@ export function ShareBar() {
                 >
                   {b.name}
                 </button>
-                <span className="text-[10px] text-forge-muted/50 flex-shrink-0">
+                <span className="text-[10px] text-ink-faint flex-shrink-0">
                   {new Date(b.savedAt).toLocaleDateString()}
                 </span>
                 <button

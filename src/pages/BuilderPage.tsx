@@ -69,7 +69,7 @@ function BuilderContent() {
           >
             {t('app_title')}
           </h1>
-          <span className="text-forge-muted/40 text-xs font-mono hidden sm:inline">
+          <span className="text-ink-faint text-xs font-mono hidden sm:inline">
             v{__APP_VERSION__}
           </span>
 
@@ -171,7 +171,7 @@ function BuilderContent() {
       />
 
       <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
-        <p className="text-[10px] text-forge-muted/40 max-w-xl mx-auto">
+        <p className="text-[10px] text-ink-faint max-w-xl mx-auto">
           {t('disclaimer')}
         </p>
         <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: 'var(--ink-faint)' }}>
