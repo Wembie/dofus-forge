@@ -111,10 +111,10 @@ export function SetDetailModal({ set, onClose }: Props) {
                 key={pieces}
                 className={`pl-2.5 border-l-2 transition-colors ${active ? 'border-forge-gold' : 'border-forge-border'}`}
               >
-                <span className={`text-[10px] font-mono font-bold mr-1.5 ${active ? 'text-forge-gold' : 'text-forge-muted/30'}`}>
+                <span className={`text-[10px] font-mono font-bold mr-1.5 ${active ? 'text-forge-gold' : 'text-ink-faint'}`}>
                   {pieces}pc
                 </span>
-                <span className={`text-[10px] ${active ? 'text-forge-text' : 'text-forge-muted/25'}`}>
+                <span className={`text-[10px] ${active ? 'text-forge-text' : 'text-ink-faint opacity-50'}`}>
                   {effects.map((e: AppEffect, i: number) => (
                     <span key={i}>
                       {i > 0 && <span className="mx-1 text-forge-border">·</span>}
@@ -153,14 +153,14 @@ export function SetDetailModal({ set, onClose }: Props) {
                 >
                   {item.image_url
                     ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-0.5" loading="lazy" />
-                    : <span className="text-forge-muted/40 text-lg">{slot?.icon ?? '?'}</span>
+                    : <span className="text-ink-faint text-lg">{slot?.icon ?? '?'}</span>
                   }
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm font-medium truncate leading-tight ${eq ? 'text-forge-gold' : 'text-forge-text'}`}>
                     {item.name}
-                    {eq && <span className="ml-1.5 text-[10px] text-forge-gold/60">✓</span>}
+                    {eq && <span className="ml-1.5 text-[10px] text-gold-deep">✓</span>}
                   </p>
                   <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
                     Lv {item.level} · {slot?.label ?? item.slot}
