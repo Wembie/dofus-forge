@@ -81,6 +81,19 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
   const pushDmg         = (stats && displayEffects.some(e => e.kind === 'push')) ? stats.pushbackDamage : 0
   const showTotal       = damageEffects.length >= 2 || (damageEffects.length >= 1 && pushDmg > 0)
 
+  // Map display-index → crit effect by damage-slot index (not element match)
+  const critByDisplayIdx = useMemo(() => {
+    const map = new Map<number, (typeof critDmgEffects)[0]>()
+    let dmgIdx = 0
+    displayEffects.forEach((e, i) => {
+      if (e.kind === 'damage') {
+        if (dmgIdx < critDmgEffects.length) map.set(i, critDmgEffects[dmgIdx])
+        dmgIdx++
+      }
+    })
+    return map
+  }, [displayEffects, critDmgEffects])
+
   const rangeStr = !lvl || lvl.maxRange === 0
     ? t('spell_melee')
     : lvl.minRange === lvl.maxRange
@@ -161,7 +174,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
                 )
               }
               const c     = ELEM_COLOR[e.element]
-              const critE = hasCrit ? critDmgEffects.find(ce => ce.element === e.element) : null
+              const critE = hasCrit ? (critByDisplayIdx.get(i) ?? null) : null
               return (
                 <div key={i} className="flex items-center gap-1.5">
                   <span className="flex items-center gap-0.5">
