@@ -34,9 +34,11 @@ const WEAPON_ATTACK_STAT: Record<string, Exclude<AppSpellElement, 'mixed'>> = {
   'Air damage':     'air',
   'Earth steal':    'earth',
   'Fire steal':     'fire',
+  'Water steal':    'water',
   'Air steal':      'air',
   'Neutral steal':  'neutral',
 }
+const IS_STEAL = (stat: string) => stat.includes('steal') || stat.includes('Steal')
 
 function fmtRange(min: number, max: number): string {
   return min === max ? String(min) : `${min}–${max}`
@@ -221,6 +223,8 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
 
 function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBlock | null }) {
   const { t } = useTranslation()
+  const [mastery, setMastery] = useState(0)
+  const [masteryInput, setMasteryInput] = useState('0')
 
   const attackEffects = useMemo(() => {
     if (!weapon) return []
@@ -257,115 +261,186 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const maxR    = weapon.max_range   ?? 0
   const crit    = weapon.crit_chance ?? 0
   const critBon = weapon.crit_bonus  ?? 0
+  const wLevel  = weapon.level       ?? 0
   const rangeStr = maxR === 0
     ? t('spell_melee')
-    : minR === maxR ? `${maxR}` : `${minR}–${maxR}`
+    : minR === maxR ? String(minR) : `${minR}–${maxR}`
 
-  const showTotal = attackEffects.length >= 2
-  const hasCrit   = crit > 0 && stats != null
+  const hasCrit = crit > 0 && stats != null
 
-  const weaponPct = stats
-    ? stats.weaponDamagePercent + rangePct(minR, maxR, stats)
-    : 0
-
+  const weaponPct    = stats ? stats.weaponDamagePercent + rangePct(minR, maxR, stats) + mastery : mastery
   const critDmgBonus = hasCrit ? stats.critDamage : 0
 
-  const computed = attackEffects.map(e => {
-    const elem     = WEAPON_ATTACK_STAT[e.stat]!
-    const c        = ELEM_COLOR[elem]
-    const baseMax  = e.max > 0 ? e.max : e.min
-    const low      = stats ? calcDamage(e.min,   elem, stats, weaponPct) : e.min
-    const high     = stats ? calcDamage(baseMax, elem, stats, weaponPct) : baseMax
-    return { elem, c, low, high, critLow: low + critDmgBonus, critHigh: high + critDmgBonus }
-  })
+  const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat))
+  const stealEffects = attackEffects.filter(e =>  IS_STEAL(e.stat))
 
-  const totalNormMin = computed.reduce((s, e) => s + e.low,      0)
-  const totalNormMax = computed.reduce((s, e) => s + e.high,     0)
-  const totalCritMin = computed.reduce((s, e) => s + e.critLow,  0)
-  const totalCritMax = computed.reduce((s, e) => s + e.critHigh, 0)
+  function computeRow(e: typeof attackEffects[0]) {
+    const elem    = WEAPON_ATTACK_STAT[e.stat]!
+    const c       = ELEM_COLOR[elem]
+    const baseMax = e.max > 0 ? e.max : e.min
+    const low     = stats ? calcDamage(e.min,   elem, stats, weaponPct) : e.min
+    const high    = stats ? calcDamage(baseMax, elem, stats, weaponPct) : baseMax
+    return { elem, c, low, high, critLow: low + critDmgBonus, critHigh: high + critDmgBonus }
+  }
+
+  const dmgRows   = dmgEffects.map(computeRow)
+  const stealRows = stealEffects.map(computeRow)
+  const allRows   = [...dmgRows, ...stealRows]
+
+  const totalNormMin = allRows.reduce((s, e) => s + e.low,      0)
+  const totalNormMax = allRows.reduce((s, e) => s + e.high,     0)
+  const totalCritMin = allRows.reduce((s, e) => s + e.critLow,  0)
+  const totalCritMax = allRows.reduce((s, e) => s + e.critHigh, 0)
+
+  const healMin     = stealRows.reduce((s, e) => s + Math.floor(e.low      / 2), 0)
+  const healMax     = stealRows.reduce((s, e) => s + Math.floor(e.high     / 2), 0)
+  const healCritMin = stealRows.reduce((s, e) => s + Math.floor(e.critLow  / 2), 0)
+  const healCritMax = stealRows.reduce((s, e) => s + Math.floor(e.critHigh / 2), 0)
+
+  const hasSteal   = stealRows.length > 0
+  const showTotal  = allRows.length >= 2
+  const cols       = hasCrit ? '1fr 1fr 1fr' : '1fr 1fr'
+
+  const RangeCell = ({ min, max, color, bold = false }: { min: number; max: number; color: string; bold?: boolean }) => (
+    <span className="text-[11px] font-mono tabular-nums" style={{ color, fontWeight: bold ? 700 : 400 }}>
+      {fmtRange(min, max)}
+    </span>
+  )
 
   return (
-    <div
-      className="rounded-lg p-2.5 flex gap-2.5"
-      style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-    >
-      <div
-        className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
-        style={{ width: 44, height: 44, background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-      >
-        {weapon.image_url
-          ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
-          : <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
-        }
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: 'var(--ink-muted)' }}>
-          {weapon.name}
-        </p>
-        <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
-          {ap > 0 && (
-            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}>
-              {ap}AP
-            </span>
-          )}
-          <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{rangeStr}</span>
-          {crit > 0 && (
-            <span className="text-[10px]" style={{ color: 'var(--crit)' }}>
-              {crit}%{critBon > 0 ? ` (+${critBon})` : ''}
-            </span>
-          )}
+    <div className="rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+      {/* Header */}
+      <div className="flex items-center gap-3 px-3 py-2.5" style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-stone)' }}>
+        <div
+          className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
+          style={{ width: 44, height: 44, background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
+        >
+          {weapon.image_url
+            ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
+            : <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
+          }
         </div>
-
-        {computed.length > 0 ? (
-          <div className="space-y-0.5">
-            {computed.map(({ c, low, high, critLow, critHigh }, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <span className="flex items-center gap-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
-                  <span className="text-[10px] font-mono tabular-nums" style={{ color: c, fontWeight: stats ? 700 : 400 }}>
-                    {fmtRange(low, high)}
-                  </span>
-                </span>
-                {hasCrit && (
-                  <span className="flex items-center gap-0.5">
-                    <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
-                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
-                      {fmtRange(critLow, critHigh)}
-                    </span>
-                  </span>
-                )}
-              </div>
-            ))}
-
-            {showTotal && (
-              <div
-                className="flex items-center gap-1.5 mt-0.5 pt-0.5"
-                style={{ borderTop: '1px solid var(--metal-edge)' }}
-              >
-                <span className="flex items-center gap-0.5">
-                  <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>Σ</span>
-                  <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
-                    {fmtRange(totalNormMin, totalNormMax)}
-                  </span>
-                </span>
-                {hasCrit && (
-                  <span className="flex items-center gap-0.5">
-                    <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
-                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
-                      {fmtRange(totalCritMin, totalCritMax)}
-                    </span>
-                  </span>
-                )}
-              </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-2">
+            <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{weapon.name}</p>
+            {wLevel > 0 && <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>Nv.{wLevel}</span>}
+          </div>
+          <div className="flex items-center flex-wrap gap-x-3 mt-0.5">
+            {ap > 0 && <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>PA {ap}</span>}
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>Dist. {rangeStr}</span>
+            {crit > 0 && (
+              <span className="text-[10px] font-mono" style={{ color: 'var(--crit)' }}>
+                GC {crit}%{critBon > 0 ? ` (+${critBon})` : ''}
+              </span>
             )}
           </div>
-        ) : (
-          <span className="text-[9px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
-            {t('spell_support')}
-          </span>
+        </div>
+      </div>
+
+      {/* Dominio del Arma input */}
+      <div
+        className="flex items-center gap-2 px-3 py-1.5"
+        style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-void)' }}
+      >
+        <span className="text-[10px] font-medium flex-shrink-0" style={{ color: 'var(--ink-faint)' }} title={t('weapon_mastery_tip')}>
+          {t('weapon_mastery')}
+        </span>
+        <input
+          type="number"
+          min={0}
+          value={masteryInput}
+          onChange={e => setMasteryInput(e.target.value)}
+          onBlur={e => {
+            const v = Math.max(0, parseInt(e.target.value, 10) || 0)
+            setMastery(v)
+            setMasteryInput(String(v))
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              const v = Math.max(0, parseInt(masteryInput, 10) || 0)
+              setMastery(v)
+              setMasteryInput(String(v))
+              ;(e.target as HTMLInputElement).blur()
+            }
+          }}
+          className="w-16 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border transition-colors"
+          style={{
+            background: 'var(--surface-panel)',
+            border: mastery > 0 ? '1px solid color-mix(in srgb, var(--gold) 45%, transparent)' : '1px solid var(--metal-edge)',
+            color: mastery > 0 ? 'var(--gold)' : 'var(--ink-muted)',
+          }}
+        />
+        {mastery > 0 && (
+          <span className="text-[9px] font-mono" style={{ color: 'var(--gold-deep)' }}>+{mastery} pot.</span>
         )}
       </div>
+
+      {/* Damage table */}
+      {allRows.length > 0 && (
+        <div className="px-3 py-2.5 space-y-1">
+          {/* Column headers */}
+          <div className="grid mb-1.5" style={{ gridTemplateColumns: cols, gap: 8 }}>
+            <span />
+            <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>{t('weapon_normal')}</span>
+            {hasCrit && <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--crit)' }}>{t('weapon_crit_col')}</span>}
+          </div>
+
+          {/* Damage rows */}
+          {dmgRows.map(({ c, low, high, critLow, critHigh }, i) => (
+            <div key={`d${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
+                <span className="text-[10px] font-medium" style={{ color: c }}>{t(`elem_${dmgEffects[i].stat.split(' ')[0].toLowerCase()}`)}</span>
+              </span>
+              <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
+              {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+            </div>
+          ))}
+
+          {/* Steal rows */}
+          {stealRows.map(({ c, low, high, critLow, critHigh }, i) => (
+            <div key={`s${i}`} className="space-y-0.5">
+              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
+                  <span className="text-[10px] font-medium" style={{ color: c }}>{t('weapon_steal_label')}</span>
+                </span>
+                <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
+                {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+              </div>
+              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                <span className="text-[10px] pl-3.5" style={{ color: 'var(--vitality)' }}>♥</span>
+                <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+                  {fmtRange(Math.floor(low / 2), Math.floor(high / 2))}
+                </span>
+                {hasCrit && (
+                  <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+                    {fmtRange(Math.floor(critLow / 2), Math.floor(critHigh / 2))}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {/* Total row */}
+          {showTotal && (
+            <div className="pt-1.5 space-y-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>{t('weapon_total')}</span>
+                <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>{fmtRange(totalNormMin, totalNormMax)}</span>
+                {hasCrit && <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>{fmtRange(totalCritMin, totalCritMax)}</span>}
+              </div>
+              {hasSteal && (
+                <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                  <span className="text-[10px] pl-1 font-medium" style={{ color: 'var(--vitality)' }}>♥</span>
+                  <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(healMin, healMax)}</span>
+                  {hasCrit && <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(healCritMin, healCritMax)}</span>}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
