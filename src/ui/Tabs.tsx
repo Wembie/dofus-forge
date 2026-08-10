@@ -1,4 +1,4 @@
-import { type ElementType } from 'react'
+import { type ElementType, type CSSProperties } from 'react'
 import { motion } from 'motion/react'
 import { cn } from './cn'
 
@@ -14,15 +14,16 @@ type TabsProps = {
   onChange:  (id: string) => void
   variant?:  'segment' | 'bottom-bar'
   className?: string
+  style?:    CSSProperties
 }
 
-export function Tabs({ items, active, onChange, variant = 'segment', className }: TabsProps) {
+export function Tabs({ items, active, onChange, variant = 'segment', className, style }: TabsProps) {
   if (variant === 'bottom-bar') {
     return (
       <nav
         role="tablist"
         className={cn('flex items-stretch border-t', className)}
-        style={{ background: 'var(--surface-stone)', borderColor: 'var(--metal-edge)' }}
+        style={{ background: 'var(--surface-stone)', borderColor: 'var(--metal-edge)', ...style }}
       >
         {items.map(({ id, label, Icon }) => {
           const isActive = id === active

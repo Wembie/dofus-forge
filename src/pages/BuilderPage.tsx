@@ -1,5 +1,6 @@
 import { useEffect, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Swords, User, BarChart2, Undo2, Redo2 } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
@@ -13,6 +14,7 @@ import { SpellsPanel } from '@/features/spells/SpellsPanel.tsx'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
+import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
 
 type MobileTab = 'equipment' | 'character' | 'stats'
 
@@ -36,6 +38,12 @@ function BuilderContent() {
     const supported = ['en', 'es', 'fr', 'pt']
     load(supported.includes(lang) ? lang : 'en')
   }, [load, i18n.language])
+
+  const mobileTabItems: TabItem[] = [
+    { id: 'equipment', label: t('equipment'), Icon: Swords },
+    { id: 'character', label: t('character'), Icon: User },
+    { id: 'stats',     label: t('stats'),     Icon: BarChart2 },
+  ]
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
@@ -63,26 +71,26 @@ function BuilderContent() {
           <div className="ml-auto flex items-center gap-2">
             <LanguageSwitcher />
             <ThemeToggle />
-            <button
+            <IconButton
+              label="Undo"
+              variant="subtle"
+              size="md"
               onClick={undo}
               disabled={!canUndo}
               title="Undo (Ctrl+Z)"
-              className="w-7 h-7 rounded flex items-center justify-center text-sm border transition-colors disabled:opacity-20"
-              style={{ background: 'var(--forge-surface)', borderColor: 'var(--forge-border)', color: 'var(--forge-muted)' }}
-              onMouseEnter={e => { if (canUndo) (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-text)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-muted)' }}
-              aria-label="Undo"
-            >↩</button>
-            <button
+            >
+              <Undo2 size={14} />
+            </IconButton>
+            <IconButton
+              label="Redo"
+              variant="subtle"
+              size="md"
               onClick={redo}
               disabled={!canRedo}
               title="Redo (Ctrl+Shift+Z)"
-              className="w-7 h-7 rounded flex items-center justify-center text-sm border transition-colors disabled:opacity-20"
-              style={{ background: 'var(--forge-surface)', borderColor: 'var(--forge-border)', color: 'var(--forge-muted)' }}
-              onMouseEnter={e => { if (canRedo) (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-text)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--forge-muted)' }}
-              aria-label="Redo"
-            >↪</button>
+            >
+              <Redo2 size={14} />
+            </IconButton>
             <ShareBar />
           </div>
         </div>
@@ -93,28 +101,20 @@ function BuilderContent() {
         {/* Mobile: single active tab panel (< lg) */}
         <div className="lg:hidden">
           {activeTab === 'equipment' && (
-            <section aria-label={t('equipment')} className="rounded-xl border border-forge-border overflow-hidden">
+            <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
               <EquipmentGrid />
             </section>
           )}
           {activeTab === 'character' && (
             <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
-              <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
-                <ClassPicker />
-              </div>
-              <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
-                <CharacteristicsPanel />
-              </div>
-              {hasClass && (
-                <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
-                  <SpellsPanel />
-                </div>
-              )}
+              <Frame><ClassPicker /></Frame>
+              <Frame><CharacteristicsPanel /></Frame>
+              {hasClass && <Frame><SpellsPanel /></Frame>}
             </aside>
           )}
           {activeTab === 'stats' && (
-            <aside aria-label={t('stats')} aria-live="polite" className="bg-forge-surface rounded-xl border border-forge-border p-4">
-              <StatsPanel />
+            <aside aria-label={t('stats')} aria-live="polite">
+              <Frame><StatsPanel /></Frame>
             </aside>
           )}
         </div>
@@ -123,72 +123,47 @@ function BuilderContent() {
         <div className="hidden lg:grid lg:grid-cols-[280px_1fr_240px] gap-6">
           {/* Left: Class + Characteristics */}
           <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
-            <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
-              <ClassPicker />
-            </div>
-            <div className="bg-forge-surface rounded-xl border border-forge-border p-4">
-              <CharacteristicsPanel />
-            </div>
+            <Frame><ClassPicker /></Frame>
+            <Frame><CharacteristicsPanel /></Frame>
           </aside>
 
-          {/* Center: Equipment — dark character screen, no inner padding */}
-          <section aria-label={t('equipment')} className="rounded-xl border border-forge-border overflow-hidden">
+          {/* Center: Equipment */}
+          <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
             <EquipmentGrid />
           </section>
 
           {/* Right: Stats */}
-          <aside
-            aria-label={t('stats')}
-            aria-live="polite"
-            className="bg-forge-surface rounded-xl border border-forge-border p-4 overflow-y-auto max-h-[calc(100vh-120px)] sticky top-20"
-          >
-            <StatsPanel />
+          <aside aria-label={t('stats')} aria-live="polite" className="overflow-y-auto max-h-[calc(100vh-120px)] sticky top-20">
+            <Frame><StatsPanel /></Frame>
           </aside>
         </div>
 
         {/* Spells: full-width section below 3-col grid (desktop) */}
         {hasClass && (
           <div className="hidden lg:block mt-6">
-            <div className="bg-forge-surface rounded-xl border border-forge-border p-5">
-              <SpellsPanel />
-            </div>
+            <Frame padding="lg"><SpellsPanel /></Frame>
           </div>
         )}
       </main>
 
       {/* Mobile bottom tab bar (< lg) */}
-      <nav
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 flex border-t border-forge-border"
-        style={{ background: 'var(--forge-surface)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
-        aria-label="Navigation"
-      >
-        {([ 'equipment', 'character', 'stats' ] as MobileTab[]).map(tab => {
-          const label = tab === 'equipment' ? t('equipment') : tab === 'character' ? t('character') : t('stats')
-          const icon  = tab === 'equipment' ? '⚔' : tab === 'character' ? '👤' : '📊'
-          const active = tab === activeTab
-          return (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition-colors"
-              style={{ color: active ? 'var(--forge-gold)' : 'var(--forge-muted)' }}
-              aria-current={active ? 'page' : undefined}
-            >
-              <span className="text-base leading-none">{icon}</span>
-              <span>{label}</span>
-            </button>
-          )
-        })}
-      </nav>
+      <Tabs
+        items={mobileTabItems}
+        active={activeTab}
+        onChange={id => setActiveTab(id as MobileTab)}
+        variant="bottom-bar"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      />
 
       <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
         <p className="text-[10px] text-forge-muted/40 max-w-xl mx-auto">
           {t('disclaimer')}
         </p>
-        <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: '#3a4268' }}>
-          <span><span style={{ color: '#4a5580' }}>{t('credits_server')}: </span>Tal Kasha</span>
-          <span><span style={{ color: '#4a5580' }}>{t('credits_creator')}: </span>Juan / Wembie</span>
-          <span><span style={{ color: '#4a5580' }}>{t('credits_ingame')}: </span>Raik-Luck</span>
+        <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: 'var(--ink-faint)' }}>
+          <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_server')}: </span>Tal Kasha</span>
+          <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_creator')}: </span>Juan / Wembie</span>
+          <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_ingame')}: </span>Raik-Luck</span>
         </p>
       </footer>
     </div>

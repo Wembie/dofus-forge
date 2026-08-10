@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppSet, AppEffect } from '@/data/loaders.ts'
 import { SetDetailModal } from './SetDetailModal.tsx'
+import { IconButton, Frame } from '@/ui'
 
 function effectLabel(e: AppEffect): string {
   const sign = e.min >= 0 ? '+' : ''
@@ -24,8 +26,7 @@ function PieceDots({ count, max }: { count: number; max: number }) {
           style={{
             width:      i < count ? 7 : 5,
             height:     i < count ? 7 : 5,
-            background: i < count ? '#c9a84c' : '#2a3347',
-            boxShadow:  i < count ? '0 0 5px #c9a84c88' : 'none',
+            background: i < count ? 'var(--gold)' : 'var(--metal-edge)',
           }}
         />
       ))}
@@ -42,16 +43,13 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
   const maxPieces = tiers.at(-1)?.pieces ?? 0
 
   return (
-    <div
-      className="rounded-xl overflow-hidden"
-      style={{ background: '#0b0e1a', border: '1px solid #1c2333' }}
-    >
+    <Frame material="panel" padding="none" className="rounded-xl">
       {/* Card header */}
       <div
         className="flex items-center gap-2 px-3 py-2"
         style={{
-          background:   'linear-gradient(90deg, #13182a 0%, #0d1020 100%)',
-          borderBottom: '1px solid #1c2740',
+          background:   'var(--surface-void)',
+          borderBottom: '1px solid var(--metal-edge)',
         }}
       >
         <PieceDots count={count} max={maxPieces} />
@@ -59,7 +57,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
         <button
           onClick={onOpen}
           className="flex-1 text-left text-[12px] font-bold truncate transition-colors hover:text-forge-gold"
-          style={{ color: '#c9a84c' }}
+          style={{ color: 'var(--gold)' }}
           title={`View ${set.name} — ${count}/${maxPieces} pieces`}
         >
           {set.name}
@@ -67,60 +65,55 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
 
         <span
           className="font-mono text-[10px] font-bold flex-shrink-0 px-1.5 py-0.5 rounded"
-          style={{ background: '#c9a84c18', color: '#c9a84c', border: '1px solid #c9a84c33' }}
+          style={{
+            background: 'color-mix(in srgb, var(--gold) 10%, transparent)',
+            color:      'var(--gold)',
+            border:     '1px solid color-mix(in srgb, var(--gold) 20%, transparent)',
+          }}
         >
-          {count}<span style={{ color: '#7a5a20' }}>/{maxPieces}</span>
+          {count}<span style={{ color: 'var(--gold-deep)' }}>/{maxPieces}</span>
         </span>
 
-        <button
+        <IconButton
+          label="View set"
+          variant="subtle"
+          size="sm"
           onClick={onOpen}
-          className="flex-shrink-0 w-6 h-6 rounded flex items-center justify-center text-sm transition-colors"
-          style={{ background: '#1c2740', border: '1px solid #2a3f60', color: '#4a6888' }}
-          onMouseEnter={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.background = '#22304e'
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#7ab8e0'
-          }}
-          onMouseLeave={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.background = '#1c2740'
-            ;(e.currentTarget as HTMLButtonElement).style.color = '#4a6888'
-          }}
           title="View set & equip items"
-          aria-label="View set"
-        >⊕</button>
+        >
+          <Eye size={12} />
+        </IconButton>
       </div>
 
       {/* Tier bonuses */}
       <div className="px-3 py-2 space-y-1.5">
         {tiers.map(({ pieces, effects }) => {
           const active = pieces <= count
-          const isNext = !active && tiers.find(t => !t || true) && pieces === tiers.find(t => t.pieces > count)?.pieces
+          const isNext = !active && pieces === tiers.find(t => t.pieces > count)?.pieces
 
           return (
             <div key={pieces} className="flex gap-2">
-              {/* Tier label */}
               <span
                 className="flex-shrink-0 text-[10px] font-bold font-mono w-6 text-right leading-tight pt-0.5"
-                style={{ color: active ? '#c9a84c' : isNext ? '#4a5268' : '#2a3347' }}
+                style={{ color: active ? 'var(--gold)' : isNext ? 'var(--ink-faint)' : 'var(--metal-edge)' }}
               >
                 {pieces}pc
               </span>
 
-              {/* Border */}
               <div
                 className="w-px flex-shrink-0 rounded-full"
                 style={{
-                  background: active ? '#c9a84c' : isNext ? '#2a3347' : '#1c2333',
+                  background: active ? 'var(--gold)' : isNext ? 'var(--metal-edge)' : 'var(--surface-raised)',
                   minHeight:  14,
                 }}
               />
 
-              {/* Effects */}
               <div className="flex flex-wrap gap-x-2 gap-y-0.5">
                 {effects.map((e: AppEffect, i: number) => (
                   <span
                     key={i}
                     className="text-[10px] leading-tight"
-                    style={{ color: active ? '#c0c8e0' : isNext ? '#2a3a50' : '#1c2740' }}
+                    style={{ color: active ? 'var(--ink)' : isNext ? 'var(--ink-faint)' : 'var(--surface-raised)' }}
                   >
                     {effectLabel(e)}
                   </span>
@@ -130,7 +123,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
           )
         })}
       </div>
-    </div>
+    </Frame>
   )
 }
 
@@ -167,11 +160,11 @@ export function SetBonusesPanel() {
   return (
     <>
       <div className="px-3 pb-4 space-y-2">
-        <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid #1c2333' }}>
+        <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid var(--metal-edge)' }}>
           <h2 className="font-display text-forge-gold text-xs uppercase tracking-widest flex-1">
             {t('active_sets')}
           </h2>
-          <span className="text-[9px] font-mono" style={{ color: '#2a3347' }}>
+          <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>
             {activeSets.length} set{activeSets.length !== 1 ? 's' : ''}
           </span>
         </div>
