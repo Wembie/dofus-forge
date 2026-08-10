@@ -273,7 +273,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const baseWeaponPct = stats ? stats.weaponDamagePercent + rangePct(minR, maxR, stats) : 0
   const normalPct     = baseWeaponPct + (dominioActive ? dominioNorm : 0)
   const critWeaponPct = baseWeaponPct + (dominioActive ? dominioCrit : 0)
-  const critDmgBonus  = hasCrit ? stats.critDamage + critBon : 0
+
 
   const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat))
   const stealEffects = attackEffects.filter(e =>  IS_STEAL(e.stat))
@@ -282,10 +282,11 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
     const elem    = WEAPON_ATTACK_STAT[e.stat]!
     const c       = ELEM_COLOR[elem]
     const baseMax = e.max > 0 ? e.max : e.min
-    const low      = stats ? calcDamage(e.min,   elem, stats, normalPct)     : e.min
-    const high     = stats ? calcDamage(baseMax, elem, stats, normalPct)     : baseMax
-    const critLow  = stats ? calcDamage(e.min,   elem, stats, critWeaponPct) + critDmgBonus : e.min
-    const critHigh = stats ? calcDamage(baseMax, elem, stats, critWeaponPct) + critDmgBonus : baseMax
+    const low      = stats ? calcDamage(e.min,            elem, stats, normalPct)     : e.min
+    const high     = stats ? calcDamage(baseMax,           elem, stats, normalPct)     : baseMax
+    // crit_bonus is an additional base damage amplified by the mastery formula (not flat)
+    const critLow  = stats ? calcDamage(e.min   + critBon, elem, stats, critWeaponPct) + stats.critDamage : e.min
+    const critHigh = stats ? calcDamage(baseMax + critBon, elem, stats, critWeaponPct) + stats.critDamage : baseMax
     return { elem, c, low, high, critLow, critHigh }
   }
 
