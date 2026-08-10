@@ -134,7 +134,7 @@ function BuilderContent() {
         </div>
 
         {/* Desktop: 3-column grid (lg+) */}
-        <div className="hidden lg:grid lg:grid-cols-[280px_1fr_240px] gap-6">
+        <div className="hidden lg:grid lg:grid-cols-[260px_1fr_300px] gap-6">
           {/* Left: Class + Characteristics */}
           <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
             <Frame><ClassPicker /></Frame>
