@@ -46,6 +46,7 @@ function fmtRange(min: number, max: number): string {
 
 function rangePct(minRange: number, maxRange: number, stats: StatBlock): number {
   if (maxRange === 0) return 0
+  if (maxRange <= 1)  return stats.meleeDamagePercent  // range 0-1 or 1-1 = melee weapon
   return minRange === 0 ? stats.meleeDamagePercent : stats.rangedDamagePercent
 }
 
