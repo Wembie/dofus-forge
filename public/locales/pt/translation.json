@@ -193,6 +193,7 @@
   "spell_push": "Recua {{cells}}",
   "spell_steal_ap": "−{{n}} PA",
   "spell_steal_mp": "−{{n}} PM",
+  "spell_condition_shield": "Alvos com escudo",
   "weapon_attack": "Ataque de Arma",
   "weapon_fist": "Desarmado (Punho)",
   "weapon_normal": "Normal",

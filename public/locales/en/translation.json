@@ -193,6 +193,7 @@
   "spell_push": "Push {{cells}}",
   "spell_steal_ap": "−{{n}} AP",
   "spell_steal_mp": "−{{n}} MP",
+  "spell_condition_shield": "With shield",
   "weapon_attack": "Weapon Attack",
   "weapon_fist": "Unarmed (Fist)",
   "weapon_normal": "Normal",
