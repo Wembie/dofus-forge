@@ -643,7 +643,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               <p className="text-forge-muted text-sm">{t('no_items')}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {items.map(item => {
                 const isEquipped = item.ankama_id === currentId
                 const itemSet    = item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined
@@ -677,7 +677,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     {/* Card header: image + name + level + fav */}
                     <div className="flex gap-2.5 p-3 pb-2">
                       <div
-                        className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
+                        className="w-20 h-20 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
                         style={{
                           background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))',
                           border: isEquipped
@@ -696,7 +696,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
 
                       <div className="flex-1 min-w-0 pt-0.5">
                         <p
-                          className="font-semibold text-[12px] leading-tight"
+                          className="font-semibold text-sm leading-tight"
                           style={{
                             color: isEquipped ? 'var(--gold)' : 'var(--ink)',
                             display: '-webkit-box',
@@ -774,13 +774,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           return (
                             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                               {meta?.icon
-                                ? <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} style={{ objectFit: 'contain', flexShrink: 0 }} />
-                                : <span style={{ width: 11, flexShrink: 0 }} />
+                                ? <img src={statIconUrl(meta.icon)} alt="" width={13} height={13} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                                : <span style={{ width: 13, flexShrink: 0 }} />
                               }
-                              <span style={{ color: clr, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
+                              <span style={{ color: clr, fontSize: 11, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
                                 {val}
                               </span>
-                              <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 10, lineHeight: 1.3, opacity: 0.7 }}>
+                              <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 11, lineHeight: 1.3, opacity: 0.7 }}>
                                 {meta ? t(meta.tKey) : e.stat}
                               </span>
                             </div>
