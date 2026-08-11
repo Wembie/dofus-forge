@@ -146,7 +146,6 @@ export function computeStats(input: BuildInput): StatBlock {
   block.mp       = Math.min(6,   block.mp)
   block.range    = Math.min(6,   block.range)
   block.summons  = Math.min(6,   block.summons)
-  block.critChance        = Math.min(100, block.critChance)
   block.neutralResPercent = Math.min(50, block.neutralResPercent)
   block.earthResPercent   = Math.min(50, block.earthResPercent)
   block.fireResPercent    = Math.min(50, block.fireResPercent)
