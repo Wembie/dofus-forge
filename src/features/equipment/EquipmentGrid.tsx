@@ -441,27 +441,30 @@ const GEM_RING = [
   { element: 'vitality', dx: -59, dy: -34 },
 ] as const
 
-// Look strings from DofusDB breeds API — used to render the 3D character via the server-side renderer
+// Look strings with body + face skin IDs from DofusDB breeds API + NPC/monster database scan.
+// Face skin IDs sourced by scanning 6467 NPCs and 5134 monsters for each class body skin.
+// Eliotrope male face (3183) is estimated from sibling-class patterns.
+// Forgelance faces (3105/3143) sourced from in-game monster data.
 const BREED_LOOKS: Record<DofusClass, { male: string; female: string }> = {
-  cra:          { male: '{1|90||53}',   female: '{1|91||52}'   },
-  ecaflip:      { male: '{1|60||58}',   female: '{1|61||57}'   },
-  eniripsa:     { male: '{1|70||43}',   female: '{1|71||43}'   },
-  enutrof:      { male: '{1|30||43}',   female: '{1|31||43}'   },
-  eliotrope:    { male: '{1|3179||53}', female: '{1|3180||52}' },
-  feca:         { male: '{1|10||53}',   female: '{1|11||52}'   },
-  foggernaut:   { male: '{1|1663||53}', female: '{1|1664||52}' },
-  forgelance:   { male: '{1|3221||55}', female: '{1|3633||53}' },
-  huppermage:   { male: '{1|3285||53}', female: '{1|3286||52}' },
-  iop:          { male: '{1|80||55}',   female: '{1|81||53}'   },
-  masqueraider: { male: '{1|1437||53}', female: '{1|1438||52}' },
-  osamodas:     { male: '{1|20||50}',   female: '{1|21||48}'   },
-  ouginak:      { male: '{1|3498||58}', female: '{1|3499||57}' },
-  pandawa:      { male: '{1|120||57}',  female: '{1|121||53}'  },
-  rogue:        { male: '{1|1405||58}', female: '{1|1407||55}' },
-  sacrier:      { male: '{1|110||55}',  female: '{1|111||53}'  },
-  sadida:       { male: '{1|100||58}',  female: '{1|101||55}'  },
-  sram:         { male: '{1|40||55}',   female: '{1|41||52}'   },
-  xelor:        { male: '{1|50||43}',   female: '{1|51||43}'   },
+  cra:          { male: '{1|90,2140||53}',   female: '{1|91,2148||52}'   },
+  ecaflip:      { male: '{1|60,2092||58}',   female: '{1|61,2100||57}'   },
+  eniripsa:     { male: '{1|70,2108||43}',   female: '{1|71,2116||43}'   },
+  enutrof:      { male: '{1|30,2044||43}',   female: '{1|31,2052||43}'   },
+  eliotrope:    { male: '{1|3179,3183||53}', female: '{1|3180,3191||52}' },
+  feca:         { male: '{1|10,2012||53}',   female: '{1|11,2020||52}'   },
+  foggernaut:   { male: '{1|1663,2239||53}', female: '{1|1664,2244||52}' },
+  forgelance:   { male: '{1|3221,3105||55}', female: '{1|3633,3143||53}' },
+  huppermage:   { male: '{1|3285,3290||53}', female: '{1|3286,3298||52}' },
+  iop:          { male: '{1|80,2124||55}',   female: '{1|81,2132||53}'   },
+  masqueraider: { male: '{1|1437,2224||53}', female: '{1|1438,2235||52}' },
+  osamodas:     { male: '{1|20,2028||50}',   female: '{1|21,2036||48}'   },
+  ouginak:      { male: '{1|3498,3507||58}', female: '{1|3499,3510||57}' },
+  pandawa:      { male: '{1|120,2188||57}',  female: '{1|121,2196||53}'  },
+  rogue:        { male: '{1|1405,2208||58}', female: '{1|1407,2219||55}' },
+  sacrier:      { male: '{1|110,2172||55}',  female: '{1|111,2180||53}'  },
+  sadida:       { male: '{1|100,2156||58}',  female: '{1|101,2164||55}'  },
+  sram:         { male: '{1|40,2064||55}',   female: '{1|41,2068||52}'   },
+  xelor:        { male: '{1|50,2080||43}',   female: '{1|51,2084||43}'   },
 }
 
 function lookToHex(look: string): string {
@@ -477,6 +480,39 @@ function elemVar(elem: string | null | undefined): string {
   return `var(--${elem})`
 }
 
+function removeWhiteBg(img: HTMLImageElement): string {
+  const canvas = document.createElement('canvas')
+  canvas.width  = img.naturalWidth
+  canvas.height = img.naturalHeight
+  const ctx  = canvas.getContext('2d')!
+  ctx.drawImage(img, 0, 0)
+  const id   = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const d    = id.data
+  const w    = canvas.width
+  const h    = canvas.height
+  const vis  = new Uint8Array(w * h)
+  const queue: number[] = []
+  const enqueue = (idx: number) => {
+    if (vis[idx]) return
+    const r = d[idx * 4], g = d[idx * 4 + 1], b = d[idx * 4 + 2]
+    if (r > 225 && g > 225 && b > 225) { vis[idx] = 1; queue.push(idx) }
+  }
+  // seed BFS from all 4 edges (background always touches edges)
+  for (let x = 0; x < w; x++) { enqueue(x); enqueue((h - 1) * w + x) }
+  for (let y = 0; y < h; y++) { enqueue(y * w); enqueue(y * w + w - 1) }
+  while (queue.length) {
+    const i = queue.pop()!
+    d[i * 4 + 3] = 0
+    const x = i % w, y = Math.floor(i / w)
+    if (x > 0)     enqueue(i - 1)
+    if (x < w - 1) enqueue(i + 1)
+    if (y > 0)     enqueue(i - w)
+    if (y < h - 1) enqueue(i + w)
+  }
+  ctx.putImageData(id, 0, 0)
+  return canvas.toDataURL('image/png')
+}
+
 function CharacterCenter() {
   const { t }         = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
@@ -486,17 +522,33 @@ function CharacterCenter() {
   const classElem     = classInfo?.element ?? null
   const primaryColor  = elemVar(classElem)
 
-  const [imgLoaded, setImgLoaded] = useState(false)
-  const [imgError,  setImgError]  = useState(false)
+  const [displayUrl, setDisplayUrl] = useState<string | null>(null)
+  const [loading,    setLoading]    = useState(false)
+  const [imgError,   setImgError]   = useState(false)
 
   const look      = selectedClass ? BREED_LOOKS[selectedClass] : null
   const lookStr   = look ? (gender === 'female' ? look.female : look.male) : null
   const viewerUrl = lookStr ? characterViewerUrl(lookStr) : null
 
   useEffect(() => {
-    setImgLoaded(false)
+    setDisplayUrl(null)
+    setLoading(false)
     setImgError(false)
-  }, [selectedClass, gender])
+    if (!viewerUrl) return
+    setLoading(true)
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      try {
+        setDisplayUrl(removeWhiteBg(img))
+      } catch {
+        setDisplayUrl(viewerUrl)
+      }
+      setLoading(false)
+    }
+    img.onerror = () => { setImgError(true); setLoading(false) }
+    img.src = viewerUrl
+  }, [viewerUrl])
 
   function gemIntensity(element: string): number {
     if (!classElem)            return 0.12
@@ -553,33 +605,29 @@ function CharacterCenter() {
             borderRadius: 14,
             border:       `2px solid color-mix(in srgb, ${primaryColor} 45%, transparent)`,
             boxShadow:    `0 0 40px color-mix(in srgb, ${primaryColor} 40%, transparent), 0 0 10px color-mix(in srgb, ${primaryColor} 18%, transparent)`,
-            background:   'rgba(248,244,232,0.95)',
+            background:   'var(--surface-void)',
           }}
         >
-          {viewerUrl && !imgError ? (
-            <>
-              {!imgLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="animate-spin rounded-full"
-                    style={{ width: 22, height: 22, border: `2px solid ${primaryColor}`, borderTopColor: 'transparent' }}
-                  />
-                </div>
-              )}
-              <img
-                src={viewerUrl}
-                alt={classInfo?.name ?? ''}
-                style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.3s' }}
-                draggable={false}
-                onLoad={() => setImgLoaded(true)}
-                onError={() => setImgError(true)}
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className="animate-spin rounded-full"
+                style={{ width: 22, height: 22, border: `2px solid ${primaryColor}`, borderTopColor: 'transparent' }}
               />
-            </>
-          ) : (
+            </div>
+          )}
+          {displayUrl && !imgError ? (
+            <img
+              src={displayUrl}
+              alt={classInfo?.name ?? ''}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: displayUrl ? 1 : 0, transition: 'opacity 0.3s' }}
+              draggable={false}
+            />
+          ) : (!loading && (
             <div className="w-full h-full flex items-center justify-center">
               <span className="text-4xl" style={{ color: 'var(--ink-faint)' }}>?</span>
             </div>
-          )}
+          ))}
         </div>
 
         {/* Gem ring — on top of character viewer (zIndex 2 > viewer zIndex 1) */}
