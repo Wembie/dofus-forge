@@ -43,10 +43,10 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
         className="absolute inset-x-0 top-0 pointer-events-none"
         style={{ height: 40, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 12%, transparent), transparent)` }}
       />
-      <div className="flex items-center gap-1 relative z-10">
+      <div className="flex items-center gap-1 relative z-10 min-w-0">
         {icon(iconName, 15)}
         <span
-          className="font-display font-bold text-2xl leading-none tabular-nums"
+          className={`font-display font-bold leading-none tabular-nums ${value >= 10000 ? 'text-base' : value >= 1000 ? 'text-xl' : 'text-2xl'}`}
           style={{ color, textShadow: `0 0 14px color-mix(in srgb, ${color} 45%, transparent)` }}
         >
           {value}

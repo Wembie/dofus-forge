@@ -66,7 +66,7 @@ function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void
 }
 
 // ── Stat icon ─────────────────────────────────────────────────────────────────
-function StatIcon({ name, size = 20 }: { name: string; size?: number }) {
+function StatIcon({ name, size = 16 }: { name: string; size?: number }) {
   return (
     <img
       src={statIconUrl(name)}
@@ -95,10 +95,12 @@ type RowProps = {
 const POWER_ELEMS = new Set<Characteristic>(['strength', 'intelligence', 'chance', 'agility'])
 
 function CharacteristicRow({ char, allocated, total, isScrolled, remaining, power, onAdd, onRemove, onToggleScroll }: RowProps) {
-  const { t }   = useTranslation()
-  const color   = CHAR_COLOR[char]
-  const focused = useRef(false)
+  const { t }      = useTranslation()
+  const color      = CHAR_COLOR[char]
+  const focused    = useRef(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>()
   const [inputVal, setInputVal] = useState(String(allocated))
+  const [open, setOpen]         = useState(false)
 
   useEffect(() => {
     if (!focused.current) setInputVal(String(allocated))
@@ -110,6 +112,12 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
     else if (target < allocated) onRemove(allocated - target)
   }
 
+  function hover(on: boolean) {
+    clearTimeout(closeTimer.current)
+    if (on) setOpen(true)
+    else closeTimer.current = setTimeout(() => setOpen(false), 150)
+  }
+
   const nextCost   = pointCost(char, allocated + 1) - pointCost(char, allocated)
   const canAdd     = remaining >= nextCost
   const equipBonus = total - allocated - (isScrolled ? SCROLL_BONUS : 0)
@@ -118,19 +126,21 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
 
   const btnBase: React.CSSProperties = {
     border: '1px solid var(--metal-edge)', borderRadius: 3,
-    width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontWeight: 700, fontSize: 13, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
+    width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontWeight: 700, fontSize: 14, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
     background: 'transparent', transition: 'border-color 0.1s, color 0.1s',
   }
 
   return (
     <div
-      className="px-2 py-1 rounded-lg transition-colors bg-surface-void hover:bg-surface-panel"
+      className="relative px-2 py-1.5 rounded-lg transition-colors bg-surface-void hover:bg-surface-panel"
       style={{ borderLeft: `2px solid color-mix(in srgb, ${color} 35%, transparent)` }}
+      onMouseEnter={() => hover(true)}
+      onMouseLeave={() => hover(false)}
     >
-      {/* Row 1: icon + name + total value */}
+      {/* Compact row: icon + name + total */}
       <div className="flex items-center gap-1.5 min-w-0">
-        <StatIcon name={char} size={18} />
+        <StatIcon name={char} size={16} />
         <span
           className="text-xs font-medium truncate flex-1 min-w-0 select-none"
           style={{ color }}
@@ -151,55 +161,94 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
         </span>
       </div>
 
-      {/* Row 2: allocation controls, right-aligned */}
-      <div className="flex items-center justify-end gap-1 mt-0.5">
-        <button
-          {...removeProps}
-          disabled={allocated <= 0}
-          style={{ ...btnBase, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
-          aria-label={`Remove ${t(`stat_${char}`)}`}
-        >−</button>
-
-        <input
-          type="number"
-          min={0}
-          value={inputVal}
-          onChange={e => setInputVal(e.target.value)}
-          onFocus={e => { focused.current = true; e.target.select() }}
-          onBlur={e => { focused.current = false; commitInput(e.target.value) }}
-          onKeyDown={e => {
-            if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
-            if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
-          }}
-          className="text-center font-mono font-bold text-xs focus:outline-none border border-transparent hover:border-metal-edge focus:border-metal-edge rounded-sm transition-colors"
+      {/* Hover popover with allocation controls */}
+      {open && (
+        <div
+          className="absolute left-0 right-0 z-50 mt-0.5 rounded-lg px-2 py-2 shadow-xl"
           style={{
-            width: 40, background: 'transparent',
-            color, MozAppearance: 'textfield', padding: '1px 2px',
+            top: '100%',
+            background: 'var(--surface-panel)',
+            border: '1px solid var(--metal-edge)',
+            borderTop: `2px solid color-mix(in srgb, ${color} 70%, transparent)`,
           }}
-          aria-label={`${t(`stat_${char}`)} points`}
-        />
+          onMouseEnter={() => hover(true)}
+          onMouseLeave={() => hover(false)}
+        >
+          {/* Controls */}
+          <div className="flex items-center gap-1.5">
+            <button
+              {...removeProps}
+              disabled={allocated <= 0}
+              style={{ ...btnBase, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
+              aria-label={`Remove ${t(`stat_${char}`)}`}
+            >−</button>
 
-        <button
-          {...addProps}
-          disabled={!canAdd}
-          style={{ ...btnBase, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
-          aria-label={`Add ${t(`stat_${char}`)}`}
-        >+</button>
+            <input
+              type="number"
+              min={0}
+              value={inputVal}
+              onChange={e => setInputVal(e.target.value)}
+              onFocus={e => { focused.current = true; e.target.select() }}
+              onBlur={e => { focused.current = false; commitInput(e.target.value) }}
+              onKeyDown={e => {
+                if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
+                if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
+              }}
+              className="text-center font-mono font-bold text-sm focus:outline-none border border-transparent hover:border-metal-edge focus:border-metal-edge rounded-sm transition-colors flex-1"
+              style={{
+                background: 'transparent', minWidth: 0,
+                color, MozAppearance: 'textfield', padding: '2px 4px',
+              }}
+              aria-label={`${t(`stat_${char}`)} points`}
+            />
 
-        <button
-          onClick={onToggleScroll}
-          title={t('scroll_title', { bonus: SCROLL_BONUS })}
-          className="flex-shrink-0 flex items-center justify-center text-[9px] font-bold transition-all"
-          style={isScrolled ? {
-            width: 16, height: 16, borderRadius: 2,
-            background: 'var(--gold)', color: 'var(--ink-invert)', border: '1px solid var(--gold)',
-          } : {
-            width: 16, height: 16, borderRadius: 2,
-            background: 'transparent', color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)',
-          }}
-          aria-pressed={isScrolled}
-        >{t('scroll_label')}</button>
-      </div>
+            <button
+              {...addProps}
+              disabled={!canAdd}
+              style={{ ...btnBase, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
+              aria-label={`Add ${t(`stat_${char}`)}`}
+            >+</button>
+
+            <button
+              onClick={onToggleScroll}
+              title={t('scroll_title', { bonus: SCROLL_BONUS })}
+              className="flex-shrink-0 flex items-center justify-center text-[9px] font-bold transition-all"
+              style={isScrolled ? {
+                width: 20, height: 20, borderRadius: 2,
+                background: 'var(--gold)', color: 'var(--ink-invert)', border: '1px solid var(--gold)',
+              } : {
+                width: 20, height: 20, borderRadius: 2,
+                background: 'transparent', color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)',
+              }}
+              aria-pressed={isScrolled}
+            >{t('scroll_label')}</button>
+          </div>
+
+          {/* Breakdown */}
+          <div className="flex gap-2 text-[10px] mt-1.5 flex-wrap" style={{ color: 'var(--ink-faint)' }}>
+            <span>
+              Pts:{' '}
+              <span className="font-mono" style={{ color }}>{allocated}</span>
+            </span>
+            {equipBonus > 0 && (
+              <span>
+                Equipo:{' '}
+                <span className="font-mono" style={{ color: 'var(--ink-muted)' }}>+{equipBonus}</span>
+              </span>
+            )}
+            {isScrolled && (
+              <span>
+                Pergamino:{' '}
+                <span className="font-mono" style={{ color: 'var(--gold)' }}>+{SCROLL_BONUS}</span>
+              </span>
+            )}
+            <span style={{ marginLeft: 'auto' }}>
+              Costo:{' '}
+              <span className="font-mono" style={{ color: 'var(--ink-muted)' }}>{nextCost}pt</span>
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -262,10 +311,6 @@ export function CharacteristicsPanel() {
           />
         ))}
       </div>
-
-      <p className="text-[9px] text-center" style={{ color: 'var(--ink-faint)', opacity: 0.5 }}>
-        {t('click_hint')}
-      </p>
 
     </div>
   )
