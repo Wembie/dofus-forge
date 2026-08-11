@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -154,40 +154,59 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const forjamagoName = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
 
   const [hovered, setHovered]   = useState(false)
+  const [animating, setAnimating] = useState(false)
   const leaveRef                = useRef<ReturnType<typeof setTimeout>>()
+  const prevItemRef             = useRef(item)
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
   const leave = () => { leaveRef.current = setTimeout(() => setHovered(false), 250) }
   const px      = small ? 62 : 80
   const slotLabel = t(slotTKey(slotId))
+
+  useEffect(() => {
+    if (item && !prevItemRef.current) {
+      setAnimating(true)
+      const tid = setTimeout(() => setAnimating(false), 240)
+      return () => clearTimeout(tid)
+    }
+    prevItemRef.current = item
+  }, [item])
 
   return (
     <div className="relative flex flex-col items-center gap-0.5" onMouseEnter={enter} onMouseLeave={leave}>
       <button
         onClick={onOpen}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ' (empty)'}`}
-        className="rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer"
+        className={`rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
         style={{
           width:  px,
           height: px,
           background: item
             ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
-            : 'linear-gradient(145deg, var(--surface-stone), var(--surface-void))',
+            : 'var(--surface-void)',
           border: item
-            ? '1.5px solid color-mix(in srgb, var(--gold) 55%, transparent)'
-            : '1px solid var(--metal-edge)',
+            ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
+            : '1px dashed rgba(60,80,130,0.55)',
           boxShadow: item
-            ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 12%, transparent), 0 2px 6px rgba(0,0,0,0.6)'
+            ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
             : 'var(--well-inset)',
         }}
         onMouseEnter={e => {
           const el = e.currentTarget as HTMLButtonElement
-          if (!item) el.style.borderColor = 'var(--gold-deep)'
-          else       el.style.boxShadow   = 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 2px 6px rgba(0,0,0,0.6)'
+          if (!item) {
+            el.style.borderColor = 'var(--gold-deep)'
+            el.style.borderStyle = 'solid'
+          } else {
+            el.style.boxShadow = 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
+          }
         }}
         onMouseLeave={e => {
           const el = e.currentTarget as HTMLButtonElement
-          if (!item) el.style.borderColor = 'var(--metal-edge)'
-          else       el.style.boxShadow   = 'inset 0 0 18px color-mix(in srgb, var(--gold) 12%, transparent), 0 2px 6px rgba(0,0,0,0.6)'
+          if (!item) {
+            el.style.borderColor = 'rgba(60,80,130,0.55)'
+            el.style.borderStyle = 'dashed'
+          } else {
+            el.style.boxShadow = 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+          }
         }}
       >
         {item ? (
@@ -198,7 +217,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                 {IconCmp ? <IconCmp /> : cfg.icon}
               </span>
         ) : (
-          <span style={{ color: 'rgba(50,50,100,0.7)' }}>
+          <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>
             {IconCmp ? <IconCmp /> : cfg.icon}
           </span>
         )}
@@ -283,9 +302,11 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {/* Tooltip — game-faithful style, side chosen per column */}
       {item && (
         <div
-          className={`absolute z-30 pointer-events-none ${hovered ? 'block' : 'hidden'}`}
+          className="absolute z-30 pointer-events-none"
           style={{
             width: 288,
+            visibility: hovered ? 'visible' : 'hidden',
+            animation: hovered ? 'tooltip-in 140ms var(--ease-out) forwards' : 'none',
             ...(tooltipSide === 'right'
               ? { left: '100%', marginLeft: 8, top: 0 }
               : tooltipSide === 'left'
@@ -628,7 +649,14 @@ export function EquipmentGrid() {
   }
 
   return (
-    <div style={{ background: 'var(--surface-void)' }}>
+    <div style={{
+      background: 'var(--surface-void)',
+      backgroundImage: [
+        'radial-gradient(ellipse 72% 50% at 50% 44%, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 65%)',
+        'radial-gradient(ellipse 40% 28% at 16% 85%, color-mix(in srgb, var(--water) 5%, transparent) 0%, transparent 70%)',
+        'radial-gradient(ellipse 40% 28% at 84% 85%, color-mix(in srgb, var(--earth) 5%, transparent) 0%, transparent 70%)',
+      ].join(', '),
+    }}>
 
       {/* Main character screen */}
       <div className="flex items-start justify-center pt-5 pb-2 px-3">
