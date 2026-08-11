@@ -479,7 +479,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full max-w-4xl flex flex-col rounded-xl shadow-2xl overflow-hidden"
+        className="w-full max-w-6xl flex flex-col rounded-xl shadow-2xl overflow-hidden"
         style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: '90vh' }}
       >
         {/* Header */}
