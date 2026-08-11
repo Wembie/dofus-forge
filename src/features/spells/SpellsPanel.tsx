@@ -234,7 +234,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
 
   // Effective crit: base spell crit + gear crit bonus (only shown when base crit > 0)
   const effectiveCrit = lvl && lvl.critChance > 0
-    ? Math.min(100, lvl.critChance + (stats?.critChance ?? 0))
+    ? lvl.critChance + (stats?.critChance ?? 0)
     : 0
 
   return (
