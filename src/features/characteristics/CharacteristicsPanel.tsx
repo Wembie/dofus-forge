@@ -280,7 +280,7 @@ export function CharacteristicsPanel() {
           <CompactRow
             key={char}
             char={char}
-            total={stats ? stats[char] : allocated[char]}
+            total={stats ? (char === 'vitality' ? stats.maxHp : stats[char]) : allocated[char]}
             power={stats?.power ?? 0}
           />
         ))}

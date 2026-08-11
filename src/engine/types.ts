@@ -24,6 +24,7 @@ export type EquippedItem = {
   ankama_id: number
   effects:   ItemEffect[]
   set_id:    number | null
+  slot:      string
 }
 
 export type SetData = {
