@@ -200,7 +200,10 @@ type CombatStat = { iconName: string; label: string; value: number; color: strin
 
 function CombatStatRow({ iconName, label, value, color, suffix = '' }: CombatStat) {
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded" style={{ background: 'var(--surface-stone)' }}>
+    <div className="flex items-center gap-1.5 px-2 py-1 rounded" style={{
+      background:  `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
+      borderLeft:  `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
+    }}>
       {icon(iconName, 12)}
       <span className="text-[10px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{label}</span>
       <span className="font-mono font-bold text-[11px] tabular-nums flex-shrink-0" style={{ color }}>
@@ -261,7 +264,10 @@ function DamageMods({ s }: { s: StatBlock }) {
     <Section title={t('section_damage_mods')}>
       <div className="space-y-0.5">
         {visible.map(m => (
-          <div key={m.label} className="flex items-center gap-1.5 py-0.5">
+          <div key={m.label} className="flex items-center gap-1.5 px-2 py-1 rounded" style={{
+            background: `color-mix(in srgb, ${m.color} 5%, var(--surface-stone))`,
+            borderLeft: `2px solid color-mix(in srgb, ${m.color} 50%, transparent)`,
+          }}>
             {icon(m.iconName, 13)}
             <span className="text-[11px] flex-1" style={{ color: 'var(--ink-muted)' }}>{m.label}</span>
             <span className="font-mono font-bold text-xs tabular-nums" style={{ color: m.color }}>
