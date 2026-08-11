@@ -675,9 +675,9 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     }}
                   >
                     {/* Card header: image + name + level + fav */}
-                    <div className="flex gap-2.5 p-3 pb-2">
+                    <div className="flex gap-3 p-4 pb-3">
                       <div
-                        className="w-20 h-20 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
+                        className="w-24 h-24 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
                         style={{
                           background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))',
                           border: isEquipped
@@ -696,7 +696,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
 
                       <div className="flex-1 min-w-0 pt-0.5">
                         <p
-                          className="font-semibold text-sm leading-tight"
+                          className="font-semibold text-base leading-tight"
                           style={{
                             color: isEquipped ? 'var(--gold)' : 'var(--ink)',
                             display: '-webkit-box',
@@ -708,14 +708,14 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           {item.name}
                           {isEquipped && <span className="ml-1 text-[10px]" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
                         </p>
-                        <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
+                        <p className="text-[12px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
                           Lv {item.level}
                         </p>
                         {itemSet && (
                           <span
                             role="button"
                             tabIndex={-1}
-                            className="text-[10px] font-medium truncate block cursor-pointer hover:underline"
+                            className="text-[12px] font-medium truncate block cursor-pointer hover:underline"
                             style={{ color: 'var(--water)' }}
                             onClick={e => { e.stopPropagation(); setSetModal(itemSet) }}
                           >
@@ -728,7 +728,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                       <span
                         role="button"
                         tabIndex={-1}
-                        className="text-[14px] leading-none flex-shrink-0 transition-colors select-none mt-0.5 cursor-pointer"
+                        className="text-[18px] leading-none flex-shrink-0 transition-colors select-none mt-0.5 cursor-pointer"
                         style={{ color: isFav(item.ankama_id) ? 'var(--gold)' : 'var(--metal-edge)' }}
                         onMouseEnter={e => {
                           if (!isFav(item.ankama_id))
@@ -752,7 +752,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           padding:      '6px 8px',
                         }}>
                           {item.ability.split('\n').filter(Boolean).map((line, i) => (
-                            <p key={i} style={{ fontSize: 10, color: i === 0 ? 'var(--gold)' : 'var(--gold-deep)', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
+                            <p key={i} style={{ fontSize: 12, color: i === 0 ? 'var(--gold)' : 'var(--gold-deep)', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
                               {line}
                             </p>
                           ))}
@@ -764,7 +764,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     {effects.length > 0 && (
                       <div
                         className="px-3 pb-2"
-                        style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 8, display: 'flex', flexDirection: 'column', gap: 3 }}
+                        style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 5 }}
                       >
                         {effects.map((e, i) => {
                           const meta  = STAT_META[e.stat]
@@ -772,15 +772,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
                           const val   = fmtValue(e.min, e.max, t('range_sep_neg'))
                           return (
-                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                               {meta?.icon
-                                ? <img src={statIconUrl(meta.icon)} alt="" width={13} height={13} style={{ objectFit: 'contain', flexShrink: 0 }} />
-                                : <span style={{ width: 13, flexShrink: 0 }} />
+                                ? <img src={statIconUrl(meta.icon)} alt="" width={15} height={15} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                                : <span style={{ width: 15, flexShrink: 0 }} />
                               }
-                              <span style={{ color: clr, fontSize: 11, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
+                              <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
                                 {val}
                               </span>
-                              <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 11, lineHeight: 1.3, opacity: 0.7 }}>
+                              <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 13, lineHeight: 1.3, opacity: 0.7 }}>
                                 {meta ? t(meta.tKey) : e.stat}
                               </span>
                             </div>
@@ -798,7 +798,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                           paddingTop: (effects.length > 0 || item.ability) ? 7 : 4,
                         }}
                       >
-                        <p style={{ fontSize: 10, color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
+                        <p style={{ fontSize: 12, color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
                           {item.description}
                         </p>
                       </div>
