@@ -480,7 +480,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     >
       <div
         className="flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ position: 'fixed', top: 12, left: 12, right: 12, bottom: 12, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+        style={{ position: 'fixed', top: 32, left: 48, right: 48, bottom: 32, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
       >
         {/* Header */}
         <div
