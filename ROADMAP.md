@@ -60,6 +60,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
 - [x] **M24 — Tooltip de set en hover** — en el EquipmentGrid, hover sobre ítem con set → mini-card del set con piezas activas y próximo bonus
 - [ ] **M25 — Búsqueda global** — barra de búsqueda en header que busca ítems, sets, hechizos a la vez
+- [x] **M35 — Reconstrucción visual completa** — JetBrains Mono para todos los números (font-mono override), badges AP/MP/HP dominantes (text-4xl con doble glow), secciones gold-accent en StatsPanel, slots 80px, retrato 130px, CharacterCenter con nivel visible, header más atmosférico, tokens de rareza (--rarity-0..6), gradiente de cuerpo triple, keyframes stat-tick/slot-equip/float-delta
 
 ---
 
