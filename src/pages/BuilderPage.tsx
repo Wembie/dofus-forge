@@ -157,7 +157,11 @@ function BuilderContent() {
         {/* Desktop: 3-column grid (lg+) */}
         <div className="hidden lg:grid lg:grid-cols-[272px_1fr_316px] gap-5">
           {/* Left: Class + Characteristics */}
-          <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
+          <aside
+            aria-label={`${t('class')} & ${t('characteristics')}`}
+            className="space-y-4"
+            style={{ animation: 'col-rise 520ms var(--ease-out) 60ms both' }}
+          >
             <Frame><ClassPicker /></Frame>
             <Frame><CharacteristicsPanel /></Frame>
           </aside>
@@ -169,6 +173,7 @@ function BuilderContent() {
             style={{
               border:    '1px solid var(--metal-edge)',
               boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,0,0,0.4)',
+              animation: 'col-rise 520ms var(--ease-out) 0ms both',
             }}
           >
             <EquipmentGrid />
@@ -179,6 +184,7 @@ function BuilderContent() {
             aria-label={t('stats')}
             aria-live="polite"
             className="overflow-y-auto max-h-[calc(100vh-110px)] sticky top-[58px]"
+            style={{ animation: 'col-rise 520ms var(--ease-out) 120ms both' }}
           >
             <Frame material="parchment"><StatsPanel /></Frame>
           </aside>
@@ -186,7 +192,7 @@ function BuilderContent() {
 
         {/* Spells: full-width section below 3-col grid (desktop) */}
         {hasClass && (
-          <div className="hidden lg:block mt-5">
+          <div className="hidden lg:block mt-5" style={{ animation: 'col-rise 520ms var(--ease-out) 200ms both' }}>
             <Frame padding="lg"><SpellsPanel /></Frame>
           </div>
         )}

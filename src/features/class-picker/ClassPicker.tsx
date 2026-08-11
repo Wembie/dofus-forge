@@ -196,10 +196,18 @@ export function ClassPicker() {
                 background:  'color-mix(in srgb, var(--surface-parchment) 50%, transparent)',
               }}
               onMouseEnter={e => {
-                if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = `${color}88`
+                if (!isSelected) {
+                  const el = e.currentTarget as HTMLButtonElement
+                  el.style.borderColor = `${color}99`
+                  el.style.boxShadow   = `0 0 14px ${color}28, inset 0 0 12px ${color}0a`
+                }
               }}
               onMouseLeave={e => {
-                if (!isSelected) (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--metal-edge)'
+                if (!isSelected) {
+                  const el = e.currentTarget as HTMLButtonElement
+                  el.style.borderColor = 'var(--metal-edge)'
+                  el.style.boxShadow   = ''
+                }
               }}
             >
               {isSelected && (

@@ -649,7 +649,14 @@ export function EquipmentGrid() {
   }
 
   return (
-    <div style={{ background: 'var(--surface-void)' }}>
+    <div style={{
+      background: 'var(--surface-void)',
+      backgroundImage: [
+        'radial-gradient(ellipse 72% 50% at 50% 44%, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 65%)',
+        'radial-gradient(ellipse 40% 28% at 16% 85%, color-mix(in srgb, var(--water) 5%, transparent) 0%, transparent 70%)',
+        'radial-gradient(ellipse 40% 28% at 84% 85%, color-mix(in srgb, var(--earth) 5%, transparent) 0%, transparent 70%)',
+      ].join(', '),
+    }}>
 
       {/* Main character screen */}
       <div className="flex items-start justify-center pt-5 pb-2 px-3">
