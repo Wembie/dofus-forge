@@ -8,16 +8,28 @@ import { SLOT_CONFIGS } from './slotConfig.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { Modal, Button } from '@/ui'
 
-function effectLabel(e: AppEffect, negSep: string): string {
-  const sign = e.min >= 0 ? '+' : ''
-  if (e.min === e.max) return `${sign}${e.min} ${e.stat}`
-  if (e.max < 0)       return `${e.max} ${negSep} ${e.min} ${e.stat}`
-  return `${sign}${e.min}–${e.max} ${e.stat}`
-}
-
 type Props = {
   set:     AppSet
   onClose: () => void
+}
+
+function TierEffectRow({ e }: { e: AppEffect }) {
+  const { t }  = useTranslation()
+  const meta   = STAT_META[e.stat]
+  const color  = e.min < 0 ? 'var(--negative)' : (meta?.color ?? 'var(--ink-muted)')
+  const val    = fmtValue(e.min, e.max, t('range_sep_neg'))
+  return (
+    <div className="flex items-center gap-1.5 py-0.5">
+      {meta?.icon
+        ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} style={{ objectFit: 'contain', flexShrink: 0 }} />
+        : <span style={{ width: 12, flexShrink: 0 }} />
+      }
+      <span className="font-mono font-bold text-[11px] tabular-nums flex-shrink-0" style={{ color }}>{val}</span>
+      <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
+        {meta ? t(meta.tKey) : e.stat}
+      </span>
+    </div>
+  )
 }
 
 export function SetDetailModal({ set, onClose }: Props) {
@@ -84,6 +96,8 @@ export function SetDetailModal({ set, onClose }: Props) {
 
   const isEquipped = (item: AppItem) => equippedIds.has(item.ankama_id)
 
+  const progress = equippedCount / setItems.length
+
   return (
     <Modal
       open
@@ -92,110 +106,221 @@ export function SetDetailModal({ set, onClose }: Props) {
       title={set.name}
       className="max-h-[88vh]"
     >
-      {/* Subtitle + equip-all — sticky above scroll */}
-      <div className="flex items-center justify-between px-5 py-2" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
-        <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-          {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
-        </p>
+      {/* Progress bar + equip-all */}
+      <div
+        className="flex items-center justify-between px-5 py-2.5 gap-4"
+        style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-stone)' }}
+      >
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          {/* Piece count badge */}
+          <span
+            className="font-mono text-[11px] font-bold flex-shrink-0 px-2 py-0.5 rounded"
+            style={{
+              background: 'color-mix(in srgb, var(--gold) 12%, transparent)',
+              color:      'var(--gold)',
+              border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
+            }}
+          >
+            {equippedCount}/{setItems.length}
+          </span>
+          {/* Progress bar */}
+          <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: 'var(--metal-edge)' }}>
+            <div
+              className="h-full rounded-full transition-all duration-500"
+              style={{
+                width:      `${progress * 100}%`,
+                background: progress === 1
+                  ? 'linear-gradient(90deg, var(--gold-deep), var(--gold))'
+                  : 'linear-gradient(90deg, var(--gold-deep), var(--gold-bright))',
+                boxShadow:  `0 0 6px color-mix(in srgb, var(--gold) 50%, transparent)`,
+              }}
+            />
+          </div>
+          <span className="text-[11px] flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
+            {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
+          </span>
+        </div>
         <Button variant="ghost" size="sm" onClick={handleEquipAll}>{t('equip_all')}</Button>
       </div>
 
-      <div className="p-4 space-y-4">
-        {/* Set bonuses */}
-        <div className="rounded-frame p-3 space-y-2" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-          <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-faint)' }}>{t('set_bonuses_title')}</p>
-          {tiers.map(({ pieces, effects }) => {
-            const active = pieces <= equippedCount
-            return (
-              <div
-                key={pieces}
-                className={`pl-2.5 border-l-2 transition-colors ${active ? 'border-forge-gold' : 'border-forge-border'}`}
-              >
-                <span className={`text-[10px] font-mono font-bold mr-1.5 ${active ? 'text-forge-gold' : 'text-ink-faint'}`}>
-                  {pieces}pc
-                </span>
-                <span className={`text-[10px] ${active ? 'text-forge-text' : 'text-ink-faint opacity-50'}`}>
-                  {effects.map((e: AppEffect, i: number) => (
-                    <span key={i}>
-                      {i > 0 && <span className="mx-1 text-forge-border">·</span>}
-                      {effectLabel(e, t('range_sep_neg'))}
-                    </span>
-                  ))}
-                </span>
-              </div>
-            )
-          })}
-        </div>
+      <div className="p-4 space-y-5 overflow-y-auto">
 
-        {/* Items list */}
-        <div className="space-y-1">
-          <p className="text-[10px] uppercase tracking-widest font-medium mb-2" style={{ color: 'var(--ink-faint)' }}>{t('set_items_title')}</p>
-          {setItems.map(item => {
-            const eq = isEquipped(item)
-            const slot = SLOT_CONFIGS.find(sc => sc.apiSlot === item.slot)
-            const visibleStats = item.effects.filter(e => !isIgnored(e.stat)).slice(0, 5)
-            return (
-              <div
-                key={item.ankama_id}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors"
-                style={{
-                  background: eq ? 'var(--surface-parchment)' : 'var(--surface-stone)',
-                  border:     eq ? '1px solid color-mix(in srgb, var(--gold) 27%, transparent)' : '1px solid var(--metal-edge)',
-                }}
-              >
+        {/* ── Tier bonuses ── */}
+        <section>
+          <p className="text-[10px] uppercase tracking-[0.18em] font-medium mb-2.5" style={{ color: 'var(--ink-faint)' }}>
+            {t('set_bonuses_title')}
+          </p>
+          <div className="space-y-2">
+            {tiers.map(({ pieces, effects }) => {
+              const active = pieces <= equippedCount
+              const isNext = !active && pieces === tiers.find(t => t.pieces > equippedCount)?.pieces
+              return (
                 <div
-                  className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
+                  key={pieces}
+                  className="rounded-lg overflow-hidden"
                   style={{
-                    width:  44, height: 44,
-                    background: 'var(--surface-void)',
-                    border: eq ? '1px solid color-mix(in srgb, var(--gold) 33%, transparent)' : '1px solid var(--metal-edge)',
+                    border:     active
+                      ? '1px solid color-mix(in srgb, var(--gold) 28%, transparent)'
+                      : '1px solid var(--metal-edge)',
+                    background: active
+                      ? 'color-mix(in srgb, var(--gold) 5%, var(--surface-void))'
+                      : 'var(--surface-void)',
+                    opacity: !active && !isNext ? 0.45 : 1,
                   }}
                 >
-                  {item.image_url
-                    ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-0.5" loading="lazy" />
-                    : <span className="text-ink-faint text-lg">{slot?.icon ?? '?'}</span>
-                  }
-                </div>
+                  {/* Tier header */}
+                  <div
+                    className="flex items-center gap-2 px-3 py-1.5"
+                    style={{
+                      borderBottom: '1px solid color-mix(in srgb, var(--metal-edge) 60%, transparent)',
+                      background:   active
+                        ? 'color-mix(in srgb, var(--gold) 8%, var(--surface-stone))'
+                        : 'var(--surface-stone)',
+                    }}
+                  >
+                    <span
+                      className="font-mono text-[11px] font-bold"
+                      style={{ color: active ? 'var(--gold)' : isNext ? 'var(--ink-muted)' : 'var(--ink-faint)' }}
+                    >
+                      {pieces}pc
+                    </span>
+                    {active && (
+                      <span
+                        className="text-[9px] uppercase tracking-widest px-1.5 py-px rounded font-medium"
+                        style={{
+                          background: 'color-mix(in srgb, var(--gold) 14%, transparent)',
+                          color:      'var(--gold)',
+                          border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
+                        }}
+                      >
+                        {t('active', 'Active')}
+                      </span>
+                    )}
+                    {isNext && (
+                      <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>
+                        next
+                      </span>
+                    )}
+                  </div>
 
-                <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium truncate leading-tight ${eq ? 'text-forge-gold' : 'text-forge-text'}`}>
-                    {item.name}
-                    {eq && <span className="ml-1.5 text-[10px] text-gold-deep">✓</span>}
-                  </p>
-                  <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
-                    Lv {item.level} · {slot?.label ?? item.slot}
-                  </p>
-                  <div className="flex flex-wrap gap-x-2 mt-0.5">
-                    {visibleStats.map((e, i) => {
-                      const meta = STAT_META[e.stat]
-                      const clr  = meta?.color ?? 'var(--ink-faint)'
-                      return (
-                        <span key={i} className="flex items-center gap-0.5">
-                          {meta?.icon && (
-                            <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain" />
-                          )}
-                          <span className="text-[10px] font-mono tabular-nums" style={{ color: clr }}>
-                            {fmtValue(e.min, e.max, t('range_sep_neg'))}
-                          </span>
-                        </span>
-                      )
-                    })}
+                  {/* Effects grid */}
+                  <div className="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-0">
+                    {effects.map((e: AppEffect, i: number) => (
+                      <TierEffectRow key={i} e={e} />
+                    ))}
                   </div>
                 </div>
+              )
+            })}
+          </div>
+        </section>
 
-                {!eq ? (
-                  <Button variant="ghost" size="sm" onClick={() => handleEquip(item)}>
-                    {t('equip_item')}
-                  </Button>
-                ) : (
-                  <Button variant="danger" size="sm" onClick={() => handleUnequip(item)}>
-                    {t('unequip_btn')}
-                  </Button>
-                )}
-              </div>
-            )
-          })}
-        </div>
+        {/* ── Items list ── */}
+        <section>
+          <p className="text-[10px] uppercase tracking-[0.18em] font-medium mb-2.5" style={{ color: 'var(--ink-faint)' }}>
+            {t('set_items_title')}
+          </p>
+          <div className="space-y-1.5">
+            {setItems.map(item => {
+              const eq  = isEquipped(item)
+              const slot = SLOT_CONFIGS.find(sc => sc.apiSlot === item.slot)
+              const visibleStats = item.effects.filter(e => !isIgnored(e.stat)).slice(0, 6)
+              return (
+                <div
+                  key={item.ankama_id}
+                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors"
+                  style={{
+                    background: eq
+                      ? 'color-mix(in srgb, var(--gold) 6%, var(--surface-panel))'
+                      : 'var(--surface-stone)',
+                    border: eq
+                      ? '1px solid color-mix(in srgb, var(--gold) 28%, transparent)'
+                      : '1px solid var(--metal-edge)',
+                    boxShadow: eq
+                      ? '0 0 12px color-mix(in srgb, var(--gold) 10%, transparent)'
+                      : 'none',
+                  }}
+                >
+                  {/* Item image */}
+                  <div
+                    className="flex-shrink-0 rounded-lg overflow-hidden flex items-center justify-center"
+                    style={{
+                      width:      48, height: 48,
+                      background: eq
+                        ? 'color-mix(in srgb, var(--gold) 8%, var(--surface-void))'
+                        : 'var(--surface-void)',
+                      border: eq
+                        ? '1px solid color-mix(in srgb, var(--gold) 36%, transparent)'
+                        : '1px solid var(--metal-edge)',
+                      boxShadow: eq ? `0 0 10px color-mix(in srgb, var(--gold) 20%, transparent)` : 'none',
+                    }}
+                  >
+                    {item.image_url
+                      ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-0.5" loading="lazy" />
+                      : <span style={{ color: 'var(--ink-faint)', fontSize: 20 }}>{slot?.icon ?? '?'}</span>
+                    }
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <p
+                        className="text-[13px] font-semibold truncate leading-tight"
+                        style={{ color: eq ? 'var(--gold)' : 'var(--ink)' }}
+                      >
+                        {item.name}
+                      </p>
+                      {eq && (
+                        <span
+                          className="flex-shrink-0 text-[9px] uppercase tracking-widest px-1 py-px rounded font-bold"
+                          style={{
+                            background: 'color-mix(in srgb, var(--gold) 14%, transparent)',
+                            color:      'var(--gold)',
+                            border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
+                          }}
+                        >
+                          ✓
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
+                      Lv {item.level} · {slot?.label ?? item.slot}
+                    </p>
+                    {visibleStats.length > 0 && (
+                      <div className="flex flex-wrap gap-x-2.5 gap-y-0 mt-1">
+                        {visibleStats.map((e, i) => {
+                          const meta = STAT_META[e.stat]
+                          const clr  = meta?.color ?? 'var(--ink-faint)'
+                          return (
+                            <span key={i} className="flex items-center gap-0.5">
+                              {meta?.icon && (
+                                <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain" />
+                              )}
+                              <span className="text-[10px] font-mono tabular-nums" style={{ color: clr }}>
+                                {fmtValue(e.min, e.max, t('range_sep_neg'))}
+                              </span>
+                            </span>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Equip button */}
+                  {!eq ? (
+                    <Button variant="ghost" size="sm" onClick={() => handleEquip(item)}>
+                      {t('equip_item')}
+                    </Button>
+                  ) : (
+                    <Button variant="danger" size="sm" onClick={() => handleUnequip(item)}>
+                      {t('unequip_btn')}
+                    </Button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
       </div>
     </Modal>
   )
