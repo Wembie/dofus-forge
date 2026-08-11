@@ -104,17 +104,25 @@ function ValCell({ value, color, suffix = '' }: { value: number; color: string; 
   )
 }
 
-// ── Damage section ────────────────────────────────────────────────────────────
+// ── Combined element table (damage + resistance) ──────────────────────────────
 
-type DmgRow = { iconName: string; color: string; value: number }
+type ElemRow = {
+  resIcon: string   // resistance icon — identifies the element AND shows res visually
+  color:   string
+  dmg:     number
+  resFixed:number
+  resPct:  number
+}
 
-function DmgTableRow({ iconName, color, value }: DmgRow) {
-  const hasData = value !== 0
+const ELEM_COLS = '20px 1fr 1fr 1fr'
+
+function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
+  const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   return (
     <div
       className="grid items-center rounded-md"
       style={{
-        gridTemplateColumns: '22px 1fr',
+        gridTemplateColumns: ELEM_COLS,
         gap:        6,
         padding:    '5px 8px',
         background: hasData ? `color-mix(in srgb, ${color} 7%, transparent)` : 'transparent',
@@ -122,83 +130,30 @@ function DmgTableRow({ iconName, color, value }: DmgRow) {
         opacity:    hasData ? 1 : 0.28,
       }}
     >
-      <div className="flex items-center justify-center">{icon(iconName, 16)}</div>
-      <ValCell value={value} color={color} />
-    </div>
-  )
-}
-
-function DamageSection({ s }: { s: StatBlock }) {
-  const { t } = useTranslation()
-
-  const rows: DmgRow[] = [
-    { iconName: 'strength',     color: 'var(--earth)',   value: s.earthDamage   },
-    { iconName: 'intelligence', color: 'var(--fire)',    value: s.fireDamage    },
-    { iconName: 'chance',       color: 'var(--water)',   value: s.waterDamage   },
-    { iconName: 'agility',      color: 'var(--air)',     value: s.airDamage     },
-    { iconName: 'neutral',      color: 'var(--neutral)', value: s.neutralDamage },
-  ]
-
-  const extras: DmgRow[] = [
-    { iconName: 'crit_damage', color: 'var(--crit)',  value: s.critDamage     },
-    { iconName: 'push_damage', color: 'var(--earth)', value: s.pushbackDamage },
-  ].filter(r => r.value !== 0)
-
-  return (
-    <Section title={t('section_damage')}>
-      <div className="space-y-0.5">
-        {rows.map((r, i) => <DmgTableRow key={i} {...r} />)}
-        {extras.length > 0 && (
-          <>
-            <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
-            {extras.map((r, i) => <DmgTableRow key={i} {...r} />)}
-          </>
-        )}
-      </div>
-    </Section>
-  )
-}
-
-// ── Resistance section ────────────────────────────────────────────────────────
-
-type ResRow = { iconName: string; color: string; resFixed: number; resPct: number }
-
-function ResTableRow({ iconName, color, resFixed, resPct }: ResRow) {
-  const hasData = resFixed !== 0 || resPct !== 0
-  return (
-    <div
-      className="grid items-center rounded-md"
-      style={{
-        gridTemplateColumns: '22px 1fr 1fr',
-        gap:        6,
-        padding:    '5px 8px',
-        background: hasData ? `color-mix(in srgb, ${color} 7%, transparent)` : 'transparent',
-        borderLeft: `2px solid ${hasData ? color : 'transparent'}`,
-        opacity:    hasData ? 1 : 0.28,
-      }}
-    >
-      <div className="flex items-center justify-center">{icon(iconName, 16)}</div>
+      <div className="flex items-center justify-center">{icon(resIcon, 16)}</div>
+      <ValCell value={dmg}      color={color} />
       <ValCell value={resFixed} color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
       <ValCell value={resPct}   color={resPct   > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
     </div>
   )
 }
 
-function ResistanceSection({ s }: { s: StatBlock }) {
+function ElementSection({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
-  const rows: ResRow[] = [
-    { iconName: 'earth_resistance',   color: 'var(--earth)',   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
-    { iconName: 'fire_resistance',    color: 'var(--fire)',    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
-    { iconName: 'water_resistance',   color: 'var(--water)',   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
-    { iconName: 'air_resistance',     color: 'var(--air)',     resFixed: s.airResFixed,     resPct: s.airResPercent     },
-    { iconName: 'neutral_resistance', color: 'var(--neutral)', resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
+  const rows: ElemRow[] = [
+    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
+    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
+    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
+    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent     },
+    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
   ]
 
-  const extras: ResRow[] = [
-    { iconName: 'crit_res',        color: 'var(--crit)',  resFixed: s.critResistance, resPct: 0 },
-    { iconName: 'push_resistance', color: 'var(--earth)', resFixed: s.pushbackResist, resPct: 0 },
-  ].filter(r => r.resFixed !== 0)
+  type ExtraRow = { resIcon: string; color: string; dmg: number; resFixed: number; resPct: number }
+  const extras: ExtraRow[] = [
+    { resIcon: 'crit_damage',    color: 'var(--crit)',  dmg: s.critDamage,     resFixed: s.critResistance, resPct: 0 },
+    { resIcon: 'push_damage',    color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0 },
+  ].filter(r => r.dmg !== 0 || r.resFixed !== 0)
 
   const hdr: React.CSSProperties = {
     color: 'var(--ink-faint)', fontSize: 9, textTransform: 'uppercase',
@@ -206,18 +161,19 @@ function ResistanceSection({ s }: { s: StatBlock }) {
   }
 
   return (
-    <Section title={t('section_resistances')}>
-      <div className="grid mb-1" style={{ gridTemplateColumns: '22px 1fr 1fr', gap: 6 }}>
+    <Section title={t('section_elements')}>
+      <div className="grid mb-1" style={{ gridTemplateColumns: ELEM_COLS, gap: 6 }}>
         <span />
+        <span style={hdr}>{t('header_dmg')}</span>
         <span style={hdr}>{t('header_res')}</span>
         <span style={hdr}>{t('header_res_pct')}</span>
       </div>
       <div className="space-y-0.5">
-        {rows.map((r, i) => <ResTableRow key={i} {...r} />)}
+        {rows.map((r, i) => <ElemTableRow key={i} {...r} />)}
         {extras.length > 0 && (
           <>
             <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
-            {extras.map((r, i) => <ResTableRow key={i} {...r} />)}
+            {extras.map((r, i) => <ElemTableRow key={i} {...r} />)}
           </>
         )}
       </div>
@@ -328,8 +284,7 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         )}
       </div>
 
-      <DamageSection s={s} />
-      <ResistanceSection s={s} />
+      <ElementSection s={s} />
       <CombatGrid s={s} />
       <DamageMods s={s} />
 

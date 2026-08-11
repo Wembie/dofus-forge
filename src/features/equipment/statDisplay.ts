@@ -158,6 +158,7 @@ export const RUNE_ICON: Record<string, string> = {
   'Pushback Resistance':  'Psh_Res_Rune.webp',
   'Trap Damage':          'Trp_Dam_Rune.webp',
   'Power (traps)':        'Trp_Per_Rune.webp',
+  'Power':                'Pow_Rune.webp',
   'Summons':              'Sum_Rune.webp',
   'Pod':                  'Pod_Rune.webp',
   'reflected damage':     'Dam_Ref_Rune.webp',
