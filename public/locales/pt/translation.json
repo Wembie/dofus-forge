@@ -91,6 +91,8 @@
   "header_steal": "ROUBO",
   "element_header": "Elemento",
   "section_elements": "Elementos",
+  "section_damage": "Dano",
+  "section_resistances": "Resistências",
   "section_damage_mods": "Modificadores de Dano",
   "combat_stats": "Stats de Combate",
   "slot_hat": "Chapéu",

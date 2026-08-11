@@ -91,6 +91,8 @@
   "header_steal": "STEAL",
   "element_header": "Element",
   "section_elements": "Elements",
+  "section_damage": "Damage",
+  "section_resistances": "Resistances",
   "section_damage_mods": "Damage Modifiers",
   "combat_stats": "Combat Stats",
   "slot_hat": "Hat",

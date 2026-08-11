@@ -91,6 +91,8 @@
   "header_steal": "ROBO",
   "element_header": "Elemento",
   "section_elements": "Elementos",
+  "section_damage": "Daño",
+  "section_resistances": "Resistencias",
   "section_damage_mods": "Modificadores de Daño",
   "combat_stats": "Stats de Combate",
   "slot_hat": "Sombrero",

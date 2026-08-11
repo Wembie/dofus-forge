@@ -91,6 +91,8 @@
   "header_steal": "VOL",
   "element_header": "Élément",
   "section_elements": "Éléments",
+  "section_damage": "Dégâts",
+  "section_resistances": "Résistances",
   "section_damage_mods": "Modificateurs de dégâts",
   "combat_stats": "Stats de Combat",
   "slot_hat": "Chapeau",
