@@ -141,5 +141,17 @@ export function computeStats(input: BuildInput): StatBlock {
   // 7. HP (base + all vitality sources already summed in block.vitality)
   block.maxHp = baseHp(input.level) + block.vitality
 
+  // 8. Official game caps (Dofus 3 hard limits)
+  block.ap       = Math.min(12,  block.ap)
+  block.mp       = Math.min(6,   block.mp)
+  block.range    = Math.min(6,   block.range)
+  block.summons  = Math.min(6,   block.summons)
+  block.critChance        = Math.min(100, block.critChance)
+  block.neutralResPercent = Math.min(50, block.neutralResPercent)
+  block.earthResPercent   = Math.min(50, block.earthResPercent)
+  block.fireResPercent    = Math.min(50, block.fireResPercent)
+  block.waterResPercent   = Math.min(50, block.waterResPercent)
+  block.airResPercent     = Math.min(50, block.airResPercent)
+
   return block
 }
