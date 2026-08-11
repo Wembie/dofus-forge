@@ -471,7 +471,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   return (
     <>
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50"
       style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(4px)' }}
       role="dialog"
       aria-modal
@@ -480,7 +480,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     >
       <div
         className="flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', width: 'calc(100vw - 24px)', height: 'calc(100vh - 24px)' }}
+        style={{ position: 'fixed', top: 12, left: 12, right: 12, bottom: 12, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
       >
         {/* Header */}
         <div
