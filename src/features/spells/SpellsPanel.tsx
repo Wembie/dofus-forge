@@ -7,6 +7,7 @@ import type { AppSpell, AppSpellElement } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { calcEffects, calcDamage } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
+import { statIconUrl } from '../equipment/statDisplay.ts'
 
 function spellGrade(level: number): number {
   if (level >= 200) return 6
@@ -220,11 +221,21 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
     return rows
   }
 
+  // Effective range: apply stats.range bonus to non-melee spells
+  const effectiveMaxRange = lvl && lvl.maxRange > 0 && stats?.range
+    ? lvl.maxRange + stats.range
+    : (lvl?.maxRange ?? 0)
+
   const rangeStr = !lvl || lvl.maxRange === 0
     ? t('spell_melee')
-    : lvl.minRange === lvl.maxRange
-      ? `${lvl.maxRange}`
-      : `${lvl.minRange}–${lvl.maxRange}`
+    : lvl.minRange === effectiveMaxRange
+      ? String(effectiveMaxRange)
+      : `${lvl.minRange}–${effectiveMaxRange}`
+
+  // Effective crit: base spell crit + gear crit bonus (only shown when base crit > 0)
+  const effectiveCrit = lvl && lvl.critChance > 0
+    ? Math.min(100, lvl.critChance + (stats?.critChance ?? 0))
+    : 0
 
   return (
     <div
@@ -258,13 +269,21 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
 
         {lvl && (
           <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
-            <span
-              className="text-[10px] font-bold font-mono px-1 rounded"
-              style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
-            >{lvl.ap}AP</span>
-            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{rangeStr}</span>
-            {lvl.critChance > 0 && (
-              <span className="text-[10px]" style={{ color: 'var(--crit)' }}>{lvl.critChance}%</span>
+            <span className="flex items-center gap-0.5">
+              <img src={statIconUrl('ap')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{lvl.ap}</span>
+            </span>
+            <span className="flex items-center gap-0.5">
+              <img src={statIconUrl('range')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              <span className="text-[10px] font-mono" style={{ color: lvl.maxRange === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>
+                {rangeStr}
+              </span>
+            </span>
+            {effectiveCrit > 0 && (
+              <span className="flex items-center gap-0.5">
+                <img src={statIconUrl('crit')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+                <span className="text-[10px]" style={{ color: 'var(--crit)' }}>{effectiveCrit}%</span>
+              </span>
             )}
             {lvl.maxPerTurn > 0 && (
               <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
