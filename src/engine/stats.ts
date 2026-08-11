@@ -2,6 +2,11 @@ import type { BuildInput, StatBlock, ItemEffect } from './types.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from './characteristics.ts'
 import { STAT_MAP, IGNORED_STATS } from './statMap.ts'
 
+// Weapon attack-base effects use lowercase element names (e.g. "Air damage").
+// Non-weapon items also use lowercase for the same stat names as passive bonuses.
+// We filter these out only for weapon-slot items to avoid double-counting weapon attack ranges.
+const WEAPON_ATTACK_STATS = new Set(['Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage'])
+
 // Base AP/MP in Dofus 3.
 // TODO: Verify in Dofus 3. Assumption: 6 AP / 3 MP base for all classes.
 const BASE_AP = 6
@@ -30,7 +35,7 @@ function emptyStatBlock(): StatBlock {
     meleeDamagePercent: 0, rangedDamagePercent: 0, spellDamagePercent: 0, weaponDamagePercent: 0,
     meleeResistPercent: 0, rangedResistPercent: 0,
     trapDamage: 0, trapPower: 0, pushbackDamage: 0, pushbackResist: 0, reflectedDamage: 0,
-    heals: 0, initiative: 0, lock: 0, dodge: 0, prospecting: 0, summons: 0, pods: 0,
+    heals: 0, initiative: 0, lock: 0, dodge: 0, prospecting: 100, summons: 1, pods: 0,
     apReduction: 0, mpReduction: 0, apParry: 0, mpParry: 0, mpSteal: 0,
     unknownStats: {},
     pointsBudget: 0,
@@ -95,9 +100,12 @@ export function computeStats(input: BuildInput): StatBlock {
   block.ap = BASE_AP + (input.level >= 100 ? 1 : 0)
   block.mp = BASE_MP
 
-  // 2. Aggregate item effects
+  // 2. Aggregate item effects (filter weapon attack ranges from weapon-slot items)
   for (const item of input.items) {
-    applyEffects(block, item.effects)
+    const effects = item.slot === 'weapon'
+      ? item.effects.filter(e => !WEAPON_ATTACK_STATS.has(e.stat))
+      : item.effects
+    applyEffects(block, effects)
   }
 
   // 3. Aggregate set bonuses

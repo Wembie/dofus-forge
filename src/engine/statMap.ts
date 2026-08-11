@@ -32,13 +32,19 @@ export const STAT_MAP: Readonly<Record<string, StatKey>> = {
   // Generic damage (all elements)
   'Damage': 'damage',
 
-  // Elemental damage (flat passive bonus — uppercase only)
+  // Elemental damage (flat passive bonus)
+  // Both casings appear in the API: uppercase on all item types, lowercase on non-weapons too.
+  // Weapon items filter their own lowercase attack-base effects out in computeStats.
   'Earth Damage':   'earthDamage',
   'Fire Damage':    'fireDamage',
   'Water Damage':   'waterDamage',
   'Air Damage':     'airDamage',
   'Neutral Damage': 'neutralDamage',
-  // lowercase variants are weapon ATTACK base damage (not passive) — see IGNORED_STATS
+  'Earth damage':   'earthDamage',
+  'Fire damage':    'fireDamage',
+  'Water damage':   'waterDamage',
+  'Air damage':     'airDamage',
+  'Neutral damage': 'neutralDamage',
 
   // Steals
   'Earth steal':        'earthSteal',
@@ -101,8 +107,6 @@ export const STAT_MAP: Readonly<Record<string, StatKey>> = {
 
 // Stats we intentionally ignore (cosmetic, quest flags, spell-specific notation)
 export const IGNORED_STATS = new Set([
-  // Weapon attack base damage — shown per spell in weapon attack panel, not passive stat
-  'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
   '-special spell-', '/', 'Emote', 'Title:', 'Exchangeable:',
   'Received on', 'Size: %', "Someone's following you!",
   'Changes appearance', 'Changes speech', 'Cooperative crafting impossible',

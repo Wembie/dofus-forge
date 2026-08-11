@@ -98,7 +98,7 @@ function recompute(
       const id = equipped[slot]
       if (id == null) return null
       const it = equipMap.get(id)
-      return it ? { ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id } : null
+      return it ? { ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id, slot: it.slot } : null
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
 

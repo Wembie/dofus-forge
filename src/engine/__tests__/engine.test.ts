@@ -192,6 +192,7 @@ const GOBBALL_SET = {
 const GOBBALL_HAT: BuildInput['items'][0] = {
   ankama_id: 2411,
   set_id:    1,
+  slot:      'helmet',
   effects:   [{ stat: 'Strength', min: 16, max: 20 }, { stat: 'Intelligence', min: 16, max: 20 }],
 }
 
@@ -199,6 +200,7 @@ const GOBBALL_HAT: BuildInput['items'][0] = {
 const GOBBALL_AMULET: BuildInput['items'][0] = {
   ankama_id: 2414,
   set_id:    1,
+  slot:      'amulet',
   effects:   [{ stat: 'Strength', min: 5, max: 8 }, { stat: 'Vitality', min: 11, max: 15 }],
 }
 
@@ -206,6 +208,7 @@ const GOBBALL_AMULET: BuildInput['items'][0] = {
 const GOBBALL_BELT: BuildInput['items'][0] = {
   ankama_id: 2416,
   set_id:    1,
+  slot:      'belt',
   effects:   [{ stat: 'Chance', min: 6, max: 9 }],
 }
 
@@ -248,6 +251,7 @@ describe('computeStats — set bonuses', () => {
     const fullSet: BuildInput['items'] = GOBBALL_SET.items.map(id => ({
       ankama_id: id,
       set_id:    1,
+      slot:      'ring',
       effects:   [],
     }))
     const s = computeStats(emptyBuild({ items: fullSet, sets: [GOBBALL_SET] }))
@@ -262,7 +266,7 @@ describe('computeStats — set bonuses', () => {
 describe('computeStats — item effects', () => {
   it('maps AP/MP from gear correctly', () => {
     const s = computeStats(emptyBuild({
-      items: [{ ankama_id: 999, set_id: null, effects: [{ stat: 'AP', min: 1, max: 1 }, { stat: 'MP', min: 1, max: 1 }] }],
+      items: [{ ankama_id: 999, set_id: null, slot: 'ring', effects: [{ stat: 'AP', min: 1, max: 1 }, { stat: 'MP', min: 1, max: 1 }] }],
       sets:  [],
     }))
     expect(s.ap).toBe(7)
@@ -271,7 +275,7 @@ describe('computeStats — item effects', () => {
 
   it('tracks unknown stats in unknownStats map', () => {
     const s = computeStats(emptyBuild({
-      items: [{ ankama_id: 999, set_id: null, effects: [{ stat: 'UnknownStat2099', min: 42, max: 42 }] }],
+      items: [{ ankama_id: 999, set_id: null, slot: 'ring', effects: [{ stat: 'UnknownStat2099', min: 42, max: 42 }] }],
       sets:  [],
     }))
     expect(s.unknownStats['UnknownStat2099']).toBe(42)
@@ -279,7 +283,7 @@ describe('computeStats — item effects', () => {
 
   it('ignores cosmetic stat entries silently', () => {
     const s = computeStats(emptyBuild({
-      items: [{ ankama_id: 999, set_id: null, effects: [{ stat: 'Emote', min: 1, max: 1 }] }],
+      items: [{ ankama_id: 999, set_id: null, slot: 'ring', effects: [{ stat: 'Emote', min: 1, max: 1 }] }],
       sets:  [],
     }))
     expect(s.unknownStats['Emote']).toBeUndefined()
