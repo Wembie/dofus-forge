@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -737,12 +738,13 @@ export function EquipmentGrid() {
 
       <SetBonusesPanel />
 
-      {openSlot && (
+      {openSlot && createPortal(
         <ItemCatalog
           slot={openSlot.config}
           slotId={openSlot.id}
           onClose={() => setOpenSlot(null)}
-        />
+        />,
+        document.body
       )}
 
       {runeSlot && getItem(runeSlot) && (
