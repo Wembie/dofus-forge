@@ -79,8 +79,9 @@ type ElemRow = {
   dmg:      number
   resFixed: number
   resPct:   number
-  steal?:   number
 }
+
+const ELEM_COLS = '1fr 44px 44px 48px'
 
 function ValCell({ value, color, suffix = '' }: { value: number; color: string; suffix?: string }) {
   return (
@@ -91,13 +92,13 @@ function ValCell({ value, color, suffix = '' }: { value: number; color: string; 
   )
 }
 
-function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct, steal, cols, hasSteal }: ElemRow & { cols: string; hasSteal: boolean }) {
-  const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0 || (steal ?? 0) !== 0
+function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct }: ElemRow) {
+  const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   return (
     <div
       className="grid items-center rounded-md"
       style={{
-        gridTemplateColumns: cols, gap: 6, padding: '5px 8px',
+        gridTemplateColumns: ELEM_COLS, gap: 6, padding: '5px 8px',
         background:  hasData ? `color-mix(in srgb, ${color} 6%, transparent)` : 'transparent',
         borderLeft:  `2px solid ${hasData ? `color-mix(in srgb, ${color} 25%, transparent)` : 'transparent'}`,
         opacity:     hasData ? 1 : 0.40,
@@ -107,42 +108,38 @@ function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct, steal, co
         {icon(iconName, 14)}
         <span className="text-[11px] font-semibold truncate" style={{ color: hasData ? color : 'var(--ink-faint)' }}>{label}</span>
       </div>
-      <ValCell value={dmg}     color={color} />
-      <ValCell value={resFixed} color={resFixed  > 0 ? 'var(--positive)' : 'var(--negative)'} />
-      <ValCell value={resPct}   color={resPct    > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
-      {hasSteal && <ValCell value={steal ?? 0} color={color} />}
+      <ValCell value={dmg}      color={color} />
+      <ValCell value={resFixed}  color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
+      <ValCell value={resPct}    color={resPct   > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
     </div>
   )
 }
 
 function ElementTable({ s }: { s: StatBlock }) {
-  const { t }    = useTranslation()
-  const hasSteal = s.earthSteal + s.fireSteal + s.waterSteal + s.airSteal + s.neutralSteal + s.bestElemSteal > 0
-  const cols     = hasSteal ? '1fr 44px 44px 48px 44px' : '1fr 44px 44px 48px'
+  const { t } = useTranslation()
 
   const rows: ElemRow[] = [
-    { iconName: 'strength',     label: t('elem_earth'),   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   steal: s.earthSteal   },
-    { iconName: 'intelligence', label: t('elem_fire'),    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    steal: s.fireSteal    },
-    { iconName: 'chance',       label: t('elem_water'),   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   steal: s.waterSteal   },
-    { iconName: 'agility',      label: t('elem_air'),     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     steal: s.airSteal     },
-    { iconName: 'neutral',      label: t('elem_neutral'), color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, steal: s.neutralSteal },
+    { iconName: 'strength',     label: t('elem_earth'),   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
+    { iconName: 'intelligence', label: t('elem_fire'),    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
+    { iconName: 'chance',       label: t('elem_water'),   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
+    { iconName: 'agility',      label: t('elem_air'),     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent     },
+    { iconName: 'neutral',      label: t('elem_neutral'), color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
   ]
 
   const headerStyle: React.CSSProperties = { color: 'var(--ink-faint)', fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'right', alignSelf: 'center' }
 
   return (
     <Section title={t('section_elements')}>
-      <div className="grid mb-2" style={{ gridTemplateColumns: cols, gap: 6 }}>
+      <div className="grid mb-2" style={{ gridTemplateColumns: ELEM_COLS, gap: 6 }}>
         <span />
         <span style={headerStyle}>{t('header_dmg')}</span>
         <span style={headerStyle}>{t('header_res')}</span>
         <span style={headerStyle}>{t('header_res_pct')}</span>
-        {hasSteal && <span style={headerStyle}>{t('header_steal')}</span>}
       </div>
 
       <div className="space-y-1">
         {rows.map(r => (
-          <ElemTableRow key={r.label} {...r} cols={cols} hasSteal={hasSteal} />
+          <ElemTableRow key={r.label} {...r} />
         ))}
 
         <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
@@ -151,13 +148,11 @@ function ElementTable({ s }: { s: StatBlock }) {
           iconName="crit_damage"
           label={t('elem_critical')} color="var(--crit)"
           dmg={s.critDamage} resFixed={s.critResistance} resPct={0}
-          cols={cols} hasSteal={hasSteal}
         />
         <ElemTableRow
           iconName="push_damage"
           label={t('elem_push')} color="var(--earth)"
           dmg={s.pushbackDamage} resFixed={s.pushbackResist} resPct={0}
-          cols={cols} hasSteal={hasSteal}
         />
       </div>
     </Section>

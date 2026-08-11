@@ -14,6 +14,15 @@ const CHAR_COLOR: Record<Characteristic, string> = {
   agility:      'var(--air)',
 }
 
+const POWER_ELEMS = new Set<Characteristic>(['strength', 'intelligence', 'chance', 'agility'])
+
+function StatIcon({ name, size = 14 }: { name: string; size?: number }) {
+  return (
+    <img src={statIconUrl(name)} alt="" width={size} height={size}
+      style={{ objectFit: 'contain', flexShrink: 0 }} draggable={false} />
+  )
+}
+
 // ── Hold-to-repeat ────────────────────────────────────────────────────────────
 function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
   const timerRef    = useRef<ReturnType<typeof setTimeout>>()
@@ -65,67 +74,44 @@ function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void
   }
 }
 
-// ── Stat icon ─────────────────────────────────────────────────────────────────
-function StatIcon({ name, size = 16 }: { name: string; size?: number }) {
+// ── Compact stat row — only total, no controls ───────────────────────────────
+function CompactRow({ char, total, power }: { char: Characteristic; total: number; power: number }) {
+  const { t } = useTranslation()
+  const color = CHAR_COLOR[char]
   return (
-    <img
-      src={statIconUrl(name)}
-      alt=""
-      width={size}
-      height={size}
-      style={{ objectFit: 'contain', flexShrink: 0 }}
-      draggable={false}
-    />
+    <div
+      className="flex items-center gap-1.5 px-2 py-1 rounded-md"
+      style={{ borderLeft: `2px solid color-mix(in srgb, ${color} 30%, transparent)` }}
+    >
+      <StatIcon name={char} size={15} />
+      <span className="text-xs font-medium flex-1 select-none truncate" style={{ color }}>
+        {t(`stat_${char}`)}
+      </span>
+      <span
+        className="font-mono font-bold text-sm tabular-nums flex-shrink-0"
+        style={{ color }}
+        title={POWER_ELEMS.has(char) && power > 0 ? `${total} + ${power} Potencia = ${total + power}` : undefined}
+      >
+        {total.toLocaleString()}
+      </span>
+    </div>
   )
 }
 
-// ── Characteristic row ────────────────────────────────────────────────────────
-type RowProps = {
-  char:      Characteristic
-  allocated: number
-  total:     number
-  isScrolled: boolean
-  remaining: number
-  power:     number
-  onAdd:     (n: number) => void
-  onRemove:  (n: number) => void
-}
-
-const POWER_ELEMS = new Set<Characteristic>(['strength', 'intelligence', 'chance', 'agility'])
-
-function CharacteristicRow({ char, allocated, total, isScrolled, remaining, power, onAdd, onRemove }: RowProps) {
-  const { t }    = useTranslation()
+// ── Single allocator control (used inside AllocationGrid) ─────────────────────
+function AllocatorControl({
+  char, allocated, remaining, onAdd, onRemove,
+}: {
+  char: Characteristic; allocated: number; remaining: number;
+  onAdd: (n: number) => void; onRemove: (n: number) => void;
+}) {
   const color    = CHAR_COLOR[char]
   const focused  = useRef(false)
-  const rowRef   = useRef<HTMLDivElement>(null)
-  const popRef   = useRef<HTMLDivElement>(null)
   const [inputVal, setInputVal] = useState(String(allocated))
-  const [open, setOpen]         = useState(false)
 
   useEffect(() => {
     if (!focused.current) setInputVal(String(allocated))
   }, [allocated])
-
-  // Instant close via mousemove: no timer, checks both row and popover rects.
-  // RAF ensures popover has rendered before we start checking.
-  useEffect(() => {
-    if (!open) return
-    let ready = false
-    const raf = requestAnimationFrame(() => { ready = true })
-
-    function check({ clientX: x, clientY: y }: MouseEvent) {
-      if (!ready) return
-      function inside(el: HTMLDivElement | null) {
-        if (!el) return false
-        const r = el.getBoundingClientRect()
-        return x >= r.left - 3 && x <= r.right + 3 && y >= r.top - 3 && y <= r.bottom + 3
-      }
-      if (!inside(rowRef.current) && !inside(popRef.current)) setOpen(false)
-    }
-
-    document.addEventListener('mousemove', check)
-    return () => { cancelAnimationFrame(raf); document.removeEventListener('mousemove', check) }
-  }, [open])
 
   function commitInput(raw: string) {
     const target = Math.max(0, parseInt(raw, 10) || 0)
@@ -133,111 +119,71 @@ function CharacteristicRow({ char, allocated, total, isScrolled, remaining, powe
     else if (target < allocated) onRemove(allocated - target)
   }
 
-  const nextCost   = pointCost(char, allocated + 1) - pointCost(char, allocated)
-  const canAdd     = remaining >= nextCost
-  const equipBonus = total - allocated - (isScrolled ? SCROLL_BONUS : 0)
-
+  const nextCost = pointCost(char, allocated + 1) - pointCost(char, allocated)
+  const canAdd   = remaining >= nextCost
   const { addProps, removeProps } = useHoldRepeat(onAdd, onRemove)
 
-  const btnBase: React.CSSProperties = {
+  const btn: React.CSSProperties = {
     border: '1px solid var(--metal-edge)', borderRadius: 3,
-    width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontWeight: 700, fontSize: 14, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
-    background: 'transparent', transition: 'border-color 0.1s, color 0.1s',
+    width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontWeight: 700, fontSize: 12, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
+    background: 'transparent',
   }
 
   return (
+    <div className="flex items-center gap-1">
+      <StatIcon name={char} size={13} />
+      <button
+        {...removeProps}
+        disabled={allocated <= 0}
+        style={{ ...btn, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
+      >−</button>
+      <input
+        type="number" min={0} value={inputVal}
+        onChange={e => setInputVal(e.target.value)}
+        onFocus={e => { focused.current = true; e.target.select() }}
+        onBlur={e => { focused.current = false; commitInput(e.target.value) }}
+        onKeyDown={e => {
+          if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
+          if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
+        }}
+        className="text-center font-mono font-bold text-xs focus:outline-none rounded-sm"
+        style={{
+          width: 36, background: 'var(--surface-void)', color,
+          border: '1px solid var(--metal-edge)', padding: '1px 2px',
+          MozAppearance: 'textfield',
+        }}
+      />
+      <button
+        {...addProps}
+        disabled={!canAdd}
+        style={{ ...btn, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
+      >+</button>
+    </div>
+  )
+}
+
+// ── All-in-one allocation grid ────────────────────────────────────────────────
+function AllocationGrid({ remaining }: { remaining: number }) {
+  const allocated    = useBuildStore(s => s.allocated)
+  const addPoints    = useBuildStore(s => s.addPoints)
+  const removePoints = useBuildStore(s => s.removePoints)
+
+  return (
     <div
-      ref={rowRef}
-      className="relative px-2 py-1.5 rounded-lg transition-colors bg-surface-void hover:bg-surface-panel"
-      style={{ borderLeft: `2px solid color-mix(in srgb, ${color} 35%, transparent)` }}
-      onMouseEnter={() => setOpen(true)}
+      className="grid grid-cols-2 gap-x-3 gap-y-2 pt-2 mt-1"
+      style={{ borderTop: '1px solid var(--metal-edge)' }}
     >
-      {/* Compact display row */}
-      <div className="flex items-center gap-1.5 min-w-0">
-        <StatIcon name={char} size={16} />
-        <span
-          className="text-xs font-medium truncate flex-1 min-w-0 select-none"
-          style={{ color }}
-        >
-          {t(`stat_${char}`)}
-        </span>
-        <span
-          className="font-mono font-bold text-sm tabular-nums leading-none flex-shrink-0"
-          style={{ color }}
-          title={POWER_ELEMS.has(char) && power > 0 ? `${total} + ${power} Potencia = ${total + power}` : undefined}
-        >
-          {total.toLocaleString()}
-          {equipBonus > 0 && (
-            <span className="text-[9px] font-normal ml-1" style={{ color: 'var(--ink-faint)' }}>
-              +{equipBonus}
-            </span>
-          )}
-        </span>
-      </div>
-
-      {/* Hover popover — allocation controls only */}
-      {open && (
-        <div
-          ref={popRef}
-          className="absolute left-0 right-0 z-50 rounded-lg px-2 py-2 shadow-xl"
-          style={{
-            top: 'calc(100% + 2px)',
-            background: 'var(--surface-panel)',
-            border: '1px solid var(--metal-edge)',
-            borderTop: `2px solid color-mix(in srgb, ${color} 70%, transparent)`,
-          }}
-        >
-          <div className="flex items-center gap-1.5">
-            <button
-              {...removeProps}
-              disabled={allocated <= 0}
-              style={{ ...btnBase, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
-            >−</button>
-
-            <input
-              type="number"
-              min={0}
-              value={inputVal}
-              onChange={e => setInputVal(e.target.value)}
-              onFocus={e => { focused.current = true; e.target.select() }}
-              onBlur={e => { focused.current = false; commitInput(e.target.value) }}
-              onKeyDown={e => {
-                if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
-                if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
-              }}
-              className="text-center font-mono font-bold text-sm focus:outline-none border border-transparent hover:border-metal-edge focus:border-metal-edge rounded-sm transition-colors flex-1"
-              style={{ background: 'transparent', minWidth: 0, color, MozAppearance: 'textfield', padding: '2px 4px' }}
-            />
-
-            <button
-              {...addProps}
-              disabled={!canAdd}
-              style={{ ...btnBase, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
-            >+</button>
-          </div>
-
-          {/* Breakdown */}
-          <div className="flex gap-2 text-[10px] mt-1.5 flex-wrap" style={{ color: 'var(--ink-faint)' }}>
-            <span>
-              Pts: <span className="font-mono" style={{ color }}>{allocated}</span>
-            </span>
-            {equipBonus > 0 && (
-              <span>
-                Equipo: <span className="font-mono" style={{ color: 'var(--ink-muted)' }}>+{equipBonus}</span>
-              </span>
-            )}
-            {isScrolled && (
-              <span>
-                Pergamino: <span className="font-mono" style={{ color: 'var(--gold)' }}>+{SCROLL_BONUS}</span>
-              </span>
-            )}
-            <span style={{ marginLeft: 'auto' }}>
-              Costo: <span className="font-mono" style={{ color: 'var(--ink-muted)' }}>{nextCost}pt</span>
-            </span>
-          </div>
-        </div>
-      )}
+      {CHARACTERISTICS.map(char => (
+        <AllocatorControl
+          key={char}
+          char={char}
+          allocated={allocated[char]}
+          remaining={remaining}
+          onAdd={n    => addPoints(char, n)}
+          onRemove={n => removePoints(char, n)}
+        />
+      ))}
     </div>
   )
 }
@@ -249,7 +195,7 @@ function ScrollToggles() {
   const toggleScroll = useBuildStore(s => s.toggleScroll)
 
   return (
-    <div className="pt-1.5">
+    <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
       <div className="flex items-center justify-between mb-1.5">
         <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--ink-faint)' }}>
           Pergaminos
@@ -276,10 +222,7 @@ function ScrollToggles() {
               aria-pressed={active}
             >
               <StatIcon name={char} size={13} />
-              <span
-                className="text-[8px] font-mono font-bold leading-none"
-                style={{ color: active ? color : 'var(--ink-faint)' }}
-              >
+              <span className="text-[8px] font-mono font-bold leading-none" style={{ color: active ? color : 'var(--ink-faint)' }}>
                 {active ? `+${SCROLL_BONUS}` : 'P'}
               </span>
             </button>
@@ -291,14 +234,15 @@ function ScrollToggles() {
 }
 
 // ── CharacteristicsPanel ──────────────────────────────────────────────────────
+// Hover the entire panel → AllocationGrid appears inline (child of same wrapper).
+// onMouseLeave on wrapper fires only when mouse truly leaves the whole section,
+// not when moving between compact rows and the grid — they are the same subtree.
 export function CharacteristicsPanel() {
-  const { t }        = useTranslation()
-  const level        = useBuildStore(s => s.level)
-  const allocated    = useBuildStore(s => s.allocated)
-  const scrolled     = useBuildStore(s => s.scrolled)
-  const stats        = useBuildStore(s => s.stats)
-  const addPoints    = useBuildStore(s => s.addPoints)
-  const removePoints = useBuildStore(s => s.removePoints)
+  const { t }     = useTranslation()
+  const level     = useBuildStore(s => s.level)
+  const allocated = useBuildStore(s => s.allocated)
+  const stats     = useBuildStore(s => s.stats)
+  const [editing, setEditing] = useState(false)
 
   const budget    = statBudget(level)
   const spent     = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, allocated[c]), 0)
@@ -306,10 +250,10 @@ export function CharacteristicsPanel() {
   const pct       = budget > 0 ? Math.min(100, (spent / budget) * 100) : 0
 
   return (
-    <div className="space-y-2">
+    <div onMouseEnter={() => setEditing(true)} onMouseLeave={() => setEditing(false)}>
 
       {/* Header + budget */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-2">
         <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
           {t('characteristics')}
         </h2>
@@ -318,7 +262,7 @@ export function CharacteristicsPanel() {
         </span>
       </div>
 
-      <div className="h-1 rounded-full overflow-hidden" style={{ background: 'var(--metal-edge)' }}>
+      <div className="h-1 rounded-full overflow-hidden mb-2" style={{ background: 'var(--metal-edge)' }}>
         <div
           className="h-full rounded-full transition-all duration-300"
           style={{
@@ -330,24 +274,22 @@ export function CharacteristicsPanel() {
         />
       </div>
 
-      {/* 6 characteristic rows */}
+      {/* Compact rows — total only, no controls */}
       <div className="space-y-0.5" role="group" aria-label={t('characteristics')}>
         {CHARACTERISTICS.map(char => (
-          <CharacteristicRow
+          <CompactRow
             key={char}
             char={char}
-            allocated={allocated[char]}
             total={stats ? stats[char] : allocated[char]}
-            isScrolled={scrolled[char]}
-            remaining={remaining}
             power={stats?.power ?? 0}
-            onAdd={n    => addPoints(char, n)}
-            onRemove={n => removePoints(char, n)}
           />
         ))}
       </div>
 
-      {/* Unified scroll toggles */}
+      {/* Allocation grid — appears when hovering the panel */}
+      {editing && <AllocationGrid remaining={remaining} />}
+
+      {/* Scroll toggles — always visible */}
       <ScrollToggles />
 
     </div>
