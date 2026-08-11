@@ -63,10 +63,16 @@
   --info:     #4d8fd0;
 
   /* ── Shadows & glows ── */
-  --shadow-frame: 0 2px 4px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
-  --inset-bevel:  inset 0 1px 0 var(--bevel-light), inset 0 -1px 0 var(--bevel-dark);
-  --well-inset:   inset 0 2px 6px rgba(0,0,0,.55);
-  --glow-gold:    0 0 0 1px var(--gold-deep), 0 0 12px rgba(201,162,75,.25);
+  --shadow-frame:    0 2px 4px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  --inset-bevel:     inset 0 1px 0 var(--bevel-light), inset 0 -1px 0 var(--bevel-dark);
+  --well-inset:      inset 0 2px 6px rgba(0,0,0,.55);
+  --glow-gold:       0 0 0 1px var(--gold-deep), 0 0 12px rgba(201,162,75,.25);
+  --shadow-vitality: 0 4px 16px rgba(210,75,104,.22);
+  --shadow-earth:    0 4px 16px rgba(201,138,43,.22);
+  --shadow-fire:     0 4px 16px rgba(224,75,42,.22);
+  --shadow-water:    0 4px 16px rgba(47,147,216,.22);
+  --shadow-air:      0 4px 16px rgba(116,185,63,.22);
+  --shadow-crit:     0 4px 16px rgba(224,168,56,.22);
 
   /* ── Motion ── */
   --ease-out:      cubic-bezier(.22,.61,.36,1);
@@ -184,18 +190,30 @@ body {
 
 /* ── Keyframe animations ──────────────────────────────────────────────── */
 @keyframes stat-tick {
-  0%   { transform: translateY(0) scale(1);     opacity: 1 }
+  0%   { transform: translateY(0) scale(1);       opacity: 1 }
   30%  { transform: translateY(-3px) scale(1.06); opacity: 1 }
-  100% { transform: translateY(0) scale(1);     opacity: 1 }
+  100% { transform: translateY(0) scale(1);       opacity: 1 }
 }
 @keyframes slot-equip {
   0%   { transform: scale(1);    box-shadow: none }
-  40%  { transform: scale(1.08); box-shadow: 0 0 24px var(--gold-glow, rgba(201,162,75,.5)) }
+  40%  { transform: scale(1.08); box-shadow: 0 0 24px rgba(201,162,75,.5) }
   100% { transform: scale(1);    box-shadow: none }
 }
 @keyframes float-delta {
   0%   { opacity: 1; transform: translateY(0) }
   100% { opacity: 0; transform: translateY(-28px) }
+}
+@keyframes item-equip {
+  0%   { transform: scale(0.80); opacity: 0; filter: brightness(1.8); }
+  55%  { transform: scale(1.07); opacity: 1; filter: brightness(1.18); }
+  100% { transform: scale(1.00); opacity: 1; filter: brightness(1.0); }
+}
+.item-equip {
+  animation: item-equip 240ms var(--ease-forge) forwards;
+}
+@keyframes tooltip-in {
+  0%   { transform: scale(0.93) translateY(4px); opacity: 0; }
+  100% { transform: scale(1.00) translateY(0);   opacity: 1; }
 }
 
 /* ── Reduced motion ───────────────────────────────────────────────────── */

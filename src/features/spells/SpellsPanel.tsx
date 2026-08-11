@@ -118,98 +118,132 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
       if (!inGroup || !isDmgOrSteal(e)) return []
       return [critByDisplayIdx.get(i)]
     })
-    const hasCritGroup  = critGroup.some(c => c != null)
-    const totalNormMin  = groupDmgEffects.reduce((s, e) => s + e.calcMin, 0) + (shieldGroup ? 0 : totalPushDmg)
-    const totalNormMax  = groupDmgEffects.reduce((s, e) => s + e.calcMax, 0) + (shieldGroup ? 0 : totalPushDmg)
-    const critTotalMin  = critGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
-    const critTotalMax  = critGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
-    const hasStealGroup = groupDmgEffects.some(e => e.kind === 'steal')
-    const totalHealMin  = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMin / 2), 0)
-    const totalHealMax  = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
-    const critHealMin   = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
-    const critHealMax   = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
+    const hasCritGroup   = critGroup.some(c => c != null)
+    const showCritCol    = hasCritGroup && critDmgEffects.length > 0
+    const hasDmgRows     = groupDmgEffects.length > 0
+    const dmgCols        = showCritCol ? '13px 1fr 1fr' : '13px 1fr'
+    const totalNormMin   = groupDmgEffects.reduce((s, e) => s + e.calcMin, 0) + (shieldGroup ? 0 : totalPushDmg)
+    const totalNormMax   = groupDmgEffects.reduce((s, e) => s + e.calcMax, 0) + (shieldGroup ? 0 : totalPushDmg)
+    const critTotalMin   = critGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const critTotalMax   = critGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const hasStealGroup  = groupDmgEffects.some(e => e.kind === 'steal')
+    const totalHealMin   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMin / 2), 0)
+    const totalHealMax   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
+    const critHealMin    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
+    const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
     const showGroupTotal = !shieldGroup && showTotal
 
-    const rows = displayEffects.flatMap((e, i) => {
+    const rows: React.ReactNode[] = []
+
+    // Column headers — only when there are damage rows
+    if (hasDmgRows) {
+      rows.push(
+        <div key="col-hdr" className="grid mb-0.5" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+          <span />
+          <span className="text-[8px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--ink-faint)' }}>
+            {t('weapon_normal')}
+          </span>
+          {showCritCol && (
+            <span className="text-[8px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--crit)' }}>
+              CRIT ✦
+            </span>
+          )}
+        </div>
+      )
+    }
+
+    displayEffects.forEach((e, i) => {
       const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
-      if (!inGroup) return []
+      if (!inGroup) return
       const c = ELEM_COLOR[e.element]
+
       if (e.kind === 'push') {
         const cells = e.calcMin
         const dmg   = pushDmgPerCell * cells
-        return [(
+        rows.push(
           <div key={`p${i}`} className="flex items-center gap-1">
             <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>↷</span>
             <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
               {t('spell_push', { cells })}{stats && dmg > 0 ? ` (${dmg})` : ''}
             </span>
           </div>
-        )]
+        )
+        return
       }
-      if (e.kind === 'ap') return [(
-        <div key={`a${i}`} className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>
-          {t('spell_steal_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
-        </div>
-      )]
-      if (e.kind === 'mp') return [(
-        <div key={`m${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
-          {t('spell_steal_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
-        </div>
-      )]
+      if (e.kind === 'ap') {
+        rows.push(
+          <div key={`a${i}`} className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>
+            {t('spell_steal_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+          </div>
+        )
+        return
+      }
+      if (e.kind === 'mp') {
+        rows.push(
+          <div key={`m${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
+            {t('spell_steal_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+          </div>
+        )
+        return
+      }
+
       const crit = critByDisplayIdx.get(i)
-      return [(
-        <div key={`e${i}`} className="space-y-0.5">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
-            <span className={`text-[11px] font-mono tabular-nums${showCalc ? ' font-bold' : ''}`} style={{ color: showCalc ? c : 'var(--ink-muted)' }}>
+      rows.push(
+        <div key={`e${i}`} className="space-y-px">
+          <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+            <span className="w-2 h-2 rounded-full flex-shrink-0 justify-self-center" style={{ background: c }} />
+            <span
+              className={`text-[11px] font-mono tabular-nums text-right${showCalc ? ' font-bold' : ''}`}
+              style={{ color: showCalc ? c : 'var(--ink-muted)' }}
+            >
               {fmtRange(e.calcMin, e.calcMax)}
             </span>
-            {crit && (
-              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--crit)' }}>
-                ✦{fmtRange(crit.calcMin, crit.calcMax)}
+            {showCritCol && (
+              <span className="text-[11px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
+                {crit ? fmtRange(crit.calcMin, crit.calcMax) : '—'}
               </span>
             )}
           </div>
           {e.kind === 'steal' && (
-            <div className="flex items-center gap-1.5 pl-3">
-              <span className="text-[10px]" style={{ color: 'var(--vitality)' }}>♥</span>
-              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+              <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
+              <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
                 {fmtRange(Math.floor(e.calcMin / 2), Math.floor(e.calcMax / 2))}
               </span>
-              {crit && (
-                <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
-                  ✦{fmtRange(Math.floor(crit.calcMin / 2), Math.floor(crit.calcMax / 2))}
+              {showCritCol && (
+                <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
+                  {crit ? fmtRange(Math.floor(crit.calcMin / 2), Math.floor(crit.calcMax / 2)) : '—'}
                 </span>
               )}
             </div>
           )}
         </div>
-      )]
+      )
     })
 
     if (showGroupTotal) {
       rows.push(
-        <div key="sigma" className="pt-1 space-y-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[9px] font-bold" style={{ color: 'var(--ink-faint)' }}>Σ</span>
-            <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
+        <div key="sigma" className="pt-0.5 space-y-px" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+          <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+            <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ</span>
+            <span className="text-[11px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
               {fmtRange(totalNormMin, totalNormMax)}
             </span>
-            {hasCritGroup && (
-              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--crit)' }}>
-                ✦{fmtRange(critTotalMin, critTotalMax)}
+            {showCritCol && (
+              <span className="text-[11px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
+                {fmtRange(critTotalMin, critTotalMax)}
               </span>
             )}
           </div>
           {hasStealGroup && (
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px]" style={{ color: 'var(--vitality)' }}>♥</span>
-              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+              <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
+              <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
                 {fmtRange(totalHealMin, totalHealMax)}
               </span>
-              {hasCritGroup && (
-                <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
-                  ✦{fmtRange(critHealMin, critHealMax)}
+              {showCritCol && (
+                <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
+                  {fmtRange(critHealMin, critHealMax)}
                 </span>
               )}
             </div>
@@ -239,31 +273,41 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
 
   return (
     <div
-      className="rounded-lg p-2.5 flex gap-2.5"
+      className="rounded-lg overflow-hidden"
       style={{
-        background:   'var(--surface-void)',
-        borderTop:    `1px solid color-mix(in srgb, ${color} 13%, transparent)`,
-        borderRight:  `1px solid color-mix(in srgb, ${color} 13%, transparent)`,
-        borderBottom: `1px solid color-mix(in srgb, ${color} 13%, transparent)`,
-        borderLeft:   `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
+        background:  `color-mix(in srgb, ${color} 6%, var(--surface-void))`,
+        border:      `1px solid color-mix(in srgb, ${color} 18%, transparent)`,
+        borderLeft:  `3px solid color-mix(in srgb, ${color} 75%, transparent)`,
+        transition:  'transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out)',
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLDivElement
+        el.style.transform   = 'translateY(-1px)'
+        el.style.boxShadow   = `0 4px 16px rgba(0,0,0,.5), 0 0 0 1px color-mix(in srgb, ${color} 25%, transparent)`
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLDivElement
+        el.style.transform   = ''
+        el.style.boxShadow   = ''
       }}
     >
+      <div className="flex gap-2.5 p-2.5">
       <div
-        className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
+        className="flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
         style={{
-          width: 44, height: 44,
+          width: 46, height: 46,
           background: 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))',
-          border: `1px solid color-mix(in srgb, ${color} 20%, transparent)`,
+          border: `1px solid color-mix(in srgb, ${color} 28%, transparent)`,
         }}
       >
         {spell.image_url
-          ? <img src={spell.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
+          ? <img src={spell.image_url} alt="" width={46} height={46} loading="lazy" className="object-contain" />
           : <span className="text-xl" style={{ color }}>✦</span>
         }
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color }}>
+        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color, textShadow: `0 0 12px color-mix(in srgb, ${color} 40%, transparent)` }}>
           {spell.name}
         </p>
 
@@ -312,6 +356,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
             {t('spell_support')}
           </span>
         )}
+      </div>
       </div>
     </div>
   )

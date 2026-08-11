@@ -49,30 +49,36 @@ function BuilderContent() {
     <div className="min-h-screen bg-forge-bg text-forge-text">
       {/* Header */}
       <header
-        className="sticky top-0 z-40 backdrop-blur-md"
+        className="sticky top-0 z-40"
         style={{
-          background:   'color-mix(in srgb, var(--surface-stone) 95%, transparent)',
-          borderBottom: '1px solid var(--gold-deep)',
-          boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 12%, transparent), 0 4px 24px rgba(0,0,0,0.55)',
+          height:       52,
+          background:   'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))',
+          borderBottom: '1px solid var(--metal-edge)',
+          boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 h-full flex items-center gap-4">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
           {/* Brand */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Diamond accent */}
+            <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
+              <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
+            </svg>
             <h1
-              className="font-display font-bold tracking-[0.1em]"
+              className="font-display font-bold tracking-[0.18em] uppercase"
               style={{
-                fontSize:   '1.1rem',
+                fontSize:   '0.82rem',
                 color:      'var(--gold)',
-                textShadow: '0 0 28px rgba(201,162,75,0.45), 0 1px 0 rgba(0,0,0,0.7)',
+                textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)',
+                letterSpacing: '0.2em',
               }}
             >
               {t('app_title')}
             </h1>
             <span
-              className="font-mono text-[10px] hidden sm:inline px-1.5 py-0.5 rounded"
+              className="font-mono text-[9px] hidden sm:inline px-1.5 py-0.5 rounded"
               style={{
                 color:      'var(--ink-faint)',
                 background: 'var(--surface-void)',

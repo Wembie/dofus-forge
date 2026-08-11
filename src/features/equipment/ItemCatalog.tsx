@@ -677,12 +677,15 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
                     {/* Card header: image + name + level + fav */}
                     <div className="flex gap-2.5 p-3 pb-2">
                       <div
-                        className="w-12 h-12 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
+                        className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
                         style={{
                           background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))',
                           border: isEquipped
-                            ? '1px solid color-mix(in srgb, var(--gold) 33%, transparent)'
+                            ? '1px solid color-mix(in srgb, var(--gold) 40%, transparent)'
                             : '1px solid var(--metal-edge)',
+                          boxShadow: isEquipped
+                            ? 'inset 0 0 12px color-mix(in srgb, var(--gold) 8%, transparent)'
+                            : 'none',
                         }}
                       >
                         {item.image_url
