@@ -479,8 +479,8 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full max-w-6xl flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: '90vh' }}
+        className="w-full flex flex-col rounded-xl shadow-2xl overflow-hidden"
+        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxWidth: '95vw', width: '1400px', height: '92vh' }}
       >
         {/* Header */}
         <div
@@ -643,7 +643,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
               <p className="text-forge-muted text-sm">{t('no_items')}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {items.map(item => {
                 const isEquipped = item.ankama_id === currentId
                 const itemSet    = item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined
