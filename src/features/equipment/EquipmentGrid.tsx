@@ -11,6 +11,7 @@ import { RuneModal } from './RuneModal.tsx'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
+import type { DofusClass } from '@/engine/types.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
 import { ElementGem } from '@/ui'
@@ -440,6 +441,37 @@ const GEM_RING = [
   { element: 'vitality', dx: -59, dy: -34 },
 ] as const
 
+// Look strings from DofusDB breeds API — used to render the 3D character via the server-side renderer
+const BREED_LOOKS: Record<DofusClass, { male: string; female: string }> = {
+  cra:          { male: '{1|90||53}',   female: '{1|91||52}'   },
+  ecaflip:      { male: '{1|60||58}',   female: '{1|61||57}'   },
+  eniripsa:     { male: '{1|70||43}',   female: '{1|71||43}'   },
+  enutrof:      { male: '{1|30||43}',   female: '{1|31||43}'   },
+  eliotrope:    { male: '{1|3179||53}', female: '{1|3180||52}' },
+  feca:         { male: '{1|10||53}',   female: '{1|11||52}'   },
+  foggernaut:   { male: '{1|1663||53}', female: '{1|1664||52}' },
+  forgelance:   { male: '{1|3221||55}', female: '{1|3633||53}' },
+  huppermage:   { male: '{1|3285||53}', female: '{1|3286||52}' },
+  iop:          { male: '{1|80||55}',   female: '{1|81||53}'   },
+  masqueraider: { male: '{1|1437||53}', female: '{1|1438||52}' },
+  osamodas:     { male: '{1|20||50}',   female: '{1|21||48}'   },
+  ouginak:      { male: '{1|3498||58}', female: '{1|3499||57}' },
+  pandawa:      { male: '{1|120||57}',  female: '{1|121||53}'  },
+  rogue:        { male: '{1|1405||58}', female: '{1|1407||55}' },
+  sacrier:      { male: '{1|110||55}',  female: '{1|111||53}'  },
+  sadida:       { male: '{1|100||58}',  female: '{1|101||55}'  },
+  sram:         { male: '{1|40||55}',   female: '{1|41||52}'   },
+  xelor:        { male: '{1|50||43}',   female: '{1|51||43}'   },
+}
+
+function lookToHex(look: string): string {
+  return look.split('').map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('')
+}
+
+function characterViewerUrl(look: string): string {
+  return `https://renderer.dofusdb.fr/look/${lookToHex(look)}/full/1/300_300.png`
+}
+
 function elemVar(elem: string | null | undefined): string {
   if (!elem || elem === 'multi') return 'var(--gold)'
   return `var(--${elem})`
@@ -451,9 +483,20 @@ function CharacterCenter() {
   const gender        = useBuildStore(s => s.gender)
   const level         = useBuildStore(s => s.level)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
-  const portrait      = classInfo ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : null
   const classElem     = classInfo?.element ?? null
   const primaryColor  = elemVar(classElem)
+
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgError,  setImgError]  = useState(false)
+
+  const look      = selectedClass ? BREED_LOOKS[selectedClass] : null
+  const lookStr   = look ? (gender === 'female' ? look.female : look.male) : null
+  const viewerUrl = lookStr ? characterViewerUrl(lookStr) : null
+
+  useEffect(() => {
+    setImgLoaded(false)
+    setImgError(false)
+  }, [selectedClass, gender])
 
   function gemIntensity(element: string): number {
     if (!classElem)            return 0.12
@@ -499,7 +542,47 @@ function CharacterCenter() {
           />
         </svg>
 
-        {/* Gem ring — scaled up radius */}
+        {/* Character viewer */}
+        <div
+          className="flex-shrink-0 overflow-hidden"
+          style={{
+            width:        154,
+            height:       154,
+            position:     'relative',
+            zIndex:       1,
+            borderRadius: 14,
+            border:       `2px solid color-mix(in srgb, ${primaryColor} 45%, transparent)`,
+            boxShadow:    `0 0 40px color-mix(in srgb, ${primaryColor} 40%, transparent), 0 0 10px color-mix(in srgb, ${primaryColor} 18%, transparent)`,
+            background:   'rgba(248,244,232,0.95)',
+          }}
+        >
+          {viewerUrl && !imgError ? (
+            <>
+              {!imgLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div
+                    className="animate-spin rounded-full"
+                    style={{ width: 22, height: 22, border: `2px solid ${primaryColor}`, borderTopColor: 'transparent' }}
+                  />
+                </div>
+              )}
+              <img
+                src={viewerUrl}
+                alt={classInfo?.name ?? ''}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.3s' }}
+                draggable={false}
+                onLoad={() => setImgLoaded(true)}
+                onError={() => setImgError(true)}
+              />
+            </>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-4xl" style={{ color: 'var(--ink-faint)' }}>?</span>
+            </div>
+          )}
+        </div>
+
+        {/* Gem ring — on top of character viewer (zIndex 2 > viewer zIndex 1) */}
         {GEM_RING.map(({ element, dx, dy }) => (
           <div
             key={element}
@@ -508,33 +591,12 @@ function CharacterCenter() {
               left:      '50%',
               top:       '50%',
               transform: `translate(calc(-50% + ${Math.round(dx * 1.18)}px), calc(-50% + ${Math.round(dy * 1.18)}px))`,
+              zIndex:    2,
             }}
           >
             <ElementGem element={element} intensity={gemIntensity(element)} size={15} />
           </div>
         ))}
-
-        {/* Portrait */}
-        <div
-          className="rounded-2xl overflow-hidden flex-shrink-0"
-          style={{
-            width:     130,
-            height:    130,
-            position:  'relative',
-            zIndex:    1,
-            border:    `2px solid color-mix(in srgb, ${primaryColor} 55%, transparent)`,
-            boxShadow: `0 0 40px color-mix(in srgb, ${primaryColor} 40%, transparent), 0 0 10px color-mix(in srgb, ${primaryColor} 18%, transparent), var(--inset-bevel)`,
-            background: 'var(--surface-panel)',
-          }}
-        >
-          {portrait ? (
-            <img src={portrait} alt={classInfo?.name ?? ''} className="w-full h-full object-cover" draggable={false} />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-4xl" style={{ color: 'var(--ink-faint)' }}>?</span>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Class name + level + separator */}
