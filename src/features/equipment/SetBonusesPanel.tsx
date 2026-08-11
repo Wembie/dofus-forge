@@ -5,14 +5,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppSet, AppEffect } from '@/data/loaders.ts'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { IconButton, Frame } from '@/ui'
-
-function effectLabel(e: AppEffect): string {
-  const sign = e.min >= 0 ? '+' : ''
-  const val  = (e.min !== e.max && e.max !== 0 && e.max > e.min)
-    ? `${sign}${e.min}–${e.max}`
-    : `${sign}${e.min}`
-  return `${val} ${e.stat}`
-}
+import { STAT_META, statIconUrl } from './statDisplay.ts'
 
 // ── Piece progress dots ───────────────────────────────────────────────────────
 
@@ -35,6 +28,35 @@ function PieceDots({ count, max }: { count: number; max: number }) {
 }
 
 // ── Set card ──────────────────────────────────────────────────────────────────
+
+function EffectRow({ e, active }: { e: AppEffect; active: boolean }) {
+  const { t }  = useTranslation()
+  const meta   = STAT_META[e.stat]
+  const isNeg  = e.min < 0
+  const color  = active
+    ? (isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-muted)'))
+    : 'var(--ink-faint)'
+  const sign   = e.min >= 0 ? '+' : ''
+  const val    = (e.min !== e.max && e.max !== 0 && e.max > e.min)
+    ? `${sign}${e.min}–${e.max}`
+    : `${sign}${e.min}`
+
+  return (
+    <div className="flex items-center gap-1" style={{ opacity: active ? 1 : 0.28 }}>
+      {meta?.icon
+        ? <img src={statIconUrl(meta.icon)} alt="" width={10} height={10}
+            style={{ objectFit: 'contain', flexShrink: 0 }} />
+        : <span style={{ width: 10, flexShrink: 0 }} />
+      }
+      <span className="font-mono font-bold text-[10px] tabular-nums flex-shrink-0" style={{ color }}>
+        {val}
+      </span>
+      <span className="text-[10px] leading-tight" style={{ color }}>
+        {meta ? t(meta.tKey) : e.stat}
+      </span>
+    </div>
+  )
+}
 
 function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: () => void }) {
   const tiers     = Object.entries(set.bonuses)
@@ -108,15 +130,9 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
                 }}
               />
 
-              <div className="flex flex-wrap gap-x-2 gap-y-0.5">
+              <div className="flex flex-col gap-0.5">
                 {effects.map((e: AppEffect, i: number) => (
-                  <span
-                    key={i}
-                    className="text-[10px] leading-tight"
-                    style={{ color: active ? 'var(--ink)' : isNext ? 'var(--ink-faint)' : 'var(--surface-raised)' }}
-                  >
-                    {effectLabel(e)}
-                  </span>
+                  <EffectRow key={i} e={e} active={active} />
                 ))}
               </div>
             </div>
