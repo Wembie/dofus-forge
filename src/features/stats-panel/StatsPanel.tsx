@@ -65,18 +65,13 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
         boxShadow:  `inset 0 1px 0 color-mix(in srgb, ${color} 18%, transparent), inset 0 0 40px color-mix(in srgb, ${color} 6%, transparent), 0 4px 14px rgba(0,0,0,0.5), 0 0 24px color-mix(in srgb, ${color} 14%, transparent)`,
       }}
     >
-      {/* Atmospheric glow bloom from top */}
       <div
         className="absolute inset-x-0 top-0 pointer-events-none"
         style={{ height: 56, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 22%, transparent), transparent)` }}
       />
-
-      {/* Icon */}
       <div className="relative z-10 opacity-75">
         {icon(iconName, 15)}
       </div>
-
-      {/* The number — the hero */}
       <span
         className={`font-mono font-bold leading-none tabular-nums relative z-10 ${numClass}`}
         style={{
@@ -86,8 +81,6 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
       >
         {value.toLocaleString()}
       </span>
-
-      {/* Label */}
       <span
         className="text-[8px] uppercase tracking-[0.18em] relative z-10 font-semibold"
         style={{ color: 'var(--ink-faint)' }}
@@ -98,18 +91,7 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
   )
 }
 
-// ── Element table ─────────────────────────────────────────────────────────────
-
-type ElemRow = {
-  iconName: string
-  label:    string
-  color:    string
-  dmg:      number
-  resFixed: number
-  resPct:   number
-}
-
-const ELEM_COLS = '22px 1fr 1fr 1fr'
+// ── Shared value cell ─────────────────────────────────────────────────────────
 
 function ValCell({ value, color, suffix = '' }: { value: number; color: string; suffix?: string }) {
   return (
@@ -122,13 +104,17 @@ function ValCell({ value, color, suffix = '' }: { value: number; color: string; 
   )
 }
 
-function ElemTableRow({ iconName, color, dmg, resFixed, resPct }: Omit<ElemRow, 'label'>) {
-  const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
+// ── Damage section ────────────────────────────────────────────────────────────
+
+type DmgRow = { iconName: string; color: string; value: number }
+
+function DmgTableRow({ iconName, color, value }: DmgRow) {
+  const hasData = value !== 0
   return (
     <div
-      className="grid items-center rounded-md transition-opacity"
+      className="grid items-center rounded-md"
       style={{
-        gridTemplateColumns: ELEM_COLS,
+        gridTemplateColumns: '22px 1fr',
         gap:        6,
         padding:    '5px 8px',
         background: hasData ? `color-mix(in srgb, ${color} 7%, transparent)` : 'transparent',
@@ -136,58 +122,104 @@ function ElemTableRow({ iconName, color, dmg, resFixed, resPct }: Omit<ElemRow, 
         opacity:    hasData ? 1 : 0.28,
       }}
     >
-      <div className="flex items-center justify-center">
-        {icon(iconName, 16)}
+      <div className="flex items-center justify-center">{icon(iconName, 16)}</div>
+      <ValCell value={value} color={color} />
+    </div>
+  )
+}
+
+function DamageSection({ s }: { s: StatBlock }) {
+  const { t } = useTranslation()
+
+  const rows: DmgRow[] = [
+    { iconName: 'strength',     color: 'var(--earth)',   value: s.earthDamage   },
+    { iconName: 'intelligence', color: 'var(--fire)',    value: s.fireDamage    },
+    { iconName: 'chance',       color: 'var(--water)',   value: s.waterDamage   },
+    { iconName: 'agility',      color: 'var(--air)',     value: s.airDamage     },
+    { iconName: 'neutral',      color: 'var(--neutral)', value: s.neutralDamage },
+  ]
+
+  const extras: DmgRow[] = [
+    { iconName: 'crit_damage', color: 'var(--crit)',  value: s.critDamage     },
+    { iconName: 'push_damage', color: 'var(--earth)', value: s.pushbackDamage },
+  ].filter(r => r.value !== 0)
+
+  return (
+    <Section title={t('section_damage')}>
+      <div className="space-y-0.5">
+        {rows.map((r, i) => <DmgTableRow key={i} {...r} />)}
+        {extras.length > 0 && (
+          <>
+            <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
+            {extras.map((r, i) => <DmgTableRow key={i} {...r} />)}
+          </>
+        )}
       </div>
-      <ValCell value={dmg}     color={color} />
+    </Section>
+  )
+}
+
+// ── Resistance section ────────────────────────────────────────────────────────
+
+type ResRow = { iconName: string; color: string; resFixed: number; resPct: number }
+
+function ResTableRow({ iconName, color, resFixed, resPct }: ResRow) {
+  const hasData = resFixed !== 0 || resPct !== 0
+  return (
+    <div
+      className="grid items-center rounded-md"
+      style={{
+        gridTemplateColumns: '22px 1fr 1fr',
+        gap:        6,
+        padding:    '5px 8px',
+        background: hasData ? `color-mix(in srgb, ${color} 7%, transparent)` : 'transparent',
+        borderLeft: `2px solid ${hasData ? color : 'transparent'}`,
+        opacity:    hasData ? 1 : 0.28,
+      }}
+    >
+      <div className="flex items-center justify-center">{icon(iconName, 16)}</div>
       <ValCell value={resFixed} color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
       <ValCell value={resPct}   color={resPct   > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
     </div>
   )
 }
 
-function ElementTable({ s }: { s: StatBlock }) {
+function ResistanceSection({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
-  const rows: ElemRow[] = [
-    { iconName: 'strength',     label: 'earth',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
-    { iconName: 'intelligence', label: 'fire',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
-    { iconName: 'chance',       label: 'water',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
-    { iconName: 'agility',      label: 'air',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent     },
-    { iconName: 'neutral',      label: 'neutral', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
+  const rows: ResRow[] = [
+    { iconName: 'earth_resistance',   color: 'var(--earth)',   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
+    { iconName: 'fire_resistance',    color: 'var(--fire)',    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
+    { iconName: 'water_resistance',   color: 'var(--water)',   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
+    { iconName: 'air_resistance',     color: 'var(--air)',     resFixed: s.airResFixed,     resPct: s.airResPercent     },
+    { iconName: 'neutral_resistance', color: 'var(--neutral)', resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
   ]
 
-  const headerStyle: React.CSSProperties = {
+  const extras: ResRow[] = [
+    { iconName: 'crit_res',        color: 'var(--crit)',  resFixed: s.critResistance, resPct: 0 },
+    { iconName: 'push_resistance', color: 'var(--earth)', resFixed: s.pushbackResist, resPct: 0 },
+  ].filter(r => r.resFixed !== 0)
+
+  const hdr: React.CSSProperties = {
     color: 'var(--ink-faint)', fontSize: 9, textTransform: 'uppercase',
     letterSpacing: '0.1em', textAlign: 'right', alignSelf: 'center',
   }
 
   return (
-    <Section title={t('section_elements')}>
-      <div className="grid mb-1" style={{ gridTemplateColumns: ELEM_COLS, gap: 6 }}>
+    <Section title={t('section_resistances')}>
+      <div className="grid mb-1" style={{ gridTemplateColumns: '22px 1fr 1fr', gap: 6 }}>
         <span />
-        <span style={headerStyle}>{t('header_dmg')}</span>
-        <span style={headerStyle}>{t('header_res')}</span>
-        <span style={headerStyle}>{t('header_res_pct')}</span>
+        <span style={hdr}>{t('header_res')}</span>
+        <span style={hdr}>{t('header_res_pct')}</span>
       </div>
-
       <div className="space-y-0.5">
-        {rows.map(r => (
-          <ElemTableRow key={r.label} iconName={r.iconName} color={r.color} dmg={r.dmg} resFixed={r.resFixed} resPct={r.resPct} />
-        ))}
-
-        <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
-
-        <ElemTableRow
-          iconName="crit_damage"
-          color="var(--crit)"
-          dmg={s.critDamage} resFixed={s.critResistance} resPct={0}
-        />
-        <ElemTableRow
-          iconName="push_damage"
-          color="var(--earth)"
-          dmg={s.pushbackDamage} resFixed={s.pushbackResist} resPct={0}
-        />
+        {rows.map((r, i) => <ResTableRow key={i} {...r} />)}
+        {extras.length > 0 && (
+          <>
+            <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
+            {extras.map((r, i) => <ResTableRow key={i} {...r} />)}
+          </>
+        )}
       </div>
     </Section>
   )
@@ -223,6 +255,7 @@ function CombatGrid({ s }: { s: StatBlock }) {
     { iconName: 'crit',         label: t('stat_crit_chance'), value: s.critChance,  color: 'var(--crit)',     suffix: '%' },
     { iconName: 'prospecting',  label: t('stat_prospecting'), value: s.prospecting, color: 'var(--gold)',    alwaysShow: true  },
     { iconName: 'summons',      label: t('stat_summons'),     value: s.summons,     color: 'var(--wisdom)',  alwaysShow: true  },
+    { iconName: 'pods',         label: t('stat_pods'),        value: s.pods,        color: 'var(--gold)'     },
     { iconName: 'ap_parry',     label: t('stat_ap_parry'),    value: s.apParry,     color: 'var(--ap)'       },
     { iconName: 'mp_parry',     label: t('stat_mp_parry'),    value: s.mpParry,     color: 'var(--mp)'       },
     { iconName: 'ap_reduction', label: t('stat_ap_removal'),  value: s.apReduction, color: 'var(--wisdom)'   },
@@ -279,14 +312,13 @@ function DamageMods({ s }: { s: StatBlock }) {
   )
 }
 
-// ── Main component ─────────────────────────────────────────────────────────────
+// ── Main component ────────────────────────────────────────────────────────────
 
 function StatsFromBlock({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
   return (
     <div className="space-y-4">
-      {/* Top badges: AP / MP / HP / Range */}
       <div className="flex gap-1.5">
         <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    color="var(--gold)"     />
         <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    color="var(--mp)"       />
@@ -296,7 +328,8 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         )}
       </div>
 
-      <ElementTable s={s} />
+      <DamageSection s={s} />
+      <ResistanceSection s={s} />
       <CombatGrid s={s} />
       <DamageMods s={s} />
 
