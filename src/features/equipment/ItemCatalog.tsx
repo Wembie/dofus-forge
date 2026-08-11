@@ -471,16 +471,16 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   return (
     <>
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(4px)' }}
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(4px)' }}
       role="dialog"
       aria-modal
       aria-label={slotLabel}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxWidth: '95vw', width: '1400px', height: '92vh' }}
+        className="flex flex-col rounded-xl shadow-2xl overflow-hidden"
+        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', width: 'calc(100vw - 24px)', height: 'calc(100vh - 24px)' }}
       >
         {/* Header */}
         <div
