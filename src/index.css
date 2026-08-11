@@ -259,6 +259,11 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 input[type=number] { -moz-appearance: textfield; }
 
+/* JetBrains Mono slashed-zero looks like 8 at small sizes — disable it */
+.font-mono, code, [class*="tabular-nums"] {
+  font-feature-settings: 'zero' 0, 'calt' 1;
+}
+
 /* ── Filter button active state (gold tint — can't do with Tailwind opacity modifier) */
 .filter-btn-active {
   background: color-mix(in srgb, var(--gold) 10%, transparent);
