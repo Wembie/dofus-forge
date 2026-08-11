@@ -193,6 +193,7 @@
   "spell_push": "Recule {{cells}}",
   "spell_steal_ap": "−{{n}} PA",
   "spell_steal_mp": "−{{n}} PM",
+  "spell_condition_shield": "Objectifs avec bouclier",
   "weapon_attack": "Attaque d'arme",
   "weapon_fist": "Sans arme (Poing)",
   "weapon_normal": "Normal",

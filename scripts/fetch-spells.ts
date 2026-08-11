@@ -59,13 +59,14 @@ const CLASS_SLUG: Record<string, string> = {
 
 export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
 
-export type AppSpellEffectKind = 'damage' | 'push' | 'ap' | 'mp'
+export type AppSpellEffectKind = 'damage' | 'steal' | 'push' | 'ap' | 'mp'
 
 export type AppSpellEffect = {
-  element: Exclude<AppSpellElement, 'mixed'>
-  min:     number
-  max:     number
-  kind:    AppSpellEffectKind
+  element:    Exclude<AppSpellElement, 'mixed'>
+  min:        number
+  max:        number
+  kind:       AppSpellEffectKind
+  condition?: 'shield'  // effect only applies when target has a shield (PB targetMask)
 }
 
 export type AppSpellLevel = {
@@ -150,34 +151,81 @@ const MP_IDS    = new Set([141])
 const OMNI_DMG_IDS = new Set([2822, 2832])
 // Percentage modifiers accompanying steal effects — skip these (not damage values)
 const LIFESTEAL_PCT_IDS = new Set([118, 119, 123, 126])
+// Elemental steal/lifesteal effectIds (same element pattern as 96-100 damage effectIds)
+const STEAL_IDS = new Set([91, 92, 93, 94, 95])
+
+type RawEffect = { effect: AppSpellEffect; mask: string }
+
+// Deduplicate effects that are mutually exclusive alternatives (each fires on one of
+// several state conditions *e<id>/*E<id>). Keeps first representative per (element,min,max,kind).
+function deduplicateConditional(items: RawEffect[]): AppSpellEffect[] {
+  const keepIdx = new Set<number>(items.map((_, i) => i))
+  const groups = new Map<string, number[]>()
+  for (let i = 0; i < items.length; i++) {
+    const e = items[i].effect
+    const key = `${e.element}|${e.min}|${e.max}|${e.kind}`
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key)!.push(i)
+  }
+  for (const [, indices] of groups) {
+    if (indices.length <= 1) continue
+    // Only deduplicate when ALL duplicates have explicit state conditions (*e or *E in mask)
+    // — those are mutually exclusive, only one fires per cast. Multi-hits with no state
+    // conditions (different AoE zones) are NOT deduplicated.
+    const allStateConditional = indices.every(i => /\*[eE]\d/.test(items[i].mask))
+    if (allStateConditional) {
+      for (let j = 1; j < indices.length; j++) keepIdx.delete(indices[j])
+    }
+  }
+  return items.filter((_, i) => keepIdx.has(i)).map(r => r.effect)
+}
 
 function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEffect[] {
-  const effects: AppSpellEffect[] = []
+  const items: RawEffect[] = []
 
-  // Elemental damage effects (effectElement 0-4); skip lifesteal % modifiers
+  // Elemental damage/steal effects (effectElement 0-4); skip lifesteal % modifiers
   for (const e of rawEffects) {
-    const el  = Number(e.effectElement)
-    const eid = Number(e.effectId)
+    const el   = Number(e.effectElement)
+    const eid  = Number(e.effectId)
+    const mask = String(e.targetMask ?? '')
     if (el >= 0 && el <= 4 && !LIFESTEAL_PCT_IDS.has(eid)) {
-      effects.push({
-        element: ELEMENT_OF[el] as Exclude<AppSpellElement, 'mixed'>,
-        min:     Number(e.diceNum),
-        max:     Number(e.diceSide),
-        kind:    'damage',
+      items.push({
+        effect: {
+          element: ELEMENT_OF[el] as Exclude<AppSpellElement, 'mixed'>,
+          min:     Number(e.diceNum),
+          max:     Number(e.diceSide),
+          kind:    STEAL_IDS.has(eid) ? 'steal' : 'damage',
+        },
+        mask,
       })
     }
   }
 
   // Best/worst-element damage (effectElement=-1, displayed as neutral)
   for (const e of rawEffects) {
-    const eid = Number(e.effectId)
+    const eid  = Number(e.effectId)
+    const mask = String(e.targetMask ?? '')
     if (OMNI_DMG_IDS.has(eid)) {
       const min = Number(e.diceNum)
-      if (min > 0) effects.push({ element: 'neutral', min, max: Number(e.diceSide), kind: 'damage' })
+      if (min > 0) items.push({ effect: { element: 'neutral', min, max: Number(e.diceSide), kind: 'damage' }, mask })
     }
   }
 
-  return effects
+  // Detect shield condition (PB = "Protection Bouclier" in targetMask)
+  // Only separate into groups when BOTH shielded and non-shielded effects exist.
+  const hasShield   = items.some(r => /\bPB\b/.test(r.mask))
+  const hasNoShield = items.some(r => /\bpb\b/.test(r.mask))
+
+  if (hasShield && hasNoShield) {
+    const baseItems   = items.filter(r => !/\bPB\b/.test(r.mask))
+    const shieldItems = items.filter(r =>  /\bPB\b/.test(r.mask))
+    return [
+      ...deduplicateConditional(baseItems),
+      ...deduplicateConditional(shieldItems).map(e => ({ ...e, condition: 'shield' as const })),
+    ]
+  }
+
+  return deduplicateConditional(items)
 }
 
 function buildLevels(raw: Record<string, unknown>): AppSpellLevel {

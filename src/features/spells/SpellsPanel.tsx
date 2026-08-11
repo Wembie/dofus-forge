@@ -75,28 +75,150 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
     return lvl.critEffects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
   }, [lvl, stats, spellPct])
 
-  const hasCrit         = critDisplayEffects.length > 0
-  const damageEffects   = displayEffects.filter(e => e.kind === 'damage')
-  const critDmgEffects  = critDisplayEffects.filter(e => e.kind === 'damage')
-  // push damage formula: floor(pushbackDamage / 3) × cells_pushed per effect
-  const pushDmgPerCell  = stats ? Math.floor(stats.pushbackDamage / 3) : 0
-  const totalPushDmg    = displayEffects
-    .filter(e => e.kind === 'push')
-    .reduce((sum, e) => sum + pushDmgPerCell * e.calcMin, 0)
-  const showTotal       = damageEffects.length >= 2 || (damageEffects.length >= 1 && totalPushDmg > 0)
+  const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal'
 
-  // Map display-index → crit effect by damage-slot index (not element match)
+  // Separate effects by condition (shield = effects only on shielded targets)
+  const baseDisplayEffects   = displayEffects.filter(e => e.condition !== 'shield')
+  const shieldDisplayEffects = displayEffects.filter(e => e.condition === 'shield')
+  const hasShieldGroup       = shieldDisplayEffects.length > 0
+
+  // Crit effects in same order as normal: base first, shield second
+  const critDmgEffects = critDisplayEffects.filter(isDmgOrSteal)
+
+  // Map display-index → crit effect by ordered damage-slot index
   const critByDisplayIdx = useMemo(() => {
     const map = new Map<number, (typeof critDmgEffects)[0]>()
     let dmgIdx = 0
     displayEffects.forEach((e, i) => {
-      if (e.kind === 'damage') {
+      if (isDmgOrSteal(e)) {
         if (dmgIdx < critDmgEffects.length) map.set(i, critDmgEffects[dmgIdx])
         dmgIdx++
       }
     })
     return map
   }, [displayEffects, critDmgEffects])
+
+  // Push damage: floor(pushbackDamage / 3) × cells_pushed
+  const pushDmgPerCell = stats ? Math.floor(stats.pushbackDamage / 3) : 0
+  const totalPushDmg   = displayEffects
+    .filter(e => e.kind === 'push')
+    .reduce((sum, e) => sum + pushDmgPerCell * e.calcMin, 0)
+
+  // Σ only counts BASE effects (shield group is mutually exclusive, can't add them)
+  const baseDmgEffects = baseDisplayEffects.filter(isDmgOrSteal)
+  const showTotal      = baseDmgEffects.length >= 2 || (baseDmgEffects.length >= 1 && totalPushDmg > 0)
+
+  function renderEffectGroup(shieldGroup: boolean) {
+    const groupDmgEffects = displayEffects.filter(e =>
+      isDmgOrSteal(e) && (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield')
+    )
+    const critGroup = displayEffects.flatMap((e, i) => {
+      const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
+      if (!inGroup || !isDmgOrSteal(e)) return []
+      return [critByDisplayIdx.get(i)]
+    })
+    const hasCritGroup  = critGroup.some(c => c != null)
+    const totalNormMin  = groupDmgEffects.reduce((s, e) => s + e.calcMin, 0) + (shieldGroup ? 0 : totalPushDmg)
+    const totalNormMax  = groupDmgEffects.reduce((s, e) => s + e.calcMax, 0) + (shieldGroup ? 0 : totalPushDmg)
+    const critTotalMin  = critGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const critTotalMax  = critGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const hasStealGroup = groupDmgEffects.some(e => e.kind === 'steal')
+    const totalHealMin  = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMin / 2), 0)
+    const totalHealMax  = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
+    const critHealMin   = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
+    const critHealMax   = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
+    const showGroupTotal = !shieldGroup && showTotal
+
+    const rows = displayEffects.flatMap((e, i) => {
+      const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
+      if (!inGroup) return []
+      const c = ELEM_COLOR[e.element]
+      if (e.kind === 'push') {
+        const cells = e.calcMin
+        const dmg   = pushDmgPerCell * cells
+        return [(
+          <div key={`p${i}`} className="flex items-center gap-1">
+            <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>↷</span>
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
+              {t('spell_push', { cells })}{stats && dmg > 0 ? ` (${dmg})` : ''}
+            </span>
+          </div>
+        )]
+      }
+      if (e.kind === 'ap') return [(
+        <div key={`a${i}`} className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>
+          {t('spell_steal_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+        </div>
+      )]
+      if (e.kind === 'mp') return [(
+        <div key={`m${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
+          {t('spell_steal_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+        </div>
+      )]
+      const crit = critByDisplayIdx.get(i)
+      return [(
+        <div key={`e${i}`} className="space-y-0.5">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
+            <span className={`text-[11px] font-mono tabular-nums${showCalc ? ' font-bold' : ''}`} style={{ color: showCalc ? c : 'var(--ink-muted)' }}>
+              {fmtRange(e.calcMin, e.calcMax)}
+            </span>
+            {crit && (
+              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--crit)' }}>
+                ✦{fmtRange(crit.calcMin, crit.calcMax)}
+              </span>
+            )}
+          </div>
+          {e.kind === 'steal' && (
+            <div className="flex items-center gap-1.5 pl-3">
+              <span className="text-[10px]" style={{ color: 'var(--vitality)' }}>♥</span>
+              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+                {fmtRange(Math.floor(e.calcMin / 2), Math.floor(e.calcMax / 2))}
+              </span>
+              {crit && (
+                <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+                  ✦{fmtRange(Math.floor(crit.calcMin / 2), Math.floor(crit.calcMax / 2))}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )]
+    })
+
+    if (showGroupTotal) {
+      rows.push(
+        <div key="sigma" className="pt-1 space-y-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-bold" style={{ color: 'var(--ink-faint)' }}>Σ</span>
+            <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
+              {fmtRange(totalNormMin, totalNormMax)}
+            </span>
+            {hasCritGroup && (
+              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--crit)' }}>
+                ✦{fmtRange(critTotalMin, critTotalMax)}
+              </span>
+            )}
+          </div>
+          {hasStealGroup && (
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px]" style={{ color: 'var(--vitality)' }}>♥</span>
+              <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+                {fmtRange(totalHealMin, totalHealMax)}
+              </span>
+              {hasCritGroup && (
+                <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
+                  ✦{fmtRange(critHealMin, critHealMax)}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    return rows
+  }
 
   const rangeStr = !lvl || lvl.maxRange === 0
     ? t('spell_melee')
@@ -154,79 +276,16 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
 
         {displayEffects.length > 0 ? (
           <div className="space-y-0.5">
-            {displayEffects.map((e, i) => {
-              if (e.kind === 'push') {
-                return (
-                  <div key={i} className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
-                      {t('spell_push', { cells: e.calcMin })}
-                    </span>
-                    {pushDmgPerCell > 0 && (
-                      <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
-                        {pushDmgPerCell * e.calcMin}
-                      </span>
-                    )}
-                  </div>
-                )
-              }
-              if (e.kind === 'ap' || e.kind === 'mp') {
-                const label = e.kind === 'ap'
-                  ? t('spell_steal_ap', { n: e.calcMin })
-                  : t('spell_steal_mp', { n: e.calcMin })
-                return (
-                  <span key={i} className="text-[10px] font-mono block" style={{ color: 'var(--gold)' }}>{label}</span>
-                )
-              }
-              const c     = ELEM_COLOR[e.element]
-              const critE = hasCrit ? (critByDisplayIdx.get(i) ?? null) : null
-              return (
-                <div key={i} className="flex items-center gap-1.5">
-                  <span className="flex items-center gap-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c }} />
-                    <span
-                      className="text-[10px] font-mono tabular-nums"
-                      style={{ color: c, fontWeight: showCalc ? 700 : 400 }}
-                    >{fmtRange(e.calcMin, e.calcMax)}</span>
+            {renderEffectGroup(false)}
+            {hasShieldGroup && (
+              <>
+                <div className="pt-0.5 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+                  <span className="text-[9px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
+                    {t('spell_condition_shield')}
                   </span>
-                  {critE && (
-                    <span className="flex items-center gap-0.5">
-                      <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
-                      <span
-                        className="text-[10px] font-mono tabular-nums font-bold"
-                        style={{ color: 'var(--crit)' }}
-                      >{fmtRange(critE.calcMin, critE.calcMax)}</span>
-                    </span>
-                  )}
                 </div>
-              )
-            })}
-
-            {showTotal && (
-              <div
-                className="flex items-center gap-1.5 mt-0.5 pt-0.5"
-                style={{ borderTop: '1px solid var(--metal-edge)' }}
-              >
-                <span className="flex items-center gap-0.5">
-                  <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>Σ</span>
-                  <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>
-                    {fmtRange(
-                      damageEffects.reduce((s, e) => s + e.calcMin, 0) + totalPushDmg,
-                      damageEffects.reduce((s, e) => s + e.calcMax, 0) + totalPushDmg,
-                    )}
-                  </span>
-                </span>
-                {hasCrit && critDmgEffects.length >= 1 && (
-                  <span className="flex items-center gap-0.5">
-                    <span className="text-[9px]" style={{ color: 'var(--gold)' }}>✦</span>
-                    <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
-                      {fmtRange(
-                        critDmgEffects.reduce((s, e) => s + e.calcMin, 0) + totalPushDmg,
-                        critDmgEffects.reduce((s, e) => s + e.calcMax, 0) + totalPushDmg,
-                      )}
-                    </span>
-                  </span>
-                )}
-              </div>
+                {renderEffectGroup(true)}
+              </>
             )}
           </div>
         ) : (
