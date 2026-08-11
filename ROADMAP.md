@@ -51,6 +51,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M31 — Daño de empuje en SpellCard** — hechizos con efecto de empuje muestran stats.pushbackDamage (plano) junto al texto "Empuja X celdas". Incluido en Σ total (normal + crítico). Fórmula: valor plano, no escala con crits.
 - [x] **M32 — Nombres de hechizos en idioma seleccionado** — loadSpells carga EN para efectos (claves STAT_MAP) y superpone nombres del archivo de idioma destino. Mismo patrón overlay que items/sets.
 - [x] **Fix — Crit de hechizos por índice** — SpellCard usaba `critDmgEffects.find(by element)` que retornaba siempre el primer efecto con ese elemento. Multi-hit del mismo elemento (ej. Flecha de Abolición 3×tierra) mostraban todos el mismo crit. Fix: map `displayIndex → critDmgEffects[dmgIdx]` rastreando índice de efecto de daño por separado.
+- [x] **M33 — Efectos de robo (steal) y grupo escudo en SpellCard** — ETL detecta effectId 91-95 como `kind='steal'`; SpellCard muestra fila ♥ heal (floor(dmg/2)) con crit inline. Efectos con targetMask PB (con escudo) se separan en sección "Objetivos con escudo" con divider. Σ total solo suma grupo base (escudo es mutuamente excluyente). Dedup de efectos condicionales de estado (*e/*E) en ETL. Σ y ♥ total también actualizados para steal.
 
 ### UI / Polish
 - [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
