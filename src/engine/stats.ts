@@ -7,10 +7,11 @@ import { STAT_MAP, IGNORED_STATS } from './statMap.ts'
 // We filter these out only for weapon-slot items to avoid double-counting weapon attack ranges.
 const WEAPON_ATTACK_STATS = new Set(['Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage'])
 
-// Base AP/MP in Dofus 3.
+// Base AP/MP/Pods in Dofus 3.
 // TODO: Verify in Dofus 3. Assumption: 6 AP / 3 MP base for all classes.
-const BASE_AP = 6
-const BASE_MP = 3
+const BASE_AP   = 6
+const BASE_MP   = 3
+const BASE_PODS = 1000
 
 // Base HP formula.
 // TODO: Verify class-specific base HP in Dofus 3.
@@ -96,9 +97,10 @@ function computeSetBonuses(items: BuildInput['items'], sets: BuildInput['sets'])
 export function computeStats(input: BuildInput): StatBlock {
   const block = emptyStatBlock()
 
-  // 1. Base AP/MP (+ Dofus 2: +1 AP bonus at level 100)
-  block.ap = BASE_AP + (input.level >= 100 ? 1 : 0)
-  block.mp = BASE_MP
+  // 1. Base AP/MP/Pods (+ Dofus 2: +1 AP bonus at level 100)
+  block.ap   = BASE_AP + (input.level >= 100 ? 1 : 0)
+  block.mp   = BASE_MP
+  block.pods = BASE_PODS
 
   // 2. Aggregate item effects (filter weapon attack ranges from weapon-slot items)
   for (const item of input.items) {
