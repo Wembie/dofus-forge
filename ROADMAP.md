@@ -52,6 +52,8 @@ Marcar con `[x]` cuando se complete.
 - [x] **M32 — Nombres de hechizos en idioma seleccionado** — loadSpells carga EN para efectos (claves STAT_MAP) y superpone nombres del archivo de idioma destino. Mismo patrón overlay que items/sets.
 - [x] **Fix — Crit de hechizos por índice** — SpellCard usaba `critDmgEffects.find(by element)` que retornaba siempre el primer efecto con ese elemento. Multi-hit del mismo elemento (ej. Flecha de Abolición 3×tierra) mostraban todos el mismo crit. Fix: map `displayIndex → critDmgEffects[dmgIdx]` rastreando índice de efecto de daño por separado.
 - [x] **M33 — Efectos de robo (steal) y grupo escudo en SpellCard** — ETL detecta effectId 91-95 como `kind='steal'`; SpellCard muestra fila ♥ heal (floor(dmg/2)) con crit inline. Efectos con targetMask PB (con escudo) se separan en sección "Objetivos con escudo" con divider. Σ total solo suma grupo base (escudo es mutuamente excluyente). Dedup de efectos condicionales de estado (*e/*E) en ETL. Σ y ♥ total también actualizados para steal.
+- [x] **Fix — Overflow CharacteristicsPanel** — fila de característica era ~232px mínimo en columna de 212px disponibles. Restructurado en 2 filas: fila 1 icono+nombre+valor total, fila 2 controles −/input/+/S alineados a la derecha. Botones 20px, input 40px, scroll toggle 16px.
+- [x] **M34 — Crit efectivo y rango efectivo en SpellCard** — crit mostrado = min(100, spell.critChance + stats.critChance). Rango mostrado = maxRange + stats.range para hechizos no cuerpo a cuerpo. Header usa iconos de stat (PA, rango, crit) del mismo set que StatsPanel.
 
 ### UI / Polish
 - [x] **M22 — Layout mobile responsive** — la grilla de 3 columnas colapsa bien en móvil (tabs o acordeón), el ItemCatalog es usable en pantalla pequeña
