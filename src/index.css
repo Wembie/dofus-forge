@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -77,6 +77,22 @@
   --dur-slow:      360ms;
   --dur-cinematic: 620ms;
   --stagger:       45ms;
+
+  /* ── Rarity tiers ── */
+  --rarity-0:      #8c8c8c;  /* Common */
+  --rarity-0-glow: rgba(140,140,140,.18);
+  --rarity-1:      #74b93f;  /* Uncommon */
+  --rarity-1-glow: rgba(116,185,63,.22);
+  --rarity-2:      #2f93d8;  /* Rare */
+  --rarity-2-glow: rgba(47,147,216,.28);
+  --rarity-3:      #a06fd0;  /* Epic */
+  --rarity-3-glow: rgba(160,111,208,.32);
+  --rarity-4:      #c9a24b;  /* Legendary */
+  --rarity-4-glow: rgba(201,162,75,.35);
+  --rarity-5:      #e04b2a;  /* Mythical */
+  --rarity-5-glow: rgba(224,75,42,.38);
+  --rarity-6:      #eccb78;  /* Set */
+  --rarity-6-glow: rgba(236,203,120,.30);
 
   /* ── Legacy forge-* aliases — kept for Phase 2 component migration ── */
   --forge-bg:      var(--surface-void);
@@ -157,10 +173,29 @@
 
 body {
   background-color: var(--surface-void);
-  background-image: radial-gradient(ellipse 120% 40% at 50% 0%, rgba(201,162,75,0.06) 0%, transparent 100%);
+  background-image:
+    radial-gradient(ellipse 80% 35% at 50% 0%, rgba(201,162,75,0.09) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 50% at 0% 100%, rgba(47,147,216,0.04) 0%, transparent 100%),
+    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(201,138,43,0.04) 0%, transparent 100%);
   color: var(--ink);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Keyframe animations ──────────────────────────────────────────────── */
+@keyframes stat-tick {
+  0%   { transform: translateY(0) scale(1);     opacity: 1 }
+  30%  { transform: translateY(-3px) scale(1.06); opacity: 1 }
+  100% { transform: translateY(0) scale(1);     opacity: 1 }
+}
+@keyframes slot-equip {
+  0%   { transform: scale(1);    box-shadow: none }
+  40%  { transform: scale(1.08); box-shadow: 0 0 24px var(--gold-glow, rgba(201,162,75,.5)) }
+  100% { transform: scale(1);    box-shadow: none }
+}
+@keyframes float-delta {
+  0%   { opacity: 1; transform: translateY(0) }
+  100% { opacity: 0; transform: translateY(-28px) }
 }
 
 /* ── Reduced motion ───────────────────────────────────────────────────── */

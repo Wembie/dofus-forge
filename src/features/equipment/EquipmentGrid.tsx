@@ -157,7 +157,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const leaveRef                = useRef<ReturnType<typeof setTimeout>>()
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
   const leave = () => { leaveRef.current = setTimeout(() => setHovered(false), 250) }
-  const px      = small ? 52 : 66
+  const px      = small ? 62 : 80
   const slotLabel = t(slotTKey(slotId))
 
   return (
@@ -427,57 +427,57 @@ function CharacterCenter() {
   const { t }         = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
+  const level         = useBuildStore(s => s.level)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
   const portrait      = classInfo ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : null
   const classElem     = classInfo?.element ?? null
   const primaryColor  = elemVar(classElem)
 
   function gemIntensity(element: string): number {
-    if (!classElem)            return 0.15
-    if (classElem === 'multi') return 0.75
-    return classElem === element ? 1.0 : 0.22
+    if (!classElem)            return 0.12
+    if (classElem === 'multi') return 0.80
+    return classElem === element ? 1.0 : 0.20
   }
 
   return (
     <div
       className="relative flex flex-col items-center flex-shrink-0"
       style={{
-        width:     180,
-        minHeight: 340,
-        background: `radial-gradient(ellipse at 50% 30%, color-mix(in srgb, ${primaryColor} 14%, transparent) 0%, transparent 55%), var(--surface-void)`,
+        width:     200,
+        minHeight: 480,
+        background: `radial-gradient(ellipse at 50% 28%, color-mix(in srgb, ${primaryColor} 16%, transparent) 0%, transparent 58%), var(--surface-void)`,
       }}
     >
       {/* Portrait + gem ring */}
       <div
         className="relative flex items-center justify-center mt-6"
-        style={{ width: 160, height: 220 }}
+        style={{ width: 180, height: 250 }}
       >
         {/* Dashed ring guide */}
         <svg
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-          viewBox="0 0 160 220"
+          viewBox="0 0 180 250"
         >
           <circle
-            cx="80" cy="110"
-            r="68"
+            cx="90" cy="125"
+            r="80"
             fill="none"
             stroke={primaryColor}
-            strokeOpacity="0.18"
+            strokeOpacity="0.16"
             strokeWidth="1"
-            strokeDasharray="3 7"
+            strokeDasharray="3 8"
           />
-          {/* Outer decorative ring */}
           <circle
-            cx="80" cy="110"
-            r="74"
+            cx="90" cy="125"
+            r="87"
             fill="none"
             stroke={primaryColor}
-            strokeOpacity="0.07"
+            strokeOpacity="0.06"
             strokeWidth="1"
           />
         </svg>
 
-        {/* Gem ring */}
+        {/* Gem ring — scaled up radius */}
         {GEM_RING.map(({ element, dx, dy }) => (
           <div
             key={element}
@@ -485,10 +485,10 @@ function CharacterCenter() {
               position:  'absolute',
               left:      '50%',
               top:       '50%',
-              transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`,
+              transform: `translate(calc(-50% + ${Math.round(dx * 1.18)}px), calc(-50% + ${Math.round(dy * 1.18)}px))`,
             }}
           >
-            <ElementGem element={element} intensity={gemIntensity(element)} size={14} />
+            <ElementGem element={element} intensity={gemIntensity(element)} size={15} />
           </div>
         ))}
 
@@ -496,12 +496,12 @@ function CharacterCenter() {
         <div
           className="rounded-2xl overflow-hidden flex-shrink-0"
           style={{
-            width:     110,
-            height:    110,
+            width:     130,
+            height:    130,
             position:  'relative',
             zIndex:    1,
-            border:    `2px solid color-mix(in srgb, ${primaryColor} 50%, transparent)`,
-            boxShadow: `0 0 32px color-mix(in srgb, ${primaryColor} 35%, transparent), 0 0 8px color-mix(in srgb, ${primaryColor} 15%, transparent), var(--inset-bevel)`,
+            border:    `2px solid color-mix(in srgb, ${primaryColor} 55%, transparent)`,
+            boxShadow: `0 0 40px color-mix(in srgb, ${primaryColor} 40%, transparent), 0 0 10px color-mix(in srgb, ${primaryColor} 18%, transparent), var(--inset-bevel)`,
             background: 'var(--surface-panel)',
           }}
         >
@@ -509,32 +509,53 @@ function CharacterCenter() {
             <img src={portrait} alt={classInfo?.name ?? ''} className="w-full h-full object-cover" draggable={false} />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="text-3xl" style={{ color: 'var(--ink-faint)' }}>?</span>
+              <span className="text-4xl" style={{ color: 'var(--ink-faint)' }}>?</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Class name + separator */}
-      <div className="flex flex-col items-center gap-2 mt-3">
+      {/* Class name + level + separator */}
+      <div className="flex flex-col items-center gap-1.5 mt-3">
         {classInfo ? (
-          <span
-            className="font-display text-[13px] tracking-[0.26em] uppercase"
-            style={{ color: 'var(--gold)', textShadow: '0 0 16px rgba(201,162,75,0.4)' }}
-          >
-            {classInfo.name}
-          </span>
+          <>
+            <span
+              className="font-display text-[14px] tracking-[0.28em] uppercase"
+              style={{ color: 'var(--gold)', textShadow: '0 0 20px rgba(201,162,75,0.45)' }}
+            >
+              {classInfo.name}
+            </span>
+            <div className="flex items-center gap-2">
+              <div style={{
+                width:      40,
+                height:     1,
+                background: 'linear-gradient(to right, transparent, var(--gold-deep))',
+                opacity:    0.7,
+              }} />
+              <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: 'var(--ink-muted)' }}>
+                Lv.{level}
+              </span>
+              <div style={{
+                width:      40,
+                height:     1,
+                background: 'linear-gradient(to left, transparent, var(--gold-deep))',
+                opacity:    0.7,
+              }} />
+            </div>
+          </>
         ) : (
-          <span className="font-display text-[9px] tracking-widest text-center px-4" style={{ color: 'var(--ink-faint)' }}>
-            {t('select_class_prompt')}
-          </span>
+          <>
+            <span className="font-display text-[9px] tracking-widest text-center px-4" style={{ color: 'var(--ink-faint)' }}>
+              {t('select_class_prompt')}
+            </span>
+            <div style={{
+              width:      100,
+              height:     1,
+              background: 'linear-gradient(to right, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent)',
+              opacity:    0.4,
+            }} />
+          </>
         )}
-        <div style={{
-          width:      100,
-          height:     1,
-          background: 'linear-gradient(to right, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent)',
-          opacity:    0.6,
-        }} />
       </div>
     </div>
   )

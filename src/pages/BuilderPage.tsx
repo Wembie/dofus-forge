@@ -49,42 +49,55 @@ function BuilderContent() {
     <div className="min-h-screen bg-forge-bg text-forge-text">
       {/* Header */}
       <header
-        className="sticky top-0 z-40 backdrop-blur-sm"
+        className="sticky top-0 z-40 backdrop-blur-md"
         style={{
-          background:   'color-mix(in srgb, var(--surface-panel) 92%, transparent)',
+          background:   'color-mix(in srgb, var(--surface-stone) 95%, transparent)',
           borderBottom: '1px solid var(--gold-deep)',
-          boxShadow:    '0 1px 0 var(--metal-edge), 0 4px 20px rgba(0,0,0,0.45)',
+          boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 12%, transparent), 0 4px 24px rgba(0,0,0,0.55)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3 relative flex-wrap">
+        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center gap-4">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
-          <h1
-            className="font-display text-xl font-bold tracking-wide"
-            style={{
-              color:      'var(--gold)',
-              textShadow: '0 0 24px rgba(201,162,75,0.4), 0 1px 0 rgba(0,0,0,0.6)',
-              letterSpacing: '0.06em',
-            }}
-          >
-            {t('app_title')}
-          </h1>
-          <span className="text-ink-faint text-xs font-mono hidden sm:inline">
-            v{__APP_VERSION__}
-          </span>
+          {/* Brand */}
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <h1
+              className="font-display font-bold tracking-[0.1em]"
+              style={{
+                fontSize:   '1.1rem',
+                color:      'var(--gold)',
+                textShadow: '0 0 28px rgba(201,162,75,0.45), 0 1px 0 rgba(0,0,0,0.7)',
+              }}
+            >
+              {t('app_title')}
+            </h1>
+            <span
+              className="font-mono text-[10px] hidden sm:inline px-1.5 py-0.5 rounded"
+              style={{
+                color:      'var(--ink-faint)',
+                background: 'var(--surface-void)',
+                border:     '1px solid var(--metal-edge)',
+              }}
+            >
+              v{__APP_VERSION__}
+            </span>
+          </div>
 
+          {/* Status indicators */}
           {loading && (
-            <span className="text-forge-muted text-xs animate-pulse" role="status" aria-live="polite">
+            <span className="text-[11px] font-mono animate-pulse hidden sm:inline" style={{ color: 'var(--ink-faint)' }} role="status" aria-live="polite">
               {t('loading_data')}
             </span>
           )}
           {error && (
-            <span className="text-red-400 text-xs" role="alert">{t('error_loading')}</span>
+            <span className="text-[11px]" role="alert" style={{ color: 'var(--negative)' }}>{t('error_loading')}</span>
           )}
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-1.5">
             <LanguageSwitcher />
             <ThemeToggle />
+            {/* Divider */}
+            <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <IconButton
               label="Undo"
               variant="subtle"
@@ -105,6 +118,8 @@ function BuilderContent() {
             >
               <Redo2 size={14} />
             </IconButton>
+            {/* Divider */}
+            <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <ShareBar />
           </div>
         </div>
@@ -134,7 +149,7 @@ function BuilderContent() {
         </div>
 
         {/* Desktop: 3-column grid (lg+) */}
-        <div className="hidden lg:grid lg:grid-cols-[260px_1fr_300px] gap-6">
+        <div className="hidden lg:grid lg:grid-cols-[272px_1fr_316px] gap-5">
           {/* Left: Class + Characteristics */}
           <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
             <Frame><ClassPicker /></Frame>
@@ -142,19 +157,30 @@ function BuilderContent() {
           </aside>
 
           {/* Center: Equipment */}
-          <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
+          <section
+            aria-label={t('equipment')}
+            className="rounded-xl overflow-hidden"
+            style={{
+              border:    '1px solid var(--metal-edge)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,0,0,0.4)',
+            }}
+          >
             <EquipmentGrid />
           </section>
 
           {/* Right: Stats */}
-          <aside aria-label={t('stats')} aria-live="polite" className="overflow-y-auto max-h-[calc(100vh-120px)] sticky top-20">
+          <aside
+            aria-label={t('stats')}
+            aria-live="polite"
+            className="overflow-y-auto max-h-[calc(100vh-110px)] sticky top-[58px]"
+          >
             <Frame material="parchment"><StatsPanel /></Frame>
           </aside>
         </div>
 
         {/* Spells: full-width section below 3-col grid (desktop) */}
         {hasClass && (
-          <div className="hidden lg:block mt-6">
+          <div className="hidden lg:block mt-5">
             <Frame padding="lg"><SpellsPanel /></Frame>
           </div>
         )}

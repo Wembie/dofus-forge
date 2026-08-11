@@ -3,7 +3,6 @@ import { Hammer } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
-import { Frame, SectionHeader } from '@/ui'
 
 function icon(name: string, size = 16) {
   return (
@@ -17,7 +16,29 @@ function icon(name: string, size = 16) {
   )
 }
 
-// ── Top badges (AP / MP / HP / Range) ───────────────────────────────────────
+// ── Section with gold-accent line title ───────────────────────────────────────
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center gap-2">
+        <span
+          className="text-[9px] font-display uppercase tracking-[0.22em] font-bold flex-shrink-0"
+          style={{ color: 'var(--gold)' }}
+        >
+          {title}
+        </span>
+        <div
+          className="flex-1"
+          style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }}
+        />
+      </div>
+      {children}
+    </div>
+  )
+}
+
+// ── Top badges (AP / MP / HP / Range) ────────────────────────────────────────
 
 type BadgeProps = {
   iconName: string
@@ -27,46 +48,54 @@ type BadgeProps = {
 }
 
 function TopBadge({ iconName, label, value, color }: BadgeProps) {
+  const numClass = value >= 10000
+    ? 'text-xl'
+    : value >= 1000
+    ? 'text-2xl'
+    : value >= 100
+    ? 'text-3xl'
+    : 'text-4xl'
+
   return (
     <div
-      className="flex flex-col items-center gap-1.5 px-2 py-2.5 rounded-lg flex-1 relative overflow-hidden"
+      className="flex flex-col items-center gap-1 px-2 py-3.5 rounded-xl flex-1 relative overflow-hidden"
       style={{
-        background:   'var(--surface-void)',
-        borderTop:    `2px solid ${color}`,
-        borderRight:  '1px solid var(--metal-edge)',
-        borderBottom: '1px solid var(--metal-edge)',
-        borderLeft:   '1px solid var(--metal-edge)',
-        boxShadow:    `inset 0 0 20px color-mix(in srgb, ${color} 8%, transparent), 0 2px 8px rgba(0,0,0,0.45)`,
+        background: `linear-gradient(155deg, color-mix(in srgb, ${color} 12%, var(--surface-stone)) 0%, var(--surface-void) 100%)`,
+        border:     `1px solid color-mix(in srgb, ${color} 28%, var(--metal-edge))`,
+        borderTop:  `2px solid color-mix(in srgb, ${color} 70%, transparent)`,
+        boxShadow:  `inset 0 1px 0 color-mix(in srgb, ${color} 18%, transparent), inset 0 0 40px color-mix(in srgb, ${color} 6%, transparent), 0 4px 14px rgba(0,0,0,0.55)`,
       }}
     >
+      {/* Atmospheric glow bloom from top */}
       <div
         className="absolute inset-x-0 top-0 pointer-events-none"
-        style={{ height: 40, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 12%, transparent), transparent)` }}
+        style={{ height: 56, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 22%, transparent), transparent)` }}
       />
-      <div className="flex items-center gap-1 relative z-10 min-w-0">
+
+      {/* Icon */}
+      <div className="relative z-10 opacity-75">
         {icon(iconName, 15)}
-        <span
-          className={`font-display font-bold leading-none tabular-nums ${value >= 10000 ? 'text-base' : value >= 1000 ? 'text-xl' : 'text-2xl'}`}
-          style={{ color, textShadow: `0 0 14px color-mix(in srgb, ${color} 45%, transparent)` }}
-        >
-          {value}
-        </span>
       </div>
-      <span className="text-[8px] uppercase tracking-[0.14em] relative z-10" style={{ color: 'var(--ink-faint)' }}>{label}</span>
+
+      {/* The number — the hero */}
+      <span
+        className={`font-mono font-bold leading-none tabular-nums relative z-10 ${numClass}`}
+        style={{
+          color,
+          textShadow: `0 0 20px color-mix(in srgb, ${color} 65%, transparent), 0 0 40px color-mix(in srgb, ${color} 30%, transparent)`,
+        }}
+      >
+        {value.toLocaleString()}
+      </span>
+
+      {/* Label */}
+      <span
+        className="text-[8px] uppercase tracking-[0.18em] relative z-10 font-semibold"
+        style={{ color: 'var(--ink-faint)' }}
+      >
+        {label}
+      </span>
     </div>
-  )
-}
-
-// ── Section wrapper ───────────────────────────────────────────────────────────
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <Frame material="panel" padding="none">
-      <div className="px-3 py-1.5" style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-void)' }}>
-        <SectionHeader label={title} size="sm" />
-      </div>
-      <div className="px-3 py-2">{children}</div>
-    </Frame>
   )
 }
 
@@ -85,8 +114,10 @@ const ELEM_COLS = '1fr 44px 44px 48px'
 
 function ValCell({ value, color, suffix = '' }: { value: number; color: string; suffix?: string }) {
   return (
-    <span className="font-mono font-bold text-[11px] tabular-nums leading-none text-right"
-      style={{ color: value === 0 ? 'var(--ink-faint)' : color }}>
+    <span
+      className="font-mono font-bold text-xs tabular-nums leading-none text-right"
+      style={{ color: value === 0 ? 'var(--ink-faint)' : color }}
+    >
       {value === 0 ? '—' : `${value > 0 ? '+' : ''}${value}${suffix}`}
     </span>
   )
@@ -96,17 +127,21 @@ function ElemTableRow({ iconName, label, color, dmg, resFixed, resPct }: ElemRow
   const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   return (
     <div
-      className="grid items-center rounded-md"
+      className="grid items-center rounded-md transition-opacity"
       style={{
-        gridTemplateColumns: ELEM_COLS, gap: 6, padding: '5px 8px',
-        background:  hasData ? `color-mix(in srgb, ${color} 6%, transparent)` : 'transparent',
-        borderLeft:  `2px solid ${hasData ? `color-mix(in srgb, ${color} 25%, transparent)` : 'transparent'}`,
-        opacity:     hasData ? 1 : 0.40,
+        gridTemplateColumns: ELEM_COLS,
+        gap:        5,
+        padding:    '5px 8px',
+        background: hasData ? `color-mix(in srgb, ${color} 7%, transparent)` : 'transparent',
+        borderLeft: `2px solid ${hasData ? color : 'transparent'}`,
+        opacity:    hasData ? 1 : 0.35,
       }}
     >
       <div className="flex items-center gap-2 min-w-0">
-        {icon(iconName, 14)}
-        <span className="text-[11px] font-semibold truncate" style={{ color: hasData ? color : 'var(--ink-faint)' }}>{label}</span>
+        {icon(iconName, 15)}
+        <span className="text-[11px] font-medium truncate" style={{ color: hasData ? color : 'var(--ink-faint)' }}>
+          {label}
+        </span>
       </div>
       <ValCell value={dmg}      color={color} />
       <ValCell value={resFixed}  color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
@@ -126,23 +161,26 @@ function ElementTable({ s }: { s: StatBlock }) {
     { iconName: 'neutral',      label: t('elem_neutral'), color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
   ]
 
-  const headerStyle: React.CSSProperties = { color: 'var(--ink-faint)', fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', textAlign: 'right', alignSelf: 'center' }
+  const headerStyle: React.CSSProperties = {
+    color: 'var(--ink-faint)', fontSize: 9, textTransform: 'uppercase',
+    letterSpacing: '0.1em', textAlign: 'right', alignSelf: 'center',
+  }
 
   return (
     <Section title={t('section_elements')}>
-      <div className="grid mb-2" style={{ gridTemplateColumns: ELEM_COLS, gap: 6 }}>
+      <div className="grid mb-1.5" style={{ gridTemplateColumns: ELEM_COLS, gap: 5 }}>
         <span />
         <span style={headerStyle}>{t('header_dmg')}</span>
         <span style={headerStyle}>{t('header_res')}</span>
         <span style={headerStyle}>{t('header_res_pct')}</span>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-0.5">
         {rows.map(r => (
           <ElemTableRow key={r.label} {...r} />
         ))}
 
-        <div className="my-1" style={{ borderTop: '1px solid var(--metal-edge)' }} />
+        <div className="my-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }} />
 
         <ElemTableRow
           iconName="crit_damage"
@@ -159,7 +197,7 @@ function ElementTable({ s }: { s: StatBlock }) {
   )
 }
 
-// ── Stat icon row (combat stats grid) ────────────────────────────────────────
+// ── Combat stats ──────────────────────────────────────────────────────────────
 
 type CombatStat = { iconName: string; label: string; value: number; color: string; suffix?: string }
 
@@ -167,15 +205,17 @@ function CombatStatCell({ iconName, label, value, color, suffix = '' }: CombatSt
   if (value === 0) return null
   return (
     <div
-      className="flex items-center gap-1.5 px-2 py-1.5 rounded"
-      style={{ background: 'var(--surface-void)' }}
+      className="flex items-center gap-1 px-1.5 py-1 rounded"
+      style={{ background: 'var(--surface-stone)' }}
     >
-      {icon(iconName, 14)}
+      {icon(iconName, 13)}
       <div className="flex flex-col min-w-0">
         <span className="font-mono font-bold text-xs tabular-nums leading-none" style={{ color }}>
           {value > 0 ? '+' : ''}{value}{suffix}
         </span>
-        <span className="text-[8px] uppercase tracking-wide truncate" style={{ color: 'var(--ink-faint)' }}>{label}</span>
+        <span className="text-[8px] uppercase tracking-wide truncate leading-none mt-0.5" style={{ color: 'var(--ink-faint)' }}>
+          {label}
+        </span>
       </div>
     </div>
   )
@@ -184,18 +224,18 @@ function CombatStatCell({ iconName, label, value, color, suffix = '' }: CombatSt
 function CombatGrid({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
   const cells: CombatStat[] = [
-    { iconName: 'initiative',   label: t('stat_initiative'),  value: s.initiative,  color: 'var(--gold)'   },
-    { iconName: 'lock',         label: t('stat_lock'),        value: s.lock,        color: 'var(--earth)'  },
-    { iconName: 'dodge',        label: t('stat_dodge'),       value: s.dodge,       color: 'var(--air)'    },
+    { iconName: 'initiative',   label: t('stat_initiative'),  value: s.initiative,  color: 'var(--gold)'     },
+    { iconName: 'lock',         label: t('stat_lock'),        value: s.lock,        color: 'var(--earth)'    },
+    { iconName: 'dodge',        label: t('stat_dodge'),       value: s.dodge,       color: 'var(--air)'      },
     { iconName: 'heals',        label: t('stat_heals'),       value: s.heals,       color: 'var(--vitality)' },
-    { iconName: 'power',        label: t('stat_power'),       value: s.power,       color: 'var(--gold)'   },
-    { iconName: 'crit',         label: t('stat_crit_chance'), value: s.critChance,  color: 'var(--crit)',   suffix: '%' },
-    { iconName: 'prospecting',  label: t('stat_prospecting'), value: s.prospecting, color: 'var(--gold)'   },
-    { iconName: 'summons',      label: t('stat_summons'),     value: s.summons,     color: 'var(--wisdom)'  },
-    { iconName: 'ap_parry',     label: t('stat_ap_parry'),    value: s.apParry,     color: 'var(--ap)'     },
-    { iconName: 'mp_parry',     label: t('stat_mp_parry'),    value: s.mpParry,     color: 'var(--ap)'     },
-    { iconName: 'ap_reduction', label: t('stat_ap_removal'),  value: s.apReduction, color: 'var(--wisdom)'  },
-    { iconName: 'mp_reduction', label: t('stat_mp_removal'),  value: s.mpReduction, color: 'var(--wisdom)'  },
+    { iconName: 'power',        label: t('stat_power'),       value: s.power,       color: 'var(--gold)'     },
+    { iconName: 'crit',         label: t('stat_crit_chance'), value: s.critChance,  color: 'var(--crit)',     suffix: '%' },
+    { iconName: 'prospecting',  label: t('stat_prospecting'), value: s.prospecting, color: 'var(--gold)'     },
+    { iconName: 'summons',      label: t('stat_summons'),     value: s.summons,     color: 'var(--wisdom)'   },
+    { iconName: 'ap_parry',     label: t('stat_ap_parry'),    value: s.apParry,     color: 'var(--ap)'       },
+    { iconName: 'mp_parry',     label: t('stat_mp_parry'),    value: s.mpParry,     color: 'var(--mp)'       },
+    { iconName: 'ap_reduction', label: t('stat_ap_removal'),  value: s.apReduction, color: 'var(--wisdom)'   },
+    { iconName: 'mp_reduction', label: t('stat_mp_removal'),  value: s.mpReduction, color: 'var(--wisdom)'   },
   ]
 
   const visible = cells.filter(c => c.value !== 0)
@@ -203,7 +243,7 @@ function CombatGrid({ s }: { s: StatBlock }) {
 
   return (
     <Section title={t('stats_combat')}>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="grid grid-cols-3 gap-1">
         {visible.map(c => (
           <CombatStatCell key={c.label} {...c} />
         ))}
@@ -218,12 +258,12 @@ function DamageMods({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
   type Mod = { iconName: string; label: string; value: number; color: string }
   const mods: Mod[] = [
-    { iconName: 'melee_damage',       label: t('stat_melee_dmg'),  value: s.meleeDamagePercent,  color: 'var(--earth)' },
-    { iconName: 'ranged_damage',      label: t('stat_ranged_dmg'), value: s.rangedDamagePercent, color: 'var(--water)' },
-    { iconName: 'spell_damage',       label: t('stat_spell_dmg'),  value: s.spellDamagePercent,  color: 'var(--wisdom)' },
-    { iconName: 'weapon_damage',      label: t('stat_weapon_dmg'), value: s.weaponDamagePercent, color: 'var(--gold)'  },
-    { iconName: 'melee_resistance',   label: t('stat_melee_res'),  value: s.meleeResistPercent,  color: 'var(--earth)' },
-    { iconName: 'ranged_resistance',  label: t('stat_ranged_res'), value: s.rangedResistPercent, color: 'var(--water)' },
+    { iconName: 'melee_damage',      label: t('stat_melee_dmg'),  value: s.meleeDamagePercent,  color: 'var(--earth)' },
+    { iconName: 'ranged_damage',     label: t('stat_ranged_dmg'), value: s.rangedDamagePercent, color: 'var(--water)' },
+    { iconName: 'spell_damage',      label: t('stat_spell_dmg'),  value: s.spellDamagePercent,  color: 'var(--wisdom)' },
+    { iconName: 'weapon_damage',     label: t('stat_weapon_dmg'), value: s.weaponDamagePercent, color: 'var(--gold)'  },
+    { iconName: 'melee_resistance',  label: t('stat_melee_res'),  value: s.meleeResistPercent,  color: 'var(--earth)' },
+    { iconName: 'ranged_resistance', label: t('stat_ranged_res'), value: s.rangedResistPercent, color: 'var(--water)' },
   ]
   const visible = mods.filter(m => m.value !== 0)
   if (visible.length === 0) return null
@@ -235,7 +275,7 @@ function DamageMods({ s }: { s: StatBlock }) {
           <div key={m.label} className="flex items-center gap-1.5 py-0.5">
             {icon(m.iconName, 13)}
             <span className="text-[11px] flex-1" style={{ color: 'var(--ink-muted)' }}>{m.label}</span>
-            <span className="font-mono font-bold text-[11px] tabular-nums" style={{ color: m.color }}>
+            <span className="font-mono font-bold text-xs tabular-nums" style={{ color: m.color }}>
               {m.value > 0 ? '+' : ''}{m.value}%
             </span>
           </div>
@@ -251,7 +291,7 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {/* Top badges: AP / MP / HP / Range */}
       <div className="flex gap-1.5">
         <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    color="var(--gold)"     />
@@ -268,17 +308,23 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
 
       {Object.keys(s.unknownStats).length > 0 && (
         <details>
-          <summary className="text-[10px] cursor-pointer select-none py-1" style={{ color: 'var(--ink-faint)' }}>
+          <summary
+            className="text-[10px] cursor-pointer select-none py-1"
+            style={{ color: 'var(--ink-faint)' }}
+          >
             {t('unmapped_stats', { count: Object.keys(s.unknownStats).length })}
           </summary>
-          <Frame material="panel" padding="xs" className="mt-1 space-y-0.5">
+          <div
+            className="mt-1 space-y-0.5 rounded p-2"
+            style={{ background: 'var(--surface-stone)', border: '1px solid var(--metal-edge)' }}
+          >
             {Object.entries(s.unknownStats).map(([k, v]) => (
               <div key={k} className="flex justify-between text-[10px]">
                 <span style={{ color: 'var(--ink-faint)' }}>{k}</span>
                 <span className="font-mono" style={{ color: 'var(--ink-muted)' }}>{v > 0 ? '+' : ''}{v}</span>
               </div>
             ))}
-          </Frame>
+          </div>
         </details>
       )}
     </div>
@@ -292,9 +338,9 @@ export function StatsPanel() {
 
   if (!selectedClass) {
     return (
-      <div className="flex flex-col items-center justify-center h-48 text-forge-muted text-sm text-center space-y-2">
+      <div className="flex flex-col items-center justify-center h-48 gap-3" style={{ color: 'var(--ink-faint)' }}>
         <Hammer size={28} aria-hidden="true" />
-        <p>{t('select_class')}</p>
+        <p className="text-sm text-center">{t('select_class')}</p>
       </div>
     )
   }
@@ -302,8 +348,13 @@ export function StatsPanel() {
   if (!stats) return null
 
   return (
-    <div className="space-y-2">
-      <h2 className="font-display text-forge-gold text-xs uppercase tracking-widest">{t('stats')}</h2>
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <h2 className="font-display text-xs uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
+          {t('stats')}
+        </h2>
+        <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
+      </div>
       <StatsFromBlock s={stats} />
     </div>
   )

@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         display: ['Cinzel', 'serif'],
         body:    ['Inter', 'sans-serif'],
+        mono:    ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       colors: {
         /* ── Legacy forge-* — kept for Phase 2 component migration ── */
