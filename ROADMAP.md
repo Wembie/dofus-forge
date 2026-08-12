@@ -54,7 +54,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M33 — Efectos de robo (steal) y grupo escudo en SpellCard** — ETL detecta effectId 91-95 como `kind='steal'`; SpellCard muestra fila ♥ heal (floor(dmg/2)) con crit inline. Efectos con targetMask PB (con escudo) se separan en sección "Objetivos con escudo" con divider. Σ total solo suma grupo base (escudo es mutuamente excluyente). Dedup de efectos condicionales de estado (*e/*E) en ETL. Σ y ♥ total también actualizados para steal.
 - [x] **Fix — Overflow CharacteristicsPanel** — fila de característica era ~232px mínimo en columna de 212px disponibles. Restructurado en 2 filas: fila 1 icono+nombre+valor total, fila 2 controles −/input/+/S alineados a la derecha. Botones 20px, input 40px, scroll toggle 16px.
 - [x] **M34 — Crit efectivo y rango efectivo en SpellCard** — crit mostrado = min(100, spell.critChance + stats.critChance). Rango mostrado = maxRange + stats.range para hechizos no cuerpo a cuerpo. Header usa iconos de stat (PA, rango, crit) del mismo set que StatsPanel.
-- [x] **M36 — CharacterViewer 3D** — reemplaza retrato estático con render server-side del pj 3D usando DofusDB renderer (renderer.dofusdb.fr). Look string por clase+género del breeds API (19 clases). Spinner de carga, fade-in, error fallback. Gems decorativos sobre el visor.
+- [x] **Fix — Revertir CharacterViewer** — revertido M36 (renderer mostraba personajes Dofus 2, no Dofus 3). Vuelto al retrato estático local (data/classes/{id}.png). Brand "Dofus Forge" en el header es ahora clickeable y hace reset completo del build (reset() + clearHistory()).
 - [x] **Fix — Stats base incorrectas** — Prospección base 0→100, Invocaciones base 0→1. Daño elemental (lowercase "Air damage" etc.) en ítems no-arma ignorado incorrectamente; ahora mapeado con filtro para ítems de tipo arma. CharacteristicsPanel muestra HP total (base clase + vitalidad) en lugar de solo vitalidad de equipo.
 
 ### UI / Polish
@@ -75,7 +75,7 @@ Marcar con `[x]` cuando se complete.
 
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms para que el tooltip no desaparezca al mover el mouse hacia él.
 
-- Para las armas de y demas, tienen bonus de criticos y demas, entonces validar esa parte ya que con el mismo set:
+- [x]Para las armas de y demas, tienen bonus de criticos y demas, entonces validar esa parte ya que con el mismo set:
 
 Nosotros:
 
@@ -114,3 +114,6 @@ Total:
 ♥ 169 a 189
 
 de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra plataforma, ya que la nuestra es muy simple y no tiene toda la información que tiene la otra plataforma.
+
+- [x] Cuando se le unda al dofus forge, volver al inicio
+- [x] volver a la foto que se tenia de los personajes, quitar como esta ahora

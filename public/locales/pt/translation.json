@@ -209,5 +209,6 @@
   "modified_by": "Modificado por",
   "forjamago_name_label": "Assinatura Forjamago",
   "forjamago_name_placeholder": "Seu nome de forjamago…",
-  "view_set": "Ver set"
+  "view_set": "Ver set",
+  "reset_build": "Reiniciar build"
 }

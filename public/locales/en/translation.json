@@ -209,5 +209,6 @@
   "modified_by": "Modified by",
   "forjamago_name_label": "Magesmith Signature",
   "forjamago_name_placeholder": "Your magesmith name…",
-  "view_set": "View set"
+  "view_set": "View set",
+  "reset_build": "Reset build"
 }

@@ -209,5 +209,6 @@
   "modified_by": "Modifié par",
   "forjamago_name_label": "Signature Forgeron",
   "forjamago_name_placeholder": "Votre nom de forgeron…",
-  "view_set": "Voir le set"
+  "view_set": "Voir le set",
+  "reset_build": "Réinitialiser le build"
 }
