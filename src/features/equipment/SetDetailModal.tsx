@@ -223,7 +223,11 @@ export function SetDetailModal({ set, onClose }: Props) {
           <div className="space-y-1.5">
             {setItems.map(item => {
               const eq  = isEquipped(item)
-              const slot = SLOT_CONFIGS.find(sc => sc.apiSlot === item.slot)
+              const slot = SLOT_CONFIGS.find(sc => {
+                const slots = Array.isArray(sc.apiSlot) ? sc.apiSlot : [sc.apiSlot]
+                if (!slots.includes(item.slot)) return false
+                return !sc.apiTypes || sc.apiTypes.includes(item.type)
+              })
               const visibleStats = item.effects.filter(e => !isIgnored(e.stat)).slice(0, 6)
               return (
                 <div
