@@ -86,6 +86,7 @@ const SLOT_MAP: Record<string, string> = {
   Sword: 'weapon', Wand: 'weapon', Bow: 'weapon',
   Dagger: 'weapon', Staff: 'weapon', Hammer: 'weapon',
   Shovel: 'weapon', Axe: 'weapon', Scythe: 'weapon',
+  Lance: 'weapon', 'Magic weapon': 'weapon', Pickaxe: 'weapon',
   Shield: 'shield',
   Pet: 'pet', Petsmount: 'pet',
   Dofus: 'dofus', Trophy: 'dofus',
