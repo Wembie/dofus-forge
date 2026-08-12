@@ -117,3 +117,4 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 
 - [x] Cuando se le unda al dofus forge, volver al inicio
 - [x] volver a la foto que se tenia de los personajes, quitar como esta ahora
+- []
