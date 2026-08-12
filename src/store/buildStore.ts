@@ -127,7 +127,7 @@ export const useBuildStore = create<BuildState>((set) => {
 
   return {
     selectedClass: null,
-    level:         1,
+    level:         200,
     gender:        'male',
     allocated:     { ...ZERO_ALLOC },
     scrolled:      { ...NO_SCROLLS },
@@ -232,7 +232,7 @@ export const useBuildStore = create<BuildState>((set) => {
 
     reset: () => set(s => ({
       selectedClass: null,
-      level:         1,
+      level:         200,
       gender:        'male',
       allocated:     { ...ZERO_ALLOC },
       scrolled:      { ...NO_SCROLLS },
