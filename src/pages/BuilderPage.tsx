@@ -29,6 +29,8 @@ function BuilderContent() {
   const canRedo   = useHistoryStore(s => s.canRedo)
   const undo      = useHistoryStore(s => s.undo)
   const redo      = useHistoryStore(s => s.redo)
+  const reset        = useBuildStore(s => s.reset)
+  const clearHistory = useHistoryStore(s => s.clear)
 
   useBuildUrl()
   useHistory()
@@ -60,8 +62,13 @@ function BuilderContent() {
         <div className="max-w-7xl mx-auto px-4 h-full flex items-center gap-4">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
-          {/* Brand */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Brand — click to reset build */}
+          <button
+            className="flex items-center gap-2 flex-shrink-0"
+            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+            onClick={() => { reset(); clearHistory() }}
+            title={t('reset_build')}
+          >
             {/* Diamond accent */}
             <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
               <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
@@ -87,7 +94,7 @@ function BuilderContent() {
             >
               v{__APP_VERSION__}
             </span>
-          </div>
+          </button>
 
           {/* Status indicators */}
           {loading && (
