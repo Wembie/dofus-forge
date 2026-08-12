@@ -115,5 +115,5 @@ Total:
 
 de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra plataforma, ya que la nuestra es muy simple y no tiene toda la información que tiene la otra plataforma.
 
-- [] Cuando se le unda al dofus forge, volver al inicio
-- [] volver a la foto que se tenia de los personajes, quitar como esta ahora
+- [x] Cuando se le unda al dofus forge, volver al inicio
+- [x] volver a la foto que se tenia de los personajes, quitar como esta ahora
