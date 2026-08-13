@@ -404,9 +404,12 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const crit    = weapon.crit_chance ?? 0
   const critBon = weapon.crit_bonus  ?? 0
   const wLevel  = weapon.level       ?? 0
+
+  const effectiveCrit = crit > 0 ? Math.min(100, crit + (stats?.critChance ?? 0)) : 0
+  const effectiveMaxR = maxR > 1 ? maxR + (stats?.range ?? 0) : maxR
   const rangeStr = maxR === 0
     ? t('spell_melee')
-    : minR === maxR ? String(minR) : `${minR}–${maxR}`
+    : minR === effectiveMaxR ? String(minR) : `${minR}–${effectiveMaxR}`
 
   const hasCrit = crit > 0 && stats != null
 
@@ -475,9 +478,9 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           <div className="flex items-center flex-wrap gap-x-3 mt-0.5">
             {ap > 0 && <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>PA {ap}</span>}
             <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>Dist. {rangeStr}</span>
-            {crit > 0 && (
+            {effectiveCrit > 0 && (
               <span className="text-[10px] font-mono" style={{ color: 'var(--crit)' }}>
-                GC {crit}%{critBon > 0 ? ` (+${critBon})` : ''}
+                GC {effectiveCrit}%{critBon > 0 ? ` (+${critBon})` : ''}
               </span>
             )}
           </div>
