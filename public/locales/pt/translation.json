@@ -210,5 +210,13 @@
   "forjamago_name_label": "Assinatura Forjamago",
   "forjamago_name_placeholder": "Seu nome de forjamago…",
   "view_set": "Ver set",
-  "reset_build": "Reiniciar build"
+  "reset_build": "Reiniciar build",
+  "stat_group_primary": "Efeitos principais",
+  "stat_group_secondary": "Efeitos secundários",
+  "stat_group_resistance": "Resistências",
+  "stat_group_pctmod": "Modificadores %",
+  "stat_group_other": "Outros",
+  "filter_by_stat": "Filtrar efeito",
+  "search_stat": "Buscar stat…",
+  "clear_filter": "Remover filtros"
 }
