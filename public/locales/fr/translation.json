@@ -210,5 +210,13 @@
   "forjamago_name_label": "Signature Forgeron",
   "forjamago_name_placeholder": "Votre nom de forgeron…",
   "view_set": "Voir le set",
-  "reset_build": "Réinitialiser le build"
+  "reset_build": "Réinitialiser le build",
+  "stat_group_primary": "Effets principaux",
+  "stat_group_secondary": "Effets secondaires",
+  "stat_group_resistance": "Résistances",
+  "stat_group_pctmod": "Modificateurs %",
+  "stat_group_other": "Autres",
+  "filter_by_stat": "Filtrer stat",
+  "search_stat": "Chercher stat…",
+  "clear_filter": "Effacer le filtre"
 }

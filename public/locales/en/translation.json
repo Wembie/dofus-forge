@@ -210,5 +210,13 @@
   "forjamago_name_label": "Magesmith Signature",
   "forjamago_name_placeholder": "Your magesmith name…",
   "view_set": "View set",
-  "reset_build": "Reset build"
+  "reset_build": "Reset build",
+  "stat_group_primary": "Main Effects",
+  "stat_group_secondary": "Secondary Effects",
+  "stat_group_resistance": "Resistances",
+  "stat_group_pctmod": "% Modifiers",
+  "stat_group_other": "Other",
+  "filter_by_stat": "Filter by stat",
+  "search_stat": "Search stat…",
+  "clear_filter": "Clear filter"
 }

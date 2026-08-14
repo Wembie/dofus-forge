@@ -8,7 +8,7 @@ import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
-import { Modal, Button } from '@/ui'
+import { Modal, Button, StatFilter } from '@/ui'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
@@ -97,86 +97,6 @@ function SetSearch({
   )
 }
 
-function StatFilter({
-  stats, selected, onSelect,
-}: { stats: string[]; selected: string | null; onSelect: (s: string | null) => void }) {
-  const { t }           = useTranslation()
-  const [q, setQ]       = useState('')
-  const [open, setOpen] = useState(false)
-
-  const matches = useMemo(() => {
-    if (!q) return stats.slice(0, 14)
-    const lq = q.toLowerCase()
-    return stats.filter(s => s.toLowerCase().includes(lq)).slice(0, 14)
-  }, [stats, q])
-
-  function pick(s: string | null) {
-    onSelect(s)
-    setOpen(false)
-    setQ('')
-  }
-
-  if (selected) {
-    const meta = STAT_META[selected]
-    const clr  = meta?.color ?? 'var(--ink-muted)'
-    return (
-      <div
-        className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer"
-        style={{
-          borderColor: `color-mix(in srgb, ${clr} 31%, transparent)`,
-          background:  `color-mix(in srgb, ${clr} 8%, transparent)`,
-          color:       clr,
-        }}
-        onClick={() => pick(null)}
-      >
-        {meta?.icon && (
-          <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain" />
-        )}
-        <span className="truncate">{meta ? t(meta.tKey) : selected}</span>
-        <span className="ml-auto flex-shrink-0 opacity-60">✕</span>
-      </div>
-    )
-  }
-
-  return (
-    <div className="relative">
-      <input
-        type="text"
-        value={q}
-        placeholder="Stat…"
-        onChange={e => { setQ(e.target.value); setOpen(true) }}
-        onFocus={() => setOpen(true)}
-        onBlur={() => setTimeout(() => setOpen(false), 150)}
-        className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-ink-faint focus:outline-none"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', minWidth: 70 }}
-      />
-      {open && matches.length > 0 && (
-        <ul
-          className="absolute left-0 top-full mt-1 rounded-lg overflow-hidden z-50 shadow-xl"
-          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: 220, overflowY: 'auto', minWidth: 160 }}
-        >
-          {matches.map(stat => {
-            const meta = STAT_META[stat]
-            const clr  = meta?.color ?? 'var(--ink-muted)'
-            return (
-              <li key={stat}>
-                <button
-                  className="w-full text-left px-3 py-1.5 text-[11px] hover:bg-white/5 transition-colors flex items-center gap-2"
-                  onMouseDown={() => pick(stat)}
-                >
-                  {meta?.icon && (
-                    <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
-                  )}
-                  <span style={{ color: clr }}>{meta ? t(meta.tKey) : stat}</span>
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </div>
-  )
-}
 
 type SetModalProps = {
   set:         AppSet
