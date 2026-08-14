@@ -26,18 +26,18 @@ function categorize(stat: string): Cat {
   return 'other'
 }
 
-type Props = {
+export type StatFilterProps = {
   stats:    string[]
-  selected: string | null
-  onSelect: (s: string | null) => void
+  selected: string[]
+  onSelect: (s: string[]) => void
 }
 
-export function StatFilter({ stats, selected, onSelect }: Props) {
-  const { t }                   = useTranslation()
-  const [open, setOpen]         = useState(false)
-  const [q, setQ]               = useState('')
-  const containerRef            = useRef<HTMLDivElement>(null)
-  const inputRef                = useRef<HTMLInputElement>(null)
+export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
+  const { t }           = useTranslation()
+  const [open, setOpen] = useState(false)
+  const [q, setQ]       = useState('')
+  const containerRef    = useRef<HTMLDivElement>(null)
+  const inputRef        = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!open) return
@@ -54,6 +54,8 @@ export function StatFilter({ stats, selected, onSelect }: Props) {
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 30)
   }, [open])
+
+  const selectedSet = useMemo(() => new Set(selected), [selected])
 
   const grouped = useMemo(() => {
     const cats: Record<Cat, string[]> = { primary: [], secondary: [], resistance: [], pct: [], other: [] }
@@ -80,38 +82,46 @@ export function StatFilter({ stats, selected, onSelect }: Props) {
     })
   }, [stats, q, t])
 
-  function pick(s: string | null) {
-    onSelect(s)
+  function toggle(stat: string) {
+    if (selectedSet.has(stat)) {
+      onSelect(selected.filter(s => s !== stat))
+    } else {
+      onSelect([...selected, stat])
+    }
+  }
+
+  function clearAll() {
+    onSelect([])
     setOpen(false)
     setQ('')
   }
 
-  function toggle() {
-    setOpen(o => !o)
-    if (!open) setQ('')
-  }
-
-  const selMeta  = selected ? STAT_META[selected] : null
-  const selColor = selMeta?.color ?? 'var(--ink-muted)'
-  const selLabel = selMeta ? t(selMeta.tKey) : (selected ?? '')
-
   function StatRow({ stat }: { stat: string }) {
-    const meta      = STAT_META[stat]
-    const clr       = meta?.color ?? 'var(--ink-muted)'
-    const label     = meta ? t(meta.tKey) : stat
-    const isActive  = stat === selected
+    const meta     = STAT_META[stat]
+    const clr      = meta?.color ?? 'var(--ink-muted)'
+    const label    = meta ? t(meta.tKey) : stat
+    const isActive = selectedSet.has(stat)
     return (
       <button
         className="w-full text-left px-3 py-1.5 text-[11px] flex items-center gap-2 transition-colors hover:bg-white/5"
-        style={{ color: clr, background: isActive ? `color-mix(in srgb, ${clr} 10%, transparent)` : undefined, fontWeight: isActive ? 600 : 400 }}
-        onMouseDown={() => pick(stat)}
+        style={{
+          color:      clr,
+          background: isActive ? `color-mix(in srgb, ${clr} 10%, transparent)` : undefined,
+          fontWeight: isActive ? 600 : 400,
+        }}
+        onMouseDown={() => toggle(stat)}
       >
         {meta?.icon
           ? <img src={statIconUrl(meta.icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
           : <span style={{ width: 13, flexShrink: 0 }} />
         }
-        <span className="truncate">{label}</span>
-        {isActive && <span className="ml-auto text-[10px] opacity-50">✓</span>}
+        <span className="truncate flex-1">{label}</span>
+        {isActive && (
+          <span
+            className="flex-shrink-0 text-[9px] font-bold w-4 h-4 rounded flex items-center justify-center"
+            style={{ background: `color-mix(in srgb, ${clr} 20%, transparent)`, color: clr }}
+          >✓</span>
+        )}
       </button>
     )
   }
@@ -130,50 +140,60 @@ export function StatFilter({ stats, selected, onSelect }: Props) {
   }
 
   return (
-    <div className="relative flex-shrink-0" ref={containerRef}>
-      {/* Trigger */}
-      {selected ? (
-        <div
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer"
-          style={{
-            borderColor: `color-mix(in srgb, ${selColor} 31%, transparent)`,
-            background:  `color-mix(in srgb, ${selColor} 8%, transparent)`,
-            color: selColor,
-          }}
-          onClick={() => pick(null)}
-        >
-          {selMeta?.icon && (
-            <img src={statIconUrl(selMeta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
-          )}
-          <span className="truncate max-w-[120px]">{selLabel}</span>
-          <span className="flex-shrink-0 opacity-60 hover:opacity-100">✕</span>
-        </div>
-      ) : (
+    <div className="relative" ref={containerRef}>
+      {/* Selected chips + trigger row */}
+      <div className="flex items-center flex-wrap gap-1">
+        {/* Active chips */}
+        {selected.map(stat => {
+          const meta = STAT_META[stat]
+          const clr  = meta?.color ?? 'var(--ink-muted)'
+          const lbl  = meta ? t(meta.tKey) : stat
+          return (
+            <div
+              key={stat}
+              className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium cursor-pointer"
+              style={{
+                border:     `1px solid color-mix(in srgb, ${clr} 31%, transparent)`,
+                background: `color-mix(in srgb, ${clr} 8%, transparent)`,
+                color: clr,
+              }}
+              onClick={() => toggle(stat)}
+            >
+              {meta?.icon && (
+                <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain flex-shrink-0" />
+              )}
+              <span className="max-w-[90px] truncate">{lbl}</span>
+              <span className="opacity-60 hover:opacity-100 flex-shrink-0">✕</span>
+            </div>
+          )
+        })}
+
+        {/* Trigger button */}
         <button
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border transition-colors"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border transition-colors flex-shrink-0"
           style={{
-            background: open ? 'var(--surface-panel)' : 'var(--surface-void)',
+            background:  open ? 'var(--surface-panel)' : 'var(--surface-void)',
             borderColor: open ? 'color-mix(in srgb, var(--gold) 30%, transparent)' : 'var(--metal-edge)',
-            color: open ? 'var(--ink-muted)' : 'var(--ink-faint)',
+            color:       open ? 'var(--ink-muted)' : 'var(--ink-faint)',
           }}
-          onClick={toggle}
+          onClick={() => { setOpen(o => !o); if (open) setQ('') }}
         >
           <span>⊙</span>
-          <span>{t('filter_by_stat', 'Filtrar efecto')}</span>
+          <span>{selected.length > 0 ? `+${t('filter_by_stat', 'efecto')}` : t('filter_by_stat', 'Filtrar efecto')}</span>
           <span style={{ fontSize: 9, opacity: 0.5, marginLeft: 2 }}>{open ? '▲' : '▼'}</span>
         </button>
-      )}
+      </div>
 
       {/* Dropdown */}
       {open && (
         <div
           className="absolute left-0 top-full mt-1 z-50 rounded-lg overflow-hidden shadow-2xl"
           style={{
-            background: 'var(--surface-void)',
-            border: '1px solid var(--metal-edge)',
-            width: 220,
-            maxHeight: 340,
-            overflowY: 'auto',
+            background:  'var(--surface-void)',
+            border:      '1px solid var(--metal-edge)',
+            width:       230,
+            maxHeight:   360,
+            overflowY:   'auto',
           }}
         >
           {/* Search header */}
@@ -192,12 +212,12 @@ export function StatFilter({ stats, selected, onSelect }: Props) {
             />
           </div>
 
-          {/* Clear filter */}
-          {selected && (
+          {/* Clear all */}
+          {selected.length > 0 && (
             <button
               className="w-full text-left px-3 py-1.5 text-[11px] flex items-center gap-2 transition-colors hover:bg-white/5"
               style={{ color: 'var(--negative)', borderBottom: '1px solid var(--metal-edge)' }}
-              onMouseDown={() => pick(null)}
+              onMouseDown={clearAll}
             >
               <span style={{ width: 13, flexShrink: 0, textAlign: 'center' }}>✕</span>
               <span>{t('clear_filter', 'Quite los filtros')}</span>
@@ -208,7 +228,7 @@ export function StatFilter({ stats, selected, onSelect }: Props) {
           {filtered
             ? filtered.length > 0
               ? filtered.map(s => <StatRow key={s} stat={s} />)
-              : <p className="px-3 py-2 text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('no_results', '—')}</p>
+              : <p className="px-3 py-2 text-[11px]" style={{ color: 'var(--ink-faint)' }}>—</p>
             : (
               <>
                 <Group cat="primary"    titleKey="stat_group_primary"    fallback="Efectos principales" />

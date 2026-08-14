@@ -320,7 +320,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const slotStats = useMemo(() => {
     const seen = new Set<string>()
     for (const it of equipment ?? []) {
-      if (!matchesSlot(it, slot)) continue
       for (const e of it.effects) {
         if (!isIgnored(e.stat)) seen.add(e.stat)
       }
@@ -330,7 +329,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
       return la.localeCompare(lb)
     })
-  }, [equipment, slot, t])
+  }, [equipment, t])
 
   const { isFav, toggle: toggleFav, favCount } = useFavorites()
 
@@ -340,7 +339,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [elem,       setElem]       = useState<ElemFilter>('all')
   const [sort,       setSort]       = useState<SortKey>('level-desc')
   const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
-  const [statFilter, setStatFilter] = useState<string | null>(null)
+  const [statFilter, setStatFilter] = useState<string[]>([])
   const [favsOnly,   setFavsOnly]   = useState(false)
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
   const [setModal,   setSetModal]   = useState<AppSet | null>(null)
@@ -365,7 +364,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       it.level <= maxLevel &&
       itemMatchesElement(it, elem) &&
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
-      (statFilter == null || it.effects.some(e => e.stat === statFilter)) &&
+      (statFilter.length === 0 || statFilter.every(s => it.effects.some(e => e.stat === s))) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
       (nameSearch === '' || it.name.toLowerCase().includes(nameSearch)) &&
       (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
