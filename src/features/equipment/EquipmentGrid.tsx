@@ -13,6 +13,13 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
+
+const WEAPON_ATK_STATS = new Set([
+  'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
+  'Earth steal',  'Fire steal',  'Water steal',  'Air steal',  'Neutral steal',
+  'best-element damage', 'best-element steal',
+  'Pushes back cell',
+])
 import { ElementGem } from '@/ui'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
@@ -332,41 +339,83 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
               )}
             </div>
 
-            {/* EFECTOS */}
-            <div className="px-3 pt-2 pb-1">
-              <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                {t('effects')}
-              </p>
-              <div className="space-y-0.5">
-                {item.effects.filter(e => !isIgnored(e.stat)).map((e, i) => {
-                  const meta    = STAT_META[e.stat]
-                  const clr     = meta?.color ?? 'var(--ink-muted)'
-                  const useMax  = e.max !== 0 && e.max > e.min
-                  const display = useMax ? e.max : e.min
-                  return (
-                    <div key={i} className="flex items-center gap-1.5 min-w-0">
-                      {meta?.icon
-                        ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
-                            className="object-contain flex-shrink-0"
-                          />
-                        : <span className="w-3 flex-shrink-0" />
-                      }
-                      <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
-                        {display}
+            {/* Effects — weapon slots split into attack / stats sections */}
+            {(() => {
+              const allFx      = item.effects.filter(e => !isIgnored(e.stat))
+              const isWeapon   = item.slot === 'weapon'
+              const atkFx      = isWeapon ? allFx.filter(e => WEAPON_ATK_STATS.has(e.stat))  : []
+              const statFx     = isWeapon ? allFx.filter(e => !WEAPON_ATK_STATS.has(e.stat)) : allFx
+
+              function StatLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
+                const meta    = STAT_META[e.stat]
+                const clr     = meta?.color ?? 'var(--ink-muted)'
+                const useMax  = e.max !== 0 && e.max > e.min
+                const display = useMax ? e.max : e.min
+                return (
+                  <div key={i} className="flex items-center gap-1.5 min-w-0">
+                    {meta?.icon
+                      ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+                      : <span className="w-3 flex-shrink-0" />
+                    }
+                    <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>{display}</span>
+                    <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
+                    {useMax && (
+                      <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
+                        [{e.min} a {e.max}]
                       </span>
-                      <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>
-                        {meta ? t(meta.tKey) : e.stat}
-                      </span>
-                      {useMax && (
-                        <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
-                          [{e.min} a {e.max}]
-                        </span>
-                      )}
+                    )}
+                  </div>
+                )
+              }
+
+              function AtkLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
+                const meta  = STAT_META[e.stat]
+                const clr   = meta?.color ?? 'var(--ink-muted)'
+                const isPush = e.stat === 'Pushes back cell'
+                return (
+                  <div key={i} className="flex items-center gap-1.5 min-w-0">
+                    {meta?.icon
+                      ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+                      : <span className="w-3 flex-shrink-0" />
+                    }
+                    {isPush
+                      ? <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>{t('spell_push', { cells: e.min })}</span>
+                      : <>
+                          <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
+                            {e.min === e.max || e.max === 0 ? e.min : `${e.min} a ${e.max}`}
+                          </span>
+                          <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
+                        </>
+                    }
+                  </div>
+                )
+              }
+
+              return (
+                <>
+                  {atkFx.length > 0 && (
+                    <div className="px-3 pt-2 pb-1">
+                      <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                        {t('weapon_attack')}
+                      </p>
+                      <div className="space-y-0.5">
+                        {atkFx.map((e, i) => <AtkLine key={i} e={e} i={i} />)}
+                      </div>
                     </div>
-                  )
-                })}
-              </div>
-            </div>
+                  )}
+                  {statFx.length > 0 && (
+                    <div className="px-3 pt-2 pb-1" style={atkFx.length > 0 ? { borderTop: '1px solid var(--metal-edge)' } : undefined}>
+                      <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                        {t('effects')}
+                      </p>
+                      <div className="space-y-0.5">
+                        {statFx.map((e, i) => <StatLine key={i} e={e} i={i} />)}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )
+            })()}
 
             {/* FORJAMAGIA section — blue, only if runes exist */}
             {Object.entries(slotRunes ?? {}).some(([, v]) => v > 0) && (
