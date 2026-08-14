@@ -402,7 +402,7 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     for (const it of equipment ?? []) {
       if (!matchesSlot(it, slot)) continue
       for (const e of it.effects) {
-        if (!isIgnored(e.stat) && STAT_META[e.stat]) seen.add(e.stat)
+        if (!isIgnored(e.stat)) seen.add(e.stat)
       }
     }
     return [...seen].sort((a, b) => {
