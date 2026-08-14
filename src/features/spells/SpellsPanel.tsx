@@ -406,10 +406,9 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const wLevel  = weapon.level       ?? 0
 
   const effectiveCrit = crit > 0 ? Math.min(100, crit + (stats?.critChance ?? 0)) : 0
-  const effectiveMaxR = maxR > 1 ? maxR + (stats?.range ?? 0) : maxR
   const rangeStr = maxR === 0
     ? t('spell_melee')
-    : minR === effectiveMaxR ? String(minR) : `${minR}–${effectiveMaxR}`
+    : minR === maxR ? String(minR) : `${minR}–${maxR}`
 
   const hasCrit = crit > 0 && stats != null
 
