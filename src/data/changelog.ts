@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.38',
+    date: '2026-08-15',
+    notes: [
+      'Forjamagia deshabilitada para Dofus (1–6) y Montura — el botón ✦ no aparece en esos slots',
+    ],
+  },
+  {
     version: '0.2.37',
     date: '2026-08-15',
     notes: [

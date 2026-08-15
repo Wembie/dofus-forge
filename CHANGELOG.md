@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.38] — 2026-08-15
+- Forjamagia deshabilitada para Dofus (1–6) y Montura — botón ✦ no aparece en esos slots
+
 ## [0.2.37] — 2026-08-15
 - Toast al equipar: notificación "Slot: Item" aparece abajo a la derecha por 2.8s, click para cerrar
 - Dofus sin duplicados: equipar un dofus ya puesto en otro slot lo mueve (no duplica)
