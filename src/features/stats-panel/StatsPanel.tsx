@@ -192,7 +192,7 @@ function CombatStatRow({ iconName, label, value, color, suffix = '' }: CombatSta
       borderLeft:  `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
     }}>
       {icon(iconName, 14)}
-      <span className="text-[11px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{label}</span>
+      <span className="text-[11px] flex-1" style={{ color: 'var(--ink-muted)' }}>{label}</span>
       <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>
         {value > 0 && suffix !== '%' ? '+' : ''}{value}{suffix}
       </span>
@@ -223,7 +223,7 @@ function CombatGrid({ s }: { s: StatBlock }) {
 
   return (
     <Section title={t('stats_combat')}>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="grid grid-cols-1 gap-1">
         {visible.map(c => (
           <CombatStatRow key={c.iconName} {...c} />
         ))}
