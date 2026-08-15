@@ -96,7 +96,7 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
 function ValCell({ value, color, suffix = '' }: { value: number; color: string; suffix?: string }) {
   return (
     <span
-      className="font-mono font-bold text-xs tabular-nums leading-none text-right"
+      className="font-mono font-bold text-[13px] tabular-nums leading-none text-right"
       style={{ color: value === 0 ? 'var(--ink-faint)' : color }}
     >
       {value === 0 ? '—' : `${value > 0 ? '+' : ''}${value}${suffix}`}
@@ -123,14 +123,14 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
       className="grid items-center rounded-md"
       style={{
         gridTemplateColumns: ELEM_COLS,
-        gap:        6,
-        padding:    '5px 8px',
+        gap:        8,
+        padding:    '6px 10px',
         background: hasData ? `color-mix(in srgb, ${color} 7%, transparent)` : 'transparent',
         borderLeft: `2px solid ${hasData ? color : 'transparent'}`,
         opacity:    hasData ? 1 : 0.28,
       }}
     >
-      <div className="flex items-center justify-center">{icon(resIcon, 16)}</div>
+      <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
       <ValCell value={dmg}      color={color} />
       <ValCell value={resFixed} color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
       <ValCell value={resPct}   color={resPct   > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
@@ -156,8 +156,8 @@ function ElementSection({ s }: { s: StatBlock }) {
   ].filter(r => r.dmg !== 0 || r.resFixed !== 0)
 
   const hdr: React.CSSProperties = {
-    color: 'var(--ink-faint)', fontSize: 9, textTransform: 'uppercase',
-    letterSpacing: '0.1em', textAlign: 'right', alignSelf: 'center',
+    color: 'var(--ink-faint)', fontSize: 10, textTransform: 'uppercase',
+    letterSpacing: '0.08em', textAlign: 'right', alignSelf: 'center',
   }
 
   return (
@@ -187,13 +187,13 @@ type CombatStat = { iconName: string; label: string; value: number; color: strin
 
 function CombatStatRow({ iconName, label, value, color, suffix = '' }: CombatStat) {
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded" style={{
+    <div className="flex items-center gap-2 px-2.5 py-1.5 rounded" style={{
       background:  `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
       borderLeft:  `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
     }}>
-      {icon(iconName, 12)}
-      <span className="text-[10px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{label}</span>
-      <span className="font-mono font-bold text-[11px] tabular-nums flex-shrink-0" style={{ color }}>
+      {icon(iconName, 14)}
+      <span className="text-[11px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{label}</span>
+      <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>
         {value > 0 && suffix !== '%' ? '+' : ''}{value}{suffix}
       </span>
     </div>
