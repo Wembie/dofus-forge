@@ -286,5 +286,8 @@
   "weapon_crit_label": "Crit",
   "catalog_esc_hint": "Esc · close",
   "spell_reset_grade": "Reset to auto grade",
-  "lang_switch": "Switch to {{lang}}"
+  "lang_switch": "Switch to {{lang}}",
+  "changelog_title": "What's New",
+  "dofus_data_version": "Data: Dofus {{version}}",
+  "open_changelog": "View changelog"
 }

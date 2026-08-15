@@ -286,5 +286,8 @@
   "weapon_crit_label": "GC",
   "catalog_esc_hint": "Esc · cerrar",
   "spell_reset_grade": "Reiniciar al grado auto",
-  "lang_switch": "Cambiar a {{lang}}"
+  "lang_switch": "Cambiar a {{lang}}",
+  "changelog_title": "Novedades",
+  "dofus_data_version": "Datos: Dofus {{version}}",
+  "open_changelog": "Ver novedades"
 }
