@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import { flushSync } from 'react-dom'
 import { toPng } from 'html-to-image'
+import i18next from 'i18next'
 import type { StatBlock } from '@/engine/types.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
@@ -18,13 +19,12 @@ const C = {
   dim:     '#2a3347',
 } as const
 
-const SLOT_LABELS: Record<SlotId, string> = {
-  hat:    'Hat',    cape:   'Cape',   amulet: 'Amulet',
-  ring1:  'Ring 1', ring2:  'Ring 2', belt:   'Belt',
-  boots:  'Boots',  weapon: 'Weapon', shield: 'Shield',
-  companion: 'Pet', sidekick: 'Sidekick',
-  dofus1: 'Dofus 1', dofus2: 'Dofus 2', dofus3: 'Dofus 3',
-  dofus4: 'Dofus 4', dofus5: 'Dofus 5', dofus6: 'Dofus 6',
+function slotLabel(id: SlotId): string {
+  const t = i18next.t.bind(i18next)
+  if (id === 'ring1')  return t('slot_ring1')
+  if (id === 'ring2')  return t('slot_ring2')
+  if (id.startsWith('dofus')) return t(`slot_${id}` as never)
+  return t(`slot_${id}` as never)
 }
 
 export type ExportData = {
@@ -60,41 +60,42 @@ const SECTION_STYLE: React.CSSProperties = {
 }
 
 function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: ExportData) {
-  const portrait      = `${BASE}data/classes/${classSlug}${gender === 'female' ? '-f' : ''}.png`
+  const t           = i18next.t.bind(i18next)
+  const portrait    = `${BASE}data/classes/${classSlug}${gender === 'female' ? '-f' : ''}.png`
   const equippedSlots = ALL_SLOTS.filter(s => equipped[s])
 
   const chars = [
-    { icon: 'vitality',     label: 'Vitality',     value: stats.vitality,     color: '#e05252' },
-    { icon: 'wisdom',       label: 'Wisdom',       value: stats.wisdom,       color: '#9b6dff' },
-    { icon: 'strength',     label: 'Strength',     value: stats.strength,     color: '#c49a2a' },
-    { icon: 'intelligence', label: 'Intelligence', value: stats.intelligence, color: '#dc4e22' },
-    { icon: 'chance',       label: 'Chance',       value: stats.chance,       color: '#2a8fd4' },
-    { icon: 'agility',      label: 'Agility',      value: stats.agility,      color: '#6ab04c' },
+    { icon: 'vitality',     label: t('char_vitality'),     value: stats.vitality,     color: '#e05252' },
+    { icon: 'wisdom',       label: t('char_wisdom'),       value: stats.wisdom,       color: '#9b6dff' },
+    { icon: 'strength',     label: t('char_strength'),     value: stats.strength,     color: '#c49a2a' },
+    { icon: 'intelligence', label: t('char_intelligence'), value: stats.intelligence, color: '#dc4e22' },
+    { icon: 'chance',       label: t('char_chance'),       value: stats.chance,       color: '#2a8fd4' },
+    { icon: 'agility',      label: t('char_agility'),      value: stats.agility,      color: '#6ab04c' },
   ].filter(c => c.value !== 0)
 
   const elems = [
-    { icon: 'strength',       label: 'Earth',   color: '#c49a2a', dmg: stats.earthDamage,   res: stats.earthResFixed,   pct: stats.earthResPercent   },
-    { icon: 'intelligence',   label: 'Fire',    color: '#dc4e22', dmg: stats.fireDamage,    res: stats.fireResFixed,    pct: stats.fireResPercent    },
-    { icon: 'chance',         label: 'Water',   color: '#2a8fd4', dmg: stats.waterDamage,   res: stats.waterResFixed,   pct: stats.waterResPercent   },
-    { icon: 'agility',        label: 'Air',     color: '#6ab04c', dmg: stats.airDamage,     res: stats.airResFixed,     pct: stats.airResPercent     },
-    { icon: 'neutral',        label: 'Neutral', color: '#9b9b9b', dmg: stats.neutralDamage, res: stats.neutralResFixed, pct: stats.neutralResPercent },
+    { icon: 'strength',     label: t('elem_earth_label'), color: '#c49a2a', dmg: stats.earthDamage,   res: stats.earthResFixed,   pct: stats.earthResPercent   },
+    { icon: 'intelligence', label: t('elem_fire_label'),  color: '#dc4e22', dmg: stats.fireDamage,    res: stats.fireResFixed,    pct: stats.fireResPercent    },
+    { icon: 'chance',       label: t('elem_water_label'), color: '#2a8fd4', dmg: stats.waterDamage,   res: stats.waterResFixed,   pct: stats.waterResPercent   },
+    { icon: 'agility',      label: t('elem_air_label'),   color: '#6ab04c', dmg: stats.airDamage,     res: stats.airResFixed,     pct: stats.airResPercent     },
+    { icon: 'neutral',      label: t('elem_neutral_label'),color:'#9b9b9b', dmg: stats.neutralDamage, res: stats.neutralResFixed, pct: stats.neutralResPercent },
   ].filter(e => e.dmg !== 0 || e.res !== 0 || e.pct !== 0)
 
   const combatStats: { icon: string; label: string; value: number; color: string; suffix?: string }[] = [
-    { icon: 'initiative',  label: 'Initiative', value: stats.initiative,  color: '#c9a84c'           },
-    { icon: 'lock',        label: 'Lock',       value: stats.lock,        color: '#b8860b'           },
-    { icon: 'dodge',       label: 'Dodge',      value: stats.dodge,       color: '#6ab04c'           },
-    { icon: 'crit',        label: 'Crit',       value: stats.critChance,  color: '#f5a623', suffix: '%' },
-    { icon: 'heals',       label: 'Heals',      value: stats.heals,       color: '#e05252'           },
-    { icon: 'prospecting', label: 'PP',         value: stats.prospecting, color: '#c9a84c'           },
-    { icon: 'summons',     label: 'Summons',    value: stats.summons,     color: '#9b6dff'           },
+    { icon: 'initiative',  label: t('combat_initiative'), value: stats.initiative,  color: '#c9a84c'           },
+    { icon: 'lock',        label: t('combat_lock'),       value: stats.lock,        color: '#b8860b'           },
+    { icon: 'dodge',       label: t('combat_dodge'),      value: stats.dodge,       color: '#6ab04c'           },
+    { icon: 'crit',        label: t('combat_crit'),       value: stats.critChance,  color: '#f5a623', suffix: '%' },
+    { icon: 'heals',       label: t('combat_heals'),      value: stats.heals,       color: '#e05252'           },
+    { icon: 'prospecting', label: t('combat_pp'),         value: stats.prospecting, color: '#c9a84c'           },
+    { icon: 'summons',     label: t('combat_summons'),    value: stats.summons,     color: '#9b6dff'           },
   ].filter(c => c.value !== 0)
 
   const badges = [
-    { icon: 'ap',       label: 'AP',    value: stats.ap,    color: '#f5c518' },
-    { icon: 'mp',       label: 'MP',    value: stats.mp,    color: '#6ab04c' },
-    { icon: 'vitality', label: 'HP',    value: stats.maxHp, color: '#e05252' },
-    ...(stats.range > 0 ? [{ icon: 'range', label: 'Range', value: stats.range, color: '#2a8fd4' }] : []),
+    { icon: 'ap',       label: t('badge_ap'),    value: stats.ap,    color: '#f5c518' },
+    { icon: 'mp',       label: t('badge_mp'),    value: stats.mp,    color: '#6ab04c' },
+    { icon: 'vitality', label: t('badge_hp'),    value: stats.maxHp, color: '#e05252' },
+    ...(stats.range > 0 ? [{ icon: 'range', label: t('badge_range'), value: stats.range, color: '#2a8fd4' }] : []),
   ]
 
   return (
@@ -118,7 +119,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
             {classLabel}
           </div>
           <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>
-            {gender === 'female' ? '♀' : '♂'} · Level {level}
+            {gender === 'female' ? '♀' : '♂'} · {t('export_level')} {level}
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
@@ -146,12 +147,12 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
       <div style={{ display: 'flex' }}>
         {/* Equipment column */}
         <div style={{ width: 240, padding: '16px', borderRight: `1px solid ${C.border}`, flexShrink: 0 }}>
-          <div style={SECTION_STYLE}>Equipment</div>
+          <div style={SECTION_STYLE}>{t('export_section_equipment')}</div>
           {equippedSlots.length === 0
-            ? <div style={{ color: C.dim, fontSize: 11 }}>No equipment</div>
+            ? <div style={{ color: C.dim, fontSize: 11 }}>{t('export_no_equipment')}</div>
             : equippedSlots.map(slot => (
               <div key={slot} style={{ display: 'flex', gap: 6, marginBottom: 5, alignItems: 'flex-start' }}>
-                <span style={{ color: C.muted, fontSize: 10, width: 52, flexShrink: 0, paddingTop: 1 }}>{SLOT_LABELS[slot]}</span>
+                <span style={{ color: C.muted, fontSize: 10, width: 52, flexShrink: 0, paddingTop: 1 }}>{slotLabel(slot)}</span>
                 <span style={{ color: C.text, fontSize: 11, lineHeight: 1.35 }}>{equipped[slot]}</span>
               </div>
             ))
@@ -162,7 +163,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
         <div style={{ flex: 1, padding: '16px' }}>
           {chars.length > 0 && (
             <div style={{ marginBottom: 14 }}>
-              <div style={SECTION_STYLE}>Characteristics</div>
+              <div style={SECTION_STYLE}>{t('export_section_characteristics')}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
                 {chars.map(c => (
                   <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '2px 0' }}>
@@ -177,10 +178,10 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
 
           {elems.length > 0 && (
             <div style={{ marginBottom: 14 }}>
-              <div style={SECTION_STYLE}>Elements</div>
+              <div style={SECTION_STYLE}>{t('export_section_elements')}</div>
               <div style={{ display: 'flex', marginBottom: 4 }}>
                 <div style={{ flex: 1 }} />
-                {['DMG', 'RES', '% RES'].map(h => (
+                {[t('header_dmg'), t('header_res'), t('header_res_pct')].map(h => (
                   <div key={h} style={{ width: 48, textAlign: 'right', color: C.dim, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
                 ))}
               </div>
@@ -200,7 +201,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
 
           {combatStats.length > 0 && (
             <div>
-              <div style={SECTION_STYLE}>Combat</div>
+              <div style={SECTION_STYLE}>{t('export_section_combat')}</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                 {combatStats.map(c => (
                   <div key={c.label} style={{
@@ -221,7 +222,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
 
       {/* ── Footer ── */}
       <div style={{ padding: '8px 20px', borderTop: `1px solid ${C.border}`, textAlign: 'center' }}>
-        <span style={{ color: C.dim, fontSize: 9 }}>dofus-forge · unofficial dofus build planner</span>
+        <span style={{ color: C.dim, fontSize: 9 }}>{t('export_footer')}</span>
       </div>
     </div>
   )

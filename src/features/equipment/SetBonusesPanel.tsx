@@ -61,12 +61,13 @@ function EffectRow({ e, active }: { e: AppEffect; active: boolean }) {
 // ── Compact set card — shows only current active tier ────────────────────────
 
 function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: () => void }) {
+  const { t }      = useTranslation()
   const tiers      = Object.entries(set.bonuses)
     .map(([k, v]) => ({ pieces: Number(k), effects: v }))
     .sort((a, b) => a.pieces - b.pieces)
   const maxPieces  = tiers.at(-1)?.pieces ?? 0
-  const activeTier = [...tiers].reverse().find(t => t.pieces <= count) ?? null
-  const nextTier   = tiers.find(t => t.pieces > count) ?? null
+  const activeTier = [...tiers].reverse().find(tier => tier.pieces <= count) ?? null
+  const nextTier   = tiers.find(tier => tier.pieces > count) ?? null
   const showTier   = activeTier ?? nextTier
   const isLocked   = activeTier == null
 
@@ -99,7 +100,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
           {count}<span style={{ color: 'var(--gold-deep)' }}>/{maxPieces}</span>
         </span>
 
-        <IconButton label="View set" variant="subtle" size="sm" onClick={onOpen} title="Ver set completo">
+        <IconButton label="View set" variant="subtle" size="sm" onClick={onOpen} title={t('view_set')}>
           <Eye size={11} />
         </IconButton>
       </div>
@@ -119,7 +120,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
                 : '1px solid color-mix(in srgb, var(--gold) 20%, transparent)',
             }}
           >
-            {isLocked ? `next: ${showTier.pieces}pc` : `${showTier.pieces}pc`}
+            {isLocked ? t('set_next_tier', { n: showTier.pieces }) : t('set_tier', { n: showTier.pieces })}
           </span>
           <div className="flex flex-col gap-0.5">
             {showTier.effects.map((e: AppEffect, i: number) => (
@@ -175,7 +176,7 @@ export function SetBonusesPanel() {
             {t('active_sets')}
           </h2>
           <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-            {activeSets.length} set{activeSets.length !== 1 ? 's' : ''}
+            {t('set_count', { count: activeSets.length })}
           </span>
         </div>
 

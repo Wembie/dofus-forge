@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from './cn'
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
@@ -30,6 +31,7 @@ const FOCUSABLE = [
 ].join(',')
 
 export function Modal({ open, onClose, title, size = 'md', className, children }: ModalProps) {
+  const { t }    = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId  = title ? 'modal-title' : undefined
 
@@ -121,7 +123,7 @@ export function Modal({ open, onClose, title, size = 'md', className, children }
                 </h2>
                 <button
                   onClick={onClose}
-                  aria-label="Close"
+                  aria-label={t('modal_close')}
                   className={cn(
                     'flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-sm',
                     'transition-colors duration-fast ease-out',

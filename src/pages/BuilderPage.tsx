@@ -1,5 +1,6 @@
-import { useEffect, Suspense, useState } from 'react'
+import { useEffect, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 import { Swords, User, BarChart2, Undo2, Redo2 } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
@@ -15,6 +16,8 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
 import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
+import { DOFUS_GAME_VERSION } from '@/data/changelog.ts'
+const ChangelogModal = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 
 type MobileTab = 'equipment' | 'character' | 'stats'
 
@@ -31,6 +34,7 @@ function BuilderContent() {
   const redo      = useHistoryStore(s => s.redo)
   const reset        = useBuildStore(s => s.reset)
   const clearHistory = useHistoryStore(s => s.clear)
+  const [showChangelog, setShowChangelog] = useState(false)
 
   useBuildUrl()
   useHistory()
@@ -84,16 +88,21 @@ function BuilderContent() {
             >
               {t('app_title')}
             </h1>
-            <span
-              className="font-mono text-[9px] hidden sm:inline px-1.5 py-0.5 rounded"
-              style={{
-                color:      'var(--ink-faint)',
-                background: 'var(--surface-void)',
-                border:     '1px solid var(--metal-edge)',
-              }}
-            >
-              v{__APP_VERSION__}
-            </span>
+          </button>
+          <button
+            onClick={() => setShowChangelog(true)}
+            className="font-mono text-[9px] hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors"
+            style={{
+              color:      'var(--ink-faint)',
+              background: 'var(--surface-void)',
+              border:     '1px solid var(--metal-edge)',
+              flexShrink: 0,
+            }}
+            title={t('open_changelog')}
+          >
+            <span>v{__APP_VERSION__}</span>
+            <span style={{ color: 'var(--metal-edge)' }}>·</span>
+            <span style={{ color: 'color-mix(in srgb, var(--gold) 55%, var(--ink-faint))' }}>Dofus {DOFUS_GAME_VERSION}</span>
           </button>
 
           {/* Status indicators */}
@@ -112,22 +121,22 @@ function BuilderContent() {
             {/* Divider */}
             <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <IconButton
-              label="Undo"
+              label={t('undo')}
               variant="subtle"
               size="md"
               onClick={undo}
               disabled={!canUndo}
-              title="Undo (Ctrl+Z)"
+              title={t('undo_title')}
             >
               <Undo2 size={14} />
             </IconButton>
             <IconButton
-              label="Redo"
+              label={t('redo')}
               variant="subtle"
               size="md"
               onClick={redo}
               disabled={!canRedo}
-              title="Redo (Ctrl+Shift+Z)"
+              title={t('redo_title')}
             >
               <Redo2 size={14} />
             </IconButton>
@@ -137,6 +146,13 @@ function BuilderContent() {
           </div>
         </div>
       </header>
+
+      {/* Changelog modal */}
+      {showChangelog && (
+        <Suspense fallback={null}>
+          <ChangelogModal onClose={() => setShowChangelog(false)} />
+        </Suspense>
+      )}
 
       {/* Main content */}
       <main id="main-content" className="max-w-7xl mx-auto px-4 py-6 pb-24 lg:pb-6">
@@ -233,7 +249,7 @@ export function BuilderPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-forge-bg flex items-center justify-center text-forge-muted text-sm">
-        Loading…
+        {i18next.t('loading_data')}
       </div>
     }>
       <BuilderContent />

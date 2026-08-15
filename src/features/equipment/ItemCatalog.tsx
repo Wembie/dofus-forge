@@ -34,6 +34,7 @@ const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
 function SetSearch({
   sets, selected, onSelect,
 }: { sets: AppSet[]; selected: AppSet | null; onSelect: (s: AppSet | null) => void }) {
+  const { t }           = useTranslation()
   const [q, setQ]       = useState('')
   const [open, setOpen] = useState(false)
   const inputRef        = useRef<HTMLInputElement>(null)
@@ -66,7 +67,7 @@ function SetSearch({
             ref={inputRef}
             type="text"
             value={q}
-            placeholder="Set…"
+            placeholder={t('set_search_placeholder')}
             onChange={e => { setQ(e.target.value); setOpen(true) }}
             onFocus={() => setOpen(true)}
             onBlur={() => setTimeout(() => setOpen(false), 150)}
@@ -85,7 +86,7 @@ function SetSearch({
                     onMouseDown={() => pick(s)}
                   >
                     <span className="font-medium">{s.name}</span>
-                    <span className="ml-1.5 text-ink-faint text-[10px]">{s.items.length}pc</span>
+                    <span className="ml-1.5 text-ink-faint text-[10px]">{t('set_tier', { n: s.items.length })}</span>
                   </button>
                 </li>
               ))}
@@ -393,7 +394,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     return () => window.removeEventListener('keydown', down)
   }, [onClose])
 
-  const SORT_LABELS: Record<SortKey, string> = { 'level-desc': 'Lv ↓', 'level-asc': 'Lv ↑', 'name-az': 'A–Z' }
+  const SORT_LABELS: Record<SortKey, string> = { 'level-desc': t('sort_level_desc'), 'level-asc': t('sort_level_asc'), 'name-az': t('sort_name_az') }
 
   return (
     <>
@@ -425,7 +426,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               onClick={onClose}
               className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none text-ink-muted hover:text-ink"
               style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
-              aria-label="Close"
+              aria-label={t('modal_close')}
             >×</button>
           </div>
         </div>
@@ -713,8 +714,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
           className="flex items-center justify-between px-4 py-2 text-[10px]"
           style={{ borderTop: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
         >
-          <span>Esc · close</span>
-          <span>{items.length} items</span>
+          <span>{t('catalog_esc_hint')}</span>
+          <span>{t('item_count', { count: items.length })}</span>
         </div>
       </div>
     </div>

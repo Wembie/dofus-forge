@@ -153,7 +153,7 @@ export function SetDetailModal({ set, onClose }: Props) {
           <div className="space-y-2">
             {tiers.map(({ pieces, effects }) => {
               const active = pieces <= equippedCount
-              const isNext = !active && pieces === tiers.find(t => t.pieces > equippedCount)?.pieces
+              const isNext = !active && pieces === tiers.find(tier => tier.pieces > equippedCount)?.pieces
               return (
                 <div
                   key={pieces}
@@ -182,7 +182,7 @@ export function SetDetailModal({ set, onClose }: Props) {
                       className="font-mono text-[11px] font-bold"
                       style={{ color: active ? 'var(--gold)' : isNext ? 'var(--ink-muted)' : 'var(--ink-faint)' }}
                     >
-                      {pieces}pc
+                      {t('set_tier', { n: pieces })}
                     </span>
                     {active && (
                       <span
@@ -193,12 +193,12 @@ export function SetDetailModal({ set, onClose }: Props) {
                           border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
                         }}
                       >
-                        {t('active', 'Active')}
+                        {t('set_bonus_active')}
                       </span>
                     )}
                     {isNext && (
                       <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>
-                        next
+                        {t('set_bonus_next')}
                       </span>
                     )}
                   </div>
@@ -288,7 +288,7 @@ export function SetDetailModal({ set, onClose }: Props) {
                       )}
                     </div>
                     <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
-                      Lv {item.level} · {slot?.label ?? item.slot}
+                      {t('level_range')} {item.level} · {slot?.label ?? item.slot}
                     </p>
                     {visibleStats.length > 0 && (
                       <div className="flex flex-wrap gap-x-2.5 gap-y-0 mt-1">

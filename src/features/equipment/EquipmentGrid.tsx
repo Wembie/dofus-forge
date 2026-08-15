@@ -188,7 +188,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
     <div className="relative flex flex-col items-center gap-0.5" onMouseEnter={enter} onMouseLeave={leave}>
       <button
         onClick={onOpen}
-        aria-label={`${slotLabel}${item ? `: ${item.name}` : ' (empty)'}`}
+        aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
         className={`rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
         style={{
           width:  px,
@@ -366,7 +366,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                     <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
                     {useMax && (
                       <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
-                        [{e.min} a {e.max}]
+                        [{e.min} {t('range_sep_neg')} {e.max}]
                       </span>
                     )}
                   </div>
@@ -387,7 +387,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                       ? <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>{t('spell_push', { cells: e.min })}</span>
                       : <>
                           <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
-                            {e.min === e.max || e.max === 0 ? e.min : `${e.min} a ${e.max}`}
+                            {e.min === e.max || e.max === 0 ? e.min : `${e.min} ${t('range_sep_neg')} ${e.max}`}
                           </span>
                           <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
                         </>
@@ -619,7 +619,7 @@ function CharacterCenter() {
                 opacity:    0.7,
               }} />
               <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: 'var(--ink-muted)' }}>
-                Lv.{level}
+                {t('level_range')}.{level}
               </span>
               <div style={{
                 width:      40,

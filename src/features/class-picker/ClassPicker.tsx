@@ -87,7 +87,7 @@ export function ClassPicker() {
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold)' }}
             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold-deep)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold-deep)' }}
           >
-            {t('change', 'Change')}
+            {t('change')}
           </button>
         </div>
 
@@ -123,7 +123,7 @@ export function ClassPicker() {
               disabled={level <= 1}
               style={btnStyle}
               className="disabled:opacity-30"
-              aria-label="Decrease level"
+              aria-label={t('level_decrease')}
             >−</button>
             <input
               type="number"
@@ -139,7 +139,7 @@ export function ClassPicker() {
               disabled={level >= 200}
               style={btnStyle}
               className="disabled:opacity-30"
-              aria-label="Increase level"
+              aria-label={t('level_increase')}
             >+</button>
             <span className="text-[9px] font-display uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
               {t('level')}
@@ -275,7 +275,7 @@ export function ClassPicker() {
           <div className="space-y-1.5">
             <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>{t('level')}</h2>
             <div className="flex items-center gap-2">
-              <button onClick={() => setLevel(level - 1)} disabled={level <= 1} style={btnStyle} className="disabled:opacity-30" aria-label="Decrease level">−</button>
+              <button onClick={() => setLevel(level - 1)} disabled={level <= 1} style={btnStyle} className="disabled:opacity-30" aria-label={t('level_decrease')}>−</button>
               <input
                 type="number" min={1} max={200} value={level}
                 onChange={e => setLevel(Number(e.target.value))}
@@ -283,7 +283,7 @@ export function ClassPicker() {
                 style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
                 aria-label={t('level')}
               />
-              <button onClick={() => setLevel(level + 1)} disabled={level >= 200} style={btnStyle} className="disabled:opacity-30" aria-label="Increase level">+</button>
+              <button onClick={() => setLevel(level + 1)} disabled={level >= 200} style={btnStyle} className="disabled:opacity-30" aria-label={t('level_increase')}>+</button>
               <span className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('level_max')}</span>
             </div>
           </div>

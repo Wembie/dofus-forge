@@ -9,7 +9,7 @@ const LANGS = [
 ] as const
 
 export function LanguageSwitcher() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const load     = useDataStore(s => s.load)
   const lang     = i18n.language.slice(0, 2)
 
@@ -31,7 +31,7 @@ export function LanguageSwitcher() {
               : 'text-forge-muted hover:text-forge-text',
           ].join(' ')}
           aria-pressed={lang === code}
-          aria-label={`Switch to ${label}`}
+          aria-label={t('lang_switch', { lang: label })}
         >
           {label}
         </button>
