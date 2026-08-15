@@ -73,7 +73,7 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
         {icon(iconName, 15)}
       </div>
       <span
-        className={`font-mono font-bold leading-none tabular-nums relative z-10 w-full text-center truncate ${numClass}`}
+        className={`font-mono font-bold leading-none tabular-nums relative z-10 w-full text-center ${numClass}`}
         style={{
           color,
           textShadow: `0 0 20px color-mix(in srgb, ${color} 65%, transparent), 0 0 40px color-mix(in srgb, ${color} 30%, transparent)`,
