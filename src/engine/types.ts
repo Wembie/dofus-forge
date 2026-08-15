@@ -15,9 +15,10 @@ export type AllocatedCharacteristics = Record<Characteristic, number>
 export type ScrolledCharacteristics  = Record<Characteristic, boolean>
 
 export type ItemEffect = {
-  stat: string
-  min:  number
-  max:  number
+  stat:       string
+  min:        number
+  max:        number
+  effect_id?: number
 }
 
 export type EquippedItem = {

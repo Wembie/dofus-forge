@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.39',
+    date: '2026-08-15',
+    notes: [
+      'Fix: "Ataque de Arma" solo muestra daños reales del arma — stats pasivos van a "Efectos"',
+      'Misma stat "Air damage" tenía dos IDs: 189 = ataque del arma, 47 = bonus pasivo — ahora se distinguen por ID',
+      'Stats panel: bonuses pasivos de daño en armas ya no se excluyen del cálculo',
+    ],
+  },
+  {
     version: '0.2.38',
     date: '2026-08-15',
     notes: [

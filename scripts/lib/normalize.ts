@@ -1,7 +1,8 @@
 export type AppEffect = {
-  stat: string
-  min: number
-  max: number
+  stat:       string
+  min:        number
+  max:        number
+  effect_id?: number
 }
 
 export type AppItem = {
@@ -39,7 +40,7 @@ export type AppMount = {
 }
 
 export type RawEffect = {
-  type?: { name?: string; is_meta?: boolean }
+  type?: { name?: string; id?: number; is_meta?: boolean }
   int_minimum?: number
   int_maximum?: number
   formatted?: string
@@ -107,9 +108,10 @@ export function normalizeItem(raw: RawItem): AppItem {
     type:      raw.type?.name ?? '',
     slot:      raw.is_weapon ? 'weapon' : slotFromType(raw.type?.name ?? ''),
     effects:   (raw.effects ?? []).map(e => ({
-      stat: e.type?.name ?? '',
-      min:  e.int_minimum ?? 0,
-      max:  e.int_maximum ?? 0,
+      stat:       e.type?.name ?? '',
+      min:        e.int_minimum ?? 0,
+      max:        e.int_maximum ?? 0,
+      effect_id:  e.type?.id,
     })),
     set_id:    raw.parent_set?.id ?? null,
     image_url: raw.image_urls?.sd ?? raw.image_urls?.icon ?? null,

@@ -1,11 +1,9 @@
 import type { BuildInput, StatBlock, ItemEffect } from './types.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from './characteristics.ts'
-import { STAT_MAP, IGNORED_STATS } from './statMap.ts'
+import { STAT_MAP, IGNORED_STATS, WEAPON_ATTACK_IDS } from './statMap.ts'
 
-// Weapon attack-base effects use lowercase element names (e.g. "Air damage").
-// Non-weapon items also use lowercase for the same stat names as passive bonuses.
-// We filter these out only for weapon-slot items to avoid double-counting weapon attack ranges.
-const WEAPON_ATTACK_STATS = new Set(['Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage'])
+// Fallback name-based filter for legacy JSON without effect_id.
+const WEAPON_ATTACK_STAT_NAMES = new Set(['Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage'])
 
 // Base AP/MP/Pods in Dofus 3.
 // TODO: Verify in Dofus 3. Assumption: 6 AP / 3 MP base for all classes.
@@ -105,7 +103,11 @@ export function computeStats(input: BuildInput): StatBlock {
   // 2. Aggregate item effects (filter weapon attack ranges from weapon-slot items)
   for (const item of input.items) {
     const effects = item.slot === 'weapon'
-      ? item.effects.filter(e => !WEAPON_ATTACK_STATS.has(e.stat))
+      ? item.effects.filter(e =>
+          e.effect_id != null
+            ? !WEAPON_ATTACK_IDS.has(e.effect_id)
+            : !WEAPON_ATTACK_STAT_NAMES.has(e.stat)
+        )
       : item.effects
     applyEffects(block, effects)
   }

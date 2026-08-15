@@ -13,13 +13,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
-
-const WEAPON_ATK_STATS = new Set([
-  'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
-  'Earth steal',  'Fire steal',  'Water steal',  'Air steal',  'Neutral steal',
-  'best-element damage', 'best-element steal',
-  'Pushes back cell',
-])
+import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
@@ -350,8 +344,10 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             {(() => {
               const allFx      = item.effects.filter(e => !isIgnored(e.stat))
               const isWeapon   = item.slot === 'weapon' || item.ap_cost != null
-              const atkFx      = isWeapon ? allFx.filter(e => WEAPON_ATK_STATS.has(e.stat))  : []
-              const statFx     = isWeapon ? allFx.filter(e => !WEAPON_ATK_STATS.has(e.stat)) : allFx
+              const isAtk      = (e: typeof allFx[0]) =>
+                e.effect_id != null ? WEAPON_ATTACK_IDS.has(e.effect_id) : false
+              const atkFx      = isWeapon ? allFx.filter(isAtk)  : []
+              const statFx     = isWeapon ? allFx.filter(e => !isAtk(e)) : allFx
 
               function StatLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
                 const meta    = STAT_META[e.stat]

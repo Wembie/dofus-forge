@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.39] — 2026-08-15
+- Fix: "Ataque de Arma" solo muestra daños reales del arma — stats pasivos (ej. +Daño Aire) van a "Efectos"
+- Root cause: mismo nombre de stat ("Air damage") tenía dos IDs en API — id=189 = ataque, id=47 = bonus pasivo
+- Solución: effect_id guardado en JSON, clasificación por ID (funciona en todos los idiomas)
+- Stats panel: cálculo de stats de arma corregido — bonuses pasivos de daño ya no se excluyen
+
 ## [0.2.38] — 2026-08-15
 - Forjamagia deshabilitada para Dofus (1–6) y Montura — botón ✦ no aparece en esos slots
 
