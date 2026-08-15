@@ -166,7 +166,7 @@ export function SetBonusesPanel() {
   const gridClass =
     activeSets.length === 1 ? '' :
     activeSets.length === 2 ? 'grid grid-cols-2 gap-3' :
-                              'grid grid-cols-2 gap-3'
+                              'grid grid-cols-3 gap-3'
 
   return (
     <>
