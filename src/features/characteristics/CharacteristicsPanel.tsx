@@ -198,9 +198,9 @@ function ScrollToggles() {
     <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
       <div className="flex items-center justify-between mb-1.5">
         <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--ink-faint)' }}>
-          Pergaminos
+          {t('scrolls_title')}
         </span>
-        <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{SCROLL_BONUS} c/u</span>
+        <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{SCROLL_BONUS} {t('scroll_each')}</span>
       </div>
       <div className="flex gap-1">
         {CHARACTERISTICS.map(char => {

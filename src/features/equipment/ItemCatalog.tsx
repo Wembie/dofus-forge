@@ -34,6 +34,7 @@ const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
 function SetSearch({
   sets, selected, onSelect,
 }: { sets: AppSet[]; selected: AppSet | null; onSelect: (s: AppSet | null) => void }) {
+  const { t }           = useTranslation()
   const [q, setQ]       = useState('')
   const [open, setOpen] = useState(false)
   const inputRef        = useRef<HTMLInputElement>(null)
@@ -66,7 +67,7 @@ function SetSearch({
             ref={inputRef}
             type="text"
             value={q}
-            placeholder="Set…"
+            placeholder={t('set_search_placeholder')}
             onChange={e => { setQ(e.target.value); setOpen(true) }}
             onFocus={() => setOpen(true)}
             onBlur={() => setTimeout(() => setOpen(false), 150)}

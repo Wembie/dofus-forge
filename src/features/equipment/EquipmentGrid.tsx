@@ -188,7 +188,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
     <div className="relative flex flex-col items-center gap-0.5" onMouseEnter={enter} onMouseLeave={leave}>
       <button
         onClick={onOpen}
-        aria-label={`${slotLabel}${item ? `: ${item.name}` : ' (empty)'}`}
+        aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
         className={`rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
         style={{
           width:  px,

@@ -123,7 +123,7 @@ export function ClassPicker() {
               disabled={level <= 1}
               style={btnStyle}
               className="disabled:opacity-30"
-              aria-label="Decrease level"
+              aria-label={t('level_decrease')}
             >−</button>
             <input
               type="number"
@@ -139,7 +139,7 @@ export function ClassPicker() {
               disabled={level >= 200}
               style={btnStyle}
               className="disabled:opacity-30"
-              aria-label="Increase level"
+              aria-label={t('level_increase')}
             >+</button>
             <span className="text-[9px] font-display uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
               {t('level')}

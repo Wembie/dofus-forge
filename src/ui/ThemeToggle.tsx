@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const LS_KEY = 'dofus-forge-theme'
 
@@ -14,6 +15,7 @@ function applyTheme(theme: 'dark' | 'light') {
 }
 
 export function ThemeToggle() {
+  const { t }             = useTranslation()
   const [theme, setTheme] = useState<'dark' | 'light'>(getInitialTheme)
 
   useEffect(() => {
@@ -21,14 +23,14 @@ export function ThemeToggle() {
     localStorage.setItem(LS_KEY, theme)
   }, [theme])
 
-  const toggle = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
+  const toggle = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark')
 
   return (
     <button
       onClick={toggle}
       className="w-8 h-8 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep transition-colors flex items-center justify-center text-sm"
-      aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-      title={theme === 'dark' ? 'Light theme' : 'Dark theme'}
+      aria-label={theme === 'dark' ? t('theme_switch_light') : t('theme_switch_dark')}
+      title={theme === 'dark' ? t('theme_label_light') : t('theme_label_dark')}
     >
       {theme === 'dark' ? '☀️' : '🌙'}
     </button>

@@ -1,5 +1,6 @@
 import { useEffect, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 import { Swords, User, BarChart2, Undo2, Redo2 } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
@@ -233,7 +234,7 @@ export function BuilderPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-forge-bg flex items-center justify-center text-forge-muted text-sm">
-        Loading…
+        {i18next.t('loading_data')}
       </div>
     }>
       <BuilderContent />
