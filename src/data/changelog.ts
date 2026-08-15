@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.29',
+    date: '2026-08-14',
+    notes: [
+      'Layout desktop: 3 columnas → 2 columnas (equipment + hechizos a la izquierda, sidebar derecha con clase + características + stats)',
+      'Badge HP/PV: eliminado clip overflow, números escalan mejor en espacio reducido',
+    ],
+  },
+  {
     version: '0.2.27',
     date: '2026-08-14',
     notes: [

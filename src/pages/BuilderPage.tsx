@@ -177,48 +177,42 @@ function BuilderContent() {
           )}
         </div>
 
-        {/* Desktop: 3-column grid (lg+) */}
-        <div className="hidden lg:grid lg:grid-cols-[272px_1fr_316px] gap-5">
-          {/* Left: Class + Characteristics */}
+        {/* Desktop: 2-column grid (lg+) */}
+        <div className="hidden lg:grid lg:grid-cols-[1fr_300px] gap-5 items-start">
+
+          {/* Left: Equipment + Spells stacked */}
+          <div className="flex flex-col gap-5">
+            <section
+              aria-label={t('equipment')}
+              className="rounded-xl overflow-hidden"
+              style={{
+                border:    '1px solid var(--metal-edge)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,0,0,0.4)',
+                animation: 'col-rise 520ms var(--ease-out) 0ms both',
+              }}
+            >
+              <EquipmentGrid />
+            </section>
+            {hasClass && (
+              <div style={{ animation: 'col-rise 520ms var(--ease-out) 200ms both' }}>
+                <Frame padding="lg"><SpellsPanel /></Frame>
+              </div>
+            )}
+          </div>
+
+          {/* Right sidebar: Class + Characteristics + Stats (sticky, scrollable) */}
           <aside
-            aria-label={`${t('class')} & ${t('characteristics')}`}
-            className="space-y-4"
+            aria-label={`${t('class')} & ${t('characteristics')} & ${t('stats')}`}
+            aria-live="polite"
+            className="sticky top-[58px] max-h-[calc(100vh-68px)] overflow-y-auto space-y-4 pb-4"
             style={{ animation: 'col-rise 520ms var(--ease-out) 60ms both' }}
           >
             <Frame><ClassPicker /></Frame>
             <Frame><CharacteristicsPanel /></Frame>
-          </aside>
-
-          {/* Center: Equipment */}
-          <section
-            aria-label={t('equipment')}
-            className="rounded-xl overflow-hidden"
-            style={{
-              border:    '1px solid var(--metal-edge)',
-              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,0,0,0.4)',
-              animation: 'col-rise 520ms var(--ease-out) 0ms both',
-            }}
-          >
-            <EquipmentGrid />
-          </section>
-
-          {/* Right: Stats */}
-          <aside
-            aria-label={t('stats')}
-            aria-live="polite"
-            className="overflow-y-auto max-h-[calc(100vh-110px)] sticky top-[58px]"
-            style={{ animation: 'col-rise 520ms var(--ease-out) 120ms both' }}
-          >
             <Frame material="parchment"><StatsPanel /></Frame>
           </aside>
-        </div>
 
-        {/* Spells: full-width section below 3-col grid (desktop) */}
-        {hasClass && (
-          <div className="hidden lg:block mt-5" style={{ animation: 'col-rise 520ms var(--ease-out) 200ms both' }}>
-            <Frame padding="lg"><SpellsPanel /></Frame>
-          </div>
-        )}
+        </div>
       </main>
 
       {/* Mobile bottom tab bar (< lg) */}

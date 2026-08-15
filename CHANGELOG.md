@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.29] — 2026-08-14
+- Desktop layout: 3 columns → 2 columns (equipment + spells left, sidebar right with class + characteristics + stats)
+- HP badge: removed overflow-hidden clip, font sizes scale down to prevent number overflow
+
 ## [0.2.27] — 2026-08-14
 - i18n complete: every user-visible string translated in EN / ES / FR / PT
 - Fixed: Undo/Redo labels, modal close aria-labels, sort labels, SpellsPanel abbreviations, LanguageSwitcher
