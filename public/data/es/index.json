@@ -3,56 +3,56 @@
     "id": 44,
     "name": "Espada de maderucha",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 7
   },
   {
     "id": 49,
     "name": "Espada de hierrucho",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 55,
     "name": "Espada chifladora",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 58,
     "name": "La Triste Hoja",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 62,
     "name": "Espada Dha",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 65,
     "name": "Gúltar",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 66,
     "name": "Las crines de Badulo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 67,
     "name": "El Filo Infernal",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 22
   },
   {
@@ -80,14 +80,14 @@
     "id": 91,
     "name": "Arco de maderucha",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 7
   },
   {
     "id": 97,
     "name": "Dagas de maderucha",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 7
   },
   {
@@ -129,28 +129,28 @@
     "id": 134,
     "name": "Varita de maderucha",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 3
   },
   {
     "id": 140,
     "name": "Bastón de maderucha",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 9
   },
   {
     "id": 147,
     "name": "Martillo de maderucha",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
     "id": 153,
     "name": "Pala de maderucha",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
@@ -199,63 +199,63 @@
     "id": 165,
     "name": "Varita de hielo",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 11
   },
   {
     "id": 180,
     "name": "La Varita del Limbo",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 105
   },
   {
     "id": 181,
     "name": "Varita de los Cielos",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 51
   },
   {
     "id": 183,
     "name": "Bastón Hojudo",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 188,
     "name": "Bastón Cojomudo",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
     "id": 194,
     "name": "Bastón Espiritual",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 16
   },
   {
     "id": 200,
     "name": "God Rod",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 201,
     "name": "Hook",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 202,
     "name": "Raciela",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
@@ -269,119 +269,119 @@
     "id": 204,
     "name": "Krystobola",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 68
   },
   {
     "id": 208,
     "name": "Dagas de hierrucho",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
     "id": 214,
     "name": "Dagas de Croclage",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 218,
     "name": "Bashers",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
     "id": 219,
     "name": "Blessdags",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
     "id": 220,
     "name": "Chakra Style",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 73
   },
   {
     "id": 224,
     "name": "Martillo de paliza",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 230,
     "name": "Martillo de marfil",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 19
   },
   {
     "id": 233,
     "name": "Kaiser",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
     "id": 234,
     "name": "Ragnarok",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 235,
     "name": "Cerberus",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 16
   },
   {
     "id": 236,
     "name": "Barabas",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 23
   },
   {
     "id": 237,
     "name": "Sargas",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 241,
     "name": "Pala de Crapullo",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 247,
     "name": "Pala de raspadura",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 19
   },
   {
     "id": 250,
     "name": "Ares",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 72
   },
   {
     "id": 251,
     "name": "Barba Gris",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
@@ -409,35 +409,35 @@
     "id": 267,
     "name": "Arco desconcertante",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 19
   },
   {
     "id": 270,
     "name": "Javiador",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 58
   },
   {
     "id": 271,
     "name": "Martillo de chafer",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 272,
     "name": "Nomoon",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 28
   },
   {
     "id": 273,
     "name": "La Cuerda de Yamato",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 31
   },
   {
@@ -465,7 +465,7 @@
     "id": 296,
     "name": "Pala de crujidor",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
@@ -486,7 +486,7 @@
     "id": 320,
     "name": "Bastón del Tabi",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -521,98 +521,98 @@
     "id": 327,
     "name": "Hoja de gobletrotter",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 16
   },
   {
     "id": 328,
     "name": "Korta-Kotas",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 18
   },
   {
     "id": 329,
     "name": "Arco de Triunfo",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 331,
     "name": "Arco Yris",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 22
   },
   {
     "id": 332,
     "name": "Arco de Juana",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 333,
     "name": "Varita Depan",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 334,
     "name": "Varita de Liriel",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 335,
     "name": "Bastón de bwork mago",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 58
   },
   {
     "id": 336,
     "name": "Bastón de awelito wabbit",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 32
   },
   {
     "id": 337,
     "name": "Arco de bwork arquero",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 339,
     "name": "Cuchilla de chafer",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 340,
     "name": "Limpiadoras",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 341,
     "name": "Las dagas chifladas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 342,
     "name": "Martillo picador",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 18
   },
   {
@@ -626,7 +626,7 @@
     "id": 347,
     "name": "Rhizoma dorado",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -640,7 +640,7 @@
     "id": 354,
     "name": "La Klebik",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
@@ -661,14 +661,14 @@
     "id": 357,
     "name": "La Cola",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
     "id": 358,
     "name": "La Cola Infernal",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
@@ -682,21 +682,21 @@
     "id": 436,
     "name": "Bastón de raíz de abráknido",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 455,
     "name": "Martillito de la aurora",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 456,
     "name": "Exterminadora de robles",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
@@ -710,56 +710,56 @@
     "id": 462,
     "name": "Arco hecho con la raíz de abráknido",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
     "id": 469,
     "name": "Varita de raíz de abráknido",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 478,
     "name": "Podadora de carpe",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 47
   },
   {
     "id": 484,
     "name": "Pala apaleadora",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 31
   },
   {
     "id": 489,
     "name": "Lupa",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 502,
     "name": "Cortadora de tejo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 515,
     "name": "Bulgurda de los Claros",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 592,
     "name": "Cuerda de Ivan Nowé",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 36
   },
   {
@@ -787,14 +787,14 @@
     "id": 619,
     "name": "Bastón del Amo de los Jalatós",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
     "id": 620,
     "name": "Cortadora de kralamares",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 61
   },
   {
@@ -822,49 +822,49 @@
     "id": 640,
     "name": "Arco de las Costas",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 657,
     "name": "Bastón del Amo de los Tofus",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
     "id": 658,
     "name": "Bastón del Amo de los Tabis",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 673,
     "name": "Devoradora de castaños",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
     "id": 674,
     "name": "Hendedora de cerezo silvestre",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 32
   },
   {
     "id": 675,
     "name": "Cortadora de nogal",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 676,
     "name": "Devoradora de arces",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
@@ -1039,7 +1039,7 @@
     "id": 742,
     "name": "Bastón cornudo",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
@@ -1074,7 +1074,7 @@
     "id": 765,
     "name": "Guadaña de Farle Ingals",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
@@ -1109,7 +1109,7 @@
     "id": 771,
     "name": "Devoradora de fresnos",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
@@ -1179,7 +1179,7 @@
     "id": 782,
     "name": "Agrid",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
@@ -1235,56 +1235,56 @@
     "id": 791,
     "name": "Abraknydi Vivitus",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 821,
     "name": "Espada sagrada",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 824,
     "name": "Espada de caballero",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 827,
     "name": "Hoja de bwork",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 828,
     "name": "Arco silbante",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 11
   },
   {
     "id": 829,
     "name": "Arco Nada",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 5
   },
   {
     "id": 832,
     "name": "Varita de inteligencia",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
     "id": 835,
     "name": "Varita de sabiduría",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
@@ -1410,14 +1410,14 @@
     "id": 896,
     "name": "Dagas silvestres",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 900,
     "name": "Dagas afiladas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 39
   },
   {
@@ -1473,14 +1473,14 @@
     "id": 919,
     "name": "Dagas ancestrales",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 923,
     "name": "Cortadora de abráknidos",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 74
   },
   {
@@ -1494,14 +1494,14 @@
     "id": 927,
     "name": "Cortadora de Abráknido Ancestral",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 93
   },
   {
     "id": 928,
     "name": "Hoja de Ogralimde",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 45
   },
   {
@@ -1634,7 +1634,7 @@
     "id": 970,
     "name": "Bastón del Wey Wabbit",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -1676,147 +1676,147 @@
     "id": 1029,
     "name": "Cuchillo de Stek",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 1030,
     "name": "Colas de gatitos",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
     "id": 1031,
     "name": "Dagas Crueles de Elorie Entuwan",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1035,
     "name": "Hoja de parra",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
     "id": 1039,
     "name": "Dagas engañadoras",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 1040,
     "name": "Cuchillos sangrientos de Ortimus Contrari",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 1041,
     "name": "Espada rota del caballero Desafortunado",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1045,
     "name": "Pala de Vello Durmiente",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 1049,
     "name": "Pala enredaderada",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1053,
     "name": "Pala de Wukis",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
     "id": 1054,
     "name": "Cruel Pala Paleta",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 53
   },
   {
     "id": 1058,
     "name": "Pala de Kutulú",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 1059,
     "name": "Pala de los Campos",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 1063,
     "name": "Maza Da",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 24
   },
   {
     "id": 1067,
     "name": "Martillo R'único",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1071,
     "name": "Maza Damelklavel",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 1075,
     "name": "Martillo pacificador",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 48
   },
   {
     "id": 1079,
     "name": "Maza Getay",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 51
   },
   {
     "id": 1083,
     "name": "Martillo aerodinámico",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
     "id": 1084,
     "name": "Martillo Tohrero",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 1085,
     "name": "Martillo de los Falistos",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 79
   },
   {
@@ -1837,112 +1837,112 @@
     "id": 1095,
     "name": "Arco Buz",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 24
   },
   {
     "id": 1104,
     "name": "Varita Hora",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1112,
     "name": "Arco de cuerno de jalató",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 38
   },
   {
     "id": 1116,
     "name": "Arco Diquea, versión estándar",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 47
   },
   {
     "id": 1120,
     "name": "Arco ecológico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 1124,
     "name": "Arco de cristal",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
     "id": 1128,
     "name": "Arco de Roberto del Monte",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 72
   },
   {
     "id": 1131,
     "name": "Varita de iglesia",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 1132,
     "name": "Varita Ni'Ninnin",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1136,
     "name": "Varita plumero",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 45
   },
   {
     "id": 1140,
     "name": "Varita de Huveta",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 1146,
     "name": "Varita de líder",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 71
   },
   {
     "id": 1147,
     "name": "Bastón de magia falsa",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1151,
     "name": "Bastón de Akné",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 37
   },
   {
     "id": 1157,
     "name": "Bastón-bola de vidente",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1162,
     "name": "Bastón de los reyes",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -1956,294 +1956,294 @@
     "id": 1350,
     "name": "Arco Hólico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
     "id": 1351,
     "name": "Arco de Charra",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1352,
     "name": "Arco de Boo",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 1353,
     "name": "Arco de Madero",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 1354,
     "name": "El Arco Hips",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
     "id": 1355,
     "name": "Arco Desade",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1356,
     "name": "Bio Varita",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 1357,
     "name": "Varidaga",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1359,
     "name": "El Tizón Zippón",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 59
   },
   {
     "id": 1360,
     "name": "La Hyldegard",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 48
   },
   {
     "id": 1361,
     "name": "Varita Prismática",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 1362,
     "name": "Estaca vampírica",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 65
   },
   {
     "id": 1363,
     "name": "Bastón Tontolonero",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1364,
     "name": "Bastón del Olvido",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1365,
     "name": "Bastón Torrón",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 1366,
     "name": "Bastón de jalatero",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 1367,
     "name": "Bastón de Dina Mita",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1368,
     "name": "Lanza Extintora",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
     "id": 1369,
     "name": "Los Cuchillos Jinsu",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 1370,
     "name": "Ergot Mina",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 1371,
     "name": "Dagas de Kaka",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1372,
     "name": "Dagas Olina",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 44
   },
   {
     "id": 1373,
     "name": "La Afeitadora Infernal",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1374,
     "name": "Daga Ligra Fía",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1375,
     "name": "Hacha Al-Terófilo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 1376,
     "name": "Hacha Kador",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1377,
     "name": "Hacha Mahn",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 22
   },
   {
     "id": 1378,
     "name": "La Rike Glesias",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 28
   },
   {
     "id": 1379,
     "name": "El Skrunnchhh",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1383,
     "name": "Martillo Konda",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 1393,
     "name": "El Matrónomo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 54
   },
   {
     "id": 1399,
     "name": "Maza Clavito",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 1403,
     "name": "Martillo Haimito",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 23
   },
   {
     "id": 1404,
     "name": "Martillo Bestial",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1426,
     "name": "Pala Patarta",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 24
   },
   {
     "id": 1427,
     "name": "Pala Zebuth",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 1431,
     "name": "Pala frutera",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 1432,
     "name": "Pala de Kolokón",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 1433,
     "name": "Pala defensiva",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 1435,
     "name": "La Pala Gorda",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 1436,
     "name": "Pala Kran",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1439,
     "name": "Mal Pico",
     "type": "Pico",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
@@ -2257,7 +2257,7 @@
     "id": 1475,
     "name": "La Bunita Hoja",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -2285,7 +2285,7 @@
     "id": 1479,
     "name": "El Twote de Cartón",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
@@ -2439,28 +2439,28 @@
     "id": 1503,
     "name": "Varita de fuego fatuo",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
     "id": 1504,
     "name": "Daga Yumbo",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1505,
     "name": "Flauta",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 1511,
     "name": "Nueve Colas",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 99
   },
   {
@@ -2474,7 +2474,7 @@
     "id": 1574,
     "name": "Trinchadora de Canes",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -2495,7 +2495,7 @@
     "id": 1620,
     "name": "Abrarco",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 39
   },
   {
@@ -2572,14 +2572,14 @@
     "id": 1639,
     "name": "Estrella de la noche",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 1651,
     "name": "El Cutter",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
@@ -2775,7 +2775,7 @@
     "id": 1739,
     "name": "Varita Fogosa",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -2810,14 +2810,14 @@
     "id": 1934,
     "name": "Cuchillo de caza",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 1942,
     "name": "Arco de caza",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -2838,7 +2838,7 @@
     "id": 2066,
     "name": "Tridente de kanugro",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 53
   },
   {
@@ -2943,7 +2943,7 @@
     "id": 2156,
     "name": "Espada de Justicia",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -2957,14 +2957,14 @@
     "id": 2341,
     "name": "Arco de Mech Riorraw",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 2361,
     "name": "Arco de Mulic Bere",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -3034,7 +3034,7 @@
     "id": 2376,
     "name": "Hacha Kemata",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -3244,21 +3244,21 @@
     "id": 2415,
     "name": "Kwakhoja de llamas",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 2416,
     "name": "Martillo de jalató",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 2417,
     "name": "Paloabra",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 45
   },
   {
@@ -3363,7 +3363,7 @@
     "id": 2440,
     "name": "Espada Real de Jalató",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
@@ -3580,7 +3580,7 @@
     "id": 2544,
     "name": "Cuerbokhoja",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 110
   },
   {
@@ -3608,119 +3608,119 @@
     "id": 2587,
     "name": "Machete de leñador",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 2589,
     "name": "Hachita Ermundo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 5
   },
   {
     "id": 2590,
     "name": "Hacha Vor'Om",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 2592,
     "name": "Cortadora de bombú",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 39
   },
   {
     "id": 2593,
     "name": "Podadora de olivioleta",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 42
   },
   {
     "id": 2595,
     "name": "Hacha de piedra",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 51
   },
   {
     "id": 2597,
     "name": "Hacha de brecha",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 54
   },
   {
     "id": 2600,
     "name": "Cortadora de palabra",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 2601,
     "name": "Hacha Darsson",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 57
   },
   {
     "id": 2603,
     "name": "Troceadora de Partes",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 2604,
     "name": "Bardacha del Miliciano",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 78
   },
   {
     "id": 2606,
     "name": "Hachilla Sabia",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 2608,
     "name": "Hacha Chachi",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 84
   },
   {
     "id": 2612,
     "name": "Hacha Pesquera",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 87
   },
   {
     "id": 2614,
     "name": "Hacha Damesa",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 89
   },
   {
     "id": 2615,
     "name": "Hacha de Lookabeer",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 96
   },
   {
     "id": 2616,
     "name": "Hala Barda",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 99
   },
   {
@@ -3734,28 +3734,28 @@
     "id": 2637,
     "name": "La Garra",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 2638,
     "name": "La Garra Afilada",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 68
   },
   {
     "id": 2639,
     "name": "Falsa Garra de Ceangal",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 95
   },
   {
     "id": 2640,
     "name": "Bastón Carnívoro",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
@@ -3923,70 +3923,70 @@
     "id": 3356,
     "name": "Pala Canastensa",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 3357,
     "name": "Martillo Golpea Dedos",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
     "id": 3647,
     "name": "La Destripadora",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 3648,
     "name": "Daguita de Capitán Chafer",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 3649,
     "name": "Daga Lambres",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 91
   },
   {
     "id": 3650,
     "name": "Daga Doble",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 119
   },
   {
     "id": 3651,
     "name": "Daga Lomeración",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 3652,
     "name": "Bastón de María Pluma",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
     "id": 4241,
     "name": "Garra Rosa",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 4242,
     "name": "Abanico Cortante",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 75
   },
   {
@@ -4000,7 +4000,7 @@
     "id": 4382,
     "name": "Pico",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
@@ -4021,35 +4021,35 @@
     "id": 5999,
     "name": "Varita Infernal",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 75
   },
   {
     "id": 6438,
     "name": "Varita Blanda",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 6439,
     "name": "Varita Irreal",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 6440,
     "name": "Varita Velluda",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 95
   },
   {
     "id": 6442,
     "name": "Lanza de Loh Doh",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
@@ -4070,14 +4070,14 @@
     "id": 6445,
     "name": "Arco Botante",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 6446,
     "name": "Arco Tiko",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 87
   },
   {
@@ -4098,28 +4098,28 @@
     "id": 6451,
     "name": "Arco Ángel",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 82
   },
   {
     "id": 6452,
     "name": "Arki Tekto",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 111
   },
   {
     "id": 6453,
     "name": "Arco de pescador",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
     "id": 6454,
     "name": "Paloabra oscuro",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 87
   },
   {
@@ -4266,28 +4266,28 @@
     "id": 6484,
     "name": "Arco de sram arquero",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 89
   },
   {
     "id": 6485,
     "name": "Arco de chafer arquero",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 115
   },
   {
     "id": 6491,
     "name": "El Tronkónidum",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 57
   },
   {
     "id": 6492,
     "name": "Cizalla para cortar setos de Wobot",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -4301,28 +4301,28 @@
     "id": 6494,
     "name": "Varita de Elya Wood",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 117
   },
   {
     "id": 6495,
     "name": "Varita de Roble Blando",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 171
   },
   {
     "id": 6496,
     "name": "Varita de raíz de abráknido oscuro",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 6497,
     "name": "Balgurda de las disculpas",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 63
   },
   {
@@ -4357,21 +4357,21 @@
     "id": 6503,
     "name": "Martillo Polpuleta",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 57
   },
   {
     "id": 6504,
     "name": "Martillo Fantal",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 6505,
     "name": "Martillo Taurino",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -4385,182 +4385,182 @@
     "id": 6507,
     "name": "Martillo de la Terps",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 6508,
     "name": "Martillo Kolmillo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 6509,
     "name": "Martillo Trotícolis",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 6510,
     "name": "Martillo Puka",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 117
   },
   {
     "id": 6511,
     "name": "Martillo Kaxondo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 114
   },
   {
     "id": 6512,
     "name": "Martillo Xelorillo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 82
   },
   {
     "id": 6513,
     "name": "Martillo Moledor",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 6516,
     "name": "Dagas R'Hoh",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 121
   },
   {
     "id": 6517,
     "name": "Dagas vibrantes",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 6518,
     "name": "Amrothilina",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
     "id": 6519,
     "name": "Varita de Kuarzo",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 78
   },
   {
     "id": 6520,
     "name": "La Migraña",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 84
   },
   {
     "id": 6521,
     "name": "Kelinorrama",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
     "id": 6522,
     "name": "La Raíz Zinzinati",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 116
   },
   {
     "id": 6523,
     "name": "La Raíz Varreche",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 6524,
     "name": "Raíz del plantón salvaje",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 54
   },
   {
     "id": 6525,
     "name": "Bastón de Feca",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 94
   },
   {
     "id": 6526,
     "name": "Pala Hebuso",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 94
   },
   {
     "id": 6527,
     "name": "Pala Musical",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 6528,
     "name": "Pala Grino",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
     "id": 6535,
     "name": "Pala Antikaspa",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 121
   },
   {
     "id": 6536,
     "name": "Pala de minero oscuro",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 118
   },
   {
     "id": 6537,
     "name": "Pala suegra",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
     "id": 6538,
     "name": "Pala Mirador",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 84
   },
   {
     "id": 6539,
     "name": "Pala Blega",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 71
   },
   {
     "id": 6540,
     "name": "La Pala Enamorada",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 86
   },
   {
@@ -4588,7 +4588,7 @@
     "id": 6661,
     "name": "Caña para kuakuás",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -4609,7 +4609,7 @@
     "id": 6713,
     "name": "Lorsothisas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -4679,7 +4679,7 @@
     "id": 6725,
     "name": "Bastón del hombre oso",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
@@ -4756,21 +4756,21 @@
     "id": 6750,
     "name": "Kwakhoja de hielo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 6751,
     "name": "Kwakhoja de tierra",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 6752,
     "name": "Kwakhoja de viento",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
@@ -4840,7 +4840,7 @@
     "id": 6762,
     "name": "Mazoporrazo",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
@@ -4875,7 +4875,7 @@
     "id": 6769,
     "name": "Horca de Farle",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 76
   },
   {
@@ -4917,49 +4917,49 @@
     "id": 6780,
     "name": "Espada de debutante",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6781,
     "name": "Varita de debutante",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6782,
     "name": "Bastón de debutante",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6783,
     "name": "Arco de debutante",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6784,
     "name": "Dagas de debutante",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6785,
     "name": "Martillo de debutante",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6786,
     "name": "Pala de debutante",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
@@ -4980,7 +4980,7 @@
     "id": 6792,
     "name": "La Plantamaza de los Campos",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
@@ -5022,7 +5022,7 @@
     "id": 6799,
     "name": "Hoja de jefe bwork",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -5092,7 +5092,7 @@
     "id": 6821,
     "name": "Hoja de jefe cocodrail",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
@@ -5127,21 +5127,21 @@
     "id": 6839,
     "name": "Espada de Yinguiciado",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 6840,
     "name": "Espada de Yanguiciado",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 6856,
     "name": "Tijeras para rosa demoníaca",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -5218,7 +5218,7 @@
     "id": 6914,
     "name": "La cortadora de arakna",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 11
   },
   {
@@ -5288,7 +5288,7 @@
     "id": 6924,
     "name": "Dagas de bandido",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
@@ -5512,7 +5512,7 @@
     "id": 6957,
     "name": "Hoja de crujidor",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
@@ -5540,28 +5540,28 @@
     "id": 6981,
     "name": "Dagas Heladas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
     "id": 6982,
     "name": "Dagas de la Agonía",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 6983,
     "name": "Dagas de agresión",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 143
   },
   {
     "id": 6984,
     "name": "Dagas del aprendiz matador de jalatines",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
@@ -5694,7 +5694,7 @@
     "id": 7022,
     "name": "Bastón de Sanchoku",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -5722,7 +5722,7 @@
     "id": 7037,
     "name": "Bastón de Abuelita Bombón",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 98
   },
   {
@@ -5743,7 +5743,7 @@
     "id": 7040,
     "name": "Arco de Kuri",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
@@ -5778,14 +5778,14 @@
     "id": 7102,
     "name": "Espada del Caballero de Hielo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 7103,
     "name": "La Xyothina",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 145
   },
   {
@@ -5827,7 +5827,7 @@
     "id": 7110,
     "name": "Varita larvesca",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -6037,140 +6037,140 @@
     "id": 7153,
     "name": "Martillo Bombo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
     "id": 7154,
     "name": "Martillo Polgarcito",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 107
   },
   {
     "id": 7155,
     "name": "Martillo de Capitán Kodah",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
     "id": 7156,
     "name": "Martillito Ronto",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
     "id": 7157,
     "name": "Martillito Holón",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
     "id": 7158,
     "name": "Martillo Katraz",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 141
   },
   {
     "id": 7159,
     "name": "Martillo Escarbador",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 135
   },
   {
     "id": 7160,
     "name": "Arco Mático",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 7161,
     "name": "Arco Jabato",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 7162,
     "name": "Arco Mustabante",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 7163,
     "name": "Arco Disuasivo",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 123
   },
   {
     "id": 7164,
     "name": "Arco Angélico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
     "id": 7165,
     "name": "Varita Eide",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
     "id": 7167,
     "name": "Varita Cétera",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 7168,
     "name": "Varita Kacikera",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 63
   },
   {
     "id": 7169,
     "name": "Varita Chispera",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 7170,
     "name": "Varita Rosca",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 112
   },
   {
     "id": 7171,
     "name": "Varita Despistada",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
     "id": 7172,
     "name": "Varita Fekal",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 105
   },
   {
     "id": 7173,
     "name": "Varita estranguladora",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
@@ -6184,7 +6184,7 @@
     "id": 7176,
     "name": "Raíz Kyerda Unida",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 143
   },
   {
@@ -6198,224 +6198,224 @@
     "id": 7178,
     "name": "Raíz Cynorrhodon",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 86
   },
   {
     "id": 7181,
     "name": "Raíz Sin Semilla",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 106
   },
   {
     "id": 7182,
     "name": "Raíz Tziar",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 103
   },
   {
     "id": 7183,
     "name": "Raíz atractiva",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
     "id": 7184,
     "name": "Raíz siniestra",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 86
   },
   {
     "id": 7185,
     "name": "Raíz cúbica",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 101
   },
   {
     "id": 7187,
     "name": "Jakchir Arco",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
     "id": 7188,
     "name": "Dagas exprimidoras",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
     "id": 7189,
     "name": "Rod Gers",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 176
   },
   {
     "id": 7190,
     "name": "Dagas Maydhyn China",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 7191,
     "name": "Engastador de Ramugro",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
     "id": 7192,
     "name": "Garra de Grizmoh Guay",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 111
   },
   {
     "id": 7193,
     "name": "Espada de Dark Vlad",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
     "id": 7194,
     "name": "Arc Anum",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 96
   },
   {
     "id": 7195,
     "name": "Karnak",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 7197,
     "name": "Martillito Blerón",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 148
   },
   {
     "id": 7198,
     "name": "Afeitadora Nocturna",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 105
   },
   {
     "id": 7199,
     "name": "Espada carnicera",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 7200,
     "name": "Sable shodanwa",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 7201,
     "name": "Sable nidanwa",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 7202,
     "name": "Sable sandanwa",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 7203,
     "name": "Sable yondanwa",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 92
   },
   {
     "id": 7204,
     "name": "Bastón shodanwa",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 7205,
     "name": "Bastón nidanwa",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 7206,
     "name": "Bastón sandanwa",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 77
   },
   {
     "id": 7207,
     "name": "Bastón yondanwa",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 93
   },
   {
     "id": 7208,
     "name": "Hacha shodanwa",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 36
   },
   {
     "id": 7209,
     "name": "Hacha nidanwa",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 59
   },
   {
     "id": 7210,
     "name": "Hacha sandanwa",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 7211,
     "name": "Hacha yondanwa",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 98
   },
   {
     "id": 7212,
     "name": "La cortadora de bambú",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 7213,
     "name": "Pala Ancefálica",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
@@ -6639,28 +6639,28 @@
     "id": 7254,
     "name": "Bastón Akwadala",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 7255,
     "name": "Hacha Tierradala",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 7256,
     "name": "Dagas Airedala",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 7257,
     "name": "Sable Fuegodala",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 76
   },
   {
@@ -6695,7 +6695,7 @@
     "id": 7368,
     "name": "Varita Strella",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 125
   },
   {
@@ -7423,7 +7423,7 @@
     "id": 7882,
     "name": "Martillito de jalatranki",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
@@ -7479,7 +7479,7 @@
     "id": 7890,
     "name": "Bastón de Trankitronko",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 73
   },
   {
@@ -7549,7 +7549,7 @@
     "id": 8005,
     "name": "Arco de koalak",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 61
   },
   {
@@ -7591,105 +7591,105 @@
     "id": 8088,
     "name": "Varita Gyver",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 128
   },
   {
     "id": 8089,
     "name": "Varita Aleyx",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 138
   },
   {
     "id": 8090,
     "name": "Barra del Caribe",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 114
   },
   {
     "id": 8091,
     "name": "El Bastón Rubé",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 133
   },
   {
     "id": 8092,
     "name": "Dagas de Aminal",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 134
   },
   {
     "id": 8094,
     "name": "La Espada Risueña",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 169
   },
   {
     "id": 8095,
     "name": "El Sable Ayasalama",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 143
   },
   {
     "id": 8096,
     "name": "Martillo Kosner",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
     "id": 8097,
     "name": "Martillo Xiko",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
     "id": 8098,
     "name": "Hacha Musical",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 8099,
     "name": "Hacha Pronto",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 116
   },
   {
     "id": 8100,
     "name": "Hacha Kechilba",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 110
   },
   {
     "id": 8101,
     "name": "El Parte Tura",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 128
   },
   {
     "id": 8103,
     "name": "Arco Telaraña",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 121
   },
   {
     "id": 8104,
     "name": "Arco Chtelión",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
@@ -7710,7 +7710,7 @@
     "id": 8110,
     "name": "Varita de tofu",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
@@ -7759,7 +7759,7 @@
     "id": 8118,
     "name": "Varita de Escarajefe Dorado",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 59
   },
   {
@@ -7822,7 +7822,7 @@
     "id": 8127,
     "name": "Guadaña gastada de campesino",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
@@ -7843,7 +7843,7 @@
     "id": 8130,
     "name": "Hacha de milubo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
@@ -7899,7 +7899,7 @@
     "id": 8148,
     "name": "Martillo de Crujidor Legendario",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
@@ -8249,7 +8249,7 @@
     "id": 8255,
     "name": "Pala de esponja",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
@@ -8375,14 +8375,14 @@
     "id": 8274,
     "name": "Hacha del Minotauroro",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
     "id": 8275,
     "name": "Cetro del Minotot",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 151
   },
   {
@@ -8501,42 +8501,42 @@
     "id": 8292,
     "name": "Espada de dragohuevo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
     "id": 8293,
     "name": "Hacha de dragohuevo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
     "id": 8294,
     "name": "Martillo de dragohuevo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 123
   },
   {
     "id": 8295,
     "name": "Arco de dragohuevo",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 118
   },
   {
     "id": 8296,
     "name": "Varita de dragohuevo",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
     "id": 8297,
     "name": "Bastón de dragohuevo",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
@@ -8557,7 +8557,7 @@
     "id": 8300,
     "name": "Binador de Shika",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -8627,7 +8627,7 @@
     "id": 8338,
     "name": "Espada de Nawidad",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -8662,14 +8662,14 @@
     "id": 8413,
     "name": "Martillo de mominotauro",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 112
   },
   {
     "id": 8414,
     "name": "Dagas de dragohuevo",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 128
   },
   {
@@ -8690,7 +8690,7 @@
     "id": 8417,
     "name": "Pala para pasteles",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 131
   },
   {
@@ -8704,14 +8704,14 @@
     "id": 8419,
     "name": "Pala Moh",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 115
   },
   {
     "id": 8420,
     "name": "Pala dragohuevo",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
@@ -8739,7 +8739,7 @@
     "id": 8444,
     "name": "Dagas de la Rata Negra",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 108
   },
   {
@@ -8774,7 +8774,7 @@
     "id": 8450,
     "name": "Ropera de la Rata Blanca",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
@@ -8949,7 +8949,7 @@
     "id": 8513,
     "name": "Escalpelo de Bworknroll",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -9033,126 +9033,126 @@
     "id": 8575,
     "name": "El Rambotón",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 8596,
     "name": "Garra púrpura",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 145
   },
   {
     "id": 8598,
     "name": "Emment Daga",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 8599,
     "name": "Garritas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 69
   },
   {
     "id": 8604,
     "name": "Espadúnculo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 97
   },
   {
     "id": 8605,
     "name": "Espada protectora",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 73
   },
   {
     "id": 8607,
     "name": "El Bastón Claveado",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 107
   },
   {
     "id": 8608,
     "name": "Bastón de Fraye",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
     "id": 8609,
     "name": "Geish'Arco",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 8610,
     "name": "El Arco Astral",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 79
   },
   {
     "id": 8611,
     "name": "Vagdita Café",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 69
   },
   {
     "id": 8612,
     "name": "El Bidyiz",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 74
   },
   {
     "id": 8613,
     "name": "Pala Minsterio",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
     "id": 8614,
     "name": "R.I.Pala",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 8615,
     "name": "Martillo rojo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 8616,
     "name": "Mart'IT'llo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 178
   },
   {
     "id": 8617,
     "name": "Bast Hacha",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 8618,
     "name": "Hacha Charear",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -9166,7 +9166,7 @@
     "id": 8627,
     "name": "Flauta de Sarr Ys",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -9488,7 +9488,7 @@
     "id": 8695,
     "name": "Penispada",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 177
   },
   {
@@ -9509,7 +9509,7 @@
     "id": 8701,
     "name": "Espada Jikote",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 95
   },
   {
@@ -9684,21 +9684,21 @@
     "id": 8825,
     "name": "Maza de Coralador Magistral",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 125
   },
   {
     "id": 8826,
     "name": "Martillo de la chavala zoth",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 132
   },
   {
     "id": 8827,
     "name": "Hacha de guerrero zoth",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 139
   },
   {
@@ -9719,42 +9719,42 @@
     "id": 8833,
     "name": "Maza de coralador",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
     "id": 8834,
     "name": "Rama de abrajidor oscuro",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 8835,
     "name": "Rama de abrajidor claro",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 132
   },
   {
     "id": 8836,
     "name": "Tallo de esquejika",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 119
   },
   {
     "id": 8837,
     "name": "Bastón de maestro zoth",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 8838,
     "name": "Rizoma de Tynril",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 164
   },
   {
@@ -9831,14 +9831,14 @@
     "id": 8849,
     "name": "Raíz de diente pe-león",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 136
   },
   {
     "id": 8850,
     "name": "Raíz de floribundo",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 144
   },
   {
@@ -9901,7 +9901,7 @@
     "id": 8864,
     "name": "Kasr'Arkol",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 122
   },
   {
@@ -9929,7 +9929,7 @@
     "id": 8868,
     "name": "Pohoyacha",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 137
   },
   {
@@ -9992,7 +9992,7 @@
     "id": 8878,
     "name": "Kidortillo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 77
   },
   {
@@ -10034,182 +10034,182 @@
     "id": 8924,
     "name": "Arco de Lafrontera",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 147
   },
   {
     "id": 8925,
     "name": "Arco Léptico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 185
   },
   {
     "id": 8926,
     "name": "Daga Duh",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 175
   },
   {
     "id": 8927,
     "name": "Dagas de Unah Kabra",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 171
   },
   {
     "id": 8928,
     "name": "Dagas Roink",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 8929,
     "name": "Kriss Tobal",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 149
   },
   {
     "id": 8930,
     "name": "Fucsia",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 163
   },
   {
     "id": 8931,
     "name": "Az'teqka",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 186
   },
   {
     "id": 8932,
     "name": "Kukri Kura",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 179
   },
   {
     "id": 8933,
     "name": "Hacha Sudor Rancio",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 162
   },
   {
     "id": 8934,
     "name": "Hacha Parrada",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 8935,
     "name": "La Pala de Mel",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 172
   },
   {
     "id": 8936,
     "name": "Pala Shattkitou",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 136
   },
   {
     "id": 8937,
     "name": "Pala Garbosa",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 155
   },
   {
     "id": 8941,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8956,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8957,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8958,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8959,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8960,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8961,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8962,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8963,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8964,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8965,
     "name": "Pata de Zurcarák",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8966,
     "name": "Pata de Zurcarák perfecta",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -10230,14 +10230,14 @@
     "id": 8992,
     "name": "Hoz maldita del gran Desangrador Guerrero",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 8993,
     "name": "Espada maldita del gran Desangrador Guerrero",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -10251,7 +10251,7 @@
     "id": 9117,
     "name": "Ugartillo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -10342,35 +10342,35 @@
     "id": 9134,
     "name": "Arco de Lamelas",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 183
   },
   {
     "id": 9135,
     "name": "Variterela",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 9136,
     "name": "Báculo de Setador",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 191
   },
   {
     "id": 9137,
     "name": "Cuchillos corta-setas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 187
   },
   {
     "id": 9138,
     "name": "Hacha de Lamelas",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 157
   },
   {
@@ -10636,7 +10636,7 @@
     "id": 9176,
     "name": "Daga 'Mberra",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 182
   },
   {
@@ -10846,14 +10846,14 @@
     "id": 9468,
     "name": "Pala Emélaka",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 191
   },
   {
     "id": 9469,
     "name": "Espada Bama",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 184
   },
   {
@@ -10944,7 +10944,7 @@
     "id": 9627,
     "name": "Bastón del aprendiz peregrino",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -11077,21 +11077,21 @@
     "id": 9961,
     "name": "Martillo Martel",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 9972,
     "name": "Martillo de forjador de rascador",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 2
   },
   {
     "id": 9974,
     "name": "Talladora de mangos",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 2
   },
   {
@@ -11315,7 +11315,7 @@
     "id": 10223,
     "name": "Pala Heliktrochok",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 179
   },
   {
@@ -11560,7 +11560,7 @@
     "id": 10797,
     "name": "Espada Nsiosa",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -11602,7 +11602,7 @@
     "id": 10818,
     "name": "Hacha de debutante",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
@@ -11616,7 +11616,7 @@
     "id": 10829,
     "name": "Caña Peskamas",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -11980,7 +11980,7 @@
     "id": 11306,
     "name": "Espada de Shirvud",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
@@ -12253,7 +12253,7 @@
     "id": 11514,
     "name": "Granizetro",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 192
   },
   {
@@ -12372,7 +12372,7 @@
     "id": 11586,
     "name": "Espada de Ben el Ripata",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 152
   },
   {
@@ -12533,84 +12533,84 @@
     "id": 11624,
     "name": "Sable Heutelle",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 144
   },
   {
     "id": 11625,
     "name": "Hacha Haimenu",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 154
   },
   {
     "id": 11626,
     "name": "Hacha de fanclasma",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 153
   },
   {
     "id": 11627,
     "name": "Arco Tangente",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 167
   },
   {
     "id": 11628,
     "name": "Pala Tonhdjons",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 147
   },
   {
     "id": 11629,
     "name": "Yuyetas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 164
   },
   {
     "id": 11630,
     "name": "Martillo R'Gnole",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 166
   },
   {
     "id": 11631,
     "name": "Martillo de Piratalaya",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 156
   },
   {
     "id": 11632,
     "name": "Varita Estornudera",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 163
   },
   {
     "id": 11633,
     "name": "Bastón K'Tueuh",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 161
   },
   {
     "id": 11634,
     "name": "Bastón de chamángüino",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 11635,
     "name": "Lanza de harpirata",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 154
   },
   {
@@ -12666,7 +12666,7 @@
     "id": 11711,
     "name": "Hacha de Cil",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 188
   },
   {
@@ -12883,154 +12883,154 @@
     "id": 11742,
     "name": "Espada Kadilla",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 177
   },
   {
     "id": 11743,
     "name": "Espada Karie",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 184
   },
   {
     "id": 11744,
     "name": "Espada Lingüe",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
     "id": 11745,
     "name": "Martillo Ráculo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 173
   },
   {
     "id": 11746,
     "name": "Martillo Reina",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 187
   },
   {
     "id": 11747,
     "name": "Martillo de golornado",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
     "id": 11748,
     "name": "Bastón Yka podrido",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 172
   },
   {
     "id": 11749,
     "name": "Bastón Pauls",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 188
   },
   {
     "id": 11750,
     "name": "Bastón Tería",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
     "id": 11751,
     "name": "Dagas Malvadiscas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 176
   },
   {
     "id": 11752,
     "name": "Dagas Ultimátum",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 183
   },
   {
     "id": 11753,
     "name": "Dagas Hirr",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
     "id": 11754,
     "name": "Arco Traficante",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 175
   },
   {
     "id": 11755,
     "name": "Arco coa",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 184
   },
   {
     "id": 11756,
     "name": "Arc aico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
     "id": 11757,
     "name": "Varita M'pón",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 177
   },
   {
     "id": 11758,
     "name": "Varita Bakera",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 187
   },
   {
     "id": 11759,
     "name": "Varita Liana",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 193
   },
   {
     "id": 11760,
     "name": "Hacha Chinscryd",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 11761,
     "name": "Hacha Teroyde",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
     "id": 11762,
     "name": "Pala dorada",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 178
   },
   {
     "id": 11763,
     "name": "Pala elfica",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -13093,14 +13093,14 @@
     "id": 11819,
     "name": "Martillo blando de Perceblando",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
     "id": 11820,
     "name": "Pala Usana",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 181
   },
   {
@@ -13128,7 +13128,7 @@
     "id": 11857,
     "name": "Pala desafilada de Stroud",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -13142,7 +13142,7 @@
     "id": 11947,
     "name": "Hacha Depé",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 185
   },
   {
@@ -13226,7 +13226,7 @@
     "id": 11983,
     "name": "Cetro del kaníbola Daldrrak",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 47
   },
   {
@@ -13240,7 +13240,7 @@
     "id": 12018,
     "name": "Espada de Kwoknan",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
@@ -13394,7 +13394,7 @@
     "id": 12057,
     "name": "Bastón Yka",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 172
   },
   {
@@ -13436,7 +13436,7 @@
     "id": 12084,
     "name": "Marmutillo",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 122
   },
   {
@@ -13464,7 +13464,7 @@
     "id": 12088,
     "name": "Varita de Frigostina",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 149
   },
   {
@@ -13541,7 +13541,7 @@
     "id": 12099,
     "name": "Bastón de los profetas",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 169
   },
   {
@@ -13569,7 +13569,7 @@
     "id": 12103,
     "name": "Arco de Gwen Astarde",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 173
   },
   {
@@ -13632,7 +13632,7 @@
     "id": 12112,
     "name": "Pala del profesor Xa",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 191
   },
   {
@@ -13653,7 +13653,7 @@
     "id": 12115,
     "name": "Espada golosona",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 199
   },
   {
@@ -13961,7 +13961,7 @@
     "id": 12512,
     "name": "Guantes de masticodor",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -14283,7 +14283,7 @@
     "id": 12677,
     "name": "Bastón de Daigorobo",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
@@ -14857,7 +14857,7 @@
     "id": 13063,
     "name": "Caña edulcorada Dashuka",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 165
   },
   {
@@ -14885,7 +14885,7 @@
     "id": 13092,
     "name": "Martillo de chafer draugr",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
@@ -14955,7 +14955,7 @@
     "id": 13119,
     "name": "Espada de Otomai",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
@@ -15116,7 +15116,7 @@
     "id": 13245,
     "name": "Caña Dashuka",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 165
   },
   {
@@ -15235,7 +15235,7 @@
     "id": 13329,
     "name": "Rastrillo calabafobia",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
@@ -15312,7 +15312,7 @@
     "id": 13583,
     "name": "Varita glucídica",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 134
   },
   {
@@ -15347,7 +15347,7 @@
     "id": 13631,
     "name": "Martillo de Henual",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 193
   },
   {
@@ -15473,7 +15473,7 @@
     "id": 13649,
     "name": "Rodillo de pastelero de Aermyn",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
@@ -16138,7 +16138,7 @@
     "id": 13848,
     "name": "Navaja",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
@@ -16173,14 +16173,14 @@
     "id": 13894,
     "name": "Bastoncito Feho",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
     "id": 13896,
     "name": "Hacha Riff",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -16313,7 +16313,7 @@
     "id": 14055,
     "name": "Laya zonca",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -16516,7 +16516,7 @@
     "id": 14084,
     "name": "Espada de bubobubo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -16635,42 +16635,42 @@
     "id": 14131,
     "name": "Dagas Grícolas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 198
   },
   {
     "id": 14132,
     "name": "Dagas Guerridas",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 14133,
     "name": "Hacha Ballo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 14135,
     "name": "Pala Pelvis Ley",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 199
   },
   {
     "id": 14146,
     "name": "Pico vibratorio",
     "type": "Pico",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 14156,
     "name": "Alfanje Roglifico",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -16712,21 +16712,21 @@
     "id": 14164,
     "name": "Arco Honte",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 14166,
     "name": "Bastón Ba",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
     "id": 14167,
     "name": "Maza Tixosial",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 199
   },
   {
@@ -16775,7 +16775,7 @@
     "id": 14274,
     "name": "Bastón Kaskador",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
@@ -16824,14 +16824,14 @@
     "id": 14288,
     "name": "Varita Nairoen",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 198
   },
   {
     "id": 14289,
     "name": "Hacha Jazo",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 192
   },
   {
@@ -16964,7 +16964,7 @@
     "id": 14519,
     "name": "Mazo de la jueza Lu",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 151
   },
   {
@@ -17013,14 +17013,14 @@
     "id": 14584,
     "name": "Arco Lombina",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
     "id": 14585,
     "name": "Llave fija",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 106
   },
   {
@@ -17132,7 +17132,7 @@
     "id": 14640,
     "name": "Basnórquel",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 139
   },
   {
@@ -17279,7 +17279,7 @@
     "id": 14886,
     "name": "Martillo de los antiguos steamers",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -17412,7 +17412,7 @@
     "id": 15014,
     "name": "Arco de Flecha Malva",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 107
   },
   {
@@ -17734,21 +17734,21 @@
     "id": 15216,
     "name": "Varita de Malefíscof",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15217,
     "name": "Martillo de Perfósil",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15218,
     "name": "Pala de Nidas",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -17797,7 +17797,7 @@
     "id": 15282,
     "name": "Escupidor del comandante Qu",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -17853,7 +17853,7 @@
     "id": 15422,
     "name": "Atrapapolvo",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -17972,28 +17972,28 @@
     "id": 15493,
     "name": "Dagas de Sramvil",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15494,
     "name": "Pala de cortesano tenebroso",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15495,
     "name": "Arco necrótico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15496,
     "name": "Espada de la Reina de los Ladrones",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18042,7 +18042,7 @@
     "id": 15505,
     "name": "Red para capturar necróticos",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -18133,7 +18133,7 @@
     "id": 15660,
     "name": "Cuchillos sagrados",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18371,7 +18371,7 @@
     "id": 15779,
     "name": "Varita de los idos",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18385,14 +18385,14 @@
     "id": 15781,
     "name": "Martillo de los idos",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15782,
     "name": "Pluma Bil",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18448,14 +18448,14 @@
     "id": 15860,
     "name": "Electrorrayo",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 15886,
     "name": "Martillo cronomágico",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -18469,7 +18469,7 @@
     "id": 15990,
     "name": "Varita pitusa",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -18623,7 +18623,7 @@
     "id": 16169,
     "name": "Vieja rama de Roble Blando",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
@@ -19337,7 +19337,7 @@
     "id": 16343,
     "name": "Pincel",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -19386,14 +19386,14 @@
     "id": 16527,
     "name": "Martillo de Likantrabioso",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
     "id": 16541,
     "name": "Pico requisado",
     "type": "Pico",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -19407,7 +19407,7 @@
     "id": 16953,
     "name": "Pala del Clan Terra",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -19456,7 +19456,7 @@
     "id": 17092,
     "name": "Martillo de Moon",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 103
   },
   {
@@ -19477,7 +19477,7 @@
     "id": 17095,
     "name": "Espada de espadachín celeste",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -19512,7 +19512,7 @@
     "id": 17100,
     "name": "Bastón de Zatoïshwan",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -19729,7 +19729,7 @@
     "id": 17460,
     "name": "Varita ósea",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 173
   },
   {
@@ -19820,7 +19820,7 @@
     "id": 17525,
     "name": "Ramo de rosas demoníacas",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
@@ -19925,7 +19925,7 @@
     "id": 17586,
     "name": "Sables de Atcham",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -19946,7 +19946,7 @@
     "id": 17589,
     "name": "Espada de Ush",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 165
   },
   {
@@ -20037,21 +20037,21 @@
     "id": 17681,
     "name": "Arco de Miauvizor",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 17682,
     "name": "Cetro del rey jugador",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 17683,
     "name": "Hacha de Miauvizor",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -20093,7 +20093,7 @@
     "id": 17809,
     "name": "Martillo de Ereziah",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -20709,56 +20709,56 @@
     "id": 18010,
     "name": "Basthón",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18011,
     "name": "Varita Nómala",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18012,
     "name": "Arco de Kutulú",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18013,
     "name": "Palarpón",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18014,
     "name": "Hachamanta",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18015,
     "name": "Espadantesca",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18017,
     "name": "Dagoteras",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18018,
     "name": "Martillo Martirio",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -20933,28 +20933,28 @@
     "id": 18279,
     "name": "Varita de zahorí bendecida",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 18290,
     "name": "Paparrayos",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 18350,
     "name": "Guangrenas",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 18375,
     "name": "Varita de zahorí",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
@@ -21003,14 +21003,14 @@
     "id": 18429,
     "name": "Hacha de Mantícoro",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 18430,
     "name": "Mazo de bolapincho",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -21059,14 +21059,14 @@
     "id": 18437,
     "name": "Dagas cacterras",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 18438,
     "name": "Maracasable",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -21206,14 +21206,14 @@
     "id": 18601,
     "name": "Piramvarita",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18604,
     "name": "Hekacha",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -21689,7 +21689,7 @@
     "id": 18780,
     "name": "Machetes de carghnicero",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
@@ -21703,7 +21703,7 @@
     "id": 18853,
     "name": "Espada lengua de fuego",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -21843,21 +21843,21 @@
     "id": 19093,
     "name": "Pala de Kuatropatas",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19096,
     "name": "Martillo de Kuatropatas",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19105,
     "name": "Espada lengua de fuego reanimada",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -22067,28 +22067,28 @@
     "id": 19267,
     "name": "Lanza corrupta",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19268,
     "name": "Dagas de Ilyzaelle",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19269,
     "name": "Espada quemaalmas",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19270,
     "name": "Arco corrupto",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22116,14 +22116,14 @@
     "id": 19415,
     "name": "Guante de Zrid",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 19482,
     "name": "Espada de necrónix",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -22179,14 +22179,14 @@
     "id": 19593,
     "name": "Lavacha",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19594,
     "name": "Mazacero",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22263,14 +22263,14 @@
     "id": 19605,
     "name": "Varita Malgama",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19606,
     "name": "Lanza Horí",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22319,7 +22319,7 @@
     "id": 19637,
     "name": "Mayal de armas",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -22340,7 +22340,7 @@
     "id": 19676,
     "name": "Pico de móguiz",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23285,21 +23285,21 @@
     "id": 19986,
     "name": "Arco de vueloceronte",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20210,
     "name": "Cocobur",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 20213,
     "name": "Cocobur",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -23313,28 +23313,28 @@
     "id": 20353,
     "name": "Cocobur",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20354,
     "name": "Tijeras del destino",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20355,
     "name": "Escalofrío de Brumario",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20356,
     "name": "Pluma de Buhorado",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23411,7 +23411,7 @@
     "id": 20391,
     "name": "Cuchillos sacrificiales",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23446,7 +23446,7 @@
     "id": 20848,
     "name": "Cetro Fleik",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 61
   },
   {
@@ -23495,7 +23495,7 @@
     "id": 20935,
     "name": "Espátula Rebanagolosos",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23600,7 +23600,7 @@
     "id": 21229,
     "name": "Varita de Torkelonia",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23642,35 +23642,35 @@
     "id": 21506,
     "name": "Peluche ball: Perforatroz",
     "type": "Arma mágica",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21507,
     "name": "Peluche ball: Jalató",
     "type": "Arma mágica",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21508,
     "name": "Peluche ball: Tofu",
     "type": "Arma mágica",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21509,
     "name": "Peluche ball: Miaumiau",
     "type": "Arma mágica",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21510,
     "name": "Peluche ball: Minikornio",
     "type": "Arma mágica",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23691,7 +23691,7 @@
     "id": 21878,
     "name": "Atrapapesadillas",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -23845,14 +23845,14 @@
     "id": 22027,
     "name": "Martillo de maderucha fortalecido",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 112
   },
   {
     "id": 22163,
     "name": "Pico robusto",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23950,7 +23950,7 @@
     "id": 22213,
     "name": "Laya de Corrupción",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23971,7 +23971,7 @@
     "id": 22368,
     "name": "Hachabarda de Guerra",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23992,7 +23992,7 @@
     "id": 22444,
     "name": "Balanza-mangual de Miseria",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24048,7 +24048,7 @@
     "id": 23257,
     "name": "Kuapacha",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -24083,7 +24083,7 @@
     "id": 23262,
     "name": "Nuncharán",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
@@ -24118,14 +24118,14 @@
     "id": 23267,
     "name": "Varita Tolozana",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 132
   },
   {
     "id": 23268,
     "name": "Bastón de Hanshi",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
@@ -24139,7 +24139,7 @@
     "id": 23270,
     "name": "Abanicos de Shihan",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
@@ -24167,35 +24167,35 @@
     "id": 23312,
     "name": "Katana de la llama",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23313,
     "name": "Katana de la tempestad",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23314,
     "name": "Katana de la marea",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23315,
     "name": "Katana de la roca",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23316,
     "name": "Katana de la hoja",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -24216,7 +24216,7 @@
     "id": 23522,
     "name": "Bastón en bambú espiritual",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 110
   },
   {
@@ -24230,14 +24230,14 @@
     "id": 23578,
     "name": "Herramienta de grabado",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
     "id": 23590,
     "name": "Musamune",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -24307,7 +24307,7 @@
     "id": 23627,
     "name": "Katana de espiritasesino",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 157
   },
   {
@@ -24363,7 +24363,7 @@
     "id": 24028,
     "name": "Origadaña",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24384,7 +24384,7 @@
     "id": 24031,
     "name": "Arco de Wulán",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24398,14 +24398,14 @@
     "id": 24033,
     "name": "Dimbow",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 24034,
     "name": "Tintarela picuda",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24419,14 +24419,14 @@
     "id": 24036,
     "name": "Palote Timológico",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 24037,
     "name": "Martillo Menaje",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24468,7 +24468,7 @@
     "id": 25219,
     "name": "Varita de Pandamonium",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24489,28 +24489,28 @@
     "id": 25222,
     "name": "Martillo poseído",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 25235,
     "name": "Hoja de Danaba",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 25245,
     "name": "Pincel de caligrafía",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 25248,
     "name": "Pincel de los juramentos",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -24545,7 +24545,7 @@
     "id": 25952,
     "name": "Jalabola",
     "type": "Arma mágica",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -24566,28 +24566,28 @@
     "id": 26008,
     "name": "Hacha de devastador",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 26009,
     "name": "Guadaña serafina",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 26010,
     "name": "Espada diablina",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 26011,
     "name": "Guadaña caótica",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24636,7 +24636,7 @@
     "id": 26058,
     "name": "Tótem de equilibrio",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -24650,28 +24650,28 @@
     "id": 26085,
     "name": "Atrapapesadillas demoníaco",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26099,
     "name": "Auténtico rodillo de Ayuto",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26131,
     "name": "Cruz de Nancy",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26198,
     "name": "Pico de uso único",
     "type": "Pico",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -24692,7 +24692,7 @@
     "id": 26310,
     "name": "Guadaña enraizada de malter",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -24713,7 +24713,7 @@
     "id": 26314,
     "name": "Partesana de Hell Mina",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -24741,7 +24741,7 @@
     "id": 26344,
     "name": "Guadaña del director Grunob",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 38
   },
   {
@@ -24776,7 +24776,7 @@
     "id": 27268,
     "name": "Gúltar Ankartón",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -24825,7 +24825,7 @@
     "id": 27510,
     "name": "Claymomore",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24909,7 +24909,7 @@
     "id": 27528,
     "name": "Maza Decobre",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
@@ -24923,7 +24923,7 @@
     "id": 27530,
     "name": "Hoz de Rakooper",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
@@ -24944,14 +24944,14 @@
     "id": 27533,
     "name": "Lanza de guerrero albuereño",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 27534,
     "name": "Lanza de trampero albuereño",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -24986,14 +24986,14 @@
     "id": 27539,
     "name": "Hoz seca",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 190
   },
   {
     "id": 27540,
     "name": "Martillo seco",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 190
   },
   {
@@ -25014,7 +25014,7 @@
     "id": 27543,
     "name": "Tonfas de Demena",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
@@ -25028,14 +25028,14 @@
     "id": 27545,
     "name": "Horca de Efedria",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 27546,
     "name": "Picota de Efedria",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -25371,14 +25371,14 @@
     "id": 27644,
     "name": "Yaularco",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 27645,
     "name": "Escoba rudimentaria",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -26869,7 +26869,7 @@
     "id": 29024,
     "name": "Matamoskitos",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -27121,21 +27121,21 @@
     "id": 30828,
     "name": "Bunihima",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 30832,
     "name": "Cuchillo de caza de Berbe Unin",
     "type": "Herramienta",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 30855,
     "name": "Puñales del Capitán Chafer",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27163,7 +27163,7 @@
     "id": 30859,
     "name": "Rodillo de Mami Ayuto",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27177,7 +27177,7 @@
     "id": 30861,
     "name": "Espada flamígera de Dark Vlad",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27205,7 +27205,7 @@
     "id": 30949,
     "name": "Mazallena",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27240,7 +27240,7 @@
     "id": 31752,
     "name": "Dardo del Bzupervibzor",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 181
   },
   {
@@ -27268,21 +27268,21 @@
     "id": 31758,
     "name": "Hachuela de la Despedazadora",
     "type": "Hacha",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31759,
     "name": "Garras de la Despedazadora",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31760,
     "name": "Maza ósea",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27303,14 +27303,14 @@
     "id": 31763,
     "name": "Ferhoz",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31764,
     "name": "Rarirreclamo",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -27373,7 +27373,7 @@
     "id": 31773,
     "name": "Nevarko",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -27387,21 +27387,21 @@
     "id": 31785,
     "name": "Znzzkzokladoobz",
     "type": "Bastón",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31786,
     "name": "Garra de Gargandias",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31787,
     "name": "Furor de Gargandias",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27422,14 +27422,14 @@
     "id": 31790,
     "name": "Cuerno de caza",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31791,
     "name": "Dagas de kabombz",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
@@ -27485,14 +27485,14 @@
     "id": 31800,
     "name": "Arco del Venerable Durmiente",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31860,
     "name": "Kzzrnobz kakabz",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
@@ -27534,14 +27534,14 @@
     "id": 32116,
     "name": "Lanzarrayos de Menalt",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 32117,
     "name": "Juicio de Thanatena",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27569,7 +27569,7 @@
     "id": 32163,
     "name": "Fervor de Amayiro",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27723,7 +27723,7 @@
     "id": 32221,
     "name": "Guadaña de San Jifu",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
@@ -27737,7 +27737,7 @@
     "id": 32223,
     "name": "Guadashña",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 190
   },
   {
@@ -27765,7 +27765,7 @@
     "id": 32227,
     "name": "Mangual del doctor Eggob",
     "type": "Varita",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
@@ -27800,7 +27800,7 @@
     "id": 32232,
     "name": "Hoja helada del Caballero de Hielo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27821,7 +27821,7 @@
     "id": 32235,
     "name": "Arco de Tentenhuevo",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27842,7 +27842,7 @@
     "id": 32238,
     "name": "Maza de Golosorak",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27870,7 +27870,7 @@
     "id": 32242,
     "name": "Pala de Mecanimut",
     "type": "Pala",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27884,7 +27884,7 @@
     "id": 32244,
     "name": "Aguja de Psikopomzopato",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -30075,7 +30075,7 @@
     "id": 33561,
     "name": "Dagüesos de los Scarratero",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
@@ -30096,7 +30096,7 @@
     "id": 33564,
     "name": "Jabalina de Marzwelo",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
@@ -30117,7 +30117,7 @@
     "id": 33567,
     "name": "Tonfas de Qil Bil",
     "type": "Daga",
-    "slot": "other",
+    "slot": "weapon",
     "level": 77
   },
   {
@@ -30215,7 +30215,7 @@
     "id": 33581,
     "name": "El Rok Gnorok",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 96
   },
   {
@@ -30243,7 +30243,7 @@
     "id": 33585,
     "name": "Trabuco de Carlita",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 106
   },
   {
@@ -30264,7 +30264,7 @@
     "id": 33588,
     "name": "Naginata de Naganita",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
@@ -30278,7 +30278,7 @@
     "id": 33590,
     "name": "Martillokepika",
     "type": "Martillo",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
@@ -30306,7 +30306,7 @@
     "id": 33594,
     "name": "Nenufoz",
     "type": "Guadaña",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
@@ -30327,7 +30327,7 @@
     "id": 33597,
     "name": "Espada de los Aludem",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 139
   },
   {
@@ -30348,7 +30348,7 @@
     "id": 33600,
     "name": "Espada de Gemalo",
     "type": "Espada",
-    "slot": "other",
+    "slot": "weapon",
     "level": 146
   },
   {
@@ -30397,7 +30397,7 @@
     "id": 33607,
     "name": "Arco de dantartánico",
     "type": "Arco",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -30481,7 +30481,7 @@
     "id": 34331,
     "name": "Lanzapinza de Cangrancio",
     "type": "Lanza",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {

@@ -3,56 +3,56 @@
     "id": 44,
     "name": "Épée de Boisaille",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 7
   },
   {
     "id": 49,
     "name": "Épée de Fouraille",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 55,
     "name": "Épée d'Alle",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 58,
     "name": "La Triste Lame",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 62,
     "name": "Épée d'Ha",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 65,
     "name": "Goultard",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 66,
     "name": "La crinière de Badoul",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 67,
     "name": "Le Tranchant Infernal",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 22
   },
   {
@@ -80,14 +80,14 @@
     "id": 91,
     "name": "Arc de Boisaille",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 7
   },
   {
     "id": 97,
     "name": "Dagues de Boisaille",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 7
   },
   {
@@ -129,28 +129,28 @@
     "id": 134,
     "name": "Baguette de Boisaille",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 3
   },
   {
     "id": 140,
     "name": "Bâton de Boisaille",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 9
   },
   {
     "id": 147,
     "name": "Marteau de Boisaille",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
     "id": 153,
     "name": "Pelle de Boisaille",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
@@ -199,63 +199,63 @@
     "id": 165,
     "name": "Baguette de Glace",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 11
   },
   {
     "id": 180,
     "name": "La Baguette des Limbes",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 105
   },
   {
     "id": 181,
     "name": "Baguette des Cieux",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 51
   },
   {
     "id": 183,
     "name": "Bâton Feuillu",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 188,
     "name": "Bâton Kouyu",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
     "id": 194,
     "name": "Bâton Spirituel",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 16
   },
   {
     "id": 200,
     "name": "God Rod",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 201,
     "name": "Hook",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 202,
     "name": "Razielle",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
@@ -269,119 +269,119 @@
     "id": 204,
     "name": "Kryst O'Boul",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 68
   },
   {
     "id": 208,
     "name": "Dagues de Fouraille",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
     "id": 214,
     "name": "Dagues de Croclage",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 218,
     "name": "Bashers",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
     "id": 219,
     "name": "Blessdags",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
     "id": 220,
     "name": "Chakra Style",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 73
   },
   {
     "id": 224,
     "name": "Marteau de Raclage",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 230,
     "name": "Marteau d'Ivoire",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 19
   },
   {
     "id": 233,
     "name": "Kaiser",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
     "id": 234,
     "name": "Ragnarok",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 235,
     "name": "Cerberus",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 16
   },
   {
     "id": 236,
     "name": "Barabas",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 23
   },
   {
     "id": 237,
     "name": "Sargasse",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 241,
     "name": "Pelle de Crapouille",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 247,
     "name": "Pelle de Rapage",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 19
   },
   {
     "id": 250,
     "name": "Ares",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 72
   },
   {
     "id": 251,
     "name": "Barbe Grise",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
@@ -409,35 +409,35 @@
     "id": 267,
     "name": "Arc Déroutant",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 19
   },
   {
     "id": 270,
     "name": "Xaveur",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 58
   },
   {
     "id": 271,
     "name": "Le Marteau du Chafer",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 272,
     "name": "Nomoon",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 28
   },
   {
     "id": 273,
     "name": "La Corde de Yamato",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 31
   },
   {
@@ -465,7 +465,7 @@
     "id": 296,
     "name": "Pelle du Craqueleur",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
@@ -486,7 +486,7 @@
     "id": 320,
     "name": "Bâton du Tabi",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -521,98 +521,98 @@
     "id": 327,
     "name": "Lame du Gob-Trotteur",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 16
   },
   {
     "id": 328,
     "name": "Koupe-koupe",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 18
   },
   {
     "id": 329,
     "name": "Arc de Triomphe",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 331,
     "name": "Arc Hancihaile",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 22
   },
   {
     "id": 332,
     "name": "Arc de Jeanne",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 333,
     "name": "Baguette Deuh-Pain",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 334,
     "name": "Baguette de Liriel",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 335,
     "name": "Bâton du Bwork Mage",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 58
   },
   {
     "id": 336,
     "name": "Bâton du Grand Pa Wabbit",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 32
   },
   {
     "id": 337,
     "name": "Arc du Bwork Archer",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 339,
     "name": "Lame du Chafer",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 340,
     "name": "Leurnettes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 341,
     "name": "Dagues Eurfolles",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 342,
     "name": "Marteau Pickeur",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 18
   },
   {
@@ -626,7 +626,7 @@
     "id": 347,
     "name": "Rhizome Doré",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -640,7 +640,7 @@
     "id": 354,
     "name": "La Klebik",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
@@ -661,14 +661,14 @@
     "id": 357,
     "name": "La Queue",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
     "id": 358,
     "name": "La Queue Infernale",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
@@ -682,21 +682,21 @@
     "id": 436,
     "name": "Bâton en Racine d'Abraknyde",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 455,
     "name": "Marteau de l'Aurore",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 456,
     "name": "Tueuse de Chênes",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
@@ -710,56 +710,56 @@
     "id": 462,
     "name": "Arc en Racine d'Abraknyde",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
     "id": 469,
     "name": "Baguette en Racine d'Abraknyde",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 478,
     "name": "Élagueuse de Charme",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 47
   },
   {
     "id": 484,
     "name": "Pelle Teuze",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 31
   },
   {
     "id": 489,
     "name": "Loupe",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 502,
     "name": "Trancheuse d'If",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 515,
     "name": "Boulgourde des Clairières",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 592,
     "name": "Corde d'Ivan Nowé",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 36
   },
   {
@@ -787,14 +787,14 @@
     "id": 619,
     "name": "Bâton du Maître des Bouftous",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
     "id": 620,
     "name": "Découpeuse de Kralamoure",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 61
   },
   {
@@ -822,49 +822,49 @@
     "id": 640,
     "name": "Arc des Rivages",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 657,
     "name": "Bâton du Maître des Tofus",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
     "id": 658,
     "name": "Bâton du Maître des Tabis",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 673,
     "name": "Mangeuse de Châtaignier",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
     "id": 674,
     "name": "Fendeuse de Merisier",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 32
   },
   {
     "id": 675,
     "name": "Trancheuse de Noyer",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 676,
     "name": "Mangeuse d'Érable",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
@@ -1039,7 +1039,7 @@
     "id": 742,
     "name": "Bâton Cornu",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
@@ -1074,7 +1074,7 @@
     "id": 765,
     "name": "Faux de Farle Ingalsse",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
@@ -1109,7 +1109,7 @@
     "id": 771,
     "name": "Mangeuse de Frêne",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
@@ -1179,7 +1179,7 @@
     "id": 782,
     "name": "Agride",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
@@ -1235,56 +1235,56 @@
     "id": 791,
     "name": "Abraknydi Vivitus",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 821,
     "name": "Épée Sacrée",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
     "id": 824,
     "name": "Épée du Chevalier",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 827,
     "name": "Lame du Bwork",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 828,
     "name": "Arc Sifflant",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 11
   },
   {
     "id": 829,
     "name": "Arc Hade",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 5
   },
   {
     "id": 832,
     "name": "Baguette d'Intelligence",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
     "id": 835,
     "name": "Baguette de Sagesse",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
@@ -1410,14 +1410,14 @@
     "id": 896,
     "name": "Dagues Sylvestres",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
     "id": 900,
     "name": "Dagues Aiguisées",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 39
   },
   {
@@ -1473,14 +1473,14 @@
     "id": 919,
     "name": "Dagues Ancestrales",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 923,
     "name": "Fendeuse d'Abraknyde",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 74
   },
   {
@@ -1494,14 +1494,14 @@
     "id": 927,
     "name": "Fendeuse d'Abraknyde Ancestral",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 93
   },
   {
     "id": 928,
     "name": "Lame d'Ogralimde",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 45
   },
   {
@@ -1634,7 +1634,7 @@
     "id": 970,
     "name": "Bâton du Wa Wabbit",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -1676,147 +1676,147 @@
     "id": 1029,
     "name": "Couteau à Stek",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 1030,
     "name": "Queues de Chatons",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
     "id": 1031,
     "name": "Dagues Cruelles d'Elorie Entuwan",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1035,
     "name": "Lame de Fon",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
     "id": 1039,
     "name": "Dagues Fourbesques",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 1040,
     "name": "Lames sanglantes d'Ortimus Contrari",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 1041,
     "name": "Épée Cassée du Chevalier Malchanceux",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1045,
     "name": "Pelle de Bois Dormant",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 1049,
     "name": "Pelle Melle",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1053,
     "name": "Pelle Woukuis",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
     "id": 1054,
     "name": "Cruelle Pelle-Truelle",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 53
   },
   {
     "id": 1058,
     "name": "Pelle de Koutoulou",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 34
   },
   {
     "id": 1059,
     "name": "Pelle des Champs",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 1063,
     "name": "Masse d'Ha",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 24
   },
   {
     "id": 1067,
     "name": "Marteau R'unique",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1071,
     "name": "Masse Tmosfer",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 1075,
     "name": "Marteau Outar",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 48
   },
   {
     "id": 1079,
     "name": "Masse Aj Taye",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 51
   },
   {
     "id": 1083,
     "name": "Marteau Pospodrol",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
     "id": 1084,
     "name": "Marteau à Torts",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 1085,
     "name": "Marteau des Falistos",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 79
   },
   {
@@ -1837,112 +1837,112 @@
     "id": 1095,
     "name": "Arc Buse",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 24
   },
   {
     "id": 1104,
     "name": "Baguette Heure",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1112,
     "name": "Arc en Corne de Bouftou",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 38
   },
   {
     "id": 1116,
     "name": "Arc dit Kéha, version standard",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 47
   },
   {
     "id": 1120,
     "name": "Arc Ecologique",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 1124,
     "name": "Arc de Cristal",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
     "id": 1128,
     "name": "Arc du Roi des Borins",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 72
   },
   {
     "id": 1131,
     "name": "Baguette d'Eglise",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 1132,
     "name": "Baguette Ni'Ninnin",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1136,
     "name": "Baguette à Pans",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 45
   },
   {
     "id": 1140,
     "name": "Baguette d'Houvette",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 1146,
     "name": "Baguette Meneuse",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 71
   },
   {
     "id": 1147,
     "name": "Bâton de fausse magie",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1151,
     "name": "Bâton Dakn",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 37
   },
   {
     "id": 1157,
     "name": "Bâton-Boule de Voyante",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1162,
     "name": "Bâton des Rois",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -1956,294 +1956,294 @@
     "id": 1350,
     "name": "Arc Holic",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 13
   },
   {
     "id": 1351,
     "name": "Arc du Xueluom",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1352,
     "name": "Arc de Boo",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 1353,
     "name": "Arc à Poulie Sciée",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 1354,
     "name": "L'Arc à Hick",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
     "id": 1355,
     "name": "Arc Hidsad",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1356,
     "name": "Demi-Baguette",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 1357,
     "name": "Daguette",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1359,
     "name": "Le Tison Fûté",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 59
   },
   {
     "id": 1360,
     "name": "L'Hyldegarde",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 48
   },
   {
     "id": 1361,
     "name": "Baguette Sylvien",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 1362,
     "name": "Pieu Vampirique",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 65
   },
   {
     "id": 1363,
     "name": "Bâton Tont'Ata",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1364,
     "name": "Bâton d'Oubli",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1365,
     "name": "La Canne Hête",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 1366,
     "name": "Bâton de Bouftier",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 1367,
     "name": "Bâton de Dina, dit 'le Mythe'",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1368,
     "name": "Lance à un 110",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
     "id": 1369,
     "name": "Les Lames en Table",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 33
   },
   {
     "id": 1370,
     "name": "L'Ergot Mina",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 1371,
     "name": "Dagues Eulasse",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 1372,
     "name": "Dagues Aj'Deh'Là",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 44
   },
   {
     "id": 1373,
     "name": "Le Rasoir Infernal",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1374,
     "name": "Dagues Tylo",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1375,
     "name": "Hache Térophyle",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 1376,
     "name": "Hache Heuvante",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1377,
     "name": "Hache Huré",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 22
   },
   {
     "id": 1378,
     "name": "Francisque à Brêles",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 28
   },
   {
     "id": 1379,
     "name": "Le Scrounnchhh",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1383,
     "name": "Marteau Re'Thu",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 1393,
     "name": "Le Matronome",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 54
   },
   {
     "id": 1399,
     "name": "Maillet Aclou",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
     "id": 1403,
     "name": "Marteau Tau",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 23
   },
   {
     "id": 1404,
     "name": "Marteau Toh'Lo",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 1426,
     "name": "Pelle à Thart'",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 24
   },
   {
     "id": 1427,
     "name": "Pelle Zébuth",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 1431,
     "name": "Pelle Mechba",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 1432,
     "name": "Pelle Houze",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 21
   },
   {
     "id": 1433,
     "name": "Pelle Sécutrice",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 1435,
     "name": "La Pelle du Large",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 1436,
     "name": "Pelle Ikan",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 1439,
     "name": "Mauvaise Pioche",
     "type": "Pioche",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
@@ -2257,7 +2257,7 @@
     "id": 1475,
     "name": "La Zulie Lame",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -2285,7 +2285,7 @@
     "id": 1479,
     "name": "Le Twote en Carton",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
@@ -2439,28 +2439,28 @@
     "id": 1503,
     "name": "Baguette de Feu Follesque",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
     "id": 1504,
     "name": "Dagues O'Bert",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
     "id": 1505,
     "name": "Flûte",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 1511,
     "name": "Neuf Queues",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 99
   },
   {
@@ -2474,7 +2474,7 @@
     "id": 1574,
     "name": "Découpeuse de Yench",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -2495,7 +2495,7 @@
     "id": 1620,
     "name": "Abrarc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 39
   },
   {
@@ -2572,14 +2572,14 @@
     "id": 1639,
     "name": "Étoile du soir",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 1651,
     "name": "Le Cutter",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
@@ -2775,7 +2775,7 @@
     "id": 1739,
     "name": "Baguette Affeulante",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -2810,14 +2810,14 @@
     "id": 1934,
     "name": "Couteau de Chasse",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 1942,
     "name": "Arc de Chasse",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -2838,7 +2838,7 @@
     "id": 2066,
     "name": "Trident du Kanigrou",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 53
   },
   {
@@ -2943,7 +2943,7 @@
     "id": 2156,
     "name": "Épée de Justice",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -2957,14 +2957,14 @@
     "id": 2341,
     "name": "Arc de Mech Riorraw",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 2361,
     "name": "Arc de Mulic Bere",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -3034,7 +3034,7 @@
     "id": 2376,
     "name": "Hache Hémal",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -3244,21 +3244,21 @@
     "id": 2415,
     "name": "Kwaklame de Flammes",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 2416,
     "name": "Marteau du Bouftou",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 2417,
     "name": "Abraton",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 45
   },
   {
@@ -3363,7 +3363,7 @@
     "id": 2440,
     "name": "Épée Royale du Bouftou",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
@@ -3580,7 +3580,7 @@
     "id": 2544,
     "name": "Corbalame",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 110
   },
   {
@@ -3608,119 +3608,119 @@
     "id": 2587,
     "name": "Hachette de Bûcheron",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 2589,
     "name": "Hachette Hévlalav",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 5
   },
   {
     "id": 2590,
     "name": "Hache Vôr'Om",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 2592,
     "name": "Coupeuse de Bombu",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 39
   },
   {
     "id": 2593,
     "name": "Elagueuse d'Oliviolet",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 42
   },
   {
     "id": 2595,
     "name": "Hache de Pierre",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 51
   },
   {
     "id": 2597,
     "name": "Hache de Brèche",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 54
   },
   {
     "id": 2600,
     "name": "Coupeuse de Sifflet",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 2601,
     "name": "Hache Darsson",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 57
   },
   {
     "id": 2603,
     "name": "Trancheuse de Partie",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 2604,
     "name": "Bardiche du Milicien",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 78
   },
   {
     "id": 2606,
     "name": "Hachette Savante",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 2608,
     "name": "Francisque Basquaise",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 84
   },
   {
     "id": 2612,
     "name": "Vouge à Poisson",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 87
   },
   {
     "id": 2614,
     "name": "Hache de Dame Oise",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 89
   },
   {
     "id": 2615,
     "name": "Hache de Lookabeer",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 96
   },
   {
     "id": 2616,
     "name": "Halle de Barde",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 99
   },
   {
@@ -3734,28 +3734,28 @@
     "id": 2637,
     "name": "La Griffe",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 35
   },
   {
     "id": 2638,
     "name": "La Griffe Aiguisée",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 68
   },
   {
     "id": 2639,
     "name": "Fausse Griffe de Ceangal",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 95
   },
   {
     "id": 2640,
     "name": "Bâton Carnivore",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
@@ -3923,70 +3923,70 @@
     "id": 3356,
     "name": "Pelle Doudesque",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 3357,
     "name": "Marteau Tape Doigts",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
     "id": 3647,
     "name": "La Thor-Boyaux",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 3648,
     "name": "Daguette du Captain Chafer",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 3649,
     "name": "Dague Rafeuse",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 91
   },
   {
     "id": 3650,
     "name": "Dague Régah",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 119
   },
   {
     "id": 3651,
     "name": "Dague Lutination",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 3652,
     "name": "Bâton de Marie Aigue",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
     "id": 4241,
     "name": "Griffe Rose",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 4242,
     "name": "Eventail Tranchant",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 75
   },
   {
@@ -4000,7 +4000,7 @@
     "id": 4382,
     "name": "Pic à Glace",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
@@ -4021,35 +4021,35 @@
     "id": 5999,
     "name": "Baguette Helles",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 75
   },
   {
     "id": 6438,
     "name": "Baguette Molle",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 6439,
     "name": "Baguette Irréelle",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 6440,
     "name": "Baguette Velue",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 95
   },
   {
     "id": 6442,
     "name": "Lance d'Aga Dou",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
@@ -4070,14 +4070,14 @@
     "id": 6445,
     "name": "Arc Boutant",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 6446,
     "name": "Arc Chiduc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 87
   },
   {
@@ -4098,28 +4098,28 @@
     "id": 6451,
     "name": "Arc Ange",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 82
   },
   {
     "id": 6452,
     "name": "Arc Chitecte",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 111
   },
   {
     "id": 6453,
     "name": "Arc du Pêcheur",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
     "id": 6454,
     "name": "Abraton Sombre",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 87
   },
   {
@@ -4266,28 +4266,28 @@
     "id": 6484,
     "name": "Arc du Sram Archer",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 89
   },
   {
     "id": 6485,
     "name": "Arc du Chafer Archer",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 115
   },
   {
     "id": 6491,
     "name": "Le Tronknydum",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 57
   },
   {
     "id": 6492,
     "name": "Taille-haie primitif du Wobot",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -4301,28 +4301,28 @@
     "id": 6494,
     "name": "Baguette d'Elya Wood",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 117
   },
   {
     "id": 6495,
     "name": "Baguette du Chêne Mou",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 171
   },
   {
     "id": 6496,
     "name": "Baguette en Racine d'Abraknyde Sombre",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 6497,
     "name": "Balgourde des Clairettes",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 63
   },
   {
@@ -4357,21 +4357,21 @@
     "id": 6503,
     "name": "Marteau Polpoulette",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 57
   },
   {
     "id": 6504,
     "name": "Marteau Fantal",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 6505,
     "name": "Marteau Réhadaure",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -4385,182 +4385,182 @@
     "id": 6507,
     "name": "Marteau de la Terps",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 90
   },
   {
     "id": 6508,
     "name": "Marteau Pinambour",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 6509,
     "name": "Marteau R'Ticolis",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 6510,
     "name": "Marteau Kahr",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 117
   },
   {
     "id": 6511,
     "name": "Marteau Ridhe",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 114
   },
   {
     "id": 6512,
     "name": "Marteau Nitruhant",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 82
   },
   {
     "id": 6513,
     "name": "Marteau Réfacteur",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
     "id": 6516,
     "name": "Dagues R'Hoh",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 121
   },
   {
     "id": 6517,
     "name": "Dagues Hischantes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 6518,
     "name": "Amrothiline",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
     "id": 6519,
     "name": "Baguette de Kouartz",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 78
   },
   {
     "id": 6520,
     "name": "La Migraine",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 84
   },
   {
     "id": 6521,
     "name": "Kelinobranche",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
     "id": 6522,
     "name": "La Racine Cinati",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 116
   },
   {
     "id": 6523,
     "name": "La Racine Hagogue",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 6524,
     "name": "Racine Sauvageonne",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 54
   },
   {
     "id": 6525,
     "name": "Bâton du Féca",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 94
   },
   {
     "id": 6526,
     "name": "Pelle Hébuse",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 94
   },
   {
     "id": 6527,
     "name": "Pelle Musicale",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
     "id": 6528,
     "name": "Pelle Rinage",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
     "id": 6535,
     "name": "Pelle Hikule",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 121
   },
   {
     "id": 6536,
     "name": "Pelle du Mineur Sombre",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 118
   },
   {
     "id": 6537,
     "name": "Pelle Mairhe",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
     "id": 6538,
     "name": "Pelle Vaidaire",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 84
   },
   {
     "id": 6539,
     "name": "Pelle Gicque",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 71
   },
   {
     "id": 6540,
     "name": "La Pelle Hélabète",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 86
   },
   {
@@ -4588,7 +4588,7 @@
     "id": 6661,
     "name": "Canne à Koinkoin",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -4609,7 +4609,7 @@
     "id": 6713,
     "name": "Lorsotheuses",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -4679,7 +4679,7 @@
     "id": 6725,
     "name": "Bâton de l'Homme Ours",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
@@ -4756,21 +4756,21 @@
     "id": 6750,
     "name": "Kwaklame de Glace",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 6751,
     "name": "Kwaklame de Terre",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
     "id": 6752,
     "name": "Kwaklame de Vent",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 41
   },
   {
@@ -4840,7 +4840,7 @@
     "id": 6762,
     "name": "Fourbasse-Ton",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
@@ -4875,7 +4875,7 @@
     "id": 6769,
     "name": "Fourche de Farle",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 76
   },
   {
@@ -4917,49 +4917,49 @@
     "id": 6780,
     "name": "Épée de l'initié",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6781,
     "name": "Baguette de l'initié",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6782,
     "name": "Bâton de l'initié",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6783,
     "name": "Arc de l'initié",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6784,
     "name": "Dagues de l'initié",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6785,
     "name": "Marteau de l'initié",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
     "id": 6786,
     "name": "Pelle de l'initié",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
@@ -4980,7 +4980,7 @@
     "id": 6792,
     "name": "La Plantouze des Champs",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 15
   },
   {
@@ -5022,7 +5022,7 @@
     "id": 6799,
     "name": "Lame du Chef Bwork",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -5092,7 +5092,7 @@
     "id": 6821,
     "name": "Lame du Chef Crocodaille",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
@@ -5127,21 +5127,21 @@
     "id": 6839,
     "name": "Épée de Yingnitié",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 6840,
     "name": "Épée de Yanguru",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 6856,
     "name": "Ciseaux à rose démoniaque",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -5218,7 +5218,7 @@
     "id": 6914,
     "name": "La Trancheuse d'Arakne",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 11
   },
   {
@@ -5288,7 +5288,7 @@
     "id": 6924,
     "name": "Dagues du Bandit",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
@@ -5512,7 +5512,7 @@
     "id": 6957,
     "name": "Lame du Craqueleur",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 64
   },
   {
@@ -5540,28 +5540,28 @@
     "id": 6981,
     "name": "Dagues Lassay",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
     "id": 6982,
     "name": "Dagues Honies",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 6983,
     "name": "Dagues Réceuses",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 143
   },
   {
     "id": 6984,
     "name": "Dagues de l'Apprenti Tueur de Bouftons",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
@@ -5694,7 +5694,7 @@
     "id": 7022,
     "name": "Bâton de Sangroku",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -5722,7 +5722,7 @@
     "id": 7037,
     "name": "Canne de Mamie Bonbon",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 98
   },
   {
@@ -5743,7 +5743,7 @@
     "id": 7040,
     "name": "Arc de Kuri",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
@@ -5778,14 +5778,14 @@
     "id": 7102,
     "name": "Épée du Chevalier de Glace",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
     "id": 7103,
     "name": "La Xyothine",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 145
   },
   {
@@ -5827,7 +5827,7 @@
     "id": 7110,
     "name": "Baguette Larvesque",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -6037,140 +6037,140 @@
     "id": 7153,
     "name": "Marteau Hubohu",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
     "id": 7154,
     "name": "Marteau M'Pouce",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 107
   },
   {
     "id": 7155,
     "name": "Marteau Nairedeubrest",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
     "id": 7156,
     "name": "Marteau Ronto",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
     "id": 7157,
     "name": "Marteau Ksain",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
     "id": 7158,
     "name": "Marteau Lahre",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 141
   },
   {
     "id": 7159,
     "name": "Marteau Pinière",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 135
   },
   {
     "id": 7160,
     "name": "Arc Hanne",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 7161,
     "name": "Arc Assin",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 7162,
     "name": "Arc Lavoine",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 7163,
     "name": "Arc Huledela",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 123
   },
   {
     "id": 7164,
     "name": "Arc Hisedaisange",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
     "id": 7165,
     "name": "Baguette Nah",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
     "id": 7167,
     "name": "Baguette Cetera",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 7168,
     "name": "Baguette Hylique",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 63
   },
   {
     "id": 7169,
     "name": "Baguette Hincelle",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 7170,
     "name": "Baguette Houffe-Craitien",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 112
   },
   {
     "id": 7171,
     "name": "Baguette Ourderie",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
     "id": 7172,
     "name": "Baguette Rhon",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 105
   },
   {
     "id": 7173,
     "name": "Baguette Rangleuse",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 27
   },
   {
@@ -6184,7 +6184,7 @@
     "id": 7176,
     "name": "Racine Cithi",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 143
   },
   {
@@ -6198,224 +6198,224 @@
     "id": 7178,
     "name": "Racine Horodon",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 86
   },
   {
     "id": 7181,
     "name": "Racine Sémilla",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 106
   },
   {
     "id": 7182,
     "name": "Racine Hécouanone",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 103
   },
   {
     "id": 7183,
     "name": "Racine Huzohide",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
     "id": 7184,
     "name": "Racine Histre",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 86
   },
   {
     "id": 7185,
     "name": "Racine Hécure",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 101
   },
   {
     "id": 7187,
     "name": "Jakchir Arc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
     "id": 7188,
     "name": "Dagues Rhumes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 113
   },
   {
     "id": 7189,
     "name": "Rod Gerse",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 176
   },
   {
     "id": 7190,
     "name": "Dagues Maydhyn China",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 7191,
     "name": "Sertisseur de Ramougre",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
     "id": 7192,
     "name": "Griffe de Grizmine",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 111
   },
   {
     "id": 7193,
     "name": "Épée du Dark Vlad",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
     "id": 7194,
     "name": "Arc Anum",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 96
   },
   {
     "id": 7195,
     "name": "Karnak",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 7197,
     "name": "Marteau Bleuronne",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 148
   },
   {
     "id": 7198,
     "name": "Razoir du Soir",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 105
   },
   {
     "id": 7199,
     "name": "Glaive Icération",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 7200,
     "name": "Sabre Shodanwa",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
     "id": 7201,
     "name": "Sabre Nidanwa",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 7202,
     "name": "Sabre Sandanwa",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 7203,
     "name": "Sabre Yondanwa",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 92
   },
   {
     "id": 7204,
     "name": "Bâton du Shodanwa",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 46
   },
   {
     "id": 7205,
     "name": "Bâton du Nidanwa",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 7206,
     "name": "Bâton du Sandanwa",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 77
   },
   {
     "id": 7207,
     "name": "Bâton du Yondanwa",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 93
   },
   {
     "id": 7208,
     "name": "Hache du Shodanwa",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 36
   },
   {
     "id": 7209,
     "name": "Hache du Nidanwa",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 59
   },
   {
     "id": 7210,
     "name": "Hache du Sandanwa",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 7211,
     "name": "Hache du Yondanwa",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 98
   },
   {
     "id": 7212,
     "name": "La Trancheuse de Bambou",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 26
   },
   {
     "id": 7213,
     "name": "Pelle Rhon",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
@@ -6639,28 +6639,28 @@
     "id": 7254,
     "name": "Bâton Akwadala",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
     "id": 7255,
     "name": "Hache Terrdala",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 7256,
     "name": "Dagues Aerdala",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 7257,
     "name": "Sabre Feudala",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 76
   },
   {
@@ -6695,7 +6695,7 @@
     "id": 7368,
     "name": "Baguette Houalle",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 125
   },
   {
@@ -7423,7 +7423,7 @@
     "id": 7882,
     "name": "Marteau du Boufcoul",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
@@ -7479,7 +7479,7 @@
     "id": 7890,
     "name": "Bâton du Koulosse",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 73
   },
   {
@@ -7549,7 +7549,7 @@
     "id": 8005,
     "name": "Arc du Koalak",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 61
   },
   {
@@ -7591,105 +7591,105 @@
     "id": 8088,
     "name": "Baguette Gyver",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 128
   },
   {
     "id": 8089,
     "name": "Baguette Iots",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 138
   },
   {
     "id": 8090,
     "name": "Bâton des Caraïbes",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 114
   },
   {
     "id": 8091,
     "name": "La Canne Bière",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 133
   },
   {
     "id": 8092,
     "name": "Les Dagues du Bouwin",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 134
   },
   {
     "id": 8094,
     "name": "L'Epée Rilleuse",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 169
   },
   {
     "id": 8095,
     "name": "Le Sabre Ayassalama",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 143
   },
   {
     "id": 8096,
     "name": "Marteau Mawoque",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
     "id": 8097,
     "name": "Marteau Xiko",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
     "id": 8098,
     "name": "Lame Usicke",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 8099,
     "name": "La Hache Menbien",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 116
   },
   {
     "id": 8100,
     "name": "La Hache Ticot",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 110
   },
   {
     "id": 8101,
     "name": "Le Fendoir Tichaud",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 128
   },
   {
     "id": 8103,
     "name": "Arc Rainier",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 121
   },
   {
     "id": 8104,
     "name": "Arc Chtelion",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
@@ -7710,7 +7710,7 @@
     "id": 8110,
     "name": "Baguette du Tofu",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 25
   },
   {
@@ -7759,7 +7759,7 @@
     "id": 8118,
     "name": "Baguette du Scarabosse Doré",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 59
   },
   {
@@ -7822,7 +7822,7 @@
     "id": 8127,
     "name": "Faux usée du Paysan",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 17
   },
   {
@@ -7843,7 +7843,7 @@
     "id": 8130,
     "name": "Hache du Mulou",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
@@ -7899,7 +7899,7 @@
     "id": 8148,
     "name": "Marteau du Craqueleur Légendaire",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
@@ -8249,7 +8249,7 @@
     "id": 8255,
     "name": "Pelle en Mousse",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 20
   },
   {
@@ -8375,14 +8375,14 @@
     "id": 8274,
     "name": "Hache du Minotoror",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
     "id": 8275,
     "name": "Sceptre du Minotot",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 151
   },
   {
@@ -8501,42 +8501,42 @@
     "id": 8292,
     "name": "Épée du Dragoeuf",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
     "id": 8293,
     "name": "Hache du Dragoeuf",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
     "id": 8294,
     "name": "Marteau du Dragoeuf",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 123
   },
   {
     "id": 8295,
     "name": "Arc du Dragoeuf",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 118
   },
   {
     "id": 8296,
     "name": "Baguette du Dragoeuf",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
     "id": 8297,
     "name": "Bâton du Dragoeuf",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
@@ -8557,7 +8557,7 @@
     "id": 8300,
     "name": "Binette de Shika",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -8627,7 +8627,7 @@
     "id": 8338,
     "name": "Épée de Nowel",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -8662,14 +8662,14 @@
     "id": 8413,
     "name": "Marteau du Mominotor",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 112
   },
   {
     "id": 8414,
     "name": "Dagues du Dragoeuf",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 128
   },
   {
@@ -8690,7 +8690,7 @@
     "id": 8417,
     "name": "Pelle à Gâteau",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 131
   },
   {
@@ -8704,14 +8704,14 @@
     "id": 8419,
     "name": "Pelle Moh",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 115
   },
   {
     "id": 8420,
     "name": "Pelle Dragoeuf",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 127
   },
   {
@@ -8739,7 +8739,7 @@
     "id": 8444,
     "name": "Dagues du Rat Noir",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 108
   },
   {
@@ -8774,7 +8774,7 @@
     "id": 8450,
     "name": "Rapière du Rat Blanc",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
@@ -8949,7 +8949,7 @@
     "id": 8513,
     "name": "Scalpel de Bworknroll",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -9033,126 +9033,126 @@
     "id": 8575,
     "name": "Le Ramboton",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 8596,
     "name": "Griffe Pourpre",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 145
   },
   {
     "id": 8598,
     "name": "Dagues Ruyère",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 67
   },
   {
     "id": 8599,
     "name": "Griffettes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 69
   },
   {
     "id": 8604,
     "name": "Épée Doncule",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 97
   },
   {
     "id": 8605,
     "name": "Épée Zervatif",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 73
   },
   {
     "id": 8607,
     "name": "Le Bâton Cloutay",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 107
   },
   {
     "id": 8608,
     "name": "La Bastonneuze",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
     "id": 8609,
     "name": "Geish'Arc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
     "id": 8610,
     "name": "Le Kikoularc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 79
   },
   {
     "id": 8611,
     "name": "Bagdette Café",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 69
   },
   {
     "id": 8612,
     "name": "La Bidjiz",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 74
   },
   {
     "id": 8613,
     "name": "Pelle Minstère",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 70
   },
   {
     "id": 8614,
     "name": "Pelle Ripe",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
     "id": 8615,
     "name": "Marteau Mato",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 83
   },
   {
     "id": 8616,
     "name": "Marteau Minokers",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 178
   },
   {
     "id": 8617,
     "name": "Hache Ebbah",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 62
   },
   {
     "id": 8618,
     "name": "Hache Eulouh",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -9166,7 +9166,7 @@
     "id": 8627,
     "name": "Flûte de Sarr Ys",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -9488,7 +9488,7 @@
     "id": 8695,
     "name": "L'Épée Nice",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 177
   },
   {
@@ -9509,7 +9509,7 @@
     "id": 8701,
     "name": "Épée Choh",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 95
   },
   {
@@ -9684,21 +9684,21 @@
     "id": 8825,
     "name": "Masse du Corailleur Magistral",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 125
   },
   {
     "id": 8826,
     "name": "Marteau de la Gamine Zoth",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 132
   },
   {
     "id": 8827,
     "name": "Hache du Guerrier Zoth",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 139
   },
   {
@@ -9719,42 +9719,42 @@
     "id": 8833,
     "name": "Masse du Corailleur",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 85
   },
   {
     "id": 8834,
     "name": "Branche de l'Abrakleur sombre",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 8835,
     "name": "Branche de l'Abrakleur clair",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 132
   },
   {
     "id": 8836,
     "name": "Tige du Brouture",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 119
   },
   {
     "id": 8837,
     "name": "Bâton du Maître Zoth",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 8838,
     "name": "Rhizome du Tynril",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 164
   },
   {
@@ -9831,14 +9831,14 @@
     "id": 8849,
     "name": "Racine de Fécorce",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 136
   },
   {
     "id": 8850,
     "name": "Racine de Floribonde",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 144
   },
   {
@@ -9901,7 +9901,7 @@
     "id": 8864,
     "name": "Kask'Arc Go",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 122
   },
   {
@@ -9929,7 +9929,7 @@
     "id": 8868,
     "name": "Poolache",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 137
   },
   {
@@ -9992,7 +9992,7 @@
     "id": 8878,
     "name": "Kidorteau",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 77
   },
   {
@@ -10034,182 +10034,182 @@
     "id": 8924,
     "name": "Arc à Chon",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 147
   },
   {
     "id": 8925,
     "name": "Arc Oleptik",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 185
   },
   {
     "id": 8926,
     "name": "Dagues Adou",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 175
   },
   {
     "id": 8927,
     "name": "Dagues Eudin",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 171
   },
   {
     "id": 8928,
     "name": "Dagues Ruik",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 8929,
     "name": "Kriss Toubal",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 149
   },
   {
     "id": 8930,
     "name": "Fuschia",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 163
   },
   {
     "id": 8931,
     "name": "Az'tech",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 186
   },
   {
     "id": 8932,
     "name": "Kukri Kura",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 179
   },
   {
     "id": 8933,
     "name": "Hache Sueur Rance",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 162
   },
   {
     "id": 8934,
     "name": "Hache Harnée",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 158
   },
   {
     "id": 8935,
     "name": "La Bêche à Mel",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 172
   },
   {
     "id": 8936,
     "name": "Pelle Shattkitou",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 136
   },
   {
     "id": 8937,
     "name": "Pelle Aigante",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 155
   },
   {
     "id": 8941,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8956,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8957,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8958,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8959,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8960,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8961,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8962,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8963,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8964,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8965,
     "name": "Patte d'Ecaflip",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 8966,
     "name": "Patte d'Ecaflip Parfaite",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -10230,14 +10230,14 @@
     "id": 8992,
     "name": "Faux Maudite du Saigneur Guerrier",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 8993,
     "name": "Épée Maudite du Saigneur Guerrier",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -10251,7 +10251,7 @@
     "id": 9117,
     "name": "Ougarteau",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -10342,35 +10342,35 @@
     "id": 9134,
     "name": "Arc à Lamelles",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 183
   },
   {
     "id": 9135,
     "name": "Baguetterelle",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 9136,
     "name": "Bâton Champmanique",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 191
   },
   {
     "id": 9137,
     "name": "Couteaux à Champignons",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 187
   },
   {
     "id": 9138,
     "name": "Hache à Lamelles",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 157
   },
   {
@@ -10636,7 +10636,7 @@
     "id": 9176,
     "name": "Lame Assacre",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 182
   },
   {
@@ -10846,14 +10846,14 @@
     "id": 9468,
     "name": "Pelle Emélaka",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 191
   },
   {
     "id": 9469,
     "name": "Épée Loponèze",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 184
   },
   {
@@ -10944,7 +10944,7 @@
     "id": 9627,
     "name": "Bâton de l'apprenti pélerin",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -11077,21 +11077,21 @@
     "id": 9961,
     "name": "Marteau Martel",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 9972,
     "name": "Marteau de Forgeur de Grattoir",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 2
   },
   {
     "id": 9974,
     "name": "Tailladeuse de Manche",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 2
   },
   {
@@ -11315,7 +11315,7 @@
     "id": 10223,
     "name": "Pelle Hectrochoc",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 179
   },
   {
@@ -11560,7 +11560,7 @@
     "id": 10797,
     "name": "Épée Tulante",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -11602,7 +11602,7 @@
     "id": 10818,
     "name": "Hache de l'initié",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 12
   },
   {
@@ -11616,7 +11616,7 @@
     "id": 10829,
     "name": "Kamapêche",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -11980,7 +11980,7 @@
     "id": 11306,
     "name": "Épée Tillante",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
@@ -12253,7 +12253,7 @@
     "id": 11514,
     "name": "Grésilosceptre",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 192
   },
   {
@@ -12372,7 +12372,7 @@
     "id": 11586,
     "name": "Sabre de Ben le Ripate",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 152
   },
   {
@@ -12533,84 +12533,84 @@
     "id": 11624,
     "name": "Sabre Heutelle",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 144
   },
   {
     "id": 11625,
     "name": "Hache Haimenu",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 154
   },
   {
     "id": 11626,
     "name": "Hache du Fancrôme",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 153
   },
   {
     "id": 11627,
     "name": "Arc Tangente",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 167
   },
   {
     "id": 11628,
     "name": "Pelle Tonedjone",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 147
   },
   {
     "id": 11629,
     "name": "Youyettes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 164
   },
   {
     "id": 11630,
     "name": "Marteau R'Gnole",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 166
   },
   {
     "id": 11631,
     "name": "Marteau de la Vigie Pirate",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 156
   },
   {
     "id": 11632,
     "name": "Baguette Hernuement",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 163
   },
   {
     "id": 11633,
     "name": "Bâton K'Tueuh",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 161
   },
   {
     "id": 11634,
     "name": "Bâton du Shamansot",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 11635,
     "name": "Lance du Harpirate",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 154
   },
   {
@@ -12666,7 +12666,7 @@
     "id": 11711,
     "name": "Hache du Korriandre",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 188
   },
   {
@@ -12883,154 +12883,154 @@
     "id": 11742,
     "name": "Épée Kadille",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 177
   },
   {
     "id": 11743,
     "name": "Épée Kari",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 184
   },
   {
     "id": 11744,
     "name": "Épée Toche",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
     "id": 11745,
     "name": "Marteau Racle",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 173
   },
   {
     "id": 11746,
     "name": "Marteau Reine",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 187
   },
   {
     "id": 11747,
     "name": "Marteau du Glouragan",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
     "id": 11748,
     "name": "Le Thanos rongé",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 172
   },
   {
     "id": 11749,
     "name": "Bâton Brelle",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 188
   },
   {
     "id": 11750,
     "name": "Bâton Brageut",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
     "id": 11751,
     "name": "Dagues Imauve",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 176
   },
   {
     "id": 11752,
     "name": "Dagues Açantes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 183
   },
   {
     "id": 11753,
     "name": "Dagues Hirr",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
     "id": 11754,
     "name": "Arc Ontanporin",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 175
   },
   {
     "id": 11755,
     "name": "Arc Hétype",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 184
   },
   {
     "id": 11756,
     "name": "Arc Ahique",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
     "id": 11757,
     "name": "Baguette Nolog",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 177
   },
   {
     "id": 11758,
     "name": "Baguette Hernelle",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 187
   },
   {
     "id": 11759,
     "name": "Baguette Hique",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 193
   },
   {
     "id": 11760,
     "name": "Hache Achinecride",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 11761,
     "name": "Hache Téroïde",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
     "id": 11762,
     "name": "Pelle Dorado",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 178
   },
   {
     "id": 11763,
     "name": "Pelle Fik",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -13093,14 +13093,14 @@
     "id": 11819,
     "name": "Marteau de Percimol ramolli",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 49
   },
   {
     "id": 11820,
     "name": "Pelle Vétik",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 181
   },
   {
@@ -13128,7 +13128,7 @@
     "id": 11857,
     "name": "Pelle de Stroud émoussée",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -13142,7 +13142,7 @@
     "id": 11947,
     "name": "Hache Hélème",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 185
   },
   {
@@ -13226,7 +13226,7 @@
     "id": 11983,
     "name": "Sceptre du Kanniboul Ebil",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 47
   },
   {
@@ -13240,7 +13240,7 @@
     "id": 12018,
     "name": "Kwakwalame",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 56
   },
   {
@@ -13394,7 +13394,7 @@
     "id": 12057,
     "name": "Le Thanos",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 172
   },
   {
@@ -13436,7 +13436,7 @@
     "id": 12084,
     "name": "Mourtheau",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 122
   },
   {
@@ -13464,7 +13464,7 @@
     "id": 12088,
     "name": "Baguette de Frigostine",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 149
   },
   {
@@ -13541,7 +13541,7 @@
     "id": 12099,
     "name": "Bâton des Prophètes",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 169
   },
   {
@@ -13569,7 +13569,7 @@
     "id": 12103,
     "name": "Arc de Guten Tak",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 173
   },
   {
@@ -13632,7 +13632,7 @@
     "id": 12112,
     "name": "Pelle du Professeur Xa",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 191
   },
   {
@@ -13653,7 +13653,7 @@
     "id": 12115,
     "name": "Épée Gloursonne",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 199
   },
   {
@@ -13961,7 +13961,7 @@
     "id": 12512,
     "name": "Gants de Mastiqueur",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -14283,7 +14283,7 @@
     "id": 12677,
     "name": "Bâton de Daïgoro",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 88
   },
   {
@@ -14857,7 +14857,7 @@
     "id": 13063,
     "name": "Canne Hassukre Édulcorée",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 165
   },
   {
@@ -14885,7 +14885,7 @@
     "id": 13092,
     "name": "Marteau du Chafer Draugr",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 43
   },
   {
@@ -14955,7 +14955,7 @@
     "id": 13119,
     "name": "Épée d'Otomaï",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
@@ -15116,7 +15116,7 @@
     "id": 13245,
     "name": "Canne Hassukre",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 165
   },
   {
@@ -15235,7 +15235,7 @@
     "id": 13329,
     "name": "Râtrouille",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
@@ -15312,7 +15312,7 @@
     "id": 13583,
     "name": "Baguette du Grand Glucid",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 134
   },
   {
@@ -15347,7 +15347,7 @@
     "id": 13631,
     "name": "Marteau d'Henual",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 193
   },
   {
@@ -15473,7 +15473,7 @@
     "id": 13649,
     "name": "Rouleau à Pâtisserie d'Aermyne",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
@@ -16138,7 +16138,7 @@
     "id": 13848,
     "name": "Couteau de Mer",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 124
   },
   {
@@ -16173,14 +16173,14 @@
     "id": 13894,
     "name": "Canne Harr",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
     "id": 13896,
     "name": "Hache Ériphe",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -16313,7 +16313,7 @@
     "id": 14055,
     "name": "Bêche Asse",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -16516,7 +16516,7 @@
     "id": 14084,
     "name": "Épée du Granduk",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -16635,42 +16635,42 @@
     "id": 14131,
     "name": "Dagues Ricol",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 198
   },
   {
     "id": 14132,
     "name": "Dagues Érhy",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 14133,
     "name": "Hache Euvale",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 14135,
     "name": "Pelle Vice",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 199
   },
   {
     "id": 14146,
     "name": "Pioche Vibrante",
     "type": "Pioche",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 14156,
     "name": "Rapière aux Glyphes",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -16712,21 +16712,21 @@
     "id": 14164,
     "name": "Arc Honte",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 14166,
     "name": "Bâton Beau",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
     "id": 14167,
     "name": "Masse Ossiale",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 199
   },
   {
@@ -16775,7 +16775,7 @@
     "id": 14274,
     "name": "Bâton Fracass",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
@@ -16824,14 +16824,14 @@
     "id": 14288,
     "name": "Bâtonnet Ronien",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 198
   },
   {
     "id": 14289,
     "name": "Hache Rot",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 192
   },
   {
@@ -16964,7 +16964,7 @@
     "id": 14519,
     "name": "Marteau du Juge Lou",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 151
   },
   {
@@ -17013,14 +17013,14 @@
     "id": 14584,
     "name": "Arc Lequin",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
     "id": 14585,
     "name": "Clef à Molette",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 106
   },
   {
@@ -17132,7 +17132,7 @@
     "id": 14640,
     "name": "Kalypsoton",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 139
   },
   {
@@ -17279,7 +17279,7 @@
     "id": 14886,
     "name": "Marteau des Anciens Steamers",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -17412,7 +17412,7 @@
     "id": 15014,
     "name": "Arc de Flèche Mauve",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 107
   },
   {
@@ -17734,21 +17734,21 @@
     "id": 15216,
     "name": "Baguette de Malléfisk",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15217,
     "name": "Marteau Phossile",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15218,
     "name": "Pelle de Nidas",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -17797,7 +17797,7 @@
     "id": 15282,
     "name": "Cracheur du Major Qiu",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -17853,7 +17853,7 @@
     "id": 15422,
     "name": "Attrape-Poussière",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -17972,28 +17972,28 @@
     "id": 15493,
     "name": "Dagues de Srambad",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15494,
     "name": "Pelle de la Cour Sombre",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15495,
     "name": "Arc Nécrotique",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15496,
     "name": "Épée de la Reine des Voleurs",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18042,7 +18042,7 @@
     "id": 15505,
     "name": "Filet de capture de nécrotique",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -18133,7 +18133,7 @@
     "id": 15660,
     "name": "Couteaux sacrés",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18371,7 +18371,7 @@
     "id": 15779,
     "name": "Baguette des égarés",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18385,14 +18385,14 @@
     "id": 15781,
     "name": "Marteau des égarés",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 15782,
     "name": "Plumeau Bil",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -18448,14 +18448,14 @@
     "id": 15860,
     "name": "Électrofoudre",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 15886,
     "name": "Marteau Chronomagique",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -18469,7 +18469,7 @@
     "id": 15990,
     "name": "Baguette Rikiki",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -18623,7 +18623,7 @@
     "id": 16169,
     "name": "Vieille Branche du Chêne Mou",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
@@ -19337,7 +19337,7 @@
     "id": 16343,
     "name": "Pinceau",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -19386,14 +19386,14 @@
     "id": 16527,
     "name": "Marteau de Hargnok",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 8
   },
   {
     "id": 16541,
     "name": "Pioche Réquisitionnée",
     "type": "Pioche",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -19407,7 +19407,7 @@
     "id": 16953,
     "name": "Pelle du Clan Terra",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -19456,7 +19456,7 @@
     "id": 17092,
     "name": "Marteau de Moon",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 103
   },
   {
@@ -19477,7 +19477,7 @@
     "id": 17095,
     "name": "Épée du Bretteur Céleste",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -19512,7 +19512,7 @@
     "id": 17100,
     "name": "Bâton de Zatoïshwan",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -19729,7 +19729,7 @@
     "id": 17460,
     "name": "Baguette Osseuse",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 173
   },
   {
@@ -19820,7 +19820,7 @@
     "id": 17525,
     "name": "Bouquet de Roses démoniaques",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 30
   },
   {
@@ -19925,7 +19925,7 @@
     "id": 17586,
     "name": "Sabres d'Atcham",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -19946,7 +19946,7 @@
     "id": 17589,
     "name": "Épée de Ush",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 165
   },
   {
@@ -20037,21 +20037,21 @@
     "id": 17681,
     "name": "Arc du Chalœil",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 17682,
     "name": "Sceptre du Roi Joueur",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 17683,
     "name": "Hache du Chalœil",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -20093,7 +20093,7 @@
     "id": 17809,
     "name": "Marteau d'Ereziah",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -20709,56 +20709,56 @@
     "id": 18010,
     "name": "Bâthon",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18011,
     "name": "Baguette Range",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18012,
     "name": "Arc de Koutoulou",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18013,
     "name": "Harpelle",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18014,
     "name": "Manthache",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18015,
     "name": "Épouvante",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18017,
     "name": "Dagoulinantes",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18018,
     "name": "Marteau R'ture",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -20933,28 +20933,28 @@
     "id": 18279,
     "name": "Baguette de Sourcier bénie",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 18290,
     "name": "Patatonnerre",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 18350,
     "name": "Gants Grenne",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 18375,
     "name": "Baguette de Sourcier",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
@@ -21003,14 +21003,14 @@
     "id": 18429,
     "name": "Hache du Mantiscore",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 18430,
     "name": "Masse Boulépique",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -21059,14 +21059,14 @@
     "id": 18437,
     "name": "Dagues Cacterre",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
     "id": 18438,
     "name": "Maracassabre",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -21206,14 +21206,14 @@
     "id": 18601,
     "name": "Pyraguette",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 18604,
     "name": "Héqache",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -21689,7 +21689,7 @@
     "id": 18780,
     "name": "Hachoirs de Viandargh",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
@@ -21703,7 +21703,7 @@
     "id": 18853,
     "name": "Épée Langue de Feu",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -21843,21 +21843,21 @@
     "id": 19093,
     "name": "Pelle de Katrepat",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19096,
     "name": "Marteau de Katrepat",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19105,
     "name": "Épée Langue de Feu Réanimée",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -22067,28 +22067,28 @@
     "id": 19267,
     "name": "Lance corrompue",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19268,
     "name": "Dagues d'Ilyzaelle",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19269,
     "name": "Épée Brûlâme",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19270,
     "name": "Arc corrompu",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22116,14 +22116,14 @@
     "id": 19415,
     "name": "Gants de Zrid",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 19482,
     "name": "Épée Nécronyx",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -22179,14 +22179,14 @@
     "id": 19593,
     "name": "Lav'Hache",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19594,
     "name": "Massier",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22263,14 +22263,14 @@
     "id": 19605,
     "name": "Baguette Héroclite",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 19606,
     "name": "Lance Horselé",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22319,7 +22319,7 @@
     "id": 19637,
     "name": "Fléau d'armes",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -22340,7 +22340,7 @@
     "id": 19676,
     "name": "Pioche de Sidoa",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23285,21 +23285,21 @@
     "id": 19986,
     "name": "Arc Volkorne",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20210,
     "name": "Crocobur",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
     "id": 20213,
     "name": "Crocobur",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -23313,28 +23313,28 @@
     "id": 20353,
     "name": "Crocobur",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20354,
     "name": "Ciseaux du Destin",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20355,
     "name": "Frisson de Brumaire",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 20356,
     "name": "Plume de Buhorado",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23411,7 +23411,7 @@
     "id": 20391,
     "name": "Couteaux Sacrificiels",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23446,7 +23446,7 @@
     "id": 20848,
     "name": "Sceptre Zor",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 61
   },
   {
@@ -23495,7 +23495,7 @@
     "id": 20935,
     "name": "Spatule Tranche-Gourmands",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23600,7 +23600,7 @@
     "id": 21229,
     "name": "Baguette de Torkélonia",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23642,35 +23642,35 @@
     "id": 21506,
     "name": "Peluche-boule : Phorreur",
     "type": "Arme magique",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21507,
     "name": "Peluche-boule : Bouftou",
     "type": "Arme magique",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21508,
     "name": "Peluche-boule : Tofu",
     "type": "Arme magique",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21509,
     "name": "Peluche-boule : Chacha",
     "type": "Arme magique",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21510,
     "name": "Peluche-boule : Minikrone",
     "type": "Arme magique",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23691,7 +23691,7 @@
     "id": 21878,
     "name": "Attrape-Cauchemar",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -23845,14 +23845,14 @@
     "id": 22027,
     "name": "Marteau de boisaille fortifié",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 112
   },
   {
     "id": 22163,
     "name": "Pioche solide",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23950,7 +23950,7 @@
     "id": 22213,
     "name": "Bêche de Corruption",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23971,7 +23971,7 @@
     "id": 22368,
     "name": "Hachebarde de Guerre",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -23992,7 +23992,7 @@
     "id": 22444,
     "name": "Balance-Fléau de Misère",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24048,7 +24048,7 @@
     "id": 23257,
     "name": "Kwache",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -24083,7 +24083,7 @@
     "id": 23262,
     "name": "Nun-Charang",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 126
   },
   {
@@ -24118,14 +24118,14 @@
     "id": 23267,
     "name": "Baguette Bainkuite",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 132
   },
   {
     "id": 23268,
     "name": "Bâton de Hanshi",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
@@ -24139,7 +24139,7 @@
     "id": 23270,
     "name": "Éventails de Shihan",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 142
   },
   {
@@ -24167,35 +24167,35 @@
     "id": 23312,
     "name": "Katana de la Flamme",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23313,
     "name": "Katana de la Tempête",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23314,
     "name": "Katana de la Marée",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23315,
     "name": "Katana de la Roche",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
     "id": 23316,
     "name": "Katana de la Feuille",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -24216,7 +24216,7 @@
     "id": 23522,
     "name": "Bâton en bambou spirituel",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 110
   },
   {
@@ -24230,14 +24230,14 @@
     "id": 23578,
     "name": "Outil de gravure",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
     "id": 23590,
     "name": "Musamune",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -24307,7 +24307,7 @@
     "id": 23627,
     "name": "Katana de Spiritueur",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 157
   },
   {
@@ -24363,7 +24363,7 @@
     "id": 24028,
     "name": "Faux Nème",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24384,7 +24384,7 @@
     "id": 24031,
     "name": "Arc de Wulan",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24398,14 +24398,14 @@
     "id": 24033,
     "name": "Kanji Jirark",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 24034,
     "name": "Faux Nétik",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24419,14 +24419,14 @@
     "id": 24036,
     "name": "Baguette Imologie",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 24037,
     "name": "Maillet Pitaf",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24468,7 +24468,7 @@
     "id": 25219,
     "name": "Baguette du Pandamonium",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24489,28 +24489,28 @@
     "id": 25222,
     "name": "Marteau Possédé",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 25235,
     "name": "Lame de Danaba",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 25245,
     "name": "Pinceau de calligraphie",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 25248,
     "name": "Pinceau des serments",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -24545,7 +24545,7 @@
     "id": 25952,
     "name": "Boufballe",
     "type": "Arme magique",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -24566,28 +24566,28 @@
     "id": 26008,
     "name": "Hachoir de Ravageur",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 26009,
     "name": "Faux Séraphine",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 26010,
     "name": "Épée Diablotine",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 26011,
     "name": "Faux Chaotique",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24636,7 +24636,7 @@
     "id": 26058,
     "name": "Totem de l'équilibre",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -24650,28 +24650,28 @@
     "id": 26085,
     "name": "Attrape-Cauchemar démoniaque",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26099,
     "name": "Authentique rouleau d'Ayuto",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26131,
     "name": "Croix de Sinane",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26198,
     "name": "Pioche à usage unique",
     "type": "Pioche",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -24692,7 +24692,7 @@
     "id": 26310,
     "name": "Faux Enracinée de Malter",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -24713,7 +24713,7 @@
     "id": 26314,
     "name": "Pertuisane d'Hell Mina",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -24741,7 +24741,7 @@
     "id": 26344,
     "name": "Faux du Directeur Grunob",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 38
   },
   {
@@ -24776,7 +24776,7 @@
     "id": 27268,
     "name": "Goultard Ankarton",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -24825,7 +24825,7 @@
     "id": 27510,
     "name": "Claymomore",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -24909,7 +24909,7 @@
     "id": 27528,
     "name": "Masse Clochecuivre",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 196
   },
   {
@@ -24923,7 +24923,7 @@
     "id": 27530,
     "name": "Serpe de Rakoopeur",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 52
   },
   {
@@ -24944,14 +24944,14 @@
     "id": 27533,
     "name": "Lance de guerrier albueran",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 27534,
     "name": "Lance de trappeur albueran",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -24986,14 +24986,14 @@
     "id": 27539,
     "name": "Serpe Aigrie",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 190
   },
   {
     "id": 27540,
     "name": "Marteau Aigri",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 190
   },
   {
@@ -25014,7 +25014,7 @@
     "id": 27543,
     "name": "Tonfas de Barbéryl",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
@@ -25028,14 +25028,14 @@
     "id": 27545,
     "name": "Potence d'Ephedrya",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 27546,
     "name": "Pilier d'Ephedrya",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -25371,14 +25371,14 @@
     "id": 27644,
     "name": "Yaularc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 27645,
     "name": "Balai rudimentaire",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -26869,7 +26869,7 @@
     "id": 29024,
     "name": "Tapette à moskitos",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -27121,21 +27121,21 @@
     "id": 30828,
     "name": "Bounihimée",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 30832,
     "name": "Couteau de chasse de Berb Nhin",
     "type": "Outil",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 30855,
     "name": "Poignards du Captain Chafer",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27163,7 +27163,7 @@
     "id": 30859,
     "name": "Rouleau de Mama Ayuto",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27177,7 +27177,7 @@
     "id": 30861,
     "name": "Flamberge du Dark Vlad",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27205,7 +27205,7 @@
     "id": 30949,
     "name": "Masse Étacée",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27240,7 +27240,7 @@
     "id": 31752,
     "name": "Dard du Supervizœuf",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 181
   },
   {
@@ -27268,21 +27268,21 @@
     "id": 31758,
     "name": "Hachoir de la Déchireuse",
     "type": "Hache",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31759,
     "name": "Griffes de la Déchireuse",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31760,
     "name": "Masse Osseuse",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27303,14 +27303,14 @@
     "id": 31763,
     "name": "Faux've",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31764,
     "name": "Zarbappeau",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -27373,7 +27373,7 @@
     "id": 31773,
     "name": "Nev'Arc",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 197
   },
   {
@@ -27387,21 +27387,21 @@
     "id": 31785,
     "name": "Znzzktoglazvzbz",
     "type": "Bâton",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31786,
     "name": "Griffe de Gargandyas",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31787,
     "name": "Fureur de Gargandyas",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27422,14 +27422,14 @@
     "id": 31790,
     "name": "Corne de Chasse",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31791,
     "name": "Dagues de Kabombz",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
@@ -27485,14 +27485,14 @@
     "id": 31800,
     "name": "Arc du Vénérable Endormi",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 31860,
     "name": "Kornzbz Chzazzzbz",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
@@ -27534,14 +27534,14 @@
     "id": 32116,
     "name": "Lance-Éclair de Menalt",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
     "id": 32117,
     "name": "Jugement de Thanatena",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27569,7 +27569,7 @@
     "id": 32163,
     "name": "Ferveur d'Amayiro",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27723,7 +27723,7 @@
     "id": 32221,
     "name": "Faux de San Jifu",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 194
   },
   {
@@ -27737,7 +27737,7 @@
     "id": 32223,
     "name": "Flashaux",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 190
   },
   {
@@ -27765,7 +27765,7 @@
     "id": 32227,
     "name": "Fléau du Docteur Eggob",
     "type": "Baguette",
-    "slot": "other",
+    "slot": "weapon",
     "level": 195
   },
   {
@@ -27800,7 +27800,7 @@
     "id": 32232,
     "name": "Lame givrée du Chevalier de Glace",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27821,7 +27821,7 @@
     "id": 32235,
     "name": "Arc de Culbutœuf",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27842,7 +27842,7 @@
     "id": 32238,
     "name": "Masse de Glourdorak",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27870,7 +27870,7 @@
     "id": 32242,
     "name": "Bêche de Mekamouth",
     "type": "Pelle",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27884,7 +27884,7 @@
     "id": 32244,
     "name": "Aiguille de Psikopompe",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -30075,7 +30075,7 @@
     "id": 33561,
     "name": "Dagu'os des Scalarcin",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 55
   },
   {
@@ -30096,7 +30096,7 @@
     "id": 33564,
     "name": "Javeline de Marzwel",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
@@ -30117,7 +30117,7 @@
     "id": 33567,
     "name": "Tonfas de Qil Bil",
     "type": "Dague",
-    "slot": "other",
+    "slot": "weapon",
     "level": 77
   },
   {
@@ -30215,7 +30215,7 @@
     "id": 33581,
     "name": "Le Rok Gnorok",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 96
   },
   {
@@ -30243,7 +30243,7 @@
     "id": 33585,
     "name": "Tromblon de Carlita",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 106
   },
   {
@@ -30264,7 +30264,7 @@
     "id": 33588,
     "name": "Naginata de Naganita",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
@@ -30278,7 +30278,7 @@
     "id": 33590,
     "name": "Martokipik",
     "type": "Marteau",
-    "slot": "other",
+    "slot": "weapon",
     "level": 104
   },
   {
@@ -30306,7 +30306,7 @@
     "id": 33594,
     "name": "Nenufaur",
     "type": "Faux",
-    "slot": "other",
+    "slot": "weapon",
     "level": 129
   },
   {
@@ -30327,7 +30327,7 @@
     "id": 33597,
     "name": "Épée des Demoël",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 139
   },
   {
@@ -30348,7 +30348,7 @@
     "id": 33600,
     "name": "Épée de Fojumo",
     "type": "Épée",
-    "slot": "other",
+    "slot": "weapon",
     "level": 146
   },
   {
@@ -30397,7 +30397,7 @@
     "id": 33607,
     "name": "Arc du Karkanik",
     "type": "Arc",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -30481,7 +30481,7 @@
     "id": 34331,
     "name": "Lancepince d'Exécrabe",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {

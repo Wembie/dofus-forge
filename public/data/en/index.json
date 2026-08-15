@@ -738,7 +738,7 @@
     "id": 489,
     "name": "Magnifying Glass",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -2075,7 +2075,7 @@
     "id": 1368,
     "name": "Arson Fire Lance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 29
   },
   {
@@ -2243,7 +2243,7 @@
     "id": 1439,
     "name": "Unlucky Pick",
     "type": "Pickaxe",
-    "slot": "other",
+    "slot": "weapon",
     "level": 6
   },
   {
@@ -2453,7 +2453,7 @@
     "id": 1505,
     "name": "Flute",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -2838,7 +2838,7 @@
     "id": 2066,
     "name": "Kaniger Trident",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 53
   },
   {
@@ -4049,7 +4049,7 @@
     "id": 6442,
     "name": "Aga Dou's Lance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 81
   },
   {
@@ -4287,7 +4287,7 @@
     "id": 6492,
     "name": "Wobot Primitive Hedge-Trimmer",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
@@ -4588,7 +4588,7 @@
     "id": 6661,
     "name": "Fishing Rod for Quaquack",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -4840,7 +4840,7 @@
     "id": 6762,
     "name": "Ambusher-Up",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 102
   },
   {
@@ -4875,7 +4875,7 @@
     "id": 6769,
     "name": "Farle's Pitchfork",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 76
   },
   {
@@ -5141,7 +5141,7 @@
     "id": 6856,
     "name": "Demonic Rose Scissors",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -8557,7 +8557,7 @@
     "id": 8300,
     "name": "Shika's Hoe",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -11616,7 +11616,7 @@
     "id": 10829,
     "name": "Phishing Rod",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 40
   },
   {
@@ -12610,7 +12610,7 @@
     "id": 11635,
     "name": "Harpy Pirate Lance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 154
   },
   {
@@ -13961,7 +13961,7 @@
     "id": 12512,
     "name": "Masticator Gloves",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -16663,7 +16663,7 @@
     "id": 14146,
     "name": "Vibrating Pick",
     "type": "Pickaxe",
-    "slot": "other",
+    "slot": "weapon",
     "level": 100
   },
   {
@@ -17797,7 +17797,7 @@
     "id": 15282,
     "name": "Gizmond Quelyn's Chucker",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -17853,7 +17853,7 @@
     "id": 15422,
     "name": "Duster",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 120
   },
   {
@@ -18042,7 +18042,7 @@
     "id": 15505,
     "name": "Necrotick Capturing Net",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 160
   },
   {
@@ -18448,14 +18448,14 @@
     "id": 15860,
     "name": "Electrobolt",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
     "id": 15886,
     "name": "Chronomagic Hammer",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 80
   },
   {
@@ -19337,7 +19337,7 @@
     "id": 16343,
     "name": "Paintbrush",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -19393,7 +19393,7 @@
     "id": 16541,
     "name": "Requisitioned Pick",
     "type": "Pickaxe",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -19407,7 +19407,7 @@
     "id": 16953,
     "name": "Terra Clan Shovel",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 130
   },
   {
@@ -20933,28 +20933,28 @@
     "id": 18279,
     "name": "Blessed Water Diviner Wand",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 18290,
     "name": "Lightning Spud",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
     "id": 18350,
     "name": "Gan Green Gloves",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 60
   },
   {
     "id": 18375,
     "name": "Water Diviner Wand",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 170
   },
   {
@@ -22067,7 +22067,7 @@
     "id": 19267,
     "name": "Corrupted Spear",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22116,7 +22116,7 @@
     "id": 19415,
     "name": "Zrid Gloves",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -22270,7 +22270,7 @@
     "id": 19606,
     "name": "Ensorcel Lance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -22340,7 +22340,7 @@
     "id": 19676,
     "name": "Rotceres Pickaxe",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23642,35 +23642,35 @@
     "id": 21506,
     "name": "Plushy-Ball: Drheller",
     "type": "Magic weapon",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21507,
     "name": "Plushy-Ball: Gobball",
     "type": "Magic weapon",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21508,
     "name": "Plushy-Ball: Tofu",
     "type": "Magic weapon",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21509,
     "name": "Plushy-Ball: Bow Meow",
     "type": "Magic weapon",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
     "id": 21510,
     "name": "Plushy-Ball: Minikron",
     "type": "Magic weapon",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -23691,7 +23691,7 @@
     "id": 21878,
     "name": "Nightmare Catcher",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -23852,7 +23852,7 @@
     "id": 22163,
     "name": "Solid Pick",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -24230,7 +24230,7 @@
     "id": 23578,
     "name": "Engraving Tools",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 140
   },
   {
@@ -24503,14 +24503,14 @@
     "id": 25245,
     "name": "Calligraphy Brush",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 25248,
     "name": "Brush of Oaths",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -24545,7 +24545,7 @@
     "id": 25952,
     "name": "Gobbowl Ball",
     "type": "Magic weapon",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -24636,7 +24636,7 @@
     "id": 26058,
     "name": "Totem of Balance",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -24650,28 +24650,28 @@
     "id": 26085,
     "name": "Demonic Nightmare Catcher",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26099,
     "name": "Ayuto's Authentic Rolling Pin",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26131,
     "name": "Cynan's Cross",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
     "id": 26198,
     "name": "Single-Use Pick",
     "type": "Pickaxe",
-    "slot": "other",
+    "slot": "weapon",
     "level": 10
   },
   {
@@ -24713,7 +24713,7 @@
     "id": 26314,
     "name": "Hell Mina's Partisan",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 150
   },
   {
@@ -24944,14 +24944,14 @@
     "id": 27533,
     "name": "Albueran Warrior Lance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
     "id": 27534,
     "name": "Albueran Trapper Lance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 50
   },
   {
@@ -25035,7 +25035,7 @@
     "id": 27546,
     "name": "Pillar of Ephedrya",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -25378,7 +25378,7 @@
     "id": 27645,
     "name": "Basic Broom",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -26869,7 +26869,7 @@
     "id": 29024,
     "name": "Moskito Swatter",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 180
   },
   {
@@ -27128,7 +27128,7 @@
     "id": 30832,
     "name": "Frank B. Nhin Hunting Knife",
     "type": "Tool",
-    "slot": "other",
+    "slot": "weapon",
     "level": 1
   },
   {
@@ -27240,7 +27240,7 @@
     "id": 31752,
     "name": "Bzzegg Supervisor's Stinger",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 181
   },
   {
@@ -27534,7 +27534,7 @@
     "id": 32116,
     "name": "Menalt's Lightning Spear",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -27884,7 +27884,7 @@
     "id": 32244,
     "name": "Psychopump Needle",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
@@ -30096,7 +30096,7 @@
     "id": 33564,
     "name": "Marzwel Javelin",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 66
   },
   {
@@ -30264,7 +30264,7 @@
     "id": 33588,
     "name": "Naganita Naginata",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 109
   },
   {
@@ -30481,7 +30481,7 @@
     "id": 34331,
     "name": "Crabinator Pincerlance",
     "type": "Lance",
-    "slot": "other",
+    "slot": "weapon",
     "level": 200
   },
   {
