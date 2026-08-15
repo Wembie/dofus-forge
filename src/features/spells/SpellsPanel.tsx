@@ -140,11 +140,11 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
       rows.push(
         <div key="col-hdr" className="grid mb-0.5" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
           <span />
-          <span className="text-[8px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--ink-faint)' }}>
+          <span className="text-[9px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--ink-faint)' }}>
             {t('weapon_normal')}
           </span>
           {showCritCol && (
-            <span className="text-[8px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--crit)' }}>
+            <span className="text-[9px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--crit)' }}>
               {t('weapon_crit_col')} ✦
             </span>
           )}
@@ -193,13 +193,13 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
           <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
             <span className="w-2 h-2 rounded-full flex-shrink-0 justify-self-center" style={{ background: c }} />
             <span
-              className={`text-[11px] font-mono tabular-nums text-right${showCalc ? ' font-bold' : ''}`}
+              className={`text-[13px] font-mono tabular-nums text-right${showCalc ? ' font-bold' : ''}`}
               style={{ color: showCalc ? c : 'var(--ink-muted)' }}
             >
               {fmtRange(e.calcMin, e.calcMax)}
             </span>
             {showCritCol && (
-              <span className="text-[11px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
+              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
                 {crit ? fmtRange(crit.calcMin, crit.calcMax) : '—'}
               </span>
             )}
@@ -226,11 +226,11 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
         <div key="sigma" className="pt-0.5 space-y-px" style={{ borderTop: '1px solid var(--metal-edge)' }}>
           <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
             <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ</span>
-            <span className="text-[11px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
+            <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
               {fmtRange(totalNormMin, totalNormMax)}
             </span>
             {showCritCol && (
-              <span className="text-[11px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
+              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
                 {fmtRange(critTotalMin, critTotalMax)}
               </span>
             )}
@@ -291,46 +291,46 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
         el.style.boxShadow   = ''
       }}
     >
-      <div className="flex gap-2.5 p-2.5">
+      <div className="flex gap-3 p-3">
       <div
         className="flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
         style={{
-          width: 46, height: 46,
+          width: 52, height: 52,
           background: 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))',
           border: `1px solid color-mix(in srgb, ${color} 28%, transparent)`,
         }}
       >
         {spell.image_url
-          ? <img src={spell.image_url} alt="" width={46} height={46} loading="lazy" className="object-contain" />
+          ? <img src={spell.image_url} alt="" width={52} height={52} loading="lazy" className="object-contain" />
           : <span className="text-xl" style={{ color }}>✦</span>
         }
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color, textShadow: `0 0 12px color-mix(in srgb, ${color} 40%, transparent)` }}>
+        <p className="text-[13px] font-semibold truncate leading-tight mb-1" style={{ color, textShadow: `0 0 12px color-mix(in srgb, ${color} 40%, transparent)` }}>
           {spell.name}
         </p>
 
         {lvl && (
           <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
             <span className="flex items-center gap-0.5">
-              <img src={statIconUrl('ap')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-              <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{lvl.ap}</span>
+              <img src={statIconUrl('ap')} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
+              <span className="text-[12px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{lvl.ap}</span>
             </span>
             <span className="flex items-center gap-0.5">
-              <img src={statIconUrl('range')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-              <span className="text-[10px] font-mono" style={{ color: lvl.maxRange === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>
+              <img src={statIconUrl('range')} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
+              <span className="text-[12px] font-mono" style={{ color: lvl.maxRange === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>
                 {rangeStr}
               </span>
             </span>
             {effectiveCrit > 0 && (
               <span className="flex items-center gap-0.5">
-                <img src={statIconUrl('crit')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                <span className="text-[10px]" style={{ color: 'var(--crit)' }}>{effectiveCrit}%</span>
+                <img src={statIconUrl('crit')} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
+                <span className="text-[12px]" style={{ color: 'var(--crit)' }}>{effectiveCrit}%</span>
               </span>
             )}
             {lvl.maxPerTurn > 0 && (
-              <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+              <span className="text-[12px]" style={{ color: 'var(--ink-faint)' }}>
                 {t('spell_max_per_turn', { count: lvl.maxPerTurn })}
               </span>
             )}
@@ -343,7 +343,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
             {hasShieldGroup && (
               <>
                 <div className="pt-0.5 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-                  <span className="text-[9px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
+                  <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
                     {t('spell_condition_shield')}
                   </span>
                 </div>
@@ -352,7 +352,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
             )}
           </div>
         ) : (
-          <span className="text-[9px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
+          <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
             {t('spell_support')}
           </span>
         )}
@@ -719,7 +719,7 @@ export function SpellsPanel() {
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1, flexShrink: 0 }} />
-          <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+          <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
             {t('weapon_attack')}
           </p>
         </div>
@@ -731,11 +731,11 @@ export function SpellsPanel() {
         !classData ? (
           <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
         ) : (
-          <div className="grid grid-cols-2 gap-x-3">
-            <div className="space-y-1.5">
+          <div className="grid grid-cols-2 gap-x-4">
+            <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
                   {t('spell_col_normal')}
                 </p>
               </div>
@@ -745,10 +745,10 @@ export function SpellsPanel() {
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
               ))}
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
                   {t('spell_col_variant')}
                 </p>
               </div>
@@ -767,15 +767,15 @@ export function SpellsPanel() {
         <div className="space-y-2">
           <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
             <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-            <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+            <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
               {t('common_spells')}
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-x-3">
-            <div className="space-y-1.5">
+          <div className="grid grid-cols-2 gap-x-4">
+            <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />
-                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
+                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                   {t('spell_col_normal')}
                 </p>
               </div>
@@ -785,10 +785,10 @@ export function SpellsPanel() {
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
               ))}
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />
-                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
+                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                   {t('spell_col_variant')}
                 </p>
               </div>

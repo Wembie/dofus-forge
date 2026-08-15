@@ -17,8 +17,8 @@ function PieceDots({ count, max }: { count: number; max: number }) {
           key={i}
           className="rounded-full transition-all"
           style={{
-            width:      i < count ? 7 : 5,
-            height:     i < count ? 7 : 5,
+            width:      i < count ? 9 : 6,
+            height:     i < count ? 9 : 6,
             background: i < count ? 'var(--gold)' : 'var(--metal-edge)',
           }}
         />
@@ -42,16 +42,16 @@ function EffectRow({ e, active }: { e: AppEffect; active: boolean }) {
     : `${sign}${e.min}`
 
   return (
-    <div className="flex items-center gap-1" style={{ opacity: active ? 1 : 0.4 }}>
+    <div className="flex items-center gap-1.5" style={{ opacity: active ? 1 : 0.4 }}>
       {meta?.icon
-        ? <img src={statIconUrl(meta.icon)} alt="" width={10} height={10}
+        ? <img src={statIconUrl(meta.icon)} alt="" width={13} height={13}
             style={{ objectFit: 'contain', flexShrink: 0 }} />
-        : <span style={{ width: 10, flexShrink: 0 }} />
+        : <span style={{ width: 13, flexShrink: 0 }} />
       }
-      <span className="font-mono font-bold text-[10px] tabular-nums flex-shrink-0" style={{ color }}>
+      <span className="font-mono font-bold text-[12px] tabular-nums flex-shrink-0" style={{ color }}>
         {val}
       </span>
-      <span className="text-[10px] leading-tight truncate" style={{ color }}>
+      <span className="text-[12px] leading-tight truncate" style={{ color }}>
         {meta ? t(meta.tKey) : e.stat}
       </span>
     </div>
@@ -75,14 +75,14 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
     <Frame material="panel" padding="none" className="rounded-xl min-w-0">
       {/* Header */}
       <div
-        className="flex items-center gap-1.5 px-2.5 py-2"
+        className="flex items-center gap-2 px-3 py-2.5"
         style={{ background: 'var(--surface-void)', borderBottom: '1px solid var(--metal-edge)' }}
       >
         <PieceDots count={count} max={maxPieces} />
 
         <button
           onClick={onOpen}
-          className="flex-1 text-left text-[11px] font-bold truncate min-w-0 transition-opacity hover:opacity-75"
+          className="flex-1 text-left text-[13px] font-bold truncate min-w-0 transition-opacity hover:opacity-75"
           style={{ color: 'var(--gold)' }}
           title={set.name}
         >
@@ -90,7 +90,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
         </button>
 
         <span
-          className="font-mono text-[10px] font-bold flex-shrink-0 px-1.5 py-0.5 rounded"
+          className="font-mono text-[12px] font-bold flex-shrink-0 px-1.5 py-0.5 rounded"
           style={{
             background: 'color-mix(in srgb, var(--gold) 10%, transparent)',
             color:      'var(--gold)',
@@ -101,15 +101,15 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
         </span>
 
         <IconButton label="View set" variant="subtle" size="sm" onClick={onOpen} title={t('view_set')}>
-          <Eye size={11} />
+          <Eye size={13} />
         </IconButton>
       </div>
 
       {/* Active tier effects only */}
       {showTier && (
-        <div className="px-2.5 py-2">
+        <div className="px-3 py-2.5">
           <span
-            className="inline-block text-[9px] font-mono font-bold mb-1.5 px-1 py-px rounded"
+            className="inline-block text-[11px] font-mono font-bold mb-2 px-1.5 py-px rounded"
             style={{
               background: isLocked
                 ? 'color-mix(in srgb, var(--ink-faint) 10%, transparent)'
@@ -122,7 +122,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
           >
             {isLocked ? t('set_next_tier', { n: showTier.pieces }) : t('set_tier', { n: showTier.pieces })}
           </span>
-          <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col gap-1">
             {showTier.effects.map((e: AppEffect, i: number) => (
               <EffectRow key={i} e={e} active={!isLocked} />
             ))}
@@ -165,17 +165,17 @@ export function SetBonusesPanel() {
 
   const gridClass =
     activeSets.length === 1 ? '' :
-    activeSets.length === 2 ? 'grid grid-cols-2 gap-2' :
-                              'grid grid-cols-3 gap-2'
+    activeSets.length === 2 ? 'grid grid-cols-2 gap-3' :
+                              'grid grid-cols-2 gap-3'
 
   return (
     <>
       <div className="px-3 pb-4">
         <div className="flex items-center gap-2 pt-3 mb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          <h2 className="font-display text-forge-gold text-xs uppercase tracking-widest flex-1">
+          <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest flex-1">
             {t('active_sets')}
           </h2>
-          <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>
+          <span className="text-[11px] font-mono" style={{ color: 'var(--ink-faint)' }}>
             {t('set_count', { count: activeSets.length })}
           </span>
         </div>
