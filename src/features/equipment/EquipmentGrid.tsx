@@ -347,7 +347,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             {/* Effects — weapon slots split into attack / stats sections */}
             {(() => {
               const allFx      = item.effects.filter(e => !isIgnored(e.stat))
-              const isWeapon   = item.slot === 'weapon'
+              const isWeapon   = item.slot === 'weapon' || item.ap_cost != null
               const atkFx      = isWeapon ? allFx.filter(e => WEAPON_ATK_STATS.has(e.stat))  : []
               const statFx     = isWeapon ? allFx.filter(e => !WEAPON_ATK_STATS.has(e.stat)) : allFx
 
