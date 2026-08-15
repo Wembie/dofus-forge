@@ -1,5 +1,24 @@
 import type { StatBlock } from './types.ts'
 
+// Effect type IDs for weapon attack effects (language-independent, from dofusdude API).
+// These IDs identify actual weapon damage/steal effects (the attack range), NOT stat bonuses.
+// e.g. 'Air damage' id=189 = weapon air attack; 'Air damage' id=47 = passive +air damage stat.
+export const WEAPON_ATTACK_IDS = new Set([
+  189,  // Air damage (attack)
+  193,  // Fire steal
+  194,  // Earth damage (attack)
+  195,  // Neutral damage (attack)
+  198,  // Fire damage (attack)
+  203,  // Water steal
+  214,  // Water damage (attack)
+  221,  // Earth steal
+  223,  // Neutral steal
+  224,  // Air steal
+  225,  // Pushes back cell
+  248,  // best-element damage
+  257,  // best-element steal
+])
+
 // Maps API stat name strings (English) to StatBlock keys.
 // Stat names verified against live DofusDude EN equipment data (2026-08-05).
 // "max" value is used when valid (max > min && max !== 0); otherwise "min" is used.

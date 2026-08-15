@@ -20,7 +20,7 @@ export type IndexItem = {
   level: number
 }
 
-export type AppEffect = { stat: string; min: number; max: number }
+export type AppEffect = { stat: string; min: number; max: number; effect_id?: number }
 
 export type AppItem = {
   ankama_id:   number
