@@ -5,7 +5,6 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
-import { itemMatchesElement, ELEM_FILTERS, type ElemFilter } from './itemElement.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { Modal, Button, StatFilter } from '@/ui'
@@ -24,9 +23,10 @@ function slotTKey(id: SlotId): string {
 type SortKey = 'level-desc' | 'level-asc' | 'name-az'
 
 type Props = {
-  slot:    SlotConfig
-  slotId:  SlotId
-  onClose: () => void
+  slot:           SlotConfig
+  slotId:         SlotId
+  onClose:        () => void
+  onAfterEquip?:  (slotId: SlotId) => void
 }
 
 const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
@@ -277,7 +277,7 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onUnequip, onClo
   )
 }
 
-export function ItemCatalog({ slot, slotId, onClose }: Props) {
+export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const { t }     = useTranslation()
   const equipment = useDataStore(s => s.equipment)
   const setsData  = useDataStore(s => s.sets)
@@ -318,13 +318,19 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   }, [equipment, slot, setMap])
 
   const slotStats = useMemo(() => {
-    const seen = new Set<string>()
+    const seenTKeys = new Set<string>()
+    const out: string[] = []
     for (const it of equipment ?? []) {
       for (const e of it.effects) {
-        if (!isIgnored(e.stat)) seen.add(e.stat)
+        if (isIgnored(e.stat)) continue
+        const tKey = STAT_META[e.stat]?.tKey ?? e.stat
+        if (!seenTKeys.has(tKey)) {
+          seenTKeys.add(tKey)
+          out.push(e.stat)
+        }
       }
     }
-    return [...seen].sort((a, b) => {
+    return out.sort((a, b) => {
       const la = STAT_META[a] ? t(STAT_META[a].tKey) : a
       const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
       return la.localeCompare(lb)
@@ -336,7 +342,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
   const [search,     setSearch]     = useState('')
   const [minLevel,   setMinLevel]   = useState(0)
   const [maxLevel,   setMaxLevel]   = useState(200)
-  const [elem,       setElem]       = useState<ElemFilter>('all')
   const [sort,       setSort]       = useState<SortKey>('level-desc')
   const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
   const [statFilter, setStatFilter] = useState<string[]>([])
@@ -362,9 +367,11 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
       matchesSlot(it, slot) &&
       it.level >= minLevel &&
       it.level <= maxLevel &&
-      itemMatchesElement(it, elem) &&
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
-      (statFilter.length === 0 || statFilter.every(s => it.effects.some(e => e.stat === s))) &&
+      (statFilter.length === 0 || statFilter.every(s => {
+        const sTKey = STAT_META[s]?.tKey ?? s
+        return it.effects.some(e => (STAT_META[e.stat]?.tKey ?? e.stat) === sTKey)
+      })) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
       (nameSearch === '' || it.name.toLowerCase().includes(nameSearch)) &&
       (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
@@ -372,12 +379,13 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot, minLevel, maxLevel, search, elem, sort, setFilter, statFilter, favsOnly, isFav, typeFilter, hasTypeFilter])
+  }, [equipment, slot, minLevel, maxLevel, search, sort, setFilter, statFilter, favsOnly, isFav, typeFilter, hasTypeFilter])
 
   const handlePick = useCallback((item: AppItem) => {
     equipItem(slotId, item.ankama_id)
-    onClose()
-  }, [equipItem, slotId, onClose])
+    if (onAfterEquip) onAfterEquip(slotId)
+    else onClose()
+  }, [equipItem, slotId, onClose, onAfterEquip])
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -437,35 +445,6 @@ export function ItemCatalog({ slot, slotId, onClose }: Props) {
           />
 
           <div className="flex items-center gap-1 flex-wrap">
-            {ELEM_FILTERS.map(({ filter, i18nKey, activeClass, label, iconName, color }) => {
-              const isActive     = elem === filter
-              const displayLabel = label ?? t(i18nKey)
-              return (
-                <button
-                  key={filter}
-                  onClick={() => setElem(filter)}
-                  className={[
-                    'flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                    isActive
-                      ? activeClass
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                  ].join(' ')}
-                >
-                  {iconName && (
-                    <img
-                      src={statIconUrl(iconName)}
-                      alt=""
-                      width={14}
-                      height={14}
-                      className="object-contain flex-shrink-0"
-                      style={isActive && color ? { filter: `drop-shadow(0 0 3px ${color}88)` } : undefined}
-                    />
-                  )}
-                  <span style={isActive && color ? { color } : undefined}>{displayLabel}</span>
-                </button>
-              )
-            })}
-
             {slotSets.length > 0 && (
               <SetSearch sets={slotSets} selected={setFilter} onSelect={setSetFilter} />
             )}

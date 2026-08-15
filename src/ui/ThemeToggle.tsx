@@ -5,7 +5,7 @@ const LS_KEY = 'dofus-forge-theme'
 function getInitialTheme(): 'dark' | 'light' {
   const stored = localStorage.getItem(LS_KEY)
   if (stored === 'light' || stored === 'dark') return stored
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  return 'dark'
 }
 
 function applyTheme(theme: 'dark' | 'light') {
