@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.35',
+    date: '2026-08-15',
+    notes: [
+      'Modal de set: items divididos en "Ya tienes" y "Te falta" con colores diferenciados',
+      'Items faltantes muestran badge del slot (ej. 🎩 Sombrero) para saber qué hay que liberar',
+      'Bonificaciones del set con colores e íconos iguales al panel de sets activos',
+    ],
+  },
+  {
     version: '0.2.34',
     date: '2026-08-15',
     notes: [

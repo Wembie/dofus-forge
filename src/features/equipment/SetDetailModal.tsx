@@ -13,19 +13,22 @@ type Props = {
   onClose: () => void
 }
 
-function TierEffectRow({ e }: { e: AppEffect }) {
+function TierEffectRow({ e, active }: { e: AppEffect; active: boolean }) {
   const { t }  = useTranslation()
   const meta   = STAT_META[e.stat]
-  const color  = e.min < 0 ? 'var(--negative)' : (meta?.color ?? 'var(--ink-muted)')
+  const isNeg  = e.min < 0
+  const color  = active
+    ? (isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-muted)'))
+    : 'var(--ink-faint)'
   const val    = fmtValue(e.min, e.max, t('range_sep_neg'))
   return (
-    <div className="flex items-center gap-1.5 py-0.5">
+    <div className="flex items-center gap-1.5" style={{ opacity: active ? 1 : 0.4 }}>
       {meta?.icon
-        ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} style={{ objectFit: 'contain', flexShrink: 0 }} />
-        : <span style={{ width: 12, flexShrink: 0 }} />
+        ? <img src={statIconUrl(meta.icon)} alt="" width={13} height={13} style={{ objectFit: 'contain', flexShrink: 0 }} />
+        : <span style={{ width: 13, flexShrink: 0 }} />
       }
-      <span className="font-mono font-bold text-[11px] tabular-nums flex-shrink-0" style={{ color }}>{val}</span>
-      <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
+      <span className="font-mono font-bold text-[12px] tabular-nums flex-shrink-0" style={{ color }}>{val}</span>
+      <span className="text-[12px] leading-tight truncate" style={{ color }}>
         {meta ? t(meta.tKey) : e.stat}
       </span>
     </div>
@@ -204,9 +207,9 @@ export function SetDetailModal({ set, onClose }: Props) {
                   </div>
 
                   {/* Effects grid */}
-                  <div className="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-0">
+                  <div className="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-0.5">
                     {effects.map((e: AppEffect, i: number) => (
-                      <TierEffectRow key={i} e={e} />
+                      <TierEffectRow key={i} e={e} active={active} />
                     ))}
                   </div>
                 </div>
@@ -220,8 +223,15 @@ export function SetDetailModal({ set, onClose }: Props) {
           <p className="text-[10px] uppercase tracking-[0.18em] font-medium mb-2.5" style={{ color: 'var(--ink-faint)' }}>
             {t('set_items_title')}
           </p>
-          <div className="space-y-1.5">
-            {setItems.map(item => {
+          <div className="space-y-3">
+            {[
+              { items: setItems.filter(it => equippedIds.has(it.ankama_id)),   label: t('set_items_have',    { n: setItems.filter(it => equippedIds.has(it.ankama_id)).length }),    color: 'var(--gold)' },
+              { items: setItems.filter(it => !equippedIds.has(it.ankama_id)),  label: t('set_items_missing', { n: setItems.filter(it => !equippedIds.has(it.ankama_id)).length }),  color: 'var(--ink-faint)' },
+            ].map(({ items: group, label, color }) => group.length === 0 ? null : (
+              <div key={label}>
+                <p className="text-[10px] uppercase tracking-[0.15em] font-bold mb-1.5" style={{ color }}>{label}</p>
+                <div className="space-y-1.5">
+                {group.map(item => {
               const eq  = isEquipped(item)
               const slot = SLOT_CONFIGS.find(sc => {
                 const slots = Array.isArray(sc.apiSlot) ? sc.apiSlot : [sc.apiSlot]
@@ -267,14 +277,14 @@ export function SetDetailModal({ set, onClose }: Props) {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <p
                         className="text-[13px] font-semibold truncate leading-tight"
                         style={{ color: eq ? 'var(--gold)' : 'var(--ink)' }}
                       >
                         {item.name}
                       </p>
-                      {eq && (
+                      {eq ? (
                         <span
                           className="flex-shrink-0 text-[9px] uppercase tracking-widest px-1 py-px rounded font-bold"
                           style={{
@@ -285,10 +295,21 @@ export function SetDetailModal({ set, onClose }: Props) {
                         >
                           ✓
                         </span>
+                      ) : slot && (
+                        <span
+                          className="flex-shrink-0 text-[9px] uppercase tracking-widest px-1.5 py-px rounded font-bold"
+                          style={{
+                            background: 'color-mix(in srgb, var(--ink-faint) 10%, transparent)',
+                            color:      'var(--ink-muted)',
+                            border:     '1px solid var(--metal-edge)',
+                          }}
+                        >
+                          {slot.icon} {slot.label}
+                        </span>
                       )}
                     </div>
                     <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
-                      {t('level_range')} {item.level} · {slot?.label ?? item.slot}
+                      {t('level_range')} {item.level}
                     </p>
                     {visibleStats.length > 0 && (
                       <div className="flex flex-wrap gap-x-2.5 gap-y-0 mt-1">
@@ -323,6 +344,9 @@ export function SetDetailModal({ set, onClose }: Props) {
                 </div>
               )
             })}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </div>

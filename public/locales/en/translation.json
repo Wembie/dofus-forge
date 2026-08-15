@@ -289,5 +289,7 @@
   "lang_switch": "Switch to {{lang}}",
   "changelog_title": "What's New",
   "dofus_data_version": "Data: Dofus {{version}}",
-  "open_changelog": "View changelog"
+  "open_changelog": "View changelog",
+  "set_items_have": "You have ({{n}})",
+  "set_items_missing": "Missing ({{n}})"
 }
