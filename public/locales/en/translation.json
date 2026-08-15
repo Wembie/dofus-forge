@@ -277,5 +277,14 @@
   "set_bonus_next": "next",
   "sort_level_desc": "Lv ↓",
   "sort_level_asc": "Lv ↑",
-  "sort_name_az": "A–Z"
+  "sort_name_az": "A–Z",
+  "undo": "Undo",
+  "undo_title": "Undo (Ctrl+Z)",
+  "redo": "Redo",
+  "redo_title": "Redo (Ctrl+Shift+Z)",
+  "weapon_range_label": "Range",
+  "weapon_crit_label": "Crit",
+  "catalog_esc_hint": "Esc · close",
+  "spell_reset_grade": "Reset to auto grade",
+  "lang_switch": "Switch to {{lang}}"
 }

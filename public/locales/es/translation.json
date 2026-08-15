@@ -277,5 +277,14 @@
   "set_bonus_next": "siguiente",
   "sort_level_desc": "Nv ↓",
   "sort_level_asc": "Nv ↑",
-  "sort_name_az": "A–Z"
+  "sort_name_az": "A–Z",
+  "undo": "Deshacer",
+  "undo_title": "Deshacer (Ctrl+Z)",
+  "redo": "Rehacer",
+  "redo_title": "Rehacer (Ctrl+Shift+Z)",
+  "weapon_range_label": "Dist.",
+  "weapon_crit_label": "GC",
+  "catalog_esc_hint": "Esc · cerrar",
+  "spell_reset_grade": "Reiniciar al grado auto",
+  "lang_switch": "Cambiar a {{lang}}"
 }

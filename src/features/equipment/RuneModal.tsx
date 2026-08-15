@@ -88,7 +88,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   opacity:    0.8,
                 }}
               >✦ {t('magesmithy')}</span>
-              <span>Lv {item.level}</span>
+              <span>{t('level_range')} {item.level}</span>
             </p>
           </div>
 
@@ -96,7 +96,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             onClick={onClose}
             className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-base transition-colors text-ink-muted hover:text-ink"
             style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
-            aria-label="Close"
+            aria-label={t('modal_close')}
           >×</button>
         </div>
 

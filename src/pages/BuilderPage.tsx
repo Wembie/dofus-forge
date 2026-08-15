@@ -113,22 +113,22 @@ function BuilderContent() {
             {/* Divider */}
             <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <IconButton
-              label="Undo"
+              label={t('undo')}
               variant="subtle"
               size="md"
               onClick={undo}
               disabled={!canUndo}
-              title="Undo (Ctrl+Z)"
+              title={t('undo_title')}
             >
               <Undo2 size={14} />
             </IconButton>
             <IconButton
-              label="Redo"
+              label={t('redo')}
               variant="subtle"
               size="md"
               onClick={redo}
               disabled={!canRedo}
-              title="Redo (Ctrl+Shift+Z)"
+              title={t('redo_title')}
             >
               <Redo2 size={14} />
             </IconButton>

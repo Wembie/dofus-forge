@@ -619,7 +619,7 @@ function CharacterCenter() {
                 opacity:    0.7,
               }} />
               <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: 'var(--ink-muted)' }}>
-                Lv.{level}
+                {t('level_range')}.{level}
               </span>
               <div style={{
                 width:      40,

@@ -277,5 +277,14 @@
   "set_bonus_next": "suivant",
   "sort_level_desc": "Nv ↓",
   "sort_level_asc": "Nv ↑",
-  "sort_name_az": "A–Z"
+  "sort_name_az": "A–Z",
+  "undo": "Annuler",
+  "undo_title": "Annuler (Ctrl+Z)",
+  "redo": "Rétablir",
+  "redo_title": "Rétablir (Ctrl+Shift+Z)",
+  "weapon_range_label": "Port.",
+  "weapon_crit_label": "CC",
+  "catalog_esc_hint": "Esc · fermer",
+  "spell_reset_grade": "Réinitialiser au grade auto",
+  "lang_switch": "Passer à {{lang}}"
 }

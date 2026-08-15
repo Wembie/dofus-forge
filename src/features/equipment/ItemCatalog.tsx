@@ -86,7 +86,7 @@ function SetSearch({
                     onMouseDown={() => pick(s)}
                   >
                     <span className="font-medium">{s.name}</span>
-                    <span className="ml-1.5 text-ink-faint text-[10px]">{s.items.length}pc</span>
+                    <span className="ml-1.5 text-ink-faint text-[10px]">{t('set_tier', { n: s.items.length })}</span>
                   </button>
                 </li>
               ))}
@@ -426,7 +426,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               onClick={onClose}
               className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none text-ink-muted hover:text-ink"
               style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
-              aria-label="Close"
+              aria-label={t('modal_close')}
             >×</button>
           </div>
         </div>
@@ -714,8 +714,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
           className="flex items-center justify-between px-4 py-2 text-[10px]"
           style={{ borderTop: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
         >
-          <span>Esc · close</span>
-          <span>{items.length} items</span>
+          <span>{t('catalog_esc_hint')}</span>
+          <span>{t('item_count', { count: items.length })}</span>
         </div>
       </div>
     </div>

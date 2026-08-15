@@ -145,7 +145,7 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
           </span>
           {showCritCol && (
             <span className="text-[8px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--crit)' }}>
-              CRIT ✦
+              {t('weapon_crit_col')} ✦
             </span>
           )}
         </div>
@@ -472,14 +472,14 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2">
             <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{weapon.name}</p>
-            {wLevel > 0 && <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>Nv.{wLevel}</span>}
+            {wLevel > 0 && <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>{t('level_range')}.{wLevel}</span>}
           </div>
           <div className="flex items-center flex-wrap gap-x-3 mt-0.5">
-            {ap > 0 && <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>PA {ap}</span>}
-            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>Dist. {rangeStr}</span>
+            {ap > 0 && <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{t('badge_ap')} {ap}</span>}
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{t('weapon_range_label')} {rangeStr}</span>
             {effectiveCrit > 0 && (
               <span className="text-[10px] font-mono" style={{ color: 'var(--crit)' }}>
-                GC {effectiveCrit}%{critBon > 0 ? ` (+${critBon})` : ''}
+                {t('weapon_crit_label')} {effectiveCrit}%{critBon > 0 ? ` (+${critBon})` : ''}
               </span>
             )}
           </div>
@@ -681,7 +681,7 @@ export function SpellsPanel() {
               onClick={() => setManual(null)}
               className="ml-0.5 text-[9px] transition-colors"
               style={{ color: 'var(--ink-faint)' }}
-              title="Reset to auto grade"
+              title={t('spell_reset_grade')}
             >↺</button>
           )}
         </div>

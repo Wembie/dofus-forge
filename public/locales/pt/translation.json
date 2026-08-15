@@ -277,5 +277,14 @@
   "set_bonus_next": "próximo",
   "sort_level_desc": "Nv ↓",
   "sort_level_asc": "Nv ↑",
-  "sort_name_az": "A–Z"
+  "sort_name_az": "A–Z",
+  "undo": "Desfazer",
+  "undo_title": "Desfazer (Ctrl+Z)",
+  "redo": "Refazer",
+  "redo_title": "Refazer (Ctrl+Shift+Z)",
+  "weapon_range_label": "Dist.",
+  "weapon_crit_label": "GC",
+  "catalog_esc_hint": "Esc · fechar",
+  "spell_reset_grade": "Reiniciar para grau auto",
+  "lang_switch": "Mudar para {{lang}}"
 }
