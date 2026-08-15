@@ -78,6 +78,7 @@ export type BuildSnapshot = {
   s:  number    // scrolled bitmask (bit i = CHARACTERISTICS[i])
   e:  (number | null)[]  // equipped ankama_ids per ALL_SLOTS order
   r?: Record<string, Record<string, number>>  // runes: slot → stat → value (optional)
+  fn?: Record<string, string>                 // forjamagoNames: slot → craftsman name (optional)
 }
 
 function recompute(
@@ -227,7 +228,10 @@ export const useBuildStore = create<BuildState>((set) => {
       const runes = snap.r
         ? (snap.r as Partial<Record<SlotId, RuneMap>>)
         : {}
-      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes }, s)
+      const forjamagoNames = snap.fn
+        ? (snap.fn as Partial<Record<SlotId, string>>)
+        : {}
+      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes, forjamagoNames }, s)
     }),
 
     reset: () => set(s => ({
