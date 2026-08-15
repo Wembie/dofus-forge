@@ -304,7 +304,7 @@ export function SetDetailModal({ set, onClose }: Props) {
                             border:     '1px solid var(--metal-edge)',
                           }}
                         >
-                          {slot.icon} {slot.label}
+                          {slot.icon} {t(`slot_${slot.id}`)}
                         </span>
                       )}
                     </div>
