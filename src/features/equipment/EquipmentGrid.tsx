@@ -129,7 +129,7 @@ const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
 const EXTRAS_SLOTS: SlotId[] = ['sidekick']
 const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
-const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','companion'])
+const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','companion','sidekick'])
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
@@ -774,7 +774,7 @@ export function EquipmentGrid() {
             item={getItem(id)}
             onOpen={() => openCatalog(id)}
             onUnequip={() => unequipItem(id)}
-            onRune={() => setRuneSlot(id)}
+            onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
             runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
             slotRunes={runes[id]}
             small
@@ -792,7 +792,7 @@ export function EquipmentGrid() {
             item={getItem(id)}
             onOpen={() => openCatalog(id)}
             onUnequip={() => unequipItem(id)}
-            onRune={() => setRuneSlot(id)}
+            onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
             runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
             slotRunes={runes[id]}
             small
