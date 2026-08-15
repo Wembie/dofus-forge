@@ -142,11 +142,11 @@ function ElementSection({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
   const rows: ElemRow[] = [
+    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
     { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
     { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
     { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
     { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent     },
-    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
   ]
 
   type ExtraRow = { resIcon: string; color: string; dmg: number; resFixed: number; resPct: number }

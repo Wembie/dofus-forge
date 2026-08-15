@@ -258,10 +258,10 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                           className="object-contain"
                           style={{
                             filter: active
-                              ? `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 80%, transparent)) brightness(1.15)`
+                              ? `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 80%, transparent)) brightness(1.25)`
                               : hasRune
-                              ? `drop-shadow(0 0 3px color-mix(in srgb, ${clr} 40%, transparent)) brightness(0.95)`
-                              : 'brightness(0.5) saturate(0.4)',
+                              ? `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 60%, transparent)) brightness(1.2)`
+                              : 'brightness(0.65) saturate(0.5)',
                           }}
                         />
                       )
