@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.34] — 2026-08-15
+- Sets activos: 3 columnas para 3+ sets (2 columnas para exactamente 2)
+- Stats panel: títulos de sección "Elementos" y "Combate" más grandes (9px → 11px)
+
 ## [0.2.33] — 2026-08-15
 - Spell cards enlarged: bigger icon (52px), larger name, stat icons and AP/range/crit/max text, damage values and column headers scaled up
 - Active sets panel enlarged: bigger dots, text, tier badge, Eye icon, 2-column grid

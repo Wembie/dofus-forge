@@ -22,7 +22,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     <div className="space-y-1.5">
       <div className="flex items-center gap-2">
         <span
-          className="text-[9px] font-display uppercase tracking-[0.22em] font-bold flex-shrink-0"
+          className="text-[11px] font-display uppercase tracking-[0.22em] font-bold flex-shrink-0"
           style={{ color: 'var(--gold)' }}
         >
           {title}

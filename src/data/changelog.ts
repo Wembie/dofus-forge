@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.34',
+    date: '2026-08-15',
+    notes: [
+      'Sets activos: 3 columnas para 3+ sets, 2 columnas para 2 sets',
+      'Stats panel: títulos "Elementos" y "Combate" más grandes',
+    ],
+  },
+  {
     version: '0.2.33',
     date: '2026-08-15',
     notes: [
