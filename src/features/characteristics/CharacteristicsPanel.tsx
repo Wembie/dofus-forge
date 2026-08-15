@@ -140,7 +140,7 @@ function AllocatorControl({
       >−</button>
       <input
         type="number" min={0} value={inputVal}
-        onChange={e => setInputVal(e.target.value)}
+        onChange={e => { setInputVal(e.target.value); commitInput(e.target.value) }}
         onFocus={e => { focused.current = true; e.target.select() }}
         onBlur={e => { focused.current = false; commitInput(e.target.value) }}
         onKeyDown={e => {

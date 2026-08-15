@@ -171,7 +171,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const leaveRef                = useRef<ReturnType<typeof setTimeout>>()
   const prevItemRef             = useRef(item)
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
-  const leave = () => { leaveRef.current = setTimeout(() => setHovered(false), 250) }
+  const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
   const px      = small ? 62 : 80
   const slotLabel = t(slotTKey(slotId))
 
