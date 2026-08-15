@@ -8,6 +8,35 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.33',
+    date: '2026-08-15',
+    notes: [
+      'Panel de hechizos ampliado: ícono 52px, textos de nombre, stats y daños más grandes',
+      'Panel de sets activos ampliado: puntos, texto, badge de tier y cuadrícula más grandes',
+    ],
+  },
+  {
+    version: '0.2.32',
+    date: '2026-08-15',
+    notes: [
+      'Stats panel — sección combate en una columna: nombres completos visibles sin truncar',
+    ],
+  },
+  {
+    version: '0.2.31',
+    date: '2026-08-15',
+    notes: [
+      'Stats panel — íconos de elementos e filas de combate más grandes',
+    ],
+  },
+  {
+    version: '0.2.30',
+    date: '2026-08-15',
+    notes: [
+      'Badge HP: eliminado truncate que mostraba "4,..." — número ahora visible completo',
+    ],
+  },
+  {
     version: '0.2.29',
     date: '2026-08-14',
     notes: [
