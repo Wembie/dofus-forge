@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.33] — 2026-08-15
+- Spell cards enlarged: bigger icon (52px), larger name, stat icons and AP/range/crit/max text, damage values and column headers scaled up
+- Active sets panel enlarged: bigger dots, text, tier badge, Eye icon, 2-column grid
+
 ## [0.2.29] — 2026-08-14
 - Desktop layout: 3 columns → 2 columns (equipment + spells left, sidebar right with class + characteristics + stats)
 - HP badge: removed overflow-hidden clip, font sizes scale down to prevent number overflow
