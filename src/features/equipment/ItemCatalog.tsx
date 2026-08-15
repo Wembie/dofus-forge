@@ -394,7 +394,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     return () => window.removeEventListener('keydown', down)
   }, [onClose])
 
-  const SORT_LABELS: Record<SortKey, string> = { 'level-desc': 'Lv ↓', 'level-asc': 'Lv ↑', 'name-az': 'A–Z' }
+  const SORT_LABELS: Record<SortKey, string> = { 'level-desc': t('sort_level_desc'), 'level-asc': t('sort_level_asc'), 'name-az': t('sort_name_az') }
 
   return (
     <>

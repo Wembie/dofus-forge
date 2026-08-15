@@ -87,7 +87,7 @@ export function ClassPicker() {
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold)' }}
             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold-deep)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold-deep)' }}
           >
-            {t('change', 'Change')}
+            {t('change')}
           </button>
         </div>
 

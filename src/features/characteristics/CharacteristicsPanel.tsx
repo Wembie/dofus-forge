@@ -90,7 +90,7 @@ function CompactRow({ char, total, power }: { char: Characteristic; total: numbe
       <span
         className="font-mono font-bold text-sm tabular-nums flex-shrink-0"
         style={{ color }}
-        title={POWER_ELEMS.has(char) && power > 0 ? `${total} + ${power} Potencia = ${total + power}` : undefined}
+        title={POWER_ELEMS.has(char) && power > 0 ? `${total} + ${power} ${t('stat_power')} = ${total + power}` : undefined}
       >
         {total.toLocaleString()}
       </span>

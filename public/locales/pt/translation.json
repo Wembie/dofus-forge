@@ -271,5 +271,11 @@
   "combat_crit": "Crítico",
   "combat_heals": "Curas",
   "combat_pp": "PP",
-  "combat_summons": "Invoc."
+  "combat_summons": "Invoc.",
+  "modal_close": "Fechar",
+  "change": "Trocar",
+  "set_bonus_next": "próximo",
+  "sort_level_desc": "Nv ↓",
+  "sort_level_asc": "Nv ↑",
+  "sort_name_az": "A–Z"
 }

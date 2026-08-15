@@ -271,5 +271,11 @@
   "combat_crit": "Crit",
   "combat_heals": "Heals",
   "combat_pp": "PP",
-  "combat_summons": "Summons"
+  "combat_summons": "Summons",
+  "modal_close": "Close",
+  "change": "Change",
+  "set_bonus_next": "next",
+  "sort_level_desc": "Lv ↓",
+  "sort_level_asc": "Lv ↑",
+  "sort_name_az": "A–Z"
 }

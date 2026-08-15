@@ -271,5 +271,11 @@
   "combat_crit": "Crit",
   "combat_heals": "Soins",
   "combat_pp": "PP",
-  "combat_summons": "Invoc."
+  "combat_summons": "Invoc.",
+  "modal_close": "Fermer",
+  "change": "Changer",
+  "set_bonus_next": "suivant",
+  "sort_level_desc": "Nv ↓",
+  "sort_level_asc": "Nv ↑",
+  "sort_name_az": "A–Z"
 }

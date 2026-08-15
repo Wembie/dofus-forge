@@ -366,7 +366,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                     <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
                     {useMax && (
                       <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
-                        [{e.min} a {e.max}]
+                        [{e.min} {t('range_sep_neg')} {e.max}]
                       </span>
                     )}
                   </div>
@@ -387,7 +387,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                       ? <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>{t('spell_push', { cells: e.min })}</span>
                       : <>
                           <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
-                            {e.min === e.max || e.max === 0 ? e.min : `${e.min} a ${e.max}`}
+                            {e.min === e.max || e.max === 0 ? e.min : `${e.min} ${t('range_sep_neg')} ${e.max}`}
                           </span>
                           <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
                         </>
