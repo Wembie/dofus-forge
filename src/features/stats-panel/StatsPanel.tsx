@@ -48,16 +48,16 @@ type BadgeProps = {
 
 function TopBadge({ iconName, label, value, color }: BadgeProps) {
   const numClass = value >= 10000
-    ? 'text-xl'
+    ? 'text-base'
     : value >= 1000
-    ? 'text-2xl'
+    ? 'text-xl'
     : value >= 100
-    ? 'text-3xl'
-    : 'text-4xl'
+    ? 'text-2xl'
+    : 'text-3xl'
 
   return (
     <div
-      className="flex flex-col items-center gap-1 px-2 py-3.5 rounded-xl flex-1 relative overflow-hidden"
+      className="flex flex-col items-center gap-1 px-2 py-3.5 rounded-xl flex-1 relative min-w-0"
       style={{
         background: `linear-gradient(155deg, color-mix(in srgb, ${color} 12%, var(--surface-stone)) 0%, var(--surface-void) 100%)`,
         border:     `1px solid color-mix(in srgb, ${color} 28%, var(--metal-edge))`,
@@ -73,7 +73,7 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
         {icon(iconName, 15)}
       </div>
       <span
-        className={`font-mono font-bold leading-none tabular-nums relative z-10 ${numClass}`}
+        className={`font-mono font-bold leading-none tabular-nums relative z-10 w-full text-center truncate ${numClass}`}
         style={{
           color,
           textShadow: `0 0 20px color-mix(in srgb, ${color} 65%, transparent), 0 0 40px color-mix(in srgb, ${color} 30%, transparent)`,
