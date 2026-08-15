@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { BuilderPage } from './pages/BuilderPage.tsx'
+import { Toaster } from './components/Toaster.tsx'
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<BuilderPage />} />
       </Routes>
+      <Toaster />
     </HashRouter>
   )
 }

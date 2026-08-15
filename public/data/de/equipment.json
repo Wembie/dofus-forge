@@ -4,7 +4,7 @@
     "name": "Hölzernes Schwert",
     "level": 7,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -37,7 +37,7 @@
     "name": "Eisernes Schwert",
     "level": 15,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -80,7 +80,7 @@
     "name": "Schwert Ragen",
     "level": 26,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -123,7 +123,7 @@
     "name": "Traurikling",
     "level": 21,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -156,7 +156,7 @@
     "name": "Dualschwert",
     "level": 17,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -194,7 +194,7 @@
     "name": "Goultard",
     "level": 40,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -237,7 +237,7 @@
     "name": "Badouls Mähne",
     "level": 33,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -275,7 +275,7 @@
     "name": "Höllisch Scharf",
     "level": 22,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -374,7 +374,7 @@
     "name": "Hölzerner Bogen",
     "level": 7,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -407,7 +407,7 @@
     "name": "Hölzerne Dolche",
     "level": 7,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -565,7 +565,7 @@
     "name": "Hölzernes Stäbchen",
     "level": 3,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -593,7 +593,7 @@
     "name": "Hölzerner Stecken",
     "level": 9,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -659,7 +659,7 @@
     "name": "Hölzerne Schaufel",
     "level": 6,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -859,7 +859,7 @@
     "name": "Eisstab",
     "level": 11,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -892,7 +892,7 @@
     "name": "Stab des Limbos",
     "level": 105,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "AP",
@@ -945,7 +945,7 @@
     "name": "Himmlischer Stab",
     "level": 51,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1008,7 +1008,7 @@
     "name": "Laubstock",
     "level": 12,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1041,7 +1041,7 @@
     "name": "Gehstock des Einsiedlerkrebses",
     "level": 8,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -1069,7 +1069,7 @@
     "name": "Spiritueller Stock",
     "level": 16,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -1107,7 +1107,7 @@
     "name": "Gott-Stock",
     "level": 67,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1155,7 +1155,7 @@
     "name": "Hook",
     "level": 55,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1198,7 +1198,7 @@
     "name": "Razielle",
     "level": 52,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1298,7 +1298,7 @@
     "name": "Kryst O'Boul",
     "level": 68,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -1351,7 +1351,7 @@
     "name": "Eiserne Dolche",
     "level": 13,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1389,7 +1389,7 @@
     "name": "Zubeißender Dolch",
     "level": 17,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -1422,7 +1422,7 @@
     "name": "Basher",
     "level": 29,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -1455,7 +1455,7 @@
     "name": "Blessurdolche",
     "level": 64,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1503,7 +1503,7 @@
     "name": "Chakra Style",
     "level": 73,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1867,7 +1867,7 @@
     "name": "Kehrschaufel",
     "level": 17,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -1900,7 +1900,7 @@
     "name": "Schürfschaufel",
     "level": 19,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -1938,7 +1938,7 @@
     "name": "Ares",
     "level": 72,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -1986,7 +1986,7 @@
     "name": "Graubart",
     "level": 20,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2085,7 +2085,7 @@
     "name": "Nerviger Bogen",
     "level": 19,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -2128,7 +2128,7 @@
     "name": "Xaveur",
     "level": 58,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2219,7 +2219,7 @@
     "name": "Nomoon",
     "level": 28,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -2272,7 +2272,7 @@
     "name": "Yamatos Sehne",
     "level": 31,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2371,7 +2371,7 @@
     "name": "Krachlerschaufel",
     "level": 29,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -2453,7 +2453,7 @@
     "name": "Tabistock",
     "level": 40,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -2579,7 +2579,7 @@
     "name": "Klinge des Gobtrotters",
     "level": 16,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2612,7 +2612,7 @@
     "name": "Schnipp-Schnapp",
     "level": 18,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -2645,7 +2645,7 @@
     "name": "Der Triumph-Bogen",
     "level": 27,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2703,7 +2703,7 @@
     "name": "Regen-Bogen",
     "level": 22,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -2736,7 +2736,7 @@
     "name": "Jeannes Bogen",
     "level": 30,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2769,7 +2769,7 @@
     "name": "Brotstab",
     "level": 50,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2817,7 +2817,7 @@
     "name": "Liriels Stab",
     "level": 20,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -2855,7 +2855,7 @@
     "name": "Stecken des Bwork Magus",
     "level": 58,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2908,7 +2908,7 @@
     "name": "Stock des Wabbitopas",
     "level": 32,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2946,7 +2946,7 @@
     "name": "Bogen des Bwork-Bogenschützen",
     "level": 20,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -2979,7 +2979,7 @@
     "name": "Schwert des Chafers",
     "level": 27,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -3022,7 +3022,7 @@
     "name": "Leurnetten",
     "level": 12,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3055,7 +3055,7 @@
     "name": "Verrückte Schwesterdolche",
     "level": 46,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3143,7 +3143,7 @@
     "name": "Goldenes Rhizom",
     "level": 40,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3218,7 +3218,7 @@
     "name": "Nüs Schwert",
     "level": 25,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3320,7 +3320,7 @@
     "name": "Schwanzus Longus",
     "level": 13,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3358,7 +3358,7 @@
     "name": "Höllenschwanz",
     "level": 21,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3428,7 +3428,7 @@
     "name": "Stock aus Astaknydenwurzeln",
     "level": 30,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3519,7 +3519,7 @@
     "name": "Eichentod",
     "level": 33,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3584,7 +3584,7 @@
     "name": "Bogen aus Astaknydenwurzeln",
     "level": 25,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3627,7 +3627,7 @@
     "name": "Stab aus Astaknydenwurzeln",
     "level": 33,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3680,7 +3680,7 @@
     "name": "Hainbuchenbestutzer",
     "level": 47,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3728,7 +3728,7 @@
     "name": "Baggers Schaufel",
     "level": 31,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3766,7 +3766,7 @@
     "name": "Lupe",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3789,7 +3789,7 @@
     "name": "Spaltaxt der Eiben und Elben",
     "level": 17,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -3817,7 +3817,7 @@
     "name": "Boulgourde der Lichtungen",
     "level": 62,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3865,7 +3865,7 @@
     "name": "Ivan Haus-Sehne",
     "level": 36,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -3979,7 +3979,7 @@
     "name": "Stecken der Fresssackhirten",
     "level": 85,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4032,7 +4032,7 @@
     "name": "Krakamorzersäbel",
     "level": 61,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4146,7 +4146,7 @@
     "name": "Küstenbogen",
     "level": 46,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4189,7 +4189,7 @@
     "name": "Stecken der Tofuhirten",
     "level": 56,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4237,7 +4237,7 @@
     "name": "Stecken der Tabihirten",
     "level": 34,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4275,7 +4275,7 @@
     "name": "Kastanienfresser",
     "level": 8,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4308,7 +4308,7 @@
     "name": "Spalter der Vogelkirschen",
     "level": 32,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4351,7 +4351,7 @@
     "name": "Walnussknacker",
     "level": 21,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -4394,7 +4394,7 @@
     "name": "Ahornzerbrecher",
     "level": 25,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -5123,7 +5123,7 @@
     "name": "Gehörnter Stecken",
     "level": 29,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -5284,7 +5284,7 @@
     "name": "Sense von Farle Ingalsse",
     "level": 13,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -5410,7 +5410,7 @@
     "name": "Eschenzerbrecher",
     "level": 8,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -5666,7 +5666,7 @@
     "name": "Agrid",
     "level": 27,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -5873,7 +5873,7 @@
     "name": "Astaknydis Vivitus",
     "level": 34,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -5916,7 +5916,7 @@
     "name": "Heiliges Schwert",
     "level": 17,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -5949,7 +5949,7 @@
     "name": "Schwert des Ritters",
     "level": 26,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -5987,7 +5987,7 @@
     "name": "Bworklinge",
     "level": 26,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -6035,7 +6035,7 @@
     "name": "Pfeifender Bogen",
     "level": 11,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -6068,7 +6068,7 @@
     "name": "Bogen Ghang",
     "level": 5,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -6096,7 +6096,7 @@
     "name": "Intelligenzstäbchen",
     "level": 29,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -6144,7 +6144,7 @@
     "name": "Weisheitsstäbchen",
     "level": 27,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -6591,7 +6591,7 @@
     "name": "Sylvandolche",
     "level": 27,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -6634,7 +6634,7 @@
     "name": "Gewetzte Dolche",
     "level": 39,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -6951,7 +6951,7 @@
     "name": "Ancestraler Ur-Dolch",
     "level": 34,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -7004,7 +7004,7 @@
     "name": "Astaknydenabknicker",
     "level": 74,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -7094,7 +7094,7 @@
     "name": "Ur-Astaknydenspalter",
     "level": 93,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -7147,7 +7147,7 @@
     "name": "Ogralimdes Klinge",
     "level": 45,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -7727,7 +7727,7 @@
     "name": "Wa Wabbit-Stecken",
     "level": 60,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -7936,7 +7936,7 @@
     "name": "Stek-Messer",
     "level": 41,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -7984,7 +7984,7 @@
     "name": "Dreißigschwänzige Katzendolche",
     "level": 25,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -8027,7 +8027,7 @@
     "name": "Grausame Dolche von Elorie Entuwan",
     "level": 40,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8070,7 +8070,7 @@
     "name": "Unta deMers Klinge",
     "level": 56,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8123,7 +8123,7 @@
     "name": "Hinterhältige Dolche",
     "level": 67,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8186,7 +8186,7 @@
     "name": "Blutklingen von Ortimus Contrari",
     "level": 80,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8244,7 +8244,7 @@
     "name": "Geborstenes Schwert des Unglücksritters",
     "level": 35,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8282,7 +8282,7 @@
     "name": "Dornengespickte rosa Schaufel",
     "level": 43,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8340,7 +8340,7 @@
     "name": "Mischmaschaufel",
     "level": 50,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8403,7 +8403,7 @@
     "name": "Schaufelding „Wookil Ltd.“",
     "level": 64,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8461,7 +8461,7 @@
     "name": "Kill-Schrills Schaufelkelle",
     "level": 53,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -8509,7 +8509,7 @@
     "name": "Schaufel von Kutuluh",
     "level": 34,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -8557,7 +8557,7 @@
     "name": "Grabund Schaufel",
     "level": 15,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -9043,7 +9043,7 @@
     "name": "Bussardbogen",
     "level": 24,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9091,7 +9091,7 @@
     "name": "Stab für gewisse Stunden",
     "level": 30,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9124,7 +9124,7 @@
     "name": "Fresssackhornbogen",
     "level": 38,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9162,7 +9162,7 @@
     "name": "„I Kea nit gern“-Bogen, Standardversion",
     "level": 47,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9205,7 +9205,7 @@
     "name": "Archeobogie",
     "level": 33,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -9253,7 +9253,7 @@
     "name": "Kristallbogen",
     "level": 56,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -9316,7 +9316,7 @@
     "name": "Bogen des Borinkönigs",
     "level": 72,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9369,7 +9369,7 @@
     "name": "Kirchenstab",
     "level": 52,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9412,7 +9412,7 @@
     "name": "Ni'Ninnin Stab",
     "level": 50,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -9455,7 +9455,7 @@
     "name": "Einwegrute",
     "level": 45,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -9498,7 +9498,7 @@
     "name": "Houvrett-Stab",
     "level": 55,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9546,7 +9546,7 @@
     "name": "Stab der Beherrschung",
     "level": 71,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9604,7 +9604,7 @@
     "name": "Magischeinstecken",
     "level": 35,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9637,7 +9637,7 @@
     "name": "Aknefer-Stecken",
     "level": 37,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9690,7 +9690,7 @@
     "name": "Kristalliner Kugelstock",
     "level": 50,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9733,7 +9733,7 @@
     "name": "Königsstecken",
     "level": 60,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -9833,7 +9833,7 @@
     "name": "Alkobog-Lich",
     "level": 13,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -9866,7 +9866,7 @@
     "name": "Bogen des Bösen Klicks",
     "level": 30,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -9904,7 +9904,7 @@
     "name": "Boos Bogen",
     "level": 52,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -9977,7 +9977,7 @@
     "name": "PolyPfeil-Bogen",
     "level": 41,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -10025,7 +10025,7 @@
     "name": "Hicks Bogen",
     "level": 49,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -10073,7 +10073,7 @@
     "name": "Hidsad-Bogen",
     "level": 40,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10121,7 +10121,7 @@
     "name": "1/2-Stäbchenbaguette",
     "level": 1,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -10149,7 +10149,7 @@
     "name": "Stolche",
     "level": 35,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10207,7 +10207,7 @@
     "name": "Ast \"Geh Auf'm Weg\"",
     "level": 59,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -10270,7 +10270,7 @@
     "name": "Hyldegarde",
     "level": 48,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -10323,7 +10323,7 @@
     "name": "Stab der Sylvan",
     "level": 43,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10371,7 +10371,7 @@
     "name": "Vampirpflock",
     "level": 65,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -10419,7 +10419,7 @@
     "name": "Opiskrkrücks Stock",
     "level": 40,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -10472,7 +10472,7 @@
     "name": "VergissmeinStocknicht",
     "level": 30,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10520,7 +10520,7 @@
     "name": "Woods Stock",
     "level": 20,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -10558,7 +10558,7 @@
     "name": "Hirtenstock für Fresssäcke",
     "level": 12,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -10596,7 +10596,7 @@
     "name": "Dinas Mythosstock",
     "level": 40,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10639,7 +10639,7 @@
     "name": "Wurfspeer eines 110ers",
     "level": 29,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -10677,7 +10677,7 @@
     "name": "Uneros Tischmesser",
     "level": 33,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10720,7 +10720,7 @@
     "name": "Ergot Mina",
     "level": 20,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -10758,7 +10758,7 @@
     "name": "Öhls Messer",
     "level": 40,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -10811,7 +10811,7 @@
     "name": "Dolche von Abdul Abhau",
     "level": 44,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -10849,7 +10849,7 @@
     "name": "Höllisches Rasiermesser",
     "level": 30,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -10892,7 +10892,7 @@
     "name": "Tints Killerdolch",
     "level": 30,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -10950,7 +10950,7 @@
     "name": "Bodi Beilders Axt",
     "level": 15,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -10978,7 +10978,7 @@
     "name": "Axt Oni",
     "level": 35,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -11026,7 +11026,7 @@
     "name": "Schraxtfur",
     "level": 22,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -11064,7 +11064,7 @@
     "name": "Ramms Steinaxt",
     "level": 28,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -11400,7 +11400,7 @@
     "name": "Kuch Henwegs Schaufel",
     "level": 24,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -11443,7 +11443,7 @@
     "name": "Zebubs Schaufel",
     "level": 55,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -11501,7 +11501,7 @@
     "name": "Deils Schippe",
     "level": 60,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -11569,7 +11569,7 @@
     "name": "Fels Gartenschau",
     "level": 21,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -11617,7 +11617,7 @@
     "name": "Hins Richterschaufel",
     "level": 60,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -11670,7 +11670,7 @@
     "name": "Lockruf der Schwere",
     "level": 80,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -11733,7 +11733,7 @@
     "name": "Schippe Hansi",
     "level": 50,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -11786,7 +11786,7 @@
     "name": "Unglückspickel",
     "level": 6,
     "type": "Spitzhacke",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -11846,7 +11846,7 @@
     "name": "Das zöne Zwert von Zulie",
     "level": 60,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -12669,7 +12669,7 @@
     "name": "Stab des Irrlichts",
     "level": 10,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -12702,7 +12702,7 @@
     "name": "Dolch O'Bert",
     "level": 30,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -12740,7 +12740,7 @@
     "name": "Flöte",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Emote",
@@ -12768,7 +12768,7 @@
     "name": "Neunschwanz",
     "level": 99,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -12878,7 +12878,7 @@
     "name": "Yench-Schnitter",
     "level": 60,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -13035,7 +13035,7 @@
     "name": "Astabog",
     "level": 39,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -13318,7 +13318,7 @@
     "name": "Abendstern",
     "level": 52,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -13376,7 +13376,7 @@
     "name": "Der Cutter",
     "level": 64,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -14223,7 +14223,7 @@
     "name": "Glühstäbchen",
     "level": 80,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -14429,7 +14429,7 @@
     "name": "Jagdmesser",
     "level": 1,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -14457,7 +14457,7 @@
     "name": "Jagdbogen",
     "level": 1,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -14559,7 +14559,7 @@
     "name": "Kanigrous Dreizack",
     "level": 53,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -14973,7 +14973,7 @@
     "name": "Schwert der Gerechtigkeit",
     "level": 1,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -15038,7 +15038,7 @@
     "name": "Mech Riorraws Bogen",
     "level": 90,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -15076,7 +15076,7 @@
     "name": "Bogen von Mulic Bere",
     "level": 10,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -15482,7 +15482,7 @@
     "name": "Blutaxt des Grauens",
     "level": 1,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -16458,7 +16458,7 @@
     "name": "Flammen-Kwacklinge",
     "level": 41,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -16539,7 +16539,7 @@
     "name": "Astecken",
     "level": 45,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -17000,7 +17000,7 @@
     "name": "Schwert des königlichen Fresssacks",
     "level": 30,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -17963,7 +17963,7 @@
     "name": "Rabkling",
     "level": 110,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -18212,7 +18212,7 @@
     "name": "Handbeil des Holzfällers",
     "level": 1,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18240,7 +18240,7 @@
     "name": "Hevlalavs Handaxt",
     "level": 5,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18273,7 +18273,7 @@
     "name": "Vôr'Oms Axt",
     "level": 12,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -18306,7 +18306,7 @@
     "name": "Bombusschnitter",
     "level": 39,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18349,7 +18349,7 @@
     "name": "Oliviolettas Beschneider",
     "level": 42,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18397,7 +18397,7 @@
     "name": "Steinaxt",
     "level": 51,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18445,7 +18445,7 @@
     "name": "Breschenschläger",
     "level": 54,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18498,7 +18498,7 @@
     "name": "Rauschende Bartabaxt",
     "level": 66,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18546,7 +18546,7 @@
     "name": "Darssons Axt",
     "level": 57,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18609,7 +18609,7 @@
     "name": "Größter gemeinster Arme-Teiler",
     "level": 66,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18662,7 +18662,7 @@
     "name": "Bart-Axt des Milizionärs",
     "level": 78,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18725,7 +18725,7 @@
     "name": "Axt des Erfinders",
     "level": 81,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18793,7 +18793,7 @@
     "name": "Grob-Axt der Straßenjungen",
     "level": 84,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18851,7 +18851,7 @@
     "name": "Großfisch-Kuse",
     "level": 87,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18909,7 +18909,7 @@
     "name": "Axt von Prinzessin Denhals",
     "level": 89,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -18972,7 +18972,7 @@
     "name": "Lookabeer Axt",
     "level": 96,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -19035,7 +19035,7 @@
     "name": "Hallenbarde des Blutes",
     "level": 99,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -19165,7 +19165,7 @@
     "name": "Die Klaue",
     "level": 35,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -19208,7 +19208,7 @@
     "name": "Die geschärfte Klaue",
     "level": 68,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -19261,7 +19261,7 @@
     "name": "Falsche Klaue von Ceangal",
     "level": 95,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -19319,7 +19319,7 @@
     "name": "Fleischsteckender Fressen",
     "level": 30,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -20198,7 +20198,7 @@
     "name": "Die Schaufel des Dudes",
     "level": 52,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20304,7 +20304,7 @@
     "name": "Rachenstutzer",
     "level": 83,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20357,7 +20357,7 @@
     "name": "Dolch des Chafer-Offiziers",
     "level": 83,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20415,7 +20415,7 @@
     "name": "Raffzahn",
     "level": 91,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20478,7 +20478,7 @@
     "name": "Kompromesser",
     "level": 119,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -20536,7 +20536,7 @@
     "name": "Agglutinadolch",
     "level": 90,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20594,7 +20594,7 @@
     "name": "Marie Aigues Stock",
     "level": 109,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20652,7 +20652,7 @@
     "name": "Die Rosarote Klaue",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -20715,7 +20715,7 @@
     "name": "Klingenfächer",
     "level": 75,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20820,7 +20820,7 @@
     "name": "Eispick",
     "level": 85,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -20982,7 +20982,7 @@
     "name": "Stab der Hölle",
     "level": 75,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21035,7 +21035,7 @@
     "name": "Wabbel",
     "level": 83,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21093,7 +21093,7 @@
     "name": "Fremdding",
     "level": 90,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21156,7 +21156,7 @@
     "name": "Haarastabi",
     "level": 95,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21214,7 +21214,7 @@
     "name": "Aga Dous Wurfspeer",
     "level": 81,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21361,7 +21361,7 @@
     "name": "Arche-Bogen",
     "level": 80,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21414,7 +21414,7 @@
     "name": "Chiducs Bogen",
     "level": 87,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21586,7 +21586,7 @@
     "name": "Engel'Erz-Bogen",
     "level": 82,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21649,7 +21649,7 @@
     "name": "Bogen des Architekten",
     "level": 111,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21707,7 +21707,7 @@
     "name": "Fischermanns Freund",
     "level": 70,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -21755,7 +21755,7 @@
     "name": "Schattenastecken",
     "level": 87,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -22728,7 +22728,7 @@
     "name": "Bogen des Sram-Bogenschützen",
     "level": 89,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -22801,7 +22801,7 @@
     "name": "Bogen des Chafer-Bogenschützen",
     "level": 115,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -22859,7 +22859,7 @@
     "name": "Trunknydum",
     "level": 57,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -22907,7 +22907,7 @@
     "name": "Wobots primitiver Heckenstutzer",
     "level": 60,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -22992,7 +22992,7 @@
     "name": "Stab von Elya Wood",
     "level": 117,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -23050,7 +23050,7 @@
     "name": "Stab von Weich-Eich",
     "level": 171,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -23133,7 +23133,7 @@
     "name": "Stab aus Schattenastaknydenwurzeln",
     "level": 67,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -23201,7 +23201,7 @@
     "name": "Lichte Balgourde",
     "level": 63,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -24034,7 +24034,7 @@
     "name": "Dolchschlago grobis",
     "level": 121,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24092,7 +24092,7 @@
     "name": "Hischantes Dolch",
     "level": 80,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24150,7 +24150,7 @@
     "name": "Amothirilin",
     "level": 113,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24208,7 +24208,7 @@
     "name": "Kwuarzstab",
     "level": 78,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24266,7 +24266,7 @@
     "name": "Migräne",
     "level": 84,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24324,7 +24324,7 @@
     "name": "Kelinoast",
     "level": 129,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24382,7 +24382,7 @@
     "name": "Cinatis Wurzel",
     "level": 116,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -24440,7 +24440,7 @@
     "name": "Biens Stock",
     "level": 120,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24498,7 +24498,7 @@
     "name": "Sauvages Wurzel",
     "level": 54,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24541,7 +24541,7 @@
     "name": "Stock des Fécas",
     "level": 94,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24604,7 +24604,7 @@
     "name": "Hebus' Schaufel",
     "level": 94,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24662,7 +24662,7 @@
     "name": "Schaufel der Musik",
     "level": 52,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24710,7 +24710,7 @@
     "name": "Wanderschaufel",
     "level": 88,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24788,7 +24788,7 @@
     "name": "Schupp-Schipp",
     "level": 121,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24841,7 +24841,7 @@
     "name": "Schaufel des Schattenbergmannes",
     "level": 118,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24899,7 +24899,7 @@
     "name": "Schwiegrige Mutterschaufel",
     "level": 88,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -24957,7 +24957,7 @@
     "name": "Aussichts-Plattschaufel",
     "level": 84,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -25005,7 +25005,7 @@
     "name": "Die Schaufel von Bella Ghiena",
     "level": 71,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -25063,7 +25063,7 @@
     "name": "Die Schaufel Untasbist",
     "level": 86,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -25201,7 +25201,7 @@
     "name": "Quark-Quak - Angel",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/20008-128.png",
@@ -25291,7 +25291,7 @@
     "name": "Lorsotheuse",
     "level": 100,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -25547,7 +25547,7 @@
     "name": "Stecken des Bärenmannes",
     "level": 20,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -25980,7 +25980,7 @@
     "name": "Eis-Kwacklinge",
     "level": 41,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -26023,7 +26023,7 @@
     "name": "Stein-Kwacklinge",
     "level": 41,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -26066,7 +26066,7 @@
     "name": "Wind-Kwacklinge",
     "level": 41,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -26397,7 +26397,7 @@
     "name": "Heckenschützerstecken",
     "level": 102,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -26698,7 +26698,7 @@
     "name": "Farles Gabel",
     "level": 76,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -26956,7 +26956,7 @@
     "name": "Schwert des Initiaten",
     "level": 12,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -26989,7 +26989,7 @@
     "name": "Stab des Initiaten",
     "level": 12,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -27022,7 +27022,7 @@
     "name": "Stock des Initiaten",
     "level": 12,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -27055,7 +27055,7 @@
     "name": "Bogen des Initiaten",
     "level": 12,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -27088,7 +27088,7 @@
     "name": "Dolche des Initiaten",
     "level": 12,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -27154,7 +27154,7 @@
     "name": "Schaufel des Initiaten",
     "level": 12,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -27236,7 +27236,7 @@
     "name": "Das Planktock der Wiesen",
     "level": 15,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -27379,7 +27379,7 @@
     "name": "Bworkling des Chefs",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -27880,7 +27880,7 @@
     "name": "Klinge des Chef-Crocodylls",
     "level": 70,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -28096,7 +28096,7 @@
     "name": "Schwert des Yinglings",
     "level": 1,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -28124,7 +28124,7 @@
     "name": "Schwert des Yangurus",
     "level": 1,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -28152,7 +28152,7 @@
     "name": "Schnippeldi Dämonenrosen",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -28488,7 +28488,7 @@
     "name": "Arachneewehweh",
     "level": 11,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -28744,7 +28744,7 @@
     "name": "Schurkendolche",
     "level": 12,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -29929,7 +29929,7 @@
     "name": "Krachlerschwert",
     "level": 64,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -30074,7 +30074,7 @@
     "name": "Eisige Klingen",
     "level": 150,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -30142,7 +30142,7 @@
     "name": "Agondolchie",
     "level": 46,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -30190,7 +30190,7 @@
     "name": "Aggs Messoren",
     "level": 143,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -30253,7 +30253,7 @@
     "name": "Dolche des angehenden Fresssäckchenjägers",
     "level": 113,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -31057,7 +31057,7 @@
     "name": "Stock von Sangroku",
     "level": 120,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -31236,7 +31236,7 @@
     "name": "Oma Pralinchens Spazierstock",
     "level": 98,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -31373,7 +31373,7 @@
     "name": "Kuris Bogen",
     "level": 55,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Heilung (Element Feuer)",
@@ -31569,7 +31569,7 @@
     "name": "Schwert des Eisritters",
     "level": 20,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Heilung (Element Feuer)",
@@ -31612,7 +31612,7 @@
     "name": "Rutoxine",
     "level": 145,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -31830,7 +31830,7 @@
     "name": "Larvuta",
     "level": 40,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "AP (Ziel)",
@@ -33415,7 +33415,7 @@
     "name": "Arkaner Bogen",
     "level": 120,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33478,7 +33478,7 @@
     "name": "Frischpling",
     "level": 100,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -33541,7 +33541,7 @@
     "name": "Place-Bogen",
     "level": 130,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -33584,7 +33584,7 @@
     "name": "Weglaufbogen",
     "level": 123,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33637,7 +33637,7 @@
     "name": "Guter Bogen, kein schlechter Bogen",
     "level": 142,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33705,7 +33705,7 @@
     "name": "Killniemand-Stabo",
     "level": 102,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33753,7 +33753,7 @@
     "name": "Endlosschleifstab",
     "level": 43,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33796,7 +33796,7 @@
     "name": "Alkos Hohlstab",
     "level": 63,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33854,7 +33854,7 @@
     "name": "Freds Feuerstab",
     "level": 81,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33917,7 +33917,7 @@
     "name": "Verfrut und Zugestäbt",
     "level": 112,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -33975,7 +33975,7 @@
     "name": "Stab der Kopflosigkeit",
     "level": 127,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34038,7 +34038,7 @@
     "name": "Stapopel",
     "level": 105,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34086,7 +34086,7 @@
     "name": "Würgrut",
     "level": 27,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -34151,7 +34151,7 @@
     "name": "Wurzel Triss",
     "level": 143,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34236,7 +34236,7 @@
     "name": "YamYam-Wurzel",
     "level": 86,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34299,7 +34299,7 @@
     "name": "Apothecawurzlika",
     "level": 106,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -34342,7 +34342,7 @@
     "name": "Ers Druckwurzel",
     "level": 103,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34400,7 +34400,7 @@
     "name": "Sinusoidalgewurzel",
     "level": 88,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34458,7 +34458,7 @@
     "name": "Katastrowurzel",
     "level": 86,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34506,7 +34506,7 @@
     "name": "Schlagwurzel",
     "level": 101,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34554,7 +34554,7 @@
     "name": "Bogris EltzIhn",
     "level": 124,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -34597,7 +34597,7 @@
     "name": "Zitrolch",
     "level": 113,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34655,7 +34655,7 @@
     "name": "Rod Gerse",
     "level": 176,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -34723,7 +34723,7 @@
     "name": "Maydhyn China-Dolche",
     "level": 100,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34781,7 +34781,7 @@
     "name": "Ramougres Einfassmesser",
     "level": 127,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -34839,7 +34839,7 @@
     "name": "Griesgrahms Kralle",
     "level": 111,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -34887,7 +34887,7 @@
     "name": "Klinge des Dark Vlad",
     "level": 126,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -34950,7 +34950,7 @@
     "name": "Arkanum-Bogen",
     "level": 96,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -35018,7 +35018,7 @@
     "name": "Karnak",
     "level": 158,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35134,7 +35134,7 @@
     "name": "Rasierklinge des Abends",
     "level": 105,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35182,7 +35182,7 @@
     "name": "Buhs Bastardspießschwert",
     "level": 130,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35250,7 +35250,7 @@
     "name": "Shodanwa-Säbel",
     "level": 40,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35288,7 +35288,7 @@
     "name": "Nidanwa-Säbel",
     "level": 66,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35336,7 +35336,7 @@
     "name": "Sandanwa-Säbel",
     "level": 83,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35384,7 +35384,7 @@
     "name": "Yodanwa-Säbel",
     "level": 92,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35452,7 +35452,7 @@
     "name": "Shodanwa-Stock",
     "level": 46,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35495,7 +35495,7 @@
     "name": "Nidanwa-Stock",
     "level": 62,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35538,7 +35538,7 @@
     "name": "Sandanwa-Stock",
     "level": 77,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -35596,7 +35596,7 @@
     "name": "Yodanwa-Stock",
     "level": 93,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35654,7 +35654,7 @@
     "name": "Shodanwa-Axt",
     "level": 36,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -35702,7 +35702,7 @@
     "name": "Nidanwa-Axt",
     "level": 59,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35745,7 +35745,7 @@
     "name": "Sandawa-Axt",
     "level": 83,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35798,7 +35798,7 @@
     "name": "Yodanwa-Axt",
     "level": 98,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -35856,7 +35856,7 @@
     "name": "Bambuschkayah",
     "level": 26,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -35894,7 +35894,7 @@
     "name": "Ahnz Triebschaufel",
     "level": 142,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -37109,7 +37109,7 @@
     "name": "Akwadala-Stecken",
     "level": 43,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -37152,7 +37152,7 @@
     "name": "Teradala-Axt",
     "level": 83,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -37210,7 +37210,7 @@
     "name": "Aerdala-Dolche",
     "level": 62,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -37263,7 +37263,7 @@
     "name": "Feudala-Säbel",
     "level": 76,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -37454,7 +37454,7 @@
     "name": "Stärnbchen",
     "level": 125,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -39926,7 +39926,7 @@
     "name": "Stock des Kuhlosses",
     "level": 73,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "AP (Ziel)",
@@ -40251,7 +40251,7 @@
     "name": "Koalak-Bogen",
     "level": 61,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -40454,7 +40454,7 @@
     "name": "Gyver-Stab",
     "level": 128,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -40512,7 +40512,7 @@
     "name": "Stoi-Stab",
     "level": 138,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -40600,7 +40600,7 @@
     "name": "Stecken der Karibuik",
     "level": 114,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -40658,7 +40658,7 @@
     "name": "Tua Kwän-Stock",
     "level": 133,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -40726,7 +40726,7 @@
     "name": "Dolche des Prutalos",
     "level": 134,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -40794,7 +40794,7 @@
     "name": "Schwert Ödlich",
     "level": 169,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -40847,7 +40847,7 @@
     "name": "Ayassalama-Säbel",
     "level": 143,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -41031,7 +41031,7 @@
     "name": "Errs Klinge",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -41114,7 +41114,7 @@
     "name": "Axt im Walde",
     "level": 116,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -41187,7 +41187,7 @@
     "name": "Ohrop-Axt",
     "level": 110,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -41265,7 +41265,7 @@
     "name": "Tischocken-Axt",
     "level": 128,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -41318,7 +41318,7 @@
     "name": "Bogen der Gespinndichkeit",
     "level": 121,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -41386,7 +41386,7 @@
     "name": "Chtelion-Bogen",
     "level": 129,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -41503,7 +41503,7 @@
     "name": "Tofu-Stab",
     "level": 25,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -41733,7 +41733,7 @@
     "name": "Stab des goldenen Scarabiestes",
     "level": 59,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Heilung (Element Feuer)",
@@ -42012,7 +42012,7 @@
     "name": "Abgenutzte Bauernsense",
     "level": 17,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -42109,7 +42109,7 @@
     "name": "WuWulf-Axt",
     "level": 55,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -43687,7 +43687,7 @@
     "name": "Schwammaufel",
     "level": 20,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -44654,7 +44654,7 @@
     "name": "Axt des Minotorors",
     "level": 109,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -44732,7 +44732,7 @@
     "name": "Szepter des Minotots",
     "level": 151,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -45727,7 +45727,7 @@
     "name": "Drachei-Schwert",
     "level": 127,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -45805,7 +45805,7 @@
     "name": "Drachei-Axt",
     "level": 126,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -45976,7 +45976,7 @@
     "name": "Drachei-Bogen",
     "level": 118,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -46054,7 +46054,7 @@
     "name": "Drachei-Stab",
     "level": 124,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -46142,7 +46142,7 @@
     "name": "Drachei-Stecken",
     "level": 124,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -46319,7 +46319,7 @@
     "name": "Shikas Hacke",
     "level": 80,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -46795,7 +46795,7 @@
     "name": "Weißnachtsschwert",
     "level": 1,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -47094,7 +47094,7 @@
     "name": "Drachei-Dolche",
     "level": 128,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -47291,7 +47291,7 @@
     "name": "Kuchenschaufel",
     "level": 131,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -47436,7 +47436,7 @@
     "name": "Moh-Schaufel",
     "level": 115,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -47484,7 +47484,7 @@
     "name": "Drachei-Schaufel",
     "level": 127,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -47738,7 +47738,7 @@
     "name": "Schwarze Rattendolche",
     "level": 108,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -48074,7 +48074,7 @@
     "name": "Rapier der Weißen Ratte",
     "level": 109,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -49650,7 +49650,7 @@
     "name": "BworknRolls Skalpell",
     "level": 40,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -49995,7 +49995,7 @@
     "name": "Ramboton",
     "level": 200,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -50068,7 +50068,7 @@
     "name": "Purpur-Klaue",
     "level": 145,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50126,7 +50126,7 @@
     "name": "Schweizer Dolch",
     "level": 67,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -50174,7 +50174,7 @@
     "name": "Krallette",
     "level": 69,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50222,7 +50222,7 @@
     "name": "Schnallauffall-Schwert",
     "level": 97,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50285,7 +50285,7 @@
     "name": "Gnadenspender",
     "level": 73,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50348,7 +50348,7 @@
     "name": "Stagelnock",
     "level": 107,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -50406,7 +50406,7 @@
     "name": "Klopps Stock",
     "level": 85,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50454,7 +50454,7 @@
     "name": "Bogen der Geisha",
     "level": 81,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50507,7 +50507,7 @@
     "name": "Monnesond & Ernest-Bogen",
     "level": 79,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -50555,7 +50555,7 @@
     "name": "Bastab Café",
     "level": 69,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -50618,7 +50618,7 @@
     "name": "Ill-Yeah-Richter-Stab",
     "level": 74,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50666,7 +50666,7 @@
     "name": "Spatzack",
     "level": 70,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50719,7 +50719,7 @@
     "name": "RIP-Schipp",
     "level": 66,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50883,7 +50883,7 @@
     "name": "Schopens Haueraxt",
     "level": 62,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -50931,7 +50931,7 @@
     "name": "Neckischer Nackenspalter",
     "level": 80,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -51046,7 +51046,7 @@
     "name": "Sarr Ys' Flöte",
     "level": 1,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -53404,7 +53404,7 @@
     "name": "Unbe-Schwert",
     "level": 177,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -53562,7 +53562,7 @@
     "name": "Choh-Schwert",
     "level": 95,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -55094,7 +55094,7 @@
     "name": "Axt des Zoth-Kriegers",
     "level": 139,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -55309,7 +55309,7 @@
     "name": "Ast des dunklen Astakrachler",
     "level": 130,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Erde",
@@ -55377,7 +55377,7 @@
     "name": "Ast des hellen Astakrachler",
     "level": 132,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Erde",
@@ -55445,7 +55445,7 @@
     "name": "Rindefix-Stängel",
     "level": 119,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -55508,7 +55508,7 @@
     "name": "Stock des Zoth-Meisters",
     "level": 158,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "AP (Ziel)",
@@ -55571,7 +55571,7 @@
     "name": "Tynril-Rhizom",
     "level": 164,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -56309,7 +56309,7 @@
     "name": "Rindent-Wurzel",
     "level": 136,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -56402,7 +56402,7 @@
     "name": "Floribond-Wurzel",
     "level": 144,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -56891,7 +56891,7 @@
     "name": "Schnelm-Bogen",
     "level": 122,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -57080,7 +57080,7 @@
     "name": "Schnabelaxt",
     "level": 137,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -57847,7 +57847,7 @@
     "name": "Rambo Zam-Bogen",
     "level": 147,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -57910,7 +57910,7 @@
     "name": "Ellens Bogen",
     "level": 185,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -57988,7 +57988,7 @@
     "name": "Okey-Do-Klinge",
     "level": 175,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -58071,7 +58071,7 @@
     "name": "Gaga-Dolche",
     "level": 171,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -58149,7 +58149,7 @@
     "name": "Doingsch",
     "level": 158,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -58212,7 +58212,7 @@
     "name": "Kris \"Tobal\"",
     "level": 149,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -58295,7 +58295,7 @@
     "name": "Fuchsiateufelswildchen",
     "level": 163,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -58363,7 +58363,7 @@
     "name": "Aztacke",
     "level": 186,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -58446,7 +58446,7 @@
     "name": "Schwert des Teilens",
     "level": 179,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -58524,7 +58524,7 @@
     "name": "Chiropteraxt",
     "level": 162,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Erde",
@@ -58582,7 +58582,7 @@
     "name": "Beil Ixt",
     "level": 158,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -58670,7 +58670,7 @@
     "name": "Schuppen-Schippe",
     "level": 172,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -58743,7 +58743,7 @@
     "name": "Allesfürdiekatz",
     "level": 136,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -58826,7 +58826,7 @@
     "name": "Rokokokette Schaufel",
     "level": 155,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -58904,7 +58904,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -58947,7 +58947,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -58990,7 +58990,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59033,7 +59033,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59076,7 +59076,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59119,7 +59119,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59162,7 +59162,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59205,7 +59205,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59248,7 +59248,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59291,7 +59291,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59334,7 +59334,7 @@
     "name": "Ecaflips Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59377,7 +59377,7 @@
     "name": "Ecaflips perfekte Tatze",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -59549,7 +59549,7 @@
     "name": "Verfluchte Sense des Blutkriegers",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -59647,7 +59647,7 @@
     "name": "Verfluchtes Schwert des Blutkriegers",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -60359,7 +60359,7 @@
     "name": "Lamellenbogen",
     "level": 183,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -60427,7 +60427,7 @@
     "name": "Trompetenknüppel",
     "level": 180,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -60505,7 +60505,7 @@
     "name": "Schamorchel-Stab",
     "level": 191,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -60583,7 +60583,7 @@
     "name": "Glissandolche",
     "level": 187,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -60656,7 +60656,7 @@
     "name": "Lamellenaxt",
     "level": 157,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -62378,7 +62378,7 @@
     "name": "Klaubtaubklinge",
     "level": 182,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -63704,7 +63704,7 @@
     "name": "Seltsame Schaufel",
     "level": 191,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -63762,7 +63762,7 @@
     "name": "Erregender Degen",
     "level": 184,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -64138,7 +64138,7 @@
     "name": "Stecken des weisen Wandererlehrlings",
     "level": 1,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -64813,7 +64813,7 @@
     "name": "Handschnitzer",
     "level": 2,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -65728,7 +65728,7 @@
     "name": "Elektroschockschaufel",
     "level": 179,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -66870,7 +66870,7 @@
     "name": "Ungestümes Schwert",
     "level": 1,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -67033,7 +67033,7 @@
     "name": "Anfänger-Axt",
     "level": 12,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -67093,7 +67093,7 @@
     "name": "Kamangel",
     "level": 40,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Stiehlt Kamas",
@@ -68563,7 +68563,7 @@
     "name": "Schwert Vol",
     "level": 49,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Erde",
@@ -70197,7 +70197,7 @@
     "name": "Hagelszepter",
     "level": 192,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -71558,7 +71558,7 @@
     "name": "Schwert von Ben dem Ripaten",
     "level": 152,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73072,7 +73072,7 @@
     "name": "Zerreißender Schlusssäbel",
     "level": 144,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73170,7 +73170,7 @@
     "name": "Kleine Geh-Axt \"S\"",
     "level": 154,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73263,7 +73263,7 @@
     "name": "Axt der Phantomabbe",
     "level": 153,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73356,7 +73356,7 @@
     "name": "Arkus Tangens",
     "level": 167,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -73454,7 +73454,7 @@
     "name": "Schaufel Tonjon",
     "level": 147,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73552,7 +73552,7 @@
     "name": "Yoyo-Dolch",
     "level": 164,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73826,7 +73826,7 @@
     "name": "Stab Niesn",
     "level": 163,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -73924,7 +73924,7 @@
     "name": "Sahne-Keulchen",
     "level": 161,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -74017,7 +74017,7 @@
     "name": "Stecken des Ping Schamanen",
     "level": 130,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -74110,7 +74110,7 @@
     "name": "Phantomharpirats Wurfspeer",
     "level": 154,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -74757,7 +74757,7 @@
     "name": "Versteinerte Korrianderaxt",
     "level": 188,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -77179,7 +77179,7 @@
     "name": "Kehrwert-Schwert",
     "level": 177,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -77267,7 +77267,7 @@
     "name": "Viech-Schwert",
     "level": 184,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -77325,7 +77325,7 @@
     "name": "Zitterschwert",
     "level": 196,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -77707,7 +77707,7 @@
     "name": "Abgewetzter Thanos",
     "level": 172,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4101-128.png",
@@ -77724,7 +77724,7 @@
     "name": "Schirmstock",
     "level": 188,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -77807,7 +77807,7 @@
     "name": "Schattenstock",
     "level": 195,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -77900,7 +77900,7 @@
     "name": "Doppelklingen-Dolche",
     "level": 176,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -77973,7 +77973,7 @@
     "name": "Nervtöt-Dolch",
     "level": 183,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78066,7 +78066,7 @@
     "name": "Owi-Dolche",
     "level": 197,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -78159,7 +78159,7 @@
     "name": "Mos Dern-Bogen",
     "level": 175,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78262,7 +78262,7 @@
     "name": "Bogen Erisch",
     "level": 184,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78350,7 +78350,7 @@
     "name": "Ristuks Kahl-Bogen",
     "level": 196,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78453,7 +78453,7 @@
     "name": "Offizier-Stab",
     "level": 177,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78551,7 +78551,7 @@
     "name": "Ewigerte",
     "level": 187,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78654,7 +78654,7 @@
     "name": "Gerte \"Thiek\"",
     "level": 193,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -78752,7 +78752,7 @@
     "name": "Axt Assinskrid",
     "level": 170,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -78850,7 +78850,7 @@
     "name": "Axt Heroid",
     "level": 194,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -78953,7 +78953,7 @@
     "name": "Schaufel Dorado",
     "level": 178,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -79046,7 +79046,7 @@
     "name": "Schaufel 'Bisch'",
     "level": 197,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -79489,7 +79489,7 @@
     "name": "Schaufel Vetia",
     "level": 181,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -79738,7 +79738,7 @@
     "name": "Struuts stumpfe Schaufel",
     "level": 50,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Stärke",
@@ -79793,7 +79793,7 @@
     "name": "Rabb-Axt",
     "level": 185,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -80208,7 +80208,7 @@
     "name": "Kanniball Aahdes Zepter",
     "level": 47,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -80283,7 +80283,7 @@
     "name": "Kwackatauklinge",
     "level": 56,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -81108,7 +81108,7 @@
     "name": "Der Thanos",
     "level": 172,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -81715,7 +81715,7 @@
     "name": "Frigostinchenstäbchen",
     "level": 149,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -82593,7 +82593,7 @@
     "name": "Stock des Propheten",
     "level": 169,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -82902,7 +82902,7 @@
     "name": "Guten Tarks Bogen",
     "level": 173,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -83586,7 +83586,7 @@
     "name": "Professor Xas Schaufel",
     "level": 191,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -83843,7 +83843,7 @@
     "name": "Barbärenstarkes Schwert",
     "level": 199,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -86250,7 +86250,7 @@
     "name": "Handschuhe des Abdichters",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -87248,7 +87248,7 @@
     "name": "Daigoros Wanderstock",
     "level": 88,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -89417,7 +89417,7 @@
     "name": "Zukas zerbrochene Stange",
     "level": 165,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -90168,7 +90168,7 @@
     "name": "Otomaïs Schwert",
     "level": 196,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -91584,7 +91584,7 @@
     "name": "Zukas Stange",
     "level": 165,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -92469,7 +92469,7 @@
     "name": "Rechüwbiss",
     "level": 102,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -92998,7 +92998,7 @@
     "name": "Stab des Scharfsinnigen Gwichtels",
     "level": 134,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Jemand folgt euch!",
@@ -94876,7 +94876,7 @@
     "name": "Aermynes Nudelholz",
     "level": 194,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -97267,7 +97267,7 @@
     "name": "Meeresmesser",
     "level": 124,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -97588,7 +97588,7 @@
     "name": "Stock \"Ente\"",
     "level": 197,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -97691,7 +97691,7 @@
     "name": "Axt des Sheriffs",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -98900,7 +98900,7 @@
     "name": "Spaten des Asselschlamms",
     "level": 197,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -100924,7 +100924,7 @@
     "name": "Obu-Bobub - Schwert",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -102189,7 +102189,7 @@
     "name": "Bauernmesser",
     "level": 198,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -102287,7 +102287,7 @@
     "name": "Dolche des Veteranen",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -102380,7 +102380,7 @@
     "name": "Axt \"Ritt\"",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -102473,7 +102473,7 @@
     "name": "Schaufel Wiss",
     "level": 199,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -102566,7 +102566,7 @@
     "name": "Spitze Vibrohacke",
     "level": 100,
     "type": "Spitzhacke",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -102599,7 +102599,7 @@
     "name": "Rapier O'Glyphe",
     "level": 197,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -103092,7 +103092,7 @@
     "name": "Bogen des Archonten",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -103200,7 +103200,7 @@
     "name": "Grabstock",
     "level": 197,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -103773,7 +103773,7 @@
     "name": "Schmetterstecken",
     "level": 126,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -104303,7 +104303,7 @@
     "name": "Despostock",
     "level": 198,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -104396,7 +104396,7 @@
     "name": "Axt Solution",
     "level": 192,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -105700,7 +105700,7 @@
     "name": "Harlekinetischer Bogen",
     "level": 104,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -105773,7 +105773,7 @@
     "name": "Schlüssel des Schraubenverdrehers",
     "level": 106,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -106356,7 +106356,7 @@
     "name": "Nautilustecken",
     "level": 139,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -108720,7 +108720,7 @@
     "name": "Mauve Arrow - Bogen",
     "level": 107,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -111397,7 +111397,7 @@
     "name": "Unruhtruhs Stab",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -111578,7 +111578,7 @@
     "name": "König Nidas' Schaufel",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -111813,7 +111813,7 @@
     "name": "Major Qyus Schleuder",
     "level": 130,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -112226,7 +112226,7 @@
     "name": "Staubfänger",
     "level": 120,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -113381,7 +113381,7 @@
     "name": "Srambad-Dolche",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -113464,7 +113464,7 @@
     "name": "Schaufel aus Düsterhof",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -113547,7 +113547,7 @@
     "name": "Nekrotenbogen",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -113645,7 +113645,7 @@
     "name": "Schwert der Königin der Diebe",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -114140,7 +114140,7 @@
     "name": "Nekroten-Fangnetz",
     "level": 160,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -114707,7 +114707,7 @@
     "name": "Heilige Messer",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5028-128.png",
@@ -116991,7 +116991,7 @@
     "name": "Stab der Verlorenen",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Erde",
@@ -117249,7 +117249,7 @@
     "name": "Staubwedel \"Mutierbar\"",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -117671,7 +117671,7 @@
     "name": "Blitzer",
     "level": 80,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -117699,7 +117699,7 @@
     "name": "Chronomagischer Hammer",
     "level": 80,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -117749,7 +117749,7 @@
     "name": "Winzlingsstab",
     "level": 40,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Wasser",
@@ -118760,7 +118760,7 @@
     "name": "Alter Ast von Weich-Eich",
     "level": 140,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -120935,7 +120935,7 @@
     "name": "Pinsel",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Emote",
@@ -121133,7 +121133,7 @@
     "name": "Beschlagnahmte Spitzhacke",
     "level": 50,
     "type": "Spitzhacke",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -121178,7 +121178,7 @@
     "name": "Schaufel der Familie Terra",
     "level": 130,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -121576,7 +121576,7 @@
     "name": "Schwert des Himmlischen Haudegens",
     "level": 160,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Schlagkraft",
@@ -121972,7 +121972,7 @@
     "name": "Zatoïshwans Stecken",
     "level": 150,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -123605,7 +123605,7 @@
     "name": "Knochenstab",
     "level": 173,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -123977,7 +123977,7 @@
     "name": "Dämonenrosenstrauß",
     "level": 30,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Heilung (Element Feuer)",
@@ -125133,7 +125133,7 @@
     "name": "Atchams Säbel",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -125380,7 +125380,7 @@
     "name": "Ushs Schwert",
     "level": 165,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -126102,7 +126102,7 @@
     "name": "Maunzaugs Bogen",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -126190,7 +126190,7 @@
     "name": "Spielerkönig-Zepter",
     "level": 200,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -126278,7 +126278,7 @@
     "name": "Maunzaug-Axt",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -128112,7 +128112,7 @@
     "name": "Thunstock",
     "level": 200,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -128210,7 +128210,7 @@
     "name": "Seltsamer Stab",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -128303,7 +128303,7 @@
     "name": "Bogen von Kutuluh",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -128391,7 +128391,7 @@
     "name": "Schippune",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -128474,7 +128474,7 @@
     "name": "Mantaxt",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -128542,7 +128542,7 @@
     "name": "Gruselschwert",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -128630,7 +128630,7 @@
     "name": "Glibberdolche",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -130268,7 +130268,7 @@
     "name": "Gesegneter Stab des Wünschelrutengängers",
     "level": 170,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -130296,7 +130296,7 @@
     "name": "Blitzknolle",
     "level": 170,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -130324,7 +130324,7 @@
     "name": "Wunbran-Handschuhe",
     "level": 60,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -130352,7 +130352,7 @@
     "name": "Stab des Wünschelrutengängers",
     "level": 170,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -130692,7 +130692,7 @@
     "name": "Mantiskor-Axt",
     "level": 80,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -131230,7 +131230,7 @@
     "name": "Kakteendolche",
     "level": 130,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -131303,7 +131303,7 @@
     "name": "Maracadegen",
     "level": 130,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -132719,7 +132719,7 @@
     "name": "Pyrastab",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -132817,7 +132817,7 @@
     "name": "Heqaxt",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -136164,7 +136164,7 @@
     "name": "Hackmesser von Mätzgargh",
     "level": 195,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -136284,7 +136284,7 @@
     "name": "Feuerzungenschwert",
     "level": 160,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -137375,7 +137375,7 @@
     "name": "Vierpfötchen-Schaufel",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -137561,7 +137561,7 @@
     "name": "Wiederbelebtes Feuerzungenschwert",
     "level": 160,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -139542,7 +139542,7 @@
     "name": "Verdorbener Wurfspeer",
     "level": 200,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -139645,7 +139645,7 @@
     "name": "Ilyzaelles Dolche",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -139733,7 +139733,7 @@
     "name": "Schwert der Brennenden Seele",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Feuer",
@@ -139831,7 +139831,7 @@
     "name": "Verdorbener Bogen",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -140001,7 +140001,7 @@
     "name": "Zrids Handschuhe",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -140029,7 +140029,7 @@
     "name": "Nekronyxschwert",
     "level": 50,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -140521,7 +140521,7 @@
     "name": "Lavaxt",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Erde",
@@ -141362,7 +141362,7 @@
     "name": "Bunt zusammengewürfelter Stab",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -141430,7 +141430,7 @@
     "name": "Leckerschmeckerstecken",
     "level": 200,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Luftschaden",
@@ -141868,7 +141868,7 @@
     "name": "Sidoa-Spitzhacke",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -143910,7 +143910,7 @@
     "name": "Naskäfer-Bogen",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -144003,7 +144003,7 @@
     "name": "Crocobur",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -144026,7 +144026,7 @@
     "name": "Crocobur",
     "level": 100,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -144077,7 +144077,7 @@
     "name": "Crocobur",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "-special spell-",
@@ -144171,7 +144171,7 @@
     "name": "Schere des Schicksals",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "-special spell-",
@@ -144245,7 +144245,7 @@
     "name": "Brumaires Schauder",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "-special spell-",
@@ -144324,7 +144324,7 @@
     "name": "Buhorado-Feder",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "-special spell-",
@@ -145113,7 +145113,7 @@
     "name": "Opfermesser",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -145459,7 +145459,7 @@
     "name": "Zor-Zepter",
     "level": 61,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -145844,7 +145844,7 @@
     "name": "Naschkatzen-Schneidspachtel",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -146616,7 +146616,7 @@
     "name": "Stab von Torkélonia",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -146997,7 +146997,7 @@
     "name": "Plüschkugel: Griesgrab",
     "level": 1,
     "type": "Magische Waffe",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -147030,7 +147030,7 @@
     "name": "Plüschkugel: Fresssack",
     "level": 1,
     "type": "Magische Waffe",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -147063,7 +147063,7 @@
     "name": "Plüschkugel: Tofu",
     "level": 1,
     "type": "Magische Waffe",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -147096,7 +147096,7 @@
     "name": "Plüschkugel: Maunzmiez",
     "level": 1,
     "type": "Magische Waffe",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -147129,7 +147129,7 @@
     "name": "Plüschkugel: Miniainkhürn",
     "level": 1,
     "type": "Magische Waffe",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -147206,7 +147206,7 @@
     "name": "Alptraumfänger",
     "level": 10,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -147940,7 +147940,7 @@
     "name": "Robuste Spitzhacke",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -148884,7 +148884,7 @@
     "name": "Verderbnis' Spaten",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -149131,7 +149131,7 @@
     "name": "Kriegs Hackebarde",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -149411,7 +149411,7 @@
     "name": "Elends Waagengeißel",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -149814,7 +149814,7 @@
     "name": "Kwaxt",
     "level": 130,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -150165,7 +150165,7 @@
     "name": "Nun-Charang",
     "level": 126,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -150486,7 +150486,7 @@
     "name": "Kross gebackenes Baguette",
     "level": 132,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -150584,7 +150584,7 @@
     "name": "Hanshis Stecken",
     "level": 142,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -150724,7 +150724,7 @@
     "name": "Shihans Fächer",
     "level": 142,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -150998,7 +150998,7 @@
     "name": "Flammenkatana",
     "level": 120,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Kooperative Herstellung unmöglich",
@@ -151066,7 +151066,7 @@
     "name": "Sturmkatana",
     "level": 120,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Kooperative Herstellung unmöglich",
@@ -151134,7 +151134,7 @@
     "name": "Gezeitenkatana",
     "level": 120,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Kooperative Herstellung unmöglich",
@@ -151202,7 +151202,7 @@
     "name": "Felskatana",
     "level": 120,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Kooperative Herstellung unmöglich",
@@ -151270,7 +151270,7 @@
     "name": "Blattkatana",
     "level": 120,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Kooperative Herstellung unmöglich",
@@ -151423,7 +151423,7 @@
     "name": "Stecken aus spirituellem Bambus",
     "level": 110,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -151518,7 +151518,7 @@
     "name": "Gravurwerkzeug",
     "level": 140,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -151541,7 +151541,7 @@
     "name": "Musamune",
     "level": 160,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -152332,7 +152332,7 @@
     "name": "Geistreichen-Katana",
     "level": 157,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -153014,7 +153014,7 @@
     "name": "Silbensense",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -153291,7 +153291,7 @@
     "name": "Wulans Bogen",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -153451,7 +153451,7 @@
     "name": "Kanjimca",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Wasserschaden",
@@ -153529,7 +153529,7 @@
     "name": "Okklusense",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Luft",
@@ -153704,7 +153704,7 @@
     "name": "Etymologehstock",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -154240,7 +154240,7 @@
     "name": "Stab des Pandamoniums",
     "level": 200,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -154565,7 +154565,7 @@
     "name": "Danabas Klinge",
     "level": 180,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -154618,7 +154618,7 @@
     "name": "Kalligraphiepinsel",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -154641,7 +154641,7 @@
     "name": "Pinsel der Schwüre",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -154842,7 +154842,7 @@
     "name": "Fressball",
     "level": 1,
     "type": "Magische Waffe",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -155010,7 +155010,7 @@
     "name": "Hackebeil des Zerstörers",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -155113,7 +155113,7 @@
     "name": "Seraphimsense",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -155211,7 +155211,7 @@
     "name": "Koboldhaftes Schwert",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -155309,7 +155309,7 @@
     "name": "Sense des Chaos",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -156094,7 +156094,7 @@
     "name": "Totem des Gleichgewichts",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -156150,7 +156150,7 @@
     "name": "Dämonischer Alptraumfänger",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Feuerschaden",
@@ -156178,7 +156178,7 @@
     "name": "Ayutos echtes Nudelholz",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -156206,7 +156206,7 @@
     "name": "Cynans Kreuz",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -156234,7 +156234,7 @@
     "name": "Einweg-Spitzhacke",
     "level": 10,
     "type": "Spitzhacke",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Neutralschaden",
@@ -156366,7 +156366,7 @@
     "name": "Verwurzelte Malter-Sense",
     "level": 150,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -156568,7 +156568,7 @@
     "name": "Hell Minas Partisane",
     "level": 150,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -156747,7 +156747,7 @@
     "name": "Sense des Direktors Grunob",
     "level": 38,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Entzug von Punkten im Element Neutral",
@@ -156878,7 +156878,7 @@
     "name": "Ankarton-Goultard",
     "level": 50,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Austauschbar:",
@@ -157064,7 +157064,7 @@
     "name": "Claymomore",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -158064,7 +158064,7 @@
     "name": "Racooper-Hippe",
     "level": 52,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -158206,7 +158206,7 @@
     "name": "Albueranischer Kriegerspeer",
     "level": 50,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -158269,7 +158269,7 @@
     "name": "Wurfspeer eines Albueraner-Fallenstellers",
     "level": 50,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -158540,7 +158540,7 @@
     "name": "Sauersichel",
     "level": 190,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -158840,7 +158840,7 @@
     "name": "Barberyls Tonfas",
     "level": 194,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -158975,7 +158975,7 @@
     "name": "Potenz von Ephedrya",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -159063,7 +159063,7 @@
     "name": "Säule von Ephedrya",
     "level": 200,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -160499,7 +160499,7 @@
     "name": "Yaularc",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Erdschaden",
@@ -160612,7 +160612,7 @@
     "name": "Einfacher Besen",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -167879,7 +167879,7 @@
     "name": "Moskitoklatsche",
     "level": 180,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Schaden im besten Element",
@@ -169148,7 +169148,7 @@
     "name": "Buhnihime",
     "level": 1,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Jagdwaffe",
@@ -169181,7 +169181,7 @@
     "name": "Jagdmesser des Imp Erial Gnoms",
     "level": 1,
     "type": "Werkzeug",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "An den Charakter gebunden",
@@ -169214,7 +169214,7 @@
     "name": "Dolche des Chafer-Offiziers",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -169698,7 +169698,7 @@
     "name": "Dark Vlads Flamberg",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -170308,7 +170308,7 @@
     "name": "Stachel des Supervizeis",
     "level": 181,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -170612,7 +170612,7 @@
     "name": "Fleischwolf der Reißerin",
     "level": 200,
     "type": "Axt",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -170730,7 +170730,7 @@
     "name": "Krallen der Reißerin",
     "level": 200,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -171125,7 +171125,7 @@
     "name": "Falschgelb",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -171238,7 +171238,7 @@
     "name": "Kornipfeife",
     "level": 197,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -171932,7 +171932,7 @@
     "name": "Newabogen",
     "level": 197,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -172112,7 +172112,7 @@
     "name": "Ssummssktssummglsfsbs",
     "level": 200,
     "type": "Stecken",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -172235,7 +172235,7 @@
     "name": "Kralle des Gargandyas",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -172728,7 +172728,7 @@
     "name": "Kabombz-Dolche",
     "level": 170,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -173336,7 +173336,7 @@
     "name": "Bogen des Ehrwürdigen Schläfers",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -173754,7 +173754,7 @@
     "name": "Menalts Blitzwurfspeer",
     "level": 200,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "-special spell-",
@@ -173838,7 +173838,7 @@
     "name": "Thanatenas Urteil",
     "level": 200,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "-special spell-",
@@ -174166,7 +174166,7 @@
     "name": "Amayiros Eifer",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -175713,7 +175713,7 @@
     "name": "Sense von San Jifu",
     "level": 194,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -175858,7 +175858,7 @@
     "name": "Sturmsense von Daxoflash",
     "level": 190,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "AP (Ziel)",
@@ -176142,7 +176142,7 @@
     "name": "Geißel von Doktor Eggob",
     "level": 195,
     "type": "Stab",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -176568,7 +176568,7 @@
     "name": "Frostige Klinge des Eisritters",
     "level": 200,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -176795,7 +176795,7 @@
     "name": "Bogen von Kuhklebei",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -177316,7 +177316,7 @@
     "name": "Mechmuts Spaten",
     "level": 200,
     "type": "Schaufel",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -177501,7 +177501,7 @@
     "name": "Psychopomps' Nadel",
     "level": 200,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -187473,7 +187473,7 @@
     "name": "Knochendolche der Scalarcin",
     "level": 55,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Stärke",
@@ -187615,7 +187615,7 @@
     "name": "Marzwel-Wurfspeer",
     "level": 66,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -187752,7 +187752,7 @@
     "name": "Tonfas von Qil Bil",
     "level": 77,
     "type": "Dolch",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -188947,7 +188947,7 @@
     "name": "Naginata von Naganita",
     "level": 109,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -189311,7 +189311,7 @@
     "name": "Nelumsens",
     "level": 129,
     "type": "Sense",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -189518,7 +189518,7 @@
     "name": "Schwert der Kainsdaff Ürmisch",
     "level": 139,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -189735,7 +189735,7 @@
     "name": "Schwert von Dizigota",
     "level": 146,
     "type": "Schwert",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Initiative",
@@ -190280,7 +190280,7 @@
     "name": "Bogen von Barkanogen",
     "level": 200,
     "type": "Bogen",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",
@@ -190895,7 +190895,7 @@
     "name": "Scherenlanze der Gruselkrabbe",
     "level": 200,
     "type": "Wurfspeer",
-    "slot": "other",
+    "slot": "weapon",
     "effects": [
       {
         "stat": "Vitalität",

@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.37',
+    date: '2026-08-15',
+    notes: [
+      'Toast al equipar: notificación "Slot: Item" aparece abajo a la derecha por 2.8s',
+      'Dofus sin duplicados: equipar uno ya equipado en otro slot lo mueve automáticamente',
+      'Slot labels con número: "Dofus 1"–"Dofus 6", "Anillo 1"/"Anillo 2" en todos los idiomas',
+    ],
+  },
+  {
     version: '0.2.36',
     date: '2026-08-15',
     notes: [
