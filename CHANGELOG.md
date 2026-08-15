@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.36] — 2026-08-15
+- Fix: armas en idiomas no inglés (Arco, Espada, etc.) ahora tienen slot:weapon correcto — efectos de ataque aparecen en "Ataque de Arma" y no en "Efectos"
+- ETL normalizeItem usa is_weapon del API en lugar de mapear el nombre del tipo (que varía por idioma)
+- EquipmentGrid tooltip usa ap_cost != null como check adicional de arma
+
 ## [0.2.35] — 2026-08-15
 - SetDetailModal: items separados en "Ya tienes" / "Te falta" con headers colored
 - Items faltantes muestran badge con slot (ej. "🎩 Sombrero") para saber qué hay que liberar

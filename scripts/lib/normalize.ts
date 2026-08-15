@@ -105,7 +105,7 @@ export function normalizeItem(raw: RawItem): AppItem {
     name:      raw.name ?? '',
     level:     raw.level ?? 1,
     type:      raw.type?.name ?? '',
-    slot:      slotFromType(raw.type?.name ?? ''),
+    slot:      raw.is_weapon ? 'weapon' : slotFromType(raw.type?.name ?? ''),
     effects:   (raw.effects ?? []).map(e => ({
       stat: e.type?.name ?? '',
       min:  e.int_minimum ?? 0,

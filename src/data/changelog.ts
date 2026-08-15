@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.36',
+    date: '2026-08-15',
+    notes: [
+      'Fix: efectos de ataque de armas (Arco, Espada, etc.) ahora aparecen en "Ataque de Arma" correctamente en todos los idiomas',
+      'ETL normalizeItem usa is_weapon del API para asignar slot:weapon — no depende del nombre del tipo que varía por idioma',
+    ],
+  },
+  {
     version: '0.2.35',
     date: '2026-08-15',
     notes: [
