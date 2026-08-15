@@ -131,6 +131,11 @@ const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5'
 
 const SLOT_MAP = Object.fromEntries(SLOT_CONFIGS.map(s => [s.id, s])) as Record<SlotId, SlotConfig>
 
+const DOFUS_ADVANCE: Partial<Record<SlotId, SlotId>> = {
+  dofus1: 'dofus2', dofus2: 'dofus3', dofus3: 'dofus4',
+  dofus4: 'dofus5', dofus5: 'dofus6',
+}
+
 function slotTKey(id: SlotId): string {
   if (id.startsWith('ring'))  return 'slot_ring'
   if (id.startsWith('dofus')) return 'slot_dofus'
@@ -802,6 +807,11 @@ export function EquipmentGrid() {
           slot={openSlot.config}
           slotId={openSlot.id}
           onClose={() => setOpenSlot(null)}
+          onAfterEquip={(slotId) => {
+            const next = DOFUS_ADVANCE[slotId]
+            if (next) setOpenSlot({ config: SLOT_MAP[next], id: next })
+            else setOpenSlot(null)
+          }}
         />,
         document.body
       )}
