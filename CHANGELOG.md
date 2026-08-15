@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.35] — 2026-08-15
+- SetDetailModal: items separados en "Ya tienes" / "Te falta" con headers colored
+- Items faltantes muestran badge con slot (ej. "🎩 Sombrero") para saber qué hay que liberar
+- Bonuses del set: colores y tamaños iguales al panel de sets activos
+
 ## [0.2.34] — 2026-08-15
 - Sets activos: 3 columnas para 3+ sets (2 columnas para exactamente 2)
 - Stats panel: títulos de sección "Elementos" y "Combate" más grandes (9px → 11px)
