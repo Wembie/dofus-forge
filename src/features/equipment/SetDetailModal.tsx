@@ -6,6 +6,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { SLOT_CONFIGS } from './slotConfig.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
+import { useToastStore } from '@/store/toastStore.ts'
 import { Modal, Button } from '@/ui'
 
 type Props = {
@@ -41,6 +42,7 @@ export function SetDetailModal({ set, onClose }: Props) {
   const equipped    = useBuildStore(s => s.equipped)
   const equipItem   = useBuildStore(s => s.equipItem)
   const unequipItem = useBuildStore(s => s.unequipItem)
+  const addToast    = useToastStore(s => s.addToast)
 
   const slotByApiSlot = useMemo(() => {
     const map = new Map<string, SlotId[]>()
@@ -88,7 +90,11 @@ export function SetDetailModal({ set, onClose }: Props) {
   function handleEquip(item: AppItem) {
     const slots  = slotByApiSlot.get(item.slot) ?? []
     const target = slots.find(sid => equipped[sid] == null) ?? slots[0]
-    if (target) equipItem(target, item.ankama_id)
+    if (target) {
+      equipItem(target, item.ankama_id)
+      const slotCfg = SLOT_CONFIGS.find(s => s.id === target)
+      addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), slotCfg?.icon ?? '✓')
+    }
   }
 
   function handleUnequip(item: AppItem) {

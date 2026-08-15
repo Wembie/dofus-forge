@@ -7,6 +7,7 @@ import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
+import { useToastStore } from '@/store/toastStore.ts'
 import { Modal, Button, StatFilter } from '@/ui'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
@@ -279,13 +280,14 @@ function SetDetailModal({ set, equipment, equippedIds, onEquip, onUnequip, onClo
 }
 
 export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
-  const { t }     = useTranslation()
-  const equipment = useDataStore(s => s.equipment)
-  const setsData  = useDataStore(s => s.sets)
+  const { t }      = useTranslation()
+  const equipment  = useDataStore(s => s.equipment)
+  const setsData   = useDataStore(s => s.sets)
   const equipItem   = useBuildStore(s => s.equipItem)
   const unequipItem = useBuildStore(s => s.unequipItem)
   const currentId   = useBuildStore(s => s.equipped[slotId])
   const equipped    = useBuildStore(s => s.equipped)
+  const addToast    = useToastStore(s => s.addToast)
 
   const slotLabel = t(slotTKey(slotId))
 
@@ -384,9 +386,10 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
 
   const handlePick = useCallback((item: AppItem) => {
     equipItem(slotId, item.ankama_id)
+    addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slot.icon)
     if (onAfterEquip) onAfterEquip(slotId)
     else onClose()
-  }, [equipItem, slotId, onClose, onAfterEquip])
+  }, [equipItem, slotId, onClose, onAfterEquip, addToast, t, slot.icon])
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }

@@ -183,7 +183,16 @@ export const useBuildStore = create<BuildState>((set) => {
       update({ scrolled: { ...s.scrolled, [char]: !s.scrolled[char] } }, s)
     ),
 
-    equipItem:   (slot, id) => set(s => update({ equipped: { ...s.equipped, [slot]: id } }, s)),
+    equipItem: (slot, id) => set(s => {
+      const eq = { ...s.equipped }
+      if (slot.startsWith('dofus')) {
+        for (const ds of ['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'] as SlotId[]) {
+          if (ds !== slot && eq[ds] === id) delete eq[ds]
+        }
+      }
+      eq[slot] = id
+      return update({ equipped: eq }, s)
+    }),
     unequipItem: (slot)     => set(s => {
       const equipped = { ...s.equipped }
       delete equipped[slot]

@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.37] — 2026-08-15
+- Toast al equipar: notificación "Slot: Item" aparece abajo a la derecha por 2.8s, click para cerrar
+- Dofus sin duplicados: equipar un dofus ya puesto en otro slot lo mueve (no duplica)
+- Slot labels con número: "Dofus 1"–"Dofus 6", "Anillo 1"/"Anillo 2" en todas las lenguas
+
 ## [0.2.36] — 2026-08-15
 - Fix: armas en idiomas no inglés (Arco, Espada, etc.) ahora tienen slot:weapon correcto — efectos de ataque aparecen en "Ataque de Arma" y no en "Efectos"
 - ETL normalizeItem usa is_weapon del API en lugar de mapear el nombre del tipo (que varía por idioma)
