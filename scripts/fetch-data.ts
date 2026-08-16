@@ -22,7 +22,7 @@
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import {
-  normalizeItem, normalizeSet, normalizeMount,
+  normalizeItem, normalizeSet, normalizeMount, slotFromType,
   type AppItem, type RawItem, type RawSet, type RawMount,
 } from './lib/normalize.ts'
 
@@ -66,6 +66,17 @@ async function main() {
 
   console.log(`New version: ${gameVersion}. Fetching all languages...`)
 
+  // Build canonical (EN) type map: ankama_id → English type name.
+  // Non-English API responses return localized type names (e.g. "Dragopavo" instead of
+  // "Dragoturkey"), which breaks slotConfig.ts apiTypes filters. We override type+slot
+  // in every language with the EN canonical value so filtering always works.
+  console.log('  Fetching EN canonical types...')
+  const enRaw = await get<{ items: RawItem[] }>(`/${GAME}/${VER}/en/items/equipment/all`)
+  const canonicalType = new Map<number, string>()
+  for (const item of enRaw.items) {
+    if (item.ankama_id != null) canonicalType.set(item.ankama_id, item.type?.name ?? '')
+  }
+
   for (const lang of LANGS) {
     console.log(`  [${lang}] fetching...`)
     const langDir = join(DATA_DIR, lang)
@@ -78,7 +89,15 @@ async function main() {
       get<{ mounts: RawMount[] }>(`/${GAME}/${VER}/${lang}/mounts/all`),
     ])
 
-    const equipment   = rawEquip.items.map(normalizeItem)
+    const equipment = rawEquip.items.map(raw => {
+      const item = normalizeItem(raw)
+      const cType = canonicalType.get(item.ankama_id)
+      if (cType !== undefined && lang !== 'en') {
+        item.type = cType
+        if (!raw.is_weapon) item.slot = slotFromType(cType)
+      }
+      return item
+    })
     const consumables = rawConsum.items.map(normalizeItem)
     const sets        = rawSets.sets.map(normalizeSet)
     const mounts      = rawMounts.mounts.map(normalizeMount)

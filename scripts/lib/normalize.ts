@@ -95,7 +95,7 @@ const SLOT_MAP: Record<string, string> = {
   Mount: 'mount',
 }
 
-function slotFromType(type: string): string {
+export function slotFromType(type: string): string {
   return SLOT_MAP[type] ?? 'other'
 }
 

@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.44] — 2026-08-16
+- Fix: companion/mount slot now shows items in all languages (ES/FR/PT/DE)
+- Root cause: ETL stored localized type names (e.g. "Dragopavo" in ES), but slotConfig apiTypes filter checks English names
+- Fix: ETL fetches EN type names first, then applies them as canonical type+slot for all languages
+- Sidekick slot also fixed by the same change
+
 ## [0.2.43] — 2026-08-16
 - Modo Comparar builds: botón "⚖ Comparar" en header activa panel de comparación completo
 - Panel muestra equipo de Build A vs Build B (lado a lado) con iconos y nombres de items
