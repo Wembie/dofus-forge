@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.47',
+    date: '2026-08-16',
+    notes: [
+      'Catálogo: armas muestran "Ataque de Arma" separado de "Efectos" (como en el tooltip del slot)',
+      'Clasificación por effect_id igual que en el tooltip — consistente en toda la UI',
+    ],
+  },
+  {
     version: '0.2.46',
     date: '2026-08-16',
     notes: [
