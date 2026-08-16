@@ -19,6 +19,13 @@ export const WEAPON_ATTACK_IDS = new Set([
   257,  // best-element steal
 ])
 
+// Effect type IDs to hide from display in all tooltips/catalog.
+// These are UI/meta markers from the API, not real stat effects.
+export const IGNORED_EFFECT_IDS = new Set([
+  163,  // -special spell- (marks dofus passive ability; shown via item.ability instead)
+   98,  // Actitud / Attitude (cosmetic emote unlock)
+])
+
 // Maps API stat name strings (English) to StatBlock keys.
 // Stat names verified against live DofusDude EN equipment data (2026-08-05).
 // "max" value is used when valid (max > min && max !== 0); otherwise "min" is used.
