@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.47] — 2026-08-16
+- Catálogo: armas muestran sección "Ataque de Arma" separada de "Efectos" — igual que el tooltip del slot equipado
+- Misma lógica de clasificación por effect_id (WEAPON_ATTACK_IDS) aplicada en las tarjetas del catálogo
+
 ## [0.2.46] — 2026-08-16
 - Brand "Dofus Forge": click derecho / botón medio abre nueva pestaña con el build actual codificado en la URL
 - Click izquierdo sigue reseteando el build como antes

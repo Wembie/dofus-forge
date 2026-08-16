@@ -6,6 +6,7 @@ import type { SlotId } from '@/store/buildStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
+import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { Modal, Button, StatFilter } from '@/ui'
@@ -549,7 +550,15 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               {items.map(item => {
                 const isEquipped = item.ankama_id === currentId
                 const itemSet    = item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined
-                const effects    = item.effects.filter(e => !isIgnored(e.stat))
+                const isWeapon   = item.slot === 'weapon' || item.ap_cost != null
+                const isAtk      = (e: AppItem['effects'][0]) =>
+                  e.effect_id != null ? WEAPON_ATTACK_IDS.has(e.effect_id) : false
+                const allFx      = item.effects.filter(e =>
+                  !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id))
+                )
+                const atkFx      = isWeapon ? allFx.filter(isAtk) : []
+                const statFx     = isWeapon ? allFx.filter(e => !isAtk(e)) : allFx
+                const effects    = allFx
 
                 return (
                   <button
@@ -662,33 +671,64 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                       </div>
                     )}
 
-                    {/* Stats */}
+                    {/* Stats — weapon attack damage separated from passive stats */}
                     {effects.length > 0 && (
-                      <div
-                        className="px-3 pb-2"
-                        style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 5 }}
-                      >
-                        {effects.map((e, i) => {
-                          const meta  = STAT_META[e.stat]
-                          const isNeg = e.min < 0
-                          const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
-                          const val   = fmtValue(e.min, e.max, t('range_sep_neg'))
-                          return (
-                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              {meta?.icon
-                                ? <img src={statIconUrl(meta.icon)} alt="" width={15} height={15} style={{ objectFit: 'contain', flexShrink: 0 }} />
-                                : <span style={{ width: 15, flexShrink: 0 }} />
-                              }
-                              <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
-                                {val}
-                              </span>
-                              <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 13, lineHeight: 1.3, opacity: 0.7 }}>
-                                {meta ? t(meta.tKey) : e.stat}
-                              </span>
+                      <>
+                        {atkFx.length > 0 && (
+                          <div className="px-3 pb-2" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 8 }}>
+                            <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                              {t('weapon_attack')}
+                            </p>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                              {atkFx.map((e, i) => {
+                                const meta  = STAT_META[e.stat]
+                                const clr   = meta?.color ?? 'var(--ink-faint)'
+                                const val   = e.min === e.max || e.max === 0 ? String(e.min) : `${e.min} ${t('range_sep_neg')} ${e.max}`
+                                return (
+                                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                    {meta?.icon
+                                      ? <img src={statIconUrl(meta.icon)} alt="" width={15} height={15} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                                      : <span style={{ width: 15, flexShrink: 0 }} />
+                                    }
+                                    <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>{val}</span>
+                                    <span style={{ color: clr, fontSize: 13, lineHeight: 1.3, opacity: 0.7 }}>{meta ? t(meta.tKey) : e.stat}</span>
+                                  </div>
+                                )
+                              })}
                             </div>
-                          )
-                        })}
-                      </div>
+                          </div>
+                        )}
+                        {statFx.length > 0 && (
+                          <div
+                            className="px-3 pb-2"
+                            style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: atkFx.length > 0 ? 8 : 10, display: 'flex', flexDirection: 'column', gap: 5 }}
+                          >
+                            {atkFx.length > 0 && (
+                              <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-0.5" style={{ color: 'var(--ink-faint)' }}>
+                                {t('effects')}
+                              </p>
+                            )}
+                            {statFx.map((e, i) => {
+                              const meta  = STAT_META[e.stat]
+                              const isNeg = e.min < 0
+                              const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
+                              const val   = fmtValue(e.min, e.max, t('range_sep_neg'))
+                              return (
+                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  {meta?.icon
+                                    ? <img src={statIconUrl(meta.icon)} alt="" width={15} height={15} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                                    : <span style={{ width: 15, flexShrink: 0 }} />
+                                  }
+                                  <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>{val}</span>
+                                  <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 13, lineHeight: 1.3, opacity: 0.7 }}>
+                                    {meta ? t(meta.tKey) : e.stat}
+                                  </span>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </>
                     )}
 
                     {/* Lore description */}
@@ -696,8 +736,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                       <div
                         className="px-3 pb-3"
                         style={{
-                          borderTop:  (effects.length > 0 || item.ability) ? '1px solid var(--metal-edge)' : undefined,
-                          paddingTop: (effects.length > 0 || item.ability) ? 7 : 4,
+                          borderTop:  (allFx.length > 0 || item.ability) ? '1px solid var(--metal-edge)' : undefined,
+                          paddingTop: (allFx.length > 0 || item.ability) ? 7 : 4,
                         }}
                       >
                         <p style={{ fontSize: 12, color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
