@@ -59,14 +59,22 @@ const CLASS_SLUG: Record<string, string> = {
 
 export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
 
-export type AppSpellEffectKind = 'damage' | 'steal' | 'push' | 'ap' | 'mp'
+export type AppSpellEffectKind =
+  | 'damage' | 'steal' | 'push'
+  | 'ap' | 'ap_gain'
+  | 'mp' | 'mp_gain'
+  | 'erosion' | 'heal_mod' | 'spell_buff'
 
 export type AppSpellEffect = {
   element:    Exclude<AppSpellElement, 'mixed'>
   min:        number
   max:        number
   kind:       AppSpellEffectKind
-  condition?: 'shield'  // effect only applies when target has a shield (PB targetMask)
+  condition?: 'shield'
+  spellId?:    number
+  stack?:      number
+  turns?:      number
+  deathReset?: boolean
 }
 
 export type AppSpellLevel = {
@@ -145,14 +153,25 @@ function dominantElement(effects: AppSpellEffect[]): AppSpellElement {
 //   2832 = worst-element damage (effectElement=-1, diceNum/diceSide = base dmg)
 //   118,119,123,126 = lifesteal % modifiers (category=0, NOT actual damage — filter out)
 const PUSH_ID   = 5
-const AP_IDS    = new Set([128])
-const MP_IDS    = new Set([141])
+// AP: 84=steal from enemy, 111=gain for caster
+const AP_STEAL_IDS = new Set([84])
+const AP_GAIN_IDS  = new Set([111])
+// MP: 127/169=steal from enemy, 128=gain for caster
+const MP_STEAL_IDS = new Set([127, 169])
+const MP_GAIN_IDS  = new Set([128])
 // Best/worst element damage (effectElement=-1, treated as neutral for display)
 const OMNI_DMG_IDS = new Set([2822, 2832])
 // Percentage modifiers accompanying steal effects — skip these (not damage values)
 const LIFESTEAL_PCT_IDS = new Set([118, 119, 123, 126])
 // Elemental steal/lifesteal effectIds (same element pattern as 96-100 damage effectIds)
 const STEAL_IDS = new Set([91, 92, 93, 94, 95])
+// Special effect IDs
+const EROSION_ID    = 776   // "#1~#2% Erosion" (incurable damage %)
+const HEAL_MOD_ID   = 1159  // "Heals received x#1%"
+const SPELL_BUFF_ID = 293   // "#1: +#3 base damage" stacking spell buff
+// Internal counter/trigger — no display value (3793 = internal counter, silently ignored)
+const COUNTER_IDS = new Set([3793])
+void COUNTER_IDS
 
 type RawEffect = { effect: AppSpellEffect; mask: string }
 
@@ -248,18 +267,58 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
     }
   }
 
-  // AP/MP modification effects
-  const seenAP = new Set<number>(), seenMP = new Set<number>()
+  // AP/MP effects (steal vs gain distinguished by effectId)
+  const seenAPSteal = new Set<number>(), seenAPGain = new Set<number>()
+  const seenMPSteal = new Set<number>(), seenMPGain = new Set<number>()
   for (const e of rawEffects) {
     const eid = Number(e.effectId)
     const amt = Number(e.diceNum)
-    if (AP_IDS.has(eid) && amt > 0 && amt <= 20 && !seenAP.has(amt)) {
+    if (AP_STEAL_IDS.has(eid) && amt > 0 && amt <= 20 && !seenAPSteal.has(amt)) {
       effects.push({ element: 'neutral', min: amt, max: amt, kind: 'ap' })
-      seenAP.add(amt)
+      seenAPSteal.add(amt)
     }
-    if (MP_IDS.has(eid) && amt > 0 && amt <= 20 && !seenMP.has(amt)) {
+    if (AP_GAIN_IDS.has(eid) && amt > 0 && amt <= 20 && !seenAPGain.has(amt)) {
+      effects.push({ element: 'neutral', min: amt, max: amt, kind: 'ap_gain' })
+      seenAPGain.add(amt)
+    }
+    if (MP_STEAL_IDS.has(eid) && amt > 0 && amt <= 20 && !seenMPSteal.has(amt)) {
       effects.push({ element: 'neutral', min: amt, max: amt, kind: 'mp' })
-      seenMP.add(amt)
+      seenMPSteal.add(amt)
+    }
+    if (MP_GAIN_IDS.has(eid) && amt > 0 && amt <= 20 && !seenMPGain.has(amt)) {
+      effects.push({ element: 'neutral', min: amt, max: amt, kind: 'mp_gain' })
+      seenMPGain.add(amt)
+    }
+  }
+
+  // Erosion (% incurable damage)
+  for (const e of rawEffects) {
+    if (Number(e.effectId) === EROSION_ID) {
+      const pct   = Number(e.diceNum)
+      const turns = Number(e.duration)
+      if (pct > 0) effects.push({ element: 'neutral', min: pct, max: 0, kind: 'erosion', turns })
+    }
+  }
+
+  // Heal modifier (heals received x%)
+  for (const e of rawEffects) {
+    if (Number(e.effectId) === HEAL_MOD_ID) {
+      const pct = Number(e.diceNum)
+      if (pct > 0) effects.push({ element: 'neutral', min: pct, max: 0, kind: 'heal_mod' })
+    }
+  }
+
+  // Spell stacking buff (e.g. "Flecha Castigadora: +24 base dmg - 1t(on cast 1)")
+  for (const e of rawEffects) {
+    if (Number(e.effectId) === SPELL_BUFF_ID) {
+      const spellId    = Number(e.diceNum)
+      const buffAmount = Number(e.value)
+      const stack      = Number(e.delay)
+      const turns      = Number(e.duration)
+      const deathReset = Number(e.dispellable) === 2
+      if (spellId > 0 && buffAmount > 0) {
+        effects.push({ element: 'neutral', min: buffAmount, max: 0, kind: 'spell_buff', spellId, stack, turns, deathReset })
+      }
     }
   }
 

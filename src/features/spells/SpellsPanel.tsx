@@ -54,7 +54,7 @@ function rangePct(minRange: number, maxRange: number, stats: StatBlock): number 
 type ElemFilter = AppSpellElement | 'all'
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
-function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; stats: StatBlock | null }) {
+function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; grade: number; stats: StatBlock | null; spellNameMap: Map<number, string> }) {
   const { t }    = useTranslation()
   const lvl      = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
   const color    = ELEM_COLOR[spell.element]
@@ -182,6 +182,49 @@ function SpellCard({ spell, grade, stats }: { spell: AppSpell; grade: number; st
         rows.push(
           <div key={`m${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
             {t('spell_steal_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+          </div>
+        )
+        return
+      }
+      if (e.kind === 'ap_gain') {
+        rows.push(
+          <div key={`ag${i}`} className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>
+            {t('spell_gain_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+          </div>
+        )
+        return
+      }
+      if (e.kind === 'mp_gain') {
+        rows.push(
+          <div key={`mg${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
+            {t('spell_gain_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+          </div>
+        )
+        return
+      }
+      if (e.kind === 'erosion') {
+        rows.push(
+          <div key={`er${i}`} className="text-[10px] font-mono" style={{ color: 'var(--fire)' }}>
+            {t('spell_erosion', { pct: e.calcMin, turns: e.turns ?? 0 })}
+          </div>
+        )
+        return
+      }
+      if (e.kind === 'heal_mod') {
+        rows.push(
+          <div key={`hm${i}`} className="text-[10px] font-mono" style={{ color: 'var(--vitality)' }}>
+            {t('spell_heal_mod', { pct: e.calcMin })}
+          </div>
+        )
+        return
+      }
+      if (e.kind === 'spell_buff') {
+        const spellName = spellNameMap.get(e.spellId ?? 0) ?? `#${e.spellId ?? '?'}`
+        const turnsStr  = e.turns && e.turns > 0 ? ` · ${e.turns}t` : ''
+        const deathStr  = e.deathReset ? ' 💀' : ''
+        rows.push(
+          <div key={`sb${i}`} className="text-[10px] font-mono leading-tight" style={{ color: 'var(--gold-deep)' }}>
+            ⭐ {spellName}: +{e.calcMin} base{turnsStr}{deathStr}
           </div>
         )
         return
@@ -635,6 +678,14 @@ export function SpellsPanel() {
   const allClassSpells = classData?.spells ?? []
   const allCommonSpells = commonData?.spells ?? []
 
+  const spellNameMap = useMemo((): Map<number, string> => {
+    const map = new Map<number, string>()
+    for (const cs of spells.values()) {
+      for (const sp of cs.spells) map.set(sp.id, sp.name)
+    }
+    return map
+  }, [spells])
+
   const normalSpells  = allClassSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
   const variantSpells = allClassSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
   const normalCommon  = allCommonSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
@@ -742,7 +793,7 @@ export function SpellsPanel() {
               {normalSpells.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalSpells.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
               ))}
             </div>
             <div className="space-y-2">
@@ -755,7 +806,7 @@ export function SpellsPanel() {
               {variantSpells.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantSpells.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
               ))}
             </div>
           </div>
@@ -782,7 +833,7 @@ export function SpellsPanel() {
               {normalCommon.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalCommon.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
               ))}
             </div>
             <div className="space-y-2">
@@ -795,7 +846,7 @@ export function SpellsPanel() {
               {variantCommon.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantCommon.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
               ))}
             </div>
           </div>

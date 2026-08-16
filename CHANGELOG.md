@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.42] — 2026-08-16
+- Spell effects validated and fixed: AP/MP steal vs gain correctly distinguished (effectIds 84/111/127/128/169)
+- New spell effect kinds rendered: +PA gain, +PM gain, % Erosión, Curas ×%, stacking spell buffs (⭐ SpellName: +N base)
+- ETL regenerated: all 19 classes + common spells with correct effectId mappings across EN/ES/FR/PT
+
 ## [0.2.41] — 2026-08-15
 - Equipped slot tooltip now shows special ability (gold box) and lore description on hover
 - i18n fix: ability and description text now uses selected language (was always English before)

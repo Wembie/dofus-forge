@@ -1,8 +1,28 @@
 const BASE = import.meta.env.BASE_URL
 
 export type AppSpellElement    = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
-export type AppSpellEffectKind = 'damage' | 'steal' | 'push' | 'ap' | 'mp'
-export type AppSpellEffect     = { element: Exclude<AppSpellElement, 'mixed'>; min: number; max: number; kind: AppSpellEffectKind; condition?: 'shield' }
+export type AppSpellEffectKind =
+  | 'damage' | 'steal' | 'push'
+  | 'ap'      // steal AP from enemy
+  | 'ap_gain' // gain AP (caster)
+  | 'mp'      // steal MP from enemy
+  | 'mp_gain' // gain MP (caster)
+  | 'erosion'    // % incurable damage — min=pct, turns=duration
+  | 'heal_mod'   // heals received modifier — min=pct
+  | 'spell_buff' // stacking spell damage buff — min=amount, spellId, stack, turns, deathReset
+
+export type AppSpellEffect = {
+  element:    Exclude<AppSpellElement, 'mixed'>
+  min:        number
+  max:        number
+  kind:       AppSpellEffectKind
+  condition?: 'shield'
+  // spell_buff / erosion
+  spellId?:    number
+  stack?:      number
+  turns?:      number
+  deathReset?: boolean
+}
 export type AppSpellLevel = {
   grade:        number
   ap:           number

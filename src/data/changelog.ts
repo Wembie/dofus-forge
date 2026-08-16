@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.42',
+    date: '2026-08-16',
+    notes: [
+      'Hechizos validados: robo vs ganancia de PA/PM correctamente distinguidos (effectIds 84/111/127/128/169)',
+      'Nuevos efectos renderizados: +PA ganado, +PM ganado, % Erosión, Curas ×%, buffs de hechizo apilables (⭐ Hechizo: +N base)',
+      'ETL regenerado: 19 clases + hechizos comunes con mappings de effectId correctos en ES/EN/FR/PT',
+    ],
+  },
+  {
     version: '0.2.41',
     date: '2026-08-15',
     notes: [
