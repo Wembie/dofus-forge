@@ -97,6 +97,8 @@ export function ComparePanel() {
   const sets      = useDataStore(s => s.sets ?? [])
 
   const [showSelector, setShowSelector] = useState(false)
+  const [urlInput, setUrlInput]         = useState('')
+  const [urlError, setUrlError]         = useState(false)
 
   const classAInfo = useMemo(() => CLASS_DATA.find(c => c.id === classA), [classA])
   const classBInfo = useMemo(() => CLASS_DATA.find(c => c.id === classB), [classB])
@@ -107,6 +109,24 @@ export function ComparePanel() {
     const snap = decodeBuild(encoded)
     if (!snap) return
     loadBuild(snap, name, equipment, sets)
+    setShowSelector(false)
+  }
+
+  const handleLoadUrl = () => {
+    setUrlError(false)
+    const raw = urlInput.trim()
+    // Extract ?b= param from hash-based URL  (#/?b=v1:...) or bare encoded string
+    let encoded = raw
+    try {
+      const hashQuery = raw.includes('#') ? raw.split('#')[1] : raw
+      const params = new URLSearchParams(hashQuery.startsWith('/') ? hashQuery.slice(2) : hashQuery)
+      const b = params.get('b')
+      if (b) encoded = b
+    } catch { /* use raw as-is */ }
+    const snap = decodeBuild(encoded)
+    if (!snap) { setUrlError(true); return }
+    loadBuild(snap, t('compare_build_b'), equipment, sets)
+    setUrlInput('')
     setShowSelector(false)
   }
 
@@ -205,6 +225,44 @@ export function ComparePanel() {
                 <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
                   {t('compare_load_b')}
                 </span>
+              </div>
+              {/* URL paste input */}
+              <div className="px-3 py-2" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
+                <div className="flex gap-1.5">
+                  <input
+                    type="text"
+                    value={urlInput}
+                    onChange={e => { setUrlInput(e.target.value); setUrlError(false) }}
+                    onKeyDown={e => e.key === 'Enter' && handleLoadUrl()}
+                    placeholder={t('compare_url_placeholder')}
+                    className="flex-1 rounded px-2 py-1 text-[11px] min-w-0"
+                    style={{
+                      background:   'var(--surface-void)',
+                      border:       `1px solid ${urlError ? 'var(--negative)' : 'var(--metal-edge)'}`,
+                      color:        'var(--ink)',
+                      outline:      'none',
+                    }}
+                  />
+                  <button
+                    onClick={handleLoadUrl}
+                    disabled={!urlInput.trim()}
+                    className="px-2 py-1 rounded text-[11px] font-semibold flex-shrink-0 transition-opacity"
+                    style={{
+                      background: 'color-mix(in srgb, var(--gold) 18%, transparent)',
+                      border:     '1px solid color-mix(in srgb, var(--gold) 35%, transparent)',
+                      color:      'var(--gold)',
+                      opacity:    urlInput.trim() ? 1 : 0.4,
+                      cursor:     urlInput.trim() ? 'pointer' : 'default',
+                    }}
+                  >
+                    {t('compare_load_url_btn')}
+                  </button>
+                </div>
+                {urlError && (
+                  <p className="mt-1 text-[10px]" style={{ color: 'var(--negative)' }}>
+                    {t('compare_url_invalid')}
+                  </p>
+                )}
               </div>
               {saved.length === 0 ? (
                 <p className="p-3 text-center text-[11px]" style={{ color: 'var(--ink-faint)' }}>

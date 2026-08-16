@@ -70,7 +70,7 @@ Marcar con `[x]` cuando se complete.
 
 - Simulador de combate básico (turno a turno con un enemigo dummy)
 - Importar build desde Dofus client (clipboard de stats del personaje)
-- Comparar dos builds en paralelo
+- [x] Comparar dos builds en paralelo
 - Modo "tier list" de ítems por slot y nivel
 
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms para que el tooltip no desaparezca al mover el mouse hacia él.
@@ -117,4 +117,4 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 
 - [x] Cuando se le unda al dofus forge, volver al inicio
 - [x] volver a la foto que se tenia de los personajes, quitar como esta ahora
-- []
+- [x] **Fix — Montura/Compañero vacíos en idioma no inglés** — ETL guardaba tipo localizado; ahora usa tipo EN canónico para type+slot en todos los idiomas

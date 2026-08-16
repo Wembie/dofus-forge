@@ -305,5 +305,8 @@
   "compare_load_b": "Charger Build B",
   "compare_clear_b": "Effacer",
   "compare_no_build_b": "Sélectionne un build sauvegardé pour comparer",
-  "compare_equipment": "Équipement"
+  "compare_equipment": "Équipement",
+  "compare_url_placeholder": "Coller l'URL du build…",
+  "compare_load_url_btn": "Charger",
+  "compare_url_invalid": "URL invalide ou build corrompu"
 }
