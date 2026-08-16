@@ -118,3 +118,5 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 - [x] Cuando se le unda al dofus forge, volver al inicio
 - [x] volver a la foto que se tenia de los personajes, quitar como esta ahora
 - [x] **Fix — Montura/Compañero vacíos en idioma no inglés** — ETL guardaba tipo localizado; ahora usa tipo EN canónico para type+slot en todos los idiomas
+
+- [] agregar la forja magia para cambiar los daños de las armas ya que solo cambia el daño neutral y solo puede ser ese daño neutral las demas no cambian, tiene daño para cada una de los 4 elementos, para 85%, 68% y 50% de daño y que se vea el cambio con formagia y demas, y cuando se haga la simulacion de daño del arma que tome el nuevo valor, y se quite el anteriormente que tenia que seria el neutral (antes de hacerla, tener la imagenes de las runas)
