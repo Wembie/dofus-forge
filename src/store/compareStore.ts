@@ -60,6 +60,8 @@ interface CompareState {
   statsB:    StatBlock | null
   equippedB: Partial<Record<SlotId, number>>
   classB:    string
+  levelB:    number
+  genderB:   string
 
   toggle:       () => void
   loadBuild:    (snap: BuildSnapshot, name: string, equipment: AppItem[], sets: AppSet[]) => void
@@ -74,6 +76,8 @@ export const useCompareStore = create<CompareState>((set, get) => ({
   statsB:    null,
   equippedB: {},
   classB:    '',
+  levelB:    1,
+  genderB:   'male',
 
   toggle: () => set(s => ({ active: !s.active })),
 
@@ -82,10 +86,10 @@ export const useCompareStore = create<CompareState>((set, get) => ({
     const equippedB = Object.fromEntries(
       ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
     ) as Partial<Record<SlotId, number>>
-    set({ snapshotB: snap, nameB: name, statsB, equippedB, classB: snap.c, active: true })
+    set({ snapshotB: snap, nameB: name, statsB, equippedB, classB: snap.c, levelB: snap.l, genderB: snap.g === 'f' ? 'female' : 'male', active: true })
   },
 
-  clearB: () => set({ snapshotB: null, nameB: '', statsB: null, equippedB: {}, classB: '' }),
+  clearB: () => set({ snapshotB: null, nameB: '', statsB: null, equippedB: {}, classB: '', levelB: 1, genderB: 'male' }),
 
   refreshStats: (equipment, sets) => {
     const { snapshotB } = get()

@@ -37,6 +37,14 @@ export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 
   return PREFIX + urlSafe
 }
 
+/** Encode an already-built BuildSnapshot back to a URL-safe string. */
+export function encodeSnapshot(snap: BuildSnapshot): string {
+  const json    = JSON.stringify(snap)
+  const b64     = btoa(unescape(encodeURIComponent(json)))
+  const urlSafe = b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+  return PREFIX + urlSafe
+}
+
 /** Decode a URL-safe string back to a BuildSnapshot, or null on failure. */
 export function decodeBuild(encoded: string): BuildSnapshot | null {
   try {

@@ -308,5 +308,11 @@
   "compare_equipment": "Equipment",
   "compare_url_placeholder": "Paste build URL…",
   "compare_load_url_btn": "Load",
-  "compare_url_invalid": "Invalid URL or corrupted build"
+  "compare_url_invalid": "Invalid URL or corrupted build",
+  "compare_share": "Share comparison",
+  "compare_empty_b": "Load a build to compare",
+  "compare_or_saved": "Or from saved builds:",
+  "compare_section_core": "Key Stats",
+  "compare_section_chars": "Characteristics",
+  "compare_section_mods": "% Modifiers"
 }

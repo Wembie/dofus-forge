@@ -8,6 +8,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.48',
+    date: '2026-08-16',
+    notes: [
+      'Comparar: rediseño completo — hero cards con portrait + badges (AP/MP/PV/Alcance/Crítico)',
+      'Equipment diff: filas por slot alineadas, mismos items atenuados, diferentes resaltados',
+      'Tabla de stats: secciones agrupadas con colores verde/rojo por comparación',
+      'Botón Compartir: codifica ambos builds en URL #/?b=A&c=B',
+      'Auto-carga Build B desde parámetro c= de la URL',
+      'Modal overlay para cambiar Build B',
+    ],
+  },
+  {
     version: '0.2.47',
     date: '2026-08-16',
     notes: [
