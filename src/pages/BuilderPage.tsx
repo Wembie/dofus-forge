@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense, useState, lazy } from 'react'
+import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
 import { Swords, User, BarChart2, Undo2, Redo2 } from 'lucide-react'
@@ -9,6 +9,7 @@ import { EquipmentGrid } from '@/features/equipment/EquipmentGrid.tsx'
 import { StatsPanel } from '@/features/stats-panel/StatsPanel.tsx'
 import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
+import { encodeBuild } from '@/features/share/codec.ts'
 import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
 import { SpellsPanel } from '@/features/spells/SpellsPanel.tsx'
@@ -36,6 +37,11 @@ function BuilderContent() {
   const redo      = useHistoryStore(s => s.redo)
   const reset        = useBuildStore(s => s.reset)
   const clearHistory = useHistoryStore(s => s.clear)
+  const buildState   = useBuildStore(s => s)
+  const brandHref    = useMemo(() => {
+    const encoded = encodeBuild(buildState)
+    return `${location.origin}${location.pathname}#/?b=${encoded}`
+  }, [buildState])
   const [showChangelog, setShowChangelog] = useState(false)
 
   const compareActive  = useCompareStore(s => s.active)
@@ -80,11 +86,12 @@ function BuilderContent() {
         <div className="px-6 h-full flex items-center gap-4">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
-          {/* Brand — click to reset build */}
-          <button
+          {/* Brand — left-click resets, right-click/middle-click opens new tab with current build */}
+          <a
+            href={brandHref}
             className="flex items-center gap-2 flex-shrink-0"
-            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
-            onClick={() => { reset(); clearHistory() }}
+            style={{ textDecoration: 'none', cursor: 'pointer' }}
+            onClick={e => { e.preventDefault(); reset(); clearHistory() }}
             title={t('reset_build')}
           >
             {/* Diamond accent */}
@@ -102,7 +109,7 @@ function BuilderContent() {
             >
               {t('app_title')}
             </h1>
-          </button>
+          </a>
           <button
             onClick={() => setShowChangelog(true)}
             className="font-mono text-[9px] hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors"
