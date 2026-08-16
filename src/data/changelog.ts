@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.46',
+    date: '2026-08-16',
+    notes: [
+      'Brand "Dofus Forge": click derecho / botón medio abre nueva pestaña con el build actual',
+      'Click izquierdo sigue reseteando el build',
+    ],
+  },
+  {
     version: '0.2.45',
     date: '2026-08-16',
     notes: [

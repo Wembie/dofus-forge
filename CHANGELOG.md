@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.46] — 2026-08-16
+- Brand "Dofus Forge": click derecho / botón medio abre nueva pestaña con el build actual codificado en la URL
+- Click izquierdo sigue reseteando el build como antes
+
 ## [0.2.45] — 2026-08-16
 - Comparar: clic en ⚖ hace scroll automático al panel de comparación
 - Comparar: campo para pegar URL de un build compartido — carga Build B sin necesitar builds guardados localmente
