@@ -13,7 +13,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
-import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
+import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
@@ -340,9 +340,33 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
               )}
             </div>
 
+            {/* Special ability (dofus passive, etc.) */}
+            {item.ability && (
+              <div className="px-3 pt-2 pb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+                <div style={{
+                  background:   'color-mix(in srgb, var(--gold) 10%, transparent)',
+                  border:       '1px solid color-mix(in srgb, var(--gold) 35%, transparent)',
+                  borderRadius: 6,
+                  padding:      '5px 8px',
+                }}>
+                  {item.ability.split('\n').filter(Boolean).map((line, i) => (
+                    <p key={i} className="leading-snug" style={{
+                      fontSize: 11,
+                      color:    i === 0 ? 'var(--gold)' : 'var(--gold-deep)',
+                      margin:   i > 0 ? '2px 0 0' : 0,
+                    }}>
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Effects — weapon slots split into attack / stats sections */}
             {(() => {
-              const allFx      = item.effects.filter(e => !isIgnored(e.stat))
+              const allFx      = item.effects.filter(e =>
+                !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id))
+              )
               const isWeapon   = item.slot === 'weapon' || item.ap_cost != null
               const isAtk      = (e: typeof allFx[0]) =>
                 e.effect_id != null ? WEAPON_ATTACK_IDS.has(e.effect_id) : false
@@ -471,6 +495,15 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             {nextBonus && (
               <div className="px-3 py-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>▶ {t('next_bonus')}: {nextBonus}</p>
+              </div>
+            )}
+
+            {/* Lore description */}
+            {item.description && (
+              <div className="px-3 pb-2.5" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 7 }}>
+                <p className="text-[10px] italic leading-snug" style={{ color: 'var(--ink-faint)' }}>
+                  {item.description}
+                </p>
               </div>
             )}
           </div>

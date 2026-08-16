@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.41] — 2026-08-15
+- Equipped slot tooltip now shows special ability (gold box) and lore description on hover
+- i18n fix: ability and description text now uses selected language (was always English before)
+- Filtered noise effects: "-special spell-" and "Attitude" (effect_id 163/98) hidden from tooltip
+
 ## [0.2.40] — 2026-08-15
 - Layout full-width: removed max-w-7xl constraint — no more empty side margins on wide screens (1920px+)
 - Right sidebar widened from 300px to 360px for more room in stats and characteristics panels

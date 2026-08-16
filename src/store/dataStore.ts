@@ -56,12 +56,22 @@ export const useDataStore = create<DataState>((set, get) => ({
         ])
 
         const indexNames = new Map(indexLang.map(it => [it.id,         it.name]))
-        const itemNames  = new Map(equipLang.map (it => [it.ankama_id, it.name]))
+        const itemLocMap = new Map(equipLang.map (it => [it.ankama_id, it]))
         const setNames   = new Map(setsLang.map  (s  => [s.ankama_id,  s.name]))
 
-        index     = indexEn.map(it => ({ ...it, name: indexNames.get(it.id)           ?? it.name }))
-        equipment = equipmentEn.map(it => ({ ...it, name: itemNames.get(it.ankama_id) ?? it.name }))
-        sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id)        ?? s.name  }))
+        index     = indexEn.map(it => ({ ...it, name: indexNames.get(it.id) ?? it.name }))
+        equipment = equipmentEn.map(it => {
+          const loc = itemLocMap.get(it.ankama_id)
+          if (!loc) return it
+          return {
+            ...it,
+            name:        loc.name,
+            type:        loc.type,
+            description: loc.description,
+            ability:     loc.ability,
+          }
+        })
+        sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id) ?? s.name }))
       }
 
       set({ index, equipment, sets, loading: false })

@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.41',
+    date: '2026-08-15',
+    notes: [
+      'Tooltip equipado: ability especial (caja dorada) + descripción de lore al pasar el mouse',
+      'i18n ability/description: los textos de habilidades y lore ahora respetan el idioma seleccionado',
+      'Efectos basura filtrados: "-special spell-" y "Actitud" ya no aparecen en el tooltip',
+    ],
+  },
+  {
     version: '0.2.40',
     date: '2026-08-15',
     notes: [
