@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.43',
+    date: '2026-08-16',
+    notes: [
+      'Modo Comparar: botón ⚖ en header activa comparación de dos builds en paralelo',
+      'Panel muestra equipo de Build A vs Build B lado a lado con iconos y nombres',
+      'Tabla de stats A vs B con columna Δ — verde = B mejor, rojo = A mejor',
+      'Build B se carga desde builds guardados, stats recalculadas con el mismo engine',
+    ],
+  },
+  {
     version: '0.2.42',
     date: '2026-08-16',
     notes: [

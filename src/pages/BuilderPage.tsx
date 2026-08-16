@@ -17,6 +17,8 @@ import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
 import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
 import { DOFUS_GAME_VERSION } from '@/data/changelog.ts'
+import { useCompareStore } from '@/store/compareStore.ts'
+import { ComparePanel } from '@/features/compare/ComparePanel.tsx'
 const ChangelogModal = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 
 type MobileTab = 'equipment' | 'character' | 'stats'
@@ -36,6 +38,10 @@ function BuilderContent() {
   const clearHistory = useHistoryStore(s => s.clear)
   const [showChangelog, setShowChangelog] = useState(false)
 
+  const compareActive  = useCompareStore(s => s.active)
+  const toggleCompare  = useCompareStore(s => s.toggle)
+  const refreshCompare = useCompareStore(s => s.refreshStats)
+
   useBuildUrl()
   useHistory()
 
@@ -44,6 +50,13 @@ function BuilderContent() {
     const supported = ['en', 'es', 'fr', 'pt']
     load(supported.includes(lang) ? lang : 'en')
   }, [load, i18n.language])
+
+  // Refresh compare stats when equipment data changes (language switch)
+  const _compEquip = useDataStore(s => s.equipment)
+  const _compSets  = useDataStore(s => s.sets)
+  useEffect(() => {
+    if (_compEquip && _compSets) refreshCompare(_compEquip, _compSets)
+  }, [_compEquip, _compSets, refreshCompare])
 
   const mobileTabItems: TabItem[] = [
     { id: 'equipment', label: t('equipment'), Icon: Swords },
@@ -140,6 +153,24 @@ function BuilderContent() {
             >
               <Redo2 size={14} />
             </IconButton>
+            {/* Compare toggle */}
+            <button
+              onClick={toggleCompare}
+              title={t('compare_mode')}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={compareActive ? {
+                background:  'color-mix(in srgb, var(--gold) 12%, transparent)',
+                borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)',
+                color:       'var(--gold)',
+              } : {
+                background:  'transparent',
+                borderColor: 'var(--metal-edge)',
+                color:       'var(--ink-faint)',
+              }}
+            >
+              <span>⚖</span>
+              <span className="hidden sm:inline">{t('compare')}</span>
+            </button>
             {/* Divider */}
             <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <ShareBar />
@@ -224,6 +255,13 @@ function BuilderContent() {
         className="lg:hidden fixed bottom-0 left-0 right-0 z-40"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       />
+
+      {/* Compare panel — full width below main grid */}
+      {compareActive && (
+        <div className="px-4 pb-6">
+          <ComparePanel />
+        </div>
+      )}
 
       <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
         <p className="text-[10px] text-ink-faint max-w-xl mx-auto">

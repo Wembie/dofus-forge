@@ -5,6 +5,13 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.43] — 2026-08-16
+- Modo Comparar builds: botón "⚖ Comparar" en header activa panel de comparación completo
+- Panel muestra equipo de Build A vs Build B (lado a lado) con iconos y nombres de items
+- Tabla de stats A vs B con columna Δ coloreada (verde = B mejor, rojo = A mejor)
+- Build B se carga desde builds guardados via dropdown — persiste hasta limpiar manualmente
+- Stats de Build B se recalculan automáticamente al cambiar idioma (mismo engine que Build A)
+
 ## [0.2.42] — 2026-08-16
 - Spell effects validated and fixed: AP/MP steal vs gain correctly distinguished (effectIds 84/111/127/128/169)
 - New spell effect kinds rendered: +PA gain, +PM gain, % Erosión, Curas ×%, stacking spell buffs (⭐ SpellName: +N base)
