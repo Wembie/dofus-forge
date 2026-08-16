@@ -297,5 +297,13 @@
   "set_items_have": "Ya tienes ({{n}})",
   "set_items_missing": "Te falta ({{n}})",
   "slot_mount": "Montura",
-  "toast_equipped": "{{slot}}: {{item}}"
+  "toast_equipped": "{{slot}}: {{item}}",
+  "compare": "Comparar",
+  "compare_mode": "Modo Comparar",
+  "compare_build_a": "Build A",
+  "compare_build_b": "Build B",
+  "compare_load_b": "Cargar Build B",
+  "compare_clear_b": "Limpiar",
+  "compare_no_build_b": "Selecciona un build guardado para comparar",
+  "compare_equipment": "Equipo"
 }

@@ -297,5 +297,13 @@
   "set_items_have": "You have ({{n}})",
   "set_items_missing": "Missing ({{n}})",
   "slot_mount": "Mount",
-  "toast_equipped": "{{slot}}: {{item}}"
+  "toast_equipped": "{{slot}}: {{item}}",
+  "compare": "Compare",
+  "compare_mode": "Compare Mode",
+  "compare_build_a": "Build A",
+  "compare_build_b": "Build B",
+  "compare_load_b": "Load Build B",
+  "compare_clear_b": "Clear",
+  "compare_no_build_b": "Select a saved build to compare",
+  "compare_equipment": "Equipment"
 }
