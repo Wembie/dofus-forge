@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.40',
+    date: '2026-08-15',
+    notes: [
+      'Layout full-width: ya no hay márgenes vacíos a los lados en pantallas grandes',
+      'Sidebar derecha ampliada de 300px a 360px — más espacio para stats y características',
+    ],
+  },
+  {
     version: '0.2.39',
     date: '2026-08-15',
     notes: [

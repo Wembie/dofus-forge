@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.40] — 2026-08-15
+- Layout full-width: removed max-w-7xl constraint — no more empty side margins on wide screens (1920px+)
+- Right sidebar widened from 300px to 360px for more room in stats and characteristics panels
+
 ## [0.2.39] — 2026-08-15
 - Fix: "Ataque de Arma" solo muestra daños reales del arma — stats pasivos (ej. +Daño Aire) van a "Efectos"
 - Root cause: mismo nombre de stat ("Air damage") tenía dos IDs en API — id=189 = ataque, id=47 = bonus pasivo
