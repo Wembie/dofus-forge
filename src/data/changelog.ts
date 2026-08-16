@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.44',
+    date: '2026-08-16',
+    notes: [
+      'Fix: Montura/Compañero muestran ítems en todos los idiomas (ES/FR/PT/DE)',
+      'Causa: ETL guardaba tipo localizado ("Dragopavo", "Mascota") en vez del nombre EN canónico',
+      'Fix: ETL obtiene tipos EN primero y los aplica como type+slot canónico en todos los idiomas',
+    ],
+  },
+  {
     version: '0.2.43',
     date: '2026-08-16',
     notes: [
