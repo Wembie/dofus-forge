@@ -63,7 +63,7 @@ function BuilderContent() {
           boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 h-full flex items-center gap-4">
+        <div className="px-6 h-full flex items-center gap-4">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
           {/* Brand — click to reset build */}
@@ -155,7 +155,7 @@ function BuilderContent() {
       )}
 
       {/* Main content */}
-      <main id="main-content" className="max-w-7xl mx-auto px-4 py-6 pb-24 lg:pb-6">
+      <main id="main-content" className="px-4 py-6 pb-24 lg:pb-6">
         {/* Mobile: single active tab panel (< lg) */}
         <div className="lg:hidden">
           {activeTab === 'equipment' && (
@@ -178,7 +178,7 @@ function BuilderContent() {
         </div>
 
         {/* Desktop: 2-column grid (lg+) */}
-        <div className="hidden lg:grid lg:grid-cols-[1fr_300px] gap-5 items-start">
+        <div className="hidden lg:grid lg:grid-cols-[1fr_360px] gap-5 items-start">
 
           {/* Left: Equipment + Spells stacked */}
           <div className="flex flex-col gap-5">
