@@ -91,7 +91,12 @@ function BuilderContent() {
             href={brandHref}
             className="flex items-center gap-2 flex-shrink-0"
             style={{ textDecoration: 'none', cursor: 'pointer' }}
-            onClick={e => { e.preventDefault(); reset(); clearHistory() }}
+            onClick={e => {
+              if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return
+              e.preventDefault()
+              reset()
+              clearHistory()
+            }}
             title={t('reset_build')}
           >
             {/* Diamond accent */}
