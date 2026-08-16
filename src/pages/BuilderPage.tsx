@@ -9,6 +9,7 @@ import { EquipmentGrid } from '@/features/equipment/EquipmentGrid.tsx'
 import { StatsPanel } from '@/features/stats-panel/StatsPanel.tsx'
 import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
+import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
 import { encodeBuild } from '@/features/share/codec.ts'
 import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
@@ -50,6 +51,7 @@ function BuilderContent() {
   const comparePanelRef = useRef<HTMLDivElement>(null)
 
   useBuildUrl()
+  useCompareUrl()
   useHistory()
 
   useEffect(() => {

@@ -5,6 +5,15 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.48] — 2026-08-16
+- Comparar: rediseño completo — hero cards con portrait + badges (AP/MP/PV/Alcance/Crítico) de ambos builds
+- Equipment diff: filas por slot alineadas (item A ← icono slot → item B), mismos items atenuados, diferentes resaltados
+- Tabla de stats: secciones agrupadas (Core/Chars/Daño/Robo/Res/Combate/Mods), cada fila A | stat | B | Δ con colores verde/rojo
+- Botón Compartir: codifica ambos builds en URL #/?b=A&c=B, copia al portapapeles
+- Auto-carga Build B desde parámetro c= de la URL via nuevo hook useCompareUrl
+- Estado vacío para Build B: input URL + lista de builds guardados
+- Modal overlay para cambiar Build B cuando ya hay uno cargado
+
 ## [0.2.47] — 2026-08-16
 - Catálogo: armas muestran sección "Ataque de Arma" separada de "Efectos" — igual que el tooltip del slot equipado
 - Misma lógica de clasificación por effect_id (WEAPON_ATTACK_IDS) aplicada en las tarjetas del catálogo
