@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.45',
+    date: '2026-08-16',
+    notes: [
+      'Comparar: clic en ⚖ hace auto-scroll al panel de comparación',
+      'Comparar: campo para pegar URL compartida — carga Build B sin guardar localmente',
+    ],
+  },
+  {
     version: '0.2.44',
     date: '2026-08-16',
     notes: [

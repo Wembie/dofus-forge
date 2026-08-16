@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.45] — 2026-08-16
+- Comparar: clic en ⚖ hace scroll automático al panel de comparación
+- Comparar: campo para pegar URL de un build compartido — carga Build B sin necesitar builds guardados localmente
+
 ## [0.2.44] — 2026-08-16
 - Fix: companion/mount slot now shows items in all languages (ES/FR/PT/DE)
 - Root cause: ETL stored localized type names (e.g. "Dragopavo" in ES), but slotConfig apiTypes filter checks English names

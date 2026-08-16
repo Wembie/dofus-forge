@@ -305,5 +305,8 @@
   "compare_load_b": "Carregar Build B",
   "compare_clear_b": "Limpar",
   "compare_no_build_b": "Seleciona um build guardado para comparar",
-  "compare_equipment": "Equipamento"
+  "compare_equipment": "Equipamento",
+  "compare_url_placeholder": "Colar URL do build…",
+  "compare_load_url_btn": "Carregar",
+  "compare_url_invalid": "URL inválida ou build corrompido"
 }
