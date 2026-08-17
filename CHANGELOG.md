@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.57] — 2026-08-17
+- Fix: daño de empuje (colisión) ahora usa fórmula determinista — floor(nivel×3/20 + pushbackDamage/4) por celda, sin dados — coincide con lo que muestra el juego (~30/celda a nivel 200)
+- Fix: Σ↷ crit ya no doble-suma critDamage — ya estaba incluido en critTotalMin vía calcEffects
+- Fix: bestElemDamage incluido en flatBonus — la stat "best-element damage" no se aplicaba a la fórmula
+
 ## [0.2.56] — 2026-08-16
 - Fix: daño crítico (critDamage stat) ahora se suma como flat bonus en efectos críticos de hechizos
 - Fix: Σ↷ crit incluye critDamage en el daño de colisión de empuje
