@@ -468,6 +468,10 @@ function renderEffectLabel(
   s = s.replace(/#2/g, isRange ? String(max) : '')
   s = s.trim().replace(/\s{2,}/g, ' ')
   if (!s) return null
+  // Pure-number labels are internal IDs (e.g. state application IDs)
+  if (/^-?\d+$/.test(s)) return null
+  // Labels ending with a 3+-digit number are invocation/monster IDs (e.g. "Invoca: 7220")
+  if (/\b\d{3,}$/.test(s)) return null
   if (turns > 0) s += ` (${turns}T)`
   return s
 }
