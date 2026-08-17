@@ -51,6 +51,20 @@ function rangePct(minRange: number, maxRange: number, stats: StatBlock): number 
   return minRange === 0 ? stats.meleeDamagePercent : stats.rangedDamagePercent
 }
 
+// Keep first occurrence of each (element+kind+min+max) group.
+// Removes duplicates that arise from multi-hit AoE (same value applied to N cells)
+// and from charge mechanics where the same hit repeats (e.g. Tyrannical Arrow).
+function dedupEffects(effects: AppSpellEffect[]): AppSpellEffect[] {
+  const seen = new Set<string>()
+  return effects.filter(e => {
+    if (e.kind === 'spell_buff') return true
+    const key = `${e.condition ?? ''}|${e.element}|${e.kind}|${e.min}|${e.max}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
 type ElemFilter = AppSpellElement | 'all'
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
@@ -74,17 +88,19 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
 
   const displayEffects = useMemo(() => {
     if (!lvl) return []
-    const effects = selfChargeBuffs.length > 0
+    const raw = selfChargeBuffs.length > 0
       ? lvl.effects.filter(e => !(e.kind === 'spell_buff' && e.spellId === spell.id))
       : lvl.effects
+    const effects = dedupEffects(raw)
     if (stats && effects.length > 0) return calcEffects(effects, stats, spellPct)
     return effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
   }, [lvl, stats, spellPct, selfChargeBuffs, spell.id])
 
   const critDisplayEffects = useMemo(() => {
     if (!lvl?.critEffects || lvl.critEffects.length === 0) return []
-    if (stats) return calcEffects(lvl.critEffects, stats, spellPct)
-    return lvl.critEffects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+    const effects = dedupEffects(lvl.critEffects)
+    if (stats) return calcEffects(effects, stats, spellPct)
+    return effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
   }, [lvl, stats, spellPct])
 
   // Charge damage sets: one entry per charge level with pre-computed calced+crit effects
@@ -194,10 +210,33 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       )
     }
 
+    // Descarga separator: shown once when transitioning steal→damage in a spell that
+    // has multiple steal values (charge phase) followed by damage values (discharge phase)
+    const groupEffectsInOrder = displayEffects.filter(e =>
+      (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield') && isDmgOrSteal(e)
+    )
+    const stealCount  = groupEffectsInOrder.filter(e => e.kind === 'steal').length
+    const damageCount = groupEffectsInOrder.filter(e => e.kind === 'damage').length
+    const hasDescarga = !shieldGroup && stealCount >= 1 && damageCount >= 1
+      && groupEffectsInOrder.findIndex(e => e.kind === 'damage') > groupEffectsInOrder.findIndex(e => e.kind === 'steal')
+    let descargaShown = false
+
     displayEffects.forEach((e, i) => {
       const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
       if (!inGroup) return
       const c = ELEM_COLOR[e.element]
+
+      // Insert Descarga separator before first damage effect in charge+discharge spells
+      if (hasDescarga && !descargaShown && e.kind === 'damage') {
+        descargaShown = true
+        rows.push(
+          <div key="descarga" className="pt-0.5" style={{ borderTop: '1px solid color-mix(in srgb, var(--fire) 20%, transparent)' }}>
+            <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'color-mix(in srgb, var(--fire) 70%, var(--gold))' }}>
+              {t('spell_discharge')}
+            </span>
+          </div>
+        )
+      }
 
       if (e.kind === 'push') {
         const cells = e.calcMin

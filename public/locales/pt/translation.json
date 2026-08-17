@@ -315,5 +315,6 @@
   "compare_section_core": "Stats Chave",
   "compare_section_chars": "Características",
   "compare_section_mods": "Modificadores %",
-  "spell_charge_n": "Carga {{n}}"
+  "spell_charge_n": "Carga {{n}}",
+  "spell_discharge": "Descarga"
 }

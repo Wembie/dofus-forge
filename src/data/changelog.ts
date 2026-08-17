@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.50',
+    date: '2026-08-16',
+    notes: [
+      'SpellCard: deduplica efectos idénticos (64 hechizos en todas las clases)',
+      'Tyrannical Arrow / similares: duplicado colapsado — 3 fire→2 filas correctas',
+      'Descarga: separador entre fase de robo (carga) y fase de daño en hechizos tipo Devouring Arrow',
+    ],
+  },
+  {
     version: '0.2.49',
     date: '2026-08-16',
     notes: [
