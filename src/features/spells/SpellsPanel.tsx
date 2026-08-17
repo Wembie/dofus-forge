@@ -45,6 +45,21 @@ function fmtRange(min: number, max: number): string {
   return min === max ? String(min) : `${min}–${max}`
 }
 
+function buffIcon(text: string): string | null {
+  const t = text.toLowerCase()
+  if (/\bap\b|\bpa\b/.test(t))                      return 'ap'
+  if (/\bmp\b|\bpm\b/.test(t))                      return 'mp'
+  if (/crit/.test(t))                                return 'crit'
+  if (/range|rango|portée|alcance/.test(t))          return 'range'
+  if (/power|puissance|poder|potência/.test(t))      return 'power'
+  if (/pushback|recul|empuje/.test(t))               return 'push_damage'
+  if (/dodge|esquiv/.test(t))                        return 'dodge'
+  if (/lock|tacle|traba/.test(t))                    return 'lock'
+  if (/damage|dégât|daño|dano/.test(t))              return 'damage'
+  if (/heal|cura|soin/.test(t))                      return 'heals'
+  return null
+}
+
 function rangePct(minRange: number, maxRange: number, stats: StatBlock): number {
   if (maxRange === 0) return 0
   if (maxRange <= 1)  return stats.meleeDamagePercent  // range 0-1 or 1-1 = melee weapon
@@ -576,12 +591,31 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
         )}
 
         {lvl?.buffs && lvl.buffs.length > 0 && (
-          <div className="mt-1 space-y-px">
-            {lvl.buffs.map((buff, i) => (
-              <div key={i} className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>
-                {buff}
-              </div>
-            ))}
+          <div className="mt-1.5 space-y-0.5">
+            {lvl.buffs.map((buff, i) => {
+              const neg  = buff.startsWith('-')
+              const pos  = !neg && (buff.startsWith('+') || /^\d/.test(buff))
+              const icon = buffIcon(buff)
+              const clr  = neg ? 'var(--fire)' : pos ? 'var(--air)' : 'var(--gold)'
+              return (
+                <div key={i} className="flex items-center gap-1 flex-wrap">
+                  <span
+                    className="rounded px-1 py-px text-[10px] font-mono leading-snug flex items-center gap-1"
+                    style={{
+                      background: `color-mix(in srgb, ${clr} 10%, transparent)`,
+                      border:     `1px solid color-mix(in srgb, ${clr} 25%, transparent)`,
+                      color:      clr,
+                    }}
+                  >
+                    {icon
+                      ? <img src={statIconUrl(icon)} alt="" width={10} height={10} className="object-contain flex-shrink-0" />
+                      : <span style={{ fontSize: 8 }}>{neg ? '▼' : pos ? '▲' : '◆'}</span>
+                    }
+                    {buff}
+                  </span>
+                </div>
+              )
+            })}
           </div>
         )}
 

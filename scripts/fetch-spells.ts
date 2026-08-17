@@ -472,6 +472,10 @@ function renderEffectLabel(
   if (/^-?\d+$/.test(s)) return null
   // Labels ending with a 3+-digit number are invocation/monster IDs (e.g. "Invoca: 7220")
   if (/\b\d{3,}$/.test(s)) return null
+  // Unreplaced placeholders like #3, #4 (template uses values we don't have)
+  if (/#\d/.test(s)) return null
+  // State/spell IDs embedded in string (5+-digit numbers in the middle, e.g. "32455: +N Range")
+  if (/\b\d{5,}\b/.test(s)) return null
   if (turns > 0) s += ` (${turns}T)`
   return s
 }
@@ -667,9 +671,10 @@ async function main() {
         const namedLevels: AppSpellLevel[] = (sp.levels as AppSpellLevelInternal[]).map(lvl => {
           const { _rawBuffs, ...rest } = lvl
           if (!_rawBuffs?.length) return rest
+          const seen = new Set<string>()
           const buffs = _rawBuffs
             .map(rb => renderEffectLabel(rb, entries, effectDescMap))
-            .filter((s): s is string => s !== null)
+            .filter((s): s is string => s !== null && !seen.has(s) && seen.add(s) !== undefined)
           return { ...rest, ...(buffs.length ? { buffs } : {}) }
         })
 
@@ -695,9 +700,10 @@ async function main() {
       const namedLevels: AppSpellLevel[] = (sp.levels as AppSpellLevelInternal[]).map(lvl => {
         const { _rawBuffs, ...rest } = lvl
         if (!_rawBuffs?.length) return rest
+        const seen = new Set<string>()
         const buffs = _rawBuffs
           .map(rb => renderEffectLabel(rb, entries, effectDescMap))
-          .filter((s): s is string => s !== null)
+          .filter((s): s is string => s !== null && !seen.has(s) && seen.add(s) !== undefined)
         return { ...rest, ...(buffs.length ? { buffs } : {}) }
       })
 
