@@ -100,7 +100,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   const critDisplayEffects = useMemo(() => {
     if (!lvl?.critEffects || lvl.critEffects.length === 0) return []
     const effects = dedupEffects(lvl.critEffects)
-    if (stats) return calcEffects(effects, stats, spellPct)
+    if (stats) return calcEffects(effects, stats, spellPct, stats.critDamage)
     return effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
   }, [lvl, stats, spellPct])
 
@@ -456,7 +456,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               </span>
               {showCritCol && (
                 <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
-                  {fmtRange(critTotalMin + pushTotalMin, critTotalMax + pushTotalMax)}
+                  {fmtRange(critTotalMin + pushTotalMin + (stats?.critDamage ?? 0), critTotalMax + pushTotalMax + (stats?.critDamage ?? 0))}
                 </span>
               )}
             </div>
