@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.58] — 2026-08-17
+- Fix: daño de empuje (colisión) — coeficiente corregido a floor(nivel/6) por celda (era ×3/20=0.15, correcto es ÷6≈0.1667) — a nivel 200: 33/celda × 3 celdas = 99, coincide exactamente con el juego
+
 ## [0.2.57] — 2026-08-17
 - Fix: daño de empuje (colisión) ahora usa fórmula determinista — floor(nivel×3/20 + pushbackDamage/4) por celda, sin dados — coincide con lo que muestra el juego (~30/celda a nivel 200)
 - Fix: Σ↷ crit ya no doble-suma critDamage — ya estaba incluido en critTotalMin vía calcEffects
