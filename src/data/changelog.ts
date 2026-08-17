@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.59',
+    date: '2026-08-17',
+    notes: [
+      'Fix: Flecha de Expiación — Carga 2 = doble bonus que Carga 1 (escala por stack/baseStack cuando todos los buff.min son iguales)',
+      'Fix: hechizos element:mixed (Bumerán Pérfido) — sin Σ; cada hit es un elemento aleatorio, no acumulativo',
+    ],
+  },
+  {
     version: '0.2.58',
     date: '2026-08-17',
     notes: [

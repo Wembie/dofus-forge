@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.59] — 2026-08-17
+- Fix: Flecha de Expiación (y similares) — Carga 2 ahora muestra el doble del bonus de Carga 1: cuando todos los spell_buff tienen el mismo min, se escala por ratio de stack (min × stack/baseStack) en vez de usar el valor plano
+- Fix: hechizos "mixed" (Bumerán Pérfido y similares) — no muestran Σ porque cada hit aplica un elemento aleatorio (no acumulativo); solo se muestran las filas por elemento
+
 ## [0.2.58] — 2026-08-17
 - Fix: daño de empuje (colisión) — coeficiente corregido a floor(nivel/6) por celda (era ×3/20=0.15, correcto es ÷6≈0.1667) — a nivel 200: 33/celda × 3 celdas = 99, coincide exactamente con el juego
 
