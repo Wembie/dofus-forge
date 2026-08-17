@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.62',
+    date: '2026-08-17',
+    notes: [
+      'UI: efectos hardcoded (robo PA/PM, ganar PA/PM, empuje, erosión, mod curas, buff hechizo) como chips coloreados con icono de stat',
+      'UI: icono correcto por efecto — ap_reduction, mp_reduction, ap, mp, push_damage, damage_reflect, heals',
+      'UI: fila de curas (steal) reemplaza ♥ por icono heals.webp en SpellCard, WeaponCard y filas Σ',
+    ],
+  },
+  {
     version: '0.2.61',
     date: '2026-08-17',
     notes: [

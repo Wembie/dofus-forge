@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.62] — 2026-08-17
+- UI: efectos quemados (robo PA, robo PM, ganar PA, ganar PM, empuje, erosión, mod curas, buff de hechizo) ahora aparecen como chips coloreados con icono de stat
+- UI: icono correcto por efecto — ap_reduction para robo PA, mp_reduction para robo PM, ap para ganar PA, mp para ganar PM, push_damage para empuje, damage_reflect para erosión, heals para curación
+- UI: fila de curas (steal ♥) reemplaza símbolo ♥ por icono heals.webp en SpellCard, WeaponCard y filas Σ
+
 ## [0.2.61] — 2026-08-17
 - Fix: buffs y descripción del hechizo ahora aparecen en el idioma seleccionado (el overlay de lang copiaba solo el nombre)
 - Fix: ETL filtra buffs con placeholders sin resolver (#3, #4) — "Disparos Lejanos" ya no genera 70+ entradas de estado

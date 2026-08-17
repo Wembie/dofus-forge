@@ -272,65 +272,87 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
 
       if (e.kind === 'push') {
         const cells = e.calcMin
+        const clr = 'var(--ink-muted)'
         rows.push(
           <div key={`p${i}`} className="flex items-center gap-1 flex-wrap">
-            <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>↷</span>
-            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--ink-muted) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--ink-muted) 25%, transparent)', color: clr }}>
+              <img src={statIconUrl('push_damage')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
               {t('spell_push', { cells })}
+              {stats && <span style={{ color: 'var(--ink-faint)' }}>{t('spell_push_collision', { dmg: String(pushDmgPerCell * cells) })}</span>}
             </span>
-            {stats && (
-              <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-                {t('spell_push_collision', { dmg: String(pushDmgPerCell * cells) })}
-              </span>
-            )}
           </div>
         )
         return
       }
       if (e.kind === 'ap') {
         rows.push(
-          <div key={`a${i}`} className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>
-            {t('spell_steal_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+          <div key={`a${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)', color: 'var(--gold)' }}>
+              <img src={statIconUrl('ap_reduction')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              {t('spell_steal_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+            </span>
           </div>
         )
         return
       }
       if (e.kind === 'mp') {
         rows.push(
-          <div key={`m${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
-            {t('spell_steal_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+          <div key={`m${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--air) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--air) 25%, transparent)', color: 'var(--air)' }}>
+              <img src={statIconUrl('mp_reduction')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              {t('spell_steal_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+            </span>
           </div>
         )
         return
       }
       if (e.kind === 'ap_gain') {
         rows.push(
-          <div key={`ag${i}`} className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>
-            {t('spell_gain_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+          <div key={`ag${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)', color: 'var(--gold)' }}>
+              <img src={statIconUrl('ap')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              {t('spell_gain_ap', { n: fmtRange(e.calcMin, e.calcMax) })}
+            </span>
           </div>
         )
         return
       }
       if (e.kind === 'mp_gain') {
         rows.push(
-          <div key={`mg${i}`} className="text-[10px] font-mono" style={{ color: 'var(--air)' }}>
-            {t('spell_gain_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+          <div key={`mg${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--air) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--air) 25%, transparent)', color: 'var(--air)' }}>
+              <img src={statIconUrl('mp')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              {t('spell_gain_mp', { n: fmtRange(e.calcMin, e.calcMax) })}
+            </span>
           </div>
         )
         return
       }
       if (e.kind === 'erosion') {
         rows.push(
-          <div key={`er${i}`} className="text-[10px] font-mono" style={{ color: 'var(--fire)' }}>
-            {t('spell_erosion', { pct: e.calcMin, turns: e.turns ?? 0 })}
+          <div key={`er${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--fire) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--fire) 25%, transparent)', color: 'var(--fire)' }}>
+              <img src={statIconUrl('damage_reflect')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              {t('spell_erosion', { pct: e.calcMin, turns: e.turns ?? 0 })}
+            </span>
           </div>
         )
         return
       }
       if (e.kind === 'heal_mod') {
         rows.push(
-          <div key={`hm${i}`} className="text-[10px] font-mono" style={{ color: 'var(--vitality)' }}>
-            {t('spell_heal_mod', { pct: e.calcMin })}
+          <div key={`hm${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--vitality) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--vitality) 25%, transparent)', color: 'var(--vitality)' }}>
+              <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              {t('spell_heal_mod', { pct: e.calcMin })}
+            </span>
           </div>
         )
         return
@@ -340,8 +362,11 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
         const turnsStr  = e.turns && e.turns > 0 ? ` · ${e.turns}t` : ''
         const deathStr  = e.deathReset ? ' 💀' : ''
         rows.push(
-          <div key={`sb${i}`} className="text-[10px] font-mono leading-tight" style={{ color: 'var(--gold-deep)' }}>
-            ⭐ {spellName}: +{e.calcMin} base{turnsStr}{deathStr}
+          <div key={`sb${i}`}>
+            <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
+              style={{ background: 'color-mix(in srgb, var(--gold-deep) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold-deep) 25%, transparent)', color: 'var(--gold-deep)' }}>
+              ⭐ {spellName}: +{e.calcMin} base{turnsStr}{deathStr}
+            </span>
           </div>
         )
         return
@@ -378,7 +403,9 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
           </div>
           {e.kind === 'steal' && (
             <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-              <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
+              <span className="flex items-center justify-center">
+                <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              </span>
               <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
                 {fmtRange(Math.floor(e.calcMin / 2), Math.floor(e.calcMax / 2))}
               </span>
@@ -422,7 +449,9 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               </div>
               {e.kind === 'steal' && (
                 <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-                  <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
+                  <span className="flex items-center justify-center">
+                    <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+                  </span>
                   <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
                     {fmtRange(Math.floor(e.calcMin / 2), Math.floor(e.calcMax / 2))}
                   </span>
@@ -457,7 +486,9 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
           )}
           {showGroupTotal && hasStealGroup && (
             <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-              <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
+              <span className="flex items-center justify-center">
+                <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              </span>
               <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
                 {fmtRange(totalHealMin, totalHealMax)}
               </span>
@@ -834,7 +865,9 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                 {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
               </div>
               <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-                <span className="text-[10px] pl-3.5" style={{ color: 'var(--vitality)' }}>♥</span>
+                <span className="pl-3 flex items-center">
+                  <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+                </span>
                 <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
                   {fmtRange(Math.floor(low / 2), Math.floor(high / 2))}
                 </span>
@@ -857,7 +890,9 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
               </div>
               {hasSteal && (
                 <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-                  <span className="text-[10px] pl-1 font-medium" style={{ color: 'var(--vitality)' }}>♥</span>
+                  <span className="flex items-center">
+                    <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+                  </span>
                   <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(healMin, healMax)}</span>
                   {hasCrit && <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(healCritMin, healCritMax)}</span>}
                 </div>
