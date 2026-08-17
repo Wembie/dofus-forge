@@ -109,7 +109,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
 
     const applyBonus = (effects: AppSpellEffect[], bonus: number): AppSpellEffect[] =>
       effects.map(e => {
-        if (e.kind !== 'damage' && e.kind !== 'steal') return e
+        if (e.kind !== 'damage' && e.kind !== 'steal' && e.kind !== 'poison') return e
         return { ...e, min: e.min + bonus, max: (e.max > 0 ? e.max : e.min) + bonus }
       })
 
@@ -134,7 +134,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     return Array.from({ length: maxN }, (_, i) => ({ label: i + 1, ...calcSet(buff.min * (i + 1)) }))
   }, [lvl, selfChargeBuffs, stats, spellPct, spell.id])
 
-  const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal'
+  const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal' || e.kind === 'poison'
 
   // Separate effects by condition (shield = effects only on shielded targets)
   const baseDisplayEffects   = displayEffects.filter(e => e.condition !== 'shield')
@@ -220,6 +220,8 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const hasDescarga = !shieldGroup && stealCount >= 1 && damageCount >= 1
       && groupEffectsInOrder.findIndex(e => e.kind === 'damage') > groupEffectsInOrder.findIndex(e => e.kind === 'steal')
     let descargaShown = false
+    const hasNonPoison = groupEffectsInOrder.some(e => e.kind !== 'poison')
+    let poisonLabelShown = false
 
     displayEffects.forEach((e, i) => {
       const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
@@ -309,6 +311,18 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
           </div>
         )
         return
+      }
+
+      // Insert Veneno label before first poison effect when there are also normal damage effects
+      if (hasNonPoison && !poisonLabelShown && e.kind === 'poison') {
+        poisonLabelShown = true
+        rows.push(
+          <div key="poison-lbl" className="pt-0.5" style={{ borderTop: '1px solid color-mix(in srgb, var(--fire) 20%, transparent)' }}>
+            <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'color-mix(in srgb, var(--fire) 70%, var(--gold))' }}>
+              {t('spell_poison', { turns: e.turns ?? 1 })}
+            </span>
+          </div>
+        )
       }
 
       const crit = critByDisplayIdx.get(i)

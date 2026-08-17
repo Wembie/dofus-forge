@@ -2,7 +2,7 @@ const BASE = import.meta.env.BASE_URL
 
 export type AppSpellElement    = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
 export type AppSpellEffectKind =
-  | 'damage' | 'steal' | 'push'
+  | 'damage' | 'steal' | 'poison' | 'push'
   | 'ap'      // steal AP from enemy
   | 'ap_gain' // gain AP (caster)
   | 'mp'      // steal MP from enemy
@@ -10,6 +10,7 @@ export type AppSpellEffectKind =
   | 'erosion'    // % incurable damage — min=pct, turns=duration
   | 'heal_mod'   // heals received modifier — min=pct
   | 'spell_buff' // stacking spell damage buff — min=amount, spellId, stack, turns, deathReset
+  // poison = DoT damage (triggers="TE", effectTriggerDuration>0) — turns=duration in rounds
 
 export type AppSpellEffect = {
   element:    Exclude<AppSpellElement, 'mixed'>

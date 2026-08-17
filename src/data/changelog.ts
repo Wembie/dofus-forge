@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.51',
+    date: '2026-08-16',
+    notes: [
+      'Veneno (DoT): efectos con triggers=TE y effectTriggerDuration>0 detectados como kind:poison en el ETL',
+      'SpellCard: label "Veneno (Xt)" antes del primer efecto DoT cuando hay también daño normal',
+      'Flecha Tiránica / similares: daño normal + separador Veneno (2t) + daño DoT bien diferenciados',
+      'Fórmula de daño aplicada a poison — se amplifica con maestría igual que damage',
+    ],
+  },
+  {
     version: '0.2.50',
     date: '2026-08-16',
     notes: [
