@@ -73,6 +73,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   const charLevel     = useBuildStore(s => s.level)
   const lvl           = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
   const color         = ELEM_COLOR[spell.element]
+  const isMixed       = spell.element === 'mixed'
   const showCalc      = Boolean(stats)
 
   const spellPct = stats && lvl
@@ -125,9 +126,15 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
 
     // Explicit stack levels (e.g., Punitive Arrow: stack=1, stack=2)
     if (selfChargeBuffs.some(b => (b.stack ?? 0) >= 1)) {
-      return selfChargeBuffs
-        .filter(b => (b.stack ?? 0) >= 1)
-        .map((buff, i) => ({ label: i + 1, ...calcSet(buff.min) }))
+      const explicitBuffs = selfChargeBuffs.filter(b => (b.stack ?? 0) >= 1)
+      // When all buffs share the same min, it's a per-stack bonus (e.g. Expiation Arrow:
+      // API stores "36 per 2-stack unit" → at stack=4 the actual bonus is 36×2=72).
+      const allSameMin = explicitBuffs.every(b => b.min === explicitBuffs[0].min)
+      const baseStack  = allSameMin ? Math.min(...explicitBuffs.map(b => b.stack ?? 1)) : 1
+      return explicitBuffs.map((buff, i) => ({
+        label: i + 1,
+        ...calcSet(allSameMin ? buff.min * ((buff.stack ?? 1) / baseStack) : buff.min),
+      }))
     }
     // Cumulative per-cast (stack=0, e.g., Frozen Arrow): show up to min(turns, 3) rows
     const buff = selfChargeBuffs[0]
@@ -205,8 +212,8 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const totalHealMax   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
     const critHealMin    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
     const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
-    const showGroupTotal = !shieldGroup && !hasDescarga && sigmaEffects.length >= 2
-    const showPushSigma  = !shieldGroup && !hasDescarga && hasPush && stats != null
+    const showGroupTotal = !shieldGroup && !hasDescarga && !isMixed && sigmaEffects.length >= 2
+    const showPushSigma  = !shieldGroup && !hasDescarga && !isMixed && hasPush && stats != null
 
     const rows: React.ReactNode[] = []
 
