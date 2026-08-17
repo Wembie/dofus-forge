@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { Sword } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import type { AppSpell, AppSpellElement } from '@/data/spellLoaders.ts'
+import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { calcEffects, calcDamage } from './spellDamage.ts'
+import { calcEffects, calcDamage, type CalcedEffect } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
 
@@ -64,17 +64,59 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     ? stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
     : 0
 
+  // Self-charge buffs: spell_buff pointing to this spell itself (charge mechanic)
+  const selfChargeBuffs = useMemo(() => {
+    if (!lvl) return []
+    return lvl.effects
+      .filter(e => e.kind === 'spell_buff' && e.spellId === spell.id)
+      .sort((a, b) => (a.stack ?? 0) - (b.stack ?? 0))
+  }, [lvl, spell.id])
+
   const displayEffects = useMemo(() => {
     if (!lvl) return []
-    if (stats && lvl.effects.length > 0) return calcEffects(lvl.effects, stats, spellPct)
-    return lvl.effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-  }, [lvl, stats, spellPct])
+    const effects = selfChargeBuffs.length > 0
+      ? lvl.effects.filter(e => !(e.kind === 'spell_buff' && e.spellId === spell.id))
+      : lvl.effects
+    if (stats && effects.length > 0) return calcEffects(effects, stats, spellPct)
+    return effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+  }, [lvl, stats, spellPct, selfChargeBuffs, spell.id])
 
   const critDisplayEffects = useMemo(() => {
     if (!lvl?.critEffects || lvl.critEffects.length === 0) return []
     if (stats) return calcEffects(lvl.critEffects, stats, spellPct)
     return lvl.critEffects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
   }, [lvl, stats, spellPct])
+
+  // Charge damage sets: one entry per charge level with pre-computed calced+crit effects
+  const chargeSets = useMemo((): { label: number; calced: CalcedEffect[]; calcedCrit: CalcedEffect[] }[] => {
+    if (!lvl || selfChargeBuffs.length === 0) return []
+
+    const applyBonus = (effects: AppSpellEffect[], bonus: number): AppSpellEffect[] =>
+      effects.map(e => {
+        if (e.kind !== 'damage' && e.kind !== 'steal') return e
+        return { ...e, min: e.min + bonus, max: (e.max > 0 ? e.max : e.min) + bonus }
+      })
+
+    const calcSet = (bonus: number) => {
+      const baseFx     = lvl.effects.filter(e => !(e.kind === 'spell_buff' && e.spellId === spell.id))
+      const chargedFx  = applyBonus(baseFx, bonus)
+      const chargedCFx = applyBonus(lvl.critEffects ?? [], bonus)
+      const calced     = stats ? calcEffects(chargedFx, stats, spellPct) : chargedFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+      const calcedCrit = stats ? calcEffects(chargedCFx, stats, spellPct) : chargedCFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+      return { calced, calcedCrit }
+    }
+
+    // Explicit stack levels (e.g., Punitive Arrow: stack=1, stack=2)
+    if (selfChargeBuffs.some(b => (b.stack ?? 0) >= 1)) {
+      return selfChargeBuffs
+        .filter(b => (b.stack ?? 0) >= 1)
+        .map((buff, i) => ({ label: i + 1, ...calcSet(buff.min) }))
+    }
+    // Cumulative per-cast (stack=0, e.g., Frozen Arrow): show up to min(turns, 3) rows
+    const buff = selfChargeBuffs[0]
+    const maxN = buff.turns && buff.turns > 0 ? Math.min(buff.turns, 3) : 3
+    return Array.from({ length: maxN }, (_, i) => ({ label: i + 1, ...calcSet(buff.min * (i + 1)) }))
+  }, [lvl, selfChargeBuffs, stats, spellPct, spell.id])
 
   const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal'
 
@@ -263,6 +305,52 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
         </div>
       )
     })
+
+    if (!shieldGroup && chargeSets.length > 0) {
+      chargeSets.forEach(({ label, calced, calcedCrit }) => {
+        const cdmg  = calced.filter(isDmgOrSteal)
+        const ccrit = calcedCrit.filter(isDmgOrSteal)
+        rows.push(
+          <div key={`cs-${label}`} className="pt-0.5" style={{ borderTop: '1px solid color-mix(in srgb, var(--gold) 18%, transparent)' }}>
+            <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'var(--gold-deep)' }}>
+              {t('spell_charge_n', { n: label })}
+            </span>
+          </div>
+        )
+        cdmg.forEach((e, i) => {
+          const crit = ccrit[i]
+          const c    = ELEM_COLOR[e.element]
+          rows.push(
+            <div key={`cd-${label}-${i}`} className="space-y-px">
+              <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+                <span className="w-2 h-2 rounded-full flex-shrink-0 justify-self-center" style={{ background: c }} />
+                <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: showCalc ? c : 'var(--ink-muted)' }}>
+                  {fmtRange(e.calcMin, e.calcMax)}
+                </span>
+                {showCritCol && (
+                  <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
+                    {crit ? fmtRange(crit.calcMin, crit.calcMax) : '—'}
+                  </span>
+                )}
+              </div>
+              {e.kind === 'steal' && (
+                <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+                  <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
+                  <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
+                    {fmtRange(Math.floor(e.calcMin / 2), Math.floor(e.calcMax / 2))}
+                  </span>
+                  {showCritCol && (
+                    <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
+                      {crit ? fmtRange(Math.floor(crit.calcMin / 2), Math.floor(crit.calcMax / 2)) : '—'}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        })
+      })
+    }
 
     if (showGroupTotal) {
       rows.push(

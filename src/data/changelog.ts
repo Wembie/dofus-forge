@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.49',
+    date: '2026-08-16',
+    notes: [
+      'Hechizos de carga: daños calculados por nivel de carga (Carga 1, Carga 2…) en SpellCard',
+      'Cargas explícitas (ej. Flecha Castigadora): filas por stack con daño normal y crítico',
+      'Cargas acumulativas (ej. Flecha Helada): muestra hasta min(turns, 3) filas de bonus × N',
+      'Bonus de carga suma al base RAW antes de la fórmula — escala con maestría del personaje',
+    ],
+  },
+  {
     version: '0.2.48',
     date: '2026-08-16',
     notes: [
