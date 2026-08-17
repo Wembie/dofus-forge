@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.60',
+    date: '2026-08-17',
+    notes: [
+      'Feat: ETL extrae buffs/debuffs genéricos (rango, crítico, curas, etc.) via effects.json + templates por idioma',
+      'Feat: description del hechizo mostrada al pie de la SpellCard',
+      'Feat: motor de templates renderEffectLabel para convertir effectId+valores a string localizado',
+    ],
+  },
+  {
     version: '0.2.59',
     date: '2026-08-17',
     notes: [

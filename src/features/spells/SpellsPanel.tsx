@@ -574,6 +574,22 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
             {t('spell_support')}
           </span>
         )}
+
+        {lvl?.buffs && lvl.buffs.length > 0 && (
+          <div className="mt-1 space-y-px">
+            {lvl.buffs.map((buff, i) => (
+              <div key={i} className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>
+                {buff}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {spell.description && (
+          <div className="mt-1.5 text-[9px] leading-snug italic" style={{ color: 'var(--ink-faint)', opacity: 0.7 }}>
+            {spell.description}
+          </div>
+        )}
       </div>
       </div>
     </div>

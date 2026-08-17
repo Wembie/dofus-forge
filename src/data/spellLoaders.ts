@@ -33,14 +33,16 @@ export type AppSpellLevel = {
   critChance:   number
   effects:      AppSpellEffect[]
   critEffects?: AppSpellEffect[]
+  buffs?:       string[]
 }
 export type AppSpell = {
-  id:         number
-  name:       string
-  element:    AppSpellElement
-  is_variant: boolean
-  image_url:  string | null
-  levels:     AppSpellLevel[]
+  id:          number
+  name:        string
+  element:     AppSpellElement
+  is_variant:  boolean
+  image_url:   string | null
+  levels:      AppSpellLevel[]
+  description?: string
 }
 export type ClassSpells = {
   classSlug: string
