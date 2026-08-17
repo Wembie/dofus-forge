@@ -317,5 +317,6 @@
   "compare_section_mods": "Modificadores %",
   "spell_charge_n": "Carga {{n}}",
   "spell_discharge": "Descarga",
-  "spell_poison": "Veneno ({{turns}}t)"
+  "spell_poison": "Veneno ({{turns}}t)",
+  "spell_push_collision": "(si colisión: {{dmg}})"
 }

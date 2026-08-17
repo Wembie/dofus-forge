@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.55',
+    date: '2026-08-16',
+    notes: [
+      'SpellCard: empuje muestra "(si colisión: min–max)" por celda — fórmula (8+1d8×nivel/50+stat×0.25) × celdas',
+      'Σ↷: segunda fila Σ que suma elemental + daño de colisión total (escenario todas celdas bloqueadas)',
+      'Σ normal ya no incluye push — daño de empuje solo ocurre en colisión, no en push libre',
+    ],
+  },
+  {
     version: '0.2.54',
     date: '2026-08-16',
     notes: [

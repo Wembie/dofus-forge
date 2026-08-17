@@ -69,10 +69,11 @@ type ElemFilter = AppSpellElement | 'all'
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
 function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; grade: number; stats: StatBlock | null; spellNameMap: Map<number, string> }) {
-  const { t }    = useTranslation()
-  const lvl      = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
-  const color    = ELEM_COLOR[spell.element]
-  const showCalc = Boolean(stats)
+  const { t }         = useTranslation()
+  const charLevel     = useBuildStore(s => s.level)
+  const lvl           = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
+  const color         = ELEM_COLOR[spell.element]
+  const showCalc      = Boolean(stats)
 
   const spellPct = stats && lvl
     ? stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
@@ -156,11 +157,17 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     return map
   }, [displayEffects, critDmgEffects])
 
-  // Push damage: floor(pushbackDamage / 3) × cells_pushed
-  const pushDmgPerCell = stats ? Math.floor(stats.pushbackDamage * 0.25) : 0
-  const totalPushDmg   = displayEffects
-    .filter(e => e.kind === 'push')
-    .reduce((sum, e) => sum + pushDmgPerCell * e.calcMin, 0)
+  // Push collision damage formula: (8 + 1d8×level/50 + stat×0.25) × blocked_cells
+  const pushBonusPerCell = stats ? Math.floor(stats.pushbackDamage * 0.25) : 0
+  const pushBaseMin      = 8 + Math.floor(charLevel / 50)
+  const pushBaseMax      = 8 + Math.floor(charLevel * 8 / 50)
+  const pushPerCellMin   = pushBaseMin + pushBonusPerCell
+  const pushPerCellMax   = pushBaseMax + pushBonusPerCell
+  const pushEffects      = displayEffects.filter(e => e.kind === 'push')
+  const pushTotalCells   = pushEffects.reduce((s, e) => s + e.calcMin, 0)
+  const pushTotalMin     = pushTotalCells * pushPerCellMin
+  const pushTotalMax     = pushTotalCells * pushPerCellMax
+  const hasPush          = pushEffects.length > 0
 
   function renderEffectGroup(shieldGroup: boolean) {
     const groupDmgEffects = displayEffects.filter(e =>
@@ -191,16 +198,17 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       ? critGroup.filter((_, i) => groupDmgEffects[i]?.kind === 'damage')
       : critGroup
 
-    const totalNormMin   = sigmaEffects.reduce((s, e) => s + e.calcMin, 0) + (shieldGroup ? 0 : totalPushDmg)
-    const totalNormMax   = sigmaEffects.reduce((s, e) => s + e.calcMax, 0) + (shieldGroup ? 0 : totalPushDmg)
-    const critTotalMin   = sigmaCritGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
-    const critTotalMax   = sigmaCritGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const totalNormMin   = sigmaEffects.reduce((s, e) => s + e.calcMin, 0)
+    const totalNormMax   = sigmaEffects.reduce((s, e) => s + e.calcMax, 0)
+    const critTotalMin   = sigmaCritGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0)
+    const critTotalMax   = sigmaCritGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0)
     const hasStealGroup  = !hasDescarga && groupDmgEffects.some(e => e.kind === 'steal')
     const totalHealMin   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMin / 2), 0)
     const totalHealMax   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
     const critHealMin    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
     const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
-    const showGroupTotal = !shieldGroup && !hasDescarga && (sigmaEffects.length >= 2 || (sigmaEffects.length >= 1 && totalPushDmg > 0))
+    const showGroupTotal = !shieldGroup && !hasDescarga && sigmaEffects.length >= 2
+    const showPushSigma  = !shieldGroup && !hasDescarga && hasPush && stats != null
 
     const rows: React.ReactNode[] = []
 
@@ -244,13 +252,17 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
 
       if (e.kind === 'push') {
         const cells = e.calcMin
-        const dmg   = pushDmgPerCell * cells
         rows.push(
-          <div key={`p${i}`} className="flex items-center gap-1">
+          <div key={`p${i}`} className="flex items-center gap-1 flex-wrap">
             <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>↷</span>
             <span className="text-[10px] font-mono" style={{ color: 'var(--ink-muted)' }}>
-              {t('spell_push', { cells })}{stats && dmg > 0 ? ` (${dmg})` : ''}
+              {t('spell_push', { cells })}
             </span>
+            {stats && (
+              <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>
+                {t('spell_push_collision', { dmg: fmtRange(pushPerCellMin * cells, pushPerCellMax * cells) })}
+              </span>
+            )}
           </div>
         )
         return
@@ -407,21 +419,23 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       })
     }
 
-    if (showGroupTotal) {
+    if (showGroupTotal || showPushSigma) {
       rows.push(
         <div key="sigma" className="pt-0.5 space-y-px" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-            <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ</span>
-            <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
-              {fmtRange(totalNormMin, totalNormMax)}
-            </span>
-            {showCritCol && (
-              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
-                {fmtRange(critTotalMin, critTotalMax)}
+          {showGroupTotal && (
+            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+              <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ</span>
+              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
+                {fmtRange(totalNormMin, totalNormMax)}
               </span>
-            )}
-          </div>
-          {hasStealGroup && (
+              {showCritCol && (
+                <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
+                  {fmtRange(critTotalMin, critTotalMax)}
+                </span>
+              )}
+            </div>
+          )}
+          {showGroupTotal && hasStealGroup && (
             <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
               <span className="text-[10px] leading-none justify-self-center" style={{ color: 'var(--vitality)' }}>♥</span>
               <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
@@ -430,6 +444,19 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               {showCritCol && (
                 <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
                   {fmtRange(critHealMin, critHealMax)}
+                </span>
+              )}
+            </div>
+          )}
+          {showPushSigma && (
+            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+              <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ↷</span>
+              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
+                {fmtRange(totalNormMin + pushTotalMin, totalNormMax + pushTotalMax)}
+              </span>
+              {showCritCol && (
+                <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
+                  {fmtRange(critTotalMin + pushTotalMin, critTotalMax + pushTotalMax)}
                 </span>
               )}
             </div>
