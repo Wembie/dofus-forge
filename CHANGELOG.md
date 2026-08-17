@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.56] — 2026-08-16
+- Fix: daño crítico (critDamage stat) ahora se suma como flat bonus en efectos críticos de hechizos
+- Fix: Σ↷ crit incluye critDamage en el daño de colisión de empuje
+
 ## [0.2.55] — 2026-08-16
 - SpellCard: empuje muestra "(si colisión: min–max)" por celda con fórmula completa incluyendo base por nivel
 - Σ↷: fila separada que suma elemental + colisión total (todas celdas bloqueadas)

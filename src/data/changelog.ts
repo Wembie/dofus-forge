@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.56',
+    date: '2026-08-16',
+    notes: [
+      'Fix: critDamage stat sumado como flat bonus en cálculo de efectos críticos de hechizos',
+      'Fix: Σ↷ crit incluye critDamage en daño de colisión de empuje',
+    ],
+  },
+  {
     version: '0.2.55',
     date: '2026-08-16',
     notes: [
