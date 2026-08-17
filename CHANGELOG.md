@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.52] — 2026-08-16
+- Fix: Σ en hechizos con Descarga ya no suma la fase de robo (carga) + la descarga juntos
+- Σ solo muestra el total del daño de descarga — la fase de robo no se acumula en un solo cast
+- Heal Σ (♥) en el bloque Σ también eliminado para hechizos con Descarga (cada robo sana por separado)
+
 ## [0.2.51] — 2026-08-16
 - Veneno (DoT): efectos con `triggers=TE` y `effectTriggerDuration>0` detectados como `kind:poison` en el ETL
 - SpellCard: label "Veneno (Xt)" antes del primer efecto DoT cuando hay también daño normal en el mismo hechizo

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.52',
+    date: '2026-08-16',
+    notes: [
+      'Fix: Σ en hechizos con Descarga no suma robo (carga) + descarga — solo muestra total de descarga',
+      'Heal Σ (♥) eliminado del bloque Σ en hechizos con Descarga — cada robo sana por separado',
+    ],
+  },
+  {
     version: '0.2.51',
     date: '2026-08-16',
     notes: [

@@ -137,7 +137,6 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal' || e.kind === 'poison'
 
   // Separate effects by condition (shield = effects only on shielded targets)
-  const baseDisplayEffects   = displayEffects.filter(e => e.condition !== 'shield')
   const shieldDisplayEffects = displayEffects.filter(e => e.condition === 'shield')
   const hasShieldGroup       = shieldDisplayEffects.length > 0
 
@@ -163,10 +162,6 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     .filter(e => e.kind === 'push')
     .reduce((sum, e) => sum + pushDmgPerCell * e.calcMin, 0)
 
-  // Σ only counts BASE effects (shield group is mutually exclusive, can't add them)
-  const baseDmgEffects = baseDisplayEffects.filter(isDmgOrSteal)
-  const showTotal      = baseDmgEffects.length >= 2 || (baseDmgEffects.length >= 1 && totalPushDmg > 0)
-
   function renderEffectGroup(shieldGroup: boolean) {
     const groupDmgEffects = displayEffects.filter(e =>
       isDmgOrSteal(e) && (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield')
@@ -180,16 +175,32 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const showCritCol    = hasCritGroup && critDmgEffects.length > 0
     const hasDmgRows     = groupDmgEffects.length > 0
     const dmgCols        = showCritCol ? '13px 1fr 1fr' : '13px 1fr'
-    const totalNormMin   = groupDmgEffects.reduce((s, e) => s + e.calcMin, 0) + (shieldGroup ? 0 : totalPushDmg)
-    const totalNormMax   = groupDmgEffects.reduce((s, e) => s + e.calcMax, 0) + (shieldGroup ? 0 : totalPushDmg)
-    const critTotalMin   = critGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
-    const critTotalMax   = critGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
-    const hasStealGroup  = groupDmgEffects.some(e => e.kind === 'steal')
+
+    // Descarga detection must come before Σ totals so we can exclude the steal (charge) phase
+    const groupEffectsInOrder = displayEffects.filter(e =>
+      (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield') && isDmgOrSteal(e)
+    )
+    const stealCount  = groupEffectsInOrder.filter(e => e.kind === 'steal').length
+    const damageCount = groupEffectsInOrder.filter(e => e.kind === 'damage').length
+    const hasDescarga = !shieldGroup && stealCount >= 1 && damageCount >= 1
+      && groupEffectsInOrder.findIndex(e => e.kind === 'damage') > groupEffectsInOrder.findIndex(e => e.kind === 'steal')
+
+    // Descarga spells: Σ only sums discharge (damage-kind) phase — steal phase is charging, not additive
+    const sigmaEffects   = hasDescarga ? groupDmgEffects.filter(e => e.kind === 'damage') : groupDmgEffects
+    const sigmaCritGroup = hasDescarga
+      ? critGroup.filter((_, i) => groupDmgEffects[i]?.kind === 'damage')
+      : critGroup
+
+    const totalNormMin   = sigmaEffects.reduce((s, e) => s + e.calcMin, 0) + (shieldGroup ? 0 : totalPushDmg)
+    const totalNormMax   = sigmaEffects.reduce((s, e) => s + e.calcMax, 0) + (shieldGroup ? 0 : totalPushDmg)
+    const critTotalMin   = sigmaCritGroup.reduce((s, c) => s + (c?.calcMin ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const critTotalMax   = sigmaCritGroup.reduce((s, c) => s + (c?.calcMax ?? 0), 0) + (shieldGroup ? 0 : totalPushDmg)
+    const hasStealGroup  = !hasDescarga && groupDmgEffects.some(e => e.kind === 'steal')
     const totalHealMin   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMin / 2), 0)
     const totalHealMax   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
     const critHealMin    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
     const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
-    const showGroupTotal = !shieldGroup && showTotal
+    const showGroupTotal = !shieldGroup && (sigmaEffects.length >= 2 || (sigmaEffects.length >= 1 && totalPushDmg > 0))
 
     const rows: React.ReactNode[] = []
 
@@ -210,15 +221,6 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       )
     }
 
-    // Descarga separator: shown once when transitioning steal→damage in a spell that
-    // has multiple steal values (charge phase) followed by damage values (discharge phase)
-    const groupEffectsInOrder = displayEffects.filter(e =>
-      (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield') && isDmgOrSteal(e)
-    )
-    const stealCount  = groupEffectsInOrder.filter(e => e.kind === 'steal').length
-    const damageCount = groupEffectsInOrder.filter(e => e.kind === 'damage').length
-    const hasDescarga = !shieldGroup && stealCount >= 1 && damageCount >= 1
-      && groupEffectsInOrder.findIndex(e => e.kind === 'damage') > groupEffectsInOrder.findIndex(e => e.kind === 'steal')
     let descargaShown = false
     const hasNonPoison = groupEffectsInOrder.some(e => e.kind !== 'poison')
     let poisonLabelShown = false
