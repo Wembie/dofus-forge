@@ -315,5 +315,6 @@
   "compare_section_core": "Key Stats",
   "compare_section_chars": "Characteristics",
   "compare_section_mods": "% Modifiers",
-  "spell_charge_n": "Charge {{n}}"
+  "spell_charge_n": "Charge {{n}}",
+  "spell_discharge": "Discharge"
 }
