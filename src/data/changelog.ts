@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.58',
+    date: '2026-08-17',
+    notes: [
+      'Fix: coeficiente de daño de empuje corregido — floor(nivel/6) por celda (era ×3/20); a nivel 200: 33/celda × 3 celdas = 99, exacto al juego',
+    ],
+  },
+  {
     version: '0.2.57',
     date: '2026-08-17',
     notes: [

@@ -157,11 +157,11 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     return map
   }, [displayEffects, critDmgEffects])
 
-  // Push collision damage: deterministic per-cell = floor(level×3/20 + pushbackDamage×0.25)
-  // Game UI shows expected (not random) push damage — this matches observed in-game values at lv200
+  // Push collision damage: floor(level/6 + pushbackDamage×0.25) per cell
+  // floor(200/6)=33 at lv200; observed in-game: 99 for 3 cells = 33/cell ✓
   const pushDmgPerCell = stats
-    ? Math.floor(charLevel * 3 / 20 + stats.pushbackDamage * 0.25)
-    : Math.floor(charLevel * 3 / 20)
+    ? Math.floor(charLevel / 6 + stats.pushbackDamage * 0.25)
+    : Math.floor(charLevel / 6)
   const pushEffects    = displayEffects.filter(e => e.kind === 'push')
   const pushTotalCells = pushEffects.reduce((s, e) => s + e.calcMin, 0)
   const pushTotalDmg   = pushTotalCells * pushDmgPerCell
