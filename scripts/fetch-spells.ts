@@ -86,16 +86,22 @@ export type AppSpellLevel = {
   critChance:  number   // %
   effects:     AppSpellEffect[]
   critEffects?: AppSpellEffect[]  // crit hit effects (absent = same as normal or no crit)
+  buffs?:      string[]
 }
 
 export type AppSpell = {
-  id:         number
-  name:       string
-  element:    AppSpellElement
-  is_variant: boolean
-  image_url:  string | null
-  levels:     AppSpellLevel[]
+  id:          number
+  name:        string
+  element:     AppSpellElement
+  is_variant:  boolean
+  image_url:   string | null
+  levels:      AppSpellLevel[]
+  description?: string
 }
+
+// Script-internal types (not exported to spellLoaders.ts)
+type RawBuff = { effectId: number; min: number; max: number; turns: number }
+type AppSpellLevelInternal = AppSpellLevel & { _rawBuffs?: RawBuff[] }
 
 export type ClassSpells = {
   classSlug: string
@@ -172,6 +178,21 @@ const SPELL_BUFF_ID = 293   // "#1: +#3 base damage" stacking spell buff
 // Internal counter/trigger — no display value (3793 = internal counter, silently ignored)
 const COUNTER_IDS = new Set([3793])
 void COUNTER_IDS
+
+// All effectIds already handled by specific extraction logic — skip from generic buff pass
+const SKIP_BUFF_IDS = new Set([
+  5,                           // push
+  84, 111,                     // AP steal/gain
+  77, 127, 128, 169,           // MP steal/gain
+  91, 92, 93, 94, 95,          // elemental steal (also caught by effectElement check)
+  96, 97, 98, 99, 100,         // elemental damage (also caught by effectElement check)
+  118, 119, 123, 126,          // lifesteal % modifiers — not damage values
+  293,                         // spell_buff (stacking charge buff)
+  776,                         // erosion
+  1159,                        // heal_mod
+  2822, 2832,                  // omni damage
+  3793,                        // internal counter
+])
 
 type RawEffect = { effect: AppSpellEffect; mask: string }
 
@@ -250,7 +271,7 @@ function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEf
   return deduplicateConditional(items)
 }
 
-function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
+function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
   const rawEffects    = ((raw.effects        as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
   const rawCritEffs   = ((raw.criticalEffect as Record<string, unknown>)?.Array ?? []) as Record<string, unknown>[]
 
@@ -325,7 +346,21 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
     }
   }
 
-  const level: AppSpellLevel = {
+  // Collect unhandled effects as raw buffs for per-lang label rendering
+  const rawBuffs: RawBuff[] = []
+  for (const e of rawEffects) {
+    const eid = Number(e.effectId)
+    if (SKIP_BUFF_IDS.has(eid)) continue
+    const el = Number(e.effectElement)
+    if (el >= 0 && el <= 4) continue  // caught by elemental damage extraction
+    const min   = Number(e.diceNum)
+    const max   = Number(e.diceSide)
+    const turns = Number(e.duration)
+    if (min === 0 && max === 0) continue  // empty — no display value
+    rawBuffs.push({ effectId: eid, min, max, turns })
+  }
+
+  const level: AppSpellLevelInternal = {
     grade:      Number(raw.grade),
     ap:         Number(raw.apCost),
     minRange:   Number(raw.minRange) || 0,
@@ -333,6 +368,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevel {
     maxPerTurn: Number(raw.maxCastPerTurn) || 0,
     critChance: Number(raw.criticalHitProbability) || 0,
     effects,
+    ...(rawBuffs.length ? { _rawBuffs: rawBuffs } : {}),
   }
   if (critEffects.length > 0) level.critEffects = critEffects
   return level
@@ -410,6 +446,36 @@ async function extractSpellImages(tarGzUrl: string, neededIconIds: Set<number>, 
   console.log(`  Extracted ${written}/${neededIconIds.size} spell images.`)
 }
 
+function renderEffectLabel(
+  rb: RawBuff,
+  entries: Record<string, string>,
+  effectDescMap: Map<number, number>,
+): string | null {
+  const descId = effectDescMap.get(rb.effectId)
+  if (!descId) return null
+  const template = entries[String(descId)]
+  if (!template) return null
+
+  const { min, max, turns } = rb
+  const isRange = max > 0 && max !== min
+  let s = template
+  // {{~1~2 TEXT}} — include TEXT only when isRange
+  s = s.replace(/\{\{~1~2([^}]*)\}\}/g, (_, txt: string) => isRange ? txt : '')
+  // Remove all other conditional/pluralization tokens
+  s = s.replace(/\{\{~[^}]*\}\}/g, '')
+  // Substitute values
+  s = s.replace(/#1/g, String(min))
+  s = s.replace(/#2/g, isRange ? String(max) : '')
+  s = s.trim().replace(/\s{2,}/g, ' ')
+  if (!s) return null
+  // Pure-number labels are internal IDs (e.g. state application IDs)
+  if (/^-?\d+$/.test(s)) return null
+  // Labels ending with a 3+-digit number are invocation/monster IDs (e.g. "Invoca: 7220")
+  if (/\b\d{3,}$/.test(s)) return null
+  if (turns > 0) s += ` (${turns}T)`
+  return s
+}
+
 async function main() {
   const versionFile      = join(DATA_DIR, 'version.json')
   const spellVersionFile = join(DATA_DIR, 'spells-version.json')
@@ -434,18 +500,27 @@ async function main() {
   const base = `https://github.com/dofusdude/dofus3-main/releases/download/${gameVersion}`
 
   console.log('Downloading game data (spell_levels.json is large ~88MB):')
-  const [breedsRaw, spellsRaw, levelsRaw, variantsRaw] = await Promise.all([
+  const [breedsRaw, spellsRaw, levelsRaw, variantsRaw, effectsRaw] = await Promise.all([
     download(`${base}/breeds.json`),
     download(`${base}/spells.json`),
     download(`${base}/spell_levels.json`),
     download(`${base}/spell_variants.json`),
+    download(`${base}/effects.json`),
   ])
 
-  const breeds   = parseRefs(breedsRaw)
-  const spells   = parseRefs(spellsRaw)
-  const levels   = parseRefs(levelsRaw)
-  const variants = parseRefs(variantsRaw)
+  const breeds      = parseRefs(breedsRaw)
+  const spells      = parseRefs(spellsRaw)
+  const levels      = parseRefs(levelsRaw)
+  const variants    = parseRefs(variantsRaw)
+  const effectsMeta = parseRefs(effectsRaw)
   console.log(`Parsed: ${breeds.size} breeds, ${spells.size} spells, ${levels.size} spell levels, ${variants.size} variant pairs`)
+
+  // effectId → descriptionId (for buff label rendering per-lang)
+  const effectDescMap = new Map<number, number>()
+  for (const [, eff] of effectsMeta) {
+    const descId = Number(eff.descriptionId)
+    if (descId > 0) effectDescMap.set(Number(eff.id), descId)
+  }
 
   // Build variant map: breedId -> Map<normalSpellId, variantSpellId>
   const variantsByBreed = new Map<number, Map<number, number>>()
@@ -466,8 +541,8 @@ async function main() {
     if (iconId > 0) iconIdMap.set(spellId, iconId)
   }
 
-  // Pre-index: spellId -> sorted AppSpellLevel[]
-  const levelsBySpell = new Map<number, AppSpellLevel[]>()
+  // Pre-index: spellId -> sorted AppSpellLevelInternal[]
+  const levelsBySpell = new Map<number, AppSpellLevelInternal[]>()
   for (const [, sl] of levels) {
     const spellId = Number(sl.spellId)
     if (!levelsBySpell.has(spellId)) levelsBySpell.set(spellId, [])
@@ -587,7 +662,18 @@ async function main() {
         if (!spell) continue
         const spellName = t(entries, Number(spell.nameId))
         if (!spellName) continue
-        namedSpells.push({ ...sp, name: spellName })
+        const spellDesc = t(entries, Number(spell.descriptionId)) || undefined
+
+        const namedLevels: AppSpellLevel[] = (sp.levels as AppSpellLevelInternal[]).map(lvl => {
+          const { _rawBuffs, ...rest } = lvl
+          if (!_rawBuffs?.length) return rest
+          const buffs = _rawBuffs
+            .map(rb => renderEffectLabel(rb, entries, effectDescMap))
+            .filter((s): s is string => s !== null)
+          return { ...rest, ...(buffs.length ? { buffs } : {}) }
+        })
+
+        namedSpells.push({ ...sp, name: spellName, ...(spellDesc ? { description: spellDesc } : {}), levels: namedLevels })
       }
 
       const dir = join(DATA_DIR, lang, 'spells')
@@ -604,7 +690,18 @@ async function main() {
       if (!spell) continue
       const spellName = t(entries, Number(spell.nameId))
       if (!spellName) continue
-      namedCommon.push({ ...sp, name: spellName })
+      const spellDesc = t(entries, Number(spell.descriptionId)) || undefined
+
+      const namedLevels: AppSpellLevel[] = (sp.levels as AppSpellLevelInternal[]).map(lvl => {
+        const { _rawBuffs, ...rest } = lvl
+        if (!_rawBuffs?.length) return rest
+        const buffs = _rawBuffs
+          .map(rb => renderEffectLabel(rb, entries, effectDescMap))
+          .filter((s): s is string => s !== null)
+        return { ...rest, ...(buffs.length ? { buffs } : {}) }
+      })
+
+      namedCommon.push({ ...sp, name: spellName, ...(spellDesc ? { description: spellDesc } : {}), levels: namedLevels })
     }
     const commonDir = join(DATA_DIR, lang, 'spells')
     mkdirSync(commonDir, { recursive: true })
