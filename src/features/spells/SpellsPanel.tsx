@@ -157,7 +157,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   }, [displayEffects, critDmgEffects])
 
   // Push damage: floor(pushbackDamage / 3) × cells_pushed
-  const pushDmgPerCell = stats ? Math.floor(stats.pushbackDamage / 3) : 0
+  const pushDmgPerCell = stats ? Math.floor(stats.pushbackDamage * 0.25) : 0
   const totalPushDmg   = displayEffects
     .filter(e => e.kind === 'push')
     .reduce((sum, e) => sum + pushDmgPerCell * e.calcMin, 0)

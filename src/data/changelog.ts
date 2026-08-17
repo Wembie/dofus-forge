@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.54',
+    date: '2026-08-16',
+    notes: [
+      'Fix: fórmula daño de empuje — 25% del stat por celda (antes /3 ≈ 33% — incorrecto)',
+    ],
+  },
+  {
     version: '0.2.53',
     date: '2026-08-16',
     notes: [
