@@ -5,6 +5,13 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.51] — 2026-08-16
+- Veneno (DoT): efectos con `triggers=TE` y `effectTriggerDuration>0` detectados como `kind:poison` en el ETL
+- SpellCard: label "Veneno (Xt)" antes del primer efecto DoT cuando hay también daño normal en el mismo hechizo
+- Flecha Tiránica / similares: daño normal + separador Veneno (2t) + daño DoT — sin confundir con daño directo
+- Fórmula de daño aplicada a poison igual que damage (se amplifica con maestría del personaje)
+- ETL regenerado: 19 clases con `kind:poison` + `turns` en todos los efectos DoT
+
 ## [0.2.50] — 2026-08-16
 - SpellCard: deduplica efectos idénticos (elemento+tipo+min+max) — elimina duplicados de multi-hit AoE y cargas repetidas (64 hechizos afectados en todas las clases)
 - Tyrannical Arrow / similares: 3 efectos fuego [28-32, 20-22, 28-32] ahora muestra 2 filas (el duplicado se colapsa)

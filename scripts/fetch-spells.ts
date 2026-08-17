@@ -60,7 +60,7 @@ const CLASS_SLUG: Record<string, string> = {
 export type AppSpellElement = 'earth' | 'fire' | 'water' | 'air' | 'neutral' | 'mixed'
 
 export type AppSpellEffectKind =
-  | 'damage' | 'steal' | 'push'
+  | 'damage' | 'steal' | 'poison' | 'push'
   | 'ap' | 'ap_gain'
   | 'mp' | 'mp_gain'
   | 'erosion' | 'heal_mod' | 'spell_buff'
@@ -208,12 +208,15 @@ function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEf
     const eid  = Number(e.effectId)
     const mask = String(e.targetMask ?? '')
     if (el >= 0 && el <= 4 && !LIFESTEAL_PCT_IDS.has(eid)) {
+      const triggerTurns = Number(e.effectTriggerDuration)
+      const isDoT = !STEAL_IDS.has(eid) && triggerTurns > 0
       items.push({
         effect: {
           element: ELEMENT_OF[el] as Exclude<AppSpellElement, 'mixed'>,
           min:     Number(e.diceNum),
           max:     Number(e.diceSide),
-          kind:    STEAL_IDS.has(eid) ? 'steal' : 'damage',
+          kind:    STEAL_IDS.has(eid) ? 'steal' : (isDoT ? 'poison' : 'damage'),
+          ...(isDoT ? { turns: triggerTurns } : {}),
         },
         mask,
       })
