@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.57',
+    date: '2026-08-17',
+    notes: [
+      'Fix: daño de empuje (colisión) usa fórmula determinista — floor(nivel×3/20 + pushbackDamage/4)/celda, sin dados — coincide con el juego (~30/celda a nivel 200)',
+      'Fix: Σ↷ crit ya no doble-suma critDamage (ya incluido en critTotalMin vía calcEffects)',
+      'Fix: bestElemDamage incluido en flatBonus — "best-element damage" no se aplicaba a la fórmula',
+    ],
+  },
+  {
     version: '0.2.56',
     date: '2026-08-16',
     notes: [

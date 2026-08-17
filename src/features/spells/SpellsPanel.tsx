@@ -157,17 +157,15 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     return map
   }, [displayEffects, critDmgEffects])
 
-  // Push collision damage formula: (8 + 1d8×level/50 + stat×0.25) × blocked_cells
-  const pushBonusPerCell = stats ? Math.floor(stats.pushbackDamage * 0.25) : 0
-  const pushBaseMin      = 8 + Math.floor(charLevel / 50)
-  const pushBaseMax      = 8 + Math.floor(charLevel * 8 / 50)
-  const pushPerCellMin   = pushBaseMin + pushBonusPerCell
-  const pushPerCellMax   = pushBaseMax + pushBonusPerCell
-  const pushEffects      = displayEffects.filter(e => e.kind === 'push')
-  const pushTotalCells   = pushEffects.reduce((s, e) => s + e.calcMin, 0)
-  const pushTotalMin     = pushTotalCells * pushPerCellMin
-  const pushTotalMax     = pushTotalCells * pushPerCellMax
-  const hasPush          = pushEffects.length > 0
+  // Push collision damage: deterministic per-cell = floor(level×3/20 + pushbackDamage×0.25)
+  // Game UI shows expected (not random) push damage — this matches observed in-game values at lv200
+  const pushDmgPerCell = stats
+    ? Math.floor(charLevel * 3 / 20 + stats.pushbackDamage * 0.25)
+    : Math.floor(charLevel * 3 / 20)
+  const pushEffects    = displayEffects.filter(e => e.kind === 'push')
+  const pushTotalCells = pushEffects.reduce((s, e) => s + e.calcMin, 0)
+  const pushTotalDmg   = pushTotalCells * pushDmgPerCell
+  const hasPush        = pushEffects.length > 0
 
   function renderEffectGroup(shieldGroup: boolean) {
     const groupDmgEffects = displayEffects.filter(e =>
@@ -260,7 +258,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
             </span>
             {stats && (
               <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-                {t('spell_push_collision', { dmg: fmtRange(pushPerCellMin * cells, pushPerCellMax * cells) })}
+                {t('spell_push_collision', { dmg: String(pushDmgPerCell * cells) })}
               </span>
             )}
           </div>
@@ -452,11 +450,11 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
             <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
               <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ↷</span>
               <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
-                {fmtRange(totalNormMin + pushTotalMin, totalNormMax + pushTotalMax)}
+                {fmtRange(totalNormMin + pushTotalDmg, totalNormMax + pushTotalDmg)}
               </span>
               {showCritCol && (
                 <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
-                  {fmtRange(critTotalMin + pushTotalMin + (stats?.critDamage ?? 0), critTotalMax + pushTotalMax + (stats?.critDamage ?? 0))}
+                  {fmtRange(critTotalMin + pushTotalDmg, critTotalMax + pushTotalDmg)}
                 </span>
               )}
             </div>

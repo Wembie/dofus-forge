@@ -14,7 +14,7 @@ function mastery(elem: ElemKey, stats: StatBlock): number {
 }
 
 function flatBonus(elem: ElemKey, stats: StatBlock): number {
-  const base = stats.damage
+  const base = stats.damage + stats.bestElemDamage
   switch (elem) {
     case 'earth':   return base + stats.earthDamage
     case 'fire':    return base + stats.fireDamage
