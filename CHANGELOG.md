@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.54] — 2026-08-16
+- Fix: daño de empuje corregido — fórmula 25% por celda (antes era /3 ≈ 33%)
+
 ## [0.2.53] — 2026-08-16
 - Fix: hechizos con Descarga ya no muestran Σ — los daños por nivel de carga no son acumulativos sino alternativos (carga 3 = solo 916, no 498+707+916)
 
