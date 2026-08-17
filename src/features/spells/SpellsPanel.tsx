@@ -200,7 +200,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const totalHealMax   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
     const critHealMin    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
     const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
-    const showGroupTotal = !shieldGroup && (sigmaEffects.length >= 2 || (sigmaEffects.length >= 1 && totalPushDmg > 0))
+    const showGroupTotal = !shieldGroup && !hasDescarga && (sigmaEffects.length >= 2 || (sigmaEffects.length >= 1 && totalPushDmg > 0))
 
     const rows: React.ReactNode[] = []
 

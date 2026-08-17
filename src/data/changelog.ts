@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.53',
+    date: '2026-08-16',
+    notes: [
+      'Fix: hechizos con Descarga no muestran Σ — filas de daño son por nivel de carga (alternativas, no acumulativas)',
+    ],
+  },
+  {
     version: '0.2.52',
     date: '2026-08-16',
     notes: [

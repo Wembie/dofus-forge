@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.53] — 2026-08-16
+- Fix: hechizos con Descarga ya no muestran Σ — los daños por nivel de carga no son acumulativos sino alternativos (carga 3 = solo 916, no 498+707+916)
+
 ## [0.2.52] — 2026-08-16
 - Fix: Σ en hechizos con Descarga ya no suma la fase de robo (carga) + la descarga juntos
 - Σ solo muestra el total del daño de descarga — la fase de robo no se acumula en un solo cast
