@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.61',
+    date: '2026-08-17',
+    notes: [
+      'Fix: buffs y descripción del hechizo aparecen en el idioma seleccionado (overlay de lang copiaba solo el nombre)',
+      'Fix: ETL filtra buffs con placeholders sin resolver (#3, #4) — "Disparos Lejanos" ya no genera 70+ entradas de estado',
+      'Fix: ETL filtra buffs con IDs de estado de 5+ dígitos embebidos en el texto',
+      'Fix: ETL deduplica buffs idénticos por texto en cada nivel de hechizo',
+      'UI: buffs como chips coloreados con iconos de stat — rojo debuff, azul buff, oro neutro',
+    ],
+  },
+  {
     version: '0.2.60',
     date: '2026-08-17',
     notes: [

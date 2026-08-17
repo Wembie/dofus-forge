@@ -93,8 +93,20 @@ export const useDataStore = create<DataState>((set, get) => ({
         if (lang !== 'en') {
           try {
             const langData = await fetchSpells(lang, classSlug)
-            const nameMap = new Map(langData.spells.map(sp => [sp.id, sp.name]))
-            data.spells = data.spells.map(sp => ({ ...sp, name: nameMap.get(sp.id) ?? sp.name }))
+            const langMap = new Map(langData.spells.map(sp => [sp.id, sp]))
+            data.spells = data.spells.map(sp => {
+              const loc = langMap.get(sp.id)
+              if (!loc) return sp
+              return {
+                ...sp,
+                name: loc.name,
+                ...(loc.description != null ? { description: loc.description } : {}),
+                levels: sp.levels.map((lvl, i) => {
+                  const locLvl = loc.levels[i]
+                  return locLvl?.buffs?.length ? { ...lvl, buffs: locLvl.buffs } : lvl
+                }),
+              }
+            })
           } catch { /* lang spell file optional */ }
         }
         next.set(classSlug, data)
@@ -105,8 +117,20 @@ export const useDataStore = create<DataState>((set, get) => ({
           if (lang !== 'en') {
             try {
               const langCommon = await fetchSpells(lang, 'common')
-              const nameMap = new Map(langCommon.spells.map(sp => [sp.id, sp.name]))
-              commonData.spells = commonData.spells.map(sp => ({ ...sp, name: nameMap.get(sp.id) ?? sp.name }))
+              const langMap = new Map(langCommon.spells.map(sp => [sp.id, sp]))
+              commonData.spells = commonData.spells.map(sp => {
+                const loc = langMap.get(sp.id)
+                if (!loc) return sp
+                return {
+                  ...sp,
+                  name: loc.name,
+                  ...(loc.description != null ? { description: loc.description } : {}),
+                  levels: sp.levels.map((lvl, i) => {
+                    const locLvl = loc.levels[i]
+                    return locLvl?.buffs?.length ? { ...lvl, buffs: locLvl.buffs } : lvl
+                  }),
+                }
+              })
             } catch { /* lang common file optional */ }
           }
           next.set('common', commonData)
