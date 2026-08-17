@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.55] — 2026-08-16
+- SpellCard: empuje muestra "(si colisión: min–max)" por celda con fórmula completa incluyendo base por nivel
+- Σ↷: fila separada que suma elemental + colisión total (todas celdas bloqueadas)
+- Σ normal no incluye empuje — el daño de empuje solo ocurre en colisión, no en push libre
+
 ## [0.2.54] — 2026-08-16
 - Fix: daño de empuje corregido — fórmula 25% por celda (antes era /3 ≈ 33%)
 

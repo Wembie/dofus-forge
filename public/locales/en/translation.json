@@ -317,5 +317,6 @@
   "compare_section_mods": "% Modifiers",
   "spell_charge_n": "Charge {{n}}",
   "spell_discharge": "Discharge",
-  "spell_poison": "Poison ({{turns}}t)"
+  "spell_poison": "Poison ({{turns}}t)",
+  "spell_push_collision": "(if collision: {{dmg}})"
 }
