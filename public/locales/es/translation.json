@@ -314,5 +314,6 @@
   "compare_or_saved": "O desde builds guardados:",
   "compare_section_core": "Stats Clave",
   "compare_section_chars": "Características",
-  "compare_section_mods": "Modificadores %"
+  "compare_section_mods": "Modificadores %",
+  "spell_charge_n": "Carga {{n}}"
 }

@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.49] — 2026-08-16
+- Hechizos de carga: daños calculados por nivel de carga en SpellCard
+- Cargas explícitas (ej. Flecha Castigadora ×1/×2): filas "Carga 1", "Carga 2" con normal y crítico
+- Cargas acumulativas (ej. Flecha Helada stack=0): muestra hasta min(turns,3) filas con bonus × N
+- El bonus de carga suma al base RAW antes de la fórmula — se amplifica con maestría del personaje
+
 ## [0.2.48] — 2026-08-16
 - Comparar: rediseño completo — hero cards con portrait + badges (AP/MP/PV/Alcance/Crítico) de ambos builds
 - Equipment diff: filas por slot alineadas (item A ← icono slot → item B), mismos items atenuados, diferentes resaltados
