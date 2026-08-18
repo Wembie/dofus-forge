@@ -727,8 +727,8 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
     const r = weaponTransform.ratio / 100
     return base.map(e => {
       if (e.stat !== 'Neutral damage') return e
-      const newMin = Math.floor(e.min * r)
-      const newMax = e.max > 0 ? Math.floor(e.max * r) : newMin
+      const newMin = Math.ceil(e.min * r)
+      const newMax = e.max > 0 ? Math.ceil(e.max * r) : newMin
       return { ...e, stat: elemStat, min: newMin, max: newMax }
     })
   }, [weapon, weaponTransform])
