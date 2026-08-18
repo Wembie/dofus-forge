@@ -320,5 +320,6 @@
   "spell_poison": "Poison ({{turns}}t)",
   "spell_push_collision": "(if collision: {{dmg}})",
   "weapon_transform": "Elemental Transform",
-  "weapon_transform_clear": "Clear"
+  "weapon_transform_clear": "Clear",
+  "weapon_transform_no_neutral": "Weapon has no neutral damage — cannot transform"
 }

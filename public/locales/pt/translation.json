@@ -320,5 +320,6 @@
   "spell_poison": "Veneno ({{turns}}t)",
   "spell_push_collision": "(se colisão: {{dmg}})",
   "weapon_transform": "Transformação Elemental",
-  "weapon_transform_clear": "Remover"
+  "weapon_transform_clear": "Remover",
+  "weapon_transform_no_neutral": "A arma não tem dano neutro — não é possível transformar"
 }
