@@ -45,18 +45,68 @@ function fmtRange(min: number, max: number): string {
   return min === max ? String(min) : `${min}–${max}`
 }
 
+// TODO icons needed (add file to public/data/stats/ then map here):
+//   shield.webp      → shield/barrier effects ("Bouclier:", "escudo", "X% of level to shield")
+//   move.webp        → movement/positioning (Advances N cell, Moves back, Attracts, Teleports)
+//   glyph.webp       → glyph / trap placement
+//   steal_elem.webp  → best-element steal (no element-agnostic steal icon)
 function buffIcon(text: string): string | null {
   const t = text.toLowerCase()
-  if (/\bap\b|\bpa\b/.test(t))                      return 'ap'
-  if (/\bmp\b|\bpm\b/.test(t))                      return 'mp'
-  if (/crit/.test(t))                                return 'crit'
-  if (/range|rango|portée|alcance/.test(t))          return 'range'
-  if (/power|puissance|poder|potência/.test(t))      return 'power'
-  if (/pushback|recul|empuje/.test(t))               return 'push_damage'
-  if (/dodge|esquiv/.test(t))                        return 'dodge'
-  if (/lock|tacle|traba/.test(t))                    return 'lock'
-  if (/damage|dégât|daño|dano/.test(t))              return 'damage'
-  if (/heal|cura|soin/.test(t))                      return 'heals'
+  const neg = text.trimStart().startsWith('-')
+  // AP/MP parry must come before generic AP/MP
+  if (/esquive?\s*(de\s*)?pa\b|esquiva.*pa\b|ap parry/i.test(t))   return 'ap_parry'
+  if (/esquive?\s*(de\s*)?pm\b|esquiva.*pm\b|mp parry/i.test(t))   return 'mp_parry'
+  // AP/MP reduction (steal) must come before generic AP/MP
+  if (/retrait\s*pa\b|supresión\s*pa|retirada\s*de\s*pa|ap reduction/i.test(t)) return 'ap_reduction'
+  if (/retrait\s*pm\b|supresión\s*pm|retirada\s*de\s*pm|mp reduction/i.test(t)) return 'mp_reduction'
+  if (/\bap\b|\bpa\b/.test(t)) return neg ? 'ap_reduction' : 'ap'
+  if (/\bmp\b|\bpm\b/.test(t)) return neg ? 'mp_reduction' : 'mp'
+  // Elemental & combat resistances (specific before generic)
+  if (/air resistance|resistencia al aire|résistance.*air|resistência ao ar/i.test(t))             return 'air_resistance'
+  if (/earth resistance|resistencia a la tierra|résistance.*terre|resistência à terra/i.test(t))   return 'earth_resistance'
+  if (/fire resistance|resistencia al fuego|résistance.*feu|resistência ao fogo/i.test(t))         return 'fire_resistance'
+  if (/neutral resistance|resistencia neutral|résistance.*neutre|resistência neutr/i.test(t))       return 'neutral_resistance'
+  if (/water resistance|resistencia al agua|résistance.*eau|resistência à água/i.test(t))           return 'water_resistance'
+  if (/pushback resistance|resistencia al empuje|résistance.*repouss|resistência.*empurrão/i.test(t)) return 'push_resistance'
+  if (/melee resistance|résistance.*mêlée|resistencia.*cac|resistência.*corpo/i.test(t))            return 'melee_resistance'
+  if (/ranged resistance|résistance.*distance|resistencia.*distancia|resistência.*distância/i.test(t)) return 'ranged_resistance'
+  if (/critical resistance|résistance.*critique|resistencia.*crítico|resistência.*crítico/i.test(t))   return 'crit_res'
+  if (/resistance|résistance|resistencia|resistência/i.test(t)) return null  // unmapped resistance → dot
+  // Critical subtypes
+  if (/critical damage|dommages?\s*critiques?|daño crítico|dano crítico/i.test(t)) return 'crit_damage'
+  if (/crit/i.test(t)) return 'crit'
+  // Shield → no icon yet
+  if (/shield|escudo|bouclier/i.test(t)) return null
+  // Pushback damage
+  if (/pushback|recul\b|empuje/i.test(t)) return 'push_damage'
+  // Damage subtypes (specific before generic)
+  if (/melee damage|dommage.*mêlée|daño.*cuerpo|dano.*corpo/i.test(t))             return 'melee_damage'
+  if (/ranged damage|dommage.*distance|daño.*distancia|dano.*distância/i.test(t))   return 'ranged_damage'
+  if (/spell damage|dommage.*sort|daño.*hechizo|dano.*feitiço/i.test(t))            return 'spell_damage'
+  if (/weapon damage|dommages.*armes?|daños.*armas?|danos.*armas?/i.test(t))        return 'weapon_damage'
+  if (/final damage|dommages finaux|daños finales|danos finais/i.test(t))            return 'damage'
+  // Summons
+  if (/summon|invoc/i.test(t)) return 'summons'
+  // Primary stats
+  if (/agility|agilidad|agilité|agilidade/i.test(t))           return 'agility'
+  if (/\bstrength\b|\bfuerza\b|\bforce\b|\bforça\b/i.test(t))  return 'strength'
+  if (/intelligence|inteligencia/i.test(t))                     return 'intelligence'
+  if (/\bchance\b|\bsuerte\b/i.test(t))                        return 'chance'
+  if (/wisdom|sagesse|sabiduría|sabedoria/i.test(t))            return 'wisdom'
+  // Vitality / HP
+  if (/vital|\bhp\b|\bpv\b|\bpdv\b/i.test(t)) return 'vitality'
+  // Range
+  if (/\brange\b|\brango\b|portée|alcance/i.test(t)) return 'range'
+  // Power — ES: potencia, PT: potência, FR: puissance
+  if (/power|puissance|potenci[ao]|potência/i.test(t)) return 'power'
+  // Dodge — FR: fuite, ES: huida, PT: fuga
+  if (/\bdodge\b|\bfuite\b|\bhuida\b|\bfuga\b/i.test(t)) return 'dodge'
+  // Lock — FR: tacle, ES: placaje/traba, PT: bloqueio
+  if (/\block\b|\btacle\b|\btraba\b|\bplacaje\b|\bbloqueio\b/i.test(t)) return 'lock'
+  // Heals before generic damage
+  if (/heal|soin|cura/i.test(t)) return 'heals'
+  // Generic damage — FR: dommage/dégât
+  if (/damage|dommage|dégât|daño|dano/i.test(t)) return 'damage'
   return null
 }
 
