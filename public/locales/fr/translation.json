@@ -320,5 +320,6 @@
   "spell_poison": "Poison ({{turns}}t)",
   "spell_push_collision": "(si collision: {{dmg}})",
   "weapon_transform": "Transformation Élémentale",
-  "weapon_transform_clear": "Retirer"
+  "weapon_transform_clear": "Retirer",
+  "weapon_transform_no_neutral": "L'arme n'a pas de dégât neutre — impossible à transformer"
 }

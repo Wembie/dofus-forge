@@ -39,7 +39,8 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const weaponTransform    = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
   const setWeaponTransform = useBuildStore(s => s.setWeaponTransform)
 
-  const isWeaponSlot = slotId === 'weapon'
+  const isWeaponSlot    = slotId === 'weapon'
+  const hasNeutralDamage = isWeaponSlot && item.effects.some(e => e.stat === 'Neutral damage')
 
   const [selected, setSelected] = useState(RUNE_GRID[0])
   const [addValue, setAddValue] = useState(10)
@@ -121,7 +122,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                   {t('weapon_transform')}
                 </span>
-                {weaponTransform && (
+                {weaponTransform && hasNeutralDamage && (
                   <button
                     onClick={() => setWeaponTransform(slotId, null)}
                     className="text-[10px] px-2 py-0.5 rounded transition-colors"
@@ -136,6 +137,15 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 )}
               </div>
 
+              {!hasNeutralDamage ? (
+                <div
+                  className="rounded-xl flex items-center justify-center py-3 text-[11px] text-center px-2"
+                  style={{ background: 'var(--surface-void)', border: '1px dashed var(--metal-edge)', color: 'var(--ink-faint)', opacity: 0.5 }}
+                >
+                  {t('weapon_transform_no_neutral')}
+                </div>
+              ) : (
+                <>
               {/* Element selector */}
               <div className="flex gap-2 mb-2">
                 {TRANSFORM_ELEMENTS.map(({ elem, color }) => {
@@ -199,6 +209,8 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     )
                   })}
                 </div>
+              )}
+                </>
               )}
             </div>
           )}
