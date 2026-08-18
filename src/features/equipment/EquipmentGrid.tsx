@@ -384,8 +384,8 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                     return {
                       ...e,
                       stat:        `${cap} damage`,
-                      min:         Math.floor(e.min * r),
-                      max:         e.max > 0 ? Math.floor(e.max * r) : 0,
+                      min:         Math.ceil(e.min * r),
+                      max:         e.max > 0 ? Math.ceil(e.max * r) : 0,
                       transformed: true,
                     }
                   })
