@@ -80,7 +80,47 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M38 — Tabla comparativa de transforms** — en RuneModal/WeaponCard, mini-tabla que muestra resultado de las 4 pociones × 3 ratios simultáneamente con el daño calculado final
 - [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable, más legible para compartir en Discord/foros
 - [ ] **M40 — Simulador PvP básico** — ingresar resistencias fijas/% de un enemigo dummy y ver daño real del build contra él (hechizos + arma), útil para comparar elementos
-- [ ] **M42 — Build Optimizer / "Best Set Finder"** — el usuario define stats objetivo (ej. "12 PA, máximo daño fuego, nivel ≤ 200") y el motor prueba combinaciones de ítems por slot para encontrar el equipo óptimo. Requiere heurística/greedy o beam search (fuerza bruta es imposible: ~10k ítems × 17 slots). Resultado: build sugerido cargable con un click. Filtros: nivel máx, sets obligatorios, slots bloqueados.
+- [ ] **M42 — Build Optimizer / "Best Set Finder"**
+  
+  **Objetivo:** dado un perfil de stats deseados, encontrar la combinación óptima de ítems por slot para un nivel y clase dados.
+
+  **Problema computacional:**
+  - ~10 000 ítems en catálogo, 17 slots, algunos slots con restricciones (anillo×2, dofus×6)
+  - Fuerza bruta = inviable (10^68 combinaciones)
+  - Solución: algoritmo **greedy por slot + beam search** con función de fitness configurable
+  - Opcionalmente: **Web Worker** para no bloquear UI durante cómputo
+
+  **Algoritmo propuesto (greedy iterativo):**
+  1. Pre-filtrar catálogo por nivel máx y tipo de slot → `candidatesPerSlot[]`
+  2. Para cada slot en orden de impacto (PA→PM→resto): elegir ítem top-K por fitness parcial
+  3. Evaluar combinaciones de top-K (beam width ~50) con `computeStats()` real
+  4. Guardar mejores N builds completos (Pareto-front si hay múltiples objetivos)
+  5. Repetir N iteraciones mejorando slots con peores contribuciones (hill-climbing local)
+
+  **Función de fitness:**
+  - Suma ponderada de stats: `score = Σ (statValue × weight[stat])`
+  - Weights definidos por el usuario vía sliders (ej. daño fuego ×3, PA ×5, vitalidad ×1)
+  - Hard constraints: PA ≥ N, PM ≥ N, nivel ≤ N (descartar builds que no cumplan)
+  - Bonus por synergy de set: bonus de set activo suma al score
+
+  **UI:**
+  - Panel "Optimizador" con: sliders de peso por stat, inputs de constraints (PA min, PM min, nivel máx)
+  - Checkbox por slot para bloquearlo (conservar ítem equipado actual)
+  - Botón "Optimizar" → spinner → muestra top 3 builds sugeridos
+  - Cada build sugerido: preview de ítems + stats calculados + botón "Cargar este build"
+  - Tiempo estimado mostrado al usuario antes de correr
+
+  **Implementación:**
+  - `src/engine/optimizer.ts` — lógica pura (sin React, sin store)
+  - `src/workers/optimizer.worker.ts` — Web Worker wrapper
+  - `src/features/optimizer/OptimizerPanel.tsx` — UI
+  - Reutiliza `computeStats()` existente para evaluar cada build candidato
+  - Reutiliza `AppItem[]` ya cargado en `dataStore`
+
+  **Limitaciones conocidas:**
+  - No garantiza óptimo global (greedy puede quedar en local máximo)
+  - Sets bonus no considerados en pre-filtro (solo en evaluación final)
+  - Ítems con efectos condicionales (Dofus) pueden ser sub-valorados por fitness lineal
 - [ ] **M41 — Fashionista (transmogrificación cosmética)** — por cada slot equipado, permitir elegir un ítem diferente solo para la apariencia visual (imagen + nombre mostrado), sin afectar stats. El "look" se guarda separado del build real. Al exportar imagen o compartir URL, se puede mostrar el look fashionista. Útil para planear outfits de cara al juego.
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
