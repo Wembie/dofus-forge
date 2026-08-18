@@ -15,11 +15,11 @@ const RUNE_GRID = [
 const QUICK_VALUES = [1, 5, 10, 25, 50, 100]
 
 type TransformElem = 'fire' | 'earth' | 'water' | 'air'
-const TRANSFORM_ELEMENTS: { elem: TransformElem; icon: string; color: string }[] = [
-  { elem: 'fire',  icon: 'weapons/Wildfire_Potion.webp',   color: 'var(--fire)'  },
-  { elem: 'earth', icon: 'weapons/Earthquake_Potion.webp', color: 'var(--earth)' },
-  { elem: 'water', icon: 'weapons/Tsunami_Potion.webp',    color: 'var(--water)' },
-  { elem: 'air',   icon: 'weapons/Hurricane_Potion.webp',  color: 'var(--air)'   },
+const TRANSFORM_ELEMENTS: { elem: TransformElem; color: string }[] = [
+  { elem: 'fire',  color: 'var(--fire)'  },
+  { elem: 'earth', color: 'var(--earth)' },
+  { elem: 'water', color: 'var(--water)' },
+  { elem: 'air',   color: 'var(--air)'   },
 ]
 const TRANSFORM_RATIOS: (85 | 68 | 50)[] = [85, 68, 50]
 
@@ -28,8 +28,6 @@ type Props = {
   item:    AppItem
   onClose: () => void
 }
-
-const BASE = import.meta.env.BASE_URL
 
 export function RuneModal({ slotId, item, onClose }: Props) {
   const { t }     = useTranslation()
@@ -140,8 +138,9 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
               {/* Element selector */}
               <div className="flex gap-2 mb-2">
-                {TRANSFORM_ELEMENTS.map(({ elem, icon, color }) => {
-                  const active = weaponTransform?.element === elem
+                {TRANSFORM_ELEMENTS.map(({ elem, color }) => {
+                  const active  = weaponTransform?.element === elem
+                  const iconUrl = runeIconUrl(`transform_${elem}`) ?? ''
                   return (
                     <button
                       key={elem}
@@ -159,7 +158,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                       }}
                     >
                       <img
-                        src={`${BASE}data/runes/${icon}`}
+                        src={iconUrl}
                         alt={t(`elem_${elem}`)}
                         width={32}
                         height={32}

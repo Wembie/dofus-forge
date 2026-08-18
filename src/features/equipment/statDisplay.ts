@@ -162,6 +162,11 @@ export const RUNE_ICON: Record<string, string> = {
   'Summons':              'Sum_Rune.webp',
   'Pod':                  'Pod_Rune.webp',
   'reflected damage':     'Dam_Ref_Rune.webp',
+  // Weapon elemental transformation potions
+  'transform_fire':       'weapons/Wildfire_Potion.webp',
+  'transform_earth':      'weapons/Earthquake_Potion.webp',
+  'transform_water':      'weapons/Tsunami_Potion.webp',
+  'transform_air':        'weapons/Hurricane_Potion.webp',
 }
 
 export function runeIconUrl(stat: string): string | null {
