@@ -80,6 +80,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M38 — Tabla comparativa de transforms** — en RuneModal/WeaponCard, mini-tabla que muestra resultado de las 4 pociones × 3 ratios simultáneamente con el daño calculado final
 - [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable, más legible para compartir en Discord/foros
 - [ ] **M40 — Simulador PvP básico** — ingresar resistencias fijas/% de un enemigo dummy y ver daño real del build contra él (hechizos + arma), útil para comparar elementos
+- [ ] **M42 — Build Optimizer / "Best Set Finder"** — el usuario define stats objetivo (ej. "12 PA, máximo daño fuego, nivel ≤ 200") y el motor prueba combinaciones de ítems por slot para encontrar el equipo óptimo. Requiere heurística/greedy o beam search (fuerza bruta es imposible: ~10k ítems × 17 slots). Resultado: build sugerido cargable con un click. Filtros: nivel máx, sets obligatorios, slots bloqueados.
 - [ ] **M41 — Fashionista (transmogrificación cosmética)** — por cada slot equipado, permitir elegir un ítem diferente solo para la apariencia visual (imagen + nombre mostrado), sin afectar stats. El "look" se guarda separado del build real. Al exportar imagen o compartir URL, se puede mostrar el look fashionista. Útil para planear outfits de cara al juego.
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
