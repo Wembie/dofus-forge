@@ -318,5 +318,7 @@
   "spell_charge_n": "Carga {{n}}",
   "spell_discharge": "Descarga",
   "spell_poison": "Veneno ({{turns}}t)",
-  "spell_push_collision": "(se colisão: {{dmg}})"
+  "spell_push_collision": "(se colisão: {{dmg}})",
+  "weapon_transform": "Transformação Elemental",
+  "weapon_transform_clear": "Remover"
 }

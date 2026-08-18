@@ -318,5 +318,7 @@
   "spell_charge_n": "Charge {{n}}",
   "spell_discharge": "Discharge",
   "spell_poison": "Poison ({{turns}}t)",
-  "spell_push_collision": "(if collision: {{dmg}})"
+  "spell_push_collision": "(if collision: {{dmg}})",
+  "weapon_transform": "Elemental Transform",
+  "weapon_transform_clear": "Clear"
 }

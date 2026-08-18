@@ -5,6 +5,13 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.63] — 2026-08-17
+- Feat: forjamagia de arma — transforma daño Neutro a elemental (Fuego/Tierra/Agua/Aire) al 85%, 68% o 50%
+- RuneModal: sección "Transformación Elemental" con iconos de poción (Wildfire/Earthquake/Tsunami/Hurricane) y botones de ratio
+- WeaponCard: aplica la transformación en la tabla de daños — el daño neutro se reemplaza por el elemento elegido con la fórmula correcta
+- WeaponCard: badge de elemento+% en el header cuando hay transformación activa
+- URL share: `wt` field preserva la transformación al compartir/guardar build
+
 ## [0.2.62] — 2026-08-17
 - UI: efectos quemados (robo PA, robo PM, ganar PA, ganar PM, empuje, erosión, mod curas, buff de hechizo) ahora aparecen como chips coloreados con icono de stat
 - UI: icono correcto por efecto — ap_reduction para robo PA, mp_reduction para robo PM, ap para ganar PA, mp para ganar PM, push_damage para empuje, damage_reflect para erosión, heals para curación
