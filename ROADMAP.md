@@ -73,6 +73,17 @@ Marcar con `[x]` cuando se complete.
 - [x] Comparar dos builds en paralelo
 - Modo "tier list" de ítems por slot y nivel
 
+### Pendientes identificadas (2026-08-18)
+
+- [ ] **M36 — Sugerir elemento óptimo para transform de arma** — en WeaponCard, calcular daño 85% neutro para cada elemento con maestría actual del personaje y resaltar cuál conviene más (tooltip o badge "Recomendado")
+- [ ] **M37 — Catálogo: filtrar armas transformables** — toggle "solo armas con daño neutro" en filtros del catálogo para facilitar búsqueda de armas candidatas a transform
+- [ ] **M38 — Tabla comparativa de transforms** — en RuneModal/WeaponCard, mini-tabla que muestra resultado de las 4 pociones × 3 ratios simultáneamente con el daño calculado final
+- [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable, más legible para compartir en Discord/foros
+- [ ] **M40 — Simulador PvP básico** — ingresar resistencias fijas/% de un enemigo dummy y ver daño real del build contra él (hechizos + arma), útil para comparar elementos
+- [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
+- [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
+- [ ] **M25 — Búsqueda global** — barra de búsqueda en header que busca ítems, sets, hechizos a la vez
+
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms para que el tooltip no desaparezca al mover el mouse hacia él.
 
 - [x]Para las armas de y demas, tienen bonus de criticos y demas, entonces validar esa parte ya que con el mismo set:
@@ -119,4 +130,4 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 - [x] volver a la foto que se tenia de los personajes, quitar como esta ahora
 - [x] **Fix — Montura/Compañero vacíos en idioma no inglés** — ETL guardaba tipo localizado; ahora usa tipo EN canónico para type+slot en todos los idiomas
 
-- [] agregar la forja magia para cambiar los daños de las armas ya que solo cambia el daño neutral y solo puede ser ese daño neutral las demas no cambian, tiene daño para cada una de los 4 elementos, para 85%, 68% y 50% de daño y que se vea el cambio con formagia y demas, y cuando se haga la simulacion de daño del arma que tome el nuevo valor, y se quite el anteriormente que tenia que seria el neutral (antes de hacerla, tener la imagenes de las runas)
+- [x] **Fix — Forjamagia transformación elemental de arma** — RuneModal muestra sección "Transformación Elemental" con pociones (Wildfire/Earthquake/Tsunami/Hurricane) y ratios 85%/68%/50%. WeaponCard y tooltip del slot reflejan el daño transformado (neutro → elemento elegido con Math.ceil). Badge elemento+% en header. Validación: solo armas con daño neutro pueden transformar. URL share preserva transform en campo `wt`.
