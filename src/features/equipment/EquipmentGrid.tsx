@@ -160,7 +160,8 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const { t }         = useTranslation()
   const cfg           = SLOT_MAP[slotId]
   const IconCmp       = SLOT_ICON[slotId]
-  const forjamagoName = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
+  const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
+  const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
 
   const [hovered, setHovered]   = useState(false)
   const [animating, setAnimating] = useState(false)
@@ -370,8 +371,25 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
               const isWeapon   = item.slot === 'weapon' || item.ap_cost != null
               const isAtk      = (e: typeof allFx[0]) =>
                 e.effect_id != null ? WEAPON_ATTACK_IDS.has(e.effect_id) : false
-              const atkFx      = isWeapon ? allFx.filter(isAtk)  : []
+              const rawAtkFx   = isWeapon ? allFx.filter(isAtk)  : []
               const statFx     = isWeapon ? allFx.filter(e => !isAtk(e)) : allFx
+
+              // Apply elemental weapon transform: replace Neutral damage with chosen element
+              type AtkEntry = typeof rawAtkFx[0] & { transformed?: boolean }
+              const atkFx: AtkEntry[] = (weaponTransform && isWeapon)
+                ? rawAtkFx.map(e => {
+                    if (e.stat !== 'Neutral damage') return e
+                    const cap     = weaponTransform.element.charAt(0).toUpperCase() + weaponTransform.element.slice(1)
+                    const r       = weaponTransform.ratio / 100
+                    return {
+                      ...e,
+                      stat:        `${cap} damage`,
+                      min:         Math.floor(e.min * r),
+                      max:         e.max > 0 ? Math.floor(e.max * r) : 0,
+                      transformed: true,
+                    }
+                  })
+                : rawAtkFx
 
               function StatLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
                 const meta    = STAT_META[e.stat]
@@ -395,12 +413,20 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                 )
               }
 
-              function AtkLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
-                const meta  = STAT_META[e.stat]
-                const clr   = meta?.color ?? 'var(--ink-muted)'
-                const isPush = e.stat === 'Pushes back cell'
+              function AtkLine({ e, i }: { e: { stat: string; min: number; max: number; transformed?: boolean }; i: number }) {
+                const meta       = STAT_META[e.stat]
+                const clr        = meta?.color ?? 'var(--ink-muted)'
+                const isPush     = e.stat === 'Pushes back cell'
+                const isTransformed = e.transformed === true
                 return (
-                  <div key={i} className="flex items-center gap-1.5 min-w-0">
+                  <div
+                    key={i}
+                    className="flex items-center gap-1.5 min-w-0 rounded px-1"
+                    style={isTransformed ? {
+                      background: `color-mix(in srgb, ${clr} 10%, transparent)`,
+                      outline:    `1px solid color-mix(in srgb, ${clr} 25%, transparent)`,
+                    } : undefined}
+                  >
                     {meta?.icon
                       ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
                       : <span className="w-3 flex-shrink-0" />
@@ -408,7 +434,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                     {isPush
                       ? <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>{t('spell_push', { cells: e.min })}</span>
                       : <>
-                          <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
+                          <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr, fontWeight: isTransformed ? 800 : 700 }}>
                             {e.min === e.max || e.max === 0 ? e.min : `${e.min} ${t('range_sep_neg')} ${e.max}`}
                           </span>
                           <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
