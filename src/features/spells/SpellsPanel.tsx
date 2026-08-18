@@ -8,6 +8,7 @@ import type { AppItem } from '@/data/loaders.ts'
 import { calcEffects, calcDamage, type CalcedEffect } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
+import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
 
 function spellGrade(level: number): number {
   if (level >= 200) return 6
@@ -721,7 +722,13 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
   const attackEffects = useMemo(() => {
     if (!weapon) return []
-    const base = weapon.effects.filter(e => Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat))
+    // Use effect_id when available (same as tooltip) to exclude passive +AirDmg bonuses
+    // that share the same stat name as weapon attack effects (e.g. id=47 passive vs id=189 attack).
+    const base = weapon.effects.filter(e =>
+      e.effect_id != null
+        ? WEAPON_ATTACK_IDS.has(e.effect_id)
+        : Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat)
+    )
     if (!weaponTransform) return base
     const elemStat = `${weaponTransform.element.charAt(0).toUpperCase()}${weaponTransform.element.slice(1)} damage`
     const r = weaponTransform.ratio / 100
