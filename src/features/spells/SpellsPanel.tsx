@@ -717,10 +717,21 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const [dominioNorm, setDominioNorm]     = useState(300)
   const [dominioCrit, setDominioCrit]     = useState(360)
 
+  const weaponTransform = useBuildStore(s => s.weaponTransforms['weapon'] ?? null)
+
   const attackEffects = useMemo(() => {
     if (!weapon) return []
-    return weapon.effects.filter(e => Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat))
-  }, [weapon])
+    const base = weapon.effects.filter(e => Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat))
+    if (!weaponTransform) return base
+    const elemStat = `${weaponTransform.element.charAt(0).toUpperCase()}${weaponTransform.element.slice(1)} damage`
+    const r = weaponTransform.ratio / 100
+    return base.map(e => {
+      if (e.stat !== 'Neutral damage') return e
+      const newMin = Math.floor(e.min * r)
+      const newMax = e.max > 0 ? Math.floor(e.max * r) : newMin
+      return { ...e, stat: elemStat, min: newMin, max: newMax }
+    })
+  }, [weapon, weaponTransform])
 
   if (!weapon) {
     return (
@@ -821,7 +832,24 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2">
             <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{weapon.name}</p>
-            {wLevel > 0 && <span className="text-[10px] font-mono flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>{t('level_range')}.{wLevel}</span>}
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              {weaponTransform && (() => {
+                const elemColor = ELEM_COLOR[weaponTransform.element]
+                return (
+                  <span
+                    className="text-[9px] font-bold font-mono px-1.5 py-0.5 rounded"
+                    style={{
+                      background: `color-mix(in srgb, ${elemColor} 15%, transparent)`,
+                      border:     `1px solid color-mix(in srgb, ${elemColor} 40%, transparent)`,
+                      color:       elemColor,
+                    }}
+                  >
+                    {t(`elem_${weaponTransform.element}`)} {weaponTransform.ratio}%
+                  </span>
+                )
+              })()}
+              {wLevel > 0 && <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{t('level_range')}.{wLevel}</span>}
+            </div>
           </div>
           <div className="flex items-center flex-wrap gap-x-3 mt-0.5">
             {ap > 0 && <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{t('badge_ap')} {ap}</span>}

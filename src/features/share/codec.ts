@@ -5,7 +5,7 @@ import type { BuildState } from '@/store/buildStore.ts'
 const PREFIX = 'v1:'
 
 /** Encode build state to a URL-safe string (schema v1). */
-export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 'gender' | 'allocated' | 'scrolled' | 'equipped' | 'runes' | 'forjamagoNames'>): string {
+export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 'gender' | 'allocated' | 'scrolled' | 'equipped' | 'runes' | 'forjamagoNames' | 'weaponTransforms'>): string {
   // Compact runes: only slots with at least one non-zero value
   const runeMap: Record<string, Record<string, number>> = {}
   for (const [slot, slotRunes] of Object.entries(state.runes ?? {})) {
@@ -20,6 +20,12 @@ export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 
     if (name && runeMap[slot]) fnMap[slot] = name
   }
 
+  // Compact weaponTransforms: only slots with an active transform
+  const wtMap: Record<string, { el: string, r: number }> = {}
+  for (const [slot, transform] of Object.entries(state.weaponTransforms ?? {})) {
+    if (transform) wtMap[slot] = { el: transform.element, r: transform.ratio }
+  }
+
   const snap: BuildSnapshot = {
     v: 1,
     c: state.selectedClass ?? '',
@@ -30,6 +36,7 @@ export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'level' | 
     e: ALL_SLOTS.map(slot => state.equipped[slot] ?? null),
     r: Object.keys(runeMap).length > 0 ? runeMap : undefined,
     fn: Object.keys(fnMap).length > 0 ? fnMap : undefined,
+    wt: Object.keys(wtMap).length > 0 ? wtMap : undefined,
   }
   const json   = JSON.stringify(snap)
   const b64    = btoa(unescape(encodeURIComponent(json)))

@@ -8,6 +8,11 @@ import type { StatBlock } from '@/engine/types.ts'
 
 export type RuneMap = Record<string, number>
 
+export type WeaponTransform = {
+  element: 'fire' | 'earth' | 'water' | 'air'
+  ratio:   85 | 68 | 50
+}
+
 export type SlotId =
   | 'hat' | 'cape' | 'amulet' | 'ring1' | 'ring2'
   | 'belt' | 'boots' | 'weapon' | 'shield' | 'companion'
@@ -42,6 +47,8 @@ export interface BuildState {
   runes:          Partial<Record<SlotId, RuneMap>>
   /** Craftsman signature per slot (only meaningful when runes are present) */
   forjamagoNames: Partial<Record<SlotId, string>>
+  /** Elemental weapon damage transformation per slot (weapon slot only) */
+  weaponTransforms: Partial<Record<SlotId, WeaponTransform | null>>
 
   stats: StatBlock | null
 
@@ -62,10 +69,11 @@ export interface BuildState {
   unequipItem:   (slot: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
   setSetsData:   (sets: AppSet[]) => void
-  setRune:          (slot: SlotId, stat: string, value: number) => void
-  clearRune:        (slot: SlotId, stat: string) => void
-  setForjamagoName: (slot: SlotId, name: string) => void
-  applySnapshot:    (snap: BuildSnapshot) => void
+  setRune:             (slot: SlotId, stat: string, value: number) => void
+  clearRune:           (slot: SlotId, stat: string) => void
+  setForjamagoName:    (slot: SlotId, name: string) => void
+  setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
+  applySnapshot:       (snap: BuildSnapshot) => void
   reset:         () => void
 }
 
@@ -79,6 +87,7 @@ export type BuildSnapshot = {
   e:  (number | null)[]  // equipped ankama_ids per ALL_SLOTS order
   r?: Record<string, Record<string, number>>  // runes: slot → stat → value (optional)
   fn?: Record<string, string>                 // forjamagoNames: slot → craftsman name (optional)
+  wt?: Record<string, { el: string, r: number }>  // weaponTransforms: slot → { element, ratio }
 }
 
 function recompute(
@@ -127,17 +136,18 @@ export const useBuildStore = create<BuildState>((set) => {
   }
 
   return {
-    selectedClass: null,
-    level:         200,
-    gender:        'male',
-    allocated:     { ...ZERO_ALLOC },
-    scrolled:      { ...NO_SCROLLS },
-    equipped:       {},
-    runes:          {},
-    forjamagoNames: {},
-    stats:          null,
-    _equipment:     [],
-    _sets:          [],
+    selectedClass:    null,
+    level:            200,
+    gender:           'male',
+    allocated:        { ...ZERO_ALLOC },
+    scrolled:         { ...NO_SCROLLS },
+    equipped:          {},
+    runes:             {},
+    forjamagoNames:    {},
+    weaponTransforms:  {},
+    stats:             null,
+    _equipment:        [],
+    _sets:             [],
 
     setClass:  (c) => set(s => update({ selectedClass: c }, s)),
     setLevel:  (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
@@ -210,7 +220,8 @@ export const useBuildStore = create<BuildState>((set) => {
       return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
     }),
 
-    setForjamagoName: (slot, name) => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
+    setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
+    setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),
 
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
@@ -240,21 +251,31 @@ export const useBuildStore = create<BuildState>((set) => {
       const forjamagoNames = snap.fn
         ? (snap.fn as Partial<Record<SlotId, string>>)
         : {}
-      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes, forjamagoNames }, s)
+      const weaponTransforms: Partial<Record<SlotId, WeaponTransform | null>> = {}
+      if (snap.wt) {
+        for (const [slot, v] of Object.entries(snap.wt)) {
+          if (v && (v.r === 85 || v.r === 68 || v.r === 50) &&
+              (v.el === 'fire' || v.el === 'earth' || v.el === 'water' || v.el === 'air')) {
+            weaponTransforms[slot as SlotId] = { element: v.el, ratio: v.r }
+          }
+        }
+      }
+      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
     }),
 
     reset: () => set(s => ({
-      selectedClass: null,
-      level:         200,
-      gender:        'male',
-      allocated:     { ...ZERO_ALLOC },
-      scrolled:      { ...NO_SCROLLS },
-      equipped:       {},
-      runes:          {},
-      forjamagoNames: {},
-      stats:          null,
-      _equipment:    s._equipment,
-      _sets:         s._sets,
+      selectedClass:    null,
+      level:            200,
+      gender:           'male',
+      allocated:        { ...ZERO_ALLOC },
+      scrolled:         { ...NO_SCROLLS },
+      equipped:          {},
+      runes:             {},
+      forjamagoNames:    {},
+      weaponTransforms:  {},
+      stats:             null,
+      _equipment:       s._equipment,
+      _sets:            s._sets,
     })),
   }
 })

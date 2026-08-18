@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.63',
+    date: '2026-08-17',
+    notes: [
+      'Feat: forjamagia de arma — transforma daño Neutro a elemental (Fuego/Tierra/Agua/Aire) al 85%, 68% o 50%',
+      'RuneModal: sección "Transformación Elemental" con iconos de poción (Wildfire/Earthquake/Tsunami/Hurricane)',
+      'WeaponCard: daño neutro reemplazado por el elemento transformado — escala con maestría del elemento correcto',
+      'WeaponCard: badge de elemento+% en header cuando hay transformación activa',
+      'URL share: campo wt preserva la transformación al compartir build',
+    ],
+  },
+  {
     version: '0.2.62',
     date: '2026-08-17',
     notes: [

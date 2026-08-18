@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
+import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl, runeIconUrl } from './statDisplay.ts'
 
@@ -14,19 +14,34 @@ const RUNE_GRID = [
 
 const QUICK_VALUES = [1, 5, 10, 25, 50, 100]
 
+type TransformElem = 'fire' | 'earth' | 'water' | 'air'
+const TRANSFORM_ELEMENTS: { elem: TransformElem; icon: string; color: string }[] = [
+  { elem: 'fire',  icon: 'weapons/Wildfire_Potion.webp',   color: 'var(--fire)'  },
+  { elem: 'earth', icon: 'weapons/Earthquake_Potion.webp', color: 'var(--earth)' },
+  { elem: 'water', icon: 'weapons/Tsunami_Potion.webp',    color: 'var(--water)' },
+  { elem: 'air',   icon: 'weapons/Hurricane_Potion.webp',  color: 'var(--air)'   },
+]
+const TRANSFORM_RATIOS: (85 | 68 | 50)[] = [85, 68, 50]
+
 type Props = {
   slotId:  SlotId
   item:    AppItem
   onClose: () => void
 }
 
+const BASE = import.meta.env.BASE_URL
+
 export function RuneModal({ slotId, item, onClose }: Props) {
   const { t }     = useTranslation()
-  const runes            = useBuildStore(s => s.runes[slotId] ?? {})
-  const setRune          = useBuildStore(s => s.setRune)
-  const clearRune        = useBuildStore(s => s.clearRune)
-  const forjamagoName    = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
-  const setForjamagoName = useBuildStore(s => s.setForjamagoName)
+  const runes              = useBuildStore(s => s.runes[slotId] ?? {})
+  const setRune            = useBuildStore(s => s.setRune)
+  const clearRune          = useBuildStore(s => s.clearRune)
+  const forjamagoName      = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
+  const setForjamagoName   = useBuildStore(s => s.setForjamagoName)
+  const weaponTransform    = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
+  const setWeaponTransform = useBuildStore(s => s.setWeaponTransform)
+
+  const isWeaponSlot = slotId === 'weapon'
 
   const [selected, setSelected] = useState(RUNE_GRID[0])
   const [addValue, setAddValue] = useState(10)
@@ -101,6 +116,94 @@ export function RuneModal({ slotId, item, onClose }: Props) {
         </div>
 
         <div className="overflow-y-auto flex-1">
+          {/* Elemental weapon transform — weapon slot only */}
+          {isWeaponSlot && (
+            <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
+                  {t('weapon_transform')}
+                </span>
+                {weaponTransform && (
+                  <button
+                    onClick={() => setWeaponTransform(slotId, null)}
+                    className="text-[10px] px-2 py-0.5 rounded transition-colors"
+                    style={{
+                      background: 'color-mix(in srgb, var(--negative) 12%, transparent)',
+                      border:     '1px solid color-mix(in srgb, var(--negative) 27%, transparent)',
+                      color:      'var(--negative)',
+                    }}
+                  >
+                    {t('weapon_transform_clear')}
+                  </button>
+                )}
+              </div>
+
+              {/* Element selector */}
+              <div className="flex gap-2 mb-2">
+                {TRANSFORM_ELEMENTS.map(({ elem, icon, color }) => {
+                  const active = weaponTransform?.element === elem
+                  return (
+                    <button
+                      key={elem}
+                      onClick={() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? 85 } as WeaponTransform)}
+                      title={t(`elem_${elem}`)}
+                      className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2 transition-all"
+                      style={{
+                        background: active
+                          ? `color-mix(in srgb, ${color} 16%, transparent)`
+                          : 'var(--surface-void)',
+                        border: active
+                          ? `1.5px solid color-mix(in srgb, ${color} 70%, transparent)`
+                          : '1px solid var(--metal-edge)',
+                        boxShadow: active ? `0 0 10px color-mix(in srgb, ${color} 20%, transparent)` : 'none',
+                      }}
+                    >
+                      <img
+                        src={`${BASE}data/runes/${icon}`}
+                        alt={t(`elem_${elem}`)}
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                        style={{ filter: active ? `drop-shadow(0 0 6px ${color})` : 'brightness(0.6) saturate(0.5)' }}
+                      />
+                      <span className="text-[9px] font-semibold" style={{ color: active ? color : 'var(--ink-faint)' }}>
+                        {t(`elem_${elem}`)}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Ratio selector — only when element chosen */}
+              {weaponTransform && (
+                <div className="flex gap-1.5">
+                  {TRANSFORM_RATIOS.map(r => {
+                    const active = weaponTransform.ratio === r
+                    const color  = TRANSFORM_ELEMENTS.find(e => e.elem === weaponTransform.element)?.color ?? 'var(--gold)'
+                    return (
+                      <button
+                        key={r}
+                        onClick={() => setWeaponTransform(slotId, { element: weaponTransform.element, ratio: r })}
+                        className="flex-1 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all"
+                        style={{
+                          background: active
+                            ? `color-mix(in srgb, ${color} 16%, transparent)`
+                            : 'var(--surface-void)',
+                          border: active
+                            ? `1.5px solid color-mix(in srgb, ${color} 60%, transparent)`
+                            : '1px solid var(--metal-edge)',
+                          color: active ? color : 'var(--ink-faint)',
+                        }}
+                      >
+                        {r}%
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Active runes */}
           <div className="px-4 pt-4">
             <div className="flex items-center gap-2 mb-2.5">
