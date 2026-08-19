@@ -37,18 +37,26 @@ export function Modal({ open, onClose, title, size = 'md', className, children }
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId  = title ? 'modal-title' : undefined
 
-  // Focus trap + ESC
+  // Initial focus — only when modal opens, not when onClose ref changes
   useEffect(() => {
     if (!open) return
     const panel = panelRef.current
     if (!panel) return
-
     const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))
     focusable[0]?.focus()
+  }, [open])
+
+  // ESC + Tab trap — reattaches when onClose changes but does NOT steal focus
+  useEffect(() => {
+    if (!open) return
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') { onClose(); return }
-      if (e.key !== 'Tab' || focusable.length === 0) return
+      if (e.key !== 'Tab') return
+      const panel = panelRef.current
+      if (!panel) return
+      const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))
+      if (focusable.length === 0) return
       const first = focusable[0]
       const last  = focusable[focusable.length - 1]
       if (e.shiftKey) {
