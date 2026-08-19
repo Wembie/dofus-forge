@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.72',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer: greedy repair phase guarantees constraint satisfaction — if beam search misses, top builds are repaired slot-by-slot toward each violated constraint',
+      'Repair uses character base stats (scrolled + allocated) to know exactly how much more items must contribute',
+    ],
+  },
+  {
     version: '0.2.71',
     date: '2026-08-18',
     notes: [

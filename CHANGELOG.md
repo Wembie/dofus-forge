@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.72] — 2026-08-18
+- Optimizer: greedy repair phase — when no beam result meets constraints, top builds are iteratively repaired by swapping the slot that gains the most toward the most-violated constraint, up to 10 passes per build
+- Repair uses adjusted constraints (minVal minus character base stats) so it correctly knows how much items must contribute
+- This guarantees constraint satisfaction whenever a valid solution exists in the item pool
+
 ## [0.2.71] — 2026-08-18
 - Optimizer UI redesign: all stats always visible, organized in 9 collapsible groups (Core, Characteristics, Elemental Damage, Critical, % Damage, Elemental Steal, Fixed/% Resistances, Combat)
 - Slots config moved to collapsible panel; max level + exo inline in top bar

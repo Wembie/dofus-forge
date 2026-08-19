@@ -9,24 +9,19 @@ const WEAPON_ATK_STAT_NAMES = new Set([
   'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
 ])
 
-// Items per slot kept in pre-filter (normal + constraint-extra merged)
-const TOP_K              = 50
-const TOP_K_CONSTRAINT   = 30   // extra items per slot biased toward constrained stats
-// Beam widths per search pass
-const BEAM_WIDTH         = 120  // primary beam
-const CONSTRAINT_BEAM_W  = 120  // constraint-guided beam (only runs when minVal > 0 exists)
-// Weight multiplier for constrained stats in the constraint beam / pre-filter
-const CONSTRAINT_MULT    = 6
-// Base weight for stats not in user config (keeps diverse high-level items competitive)
-const BASE_WEIGHT        = 0.3
+const TOP_K              = 50   // items per slot (normal sort)
+const TOP_K_CONSTRAINT   = 30   // extra items biased toward constrained stats (merged in)
+const BEAM_WIDTH         = 120
+const CONSTRAINT_BEAM_W  = 120
+const CONSTRAINT_MULT    = 6    // weight boost for constrained stats in constraint beam
+const BASE_WEIGHT        = 0.3  // unconfigured stats still count to prefer diverse high-level items
+const MAX_REPAIR_PASSES  = 10   // greedy repair iterations per build
+const MAX_BUILDS_REPAIR  = 12   // how many beam results to attempt repairing
 
 const DOFUS_SLOT_IDS = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6'] as SlotId[]
 const COMPANION_TYPES = new Set(['Pet', 'Petsmount', 'Dragoturkey', 'Seemyool', 'Rhineetle'])
 
-type BeamBuild = {
-  equipped: Partial<Record<SlotId, number>>
-  score:    number
-}
+type BeamBuild = { equipped: Partial<Record<SlotId, number>>; score: number }
 
 function filterItemsForSlot(items: AppItem[], slot: SlotId, maxLevel: number): AppItem[] {
   const leveled = items.filter(it => it.level <= maxLevel)
@@ -37,11 +32,28 @@ function filterItemsForSlot(items: AppItem[], slot: SlotId, maxLevel: number): A
   return leveled.filter(it => it.slot === slot)
 }
 
-// constraintBoost=true → multiply minVal-constrained stat weights by CONSTRAINT_MULT
+// Sum of item's contribution to a specific stat key (used in repair)
+function getItemStatContrib(item: AppItem, statKey: OptimizerStatKey): number {
+  let total = 0
+  for (const eff of item.effects) {
+    if (eff.effect_id != null && WEAPON_ATTACK_IDS.has(eff.effect_id)) continue
+    if (item.slot === 'weapon' && WEAPON_ATK_STAT_NAMES.has(eff.stat)) continue
+    const val = (eff.max !== 0 && eff.max > eff.min) ? eff.max : eff.min
+    const key = (STAT_MAP as Readonly<Record<string, string | undefined>>)[eff.stat] as OptimizerStatKey | undefined
+    if (key === statKey) total += val
+  }
+  return total
+}
+
+function canEquip(equipped: Partial<Record<SlotId, number>>, slot: SlotId, item: AppItem): boolean {
+  if (slot === 'ring2' && equipped.ring1 === item.ankama_id) return false
+  if (DOFUS_SLOT_IDS.includes(slot) && DOFUS_SLOT_IDS.some(ds => ds !== slot && equipped[ds] === item.ankama_id)) return false
+  return true
+}
+
 function itemPartialScore(item: AppItem, stats: OptimizerConfig['stats'], constraintBoost = false): number {
   let s = item.level * 0.1
   const cfgMap = new Map(stats.map(c => [c.stat, c]))
-
   for (const eff of item.effects) {
     if (eff.effect_id != null && WEAPON_ATTACK_IDS.has(eff.effect_id)) continue
     if (item.slot === 'weapon' && WEAPON_ATK_STAT_NAMES.has(eff.stat)) continue
@@ -50,7 +62,6 @@ function itemPartialScore(item: AppItem, stats: OptimizerConfig['stats'], constr
     if (!key) continue
     const cfg = cfgMap.get(key)
     let weight: number
-    // weight=0 means not configured (all stats pre-initialized at 0) → use BASE_WEIGHT
     if (cfg && (cfg.weight > 0 || cfg.minVal > 0)) {
       const w = cfg.weight > 0 ? cfg.weight : 5
       weight = w * (constraintBoost && cfg.minVal > 0 ? CONSTRAINT_MULT : 1)
@@ -66,28 +77,27 @@ function buildFingerprint(b: BeamBuild): string {
   return ALL_SLOTS.map(s => b.equipped[s] ?? 0).join(',')
 }
 
+function equippedFingerprint(eq: Partial<Record<SlotId, number>>): string {
+  return ALL_SLOTS.map(s => eq[s] ?? 0).join(',')
+}
+
 function runBeam(
-  slotsToOptimize: SlotId[],
+  slots:           SlotId[],
   topPerSlot:      Map<SlotId, AppItem[]>,
-  lockedEquipped:  Partial<Record<SlotId, number>>,
+  locked:          Partial<Record<SlotId, number>>,
   stats:           OptimizerConfig['stats'],
-  beamWidth:       number,
+  width:           number,
   constraintBoost: boolean,
   cancelRef:       { cancelled: boolean },
 ): BeamBuild[] {
-  let beam: BeamBuild[] = [{ equipped: { ...lockedEquipped }, score: 0 }]
-
-  for (const slot of slotsToOptimize) {
+  let beam: BeamBuild[] = [{ equipped: { ...locked }, score: 0 }]
+  for (const slot of slots) {
     if (cancelRef.cancelled) return []
     const candidates = topPerSlot.get(slot) ?? []
     const next: BeamBuild[] = []
-
     for (const build of beam) {
       for (const item of candidates) {
-        if (slot === 'ring2' && build.equipped.ring1 === item.ankama_id) continue
-        if (DOFUS_SLOT_IDS.includes(slot)) {
-          if (DOFUS_SLOT_IDS.some(ds => ds !== slot && build.equipped[ds] === item.ankama_id)) continue
-        }
+        if (!canEquip(build.equipped, slot, item)) continue
         next.push({
           equipped: { ...build.equipped, [slot]: item.ankama_id },
           score:    build.score + itemPartialScore(item, stats, constraintBoost),
@@ -95,12 +105,85 @@ function runBeam(
       }
       if (candidates.length === 0) next.push({ ...build })
     }
-
     next.sort((a, b) => b.score - a.score)
-    beam = next.slice(0, beamWidth)
+    beam = next.slice(0, width)
+  }
+  return beam
+}
+
+function buildEquippedItems(equipped: Partial<Record<SlotId, number>>, itemMap: Map<number, AppItem>): EquippedItem[] {
+  const out: EquippedItem[] = []
+  for (const slot of ALL_SLOTS) {
+    const id = equipped[slot]
+    if (id == null) continue
+    const it = itemMap.get(id)
+    if (it) out.push({ ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id, slot: it.slot })
+  }
+  return out
+}
+
+// Greedy repair: iteratively swap items to reduce constraint violations.
+// Uses item-level stat contributions + character base stats to estimate deficits.
+// Only calls computeStats (full eval) in the runOptimizer loop after repair — not here.
+function repairConstraints(
+  equipped:        Partial<Record<SlotId, number>>,
+  constraints:     { stat: OptimizerStatKey; needed: number }[],  // how much MORE items must add
+  topPerSlot:      Map<SlotId, AppItem[]>,
+  slotsToOptimize: SlotId[],
+  itemMap:         Map<number, AppItem>,
+): Partial<Record<SlotId, number>> {
+  let current = { ...equipped }
+
+  for (let pass = 0; pass < MAX_REPAIR_PASSES; pass++) {
+    // Sum item contributions for each constrained stat
+    const itemTotals: Partial<Record<OptimizerStatKey, number>> = {}
+    for (const slot of ALL_SLOTS) {
+      const id = current[slot]
+      if (!id) continue
+      const it = itemMap.get(id)
+      if (!it) continue
+      for (const { stat } of constraints) {
+        itemTotals[stat] = (itemTotals[stat] ?? 0) + getItemStatContrib(it, stat)
+      }
+    }
+
+    // Find the most under-satisfied constraint (lowest fulfillment ratio)
+    const violated = constraints.filter(c => (itemTotals[c.stat] ?? 0) < c.needed)
+    if (violated.length === 0) break
+
+    const target = violated.sort((a, b) => {
+      const ra = (itemTotals[a.stat] ?? 0) / Math.max(1, a.needed)
+      const rb = (itemTotals[b.stat] ?? 0) / Math.max(1, b.needed)
+      return ra - rb
+    })[0]
+
+    // Find best slot swap that maximizes contribution gain for this stat
+    let bestSlot: SlotId | null = null
+    let bestItem: AppItem | null = null
+    let bestGain = 0
+
+    for (const slot of slotsToOptimize) {
+      const currentId = current[slot]
+      const currentIt = currentId ? itemMap.get(currentId) : undefined
+      const currentContrib = currentIt ? getItemStatContrib(currentIt, target.stat) : 0
+
+      for (const cand of topPerSlot.get(slot) ?? []) {
+        if (cand.ankama_id === currentId) continue
+        if (!canEquip(current, slot, cand)) continue
+        const gain = getItemStatContrib(cand, target.stat) - currentContrib
+        if (gain > bestGain) {
+          bestGain = gain
+          bestSlot = slot
+          bestItem = cand
+        }
+      }
+    }
+
+    if (!bestSlot || !bestItem) break  // No improvement possible
+    current = { ...current, [bestSlot]: bestItem.ankama_id }
   }
 
-  return beam
+  return current
 }
 
 export function runOptimizer(
@@ -112,7 +195,8 @@ export function runOptimizer(
   cancelRef:  { cancelled: boolean },
 ): BuildResult[] {
   const { stats, maxLevel, lockedSlots } = config
-  const hasConstraints = stats.some(s => s.minVal > 0)
+  const hardConstraints = stats.filter(cfg => cfg.minVal > 0)
+  const hasConstraints  = hardConstraints.length > 0
 
   const slotsToOptimize = ALL_SLOTS.filter(s => !lockedSlots.has(s))
   const n = slotsToOptimize.length
@@ -121,56 +205,6 @@ export function runOptimizer(
   for (const slot of ALL_SLOTS) {
     if (lockedSlots.has(slot) && base.equipped[slot] != null) {
       lockedEquipped[slot] = base.equipped[slot]
-    }
-  }
-
-  // Pre-filter: top-K by normal score + extra top-K by constraint score (merged, deduped)
-  const topPerSlot = new Map<SlotId, AppItem[]>()
-  for (const slot of slotsToOptimize) {
-    const filtered = filterItemsForSlot(items, slot, maxLevel)
-
-    const normalSorted = [...filtered].sort((a, b) => itemPartialScore(b, stats) - itemPartialScore(a, stats))
-    const top = normalSorted.slice(0, TOP_K)
-
-    if (hasConstraints) {
-      const constraintSorted = [...filtered].sort((a, b) => itemPartialScore(b, stats, true) - itemPartialScore(a, stats, true))
-      const seen = new Set(top.map(i => i.ankama_id))
-      for (const it of constraintSorted.slice(0, TOP_K_CONSTRAINT)) {
-        if (!seen.has(it.ankama_id)) {
-          top.push(it)
-          seen.add(it.ankama_id)
-        }
-      }
-    }
-
-    topPerSlot.set(slot, top)
-  }
-
-  onProgress({ phase: 'prefilter', slotIndex: 0, totalSlots: n, percent: 5 })
-
-  // Primary beam: optimize for weighted score
-  const primaryBeam = runBeam(slotsToOptimize, topPerSlot, lockedEquipped, stats, BEAM_WIDTH, false, cancelRef)
-  if (cancelRef.cancelled) return []
-
-  onProgress({ phase: 'search', slotIndex: n, totalSlots: n, percent: hasConstraints ? 45 : 80 })
-
-  // Constraint beam: boosted weights for minVal stats — finds builds meeting requirements
-  let constraintBeam: BeamBuild[] = []
-  if (hasConstraints && !cancelRef.cancelled) {
-    constraintBeam = runBeam(slotsToOptimize, topPerSlot, lockedEquipped, stats, CONSTRAINT_BEAM_W, true, cancelRef)
-  }
-
-  if (cancelRef.cancelled) return []
-  onProgress({ phase: 'evaluating', slotIndex: n, totalSlots: n, percent: 80 })
-
-  // Merge beams, deduplicate by slot fingerprint
-  const seen = new Set<string>()
-  const allBuilds: BeamBuild[] = []
-  for (const build of [...primaryBeam, ...constraintBeam]) {
-    const fp = buildFingerprint(build)
-    if (!seen.has(fp)) {
-      seen.add(fp)
-      allBuilds.push(build)
     }
   }
 
@@ -183,19 +217,66 @@ export function runOptimizer(
     ),
   }))
 
-  const results: BuildResult[] = []
+  // Base stats without any equipment — used to compute how much MORE items must contribute
+  const baseStatsComputed = computeStats({
+    class:     base.selectedClass,
+    level:     base.level,
+    allocated: base.allocated,
+    scrolled:  base.scrolled,
+    items:     [],
+    sets:      [],
+  })
+  const baseNums = baseStatsComputed as unknown as Record<string, number>
 
-  for (const build of allBuilds) {
-    if (cancelRef.cancelled) return []
+  // Adjusted constraints: items need to cover max(0, minVal - characterBaseValue)
+  const adjustedConstraints = hardConstraints.map(cfg => ({
+    stat:   cfg.stat,
+    needed: Math.max(0, cfg.minVal - (baseNums[cfg.stat] ?? 0)),
+  }))
 
-    const equippedItems: EquippedItem[] = []
-    for (const slot of ALL_SLOTS) {
-      const id = build.equipped[slot]
-      if (id == null) continue
-      const it = itemMap.get(id)
-      if (it) equippedItems.push({ ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id, slot: it.slot })
+  // Pre-filter: top-K by normal score + top-K by constraint score (merged, deduped per slot)
+  const topPerSlot = new Map<SlotId, AppItem[]>()
+  for (const slot of slotsToOptimize) {
+    const filtered = filterItemsForSlot(items, slot, maxLevel)
+    const normalSorted = [...filtered].sort((a, b) => itemPartialScore(b, stats) - itemPartialScore(a, stats))
+    const top = normalSorted.slice(0, TOP_K)
+    if (hasConstraints) {
+      const constraintSorted = [...filtered].sort((a, b) => itemPartialScore(b, stats, true) - itemPartialScore(a, stats, true))
+      const seen = new Set(top.map(i => i.ankama_id))
+      for (const it of constraintSorted.slice(0, TOP_K_CONSTRAINT)) {
+        if (!seen.has(it.ankama_id)) { top.push(it); seen.add(it.ankama_id) }
+      }
     }
+    topPerSlot.set(slot, top)
+  }
 
+  onProgress({ phase: 'prefilter', slotIndex: 0, totalSlots: n, percent: 5 })
+
+  // Beam search passes
+  const primaryBeam = runBeam(slotsToOptimize, topPerSlot, lockedEquipped, stats, BEAM_WIDTH, false, cancelRef)
+  if (cancelRef.cancelled) return []
+
+  onProgress({ phase: 'search', slotIndex: n, totalSlots: n, percent: hasConstraints ? 40 : 80 })
+
+  let constraintBeam: BeamBuild[] = []
+  if (hasConstraints && !cancelRef.cancelled) {
+    constraintBeam = runBeam(slotsToOptimize, topPerSlot, lockedEquipped, stats, CONSTRAINT_BEAM_W, true, cancelRef)
+  }
+
+  if (cancelRef.cancelled) return []
+  onProgress({ phase: 'evaluating', slotIndex: n, totalSlots: n, percent: 75 })
+
+  // Merge + deduplicate
+  const seen = new Set<string>()
+  const allBuilds: BeamBuild[] = []
+  for (const build of [...primaryBeam, ...constraintBeam]) {
+    const fp = buildFingerprint(build)
+    if (!seen.has(fp)) { seen.add(fp); allBuilds.push(build) }
+  }
+
+  // Full evaluation of all beam results
+  function evalBuild(equipped: Partial<Record<SlotId, number>>): BuildResult {
+    const equippedItems = buildEquippedItems(equipped, itemMap)
     const computedStats = computeStats({
       class:     base.selectedClass,
       level:     base.level,
@@ -204,27 +285,61 @@ export function runOptimizer(
       items:     equippedItems,
       sets:      setData,
     })
-
     const statsNums = computedStats as unknown as Record<string, number>
     let score = 0
     for (const cfg of stats) {
       if (cfg.weight > 0 || cfg.minVal > 0) {
-        const w = cfg.weight > 0 ? cfg.weight : 5
-        score += (statsNums[cfg.stat] ?? 0) * w
+        score += (statsNums[cfg.stat] ?? 0) * (cfg.weight > 0 ? cfg.weight : 5)
       }
     }
-
-    const hardConstraints = stats.filter(cfg => cfg.minVal > 0)
     const meetsRequired = hardConstraints.every(cfg => (statsNums[cfg.stat] ?? 0) >= cfg.minVal)
-
-    results.push({ equipped: build.equipped, stats: computedStats, score, meetsRequired })
+    return { equipped, stats: computedStats, score, meetsRequired }
   }
 
-  // Constraint-meeting builds first; within same bucket, higher score wins
+  const results: BuildResult[] = []
+  for (const build of allBuilds) {
+    if (cancelRef.cancelled) return []
+    results.push(evalBuild(build.equipped))
+  }
+
   results.sort((a, b) => {
     if (a.meetsRequired !== b.meetsRequired) return a.meetsRequired ? -1 : 1
     return b.score - a.score
   })
+
+  // ── Repair phase ────────────────────────────────────────────────────────────
+  // If no beam result meets constraints, greedily repair the best-scoring builds
+  // by swapping items slot-by-slot toward the most violated constraint.
+  if (hasConstraints && !results.some(r => r.meetsRequired) && !cancelRef.cancelled) {
+    onProgress({ phase: 'evaluating', slotIndex: n, totalSlots: n, percent: 85 })
+
+    const repairSeenFps = new Set(results.map(r => equippedFingerprint(r.equipped)))
+    const toRepair = allBuilds.slice(0, MAX_BUILDS_REPAIR)
+
+    for (const build of toRepair) {
+      if (cancelRef.cancelled) break
+
+      const repaired = repairConstraints(
+        build.equipped,
+        adjustedConstraints,
+        topPerSlot,
+        slotsToOptimize,
+        itemMap,
+      )
+
+      const fp = equippedFingerprint(repaired)
+      if (repairSeenFps.has(fp)) continue
+      repairSeenFps.add(fp)
+
+      const result = evalBuild(repaired)
+      results.push(result)
+    }
+
+    results.sort((a, b) => {
+      if (a.meetsRequired !== b.meetsRequired) return a.meetsRequired ? -1 : 1
+      return b.score - a.score
+    })
+  }
 
   onProgress({ phase: 'evaluating', slotIndex: n, totalSlots: n, percent: 100 })
 
