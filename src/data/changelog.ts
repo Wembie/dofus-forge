@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.74',
+    date: '2026-08-18',
+    notes: [
+      'Fix: stat inputs accept continuous typing — Modal focus trap was re-stealing focus on every render due to unstable onClose ref',
+      'Fix: "Exo Rango" → "Exo Alcance" in Spanish to match official Dofus stat name',
+    ],
+  },
+  {
     version: '0.2.73',
     date: '2026-08-18',
     notes: [
