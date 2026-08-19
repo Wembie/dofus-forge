@@ -720,16 +720,19 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
   const weaponTransform = useBuildStore(s => s.weaponTransforms['weapon'] ?? null)
 
+  const hasNeutralDamage = weapon != null && weapon.effects.some(e => e.stat === 'Neutral damage')
+
   const attackEffects = useMemo(() => {
     if (!weapon) return []
     // Use effect_id when available (same as tooltip) to exclude passive +AirDmg bonuses
     // that share the same stat name as weapon attack effects (e.g. id=47 passive vs id=189 attack).
+    // Exclude effect_id 225 (Pushes back cell) — push isn't a numeric damage row.
     const base = weapon.effects.filter(e =>
       e.effect_id != null
-        ? WEAPON_ATTACK_IDS.has(e.effect_id)
+        ? WEAPON_ATTACK_IDS.has(e.effect_id) && e.effect_id !== 225
         : Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat)
     )
-    if (!weaponTransform) return base
+    if (!weaponTransform || !hasNeutralDamage) return base
     const elemStat = `${weaponTransform.element.charAt(0).toUpperCase()}${weaponTransform.element.slice(1)} damage`
     const r = weaponTransform.ratio / 100
     return base.map(e => {
@@ -738,7 +741,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
       const newMax = e.max > 0 ? Math.ceil(e.max * r) : newMin
       return { ...e, stat: elemStat, min: newMin, max: newMax }
     })
-  }, [weapon, weaponTransform])
+  }, [weapon, weaponTransform, hasNeutralDamage])
 
   if (!weapon) {
     return (
@@ -840,7 +843,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           <div className="flex items-baseline justify-between gap-2">
             <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{weapon.name}</p>
             <div className="flex items-center gap-1.5 flex-shrink-0">
-              {weaponTransform && (() => {
+              {weaponTransform && hasNeutralDamage && (() => {
                 const elemColor = ELEM_COLOR[weaponTransform.element]
                 return (
                   <span
