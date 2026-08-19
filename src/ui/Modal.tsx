@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from './cn'
 
-type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'
 
 export type ModalProps = {
   open:       boolean
@@ -22,6 +22,8 @@ const sizeMap: Record<ModalSize, string> = {
   lg:   'max-w-lg',
   xl:   'max-w-xl',
   '2xl':'max-w-2xl',
+  '3xl':'max-w-3xl',
+  '4xl':'max-w-4xl',
   full: 'max-w-[calc(100vw-2rem)]',
 }
 

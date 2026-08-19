@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.73] — 2026-08-18
+- Optimizer modal enlarged to 4xl (896px) — stat grid fully visible, no cut-off cards
+- Validation: error shown if all slots are locked (nothing to optimize)
+- Added '3xl' and '4xl' size options to Modal component
+
 ## [0.2.72] — 2026-08-18
 - Optimizer: greedy repair phase — when no beam result meets constraints, top builds are iteratively repaired by swapping the slot that gains the most toward the most-violated constraint, up to 10 passes per build
 - Repair uses adjusted constraints (minVal minus character base stats) so it correctly knows how much items must contribute

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.73',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer modal enlarged to max-w-4xl (896px) — stat grid fully visible without cut-off cards',
+      'Validation: shows error if all slots are locked before running optimizer',
+    ],
+  },
+  {
     version: '0.2.72',
     date: '2026-08-18',
     notes: [
