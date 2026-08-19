@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.65] — 2026-08-18
+- WeaponCard: ícono de poción de transformación (Wildfire/Earthquake/Tsunami/Hurricane) aparece en esquina inferior derecha de la imagen del arma cuando hay transform activo
+
 ## [0.2.64] — 2026-08-18
 - Fix: badge de transformación elemental ya no aparece en armas sin daño Neutro (estado obsoleto del store)
 - Fix: efectos de empuje (effect_id 225) excluidos de las filas de daño de WeaponCard — evitaba NaN en el cálculo y "TOTAL NaN-NaN"
