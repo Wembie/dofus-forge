@@ -66,15 +66,16 @@ export function StatConfigRow({ meta, item, onChange, onRemove }: Props) {
         {t('optimizer_min_val_label')}
       </span>
       <input
-        type="number"
-        min="0"
+        type="text"
+        inputMode="numeric"
+        pattern="[0-9]*"
         placeholder="—"
         value={minRaw}
         onChange={e => {
-          const raw = e.target.value
+          const raw = e.target.value.replace(/[^0-9]/g, '')
           setMinRaw(raw)
           const n = parseInt(raw, 10)
-          onChange({ ...item, minVal: isNaN(n) || n < 0 ? 0 : n })
+          onChange({ ...item, minVal: isNaN(n) ? 0 : n })
         }}
         onBlur={() => {
           const n = parseInt(minRaw, 10)

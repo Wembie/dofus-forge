@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.69] — 2026-08-18
+- Fix: optimizer min input now uses type="text" + inputMode="numeric" — fixes browser quirks with controlled number inputs that prevented continuous typing
+
 ## [0.2.68] — 2026-08-18
 - Optimizer redesign: merged Maximize+Required into single stat rows (weight slider + min value per stat)
 - Algorithm fix: ring1/ring2 now filter ring items; dofus1–6 now filter dofus items; companion/sidekick properly filtered

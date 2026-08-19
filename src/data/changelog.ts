@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.69',
+    date: '2026-08-18',
+    notes: [
+      'Fix: optimizer minimum input uses type="text" — fixes browser quirks preventing continuous number typing',
+    ],
+  },
+  {
     version: '0.2.68',
     date: '2026-08-18',
     notes: [
