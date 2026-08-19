@@ -237,20 +237,6 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 55%)' }} />
         )}
 
-        {/* Rune mini-strip: up to 3 rune images at bottom when forjamaged */}
-        {item && (runeCount ?? 0) > 0 && slotRunes && (
-          <div className="absolute bottom-0.5 right-0.5 flex gap-px pointer-events-none">
-            {Object.entries(slotRunes).filter(([, v]) => v > 0).slice(0, 3).map(([stat]) => {
-              const url = runeIconUrl(stat)
-              return url ? (
-                <img key={stat} src={url} alt="" width={12} height={12}
-                  className="object-contain"
-                  style={{ filter: 'brightness(0.9) drop-shadow(0 0 2px #5a8dffaa)' }}
-                />
-              ) : null
-            })}
-          </div>
-        )}
       </button>
 
       {/* Slot label (tiny, below slot) */}
@@ -296,6 +282,35 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           }
         </button>
       )}
+
+      {/* Rune badge — outside slot, right edge, always visible when runes active */}
+      {item && (runeCount ?? 0) > 0 && slotRunes && (() => {
+        const active = Object.entries(slotRunes).filter(([, v]) => v > 0)
+        return active.length > 0 ? (
+          <div
+            className="absolute pointer-events-none z-20 flex flex-col gap-0.5"
+            style={{ left: px + 2, top: 4 }}
+          >
+            {active.slice(0, 3).map(([stat]) => {
+              const url = runeIconUrl(stat)
+              return url ? (
+                <div
+                  key={stat}
+                  className="rounded flex items-center justify-center"
+                  style={{
+                    background: 'var(--surface-stone)',
+                    border:     '1px solid color-mix(in srgb, var(--ap) 50%, transparent)',
+                    boxShadow:  '0 1px 4px rgba(0,0,0,0.6)',
+                    padding:    1,
+                  }}
+                >
+                  <img src={url} alt="" width={13} height={13} className="object-contain block" />
+                </div>
+              ) : null
+            })}
+          </div>
+        ) : null
+      })()}
 
       {/* Set detail button — bottom-right */}
       {item && onViewSet && (
