@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.70] — 2026-08-18
+- Optimizer: dual beam search — primary beam optimizes score, constraint beam (6× boost on minVal stats) finds builds that meet hard requirements; both merged before final eval
+- Pre-filter now merges normal top-50 + constraint-biased top-30 per slot to prevent pruning items critical for satisfying constraints
+- Result card now shows constraint-satisfying builds first, then best-score builds
+
 ## [0.2.69] — 2026-08-18
 - Fix: optimizer min input now uses type="text" + inputMode="numeric" — fixes browser quirks with controlled number inputs that prevented continuous typing
 

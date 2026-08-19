@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.70',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer: dual beam search — constraint beam (6× weight boost on minVal stats) runs alongside primary beam to guarantee constraint-satisfying builds are found',
+      'Pre-filter merges normal top-50 + constraint-biased top-30 per slot — items critical for hard constraints survive pruning',
+      'Results: constraint-meeting builds always rank first, then best-score builds',
+    ],
+  },
+  {
     version: '0.2.69',
     date: '2026-08-18',
     notes: [
