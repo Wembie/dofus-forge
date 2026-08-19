@@ -50,8 +50,10 @@ function itemPartialScore(item: AppItem, stats: OptimizerConfig['stats'], constr
     if (!key) continue
     const cfg = cfgMap.get(key)
     let weight: number
-    if (cfg) {
-      weight = cfg.weight * (constraintBoost && cfg.minVal > 0 ? CONSTRAINT_MULT : 1)
+    // weight=0 means not configured (all stats pre-initialized at 0) → use BASE_WEIGHT
+    if (cfg && (cfg.weight > 0 || cfg.minVal > 0)) {
+      const w = cfg.weight > 0 ? cfg.weight : 5
+      weight = w * (constraintBoost && cfg.minVal > 0 ? CONSTRAINT_MULT : 1)
     } else {
       weight = BASE_WEIGHT
     }
@@ -205,7 +207,12 @@ export function runOptimizer(
 
     const statsNums = computedStats as unknown as Record<string, number>
     let score = 0
-    for (const cfg of stats) score += (statsNums[cfg.stat] ?? 0) * cfg.weight
+    for (const cfg of stats) {
+      if (cfg.weight > 0 || cfg.minVal > 0) {
+        const w = cfg.weight > 0 ? cfg.weight : 5
+        score += (statsNums[cfg.stat] ?? 0) * w
+      }
+    }
 
     const hardConstraints = stats.filter(cfg => cfg.minVal > 0)
     const meetsRequired = hardConstraints.every(cfg => (statsNums[cfg.stat] ?? 0) >= cfg.minVal)

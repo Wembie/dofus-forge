@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.71',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer redesign: all stats visible in 9 collapsible groups — no more add/remove stat flow',
+      'Slots panel collapsible; max level + exo inline; "Clear all" button resets everything',
+      'Algorithm: pre-initialized stats at weight=0 use BASE_WEIGHT; active stats auto-weight=5',
+    ],
+  },
+  {
     version: '0.2.70',
     date: '2026-08-18',
     notes: [

@@ -369,5 +369,15 @@
   "optimizer_add_stat": "+ Adicionar stat",
   "optimizer_stats_empty": "Adicione pelo menos um stat para começar.",
   "optimizer_no_stats": "Adicione pelo menos um stat para otimizar.",
-  "optimizer_equip_best": "Equipar melhor build"
+  "optimizer_equip_best": "Equipar melhor build",
+  "optimizer_group_core": "Essenciais",
+  "optimizer_group_chars": "Características",
+  "optimizer_group_elem_dmg": "Dano elemental",
+  "optimizer_group_elem_steal": "Roubo elemental",
+  "optimizer_group_crit": "Crítico",
+  "optimizer_group_dmg_pct": "% Dano",
+  "optimizer_group_res_fixed": "Resist. fixas",
+  "optimizer_group_res_pct": "% Resistências",
+  "optimizer_group_combat": "Combate",
+  "optimizer_clear_stats": "Limpar tudo"
 }
