@@ -15,8 +15,9 @@ const BEAM_WIDTH         = 120
 const CONSTRAINT_BEAM_W  = 120
 const CONSTRAINT_MULT    = 6    // weight boost for constrained stats in constraint beam
 const BASE_WEIGHT        = 0.3  // unconfigured stats still count to prefer diverse high-level items
-const MAX_REPAIR_PASSES  = 10   // greedy repair iterations per build
-const MAX_BUILDS_REPAIR  = 12   // how many beam results to attempt repairing
+const MAX_REPAIR_PASSES  = 25   // greedy repair iterations per build
+const MAX_BUILDS_REPAIR  = 20   // how many beam results to attempt repairing
+const REPAIR_TOP_K       = 60   // top items per constrained stat for the repair pool
 
 const DOFUS_SLOT_IDS = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6'] as SlotId[]
 const COMPANION_TYPES = new Set(['Pet', 'Petsmount', 'Dragoturkey', 'Seemyool', 'Rhineetle'])
@@ -122,20 +123,50 @@ function buildEquippedItems(equipped: Partial<Record<SlotId, number>>, itemMap: 
   return out
 }
 
+// Expand the item pool for repair: for each constrained stat, add top-K items
+// ranked by that specific stat (not by overall score), so repair can always find
+// the best item per slot for each constraint regardless of its general score rank.
+function buildRepairPools(
+  slotsToOptimize: SlotId[],
+  allItems:        AppItem[],
+  maxLevel:        number,
+  constraints:     { stat: OptimizerStatKey; needed: number }[],
+  basePool:        Map<SlotId, AppItem[]>,
+): Map<SlotId, AppItem[]> {
+  const pools = new Map<SlotId, AppItem[]>()
+  for (const slot of slotsToOptimize) {
+    const slotItems = filterItemsForSlot(allItems, slot, maxLevel)
+    const seen = new Set<number>()
+    const combined: AppItem[] = []
+    for (const it of basePool.get(slot) ?? []) { seen.add(it.ankama_id); combined.push(it) }
+    for (const { stat } of constraints) {
+      const ranked = [...slotItems]
+        .sort((a, b) => getItemStatContrib(b, stat) - getItemStatContrib(a, stat))
+        .slice(0, REPAIR_TOP_K)
+      for (const it of ranked) {
+        if (!seen.has(it.ankama_id)) { seen.add(it.ankama_id); combined.push(it) }
+      }
+    }
+    pools.set(slot, combined)
+  }
+  return pools
+}
+
 // Greedy repair: iteratively swap items to reduce constraint violations.
 // Uses item-level stat contributions + character base stats to estimate deficits.
+// Tries ALL violated constraints each pass (not just the worst one) so it can
+// make progress even when the most-violated stat has no single-swap improvement.
 // Only calls computeStats (full eval) in the runOptimizer loop after repair — not here.
 function repairConstraints(
   equipped:        Partial<Record<SlotId, number>>,
-  constraints:     { stat: OptimizerStatKey; needed: number }[],  // how much MORE items must add
-  topPerSlot:      Map<SlotId, AppItem[]>,
+  constraints:     { stat: OptimizerStatKey; needed: number }[],
+  repairPool:      Map<SlotId, AppItem[]>,
   slotsToOptimize: SlotId[],
   itemMap:         Map<number, AppItem>,
 ): Partial<Record<SlotId, number>> {
   let current = { ...equipped }
 
   for (let pass = 0; pass < MAX_REPAIR_PASSES; pass++) {
-    // Sum item contributions for each constrained stat
     const itemTotals: Partial<Record<OptimizerStatKey, number>> = {}
     for (const slot of ALL_SLOTS) {
       const id = current[slot]
@@ -147,40 +178,48 @@ function repairConstraints(
       }
     }
 
-    // Find the most under-satisfied constraint (lowest fulfillment ratio)
-    const violated = constraints.filter(c => (itemTotals[c.stat] ?? 0) < c.needed)
+    const violated = constraints
+      .filter(c => (itemTotals[c.stat] ?? 0) < c.needed)
+      .sort((a, b) => {
+        const ra = (itemTotals[a.stat] ?? 0) / Math.max(1, a.needed)
+        const rb = (itemTotals[b.stat] ?? 0) / Math.max(1, b.needed)
+        return ra - rb
+      })
     if (violated.length === 0) break
 
-    const target = violated.sort((a, b) => {
-      const ra = (itemTotals[a.stat] ?? 0) / Math.max(1, a.needed)
-      const rb = (itemTotals[b.stat] ?? 0) / Math.max(1, b.needed)
-      return ra - rb
-    })[0]
+    let madeProgress = false
 
-    // Find best slot swap that maximizes contribution gain for this stat
-    let bestSlot: SlotId | null = null
-    let bestItem: AppItem | null = null
-    let bestGain = 0
+    // Try each violated constraint until one yields a slot swap
+    for (const target of violated) {
+      let bestSlot: SlotId | null = null
+      let bestItem: AppItem | null = null
+      let bestGain = 0
 
-    for (const slot of slotsToOptimize) {
-      const currentId = current[slot]
-      const currentIt = currentId ? itemMap.get(currentId) : undefined
-      const currentContrib = currentIt ? getItemStatContrib(currentIt, target.stat) : 0
+      for (const slot of slotsToOptimize) {
+        const currentId = current[slot]
+        const currentIt = currentId ? itemMap.get(currentId) : undefined
+        const currentContrib = currentIt ? getItemStatContrib(currentIt, target.stat) : 0
 
-      for (const cand of topPerSlot.get(slot) ?? []) {
-        if (cand.ankama_id === currentId) continue
-        if (!canEquip(current, slot, cand)) continue
-        const gain = getItemStatContrib(cand, target.stat) - currentContrib
-        if (gain > bestGain) {
-          bestGain = gain
-          bestSlot = slot
-          bestItem = cand
+        for (const cand of repairPool.get(slot) ?? []) {
+          if (cand.ankama_id === currentId) continue
+          if (!canEquip(current, slot, cand)) continue
+          const gain = getItemStatContrib(cand, target.stat) - currentContrib
+          if (gain > bestGain) {
+            bestGain = gain
+            bestSlot = slot
+            bestItem = cand
+          }
         }
+      }
+
+      if (bestSlot && bestItem && bestGain > 0) {
+        current = { ...current, [bestSlot]: bestItem.ankama_id }
+        madeProgress = true
+        break
       }
     }
 
-    if (!bestSlot || !bestItem) break  // No improvement possible
-    current = { ...current, [bestSlot]: bestItem.ankama_id }
+    if (!madeProgress) break
   }
 
   return current
@@ -313,6 +352,9 @@ export function runOptimizer(
   if (hasConstraints && !results.some(r => r.meetsRequired) && !cancelRef.cancelled) {
     onProgress({ phase: 'evaluating', slotIndex: n, totalSlots: n, percent: 85 })
 
+    // Expanded pool: top-K items per constrained stat per slot, merged with beam pool
+    const repairPools = buildRepairPools(slotsToOptimize, items, maxLevel, adjustedConstraints, topPerSlot)
+
     const repairSeenFps = new Set(results.map(r => equippedFingerprint(r.equipped)))
     const toRepair = allBuilds.slice(0, MAX_BUILDS_REPAIR)
 
@@ -322,7 +364,7 @@ export function runOptimizer(
       const repaired = repairConstraints(
         build.equipped,
         adjustedConstraints,
-        topPerSlot,
+        repairPools,
         slotsToOptimize,
         itemMap,
       )

@@ -5,6 +5,14 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.78] — 2026-08-18
+- Optimizer repair: expanded pool — for each constrained stat, top-60 items ranked by THAT stat are added to the repair candidate pool (not just beam's score-sorted top-50); this ensures the best items for satisfying constraints are always accessible during repair
+- Optimizer repair: now tries ALL violated constraints each pass, not just the worst one — makes progress even when the most-violated stat has no single-slot improvement
+- Increased repair passes (10→25) and builds-to-repair (12→20) for more thorough recovery
+
+## [0.2.77] — 2026-08-18
+- Optimizer config persists across sessions — last search settings (stat minimums, exo, max level, locked slots) are saved to localStorage and restored on reopen; groups with active stats auto-expand; "Limpiar" resets everything
+
 ## [0.2.76] — 2026-08-18
 - Optimizer: exclude GM/test items — items with "(MJ)" in name are filtered out before optimization
 
