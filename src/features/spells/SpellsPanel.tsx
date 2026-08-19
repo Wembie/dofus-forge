@@ -7,7 +7,7 @@ import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoad
 import type { AppItem } from '@/data/loaders.ts'
 import { calcEffects, calcDamage, type CalcedEffect } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
-import { statIconUrl } from '../equipment/statDisplay.ts'
+import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
 
 function spellGrade(level: number): number {
@@ -830,14 +830,32 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
     <div className="rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
       {/* Header */}
       <div className="flex items-center gap-3 px-3 py-2.5" style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-stone)' }}>
-        <div
-          className="flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
-          style={{ width: 44, height: 44, background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-        >
-          {weapon.image_url
-            ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
-            : <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
-          }
+        <div className="relative flex-shrink-0" style={{ width: 44, height: 44 }}>
+          <div
+            className="rounded overflow-hidden flex items-center justify-center w-full h-full"
+            style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
+          >
+            {weapon.image_url
+              ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
+              : <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
+            }
+          </div>
+          {weaponTransform && hasNeutralDamage && (() => {
+            const potionUrl = runeIconUrl(`transform_${weaponTransform.element}`)
+            const elemColor = ELEM_COLOR[weaponTransform.element]
+            return potionUrl ? (
+              <div
+                className="absolute bottom-0 right-0 rounded-tl"
+                style={{
+                  background: `color-mix(in srgb, var(--surface-void) 80%, ${elemColor} 20%)`,
+                  border: `1px solid color-mix(in srgb, ${elemColor} 50%, transparent)`,
+                  padding: 2,
+                }}
+              >
+                <img src={potionUrl} alt="" width={18} height={18} className="object-contain" />
+              </div>
+            ) : null
+          })()}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline justify-between gap-2">

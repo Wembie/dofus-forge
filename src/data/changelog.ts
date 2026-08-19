@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.65',
+    date: '2026-08-18',
+    notes: [
+      'WeaponCard: ícono de poción de transformación aparece en esquina del arma cuando hay transform activo',
+    ],
+  },
+  {
     version: '0.2.64',
     date: '2026-08-18',
     notes: [
