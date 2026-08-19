@@ -205,6 +205,8 @@ export function OptimizerModal({ open, onClose }: Props) {
     if (!equipment || !sets) return
     const activeStats = config.stats.filter(s => s.minVal > 0 || s.weight > 0)
     if (activeStats.length === 0) { setError(t('optimizer_no_stats')); return }
+    const freeSlots = ALL_SLOTS.filter(s => !config.lockedSlots.has(s))
+    if (freeSlots.length === 0) { setError(t('optimizer_no_slots')); return }
     setError(null)
 
     const worker = new Worker(
@@ -258,7 +260,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   // ── Running ───────────────────────────────────────────────────────────────
   if (phase === 'running') {
     return (
-      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
+      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
         <div className="p-10 flex flex-col items-center gap-4 text-center">
           <div
             className="w-10 h-10 rounded-full border-[3px] animate-spin"
@@ -301,7 +303,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   // ── Done ──────────────────────────────────────────────────────────────────
   if (phase === 'done') {
     return (
-      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
+      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
         <div className="p-4 space-y-3">
           <div className="flex items-center justify-between">
             <p className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
@@ -357,7 +359,7 @@ export function OptimizerModal({ open, onClose }: Props) {
 
   // ── Config ────────────────────────────────────────────────────────────────
   return (
-    <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
+    <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
       <div className="p-4 space-y-3 text-[11px]">
 
         {error && (

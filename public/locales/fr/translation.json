@@ -379,5 +379,6 @@
   "optimizer_group_res_fixed": "Rés. fixes",
   "optimizer_group_res_pct": "% Résistances",
   "optimizer_group_combat": "Combat",
-  "optimizer_clear_stats": "Tout effacer"
+  "optimizer_clear_stats": "Tout effacer",
+  "optimizer_no_slots": "Tous les emplacements sont verrouillés. Activez-en au moins un pour optimiser."
 }
