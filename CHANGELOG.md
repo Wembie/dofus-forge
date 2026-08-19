@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.76] — 2026-08-18
+- Optimizer: exclude GM/test items — items with "(MJ)" in name are filtered out before optimization
+
 ## [0.2.75] — 2026-08-18
 - Optimizer: stat cards show description tooltip on hover (all 53 stats, 4 locales) — explains what each stat does, clarifies confusing ones like PV vs Vitalidad, bestElemDmg, Potencia, etc.
 

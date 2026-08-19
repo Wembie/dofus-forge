@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.76',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer: items with "(MJ)" in name are excluded — GM/test items no longer appear in results',
+    ],
+  },
+  {
     version: '0.2.75',
     date: '2026-08-18',
     notes: [

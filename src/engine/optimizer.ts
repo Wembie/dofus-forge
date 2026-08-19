@@ -24,7 +24,7 @@ const COMPANION_TYPES = new Set(['Pet', 'Petsmount', 'Dragoturkey', 'Seemyool', 
 type BeamBuild = { equipped: Partial<Record<SlotId, number>>; score: number }
 
 function filterItemsForSlot(items: AppItem[], slot: SlotId, maxLevel: number): AppItem[] {
-  const leveled = items.filter(it => it.level <= maxLevel)
+  const leveled = items.filter(it => it.level <= maxLevel && !it.name.includes('(MJ)'))
   if (slot === 'ring1' || slot === 'ring2') return leveled.filter(it => it.slot === 'ring')
   if (DOFUS_SLOT_IDS.includes(slot))        return leveled.filter(it => it.slot === 'dofus')
   if (slot === 'companion')                 return leveled.filter(it => it.slot === 'pet' || (it.slot === 'other' && COMPANION_TYPES.has(it.type)))
