@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.78',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer repair: expanded candidate pool per constrained stat (top-60 by that stat, not just score rank) — finds items that satisfy constraints even if they rank low in overall score',
+      'Repair now tries all violated constraints each pass, not just the worst — makes progress on secondary constraints when primary is stuck',
+      'Increased repair passes (10→25) and builds-to-repair (12→20)',
+    ],
+  },
+  {
     version: '0.2.77',
     date: '2026-08-18',
     notes: [
