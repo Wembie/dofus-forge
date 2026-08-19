@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.75] — 2026-08-18
+- Optimizer: stat cards show description tooltip on hover (all 53 stats, 4 locales) — explains what each stat does, clarifies confusing ones like PV vs Vitalidad, bestElemDmg, Potencia, etc.
+
 ## [0.2.74] — 2026-08-18
 - Fix: stat inputs now accept continuous typing — Modal focus trap was re-firing on every render due to unstable onClose ref; split useEffect so initial focus only fires on open, not on re-renders
 - Fix: "Exo Rango" renamed to "Exo Alcance" in Spanish locale to match actual Dofus terminology

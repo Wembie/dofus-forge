@@ -69,9 +69,11 @@ function StatCard({ meta, cfg, onChange }: {
   const inputRef = useRef<HTMLInputElement>(null)
   const isActive = cfg.minVal > 0
 
+  const descKey = `${meta.tKey}_desc`
+
   return (
     <div
-      className="rounded-lg p-2 flex flex-col gap-1 cursor-text"
+      className="relative group rounded-lg p-2 flex flex-col gap-1 cursor-text"
       style={{
         background: isActive
           ? `color-mix(in srgb, ${meta.color} 8%, var(--surface-stone))`
@@ -82,6 +84,24 @@ function StatCard({ meta, cfg, onChange }: {
       }}
       onClick={() => inputRef.current?.focus()}
     >
+      {/* Tooltip */}
+      <div
+        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-50
+                   opacity-0 group-hover:opacity-100 pointer-events-none
+                   transition-opacity duration-150 delay-300
+                   px-2 py-1.5 rounded text-[10px] leading-snug text-center"
+        style={{
+          background:  'var(--surface-void)',
+          border:      '1px solid var(--metal-edge-strong)',
+          color:       'var(--ink-muted)',
+          boxShadow:   'var(--shadow-frame)',
+          width:       '11rem',
+          whiteSpace:  'normal',
+        }}
+      >
+        {t(descKey)}
+      </div>
+
       <div className="flex items-center gap-1 min-w-0">
         <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
         <span

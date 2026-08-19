@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.75',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer: hover tooltip on all stat cards explains what each stat does (53 stats, 4 locales)',
+      'Clarifies confusing stats: PV vs Vitalidad, DMG Mejor Elem (virtual), Potencia (%), etc.',
+    ],
+  },
+  {
     version: '0.2.74',
     date: '2026-08-18',
     notes: [
