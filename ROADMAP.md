@@ -121,6 +121,12 @@ Marcar con `[x]` cuando se complete.
   - No garantiza óptimo global (greedy puede quedar en local máximo)
   - Sets bonus no considerados en pre-filtro (solo en evaluación final)
   - Ítems con efectos condicionales (Dofus) pueden ser sub-valorados por fitness lineal
+- [ ] **M43 — Optimizer: diversidad real en los 3 resultados** — actualmente los 3 builds tienen score idéntico y difieren por 1-2 ítems. Al encontrar build #1, penalizar sus ítems y re-correr beam search para que #2 y #3 sean genuinamente distintos (algoritmos de "k-best diverse solutions"). El usuario debe ver 3 estrategias diferentes, no variaciones mínimas.
+
+- [ ] **M44 — Optimizer: progreso slot-por-slot en barra** — durante el cómputo, mostrar qué slot se está procesando ahora ("Optimizando: Sombrero…", "Optimizando: Capa…", "Reparando constraints…"). El Web Worker ya emite eventos de progreso por slot; conectar `slotName` en el mensaje y mostrarlo en el spinner de la UI.
+
+- [ ] **M45 — Optimizer: constraint de pods (peso de ítems)** — opción para limitar builds que excedan la capacidad de carga del personaje. El personaje tiene pods base (clase + nivel + Fuerza/5) y los ítems tienen peso. Agregar campo "pods disponibles" en config del optimizer y filtrar builds que superen ese límite. Requiere que AppItem tenga campo `pods_cost` o que se calcule del catálogo.
+
 - [ ] **M41 — Fashionista (transmogrificación cosmética)** — por cada slot equipado, permitir elegir un ítem diferente solo para la apariencia visual (imagen + nombre mostrado), sin afectar stats. El "look" se guarda separado del build real. Al exportar imagen o compartir URL, se puede mostrar el look fashionista. Útil para planear outfits de cara al juego.
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
