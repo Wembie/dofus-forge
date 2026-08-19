@@ -127,6 +127,59 @@ Marcar con `[x]` cuando se complete.
 
 - [ ] **M45 — Optimizer: constraint de pods (peso de ítems)** — opción para limitar builds que excedan la capacidad de carga del personaje. El personaje tiene pods base (clase + nivel + Fuerza/5) y los ítems tienen peso. Agregar campo "pods disponibles" en config del optimizer y filtrar builds que superen ese límite. Requiere que AppItem tenga campo `pods_cost` o que se calcule del catálogo.
 
+- [ ] **M46 — Optimizer: algoritmos especializados de búsqueda — reemplazo completo del motor**
+
+  El beam search actual tiene limitaciones estructurales: queda atrapado en máximos locales, no garantiza satisfacción de constraints, y produce builds casi idénticos. Objetivo: motor de optimización de clase profesional.
+
+  **Técnicas a implementar (en orden de impacto):**
+
+  **1. Multi-start greedy con hill-climbing local**
+  - Arrancar desde N puntos aleatorios distintos (no solo desde vacío)
+  - Para cada build, iterar: swappear el slot con peor contribución por el ítem óptimo para ese slot
+  - Converge a distintos óptimos locales → diversidad natural
+  - Costo: O(N × slots × candidatos), configurable
+
+  **2. Branch & Bound con poda agresiva**
+  - Explorar árbol de combinaciones slot por slot
+  - Calcular upper-bound del score posible con slots restantes (relajación continua)
+  - Podar ramas donde upper-bound < mejor build actual
+  - Garantiza óptimo global en tiempo razonable para constraints estrictos
+  - Fallback a beam si árbol es demasiado profundo (timeout configurable)
+
+  **3. Algoritmo genético para diversidad (fase post-beam)**
+  - Población inicial: top-20 builds del beam search
+  - Crossover: combinar ítems de dos builds (tomar slot A del padre 1, slot B del padre 2)
+  - Mutación: reemplazar 1-2 slots aleatorios por ítem óptimo para ese slot
+  - Selección: elitismo + torneo (top 50% sobrevive + mejores mutaciones)
+  - 20-50 generaciones en Web Worker; cada generación emite progreso
+  - Naturalmente produce builds distintos porque parte de combinaciones diferentes
+
+  **4. Constraint satisfaction primero (CP-style)**
+  - Antes de optimizar score, encontrar región factible (builds que cumplen todos los minVal)
+  - Técnica: propagación de constraints por slot — eliminar ítems que hacen imposible satisfacer algún constraint con los slots restantes
+  - Reducción masiva del espacio de búsqueda antes de beam/genético
+  - Similar a cómo solvers SAT/CP-SAT acotan el espacio
+
+  **5. Búsqueda exhaustiva acotada por slot (para casos pequeños)**
+  - Si el espacio total < umbral (ej. ≤ 10^8 combinaciones), enumerar todo con pruning
+  - Ej: si el usuario bloquea 10 slots, solo hay 7 libres con 100 ítems c/u → 100^7 = 10^14 (aún grande) → usar CP pruning para reducir a < 10^6 y enumerar exacto
+  - Para builds con muchos slots bloqueados o nivel bajo (pocos ítems), garantiza óptimo real
+
+  **Arquitectura propuesta:**
+  - `src/engine/optimizer/` (carpeta, no archivo único)
+  - `beam.ts` — beam search actual (mantener, es base rápida)
+  - `genetic.ts` — operadores genéticos
+  - `branchBound.ts` — branch & bound con bounding function
+  - `multiStart.ts` — hill-climbing multi-arranque
+  - `constraintPropagation.ts` — CP pre-filtering
+  - `runOptimizer.ts` — orquestador que elige estrategia según tamaño del problema
+  - Web Worker emite eventos granulares: `{ phase: 'genetic', generation: 12, totalGenerations: 50, bestScore: 34200, buildsValid: 3 }`
+
+  **UI:**
+  - Barra de progreso multi-fase con label dinámico por fase y slot
+  - "Generación 12/50 — Score: 34200 — 3 builds válidos encontrados"
+  - Cancelación en cualquier momento (ya implementada)
+
 - [ ] **M41 — Fashionista (transmogrificación cosmética)** — por cada slot equipado, permitir elegir un ítem diferente solo para la apariencia visual (imagen + nombre mostrado), sin afectar stats. El "look" se guarda separado del build real. Al exportar imagen o compartir URL, se puede mostrar el look fashionista. Útil para planear outfits de cara al juego.
 - [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top
 - [ ] **M23 — Animaciones de equip/unequip** — transición suave al equipar un ítem en el EquipmentGrid
