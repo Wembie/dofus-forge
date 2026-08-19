@@ -8,6 +8,19 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.68',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer redesign: combined weight + minimum into single stat row — no more duplicate additions',
+      'Fix: ring, dofus, companion, sidekick slots now find correct items (were returning empty)',
+      'Algorithm: all stats score with BASE_WEIGHT so high-level diverse items rank correctly',
+      'Algorithm: level bonus prevents low-level items beating high-level equivalents',
+      'Increased TOP_K to 50 and BEAM_WIDTH to 120 for better result coverage',
+      'UX: min value input keeps focus while typing (local string state)',
+      '⚡ "Equip best build" button instantly loads top result',
+    ],
+  },
+  {
     version: '0.2.67',
     date: '2026-08-18',
     notes: [

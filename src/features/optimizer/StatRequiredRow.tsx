@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { OPTIMIZER_STATS } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
-import type { StatRequired } from './types.ts'
+type StatRequired = { stat: string; minVal: number }
 
 type Props = {
   item:     StatRequired

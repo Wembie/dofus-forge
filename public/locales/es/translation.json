@@ -322,9 +322,7 @@
   "weapon_transform": "Transformación Elemental",
   "weapon_transform_clear": "Quitar",
   "weapon_transform_no_neutral": "El arma no tiene daño neutro — no se puede transformar",
-
   "stat_hp": "PV (Vida)",
-
   "optimizer_title": "La Forjadora",
   "optimizer_open": "La Forjadora",
   "optimizer_maximize": "MAXIMIZAR",
@@ -365,5 +363,11 @@
   "optimizer_no_weights": "Agregá al menos un stat a maximizar.",
   "optimizer_no_results": "No se encontraron builds que cumplan los requeridos.",
   "optimizer_weight_label": "Peso",
-  "optimizer_min_val_label": "Mínimo"
+  "optimizer_min_val_label": "Mínimo",
+  "optimizer_stats": "STATS A OPTIMIZAR",
+  "optimizer_stats_hint": "Peso = importancia del stat al buscar ítems. Mínimo = valor que el build DEBE alcanzar.",
+  "optimizer_add_stat": "+ Agregar stat",
+  "optimizer_stats_empty": "Agregá al menos un stat para comenzar.",
+  "optimizer_no_stats": "Agregá al menos un stat para optimizar.",
+  "optimizer_equip_best": "Equipar el mejor build"
 }

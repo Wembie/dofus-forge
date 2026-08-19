@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { OPTIMIZER_STATS } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
-import type { StatWeight } from './types.ts'
+type StatWeight = { stat: string; weight: number }
 
 type Props = {
   item:     StatWeight

@@ -5,6 +5,15 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.68] — 2026-08-18
+- Optimizer redesign: merged Maximize+Required into single stat rows (weight slider + min value per stat)
+- Algorithm fix: ring1/ring2 now filter ring items; dofus1–6 now filter dofus items; companion/sidekick properly filtered
+- Algorithm improvement: all stats get BASE_WEIGHT=0.3 so high-level diverse items score higher; level bonus (×0.1) prevents level-10 items beating level-200 ones
+- Increased TOP_K 25→50 and BEAM_WIDTH 50→120 for better coverage
+- UX fix: min input uses local string state — no longer loses focus/value when typing
+- New "⚡ Equipar el mejor build" button auto-equips top result from results page
+- i18n: all 4 locales updated with new optimizer keys
+
 ## [0.2.67] — 2026-08-18
 - Fix: rune badge repositioned outside slot to the right — was at `left: px-3` (overlapping slot); now `left: px+2` (clearly outside, visible beside the slot)
 

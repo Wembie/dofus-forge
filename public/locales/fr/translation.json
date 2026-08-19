@@ -322,9 +322,7 @@
   "weapon_transform": "Transformation Élémentale",
   "weapon_transform_clear": "Retirer",
   "weapon_transform_no_neutral": "L'arme n'a pas de dégât neutre — impossible à transformer",
-
   "stat_hp": "PV",
-
   "optimizer_title": "La Forgeuse",
   "optimizer_open": "La Forgeuse",
   "optimizer_maximize": "MAXIMISER",
@@ -365,5 +363,11 @@
   "optimizer_no_weights": "Ajoutez au moins une stat à maximiser.",
   "optimizer_no_results": "Aucun build trouvé correspondant aux requis.",
   "optimizer_weight_label": "Poids",
-  "optimizer_min_val_label": "Minimum"
+  "optimizer_min_val_label": "Minimum",
+  "optimizer_stats": "STATS À OPTIMISER",
+  "optimizer_stats_hint": "Poids = importance lors de la recherche. Min = valeur que le build DOIT atteindre.",
+  "optimizer_add_stat": "+ Ajouter stat",
+  "optimizer_stats_empty": "Ajoutez au moins un stat pour commencer.",
+  "optimizer_no_stats": "Ajoutez au moins un stat pour optimiser.",
+  "optimizer_equip_best": "Équiper le meilleur build"
 }
