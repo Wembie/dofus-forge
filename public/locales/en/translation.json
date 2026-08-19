@@ -369,5 +369,15 @@
   "optimizer_add_stat": "+ Add stat",
   "optimizer_stats_empty": "Add at least one stat to get started.",
   "optimizer_no_stats": "Add at least one stat to optimize.",
-  "optimizer_equip_best": "Equip best build"
+  "optimizer_equip_best": "Equip best build",
+  "optimizer_group_core": "Core",
+  "optimizer_group_chars": "Characteristics",
+  "optimizer_group_elem_dmg": "Elemental Damage",
+  "optimizer_group_elem_steal": "Elemental Steal",
+  "optimizer_group_crit": "Critical",
+  "optimizer_group_dmg_pct": "% Damage",
+  "optimizer_group_res_fixed": "Fixed Resistances",
+  "optimizer_group_res_pct": "% Resistances",
+  "optimizer_group_combat": "Combat",
+  "optimizer_clear_stats": "Clear all"
 }

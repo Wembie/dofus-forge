@@ -369,5 +369,15 @@
   "optimizer_add_stat": "+ Ajouter stat",
   "optimizer_stats_empty": "Ajoutez au moins un stat pour commencer.",
   "optimizer_no_stats": "Ajoutez au moins un stat pour optimiser.",
-  "optimizer_equip_best": "Équiper le meilleur build"
+  "optimizer_equip_best": "Équiper le meilleur build",
+  "optimizer_group_core": "Essentiels",
+  "optimizer_group_chars": "Caractéristiques",
+  "optimizer_group_elem_dmg": "Dégâts élémentaires",
+  "optimizer_group_elem_steal": "Vol élémentaire",
+  "optimizer_group_crit": "Critique",
+  "optimizer_group_dmg_pct": "% Dégâts",
+  "optimizer_group_res_fixed": "Rés. fixes",
+  "optimizer_group_res_pct": "% Résistances",
+  "optimizer_group_combat": "Combat",
+  "optimizer_clear_stats": "Tout effacer"
 }

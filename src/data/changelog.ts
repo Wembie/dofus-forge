@@ -8,6 +8,31 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.71',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer redesign: all stats visible in 9 collapsible groups — no more add/remove stat flow',
+      'Slots panel collapsible; max level + exo inline; "Clear all" button resets everything',
+      'Algorithm: pre-initialized stats at weight=0 use BASE_WEIGHT; active stats auto-weight=5',
+    ],
+  },
+  {
+    version: '0.2.70',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer: dual beam search — constraint beam (6× weight boost on minVal stats) runs alongside primary beam to guarantee constraint-satisfying builds are found',
+      'Pre-filter merges normal top-50 + constraint-biased top-30 per slot — items critical for hard constraints survive pruning',
+      'Results: constraint-meeting builds always rank first, then best-score builds',
+    ],
+  },
+  {
+    version: '0.2.69',
+    date: '2026-08-18',
+    notes: [
+      'Fix: optimizer minimum input uses type="text" — fixes browser quirks preventing continuous number typing',
+    ],
+  },
+  {
     version: '0.2.68',
     date: '2026-08-18',
     notes: [

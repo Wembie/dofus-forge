@@ -23,7 +23,10 @@ export function BuildResultCard({ result, rank, items, stats, onLoad }: Props) {
     .map(slot => itemMap.get(result.equipped[slot] ?? -1))
     .filter((it): it is AppItem => it != null)
 
-  const topStats = [...stats].sort((a, b) => b.weight - a.weight).slice(0, 6)
+  const topStats = stats
+    .filter(s => s.minVal > 0 || s.weight > 0)
+    .sort((a, b) => (b.minVal - a.minVal) || (b.weight - a.weight))
+    .slice(0, 6)
   const statsNums = result.stats as unknown as Record<string, number>
   const hasRequired = stats.some(s => s.minVal > 0)
 

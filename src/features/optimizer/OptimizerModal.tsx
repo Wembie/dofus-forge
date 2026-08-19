@@ -1,13 +1,15 @@
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ChevronDown } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { OptimizerConfig, BuildResult, OptimizerProgress, StatConfig } from './types.ts'
-import { StatConfigRow } from './StatConfigRow.tsx'
-import { StatPicker } from './StatPicker.tsx'
+import type { OptimizerStatKey } from './types.ts'
+import type { OptimizerStatMeta } from './statList.ts'
 import { BuildResultCard } from './BuildResultCard.tsx'
 import { OPTIMIZER_STATS } from './statList.ts'
+import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 
 type Phase = 'config' | 'running' | 'done'
 
@@ -31,28 +33,116 @@ const SLOT_LABEL_KEY: Record<SlotId, string> = {
   dofus6:    'slot_dofus6',
 }
 
+type StatGroupDef = { key: string; tKey: string; defaultOpen: boolean; statKeys: OptimizerStatKey[] }
+
+const STAT_GROUPS: StatGroupDef[] = [
+  { key: 'core',       tKey: 'optimizer_group_core',       defaultOpen: true,  statKeys: ['ap', 'mp', 'range', 'maxHp'] },
+  { key: 'chars',      tKey: 'optimizer_group_chars',      defaultOpen: true,  statKeys: ['vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility', 'power', 'damage'] },
+  { key: 'elem_dmg',   tKey: 'optimizer_group_elem_dmg',   defaultOpen: false, statKeys: ['fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage'] },
+  { key: 'crit',       tKey: 'optimizer_group_crit',       defaultOpen: false, statKeys: ['critChance', 'critDamage', 'critResistance'] },
+  { key: 'dmg_pct',    tKey: 'optimizer_group_dmg_pct',    defaultOpen: false, statKeys: ['meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'weaponDamagePercent'] },
+  { key: 'elem_steal', tKey: 'optimizer_group_elem_steal', defaultOpen: false, statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
+  { key: 'res_fixed',  tKey: 'optimizer_group_res_fixed',  defaultOpen: false, statKeys: ['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed'] },
+  { key: 'res_pct',    tKey: 'optimizer_group_res_pct',    defaultOpen: false, statKeys: ['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent'] },
+  { key: 'combat',     tKey: 'optimizer_group_combat',     defaultOpen: false, statKeys: ['heals', 'initiative', 'lock', 'dodge', 'prospecting', 'summons', 'apReduction', 'mpReduction', 'apParry', 'mpParry', 'pushbackDamage', 'pods'] },
+]
+
+const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
+
 function makeDefaultConfig(): OptimizerConfig {
   return {
-    stats:       [],
+    stats:       OPTIMIZER_STATS.map(s => ({ stat: s.key, weight: 0, minVal: 0 })),
     exo:         { ap: false, mp: false, range: false },
     maxLevel:    200,
     lockedSlots: new Set(),
   }
 }
 
-type Props = {
-  open:    boolean
-  onClose: () => void
+// ── Stat Card ─────────────────────────────────────────────────────────────────
+function StatCard({ meta, cfg, onChange }: {
+  meta:     OptimizerStatMeta
+  cfg:      StatConfig
+  onChange: (minVal: number) => void
+}) {
+  const { t } = useTranslation()
+  const [raw, setRaw] = useState(cfg.minVal > 0 ? String(cfg.minVal) : '')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const isActive = cfg.minVal > 0
+
+  return (
+    <div
+      className="rounded-lg p-2 flex flex-col gap-1 cursor-text"
+      style={{
+        background: isActive
+          ? `color-mix(in srgb, ${meta.color} 8%, var(--surface-stone))`
+          : 'var(--surface-stone)',
+        border: `1px solid ${isActive
+          ? `color-mix(in srgb, ${meta.color} 50%, var(--metal-edge))`
+          : 'var(--metal-edge)'}`,
+      }}
+      onClick={() => inputRef.current?.focus()}
+    >
+      <div className="flex items-center gap-1 min-w-0">
+        <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+        <span
+          className="text-[10px] font-semibold truncate leading-tight"
+          style={{ color: isActive ? meta.color : 'var(--ink-faint)' }}
+        >
+          {t(meta.tKey)}
+        </span>
+      </div>
+      <div className="flex items-center gap-0.5">
+        <span className="text-[9px] w-3 text-center flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>≥</span>
+        <input
+          ref={inputRef}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          placeholder="—"
+          value={raw}
+          onChange={e => {
+            const r = e.target.value.replace(/[^0-9]/g, '')
+            setRaw(r)
+            onChange(r === '' ? 0 : parseInt(r, 10) || 0)
+          }}
+          onBlur={() => {
+            const n = parseInt(raw, 10)
+            if (isNaN(n) || n <= 0) { setRaw(''); onChange(0) }
+            else setRaw(String(n))
+          }}
+          className="flex-1 min-w-0 text-[11px] font-mono text-right rounded px-1 py-0.5 outline-none"
+          style={{
+            background: isActive
+              ? `color-mix(in srgb, ${meta.color} 10%, var(--surface-panel))`
+              : 'var(--surface-panel)',
+            border: `1px solid ${isActive
+              ? `color-mix(in srgb, ${meta.color} 30%, var(--metal-edge))`
+              : 'var(--metal-edge)'}`,
+            color: isActive ? meta.color : 'var(--ink-muted)',
+          }}
+          onClick={e => e.stopPropagation()}
+        />
+      </div>
+    </div>
+  )
 }
+
+// ── Main modal ────────────────────────────────────────────────────────────────
+type Props = { open: boolean; onClose: () => void }
 
 export function OptimizerModal({ open, onClose }: Props) {
   const { t } = useTranslation()
 
-  const [phase,    setPhase]    = useState<Phase>('config')
-  const [config,   setConfig]   = useState<OptimizerConfig>(makeDefaultConfig)
-  const [progress, setProgress] = useState<OptimizerProgress | null>(null)
-  const [results,  setResults]  = useState<BuildResult[]>([])
-  const [error,    setError]    = useState<string | null>(null)
+  const [phase,          setPhase]          = useState<Phase>('config')
+  const [config,         setConfig]         = useState<OptimizerConfig>(makeDefaultConfig)
+  const [progress,       setProgress]       = useState<OptimizerProgress | null>(null)
+  const [results,        setResults]        = useState<BuildResult[]>([])
+  const [error,          setError]          = useState<string | null>(null)
+  const [showSlots,      setShowSlots]      = useState(false)
+  const [statResetKey,   setStatResetKey]   = useState(0)
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
+    new Set(STAT_GROUPS.filter(g => g.defaultOpen).map(g => g.key)),
+  )
   const workerRef = useRef<Worker | null>(null)
 
   const selectedClass = useBuildStore(s => s.selectedClass)
@@ -70,10 +160,51 @@ export function OptimizerModal({ open, onClose }: Props) {
     onClose()
   }
 
+  function updateStatMin(statKey: OptimizerStatKey, minVal: number) {
+    if (minVal > 0) {
+      const group = STAT_GROUPS.find(g => g.statKeys.includes(statKey))
+      if (group) setExpandedGroups(s => new Set([...s, group.key]))
+    }
+    setConfig(c => ({
+      ...c,
+      stats: c.stats.map(s => s.stat === statKey
+        ? { ...s, minVal, weight: minVal > 0 ? 5 : 0 }
+        : s
+      ),
+    }))
+  }
+
+  function clearAllStats() {
+    setConfig(c => ({ ...c, stats: OPTIMIZER_STATS.map(s => ({ stat: s.key, weight: 0, minVal: 0 })) }))
+    setStatResetKey(k => k + 1)
+    setError(null)
+  }
+
+  function toggleGroup(key: string) {
+    setExpandedGroups(s => {
+      const n = new Set(s)
+      n.has(key) ? n.delete(key) : n.add(key)
+      return n
+    })
+  }
+
+  function toggleSlot(slot: SlotId) {
+    setConfig(c => {
+      const ls = new Set(c.lockedSlots)
+      ls.has(slot) ? ls.delete(slot) : ls.add(slot)
+      return { ...c, lockedSlots: ls }
+    })
+  }
+
+  function setAllSlotLock(lock: boolean) {
+    setConfig(c => ({ ...c, lockedSlots: lock ? new Set(ALL_SLOTS) : new Set<SlotId>() }))
+  }
+
   function startOptimizer() {
     if (!selectedClass) { setError(t('optimizer_no_class')); return }
     if (!equipment || !sets) return
-    if (config.stats.length === 0) { setError(t('optimizer_no_stats')); return }
+    const activeStats = config.stats.filter(s => s.minVal > 0 || s.weight > 0)
+    if (activeStats.length === 0) { setError(t('optimizer_no_stats')); return }
     setError(null)
 
     const worker = new Worker(
@@ -121,34 +252,10 @@ export function OptimizerModal({ open, onClose }: Props) {
     handleClose()
   }
 
-  function addStat(stat: StatConfig['stat']) {
-    setConfig(c => ({ ...c, stats: [...c.stats, { stat, weight: 5, minVal: 0 }] }))
-  }
-  function updateStat(i: number, updated: StatConfig) {
-    setConfig(c => {
-      const ss = [...c.stats]; ss[i] = updated; return { ...c, stats: ss }
-    })
-  }
-  function removeStat(i: number) {
-    setConfig(c => ({ ...c, stats: c.stats.filter((_, j) => j !== i) }))
-  }
-
-  function toggleSlot(slot: SlotId) {
-    setConfig(c => {
-      const ls = new Set(c.lockedSlots)
-      ls.has(slot) ? ls.delete(slot) : ls.add(slot)
-      return { ...c, lockedSlots: ls }
-    })
-  }
-
-  function setAllSlotLock(lock: boolean) {
-    setConfig(c => ({ ...c, lockedSlots: lock ? new Set(ALL_SLOTS) : new Set<SlotId>() }))
-  }
-
-  const selectedStatKeys = new Set(config.stats.map(s => s.stat))
+  const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
   const progressPct = progress?.percent ?? 0
 
-  // ── RUNNING ──────────────────────────────────────────────────────────────────
+  // ── Running ───────────────────────────────────────────────────────────────
   if (phase === 'running') {
     return (
       <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
@@ -191,7 +298,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     )
   }
 
-  // ── DONE ─────────────────────────────────────────────────────────────────────
+  // ── Done ──────────────────────────────────────────────────────────────────
   if (phase === 'done') {
     return (
       <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
@@ -248,10 +355,10 @@ export function OptimizerModal({ open, onClose }: Props) {
     )
   }
 
-  // ── CONFIG ────────────────────────────────────────────────────────────────────
+  // ── Config ────────────────────────────────────────────────────────────────
   return (
     <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
-      <div className="p-4 space-y-5 text-[11px]">
+      <div className="p-4 space-y-3 text-[11px]">
 
         {error && (
           <p
@@ -266,107 +373,81 @@ export function OptimizerModal({ open, onClose }: Props) {
           </p>
         )}
 
-        {/* ── STATS ── */}
-        <section>
-          <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
-            {t('optimizer_stats')}
-          </h3>
-          <p className="text-[10px] mb-2.5" style={{ color: 'var(--ink-faint)' }}>
-            {t('optimizer_stats_hint')}
-          </p>
-
-          <div className="space-y-1.5">
-            {config.stats.map((cfg, i) => {
-              const meta = OPTIMIZER_STATS.find(s => s.key === cfg.stat)
-              if (!meta) return null
-              return (
-                <StatConfigRow
-                  key={cfg.stat}
-                  meta={meta}
-                  item={cfg}
-                  onChange={updated => updateStat(i, updated)}
-                  onRemove={() => removeStat(i)}
-                />
-              )
-            })}
-          </div>
-
-          {config.stats.length === 0 && (
-            <p className="text-[10px] italic text-center py-3" style={{ color: 'var(--ink-faint)' }}>
-              {t('optimizer_stats_empty')}
-            </p>
-          )}
-
-          <div className="mt-2.5">
-            <StatPicker
-              label={t('optimizer_add_stat')}
-              excluded={selectedStatKeys}
-              onSelect={addStat}
+        {/* ── Top config bar ── */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="flex items-center gap-1.5">
+            <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level')}:</span>
+            <input
+              type="number"
+              min={1}
+              max={200}
+              value={config.maxLevel}
+              onChange={e => setConfig(c => ({
+                ...c,
+                maxLevel: Math.max(1, Math.min(200, Number(e.target.value) || 200)),
+              }))}
+              className="w-14 text-right rounded px-1.5 py-0.5 outline-none font-mono text-[11px]"
+              style={{
+                background: 'var(--surface-panel)',
+                border:     '1px solid var(--metal-edge)',
+                color:      'var(--ink)',
+              }}
             />
           </div>
-        </section>
 
-        {/* ── CONSTRAINTS + SLOTS (two-column) ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-          {/* Left: level + exo */}
-          <div className="space-y-4">
-            <section>
-              <h3 className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--gold)' }}>
-                {t('optimizer_max_level')}
-              </h3>
-              <div className="flex items-center gap-2">
-                <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level_hint')}</span>
+          <div className="flex items-center gap-2">
+            <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_exo')}:</span>
+            {(['ap', 'mp', 'range'] as const).map(k => (
+              <label key={k} className="flex items-center gap-1 cursor-pointer select-none">
                 <input
-                  type="number"
-                  min={1}
-                  max={200}
-                  value={config.maxLevel}
-                  onChange={e => setConfig(c => ({
-                    ...c,
-                    maxLevel: Math.max(1, Math.min(200, Number(e.target.value) || 200)),
-                  }))}
-                  className="w-16 text-right rounded-lg px-2 py-1 outline-none font-mono"
-                  style={{
-                    background: 'var(--surface-panel)',
-                    border:     '1px solid var(--metal-edge)',
-                    color:      'var(--ink)',
-                  }}
+                  type="checkbox"
+                  checked={config.exo[k]}
+                  onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
                 />
-              </div>
-            </section>
-
-            <section>
-              <h3 className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--gold)' }}>
-                {t('optimizer_exo')}
-              </h3>
-              <div className="space-y-1">
-                {(['ap', 'mp', 'range'] as const).map(k => (
-                  <label key={k} className="flex items-center gap-2 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked={config.exo[k]}
-                      onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
-                      className="flex-shrink-0"
-                    />
-                    <span className="font-semibold" style={{ color: 'var(--ink-muted)' }}>
-                      {t(`optimizer_exo_${k}`)}
-                    </span>
-                    <span style={{ color: 'var(--ink-faint)', fontSize: 9 }}>
-                      {t(`optimizer_exo_${k}_hint`)}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </section>
+                <span className="font-semibold text-[10px]" style={{ color: 'var(--ink-muted)' }}>
+                  {t(`optimizer_exo_${k}`)}
+                </span>
+              </label>
+            ))}
           </div>
 
-          {/* Right: slots */}
-          <section>
-            <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>
+          <button
+            onClick={() => setShowSlots(s => !s)}
+            className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]"
+            style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
+          >
+            {t('optimizer_slots')}:
+            <span className="font-mono font-bold" style={{ color: 'var(--gold)' }}>{activeSlots}</span>
+            <ChevronDown
+              size={10}
+              style={{
+                transform:  showSlots ? 'rotate(180deg)' : 'none',
+                transition: 'transform 0.15s',
+              }}
+            />
+          </button>
+
+          <button
+            onClick={clearAllStats}
+            className="ml-auto text-[10px] transition-opacity"
+            style={{ color: 'var(--negative)', opacity: 0.55 }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '0.55')}
+          >
+            {t('optimizer_clear_stats')}
+          </button>
+        </div>
+
+        {/* ── Slots panel ── */}
+        {showSlots && (
+          <div
+            className="rounded-lg p-3 space-y-2"
+            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>
                 {t('optimizer_slots')}
-              </h3>
+              </span>
               <div className="flex gap-1.5">
                 <button
                   onClick={() => setAllSlotLock(false)}
@@ -384,8 +465,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                 </button>
               </div>
             </div>
-            <p className="text-[9px] mb-1.5" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_slots_hint')}</p>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-4 gap-y-0.5">
               {ALL_SLOTS.map(slot => (
                 <label key={slot} className="flex items-center gap-1.5 cursor-pointer select-none">
                   <input
@@ -400,12 +480,79 @@ export function OptimizerModal({ open, onClose }: Props) {
                 </label>
               ))}
             </div>
-          </section>
+          </div>
+        )}
+
+        {/* ── Stat groups ── */}
+        <div className="space-y-2">
+          {STAT_GROUPS.map(group => {
+            const groupCfgs   = group.statKeys.map(k => config.stats.find(s => s.stat === k))
+            const activeCount = groupCfgs.filter(c => c && (c.minVal > 0 || c.weight > 0)).length
+            const isExpanded  = expandedGroups.has(group.key)
+
+            return (
+              <div key={group.key}>
+                <button
+                  className="w-full flex items-center gap-2 py-1 text-left"
+                  onClick={() => toggleGroup(group.key)}
+                >
+                  <span
+                    className="text-[10px] font-bold tracking-widest uppercase flex-shrink-0"
+                    style={{ color: 'var(--gold)' }}
+                  >
+                    {t(group.tKey)}
+                  </span>
+                  <span className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
+                  {activeCount > 0 && (
+                    <span
+                      className="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold flex-shrink-0"
+                      style={{
+                        background: 'color-mix(in srgb, var(--gold) 15%, transparent)',
+                        color:      'var(--gold)',
+                      }}
+                    >
+                      {activeCount}
+                    </span>
+                  )}
+                  <ChevronDown
+                    size={11}
+                    style={{
+                      color:      'var(--ink-faint)',
+                      transform:  isExpanded ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.15s',
+                      flexShrink: 0,
+                    }}
+                  />
+                </button>
+
+                {isExpanded && (
+                  <div
+                    className="grid gap-1.5 mt-1"
+                    style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
+                  >
+                    {group.statKeys.map(sk => {
+                      const meta = META_MAP.get(sk)
+                      const cfg  = config.stats.find(s => s.stat === sk)
+                      if (!meta || !cfg) return null
+                      return (
+                        <StatCard
+                          key={`${sk}-${statResetKey}`}
+                          meta={meta}
+                          cfg={cfg}
+                          onChange={minVal => updateStatMin(sk, minVal)}
+                        />
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
-        {/* ── FOOTER ── */}
+        {/* ── Footer ── */}
         <div
-          className="flex items-center justify-between gap-3 pt-3"
+          className="flex items-center justify-between gap-3 pt-2"
           style={{ borderTop: '1px solid var(--metal-edge)' }}
         >
           <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
@@ -432,6 +579,7 @@ export function OptimizerModal({ open, onClose }: Props) {
             </button>
           </div>
         </div>
+
       </div>
     </Modal>
   )

@@ -5,6 +5,21 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.71] — 2026-08-18
+- Optimizer UI redesign: all stats always visible, organized in 9 collapsible groups (Core, Characteristics, Elemental Damage, Critical, % Damage, Elemental Steal, Fixed/% Resistances, Combat)
+- Slots config moved to collapsible panel; max level + exo inline in top bar
+- "Clear all" button resets all minimums
+- Algorithm: stats pre-initialized at weight=0 treated as unconfigured (BASE_WEIGHT); active stats (minVal > 0) auto-weighted at 5
+- BuildResultCard now shows only active stats (minVal > 0) in result summary
+
+## [0.2.70] — 2026-08-18
+- Optimizer: dual beam search — primary beam optimizes score, constraint beam (6× boost on minVal stats) finds builds that meet hard requirements; both merged before final eval
+- Pre-filter now merges normal top-50 + constraint-biased top-30 per slot to prevent pruning items critical for satisfying constraints
+- Result card now shows constraint-satisfying builds first, then best-score builds
+
+## [0.2.69] — 2026-08-18
+- Fix: optimizer min input now uses type="text" + inputMode="numeric" — fixes browser quirks with controlled number inputs that prevented continuous typing
+
 ## [0.2.68] — 2026-08-18
 - Optimizer redesign: merged Maximize+Required into single stat rows (weight slider + min value per stat)
 - Algorithm fix: ring1/ring2 now filter ring items; dofus1–6 now filter dofus items; companion/sidekick properly filtered
