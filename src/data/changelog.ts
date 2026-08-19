@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.77',
+    date: '2026-08-18',
+    notes: [
+      'Optimizer config persists across sessions — stat minimums, exo, max level, and locked slots are saved to localStorage',
+      'Reopening the optimizer restores the last search; groups with active stats auto-expand; Clear resets everything',
+    ],
+  },
+  {
     version: '0.2.76',
     date: '2026-08-18',
     notes: [

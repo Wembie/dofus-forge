@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
@@ -49,6 +49,8 @@ const STAT_GROUPS: StatGroupDef[] = [
 
 const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
 
+const STORAGE_KEY = 'dofus-forge:optimizer-config'
+
 function makeDefaultConfig(): OptimizerConfig {
   return {
     stats:       OPTIMIZER_STATS.map(s => ({ stat: s.key, weight: 0, minVal: 0 })),
@@ -56,6 +58,33 @@ function makeDefaultConfig(): OptimizerConfig {
     maxLevel:    200,
     lockedSlots: new Set(),
   }
+}
+
+function loadSavedConfig(): OptimizerConfig {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return makeDefaultConfig()
+    const parsed = JSON.parse(raw)
+    return {
+      ...parsed,
+      lockedSlots: new Set<SlotId>(parsed.lockedSlots ?? []),
+      stats: OPTIMIZER_STATS.map(s => {
+        const saved = (parsed.stats as StatConfig[] | undefined)?.find(ss => ss.stat === s.key)
+        return saved ?? { stat: s.key, weight: 0, minVal: 0 }
+      }),
+    }
+  } catch {
+    return makeDefaultConfig()
+  }
+}
+
+function persistConfig(config: OptimizerConfig) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      ...config,
+      lockedSlots: [...config.lockedSlots],
+    }))
+  } catch { /* quota errors ignored */ }
 }
 
 // ── Stat Card ─────────────────────────────────────────────────────────────────
@@ -154,16 +183,22 @@ export function OptimizerModal({ open, onClose }: Props) {
   const { t } = useTranslation()
 
   const [phase,          setPhase]          = useState<Phase>('config')
-  const [config,         setConfig]         = useState<OptimizerConfig>(makeDefaultConfig)
+  const [config,         setConfig]         = useState<OptimizerConfig>(loadSavedConfig)
   const [progress,       setProgress]       = useState<OptimizerProgress | null>(null)
   const [results,        setResults]        = useState<BuildResult[]>([])
   const [error,          setError]          = useState<string | null>(null)
   const [showSlots,      setShowSlots]      = useState(false)
   const [statResetKey,   setStatResetKey]   = useState(0)
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    new Set(STAT_GROUPS.filter(g => g.defaultOpen).map(g => g.key)),
-  )
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => {
+    const cfg = loadSavedConfig()
+    const activeStatKeys = new Set(cfg.stats.filter(s => s.minVal > 0 || s.weight > 0).map(s => s.stat))
+    return new Set(STAT_GROUPS
+      .filter(g => g.defaultOpen || g.statKeys.some(sk => activeStatKeys.has(sk as OptimizerStatKey)))
+      .map(g => g.key))
+  })
   const workerRef = useRef<Worker | null>(null)
+
+  useEffect(() => { persistConfig(config) }, [config])
 
   const selectedClass = useBuildStore(s => s.selectedClass)
   const level         = useBuildStore(s => s.level)

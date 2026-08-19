@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.77] — 2026-08-18
+- Optimizer config persists across sessions — last search settings (stat minimums, exo, max level, locked slots) are saved to localStorage and restored on reopen; groups with active stats auto-expand; "Limpiar" resets everything
+
 ## [0.2.76] — 2026-08-18
 - Optimizer: exclude GM/test items — items with "(MJ)" in name are filtered out before optimization
 
