@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.67',
+    date: '2026-08-18',
+    notes: [
+      'Fix: rune badge now appears outside and to the right of the slot (was overlapping inside)',
+    ],
+  },
+  {
     version: '0.2.66',
     date: '2026-08-18',
     notes: [

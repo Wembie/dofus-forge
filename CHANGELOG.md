@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.67] — 2026-08-18
+- Fix: rune badge repositioned outside slot to the right — was at `left: px-3` (overlapping slot); now `left: px+2` (clearly outside, visible beside the slot)
+
 ## [0.2.66] — 2026-08-18
 - M42 — La Forjadora (Build Optimizer): botón en header abre modal
 - Configurar pesos soft (sliders 1–10) para maximizar cualquier stat del build
