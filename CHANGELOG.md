@@ -5,6 +5,17 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.66] — 2026-08-18
+- M42 — La Forjadora (Build Optimizer): botón en header abre modal
+- Configurar pesos soft (sliders 1–10) para maximizar cualquier stat del build
+- Configurar requeridos hard (≥ mínimo) — builds que no cumplen se descartan del top-3
+- Checkboxes Exo PA/PM/Rango (preparación para futura integración de ítems forjamagiados)
+- Nivel máximo configurable y slots a optimizar seleccionables por slot
+- Algoritmo beam search (width=50) con pre-filtro greedy top-25 por slot
+- Web Worker: cálculo no bloquea la UI — barra de progreso con % en tiempo real
+- Resultados top-3: imágenes de ítems, stats clave, botón "Cargar este build"
+- i18n: ES / EN / FR / PT con nombre localizado (La Forjadora / The Forger / La Forgeuse / A Forjadora)
+
 ## [0.2.65] — 2026-08-18
 - WeaponCard: ícono de poción de transformación (Wildfire/Earthquake/Tsunami/Hurricane) aparece en esquina inferior derecha de la imagen del arma cuando hay transform activo
 

@@ -73,6 +73,7 @@ export interface BuildState {
   clearRune:           (slot: SlotId, stat: string) => void
   setForjamagoName:    (slot: SlotId, name: string) => void
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
+  setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
   applySnapshot:       (snap: BuildSnapshot) => void
   reset:         () => void
 }
@@ -219,6 +220,8 @@ export const useBuildStore = create<BuildState>((set) => {
       delete slotRunes[stat]
       return update({ runes: { ...s.runes, [slot]: slotRunes } }, s)
     }),
+
+    setEquipped: (eq) => set(s => update({ equipped: eq }, s)),
 
     setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),

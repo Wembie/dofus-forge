@@ -8,6 +8,21 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.66',
+    date: '2026-08-18',
+    notes: [
+      'M42 — La Forjadora (Build Optimizer): botón en header abre modal "La Forjadora"',
+      'Configurar pesos soft (sliders) para maximizar cualquier stat del build',
+      'Configurar requeridos hard (≥ mínimo) — builds que no cumplen se descartan',
+      'Checkboxes Exo PA/PM/Rango para futura integración de ítems forjamagiados',
+      'Selección de nivel máximo y slots a optimizar (marcar/desmarcar por slot)',
+      'Algoritmo beam search (width=50) con pre-filtro greedy top-25 por slot',
+      'Web Worker no bloquea la UI — barra de progreso con % en tiempo real',
+      'Resultados top-3 con imágenes de ítems, stats clave y botón "Cargar este build"',
+      'i18n completo: ES (La Forjadora) / EN (The Forger) / FR (La Forgeuse) / PT (A Forjadora)',
+    ],
+  },
+  {
     version: '0.2.65',
     date: '2026-08-18',
     notes: [

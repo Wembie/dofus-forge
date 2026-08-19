@@ -1,0 +1,51 @@
+import type { StatBlock } from '@/engine/types.ts'
+import type { SlotId } from '@/store/buildStore.ts'
+import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
+
+export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
+
+export type StatWeight = {
+  stat:   OptimizerStatKey
+  weight: number  // 1–10
+}
+
+export type StatRequired = {
+  stat:   OptimizerStatKey
+  minVal: number
+}
+
+export type ExoConfig = {
+  ap:    boolean
+  mp:    boolean
+  range: boolean
+}
+
+export type OptimizerConfig = {
+  weights:     StatWeight[]
+  required:    StatRequired[]
+  exo:         ExoConfig
+  maxLevel:    number
+  lockedSlots: Set<SlotId>
+}
+
+export type OptimizerBuildBase = {
+  selectedClass: DofusClass
+  level:         number
+  allocated:     AllocatedCharacteristics
+  scrolled:      ScrolledCharacteristics
+  equipped:      Partial<Record<SlotId, number>>
+}
+
+export type BuildResult = {
+  equipped:      Partial<Record<SlotId, number>>
+  stats:         StatBlock
+  score:         number
+  meetsRequired: boolean
+}
+
+export type OptimizerProgress = {
+  phase:      'prefilter' | 'search' | 'evaluating'
+  slotIndex:  number
+  totalSlots: number
+  percent:    number
+}

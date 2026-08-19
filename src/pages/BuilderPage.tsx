@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2 } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2 } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
@@ -21,7 +21,8 @@ import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
 import { DOFUS_GAME_VERSION } from '@/data/changelog.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { ComparePanel } from '@/features/compare/ComparePanel.tsx'
-const ChangelogModal = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
+const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
+const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
 
 type MobileTab = 'equipment' | 'character' | 'stats'
 
@@ -43,7 +44,8 @@ function BuilderContent() {
     const encoded = encodeBuild(buildState)
     return `${location.origin}${location.pathname}#/?b=${encoded}`
   }, [buildState])
-  const [showChangelog, setShowChangelog] = useState(false)
+  const [showChangelog,  setShowChangelog]  = useState(false)
+  const [showOptimizer,  setShowOptimizer]  = useState(false)
 
   const compareActive  = useCompareStore(s => s.active)
   const toggleCompare  = useCompareStore(s => s.toggle)
@@ -168,6 +170,20 @@ function BuilderContent() {
             >
               <Redo2 size={14} />
             </IconButton>
+            {/* La Forjadora — optimizer */}
+            <button
+              onClick={() => setShowOptimizer(true)}
+              title={t('optimizer_open')}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={{
+                background:  'transparent',
+                borderColor: 'var(--metal-edge)',
+                color:       'var(--ink-faint)',
+              }}
+            >
+              <Wand2 size={13} />
+              <span className="hidden sm:inline">{t('optimizer_open')}</span>
+            </button>
             {/* Compare toggle */}
             <button
               onClick={() => {
@@ -200,6 +216,13 @@ function BuilderContent() {
       {showChangelog && (
         <Suspense fallback={null}>
           <ChangelogModal onClose={() => setShowChangelog(false)} />
+        </Suspense>
+      )}
+
+      {/* Optimizer modal — La Forjadora */}
+      {showOptimizer && (
+        <Suspense fallback={null}>
+          <OptimizerModal open={showOptimizer} onClose={() => setShowOptimizer(false)} />
         </Suspense>
       )}
 

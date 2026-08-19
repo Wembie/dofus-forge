@@ -80,7 +80,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M38 — Tabla comparativa de transforms** — en RuneModal/WeaponCard, mini-tabla que muestra resultado de las 4 pociones × 3 ratios simultáneamente con el daño calculado final
 - [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable, más legible para compartir en Discord/foros
 - [ ] **M40 — Simulador PvP básico** — ingresar resistencias fijas/% de un enemigo dummy y ver daño real del build contra él (hechizos + arma), útil para comparar elementos
-- [ ] **M42 — Build Optimizer / "Best Set Finder"**
+- [x] **M42 — Build Optimizer / "La Forjadora"**
   
   **Objetivo:** dado un perfil de stats deseados, encontrar la combinación óptima de ítems por slot para un nivel y clase dados.
 
