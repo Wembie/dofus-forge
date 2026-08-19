@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.64',
+    date: '2026-08-18',
+    notes: [
+      'Fix: badge de transformación ya no aparece en armas sin daño Neutro (store obsoleto)',
+      'Fix: efectos de empuje excluidos de filas de daño en WeaponCard — evitaba NaN en totales',
+    ],
+  },
+  {
     version: '0.2.63',
     date: '2026-08-17',
     notes: [
