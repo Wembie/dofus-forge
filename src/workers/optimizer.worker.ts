@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 import { runOptimizer } from '@/engine/optimizer.ts'
-import type { OptimizerConfig, OptimizerBuildBase } from '@/features/optimizer/types.ts'
+import type { OptimizerConfig, OptimizerBuildBase, OptimizerProgress } from '@/features/optimizer/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 
@@ -39,7 +39,7 @@ self.onmessage = (e: MessageEvent) => {
       items,
       sets,
       base!,
-      progress => self.postMessage({ type: 'progress', ...progress }),
+      (progress: OptimizerProgress) => self.postMessage({ type: 'progress', ...progress }),
       cancelRef,
     )
 

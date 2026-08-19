@@ -4,14 +4,10 @@ import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } fr
 
 export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
 
-export type StatWeight = {
+export type StatConfig = {
   stat:   OptimizerStatKey
-  weight: number  // 1–10
-}
-
-export type StatRequired = {
-  stat:   OptimizerStatKey
-  minVal: number
+  weight: number   // 1–10 priority
+  minVal: number   // 0 = no hard constraint
 }
 
 export type ExoConfig = {
@@ -21,8 +17,7 @@ export type ExoConfig = {
 }
 
 export type OptimizerConfig = {
-  weights:     StatWeight[]
-  required:    StatRequired[]
+  stats:       StatConfig[]
   exo:         ExoConfig
   maxLevel:    number
   lockedSlots: Set<SlotId>

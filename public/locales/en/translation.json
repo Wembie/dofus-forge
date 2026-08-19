@@ -322,9 +322,7 @@
   "weapon_transform": "Elemental Transform",
   "weapon_transform_clear": "Clear",
   "weapon_transform_no_neutral": "Weapon has no neutral damage — cannot transform",
-
   "stat_hp": "HP",
-
   "optimizer_title": "The Forger",
   "optimizer_open": "The Forger",
   "optimizer_maximize": "MAXIMIZE",
@@ -365,5 +363,11 @@
   "optimizer_no_weights": "Add at least one stat to maximize.",
   "optimizer_no_results": "No builds found matching the requirements.",
   "optimizer_weight_label": "Weight",
-  "optimizer_min_val_label": "Minimum"
+  "optimizer_min_val_label": "Minimum",
+  "optimizer_stats": "STATS TO OPTIMIZE",
+  "optimizer_stats_hint": "Weight = importance when searching items. Min = value the build MUST reach.",
+  "optimizer_add_stat": "+ Add stat",
+  "optimizer_stats_empty": "Add at least one stat to get started.",
+  "optimizer_no_stats": "Add at least one stat to optimize.",
+  "optimizer_equip_best": "Equip best build"
 }

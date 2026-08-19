@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import type { OptimizerConfig, BuildResult, OptimizerProgress, StatWeight, StatRequired } from './types.ts'
-import { StatWeightRow } from './StatWeightRow.tsx'
-import { StatRequiredRow } from './StatRequiredRow.tsx'
+import type { OptimizerConfig, BuildResult, OptimizerProgress, StatConfig } from './types.ts'
+import { StatConfigRow } from './StatConfigRow.tsx'
 import { StatPicker } from './StatPicker.tsx'
 import { BuildResultCard } from './BuildResultCard.tsx'
+import { OPTIMIZER_STATS } from './statList.ts'
 
 type Phase = 'config' | 'running' | 'done'
 
@@ -33,8 +33,7 @@ const SLOT_LABEL_KEY: Record<SlotId, string> = {
 
 function makeDefaultConfig(): OptimizerConfig {
   return {
-    weights:     [],
-    required:    [],
+    stats:       [],
     exo:         { ap: false, mp: false, range: false },
     maxLevel:    200,
     lockedSlots: new Set(),
@@ -74,7 +73,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   function startOptimizer() {
     if (!selectedClass) { setError(t('optimizer_no_class')); return }
     if (!equipment || !sets) return
-    if (config.weights.length === 0) { setError(t('optimizer_no_weights')); return }
+    if (config.stats.length === 0) { setError(t('optimizer_no_stats')); return }
     setError(null)
 
     const worker = new Worker(
@@ -122,35 +121,22 @@ export function OptimizerModal({ open, onClose }: Props) {
     handleClose()
   }
 
-  // Config state helpers
-  function addWeight(stat: StatWeight['stat']) {
-    setConfig(c => ({ ...c, weights: [...c.weights, { stat, weight: 5 }] }))
+  function addStat(stat: StatConfig['stat']) {
+    setConfig(c => ({ ...c, stats: [...c.stats, { stat, weight: 5, minVal: 0 }] }))
   }
-  function updateWeight(i: number, weight: number) {
+  function updateStat(i: number, updated: StatConfig) {
     setConfig(c => {
-      const ws = [...c.weights]; ws[i] = { ...ws[i], weight }; return { ...c, weights: ws }
+      const ss = [...c.stats]; ss[i] = updated; return { ...c, stats: ss }
     })
   }
-  function removeWeight(i: number) {
-    setConfig(c => ({ ...c, weights: c.weights.filter((_, j) => j !== i) }))
-  }
-
-  function addRequired(stat: StatRequired['stat']) {
-    setConfig(c => ({ ...c, required: [...c.required, { stat, minVal: 0 }] }))
-  }
-  function updateRequired(i: number, minVal: number) {
-    setConfig(c => {
-      const rs = [...c.required]; rs[i] = { ...rs[i], minVal }; return { ...c, required: rs }
-    })
-  }
-  function removeRequired(i: number) {
-    setConfig(c => ({ ...c, required: c.required.filter((_, j) => j !== i) }))
+  function removeStat(i: number) {
+    setConfig(c => ({ ...c, stats: c.stats.filter((_, j) => j !== i) }))
   }
 
   function toggleSlot(slot: SlotId) {
     setConfig(c => {
       const ls = new Set(c.lockedSlots)
-      if (ls.has(slot)) ls.delete(slot); else ls.add(slot)
+      ls.has(slot) ? ls.delete(slot) : ls.add(slot)
       return { ...c, lockedSlots: ls }
     })
   }
@@ -159,196 +145,19 @@ export function OptimizerModal({ open, onClose }: Props) {
     setConfig(c => ({ ...c, lockedSlots: lock ? new Set(ALL_SLOTS) : new Set<SlotId>() }))
   }
 
-  const weightedKeys  = new Set(config.weights.map(w => w.stat))
-  const requiredKeys  = new Set(config.required.map(r => r.stat))
-  const progressPct   = progress?.percent ?? 0
+  const selectedStatKeys = new Set(config.stats.map(s => s.stat))
+  const progressPct = progress?.percent ?? 0
 
-  return (
-    <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
-
-      {/* ───── CONFIG ───── */}
-      {phase === 'config' && (
-        <div className="p-4 space-y-5 text-[11px]">
-
-          {error && (
-            <p
-              className="px-3 py-2 rounded"
-              style={{
-                color:      'var(--negative)',
-                background: 'color-mix(in srgb, var(--negative) 10%, transparent)',
-                border:     '1px solid color-mix(in srgb, var(--negative) 30%, transparent)',
-              }}
-            >
-              {error}
-            </p>
-          )}
-
-          {/* MAXIMIZAR */}
-          <section>
-            <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
-              {t('optimizer_maximize')}
-            </h3>
-            <p className="text-[10px] mb-2" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_maximize_hint')}</p>
-            <div className="space-y-1.5">
-              {config.weights.map((w, i) => (
-                <StatWeightRow
-                  key={`w-${w.stat}-${i}`}
-                  item={w}
-                  onChange={v => updateWeight(i, v)}
-                  onRemove={() => removeWeight(i)}
-                />
-              ))}
-            </div>
-            <div className="mt-2">
-              <StatPicker label={t('optimizer_add_weight')} excluded={weightedKeys} onSelect={addWeight} />
-            </div>
-          </section>
-
-          {/* REQUERIDOS */}
-          <section>
-            <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
-              {t('optimizer_required')}
-            </h3>
-            <p className="text-[10px] mb-2" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_required_hint')}</p>
-            <div className="space-y-1.5">
-              {config.required.map((r, i) => (
-                <StatRequiredRow
-                  key={`r-${r.stat}-${i}`}
-                  item={r}
-                  onChange={v => updateRequired(i, v)}
-                  onRemove={() => removeRequired(i)}
-                />
-              ))}
-            </div>
-            <div className="mt-2">
-              <StatPicker label={t('optimizer_add_required')} excluded={requiredKeys} onSelect={addRequired} />
-            </div>
-          </section>
-
-          {/* EXO */}
-          <section>
-            <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
-              {t('optimizer_exo')}
-            </h3>
-            <p className="text-[10px] mb-2" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_exo_hint')}</p>
-            <div className="space-y-1.5">
-              {(['ap', 'mp', 'range'] as const).map(k => (
-                <label key={k} className="flex items-start gap-2 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={config.exo[k]}
-                    onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
-                    className="mt-0.5 flex-shrink-0"
-                  />
-                  <span>
-                    <span className="font-semibold" style={{ color: 'var(--ink-muted)' }}>{t(`optimizer_exo_${k}`)}</span>
-                    <span style={{ color: 'var(--ink-faint)' }}> — {t(`optimizer_exo_${k}_hint`)}</span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          </section>
-
-          {/* NIVEL MÁXIMO */}
-          <section>
-            <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
-              {t('optimizer_max_level')}
-            </h3>
-            <div className="flex items-center gap-2 mt-1">
-              <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level_hint')}</span>
-              <input
-                type="number"
-                min={1}
-                max={200}
-                value={config.maxLevel}
-                onChange={e => setConfig(c => ({ ...c, maxLevel: Math.max(1, Math.min(200, Number(e.target.value))) }))}
-                className="w-16 text-right rounded px-1.5 py-0.5 outline-none"
-                style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-              />
-            </div>
-          </section>
-
-          {/* SLOTS */}
-          <section>
-            <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
-              {t('optimizer_slots')}
-            </h3>
-            <p className="text-[10px] mb-2" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_slots_hint')}</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1 mb-2">
-              {ALL_SLOTS.map(slot => (
-                <label key={slot} className="flex items-center gap-1.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={!config.lockedSlots.has(slot)}
-                    onChange={() => toggleSlot(slot)}
-                    className="flex-shrink-0"
-                  />
-                  <span className="text-[10px] truncate" style={{ color: 'var(--ink-muted)' }}>
-                    {t(SLOT_LABEL_KEY[slot])}
-                  </span>
-                </label>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setAllSlotLock(false)}
-                className="text-[10px] px-2 py-0.5 rounded border"
-                style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-              >
-                {t('optimizer_slot_mark_all')}
-              </button>
-              <button
-                onClick={() => setAllSlotLock(true)}
-                className="text-[10px] px-2 py-0.5 rounded border"
-                style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-              >
-                {t('optimizer_slot_clear_all')}
-              </button>
-            </div>
-          </section>
-
-          {/* Footer: estimate + buttons */}
-          <div
-            className="flex items-center justify-between gap-3 pt-3"
-            style={{ borderTop: '1px solid var(--metal-edge)' }}
-          >
-            <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-              ⏱ {t('optimizer_estimate')}
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleClose}
-                className="px-3 py-1.5 rounded border"
-                style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-              >
-                {t('optimizer_cancel')}
-              </button>
-              <button
-                onClick={startOptimizer}
-                className="px-4 py-1.5 rounded font-bold"
-                style={{
-                  background:  'color-mix(in srgb, var(--gold) 18%, transparent)',
-                  border:      '1px solid color-mix(in srgb, var(--gold) 45%, transparent)',
-                  color:       'var(--gold)',
-                }}
-              >
-                🔍 {t('optimizer_run')}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ───── RUNNING ───── */}
-      {phase === 'running' && (
+  // ── RUNNING ──────────────────────────────────────────────────────────────────
+  if (phase === 'running') {
+    return (
+      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
         <div className="p-10 flex flex-col items-center gap-4 text-center">
           <div
-            className="w-9 h-9 rounded-full border-[3px] animate-spin"
+            className="w-10 h-10 rounded-full border-[3px] animate-spin"
             style={{ borderColor: 'var(--gold)', borderTopColor: 'transparent' }}
           />
-          <p className="text-[13px] font-semibold" style={{ color: 'var(--ink)' }}>
-            {t('optimizer_running')}
-          </p>
+          <p className="text-[13px] font-semibold" style={{ color: 'var(--ink)' }}>{t('optimizer_running')}</p>
           {progress && (
             <>
               <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>
@@ -359,31 +168,33 @@ export function OptimizerModal({ open, onClose }: Props) {
               </p>
               <div
                 className="w-full max-w-xs rounded-full overflow-hidden"
-                style={{ height: 5, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+                style={{ height: 6, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
               >
                 <div
-                  className="h-full transition-all duration-300 ease-out"
-                  style={{ width: `${progressPct}%`, background: 'var(--gold)' }}
+                  className="h-full transition-all duration-300 ease-out rounded-full"
+                  style={{ width: `${progressPct}%`, background: 'linear-gradient(90deg, var(--gold-deep), var(--gold))' }}
                 />
               </div>
               <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{progressPct}%</span>
             </>
           )}
-          <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-            {t('optimizer_running_note')}
-          </p>
+          <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_running_note')}</p>
           <button
             onClick={cancelOptimizer}
-            className="mt-2 px-3 py-1.5 rounded text-[11px] border"
+            className="mt-2 px-3 py-1.5 rounded-lg text-[11px] border"
             style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
           >
             {t('optimizer_cancel')}
           </button>
         </div>
-      )}
+      </Modal>
+    )
+  }
 
-      {/* ───── DONE ───── */}
-      {phase === 'done' && (
+  // ── DONE ─────────────────────────────────────────────────────────────────────
+  if (phase === 'done') {
+    return (
+      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
         <div className="p-4 space-y-3">
           <div className="flex items-center justify-between">
             <p className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
@@ -400,6 +211,22 @@ export function OptimizerModal({ open, onClose }: Props) {
             </button>
           </div>
 
+          {results.length > 0 && (
+            <button
+              onClick={() => loadBuild(results[0].equipped)}
+              className="w-full py-2.5 rounded-xl font-bold text-[13px] transition-colors"
+              style={{
+                background: 'color-mix(in srgb, var(--gold) 20%, transparent)',
+                border:     '1px solid color-mix(in srgb, var(--gold) 55%, transparent)',
+                color:      'var(--gold)',
+              }}
+              onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--gold) 30%, transparent)'}
+              onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--gold) 20%, transparent)'}
+            >
+              ⚡ {t('optimizer_equip_best')}
+            </button>
+          )}
+
           {results.length === 0 ? (
             <p className="text-center py-8 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
               {t('optimizer_no_results')}
@@ -411,13 +238,201 @@ export function OptimizerModal({ open, onClose }: Props) {
                 result={result}
                 rank={(i + 1) as 1 | 2 | 3}
                 items={equipment ?? []}
-                weights={config.weights}
+                stats={config.stats}
                 onLoad={loadBuild}
               />
             ))
           )}
         </div>
-      )}
+      </Modal>
+    )
+  }
+
+  // ── CONFIG ────────────────────────────────────────────────────────────────────
+  return (
+    <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="xl">
+      <div className="p-4 space-y-5 text-[11px]">
+
+        {error && (
+          <p
+            className="px-3 py-2 rounded-lg"
+            style={{
+              color:      'var(--negative)',
+              background: 'color-mix(in srgb, var(--negative) 10%, transparent)',
+              border:     '1px solid color-mix(in srgb, var(--negative) 30%, transparent)',
+            }}
+          >
+            {error}
+          </p>
+        )}
+
+        {/* ── STATS ── */}
+        <section>
+          <h3 className="text-[10px] font-bold tracking-widest uppercase mb-0.5" style={{ color: 'var(--gold)' }}>
+            {t('optimizer_stats')}
+          </h3>
+          <p className="text-[10px] mb-2.5" style={{ color: 'var(--ink-faint)' }}>
+            {t('optimizer_stats_hint')}
+          </p>
+
+          <div className="space-y-1.5">
+            {config.stats.map((cfg, i) => {
+              const meta = OPTIMIZER_STATS.find(s => s.key === cfg.stat)
+              if (!meta) return null
+              return (
+                <StatConfigRow
+                  key={cfg.stat}
+                  meta={meta}
+                  item={cfg}
+                  onChange={updated => updateStat(i, updated)}
+                  onRemove={() => removeStat(i)}
+                />
+              )
+            })}
+          </div>
+
+          {config.stats.length === 0 && (
+            <p className="text-[10px] italic text-center py-3" style={{ color: 'var(--ink-faint)' }}>
+              {t('optimizer_stats_empty')}
+            </p>
+          )}
+
+          <div className="mt-2.5">
+            <StatPicker
+              label={t('optimizer_add_stat')}
+              excluded={selectedStatKeys}
+              onSelect={addStat}
+            />
+          </div>
+        </section>
+
+        {/* ── CONSTRAINTS + SLOTS (two-column) ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+          {/* Left: level + exo */}
+          <div className="space-y-4">
+            <section>
+              <h3 className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--gold)' }}>
+                {t('optimizer_max_level')}
+              </h3>
+              <div className="flex items-center gap-2">
+                <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level_hint')}</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={200}
+                  value={config.maxLevel}
+                  onChange={e => setConfig(c => ({
+                    ...c,
+                    maxLevel: Math.max(1, Math.min(200, Number(e.target.value) || 200)),
+                  }))}
+                  className="w-16 text-right rounded-lg px-2 py-1 outline-none font-mono"
+                  style={{
+                    background: 'var(--surface-panel)',
+                    border:     '1px solid var(--metal-edge)',
+                    color:      'var(--ink)',
+                  }}
+                />
+              </div>
+            </section>
+
+            <section>
+              <h3 className="text-[10px] font-bold tracking-widest uppercase mb-1" style={{ color: 'var(--gold)' }}>
+                {t('optimizer_exo')}
+              </h3>
+              <div className="space-y-1">
+                {(['ap', 'mp', 'range'] as const).map(k => (
+                  <label key={k} className="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={config.exo[k]}
+                      onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
+                      className="flex-shrink-0"
+                    />
+                    <span className="font-semibold" style={{ color: 'var(--ink-muted)' }}>
+                      {t(`optimizer_exo_${k}`)}
+                    </span>
+                    <span style={{ color: 'var(--ink-faint)', fontSize: 9 }}>
+                      {t(`optimizer_exo_${k}_hint`)}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Right: slots */}
+          <section>
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>
+                {t('optimizer_slots')}
+              </h3>
+              <div className="flex gap-1.5">
+                <button
+                  onClick={() => setAllSlotLock(false)}
+                  className="text-[9px] px-1.5 py-0.5 rounded border"
+                  style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
+                >
+                  {t('optimizer_slot_mark_all')}
+                </button>
+                <button
+                  onClick={() => setAllSlotLock(true)}
+                  className="text-[9px] px-1.5 py-0.5 rounded border"
+                  style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
+                >
+                  {t('optimizer_slot_clear_all')}
+                </button>
+              </div>
+            </div>
+            <p className="text-[9px] mb-1.5" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_slots_hint')}</p>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+              {ALL_SLOTS.map(slot => (
+                <label key={slot} className="flex items-center gap-1.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={!config.lockedSlots.has(slot)}
+                    onChange={() => toggleSlot(slot)}
+                    className="flex-shrink-0"
+                  />
+                  <span className="text-[10px] truncate" style={{ color: 'var(--ink-muted)' }}>
+                    {t(SLOT_LABEL_KEY[slot])}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* ── FOOTER ── */}
+        <div
+          className="flex items-center justify-between gap-3 pt-3"
+          style={{ borderTop: '1px solid var(--metal-edge)' }}
+        >
+          <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+            ⏱ {t('optimizer_estimate')}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleClose}
+              className="px-3 py-1.5 rounded-lg border text-[11px]"
+              style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
+            >
+              {t('optimizer_cancel')}
+            </button>
+            <button
+              onClick={startOptimizer}
+              className="px-4 py-1.5 rounded-lg font-bold text-[12px]"
+              style={{
+                background: 'color-mix(in srgb, var(--gold) 20%, transparent)',
+                border:     '1px solid color-mix(in srgb, var(--gold) 50%, transparent)',
+                color:      'var(--gold)',
+              }}
+            >
+              🔍 {t('optimizer_run')}
+            </button>
+          </div>
+        </div>
+      </div>
     </Modal>
   )
 }
