@@ -95,6 +95,13 @@ export type StatBlock = {
   waterResPercent:   number
   airResPercent:     number
 
+  // Resistances (%) — magesmithy (rune) contribution only, for display in stats panel
+  neutralResPercentRune: number
+  earthResPercentRune:   number
+  fireResPercentRune:    number
+  waterResPercentRune:   number
+  airResPercentRune:     number
+
   // Crit
   critChance:     number
   critDamage:     number

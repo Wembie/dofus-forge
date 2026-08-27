@@ -30,6 +30,7 @@ function emptyStatBlock(): StatBlock {
     bestElemSteal: 0, bestElemDamage: 0,
     neutralResFixed: 0, earthResFixed: 0, fireResFixed: 0, waterResFixed: 0, airResFixed: 0,
     neutralResPercent: 0, earthResPercent: 0, fireResPercent: 0, waterResPercent: 0, airResPercent: 0,
+    neutralResPercentRune: 0, earthResPercentRune: 0, fireResPercentRune: 0, waterResPercentRune: 0, airResPercentRune: 0,
     critChance: 0, critDamage: 0, critResistance: 0,
     meleeDamagePercent: 0, rangedDamagePercent: 0, spellDamagePercent: 0, weaponDamagePercent: 0,
     meleeResistPercent: 0, rangedResistPercent: 0,
@@ -117,7 +118,17 @@ export function computeStats(input: BuildInput): StatBlock {
   applyEffects(block, setBonuses)
 
   // 3.5. Rune effects (magesmithy bonuses added per item slot)
-  if (input.runeEffects) applyEffects(block, input.runeEffects)
+  // Track rune-only RES% contribution separately so the stats panel can show it in its own column.
+  if (input.runeEffects) {
+    const runeOnly = emptyStatBlock()
+    applyEffects(runeOnly, input.runeEffects)
+    applyEffects(block,    input.runeEffects)
+    block.neutralResPercentRune = runeOnly.neutralResPercent
+    block.earthResPercentRune   = runeOnly.earthResPercent
+    block.fireResPercentRune    = runeOnly.fireResPercent
+    block.waterResPercentRune   = runeOnly.waterResPercent
+    block.airResPercentRune     = runeOnly.airResPercent
+  }
 
   // 4. Characteristic points (allocated + scrolls)
   const { allocated, scrolled } = input

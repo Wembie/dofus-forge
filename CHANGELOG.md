@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.79] — 2026-08-27
+- StatsPanel: tabla elemental agrega columna ✦ % (forjamagia RES%) — muestra en azul (#38a7cf) solo la contribución de runas de resistencia %, separada del RES% base del equipo; `—` cuando no hay runas de ese tipo
+- RuneModal: agrega soporte para runas de % Resistencia elemental (Neutral, Tierra, Fuego, Agua, Aire)
+
 ## [0.2.78] — 2026-08-18
 - Optimizer repair: expanded pool — for each constrained stat, top-60 items ranked by THAT stat are added to the repair candidate pool (not just beam's score-sorted top-50); this ensures the best items for satisfying constraints are always accessible during repair
 - Optimizer repair: now tries ALL violated constraints each pass, not just the worst one — makes progress even when the most-violated stat has no single-slot improvement

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.79',
+    date: '2026-08-27',
+    notes: [
+      'StatsPanel: columna ✦ % en tabla elemental — muestra en azul la resistencia % aportada solo por runas de forjamagia, separada del RES% del equipo',
+      'RuneModal: agrega runas de % Resistencia elemental (Neutral, Tierra, Fuego, Agua, Aire)',
+    ],
+  },
+  {
     version: '0.2.78',
     date: '2026-08-18',
     notes: [

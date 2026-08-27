@@ -433,5 +433,6 @@
   "stat_ap_parry_desc": "Resistencia a reducciones de PA causadas por enemigos",
   "stat_mp_parry_desc": "Resistencia a reducciones de PM causadas por enemigos",
   "stat_push_damage_desc": "Daño adicional al empujar enemigos",
-  "stat_pods_desc": "Capacidad de carga de ítems en el inventario"
+  "stat_pods_desc": "Capacidad de carga de ítems en el inventario",
+  "header_rune_pct": "✦ %"
 }
