@@ -9,6 +9,7 @@ const RUNE_GRID = [
   'AP', 'MP', 'Range', 'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage',
   'Air Damage', 'Neutral Damage', '% Critical', 'Critical Damage', 'Critical Resistance',
   'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
+  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
   'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'AP Reduction', 'MP Reduction',
 ]
 

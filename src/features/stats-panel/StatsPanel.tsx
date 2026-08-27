@@ -107,16 +107,17 @@ function ValCell({ value, color, suffix = '' }: { value: number; color: string; 
 // ── Combined element table (damage + resistance) ──────────────────────────────
 
 type ElemRow = {
-  resIcon: string   // resistance icon — identifies the element AND shows res visually
-  color:   string
-  dmg:     number
-  resFixed:number
-  resPct:  number
+  resIcon:       string   // resistance icon — identifies the element AND shows res visually
+  color:         string
+  dmg:           number
+  resFixed:      number
+  resPct:        number
+  resPercentRune: number  // magesmithy-only RES% contribution
 }
 
-const ELEM_COLS = '20px 1fr 1fr 1fr'
+const ELEM_COLS = '20px 1fr 1fr 1fr 1fr'
 
-function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
+function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPercentRune }: ElemRow) {
   const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   return (
     <div
@@ -131,9 +132,10 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
       }}
     >
       <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
-      <ValCell value={dmg}      color={color} />
-      <ValCell value={resFixed} color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
-      <ValCell value={resPct}   color={resPct   > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
+      <ValCell value={dmg}           color={color} />
+      <ValCell value={resFixed}      color={resFixed      > 0 ? 'var(--positive)' : 'var(--negative)'} />
+      <ValCell value={resPct}        color={resPct        > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
+      <ValCell value={resPercentRune} color="#38a7cf" suffix="%" />
     </div>
   )
 }
@@ -142,17 +144,16 @@ function ElementSection({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
   const rows: ElemRow[] = [
-    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent },
-    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent   },
-    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent    },
-    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent   },
-    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent     },
+    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, resPercentRune: s.neutralResPercentRune },
+    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   resPercentRune: s.earthResPercentRune   },
+    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    resPercentRune: s.fireResPercentRune    },
+    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   resPercentRune: s.waterResPercentRune   },
+    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     resPercentRune: s.airResPercentRune     },
   ]
 
-  type ExtraRow = { resIcon: string; color: string; dmg: number; resFixed: number; resPct: number }
-  const extras: ExtraRow[] = [
-    { resIcon: 'crit_damage',    color: 'var(--crit)',  dmg: s.critDamage,     resFixed: s.critResistance, resPct: 0 },
-    { resIcon: 'push_damage',    color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0 },
+  const extras: ElemRow[] = [
+    { resIcon: 'crit_damage', color: 'var(--crit)',  dmg: s.critDamage,     resFixed: s.critResistance, resPct: 0, resPercentRune: 0 },
+    { resIcon: 'push_damage', color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0, resPercentRune: 0 },
   ].filter(r => r.dmg !== 0 || r.resFixed !== 0)
 
   const hdr: React.CSSProperties = {
@@ -167,6 +168,7 @@ function ElementSection({ s }: { s: StatBlock }) {
         <span style={hdr}>{t('header_dmg')}</span>
         <span style={hdr}>{t('header_res')}</span>
         <span style={hdr}>{t('header_res_pct')}</span>
+        <span style={{ ...hdr, color: '#38a7cf' }}>{t('header_rune_pct')}</span>
       </div>
       <div className="space-y-0.5">
         {rows.map((r, i) => <ElemTableRow key={i} {...r} />)}
