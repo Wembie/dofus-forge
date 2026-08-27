@@ -104,6 +104,25 @@ function ValCell({ value, color, suffix = '' }: { value: number; color: string; 
   )
 }
 
+// RES% has an in-game cap of 50%. Show overcap in gold with a ▲ badge so the
+// player knows that resistance is being wasted and can redistribute it.
+const RES_PCT_CAP = 50
+
+function ResPctCell({ value }: { value: number }) {
+  const overcap = value - RES_PCT_CAP
+  const isOver  = overcap > 0
+  return (
+    <span className="font-mono font-bold text-[13px] tabular-nums leading-none text-right inline-flex items-baseline gap-1 justify-end">
+      <span style={{ color: value === 0 ? 'var(--ink-faint)' : isOver ? 'var(--gold)' : 'var(--positive)' }}>
+        {value === 0 ? '—' : `+${value}%`}
+      </span>
+      {isOver && (
+        <span style={{ color: 'var(--ink-faint)', fontSize: 10, fontWeight: 500 }}>▲{overcap}</span>
+      )}
+    </span>
+  )
+}
+
 // ── Combined element table (damage + resistance) ──────────────────────────────
 
 type ElemRow = {
@@ -134,7 +153,7 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPercentRune }:
       <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
       <ValCell value={dmg}           color={color} />
       <ValCell value={resFixed}      color={resFixed      > 0 ? 'var(--positive)' : 'var(--negative)'} />
-      <ValCell value={resPct}        color={resPct        > 0 ? 'var(--positive)' : 'var(--negative)'} suffix="%" />
+      <ResPctCell value={resPct} />
       <ValCell value={resPercentRune} color="#38a7cf" suffix="%" />
     </div>
   )

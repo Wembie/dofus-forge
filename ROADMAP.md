@@ -233,4 +233,4 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 
 - [x] **Fix — Forjamagia transformación elemental de arma** — RuneModal muestra sección "Transformación Elemental" con pociones (Wildfire/Earthquake/Tsunami/Hurricane) y ratios 85%/68%/50%. WeaponCard y tooltip del slot reflejan el daño transformado (neutro → elemento elegido con Math.ceil). Badge elemento+% en header. Validación: solo armas con daño neutro pueden transformar. URL share preserva transform en campo `wt`.
 
-- [] poner lo extra que se pasa en un lugar, o mirar de que forma acomodarlo, ejemplo como las resis % tienen un maximo de 50%, pero si se pasa no se muestra, pero se seria bueno mostrarlo, para que sepa que tiene eso de mas, y que se pueda ver
+- [x] **Fix — Overcap RES%** — si la resistencia % de un elemento supera el cap de 50%, la columna RES% muestra el valor en dorado con badge `▲N` indicando cuántos puntos están de más y no aplican en juego

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.80] — 2026-08-27
+- StatsPanel: columna RES% muestra overcap — si la resistencia % supera el cap de 50%, el valor aparece en dorado con badge `▲N` indicando cuántos puntos no aplican en juego
+
 ## [0.2.79] — 2026-08-27
 - StatsPanel: tabla elemental agrega columna ✦ % (forjamagia RES%) — muestra en azul (#38a7cf) solo la contribución de runas de resistencia %, separada del RES% base del equipo; `—` cuando no hay runas de ese tipo
 - RuneModal: agrega soporte para runas de % Resistencia elemental (Neutral, Tierra, Fuego, Agua, Aire)
