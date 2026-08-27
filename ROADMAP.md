@@ -232,3 +232,5 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 - [x] **Fix — Montura/Compañero vacíos en idioma no inglés** — ETL guardaba tipo localizado; ahora usa tipo EN canónico para type+slot en todos los idiomas
 
 - [x] **Fix — Forjamagia transformación elemental de arma** — RuneModal muestra sección "Transformación Elemental" con pociones (Wildfire/Earthquake/Tsunami/Hurricane) y ratios 85%/68%/50%. WeaponCard y tooltip del slot reflejan el daño transformado (neutro → elemento elegido con Math.ceil). Badge elemento+% en header. Validación: solo armas con daño neutro pueden transformar. URL share preserva transform en campo `wt`.
+
+- [] poner lo extra que se pasa en un lugar, o mirar de que forma acomodarlo, ejemplo como las resis % tienen un maximo de 50%, pero si se pasa no se muestra, pero se seria bueno mostrarlo, para que sepa que tiene eso de mas, y que se pueda ver
