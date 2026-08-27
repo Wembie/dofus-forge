@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.80',
+    date: '2026-08-27',
+    notes: [
+      'StatsPanel: RES% muestra overcap — valor en dorado con badge ▲N cuando supera el cap de 50%, indicando cuántos puntos de resistencia no aplican en juego',
+    ],
+  },
+  {
     version: '0.2.79',
     date: '2026-08-27',
     notes: [
