@@ -95,12 +95,14 @@ export type StatBlock = {
   waterResPercent:   number
   airResPercent:     number
 
-  // Resistances (%) — magesmithy (rune) contribution only, for display in stats panel
-  neutralResPercentRune: number
-  earthResPercentRune:   number
-  fireResPercentRune:    number
-  waterResPercentRune:   number
-  airResPercentRune:     number
+  // Pre-cap raw values — for overcap display (actual game caps applied to the fields above)
+  apRaw:                number
+  mpRaw:                number
+  neutralResPercentRaw: number
+  earthResPercentRaw:   number
+  fireResPercentRaw:    number
+  waterResPercentRaw:   number
+  airResPercentRaw:     number
 
   // Crit
   critChance:     number

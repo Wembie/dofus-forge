@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.84',
+    date: '2026-08-28',
+    notes: [
+      'Fix: RES% and AP/MP overcap badges now correctly show excess — stats were being capped before display; raw pre-cap values now stored in StatBlock for accurate ▲N calculation',
+      'Cleanup: removed unused *ResPercentRune fields from StatBlock (rune-only RES% tracking was never used in display)',
+    ],
+  },
+  {
     version: '0.2.83',
     date: '2026-08-28',
     notes: [
