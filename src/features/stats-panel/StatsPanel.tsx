@@ -42,12 +42,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 type BadgeProps = {
   iconName: string
   label:    string
-  value:    number
+  value:    number   // capped (display) value
+  raw?:     number   // pre-cap raw value for overcap badge
   color:    string
-  cap?:     number   // show MAX / ▲N pill when value >= cap
+  cap?:     number   // game cap threshold
 }
 
-function TopBadge({ iconName, label, value, color, cap }: BadgeProps) {
+function TopBadge({ iconName, label, value, raw, color, cap }: BadgeProps) {
   const numClass = value >= 10000
     ? 'text-base'
     : value >= 1000
@@ -56,8 +57,9 @@ function TopBadge({ iconName, label, value, color, cap }: BadgeProps) {
     ? 'text-2xl'
     : 'text-3xl'
 
-  const atCap  = cap !== undefined && value >= cap
-  const excess = cap !== undefined ? value - cap : 0
+  const rawVal = raw ?? value
+  const atCap  = cap !== undefined && rawVal >= cap
+  const excess = cap !== undefined ? rawVal - cap : 0
 
   return (
     <div
@@ -125,9 +127,9 @@ function ValCell({ value, color, suffix = '' }: { value: number; color: string; 
 // player knows that resistance is being wasted and can redistribute it.
 const RES_PCT_CAP = 50
 
-function ResPctCell({ value }: { value: number }) {
-  const overcap = value - RES_PCT_CAP
-  const atCap   = value >= RES_PCT_CAP
+function ResPctCell({ value, raw }: { value: number; raw: number }) {
+  const overcap = raw - RES_PCT_CAP
+  const atCap   = raw >= RES_PCT_CAP
   return (
     <span className="group/res inline-flex items-baseline gap-1 justify-end font-mono font-bold text-[13px] tabular-nums leading-none text-right cursor-default">
       <span style={{ color: value === 0 ? 'var(--ink-faint)' : atCap ? 'var(--gold)' : 'var(--positive)' }}>
@@ -148,17 +150,17 @@ function ResPctCell({ value }: { value: number }) {
 // ── Combined element table (damage + resistance) ──────────────────────────────
 
 type ElemRow = {
-  resIcon:       string   // resistance icon — identifies the element AND shows res visually
-  color:         string
-  dmg:           number
-  resFixed:      number
-  resPct:        number
-  resPercentRune: number  // magesmithy-only RES% contribution
+  resIcon:   string   // resistance icon — identifies the element AND shows res visually
+  color:     string
+  dmg:       number
+  resFixed:  number
+  resPct:    number   // capped value (shown in cell)
+  resPctRaw: number   // pre-cap raw value (for overcap badge)
 }
 
 const ELEM_COLS = '20px 1fr 1fr 1fr'
 
-function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
+function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw }: ElemRow) {
   const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   return (
     <div
@@ -175,7 +177,7 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
       <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
       <ValCell value={dmg}           color={color} />
       <ValCell value={resFixed}      color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
-      <ResPctCell value={resPct} />
+      <ResPctCell value={resPct} raw={resPctRaw} />
     </div>
   )
 }
@@ -184,16 +186,16 @@ function ElementSection({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
   const rows: ElemRow[] = [
-    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, resPercentRune: s.neutralResPercentRune },
-    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   resPercentRune: s.earthResPercentRune   },
-    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    resPercentRune: s.fireResPercentRune    },
-    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   resPercentRune: s.waterResPercentRune   },
-    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     resPercentRune: s.airResPercentRune     },
+    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, resPctRaw: s.neutralResPercentRaw },
+    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   resPctRaw: s.earthResPercentRaw   },
+    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    resPctRaw: s.fireResPercentRaw    },
+    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   resPctRaw: s.waterResPercentRaw   },
+    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     resPctRaw: s.airResPercentRaw     },
   ]
 
   const extras: ElemRow[] = [
-    { resIcon: 'crit_damage', color: 'var(--crit)',  dmg: s.critDamage,     resFixed: s.critResistance, resPct: 0, resPercentRune: 0 },
-    { resIcon: 'push_damage', color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0, resPercentRune: 0 },
+    { resIcon: 'crit_damage', color: 'var(--crit)',  dmg: s.critDamage,     resFixed: s.critResistance, resPct: 0, resPctRaw: 0 },
+    { resIcon: 'push_damage', color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0, resPctRaw: 0 },
   ].filter(r => r.dmg !== 0 || r.resFixed !== 0)
 
   const hdr: React.CSSProperties = {
@@ -317,8 +319,8 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
   return (
     <div className="space-y-4">
       <div className="flex gap-1.5">
-        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    color="var(--gold)"     cap={12} />
-        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    color="var(--mp)"       cap={6}  />
+        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    raw={s.apRaw}  color="var(--gold)"     cap={12} />
+        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color="var(--mp)"       cap={6}  />
         <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)"          />
         {s.range > 0 && (
           <TopBadge iconName="range"  label={t('badge_range')} value={s.range} color="var(--water)"             />
