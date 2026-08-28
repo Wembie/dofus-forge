@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.82',
+    date: '2026-08-28',
+    notes: [
+      'StatsPanel: RES% shows MAX badge at exactly the 50% cap — previously only changed color; ▲N still appears when above cap',
+    ],
+  },
+  {
     version: '0.2.81',
     date: '2026-08-28',
     notes: [

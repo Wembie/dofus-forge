@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.82] — 2026-08-28
+- StatsPanel: RES% cell now shows `MAX` badge when resistance % hits exactly the 50% cap (previously only showed gold color, no badge; ▲N still shows when above cap)
+
 ## [0.2.81] — 2026-08-28
 - StatsPanel: AP and MP badges show overcap indicator — gold `▲N` pill when value exceeds in-game cap (AP≥12 → MAX or ▲N, MP≥6 → MAX or ▲N)
 
