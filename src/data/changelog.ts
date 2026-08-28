@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.83',
+    date: '2026-08-28',
+    notes: [
+      'StatsPanel: RES% overcap badge (▲N) is now hover-only — table stays clean; hover a gold value above 50% to see wasted excess',
+    ],
+  },
+  {
     version: '0.2.82',
     date: '2026-08-28',
     notes: [

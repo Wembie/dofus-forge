@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.83] — 2026-08-28
+- StatsPanel: RES% overcap badge (▲N) now appears only on hover — table stays clean; hover over any gold RES% value above 50% to see the wasted excess
+
 ## [0.2.82] — 2026-08-28
 - StatsPanel: RES% cell now shows `MAX` badge when resistance % hits exactly the 50% cap (previously only showed gold color, no badge; ▲N still shows when above cap)
 
