@@ -131,16 +131,12 @@ function ResPctCell({ value, raw }: { value: number; raw: number }) {
   const overcap = raw - RES_PCT_CAP
   const atCap   = raw >= RES_PCT_CAP
   return (
-    <span className="relative font-mono font-bold text-[13px] tabular-nums leading-none text-right">
-      {overcap > 0 && (
-        <span
-          className="absolute"
-          style={{ right: '100%', top: 1, paddingRight: 3, color: 'var(--ink-faint)', fontSize: 9, fontWeight: 500, whiteSpace: 'nowrap' }}
-        >
-          ▲{overcap}
-        </span>
-      )}
-      <span style={{ color: value === 0 ? 'var(--ink-faint)' : atCap ? 'var(--gold)' : 'var(--positive)' }}>
+    <span className="inline-flex items-baseline justify-end leading-none">
+      {/* fixed-width slot — keeps % RES column aligned whether or not there's a badge */}
+      <span style={{ display: 'inline-block', width: 22, textAlign: 'right', fontSize: 9, fontWeight: 500, color: 'var(--ink-faint)', paddingRight: 2 }}>
+        {overcap > 0 ? `▲${overcap}` : ''}
+      </span>
+      <span className="font-mono font-bold text-[13px] tabular-nums" style={{ color: value === 0 ? 'var(--ink-faint)' : atCap ? 'var(--gold)' : 'var(--positive)' }}>
         {value === 0 ? '—' : `+${value}%`}
       </span>
     </span>
