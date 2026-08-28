@@ -110,13 +110,13 @@ const RES_PCT_CAP = 50
 
 function ResPctCell({ value }: { value: number }) {
   const overcap = value - RES_PCT_CAP
-  const isOver  = overcap > 0
+  const atCap   = value >= RES_PCT_CAP  // gold when at or above cap — any excess is wasted
   return (
     <span className="font-mono font-bold text-[13px] tabular-nums leading-none text-right inline-flex items-baseline gap-1 justify-end">
-      <span style={{ color: value === 0 ? 'var(--ink-faint)' : isOver ? 'var(--gold)' : 'var(--positive)' }}>
+      <span style={{ color: value === 0 ? 'var(--ink-faint)' : atCap ? 'var(--gold)' : 'var(--positive)' }}>
         {value === 0 ? '—' : `+${value}%`}
       </span>
-      {isOver && (
+      {overcap > 0 && (
         <span style={{ color: 'var(--ink-faint)', fontSize: 10, fontWeight: 500 }}>▲{overcap}</span>
       )}
     </span>
