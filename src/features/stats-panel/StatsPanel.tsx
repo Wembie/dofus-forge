@@ -134,9 +134,9 @@ type ElemRow = {
   resPercentRune: number  // magesmithy-only RES% contribution
 }
 
-const ELEM_COLS = '20px 1fr 1fr 1fr 1fr'
+const ELEM_COLS = '20px 1fr 1fr 1fr'
 
-function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPercentRune }: ElemRow) {
+function ElemTableRow({ resIcon, color, dmg, resFixed, resPct }: ElemRow) {
   const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   return (
     <div
@@ -152,9 +152,8 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPercentRune }:
     >
       <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
       <ValCell value={dmg}           color={color} />
-      <ValCell value={resFixed}      color={resFixed      > 0 ? 'var(--positive)' : 'var(--negative)'} />
+      <ValCell value={resFixed}      color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
       <ResPctCell value={resPct} />
-      <ValCell value={resPercentRune} color="#38a7cf" suffix="%" />
     </div>
   )
 }
@@ -187,7 +186,6 @@ function ElementSection({ s }: { s: StatBlock }) {
         <span style={hdr}>{t('header_dmg')}</span>
         <span style={hdr}>{t('header_res')}</span>
         <span style={hdr}>{t('header_res_pct')}</span>
-        <span style={{ ...hdr, color: '#38a7cf' }}>{t('header_rune_pct')}</span>
       </div>
       <div className="space-y-0.5">
         {rows.map((r, i) => <ElemTableRow key={i} {...r} />)}
