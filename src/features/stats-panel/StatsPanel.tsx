@@ -129,13 +129,16 @@ function ResPctCell({ value }: { value: number }) {
   const overcap = value - RES_PCT_CAP
   const atCap   = value >= RES_PCT_CAP
   return (
-    <span className="font-mono font-bold text-[13px] tabular-nums leading-none text-right inline-flex items-baseline gap-1 justify-end">
+    <span className="group/res inline-flex items-baseline gap-1 justify-end font-mono font-bold text-[13px] tabular-nums leading-none text-right cursor-default">
       <span style={{ color: value === 0 ? 'var(--ink-faint)' : atCap ? 'var(--gold)' : 'var(--positive)' }}>
         {value === 0 ? '—' : `+${value}%`}
       </span>
-      {atCap && (
-        <span style={{ color: 'var(--gold)', fontSize: 10, fontWeight: 600 }}>
-          {overcap > 0 ? `▲${overcap}` : 'MAX'}
+      {atCap && overcap > 0 && (
+        <span
+          className="opacity-0 group-hover/res:opacity-100 transition-opacity duration-150"
+          style={{ color: 'var(--gold)', fontSize: 10, fontWeight: 600 }}
+        >
+          ▲{overcap}
         </span>
       )}
     </span>
