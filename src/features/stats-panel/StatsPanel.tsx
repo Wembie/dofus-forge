@@ -44,9 +44,10 @@ type BadgeProps = {
   label:    string
   value:    number
   color:    string
+  cap?:     number   // show MAX / ▲N pill when value >= cap
 }
 
-function TopBadge({ iconName, label, value, color }: BadgeProps) {
+function TopBadge({ iconName, label, value, color, cap }: BadgeProps) {
   const numClass = value >= 10000
     ? 'text-base'
     : value >= 1000
@@ -54,6 +55,9 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
     : value >= 100
     ? 'text-2xl'
     : 'text-3xl'
+
+  const atCap  = cap !== undefined && value >= cap
+  const excess = cap !== undefined ? value - cap : 0
 
   return (
     <div
@@ -69,6 +73,19 @@ function TopBadge({ iconName, label, value, color }: BadgeProps) {
         className="absolute inset-x-0 top-0 pointer-events-none"
         style={{ height: 56, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 22%, transparent), transparent)` }}
       />
+      {/* Overcap pill — top-right corner */}
+      {atCap && (
+        <span
+          className="absolute top-1.5 right-1.5 text-[9px] font-mono font-bold rounded px-1 leading-4 z-20"
+          style={{
+            background: 'color-mix(in srgb, var(--gold) 18%, var(--surface-void))',
+            color:       'var(--gold)',
+            border:      '1px solid color-mix(in srgb, var(--gold) 35%, transparent)',
+          }}
+        >
+          {excess > 0 ? `▲${excess}` : 'MAX'}
+        </span>
+      )}
       <div className="relative z-10 opacity-75">
         {icon(iconName, 15)}
       </div>
@@ -295,11 +312,11 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
   return (
     <div className="space-y-4">
       <div className="flex gap-1.5">
-        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    color="var(--gold)"     />
-        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    color="var(--mp)"       />
-        <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)" />
+        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    color="var(--gold)"     cap={12} />
+        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    color="var(--mp)"       cap={6}  />
+        <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)"          />
         {s.range > 0 && (
-          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} color="var(--water)"    />
+          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} color="var(--water)"             />
         )}
       </div>
 

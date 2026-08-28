@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.81',
+    date: '2026-08-28',
+    notes: [
+      'StatsPanel: AP and MP badges show overcap indicator — gold ▲N pill when value exceeds in-game cap (AP≥12, MP≥6)',
+    ],
+  },
+  {
     version: '0.2.80',
     date: '2026-08-27',
     notes: [
