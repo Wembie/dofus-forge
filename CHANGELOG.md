@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.85] — 2026-08-28
+- RuneModal: smart quick-value presets per rune type — % Resistance runes show [1,2,3,4,5]; AP/MP/Range show [1]; all others keep [1,5,10,25,50,100]; selecting a rune type auto-sets addValue to the first preset
+
 ## [0.2.84] — 2026-08-28
 - Fix: RES% and AP/MP overcap badges now show real excess — previously stats were capped before reaching display (always showed 50%/12/6 max), never triggering ▲N; now raw pre-cap values are saved in StatBlock and used for overcap calculation
 

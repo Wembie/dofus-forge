@@ -13,7 +13,17 @@ const RUNE_GRID = [
   'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'AP Reduction', 'MP Reduction',
 ]
 
-const QUICK_VALUES = [1, 5, 10, 25, 50, 100]
+const RES_PCT_RUNES = new Set([
+  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
+])
+const UNIT_RUNES = new Set(['AP', 'MP', 'Range'])
+
+function quickValuesFor(stat: string): number[] {
+  if (RES_PCT_RUNES.has(stat)) return [1, 2, 3, 4, 5]
+  if (UNIT_RUNES.has(stat))    return [1]
+  return [1, 5, 10, 25, 50, 100]
+}
+
 
 type TransformElem = 'fire' | 'earth' | 'water' | 'air'
 const TRANSFORM_ELEMENTS: { elem: TransformElem; color: string }[] = [
@@ -48,6 +58,13 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
   const runeEntries = Object.entries(runes).filter(([, v]) => v > 0)
   const selMeta     = STAT_META[selected]
+  const quickVals   = quickValuesFor(selected)
+
+  function selectRune(stat: string) {
+    setSelected(stat)
+    const vals = quickValuesFor(stat)
+    setAddValue(vals[0])
+  }
 
   function addRune() {
     if (addValue <= 0) return
@@ -324,7 +341,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 return (
                   <button
                     key={stat}
-                    onClick={() => setSelected(stat)}
+                    onClick={() => selectRune(stat)}
                     title={meta ? t(meta.tKey) : stat}
                     className="relative flex items-center justify-center rounded-lg transition-all"
                     style={{
@@ -453,7 +470,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
               {/* Quick value buttons */}
               <div className="flex gap-1.5">
-                {QUICK_VALUES.map(v => {
+                {quickVals.map(v => {
                   const clr = selMeta?.color ?? 'var(--gold)'
                   return (
                     <button
