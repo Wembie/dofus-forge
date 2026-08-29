@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.85',
+    date: '2026-08-28',
+    notes: [
+      'RuneModal: smart quick-value presets per rune type — % Resistance runes show [1,2,3,4,5]; AP/MP/Range show [1]; others keep [1,5,10,25,50,100]; switching rune type resets value to first preset',
+    ],
+  },
+  {
     version: '0.2.84',
     date: '2026-08-28',
     notes: [

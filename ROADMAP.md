@@ -234,3 +234,5 @@ de una vez aprovechar para hacer mucho mejor la interfaz como la tiene la otra p
 - [x] **Fix — Forjamagia transformación elemental de arma** — RuneModal muestra sección "Transformación Elemental" con pociones (Wildfire/Earthquake/Tsunami/Hurricane) y ratios 85%/68%/50%. WeaponCard y tooltip del slot reflejan el daño transformado (neutro → elemento elegido con Math.ceil). Badge elemento+% en header. Validación: solo armas con daño neutro pueden transformar. URL share preserva transform en campo `wt`.
 
 - [x] **Fix — Overcap RES%** — si la resistencia % de un elemento supera el cap de 50%, la columna RES% muestra el valor en dorado con badge `▲N` indicando cuántos puntos están de más y no aplican en juego
+
+- [x] en la parte de la forjamagia colocar un display default para cada runa especifica, ejemplo ya no sera 1,5,10,25,50,100, si no que sera para Runas de % de resis, 1,2,3,4,5 (ya el ususario si quiere poner mas que la ponga manual) Para PA,PM,AL,Invo, sera 1 y asi lo mismo para el usuario, por ahora esas, y dejar en to-do las demas
