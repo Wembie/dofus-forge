@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.87',
+    date: '2026-08-28',
+    notes: [
+      'Fix: weapon AP cost (effect_id=179) excluded from character stats — was incorrectly reducing player AP on weapons like Mekstagob Spade',
+      'Fix: AP/MP overcap badge no longer shows MAX at cap — only ▲N when truly above cap',
+    ],
+  },
+  {
     version: '0.2.86',
     date: '2026-08-28',
     notes: [

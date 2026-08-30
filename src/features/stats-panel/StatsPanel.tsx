@@ -58,7 +58,6 @@ function TopBadge({ iconName, label, value, raw, color, cap }: BadgeProps) {
     : 'text-3xl'
 
   const rawVal = raw ?? value
-  const atCap  = cap !== undefined && rawVal >= cap
   const excess = cap !== undefined ? rawVal - cap : 0
 
   return (
@@ -75,8 +74,8 @@ function TopBadge({ iconName, label, value, raw, color, cap }: BadgeProps) {
         className="absolute inset-x-0 top-0 pointer-events-none"
         style={{ height: 56, background: `linear-gradient(to bottom, color-mix(in srgb, ${color} 22%, transparent), transparent)` }}
       />
-      {/* Overcap pill — top-right corner */}
-      {atCap && (
+      {/* Overcap pill — top-right corner, only when truly above cap */}
+      {excess > 0 && (
         <span
           className="absolute top-1.5 right-1.5 text-[9px] font-mono font-bold rounded px-1 leading-4 z-20"
           style={{
@@ -85,7 +84,7 @@ function TopBadge({ iconName, label, value, raw, color, cap }: BadgeProps) {
             border:      '1px solid color-mix(in srgb, var(--gold) 35%, transparent)',
           }}
         >
-          {excess > 0 ? `▲${excess}` : 'MAX'}
+          ▲{excess}
         </span>
       )}
       <div className="relative z-10 opacity-75">
