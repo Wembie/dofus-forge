@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.86',
+    date: '2026-08-28',
+    notes: [
+      'CharacteristicsPanel: allocation grid always visible — removed hover-to-reveal; +/- controls permanently shown',
+    ],
+  },
+  {
     version: '0.2.85',
     date: '2026-08-28',
     notes: [
