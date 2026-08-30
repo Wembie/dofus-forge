@@ -234,15 +234,11 @@ function ScrollToggles() {
 }
 
 // ── CharacteristicsPanel ──────────────────────────────────────────────────────
-// Hover the entire panel → AllocationGrid appears inline (child of same wrapper).
-// onMouseLeave on wrapper fires only when mouse truly leaves the whole section,
-// not when moving between compact rows and the grid — they are the same subtree.
 export function CharacteristicsPanel() {
   const { t }     = useTranslation()
   const level     = useBuildStore(s => s.level)
   const allocated = useBuildStore(s => s.allocated)
   const stats     = useBuildStore(s => s.stats)
-  const [editing, setEditing] = useState(false)
 
   const budget    = statBudget(level)
   const spent     = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, allocated[c]), 0)
@@ -250,7 +246,7 @@ export function CharacteristicsPanel() {
   const pct       = budget > 0 ? Math.min(100, (spent / budget) * 100) : 0
 
   return (
-    <div onMouseEnter={() => setEditing(true)} onMouseLeave={() => setEditing(false)}>
+    <div>
 
       {/* Header + budget */}
       <div className="flex items-center justify-between mb-2">
@@ -286,8 +282,8 @@ export function CharacteristicsPanel() {
         ))}
       </div>
 
-      {/* Allocation grid — appears when hovering the panel */}
-      {editing && <AllocationGrid remaining={remaining} />}
+      {/* Allocation grid — always visible */}
+      <AllocationGrid remaining={remaining} />
 
       {/* Scroll toggles — always visible */}
       <ScrollToggles />
