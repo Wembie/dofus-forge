@@ -17,6 +17,8 @@ export const WEAPON_ATTACK_IDS = new Set([
   225,  // Pushes back cell
   248,  // best-element damage
   257,  // best-element steal
+  179,  // AP cost of weapon attack (how much AP the weapon spell costs; NOT a character stat)
+        // Always negative, only on weapons. Distinct from eid=12 (real +/-AP character stat).
 ])
 
 // Effect type IDs to hide from display in all tooltips/catalog.

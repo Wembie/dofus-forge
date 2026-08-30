@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.87] — 2026-08-28
+- Fix: weapon AP cost (effect_id=179) no longer applied as character stat — weapons like Mekstagob Spade had -1 AP in their attack cost which was incorrectly reducing the player's AP total; eid=179 added to WEAPON_ATTACK_IDS
+- Fix: AP/MP badge no longer shows MAX at exactly the cap — only shows ▲N when truly above the cap
+
 ## [0.2.86] — 2026-08-28
 - CharacteristicsPanel: allocation grid (+/- buttons) always visible — removed hover-to-reveal behavior; grid is now permanently shown below the compact stat rows
 
