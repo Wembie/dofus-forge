@@ -87,7 +87,7 @@ function BuilderContent() {
           boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
         }}
       >
-        <div className="px-6 h-full flex items-center gap-4">
+        <div className="px-3 sm:px-6 h-full flex items-center gap-2 sm:gap-4">
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
           {/* Brand — left-click resets, right-click/middle-click opens new tab with current build */}
@@ -148,8 +148,9 @@ function BuilderContent() {
           <div className="ml-auto flex items-center gap-1.5">
             <LanguageSwitcher />
             <ThemeToggle />
-            {/* Divider */}
-            <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            {/* Divider — hidden on mobile */}
+            <div className="hidden sm:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            {/* Undo / Redo — hidden on mobile */}
             <IconButton
               label={t('undo')}
               variant="subtle"
@@ -157,6 +158,7 @@ function BuilderContent() {
               onClick={undo}
               disabled={!canUndo}
               title={t('undo_title')}
+              className="hidden sm:flex"
             >
               <Undo2 size={14} />
             </IconButton>
@@ -167,14 +169,15 @@ function BuilderContent() {
               onClick={redo}
               disabled={!canRedo}
               title={t('redo_title')}
+              className="hidden sm:flex"
             >
               <Redo2 size={14} />
             </IconButton>
-            {/* La Forjadora — optimizer */}
+            {/* La Forjadora — optimizer — hidden on mobile */}
             <button
               onClick={() => setShowOptimizer(true)}
               title={t('optimizer_open')}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={{
                 background:  'transparent',
                 borderColor: 'var(--metal-edge)',
@@ -184,14 +187,14 @@ function BuilderContent() {
               <Wand2 size={13} />
               <span className="hidden sm:inline">{t('optimizer_open')}</span>
             </button>
-            {/* Compare toggle */}
+            {/* Compare toggle — hidden on mobile */}
             <button
               onClick={() => {
                 toggleCompare()
                 if (!compareActive) setTimeout(() => comparePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
               }}
               title={t('compare_mode')}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={compareActive ? {
                 background:  'color-mix(in srgb, var(--gold) 12%, transparent)',
                 borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)',
@@ -203,10 +206,10 @@ function BuilderContent() {
               }}
             >
               <span>⚖</span>
-              <span className="hidden sm:inline">{t('compare')}</span>
+              <span className="hidden lg:inline">{t('compare')}</span>
             </button>
-            {/* Divider */}
-            <div className="w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            {/* Divider — hidden on mobile */}
+            <div className="hidden sm:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <ShareBar />
           </div>
         </div>

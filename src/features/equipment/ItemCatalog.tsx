@@ -411,7 +411,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="flex flex-col rounded-xl shadow-2xl overflow-hidden"
+        className="catalog-panel flex flex-col rounded-xl shadow-2xl overflow-hidden"
         style={{ position: 'fixed', top: 32, left: 48, right: 48, bottom: 32, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
       >
         {/* Header */}
