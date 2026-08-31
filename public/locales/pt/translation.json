@@ -435,5 +435,9 @@
   "stat_push_damage_desc": "Dano adicional ao empurrar inimigos",
   "stat_pods_desc": "Capacidade de carregar itens no inventário",
   "header_rune_pct": "✦ %",
-  "scroll_all": "Todos"
+  "scroll_all": "Todos",
+  "rune_section_primary": "Primárias",
+  "rune_section_damage": "Danos",
+  "rune_section_resistance": "Resistências",
+  "rune_section_secondary": "Secundárias"
 }

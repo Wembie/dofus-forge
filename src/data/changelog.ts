@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.90',
+    date: '2026-08-31',
+    notes: [
+      'Feat: 15 missing runes added — AP/MP Parry, % Spell/Weapon/Melee/Ranged Damage, % Melee/Ranged Resistance, Pushback Damage/Resistance, Trap Damage, Power (traps), Summons, Pod, reflected damage',
+      'Feat: RuneModal picker reorganized into 4 labeled sections: Primarias / Daños / Resistencias / Secundarias; 5-column grid per section',
+      'Fix: % damage runes (Spell/Weapon/Melee/Ranged) and % Critical now use [1,2,3,4,5] quick-value presets',
+    ],
+  },
+  {
     version: '0.2.89',
     date: '2026-08-31',
     notes: [

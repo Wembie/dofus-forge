@@ -435,5 +435,9 @@
   "stat_push_damage_desc": "Dommages supplémentaires en poussant un ennemi",
   "stat_pods_desc": "Capacité de transport d'objets dans l'inventaire",
   "header_rune_pct": "✦ %",
-  "scroll_all": "Tous"
+  "scroll_all": "Tous",
+  "rune_section_primary": "Primaires",
+  "rune_section_damage": "Dommages",
+  "rune_section_resistance": "Résistances",
+  "rune_section_secondary": "Secondaires"
 }

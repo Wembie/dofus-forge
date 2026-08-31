@@ -435,5 +435,9 @@
   "stat_push_damage_desc": "Extra damage when pushing enemies",
   "stat_pods_desc": "Inventory item carry capacity",
   "header_rune_pct": "✦ %",
-  "scroll_all": "All"
+  "scroll_all": "All",
+  "rune_section_primary": "Primary",
+  "rune_section_damage": "Damage",
+  "rune_section_resistance": "Resistance",
+  "rune_section_secondary": "Secondary"
 }
