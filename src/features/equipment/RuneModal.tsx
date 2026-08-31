@@ -4,23 +4,50 @@ import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildS
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl, runeIconUrl } from './statDisplay.ts'
 
-const RUNE_GRID = [
-  'Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power',
-  'AP', 'MP', 'Range', 'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage',
-  'Air Damage', 'Neutral Damage', '% Critical', 'Critical Damage', 'Critical Resistance',
-  'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
-  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-  'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'AP Reduction', 'MP Reduction',
+type RuneSection = { labelKey: string; stats: string[] }
+
+const RUNE_SECTIONS: RuneSection[] = [
+  {
+    labelKey: 'rune_section_primary',
+    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range'],
+  },
+  {
+    labelKey: 'rune_section_damage',
+    stats: [
+      'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage', 'Air Damage', 'Neutral Damage',
+      '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
+      'Critical Damage', 'Pushback Damage', 'Trap Damage', 'Power (traps)', '% Critical',
+    ],
+  },
+  {
+    labelKey: 'rune_section_resistance',
+    stats: [
+      'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
+      '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
+      'Critical Resistance', 'Pushback Resistance', '% Melee Resistance', '% Ranged Resistance',
+    ],
+  },
+  {
+    labelKey: 'rune_section_secondary',
+    stats: [
+      'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'Summons', 'Pod',
+      'AP Reduction', 'MP Reduction', 'AP Parry', 'MP Parry', 'reflected damage',
+    ],
+  },
 ]
 
-const RES_PCT_RUNES = new Set([
+const ALL_RUNES = RUNE_SECTIONS.flatMap(s => s.stats)
+
+const PCT_RUNES = new Set([
   '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
+  '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
+  '% Melee Resistance', '% Ranged Resistance', '% Critical',
 ])
 const UNIT_RUNES = new Set(['AP', 'MP', 'Range'])
 
 function quickValuesFor(stat: string): number[] {
-  if (RES_PCT_RUNES.has(stat)) return [1, 2, 3, 4, 5]
-  if (UNIT_RUNES.has(stat))    return [1]
+  if (PCT_RUNES.has(stat))  return [1, 2, 3, 4, 5]
+  if (UNIT_RUNES.has(stat)) return [1]
   return [1, 5, 10, 25, 50, 100]
 }
 
@@ -53,7 +80,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const isWeaponSlot    = slotId === 'weapon'
   const hasNeutralDamage = isWeaponSlot && item.effects.some(e => e.stat === 'Neutral damage')
 
-  const [selected, setSelected] = useState(RUNE_GRID[0])
+  const [selected, setSelected] = useState(ALL_RUNES[0])
   const [addValue, setAddValue] = useState(10)
 
   const runeEntries = Object.entries(runes).filter(([, v]) => v > 0)
@@ -80,7 +107,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
       <div
         className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden"
         style={{
-          maxWidth:   480,
+          maxWidth:   520,
           maxHeight:  '90vh',
           background: 'var(--surface-void)',
           border:     '1px solid var(--metal-edge)',
@@ -326,110 +353,83 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, var(--metal-edge))' }} />
           </div>
 
-          {/* Stat icon grid */}
-          <div className="px-4">
-            <div
-              className="grid gap-1.5 p-3 rounded-xl"
-              style={{ gridTemplateColumns: 'repeat(7, 1fr)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-            >
-              {RUNE_GRID.map(stat => {
-                const meta    = STAT_META[stat]
-                const clr     = meta?.color ?? 'var(--gold)'
-                const active  = stat === selected
-                const hasRune = (runes[stat] ?? 0) > 0
-
-                return (
-                  <button
-                    key={stat}
-                    onClick={() => selectRune(stat)}
-                    title={meta ? t(meta.tKey) : stat}
-                    className="relative flex items-center justify-center rounded-lg transition-all"
-                    style={{
-                      aspectRatio: '1',
-                      background:  active
-                        ? `color-mix(in srgb, ${clr} 13%, transparent)`
-                        : hasRune
-                        ? `color-mix(in srgb, ${clr} 6%, transparent)`
-                        : 'var(--surface-void)',
-                      border: active
-                        ? `1.5px solid color-mix(in srgb, ${clr} 80%, transparent)`
-                        : hasRune
-                        ? `1px solid color-mix(in srgb, ${clr} 33%, transparent)`
-                        : '1px solid var(--metal-edge)',
-                      boxShadow: active
-                        ? `0 0 8px color-mix(in srgb, ${clr} 27%, transparent)`
-                        : 'none',
-                    }}
-                    onMouseEnter={e => {
-                      if (!active) {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.background   = `color-mix(in srgb, ${clr} 9%, transparent)`
-                        el.style.borderColor  = `color-mix(in srgb, ${clr} 53%, transparent)`
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (!active) {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.background  = hasRune
-                          ? `color-mix(in srgb, ${clr} 6%, transparent)`
-                          : 'var(--surface-void)'
-                        el.style.borderColor = hasRune
-                          ? `color-mix(in srgb, ${clr} 33%, transparent)`
-                          : 'var(--metal-edge)'
-                      }
-                    }}
-                  >
-                    {(() => {
-                      const rUrl = runeIconUrl(stat)
-                      if (rUrl) return (
-                        <img
-                          src={rUrl}
-                          alt={meta ? t(meta.tKey) : stat}
-                          width={30}
-                          height={30}
-                          className="object-contain"
-                          style={{
-                            filter: active
-                              ? `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 80%, transparent)) brightness(1.25)`
-                              : hasRune
-                              ? `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 60%, transparent)) brightness(1.2)`
-                              : 'brightness(0.65) saturate(0.5)',
-                          }}
-                        />
-                      )
-                      if (meta?.icon) return (
-                        <img
-                          src={statIconUrl(meta.icon)}
-                          alt={t(meta.tKey)}
-                          width={20}
-                          height={20}
-                          className="object-contain"
-                          style={{
-                            filter: active
-                              ? `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 73%, transparent)) brightness(1.2)`
-                              : hasRune
-                              ? `drop-shadow(0 0 3px color-mix(in srgb, ${clr} 47%, transparent)) brightness(0.9)`
-                              : 'brightness(0.55)',
-                          }}
-                        />
-                      )
-                      return (
-                        <span className="text-[9px] font-bold" style={{ color: active ? 'var(--gold)' : 'var(--ink-faint)' }}>
-                          {(meta ? t(meta.tKey) : stat).slice(0, 3)}
-                        </span>
-                      )
-                    })()}
-
-                    {hasRune && !active && (
-                      <span
-                        className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full"
-                        style={{ background: clr, boxShadow: `0 0 4px ${clr}` }}
-                      />
-                    )}
-                  </button>
-                )
-              })}
-            </div>
+          {/* Stat icon grid — grouped by category */}
+          <div className="px-4 space-y-2.5">
+            {RUNE_SECTIONS.map(section => (
+              <div key={section.labelKey}>
+                <div
+                  className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-1 px-0.5"
+                  style={{ color: 'var(--ink-faint)' }}
+                >
+                  {t(section.labelKey)}
+                </div>
+                <div
+                  className="grid gap-1.5 p-2 rounded-xl"
+                  style={{ gridTemplateColumns: 'repeat(5, 1fr)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+                >
+                  {section.stats.map(stat => {
+                    const meta    = STAT_META[stat]
+                    const clr     = meta?.color ?? 'var(--gold)'
+                    const active  = stat === selected
+                    const hasRune = (runes[stat] ?? 0) > 0
+                    return (
+                      <button
+                        key={stat}
+                        onClick={() => selectRune(stat)}
+                        title={meta ? t(meta.tKey) : stat}
+                        className="relative flex items-center justify-center rounded-lg transition-all"
+                        style={{
+                          aspectRatio: '1',
+                          background: active
+                            ? `color-mix(in srgb, ${clr} 13%, transparent)`
+                            : hasRune
+                            ? `color-mix(in srgb, ${clr} 6%, transparent)`
+                            : 'var(--surface-void)',
+                          border: active
+                            ? `1.5px solid color-mix(in srgb, ${clr} 80%, transparent)`
+                            : hasRune
+                            ? `1px solid color-mix(in srgb, ${clr} 33%, transparent)`
+                            : '1px solid var(--metal-edge)',
+                          boxShadow: active ? `0 0 8px color-mix(in srgb, ${clr} 27%, transparent)` : 'none',
+                        }}
+                        onMouseEnter={e => {
+                          if (!active) {
+                            const el = e.currentTarget as HTMLButtonElement
+                            el.style.background  = `color-mix(in srgb, ${clr} 9%, transparent)`
+                            el.style.borderColor = `color-mix(in srgb, ${clr} 53%, transparent)`
+                          }
+                        }}
+                        onMouseLeave={e => {
+                          if (!active) {
+                            const el = e.currentTarget as HTMLButtonElement
+                            el.style.background  = hasRune ? `color-mix(in srgb, ${clr} 6%, transparent)` : 'var(--surface-void)'
+                            el.style.borderColor = hasRune ? `color-mix(in srgb, ${clr} 33%, transparent)` : 'var(--metal-edge)'
+                          }
+                        }}
+                      >
+                        {(() => {
+                          const rUrl = runeIconUrl(stat)
+                          if (rUrl) return (
+                            <img src={rUrl} alt={meta ? t(meta.tKey) : stat} width={28} height={28} className="object-contain"
+                              style={{ filter: active ? `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 80%, transparent)) brightness(1.25)` : hasRune ? `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 60%, transparent)) brightness(1.2)` : 'brightness(0.65) saturate(0.5)' }}
+                            />
+                          )
+                          if (meta?.icon) return (
+                            <img src={statIconUrl(meta.icon)} alt={t(meta.tKey)} width={18} height={18} className="object-contain"
+                              style={{ filter: active ? `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 73%, transparent)) brightness(1.2)` : hasRune ? `drop-shadow(0 0 3px color-mix(in srgb, ${clr} 47%, transparent)) brightness(0.9)` : 'brightness(0.55)' }}
+                            />
+                          )
+                          return <span className="text-[9px] font-bold" style={{ color: active ? 'var(--gold)' : 'var(--ink-faint)' }}>{(meta ? t(meta.tKey) : stat).slice(0, 3)}</span>
+                        })()}
+                        {hasRune && !active && (
+                          <span className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full" style={{ background: clr, boxShadow: `0 0 4px ${clr}` }} />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            ))}
 
             {/* Selected stat info + controls */}
             <div

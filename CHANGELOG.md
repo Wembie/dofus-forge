@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.90] — 2026-08-31
+- Feat: RuneModal — 15 missing runes added (AP/MP Parry, % Spell/Weapon/Melee/Ranged Damage, % Melee/Ranged Resistance, Pushback Damage/Resistance, Trap Damage, Power (traps), Summons, Pod, reflected damage)
+- Feat: RuneModal — rune picker reorganized into 4 labeled sections: Primarias / Daños / Resistencias / Secundarias; 5-column grid per section replaces flat 7-column grid
+- Fix: % damage runes (Spell/Weapon/Melee/Ranged) now use [1,2,3,4,5] quick-value presets like % resistance runes; % Critical also corrected to [1,2,3,4,5]
+
 ## [0.2.89] — 2026-08-31
 - Feat: full mobile responsiveness — flat equipment grid (no character center on mobile), compact 5-column slot layout, icon-only ShareBar, hidden undo/redo/optimizer/compare on small screens
 - Fix: unequip × always visible on touch devices (hover-only before); rune button visible when active on mobile
