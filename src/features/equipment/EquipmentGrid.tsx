@@ -284,13 +284,17 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
         </button>
       )}
 
-      {/* Rune badge — outside slot, right edge, always visible when runes active */}
+      {/* Rune badge — top-right corner overlay, always visible when runes active */}
       {item && (runeCount ?? 0) > 0 && slotRunes && (() => {
         const active = Object.entries(slotRunes).filter(([, v]) => v > 0)
         return active.length > 0 ? (
           <div
             className="absolute pointer-events-none z-20 flex flex-col gap-0.5"
-            style={{ left: px + 2, top: 4 }}
+            style={{
+              top:       3,
+              left:      '50%',
+              transform: `translateX(${Math.floor(px / 2) - 16}px)`,
+            }}
           >
             {active.slice(0, 3).map(([stat]) => {
               const url = runeIconUrl(stat)
@@ -299,9 +303,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                   key={stat}
                   className="rounded flex items-center justify-center"
                   style={{
-                    background: 'var(--surface-stone)',
-                    border:     '1px solid color-mix(in srgb, var(--ap) 50%, transparent)',
-                    boxShadow:  '0 1px 4px rgba(0,0,0,0.6)',
+                    background: 'color-mix(in srgb, var(--surface-void) 85%, transparent)',
+                    border:     '1px solid color-mix(in srgb, var(--ap) 55%, transparent)',
+                    boxShadow:  '0 1px 4px rgba(0,0,0,0.7)',
                     padding:    1,
                   }}
                 >
