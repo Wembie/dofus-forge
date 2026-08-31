@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.91',
+    date: '2026-08-31',
+    notes: [
+      'Fix: Summons moved to Primarias section in RuneModal (was incorrectly in Secundarias)',
+      'UX: RuneModal wider (640px) with auto-fill grid — desktop shows ~8 runes per row, mobile keeps ~5 columns',
+    ],
+  },
+  {
     version: '0.2.90',
     date: '2026-08-31',
     notes: [
