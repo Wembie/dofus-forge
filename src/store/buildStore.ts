@@ -64,7 +64,8 @@ export interface BuildState {
   removePoint:   (char: Characteristic) => void
   addPoints:     (char: Characteristic, amount: number) => void
   removePoints:  (char: Characteristic, amount: number) => void
-  toggleScroll:  (char: Characteristic) => void
+  toggleScroll:   (char: Characteristic) => void
+  setAllScrolls:  (active: boolean) => void
   equipItem:     (slot: SlotId, ankama_id: number) => void
   unequipItem:   (slot: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
@@ -193,6 +194,12 @@ export const useBuildStore = create<BuildState>((set) => {
     toggleScroll: (char) => set(s =>
       update({ scrolled: { ...s.scrolled, [char]: !s.scrolled[char] } }, s)
     ),
+
+    setAllScrolls: (active) => set(s => {
+      const scrolled = {} as typeof s.scrolled
+      for (const c of CHARACTERISTICS) scrolled[c] = active
+      return update({ scrolled }, s)
+    }),
 
     equipItem: (slot, id) => set(s => {
       const eq = { ...s.equipped }

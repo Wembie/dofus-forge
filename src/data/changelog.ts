@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.88',
+    date: '2026-08-31',
+    notes: [
+      'Feat: "All" button in ScrollToggles — one click activates or deactivates all 6 characteristic scrolls at once',
+      'Fix: allocation input no longer commits mid-type — value only applies on blur or Enter, preventing double-step jumps',
+    ],
+  },
+  {
     version: '0.2.87',
     date: '2026-08-28',
     notes: [

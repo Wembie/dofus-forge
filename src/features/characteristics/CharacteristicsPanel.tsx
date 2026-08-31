@@ -140,7 +140,7 @@ function AllocatorControl({
       >−</button>
       <input
         type="number" min={0} value={inputVal}
-        onChange={e => { setInputVal(e.target.value); commitInput(e.target.value) }}
+        onChange={e => setInputVal(e.target.value)}
         onFocus={e => { focused.current = true; e.target.select() }}
         onBlur={e => { focused.current = false; commitInput(e.target.value) }}
         onKeyDown={e => {
@@ -190,9 +190,12 @@ function AllocationGrid({ remaining }: { remaining: number }) {
 
 // ── Unified scroll toggles ────────────────────────────────────────────────────
 function ScrollToggles() {
-  const { t }        = useTranslation()
-  const scrolled     = useBuildStore(s => s.scrolled)
-  const toggleScroll = useBuildStore(s => s.toggleScroll)
+  const { t }          = useTranslation()
+  const scrolled       = useBuildStore(s => s.scrolled)
+  const toggleScroll   = useBuildStore(s => s.toggleScroll)
+  const setAllScrolls  = useBuildStore(s => s.setAllScrolls)
+
+  const allActive = CHARACTERISTICS.every(c => scrolled[c])
 
   return (
     <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
@@ -200,7 +203,25 @@ function ScrollToggles() {
         <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--ink-faint)' }}>
           {t('scrolls_title')}
         </span>
-        <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{SCROLL_BONUS} {t('scroll_each')}</span>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{SCROLL_BONUS} {t('scroll_each')}</span>
+          <button
+            onClick={() => setAllScrolls(!allActive)}
+            title={t('scroll_all')}
+            className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded transition-all"
+            style={allActive ? {
+              background: 'color-mix(in srgb, var(--gold) 20%, transparent)',
+              border: '1px solid color-mix(in srgb, var(--gold) 50%, transparent)',
+              color: 'var(--gold)',
+            } : {
+              background: 'transparent',
+              border: '1px solid var(--metal-edge)',
+              color: 'var(--ink-faint)',
+            }}
+          >
+            {t('scroll_all')}
+          </button>
+        </div>
       </div>
       <div className="flex gap-1">
         {CHARACTERISTICS.map(char => {

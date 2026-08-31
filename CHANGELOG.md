@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.88] — 2026-08-31
+- Feat: "All" button in ScrollToggles activates/deactivates all 6 characteristic scrolls at once — gold when all active, neutral when any is inactive
+- Fix: allocation input no longer commits on every keystroke — typing in the +/- field now only applies on blur or Enter, preventing mid-type jumps
+
 ## [0.2.87] — 2026-08-28
 - Fix: weapon AP cost (effect_id=179) no longer applied as character stat — weapons like Mekstagob Spade had -1 AP in their attack cost which was incorrectly reducing the player's AP total; eid=179 added to WEAPON_ATTACK_IDS
 - Fix: AP/MP badge no longer shows MAX at exactly the cap — only shows ▲N when truly above the cap
