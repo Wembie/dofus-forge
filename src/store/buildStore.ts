@@ -209,12 +209,18 @@ export const useBuildStore = create<BuildState>((set) => {
         }
       }
       eq[slot] = id
-      return update({ equipped: eq }, s)
+      const runes             = { ...s.runes,            [slot]: {} }
+      const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
+      const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
+      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
     }),
-    unequipItem: (slot)     => set(s => {
-      const equipped = { ...s.equipped }
+    unequipItem: (slot) => set(s => {
+      const equipped          = { ...s.equipped }
       delete equipped[slot]
-      return update({ equipped }, s)
+      const runes             = { ...s.runes,            [slot]: {} }
+      const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
+      const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
+      return update({ equipped, runes, forjamagoNames, weaponTransforms }, s)
     }),
 
     setRune: (slot, stat, value) => set(s => {
