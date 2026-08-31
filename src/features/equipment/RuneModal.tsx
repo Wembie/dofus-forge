@@ -9,7 +9,7 @@ type RuneSection = { labelKey: string; stats: string[] }
 const RUNE_SECTIONS: RuneSection[] = [
   {
     labelKey: 'rune_section_primary',
-    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range'],
+    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range', 'Summons'],
   },
   {
     labelKey: 'rune_section_damage',
@@ -30,7 +30,7 @@ const RUNE_SECTIONS: RuneSection[] = [
   {
     labelKey: 'rune_section_secondary',
     stats: [
-      'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'Summons', 'Pod',
+      'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'Pod',
       'AP Reduction', 'MP Reduction', 'AP Parry', 'MP Parry', 'reflected damage',
     ],
   },
@@ -107,7 +107,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
       <div
         className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden"
         style={{
-          maxWidth:   520,
+          maxWidth:   640,
           maxHeight:  '90vh',
           background: 'var(--surface-void)',
           border:     '1px solid var(--metal-edge)',
@@ -365,7 +365,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 </div>
                 <div
                   className="grid gap-1.5 p-2 rounded-xl"
-                  style={{ gridTemplateColumns: 'repeat(5, 1fr)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+                  style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
                 >
                   {section.stats.map(stat => {
                     const meta    = STAT_META[stat]
