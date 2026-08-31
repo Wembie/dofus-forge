@@ -23,8 +23,14 @@ const RUNE_SECTIONS: RuneSection[] = [
     labelKey: 'rune_section_resistance',
     stats: [
       'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
+      'Critical Resistance', 'Pushback Resistance',
+    ],
+  },
+  {
+    labelKey: 'rune_section_pct_resistance',
+    stats: [
       '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-      'Critical Resistance', 'Pushback Resistance', '% Melee Resistance', '% Ranged Resistance',
+      '% Melee Resistance', '% Ranged Resistance',
     ],
   },
   {

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.92',
+    date: '2026-08-31',
+    notes: [
+      'UX: Resistance section split into "Resistencias" (flat: elemental + Crit + Push) and "% Resistencias" (% elemental + % Melee + % Ranged) — clear flat vs % visual separation',
+    ],
+  },
+  {
     version: '0.2.91',
     date: '2026-08-31',
     notes: [
