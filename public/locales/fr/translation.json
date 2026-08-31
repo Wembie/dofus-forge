@@ -434,5 +434,6 @@
   "stat_mp_parry_desc": "Résistance aux réductions de PM causées par les ennemis",
   "stat_push_damage_desc": "Dommages supplémentaires en poussant un ennemi",
   "stat_pods_desc": "Capacité de transport d'objets dans l'inventaire",
-  "header_rune_pct": "✦ %"
+  "header_rune_pct": "✦ %",
+  "scroll_all": "Tous"
 }

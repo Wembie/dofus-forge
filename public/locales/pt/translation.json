@@ -434,5 +434,6 @@
   "stat_mp_parry_desc": "Resistência a reduções de PM causadas por inimigos",
   "stat_push_damage_desc": "Dano adicional ao empurrar inimigos",
   "stat_pods_desc": "Capacidade de carregar itens no inventário",
-  "header_rune_pct": "✦ %"
+  "header_rune_pct": "✦ %",
+  "scroll_all": "Todos"
 }

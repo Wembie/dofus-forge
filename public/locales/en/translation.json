@@ -434,5 +434,6 @@
   "stat_mp_parry_desc": "Resistance to MP reductions caused by enemies",
   "stat_push_damage_desc": "Extra damage when pushing enemies",
   "stat_pods_desc": "Inventory item carry capacity",
-  "header_rune_pct": "✦ %"
+  "header_rune_pct": "✦ %",
+  "scroll_all": "All"
 }
