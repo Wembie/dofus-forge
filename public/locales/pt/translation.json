@@ -439,5 +439,6 @@
   "rune_section_primary": "Primárias",
   "rune_section_damage": "Danos",
   "rune_section_resistance": "Resistências",
-  "rune_section_secondary": "Secundárias"
+  "rune_section_secondary": "Secundárias",
+  "rune_section_pct_resistance": "% Resistências"
 }

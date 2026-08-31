@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.92] — 2026-08-31
+- UX: RuneModal resistance section split into two labeled rows — "Resistencias" (flat: 5 elemental + Crit + Push) and "% Resistencias" (% elemental + % Melee + % Ranged); clean visual separation of flat vs percentage runes
+
 ## [0.2.91] — 2026-08-31
 - Fix: Summons moved to Primarias section in RuneModal (was in Secundarias)
 - UX: RuneModal wider (640px max) with auto-fill column grid — desktop shows ~8 runes per row, mobile keeps 5 columns
