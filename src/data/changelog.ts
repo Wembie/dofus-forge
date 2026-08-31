@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.89',
+    date: '2026-08-31',
+    notes: [
+      'Feat: full mobile responsiveness — flat 5-column equipment grid without character center, compact dofus row, icon-only ShareBar on small screens',
+      'Fix: unequip × and active rune button now always visible on touch devices (were hover-only)',
+      'Fix: viewport minimum-scale=1 + overflow-x:hidden prevent browser zoom-out; iOS input auto-zoom suppressed',
+      'UX: undo/redo/optimizer/compare hidden on mobile header to prevent overflow',
+    ],
+  },
+  {
     version: '0.2.88',
     date: '2026-08-31',
     notes: [

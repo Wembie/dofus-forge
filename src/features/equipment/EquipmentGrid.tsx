@@ -149,6 +149,7 @@ type SlotButtonProps = {
   runeCount?:   number
   slotRunes?:   Record<string, number>
   small?:       boolean
+  size?:        number   // explicit pixel override (bypasses small ? 62 : 80)
   setName?:     string
   setCount?:    number
   setMax?:      number
@@ -156,7 +157,7 @@ type SlotButtonProps = {
   tooltipSide?: 'right' | 'left' | 'top'
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
   const { t }         = useTranslation()
   const cfg           = SLOT_MAP[slotId]
   const IconCmp       = SLOT_ICON[slotId]
@@ -169,7 +170,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const prevItemRef             = useRef(item)
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
-  const px      = small ? 62 : 80
+  const px      = sizeProp ?? (small ? 62 : 80)
   const slotLabel = t(slotTKey(slotId))
 
   useEffect(() => {
@@ -246,11 +247,11 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
         </span>
       )}
 
-      {/* Unequip × */}
+      {/* Unequip × — always visible on mobile (slot-unequip-btn), hover-only on desktop */}
       {item && (
         <button
           onClick={e => { e.stopPropagation(); onUnequip() }}
-          className={`absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 text-ink-muted hover:text-red-400 ${hovered ? 'flex' : 'hidden'}`}
+          className={`slot-unequip-btn absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 text-ink-muted hover:text-red-400 ${hovered ? 'flex' : 'hidden'}`}
           style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
           aria-label={`Unequip ${item.name}`}
         >×</button>
@@ -260,7 +261,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       {item && onRune && (
         <button
           onClick={e => { e.stopPropagation(); onRune() }}
-          className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100' : hovered ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100 slot-rune-active' : hovered ? 'opacity-100' : 'opacity-0'}`}
           style={{
             background: (runeCount ?? 0) > 0 ? 'color-mix(in srgb, var(--ap) 12%, var(--surface-void))' : 'var(--surface-void)',
             border:     (runeCount ?? 0) > 0 ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
@@ -785,6 +786,25 @@ export function EquipmentGrid() {
     )
   }
 
+  // Helper to render a SlotButton with shared handlers
+  const makeSlot = (id: SlotId, extraProps: Partial<SlotButtonProps> = {}) => (
+    <SlotButton
+      key={id} slotId={id}
+      item={getItem(id)}
+      onOpen={() => openCatalog(id)}
+      onUnequip={() => unequipItem(id)}
+      onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
+      runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
+      slotRunes={runes[id]}
+      {...getSetProps(id)}
+      {...extraProps}
+    />
+  )
+
+  // Mobile slot groups (< lg): two rows of 5, no character center
+  const MOBILE_ROW1: SlotId[] = ['hat',    'amulet', 'ring1', 'weapon',    'shield'   ]
+  const MOBILE_ROW2: SlotId[] = ['cape',   'ring2',  'belt',  'boots',     'companion']
+
   return (
     <div style={{
       background: 'var(--surface-void)',
@@ -795,81 +815,56 @@ export function EquipmentGrid() {
       ].join(', '),
     }}>
 
-      {/* Main character screen */}
-      <div className="flex items-start justify-center pt-5 pb-2 px-3">
-
-        {/* Left column — tooltip to the right to avoid overflow-hidden clip */}
-        <div className="flex flex-col gap-2">
-          {LEFT_SLOTS.map(id => (
-            <SlotButton
-              key={id} slotId={id}
-              item={getItem(id)}
-              onOpen={() => openCatalog(id)}
-              onUnequip={() => unequipItem(id)}
-              onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
-              runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
-              slotRunes={runes[id]}
-              tooltipSide="right"
-              {...getSetProps(id)}
-            />
-          ))}
+      {/* ── Mobile layout: flat grid, no character center (< lg) ── */}
+      <div className="lg:hidden px-3 pt-4 pb-2 space-y-2">
+        {/* Row 1 */}
+        <div className="grid grid-cols-5 gap-2">
+          {MOBILE_ROW1.map(id => makeSlot(id, { small: true, size: 56 }))}
         </div>
-
-        {/* Character center */}
-        <CharacterCenter />
-
-        {/* Right column — tooltip to the left */}
-        <div className="flex flex-col gap-2">
-          {RIGHT_SLOTS.map(id => (
-            <SlotButton
-              key={id} slotId={id}
-              item={getItem(id)}
-              onOpen={() => openCatalog(id)}
-              onUnequip={() => unequipItem(id)}
-              onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
-              runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
-              slotRunes={runes[id]}
-              tooltipSide="left"
-              {...getSetProps(id)}
-            />
-          ))}
+        {/* Row 2 */}
+        <div className="grid grid-cols-5 gap-2">
+          {MOBILE_ROW2.map(id => makeSlot(id, { small: true, size: 56 }))}
+        </div>
+        {/* Extras row */}
+        {EXTRAS_SLOTS.length > 0 && (
+          <div className="flex justify-center gap-2">
+            {EXTRAS_SLOTS.map(id => makeSlot(id, { small: true, size: 52 }))}
+          </div>
+        )}
+        {/* Dofus row */}
+        <div className="grid grid-cols-6 gap-1.5 pt-1">
+          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, size: 46 }))}
         </div>
       </div>
 
-      {/* Extras row: Petsmount, Mount, Sidekick */}
-      <div className="flex justify-center gap-2 pb-2">
-        {EXTRAS_SLOTS.map(id => (
-          <SlotButton
-            key={id} slotId={id}
-            item={getItem(id)}
-            onOpen={() => openCatalog(id)}
-            onUnequip={() => unequipItem(id)}
-            onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
-            runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
-            slotRunes={runes[id]}
-            small
-            tooltipSide="top"
-            {...getSetProps(id)}
-          />
-        ))}
-      </div>
+      {/* ── Desktop layout: character center + left/right columns (lg+) ── */}
+      <div className="hidden lg:block">
+        {/* Main character screen */}
+        <div className="flex items-start justify-center pt-5 pb-2 px-3">
 
-      {/* Dofus row — tooltip above, enough vertical space */}
-      <div className="flex justify-center gap-2 pb-5">
-        {DOFUS_SLOTS.map(id => (
-          <SlotButton
-            key={id} slotId={id}
-            item={getItem(id)}
-            onOpen={() => openCatalog(id)}
-            onUnequip={() => unequipItem(id)}
-            onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
-            runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
-            slotRunes={runes[id]}
-            small
-            tooltipSide="top"
-            {...getSetProps(id)}
-          />
-        ))}
+          {/* Left column — tooltip to the right to avoid overflow-hidden clip */}
+          <div className="flex flex-col gap-2">
+            {LEFT_SLOTS.map(id => makeSlot(id, { tooltipSide: 'right' }))}
+          </div>
+
+          {/* Character center */}
+          <CharacterCenter />
+
+          {/* Right column — tooltip to the left */}
+          <div className="flex flex-col gap-2">
+            {RIGHT_SLOTS.map(id => makeSlot(id, { tooltipSide: 'left' }))}
+          </div>
+        </div>
+
+        {/* Extras row: Petsmount, Mount, Sidekick */}
+        <div className="flex justify-center gap-2 pb-2">
+          {EXTRAS_SLOTS.map(id => makeSlot(id, { small: true, tooltipSide: 'top' }))}
+        </div>
+
+        {/* Dofus row — tooltip above, enough vertical space */}
+        <div className="flex justify-center gap-2 pb-5">
+          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, tooltipSide: 'top' }))}
+        </div>
       </div>
 
       <SetBonusesPanel />

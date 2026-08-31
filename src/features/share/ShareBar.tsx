@@ -82,9 +82,10 @@ export function ShareBar() {
         onClick={handleExport}
         disabled={!hasClass || !stats || exporting}
         title={t('export_btn_title')}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
+        className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
       >
-        {exporting ? `⏳ ${t('exporting')}` : `🖼 ${t('export_btn')}`}
+        <span>{exporting ? '⏳' : '🖼'}</span>
+        <span className="hidden sm:inline">{exporting ? t('exporting') : t('export_btn')}</span>
       </button>
 
       {/* Copy URL */}
@@ -92,17 +93,20 @@ export function ShareBar() {
         onClick={handleCopy}
         disabled={!hasClass}
         title={t('copy_url_title')}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
+        className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
       >
-        {copied ? `✓ ${t('copied')}` : `🔗 ${t('share')}`}
+        <span>{copied ? '✓' : '🔗'}</span>
+        <span className="hidden sm:inline">{copied ? t('copied') : t('share')}</span>
       </button>
 
       {/* My Builds */}
       <button
         onClick={() => setShowPanel(!showPanel)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep text-xs transition-colors"
+        className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep text-xs transition-colors"
       >
-        📋 {t('my_builds')} {builds.length > 0 && <span className="text-forge-gold">({builds.length})</span>}
+        <span>📋</span>
+        <span className="hidden sm:inline">{t('my_builds')}</span>
+        {builds.length > 0 && <span className="text-forge-gold">({builds.length})</span>}
       </button>
 
       {/* Builds panel */}
