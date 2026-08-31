@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.94',
+    date: '2026-08-31',
+    notes: [
+      'Fix: rune badge (mini rune icons on slot) repositioned to inside the slot top-right corner — was placed at a fixed pixel offset to the right of the slot, which misaligned or clipped in grid layouts where cells are wider than the button',
+    ],
+  },
+  {
     version: '0.2.93',
     date: '2026-08-31',
     notes: [
