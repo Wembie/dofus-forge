@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.93] — 2026-08-31
+- Fix: equipping or unequipping an item now clears all runes, forjamago name and weapon transform for that slot — rune data from a previous item no longer carries over to the new one
+
 ## [0.2.92] — 2026-08-31
 - UX: RuneModal resistance section split into two labeled rows — "Resistencias" (flat: 5 elemental + Crit + Push) and "% Resistencias" (% elemental + % Melee + % Ranged); clean visual separation of flat vs percentage runes
 

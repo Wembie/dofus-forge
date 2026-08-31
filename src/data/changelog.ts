@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.93',
+    date: '2026-08-31',
+    notes: [
+      'Fix: equipping or unequipping an item clears its slot\'s runes, forjamago name and weapon transform — rune data no longer leaks from a previous item',
+    ],
+  },
+  {
     version: '0.2.92',
     date: '2026-08-31',
     notes: [
