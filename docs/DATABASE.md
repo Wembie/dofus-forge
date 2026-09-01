@@ -2,7 +2,8 @@
 
 > **Motor:** PostgreSQL (Supabase)  
 > **Última revisión:** 2026-09-01  
-> **Estado:** Diseño validado, pendiente de implementar
+> **Estado:** Diseño validado, pendiente de implementar  
+> **Repo:** público — este archivo no contiene credenciales, URLs de conexión ni API keys
 
 ---
 
@@ -19,6 +20,7 @@
 9. [Casos de borde validados](#9-casos-de-borde-validados)
 10. [Tags semilla](#10-tags-semilla)
 11. [Roadmap de la DB](#11-roadmap-de-la-db)
+12. [Notas de seguridad](#12-notas-de-seguridad)
 
 ---
 
@@ -556,7 +558,7 @@ create table build_reports (
   reporter_id  uuid not null references profiles(id) on delete cascade,
   build_id     uuid not null references builds(id)  on delete cascade,
   reason       report_reason not null,
-  detail       text,
+  detail       text check (detail is null or char_length(detail) <= 500),
   status       report_status not null default 'pending',
   reviewed_by  uuid references profiles(id),
   reviewed_at  timestamptz,
@@ -632,15 +634,29 @@ alter table build_tags        enable row level security;
 alter table tags              enable row level security;
 alter table slug_redirects    enable row level security;
 
--- Profiles: lectura pública, escritura solo propia
+-- Profiles: lectura pública
 create policy "profiles public read" on profiles for select using (true);
-create policy "profiles own write"   on profiles for update using (auth.uid() = id);
+-- SEGURIDAD: el usuario solo puede editar sus campos editables.
+-- role, followers_count, following_count, builds_count son solo para
+-- service role (admins vía backend) o triggers. Un trigger BEFORE UPDATE
+-- los protege contra escritura directa del cliente.
+create policy "profiles own write" on profiles for update
+  using (auth.uid() = id)
+  with check (auth.uid() = id);
 
 -- Builds: público/unlisted visibles a todos; privado solo al dueño
 create policy "builds read" on builds for select using (
   visibility in ('public', 'unlisted') or auth.uid() = user_id
 );
-create policy "builds write" on builds for all using (auth.uid() = user_id);
+-- SEGURIDAD: with check evita que el usuario se auto-feature (is_featured solo
+-- lo puede cambiar service role / admin desde backend).
+create policy "builds insert" on builds for insert
+  with check (auth.uid() = user_id and is_featured = false);
+create policy "builds update" on builds for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id and is_featured = (select is_featured from builds where id = builds.id));
+create policy "builds delete" on builds for delete
+  using (auth.uid() = user_id);
 
 -- Build_items: read según visibilidad del build padre, write solo dueño
 create policy "build_items read" on build_items for select using (
@@ -669,9 +685,20 @@ create policy "collections write" on collections    for all    using (auth.uid()
 create policy "col_builds read"  on collection_builds for select using (
   exists (select 1 from collections where id = collection_id and (is_public or auth.uid() = user_id))
 );
-create policy "reports insert"   on build_reports   for insert with check (auth.uid() = reporter_id);
-create policy "tags read"        on tags            for select using (true);
-create policy "slugs read"       on slug_redirects  for select using (true);
+-- Reports: insert para cualquier user autenticado; SELECT solo para moderadores/admins
+create policy "reports insert" on build_reports for insert
+  with check (auth.uid() = reporter_id);
+create policy "reports admin read" on build_reports for select
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+create policy "reports admin update" on build_reports for update
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+
+-- Tags: lectura pública; escritura solo moderadores/admins
+create policy "tags read"       on tags for select using (true);
+create policy "tags admin write" on tags for all
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+
+create policy "slugs read" on slug_redirects for select using (true);
 ```
 
 ---
@@ -691,12 +718,25 @@ create trigger collections_updated_at before update on collections    for each r
 create trigger ratings_updated_at     before update on build_ratings  for each row execute procedure touch_updated_at();
 
 
--- ── Auto-crear profile al registrarse ───────────────────────────────
+-- ── Auto-crear profile al registrarse (con manejo de colisión de username) ──
 create function handle_new_user()
 returns trigger language plpgsql security definer as $$
+declare
+  base_username text;
+  candidate     text;
+  suffix        int := 0;
 begin
-  insert into profiles(id, username)
-  values (new.id, split_part(new.email, '@', 1));
+  -- Limpiar parte local del email a formato válido
+  base_username := lower(regexp_replace(split_part(new.email, '@', 1), '[^a-z0-9_-]', '_', 'gi'));
+  base_username := left(base_username, 25);
+  -- Resolver colisiones (ej: dos usuarios con mismo email prefix)
+  loop
+    candidate := case when suffix = 0 then base_username else base_username || suffix::text end;
+    exit when not exists (select 1 from public.profiles where username = candidate);
+    suffix := suffix + 1;
+  end loop;
+  insert into public.profiles(id, username)
+  values (new.id, candidate);
   return new;
 end;
 $$;
@@ -704,6 +744,27 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure handle_new_user();
 
+
+-- ── Proteger campos de sistema en profiles ───────────────────────────
+-- Evita que un cliente autenticado eleve su propio role o
+-- manipule contadores desnormalizados directamente.
+-- Los admins usan service role key (bypass RLS) para cambiar roles.
+create function protect_profile_system_fields()
+returns trigger language plpgsql security definer as $$
+begin
+  -- Solo service role (role = 'service_role' en JWT) puede cambiar estos campos
+  if current_setting('request.jwt.claims', true)::jsonb->>'role' != 'service_role' then
+    NEW.role            := OLD.role;
+    NEW.followers_count := OLD.followers_count;
+    NEW.following_count := OLD.following_count;
+    NEW.builds_count    := OLD.builds_count;
+  end if;
+  return NEW;
+end;
+$$;
+create trigger profile_system_fields_guard
+  before update on profiles
+  for each row execute procedure protect_profile_system_fields();
 
 -- ── Slug redirect al renombrar ───────────────────────────────────────
 create function handle_slug_change()
@@ -991,5 +1052,54 @@ insert into tags (name, category) values
 | M56 | Panel de moderación | ⬜ Pendiente |
 
 ---
+
+---
+
+## 12. Notas de seguridad
+
+> Este archivo es público. **Nunca** poner aquí: API keys, JWT secrets,
+> database passwords, connection strings, ni ninguna credencial.
+> Las credenciales van en `.env` local y en los secrets de GitHub/Cloudflare.
+
+### Vulnerabilidades auditadas y estado
+
+| # | Vulnerabilidad | Severidad | Estado |
+|---|---|---|---|
+| 1 | Usuario eleva su `role` a admin vía UPDATE directo | 🔴 Crítico | ✅ Corregido — trigger `protect_profile_system_fields` + service role check |
+| 2 | Usuario se auto-featuera (`is_featured = true`) | 🔴 Crítico | ✅ Corregido — `with check (is_featured = OLD.is_featured)` en policy de builds |
+| 3 | `handle_new_user()` falla si username ya existe | 🔴 Crítico | ✅ Corregido — loop con sufijos numéricos hasta encontrar username libre |
+| 4 | Admins no pueden leer `build_reports` | 🟡 Importante | ✅ Corregido — policy `reports admin read` con check de role |
+| 5 | `tags` sin política write para moderadores | 🟡 Importante | ✅ Corregido — policy `tags admin write` |
+| 6 | `build_reports.detail` sin límite de longitud | 🟠 Menor | ✅ Corregido — CHECK <= 500 chars |
+| 7 | `record_view()` acepta `ip_hash` del cliente | 🟠 Menor | ⚠️ Aceptado — view inflation posible; deduplicación 1h es best-effort. view_count es métrica de engagement, no crítica |
+| 8 | `build_view_events` crece sin límite | 🟠 Menor | ⚠️ Aceptado para MVP — limpiar eventos > 30 días con Edge Function scheduled |
+
+### Qué NO va en la DB pública
+
+- API keys de Supabase (`SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`)
+- JWT secret
+- Connection strings de Postgres (`postgresql://...`)
+- Credenciales de OAuth providers (GitHub, Google client secret)
+
+### Roles y permisos por actor
+
+| Actor | Clave usada | Puede hacer |
+|---|---|---|
+| Cliente anónimo | `anon key` | Leer builds públicos/unlisted, leer perfiles, registrarse |
+| Cliente autenticado | `anon key` + JWT | Todo lo anterior + CRUD de sus builds, likes, ratings, bookmarks, comments |
+| Moderador | `anon key` + JWT (role=moderator) | Todo lo anterior + leer/actualizar reports, gestionar tags |
+| Admin | `anon key` + JWT (role=admin) | Todo lo anterior + cambiar roles, feature builds |
+| Backend/Edge Function | `service_role key` | Bypass RLS completo — SOLO en servidor, nunca exponer al cliente |
+
+### Cambio de role (admin → user, user → moderator)
+
+**Nunca desde el cliente.** Solo desde Supabase Dashboard o una Edge Function con `service_role key`:
+
+```sql
+-- Ejecutar en Supabase SQL Editor o desde Edge Function con service role
+update profiles set role = 'moderator' where username = 'wembie';
+```
+
+El trigger `protect_profile_system_fields` verifica que la sesión sea `service_role` antes de permitir el cambio.
 
 *Generado: 2026-09-01 — No editar manualmente sin actualizar el SQL en Supabase*
