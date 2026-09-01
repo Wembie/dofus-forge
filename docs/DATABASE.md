@@ -86,36 +86,255 @@ Incrementar `view_count` en cada request genera write contention en builds popul
 
 ## 2. Diagrama de entidades
 
-```
-auth.users (Supabase)
-    │
-    └──> profiles ──< follows (follower ↔ following, self-check)
-              │  └──< notifications
-              │
-              └──< builds ────────────────────────────────────── fork_of (self-ref)
-                    │  visibility ENUM, game_version, search_vector GEN, slug
-                    │  snapshot JSONB (estado completo serializado)
-                    │  like_count, bookmark_count, comment_count,
-                    │  avg_rating, rating_count, view_count (todos trigger-sync)
-                    │
-                    ├──< build_items         (slot CHECK, item_id → datos estáticos)
-                    ├──< build_characteristics (stats ≥ 0 CHECK, scrolls boolean)
-                    ├──< build_runes         (JSONB, weapon_transform CHECK)
-                    ├──< build_tags    >──── tags (seeded, category)
-                    ├──< build_snapshots     (historial de versiones con label)
-                    ├──< slug_redirects      (renombrar sin romper links)
-                    │
-                    ├──< build_likes         ❤️
-                    ├──< build_ratings       ⭐ 1-5
-                    ├──< build_bookmarks     🔖
-                    ├──< build_view_events   👁 (RPC deduplicado 1h)
-                    │
-                    ├──< build_comments ──< comment_likes
-                    │     (soft-delete, parent_id un nivel, trigger → count)
-                    │
-                    └──< build_reports       🚩 (reason enum + status workflow)
+### Núcleo — builds y estructura
 
-collections ──< collection_builds ──> builds
+```mermaid
+erDiagram
+    profiles {
+        uuid id PK
+        text username UK
+        text display_name
+        user_role role
+        uuid pinned_build_id FK
+        int followers_count
+        int following_count
+        int builds_count
+        jsonb settings
+    }
+
+    builds {
+        uuid id PK
+        uuid user_id FK
+        text name
+        text slug UK
+        text game_version
+        smallint class_id
+        smallint level
+        build_visibility visibility
+        boolean is_featured
+        jsonb snapshot
+        int like_count
+        int bookmark_count
+        int comment_count
+        int view_count
+        numeric avg_rating
+        int rating_count
+        uuid fork_of FK
+        tsvector search_vector
+    }
+
+    build_items {
+        uuid build_id PK-FK
+        text slot PK
+        int item_id
+    }
+
+    build_characteristics {
+        uuid build_id PK-FK
+        smallint vitality
+        smallint strength
+        smallint intelligence
+        smallint chance
+        smallint agility
+        smallint wisdom
+        boolean vit_scrolled
+        boolean str_scrolled
+    }
+
+    build_runes {
+        uuid build_id PK-FK
+        text slot PK
+        jsonb runes
+        text forjamago_name
+        text weapon_transform
+    }
+
+    build_snapshots {
+        uuid id PK
+        uuid build_id FK
+        jsonb snapshot
+        text label
+        timestamptz created_at
+    }
+
+    slug_redirects {
+        text old_slug PK
+        uuid build_id FK
+        timestamptz created_at
+    }
+
+    tags {
+        int id PK
+        text name UK
+        text category
+    }
+
+    build_tags {
+        uuid build_id PK-FK
+        int tag_id PK-FK
+    }
+
+    profiles ||--o{ builds : "crea"
+    profiles }o--o| builds : "pinea"
+    builds   }o--o| builds : "fork de"
+    builds ||--o{ build_items : ""
+    builds ||--|| build_characteristics : ""
+    builds ||--o{ build_runes : ""
+    builds ||--o{ build_snapshots : ""
+    builds ||--o{ slug_redirects : ""
+    builds ||--o{ build_tags : ""
+    tags   ||--o{ build_tags : ""
+```
+
+### Social — interacciones y comunidad
+
+```mermaid
+erDiagram
+    profiles {
+        uuid id PK
+        text username UK
+        user_role role
+    }
+
+    builds {
+        uuid id PK
+        text slug UK
+        build_visibility visibility
+    }
+
+    build_likes {
+        uuid user_id PK-FK
+        uuid build_id PK-FK
+        timestamptz created_at
+    }
+
+    build_ratings {
+        uuid user_id PK-FK
+        uuid build_id PK-FK
+        smallint rating
+    }
+
+    build_bookmarks {
+        uuid user_id PK-FK
+        uuid build_id PK-FK
+        timestamptz created_at
+    }
+
+    build_view_events {
+        uuid build_id FK
+        uuid user_id
+        text ip_hash
+        timestamptz viewed_at
+    }
+
+    build_comments {
+        uuid id PK
+        uuid build_id FK
+        uuid user_id FK
+        uuid parent_id FK
+        text content
+        int like_count
+        timestamptz deleted_at
+    }
+
+    comment_likes {
+        uuid user_id PK-FK
+        uuid comment_id PK-FK
+    }
+
+    follows {
+        uuid follower_id PK-FK
+        uuid following_id PK-FK
+        timestamptz created_at
+    }
+
+    notifications {
+        uuid id PK
+        uuid user_id FK
+        notification_type type
+        uuid actor_id FK
+        uuid build_id FK
+        uuid comment_id FK
+        boolean read
+    }
+
+    collections {
+        uuid id PK
+        uuid user_id FK
+        text name
+        boolean is_public
+    }
+
+    collection_builds {
+        uuid collection_id PK-FK
+        uuid build_id PK-FK
+        smallint position
+    }
+
+    build_reports {
+        uuid id PK
+        uuid reporter_id FK
+        uuid build_id FK
+        report_reason reason
+        text detail
+        report_status status
+        uuid reviewed_by FK
+    }
+
+    profiles ||--o{ build_likes     : "da ❤️"
+    profiles ||--o{ build_ratings   : "califica ⭐"
+    profiles ||--o{ build_bookmarks : "guarda 🔖"
+    profiles ||--o{ build_comments  : "escribe 💬"
+    profiles ||--o{ build_reports   : "reporta 🚩"
+    profiles ||--o{ follows         : "sigue →"
+    profiles ||--o{ follows         : "← seguido por"
+    profiles ||--o{ notifications   : "recibe 🔔"
+    profiles ||--o{ collections     : "crea 📁"
+
+    builds ||--o{ build_likes       : ""
+    builds ||--o{ build_ratings     : ""
+    builds ||--o{ build_bookmarks   : ""
+    builds ||--o{ build_view_events : ""
+    builds ||--o{ build_comments    : ""
+    builds ||--o{ build_reports     : ""
+    builds ||--o{ collection_builds : ""
+    builds ||--o{ notifications     : ""
+
+    build_comments ||--o{ comment_likes  : ""
+    build_comments ||--o{ build_comments : "reply"
+    build_comments ||--o{ notifications  : ""
+
+    collections ||--o{ collection_builds : ""
+```
+
+### Vista rápida — árbol de relaciones
+
+```
+auth.users (Supabase Auth)
+  └─► profiles ──────────────────────────────────────────────────┐
+        │                                                         │
+        ├──► follows (follower ↔ following)          pinned_build │
+        ├──► notifications                                        │
+        ├──► collections ──► collection_builds ──────────────► builds
+        │                                                         │
+        └──► builds ◄─────────────────────── fork_of (self-ref) ─┘
+               │
+               ├── build_items          slot CHECK + item_id (estático)
+               ├── build_characteristics stats ≥ 0 CHECK, scrolls
+               ├── build_runes          JSONB, weapon_transform CHECK
+               ├── build_tags ──────► tags (seeded)
+               ├── build_snapshots     historial con label
+               ├── slug_redirects      redirect 301 al renombrar
+               │
+               ├── build_likes         ❤️  trigger → like_count
+               ├── build_ratings       ⭐  trigger → avg_rating / rating_count
+               ├── build_bookmarks     🔖  trigger → bookmark_count
+               ├── build_view_events   👁  RPC deduplicado 1h
+               │
+               ├── build_comments ──► comment_likes
+               │     soft-delete · parent_id (1 nivel) · trigger → comment_count
+               │
+               └── build_reports       🚩  reason enum · status workflow
 ```
 
 ---
