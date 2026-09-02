@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.95] — 2026-09-01
+- Feat: drag & drop between compatible slots — drag an equipped item to any slot of the same type (ring1↔ring2, dofus1–dofus6) to swap or move it; runes, forjamago name and weapon transform travel with the item; drag-over target highlights with a gold glow; cursor changes to grab during drag
+
 ## [0.2.94] — 2026-08-31
 - Fix: rune badge (mini rune icons on slot) now renders inside the slot top-right corner — was placed to the right of the slot using a fixed pixel offset that broke in grid layouts where cells are wider than the slot button, causing the badge to be clipped or misaligned
 

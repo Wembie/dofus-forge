@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.95',
+    date: '2026-09-01',
+    notes: [
+      'Feat: drag & drop between compatible slots — drag an equipped item to any slot of the same type (ring1↔ring2, dofus1–dofus6) to swap or move it; runes, forjamago name and weapon transform travel with the item',
+    ],
+  },
+  {
     version: '0.2.94',
     date: '2026-08-31',
     notes: [
