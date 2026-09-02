@@ -68,6 +68,7 @@ export interface BuildState {
   setAllScrolls:  (active: boolean) => void
   equipItem:     (slot: SlotId, ankama_id: number) => void
   unequipItem:   (slot: SlotId) => void
+  swapSlots:     (slotA: SlotId, slotB: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
   setSetsData:   (sets: AppSet[]) => void
   setRune:             (slot: SlotId, stat: string, value: number) => void
@@ -220,6 +221,31 @@ export const useBuildStore = create<BuildState>((set) => {
       const runes             = { ...s.runes,            [slot]: {} }
       const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
       const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
+      return update({ equipped, runes, forjamagoNames, weaponTransforms }, s)
+    }),
+
+    swapSlots: (slotA, slotB) => set(s => {
+      const eA = s.equipped[slotA]
+      const eB = s.equipped[slotB]
+      const equipped = { ...s.equipped }
+      if (eA !== undefined) equipped[slotB] = eA; else delete equipped[slotB]
+      if (eB !== undefined) equipped[slotA] = eB; else delete equipped[slotA]
+
+      const runes = {
+        ...s.runes,
+        [slotA]: s.runes[slotB] ?? {},
+        [slotB]: s.runes[slotA] ?? {},
+      }
+      const forjamagoNames = {
+        ...s.forjamagoNames,
+        [slotA]: s.forjamagoNames[slotB] ?? '',
+        [slotB]: s.forjamagoNames[slotA] ?? '',
+      }
+      const weaponTransforms = {
+        ...s.weaponTransforms,
+        [slotA]: s.weaponTransforms[slotB] ?? null,
+        [slotB]: s.weaponTransforms[slotA] ?? null,
+      }
       return update({ equipped, runes, forjamagoNames, weaponTransforms }, s)
     }),
 

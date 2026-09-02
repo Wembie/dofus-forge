@@ -155,9 +155,15 @@ type SlotButtonProps = {
   setMax?:      number
   nextBonus?:   string
   tooltipSide?: 'right' | 'left' | 'top'
+  isDragOver?:  boolean
+  onDragStart?: React.DragEventHandler<HTMLDivElement>
+  onDragEnd?:   React.DragEventHandler<HTMLDivElement>
+  onDragOver?:  React.DragEventHandler<HTMLDivElement>
+  onDragLeave?: React.DragEventHandler<HTMLDivElement>
+  onDrop?:      React.DragEventHandler<HTMLDivElement>
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, setName, setCount, setMax, nextBonus, tooltipSide = 'top' }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
   const { t }         = useTranslation()
   const cfg           = SLOT_MAP[slotId]
   const IconCmp       = SLOT_ICON[slotId]
@@ -183,7 +189,17 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   }, [item])
 
   return (
-    <div className="relative flex flex-col items-center gap-0.5" onMouseEnter={enter} onMouseLeave={leave}>
+    <div
+      className="relative flex flex-col items-center gap-0.5"
+      onMouseEnter={enter} onMouseLeave={leave}
+      draggable={!!item && !!onDragStart}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+      style={{ cursor: item && onDragStart ? 'grab' : undefined }}
+    >
       <button
         onClick={onOpen}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
@@ -194,10 +210,14 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           background: item
             ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
             : 'var(--surface-void)',
-          border: item
+          border: isDragOver
+            ? '2px solid var(--gold)'
+            : item
             ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
             : '1px dashed rgba(60,80,130,0.55)',
-          boxShadow: item
+          boxShadow: isDragOver
+            ? 'inset 0 0 28px color-mix(in srgb, var(--gold) 30%, transparent), 0 0 12px color-mix(in srgb, var(--gold) 40%, transparent)'
+            : item
             ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
             : 'var(--well-inset)',
         }}
@@ -731,12 +751,15 @@ export function EquipmentGrid() {
   const _sets       = useBuildStore(s => s._sets)
   const runes       = useBuildStore(s => s.runes)
   const unequipItem = useBuildStore(s => s.unequipItem)
+  const swapSlots   = useBuildStore(s => s.swapSlots)
   const equipment   = useDataStore(s => s.equipment)
   const loading     = useDataStore(s => s.loading)
 
   const [openSlot, setOpenSlot] = useState<{ config: SlotConfig; id: SlotId } | null>(null)
   const [runeSlot, setRuneSlot] = useState<SlotId | null>(null)
   const [openSetId, setOpenSetId] = useState<number | null>(null)
+  const [dragSlot, setDragSlot]         = useState<SlotId | null>(null)
+  const [dragOverSlot, setDragOverSlot] = useState<SlotId | null>(null)
 
   const equipMap = useMemo(
     () => new Map((equipment ?? []).map(it => [it.ankama_id, it])),
@@ -790,20 +813,35 @@ export function EquipmentGrid() {
     )
   }
 
+  function slotsCompatible(a: SlotId, b: SlotId): boolean {
+    if (a === b) return false
+    return a.replace(/\d+$/, '') === b.replace(/\d+$/, '')
+  }
+
   // Helper to render a SlotButton with shared handlers
-  const makeSlot = (id: SlotId, extraProps: Partial<SlotButtonProps> = {}) => (
-    <SlotButton
-      key={id} slotId={id}
-      item={getItem(id)}
-      onOpen={() => openCatalog(id)}
-      onUnequip={() => unequipItem(id)}
-      onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
-      runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
-      slotRunes={runes[id]}
-      {...getSetProps(id)}
-      {...extraProps}
-    />
-  )
+  const makeSlot = (id: SlotId, extraProps: Partial<SlotButtonProps> = {}) => {
+    const hasItem = getItem(id) != null
+    const isValidTarget = dragSlot !== null && dragSlot !== id && slotsCompatible(dragSlot, id)
+    return (
+      <SlotButton
+        key={id} slotId={id}
+        item={getItem(id)}
+        onOpen={() => openCatalog(id)}
+        onUnequip={() => unequipItem(id)}
+        onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
+        runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
+        slotRunes={runes[id]}
+        isDragOver={dragOverSlot === id && isValidTarget}
+        onDragStart={hasItem ? (e) => { e.dataTransfer.effectAllowed = 'move'; setDragSlot(id) } : undefined}
+        onDragEnd={hasItem ? () => { setDragSlot(null); setDragOverSlot(null) } : undefined}
+        onDragOver={isValidTarget ? (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; setDragOverSlot(id) } : undefined}
+        onDragLeave={isValidTarget ? () => setDragOverSlot(s => s === id ? null : s) : undefined}
+        onDrop={isValidTarget ? (e) => { e.preventDefault(); if (dragSlot) swapSlots(dragSlot, id); setDragSlot(null); setDragOverSlot(null) } : undefined}
+        {...getSetProps(id)}
+        {...extraProps}
+      />
+    )
+  }
 
   // Mobile slot groups (< lg): two rows of 5, no character center
   const MOBILE_ROW1: SlotId[] = ['hat',    'amulet', 'ring1', 'weapon',    'shield'   ]
