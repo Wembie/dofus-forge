@@ -41,9 +41,11 @@ function BuilderContent() {
   const clearHistory = useHistoryStore(s => s.clear)
   const buildState   = useBuildStore(s => s)
   const brandHref    = useMemo(() => {
-    const encoded = encodeBuild(buildState)
-    return `${location.origin}${location.pathname}#/?b=${encoded}`
-  }, [buildState])
+    const encoded  = encodeBuild(buildState)
+    const lang     = i18n.language.slice(0, 2)
+    const langPath = lang === 'en' ? '' : `${lang}/`
+    return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
+  }, [buildState, i18n.language])
   const [showChangelog,  setShowChangelog]  = useState(false)
   const [showOptimizer,  setShowOptimizer]  = useState(false)
 

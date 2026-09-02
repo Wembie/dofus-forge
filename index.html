@@ -4,12 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
 
+    <!--
+      Single Page Apps for GitHub Pages — https://github.com/rafgraph/spa-github-pages
+      Decodes the path that 404.html re-encoded into a query string, restoring
+      the real URL (e.g. /dofus-forge/es/) via history.replaceState before
+      React Router reads location. Must run before the app's module script.
+    -->
+    <script>
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?')
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          )
+        }
+      }(window.location))
+    </script>
+
+    <!--
+      Legacy build-link compatibility: old shared URLs used HashRouter,
+      e.g. /dofus-forge/#/?b=<encoded>. Since the hash fragment is never
+      sent to the server, this must be resolved client-side by rewriting
+      it into a real path + query string before React Router mounts.
+    -->
+    <script>
+      (function(l) {
+        if (l.hash.indexOf('#/') === 0) {
+          var afterHash = l.hash.slice(2)          // "?b=xxxx" or ""
+          var qIndex    = afterHash.indexOf('?')
+          var query     = qIndex === -1 ? '' : afterHash.slice(qIndex)
+          window.history.replaceState(null, null, l.pathname + (query || l.search))
+        }
+      }(window.location))
+    </script>
+
     <!-- Primary SEO -->
     <title>Dofus Forge — Build Planner for Dofus 3</title>
     <meta name="description" content="Plan your Dofus 3 builds online — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs. Free, fast, always up to date." />
     <meta name="keywords" content="dofus forge, dofus build planner, dofus 3, planificador builds dofus, dofus optimizer, dofus sets, dofus equipment, dofus stats, dofus runas, dofus forja" />
     <meta name="author" content="Wembie" />
     <link rel="canonical" href="https://wembie.github.io/dofus-forge/" />
+
+    <!-- Language alternates — updated per-route by useSeoMeta.ts, this is the crawler-visible baseline -->
+    <link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/" />
+    <link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/" />
+    <link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/" />
+    <link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/" />
+    <link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/" />
 
     <!-- Open Graph (Facebook, Discord, WhatsApp previews) -->
     <meta property="og:type"        content="website" />
