@@ -366,7 +366,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           }}
         >
           <div className="rounded-xl shadow-2xl overflow-hidden"
-            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', boxShadow: '0 8px 40px rgba(0,0,0,0.85)' }}>
+            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', boxShadow: '0 8px 40px rgba(0,0,0,0.85)', maxHeight: 'min(82vh, 640px)', overflowY: 'auto' }}>
 
             {/* Item header */}
             <div className="px-3 pt-2.5 pb-2" style={{ background: 'linear-gradient(180deg, var(--surface-parchment) 0%, var(--surface-panel) 100%)', borderBottom: '1px solid var(--metal-edge)' }}>
