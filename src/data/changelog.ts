@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.98',
+    date: '2026-09-01',
+    notes: [
+      'UX: set name in slot tooltip is now a clickable link — clicking "Set de X" in the item hover tooltip opens SetDetailModal; removed separate Eye button',
+    ],
+  },
+  {
     version: '0.2.97',
     date: '2026-09-01',
     notes: [
