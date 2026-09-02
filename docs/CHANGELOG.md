@@ -5,8 +5,8 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.2.101] � 2026-09-02
-- Fix: Range badge in StatsPanel now shows '+' prefix (e.g. '+1' instead of '1') � Range is a pure item bonus, not a base stat like AP/MP
+## [0.2.101] — 2026-09-02
+- Fix: Range badge in StatsPanel now shows '+' prefix (e.g. '+1' instead of '1') — Range is a pure item bonus, not a base stat like AP/MP
 
 ## [0.2.100] — 2026-09-02
 - Feat: item tooltip now shows CONDICIONES section — requirements like "Strength > 249" listed with stat icon and color; extracted from DofusDude API conditions tree and saved per-item in normalized data; visible in both slot hover tooltip and SetDetailModal item hover tooltip
