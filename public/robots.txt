@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wembie.github.io/dofus-forge/sitemap.xml

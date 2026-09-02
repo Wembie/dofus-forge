@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.106] — 2026-09-02
+- SEO: complete meta tag suite in index.html — description, keywords, canonical URL, Open Graph (og:title/description/image/locale), Twitter Card, JSON-LD WebApplication schema
+- SEO: added public/robots.txt (Allow: * + Sitemap pointer) and public/sitemap.xml
+
 ## [0.2.105] — 2026-09-02
 - Polish: removed "unofficial" label from footer disclaimer, export card watermark, and all 4 locale strings; replaced with neutral Ankama attribution
 - Docs: full README rewrite — feature list, tech table, clean presentation; removed GitHub Pages mentions
