@@ -1,9 +1,13 @@
 # Changelog
 
 All notable changes to Dofus Forge are documented here.  
-Game version is read automatically from `public/data/version.json` (currently **3.6.10.10**).
+Game version is read automatically from `public/data/version.json` (currently **3.6.10.11**).
 
 ---
+
+## [0.3.0] — 2026-09-02
+- Feat: item tooltip now shows CONDICIONES section — requirements like "Strength > 249" listed with stat icon and color; extracted from DofusDude API conditions tree and saved per-item in normalized data; visible in both slot hover tooltip and SetDetailModal item hover tooltip
+- Fix: stat values in item tooltip now show "+" prefix for positive values (e.g. "+1 Range", "+1 MP", "+351–400 Vitality") — replaced raw number display with fmtValue() in both StatLine components
 
 ## [0.2.99] — 2026-09-01
 - Feat: ItemCatalog "Ver Set" now opens the full SetDetailModal — replaced the old basic local set modal (basic list, no progress bar, no equip-all, no hover tooltips) with the proper SetDetailModal component used everywhere else; removed ~180 lines of duplicate code

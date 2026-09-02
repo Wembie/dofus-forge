@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.0',
+    date: '2026-09-02',
+    notes: [
+      'Feat: item tooltips now show a CONDICIONES section with stat requirements (e.g. Strength > 249) — icon, color, operator, and value per condition',
+      'Fix: stat values now display "+" prefix for positives — "+1 Range", "+1 MP", "+351–400 Vitality" etc. in both slot tooltip and set modal hover tooltip',
+    ],
+  },
+  {
     version: '0.2.99',
     date: '2026-09-01',
     notes: [
