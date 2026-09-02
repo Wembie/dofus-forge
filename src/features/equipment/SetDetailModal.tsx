@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
@@ -6,12 +7,141 @@ import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { SLOT_CONFIGS } from './slotConfig.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
+import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { Modal, Button } from '@/ui'
 
 type Props = {
   set:     AppSet
   onClose: () => void
+}
+
+// ── Item hover tooltip (portal, fixed position to escape overflow-y:auto) ────
+function SetItemTooltip({ item, anchor }: { item: AppItem; anchor: DOMRect }) {
+  const { t } = useTranslation()
+
+  const TW     = 288
+  const left   = window.innerWidth - anchor.right - 12 >= TW
+    ? anchor.right + 8
+    : anchor.left  - TW - 8
+  const top    = Math.max(8, Math.min(anchor.top, window.innerHeight - 460))
+
+  const allFx   = item.effects.filter(e =>
+    !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id))
+  )
+  const isWpn   = item.slot === 'weapon' || item.ap_cost != null
+  const isAtk   = (e: typeof allFx[0]) => e.effect_id != null && WEAPON_ATTACK_IDS.has(e.effect_id)
+  const atkFx   = isWpn ? allFx.filter(isAtk)        : []
+  const statFx  = isWpn ? allFx.filter(e => !isAtk(e)) : allFx
+
+  function StatLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
+    const meta   = STAT_META[e.stat]
+    const clr    = meta?.color ?? 'var(--ink-muted)'
+    const useMax = e.max !== 0 && e.max > e.min
+    return (
+      <div key={i} className="flex items-center gap-1.5 min-w-0">
+        {meta?.icon
+          ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+          : <span className="w-3 flex-shrink-0" />}
+        <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
+          {useMax ? e.max : e.min}
+        </span>
+        <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>
+          {meta ? t(meta.tKey) : e.stat}
+        </span>
+        {useMax && (
+          <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
+            [{e.min} {t('range_sep_neg')} {e.max}]
+          </span>
+        )}
+      </div>
+    )
+  }
+
+  function AtkLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
+    const meta   = STAT_META[e.stat]
+    const clr    = meta?.color ?? 'var(--ink-muted)'
+    const isPush = e.stat === 'Pushes back cell'
+    return (
+      <div key={i} className="flex items-center gap-1.5 min-w-0">
+        {meta?.icon
+          ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+          : <span className="w-3 flex-shrink-0" />}
+        {isPush
+          ? <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>{t('spell_push', { cells: e.min })}</span>
+          : <>
+              <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>
+                {e.min === e.max || e.max === 0 ? e.min : `${e.min} ${t('range_sep_neg')} ${e.max}`}
+              </span>
+              <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
+            </>}
+      </div>
+    )
+  }
+
+  return createPortal(
+    <div className="fixed z-[9999] pointer-events-none" style={{ left, top, width: TW }}>
+      <div className="rounded-xl shadow-2xl overflow-hidden"
+        style={{
+          background: 'var(--surface-void)',
+          border:     '1px solid var(--metal-edge)',
+          boxShadow:  '0 8px 40px rgba(0,0,0,0.85)',
+          animation:  'tooltip-in 140ms var(--ease-out) forwards',
+        }}
+      >
+        {/* Header */}
+        <div className="px-3 pt-2.5 pb-2"
+          style={{ background: 'linear-gradient(180deg, var(--surface-parchment) 0%, var(--surface-panel) 100%)', borderBottom: '1px solid var(--metal-edge)' }}>
+          <p className="font-bold text-[13px] leading-tight" style={{ color: 'var(--ink)' }}>{item.name}</p>
+          <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
+            {t('level')} {item.level} · {item.type}
+          </p>
+        </div>
+
+        {/* Ability (Dofus passive, etc.) */}
+        {item.ability && (
+          <div className="px-3 pt-2 pb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+            <div style={{ background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 35%, transparent)', borderRadius: 6, padding: '5px 8px' }}>
+              {item.ability.split('\n').filter(Boolean).map((line, i) => (
+                <p key={i} className="leading-snug" style={{ fontSize: 11, color: i === 0 ? 'var(--gold)' : 'var(--gold-deep)', margin: i > 0 ? '2px 0 0' : 0 }}>
+                  {line}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Weapon attacks */}
+        {atkFx.length > 0 && (
+          <div className="px-3 pt-2 pb-1">
+            <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+              {t('weapon_attack')}
+            </p>
+            <div className="space-y-0.5">{atkFx.map((e, i) => <AtkLine key={i} e={e} i={i} />)}</div>
+          </div>
+        )}
+
+        {/* Regular stats */}
+        {statFx.length > 0 && (
+          <div className="px-3 pt-2 pb-2"
+            style={atkFx.length > 0 ? { borderTop: '1px solid var(--metal-edge)' } : undefined}>
+            <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+              {t('effects')}
+            </p>
+            <div className="space-y-0.5">{statFx.map((e, i) => <StatLine key={i} e={e} i={i} />)}</div>
+          </div>
+        )}
+
+        {/* Lore */}
+        {item.description && (
+          <div className="px-3 pb-2.5" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 7 }}>
+            <p className="text-[10px] italic leading-snug" style={{ color: 'var(--ink-faint)' }}>{item.description}</p>
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body,
+  )
 }
 
 function TierEffectRow({ e, active }: { e: AppEffect; active: boolean }) {
@@ -43,6 +173,8 @@ export function SetDetailModal({ set, onClose }: Props) {
   const equipItem   = useBuildStore(s => s.equipItem)
   const unequipItem = useBuildStore(s => s.unequipItem)
   const addToast    = useToastStore(s => s.addToast)
+
+  const [hoveredItem, setHoveredItem] = useState<{ item: AppItem; rect: DOMRect } | null>(null)
 
   const slotByApiSlot = useMemo(() => {
     const map = new Map<string, SlotId[]>()
@@ -108,6 +240,7 @@ export function SetDetailModal({ set, onClose }: Props) {
   const progress = equippedCount / setItems.length
 
   return (
+  <>
     <Modal
       open
       onClose={onClose}
@@ -260,6 +393,8 @@ export function SetDetailModal({ set, onClose }: Props) {
                       ? '0 0 12px color-mix(in srgb, var(--gold) 10%, transparent)'
                       : 'none',
                   }}
+                  onMouseEnter={e => setHoveredItem({ item, rect: e.currentTarget.getBoundingClientRect() })}
+                  onMouseLeave={() => setHoveredItem(null)}
                 >
                   {/* Item image */}
                   <div
@@ -357,5 +492,10 @@ export function SetDetailModal({ set, onClose }: Props) {
         </section>
       </div>
     </Modal>
+
+    {hoveredItem && (
+      <SetItemTooltip item={hoveredItem.item} anchor={hoveredItem.rect} />
+    )}
+  </>
   )
 }

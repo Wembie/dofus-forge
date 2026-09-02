@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.97] — 2026-09-01
+- Feat: hover tooltip in SetDetailModal — hovering any item row now shows the full item tooltip (name, level, ability, weapon attacks, all stats, lore) via a fixed-position portal that escapes the modal's overflow-y:auto clip; auto-positions right or left based on available screen space
+
 ## [0.2.96] — 2026-09-01
 - UX: CharacteristicsPanel split into two groups — Vitality/Wisdom (top, no power), then a Power divider badge, then Strength/Intelligence/Chance/Agility showing base | +power | =effective when power > 0; divider renders as an inline chip with gold glow when power is active
 
