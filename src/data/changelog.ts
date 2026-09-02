@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.97',
+    date: '2026-09-01',
+    notes: [
+      'Feat: hover tooltip in SetDetailModal — hovering any item row shows full item tooltip (name, level, ability, all stats, lore) via portal with fixed positioning to escape modal overflow clipping',
+    ],
+  },
+  {
     version: '0.2.96',
     date: '2026-09-01',
     notes: [
