@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.96',
+    date: '2026-09-01',
+    notes: [
+      'UX: CharacteristicsPanel split into two visual groups — Vitality/Wisdom at top (unaffected by Power), then a Power divider, then elemental stats (Strength/Intelligence/Chance/Agility) showing base | +power | =effective when Power > 0',
+    ],
+  },
+  {
     version: '0.2.95',
     date: '2026-09-01',
     notes: [
