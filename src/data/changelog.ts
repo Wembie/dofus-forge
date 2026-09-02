@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.103',
+    date: '2026-09-02',
+    notes: [
+      'Redesign: RuneModal add-controls always visible (fixed panel above scroll)',
+      'Add: "Clear all runes" button in RuneModal active runes header',
+    ],
+  },
+  {
     version: '0.2.102',
     date: '2026-09-02',
     notes: [

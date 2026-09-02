@@ -441,5 +441,6 @@
   "rune_section_resistance": "Résistances",
   "rune_section_secondary": "Secondaires",
   "rune_section_pct_resistance": "% Résistances",
-  "conditions": "Conditions"
+  "conditions": "Conditions",
+  "rune_clear_all": "Tout effacer"
 }
