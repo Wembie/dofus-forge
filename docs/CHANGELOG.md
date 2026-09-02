@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.108] — 2026-09-02
+- Chore: added Google Search Console HTML verification file (public/google77a75c10cc4e1e3c.html)
+
 ## [0.2.107] — 2026-09-02
 - Add: public/og-preview.png — social share image referenced by og:image / twitter:image, 1200x630, custom forged anvil-and-hammer emblem design matching brand tokens
 

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.108',
+    date: '2026-09-02',
+    notes: [
+      'Chore: added Google Search Console verification file',
+    ],
+  },
+  {
     version: '0.2.107',
     date: '2026-09-02',
     notes: [
