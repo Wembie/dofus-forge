@@ -124,7 +124,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
         </div>
         <div style={{ textAlign: 'right' }}>
           <div style={{ color: C.gold, fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', fontFamily: "'Cinzel', Georgia, serif" }}>DOFUS FORGE</div>
-          <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>unofficial build planner</div>
+          <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>dofus 3 build planner</div>
         </div>
       </div>
 

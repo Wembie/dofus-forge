@@ -1,48 +1,68 @@
-# Dofus Forge
+# ⚔️ Dofus Forge
 
-Unofficial, self-updating static Dofus build planner — hosted on GitHub Pages.
+> **Dofus 3 build planner** — plan your equipment, optimize your stats, and share builds with your guild.
 
-**Live:** https://wembie.github.io/dofus-forge/
+**🔗 Live:** https://wembie.github.io/dofus-forge/
 
-## Disclaimer / NOTICE
+---
 
-Dofus, Krosmoz, and all related game assets (images, data, names) are the property of **Ankama Games**.  
-This project is an **unofficial fan tool** with no affiliation with Ankama Games.  
-Item data is sourced from the public [DofusDude API](https://api.dofusdu.de).  
-This project does not host or redistribute game assets — images are hotlinked from DofusDude's CDN.
+## ✨ Features
 
-## Local development
+- **Equipment builder** — equip items across all slots (hat, weapon, shield, dofus, mounts, companions…)
+- **Item catalog** — search and filter by name, level, element, set, and stat; hover tooltips with full item details
+- **Set bonuses** — live tier tracking, next-bonus preview, equip-all button, item hover preview
+- **Stat engine** — full Dofus 3 formulas: characteristic costs, set bonuses, caps (AP 12 / MP 6 / Range 6 / Res 50%), overcap indicators
+- **Magesmithy runes** — add rune bonuses per slot, elemental weapon transform, craftsman signature
+- **Optimizer** — find the best item combination for any stat profile with exo support (AP/MP/Range)
+- **Spell viewer** — class spell cards with grades, cast conditions, and variants
+- **Build sharing** — shareable URL snapshot + exportable image card
+- **Compare mode** — side-by-side stat comparison between two builds
+- **i18n** — Spanish, English, French, Portuguese
+- **Dark / Light theme**
+
+---
+
+## 🛠️ Tech stack
+
+| Layer | Tech |
+|---|---|
+| Framework | Vite 6 + React 18 + TypeScript (strict) |
+| State | Zustand |
+| Styling | TailwindCSS + CSS custom properties |
+| Stat engine | Pure TypeScript, zero React — unit tested with Vitest |
+| Data | Static JSON pre-generated from [DofusDude API](https://api.dofusdu.de), split by language |
+| Deploy | GitHub Actions → `dist/` |
+
+---
+
+## 🚀 Local development
 
 ```bash
 # Prerequisites: Node 22+, pnpm 11+
 pnpm install
-pnpm dev          # http://localhost:5173/dofus-forge/
-pnpm build        # production build -> dist/
-pnpm test         # run vitest suite
+pnpm dev        # → http://localhost:5173/dofus-forge/
+pnpm build      # production build → dist/
+pnpm test       # vitest suite
 ```
 
-## Fetching / updating game data
+---
+
+## 🔄 Game data
+
+Item data is auto-fetched from the public DofusDude API and cached as static JSON.
 
 ```bash
 pnpm fetch-data           # skips if game version unchanged
 pnpm fetch-data --force   # force full refresh
 ```
 
-Generated files land in `public/data/`. The CI workflow `update-data.yml` runs this weekly.
+Generated files land in `public/data/`. A weekly CI workflow (`update-data.yml`) checks for game updates and auto-deploys when the version changes.
 
-## Architecture
+---
 
-- **Framework:** Vite + React + TypeScript
-- **State:** Zustand
-- **Styling:** TailwindCSS
-- **Routing:** HashRouter (GitHub Pages compatible)
-- **Data:** Static JSON pre-generated from DofusDude, split by language
-- **Stat engine:** Pure TypeScript, zero React imports, unit-tested with Vitest
+## 📄 License
 
-## Data update strategy
+MIT — see [LICENSE](./LICENSE).
 
-`update-data.yml` runs weekly. If the upstream game version changed, it commits the regenerated `public/data/**` directly to `main`, which triggers `deploy.yml` for a new deployment. Manual dispatch available via the Actions tab.
-
-## License
-
-MIT — see [LICENSE](./LICENSE). Game data and images belong to Ankama Games.
+Dofus, Krosmoz, and all related game assets are the property of **Ankama Games**.  
+Item data sourced from the [DofusDude API](https://api.dofusdu.de). Images hotlinked from DofusDude's CDN.
