@@ -5,7 +5,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.3.0] — 2026-09-02
+## [0.2.100] — 2026-09-02
 - Feat: item tooltip now shows CONDICIONES section — requirements like "Strength > 249" listed with stat icon and color; extracted from DofusDude API conditions tree and saved per-item in normalized data; visible in both slot hover tooltip and SetDetailModal item hover tooltip
 - Fix: stat values in item tooltip now show "+" prefix for positive values (e.g. "+1 Range", "+1 MP", "+351–400 Vitality") — replaced raw number display with fmtValue() in both StatLine components
 
