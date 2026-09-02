@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.107] — 2026-09-02
+- Add: public/og-preview.png — social share image referenced by og:image / twitter:image, 1200x630, custom forged anvil-and-hammer emblem design matching brand tokens
+
 ## [0.2.106] — 2026-09-02
 - SEO: complete meta tag suite in index.html — description, keywords, canonical URL, Open Graph (og:title/description/image/locale), Twitter Card, JSON-LD WebApplication schema
 - SEO: added public/robots.txt (Allow: * + Sitemap pointer) and public/sitemap.xml
