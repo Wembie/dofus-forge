@@ -57,7 +57,6 @@ function quickValuesFor(stat: string): number[] {
   return [1, 5, 10, 25, 50, 100]
 }
 
-
 type TransformElem = 'fire' | 'earth' | 'water' | 'air'
 const TRANSFORM_ELEMENTS: { elem: TransformElem; color: string }[] = [
   { elem: 'fire',  color: 'var(--fire)'  },
@@ -74,16 +73,17 @@ type Props = {
 }
 
 export function RuneModal({ slotId, item, onClose }: Props) {
-  const { t }     = useTranslation()
+  const { t } = useTranslation()
   const runes              = useBuildStore(s => s.runes[slotId] ?? {})
   const setRune            = useBuildStore(s => s.setRune)
   const clearRune          = useBuildStore(s => s.clearRune)
+  const clearAllRunes      = useBuildStore(s => s.clearAllRunes)
   const forjamagoName      = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const setForjamagoName   = useBuildStore(s => s.setForjamagoName)
   const weaponTransform    = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
   const setWeaponTransform = useBuildStore(s => s.setWeaponTransform)
 
-  const isWeaponSlot    = slotId === 'weapon'
+  const isWeaponSlot     = slotId === 'weapon'
   const hasNeutralDamage = isWeaponSlot && item.effects.some(e => e.stat === 'Neutral damage')
 
   const [selected, setSelected] = useState(ALL_RUNES[0])
@@ -91,6 +91,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
   const runeEntries = Object.entries(runes).filter(([, v]) => v > 0)
   const selMeta     = STAT_META[selected]
+  const selColor    = selMeta?.color ?? 'var(--gold)'
   const quickVals   = quickValuesFor(selected)
 
   function selectRune(stat: string) {
@@ -120,7 +121,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           boxShadow:  `0 0 60px rgba(0,0,0,0.9), 0 0 0 1px color-mix(in srgb, var(--gold) 8%, transparent) inset`,
         }}
       >
-        {/* Header */}
+        {/* ── Header ──────────────────────────────────────────────────── */}
         <div
           className="flex items-center gap-3 px-5 py-4 flex-shrink-0"
           style={{ background: 'var(--surface-panel)', borderBottom: '1px solid var(--metal-edge)' }}
@@ -138,7 +139,6 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
             </div>
           )}
-
           <div className="flex-1 min-w-0">
             <p className="font-display font-bold truncate leading-tight" style={{ color: 'var(--gold)', fontSize: 13 }}>
               {item.name}
@@ -156,7 +156,6 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               <span>{t('level_range')} {item.level}</span>
             </p>
           </div>
-
           <button
             onClick={onClose}
             className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-base transition-colors text-ink-muted hover:text-ink"
@@ -165,8 +164,120 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           >×</button>
         </div>
 
+        {/* ── Add controls — always visible, never needs scrolling ─────── */}
+        <div
+          className="flex-shrink-0 px-4 py-3 space-y-2"
+          style={{
+            background:   `color-mix(in srgb, ${selColor} 5%, var(--surface-panel))`,
+            borderBottom: `1px solid color-mix(in srgb, ${selColor} 22%, var(--metal-edge))`,
+            transition:   'background 200ms, border-color 200ms',
+          }}
+        >
+          {/* Row 1: selected rune info + current val */}
+          <div className="flex items-center gap-2">
+            {(() => {
+              const rUrl = runeIconUrl(selected)
+              if (rUrl) return (
+                <img src={rUrl} alt="" width={26} height={26} className="object-contain flex-shrink-0"
+                  style={{ filter: `drop-shadow(0 0 5px color-mix(in srgb, ${selColor} 67%, transparent))` }}
+                />
+              )
+              if (selMeta?.icon) return (
+                <img src={statIconUrl(selMeta.icon)} alt="" width={18} height={18} className="object-contain flex-shrink-0"
+                  style={{ filter: `drop-shadow(0 0 4px color-mix(in srgb, ${selColor} 60%, transparent))` }}
+                />
+              )
+              return null
+            })()}
+            <span className="font-semibold text-sm flex-1" style={{ color: selColor }}>
+              {selMeta ? t(selMeta.tKey) : selected}
+            </span>
+            {(runes[selected] ?? 0) > 0 && (
+              <span className="text-[11px] font-mono rounded px-1.5 py-0.5"
+                style={{
+                  background: `color-mix(in srgb, ${selColor} 10%, transparent)`,
+                  border:     `1px solid color-mix(in srgb, ${selColor} 22%, transparent)`,
+                  color:      selColor,
+                }}
+              >
+                {t('rune_current', { value: runes[selected] })}
+              </span>
+            )}
+          </div>
+
+          {/* Row 2: quick vals + input + Add */}
+          <div className="flex gap-1.5 items-center">
+            {/* Quick presets */}
+            <div className="flex gap-1 flex-shrink-0">
+              {quickVals.map(v => (
+                <button
+                  key={v}
+                  onClick={() => setAddValue(v)}
+                  className="px-2 py-1 rounded text-[11px] font-mono font-bold transition-all"
+                  style={{
+                    background: addValue === v ? `color-mix(in srgb, ${selColor} 15%, transparent)` : 'transparent',
+                    border:     addValue === v ? `1.5px solid color-mix(in srgb, ${selColor} 55%, transparent)` : '1px solid var(--metal-edge)',
+                    color:      addValue === v ? selColor : 'var(--ink-faint)',
+                  }}
+                >+{v}</button>
+              ))}
+            </div>
+
+            {/* Custom input */}
+            <div
+              className="flex items-center gap-0.5 rounded px-1 flex-1 min-w-0"
+              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+            >
+              <button
+                onClick={() => setAddValue(v => Math.max(1, v - 1))}
+                className="w-5 h-6 flex items-center justify-center text-sm font-bold select-none transition-colors"
+                style={{ color: 'var(--ink-faint)' }}
+              >−</button>
+              <input
+                type="number"
+                value={addValue}
+                min={1}
+                max={9999}
+                onChange={e => setAddValue(Math.max(1, parseInt(e.target.value) || 1))}
+                className="flex-1 bg-transparent text-center text-xs py-1 font-mono tabular-nums"
+                style={{ color: selColor, outline: 'none', minWidth: 0 }}
+              />
+              <button
+                onClick={() => setAddValue(v => v + 1)}
+                className="w-5 h-6 flex items-center justify-center text-sm font-bold select-none transition-colors"
+                style={{ color: 'var(--ink-faint)' }}
+              >+</button>
+            </div>
+
+            {/* Add button */}
+            <button
+              onClick={addRune}
+              className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all flex-shrink-0"
+              style={{
+                background: `linear-gradient(135deg, color-mix(in srgb, ${selColor} 15%, transparent), color-mix(in srgb, ${selColor} 8%, transparent))`,
+                border:     `1.5px solid color-mix(in srgb, ${selColor} 50%, transparent)`,
+                color:      selColor,
+                boxShadow:  `0 0 10px color-mix(in srgb, ${selColor} 13%, transparent)`,
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLButtonElement
+                el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${selColor} 22%, transparent), color-mix(in srgb, ${selColor} 14%, transparent))`
+                el.style.boxShadow  = `0 0 16px color-mix(in srgb, ${selColor} 27%, transparent)`
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLButtonElement
+                el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${selColor} 15%, transparent), color-mix(in srgb, ${selColor} 8%, transparent))`
+                el.style.boxShadow  = `0 0 10px color-mix(in srgb, ${selColor} 13%, transparent)`
+              }}
+            >
+              {t('rune_add_btn')}
+            </button>
+          </div>
+        </div>
+
+        {/* ── Scrollable body ──────────────────────────────────────────── */}
         <div className="overflow-y-auto flex-1">
-          {/* Elemental weapon transform — weapon slot only */}
+          {/* Elemental weapon transform */}
           {isWeaponSlot && (
             <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
               <div className="flex items-center justify-between mb-2.5">
@@ -197,77 +308,66 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 </div>
               ) : (
                 <>
-              {/* Element selector */}
-              <div className="flex gap-2 mb-2">
-                {TRANSFORM_ELEMENTS.map(({ elem, color }) => {
-                  const active  = weaponTransform?.element === elem
-                  const iconUrl = runeIconUrl(`transform_${elem}`) ?? ''
-                  return (
-                    <button
-                      key={elem}
-                      onClick={() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? 85 } as WeaponTransform)}
-                      title={t(`elem_${elem}`)}
-                      className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2 transition-all"
-                      style={{
-                        background: active
-                          ? `color-mix(in srgb, ${color} 16%, transparent)`
-                          : 'var(--surface-void)',
-                        border: active
-                          ? `1.5px solid color-mix(in srgb, ${color} 70%, transparent)`
-                          : '1px solid var(--metal-edge)',
-                        boxShadow: active ? `0 0 10px color-mix(in srgb, ${color} 20%, transparent)` : 'none',
-                      }}
-                    >
-                      <img
-                        src={iconUrl}
-                        alt={t(`elem_${elem}`)}
-                        width={32}
-                        height={32}
-                        className="object-contain"
-                        style={{ filter: active ? `drop-shadow(0 0 6px ${color})` : 'brightness(0.6) saturate(0.5)' }}
-                      />
-                      <span className="text-[9px] font-semibold" style={{ color: active ? color : 'var(--ink-faint)' }}>
-                        {t(`elem_${elem}`)}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-
-              {/* Ratio selector — only when element chosen */}
-              {weaponTransform && (
-                <div className="flex gap-1.5">
-                  {TRANSFORM_RATIOS.map(r => {
-                    const active = weaponTransform.ratio === r
-                    const color  = TRANSFORM_ELEMENTS.find(e => e.elem === weaponTransform.element)?.color ?? 'var(--gold)'
-                    return (
-                      <button
-                        key={r}
-                        onClick={() => setWeaponTransform(slotId, { element: weaponTransform.element, ratio: r })}
-                        className="flex-1 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all"
-                        style={{
-                          background: active
-                            ? `color-mix(in srgb, ${color} 16%, transparent)`
-                            : 'var(--surface-void)',
-                          border: active
-                            ? `1.5px solid color-mix(in srgb, ${color} 60%, transparent)`
-                            : '1px solid var(--metal-edge)',
-                          color: active ? color : 'var(--ink-faint)',
-                        }}
-                      >
-                        {r}%
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
+                  <div className="flex gap-2 mb-2">
+                    {TRANSFORM_ELEMENTS.map(({ elem, color }) => {
+                      const active  = weaponTransform?.element === elem
+                      const iconUrl = runeIconUrl(`transform_${elem}`) ?? ''
+                      return (
+                        <button
+                          key={elem}
+                          onClick={() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? 85 } as WeaponTransform)}
+                          title={t(`elem_${elem}`)}
+                          className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2 transition-all"
+                          style={{
+                            background: active ? `color-mix(in srgb, ${color} 16%, transparent)` : 'var(--surface-void)',
+                            border:     active ? `1.5px solid color-mix(in srgb, ${color} 70%, transparent)` : '1px solid var(--metal-edge)',
+                            boxShadow:  active ? `0 0 10px color-mix(in srgb, ${color} 20%, transparent)` : 'none',
+                          }}
+                        >
+                          <img
+                            src={iconUrl}
+                            alt={t(`elem_${elem}`)}
+                            width={32}
+                            height={32}
+                            className="object-contain"
+                            style={{ filter: active ? `drop-shadow(0 0 6px ${color})` : 'brightness(0.6) saturate(0.5)' }}
+                          />
+                          <span className="text-[9px] font-semibold" style={{ color: active ? color : 'var(--ink-faint)' }}>
+                            {t(`elem_${elem}`)}
+                          </span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  {weaponTransform && (
+                    <div className="flex gap-1.5">
+                      {TRANSFORM_RATIOS.map(r => {
+                        const active = weaponTransform.ratio === r
+                        const color  = TRANSFORM_ELEMENTS.find(e => e.elem === weaponTransform.element)?.color ?? 'var(--gold)'
+                        return (
+                          <button
+                            key={r}
+                            onClick={() => setWeaponTransform(slotId, { element: weaponTransform.element, ratio: r })}
+                            className="flex-1 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all"
+                            style={{
+                              background: active ? `color-mix(in srgb, ${color} 16%, transparent)` : 'var(--surface-void)',
+                              border:     active ? `1.5px solid color-mix(in srgb, ${color} 60%, transparent)` : '1px solid var(--metal-edge)',
+                              color:      active ? color : 'var(--ink-faint)',
+                            }}
+                          >
+                            {r}%
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
                 </>
               )}
             </div>
           )}
 
           {/* Active runes */}
-          <div className="px-4 pt-4">
+          <div className="px-4 pt-4 pb-3">
             <div className="flex items-center gap-2 mb-2.5">
               <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                 {t('active_runes')}
@@ -283,6 +383,19 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 >
                   {runeEntries.length}
                 </span>
+              )}
+              {runeEntries.length > 0 && (
+                <button
+                  onClick={() => clearAllRunes(slotId)}
+                  className="ml-auto text-[10px] px-2 py-0.5 rounded transition-colors"
+                  style={{
+                    background: 'color-mix(in srgb, var(--negative) 10%, transparent)',
+                    border:     '1px solid color-mix(in srgb, var(--negative) 25%, transparent)',
+                    color:      'var(--negative)',
+                  }}
+                >
+                  {t('rune_clear_all')}
+                </button>
               )}
             </div>
 
@@ -351,16 +464,16 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           </div>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 px-4 mt-4 mb-3">
+          <div className="flex items-center gap-3 px-4 mt-1 mb-3">
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--metal-edge))' }} />
             <span className="text-[10px] uppercase tracking-widest font-semibold flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
-              {t('add_rune')}
+              {t('rune_picker')}
             </span>
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, var(--metal-edge))' }} />
           </div>
 
-          {/* Stat icon grid — grouped by category */}
-          <div className="px-4 space-y-2.5">
+          {/* Rune grid — click to select */}
+          <div className="px-4 space-y-2.5 pb-4">
             {RUNE_SECTIONS.map(section => (
               <div key={section.labelKey}>
                 <div
@@ -436,139 +549,10 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 </div>
               </div>
             ))}
-
-            {/* Selected stat info + controls */}
-            <div
-              className="mt-3 rounded-xl p-3 space-y-3"
-              style={{
-                background: 'var(--surface-void)',
-                border:     `1px solid color-mix(in srgb, ${selMeta?.color ?? 'var(--gold)'} 20%, transparent)`,
-              }}
-            >
-              {/* Stat info row */}
-              <div className="flex items-center gap-2">
-                {(() => {
-                  const rUrl = runeIconUrl(selected)
-                  const clr  = selMeta?.color ?? 'var(--gold)'
-                  if (rUrl) return (
-                    <img src={rUrl} alt="" width={28} height={28}
-                      className="object-contain flex-shrink-0"
-                      style={{ filter: `drop-shadow(0 0 6px color-mix(in srgb, ${clr} 67%, transparent))` }}
-                    />
-                  )
-                  if (selMeta?.icon) return (
-                    <img src={statIconUrl(selMeta.icon)} alt="" width={20} height={20}
-                      className="object-contain flex-shrink-0"
-                      style={{ filter: `drop-shadow(0 0 5px color-mix(in srgb, ${clr} 60%, transparent))` }}
-                    />
-                  )
-                  return null
-                })()}
-                <span className="font-semibold text-sm" style={{ color: selMeta?.color ?? 'var(--gold)' }}>
-                  {selMeta ? t(selMeta.tKey) : selected}
-                </span>
-                {(runes[selected] ?? 0) > 0 && (
-                  <span className="ml-auto text-[11px] font-mono" style={{ color: selMeta?.color ?? 'var(--gold)', opacity: 0.6 }}>
-                    {t('rune_current', { value: runes[selected] })}
-                  </span>
-                )}
-              </div>
-
-              {/* Quick value buttons */}
-              <div className="flex gap-1.5">
-                {quickVals.map(v => {
-                  const clr = selMeta?.color ?? 'var(--gold)'
-                  return (
-                    <button
-                      key={v}
-                      onClick={() => setAddValue(v)}
-                      className="flex-1 py-1 rounded-lg text-[11px] font-mono font-bold transition-all"
-                      style={{
-                        background: addValue === v
-                          ? `color-mix(in srgb, ${clr} 13%, transparent)`
-                          : 'var(--surface-void)',
-                        border: addValue === v
-                          ? `1.5px solid color-mix(in srgb, ${clr} 53%, transparent)`
-                          : '1px solid var(--metal-edge)',
-                        color: addValue === v ? clr : 'var(--ink-faint)',
-                      }}
-                      onMouseEnter={e => {
-                        if (addValue !== v) {
-                          const el = e.currentTarget as HTMLButtonElement
-                          el.style.borderColor = `color-mix(in srgb, ${clr} 33%, transparent)`
-                          el.style.color = 'var(--ink-muted)'
-                        }
-                      }}
-                      onMouseLeave={e => {
-                        if (addValue !== v) {
-                          const el = e.currentTarget as HTMLButtonElement
-                          el.style.borderColor = 'var(--metal-edge)'
-                          el.style.color = 'var(--ink-faint)'
-                        }
-                      }}
-                    >+{v}</button>
-                  )
-                })}
-              </div>
-
-              {/* Custom input + Add button */}
-              <div className="flex gap-2">
-                <div
-                  className="flex items-center gap-1 flex-1 rounded-lg px-2"
-                  style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-                >
-                  <button
-                    onClick={() => setAddValue(v => Math.max(1, v - 1))}
-                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors text-ink-faint hover:text-ink-muted"
-                  >−</button>
-                  <input
-                    type="number"
-                    value={addValue}
-                    min={1}
-                    max={9999}
-                    onChange={e => setAddValue(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="flex-1 bg-transparent text-center text-xs py-1 font-mono tabular-nums"
-                    style={{ color: selMeta?.color ?? 'var(--gold)', outline: 'none', minWidth: 0 }}
-                  />
-                  <button
-                    onClick={() => setAddValue(v => v + 1)}
-                    className="w-6 h-7 flex items-center justify-center text-sm font-bold select-none transition-colors text-ink-faint hover:text-ink-muted"
-                  >+</button>
-                </div>
-
-                {(() => {
-                  const clr = selMeta?.color ?? 'var(--gold)'
-                  return (
-                    <button
-                      onClick={addRune}
-                      className="px-5 py-1.5 rounded-lg text-sm font-bold transition-all"
-                      style={{
-                        background: `linear-gradient(135deg, color-mix(in srgb, ${clr} 13%, transparent), color-mix(in srgb, ${clr} 7%, transparent))`,
-                        border:     `1.5px solid color-mix(in srgb, ${clr} 47%, transparent)`,
-                        color:      clr,
-                        boxShadow:  `0 0 12px color-mix(in srgb, ${clr} 13%, transparent)`,
-                      }}
-                      onMouseEnter={e => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${clr} 20%, transparent), color-mix(in srgb, ${clr} 13%, transparent))`
-                        el.style.boxShadow  = `0 0 18px color-mix(in srgb, ${clr} 27%, transparent)`
-                      }}
-                      onMouseLeave={e => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${clr} 13%, transparent), color-mix(in srgb, ${clr} 7%, transparent))`
-                        el.style.boxShadow  = `0 0 12px color-mix(in srgb, ${clr} 13%, transparent)`
-                      }}
-                    >
-                      {t('rune_add_btn')}
-                    </button>
-                  )
-                })()}
-              </div>
-            </div>
           </div>
 
           {/* Forjamago signature */}
-          <div className="px-4 pt-2 pb-4">
+          <div className="px-4 pb-4" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 12 }}>
             <div className="flex items-center gap-2 mb-1.5">
               <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
                 {t('forjamago_name_label')}

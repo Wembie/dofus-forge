@@ -319,7 +319,7 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color="var(--mp)"       cap={6}  />
         <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)"          />
         {s.range > 0 && (
-          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} raw={s.rangeRaw} color="var(--water)" cap={6} showPlus />
+          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} raw={s.rangeRaw} color="var(--water)" cap={6} />
         )}
       </div>
 
