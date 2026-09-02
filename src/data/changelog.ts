@@ -8,6 +8,28 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.108',
+    date: '2026-09-02',
+    notes: [
+      'Chore: added Google Search Console verification file',
+    ],
+  },
+  {
+    version: '0.2.107',
+    date: '2026-09-02',
+    notes: [
+      'Add: og-preview.png social share image — anvil & hammer forge emblem, 1200x630',
+    ],
+  },
+  {
+    version: '0.2.106',
+    date: '2026-09-02',
+    notes: [
+      'SEO: full meta tag suite (description, keywords, canonical, Open Graph, Twitter Card, JSON-LD schema)',
+      'SEO: added robots.txt and sitemap.xml for search engine indexing',
+    ],
+  },
+  {
     version: '0.2.105',
     date: '2026-09-02',
     notes: [

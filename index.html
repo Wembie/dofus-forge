@@ -2,12 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/dofus-forge/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Dofus Forge — unofficial Dofus build planner. Pick class, equip gear, allocate stats, share builds." />
+
+    <!-- Primary SEO -->
+    <title>Dofus Forge — Build Planner for Dofus 3</title>
+    <meta name="description" content="Plan your Dofus 3 builds online — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs. Free, fast, always up to date." />
+    <meta name="keywords" content="dofus forge, dofus build planner, dofus 3, planificador builds dofus, dofus optimizer, dofus sets, dofus equipment, dofus stats, dofus runas, dofus forja" />
+    <meta name="author" content="Wembie" />
+    <link rel="canonical" href="https://wembie.github.io/dofus-forge/" />
+
+    <!-- Open Graph (Facebook, Discord, WhatsApp previews) -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://wembie.github.io/dofus-forge/" />
+    <meta property="og:title"       content="Dofus Forge — Build Planner for Dofus 3" />
+    <meta property="og:description" content="Plan your Dofus 3 builds — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs." />
+    <meta property="og:image"       content="https://wembie.github.io/dofus-forge/og-preview.png" />
+    <meta property="og:locale"      content="es_ES" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:site_name"   content="Dofus Forge" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Dofus Forge — Build Planner for Dofus 3" />
+    <meta name="twitter:description" content="Plan your Dofus 3 builds — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs." />
+    <meta name="twitter:image"       content="https://wembie.github.io/dofus-forge/og-preview.png" />
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Dofus Forge",
+      "alternateName": "dofus-forge",
+      "description": "Build planner for Dofus 3 — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs.",
+      "url": "https://wembie.github.io/dofus-forge/",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web Browser",
+      "inLanguage": ["es", "en", "fr", "pt"],
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Wembie"
+      },
+      "about": {
+        "@type": "VideoGame",
+        "name": "Dofus",
+        "gamePlatform": "PC"
+      }
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/dofus-forge/favicon.svg" />
     <meta name="theme-color" content="#0d0f14" />
 
-    <!-- Preconnect to Google Fonts for faster load -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -20,8 +74,6 @@
         document.documentElement.classList.add(theme === 'light' ? 'light' : 'dark');
       })();
     </script>
-
-    <title>Dofus Forge</title>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
