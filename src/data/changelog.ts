@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.105',
+    date: '2026-09-02',
+    notes: [
+      'Polish: removed "unofficial" label from footer, export card, and all locales',
+      'Docs: rewrote README with full feature list and clean presentation',
+    ],
+  },
+  {
     version: '0.2.104',
     date: '2026-09-02',
     notes: [
