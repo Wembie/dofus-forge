@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
-import { Eye } from 'lucide-react'
+
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
@@ -337,17 +337,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
         ) : null
       })()}
 
-      {/* Set detail button — bottom-right */}
-      {item && onViewSet && (
-        <button
-          onClick={e => { e.stopPropagation(); onViewSet() }}
-          className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center transition-all z-10 hover:text-ap ${hovered ? 'opacity-100' : 'opacity-0'}`}
-          style={{ background: 'var(--surface-void)', border: '1px solid var(--water)', color: 'var(--water)' }}
-          title={t('view_set')}
-        >
-          <Eye size={10} />
-        </button>
-      )}
+      {/* Set detail button removed — set name in tooltip is now the clickable entry point */}
 
       {/* Tooltip — game-faithful style, side chosen per column */}
       {item && (
@@ -373,7 +363,19 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
               <p className="text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
                 {t('level')} {item.level} · {item.type}
               </p>
-              {setName && (
+              {setName && onViewSet && (
+                <button
+                  onClick={e => { e.stopPropagation(); onViewSet() }}
+                  className="flex items-center gap-1 mt-1 group"
+                  style={{ pointerEvents: 'auto', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
+                  <span className="text-[11px] font-semibold group-hover:underline" style={{ color: 'var(--water)' }}>
+                    {setName}
+                  </span>
+                  <span className="font-mono text-[10px]" style={{ color: 'var(--ink-faint)' }}>{setCount}/{setMax}</span>
+                </button>
+              )}
+              {setName && !onViewSet && (
                 <p className="text-[11px] mt-1 font-semibold" style={{ color: 'var(--water)' }}>
                   {setName}
                   <span className="ml-1.5 font-mono text-[10px]" style={{ color: 'var(--ink-faint)' }}>{setCount}/{setMax}</span>

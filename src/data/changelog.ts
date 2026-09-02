@@ -8,6 +8,20 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.99',
+    date: '2026-09-01',
+    notes: [
+      'Feat: ItemCatalog "Ver Set" now opens the full SetDetailModal — replaced old basic local set modal with the proper component (progress bar, equip-all, tier bonuses, hover item tooltips)',
+    ],
+  },
+  {
+    version: '0.2.98',
+    date: '2026-09-01',
+    notes: [
+      'UX: set name in slot tooltip is now a clickable link — clicking "Set de X" in the item hover tooltip opens SetDetailModal; removed separate Eye button',
+    ],
+  },
+  {
     version: '0.2.97',
     date: '2026-09-01',
     notes: [
