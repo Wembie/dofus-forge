@@ -1,0 +1,68 @@
+name: Create Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - VERSION   # only fires when a new version lands on main
+
+permissions:
+  contents: write  # required to create tags and releases
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read version
+        id: ver
+        run: |
+          VERSION="v$(cat VERSION | tr -d '[:space:]')"
+          echo "tag=$VERSION" >> $GITHUB_OUTPUT
+          echo "num=$(cat VERSION | tr -d '[:space:]')" >> $GITHUB_OUTPUT
+
+      - name: Check if tag already exists
+        id: tag_check
+        run: |
+          if git ls-remote --tags origin "${{ steps.ver.outputs.tag }}" | grep -q "${{ steps.ver.outputs.tag }}"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Extract changelog for this version
+        if: steps.tag_check.outputs.exists == 'false'
+        id: notes
+        run: |
+          NOTES=$(python3 - <<'PYEOF'
+          import sys
+          content = open('docs/CHANGELOG.md', encoding='utf-8').read()
+          ver = '${{ steps.ver.outputs.num }}'
+          marker = f'## [{ver}]'
+          start = content.find(marker)
+          if start == -1:
+              print('No changelog entry found.')
+              sys.exit(0)
+          start = content.find('\n', start) + 1
+          end = content.find('\n## [', start)
+          if end == -1:
+              end = len(content)
+          print(content[start:end].strip())
+          PYEOF
+          )
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES"   >> $GITHUB_OUTPUT
+          echo "EOF"      >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name:   ${{ steps.ver.outputs.tag }}
+          name:       Dofus Forge ${{ steps.ver.outputs.tag }}
+          body:       ${{ steps.notes.outputs.body }}
+          draft:      false
+          prerelease: false
