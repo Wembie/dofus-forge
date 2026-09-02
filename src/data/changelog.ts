@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.101',
+    date: '2026-09-02',
+    notes: [
+      "Fix: Range (Alcance) badge in StatsPanel now shows '+' prefix — it's a pure item bonus, not a base stat total like AP/MP",
+    ],
+  },
+  {
     version: '0.2.100',
     date: '2026-09-02',
     notes: [
