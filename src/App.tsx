@@ -10,14 +10,23 @@ const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
  * visitors always get real content at /, never a JS redirect).
  * A RETURNING visitor with a saved language preference is bounced to
  * their language's path, preserving any ?b=/?c= query string.
+ *
+ * Skipped when the navigation carries `state.explicit` — set by
+ * LanguageSwitcher when the user deliberately picks EN. Without this,
+ * clicking EN would loop back to the stored (non-English) preference,
+ * since i18next's own language detector keeps re-caching whatever
+ * language is currently active into that same localStorage key.
  */
 function RootRoute() {
   const location = useLocation()
-  let stored: string | null = null
-  try { stored = localStorage.getItem('dofus-forge-lang') } catch { /* private mode etc. */ }
+  const explicit = (location.state as { explicit?: boolean } | null)?.explicit
 
-  if (stored && SUPPORTED_REDIRECT.includes(stored)) {
-    return <Navigate to={`/${stored}/${location.search}`} replace />
+  if (!explicit) {
+    let stored: string | null = null
+    try { stored = localStorage.getItem('dofus-forge-lang') } catch { /* private mode etc. */ }
+    if (stored && SUPPORTED_REDIRECT.includes(stored)) {
+      return <Navigate to={`/${stored}/${location.search}`} replace />
+    }
   }
   return <LangRoute lang="en"><BuilderPage /></LangRoute>
 }

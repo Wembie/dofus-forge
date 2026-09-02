@@ -20,7 +20,10 @@ export function LanguageSwitcher() {
   // crawlable, correctly-indexed pages).
   const handleChange = (code: string) => {
     const path = code === 'en' ? '/' : `/${code}/`
-    navigate(`${path}${location.search}`)
+    // `explicit: true` tells RootRoute this is a deliberate choice, not a
+    // fresh page load — otherwise clicking EN loops back to whatever
+    // language was last cached in localStorage.
+    navigate(`${path}${location.search}`, { state: { explicit: true } })
   }
 
   return (
