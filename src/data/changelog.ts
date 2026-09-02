@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.102',
+    date: '2026-09-02',
+    notes: [
+      'Fix: Range badge shows ▲N overcap indicator when range > 6 (cap), same as AP/MP badges',
+    ],
+  },
+  {
     version: '0.2.101',
     date: '2026-09-02',
     notes: [

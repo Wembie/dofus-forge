@@ -98,6 +98,7 @@ export type StatBlock = {
   // Pre-cap raw values — for overcap display (actual game caps applied to the fields above)
   apRaw:                number
   mpRaw:                number
+  rangeRaw:             number
   neutralResPercentRaw: number
   earthResPercentRaw:   number
   fireResPercentRaw:    number

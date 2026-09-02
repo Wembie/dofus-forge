@@ -30,7 +30,7 @@ function emptyStatBlock(): StatBlock {
     bestElemSteal: 0, bestElemDamage: 0,
     neutralResFixed: 0, earthResFixed: 0, fireResFixed: 0, waterResFixed: 0, airResFixed: 0,
     neutralResPercent: 0, earthResPercent: 0, fireResPercent: 0, waterResPercent: 0, airResPercent: 0,
-    apRaw: 0, mpRaw: 0,
+    apRaw: 0, mpRaw: 0, rangeRaw: 0,
     neutralResPercentRaw: 0, earthResPercentRaw: 0, fireResPercentRaw: 0, waterResPercentRaw: 0, airResPercentRaw: 0,
     critChance: 0, critDamage: 0, critResistance: 0,
     meleeDamagePercent: 0, rangedDamagePercent: 0, spellDamagePercent: 0, weaponDamagePercent: 0,
@@ -160,6 +160,7 @@ export function computeStats(input: BuildInput): StatBlock {
   // 8. Save raw values before caps (used for overcap display in StatsPanel)
   block.apRaw                = block.ap
   block.mpRaw                = block.mp
+  block.rangeRaw             = block.range
   block.neutralResPercentRaw = block.neutralResPercent
   block.earthResPercentRaw   = block.earthResPercent
   block.fireResPercentRaw    = block.fireResPercent

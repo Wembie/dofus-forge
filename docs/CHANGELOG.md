@@ -1,10 +1,12 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to Dofus Forge are documented here.  
 Game version is read automatically from `public/data/version.json` (currently **3.6.10.11**).
 
 ---
 
+## [0.2.102] — 2026-09-02
+- Fix: Range badge now shows overcap indicator (▲N) when range exceeds the cap of 6 — same behavior as AP (cap 12) and MP (cap 6); added rangeRaw to StatBlock and computed pre-cap raw value in stats engine
 ## [0.2.101] — 2026-09-02
 - Fix: Range badge in StatsPanel now shows '+' prefix (e.g. '+1' instead of '1') — Range is a pure item bonus, not a base stat like AP/MP
 
@@ -358,4 +360,5 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Item catalog with search, filters and sorting
 - Stats panel with full character calculation
 - Multi-language support: ES / EN / FR / PT
+
 
