@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.104] — 2026-09-02
+- Fix: weapon attack effects now correctly classified — added id=233 (Steals MP per hit), id=238 (MP steal on attack, stat='MP' negative), and id=261 (Fire heals weapon attack) to WEAPON_ATTACK_IDS; these were previously appearing under EFECTOS instead of ATAQUE DE ARMA
+- Fix: item tooltip in EquipmentGrid and SetDetailModal now has max-height (min(82vh, 640px)) with overflow-y scroll — tall items like high-level weapons no longer clip effects at viewport bottom (e.g. Wisdom and Fire Damage were not visible)
+
 ## [0.2.103] — 2026-09-02
 - Redesign: RuneModal add-controls (rune picker → selected rune + quick values + qty input + Add button) are now in a fixed panel above the scrollable area — always visible without scrolling; rune grid, active runes, weapon transform, and forjamago signature remain in the scroll
 - Add: "Clear all runes" button in the active runes header row — removes all magesmithy runes for the slot at once

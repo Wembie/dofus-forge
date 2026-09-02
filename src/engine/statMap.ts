@@ -5,18 +5,21 @@ import type { StatBlock } from './types.ts'
 // e.g. 'Air damage' id=189 = weapon air attack; 'Air damage' id=47 = passive +air damage stat.
 export const WEAPON_ATTACK_IDS = new Set([
   189,  // Air damage (attack)
-  193,  // Fire steal
+  193,  // Fire steal (elemental steal on attack)
   194,  // Earth damage (attack)
   195,  // Neutral damage (attack)
   198,  // Fire damage (attack)
-  203,  // Water steal
+  203,  // Water steal (elemental steal on attack)
   214,  // Water damage (attack)
-  221,  // Earth steal
-  223,  // Neutral steal
-  224,  // Air steal
+  221,  // Earth steal (elemental steal on attack)
+  223,  // Neutral steal (elemental steal on attack)
+  224,  // Air steal (elemental steal on attack)
   225,  // Pushes back cell
+  238,  // MP steal on attack (stat='MP', min=-1/-2, only on weapons — shown under "EFECTOS DEL ARMA" in game)
   248,  // best-element damage
   257,  // best-element steal
+  261,  // Fire heals (weapon attack that heals via fire; ranges match attack damage ranges)
+  233,  // Steals MP per attack (stat='Steals MP', only on weapons — "Roba X PM" under weapon attacks in game)
   179,  // AP cost of weapon attack (how much AP the weapon spell costs; NOT a character stat)
         // Always negative, only on weapons. Distinct from eid=12 (real +/-AP character stat).
 ])

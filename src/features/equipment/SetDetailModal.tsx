@@ -24,7 +24,7 @@ function SetItemTooltip({ item, anchor }: { item: AppItem; anchor: DOMRect }) {
   const left   = window.innerWidth - anchor.right - 12 >= TW
     ? anchor.right + 8
     : anchor.left  - TW - 8
-  const top    = Math.max(8, Math.min(anchor.top, window.innerHeight - 460))
+  const top    = Math.max(8, Math.min(anchor.top, window.innerHeight - 560))
 
   const allFx   = item.effects.filter(e =>
     !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id))
@@ -82,6 +82,8 @@ function SetItemTooltip({ item, anchor }: { item: AppItem; anchor: DOMRect }) {
           border:     '1px solid var(--metal-edge)',
           boxShadow:  '0 8px 40px rgba(0,0,0,0.85)',
           animation:  'tooltip-in 140ms var(--ease-out) forwards',
+          maxHeight:  'min(82vh, 640px)',
+          overflowY:  'auto',
         }}
       >
         {/* Header */}

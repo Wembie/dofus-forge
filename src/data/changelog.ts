@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.104',
+    date: '2026-09-02',
+    notes: [
+      'Fix: weapon steals (Steals MP id=233, MP-steal-on-attack id=238, Fire heals id=261) now correctly shown under "ATAQUE DE ARMA" instead of EFECTOS',
+      'Fix: item tooltip and SetDetailModal tooltip now have max-height (82vh) + scroll — all effects visible even on tall items near viewport bottom',
+    ],
+  },
+  {
     version: '0.2.103',
     date: '2026-09-02',
     notes: [
