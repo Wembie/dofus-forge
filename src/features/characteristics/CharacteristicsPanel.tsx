@@ -14,7 +14,6 @@ const CHAR_COLOR: Record<Characteristic, string> = {
   agility:      'var(--air)',
 }
 
-const POWER_ELEMS = new Set<Characteristic>(['strength', 'intelligence', 'chance', 'agility'])
 
 function StatIcon({ name, size = 14 }: { name: string; size?: number }) {
   return (
@@ -74,8 +73,8 @@ function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void
   }
 }
 
-// ── Compact stat row — only total, no controls ───────────────────────────────
-function CompactRow({ char, total, power }: { char: Characteristic; total: number; power: number }) {
+// ── Non-elemental stat row (Vitality, Wisdom) — just total ───────────────────
+function CompactRow({ char, total }: { char: Characteristic; total: number }) {
   const { t } = useTranslation()
   const color = CHAR_COLOR[char]
   return (
@@ -87,13 +86,44 @@ function CompactRow({ char, total, power }: { char: Characteristic; total: numbe
       <span className="text-xs font-medium flex-1 select-none truncate" style={{ color }}>
         {t(`stat_${char}`)}
       </span>
-      <span
-        className="font-mono font-bold text-sm tabular-nums flex-shrink-0"
-        style={{ color }}
-        title={POWER_ELEMS.has(char) && power > 0 ? `${total} + ${power} ${t('stat_power')} = ${total + power}` : undefined}
-      >
+      <span className="font-mono font-bold text-sm tabular-nums flex-shrink-0" style={{ color }}>
         {total.toLocaleString()}
       </span>
+    </div>
+  )
+}
+
+// ── Elemental stat row (Str/Int/Cha/Agi) — base | +power | =effective ────────
+function ElemRow({ char, base, power }: { char: Characteristic; base: number; power: number }) {
+  const { t } = useTranslation()
+  const color     = CHAR_COLOR[char]
+  const effective = base + power
+  return (
+    <div
+      className="flex items-center gap-1.5 px-2 py-1 rounded-md"
+      style={{ borderLeft: `2px solid color-mix(in srgb, ${color} 30%, transparent)` }}
+    >
+      <StatIcon name={char} size={15} />
+      <span className="text-xs font-medium flex-1 select-none truncate" style={{ color }}>
+        {t(`stat_${char}`)}
+      </span>
+      {power > 0 ? (
+        <div className="flex items-center gap-1 flex-shrink-0 font-mono tabular-nums leading-none">
+          <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
+            {base.toLocaleString()}
+          </span>
+          <span className="text-[10px] font-bold" style={{ color: 'color-mix(in srgb, var(--gold) 80%, white)' }}>
+            +{power}
+          </span>
+          <span className="text-sm font-bold" style={{ color }}>
+            {effective.toLocaleString()}
+          </span>
+        </div>
+      ) : (
+        <span className="font-mono font-bold text-sm tabular-nums flex-shrink-0" style={{ color }}>
+          {base.toLocaleString()}
+        </span>
+      )}
     </div>
   )
 }
@@ -291,13 +321,52 @@ export function CharacteristicsPanel() {
         />
       </div>
 
-      {/* Compact rows — total only, no controls */}
-      <div className="space-y-0.5" role="group" aria-label={t('characteristics')}>
-        {CHARACTERISTICS.map(char => (
+      {/* Vitalidad + Sabiduría — no se ven afectadas por Potencia */}
+      <div className="space-y-0.5" role="group">
+        {(['vitality', 'wisdom'] as Characteristic[]).map(char => (
           <CompactRow
             key={char}
             char={char}
             total={stats ? (char === 'vitality' ? stats.maxHp : stats[char]) : allocated[char]}
+          />
+        ))}
+      </div>
+
+      {/* Separador: Potencia */}
+      {(() => {
+        const power = stats?.power ?? 0
+        return (
+          <div className="flex items-center gap-2 my-1.5">
+            <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
+            <div
+              className="flex items-center gap-1 px-1.5 py-0.5 rounded"
+              style={{
+                background: power > 0 ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'transparent',
+                border: power > 0
+                  ? '1px solid color-mix(in srgb, var(--gold) 35%, transparent)'
+                  : '1px solid var(--metal-edge)',
+              }}
+            >
+              <StatIcon name="power" size={11} />
+              <span
+                className="text-[10px] font-mono font-bold select-none"
+                style={{ color: power > 0 ? 'var(--gold)' : 'var(--ink-faint)' }}
+              >
+                {t('stat_power')}&nbsp;{power > 0 ? `+${power}` : '0'}
+              </span>
+            </div>
+            <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
+          </div>
+        )
+      })()}
+
+      {/* Fuerza / Int / Suerte / Agil — base | +potencia | = total */}
+      <div className="space-y-0.5" role="group">
+        {(['strength', 'intelligence', 'chance', 'agility'] as Characteristic[]).map(char => (
+          <ElemRow
+            key={char}
+            char={char}
+            base={stats ? stats[char] : allocated[char]}
             power={stats?.power ?? 0}
           />
         ))}
