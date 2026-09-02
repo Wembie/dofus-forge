@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
+import { Eye } from 'lucide-react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -337,7 +338,17 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
         ) : null
       })()}
 
-      {/* Set detail button removed — set name in tooltip is now the clickable entry point */}
+      {/* Set detail button — bottom-right */}
+      {item && onViewSet && (
+        <button
+          onClick={e => { e.stopPropagation(); onViewSet() }}
+          className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center transition-all z-10 hover:text-ap ${hovered ? 'opacity-100' : 'opacity-0'}`}
+          style={{ background: 'var(--surface-void)', border: '1px solid var(--water)', color: 'var(--water)' }}
+          title={t('view_set')}
+        >
+          <Eye size={10} />
+        </button>
+      )}
 
       {/* Tooltip — game-faithful style, side chosen per column */}
       {item && (
