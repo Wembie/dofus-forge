@@ -40,15 +40,16 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 // ── Top badges (AP / MP / HP / Range) ────────────────────────────────────────
 
 type BadgeProps = {
-  iconName: string
-  label:    string
-  value:    number   // capped (display) value
-  raw?:     number   // pre-cap raw value for overcap badge
-  color:    string
-  cap?:     number   // game cap threshold
+  iconName:  string
+  label:     string
+  value:     number   // capped (display) value
+  raw?:      number   // pre-cap raw value for overcap badge
+  color:     string
+  cap?:      number   // game cap threshold
+  showPlus?: boolean  // prefix "+" (for bonus stats like Range)
 }
 
-function TopBadge({ iconName, label, value, raw, color, cap }: BadgeProps) {
+function TopBadge({ iconName, label, value, raw, color, cap, showPlus }: BadgeProps) {
   const numClass = value >= 10000
     ? 'text-base'
     : value >= 1000
@@ -97,7 +98,7 @@ function TopBadge({ iconName, label, value, raw, color, cap }: BadgeProps) {
           textShadow: `0 0 20px color-mix(in srgb, ${color} 65%, transparent), 0 0 40px color-mix(in srgb, ${color} 30%, transparent)`,
         }}
       >
-        {value.toLocaleString()}
+        {showPlus && value > 0 ? '+' : ''}{value.toLocaleString()}
       </span>
       <span
         className="text-[8px] uppercase tracking-[0.18em] relative z-10 font-semibold"
@@ -318,7 +319,7 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
         <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color="var(--mp)"       cap={6}  />
         <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)"          />
         {s.range > 0 && (
-          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} color="var(--water)"             />
+          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} color="var(--water)" showPlus />
         )}
       </div>
 
