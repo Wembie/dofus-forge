@@ -357,7 +357,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76021-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 25 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 25 liegen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 684,
@@ -393,7 +400,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76023-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Intelligenz.\nIhr könnt sie jedoch nur benutzen, wenn eure Intelligenz-Zusatzpunkte unter 25 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Intelligenz.\nIhr könnt sie jedoch nur benutzen, wenn eure Intelligenz-Zusatzpunkte unter 25 liegen.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 692,
@@ -675,7 +689,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76029-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 50 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 50 liegen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 796,
@@ -693,7 +714,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76030-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 80 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 80 liegen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 797,
@@ -711,7 +739,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76031-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 100 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Stärke.\nIhr könnt sie jedoch nur benutzen, wenn eure Stärke-Zusatzpunkte unter 100 liegen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 798,
@@ -729,7 +764,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76020-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 25 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 25 liegen.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 799,
@@ -747,7 +789,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76026-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 50 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 50 liegen.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 800,
@@ -765,7 +814,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76027-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 80 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 80 liegen.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 801,
@@ -783,7 +839,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76028-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 100 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Flinkheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Flinkheit-Zusatzpunkte unter 100 liegen.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 802,
@@ -801,7 +864,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76024-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 25 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 25 liegen.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 803,
@@ -819,7 +889,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76038-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 50 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 50 liegen.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 804,
@@ -837,7 +914,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76039-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 80 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 80 liegen.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 805,
@@ -855,7 +939,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76040-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 100 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Weisheit.\nIhr könnt sie jedoch nur benutzen, wenn eure Weisheit-Zusatzpunkte unter 100 liegen.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 806,
@@ -873,7 +964,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76025-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 25 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 25 liegen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 807,
@@ -891,7 +989,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76041-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 50 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 50 liegen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 808,
@@ -909,7 +1014,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76042-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 80 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 80 liegen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 809,
@@ -927,7 +1039,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76022-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 25 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 25 liegen.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 810,
@@ -945,7 +1064,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76043-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 100 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Vitalität.\nIhr könnt sie jedoch nur benutzen, wenn eure Vitalität-Zusatzpunkte unter 100 liegen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 811,
@@ -963,7 +1089,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76032-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 50 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 50 liegen.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 812,
@@ -981,7 +1114,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76033-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 80 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 80 liegen.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 814,
@@ -999,7 +1139,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76034-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 100 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Glück.\nIhr könnt sie jedoch nur benutzen, wenn eure Glück-Zusatzpunkte unter 100 liegen.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 815,
@@ -1017,7 +1164,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76035-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Intelligenz. Ihr könnt sie jedoch nur benutzen, wenn eure Intelligenz-Zusatzpunkte unter 50 liegen.."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Intelligenz. Ihr könnt sie jedoch nur benutzen, wenn eure Intelligenz-Zusatzpunkte unter 50 liegen..",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 816,
@@ -1035,7 +1189,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76036-128.png",
-    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Intelligenz.\nIhr könnt sie jedoch nur benutzen, wenn eure Intelligenz-Zusatzpunkte unter 80 liegen."
+    "description": "Mit dieser Schriftrolle erhält man zusätzliche Punkte für Intelligenz.\nIhr könnt sie jedoch nur benutzen, wenn eure Intelligenz-Zusatzpunkte unter 80 liegen.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 817,
@@ -1053,7 +1214,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76037-128.png",
-    "description": "Mit dieser Schriftrolle erhaltet ihr zusätzliche Intelligenzpunkte.\nIhr könnt sie nur verwenden, wenn eure zusätzlichen Intelligenzpunkte weniger als 100 sind."
+    "description": "Mit dieser Schriftrolle erhaltet ihr zusätzliche Intelligenzpunkte.\nIhr könnt sie nur verwenden, wenn eure zusätzlichen Intelligenzpunkte weniger als 100 sind.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 878,
@@ -1233,7 +1401,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42026-128.png",
-    "description": "Das Multigli wurde aus dem Handel zurückgezogen, da es angeblich für das Verschwinden zahlreicher Kinder verantwortlich sein soll. Es heißt, derjenige, der ein Multigli lutscht, würde seinen schlimmsten Alpträumen begegnen."
+    "description": "Das Multigli wurde aus dem Handel zurückgezogen, da es angeblich für das Verschwinden zahlreicher Kinder verantwortlich sein soll. Es heißt, derjenige, der ein Multigli lutscht, würde seinen schlimmsten Alpträumen begegnen.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 0
+      }
+    ]
   },
   {
     "ankama_id": 1182,
@@ -1621,7 +1796,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49073-128.png",
-    "description": "Dieser gebratene Käpt'n Igluglus-Fisch ist nicht nur lecker, sondern besitzt zudem auch noch einen hohen Nährwert."
+    "description": "Dieser gebratene Käpt'n Igluglus-Fisch ist nicht nur lecker, sondern besitzt zudem auch noch einen hohen Nährwert.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 1764,
@@ -1663,7 +1845,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49076-128.png",
-    "description": "Dieses Krebsstäbchen wurde aus dem Fleisch von exotischen Suriminikrebsen gefertigt. Daher schmeckt es einfach nur furchtbar. Dafür ist es allerdings unglaublich sättigend."
+    "description": "Dieses Krebsstäbchen wurde aus dem Fleisch von exotischen Suriminikrebsen gefertigt. Daher schmeckt es einfach nur furchtbar. Dafür ist es allerdings unglaublich sättigend.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 1767,
@@ -1705,7 +1894,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49077-128.png",
-    "description": "Dieser Tigerfisch wird selbst die anspruchsvollsten Gourmets zufriedenstellen. Sein Fleisch ist etwas fester als das des geräucherten Kätzchenfisches und vor allem sehr viel feiner!"
+    "description": "Dieser Tigerfisch wird selbst die anspruchsvollsten Gourmets zufriedenstellen. Sein Fleisch ist etwas fester als das des geräucherten Kätzchenfisches und vor allem sehr viel feiner!",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 1809,
@@ -1801,7 +1997,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49087-128.png",
-    "description": "Dieser Fisch wird nur gedämpft, um seinen feinen natürlichen Geschmack nicht zu verändern. Denn er ist so unglaublich lecker, dass es einen umhaut."
+    "description": "Dieser Fisch wird nur gedämpft, um seinen feinen natürlichen Geschmack nicht zu verändern. Denn er ist so unglaublich lecker, dass es einen umhaut.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 1818,
@@ -1879,7 +2082,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49092-128.png",
-    "description": "Nach vielen Sprüngen im Wasser, und zwei letzten gelungenen Sprüngen an Land, kann dieser Fisch jetzt genüsslich verspeist werden."
+    "description": "Nach vielen Sprüngen im Wasser, und zwei letzten gelungenen Sprüngen an Land, kann dieser Fisch jetzt genüsslich verspeist werden.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 1825,
@@ -1921,7 +2131,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49095-128.png",
-    "description": "Raus aus der Sardinenbüchse an die frische Luft! Diese Sardine ist zwar nicht sehr sättigend, aber als kleines Appetithäppchen ist sie wunderbar geeignet."
+    "description": "Raus aus der Sardinenbüchse an die frische Luft! Diese Sardine ist zwar nicht sehr sättigend, aber als kleines Appetithäppchen ist sie wunderbar geeignet.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 1828,
@@ -1945,7 +2162,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49099-128.png",
-    "description": "Dieser Fisch ist besonders schmackhaft, wenn er so appetitanregend auf seinem Salatbett liegt. Außerdem füllt er gut den Magen."
+    "description": "Dieser Fisch ist besonders schmackhaft, wenn er so appetitanregend auf seinem Salatbett liegt. Außerdem füllt er gut den Magen.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 1829,
@@ -1969,7 +2193,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49100-128.png",
-    "description": "Wer wird nicht schwach beim Anblick einer knackigen Grabbe im Teigmantel? Da ist es schwer, mit Naschen aufzuhören. Dieser Leckerbissen wurde aus einer Horror-Grabbe hergestellt, die noch mehr Kalorien enthält als die normalen. Egal! Guten Appetit!"
+    "description": "Wer wird nicht schwach beim Anblick einer knackigen Grabbe im Teigmantel? Da ist es schwer, mit Naschen aufzuhören. Dieser Leckerbissen wurde aus einer Horror-Grabbe hergestellt, die noch mehr Kalorien enthält als die normalen. Egal! Guten Appetit!",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 1830,
@@ -1993,7 +2224,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49101-128.png",
-    "description": "Diese mit Zwiebeln überzogenen Imeer-Gründlingsscheiben sind ein wahrer Genuss. Bei dieser Gründlingsart gibt es auch keinen schlechten Geruch als Nebenwirkung. Im Gegenteil, die Luft wird sogar noch gut mit Sauerstoff versorgt!"
+    "description": "Diese mit Zwiebeln überzogenen Imeer-Gründlingsscheiben sind ein wahrer Genuss. Bei dieser Gründlingsart gibt es auch keinen schlechten Geruch als Nebenwirkung. Im Gegenteil, die Luft wird sogar noch gut mit Sauerstoff versorgt!",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 1831,
@@ -2017,7 +2255,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49102-128.png",
-    "description": "Meisterhaft mit brauner Bworkbutter überbacken, entfaltet diese Farle-Rochenflosse erst so richtig ihren vollen Geschmack. Ihr werdet sehen: dieser Fisch verleiht euch Flügel..."
+    "description": "Meisterhaft mit brauner Bworkbutter überbacken, entfaltet diese Farle-Rochenflosse erst so richtig ihren vollen Geschmack. Ihr werdet sehen: dieser Fisch verleiht euch Flügel...",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 1832,
@@ -2059,7 +2304,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49109-128.png",
-    "description": "Dank des uralten, exotischen Kochrezeptes der Lenalds wird dieser hervorragend schmeckende Fisch die Flamme in euch wieder neu entfachen. Man müsste das Rezept nur noch beherrschen, was bei euch offensichtlich nicht der Fall ist."
+    "description": "Dank des uralten, exotischen Kochrezeptes der Lenalds wird dieser hervorragend schmeckende Fisch die Flamme in euch wieder neu entfachen. Man müsste das Rezept nur noch beherrschen, was bei euch offensichtlich nicht der Fall ist.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 1835,
@@ -2101,7 +2353,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49134-128.png",
-    "description": "Ach ja, ein gefüllter Hecht. Jeder isst ihn gern, doch niemand weiß, was alles in ihm steckt.A Nicht alles wissen zu wollen ist definitiv ein Zeichen von Weisheit!"
+    "description": "Ach ja, ein gefüllter Hecht. Jeder isst ihn gern, doch niemand weiß, was alles in ihm steckt.A Nicht alles wissen zu wollen ist definitiv ein Zeichen von Weisheit!",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 1838,
@@ -2143,7 +2402,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49105-128.png",
-    "description": "Dieser Hai hätte sicherlich nicht die Güte gehabt, euch erst noch vor dem Essen mit magischen Gewürzen zu bestreuen."
+    "description": "Dieser Hai hätte sicherlich nicht die Güte gehabt, euch erst noch vor dem Essen mit magischen Gewürzen zu bestreuen.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 1859,
@@ -2167,7 +2433,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49137-128.png",
-    "description": "Ein feiner Duft entströmt diesem gegrillten Krakamor. Wer ihn isst, wird noch lange an diesen Gaumenschmaus zurückdenken."
+    "description": "Ein feiner Duft entströmt diesem gegrillten Krakamor. Wer ihn isst, wird noch lange an diesen Gaumenschmaus zurückdenken.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 1895,
@@ -2695,7 +2968,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33019-128.png",
-    "description": "Dieses Brot wurde mit magischem Weizenmehl gebacken. Daher findet es reißenden Absatz."
+    "description": "Dieses Brot wurde mit magischem Weizenmehl gebacken. Daher findet es reißenden Absatz.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 2024,
@@ -2737,7 +3017,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33008-128.png",
-    "description": "Diese kleine Brioche wurde mit Hopfenmehl gebacken. Das erklärt auch den fühlbaren Energiegewinn beim Verspeisen."
+    "description": "Diese kleine Brioche wurde mit Hopfenmehl gebacken. Das erklärt auch den fühlbaren Energiegewinn beim Verspeisen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 2028,
@@ -2761,7 +3048,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33012-128.png",
-    "description": "Dieses Brot wurde aus dem Mehl von Sturmflachs gefertigt, daher ist es nicht so fett und hat gleichzeitig einen hervorragenden Geschmack."
+    "description": "Dieses Brot wurde aus dem Mehl von Sturmflachs gefertigt, daher ist es nicht so fett und hat gleichzeitig einen hervorragenden Geschmack.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 2031,
@@ -2785,7 +3079,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33009-128.png",
-    "description": "Dieses Brot wurde aus widerstandsfähigem Roggenmehl gebacken. Daher schmeckt es zwar nicht besonders, ist jedoch gesund wie nichts anderes!"
+    "description": "Dieses Brot wurde aus widerstandsfähigem Roggenmehl gebacken. Daher schmeckt es zwar nicht besonders, ist jedoch gesund wie nichts anderes!",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 2034,
@@ -2809,7 +3110,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42128-128.png",
-    "description": "Die Gerstige Zuckerstange ist eine Süßigkeit mit einem unverwechselbaren Geschmack. Ihr Fertigung ist ziemlich aufwändig, da der Gerstenzucker erst einmal aus der Zuckergerste herausgeprügelt werden muss."
+    "description": "Die Gerstige Zuckerstange ist eine Süßigkeit mit einem unverwechselbaren Geschmack. Ihr Fertigung ist ziemlich aufwändig, da der Gerstenzucker erst einmal aus der Zuckergerste herausgeprügelt werden muss.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 2038,
@@ -2833,7 +3141,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33005-128.png",
-    "description": "Dieses Brot ist einfach perfekt."
+    "description": "Dieses Brot ist einfach perfekt.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 2044,
@@ -3114,7 +3429,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "Dieses Formular ermöglicht die Identifizierung etwaiger Verdächtigter, die Straftaten begangen haben."
+    "description": "Dieses Formular ermöglicht die Identifizierung etwaiger Verdächtigter, die Straftaten begangen haben.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 2181
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 2177
+      },
+      {
+        "stat": "Gesinnungsstufe",
+        "operator": "=",
+        "value": 27
+      }
+    ]
   },
   {
     "ankama_id": 2190,
@@ -3132,7 +3464,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "Diese Art Formular wird gewöhnlich gebraucht, um Verdächtige zu identifizieren, die Straftaten begangen haben. Jetzt müßt ihr es nur noch ausfüllen, um ein gefälschtes Verhör von \"Oni Tnec\" herzustellen.\n(Doppelklick und dann auf euch selbst anwenden, um es auszufüllen.)"
+    "description": "Diese Art Formular wird gewöhnlich gebraucht, um Verdächtige zu identifizieren, die Straftaten begangen haben. Jetzt müßt ihr es nur noch ausfüllen, um ein gefälschtes Verhör von \"Oni Tnec\" herzustellen.\n(Doppelklick und dann auf euch selbst anwenden, um es auszufüllen.)",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 2177
+      },
+      {
+        "stat": "Gesinnungsstufe",
+        "operator": "=",
+        "value": 27
+      }
+    ]
   },
   {
     "ankama_id": 2197,
@@ -5171,7 +5515,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "Dieses kleine Formular enthält den Namen eines Kanditaten, der als Brotlieferant in Frage käme."
+    "description": "Dieses kleine Formular enthält den Namen eines Kanditaten, der als Brotlieferant in Frage käme.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 6790,
@@ -5224,7 +5575,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "Dieses kleine Formular enthält den Namen eines Kanditaten, der sich leider nicht zum Brotlieferanten eignet. Ein kleiner roter Fleck zeigt an, dass er entweder nicht genug Stärke, oder nicht genug Flinkheit besitzt, um diese Aufgabe zu erfüllen."
+    "description": "Dieses kleine Formular enthält den Namen eines Kanditaten, der sich leider nicht zum Brotlieferanten eignet. Ein kleiner roter Fleck zeigt an, dass er entweder nicht genug Stärke, oder nicht genug Flinkheit besitzt, um diese Aufgabe zu erfüllen.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 6887,
@@ -6193,7 +6551,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89032-128.png",
-    "description": "Als Entschuldigung für die in letzter Zeit aufgetretenen Probleme erhaltet ihr von Ankama dieses Geschenkpaket. Es enthält:\n- 5 Entschädigungsbonbons der Weisen\n- 5 Entschädigungsbonbons der Glücklichen\n- 10 Energie-Entschädigungsbonbons\n- 10 Einheiten Eniripsa-Pulver"
+    "description": "Als Entschuldigung für die in letzter Zeit aufgetretenen Probleme erhaltet ihr von Ankama dieses Geschenkpaket. Es enthält:\n- 5 Entschädigungsbonbons der Weisen\n- 5 Entschädigungsbonbons der Glücklichen\n- 10 Energie-Entschädigungsbonbons\n- 10 Einheiten Eniripsa-Pulver",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 7801
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 7800
+      }
+    ]
   },
   {
     "ankama_id": 7929,
@@ -7670,7 +8040,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69136-128.png",
-    "description": "Filtounga ist ein wirklich einzigartiges Gericht. Dank der für seine Zubereitung benutzten Zutaten hat es auch einen einzigartigen Geschmack. Heiß servieren."
+    "description": "Filtounga ist ein wirklich einzigartiges Gericht. Dank der für seine Zubereitung benutzten Zutaten hat es auch einen einzigartigen Geschmack. Heiß servieren.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 8514,
@@ -7936,7 +8313,19 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12152-128.png",
-    "description": "Diese Trank ermöglicht es euch, euch direkt in das Haus eurer Gilde zu teleportieren."
+    "description": "Diese Trank ermöglicht es euch, euch direkt in das Haus eurer Gilde zu teleportieren.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 8913,
@@ -8193,7 +8582,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12025-128.png",
-    "description": "Mit diesem Trank könnt ihr euch zum Dorf der Züchter teleportieren."
+    "description": "Mit diesem Trank könnt ihr euch zum Dorf der Züchter teleportieren.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 9037,
@@ -9783,7 +10184,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12153-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Pandawa-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Pandawa-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10209,
@@ -9801,7 +10209,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12154-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Sacrieur-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Sacrieur-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10210,
@@ -9819,7 +10234,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12155-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Eniripsa-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Eniripsa-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10211,
@@ -9837,7 +10259,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12156-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Sadida-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Sadida-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10212,
@@ -9855,7 +10284,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12157-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Crâ-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Crâ-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10213,
@@ -9873,7 +10309,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12158-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Iop-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Iop-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10214,
@@ -9891,7 +10334,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12159-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Ecaflip-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Ecaflip-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10215,
@@ -9909,7 +10359,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12160-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Xélor-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Xélor-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10216,
@@ -9927,7 +10384,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12161-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Féca-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Féca-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10217,
@@ -9945,7 +10409,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12162-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Enutrof-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Enutrof-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10218,
@@ -9963,7 +10434,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12163-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Osamodas-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Osamodas-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10219,
@@ -9981,7 +10459,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12164-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Sram-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Sram-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10227,
@@ -11767,7 +12252,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12018-128.png",
-    "description": "Das geschieht euch recht, einfach drauflos zu trinken!"
+    "description": "Das geschieht euch recht, einfach drauflos zu trinken!",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 10681
+      }
+    ]
   },
   {
     "ankama_id": 10670,
@@ -12151,7 +12643,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33012-128.png",
-    "description": "Manchmal ist Brot so hart, dass man sich daran im wahrsten Sinne die Zähne ausbeißen könnte. Dieses Exemplar ist ein gutes Beispiel dafür.\nDieses magische Brot kann man nur in der Bucht von Sufokia essen."
+    "description": "Manchmal ist Brot so hart, dass man sich daran im wahrsten Sinne die Zähne ausbeißen könnte. Dieses Exemplar ist ein gutes Beispiel dafür.\nDieses magische Brot kann man nur in der Bucht von Sufokia essen.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 10840,
@@ -12637,7 +13136,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12189-128.png",
-    "description": "Euer Instinkt sagt euch, den Inhalt nicht zu trinken. Naja, eigentlich ist es eure Nase, denn dieses Gebräu riecht wie 100 Jahre alter Bwork Achselschweiss."
+    "description": "Euer Instinkt sagt euch, den Inhalt nicht zu trinken. Naja, eigentlich ist es eure Nase, denn dieses Gebräu riecht wie 100 Jahre alter Bwork Achselschweiss.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 6
+      }
+    ]
   },
   {
     "ankama_id": 10974,
@@ -12716,7 +13222,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/7074-128.png",
-    "description": "Diese Reliquie enthält das Zeichen sowie die Prunkwaffe des gleichnamigen Begleiters."
+    "description": "Diese Reliquie enthält das Zeichen sowie die Prunkwaffe des gleichnamigen Begleiters.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 11103,
@@ -13323,7 +13836,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33073-128.png",
-    "description": "Dieses Brot stellt die Hauptnahrung der Frigostianischen Adels dar. Damit wäre auch endlich das Rätsel gelöst, wieso sie immer glauben, sich in höheren Sphären zu bewegen, als die restlichen Frigostianer..."
+    "description": "Dieses Brot stellt die Hauptnahrung der Frigostianischen Adels dar. Damit wäre auch endlich das Rätsel gelöst, wieso sie immer glauben, sich in höheren Sphären zu bewegen, als die restlichen Frigostianer...",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 11505,
@@ -13383,7 +13903,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12722-128.png",
-    "description": "Durch diesen Trank lassen sich die Sterne bereisen, und das von zuhause aus. Gutgläubige Frigostianer sehen darin einen Glücksbringer!"
+    "description": "Durch diesen Trank lassen sich die Sterne bereisen, und das von zuhause aus. Gutgläubige Frigostianer sehen darin einen Glücksbringer!",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 11510,
@@ -13425,7 +13952,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49135-128.png",
-    "description": "Es heißt, vereister Eisfisch soll intelligent machen. Sicherlich noch so eine dieser Geschichten, die man unartigen Iop-Kindern erzählt, um sie zum Aufessen zu bringen."
+    "description": "Es heißt, vereister Eisfisch soll intelligent machen. Sicherlich noch so eine dieser Geschichten, die man unartigen Iop-Kindern erzählt, um sie zum Aufessen zu bringen.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 11512,
@@ -13761,7 +14295,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "Diese gefräßige Truhe schläft tief und fest. Wenn ihr um jeden Preis erfahren wollt, was in ihr wirklich in ihr steckt, dann könnt ihr sie aufwecken. Auf eigene Gefahr!"
+    "description": "Diese gefräßige Truhe schläft tief und fest. Wenn ihr um jeden Preis erfahren wollt, was in ihr wirklich in ihr steckt, dann könnt ihr sie aufwecken. Auf eigene Gefahr!",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 99
+      }
+    ]
   },
   {
     "ankama_id": 11796,
@@ -14338,7 +14879,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5083-128.png",
-    "description": "Diese Reliquie enthält das Zeichen sowie die Prunkwaffe des gleichnamigen Begleiters."
+    "description": "Diese Reliquie enthält das Zeichen sowie die Prunkwaffe des gleichnamigen Begleiters.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 12042,
@@ -14452,7 +15000,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12193-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Halsabschneider-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Halsabschneider-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 12184,
@@ -14590,7 +15145,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12194-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Maskerador-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Maskerador-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 12236,
@@ -16191,7 +16753,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42164-128.png",
-    "description": "Erst beim Verzehr dieser Süßigkeit entfaltet sich die volle Weißnachtsmagie: Auf einmal befindet ihr euch inmitten eines tobenden Schneesturms, werdet von eurem neu hinzugekommenen Fettpolster am Bauch ausgebremst und habt von nun an auch noch Diabetes.\nFunktioniert nur, wenn ihr von einer Weißnachtskarte neueren Datums profitiert."
+    "description": "Erst beim Verzehr dieser Süßigkeit entfaltet sich die volle Weißnachtsmagie: Auf einmal befindet ihr euch inmitten eines tobenden Schneesturms, werdet von eurem neu hinzugekommenen Fettpolster am Bauch ausgebremst und habt von nun an auch noch Diabetes.\nFunktioniert nur, wenn ihr von einer Weißnachtskarte neueren Datums profitiert.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 12846,
@@ -16738,7 +17307,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/79015-128.png",
-    "description": "Macht es euch unter einer Palme am Strand bequem, nippt genüsslich an eurem Muschtail \"Eportation\" und schon vergesst ihr die Welt um euch herum!"
+    "description": "Macht es euch unter einer Palme am Strand bequem, nippt genüsslich an eurem Muschtail \"Eportation\" und schon vergesst ihr die Welt um euch herum!",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 13222,
@@ -16858,7 +17434,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49141-128.png",
-    "description": "Früher hat man immer gesagt, vereister Eisfisch würde klug machen. Eine tolle Geschichte, um Sadida-Kindern dazu zu kriegen, ein klein wenig Fisch zu essen!"
+    "description": "Früher hat man immer gesagt, vereister Eisfisch würde klug machen. Eine tolle Geschichte, um Sadida-Kindern dazu zu kriegen, ein klein wenig Fisch zu essen!",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 13277,
@@ -16894,7 +17477,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12730-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Steamer-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Steamer-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchweh, Schwiegermutter zu Besuch, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 13314,
@@ -18237,7 +18827,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "Dieses Geschenk gibt es als Entschädigung für ein Problem in DOFUS. Ihr könnt auswählen, für welchen Charakter ihr es einsetzt, allerdings erhalten nur jene, die die Quest „Das Jahr des Drachens“ noch nicht vollendet haben (Quest zum Erhalt des Dolmanaxes) und noch keine 365 Kalenderseiten besitzen eine Seite als Entschädigung. Die Belohnung gibt es bei Theodoran X."
+    "description": "Dieses Geschenk gibt es als Entschädigung für ein Problem in DOFUS. Ihr könnt auswählen, für welchen Charakter ihr es einsetzt, allerdings erhalten nur jene, die die Quest „Das Jahr des Drachens“ noch nicht vollendet haben (Quest zum Erhalt des Dolmanaxes) und noch keine 365 Kalenderseiten besitzen eine Seite als Entschädigung. Die Belohnung gibt es bei Theodoran X.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 9
+      }
+    ]
   },
   {
     "ankama_id": 13506,
@@ -19801,7 +20398,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14036-128.png",
-    "description": "Dieser Trank macht euch so rasend, dass ihr automatisch alle Feinde angreift, die euch näher als 6 Felder kommen."
+    "description": "Dieser Trank macht euch so rasend, dass ihr automatisch alle Feinde angreift, die euch näher als 6 Felder kommen.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 14446
+      }
+    ]
   },
   {
     "ankama_id": 14440,
@@ -19841,7 +20450,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12746-128.png",
-    "description": "Wenn es euch nicht ausreicht, euren Gegner mundtot zu machen, dann könnt ihr mithilfe dieses Trankes seine Seele auf dem direkten Wege auf den Friedhof befördern."
+    "description": "Wenn es euch nicht ausreicht, euren Gegner mundtot zu machen, dann könnt ihr mithilfe dieses Trankes seine Seele auf dem direkten Wege auf den Friedhof befördern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 14444
+      }
+    ]
   },
   {
     "ankama_id": 14443,
@@ -19859,7 +20480,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12745-128.png",
-    "description": "Ihr hattet die Aufgabe, diesen Abenteurer zu schützen – ihr habt auf der ganzen Linie versagt. Mit diesem Trank könnt ihr ihn wieder zum Leben erwecken, um ihm einen Zwischenstopp auf dem Friedhof zu ersparen."
+    "description": "Ihr hattet die Aufgabe, diesen Abenteurer zu schützen – ihr habt auf der ganzen Linie versagt. Mit diesem Trank könnt ihr ihn wieder zum Leben erwecken, um ihm einen Zwischenstopp auf dem Friedhof zu ersparen.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 14445
+      }
+    ]
   },
   {
     "ankama_id": 14447,
@@ -20463,7 +21096,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12744-128.png",
-    "description": "Dieser Trank teleportiert den Trinkenden vor den Kutschenexpress von Astrub. Um seinen Geruch nach toter Ratte zu überdecken, wurde etwas Minze hinzugefügt. Allerdings bleibt der Geschmack unverändert, ihr solltet ihn also lieber beim Aufwachen trinken, euer Atem bleibt so dadurch gleich."
+    "description": "Dieser Trank teleportiert den Trinkenden vor den Kutschenexpress von Astrub. Um seinen Geruch nach toter Ratte zu überdecken, wurde etwas Minze hinzugefügt. Allerdings bleibt der Geschmack unverändert, ihr solltet ihn also lieber beim Aufwachen trinken, euer Atem bleibt so dadurch gleich.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 15209,
@@ -21817,7 +22457,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12196-128.png",
-    "description": "Ein kräftiger Schluck und schon werdet ihr zum Eliotropen-Tempel teleportiert. Bekannte Nebenwirkungen: Schluckauf, Besuch der Schwiegereltern, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und schon werdet ihr zum Eliotropen-Tempel teleportiert. Bekannte Nebenwirkungen: Schluckauf, Besuch der Schwiegereltern, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 16136,
@@ -21950,7 +22597,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12756-128.png",
-    "description": "Nach Einnahme dieses Tranks redet ihr mit metallischer Klangfarbe und eure Sätze werden durch mehr oder weniger schrille Piepstöne unterbrochen."
+    "description": "Nach Einnahme dieses Tranks redet ihr mit metallischer Klangfarbe und eure Sätze werden durch mehr oder weniger schrille Piepstöne unterbrochen.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 16402,
@@ -21992,7 +22646,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12757-128.png",
-    "description": "Die Xélor-Lobby versucht, unter allen möglichen und unmöglichen Vorwänden, den Verkauf dieses Tranks verbieten zu lassen, nur, weil sie ihr Monopol darin gefährdet sieht. Jede Ähnlichkeit mit einem oder mehreren existierenden Lobbys ist nicht rein zufällig."
+    "description": "Die Xélor-Lobby versucht, unter allen möglichen und unmöglichen Vorwänden, den Verkauf dieses Tranks verbieten zu lassen, nur, weil sie ihr Monopol darin gefährdet sieht. Jede Ähnlichkeit mit einem oder mehreren existierenden Lobbys ist nicht rein zufällig.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 16404,
@@ -22034,7 +22695,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12758-128.png",
-    "description": "Die Ecaflips lieben diesen Trank, weil sie glauben, er bringe Glück."
+    "description": "Die Ecaflips lieben diesen Trank, weil sie glauben, er bringe Glück.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 16406,
@@ -22058,7 +22726,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12759-128.png",
-    "description": "Dieser Trank wird den Todgeweihten vor ihrer Hinrichtung gereicht."
+    "description": "Dieser Trank wird den Todgeweihten vor ihrer Hinrichtung gereicht.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 16407,
@@ -22082,7 +22757,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12760-128.png",
-    "description": "Werbefritzen nehmen diesen Trank in Unmengen zu sich, wenn ihnen mal die Ideen ausgehen."
+    "description": "Werbefritzen nehmen diesen Trank in Unmengen zu sich, wenn ihnen mal die Ideen ausgehen.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 16408,
@@ -22106,7 +22788,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12761-128.png",
-    "description": "Alchemisten verkaufen den Margeritentrank als Dofusdetektor. Die Astrubianer reißen sich darum, wie um warme Semmeln."
+    "description": "Alchemisten verkaufen den Margeritentrank als Dofusdetektor. Die Astrubianer reißen sich darum, wie um warme Semmeln.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16409,
@@ -22166,7 +22855,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12762-128.png",
-    "description": "Die Pandawas sehen den Export dieses nicht-alkoholischen Tranks nur sehr ungern."
+    "description": "Die Pandawas sehen den Export dieses nicht-alkoholischen Tranks nur sehr ungern.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 16412,
@@ -22208,7 +22904,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12763-128.png",
-    "description": "Dieser Trank macht aus euch keinen Superkrieger. Bekannte Nebeneffekte: haariger Schwanz, Verwandlung in einen Primaten."
+    "description": "Dieser Trank macht aus euch keinen Superkrieger. Bekannte Nebeneffekte: haariger Schwanz, Verwandlung in einen Primaten.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16414,
@@ -22268,7 +22971,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12764-128.png",
-    "description": "Als Lotion angewendet, wird man gleich jung und schön, auch wenn ihr ein Mann seid."
+    "description": "Als Lotion angewendet, wird man gleich jung und schön, auch wenn ihr ein Mann seid.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16417,
@@ -22310,7 +23020,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12765-128.png",
-    "description": "Der Schimmel in diesem Trank ist gesundheitlich unbedenklich, vorausgesetzt, ihr seid bereits tot."
+    "description": "Der Schimmel in diesem Trank ist gesundheitlich unbedenklich, vorausgesetzt, ihr seid bereits tot.",
+    "conditions": [
+      {
+        "stat": "Glück",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16431,
@@ -22388,7 +23105,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33077-128.png",
-    "description": "Dieses Gebäck tauchte zuerst in Astrub auf. Seitdem erfreut es sich immer größerer Beliebtheit und man findet es in der Nähe von Zaaps und Verkaufsständen in zahlreichen Städten."
+    "description": "Dieses Gebäck tauchte zuerst in Astrub auf. Seitdem erfreut es sich immer größerer Beliebtheit und man findet es in der Nähe von Zaaps und Verkaufsständen in zahlreichen Städten.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16435,
@@ -22412,7 +23136,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33079-128.png",
-    "description": "Trools verwechseln oft Schrippe mit der Rippe, da beides essbar ist. Dabei müsste ihnen doch der Unterschied auffallen, wenn der Besitzer des letzteren beim Kauen laut aufschreit..."
+    "description": "Trools verwechseln oft Schrippe mit der Rippe, da beides essbar ist. Dabei müsste ihnen doch der Unterschied auffallen, wenn der Besitzer des letzteren beim Kauen laut aufschreit...",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 16436,
@@ -22436,7 +23167,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33076-128.png",
-    "description": "Der Bärenmann höchstpersönlich soll dieses Rezept erfunden haben, als er gerade auf eine richtig bärenstarke Mucke abrockte."
+    "description": "Der Bärenmann höchstpersönlich soll dieses Rezept erfunden haben, als er gerade auf eine richtig bärenstarke Mucke abrockte.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16437,
@@ -22478,7 +23216,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33081-128.png",
-    "description": "Der Name dieses Gerichts bedeutet so viel wie „kleiner Esel“. Wenn euch nach dem Verzehr eines solchen Esels unwohl ist, solltet ihr besser nicht aufs Eis tanzen gehen."
+    "description": "Der Name dieses Gerichts bedeutet so viel wie „kleiner Esel“. Wenn euch nach dem Verzehr eines solchen Esels unwohl ist, solltet ihr besser nicht aufs Eis tanzen gehen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16439,
@@ -22502,7 +23247,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33082-128.png",
-    "description": "Dieses Brot ist eine angemessene Speise für all jene, die sich zu benehmen wissen."
+    "description": "Dieses Brot ist eine angemessene Speise für all jene, die sich zu benehmen wissen.",
+    "conditions": [
+      {
+        "stat": "Vitalität",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16475,
@@ -22544,7 +23296,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49144-128.png",
-    "description": "Die Lieblingsspeise aller Melancholiker."
+    "description": "Die Lieblingsspeise aller Melancholiker.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16477,
@@ -22586,7 +23345,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49146-128.png",
-    "description": "Anders als die Rache ist dieser royale Fisch ein Gericht, das nicht kalt serviert werden sollte."
+    "description": "Anders als die Rache ist dieser royale Fisch ein Gericht, das nicht kalt serviert werden sollte.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16479,
@@ -22628,7 +23394,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49148-128.png",
-    "description": "Diese Speise genießt man am besten auf dem Sofa sitzend und mit einer Tüte Chips zusammen."
+    "description": "Diese Speise genießt man am besten auf dem Sofa sitzend und mit einer Tüte Chips zusammen.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16481,
@@ -22670,7 +23443,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49150-128.png",
-    "description": "Dieser Gericht war ein Luxus, den sich nur das Oberhaupt der Kannibälle leisten konnte, da bärtige Dorsche äußerst selten sind."
+    "description": "Dieser Gericht war ein Luxus, den sich nur das Oberhaupt der Kannibälle leisten konnte, da bärtige Dorsche äußerst selten sind.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16483,
@@ -22712,7 +23492,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49152-128.png",
-    "description": "Die Vorstellung, dass es sich bei diesem Fisch um einen wiedergeborenen Gefährten handeln könnte, jagt euch Angst ein."
+    "description": "Die Vorstellung, dass es sich bei diesem Fisch um einen wiedergeborenen Gefährten handeln könnte, jagt euch Angst ein.",
+    "conditions": [
+      {
+        "stat": "Weisheit",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16485,
@@ -22754,7 +23541,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49154-128.png",
-    "description": "Dieser Fisch wird bestimmt nicht mehr auf krumme Ideen kommen."
+    "description": "Dieser Fisch wird bestimmt nicht mehr auf krumme Ideen kommen.",
+    "conditions": [
+      {
+        "stat": "Intelligenz",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16528,
@@ -25640,7 +26434,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42179-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 16928,
@@ -25664,7 +26465,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42180-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 16929,
@@ -25688,7 +26496,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42181-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 16930,
@@ -25712,7 +26527,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42182-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 16931,
@@ -25736,7 +26558,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42183-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 35
+      }
+    ]
   },
   {
     "ankama_id": 16932,
@@ -25760,7 +26589,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42184-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 16933,
@@ -25784,7 +26620,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42185-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 16934,
@@ -25808,7 +26651,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42186-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16935,
@@ -25832,7 +26682,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42187-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 55
+      }
+    ]
   },
   {
     "ankama_id": 16936,
@@ -25856,7 +26713,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42188-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 16937,
@@ -25880,7 +26744,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42189-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 65
+      }
+    ]
   },
   {
     "ankama_id": 16938,
@@ -25904,7 +26775,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42190-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16939,
@@ -25928,7 +26806,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42191-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 75
+      }
+    ]
   },
   {
     "ankama_id": 16940,
@@ -25952,7 +26837,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42192-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16941,
@@ -25976,7 +26868,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42193-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 85
+      }
+    ]
   },
   {
     "ankama_id": 16942,
@@ -26000,7 +26899,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42194-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16943,
@@ -26024,7 +26930,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42195-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 95
+      }
+    ]
   },
   {
     "ankama_id": 16944,
@@ -26048,7 +26961,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42196-128.png",
-    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist."
+    "description": "Dieser Baumkuchen ist duftig und lecker und muss genossen werden. Schlingt ihn bloß nicht runter, auch wenn die Macht der Gewohnheit stark ist.",
+    "conditions": [
+      {
+        "stat": "Flinkheit",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 16948,
@@ -26244,7 +27164,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69747-128.png",
-    "description": "Diese Speise ist ebenso geistlos wie ihr Namensgeber und daher auch die empfohlene Nahrung für einen Iop."
+    "description": "Diese Speise ist ebenso geistlos wie ihr Namensgeber und daher auch die empfohlene Nahrung für einen Iop.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 17171,
@@ -26286,7 +27213,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69826-128.png",
-    "description": "Der berühmte Barbar Ronan rollt sie höchstpersönlich unter den Achseln seiner gefallenen Feinde."
+    "description": "Der berühmte Barbar Ronan rollt sie höchstpersönlich unter den Achseln seiner gefallenen Feinde.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 15
+      }
+    ]
   },
   {
     "ankama_id": 17173,
@@ -26328,7 +27262,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69745-128.png",
-    "description": "Wenn diese Speise euch nicht umbringt, macht sie euch stärker. Das steht zumindest fest."
+    "description": "Wenn diese Speise euch nicht umbringt, macht sie euch stärker. Das steht zumindest fest.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 17175,
@@ -26370,7 +27311,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69817-128.png",
-    "description": "Die Einwohner Sufokias haben schnell erkannt, dass der Genuss von Meeresfrüchten ihr Gehirn stimuliert, aber nicht ihre Muskeln. Aus diesem Grund haben sie sich dieses Rezept überlegt."
+    "description": "Die Einwohner Sufokias haben schnell erkannt, dass der Genuss von Meeresfrüchten ihr Gehirn stimuliert, aber nicht ihre Muskeln. Aus diesem Grund haben sie sich dieses Rezept überlegt.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 17177,
@@ -26412,7 +27360,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69753-128.png",
-    "description": "Diese fürstliche Speise der gehobenen, aber schrecklich komplizierten Küche wird bei Amakna-Feiern weitgehend von Adeligen verzehrt."
+    "description": "Diese fürstliche Speise der gehobenen, aber schrecklich komplizierten Küche wird bei Amakna-Feiern weitgehend von Adeligen verzehrt.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 17179,
@@ -26454,7 +27409,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69759-128.png",
-    "description": "Auch euer Atem wird gestärkt sein, wenn ihr einen Happen dieses kräftigen Hackfleisch-Auflaufs gegessen habt."
+    "description": "Auch euer Atem wird gestärkt sein, wenn ihr einen Happen dieses kräftigen Hackfleisch-Auflaufs gegessen habt.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 35
+      }
+    ]
   },
   {
     "ankama_id": 17181,
@@ -26496,7 +27458,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69841-128.png",
-    "description": "Diese Speise ist beliebt bei Bonta-Offizieren, die oft auf Feldzügen sind."
+    "description": "Diese Speise ist beliebt bei Bonta-Offizieren, die oft auf Feldzügen sind.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 17183,
@@ -26538,7 +27507,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69807-128.png",
-    "description": "Für dieses Gulasch benötigt man die seltensten und erlesensten Fleischsorten."
+    "description": "Für dieses Gulasch benötigt man die seltensten und erlesensten Fleischsorten.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 17185,
@@ -26580,7 +27556,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69805-128.png",
-    "description": "Nur Frauen dürfen dieses Gericht essen, was natürlich die restlichen Gleichberechtigungsbeauftragten auf die Barrikaden bringt."
+    "description": "Nur Frauen dürfen dieses Gericht essen, was natürlich die restlichen Gleichberechtigungsbeauftragten auf die Barrikaden bringt.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 17187,
@@ -26622,7 +27605,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69797-128.png",
-    "description": "Die durch den Verzehr dieses Gerichts entstehenden Darmwinde sind hochexplosiv."
+    "description": "Die durch den Verzehr dieses Gerichts entstehenden Darmwinde sind hochexplosiv.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 55
+      }
+    ]
   },
   {
     "ankama_id": 17189,
@@ -26664,7 +27654,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69786-128.png",
-    "description": "Es ist schwierig, dieses Grillfleisch auf den Punkt zu garen, da alle Gefangenen anders auf das Lavabad reagieren."
+    "description": "Es ist schwierig, dieses Grillfleisch auf den Punkt zu garen, da alle Gefangenen anders auf das Lavabad reagieren.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 17191,
@@ -26706,7 +27703,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69790-128.png",
-    "description": "Dieses 3-in-1-Gericht lässt jeden Energieriegel blass aussehen."
+    "description": "Dieses 3-in-1-Gericht lässt jeden Energieriegel blass aussehen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 65
+      }
+    ]
   },
   {
     "ankama_id": 17193,
@@ -26748,7 +27752,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69810-128.png",
-    "description": "Offensichtlich ist Blutwurst stärker als Weißwurst – aber niemand kann es mit Sicherheit sagen, da man sie noch nie beim Armdrücken gesehen hat."
+    "description": "Offensichtlich ist Blutwurst stärker als Weißwurst – aber niemand kann es mit Sicherheit sagen, da man sie noch nie beim Armdrücken gesehen hat.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 17195,
@@ -26790,7 +27801,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69802-128.png",
-    "description": "Einem Koch zu sagen, er könne den Eintopf auch in zwei Töpfen zubereiten, kann schmerzhaft enden."
+    "description": "Einem Koch zu sagen, er könne den Eintopf auch in zwei Töpfen zubereiten, kann schmerzhaft enden.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 75
+      }
+    ]
   },
   {
     "ankama_id": 17197,
@@ -26832,7 +27850,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69774-128.png",
-    "description": "Ein übermäßiger Verzehr dieses Gerichts kann – genauso wie ein ausgedehnter Besuch der Schwiegermutter – zu Halluzinationen, Depressionen und Gedächtnisstörungen führen."
+    "description": "Ein übermäßiger Verzehr dieses Gerichts kann – genauso wie ein ausgedehnter Besuch der Schwiegermutter – zu Halluzinationen, Depressionen und Gedächtnisstörungen führen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 17199,
@@ -26874,7 +27899,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69734-128.png",
-    "description": "Wie dieses Filet zeigt, kann man gleichzeitig zart und hart sein."
+    "description": "Wie dieses Filet zeigt, kann man gleichzeitig zart und hart sein.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 85
+      }
+    ]
   },
   {
     "ankama_id": 17201,
@@ -26916,7 +27948,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69868-128.png",
-    "description": "Diese Speise schmeckt zwar nicht, aber sie macht euch stärker – wenn ihr sie ertragt, ohne sie wieder hochzuwürgen."
+    "description": "Diese Speise schmeckt zwar nicht, aber sie macht euch stärker – wenn ihr sie ertragt, ohne sie wieder hochzuwürgen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 17203,
@@ -26958,7 +27997,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69772-128.png",
-    "description": "Das nicht gesäuberte Gekröse in dieser Wurst verleiht ihr Eigenschaften, die sowohl bei Abenteurern als auch bei Bodybuildern heiß begehrt sind."
+    "description": "Das nicht gesäuberte Gekröse in dieser Wurst verleiht ihr Eigenschaften, die sowohl bei Abenteurern als auch bei Bodybuildern heiß begehrt sind.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 95
+      }
+    ]
   },
   {
     "ankama_id": 17205,
@@ -27000,7 +28046,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
-    "description": "Es liegt größtenteils an der extremen Elastizität dieser Wurst mit Formgedächtnis, dass Erwachsene ausgeschimpft werden, wenn sie mit ihrem Essen spielen."
+    "description": "Es liegt größtenteils an der extremen Elastizität dieser Wurst mit Formgedächtnis, dass Erwachsene ausgeschimpft werden, wenn sie mit ihrem Essen spielen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 17207,
@@ -27251,7 +28304,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69803-128.png",
-    "description": "Diese Brühe ist nicht zu heiß, nicht zu kalt, nicht zu scharf und nicht genug. Man hat vielmehr das Gefühl, eine Wolke zu verspeisen."
+    "description": "Diese Brühe ist nicht zu heiß, nicht zu kalt, nicht zu scharf und nicht genug. Man hat vielmehr das Gefühl, eine Wolke zu verspeisen.",
+    "conditions": [
+      {
+        "stat": "Stärke",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 17453,
@@ -27431,7 +28491,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12197-128.png",
-    "description": "Ein kräftiger Schluck und ihr werdet in den Übermagier-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchschmerzen, Haarausfall, Mundgeruch, gerissene Schnürsenkel, ständig rote Ampel."
+    "description": "Ein kräftiger Schluck und ihr werdet in den Übermagier-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchschmerzen, Haarausfall, Mundgeruch, gerissene Schnürsenkel, ständig rote Ampel.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 17532,
@@ -27635,7 +28702,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12754-128.png",
-    "description": "Von diesem Trank geht ein Geruch nach geronnenem Blut aus. Wenn ihr ihn trinkt, dann erscheint ihr augenblicklich im Turm von Gisgoul."
+    "description": "Von diesem Trank geht ein Geruch nach geronnenem Blut aus. Wenn ihr ihn trinkt, dann erscheint ihr augenblicklich im Turm von Gisgoul.",
+    "conditions": [
+      {
+        "stat": "Gesinnungsstufe",
+        "operator": ">",
+        "value": 79
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 15000
+      }
+    ]
   },
   {
     "ankama_id": 17774,
@@ -28388,7 +29467,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12198-128.png",
-    "description": "Ein kräftiger Schluck und ihr werdet in den Ouginak-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchschmerzen, Besuch der Schwiegermutter, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampeln."
+    "description": "Ein kräftiger Schluck und ihr werdet in den Ouginak-Tempel teleportiert. Bekannte Nebenwirkungen: Bauchschmerzen, Besuch der Schwiegermutter, Haarausfall, Mundgeruch, lose Schnürsenkel, ständig rote Ampeln.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 18649,
@@ -28539,7 +29625,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12026-128.png",
-    "description": "Dieses Tonikum verleiht demjenigen, der es zu sich nimmt, vorübergehend die physischen Eigenschaften eines Chafers. Dem Erzbischof ist es nicht gelungen, es auch mit der Perversität dieser Kreatur zu versehen, was das Desinteresse erklären könnte, das die Alchemisten diesem Gebräu entgegenbringen."
+    "description": "Dieses Tonikum verleiht demjenigen, der es zu sich nimmt, vorübergehend die physischen Eigenschaften eines Chafers. Dem Erzbischof ist es nicht gelungen, es auch mit der Perversität dieser Kreatur zu versehen, was das Desinteresse erklären könnte, das die Alchemisten diesem Gebräu entgegenbringen.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 18838
+      }
+    ]
   },
   {
     "ankama_id": 19057,
@@ -29411,7 +30504,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/37004-128.png",
-    "description": "Glaubt ihr das Barbaren mit roten Bärten kein Bier mit dem subtilen Geschmack von Orange und Honig zu schätzen wissen? Dann werdet ihr schon bald merken, wie beschränkt diese Sichtweise doch ist."
+    "description": "Glaubt ihr das Barbaren mit roten Bärten kein Bier mit dem subtilen Geschmack von Orange und Honig zu schätzen wissen? Dann werdet ihr schon bald merken, wie beschränkt diese Sichtweise doch ist.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 19960
+      }
+    ]
   },
   {
     "ankama_id": 19961,
@@ -30557,7 +31657,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43041-128.png",
-    "description": "Wenn ihr diesen Trank zu euch nehmt, werdet ihr vor das Haus der Hexe Meriana in den übelriechenden Sümpfen teleportiert. Wenn ihr an Reiseübelkeit leidet, solltet ihr gewisse Vorkehrungen treffen, denn der beißende Geruch, der euch in die Nase steigen wird, könnte durchaus unangenehme Konsequenzen für euren Mageninhalt haben."
+    "description": "Wenn ihr diesen Trank zu euch nehmt, werdet ihr vor das Haus der Hexe Meriana in den übelriechenden Sümpfen teleportiert. Wenn ihr an Reiseübelkeit leidet, solltet ihr gewisse Vorkehrungen treffen, denn der beißende Geruch, der euch in die Nase steigen wird, könnte durchaus unangenehme Konsequenzen für euren Mageninhalt haben.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 39
+      }
+    ]
   },
   {
     "ankama_id": 20240,
@@ -31928,7 +33035,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42205-128.png",
-    "description": "Wenn ihr diese Süßigkeit verspeist, werdet ihr die Magie der Schokolade voll zu spüren bekommen: ihr werdet auf die Ostewinsel gebracht."
+    "description": "Wenn ihr diese Süßigkeit verspeist, werdet ihr die Magie der Schokolade voll zu spüren bekommen: ihr werdet auf die Ostewinsel gebracht.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 21043,
@@ -33949,7 +35063,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/176023-128.png",
-    "description": "Was Großmutter noch wusste: „Einen Schluckauf kuriert man am besten, wenn man auf dem Kopf stehend etwas trinkt.“ Hicks!"
+    "description": "Was Großmutter noch wusste: „Einen Schluckauf kuriert man am besten, wenn man auf dem Kopf stehend etwas trinkt.“ Hicks!",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 30071
+      }
+    ]
   },
   {
     "ankama_id": 21489,
@@ -36166,7 +37292,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12786-128.png",
-    "description": "Dieser Trank macht euch zwar kleiner, aber nicht unbedingt stärker. Alle haben eben nicht das Zeug zu einer Himbeere!"
+    "description": "Dieser Trank macht euch zwar kleiner, aber nicht unbedingt stärker. Alle haben eben nicht das Zeug zu einer Himbeere!",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 22505
+      }
+    ]
   },
   {
     "ankama_id": 22509,
@@ -37852,7 +38985,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164745-128.png",
-    "description": "Es hält sich der hartnäckige Glaube, dass es dieses fermentierte Getränk Sterbenden ermöglicht, Externam zu erreichen, ohne sich zu verirren. Ganz ohne Zweifel ist das auch der Grund, warum Alchemisten es zum Brauen eines mysteriösen Elixiers verwenden ...\nWenn ihr schon immer davon geträumt habt, wie eine schmerzerfüllte Seele umherzuwandern, wird das Leeren dieses Bechers euren Wunsch bis zum nächsten Kampf erfüllen."
+    "description": "Es hält sich der hartnäckige Glaube, dass es dieses fermentierte Getränk Sterbenden ermöglicht, Externam zu erreichen, ohne sich zu verirren. Ganz ohne Zweifel ist das auch der Grund, warum Alchemisten es zum Brauen eines mysteriösen Elixiers verwenden ...\nWenn ihr schon immer davon geträumt habt, wie eine schmerzerfüllte Seele umherzuwandern, wird das Leeren dieses Bechers euren Wunsch bis zum nächsten Kampf erfüllen.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 20341
+      }
+    ]
   },
   {
     "ankama_id": 23598,
@@ -37863,7 +39008,19 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12788-128.png",
-    "description": "Wenn ihr den Inhalt dieser Phiole leert, stimuliert ihr euren sechsten Sinn. Dann werdet ihr die legendäre Straße der Toten von Pandala sehen können.\n(Man muss sich auf der Grobis-Insel befinden, um diesen Trank verwenden zu können.)"
+    "description": "Wenn ihr den Inhalt dieser Phiole leert, stimuliert ihr euren sechsten Sinn. Dann werdet ihr die legendäre Straße der Toten von Pandala sehen können.\n(Man muss sich auf der Grobis-Insel befinden, um diesen Trank verwenden zu können.)",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 79
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 23691,
@@ -38157,7 +39314,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164789-128.png",
-    "description": "Das ist mal ein Getränk, das euch nicht ungerührt lässt. ... Oder vielleicht doch?"
+    "description": "Das ist mal ein Getränk, das euch nicht ungerührt lässt. ... Oder vielleicht doch?",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 23843
+      }
+    ]
   },
   {
     "ankama_id": 23889,
@@ -38434,7 +39598,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164789-128.png",
-    "description": "Wie wär's mit einem kleinen Nachschlag?"
+    "description": "Wie wär's mit einem kleinen Nachschlag?",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 24021,
@@ -38554,7 +39725,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164790-128.png",
-    "description": "Wer dieses Bier trinkt, wird im Handumdrehen rund wie ein Fass."
+    "description": "Wer dieses Bier trinkt, wird im Handumdrehen rund wie ein Fass.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 24043,
@@ -43728,7 +44906,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/176043-128.png",
-    "description": "Ihr wollt Otomaï einen Besuch abstatten? Dann trinkt diesen Trank. Wenn ihr ihn in einem Zug austrinkt, spart ihr Zeit, um euch die Phiole des berühmtesten Alchimisten der Welt der Zwölf leisten zu können."
+    "description": "Ihr wollt Otomaï einen Besuch abstatten? Dann trinkt diesen Trank. Wenn ihr ihn in einem Zug austrinkt, spart ihr Zeit, um euch die Phiole des berühmtesten Alchimisten der Welt der Zwölf leisten zu können.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 39
+      }
+    ]
   },
   {
     "ankama_id": 26660,
@@ -43746,7 +44931,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12064-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26661,
@@ -43764,7 +44961,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12066-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26662,
@@ -43782,7 +44991,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12065-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26663,
@@ -43800,7 +45021,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12067-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26697,
@@ -45548,7 +46781,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12064-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27484,
@@ -45572,7 +46812,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12066-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27485,
@@ -45596,7 +46843,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12065-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27486,
@@ -45620,7 +46874,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12067-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27487,
@@ -45897,7 +47158,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12810-128.png",
-    "description": "Ein guter Schluck und ihr werdet zum Tempel der Speerschmiede teleportiert. Bekannte Nebenwirkungen: Koliken, Erscheinung der Schwiegermutter, Haarausfall, Schakalgestank, offene Schnürsenkel, Rote Ampelwelle."
+    "description": "Ein guter Schluck und ihr werdet zum Tempel der Speerschmiede teleportiert. Bekannte Nebenwirkungen: Koliken, Erscheinung der Schwiegermutter, Haarausfall, Schakalgestank, offene Schnürsenkel, Rote Ampelwelle.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 27715,
@@ -46529,7 +47797,19 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12068-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Last zugunsten eurer Allianz auf ein Prisma entladen."
+    "description": "Mit diesem Trank könnt ihr eure Last zugunsten eurer Allianz auf ein Prisma entladen.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 27659
+      }
+    ]
   },
   {
     "ankama_id": 28292,
@@ -47163,7 +48443,14 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "Dieses Diplom verleiht den Titel „Manitum Premium“.",
-    "ability": "Titel: Manitum Premium"
+    "ability": "Titel: Manitum Premium",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 28398
+      }
+    ]
   },
   {
     "ankama_id": 28353,
@@ -47229,7 +48516,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr die Klasse wechseln."
+    "description": "Mit diesem Trank könnt ihr die Klasse wechseln.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 21
+      }
+    ]
   },
   {
     "ankama_id": 28456,
@@ -47531,7 +48825,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "Wenn ihr keine Angst davor habt, bei eurem nächsten Spaziergang durch den Versteinerten Wald von Abenteurern gejagt zu werden, dann trinkt diesen Trank.\nNur jene, die in den Tiefen des trügerischen Tempels gebetet haben, sind würdig, ihren Durst nach Spiritualität zu stillen."
+    "description": "Wenn ihr keine Angst davor habt, bei eurem nächsten Spaziergang durch den Versteinerten Wald von Abenteurern gejagt zu werden, dann trinkt diesen Trank.\nNur jene, die in den Tiefen des trügerischen Tempels gebetet haben, sind würdig, ihren Durst nach Spiritualität zu stillen.",
+    "conditions": [
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 28499,
@@ -47796,7 +49097,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 61
+      }
+    ]
   },
   {
     "ankama_id": 29125,
@@ -47820,7 +49128,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 81
+      }
+    ]
   },
   {
     "ankama_id": 29126,
@@ -47844,7 +49159,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 101
+      }
+    ]
   },
   {
     "ankama_id": 29127,
@@ -47868,7 +49190,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 121
+      }
+    ]
   },
   {
     "ankama_id": 29128,
@@ -47892,7 +49221,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 141
+      }
+    ]
   },
   {
     "ankama_id": 29129,
@@ -47916,7 +49252,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 161
+      }
+    ]
   },
   {
     "ankama_id": 29130,
@@ -47940,7 +49283,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 181
+      }
+    ]
   },
   {
     "ankama_id": 29131,
@@ -47964,7 +49314,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 200
+      }
+    ]
   },
   {
     "ankama_id": 29132,
@@ -47988,7 +49345,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "Mit diesem Trank könnt ihr eure Klasse ändern."
+    "description": "Mit diesem Trank könnt ihr eure Klasse ändern.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": "<",
+        "value": 41
+      }
+    ]
   },
   {
     "ankama_id": 29230,
@@ -50034,7 +51398,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12189-128.png",
-    "description": "Euer Instinkt sagt euch, den Inhalt nicht zu trinken. Naja, eigentlich ist es eure Nase, denn dieses Gebräu riecht wie 100 Jahre alter Bwork Achselschweiss."
+    "description": "Euer Instinkt sagt euch, den Inhalt nicht zu trinken. Naja, eigentlich ist es eure Nase, denn dieses Gebräu riecht wie 100 Jahre alter Bwork Achselschweiss.",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 6
+      }
+    ]
   },
   {
     "ankama_id": 29670,
@@ -51340,7 +52711,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/91000-128.png",
-    "description": "Die Rüstung dieses Dracotruters schützt zwar vor Tiefschlägen, aber nicht vor miesen Tricks. Durch das Tragen dieser Rüstung verliert der Dracotruter seine Fähigkeit zur Fortpflanzung."
+    "description": "Die Rüstung dieses Dracotruters schützt zwar vor Tiefschlägen, aber nicht vor miesen Tricks. Durch das Tragen dieser Rüstung verliert der Dracotruter seine Fähigkeit zur Fortpflanzung.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 59
+      }
+    ]
   },
   {
     "ankama_id": 30468,
@@ -51358,7 +52736,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/91001-128.png",
-    "description": "Diese einzigartige Kreatur ist aus der unmöglich erscheinenden Kreuzung eines Piepmatzes mit einem Dracotruter hervorgegangen. Leider ist dieses Wundertier nicht in der Lage, sich fortzupflanzen."
+    "description": "Diese einzigartige Kreatur ist aus der unmöglich erscheinenden Kreuzung eines Piepmatzes mit einem Dracotruter hervorgegangen. Leider ist dieses Wundertier nicht in der Lage, sich fortzupflanzen.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 59
+      }
+    ]
   },
   {
     "ankama_id": 30469,
@@ -51369,7 +52754,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30470,
@@ -51380,7 +52772,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30471,
@@ -51391,7 +52790,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30472,
@@ -51402,7 +52808,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30473,
@@ -51413,7 +52826,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30474,
@@ -51424,7 +52844,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30475,
@@ -51435,7 +52862,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30476,
@@ -51446,7 +52880,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30477,
@@ -51457,7 +52898,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30478,
@@ -51468,7 +52916,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30479,
@@ -51479,7 +52934,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30480,
@@ -51490,7 +52952,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30481,
@@ -51501,7 +52970,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30482,
@@ -51512,7 +52988,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30483,
@@ -51523,7 +53006,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30484,
@@ -51534,7 +53024,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30485,
@@ -51545,7 +53042,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30486,
@@ -51556,7 +53060,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30488,
@@ -51796,7 +53307,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42250-128.png",
-    "description": "Ein besonders reichhaltiges Menü speziell für die Abenteurer, die den Jahrmarkt des Trools gerettet haben."
+    "description": "Ein besonders reichhaltiges Menü speziell für die Abenteurer, die den Jahrmarkt des Trools gerettet haben.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "=",
+        "value": 30071
+      }
+    ]
   },
   {
     "ankama_id": 30513,
@@ -55357,7 +56885,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14064-128.png",
-    "description": "Trinkt diesen Trank, um auf euren Ruf zu setzen und euch in einen Schemel zu verwandeln."
+    "description": "Trinkt diesen Trank, um auf euren Ruf zu setzen und euch in einen Schemel zu verwandeln.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 30761
+      }
+    ]
   },
   {
     "ankama_id": 30765,
@@ -55381,7 +56921,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14061-128.png",
-    "description": "Trinkt diesen Trank, um ein Fass aufzumachen und euch in eine Tonne zu verwandeln."
+    "description": "Trinkt diesen Trank, um ein Fass aufzumachen und euch in eine Tonne zu verwandeln.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 30762
+      }
+    ]
   },
   {
     "ankama_id": 30766,
@@ -55405,7 +56957,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14072-128.png",
-    "description": "Trinkt diesen Trank, um keinen Müll zu machen und euch in eine Mülltonne zu verwandeln."
+    "description": "Trinkt diesen Trank, um keinen Müll zu machen und euch in eine Mülltonne zu verwandeln.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 30763
+      }
+    ]
   },
   {
     "ankama_id": 30767,
@@ -55429,7 +56993,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126144-128.png",
-    "description": "Trinkt diesen Trank, um eure Siege beim Gladiatrool zu feiern und euch in einen Troollaufradist zu verwandeln. Ihr werdet also noch ein bisschen mehr einen an der Waffel haben."
+    "description": "Trinkt diesen Trank, um eure Siege beim Gladiatrool zu feiern und euch in einen Troollaufradist zu verwandeln. Ihr werdet also noch ein bisschen mehr einen an der Waffel haben.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 30768
+      }
+    ]
   },
   {
     "ankama_id": 30771,
@@ -55453,7 +57029,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126145-128.png",
-    "description": "Trinkt diesen Trank, um eure Siege beim Gladiatrool zu feiern und euch in einen Artrooleristen zu verwandeln: Alle, die es elastisch mögen, werden begeistert sein."
+    "description": "Trinkt diesen Trank, um eure Siege beim Gladiatrool zu feiern und euch in einen Artrooleristen zu verwandeln: Alle, die es elastisch mögen, werden begeistert sein.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 30769
+      }
+    ]
   },
   {
     "ankama_id": 30772,
@@ -55477,7 +57065,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126146-128.png",
-    "description": "Trinkt diesen Trank, um eure Siege beim Gladiatrool zu feiern und euch in einen Nitrooll zu verwandeln. Ihr habt vielleicht nur Jetons gewonnen, aber euer Lohn der Angst ist wohlverdient."
+    "description": "Trinkt diesen Trank, um eure Siege beim Gladiatrool zu feiern und euch in einen Nitrooll zu verwandeln. Ihr habt vielleicht nur Jetons gewonnen, aber euer Lohn der Angst ist wohlverdient.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 30770
+      }
+    ]
   },
   {
     "ankama_id": 30777,
@@ -56562,7 +58162,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94062-128.png",
-    "description": "Wolltet ihr nicht schon immer wie ein Solibz aussehen? Die Macht der Dimensionstechnomagie macht's möglich!"
+    "description": "Wolltet ihr nicht schon immer wie ein Solibz aussehen? Die Macht der Dimensionstechnomagie macht's möglich!",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31583
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31981
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31982
+      }
+    ]
   },
   {
     "ankama_id": 31660,
@@ -56586,7 +58203,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94063-128.png",
-    "description": "Wolltet ihr nicht schon immer wie ein Kantilopinchen aussehen? Die Macht der Dimensionstechnomagie macht's möglich!"
+    "description": "Wolltet ihr nicht schon immer wie ein Kantilopinchen aussehen? Die Macht der Dimensionstechnomagie macht's möglich!",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31657
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31983
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31984
+      }
+    ]
   },
   {
     "ankama_id": 31661,
@@ -56610,7 +58244,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94064-128.png",
-    "description": "Wolltet ihr nicht schon immer wie ein Raubrakel aussehen? Die Macht der Dimensionstechnomagie macht's möglich!"
+    "description": "Wolltet ihr nicht schon immer wie ein Raubrakel aussehen? Die Macht der Dimensionstechnomagie macht's möglich!",
+    "conditions": [
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31658
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31985
+      },
+      {
+        "stat": "Anderes Gebiet als: {0}",
+        "operator": "!",
+        "value": 31986
+      }
+    ]
   },
   {
     "ankama_id": 31662,
@@ -56997,7 +58648,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12069-128.png",
-    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann."
+    "description": "Es heißt, Oktapodas habe Ankertinte benutzt, um sich von einem Ort zum anderen zu transportieren. Fischer aus der Welt der Zwölf scheinen eine Ankertinte entwickelt zu haben, mit der man sich an einen ganz bestimmten Ort begeben kann.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Abonniert",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 31974,
@@ -58826,7 +60489,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51502-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32492,
@@ -58844,7 +60514,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51503-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32493,
@@ -58862,7 +60539,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51504-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32494,
@@ -58880,7 +60564,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51505-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32495,
@@ -58898,7 +60589,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51506-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32496,
@@ -58916,7 +60614,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51507-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32497,
@@ -58934,7 +60639,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51508-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32498,
@@ -58952,7 +60664,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51509-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32499,
@@ -58970,7 +60689,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51510-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32500,
@@ -58988,7 +60714,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51511-128.png",
-    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus."
+    "description": "Kristallisiertes Fragment, das demjenigen, der es verbraucht, eine vorübergehende Verbesserung seiner Kampffähigkeiten verleiht. Sobald es seine Wirkung erzielt hat, vergeht sein Leuchten und hinterlässt nicht mehr als eine flüchtige Erinnerung an den verliehenen Bonus.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32502,
@@ -68178,7 +69911,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34357,
@@ -68196,7 +69936,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34358,
@@ -68214,7 +69961,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34359,
@@ -68232,7 +69986,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34360,
@@ -68250,7 +70011,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34361,
@@ -68268,7 +70036,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34362,
@@ -68286,7 +70061,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34363,
@@ -68304,7 +70086,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34364,
@@ -68322,7 +70111,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34365,
@@ -68340,7 +70136,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34366,
@@ -68358,7 +70161,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34367,
@@ -68376,7 +70186,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34368,
@@ -68394,7 +70211,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34369,
@@ -68412,7 +70236,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34370,
@@ -68430,7 +70261,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34371,
@@ -68448,7 +70286,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png",
-    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität."
+    "description": "Kapitän Panzanker war eine Naturgewalt, ein echter Koloss, der vor Vitalität nur so sprühte. Vom Meer Khmal zum Assel-Meer, von der Bucht von Cania bis zu den Steinernen Zähnen – sein Schiff schien überall gleichzeitig zu sein. Doch sein Leben als Freibeuter nahm ein tragisches Ende: Wie genau er zu Tode kam, weiß heute niemand mehr, aber in allen Geschichten ist von einem Anker, Tinte und einem Riesenkrakamor die Rede.\nDiese Tätowierung verleiht euch einen Bruchteil von Panzankers Vitalität.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34372,
@@ -68466,7 +70311,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png",
-    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth."
+    "description": "Wenn es darum ging, eine Gegend methodisch zu durchsuchen oder einen gerade besiegten Gegner zu filzen, um sich seinen mageren Besitz anzueignen, konnte Looth niemand das Wasser reichen. Sie weigerte sich standhaft, sich einem Clan wie den Cania-Gaunern anzuschließen, und ließ sich nur von ihrer Profitgier treiben. Ihr Tod war wie ihr Leben: gewaltsam und unvorhersehbar.\nDiese Tätowierung verleiht euch einen Bruchteil des Filz-Talents von Looth.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34373,
@@ -68484,7 +70336,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png",
-    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft."
+    "description": "Kratzeisen war ein gefürchteter Haudegen, der für geraume Zeit die Cania-Ebenen unsicher machte. Er griff alle Reisenden an, die seinen Weg kreuzten – laut eigenen Aussagen, um ihnen „zu beweisen, wie gut er mit dem Schwert umgehen kann“. Dem Hörensagen nach hat er sich in einem Anfall von Übermut selbst attackiert.\nDiese Tätowierung verleiht euch einen Bruchteil von Kratzeisens Schlagkraft.",
+    "conditions": [
+      {
+        "stat": "Mindestens Stufe {0}",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34374,

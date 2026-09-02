@@ -440,5 +440,6 @@
   "rune_section_damage": "Damage",
   "rune_section_resistance": "Resistance",
   "rune_section_secondary": "Secondary",
-  "rune_section_pct_resistance": "% Resistance"
+  "rune_section_pct_resistance": "% Resistance",
+  "conditions": "Conditions"
 }

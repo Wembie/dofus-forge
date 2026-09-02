@@ -85,3 +85,6 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M44 — Optimizer: progreso slot-por-slot en barra** — mostrar qué slot se está procesando ("Optimizando: Sombrero…"); Web Worker ya emite eventos de progreso
 - [ ] **M45 — Optimizer: constraint de pods** — limitar builds que excedan capacidad de carga del personaje
 - [ ] **M46 — Optimizer: algoritmos especializados** — motor de clase profesional: multi-start greedy, branch & bound, algoritmo genético, constraint propagation; arquitectura `src/engine/optimizer/` por módulo
+
+
+- [] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso

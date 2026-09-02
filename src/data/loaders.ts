@@ -22,6 +22,12 @@ export type IndexItem = {
 
 export type AppEffect = { stat: string; min: number; max: number; effect_id?: number }
 
+export type AppCondition = {
+  stat:     string   // English stat name (e.g. "Strength", "Chance")
+  operator: string   // ">", "<", ">=", "<="
+  value:    number
+}
+
 export type AppItem = {
   ankama_id:   number
   name:        string
@@ -29,6 +35,7 @@ export type AppItem = {
   type:        string
   slot:        string
   effects:     AppEffect[]
+  conditions?: AppCondition[]
   set_id:      number | null
   image_url:   string | null
   description?: string

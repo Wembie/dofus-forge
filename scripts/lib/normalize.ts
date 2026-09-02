@@ -5,6 +5,12 @@ export type AppEffect = {
   effect_id?: number
 }
 
+export type AppCondition = {
+  stat:     string   // English stat name (e.g. "Strength", "Chance")
+  operator: string   // ">", "<", ">=", "<="
+  value:    number
+}
+
 export type AppItem = {
   ankama_id: number
   name: string
@@ -12,6 +18,7 @@ export type AppItem = {
   type: string
   slot: string
   effects: AppEffect[]
+  conditions?: AppCondition[]
   set_id: number | null
   image_url: string | null
   description?: string
@@ -46,12 +53,33 @@ export type RawEffect = {
   formatted?: string
 }
 
+type RawConditionNode = {
+  is_operand: boolean
+  relation?: string
+  children?: RawConditionNode[]
+  condition?: {
+    operator?: string
+    int_value?: number
+    element?: { name?: string; id?: number }
+  }
+}
+
+function flattenConditions(node: RawConditionNode): AppCondition[] {
+  if (node.is_operand) {
+    const c = node.condition
+    if (!c || !c.element?.name || !c.operator) return []
+    return [{ stat: c.element.name, operator: c.operator, value: c.int_value ?? 0 }]
+  }
+  return (node.children ?? []).flatMap(flattenConditions)
+}
+
 export type RawItem = {
   ankama_id?: number
   name?: string
   level?: number
   type?: { name?: string }
   effects?: RawEffect[]
+  conditions?: RawConditionNode | null
   parent_set?: { id?: number }
   image_urls?: { icon?: string; sd?: string }
   description?: string
@@ -118,6 +146,10 @@ export function normalizeItem(raw: RawItem): AppItem {
   }
   if (raw.description) item.description = raw.description
   if (abilityEffect?.formatted) item.ability = abilityEffect.formatted
+  if (raw.conditions) {
+    const conds = flattenConditions(raw.conditions)
+    if (conds.length > 0) item.conditions = conds
+  }
   if (raw.is_weapon) {
     item.ap_cost     = raw.ap_cost                   ?? 0
     item.crit_chance = raw.critical_hit_probability  ?? 0

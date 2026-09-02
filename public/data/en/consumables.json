@@ -357,7 +357,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76021-128.png",
-    "description": "Use this scroll to safely and permanently increase your Strength by 1.\nBe careful though, as you can only use it if your Strength is below 25."
+    "description": "Use this scroll to safely and permanently increase your Strength by 1.\nBe careful though, as you can only use it if your Strength is below 25.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 684,
@@ -393,7 +400,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76023-128.png",
-    "description": "Use this scroll to safely and permanently increase your intelligence by 1.\nBe careful though, as you can only use it if your intelligence is below 25."
+    "description": "Use this scroll to safely and permanently increase your intelligence by 1.\nBe careful though, as you can only use it if your intelligence is below 25.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 692,
@@ -675,7 +689,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76029-128.png",
-    "description": "Use this scroll to safely and permanently increase your Strength by 1.\nBe careful though, as you can only use it if your Strength is below 50."
+    "description": "Use this scroll to safely and permanently increase your Strength by 1.\nBe careful though, as you can only use it if your Strength is below 50.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 796,
@@ -693,7 +714,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76030-128.png",
-    "description": "Use this scroll to safely and permanently increase your Strength by 1.\nBe careful though, as you can only use it if your Strength is below 80."
+    "description": "Use this scroll to safely and permanently increase your Strength by 1.\nBe careful though, as you can only use it if your Strength is below 80.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 797,
@@ -711,7 +739,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76031-128.png",
-    "description": "Use this scroll to safely and permanently increase your Strength by 2. \nBe careful though, as you can only use it if your Strength is below 100."
+    "description": "Use this scroll to safely and permanently increase your Strength by 2. \nBe careful though, as you can only use it if your Strength is below 100.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 798,
@@ -729,7 +764,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76020-128.png",
-    "description": "Use this scroll to safely and permanently increase your Agility by 1.\nBe careful though, as you can only use it if your Agility is below 25."
+    "description": "Use this scroll to safely and permanently increase your Agility by 1.\nBe careful though, as you can only use it if your Agility is below 25.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 799,
@@ -747,7 +789,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76026-128.png",
-    "description": "Use this scroll to safely and permanently increase your Agility by 1. \nBe careful though, as you can only use it if your Agility is below 50."
+    "description": "Use this scroll to safely and permanently increase your Agility by 1. \nBe careful though, as you can only use it if your Agility is below 50.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 800,
@@ -765,7 +814,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76027-128.png",
-    "description": "Use this scroll to safely and permanently increase your Agility by 1.\nBe careful though, as you can only use it if your Agility is below 80."
+    "description": "Use this scroll to safely and permanently increase your Agility by 1.\nBe careful though, as you can only use it if your Agility is below 80.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 801,
@@ -783,7 +839,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76028-128.png",
-    "description": "Use this scroll to safely and permanently increase your Agility by 2. \nBe careful though, as you can only use it if your Agility is below 100."
+    "description": "Use this scroll to safely and permanently increase your Agility by 2. \nBe careful though, as you can only use it if your Agility is below 100.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 802,
@@ -801,7 +864,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76024-128.png",
-    "description": "Use this scroll to safely and permanently increase your Wisdom by 1.\nBe careful though, as you can only use it if your Wisdom is below 25."
+    "description": "Use this scroll to safely and permanently increase your Wisdom by 1.\nBe careful though, as you can only use it if your Wisdom is below 25.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 803,
@@ -819,7 +889,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76038-128.png",
-    "description": "Use this scroll to safely and permanently increase your Wisdom by 1.\nBe careful though, as you can only use it if your Wisdom is below 50."
+    "description": "Use this scroll to safely and permanently increase your Wisdom by 1.\nBe careful though, as you can only use it if your Wisdom is below 50.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 804,
@@ -837,7 +914,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76039-128.png",
-    "description": "Use this scroll to safely and permanently increase your Wisdom by 1.\nBe careful though, as you can only use it if your Wisdom is below 80."
+    "description": "Use this scroll to safely and permanently increase your Wisdom by 1.\nBe careful though, as you can only use it if your Wisdom is below 80.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 805,
@@ -855,7 +939,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76040-128.png",
-    "description": "Use this scroll to safely and permanently increase your Wisdom by 2. \nBe careful though, as you can only use it if your Wisdom is below 100."
+    "description": "Use this scroll to safely and permanently increase your Wisdom by 2. \nBe careful though, as you can only use it if your Wisdom is below 100.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 806,
@@ -873,7 +964,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76025-128.png",
-    "description": "Use this scroll to safely and permanently increase your Vitality by 1.\nBe careful though, as you can only use it if your Vitality is below 25."
+    "description": "Use this scroll to safely and permanently increase your Vitality by 1.\nBe careful though, as you can only use it if your Vitality is below 25.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 807,
@@ -891,7 +989,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76041-128.png",
-    "description": "Use this scroll to safely and permanently increase your Vitality by 1.\nBe careful though, as you can only use it if your Vitality is below 50."
+    "description": "Use this scroll to safely and permanently increase your Vitality by 1.\nBe careful though, as you can only use it if your Vitality is below 50.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 808,
@@ -909,7 +1014,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76042-128.png",
-    "description": "Use this scroll to safely and permanently increase your Vitality by 1.\nBe careful though, as you can only use it if your Vitality is below 80."
+    "description": "Use this scroll to safely and permanently increase your Vitality by 1.\nBe careful though, as you can only use it if your Vitality is below 80.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 809,
@@ -927,7 +1039,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76022-128.png",
-    "description": "Use this scroll to safely and permanently increase your Chance by 1.\nBe careful though, as you can only use it if your chance is below 25."
+    "description": "Use this scroll to safely and permanently increase your Chance by 1.\nBe careful though, as you can only use it if your chance is below 25.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 810,
@@ -945,7 +1064,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76043-128.png",
-    "description": "Use this scroll to safely and permanently increase your Vitality by 2. \nBe careful though, as you can only use it if your Vitality is below 100."
+    "description": "Use this scroll to safely and permanently increase your Vitality by 2. \nBe careful though, as you can only use it if your Vitality is below 100.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 811,
@@ -963,7 +1089,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76032-128.png",
-    "description": "Use this scroll to safely and permanently increase your chance by 1. \nBe careful though, as you can only use it if your chance is below 50."
+    "description": "Use this scroll to safely and permanently increase your chance by 1. \nBe careful though, as you can only use it if your chance is below 50.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 812,
@@ -981,7 +1114,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76033-128.png",
-    "description": "Use this scroll to safely and permanently increase your chance by 1. \nBe careful though, as you can only use it if your chance is below 80."
+    "description": "Use this scroll to safely and permanently increase your chance by 1. \nBe careful though, as you can only use it if your chance is below 80.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 814,
@@ -999,7 +1139,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76034-128.png",
-    "description": "Use this scroll to safely and permanently increase your Chance by 2. \nBe careful though, as you can only use it if your chance is below 100."
+    "description": "Use this scroll to safely and permanently increase your Chance by 2. \nBe careful though, as you can only use it if your chance is below 100.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 815,
@@ -1017,7 +1164,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76035-128.png",
-    "description": "Use this scroll to safely and permanently increase your Intelligence by 1.\nBe careful though, as you can only use it if your intelligence is below 50."
+    "description": "Use this scroll to safely and permanently increase your Intelligence by 1.\nBe careful though, as you can only use it if your intelligence is below 50.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 816,
@@ -1035,7 +1189,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76036-128.png",
-    "description": "Use this scroll to safely and permanently increase your intelligence by 1. \nBe careful though, as you can only use it if your intelligence is below 80."
+    "description": "Use this scroll to safely and permanently increase your intelligence by 1. \nBe careful though, as you can only use it if your intelligence is below 80.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 817,
@@ -1053,7 +1214,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76037-128.png",
-    "description": "Use this scroll to gain additional Intelligence points.\nBe careful though, as you can only use it if your Intelligence is below 100."
+    "description": "Use this scroll to gain additional Intelligence points.\nBe careful though, as you can only use it if your Intelligence is below 100.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 878,
@@ -1233,7 +1401,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42026-128.png",
-    "description": "Multijely was banned after children started disappearing soon after eating it. Not long after, they realised the kids were just going to the shop to get more."
+    "description": "Multijely was banned after children started disappearing soon after eating it. Not long after, they realised the kids were just going to the shop to get more.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 0
+      }
+    ]
   },
   {
     "ankama_id": 1182,
@@ -1621,7 +1796,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49073-128.png",
-    "description": "This incredibly tasty stick is made from the best fat-free pieces of cubic fish. Its taste delights children and it has excellent nutritional value."
+    "description": "This incredibly tasty stick is made from the best fat-free pieces of cubic fish. Its taste delights children and it has excellent nutritional value.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 1764,
@@ -1663,7 +1845,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49076-128.png",
-    "description": "Made from Exotic Crab Surimi, this meat tastes disgusting, but is very nutritious."
+    "description": "Made from Exotic Crab Surimi, this meat tastes disgusting, but is very nutritious.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 1767,
@@ -1705,7 +1894,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49077-128.png",
-    "description": "Firmer and more refined than Smoked Kittenfish, this Smoked Tigerfish will delight lovers of fine cuisine."
+    "description": "Firmer and more refined than Smoked Kittenfish, this Smoked Tigerfish will delight lovers of fine cuisine.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 1809,
@@ -1801,7 +1997,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49087-128.png",
-    "description": "Steam-cooked to retain the flavour, this small carp's flavour will sweep you off your feet!"
+    "description": "Steam-cooked to retain the flavour, this small carp's flavour will sweep you off your feet!",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 1818,
@@ -1879,7 +2082,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49092-128.png",
-    "description": "This fish swam a long way, and spawned many young in the rivers of Amakna. It's now ready to be eaten, and tastes delicious."
+    "description": "This fish swam a long way, and spawned many young in the rivers of Amakna. It's now ready to be eaten, and tastes delicious.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 1825,
@@ -1921,7 +2131,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49095-128.png",
-    "description": "You won't feed the family, or even yourself, with this sardine, but it does make an excellent dessert."
+    "description": "You won't feed the family, or even yourself, with this sardine, but it does make an excellent dessert.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 1828,
@@ -1945,7 +2162,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49099-128.png",
-    "description": "Served on top of lettuce, this fish will fill your belly for a long time. It's absolutely delicious!"
+    "description": "Served on top of lettuce, this fish will fill your belly for a long time. It's absolutely delicious!",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 1829,
@@ -1969,7 +2193,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49100-128.png",
-    "description": "Everybody likes crunchy Grawn Fritters. With a low calorie content, it would stupid to refuse them."
+    "description": "Everybody likes crunchy Grawn Fritters. With a low calorie content, it would stupid to refuse them.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 1830,
@@ -1993,7 +2224,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49101-128.png",
-    "description": "Slices of gudgeon, hard boiled with onions. Quite delightful... And the usual horrible odour is masked by a mysterious scent of fresh flowers too."
+    "description": "Slices of gudgeon, hard boiled with onions. Quite delightful... And the usual horrible odour is masked by a mysterious scent of fresh flowers too.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 1831,
@@ -2017,7 +2255,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49102-128.png",
-    "description": "When cooked with care in black Bwork butter, this Farle's Ray Wing releases an incredible flavour into the chewing mouth of the muncher. This meal will truly give you wings."
+    "description": "When cooked with care in black Bwork butter, this Farle's Ray Wing releases an incredible flavour into the chewing mouth of the muncher. This meal will truly give you wings.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 1832,
@@ -2059,7 +2304,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49109-128.png",
-    "description": "If prepared following the exotic and ancestral recipe of the Lenalds, this kind of fish will help rekindle the fire in your belly... provided you can master the recipe, which is very rare indeed."
+    "description": "If prepared following the exotic and ancestral recipe of the Lenalds, this kind of fish will help rekindle the fire in your belly... provided you can master the recipe, which is very rare indeed.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 1835,
@@ -2101,7 +2353,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49134-128.png",
-    "description": "Ah, Stuffed Pike. Everyone eats it, but no one knows what's in it. And not trying to find out is a mark of wisdom."
+    "description": "Ah, Stuffed Pike. Everyone eats it, but no one knows what's in it. And not trying to find out is a mark of wisdom.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 1838,
@@ -2143,7 +2402,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49105-128.png",
-    "description": "This shark wouldn't have the decency to sprinkle you with a few magic spices before it ate you."
+    "description": "This shark wouldn't have the decency to sprinkle you with a few magic spices before it ate you.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 1859,
@@ -2167,7 +2433,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49137-128.png",
-    "description": "This Grilled Unique Kralove smells delicious. A cold Kikim Inn Beer, sunshine glinting off the Asse sea, a plateful of Grilled Unique Kralove. Does life get any better than that?"
+    "description": "This Grilled Unique Kralove smells delicious. A cold Kikim Inn Beer, sunshine glinting off the Asse sea, a plateful of Grilled Unique Kralove. Does life get any better than that?",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 1895,
@@ -2695,7 +2968,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33019-128.png",
-    "description": "This bread has been kneaded with Golden Wheat Flour. Selling it is a good way to get rich..."
+    "description": "This bread has been kneaded with Golden Wheat Flour. Selling it is a good way to get rich...",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 2024,
@@ -2737,7 +3017,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33008-128.png",
-    "description": "This small brioche is made with Bright Hop Flour. This explains the huge surge of energy which overcomes you when you eat it."
+    "description": "This small brioche is made with Bright Hop Flour. This explains the huge surge of energy which overcomes you when you eat it.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 2028,
@@ -2761,7 +3048,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33012-128.png",
-    "description": "This type of Bread is made with Storm Flax Flour, which gives it a pleasant lightness and a great taste."
+    "description": "This type of Bread is made with Storm Flax Flour, which gives it a pleasant lightness and a great taste.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 2031,
@@ -2785,7 +3079,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33009-128.png",
-    "description": "This bread is prepared with Resistant Rye Flour, which gives it an awful flavour but lends it unique nutritional qualities."
+    "description": "This bread is prepared with Resistant Rye Flour, which gives it an awful flavour but lends it unique nutritional qualities.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 2034,
@@ -2809,7 +3110,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42128-128.png",
-    "description": "By extracting sugar from sweet barley flour, we obtain this unique magic-flavoured sweetie."
+    "description": "By extracting sugar from sweet barley flour, we obtain this unique magic-flavoured sweetie.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 2038,
@@ -2833,7 +3141,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33005-128.png",
-    "description": "This bread with an uber-soft centre is just perfect."
+    "description": "This bread with an uber-soft centre is just perfect.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 2044,
@@ -3114,7 +3429,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "This form is a good way to identify potential suspects of criminal actions."
+    "description": "This form is a good way to identify potential suspects of criminal actions.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 2181
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 2177
+      },
+      {
+        "stat": "Alignment level",
+        "operator": "=",
+        "value": 27
+      }
+    ]
   },
   {
     "ankama_id": 2190,
@@ -3132,7 +3464,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "This form is usually used to make suspects confess their criminal acts. All you have to do now is fill in a fake interview of Oni Tnec.\n(Use it on yourself to use it)"
+    "description": "This form is usually used to make suspects confess their criminal acts. All you have to do now is fill in a fake interview of Oni Tnec.\n(Use it on yourself to use it)",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 2177
+      },
+      {
+        "stat": "Alignment level",
+        "operator": "=",
+        "value": 27
+      }
+    ]
   },
   {
     "ankama_id": 2197,
@@ -5171,7 +5515,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "This little form contains the name of a potential candidate for the baker's delivery man job."
+    "description": "This little form contains the name of a potential candidate for the baker's delivery man job.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 6790,
@@ -5224,7 +5575,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/80006-128.png",
-    "description": "This little form contains the name of a failed candidate for the baker's delivery man job. The small red mark at the bottom indicates that the poor sod didn't have enough Strength or Agility for the job."
+    "description": "This little form contains the name of a failed candidate for the baker's delivery man job. The small red mark at the bottom indicates that the poor sod didn't have enough Strength or Agility for the job.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 6887,
@@ -6193,7 +6551,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89032-128.png",
-    "description": "To make up for the recent problems that you've encountered, the Ankama team has given you this gift box containing:\n- 5 Compensation Wisdom Candies\n- 5 Compensation Lucky Candies\n- 10 Compensation Energy Candies\n- 10 Eniripsa Powders"
+    "description": "To make up for the recent problems that you've encountered, the Ankama team has given you this gift box containing:\n- 5 Compensation Wisdom Candies\n- 5 Compensation Lucky Candies\n- 10 Compensation Energy Candies\n- 10 Eniripsa Powders",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 7801
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 7800
+      }
+    ]
   },
   {
     "ankama_id": 7929,
@@ -7670,7 +8040,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69136-128.png",
-    "description": "Filtounga is a unique dish. Its perfect melange of ingredients lends it a heavenly taste. Serve warm with a dash of cream and a sprig of fresh parsley."
+    "description": "Filtounga is a unique dish. Its perfect melange of ingredients lends it a heavenly taste. Serve warm with a dash of cream and a sprig of fresh parsley.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 8514,
@@ -7936,7 +8313,19 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12152-128.png",
-    "description": "This potion enables you to get back to your guild house."
+    "description": "This potion enables you to get back to your guild house.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 8913,
@@ -8193,7 +8582,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12025-128.png",
-    "description": "Use this potion to teleport to Breeder Village."
+    "description": "Use this potion to teleport to Breeder Village.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 9037,
@@ -9783,7 +10184,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12153-128.png",
-    "description": "A good slug of this and you'll be teleported to the Pandawa Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Pandawa Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10209,
@@ -9801,7 +10209,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12154-128.png",
-    "description": "A good slug of this and you'll be teleported to the Sacrier Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Sacrier Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10210,
@@ -9819,7 +10234,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12155-128.png",
-    "description": "A good slug of this and you'll be teleported to the Eniripsa Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Eniripsa Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10211,
@@ -9837,7 +10259,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12156-128.png",
-    "description": "A good slug of this and you'll be teleported to the Sadida Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Sadida Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10212,
@@ -9855,7 +10284,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12157-128.png",
-    "description": "A good slug of this and you'll be teleported to the Cra Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Cra Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10213,
@@ -9873,7 +10309,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12158-128.png",
-    "description": "A good slug of this and you'll be teleported to the Iop Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Iop Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10214,
@@ -9891,7 +10334,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12159-128.png",
-    "description": "A good slug of this and you'll be teleported to the Ecaflip Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Ecaflip Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10215,
@@ -9909,7 +10359,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12160-128.png",
-    "description": "A good slug of this and you'll be teleported to the Xelor Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Xelor Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10216,
@@ -9927,7 +10384,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12161-128.png",
-    "description": "A good slug of this and you'll be teleported to the Feca Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Feca Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10217,
@@ -9945,7 +10409,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12162-128.png",
-    "description": "A good slug of this and you'll be teleported to the Enutrof Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Enutrof Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10218,
@@ -9963,7 +10434,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12163-128.png",
-    "description": "A good slug of this and you'll be teleported to the Osamodas Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Osamodas Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10219,
@@ -9981,7 +10459,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12164-128.png",
-    "description": "A good slug of this and you'll be teleported to the Sram Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Sram Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 10227,
@@ -11767,7 +12252,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12018-128.png",
-    "description": "That'll teach you to drink whatever is put in front of you!"
+    "description": "That'll teach you to drink whatever is put in front of you!",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 10681
+      }
+    ]
   },
   {
     "ankama_id": 10670,
@@ -12151,7 +12643,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33012-128.png",
-    "description": "Sometimes, when you eat very stale bread, you might lose a tooth. If you eat this bread, stale or not, you'll lose all of your teeth.\nThis magical bread may only be eaten in Sufokia Bay."
+    "description": "Sometimes, when you eat very stale bread, you might lose a tooth. If you eat this bread, stale or not, you'll lose all of your teeth.\nThis magical bread may only be eaten in Sufokia Bay.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 10840,
@@ -12637,7 +13136,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12189-128.png",
-    "description": "Your instinct tells you not to swallow the contents of this jar. Not just your instincts, either. Your nose, too. The mixture smells like a centenarian Bwork's armpit."
+    "description": "Your instinct tells you not to swallow the contents of this jar. Not just your instincts, either. Your nose, too. The mixture smells like a centenarian Bwork's armpit.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 6
+      }
+    ]
   },
   {
     "ankama_id": 10974,
@@ -12716,7 +13222,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/7074-128.png",
-    "description": "This relic contains the signal and ceremonial weapon of the sidekick of the same name."
+    "description": "This relic contains the signal and ceremonial weapon of the sidekick of the same name.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 11103,
@@ -13323,7 +13836,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33073-128.png",
-    "description": "This bread is the staple food of Frigostian aristocrats, which explains why their first bowel movement of the day comes earlier than that of their less aristocratic peers."
+    "description": "This bread is the staple food of Frigostian aristocrats, which explains why their first bowel movement of the day comes earlier than that of their less aristocratic peers.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 11505,
@@ -13383,7 +13903,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12722-128.png",
-    "description": "Use this potion to travel to the stars without leaving your house. Certain gullible Frigostians even claim that it brings good luck."
+    "description": "Use this potion to travel to the stars without leaving your house. Certain gullible Frigostians even claim that it brings good luck.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 11510,
@@ -13425,7 +13952,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49135-128.png",
-    "description": "They say that eating Frozen Icefish makes you smarter. Yet another story told to young Iops to make them eat."
+    "description": "They say that eating Frozen Icefish makes you smarter. Yet another story told to young Iops to make them eat.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 11512,
@@ -13761,7 +14295,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "This Voracious Chest is asleep. If you want to find out what it's hiding in its belly, you'll need to wake it up - but you do so entirely at your own risk."
+    "description": "This Voracious Chest is asleep. If you want to find out what it's hiding in its belly, you'll need to wake it up - but you do so entirely at your own risk.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 99
+      }
+    ]
   },
   {
     "ankama_id": 11796,
@@ -14338,7 +14879,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5083-128.png",
-    "description": "This relic contains the signal and ceremonial weapon of the sidekick of the same name."
+    "description": "This relic contains the signal and ceremonial weapon of the sidekick of the same name.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 12042,
@@ -14452,7 +15000,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12193-128.png",
-    "description": "A good slug of this and you'll be teleported to the Rogue Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Rogue Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 12184,
@@ -14590,7 +15145,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12194-128.png",
-    "description": "A good slug of this and you'll be teleported to the Masqueraider Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Masqueraider Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 12236,
@@ -16191,7 +16753,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42164-128.png",
-    "description": "Eating this baked delight will really get you into the Kwismas spirit: you'll suddenly be surrounded by snow, you'll be somewhat stouter than before and you'll become diabetic."
+    "description": "Eating this baked delight will really get you into the Kwismas spirit: you'll suddenly be surrounded by snow, you'll be somewhat stouter than before and you'll become diabetic.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 12846,
@@ -16738,7 +17307,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/79015-128.png",
-    "description": "Kick back and relax on a sandy beach, in the shade of a palm tree, Portation Corktail in hand. You'll really feel like you're somewhere else."
+    "description": "Kick back and relax on a sandy beach, in the shade of a palm tree, Portation Corktail in hand. You'll really feel like you're somewhere else.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 13222,
@@ -16858,7 +17434,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49141-128.png",
-    "description": "They say that eating Frozen Icefish makes you smarter. Yet another story told to young Sadidas to make them eat Icefish."
+    "description": "They say that eating Frozen Icefish makes you smarter. Yet another story told to young Sadidas to make them eat Icefish.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 13277,
@@ -16894,7 +17477,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12730-128.png",
-    "description": "A good slug of this and you'll be teleported to the Foggernaut Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Foggernaut Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 13314,
@@ -18237,7 +18827,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "This gift is offered as compensation for a problem in DOFUS. You can use it on any character, but only those that haven't finished the Year of the Dragon (Dolmanax) quest and have fewer than 365 Calendar Pages can be awarded one. You can collect your reward from Antyklime Ax."
+    "description": "This gift is offered as compensation for a problem in DOFUS. You can use it on any character, but only those that haven't finished the Year of the Dragon (Dolmanax) quest and have fewer than 365 Calendar Pages can be awarded one. You can collect your reward from Antyklime Ax.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 9
+      }
+    ]
   },
   {
     "ankama_id": 13506,
@@ -19801,7 +20398,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14036-128.png",
-    "description": "When you drink this potion, you'll fly into such a rage that any enemies that get any closer than 6 cells away will find themselves automatically attacked."
+    "description": "When you drink this potion, you'll fly into such a rage that any enemies that get any closer than 6 cells away will find themselves automatically attacked.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 14446
+      }
+    ]
   },
   {
     "ankama_id": 14440,
@@ -19841,7 +20450,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12746-128.png",
-    "description": "When leaving your enemy as quiet as the grave isn't enough for you, use this potion to send his soul straight to the cemetery without passing go."
+    "description": "When leaving your enemy as quiet as the grave isn't enough for you, use this potion to send his soul straight to the cemetery without passing go.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 14444
+      }
+    ]
   },
   {
     "ankama_id": 14443,
@@ -19859,7 +20480,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12745-128.png",
-    "description": "You were supposed to protect that adventurer, but you failed miserably. Heigh-ho, you can always use this potion to revive them and save them a trip to the cemetery."
+    "description": "You were supposed to protect that adventurer, but you failed miserably. Heigh-ho, you can always use this potion to revive them and save them a trip to the cemetery.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 14445
+      }
+    ]
   },
   {
     "ankama_id": 14447,
@@ -20463,7 +21096,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12744-128.png",
-    "description": "This potion will teleport its drinker to the stagecoach station in Astrub. Fresh mint has been added to mask the smell of dead rat, but the taste remains unchanged. Drink it the moment you wake up - that way, nobody will even notice."
+    "description": "This potion will teleport its drinker to the stagecoach station in Astrub. Fresh mint has been added to mask the smell of dead rat, but the taste remains unchanged. Drink it the moment you wake up - that way, nobody will even notice.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 15209,
@@ -21817,7 +22457,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12196-128.png",
-    "description": "A good slug of this and you'll be teleported to the Eliotrope Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Eliotrope Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 16136,
@@ -21950,7 +22597,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12756-128.png",
-    "description": "After having drunk it, you'll talk in metallic noises and punctuate your sentences with beeps and whistles."
+    "description": "After having drunk it, you'll talk in metallic noises and punctuate your sentences with beeps and whistles.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 16402,
@@ -21992,7 +22646,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12757-128.png",
-    "description": "The Xelor lobby is trying to outlaw the sale of this potion based on a whole bunch of made-up pretexts, simply because it threatens their monopoly. Any resemblance to any or all existing lobbies is purely coincidental."
+    "description": "The Xelor lobby is trying to outlaw the sale of this potion based on a whole bunch of made-up pretexts, simply because it threatens their monopoly. Any resemblance to any or all existing lobbies is purely coincidental.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 16404,
@@ -22034,7 +22695,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12758-128.png",
-    "description": "Ecaflips appreciate that this potion lets them tempt fate with a stroke of luck."
+    "description": "Ecaflips appreciate that this potion lets them tempt fate with a stroke of luck.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 16406,
@@ -22058,7 +22726,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12759-128.png",
-    "description": "This potion is served to the city's condemned just before their decapitation."
+    "description": "This potion is served to the city's condemned just before their decapitation.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 16407,
@@ -22082,7 +22757,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12760-128.png",
-    "description": "Creators abuse this potion when they're short on ideas."
+    "description": "Creators abuse this potion when they're short on ideas.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 16408,
@@ -22106,7 +22788,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12761-128.png",
-    "description": "Alchemists sell the Margedelweiss Potion as a Dofus detector. Of course, Astrubians have cleaned out the stock."
+    "description": "Alchemists sell the Margedelweiss Potion as a Dofus detector. Of course, Astrubians have cleaned out the stock.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16409,
@@ -22166,7 +22855,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12762-128.png",
-    "description": "Pandawas look down on the exportation of this non-alcoholic potion."
+    "description": "Pandawas look down on the exportation of this non-alcoholic potion.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 16412,
@@ -22208,7 +22904,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12763-128.png",
-    "description": "This potion won't make you a super warrior. Reported side-effects include: hairy tails, primate transformation."
+    "description": "This potion won't make you a super warrior. Reported side-effects include: hairy tails, primate transformation.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16414,
@@ -22268,7 +22971,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12764-128.png",
-    "description": "Used as a lotion, it will make you young and pretty, even if you're a man."
+    "description": "Used as a lotion, it will make you young and pretty, even if you're a man.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16417,
@@ -22310,7 +23020,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12765-128.png",
-    "description": "The mould in this potion is not hazardous to your health - so long as you're already dead."
+    "description": "The mould in this potion is not hazardous to your health - so long as you're already dead.",
+    "conditions": [
+      {
+        "stat": "Chance",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16431,
@@ -22388,7 +23105,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33077-128.png",
-    "description": "This cake first appeared in Astrub. Since then, it's become quite popular and can be found near Zaaps and in the marketplaces of numerous cities."
+    "description": "This cake first appeared in Astrub. Since then, it's become quite popular and can be found near Zaaps and in the marketplaces of numerous cities.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16435,
@@ -22412,7 +23136,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33079-128.png",
-    "description": "Trools have a tendency to confuse this bread with a hat. No one's quite certain why."
+    "description": "Trools have a tendency to confuse this bread with a hat. No one's quite certain why.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 16436,
@@ -22436,7 +23167,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33076-128.png",
-    "description": "The Bearman himself perfected the recipe of this bread, inspired by a particularly bad bout of indigestion."
+    "description": "The Bearman himself perfected the recipe of this bread, inspired by a particularly bad bout of indigestion.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16437,
@@ -22478,7 +23216,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33081-128.png",
-    "description": "This dish used to be quite popular at drinking parties on the coral beach."
+    "description": "This dish used to be quite popular at drinking parties on the coral beach.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16439,
@@ -22502,7 +23247,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/33082-128.png",
-    "description": "It's like a pita, only not."
+    "description": "It's like a pita, only not.",
+    "conditions": [
+      {
+        "stat": "Vitality",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16475,
@@ -22544,7 +23296,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49144-128.png",
-    "description": "A favourite amongst paranoids, investigators, and tax inspectors."
+    "description": "A favourite amongst paranoids, investigators, and tax inspectors.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16477,
@@ -22586,7 +23345,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49146-128.png",
-    "description": "Royal revenge is a dish best served cold. Or like this."
+    "description": "Royal revenge is a dish best served cold. Or like this.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16479,
@@ -22628,7 +23394,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49148-128.png",
-    "description": "Butchers look poorly on this competing salad being on the market."
+    "description": "Butchers look poorly on this competing salad being on the market.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16481,
@@ -22670,7 +23443,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49150-128.png",
-    "description": "This deluxe dish is only available from Kanniball chefs because of the rarity of Bearded Cod."
+    "description": "This deluxe dish is only available from Kanniball chefs because of the rarity of Bearded Cod.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16483,
@@ -22712,7 +23492,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49152-128.png",
-    "description": "You're quaking with fear at the idea that this fish could be a reincarnated teammate."
+    "description": "You're quaking with fear at the idea that this fish could be a reincarnated teammate.",
+    "conditions": [
+      {
+        "stat": "Wisdom",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16485,
@@ -22754,7 +23541,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49154-128.png",
-    "description": "This fish's dreams of grandeur led it all the way to this plate."
+    "description": "This fish's dreams of grandeur led it all the way to this plate.",
+    "conditions": [
+      {
+        "stat": "Intelligence",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16528,
@@ -25640,7 +26434,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42179-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 16928,
@@ -25664,7 +26465,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42180-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 16929,
@@ -25688,7 +26496,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42181-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 16930,
@@ -25712,7 +26527,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42182-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 16931,
@@ -25736,7 +26558,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42183-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 35
+      }
+    ]
   },
   {
     "ankama_id": 16932,
@@ -25760,7 +26589,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42184-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 16933,
@@ -25784,7 +26620,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42185-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 16934,
@@ -25808,7 +26651,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42186-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 16935,
@@ -25832,7 +26682,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42187-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 55
+      }
+    ]
   },
   {
     "ankama_id": 16936,
@@ -25856,7 +26713,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42188-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 16937,
@@ -25880,7 +26744,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42189-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 65
+      }
+    ]
   },
   {
     "ankama_id": 16938,
@@ -25904,7 +26775,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42190-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 16939,
@@ -25928,7 +26806,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42191-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 75
+      }
+    ]
   },
   {
     "ankama_id": 16940,
@@ -25952,7 +26837,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42192-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 16941,
@@ -25976,7 +26868,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42193-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 85
+      }
+    ]
   },
   {
     "ankama_id": 16942,
@@ -26000,7 +26899,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42194-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 16943,
@@ -26024,7 +26930,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42195-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 95
+      }
+    ]
   },
   {
     "ankama_id": 16944,
@@ -26048,7 +26961,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42196-128.png",
-    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful."
+    "description": "Unlike your sweetheart, this log is both sweet smelling and sweet tasting. Too bad it won't be more than a single mouthful.",
+    "conditions": [
+      {
+        "stat": "Agility",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 16948,
@@ -26244,7 +27164,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69747-128.png",
-    "description": "As insipid as its namesake, this fritter is the recommended diet for a Iop."
+    "description": "As insipid as its namesake, this fritter is the recommended diet for a Iop.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   {
     "ankama_id": 17171,
@@ -26286,7 +27213,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69826-128.png",
-    "description": "The illustrious Ronan the Barbarian rolls these himself under the armpits of his fallen foes."
+    "description": "The illustrious Ronan the Barbarian rolls these himself under the armpits of his fallen foes.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 15
+      }
+    ]
   },
   {
     "ankama_id": 17173,
@@ -26328,7 +27262,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69745-128.png",
-    "description": "If this dish doesn't kill you, it'll only make you stronger, that's for certain."
+    "description": "If this dish doesn't kill you, it'll only make you stronger, that's for certain.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 20
+      }
+    ]
   },
   {
     "ankama_id": 17175,
@@ -26370,7 +27311,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69817-128.png",
-    "description": "The Sufokians quickly spotted that eating seafood stimulated their brains, but not their muscles. That's why they came up with this recipe."
+    "description": "The Sufokians quickly spotted that eating seafood stimulated their brains, but not their muscles. That's why they came up with this recipe.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 25
+      }
+    ]
   },
   {
     "ankama_id": 17177,
@@ -26412,7 +27360,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69753-128.png",
-    "description": "This princely dish of devastatingly complex haute cuisine is mainly eaten by the nobility at Amaknian festivals."
+    "description": "This princely dish of devastatingly complex haute cuisine is mainly eaten by the nobility at Amaknian festivals.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 30
+      }
+    ]
   },
   {
     "ankama_id": 17179,
@@ -26454,7 +27409,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69759-128.png",
-    "description": "Your breath will also be fortified after a mouthful of this rather powerful cottage pie."
+    "description": "Your breath will also be fortified after a mouthful of this rather powerful cottage pie.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 35
+      }
+    ]
   },
   {
     "ankama_id": 17181,
@@ -26496,7 +27458,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69841-128.png",
-    "description": "This dish is popular with Bontarian officers who are often out in the field."
+    "description": "This dish is popular with Bontarian officers who are often out in the field.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 40
+      }
+    ]
   },
   {
     "ankama_id": 17183,
@@ -26538,7 +27507,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69807-128.png",
-    "description": "This goulash can only be created using the most rare and select of meats."
+    "description": "This goulash can only be created using the most rare and select of meats.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 17185,
@@ -26580,7 +27556,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69805-128.png",
-    "description": "Only women are allowed to eat this dish, which has obviously set the Bow Meow among the pigeons when it comes to the associations for the protection of men's rights."
+    "description": "Only women are allowed to eat this dish, which has obviously set the Bow Meow among the pigeons when it comes to the associations for the protection of men's rights.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 50
+      }
+    ]
   },
   {
     "ankama_id": 17187,
@@ -26622,7 +27605,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69797-128.png",
-    "description": "The gastric escapes caused by the digestion of this dish are particularly explosive."
+    "description": "The gastric escapes caused by the digestion of this dish are particularly explosive.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 55
+      }
+    ]
   },
   {
     "ankama_id": 17189,
@@ -26664,7 +27654,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69786-128.png",
-    "description": "This grillade is difficult to perfect because not every prisoner reacts in the same way to the lava bath."
+    "description": "This grillade is difficult to perfect because not every prisoner reacts in the same way to the lava bath.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 60
+      }
+    ]
   },
   {
     "ankama_id": 17191,
@@ -26706,7 +27703,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69790-128.png",
-    "description": "This all-in-one dish is holding its own in the stakes against energy bars."
+    "description": "This all-in-one dish is holding its own in the stakes against energy bars.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 65
+      }
+    ]
   },
   {
     "ankama_id": 17193,
@@ -26748,7 +27752,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69810-128.png",
-    "description": "Apparently black pudding is stronger than white pudding, but it's impossible to say for sure, as nobody's ever seen them arm-wrestle."
+    "description": "Apparently black pudding is stronger than white pudding, but it's impossible to say for sure, as nobody's ever seen them arm-wrestle.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 70
+      }
+    ]
   },
   {
     "ankama_id": 17195,
@@ -26790,7 +27801,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69802-128.png",
-    "description": "Telling the cook they made a hash of it doesn't do justice to this dish."
+    "description": "Telling the cook they made a hash of it doesn't do justice to this dish.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 75
+      }
+    ]
   },
   {
     "ankama_id": 17197,
@@ -26832,7 +27850,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69774-128.png",
-    "description": "Like an extended visit from your mother-in-law, excessive consumption of this dish can cause hallucinations, depression and memory disorders."
+    "description": "Like an extended visit from your mother-in-law, excessive consumption of this dish can cause hallucinations, depression and memory disorders.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 80
+      }
+    ]
   },
   {
     "ankama_id": 17199,
@@ -26874,7 +27899,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69734-128.png",
-    "description": "It seems you can be both tender and firm, as this tenderloin demonstrates."
+    "description": "It seems you can be both tender and firm, as this tenderloin demonstrates.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 85
+      }
+    ]
   },
   {
     "ankama_id": 17201,
@@ -26916,7 +27948,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69868-128.png",
-    "description": "They may not be any good, but they'll make you stronger if your stomach can digest them without bringing them back up."
+    "description": "They may not be any good, but they'll make you stronger if your stomach can digest them without bringing them back up.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 90
+      }
+    ]
   },
   {
     "ankama_id": 17203,
@@ -26958,7 +27997,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69772-128.png",
-    "description": "The uncleansed tripe in this sausage gives this andouillette properties that are highly sought after by both adventurers and bodybuilders alike."
+    "description": "The uncleansed tripe in this sausage gives this andouillette properties that are highly sought after by both adventurers and bodybuilders alike.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 95
+      }
+    ]
   },
   {
     "ankama_id": 17205,
@@ -27000,7 +28046,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
-    "description": "It's mainly due to the extreme elasticity of this shape-memory sausage that adults get told off for playing with their food."
+    "description": "It's mainly due to the extreme elasticity of this shape-memory sausage that adults get told off for playing with their food.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 100
+      }
+    ]
   },
   {
     "ankama_id": 17207,
@@ -27251,7 +28304,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69803-128.png",
-    "description": "This bullion is not too hot, not too cold, not too spicy, and not enough. In fact, you feel like you're eating a cloud."
+    "description": "This bullion is not too hot, not too cold, not too spicy, and not enough. In fact, you feel like you're eating a cloud.",
+    "conditions": [
+      {
+        "stat": "Strength",
+        "operator": "<",
+        "value": 5
+      }
+    ]
   },
   {
     "ankama_id": 17453,
@@ -27431,7 +28491,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12197-128.png",
-    "description": "A good slug of this and you'll be teleported to the Huppermage Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Huppermage Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 17532,
@@ -27635,7 +28702,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12754-128.png",
-    "description": "A smell of coagulated blood emanates from this potion, and consuming it will make you appear instantly in the Tower of Gisgoul."
+    "description": "A smell of coagulated blood emanates from this potion, and consuming it will make you appear instantly in the Tower of Gisgoul.",
+    "conditions": [
+      {
+        "stat": "Alignment level",
+        "operator": ">",
+        "value": 79
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 15000
+      }
+    ]
   },
   {
     "ankama_id": 17774,
@@ -28388,7 +29467,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12198-128.png",
-    "description": "A good slug of this and you'll be teleported to the Ouginak Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Ouginak Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 18649,
@@ -28539,7 +29625,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12026-128.png",
-    "description": "This beverage temporarily gives its drinker the physical features of a Chafer. The archbishop didn't manage to pour these monsters' perversity into it, which explains why alchemists aren't interested in it."
+    "description": "This beverage temporarily gives its drinker the physical features of a Chafer. The archbishop didn't manage to pour these monsters' perversity into it, which explains why alchemists aren't interested in it.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 18838
+      }
+    ]
   },
   {
     "ankama_id": 19057,
@@ -29411,7 +30504,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/37004-128.png",
-    "description": "You thought that barbarians with ginger beards wouldn't be able to enjoy a beer with an understated taste of orange and honey? It's a rather small-minded point of view, as you'll see."
+    "description": "You thought that barbarians with ginger beards wouldn't be able to enjoy a beer with an understated taste of orange and honey? It's a rather small-minded point of view, as you'll see.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 19960
+      }
+    ]
   },
   {
     "ankama_id": 19961,
@@ -30557,7 +31657,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43041-128.png",
-    "description": "By drinking this potion, you will be transported to the house of the witch Meriana in the Nauseating Swamps. Take precautions if you are prone to motion sickness, as the mephitic air that will attack your nostrils upon arrival may have unfortunate consequences for your stomach."
+    "description": "By drinking this potion, you will be transported to the house of the witch Meriana in the Nauseating Swamps. Take precautions if you are prone to motion sickness, as the mephitic air that will attack your nostrils upon arrival may have unfortunate consequences for your stomach.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 39
+      }
+    ]
   },
   {
     "ankama_id": 20240,
@@ -31928,7 +33035,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42205-128.png",
-    "description": "Snarfing down this treat makes you part of the chocolate magic: you'll be transported to Fleaster Island."
+    "description": "Snarfing down this treat makes you part of the chocolate magic: you'll be transported to Fleaster Island.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 21043,
@@ -33949,7 +35063,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/176023-128.png",
-    "description": "As the old wives' tale goes: \"Having a drink upside down can get rid of hiccups.\" Hic!"
+    "description": "As the old wives' tale goes: \"Having a drink upside down can get rid of hiccups.\" Hic!",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 30071
+      }
+    ]
   },
   {
     "ankama_id": 21489,
@@ -36166,7 +37292,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12786-128.png",
-    "description": "This potion will make you smaller, but it won't make you stronger. Not everyone can be an ant, man!"
+    "description": "This potion will make you smaller, but it won't make you stronger. Not everyone can be an ant, man!",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 22505
+      }
+    ]
   },
   {
     "ankama_id": 22509,
@@ -37852,7 +38985,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164745-128.png",
-    "description": "This drink – according to a persistent rumour – allows the dying to reach Externam without getting lost along the way. It's probably why alchemists use it when concocting a mysterious elixir...\nIf you've always dreamed of wandering like a wayward soul, downing this tankard will make your dream come true until your next fight."
+    "description": "This drink – according to a persistent rumour – allows the dying to reach Externam without getting lost along the way. It's probably why alchemists use it when concocting a mysterious elixir...\nIf you've always dreamed of wandering like a wayward soul, downing this tankard will make your dream come true until your next fight.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 20341
+      }
+    ]
   },
   {
     "ankama_id": 23598,
@@ -37863,7 +39008,19 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12788-128.png",
-    "description": "Drinking the contents of this vial will stimulate your sixth sense; you'll be able to see the legendary Route of the Dead in Pandala.\n(You need to be on Nolifis Island to use this potion.)"
+    "description": "Drinking the contents of this vial will stimulate your sixth sense; you'll be able to see the legendary Route of the Dead in Pandala.\n(You need to be on Nolifis Island to use this potion.)",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 79
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 23691,
@@ -38157,7 +39314,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164789-128.png",
-    "description": "Now here's a drink that'll won't leave you as cold as marble... or will it?"
+    "description": "Now here's a drink that'll won't leave you as cold as marble... or will it?",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 23843
+      }
+    ]
   },
   {
     "ankama_id": 23889,
@@ -38434,7 +39598,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164789-128.png",
-    "description": "Fancy a sip of bamboo?"
+    "description": "Fancy a sip of bamboo?",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 24021,
@@ -38554,7 +39725,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164790-128.png",
-    "description": "This beer will make you wobble like a rolling barrel."
+    "description": "This beer will make you wobble like a rolling barrel.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 24043,
@@ -43728,7 +44906,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/176043-128.png",
-    "description": "Want to visit Otomai? Just drink this potion. Swallowing it all in one shot will save you vial-uable time next time you need to hassle the World of Twelve's most famous alchemist for something."
+    "description": "Want to visit Otomai? Just drink this potion. Swallowing it all in one shot will save you vial-uable time next time you need to hassle the World of Twelve's most famous alchemist for something.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 39
+      }
+    ]
   },
   {
     "ankama_id": 26660,
@@ -43746,7 +44931,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12064-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26661,
@@ -43764,7 +44961,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12066-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26662,
@@ -43782,7 +44991,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12065-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26663,
@@ -43800,7 +45021,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12067-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 26697,
@@ -45548,7 +46781,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12064-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27484,
@@ -45572,7 +46812,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12066-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27485,
@@ -45596,7 +46843,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12065-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27486,
@@ -45620,7 +46874,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12067-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      }
+    ]
   },
   {
     "ankama_id": 27487,
@@ -45897,7 +47158,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12810-128.png",
-    "description": "A good slug of this and you'll be teleported to the Forgelance Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights."
+    "description": "A good slug of this and you'll be teleported to the Forgelance Temple. Known side effects: hiccups, apparition of in-laws, hair loss, dog breath, untied shoelaces, successive red traffic lights.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 45
+      }
+    ]
   },
   {
     "ankama_id": 27715,
@@ -46529,7 +47797,19 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12068-128.png",
-    "description": "This potion lets you unload your load on a prism to help your alliance."
+    "description": "This potion lets you unload your load on a prism to help your alliance.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 27659
+      }
+    ]
   },
   {
     "ankama_id": 28292,
@@ -47163,7 +48443,14 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "This certificate awards you the title of \"Premium Manitum\".",
-    "ability": "Title: Premium Manitum"
+    "ability": "Title: Premium Manitum",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 28398
+      }
+    ]
   },
   {
     "ankama_id": 28353,
@@ -47229,7 +48516,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 21
+      }
+    ]
   },
   {
     "ankama_id": 28456,
@@ -47531,7 +48825,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "If you're not worried about being hunted by adventurers the next time you go for a walk in the Petrified Forest, go ahead and drink this potion.\nOnly those who have prayed in the deepest depths of the mystified temple are worthy of quenching their spiritual thirst."
+    "description": "If you're not worried about being hunted by adventurers the next time you go for a walk in the Petrified Forest, go ahead and drink this potion.\nOnly those who have prayed in the deepest depths of the mystified temple are worthy of quenching their spiritual thirst.",
+    "conditions": [
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 28499,
@@ -47796,7 +49097,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 61
+      }
+    ]
   },
   {
     "ankama_id": 29125,
@@ -47820,7 +49128,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 81
+      }
+    ]
   },
   {
     "ankama_id": 29126,
@@ -47844,7 +49159,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 101
+      }
+    ]
   },
   {
     "ankama_id": 29127,
@@ -47868,7 +49190,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 121
+      }
+    ]
   },
   {
     "ankama_id": 29128,
@@ -47892,7 +49221,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 141
+      }
+    ]
   },
   {
     "ankama_id": 29129,
@@ -47916,7 +49252,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 161
+      }
+    ]
   },
   {
     "ankama_id": 29130,
@@ -47940,7 +49283,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 181
+      }
+    ]
   },
   {
     "ankama_id": 29131,
@@ -47964,7 +49314,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 200
+      }
+    ]
   },
   {
     "ankama_id": 29132,
@@ -47988,7 +49345,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12809-128.png",
-    "description": "You can use this potion to change class."
+    "description": "You can use this potion to change class.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": "<",
+        "value": 41
+      }
+    ]
   },
   {
     "ankama_id": 29230,
@@ -50034,7 +51398,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12189-128.png",
-    "description": "Your instinct tells you not to swallow the contents of this jar. Not just your instincts, either. Your nose, too. The mixture smells like a centenarian Bwork's armpit."
+    "description": "Your instinct tells you not to swallow the contents of this jar. Not just your instincts, either. Your nose, too. The mixture smells like a centenarian Bwork's armpit.",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 6
+      }
+    ]
   },
   {
     "ankama_id": 29670,
@@ -51340,7 +52711,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/91000-128.png",
-    "description": "This dragoturkey's armour is no good against stabs in the back, but it should protect against attacks below the belt. Wearing it makes the dragoturkey unable to reproduce."
+    "description": "This dragoturkey's armour is no good against stabs in the back, but it should protect against attacks below the belt. Wearing it makes the dragoturkey unable to reproduce.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 59
+      }
+    ]
   },
   {
     "ankama_id": 30468,
@@ -51358,7 +52736,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/91001-128.png",
-    "description": "The unlikely union between a piwi and a dragoturkey resulted in the birth of this unique specimen. Naturally, it's unable to reproduce."
+    "description": "The unlikely union between a piwi and a dragoturkey resulted in the birth of this unique specimen. Naturally, it's unable to reproduce.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 59
+      }
+    ]
   },
   {
     "ankama_id": 30469,
@@ -51369,7 +52754,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30470,
@@ -51380,7 +52772,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30471,
@@ -51391,7 +52790,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30472,
@@ -51402,7 +52808,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30473,
@@ -51413,7 +52826,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30474,
@@ -51424,7 +52844,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30475,
@@ -51435,7 +52862,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30476,
@@ -51446,7 +52880,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30477,
@@ -51457,7 +52898,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30478,
@@ -51468,7 +52916,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30479,
@@ -51479,7 +52934,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30480,
@@ -51490,7 +52952,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30481,
@@ -51501,7 +52970,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30482,
@@ -51512,7 +52988,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30483,
@@ -51523,7 +53006,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30484,
@@ -51534,7 +53024,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30485,
@@ -51545,7 +53042,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30486,
@@ -51556,7 +53060,14 @@
     "effects": [],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 30488,
@@ -51796,7 +53307,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/42250-128.png",
-    "description": "An exceptionally rich menu, cooked up and concocted for the adventurers who saved the Trool Fair."
+    "description": "An exceptionally rich menu, cooked up and concocted for the adventurers who saved the Trool Fair.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "=",
+        "value": 30071
+      }
+    ]
   },
   {
     "ankama_id": 30513,
@@ -55357,7 +56885,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14064-128.png",
-    "description": "Drink this potion to rest on a solid foundation and turn yourself into a stool."
+    "description": "Drink this potion to rest on a solid foundation and turn yourself into a stool.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 30761
+      }
+    ]
   },
   {
     "ankama_id": 30765,
@@ -55381,7 +56921,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14061-128.png",
-    "description": "Drink this potion to barrelcade yourself and turn yourself into a barrel."
+    "description": "Drink this potion to barrelcade yourself and turn yourself into a barrel.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 30762
+      }
+    ]
   },
   {
     "ankama_id": 30766,
@@ -55405,7 +56957,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/14072-128.png",
-    "description": "Drink this potion to tidy up and turn yourself into a trash bin."
+    "description": "Drink this potion to tidy up and turn yourself into a trash bin.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 30763
+      }
+    ]
   },
   {
     "ankama_id": 30767,
@@ -55429,7 +56993,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126144-128.png",
-    "description": "Drink this potion to celebrate your victories in the Gladiatrool and transform yourself into a Trool Croozer. That way you'll be a bit more cracked."
+    "description": "Drink this potion to celebrate your victories in the Gladiatrool and transform yourself into a Trool Croozer. That way you'll be a bit more cracked.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 30768
+      }
+    ]
   },
   {
     "ankama_id": 30771,
@@ -55453,7 +57029,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126145-128.png",
-    "description": "Drink this potion to celebrate your victories in the Gladiatrool and transform yourself into an Artrooleryman: everyone who tugs their rubbers will appreciate it."
+    "description": "Drink this potion to celebrate your victories in the Gladiatrool and transform yourself into an Artrooleryman: everyone who tugs their rubbers will appreciate it.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 30769
+      }
+    ]
   },
   {
     "ankama_id": 30772,
@@ -55477,7 +57065,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126146-128.png",
-    "description": "Drink this potion to celebrate your victories in the Gladiatrool and transform yourself into a Nitrool. Even if you've only won tokens, you've well earned your wage of fear."
+    "description": "Drink this potion to celebrate your victories in the Gladiatrool and transform yourself into a Nitrool. Even if you've only won tokens, you've well earned your wage of fear.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 30770
+      }
+    ]
   },
   {
     "ankama_id": 30777,
@@ -56562,7 +58162,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94062-128.png",
-    "description": "Ever dreamed of looking like a Bzzulky? Now, with the power of dimensional technomagic, it's possible!"
+    "description": "Ever dreamed of looking like a Bzzulky? Now, with the power of dimensional technomagic, it's possible!",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31583
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31981
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31982
+      }
+    ]
   },
   {
     "ankama_id": 31660,
@@ -56586,7 +58203,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94063-128.png",
-    "description": "Ever dreamed of looking like a rabbilope? Now, with the power of dimensional technomagic, it's possible!"
+    "description": "Ever dreamed of looking like a rabbilope? Now, with the power of dimensional technomagic, it's possible!",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31657
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31983
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31984
+      }
+    ]
   },
   {
     "ankama_id": 31661,
@@ -56610,7 +58244,24 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94064-128.png",
-    "description": "Ever dreamed of looking like a Voracle? Now, with the power of dimensional technomagic, it's possible!"
+    "description": "Ever dreamed of looking like a Voracle? Now, with the power of dimensional technomagic, it's possible!",
+    "conditions": [
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31658
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31985
+      },
+      {
+        "stat": "Different area to: {0}",
+        "operator": "!",
+        "value": 31986
+      }
+    ]
   },
   {
     "ankama_id": 31662,
@@ -56997,7 +58648,19 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12069-128.png",
-    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place."
+    "description": "They say that Oktapodas used ankors to move about. Fishermen from the World of Twelve seem to have perfected an ankor that takes you to a specific place.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 49
+      },
+      {
+        "stat": "Be subscribed",
+        "operator": "=",
+        "value": 1
+      }
+    ]
   },
   {
     "ankama_id": 31974,
@@ -58826,7 +60489,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51502-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32492,
@@ -58844,7 +60514,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51503-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32493,
@@ -58862,7 +60539,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51504-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32494,
@@ -58880,7 +60564,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51505-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32495,
@@ -58898,7 +60589,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51506-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32496,
@@ -58916,7 +60614,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51507-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32497,
@@ -58934,7 +60639,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51508-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32498,
@@ -58952,7 +60664,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51509-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32499,
@@ -58970,7 +60689,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51510-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32500,
@@ -58988,7 +60714,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51511-128.png",
-    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided."
+    "description": "A crystallised fragment that grants a temporary improvement in fighting abilities to whomever consumes it. Once its effect has been applied, its glimmer fades away, leaving only a shining memory of the bonus it provided.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 32502,
@@ -68178,7 +69911,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78279-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34357,
@@ -68196,7 +69936,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78285-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34358,
@@ -68214,7 +69961,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78291-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34359,
@@ -68232,7 +69986,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78278-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34360,
@@ -68250,7 +70011,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78284-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34361,
@@ -68268,7 +70036,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78290-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34362,
@@ -68286,7 +70061,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78275-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34363,
@@ -68304,7 +70086,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78281-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34364,
@@ -68322,7 +70111,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78287-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34365,
@@ -68340,7 +70136,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78274-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34366,
@@ -68358,7 +70161,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78280-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34367,
@@ -68376,7 +70186,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78286-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34368,
@@ -68394,7 +70211,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78277-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34369,
@@ -68412,7 +70236,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78283-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34370,
@@ -68430,7 +70261,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78289-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34371,
@@ -68448,7 +70286,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78276-128.png",
-    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality."
+    "description": "Captain Tankhor was a force of nature, a colossal man overflowing with vitality. His ship seemed to be everywhere at once, from the Antinau Sea to the Asse Sea, from Cania Bay to the coast of the Stontusk Desert. His swashbuckling career ended in tragedy, with a sad tale of an anchor, a giant kralove and countless gallons of ink.\nThis tattoo will lend you a tiny fraction of Tankhor's vitality.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34372,
@@ -68466,7 +70311,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78282-128.png",
-    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents."
+    "description": "Looth was unmatched when it came to methodically exploring a location or searching a defeated enemy's body to steal their meagre possessions. Rejecting attachments to any clan or gang like the Cania Ruffians, she was driven solely by raw profit motive. She died the way she lived: fast and with terrifying violence.\nThis tattoo will lend you a tiny fraction of Looth's prospecting talents.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34373,
@@ -68484,7 +70336,14 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/78288-128.png",
-    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power."
+    "description": "Brett was a swordsman with a fearsome reputation throughout the Cania Plains. He attacked any travellers who crossed his path, supposedly to show them his talent with a blade. It's said that he eventually slew himself in a burst of excessive enthusiasm.\nThis tattoo will lend you a tiny fraction of Brett's power.",
+    "conditions": [
+      {
+        "stat": "Be level {0} or higher",
+        "operator": ">",
+        "value": 19
+      }
+    ]
   },
   {
     "ankama_id": 34374,

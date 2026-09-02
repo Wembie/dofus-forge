@@ -12,8 +12,8 @@ import { RuneModal } from './RuneModal.tsx'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import type { SlotId } from '@/store/buildStore.ts'
-import type { AppItem } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
+import type { AppItem, AppCondition } from '@/data/loaders.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 
@@ -445,23 +445,17 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                 : rawAtkFx
 
               function StatLine({ e, i }: { e: { stat: string; min: number; max: number }; i: number }) {
-                const meta    = STAT_META[e.stat]
-                const clr     = meta?.color ?? 'var(--ink-muted)'
-                const useMax  = e.max !== 0 && e.max > e.min
-                const display = useMax ? e.max : e.min
+                const meta = STAT_META[e.stat]
+                const clr  = meta?.color ?? 'var(--ink-muted)'
+                const val  = fmtValue(e.min, e.max, t('range_sep_neg'))
                 return (
                   <div key={i} className="flex items-center gap-1.5 min-w-0">
                     {meta?.icon
                       ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
                       : <span className="w-3 flex-shrink-0" />
                     }
-                    <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>{display}</span>
+                    <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: clr }}>{val}</span>
                     <span className="text-[11px] flex-shrink-0" style={{ color: clr }}>{meta ? t(meta.tKey) : e.stat}</span>
-                    {useMax && (
-                      <span className="text-[9px] ml-auto tabular-nums flex-shrink-0 font-mono" style={{ color: 'var(--ink-faint)' }}>
-                        [{e.min} {t('range_sep_neg')} {e.max}]
-                      </span>
-                    )}
                   </div>
                 )
               }
@@ -574,6 +568,31 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             {nextBonus && (
               <div className="px-3 py-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>▶ {t('next_bonus')}: {nextBonus}</p>
+              </div>
+            )}
+
+            {/* Conditions */}
+            {item.conditions && item.conditions.length > 0 && (
+              <div className="px-3 pt-2 pb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+                <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                  {t('conditions')}
+                </p>
+                <div className="space-y-0.5">
+                  {item.conditions.map((c: AppCondition, i: number) => {
+                    const meta = STAT_META[c.stat]
+                    return (
+                      <div key={i} className="flex items-center gap-1.5">
+                        {meta?.icon
+                          ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
+                          : <span className="w-3 flex-shrink-0" />
+                        }
+                        <span className="text-[11px]" style={{ color: meta?.color ?? 'var(--ink-muted)' }}>
+                          {meta ? t(meta.tKey) : c.stat} {c.operator} {c.value}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             )}
 
