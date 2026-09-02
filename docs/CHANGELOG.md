@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.110] — 2026-09-02
+- Fix: clicking EN in the language switcher looped back to the previous language instead of switching. `RootRoute` reads `localStorage.dofus-forge-lang` to bounce returning visitors to their preferred language, but i18next's own detector re-caches whatever language is currently active into that exact key — so navigating to `/` always saw the language you were just leaving, not English. `LanguageSwitcher` now marks its navigation with `state: { explicit: true }`, which `RootRoute` checks to skip the stored-preference redirect for a deliberate language choice
+
 ## [0.2.109] — 2026-09-02
 - Feat: real multi-language URLs — `/`, `/es/`, `/fr/`, `/pt/` are now genuine static files (generated at build time by `scripts/postbuild-lang-pages.mjs`), each with its own `<title>`, meta description, canonical URL, and hreflang set — indexable and rankable per language, unlike the previous single-URL JS-language-switch which Google could only ever see as one language
 - Feat: switched `HashRouter` → `BrowserRouter` with `es/*` `fr/*` `pt/*` routes wrapped in `LangRoute`, which sets `i18n.language` from the URL path (source of truth) and injects per-language SEO meta client-side too (`useSeoMeta.ts`)

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.110',
+    date: '2026-09-02',
+    notes: [
+      'Fix: clicking EN in the language switcher looped back to the previous language — RootRoute was reading the stored language preference, which i18next itself keeps overwriting, so it always bounced back',
+    ],
+  },
+  {
     version: '0.2.109',
     date: '2026-09-02',
     notes: [
