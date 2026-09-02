@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
-import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
+import type { SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { Modal, Button, StatFilter } from '@/ui'
+import { StatFilter } from '@/ui'
+import { SetDetailModal } from './SetDetailModal.tsx'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
@@ -101,193 +102,13 @@ function SetSearch({
 }
 
 
-type SetModalProps = {
-  set:         AppSet
-  equipment:   AppItem[]
-  equippedIds: Set<number>
-  onEquip:     (item: AppItem) => void
-  onUnequip:   (item: AppItem) => void
-  onClose:     () => void
-}
-
-function SetDetailModal({ set, equipment, equippedIds, onEquip, onUnequip, onClose }: SetModalProps) {
-  const { t } = useTranslation()
-
-  const setItems = useMemo(() => {
-    const ids = new Set(set.items)
-    return equipment
-      .filter(it => ids.has(it.ankama_id))
-      .sort((a, b) => b.level - a.level)
-  }, [set, equipment])
-
-  const equippedCount = setItems.filter(it => equippedIds.has(it.ankama_id)).length
-  const bonusCounts   = Object.keys(set.bonuses).map(Number).sort((a, b) => a - b)
-  const activeTier    = [...bonusCounts].reverse().find(n => n <= equippedCount) ?? null
-
-  return (
-    <Modal open onClose={onClose} size="lg" title={set.name}>
-      <div className="p-4 space-y-4">
-        {setItems.length > 0 && (
-          <div className="flex gap-1.5 items-center flex-wrap">
-            {Array.from({ length: setItems.length }, (_, i) => (
-              <div
-                key={i}
-                className="rounded-full flex-shrink-0 transition-all duration-150"
-                style={{
-                  width:      i < equippedCount ? 10 : 8,
-                  height:     i < equippedCount ? 10 : 8,
-                  background: i < equippedCount ? 'var(--gold)' : 'var(--surface-raised)',
-                  border:     i < equippedCount
-                    ? '1px solid color-mix(in srgb, var(--gold) 60%, transparent)'
-                    : '1px solid var(--metal-edge)',
-                }}
-              />
-            ))}
-            <span className="text-[10px] ml-1" style={{ color: 'var(--ink-faint)' }}>
-              {equippedCount} / {setItems.length}
-            </span>
-          </div>
-        )}
-
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--ink-faint)' }}>
-            {t('set_items_title')}
-          </p>
-          <div className="space-y-1.5">
-            {setItems.map(item => {
-              const isEq = equippedIds.has(item.ankama_id)
-              return (
-                <div
-                  key={item.ankama_id}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors"
-                  style={{
-                    background: isEq
-                      ? 'color-mix(in srgb, var(--gold) 7%, var(--surface-void))'
-                      : 'var(--surface-stone)',
-                    border:  isEq
-                      ? '1px solid color-mix(in srgb, var(--gold) 28%, transparent)'
-                      : '1px solid var(--metal-edge)',
-                    cursor: !isEq ? 'pointer' : 'default',
-                  }}
-                  onClick={() => !isEq && onEquip(item)}
-                  onMouseEnter={e => {
-                    if (!isEq) (e.currentTarget as HTMLElement).style.background = 'var(--surface-panel)'
-                  }}
-                  onMouseLeave={e => {
-                    if (!isEq) (e.currentTarget as HTMLElement).style.background = 'var(--surface-stone)'
-                  }}
-                >
-                  <div
-                    className="w-9 h-9 flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
-                    style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-                  >
-                    {item.image_url
-                      ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
-                      : <span style={{ fontSize: 14, color: 'var(--ink-faint)' }}>?</span>
-                    }
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-semibold truncate" style={{ color: isEq ? 'var(--gold)' : 'var(--ink)' }}>
-                      {item.name}
-                      {isEq && <span className="ml-1.5 text-[9px]" style={{ color: 'var(--gold)', opacity: 0.5 }}>✓</span>}
-                    </p>
-                    <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-                      Lv {item.level} · {t(`item_type_${item.type}`, { defaultValue: item.type })}
-                    </p>
-                  </div>
-                  {!isEq ? (
-                    <Button variant="ghost" size="sm" onClick={e => { e.stopPropagation(); onEquip(item) }}>
-                      {t('equip_item')}
-                    </Button>
-                  ) : (
-                    <Button variant="danger" size="sm" onClick={e => { e.stopPropagation(); onUnequip(item) }}>
-                      {t('unequip_btn')}
-                    </Button>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {bonusCounts.length > 0 && (
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--ink-faint)' }}>
-              {t('set_bonuses_title')}
-            </p>
-            <div className="space-y-2">
-              {bonusCounts.map(count => {
-                const isActive  = count <= equippedCount
-                const isCurrent = count === activeTier
-                const effects   = set.bonuses[count] ?? []
-                return (
-                  <div
-                    key={count}
-                    className="rounded-lg p-3"
-                    style={{
-                      background: isActive
-                        ? 'color-mix(in srgb, var(--gold) 7%, var(--surface-void))'
-                        : 'var(--surface-stone)',
-                      border: isCurrent
-                        ? '1px solid color-mix(in srgb, var(--gold) 40%, transparent)'
-                        : isActive
-                        ? '1px solid color-mix(in srgb, var(--gold) 18%, transparent)'
-                        : '1px solid var(--metal-edge)',
-                    }}
-                  >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-[10px] font-bold" style={{ color: isActive ? 'var(--gold)' : 'var(--ink-faint)' }}>
-                        {t('set_bonus_count', { n: count })}
-                      </span>
-                      {isCurrent && (
-                        <span
-                          className="text-[9px] px-1.5 py-0.5 rounded"
-                          style={{ background: 'color-mix(in srgb, var(--gold) 20%, transparent)', color: 'var(--gold)' }}
-                        >
-                          {t('set_bonus_active')}
-                        </span>
-                      )}
-                    </div>
-                    <div className="space-y-1">
-                      {effects.map((e, i) => {
-                        const meta  = STAT_META[e.stat]
-                        const isNeg = e.min < 0
-                        const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
-                        return (
-                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, opacity: isActive ? 1 : 0.3 }}>
-                            {meta?.icon
-                              ? <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} style={{ objectFit: 'contain', flexShrink: 0 }} />
-                              : <span style={{ width: 11, flexShrink: 0 }} />
-                            }
-                            <span style={{ color: clr, fontSize: 10, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>
-                              {fmtValue(e.min, e.max, t('range_sep_neg'))}
-                            </span>
-                            <span style={{ color: meta?.color ?? 'var(--ink-faint)', fontSize: 10, opacity: 0.8 }}>
-                              {meta ? t(meta.tKey) : e.stat}
-                            </span>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-    </Modal>
-  )
-}
 
 export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const { t }      = useTranslation()
   const equipment  = useDataStore(s => s.equipment)
   const setsData   = useDataStore(s => s.sets)
   const equipItem   = useBuildStore(s => s.equipItem)
-  const unequipItem = useBuildStore(s => s.unequipItem)
   const currentId   = useBuildStore(s => s.equipped[slotId])
-  const equipped    = useBuildStore(s => s.equipped)
   const addToast    = useToastStore(s => s.addToast)
 
   const slotLabel = t(slotTKey(slotId))
@@ -301,11 +122,6 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     }
     return { setMap, itemSetMap }
   }, [setsData])
-
-  const equippedIds = useMemo(
-    () => new Set(Object.values(equipped).filter((v): v is number => v != null)),
-    [equipped]
-  )
 
   const slotSets = useMemo(() => {
     const ids = new Set<number>()
@@ -765,20 +581,6 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     {setModal && (
       <SetDetailModal
         set={setModal}
-        equipment={equipment ?? []}
-        equippedIds={equippedIds}
-        onEquip={(item) => {
-          const matching = SLOT_CONFIGS.filter(cfg => matchesSlot(item, cfg))
-          if (matching.length === 0) return
-          const empty  = matching.find(cfg => equipped[cfg.id] == null)
-          const target = empty ?? matching[0]
-          equipItem(target.id, item.ankama_id)
-        }}
-        onUnequip={(item) => {
-          const sid = (Object.entries(equipped) as [SlotId, number | null][])
-            .find(([, id]) => id === item.ankama_id)?.[0]
-          if (sid) unequipItem(sid)
-        }}
         onClose={() => setSetModal(null)}
       />
     )}
