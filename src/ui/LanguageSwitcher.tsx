@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useDataStore } from '@/store/dataStore.ts'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const LANGS = [
   { code: 'en', label: 'EN' },
@@ -10,12 +10,17 @@ const LANGS = [
 
 export function LanguageSwitcher() {
   const { i18n, t } = useTranslation()
-  const load     = useDataStore(s => s.load)
+  const navigate = useNavigate()
+  const location = useLocation()
   const lang     = i18n.language.slice(0, 2)
 
-  const handleChange = async (code: string) => {
-    await i18n.changeLanguage(code)
-    await load(code)  // reload item data in the selected language
+  // Navigating updates the URL path, which LangRoute picks up to call
+  // i18n.changeLanguage — this keeps the URL as the single source of
+  // truth for language (required for /es /fr /pt to be distinct,
+  // crawlable, correctly-indexed pages).
+  const handleChange = (code: string) => {
+    const path = code === 'en' ? '/' : `/${code}/`
+    navigate(`${path}${location.search}`)
   }
 
   return (

@@ -5,6 +5,15 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.109] — 2026-09-02
+- Feat: real multi-language URLs — `/`, `/es/`, `/fr/`, `/pt/` are now genuine static files (generated at build time by `scripts/postbuild-lang-pages.mjs`), each with its own `<title>`, meta description, canonical URL, and hreflang set — indexable and rankable per language, unlike the previous single-URL JS-language-switch which Google could only ever see as one language
+- Feat: switched `HashRouter` → `BrowserRouter` with `es/*` `fr/*` `pt/*` routes wrapped in `LangRoute`, which sets `i18n.language` from the URL path (source of truth) and injects per-language SEO meta client-side too (`useSeoMeta.ts`)
+- Feat: `LanguageSwitcher` now navigates to the language's path instead of only swapping i18next state in place
+- Fix: `useBuildUrl`'s history sync hard-coded `navigate('/?b=...')`, silently bouncing users on `/es/` etc. back to the English root on every build mutation — now preserves `location.pathname`
+- Fix: `brandHref` (logo link) in `BuilderPage` built a stale `#/?b=` hash URL; now builds the correct path for the active language
+- Chore: added `public/404.html` (GitHub Pages SPA fallback for any path outside the 4 known language roots) and a legacy-hash-link compatibility script in `index.html` so old shared URLs (`#/?b=...`) keep working
+- Chore: `public/sitemap.xml` lists all 4 URLs with `xhtml:link` hreflang annotations
+
 ## [0.2.108] — 2026-09-02
 - Chore: added Google Search Console HTML verification file (public/google77a75c10cc4e1e3c.html)
 

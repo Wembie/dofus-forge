@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Dofus Forge</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        height: 100%;
+        background: #0a0d13;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 32px;
+        text-align: center;
+      }
+      .emblem {
+        width: 64px;
+        height: 64px;
+        opacity: 0.92;
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.55; transform: scale(0.97); }
+        50%      { opacity: 1;    transform: scale(1); }
+      }
+      .brand {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: 0.02em;
+        color: #eccb78;
+      }
+      .status {
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #9aa0b0;
+      }
+      .fallback {
+        margin-top: 6px;
+        font-size: 13px;
+        color: #626a7d;
+      }
+      .fallback a {
+        color: #c9a24b;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(201,162,75,0.4);
+      }
+      .fallback a:hover { border-bottom-color: #c9a24b; }
+      noscript .fallback { margin-top: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <svg class="emblem" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#7f6428" stroke-width="1.2" opacity="0.5"/>
+        <circle cx="32" cy="32" r="25" stroke="#c9a24b" stroke-width="1.6"/>
+        <g transform="translate(32,35)">
+          <polygon points="-7,-1 -7,3 -15,0" fill="#eccb78"/>
+          <rect x="-8" y="-3" width="17" height="5" rx="1" fill="#eccb78"/>
+          <rect x="-3" y="2" width="7" height="4" fill="#eccb78"/>
+          <rect x="-9" y="6" width="19" height="2.6" rx="0.5" fill="#eccb78"/>
+          <g transform="rotate(-38) translate(1,-12)">
+            <rect x="-1" y="-2" width="2" height="15" rx="0.8" fill="#eccb78"/>
+            <rect x="-5" y="-6" width="10" height="5" rx="0.6" fill="#eccb78"/>
+          </g>
+        </g>
+      </svg>
+      <div class="brand">Dofus Forge</div>
+      <div class="status">Redirecting…</div>
+      <noscript>
+        <p class="fallback">
+          JavaScript is required.
+          <a href="/dofus-forge/">Go to Dofus Forge →</a>
+        </p>
+      </noscript>
+    </div>
+
+    <script>
+      // Single Page Apps for GitHub Pages — https://github.com/rafgraph/spa-github-pages
+      // GitHub Pages has no server-side rewrites, so a deep link like
+      // /dofus-forge/es/ 404s on direct load (e.g. a search engine crawler,
+      // or a user refreshing the page). This encodes the real path into a
+      // query string and redirects to index.html, which decodes it back
+      // via history.replaceState before the app mounts (see index.html).
+      var pathSegmentsToKeep = 1; // keeps "/dofus-forge"
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </body>
+</html>

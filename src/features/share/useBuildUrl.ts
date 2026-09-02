@@ -45,7 +45,10 @@ export function useBuildUrl() {
       const encoded = encodeBuild(state)
       const params  = new URLSearchParams(location.search)
       if (params.get('b') === encoded) return
-      navigate(`/?b=${encoded}`, { replace: true })
+      // Preserve the current language path (/es, /fr, /pt) — hardcoding
+      // '/' here would silently bounce the user back to English on
+      // every build mutation.
+      navigate(`${location.pathname}?b=${encoded}`, { replace: true })
     })
   }, [navigate, location.search])
 }

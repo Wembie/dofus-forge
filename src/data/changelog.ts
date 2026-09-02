@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.109',
+    date: '2026-09-02',
+    notes: [
+      'Feat: real multi-language URLs (/es/ /fr/ /pt/ + / for English) — each is a genuine static file with its own title, description, canonical and hreflang, indexable and rankable per language in search engines',
+      'Feat: switched HashRouter to BrowserRouter; language switcher and build-sharing links now preserve the language path',
+      'Fix: build-sharing URL sync no longer force-navigates to "/" on every stat change (was silently dropping the language path)',
+      'Chore: legacy hash-based shared links (#/?b=...) still resolve correctly via a compatibility redirect',
+    ],
+  },
+  {
     version: '0.2.108',
     date: '2026-09-02',
     notes: [
