@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+/* Font loaded via non-blocking <link> in index.html — a CSS @import here
+   would chain HTML -> CSS -> Google Fonts CSS -> font files serially,
+   blocking first paint (measured ~380-1650ms render-blocking cost). */
 
 @tailwind base;
 @tailwind components;
@@ -29,7 +31,7 @@
   /* ── Ink (text) ── */
   --ink:        #e9e5da;
   --ink-muted:  #9aa0b0;
-  --ink-faint:  #626a7d;
+  --ink-faint:  #7a849c;  /* lightened from #626a7d — WCAG AA 4.5:1 on surface-panel (was 3.14:1) */
   --ink-invert: #0a0d13;
 
   /* ── Elements — CANONICAL single source of truth ── */
@@ -137,7 +139,7 @@
 
   --ink:        #1a1a2e;
   --ink-muted:  #5a5a72;
-  --ink-faint:  #9a96a0;
+  --ink-faint:  #67646b;  /* darkened from #9a96a0 — WCAG AA 4.5:1 on white/surface-void (was 2.28-2.90:1) */
   --ink-invert: #f2efe8;
 
   --earth:        #7a5800;

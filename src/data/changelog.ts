@@ -1,4 +1,4 @@
-export const DOFUS_GAME_VERSION = __DOFUS_VERSION__  // auto desde public/data/version.json
+export { DOFUS_GAME_VERSION } from './gameVersion.ts'
 
 export type ChangelogEntry = {
   version: string
@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.2.111',
+    date: '2026-09-03',
+    notes: [
+      'Perf: main JS bundle 676KB -> 376KB (-44%) — removed motion/framer-motion (replaced sliding tab indicator and modal/toast animations with CSS transitions), removed cross-fetch polyfill (native fetch backend for i18next), lazy-loaded ItemCatalog/RuneModal/SetDetailModal/SpellsPanel/ComparePanel/ExportCard',
+      'Perf: fixed render-blocking Google Fonts (CSS @import chain -> non-blocking preload+swap link), est. 380-1650ms saved on first paint',
+      'Perf: split DOFUS_GAME_VERSION out of changelog.ts so the eager bundle no longer carries the full changelog text just for one constant',
+      'Fix: accessibility — ink-faint color token now meets WCAG AA contrast (4.5:1) in both themes; added missing aria-label on characteristic point input',
+      'Fix: ShareBar share-URL still built the old #/?b= hash link — same bug as brandHref, now uses the correct language path',
+    ],
+  },
   {
     version: '0.2.110',
     date: '2026-09-02',

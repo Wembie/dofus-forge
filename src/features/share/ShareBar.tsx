@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild, decodeBuild } from './codec.ts'
 import { saveBuild, listBuilds, deleteBuild, type SavedBuild } from './savedBuilds.ts'
-import { triggerExport, type ExportData } from './ExportCard.tsx'
+import type { ExportData } from './ExportCard.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 
 export function ShareBar() {
-  const { t }       = useTranslation()
+  const { t, i18n } = useTranslation()
   const store       = useBuildStore()
   const stats       = useBuildStore(s => s.stats)
   const equipment   = useBuildStore(s => s._equipment)
@@ -21,10 +21,11 @@ export function ShareBar() {
 
   const shareUrl = useCallback(() => {
     if (!hasClass) return ''
-    const encoded = encodeBuild(store)
-    const url     = `${location.origin}${location.pathname}#/?b=${encoded}`
-    return url
-  }, [store, hasClass])
+    const encoded  = encodeBuild(store)
+    const lang     = i18n.language.slice(0, 2)
+    const langPath = lang === 'en' ? '' : `${lang}/`
+    return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
+  }, [store, hasClass, i18n.language])
 
   const handleCopy = useCallback(async () => {
     const url = shareUrl()
@@ -57,6 +58,9 @@ export function ShareBar() {
     if (!store.selectedClass || !stats) return
     setExporting(true)
     try {
+      // Dynamic import: ExportCard + html-to-image (~20 KB) are only
+      // needed when the user actually clicks export, not on every load.
+      const { triggerExport } = await import('./ExportCard.tsx')
       const clsInfo  = CLASS_DATA.find(c => c.id === store.selectedClass)
       const equipMap = new Map(equipment.map(it => [it.ankama_id, it.name]))
       const equippedNames = Object.fromEntries(
