@@ -135,6 +135,7 @@ function AllocatorControl({
   char: Characteristic; allocated: number; remaining: number;
   onAdd: (n: number) => void; onRemove: (n: number) => void;
 }) {
+  const { t }    = useTranslation()
   const color    = CHAR_COLOR[char]
   const focused  = useRef(false)
   const [inputVal, setInputVal] = useState(String(allocated))
@@ -177,6 +178,7 @@ function AllocatorControl({
           if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
           if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
         }}
+        aria-label={t(`char_${char}`)}
         className="text-center font-mono font-bold text-xs focus:outline-none rounded-sm"
         style={{
           width: 36, background: 'var(--surface-void)', color,

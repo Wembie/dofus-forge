@@ -1,12 +1,10 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import Backend from 'i18next-http-backend'
-
-const BASE = import.meta.env.BASE_URL  // '/dofus-forge/'
+import { fetchBackend } from './fetchBackend.ts'
 
 i18n
-  .use(Backend)
+  .use(fetchBackend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
@@ -14,9 +12,6 @@ i18n
     supportedLngs: ['en', 'es', 'fr', 'pt'],
     ns: ['translation'],
     defaultNS: 'translation',
-    backend: {
-      loadPath: `${BASE}locales/{{lng}}/{{ns}}.json`,
-    },
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],

@@ -108,6 +108,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!--
+      Fonts loaded non-render-blocking: discovered immediately (unlike a
+      CSS @import buried inside the bundled stylesheet), fetched as
+      media="print" so it never blocks first paint, then swapped to "all"
+      once loaded. noscript fallback covers JS-disabled clients.
+    -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+    </noscript>
+
     <!-- Block flash of wrong theme before React mounts -->
     <script>
       (function() {

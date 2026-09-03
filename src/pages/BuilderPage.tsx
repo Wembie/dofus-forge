@@ -13,14 +13,18 @@ import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
 import { encodeBuild } from '@/features/share/codec.ts'
 import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
-import { SpellsPanel } from '@/features/spells/SpellsPanel.tsx'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
 import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
-import { DOFUS_GAME_VERSION } from '@/data/changelog.ts'
+import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
-import { ComparePanel } from '@/features/compare/ComparePanel.tsx'
+
+// Lazy: none of these are needed for the initial paint (spells/compare
+// only render after a class is picked / compare mode is toggled; the
+// modals only mount on click) — keeps them out of the eager bundle.
+const SpellsPanel     = lazy(() => import('@/features/spells/SpellsPanel.tsx').then(m => ({ default: m.SpellsPanel })))
+const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx').then(m => ({ default: m.ComparePanel })))
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
 
@@ -244,7 +248,7 @@ function BuilderContent() {
             <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
               <Frame><ClassPicker /></Frame>
               <Frame><CharacteristicsPanel /></Frame>
-              {hasClass && <Frame><SpellsPanel /></Frame>}
+              {hasClass && <Frame><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>}
             </aside>
           )}
           {activeTab === 'stats' && (
@@ -272,7 +276,7 @@ function BuilderContent() {
             </section>
             {hasClass && (
               <div style={{ animation: 'col-rise 520ms var(--ease-out) 200ms both' }}>
-                <Frame padding="lg"><SpellsPanel /></Frame>
+                <Frame padding="lg"><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>
               </div>
             )}
           </div>
@@ -305,7 +309,9 @@ function BuilderContent() {
       {/* Compare panel — full width below main grid */}
       {compareActive && (
         <div ref={comparePanelRef} className="px-4 pb-6">
-          <ComparePanel />
+          <Suspense fallback={null}>
+            <ComparePanel />
+          </Suspense>
         </div>
       )}
 

@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppSet, AppEffect } from '@/data/loaders.ts'
-import { SetDetailModal } from './SetDetailModal.tsx'
 import { IconButton, Frame } from '@/ui'
+
+const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 import { STAT_META, statIconUrl } from './statDisplay.ts'
 
 // ── Piece progress dots ───────────────────────────────────────────────────────
@@ -193,7 +194,9 @@ export function SetBonusesPanel() {
       </div>
 
       {openSet && (
-        <SetDetailModal set={openSet} onClose={() => setOpenSet(null)} />
+        <Suspense fallback={null}>
+          <SetDetailModal set={openSet} onClose={() => setOpenSet(null)} />
+        </Suspense>
       )}
     </>
   )

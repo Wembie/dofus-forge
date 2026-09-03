@@ -5,6 +5,17 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.111] — 2026-09-03
+- Perf: main JS bundle 676KB → 376KB gzip 202KB → 115KB (-44%), driven by PageSpeed Insights findings (mobile Performance was 61):
+  - Removed `motion`/framer-motion entirely (~170KB) — `Tabs.tsx`'s sliding indicator (previously `layoutId` shared-layout animation) now uses `ResizeObserver` + CSS `transition: left/width`; `Modal.tsx` and `Toaster.tsx`'s enter/exit animations now use a hand-rolled mount-transition pattern (opacity/transform + CSS `transition`, double-rAF for enter, delayed unmount for exit)
+  - Removed `i18next-http-backend` + its `cross-fetch` polyfill dependency (~37KB) — replaced with a ~15-line custom i18next backend (`src/i18n/fetchBackend.ts`) using native `fetch`
+  - Split `DOFUS_GAME_VERSION` out of `changelog.ts` into `src/data/gameVersion.ts` — `BuilderPage`'s eager import no longer drags in the full ~28KB `CHANGELOG` array just to read one constant
+  - Lazy-loaded `ItemCatalog`, `RuneModal`, `SetDetailModal`, `SpellsPanel`, `ComparePanel` (all conditionally-mounted) and dynamic-`import()`'d `ExportCard`+html-to-image (only needed on export click)
+- Perf: fixed render-blocking Google Fonts — moved from a CSS `@import` (which chains HTML → CSS → Google Fonts CSS → font files serially) to a non-blocking `<link rel=preload>` + `media=print` swap in `index.html`; est. 380ms (desktop) to 1650ms (mobile) saved
+- Fix: `--ink-faint` color token failed WCAG AA contrast (3.14:1 dark, 2.28:1 light — needs 4.5:1) — adjusted to `#7a849c` (dark) / `#67646b` (light), both now pass on every background they're used against
+- Fix: characteristic point allocator `<input>` had no accessible name — added `aria-label`
+- Fix: `ShareBar`'s `shareUrl()` still built the legacy `#/?b=` HashRouter link (same bug class as `brandHref` fixed in 0.2.109) — now builds the correct per-language path
+
 ## [0.2.110] — 2026-09-02
 - Fix: clicking EN in the language switcher looped back to the previous language instead of switching. `RootRoute` reads `localStorage.dofus-forge-lang` to bounce returning visitors to their preferred language, but i18next's own detector re-caches whatever language is currently active into that exact key — so navigating to `/` always saw the language you were just leaving, not English. `LanguageSwitcher` now marks its navigation with `state: { explicit: true }`, which `RootRoute` checks to skip the stored-preference redirect for a deliberate language choice
 

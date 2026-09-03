@@ -1,6 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'motion/react'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from './cn'
@@ -32,10 +31,40 @@ const FOCUSABLE = [
   'select:not([disabled])', 'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])',
 ].join(',')
 
+const EXIT_MS = 150
+
+/**
+ * Mount/unmount + enter/exit visibility state without an animation
+ * library: `shouldRender` keeps the node in the DOM through the exit
+ * transition; `isVisible` is flipped a frame after mount so the CSS
+ * transition has an initial state to animate FROM (otherwise the browser
+ * paints straight to the final state with no visible transition).
+ */
+function useMountTransition(open: boolean, exitMs: number) {
+  const [shouldRender, setShouldRender] = useState(open)
+  const [isVisible, setIsVisible]       = useState(false)
+
+  useEffect(() => {
+    let raf: number
+    let timeout: ReturnType<typeof setTimeout>
+    if (open) {
+      setShouldRender(true)
+      raf = requestAnimationFrame(() => setIsVisible(true))
+    } else {
+      setIsVisible(false)
+      timeout = setTimeout(() => setShouldRender(false), exitMs)
+    }
+    return () => { cancelAnimationFrame(raf); clearTimeout(timeout) }
+  }, [open, exitMs])
+
+  return { shouldRender, isVisible }
+}
+
 export function Modal({ open, onClose, title, size = 'md', className, children }: ModalProps) {
   const { t }    = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
   const titleId  = title ? 'modal-title' : undefined
+  const { shouldRender, isVisible } = useMountTransition(open, EXIT_MS)
 
   // Initial focus — only when modal opens, not when onClose ref changes
   useEffect(() => {
@@ -78,82 +107,76 @@ export function Modal({ open, onClose, title, size = 'md', className, children }
     return () => { document.body.style.overflow = prev }
   }, [open])
 
+  if (!shouldRender) return null
+
   return createPortal(
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-        >
-          {/* Backdrop */}
-          <motion.div
-            className="absolute inset-0"
-            style={{ background: 'rgba(10,13,19,.8)' }}
-            onClick={onClose}
-            aria-hidden="true"
-          />
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ opacity: isVisible ? 1 : 0, transition: `opacity ${EXIT_MS}ms ease-out` }}
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'rgba(10,13,19,.8)' }}
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
-          {/* Panel */}
-          <motion.div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
-            className={cn(
-              'relative z-10 w-full rounded-frame overflow-hidden flex flex-col',
-              'max-h-[90vh]',
-              sizeMap[size],
-              className,
-            )}
-            style={{
-              background:  'var(--surface-panel)',
-              border:      '1px solid var(--metal-edge-strong)',
-              boxShadow:   'var(--shadow-frame), var(--inset-bevel)',
-            }}
-            initial={{ opacity: 0, scale: 0.96, y: 12 }}
-            animate={{ opacity: 1, scale: 1,    y: 0  }}
-            exit={{    opacity: 0, scale: 0.96, y: 12 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+      {/* Panel */}
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className={cn(
+          'relative z-10 w-full rounded-frame overflow-hidden flex flex-col',
+          'max-h-[90vh]',
+          sizeMap[size],
+          className,
+        )}
+        style={{
+          background:  'var(--surface-panel)',
+          border:      '1px solid var(--metal-edge-strong)',
+          boxShadow:   'var(--shadow-frame), var(--inset-bevel)',
+          opacity:     isVisible ? 1 : 0,
+          transform:   isVisible ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(12px)',
+          transition:  'opacity 220ms cubic-bezier(.2,.8,.2,1), transform 220ms cubic-bezier(.2,.8,.2,1)',
+        }}
+      >
+        {/* Header */}
+        {title && (
+          <div
+            className="flex items-center justify-between gap-3 px-4 py-3 flex-shrink-0"
+            style={{ borderBottom: '1px solid var(--metal-edge)' }}
           >
-            {/* Header */}
-            {title && (
-              <div
-                className="flex items-center justify-between gap-3 px-4 py-3 flex-shrink-0"
-                style={{ borderBottom: '1px solid var(--metal-edge)' }}
-              >
-                <h2
-                  id={titleId}
-                  className="font-display font-bold text-sm uppercase tracking-widest truncate"
-                  style={{ color: 'var(--gold)' }}
-                >
-                  {title}
-                </h2>
-                <button
-                  onClick={onClose}
-                  aria-label={t('modal_close')}
-                  className={cn(
-                    'flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-sm',
-                    'transition-colors duration-fast ease-out',
-                    'text-ink-faint hover:text-ink hover:bg-surface-raised',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50',
-                  )}
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            )}
+            <h2
+              id={titleId}
+              className="font-display font-bold text-sm uppercase tracking-widest truncate"
+              style={{ color: 'var(--gold)' }}
+            >
+              {title}
+            </h2>
+            <button
+              onClick={onClose}
+              aria-label={t('modal_close')}
+              className={cn(
+                'flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-sm',
+                'transition-colors duration-fast ease-out',
+                'text-ink-faint hover:text-ink hover:bg-surface-raised',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50',
+              )}
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
 
-            {/* Body */}
-            <div className="flex-1 overflow-y-auto min-h-0">
-              {children}
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>,
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto min-h-0">
+          {children}
+        </div>
+      </div>
+    </div>,
     document.body,
   )
 }
