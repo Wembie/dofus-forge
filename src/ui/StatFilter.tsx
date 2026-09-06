@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
 
-const PRIMARY_ORDER = ['AP', 'MP', 'Vitality', 'Wisdom', 'Strength', 'Intelligence', 'Chance', 'Agility']
+const PRIMARY_ORDER = ['AP', 'MP', 'Range', 'Vitality', 'Wisdom', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Summons', '% Critical']
 const PRIMARY_SET   = new Set(PRIMARY_ORDER)
 
 // Flat damage/steal stats — kept separate from resistances and from their
@@ -17,7 +17,7 @@ const DAMAGE_SET = new Set([
 ])
 
 const DAMAGE_PCT_SET = new Set([
-  '% Melee Damage', '% Ranged Damage', '% Spell Damage', '% Weapon Damage', '% Critical',
+  '% Melee Damage', '% Ranged Damage', '% Spell Damage', '% Weapon Damage',
 ])
 
 // Fixed resistances only — the % variants get their own section below.

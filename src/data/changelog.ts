@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.117',
+    date: '2026-09-06',
+    notes: [
+      'Chore: added Range, Summons, and % Critical to the "Main Effects" section of the stat filter dropdown',
+    ],
+  },
+  {
     version: '0.2.116',
     date: '2026-09-06',
     notes: [
