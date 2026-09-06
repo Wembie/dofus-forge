@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.115] — 2026-09-06
+- Feat: Sets Catalog card interaction redesigned — clicking a card now directly equips the full set (one atomic `equipMultiple()` call) instead of opening the detail modal; a new eye icon button opens `SetDetailModal` for browsing/equipping individual items, viewing all tier bonuses, etc. A hint line explains both actions
+- Feat: hovering an item thumbnail in the Sets Catalog now shows the same full item tooltip (effects, weapon attack, conditions, lore) as `SetDetailModal`'s item list — thumbnails enlarged from 36px to 56px for easier targeting
+- Refactor: extracted the item hover tooltip (previously private to `SetDetailModal.tsx`) into `src/features/equipment/ItemHoverTooltip.tsx`, shared by both `SetDetailModal` and `SetsCatalog`
+
 ## [0.2.114] — 2026-09-06
 - Feat: new Sets Catalog (`SetsCatalog.tsx`) — a full browsable catalog of every set in the game, opened from a new "Sets" button in the desktop header (next to the Optimizer button). Search by name, filter by level range and piece count (dynamically derived from the actual data), sort by level/name/piece-count. Each card shows: item thumbnails (up to 6 + overflow count), the top-tier bonus stat icons as a preview, level range, and a live "X/Y equipped" progress badge that highlights complete sets in gold. Clicking a card opens the existing `SetDetailModal` for full detail + equip-all. Lazy-loaded, not part of the eager bundle
 

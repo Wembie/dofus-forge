@@ -449,5 +449,6 @@
   "sets_catalog_search": "Rechercher une panoplie…",
   "sets_catalog_pieces": "{{count}} pièces",
   "sets_sort_pieces": "Pièces",
-  "no_sets": "Aucune panoplie trouvée"
+  "no_sets": "Aucune panoplie trouvée",
+  "sets_catalog_hint": "Cliquez sur une carte pour équiper la panoplie complète · utilisez l'icône 👁 pour voir les objets un par un"
 }

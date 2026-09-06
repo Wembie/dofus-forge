@@ -1,9 +1,14 @@
 import { useState, useMemo, useEffect, Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Eye } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
+import type { SlotId } from '@/store/buildStore.ts'
 import type { AppSet, AppItem, AppEffect } from '@/data/loaders.ts'
+import { SLOT_CONFIGS } from './slotConfig.ts'
 import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
+import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
+import { useToastStore } from '@/store/toastStore.ts'
 
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 
@@ -22,17 +27,21 @@ type EnrichedSet = {
 }
 
 function SetCard({
-  entry, equippedCount, onOpen,
-}: { entry: EnrichedSet; equippedCount: number; onOpen: () => void }) {
+  entry, equippedCount, onEquipAll, onViewDetail,
+}: { entry: EnrichedSet; equippedCount: number; onEquipAll: () => void; onViewDetail: () => void }) {
   const { t } = useTranslation()
   const { set, items, minLevel, maxLevel, topBonus } = entry
   const total = items.length
   const complete = equippedCount === total && total > 0
+  const [hovered, setHovered] = useState<{ item: AppItem; rect: DOMRect } | null>(null)
 
   return (
-    <button
-      onClick={onOpen}
-      className="text-left relative rounded-xl overflow-hidden w-full group flex flex-col"
+    <div
+      className="text-left relative rounded-xl overflow-hidden w-full group flex flex-col cursor-pointer"
+      role="button"
+      tabIndex={0}
+      onClick={onEquipAll}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEquipAll() } }}
       style={{
         background: complete
           ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
@@ -43,17 +52,17 @@ function SetCard({
         transition: 'border-color 0.15s, background 0.15s',
       }}
       onMouseEnter={e => {
-        const el = e.currentTarget as HTMLButtonElement
+        const el = e.currentTarget
         if (complete) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
         else el.style.background = 'var(--surface-panel)'
       }}
       onMouseLeave={e => {
-        const el = e.currentTarget as HTMLButtonElement
+        const el = e.currentTarget
         if (complete) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
         else el.style.background = 'var(--surface-void)'
       }}
     >
-      {/* Header: name + level + piece badge */}
+      {/* Header: name + level + piece badge + view-detail */}
       <div className="flex items-start justify-between gap-2 px-4 pt-3.5 pb-2">
         <div className="min-w-0">
           <p
@@ -67,35 +76,47 @@ function SetCard({
             Lv {minLevel === maxLevel ? minLevel : `${minLevel}–${maxLevel}`}
           </p>
         </div>
-        <span
-          className="flex-shrink-0 font-mono text-[11px] font-bold px-2 py-0.5 rounded"
-          style={{
-            background: 'color-mix(in srgb, var(--gold) 12%, transparent)',
-            color:      'var(--gold)',
-            border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
-          }}
-        >
-          {equippedCount}/{total}
-        </span>
+        <div className="flex items-center gap-1.5 flex-shrink-0">
+          <span
+            className="font-mono text-[11px] font-bold px-2 py-0.5 rounded"
+            style={{
+              background: 'color-mix(in srgb, var(--gold) 12%, transparent)',
+              color:      'var(--gold)',
+              border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
+            }}
+          >
+            {equippedCount}/{total}
+          </span>
+          <button
+            onClick={e => { e.stopPropagation(); onViewDetail() }}
+            title={t('view_set')}
+            aria-label={t('view_set')}
+            className="w-6 h-6 rounded flex items-center justify-center transition-colors text-ink-faint hover:text-gold"
+            style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
+          >
+            <Eye size={12} />
+          </button>
+        </div>
       </div>
 
-      {/* Item thumbnail strip */}
+      {/* Item thumbnail strip — hover shows full item tooltip */}
       <div className="flex gap-1.5 px-4 pb-3 flex-wrap">
         {items.slice(0, 6).map(it => (
           <div
             key={it.ankama_id}
-            className="w-9 h-9 rounded-md flex-shrink-0 flex items-center justify-center overflow-hidden"
+            className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
             style={{ background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))', border: '1px solid var(--metal-edge)' }}
-            title={it.name}
+            onMouseEnter={e => { e.stopPropagation(); setHovered({ item: it, rect: e.currentTarget.getBoundingClientRect() }) }}
+            onMouseLeave={e => { e.stopPropagation(); setHovered(null) }}
           >
             {it.image_url
-              ? <img src={it.image_url} alt="" className="w-full h-full object-contain p-0.5" loading="lazy" />
-              : <span className="text-ink-faint text-[10px]">?</span>}
+              ? <img src={it.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+              : <span className="text-ink-faint text-[11px]">?</span>}
           </div>
         ))}
         {items.length > 6 && (
           <div
-            className="w-9 h-9 rounded-md flex-shrink-0 flex items-center justify-center text-[10px] font-mono"
+            className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center text-[11px] font-mono"
             style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
           >
             +{items.length - 6}
@@ -133,15 +154,19 @@ function SetCard({
           </div>
         </div>
       )}
-    </button>
+
+      {hovered && <ItemHoverTooltip item={hovered.item} anchor={hovered.rect} />}
+    </div>
   )
 }
 
 export function SetsCatalog({ onClose }: Props) {
-  const { t }       = useTranslation()
-  const equipment   = useDataStore(s => s.equipment)
-  const sets        = useDataStore(s => s.sets)
-  const equipped    = useBuildStore(s => s.equipped)
+  const { t }         = useTranslation()
+  const equipment     = useDataStore(s => s.equipment)
+  const sets          = useDataStore(s => s.sets)
+  const equipped      = useBuildStore(s => s.equipped)
+  const equipMultiple = useBuildStore(s => s.equipMultiple)
+  const addToast      = useToastStore(s => s.addToast)
 
   const [search, setSearch]       = useState('')
   const [minLevel, setMinLevel]   = useState(0)
@@ -155,6 +180,18 @@ export function SetsCatalog({ onClose }: Props) {
     window.addEventListener('keydown', down)
     return () => window.removeEventListener('keydown', down)
   }, [onClose, openSet])
+
+  const slotByApiSlot = useMemo(() => {
+    const map = new Map<string, SlotId[]>()
+    for (const sc of SLOT_CONFIGS) {
+      const apiSlots = Array.isArray(sc.apiSlot) ? sc.apiSlot : [sc.apiSlot]
+      for (const s of apiSlots) {
+        if (!map.has(s)) map.set(s, [])
+        map.get(s)!.push(sc.id)
+      }
+    }
+    return map
+  }, [])
 
   const equippedIds = useMemo(
     () => new Set(Object.values(equipped).filter((v): v is number => v != null)),
@@ -210,6 +247,31 @@ export function SetsCatalog({ onClose }: Props) {
     'level-asc':   t('sort_level_asc'),
     'name-az':     t('sort_name_az'),
     'pieces-desc': t('sets_sort_pieces'),
+  }
+
+  // Equip every not-yet-equipped item of a set in one atomic update — same
+  // logic as SetDetailModal's handleEquipAll, kept in sync with it.
+  function handleEquipAll(entry: EnrichedSet) {
+    const localEquipped = { ...equipped }
+    const toEquip: { slot: SlotId; ankama_id: number }[] = []
+    const equippedItems: { slot: SlotId; item: AppItem }[] = []
+
+    for (const item of entry.items) {
+      if (equippedIds.has(item.ankama_id)) continue
+      const slots  = slotByApiSlot.get(item.slot) ?? []
+      const target = slots.find(sid => localEquipped[sid] == null) ?? slots[0]
+      if (!target) continue
+      localEquipped[target] = item.ankama_id
+      toEquip.push({ slot: target, ankama_id: item.ankama_id })
+      equippedItems.push({ slot: target, item })
+    }
+
+    if (toEquip.length === 0) return
+    equipMultiple(toEquip)
+    for (const { slot, item } of equippedItems) {
+      const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
+      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotCfg?.icon ?? '✓')
+    }
   }
 
   return (
@@ -313,6 +375,8 @@ export function SetsCatalog({ onClose }: Props) {
                 {LEVELS.map(l => <option key={l} value={l}>{l === 0 ? '—' : l}</option>)}
               </select>
             </div>
+
+            <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('sets_catalog_hint')}</p>
           </div>
 
           {/* Card grid */}
@@ -330,7 +394,8 @@ export function SetsCatalog({ onClose }: Props) {
                       key={entry.set.ankama_id}
                       entry={entry}
                       equippedCount={equippedCount}
-                      onOpen={() => setOpenSet(entry.set)}
+                      onEquipAll={() => handleEquipAll(entry)}
+                      onViewDetail={() => setOpenSet(entry.set)}
                     />
                   )
                 })}

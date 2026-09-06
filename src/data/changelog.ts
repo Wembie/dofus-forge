@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.115',
+    date: '2026-09-06',
+    notes: [
+      'Feat: Sets Catalog cards now equip the full set in one click — a new eye icon opens the detailed view (individual items, all tier bonuses) instead',
+      'Feat: hovering an item thumbnail in the Sets Catalog shows the full item tooltip (effects, weapon attack, conditions, lore) — thumbnails also made bigger',
+      'Refactor: extracted the item hover tooltip into a shared component used by both SetDetailModal and the Sets Catalog',
+    ],
+  },
+  {
     version: '0.2.114',
     date: '2026-09-06',
     notes: [

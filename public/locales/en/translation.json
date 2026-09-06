@@ -449,5 +449,6 @@
   "sets_catalog_search": "Search sets…",
   "sets_catalog_pieces": "{{count}} pieces",
   "sets_sort_pieces": "Pieces",
-  "no_sets": "No sets found"
+  "no_sets": "No sets found",
+  "sets_catalog_hint": "Click a card to equip the full set · use the 👁 icon to view items individually"
 }
