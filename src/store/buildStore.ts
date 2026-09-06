@@ -67,6 +67,8 @@ export interface BuildState {
   toggleScroll:   (char: Characteristic) => void
   setAllScrolls:  (active: boolean) => void
   equipItem:     (slot: SlotId, ankama_id: number) => void
+  /** Equips several items in one atomic state update — one history entry, not one per item. */
+  equipMultiple: (items: { slot: SlotId; ankama_id: number }[]) => void
   unequipItem:   (slot: SlotId) => void
   swapSlots:     (slotA: SlotId, slotB: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
@@ -216,6 +218,25 @@ export const useBuildStore = create<BuildState>((set) => {
       const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
       return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
     }),
+    equipMultiple: (items) => set(s => {
+      const eq               = { ...s.equipped }
+      const runes            = { ...s.runes }
+      const forjamagoNames   = { ...s.forjamagoNames }
+      const weaponTransforms = { ...s.weaponTransforms }
+      for (const { slot, ankama_id } of items) {
+        if (slot.startsWith('dofus')) {
+          for (const ds of ['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'] as SlotId[]) {
+            if (ds !== slot && eq[ds] === ankama_id) delete eq[ds]
+          }
+        }
+        eq[slot]               = ankama_id
+        runes[slot]            = {}
+        forjamagoNames[slot]   = ''
+        weaponTransforms[slot] = null
+      }
+      return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
+    }),
+
     unequipItem: (slot) => set(s => {
       const equipped          = { ...s.equipped }
       delete equipped[slot]

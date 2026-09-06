@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.112] — 2026-09-06
+- Fix: "Equip All" (SetDetailModal) on a set with 2+ items sharing a slot type (e.g. a set with 2 rings) — each item was equipped via a separate `equipItem()` call, so `useHistory`'s subscriber pushed one history snapshot per item instead of one for the whole action. A single Undo only reverted the last item, leaving e.g. one ring still equipped instead of reverting the entire "Equip All". Added `equipMultiple()` to buildStore — one atomic state update for the whole batch, `handleEquipAll` now simulates slot assignment locally (so item 2's target slot correctly accounts for item 1 already claiming a slot) and calls it once
+
 ## [0.2.111] — 2026-09-03
 - Perf: main JS bundle 676KB → 376KB gzip 202KB → 115KB (-44%), driven by PageSpeed Insights findings (mobile Performance was 61):
   - Removed `motion`/framer-motion entirely (~170KB) — `Tabs.tsx`'s sliding indicator (previously `layoutId` shared-layout animation) now uses `ResizeObserver` + CSS `transition: left/width`; `Modal.tsx` and `Toaster.tsx`'s enter/exit animations now use a hand-rolled mount-transition pattern (opacity/transform + CSS `transition`, double-rAF for enter, delayed unmount for exit)

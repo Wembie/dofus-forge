@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.112',
+    date: '2026-09-06',
+    notes: [
+      'Fix: "Equip All" on a set with multiple items of the same slot type (e.g. 2 rings) only undid the last item on a single Undo — each item was equipped as a separate history step. Now equips all items in one atomic update, so Undo reverts the whole action at once',
+    ],
+  },
+  {
     version: '0.2.111',
     date: '2026-09-03',
     notes: [
