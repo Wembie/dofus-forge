@@ -442,5 +442,6 @@
   "rune_section_secondary": "Secundárias",
   "rune_section_pct_resistance": "% Resistências",
   "conditions": "Condições",
-  "rune_clear_all": "Limpar tudo"
+  "rune_clear_all": "Limpar tudo",
+  "rune_picker": "Escolher runa"
 }

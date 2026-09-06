@@ -442,5 +442,6 @@
   "rune_section_secondary": "Secondary",
   "rune_section_pct_resistance": "% Resistance",
   "conditions": "Conditions",
-  "rune_clear_all": "Clear all"
+  "rune_clear_all": "Clear all",
+  "rune_picker": "Choose rune"
 }

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.113] — 2026-09-06
+- Fix: `rune_picker` i18n key was never added to any of the 4 locale files — RuneModal's rune-grid divider showed the literal string "rune_picker" instead of a translated label. Added to es/en/fr/pt
+
 ## [0.2.112] — 2026-09-06
 - Fix: "Equip All" (SetDetailModal) on a set with 2+ items sharing a slot type (e.g. a set with 2 rings) — each item was equipped via a separate `equipItem()` call, so `useHistory`'s subscriber pushed one history snapshot per item instead of one for the whole action. A single Undo only reverted the last item, leaving e.g. one ring still equipped instead of reverting the entire "Equip All". Added `equipMultiple()` to buildStore — one atomic state update for the whole batch, `handleEquipAll` now simulates slot assignment locally (so item 2's target slot correctly accounts for item 1 already claiming a slot) and calls it once
 
