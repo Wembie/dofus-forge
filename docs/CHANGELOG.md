@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.117] — 2026-09-06
+- Chore: `StatFilter.tsx` — added Range, Summons, and % Critical to `PRIMARY_ORDER` (Main Effects section); removed % Critical from the Damage % set to avoid duplication
+
 ## [0.2.116] — 2026-09-06
 - Fix: `ItemCatalog`'s stat filter only checked whether an item HAD an effect matching the selected stat, not its sign — filtering by "Range" matched a hat with -1 Range. Now uses the same effective-value formula as the stat engine (`stats.ts`'s `applyEffect`) and only matches values > 0
 - Fix: `StatFilter.tsx`'s dropdown categorization mixed flat damages, % damage mods, fixed resistances, and % resistances all into one generic "secondary" bucket alongside unrelated stats (Initiative, Lock, Dodge, etc). Split into 4 explicit categories — Damage, Damage %, Resistance, Resistance % — each its own labeled section, in that order, so searching/scanning the dropdown no longer mixes unrelated concepts
