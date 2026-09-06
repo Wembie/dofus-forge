@@ -443,5 +443,11 @@
   "rune_section_pct_resistance": "% Resistance",
   "conditions": "Conditions",
   "rune_clear_all": "Clear all",
-  "rune_picker": "Choose rune"
+  "rune_picker": "Choose rune",
+  "sets_catalog_open": "Sets",
+  "sets_catalog_title": "Sets Catalog",
+  "sets_catalog_search": "Search sets…",
+  "sets_catalog_pieces": "{{count}} pieces",
+  "sets_sort_pieces": "Pieces",
+  "no_sets": "No sets found"
 }

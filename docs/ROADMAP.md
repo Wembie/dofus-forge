@@ -93,4 +93,4 @@ Marcar con `[x]` cuando se complete.
 
 - [x] rune_picker esta quemado en codigo y no tiene ini18
 
-- [] hacer una seccion de sets, es decir que aparezcan asi como los items... pero ya seria los sets completos me entiedes? con sus respectivos items del set, caracterist
+- [x] hacer una seccion de sets, es decir que aparezcan asi como los items... pero ya seria los sets completos me entiedes? con sus respectivos items del set, caracteristicas, bonus etc etc asi bien bonito

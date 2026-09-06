@@ -443,5 +443,11 @@
   "rune_section_pct_resistance": "% Résistances",
   "conditions": "Conditions",
   "rune_clear_all": "Tout effacer",
-  "rune_picker": "Choisir une rune"
+  "rune_picker": "Choisir une rune",
+  "sets_catalog_open": "Panoplies",
+  "sets_catalog_title": "Catalogue des Panoplies",
+  "sets_catalog_search": "Rechercher une panoplie…",
+  "sets_catalog_pieces": "{{count}} pièces",
+  "sets_sort_pieces": "Pièces",
+  "no_sets": "Aucune panoplie trouvée"
 }
