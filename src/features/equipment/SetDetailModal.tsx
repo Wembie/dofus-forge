@@ -190,9 +190,10 @@ function TierEffectRow({ e, active }: { e: AppEffect; active: boolean }) {
 export function SetDetailModal({ set, onClose }: Props) {
   const { t }     = useTranslation()
   const equipment   = useDataStore(s => s.equipment)
-  const equipped    = useBuildStore(s => s.equipped)
-  const equipItem   = useBuildStore(s => s.equipItem)
-  const unequipItem = useBuildStore(s => s.unequipItem)
+  const equipped      = useBuildStore(s => s.equipped)
+  const equipItem     = useBuildStore(s => s.equipItem)
+  const equipMultiple = useBuildStore(s => s.equipMultiple)
+  const unequipItem   = useBuildStore(s => s.unequipItem)
   const addToast    = useToastStore(s => s.addToast)
 
   const [hoveredItem, setHoveredItem] = useState<{ item: AppItem; rect: DOMRect } | null>(null)
@@ -235,8 +236,30 @@ export function SetDetailModal({ set, onClose }: Props) {
   )
 
   function handleEquipAll() {
+    // Simulate slot assignment locally instead of calling handleEquip per
+    // item — that looped call equipItem() once per item, each a separate
+    // store update, so a single Undo only reverted the LAST item (e.g. one
+    // ring of a two-ring set stayed equipped). One equipMultiple() call =
+    // one history entry for the whole "Equip All" action.
+    const localEquipped = { ...equipped }
+    const toEquip: { slot: SlotId; ankama_id: number }[] = []
+    const equippedItems: { slot: SlotId; item: AppItem }[] = []
+
     for (const item of setItems) {
-      if (!isEquipped(item)) handleEquip(item)
+      if (isEquipped(item)) continue
+      const slots  = slotByApiSlot.get(item.slot) ?? []
+      const target = slots.find(sid => localEquipped[sid] == null) ?? slots[0]
+      if (!target) continue
+      localEquipped[target] = item.ankama_id
+      toEquip.push({ slot: target, ankama_id: item.ankama_id })
+      equippedItems.push({ slot: target, item })
+    }
+
+    if (toEquip.length === 0) return
+    equipMultiple(toEquip)
+    for (const { slot, item } of equippedItems) {
+      const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
+      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotCfg?.icon ?? '✓')
     }
   }
 

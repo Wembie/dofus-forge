@@ -88,3 +88,7 @@ Marcar con `[x]` cuando se complete.
 
 
 - [] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso
+
+- [] Cuando voy a a fitlrar un elemento o caracteristica que este seccionado muy bien por resistencias normales, luego %, daños, etc, y que no se mezcle todo, que sea mas facil de buscar y filtrar
+
+- [] rune_picker esta quemado en codigo y no tiene ini18
