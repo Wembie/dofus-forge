@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.113',
+    date: '2026-09-06',
+    notes: [
+      'Fix: rune_picker i18n key was missing from all 4 locales — RuneModal showed the raw key name instead of translated text',
+    ],
+  },
+  {
     version: '0.2.112',
     date: '2026-09-06',
     notes: [

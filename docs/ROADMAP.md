@@ -91,4 +91,6 @@ Marcar con `[x]` cuando se complete.
 
 - [] Cuando voy a a fitlrar un elemento o caracteristica que este seccionado muy bien por resistencias normales, luego %, daños, etc, y que no se mezcle todo, que sea mas facil de buscar y filtrar
 
-- [] rune_picker esta quemado en codigo y no tiene ini18
+- [x] rune_picker esta quemado en codigo y no tiene ini18
+
+- [] hacer una seccion de sets, es decir que aparezcan asi como los items... pero ya seria los sets completos me entiedes? con sus respectivos items del set, caracterist
