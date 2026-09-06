@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.116',
+    date: '2026-09-06',
+    notes: [
+      'Fix: item stat filter matched items with a negative value for the filtered stat (e.g. searching "Range" showed a hat with -1 Range) — now only matches real bonuses',
+      'Fix: stat filter dropdown mixed damages, fixed resistances, and % resistances into one generic "secondary" bucket — now split into Damage, Damage %, Resistance, and Resistance % sections',
+    ],
+  },
+  {
     version: '0.2.115',
     date: '2026-09-06',
     notes: [

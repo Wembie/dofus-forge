@@ -87,9 +87,9 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M46 — Optimizer: algoritmos especializados** — motor de clase profesional: multi-start greedy, branch & bound, algoritmo genético, constraint propagation; arquitectura `src/engine/optimizer/` por módulo
 
 
-- [] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso
+- [x] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso
 
-- [] Cuando voy a a fitlrar un elemento o caracteristica que este seccionado muy bien por resistencias normales, luego %, daños, etc, y que no se mezcle todo, que sea mas facil de buscar y filtrar
+- [x] Cuando voy a a fitlrar un elemento o caracteristica que este seccionado muy bien por resistencias normales, luego %, daños, etc, y que no se mezcle todo, que sea mas facil de buscar y filtrar
 
 - [x] rune_picker esta quemado en codigo y no tiene ini18
 
