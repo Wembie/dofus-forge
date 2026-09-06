@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2 } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
@@ -27,6 +27,7 @@ const SpellsPanel     = lazy(() => import('@/features/spells/SpellsPanel.tsx').t
 const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx').then(m => ({ default: m.ComparePanel })))
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
+const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
 
 type MobileTab = 'equipment' | 'character' | 'stats'
 
@@ -52,6 +53,7 @@ function BuilderContent() {
   }, [buildState, i18n.language])
   const [showChangelog,  setShowChangelog]  = useState(false)
   const [showOptimizer,  setShowOptimizer]  = useState(false)
+  const [showSetsCatalog, setShowSetsCatalog] = useState(false)
 
   const compareActive  = useCompareStore(s => s.active)
   const toggleCompare  = useCompareStore(s => s.toggle)
@@ -193,6 +195,20 @@ function BuilderContent() {
               <Wand2 size={13} />
               <span className="hidden sm:inline">{t('optimizer_open')}</span>
             </button>
+            {/* Sets catalog — hidden on mobile */}
+            <button
+              onClick={() => setShowSetsCatalog(true)}
+              title={t('sets_catalog_open')}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={{
+                background:  'transparent',
+                borderColor: 'var(--metal-edge)',
+                color:       'var(--ink-faint)',
+              }}
+            >
+              <Layers size={13} />
+              <span className="hidden sm:inline">{t('sets_catalog_open')}</span>
+            </button>
             {/* Compare toggle — hidden on mobile */}
             <button
               onClick={() => {
@@ -232,6 +248,13 @@ function BuilderContent() {
       {showOptimizer && (
         <Suspense fallback={null}>
           <OptimizerModal open={showOptimizer} onClose={() => setShowOptimizer(false)} />
+        </Suspense>
+      )}
+
+      {/* Sets catalog */}
+      {showSetsCatalog && (
+        <Suspense fallback={null}>
+          <SetsCatalog onClose={() => setShowSetsCatalog(false)} />
         </Suspense>
       )}
 

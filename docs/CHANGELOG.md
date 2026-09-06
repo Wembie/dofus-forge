@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.114] — 2026-09-06
+- Feat: new Sets Catalog (`SetsCatalog.tsx`) — a full browsable catalog of every set in the game, opened from a new "Sets" button in the desktop header (next to the Optimizer button). Search by name, filter by level range and piece count (dynamically derived from the actual data), sort by level/name/piece-count. Each card shows: item thumbnails (up to 6 + overflow count), the top-tier bonus stat icons as a preview, level range, and a live "X/Y equipped" progress badge that highlights complete sets in gold. Clicking a card opens the existing `SetDetailModal` for full detail + equip-all. Lazy-loaded, not part of the eager bundle
+
 ## [0.2.113] — 2026-09-06
 - Fix: `rune_picker` i18n key was never added to any of the 4 locale files — RuneModal's rune-grid divider showed the literal string "rune_picker" instead of a translated label. Added to es/en/fr/pt
 

@@ -443,5 +443,11 @@
   "rune_section_pct_resistance": "% Resistências",
   "conditions": "Condições",
   "rune_clear_all": "Limpar tudo",
-  "rune_picker": "Escolher runa"
+  "rune_picker": "Escolher runa",
+  "sets_catalog_open": "Conjuntos",
+  "sets_catalog_title": "Catálogo de Conjuntos",
+  "sets_catalog_search": "Buscar conjunto…",
+  "sets_catalog_pieces": "{{count}} peças",
+  "sets_sort_pieces": "Peças",
+  "no_sets": "Nenhum conjunto encontrado"
 }

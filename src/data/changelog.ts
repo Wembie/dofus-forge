@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.114',
+    date: '2026-09-06',
+    notes: [
+      'Feat: new Sets Catalog — browse every set in the game, search by name, filter by level range and piece count, sort by level/name/pieces; each card shows item thumbnails, top-tier bonus icons, and your equip progress; click to open the full set detail',
+    ],
+  },
+  {
     version: '0.2.113',
     date: '2026-09-06',
     notes: [
