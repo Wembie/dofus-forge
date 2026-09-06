@@ -5,24 +5,41 @@ import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
 const PRIMARY_ORDER = ['AP', 'MP', 'Vitality', 'Wisdom', 'Strength', 'Intelligence', 'Chance', 'Agility']
 const PRIMARY_SET   = new Set(PRIMARY_ORDER)
 
-const RESISTANCE_SET = new Set([
-  'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
-  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-  'Critical Resistance',
+// Flat damage/steal stats — kept separate from resistances and from their
+// own % modifiers so the dropdown doesn't mix unrelated concepts together.
+const DAMAGE_SET = new Set([
+  'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage', 'Air Damage', 'Neutral Damage',
+  'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
+  'Critical Damage', 'Pushback Damage', 'Trap Damage', 'Power', 'Power (traps)',
+  'best-element damage',
+  'Earth steal', 'Fire steal', 'Air steal', 'Water steal', 'Neutral steal',
+  'Fire heals', 'best-element steal', 'Steals MP', 'MP Steal',
 ])
 
-const PCT_SET = new Set([
-  '% Melee Damage', '% Ranged Damage', '% Spell Damage', '% Weapon Damage',
+const DAMAGE_PCT_SET = new Set([
+  '% Melee Damage', '% Ranged Damage', '% Spell Damage', '% Weapon Damage', '% Critical',
+])
+
+// Fixed resistances only — the % variants get their own section below.
+const RESISTANCE_SET = new Set([
+  'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
+  'Critical Resistance', 'Pushback Resistance',
+])
+
+const RESISTANCE_PCT_SET = new Set([
+  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
   '% Melee Resistance', '% Ranged Resistance', '% Spell Resistance', '% Weapon Resistance',
 ])
 
-type Cat = 'primary' | 'secondary' | 'resistance' | 'pct' | 'other'
+type Cat = 'primary' | 'damage' | 'damagePct' | 'resistance' | 'resistancePct' | 'secondary' | 'other'
 
 function categorize(stat: string): Cat {
-  if (PRIMARY_SET.has(stat))    return 'primary'
-  if (RESISTANCE_SET.has(stat)) return 'resistance'
-  if (PCT_SET.has(stat))        return 'pct'
-  if (STAT_META[stat])          return 'secondary'
+  if (PRIMARY_SET.has(stat))        return 'primary'
+  if (DAMAGE_SET.has(stat))         return 'damage'
+  if (DAMAGE_PCT_SET.has(stat))     return 'damagePct'
+  if (RESISTANCE_SET.has(stat))     return 'resistance'
+  if (RESISTANCE_PCT_SET.has(stat)) return 'resistancePct'
+  if (STAT_META[stat])              return 'secondary'
   return 'other'
 }
 
@@ -58,17 +75,21 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
   const selectedSet = useMemo(() => new Set(selected), [selected])
 
   const grouped = useMemo(() => {
-    const cats: Record<Cat, string[]> = { primary: [], secondary: [], resistance: [], pct: [], other: [] }
+    const cats: Record<Cat, string[]> = {
+      primary: [], damage: [], damagePct: [], resistance: [], resistancePct: [], secondary: [], other: [],
+    }
     for (const s of stats) cats[categorize(s)].push(s)
     const alphaSort = (a: string, b: string) => {
       const la = STAT_META[a] ? t(STAT_META[a].tKey) : a
       const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
       return la.localeCompare(lb)
     }
-    cats.primary   = PRIMARY_ORDER.filter(s => cats.primary.includes(s))
-    cats.secondary.sort(alphaSort)
+    cats.primary = PRIMARY_ORDER.filter(s => cats.primary.includes(s))
+    cats.damage.sort(alphaSort)
+    cats.damagePct.sort(alphaSort)
     cats.resistance.sort(alphaSort)
-    cats.pct.sort(alphaSort)
+    cats.resistancePct.sort(alphaSort)
+    cats.secondary.sort(alphaSort)
     cats.other.sort(alphaSort)
     return cats
   }, [stats, t])
@@ -231,11 +252,13 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
               : <p className="px-3 py-2 text-[11px]" style={{ color: 'var(--ink-faint)' }}>—</p>
             : (
               <>
-                <Group cat="primary"    titleKey="stat_group_primary"    fallback="Efectos principales" />
-                <Group cat="secondary"  titleKey="stat_group_secondary"  fallback="Efectos secundarios" />
-                <Group cat="resistance" titleKey="stat_group_resistance" fallback="Resistencias"        />
-                <Group cat="pct"        titleKey="stat_group_pctmod"     fallback="Modificadores %"     />
-                <Group cat="other"      titleKey="stat_group_other"      fallback="Otros"               />
+                <Group cat="primary"       titleKey="stat_group_primary"        fallback="Efectos principales"     />
+                <Group cat="damage"        titleKey="stat_group_damage"         fallback="Daños"                   />
+                <Group cat="damagePct"     titleKey="stat_group_damage_pct"     fallback="Daños %"                 />
+                <Group cat="resistance"    titleKey="stat_group_resistance"     fallback="Resistencias"            />
+                <Group cat="resistancePct" titleKey="stat_group_resistance_pct" fallback="Resistencias %"          />
+                <Group cat="secondary"     titleKey="stat_group_secondary"      fallback="Efectos secundarios"     />
+                <Group cat="other"         titleKey="stat_group_other"          fallback="Otros"                   />
               </>
             )
           }

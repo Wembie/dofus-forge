@@ -450,5 +450,8 @@
   "sets_catalog_pieces": "{{count}} peças",
   "sets_sort_pieces": "Peças",
   "no_sets": "Nenhum conjunto encontrado",
-  "sets_catalog_hint": "Clique num card para equipar o conjunto completo · use o ícone 👁 para ver os itens separadamente"
+  "sets_catalog_hint": "Clique num card para equipar o conjunto completo · use o ícone 👁 para ver os itens separadamente",
+  "stat_group_damage": "Dano",
+  "stat_group_damage_pct": "Dano %",
+  "stat_group_resistance_pct": "Resistências %"
 }

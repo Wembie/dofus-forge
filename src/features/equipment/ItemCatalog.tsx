@@ -190,7 +190,14 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
       (statFilter.length === 0 || statFilter.every(s => {
         const sTKey = STAT_META[s]?.tKey ?? s
-        return it.effects.some(e => (STAT_META[e.stat]?.tKey ?? e.stat) === sTKey)
+        return it.effects.some(e => {
+          if ((STAT_META[e.stat]?.tKey ?? e.stat) !== sTKey) return false
+          // Only match a real bonus, not a malus (e.g. a hat with -1 Range
+          // shouldn't show up when filtering by "Range") — same effective
+          // value formula the stat engine uses (stats.ts applyEffect).
+          const value = (e.max !== 0 && e.max > e.min) ? e.max : e.min
+          return value > 0
+        })
       })) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
       (nameSearch === '' || it.name.toLowerCase().includes(nameSearch)) &&

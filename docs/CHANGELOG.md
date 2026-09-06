@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.116] — 2026-09-06
+- Fix: `ItemCatalog`'s stat filter only checked whether an item HAD an effect matching the selected stat, not its sign — filtering by "Range" matched a hat with -1 Range. Now uses the same effective-value formula as the stat engine (`stats.ts`'s `applyEffect`) and only matches values > 0
+- Fix: `StatFilter.tsx`'s dropdown categorization mixed flat damages, % damage mods, fixed resistances, and % resistances all into one generic "secondary" bucket alongside unrelated stats (Initiative, Lock, Dodge, etc). Split into 4 explicit categories — Damage, Damage %, Resistance, Resistance % — each its own labeled section, in that order, so searching/scanning the dropdown no longer mixes unrelated concepts
+
 ## [0.2.115] — 2026-09-06
 - Feat: Sets Catalog card interaction redesigned — clicking a card now directly equips the full set (one atomic `equipMultiple()` call) instead of opening the detail modal; a new eye icon button opens `SetDetailModal` for browsing/equipping individual items, viewing all tier bonuses, etc. A hint line explains both actions
 - Feat: hovering an item thumbnail in the Sets Catalog now shows the same full item tooltip (effects, weapon attack, conditions, lore) as `SetDetailModal`'s item list — thumbnails enlarged from 36px to 56px for easier targeting

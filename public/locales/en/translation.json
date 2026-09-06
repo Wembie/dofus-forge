@@ -450,5 +450,8 @@
   "sets_catalog_pieces": "{{count}} pieces",
   "sets_sort_pieces": "Pieces",
   "no_sets": "No sets found",
-  "sets_catalog_hint": "Click a card to equip the full set · use the 👁 icon to view items individually"
+  "sets_catalog_hint": "Click a card to equip the full set · use the 👁 icon to view items individually",
+  "stat_group_damage": "Damage",
+  "stat_group_damage_pct": "Damage %",
+  "stat_group_resistance_pct": "Resistances %"
 }
