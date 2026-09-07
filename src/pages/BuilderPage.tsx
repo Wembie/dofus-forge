@@ -1,5 +1,6 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
 import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -33,6 +34,8 @@ type MobileTab = 'equipment' | 'character' | 'stats'
 
 function BuilderContent() {
   const { t, i18n } = useTranslation()
+  const navigate       = useNavigate()
+  const routerLocation = useLocation()  // basename-relative pathname, unlike window.location used below for brandHref's absolute URL
   const hasClass  = useBuildStore(s => s.selectedClass !== null)
   const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
   const load      = useDataStore(s => s.load)
@@ -108,6 +111,11 @@ function BuilderContent() {
               e.preventDefault()
               reset()
               clearHistory()
+              // useBuildUrl skips updating the URL once selectedClass is
+              // null (nothing to encode), so without this the old ?b=...
+              // stays stuck in the address bar even though the build
+              // itself was reset.
+              navigate(routerLocation.pathname, { replace: true })
             }}
             title={t('reset_build')}
           >
