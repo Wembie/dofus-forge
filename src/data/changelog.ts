@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.121',
+    date: '2026-09-07',
+    notes: [
+      'Feat: new Magesmithy section in the stats panel (below Combat) — shows the combined total of every rune stat across all equipped items, since one stat can be boosted by runes on several different items',
+    ],
+  },
+  {
     version: '0.2.120',
     date: '2026-09-07',
     notes: [
