@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.120] — 2026-09-07
+- Fix: clicking the "Dofus Forge" brand/logo called `reset()` + `clearHistory()` but never touched the URL — `useBuildUrl`'s subscriber skips updating the URL once `selectedClass` is `null` (nothing to encode), so the stale `?b=<encoded>` query stayed stuck in the address bar even though the build was visibly reset. Now explicitly navigates to the clean, basename-relative language path (`useLocation().pathname`, not `window.location.pathname`, which would double up the `/dofus-forge` basename) after resetting
+
 ## [0.2.119] — 2026-09-07
 - Fix: class names were always shown in English (hardcoded in `classData.ts`) regardless of the active locale — a Huppermage always read "Huppermage" even in Spanish, where the real in-game name is "Hipermago". Class names genuinely differ per language in Dofus (Sacrier/Sacrieur, Rogue/Roublard/Tymador/Ladino, Iop/Yopuka, Ecaflip/Zurcarák, Cra/Ocra, ...) — not something safe to hand-translate.
   - `scripts/fetch-spells.ts` now extracts `breed.shortNameId` per language from Ankama's own text tables (the same mechanism already used for spell names) and writes `public/data/class-names.json` (`classSlug -> { lang -> name }`)

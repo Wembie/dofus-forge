@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.120',
+    date: '2026-09-07',
+    notes: [
+      'Fix: clicking the "Dofus Forge" logo reset the build but left the old encoded ?b= URL stuck in the address bar — now clears the URL to the clean language path',
+    ],
+  },
+  {
     version: '0.2.119',
     date: '2026-09-07',
     notes: [
