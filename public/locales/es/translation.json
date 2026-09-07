@@ -453,5 +453,7 @@
   "sets_catalog_hint": "Click en una card equipa el set completo · usa el ícono 👁 para ver items por separado",
   "stat_group_damage": "Daños",
   "stat_group_damage_pct": "Daños %",
-  "stat_group_resistance_pct": "Resistencias %"
+  "stat_group_resistance_pct": "Resistencias %",
+  "elem_multi": "Mixto",
+  "build_name_label": "Nombre del build"
 }

@@ -453,5 +453,7 @@
   "sets_catalog_hint": "Cliquez sur une carte pour équiper la panoplie complète · utilisez l'icône 👁 pour voir les objets un par un",
   "stat_group_damage": "Dégâts",
   "stat_group_damage_pct": "Dégâts %",
-  "stat_group_resistance_pct": "Résistances %"
+  "stat_group_resistance_pct": "Résistances %",
+  "elem_multi": "Mixte",
+  "build_name_label": "Nom du build"
 }

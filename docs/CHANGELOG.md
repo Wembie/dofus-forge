@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.118] — 2026-09-07
+- Feat: build naming — new `buildName` field in `buildStore`, editable inline input under the class name/element in `ClassPicker`'s selected-class card (max 60 chars). Carried through the shared build URL (`BuildSnapshot.n`, optional for backward compatibility with old links) and through `applySnapshot`/`reset`
+- Fix: `ClassPicker.tsx` displayed `classInfo.element` raw (e.g. literal "multi" for Huppermage) instead of translating it — now uses `t(\`elem_${element}\`)`, matching the pattern already used in `SpellsPanel.tsx`. Added missing `elem_multi` key (the `Element` type uses `'multi'`, distinct from the existing `elem_mixed` key used elsewhere) to all 4 locales
+
 ## [0.2.117] — 2026-09-06
 - Chore: `StatFilter.tsx` — added Range, Summons, and % Critical to `PRIMARY_ORDER` (Main Effects section); removed % Critical from the Damage % set to avoid duplication
 

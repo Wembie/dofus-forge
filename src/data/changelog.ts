@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.118',
+    date: '2026-09-07',
+    notes: [
+      'Feat: name your build — editable field in the class card, carried in shared build URLs',
+      'Fix: class element (e.g. "multi" for Huppermage) was shown untranslated — now uses elem_* i18n keys',
+    ],
+  },
+  {
     version: '0.2.117',
     date: '2026-09-06',
     notes: [
