@@ -652,10 +652,25 @@ async function main() {
     imgDir,
   )
 
+  // Class (breed) display names per language — official Ankama localization
+  // (same shortNameId -> entries table lookup as spell names), so e.g.
+  // Sacrier/Sacrieur or Rogue/Roublard resolve to the real in-game name
+  // instead of guessing translations by hand.
+  const classNames: Record<string, Record<string, string>> = {}
+
   // Write per-language JSON (names only differ by language)
   for (const lang of LANGS) {
     const langRaw = lang === 'en' ? enRaw : await download(`${base}/${lang}.json`)
     const entries = (langRaw as Record<string, unknown>).entries as Record<string, string>
+
+    for (const [breedId, classSlug] of breedSlugMap) {
+      const breed = breeds.get(breedId)
+      if (!breed) continue
+      const localizedName = t(entries, Number(breed.shortNameId as unknown))
+      if (!localizedName) continue
+      if (!classNames[classSlug]) classNames[classSlug] = {}
+      classNames[classSlug][lang] = localizedName
+    }
 
     let written = 0
     for (const [breedId, { slug: classSlug, spells: classSpells }] of allClassSpells) {
@@ -715,6 +730,9 @@ async function main() {
 
     console.log(`  [${lang}] done — ${written} classes + ${namedCommon.length} common spells written`)
   }
+
+  writeFileSync(join(DATA_DIR, 'class-names.json'), JSON.stringify(classNames, null, 2), 'utf-8')
+  console.log(`  class-names.json written — ${Object.keys(classNames).length} classes`)
 
   writeFileSync(spellVersionFile, JSON.stringify({ gameVersion, generatedAt: new Date().toISOString() }), 'utf-8')
   console.log(`Done. Spell data ${gameVersion} written.`)

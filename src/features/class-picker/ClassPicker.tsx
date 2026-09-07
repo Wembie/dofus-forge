@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CLASS_DATA, ELEMENT_HEX } from './classData.ts'
+import { useClassName, resolveClassName } from './useClassName.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
+import { useDataStore } from '@/store/dataStore.ts'
 import type { DofusClass } from '@/engine/types.ts'
 import type { Gender } from '@/store/buildStore.ts'
 
 export function ClassPicker() {
-  const { t }      = useTranslation()
+  const { t, i18n } = useTranslation()
   const selected   = useBuildStore(s => s.selectedClass)
   const setClass   = useBuildStore(s => s.setClass)
   const buildName    = useBuildStore(s => s.buildName)
@@ -15,11 +17,14 @@ export function ClassPicker() {
   const setGender  = useBuildStore(s => s.setGender)
   const level      = useBuildStore(s => s.level)
   const setLevel   = useBuildStore(s => s.setLevel)
+  const classNames = useDataStore(s => s.classNames)
+  const lang       = i18n.language.slice(0, 2)
 
   const [picking, setPicking] = useState(false)
 
-  const classInfo  = selected ? CLASS_DATA.find(c => c.id === selected) : null
-  const portrait   = classInfo ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : null
+  const classInfo     = selected ? CLASS_DATA.find(c => c.id === selected) : null
+  const selectedName  = useClassName(selected)
+  const portrait      = classInfo ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : null
   const elemColor  = classInfo ? ELEMENT_HEX[classInfo.element] : 'var(--gold)'
 
   const btnStyle: React.CSSProperties = {
@@ -64,13 +69,13 @@ export function ClassPicker() {
               background: 'var(--surface-panel)',
             }}
           >
-            <img src={portrait!} alt={classInfo.name} className="w-full h-full object-cover" draggable={false} />
+            <img src={portrait!} alt={selectedName} className="w-full h-full object-cover" draggable={false} />
           </div>
 
           {/* Name + element */}
           <div className="flex-1 min-w-0 relative z-10">
             <div className="font-display font-bold text-sm tracking-wide truncate" style={{ color: elemColor }}>
-              {classInfo.name}
+              {selectedName}
             </div>
             <div className="text-[10px] uppercase tracking-[0.14em] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
               {t(`elem_${classInfo.element}`)}
@@ -193,6 +198,7 @@ export function ClassPicker() {
           const isSelected = selected === cls.id
           const color      = ELEMENT_HEX[cls.element]
           const img        = gender === 'female' ? cls.imageFUrl : cls.imageUrl
+          const displayName = resolveClassName(cls.id, lang, classNames)
           return (
             <button
               key={cls.id}
@@ -240,14 +246,14 @@ export function ClassPicker() {
                   border:     isSelected ? `1px solid ${color}55` : '1px solid var(--metal-edge)',
                 }}
               >
-                <img src={img} alt={cls.name} className="w-full h-full object-cover" draggable={false} loading="lazy" />
+                <img src={img} alt={displayName} className="w-full h-full object-cover" draggable={false} loading="lazy" />
               </div>
 
               <span
                 className="text-[10px] font-medium leading-tight text-center w-full truncate"
                 style={{ color: isSelected ? color : 'var(--ink-muted)' }}
               >
-                {cls.name}
+                {displayName}
               </span>
             </button>
           )

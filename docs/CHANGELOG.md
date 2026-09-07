@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.119] — 2026-09-07
+- Fix: class names were always shown in English (hardcoded in `classData.ts`) regardless of the active locale — a Huppermage always read "Huppermage" even in Spanish, where the real in-game name is "Hipermago". Class names genuinely differ per language in Dofus (Sacrier/Sacrieur, Rogue/Roublard/Tymador/Ladino, Iop/Yopuka, Ecaflip/Zurcarák, Cra/Ocra, ...) — not something safe to hand-translate.
+  - `scripts/fetch-spells.ts` now extracts `breed.shortNameId` per language from Ankama's own text tables (the same mechanism already used for spell names) and writes `public/data/class-names.json` (`classSlug -> { lang -> name }`)
+  - New `src/features/class-picker/useClassName.ts` (hook + plain `resolveClassName` for loops) resolves the localized name, falling back to the English `classData.ts` name if the data file is missing
+  - Updated all display sites: `ClassPicker.tsx` (selected card + full picker grid), `EquipmentGrid.tsx`'s central character name, `ComparePanel.tsx` (both build A and B), and `ShareBar.tsx`'s exported build image label
+
 ## [0.2.118] — 2026-09-07
 - Feat: build naming — new `buildName` field in `buildStore`, editable inline input under the class name/element in `ClassPicker`'s selected-class card (max 60 chars). Carried through the shared build URL (`BuildSnapshot.n`, optional for backward compatibility with old links) and through `applySnapshot`/`reset`
 - Fix: `ClassPicker.tsx` displayed `classInfo.element` raw (e.g. literal "multi" for Huppermage) instead of translating it — now uses `t(\`elem_${element}\`)`, matching the pattern already used in `SpellsPanel.tsx`. Added missing `elem_multi` key (the `Element` type uses `'multi'`, distinct from the existing `elem_mixed` key used elsewhere) to all 4 locales

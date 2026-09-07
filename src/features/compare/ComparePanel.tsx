@@ -8,6 +8,7 @@ import { decodeBuild, encodeBuild, encodeSnapshot } from '@/features/share/codec
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
 type CompareStatDef = {
@@ -143,6 +144,8 @@ export function ComparePanel() {
 
   const classAInfo = useMemo(() => CLASS_DATA.find(c => c.id === classA), [classA])
   const classBInfo = useMemo(() => CLASS_DATA.find(c => c.id === classB), [classB])
+  const classAName = useClassName(classA)
+  const classBName = useClassName(classB)
   const itemMap    = useMemo(() => new Map(_equip.map(it => [it.ankama_id, it])), [_equip])
   const saved      = listBuilds()
 
@@ -287,7 +290,7 @@ export function ComparePanel() {
                 {t('compare_build_a')}
               </p>
               <p className="text-[13px] font-bold truncate" style={{ color: 'var(--gold)' }}>
-                {classAInfo?.name ?? '—'}
+                {classAName || '—'}
               </p>
               {classA && (
                 <p className="text-[11px] font-mono" style={{ color: 'var(--ink-muted)' }}>
@@ -370,7 +373,7 @@ export function ComparePanel() {
                   </div>
                 </div>
                 <p className="text-[13px] font-bold truncate" style={{ color: 'var(--water)' }}>
-                  {nameB || classBInfo?.name || '—'}
+                  {nameB || classBName || '—'}
                 </p>
                 <p className="text-[11px] font-mono" style={{ color: 'var(--ink-muted)' }}>
                   Lv {levelB}

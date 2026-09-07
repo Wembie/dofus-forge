@@ -1,28 +1,30 @@
 import { create } from 'zustand'
-import { loadVersion, loadIndex, loadEquipment, loadSets, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
+import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
 import { fetchSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
 
 interface DataState {
-  lang:       string
-  index:      IndexItem[] | null
-  equipment:  AppItem[] | null
-  sets:       AppSet[] | null
-  spells:     Map<string, ClassSpells>
-  loading:    boolean
-  error:      string | null
-  load:       (lang: string) => Promise<void>
-  loadSpells: (lang: string, classSlug: string) => Promise<void>
+  lang:        string
+  index:       IndexItem[] | null
+  equipment:   AppItem[] | null
+  sets:        AppSet[] | null
+  classNames:  Record<string, Record<string, string>> | null
+  spells:      Map<string, ClassSpells>
+  loading:     boolean
+  error:       string | null
+  load:        (lang: string) => Promise<void>
+  loadSpells:  (lang: string, classSlug: string) => Promise<void>
 }
 
 export const useDataStore = create<DataState>((set, get) => ({
-  lang:      'en',
-  index:     null,
-  equipment: null,
-  sets:      null,
-  spells:    new Map(),
-  loading:   false,
-  error:     null,
+  lang:       'en',
+  index:      null,
+  equipment:  null,
+  sets:       null,
+  classNames: null,
+  spells:     new Map(),
+  loading:    false,
+  error:      null,
 
   load: async (lang) => {
     if (get().loading) return
@@ -36,10 +38,11 @@ export const useDataStore = create<DataState>((set, get) => ({
       // Base data always English — STAT_META/STAT_MAP keys must match stat names.
       // Non-English stat strings (e.g. "fuerza", "vitalidad") are not in STAT_MAP
       // so they'd produce no icons, colors, or engine values.
-      const [indexEn, equipmentEn, setsEn] = await Promise.all([
+      const [indexEn, equipmentEn, setsEn, classNames] = await Promise.all([
         loadIndex('en', v),
         loadEquipment('en', v),
         loadSets('en', v),
+        loadClassNames(v).catch(() => null),  // optional — older cached deploys may lack the file
       ])
 
       let index     = indexEn
@@ -74,7 +77,7 @@ export const useDataStore = create<DataState>((set, get) => ({
         sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id) ?? s.name }))
       }
 
-      set({ index, equipment, sets, loading: false })
+      set({ index, equipment, sets, classNames, loading: false })
       useBuildStore.getState().setEquipment(equipment)
       useBuildStore.getState().setSetsData(sets)
     } catch (e) {
