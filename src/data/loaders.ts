@@ -71,3 +71,12 @@ export async function loadEquipment(lang: string, bust: string): Promise<AppItem
 export async function loadSets(lang: string, bust: string): Promise<AppSet[]> {
   return fetchJson<AppSet[]>(`data/${lang}/sets.json`, bust)
 }
+
+/** classSlug -> { lang -> official Ankama-localized class name }. Single
+ *  file, all languages — see scripts/fetch-spells.ts (breed.shortNameId
+ *  resolved against each language's text table, same mechanism as spell
+ *  names). Class names genuinely differ per language (e.g. Sacrier/
+ *  Sacrieur, Rogue/Roublard/Tymador/Ladino), so this can't be hand-guessed. */
+export async function loadClassNames(bust: string): Promise<Record<string, Record<string, string>>> {
+  return fetchJson<Record<string, Record<string, string>>>('data/class-names.json', bust)
+}

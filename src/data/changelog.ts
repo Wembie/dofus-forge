@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.119',
+    date: '2026-09-07',
+    notes: [
+      'Fix: class names now show the real Ankama-localized name per language (e.g. Huppermage -> Hipermago in Spanish, Sacrier -> Sacrieur in French, Rogue -> Tymador/Ladino in Spanish/Portuguese) instead of always English — extracted directly from official game data',
+    ],
+  },
+  {
     version: '0.2.118',
     date: '2026-09-07',
     notes: [

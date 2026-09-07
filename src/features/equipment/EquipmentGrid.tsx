@@ -15,6 +15,7 @@ const ItemCatalog    = lazy(() => import('./ItemCatalog.tsx').then(m => ({ defau
 const RuneModal      = lazy(() => import('./RuneModal.tsx').then(m => ({ default: m.RuneModal })))
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
@@ -638,6 +639,7 @@ function CharacterCenter() {
   const gender        = useBuildStore(s => s.gender)
   const level         = useBuildStore(s => s.level)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
+  const classDisplayName = useClassName(selectedClass)
   const classElem     = classInfo?.element ?? null
   const primaryColor  = elemVar(classElem)
 
@@ -706,7 +708,7 @@ function CharacterCenter() {
           {portrait ? (
             <img
               src={portrait}
-              alt={classInfo?.name ?? ''}
+              alt={classDisplayName}
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               draggable={false}
             />
@@ -742,7 +744,7 @@ function CharacterCenter() {
               className="font-display text-[14px] tracking-[0.28em] uppercase"
               style={{ color: 'var(--gold)', textShadow: '0 0 20px rgba(201,162,75,0.45)' }}
             >
-              {classInfo.name}
+              {classDisplayName}
             </span>
             <div className="flex items-center gap-2">
               <div style={{

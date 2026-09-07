@@ -4,13 +4,14 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild, decodeBuild } from './codec.ts'
 import { saveBuild, listBuilds, deleteBuild, type SavedBuild } from './savedBuilds.ts'
 import type { ExportData } from './ExportCard.tsx'
-import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { useClassName } from '@/features/class-picker/useClassName.ts'
 
 export function ShareBar() {
   const { t, i18n } = useTranslation()
   const store       = useBuildStore()
   const stats       = useBuildStore(s => s.stats)
   const equipment   = useBuildStore(s => s._equipment)
+  const classLabel  = useClassName(store.selectedClass)
   const [copied,    setCopied]    = useState(false)
   const [exporting, setExporting] = useState(false)
   const [saveName,  setSaveName]  = useState('')
@@ -61,13 +62,12 @@ export function ShareBar() {
       // Dynamic import: ExportCard + html-to-image (~20 KB) are only
       // needed when the user actually clicks export, not on every load.
       const { triggerExport } = await import('./ExportCard.tsx')
-      const clsInfo  = CLASS_DATA.find(c => c.id === store.selectedClass)
       const equipMap = new Map(equipment.map(it => [it.ankama_id, it.name]))
       const equippedNames = Object.fromEntries(
         Object.entries(store.equipped).map(([slot, id]) => [slot, equipMap.get(id as number) ?? ''])
       ) as ExportData['equipped']
       await triggerExport({
-        classLabel: clsInfo?.name ?? store.selectedClass,
+        classLabel: classLabel || store.selectedClass,
         classSlug:  store.selectedClass,
         level:      store.level,
         gender:     store.gender,
@@ -77,7 +77,7 @@ export function ShareBar() {
     } finally {
       setExporting(false)
     }
-  }, [store, stats, equipment])
+  }, [store, stats, equipment, classLabel])
 
   return (
     <div className="flex items-center gap-2">
