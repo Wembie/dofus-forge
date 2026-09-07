@@ -37,6 +37,8 @@ export type Gender = 'male' | 'female'
 
 export interface BuildState {
   selectedClass: DofusClass | null
+  /** User-given name for the build (e.g. "Mi build PvP"), shown in the class card and carried in shared URLs */
+  buildName:     string
   level:         number
   gender:        Gender
   allocated:     AllocatedCharacteristics
@@ -58,6 +60,7 @@ export interface BuildState {
 
   // actions
   setClass:      (c: DofusClass) => void
+  setBuildName:  (name: string) => void
   setLevel:      (l: number) => void
   setGender:     (g: Gender) => void
   addPoint:      (char: Characteristic) => void
@@ -86,6 +89,7 @@ export interface BuildState {
 export type BuildSnapshot = {
   v:  1
   c:  string    // class id ('' = none)
+  n?: string    // build name (optional, empty when unset)
   l:  number    // level
   g?: 'm' | 'f' // gender (optional, default male)
   a:  number[]  // allocated per CHARACTERISTICS order
@@ -143,6 +147,7 @@ export const useBuildStore = create<BuildState>((set) => {
 
   return {
     selectedClass:    null,
+    buildName:        '',
     level:            200,
     gender:           'male',
     allocated:        { ...ZERO_ALLOC },
@@ -155,7 +160,8 @@ export const useBuildStore = create<BuildState>((set) => {
     _equipment:        [],
     _sets:             [],
 
-    setClass:  (c) => set(s => update({ selectedClass: c }, s)),
+    setClass:     (c)    => set(s => update({ selectedClass: c }, s)),
+    setBuildName: (name) => set(s => update({ buildName: name.slice(0, 60) }, s)),
     setLevel:  (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
     setGender: (g) => set(s => ({ ...s, gender: g })),
 
@@ -302,6 +308,7 @@ export const useBuildStore = create<BuildState>((set) => {
     applySnapshot: (snap) => set(s => {
       if (snap.v !== 1) return s
       const selectedClass = (snap.c || null) as DofusClass | null
+      const buildName     = snap.n ?? ''
       const level         = Math.max(1, Math.min(200, snap.l))
       const gender: Gender = snap.g === 'f' ? 'female' : 'male'
       const allocated     = Object.fromEntries(
@@ -328,11 +335,12 @@ export const useBuildStore = create<BuildState>((set) => {
           }
         }
       }
-      return update({ selectedClass, level, gender, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
+      return update({ selectedClass, buildName, level, gender, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
     }),
 
     reset: () => set(s => ({
       selectedClass:    null,
+      buildName:        '',
       level:            200,
       gender:           'male',
       allocated:        { ...ZERO_ALLOC },

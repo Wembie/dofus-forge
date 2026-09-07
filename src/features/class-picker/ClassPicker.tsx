@@ -9,6 +9,8 @@ export function ClassPicker() {
   const { t }      = useTranslation()
   const selected   = useBuildStore(s => s.selectedClass)
   const setClass   = useBuildStore(s => s.setClass)
+  const buildName    = useBuildStore(s => s.buildName)
+  const setBuildName = useBuildStore(s => s.setBuildName)
   const gender     = useBuildStore(s => s.gender)
   const setGender  = useBuildStore(s => s.setGender)
   const level      = useBuildStore(s => s.level)
@@ -71,8 +73,20 @@ export function ClassPicker() {
               {classInfo.name}
             </div>
             <div className="text-[10px] uppercase tracking-[0.14em] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
-              {classInfo.element}
+              {t(`elem_${classInfo.element}`)}
             </div>
+            <input
+              type="text"
+              value={buildName}
+              onChange={e => setBuildName(e.target.value)}
+              placeholder={t('build_name_placeholder')}
+              maxLength={60}
+              aria-label={t('build_name_label')}
+              className="w-full bg-transparent text-[12px] mt-1 focus:outline-none border-b truncate"
+              style={{ color: 'var(--ink)', borderColor: 'transparent', padding: '1px 0' }}
+              onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+              onBlur={e =>  (e.currentTarget.style.borderColor = 'transparent')}
+            />
           </div>
 
           {/* Change button */}
