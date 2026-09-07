@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.121] — 2026-09-07
+- Feat: new "Forjamagia" section in `StatsPanel.tsx`, rendered right below Combat — aggregates every rune stat across all equipped items into one combined total per stat (e.g. Vitality runes on a ring + a hat show as one summed row), styled to match the existing Damage % section (colored left-border rows, icon + label + value). Hidden when no runes are applied
+
 ## [0.2.120] — 2026-09-07
 - Fix: clicking the "Dofus Forge" brand/logo called `reset()` + `clearHistory()` but never touched the URL — `useBuildUrl`'s subscriber skips updating the URL once `selectedClass` is `null` (nothing to encode), so the stale `?b=<encoded>` query stayed stuck in the address bar even though the build was visibly reset. Now explicitly navigates to the clean, basename-relative language path (`useLocation().pathname`, not `window.location.pathname`, which would double up the `/dofus-forge` basename) after resetting
 

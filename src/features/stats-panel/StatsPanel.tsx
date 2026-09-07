@@ -1,7 +1,8 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
-import { statIconUrl } from '../equipment/statDisplay.ts'
+import { statIconUrl, STAT_META } from '../equipment/statDisplay.ts'
 
 function icon(name: string, size = 16) {
   return (
@@ -307,6 +308,53 @@ function DamageMods({ s }: { s: StatBlock }) {
   )
 }
 
+// ── Magesmithy summary — total runes across the whole build, one stat may ─────
+// have runes on several items (e.g. Vitality on a ring AND a hat) so this is
+// the only place that shows the combined total per stat.
+
+function MagesmithySummary() {
+  const { t }   = useTranslation()
+  const runes   = useBuildStore(s => s.runes)
+
+  const totals = useMemo(() => {
+    const acc: Record<string, number> = {}
+    for (const slotRunes of Object.values(runes)) {
+      if (!slotRunes) continue
+      for (const [stat, value] of Object.entries(slotRunes)) {
+        if (value > 0) acc[stat] = (acc[stat] ?? 0) + value
+      }
+    }
+    return Object.entries(acc).sort((a, b) => b[1] - a[1])
+  }, [runes])
+
+  if (totals.length === 0) return null
+
+  return (
+    <Section title={t('magesmithy')}>
+      <div className="space-y-0.5">
+        {totals.map(([stat, value]) => {
+          const meta = STAT_META[stat]
+          const clr  = meta?.color ?? 'var(--ink-muted)'
+          return (
+            <div key={stat} className="flex items-center gap-1.5 px-2 py-1 rounded" style={{
+              background: `color-mix(in srgb, ${clr} 5%, var(--surface-stone))`,
+              borderLeft: `2px solid color-mix(in srgb, ${clr} 50%, transparent)`,
+            }}>
+              {meta?.icon ? icon(meta.icon, 13) : <span className="w-[13px] flex-shrink-0" />}
+              <span className="text-[11px] flex-1" style={{ color: 'var(--ink-muted)' }}>
+                {meta ? t(meta.tKey) : stat}
+              </span>
+              <span className="font-mono font-bold text-xs tabular-nums" style={{ color: clr }}>
+                +{value}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </Section>
+  )
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 function StatsFromBlock({ s }: { s: StatBlock }) {
@@ -325,6 +373,7 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
 
       <ElementSection s={s} />
       <CombatGrid s={s} />
+      <MagesmithySummary />
       <DamageMods s={s} />
 
       {Object.keys(s.unknownStats).length > 0 && (
