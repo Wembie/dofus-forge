@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.122] — 2026-09-07
+- Fix: elemental weapon transform (EquipmentGrid.tsx + SpellsPanel.tsx) rounded the transformed damage range UP (`Math.ceil`) instead of down. Verified against a real in-game tooltip: Aguja de Psikopomzopato's base 45-53 Neutral damage at 85% air transform should show 38-45 (`floor(45*0.85)=38`, `floor(53*0.85)=45`), but showed 39-46 with ceil. Both transform sites now use `Math.floor`
+
 ## [0.2.121] — 2026-09-07
 - Feat: new "Forjamagia" section in `StatsPanel.tsx`, rendered right below Combat — aggregates every rune stat across all equipped items into one combined total per stat (e.g. Vitality runes on a ring + a hat show as one summed row), styled to match the existing Damage % section (colored left-border rows, icon + label + value). Hidden when no runes are applied
 
