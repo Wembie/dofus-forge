@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.128] — 2026-09-08
+- Fix: `WeaponCard` in `SpellsPanel.tsx` fed weapon effect_id 238 ("removes N–N MP on hit", e.g. Espada diablina) through the elemental damage-mastery pipeline (`computeRow` → `calcDamage`). That effect's `stat` is `'MP'`, which has no entry in `WEAPON_ATTACK_STAT`, so `elem` resolved to `undefined` — `mastery()`/`flatBonus()` returned `undefined`, poisoning the math to `NaN` for the crit column and corrupting the weapon total (`NaN–NaN`), while the row label rendered the raw untranslated key `elem_mp` (built from `t(\`elem_${stat.toLowerCase()}\`)`). Effect is now split into its own `mpEffects` row — shown as a plain value with the existing `mp_reduction` icon and `stat_mp_removal` label (both already used for the same stat elsewhere), excluded from the damage-mastery calc and from the weapon total
+- Feat: "Attracts by N cell" spell buffs (all 4 languages: "Atrae", "Attracts", "Attire", "Atrai") now show the `pull` icon (`pull.png`) instead of falling back to the plain ▲ triangle — added `pull` to `statDisplay.ts`'s `PNG_ICONS` set since the file is a `.png`
+
 ## [0.2.127] — 2026-09-08
 - Fix: `buffIcon()` in `SpellsPanel.tsx` (maps a spell's raw buff text to an icon) had several regex gaps around accented words, verified empirically against every buff string in all 4 locales' spell data (6,096 total): "% Crítico" (es/pt, `/crit/i` didn't match the accented "crít"), Portuguese "Inteligência" (accent on a different vowel than assumed) and "Sorte" (Chance stat, word never included), and "vida" (es/pt life-transfer buffs, e.g. "Transfiere 30% de su vida") all fell through to the generic ▲/▼ triangle instead of their real icon
 - Fix: "best-element steal"/"best-element damage" spell buffs (all 4 languages) had no icon-matching rule at all — now map to the `power` icon, same as this stat everywhere else in the app

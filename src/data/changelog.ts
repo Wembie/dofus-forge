@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.128',
+    date: '2026-09-08',
+    notes: [
+      'Fix: weapon attack panel showed "NaN–NaN" as the total and an untranslated "elem_mp" row for weapons that remove MP on hit (e.g. Espada diablina) — that effect is not elemental damage and was wrongly fed into the damage-mastery formula; now shown as its own "Retira PM" row with the correct icon, excluded from the damage total',
+      'Feat: "Attracts by N cell" spell buffs now show an icon (pull.png) instead of a plain triangle, across all 4 languages',
+    ],
+  },
+  {
     version: '0.2.127',
     date: '2026-09-08',
     notes: [
