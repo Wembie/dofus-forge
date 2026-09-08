@@ -442,8 +442,10 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                     return {
                       ...e,
                       stat:        `${cap} damage`,
-                      min:         Math.ceil(e.min * r),
-                      max:         e.max > 0 ? Math.ceil(e.max * r) : 0,
+                      // Dofus rounds transformed weapon damage DOWN, not up —
+                      // e.g. 45-53 Neutral at 85% is 38-45, not 39-46 (ceil).
+                      min:         Math.floor(e.min * r),
+                      max:         e.max > 0 ? Math.floor(e.max * r) : 0,
                       transformed: true,
                     }
                   })

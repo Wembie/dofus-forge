@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.122',
+    date: '2026-09-07',
+    notes: [
+      'Fix: elemental weapon transform rounded damage UP instead of DOWN (e.g. 45-53 Neutral at 85% showed as 39-46 instead of the correct 38-45)',
+    ],
+  },
+  {
     version: '0.2.121',
     date: '2026-09-07',
     notes: [
