@@ -123,6 +123,15 @@ export function computeStats(input: BuildInput): StatBlock {
     applyEffects(block, input.runeEffects)
   }
 
+  // 3.6. Generic "Damage" (all elements) adds to every elemental damage total —
+  // it isn't its own displayable stat, it's a flat bonus that applies no
+  // matter which element you're dealing damage with.
+  block.neutralDamage += block.damage
+  block.earthDamage   += block.damage
+  block.fireDamage    += block.damage
+  block.waterDamage   += block.damage
+  block.airDamage     += block.damage
+
   // 4. Characteristic points (allocated + scrolls)
   const { allocated, scrolled } = input
   block.vitality     += allocated.vitality     + (scrolled.vitality     ? SCROLL_BONUS : 0)
