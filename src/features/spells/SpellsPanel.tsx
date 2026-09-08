@@ -75,7 +75,9 @@ function buffIcon(text: string): string | null {
   if (/resistance|résistance|resistencia|resistência/i.test(t)) return null  // unmapped resistance → dot
   // Critical subtypes
   if (/critical damage|dommages?\s*critiques?|daño crítico|dano crítico/i.test(t)) return 'crit_damage'
-  if (/crit/i.test(t)) return 'crit'
+  if (/cr[ií]t/i.test(t)) return 'crit'  // "crit(ical)" (en/fr) vs "crít(ico/ica)" (es/pt, accented í)
+  // Best-element steal/damage (uses the same 'power' icon as the item-effect version)
+  if (/best-element (steal|damage)|vol du meilleur élément|dommages? du meilleur élément|robo del mejor elemento|daño del mejor elemento|roubo do melhor elemento|dano do melhor elemento/i.test(t)) return 'power'
   // Shield → no icon yet
   if (/shield|escudo|bouclier/i.test(t)) return null
   // Pushback damage
@@ -91,11 +93,11 @@ function buffIcon(text: string): string | null {
   // Primary stats
   if (/agility|agilidad|agilité|agilidade/i.test(t))           return 'agility'
   if (/\bstrength\b|\bfuerza\b|\bforce\b|\bforça\b/i.test(t))  return 'strength'
-  if (/intelligence|inteligencia/i.test(t))                     return 'intelligence'
-  if (/\bchance\b|\bsuerte\b/i.test(t))                        return 'chance'
+  if (/intelligence|intelig[eê]ncia/i.test(t))                  return 'intelligence'  // pt: "inteligência" (ê, not the final i)
+  if (/\bchance\b|\bsuerte\b|\bsorte\b/i.test(t))              return 'chance'  // pt: "sorte"
   if (/wisdom|sagesse|sabiduría|sabedoria/i.test(t))            return 'wisdom'
   // Vitality / HP
-  if (/vital|\bhp\b|\bpv\b|\bpdv\b/i.test(t)) return 'vitality'
+  if (/vital|\bhp\b|\bpv\b|\bpdv\b|\bvida\b/i.test(t)) return 'vitality'  // es/pt life-transfer buffs say "vida"
   // Range
   if (/\brange\b|\brango\b|portée|alcance/i.test(t)) return 'range'
   // Power — ES: potencia, PT: potência, FR: puissance

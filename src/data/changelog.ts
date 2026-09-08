@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.127',
+    date: '2026-09-08',
+    notes: [
+      'Fix: spell buff icons missing for several stats due to accented-word regex gaps — "% Crítico" (es/pt), Portuguese "Inteligência"/"Sorte" (Intelligence/Chance), and "vida" (life-transfer buffs) now show their correct icon instead of falling back to a plain triangle',
+      'Fix: "best-element steal/damage" spell buffs (all 4 languages) now show the same icon used for that stat everywhere else in the app',
+    ],
+  },
+  {
     version: '0.2.126',
     date: '2026-09-08',
     notes: [

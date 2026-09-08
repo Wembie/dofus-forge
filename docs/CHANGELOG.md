@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.127] — 2026-09-08
+- Fix: `buffIcon()` in `SpellsPanel.tsx` (maps a spell's raw buff text to an icon) had several regex gaps around accented words, verified empirically against every buff string in all 4 locales' spell data (6,096 total): "% Crítico" (es/pt, `/crit/i` didn't match the accented "crít"), Portuguese "Inteligência" (accent on a different vowel than assumed) and "Sorte" (Chance stat, word never included), and "vida" (es/pt life-transfer buffs, e.g. "Transfiere 30% de su vida") all fell through to the generic ▲/▼ triangle instead of their real icon
+- Fix: "best-element steal"/"best-element damage" spell buffs (all 4 languages) had no icon-matching rule at all — now map to the `power` icon, same as this stat everywhere else in the app
+- Remaining icon-less buff texts (movement/positioning, glyph/trap/rune placement, teleport, kill target, switch positions, effect duration reduction, etc.) are intentional — these already have no icon anywhere else in the app (see `isIgnored()` in `statDisplay.ts`), matching the real game's own tooltip behavior
+
 ## [0.2.126] — 2026-09-08
 - Fix: `DofusIcon()` in `EquipmentGrid.tsx` was a hand-drawn SVG ellipse — literally an egg shape standing in for the Dofus item icon. Replaced with the real `dofus.png` image (added `dofus` to `statDisplay.ts`'s `PNG_ICONS` set since it's a `.png`, not `.webp`)
 - Fix: the Erosion spell effect (`SpellsPanel.tsx`) used `statIconUrl('damage_reflect')` as a placeholder icon — now uses the correct `erosion.webp`
