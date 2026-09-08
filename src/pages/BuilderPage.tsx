@@ -67,6 +67,17 @@ function BuilderContent() {
   useCompareUrl()
   useHistory()
 
+  // Scroll to the compare panel whenever it becomes active — covers both a
+  // manual toggle click and a shared compare link (?c=...) auto-activating
+  // it once useCompareUrl finishes loading Build B.
+  const wasCompareActive = useRef(false)
+  useEffect(() => {
+    if (compareActive && !wasCompareActive.current) {
+      setTimeout(() => comparePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
+    }
+    wasCompareActive.current = compareActive
+  }, [compareActive])
+
   useEffect(() => {
     const lang = i18n.language.slice(0, 2)
     const supported = ['en', 'es', 'fr', 'pt']
@@ -219,10 +230,7 @@ function BuilderContent() {
             </button>
             {/* Compare toggle — hidden on mobile */}
             <button
-              onClick={() => {
-                toggleCompare()
-                if (!compareActive) setTimeout(() => comparePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
-              }}
+              onClick={toggleCompare}
               title={t('compare_mode')}
               className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={compareActive ? {
