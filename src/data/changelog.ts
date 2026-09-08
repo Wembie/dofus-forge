@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.125',
+    date: '2026-09-08',
+    notes: [
+      'Fix: opening a shared compare link (?c=...) loaded Build B and activated compare mode, but never scrolled to the panel — now scrolls into view automatically, same as clicking Compare manually',
+    ],
+  },
+  {
     version: '0.2.124',
     date: '2026-09-08',
     notes: [
