@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.124] — 2026-09-08
+- Fix: `ComparePanel.tsx`'s `handleLoadUrl` parsed pasted URLs by manually splitting on `#`, a leftover from the HashRouter era — with the current path-based format (`…/es/?b=...`, no `#`) it fell through to treating the ENTIRE URL as the encoded build string, always failing with "URL inválida o build corrupto". Rewrote using the native `URL` API: reads `?b=` directly off `url.searchParams` for current links, falls back to parsing inside `url.hash` for old shared links
+- Fix: `handleShare` (compare mode's "share comparison" button) still built the old `#/?b=...&c=...` hash link — now builds the correct per-language path, matching the fix already applied to `ShareBar`/`brandHref` in 0.2.109/0.2.111
+
 ## [0.2.123] — 2026-09-07
 - Fix: `stats.ts` aggregated the generic "Damage" stat (all elements, e.g. Aguja de Psikopomzopato's +4-6 Daño) into its own `block.damage` field but never applied it to the 5 elemental damage totals — `ElementSection` in the stats panel showed Air/Earth/Fire/Water/Neutral Damage without this bonus, even though the type comment already said "generic (all elements)". Now added into each of `neutralDamage`/`earthDamage`/`fireDamage`/`waterDamage`/`airDamage` right after all item/set/rune effects are aggregated
 

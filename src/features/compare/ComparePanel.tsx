@@ -124,7 +124,7 @@ function CoreStatsBadges({ stats }: { stats: StatBlock }) {
 }
 
 export function ComparePanel() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const { nameB, statsB, equippedB, classB, levelB, genderB, snapshotB, loadBuild, clearB, toggle } = useCompareStore()
   const buildState = useBuildStore(s => s)
@@ -162,11 +162,15 @@ export function ComparePanel() {
     const raw = urlInput.trim()
     let encoded = raw
     try {
-      const hashQuery = raw.includes('#') ? raw.split('#')[1] : raw
-      const params = new URLSearchParams(hashQuery.startsWith('/') ? hashQuery.slice(2) : hashQuery)
-      const b = params.get('b')
+      const url = new URL(raw)
+      // Current format: query string directly on the URL (…/es/?b=...)
+      let b = url.searchParams.get('b')
+      // Legacy HashRouter links carried the query inside the hash (#/?b=...)
+      if (!b && url.hash.includes('?')) {
+        b = new URLSearchParams(url.hash.slice(url.hash.indexOf('?') + 1)).get('b')
+      }
       if (b) encoded = b
-    } catch { /* use raw as-is */ }
+    } catch { /* not a full URL — assume the raw encoded string was pasted directly */ }
     const snap = decodeBuild(encoded)
     if (!snap) { setUrlError(true); return }
     loadBuild(snap, t('compare_build_b'), equipment, sets)
@@ -175,11 +179,14 @@ export function ComparePanel() {
   }
 
   const handleShare = () => {
-    const encodedA = encodeBuild(buildState)
-    const encodedB = snapshotB ? encodeSnapshot(snapshotB) : ''
+    const encodedA  = encodeBuild(buildState)
+    const encodedB  = snapshotB ? encodeSnapshot(snapshotB) : ''
+    const lang      = i18n.language.slice(0, 2)
+    const langPath  = lang === 'en' ? '' : `${lang}/`
+    const base      = `${location.origin}${import.meta.env.BASE_URL}${langPath}`
     const url = encodedB
-      ? `${location.origin}${location.pathname}#/?b=${encodedA}&c=${encodedB}`
-      : `${location.origin}${location.pathname}#/?b=${encodedA}`
+      ? `${base}?b=${encodedA}&c=${encodedB}`
+      : `${base}?b=${encodedA}`
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)

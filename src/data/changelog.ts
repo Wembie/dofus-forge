@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.124',
+    date: '2026-09-08',
+    notes: [
+      'Fix: Compare mode "load build from URL" rejected every current-format link (…/es/?b=...) as invalid — the parser only understood the old #/?b=... hash format. Now handles both',
+      'Fix: Compare mode\'s "share comparison" button still generated the old #/?b=... hash link — now builds the correct per-language path',
+    ],
+  },
+  {
     version: '0.2.123',
     date: '2026-09-07',
     notes: [
