@@ -103,7 +103,7 @@ export function fmtValue(min: number, max: number, negSep = '–'): string {
   return `+${min}–${max}`
 }
 
-const PNG_ICONS = new Set(['strength_damage', 'intelligence_damage', 'chance_damage', 'agility_damage', 'dofus'])
+const PNG_ICONS = new Set(['strength_damage', 'intelligence_damage', 'chance_damage', 'agility_damage', 'dofus', 'pull'])
 
 export function statIconUrl(icon: string): string {
   const ext = PNG_ICONS.has(icon) ? 'png' : 'webp'

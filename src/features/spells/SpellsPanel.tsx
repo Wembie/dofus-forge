@@ -48,7 +48,7 @@ function fmtRange(min: number, max: number): string {
 
 // TODO icons needed (add file to public/data/stats/ then map here):
 //   shield.webp      → shield/barrier effects ("Bouclier:", "escudo", "X% of level to shield")
-//   move.webp        → movement/positioning (Advances N cell, Moves back, Attracts, Teleports)
+//   move.webp        → movement/positioning (Advances N cell, Moves back, Teleports) — "Attracts" now uses pull.png
 //   glyph.webp       → glyph / trap placement
 //   steal_elem.webp  → best-element steal (no element-agnostic steal icon)
 function buffIcon(text: string): string | null {
@@ -82,6 +82,8 @@ function buffIcon(text: string): string | null {
   if (/shield|escudo|bouclier/i.test(t)) return null
   // Pushback damage
   if (/pushback|recul\b|empuje/i.test(t)) return 'push_damage'
+  // Attracts by cell (pull towards caster/target)
+  if (/\battracts?\b|\batrae\b|\battire\b|\batrai\b/i.test(t)) return 'pull'
   // Damage subtypes (specific before generic)
   if (/melee damage|dommage.*mêlée|daño.*cuerpo|dano.*corpo/i.test(t))             return 'melee_damage'
   if (/ranged damage|dommage.*distance|daño.*distancia|dano.*distância/i.test(t))   return 'ranged_damage'
@@ -790,7 +792,11 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const critWeaponPct = baseWeaponPct + (dominioActive ? dominioCrit : 0)
 
 
-  const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat))
+  // effect_id 238: MP removed on hit (stat='MP', not elemental, not "Steals MP" either —
+  // has no entry in WEAPON_ATTACK_STAT, so it must never reach computeRow/calcDamage
+  // (elem would be undefined there → NaN). Shown as its own row instead.
+  const mpEffects     = attackEffects.filter(e => e.stat === 'MP')
+  const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat) && e.stat !== 'MP')
   const stealEffects = attackEffects.filter(e =>  IS_STEAL(e.stat))
 
   function computeRow(e: typeof attackEffects[0]) {
@@ -941,7 +947,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
       </div>
 
       {/* Damage table */}
-      {allRows.length > 0 && (
+      {(allRows.length > 0 || mpEffects.length > 0) && (
         <div className="px-3 py-2.5 space-y-1">
           {/* Column headers */}
           <div className="grid mb-1.5" style={{ gridTemplateColumns: cols, gap: 8 }}>
@@ -959,6 +965,18 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
               </span>
               <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
               {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+            </div>
+          ))}
+
+          {/* MP removed on hit (effect_id 238) — flat value, not elemental damage, no crit/heal math */}
+          {mpEffects.map((e, i) => (
+            <div key={`mp${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+              <span className="flex items-center gap-1.5">
+                <img src={statIconUrl('mp_reduction')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+                <span className="text-[10px] font-medium" style={{ color: 'var(--wisdom)' }}>{t('stat_mp_removal')}</span>
+              </span>
+              <RangeCell min={e.min} max={e.max !== 0 ? e.max : e.min} color="var(--wisdom)" />
+              {hasCrit && <span />}
             </div>
           ))}
 
