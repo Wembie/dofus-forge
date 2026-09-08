@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.126] — 2026-09-08
+- Fix: `DofusIcon()` in `EquipmentGrid.tsx` was a hand-drawn SVG ellipse — literally an egg shape standing in for the Dofus item icon. Replaced with the real `dofus.png` image (added `dofus` to `statDisplay.ts`'s `PNG_ICONS` set since it's a `.png`, not `.webp`)
+- Fix: the Erosion spell effect (`SpellsPanel.tsx`) used `statIconUrl('damage_reflect')` as a placeholder icon — now uses the correct `erosion.webp`
+
 ## [0.2.125] — 2026-09-08
 - Fix: opening a shared compare link (`?c=...`) already loaded Build B and set `compareStore.active = true` via `useCompareUrl`, but the scroll-into-view for the compare panel only ran inside the manual "Comparar" button's `onClick` — landing on the link left the user at the top of the page with no visible indication the comparison loaded. Moved the scroll into a `useEffect` in `BuilderPage.tsx` that watches `compareActive` directly, so it fires the same way regardless of whether compare mode was triggered by a click or by a URL
 

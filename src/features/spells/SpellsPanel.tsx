@@ -389,7 +389,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
           <div key={`er${i}`}>
             <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
               style={{ background: 'color-mix(in srgb, var(--fire) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--fire) 25%, transparent)', color: 'var(--fire)' }}>
-              <img src={statIconUrl('damage_reflect')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              <img src={statIconUrl('erosion')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
               {t('spell_erosion', { pct: e.calcMin, turns: e.turns ?? 0 })}
             </span>
           </div>
