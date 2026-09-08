@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.126',
+    date: '2026-09-08',
+    notes: [
+      'Fix: Dofus slot icon was a hand-drawn SVG egg shape — now uses the real Dofus icon image',
+      'Fix: Erosion spell effect used the wrong placeholder icon (damage reflect) — now uses the correct erosion icon',
+    ],
+  },
+  {
     version: '0.2.125',
     date: '2026-09-08',
     notes: [

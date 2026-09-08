@@ -100,11 +100,7 @@ function PetIcon() {
 }
 function DofusIcon() {
   return (
-    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
-      <ellipse cx="12" cy="12" rx="7" ry="10"/>
-      <ellipse cx="9.5" cy="9" rx="1.5" ry="1" fill="rgba(255,255,255,0.15)"/>
-      <ellipse cx="14" cy="11" rx="1" ry="0.8" fill="rgba(255,255,255,0.1)"/>
-    </svg>
+    <img src={statIconUrl('dofus')} alt="" className="w-6 h-6 object-contain" draggable={false} />
   )
 }
 
