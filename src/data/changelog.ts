@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.123',
+    date: '2026-09-07',
+    notes: [
+      'Fix: generic "Damage" (all elements) bonus was computed but never added to each elemental damage total in the stats panel — now correctly sums into Earth/Fire/Water/Air/Neutral Damage',
+    ],
+  },
+  {
     version: '0.2.122',
     date: '2026-09-07',
     notes: [

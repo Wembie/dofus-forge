@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.123] — 2026-09-07
+- Fix: `stats.ts` aggregated the generic "Damage" stat (all elements, e.g. Aguja de Psikopomzopato's +4-6 Daño) into its own `block.damage` field but never applied it to the 5 elemental damage totals — `ElementSection` in the stats panel showed Air/Earth/Fire/Water/Neutral Damage without this bonus, even though the type comment already said "generic (all elements)". Now added into each of `neutralDamage`/`earthDamage`/`fireDamage`/`waterDamage`/`airDamage` right after all item/set/rune effects are aggregated
+
 ## [0.2.122] — 2026-09-07
 - Fix: elemental weapon transform (EquipmentGrid.tsx + SpellsPanel.tsx) rounded the transformed damage range UP (`Math.ceil`) instead of down. Verified against a real in-game tooltip: Aguja de Psikopomzopato's base 45-53 Neutral damage at 85% air transform should show 38-45 (`floor(45*0.85)=38`, `floor(53*0.85)=45`), but showed 39-46 with ceil. Both transform sites now use `Math.floor`
 
