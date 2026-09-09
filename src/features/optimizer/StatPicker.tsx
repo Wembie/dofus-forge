@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { OPTIMIZER_STATS } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { normalizeSearch } from '@/ui'
 import type { OptimizerStatKey } from './types.ts'
 
 type Props = {
@@ -27,7 +28,7 @@ export function StatPicker({ label, excluded, onSelect }: Props) {
 
   const available = OPTIMIZER_STATS.filter(s => {
     if (excluded?.has(s.key)) return false
-    if (search) return t(s.tKey).toLowerCase().includes(search.toLowerCase())
+    if (search) return normalizeSearch(t(s.tKey)).includes(normalizeSearch(search))
     return true
   })
 

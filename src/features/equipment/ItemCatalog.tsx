@@ -10,7 +10,7 @@ import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { StatFilter } from '@/ui'
+import { StatFilter, normalizeSearch } from '@/ui'
 import { SetDetailModal } from './SetDetailModal.tsx'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
@@ -45,8 +45,8 @@ function SetSearch({
 
   const matches = useMemo(() => {
     if (!q) return sets.slice(0, 12)
-    const lq = q.toLowerCase()
-    return sets.filter(s => s.name.toLowerCase().includes(lq)).slice(0, 12)
+    const lq = normalizeSearch(q)
+    return sets.filter(s => normalizeSearch(s.name).includes(lq)).slice(0, 12)
   }, [sets, q])
 
   function pick(s: AppSet | null) {
@@ -183,7 +183,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
 
   const items = useMemo<AppItem[]>(() => {
     if (!equipment) return []
-    const nameSearch = search.trim().toLowerCase()
+    const nameSearch = normalizeSearch(search.trim())
     const filtered = equipment.filter(it =>
       matchesSlot(it, slot) &&
       it.level >= minLevel &&
@@ -201,7 +201,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
         })
       })) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
-      (nameSearch === '' || it.name.toLowerCase().includes(nameSearch)) &&
+      (nameSearch === '' || normalizeSearch(it.name).includes(nameSearch)) &&
       (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
     )
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)

@@ -1,4 +1,5 @@
 export { cn } from './cn'
+export { normalizeSearch } from './normalize'
 export { Frame }          from './Frame'
 export { SectionHeader }  from './SectionHeader'
 export { Button }         from './Button'

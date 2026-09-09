@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { normalizeSearch } from './normalize'
 
 const PRIMARY_ORDER = ['AP', 'MP', 'Range', 'Vitality', 'Wisdom', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Summons', '% Critical']
 const PRIMARY_SET   = new Set(PRIMARY_ORDER)
@@ -96,10 +97,10 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
 
   const filtered = useMemo(() => {
     if (!q.trim()) return null
-    const lq = q.toLowerCase()
+    const lq = normalizeSearch(q)
     return stats.filter(s => {
       const label = STAT_META[s] ? t(STAT_META[s].tKey) : s
-      return label.toLowerCase().includes(lq) || s.toLowerCase().includes(lq)
+      return normalizeSearch(label).includes(lq) || normalizeSearch(s).includes(lq)
     })
   }, [stats, q, t])
 
