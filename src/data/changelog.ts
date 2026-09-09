@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.130',
+    date: '2026-09-09',
+    notes: [
+      'Feat: item, set, and stat search boxes now ignore accents — searching "ambar" finds "Ámbar", in any language',
+    ],
+  },
+  {
     version: '0.2.129',
     date: '2026-09-09',
     notes: [

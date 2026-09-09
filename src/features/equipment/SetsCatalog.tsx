@@ -9,6 +9,7 @@ import { SLOT_CONFIGS, slotImageIcon } from './slotConfig.ts'
 import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 import { useToastStore } from '@/store/toastStore.ts'
+import { normalizeSearch } from '@/ui'
 
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 
@@ -228,8 +229,8 @@ export function SetsCatalog({ onClose }: Props) {
   const filtered = useMemo(() => {
     let list = enriched
     if (search.trim()) {
-      const lq = search.toLowerCase()
-      list = list.filter(e => e.set.name.toLowerCase().includes(lq))
+      const lq = normalizeSearch(search)
+      list = list.filter(e => normalizeSearch(e.set.name).includes(lq))
     }
     list = list.filter(e => e.maxLevel >= minLevel && e.minLevel <= maxLevel)
     if (pieces != null) list = list.filter(e => e.items.length === pieces)

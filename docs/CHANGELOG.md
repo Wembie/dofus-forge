@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.130] — 2026-09-09
+- Feat: search boxes were case-insensitive but not accent-insensitive — searching "ambar" for the "Ámbar" set/items found nothing. Added `normalizeSearch()` (`src/ui/normalize.ts`, `s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()`) and used it in every name/stat search: `ItemCatalog` (item name search, set-search dropdown), `SetsCatalog` (set name search), `StatFilter` and `StatPicker` (stat name search). Works for any language's accented characters (é, ñ, ç, ã, etc.), not just Spanish
+
 ## [0.2.129] — 2026-09-09
 - Fix: 0.2.126 only fixed the Dofus SLOT ICON (`DofusIcon()` in `EquipmentGrid.tsx`, the equip-slot button on the character silhouette). Every other place that renders a slot glyph still used `SlotConfig.icon`, which is the 🥚 emoji for dofus1-6 — `ItemCatalog.tsx`'s fallback thumbnail (shown when an item has no `image_url`), `SetDetailModal.tsx`'s item-list fallback thumbnail and the not-equipped slot badge, all three "equipped!" toast icons (`ItemCatalog`, `SetsCatalog`, `SetDetailModal`), and `ComparePanel.tsx`'s per-row slot column. Added `slotImageIcon(id)` to `slotConfig.ts` (returns `statIconUrl('dofus')` for dofus1-6, `null` otherwise) and used it everywhere the egg could still show, falling back to the emoji for every other slot as before. Toasts previously only supported an emoji glyph (`Toaster.tsx` rendered `toast.icon` as plain text) — now renders an `<img>` when the icon string is a path
 
