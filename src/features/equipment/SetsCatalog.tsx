@@ -5,7 +5,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppSet, AppItem, AppEffect } from '@/data/loaders.ts'
-import { SLOT_CONFIGS } from './slotConfig.ts'
+import { SLOT_CONFIGS, slotImageIcon } from './slotConfig.ts'
 import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 import { useToastStore } from '@/store/toastStore.ts'
@@ -270,7 +270,7 @@ export function SetsCatalog({ onClose }: Props) {
     equipMultiple(toEquip)
     for (const { slot, item } of equippedItems) {
       const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
-      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotCfg?.icon ?? '✓')
+      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
     }
   }
 

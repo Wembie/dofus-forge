@@ -93,7 +93,10 @@ export function Toaster() {
             }}
             onClick={() => removeToast(toast.id)}
           >
-            <span className="text-base leading-none">{toast.icon}</span>
+            {toast.icon.startsWith('/') || toast.icon.startsWith('http')
+              ? <img src={toast.icon} alt="" className="w-4 h-4 object-contain flex-shrink-0" />
+              : <span className="text-base leading-none">{toast.icon}</span>
+            }
             <span>{toast.message}</span>
           </div>
         )

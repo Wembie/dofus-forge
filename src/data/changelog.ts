@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.129',
+    date: '2026-09-09',
+    notes: [
+      'Fix: several other places still showed the 🥚 egg emoji instead of the real Dofus icon — item catalog fallback thumbnail (item with no image), set detail modal thumbnails/slot badges, equip toasts, and the compare panel\'s slot column',
+    ],
+  },
+  {
     version: '0.2.128',
     date: '2026-09-08',
     notes: [

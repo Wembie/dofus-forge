@@ -1,4 +1,5 @@
 import type { SlotId } from '@/store/buildStore.ts'
+import { statIconUrl } from './statDisplay.ts'
 
 export type SlotConfig = {
   id:        SlotId
@@ -32,3 +33,14 @@ export const SLOT_CONFIGS: SlotConfig[] = [
   { id: 'dofus5',    label: 'Dofus',     apiSlot: 'dofus',  icon: '🥚' },
   { id: 'dofus6',    label: 'Dofus',     apiSlot: 'dofus',  icon: '🥚' },
 ]
+
+// Every dofus1-6 slot still carries the 🥚 emoji as its `icon` fallback (used as
+// plain text in toasts/badges where an <img> doesn't fit) — but wherever we can
+// render a real image, use the actual Dofus icon instead of the egg emoji.
+export function isDofusSlot(id: SlotId): boolean {
+  return id.startsWith('dofus')
+}
+
+export function slotImageIcon(id: SlotId): string | null {
+  return isDofusSlot(id) ? statIconUrl('dofus') : null
+}

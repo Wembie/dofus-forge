@@ -4,6 +4,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { SlotConfig } from './slotConfig.ts'
+import { slotImageIcon } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
@@ -210,7 +211,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
 
   const handlePick = useCallback((item: AppItem) => {
     equipItem(slotId, item.ankama_id)
-    addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slot.icon)
+    addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slotImageIcon(slotId) ?? slot.icon)
     if (onAfterEquip) onAfterEquip(slotId)
     else onClose()
   }, [equipItem, slotId, onClose, onAfterEquip, addToast, t, slot.icon])
@@ -424,6 +425,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                       >
                         {item.image_url
                           ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                          : slotImageIcon(slotId)
+                          ? <img src={slotImageIcon(slotId)!} alt="" className="w-full h-full object-contain p-3 opacity-60" />
                           : <span className="text-ink-faint text-xl">{slot.icon}</span>
                         }
                       </div>
