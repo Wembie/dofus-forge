@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.131',
+    date: '2026-09-10',
+    notes: [
+      'Feat: M40 — PvP dummy simulator. New collapsible panel at the top of the Spells section lets you type a target\'s fixed + % resistance per element; when enabled, every spell damage line (and its Σ total) and every weapon damage/steal row (and its Total) shows an extra 🎯 line with the real damage after those resistances',
+    ],
+  },
+  {
     version: '0.2.130',
     date: '2026-09-09',
     notes: [

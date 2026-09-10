@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Sword } from 'lucide-react'
+import { Sword, Target } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
@@ -9,6 +9,9 @@ import { calcEffects, calcDamage, type CalcedEffect } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
+import { usePvpStore } from '@/store/pvpStore.ts'
+import { applyResist } from '../pvp/pvpMath.ts'
+import { DummyPanel } from '../pvp/DummyPanel.tsx'
 
 function spellGrade(level: number): number {
   if (level >= 200) return 6
@@ -145,6 +148,8 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   const color         = ELEM_COLOR[spell.element]
   const isMixed       = spell.element === 'mixed'
   const showCalc      = Boolean(stats)
+  const pvpEnabled    = usePvpStore(s => s.enabled)
+  const pvpResist     = usePvpStore(s => s.resist)
 
   const spellPct = stats && lvl
     ? stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
@@ -284,6 +289,11 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
     const showGroupTotal = !shieldGroup && !hasDescarga && !isMixed && sigmaEffects.length >= 2
     const showPushSigma  = !shieldGroup && !hasDescarga && !isMixed && hasPush && stats != null
+    const showDummyTotal = showGroupTotal && pvpEnabled && showCalc
+    const totalDummyMin  = showDummyTotal ? sigmaEffects.reduce((s, e) => s + applyResist(e.calcMin, pvpResist[e.element]), 0) : 0
+    const totalDummyMax  = showDummyTotal ? sigmaEffects.reduce((s, e) => s + applyResist(e.calcMax, pvpResist[e.element]), 0) : 0
+    const critDummyMin   = showDummyTotal ? sigmaCritGroup.reduce((s, c) => s + (c ? applyResist(c.calcMin, pvpResist[c.element]) : 0), 0) : 0
+    const critDummyMax   = showDummyTotal ? sigmaCritGroup.reduce((s, c) => s + (c ? applyResist(c.calcMax, pvpResist[c.element]) : 0), 0) : 0
 
     const rows: React.ReactNode[] = []
 
@@ -471,6 +481,21 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               )}
             </div>
           )}
+          {pvpEnabled && showCalc && (
+            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+              <span className="flex items-center justify-center">
+                <Target size={10} style={{ color: 'var(--ink-faint)' }} />
+              </span>
+              <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--ink-faint)' }}>
+                {fmtRange(applyResist(e.calcMin, pvpResist[e.element]), applyResist(e.calcMax, pvpResist[e.element]))}
+              </span>
+              {showCritCol && (
+                <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--ink-faint)' }}>
+                  {crit ? fmtRange(applyResist(crit.calcMin, pvpResist[e.element]), applyResist(crit.calcMax, pvpResist[e.element])) : '—'}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       )
     })
@@ -535,6 +560,21 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               {showCritCol && (
                 <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
                   {fmtRange(critTotalMin, critTotalMax)}
+                </span>
+              )}
+            </div>
+          )}
+          {showDummyTotal && (
+            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
+              <span className="flex items-center justify-center">
+                <Target size={10} style={{ color: 'var(--ink-faint)' }} />
+              </span>
+              <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--ink-faint)' }}>
+                {fmtRange(totalDummyMin, totalDummyMax)}
+              </span>
+              {showCritCol && (
+                <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--ink-faint)' }}>
+                  {fmtRange(critDummyMin, critDummyMax)}
                 </span>
               )}
             </div>
@@ -721,6 +761,8 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const [dominioActive, setDominioActive] = useState(false)
   const [dominioNorm, setDominioNorm]     = useState(300)
   const [dominioCrit, setDominioCrit]     = useState(360)
+  const pvpEnabled = usePvpStore(s => s.enabled)
+  const pvpResist  = usePvpStore(s => s.resist)
 
   const weaponTransform = useBuildStore(s => s.weaponTransforms['weapon'] ?? null)
 
@@ -828,6 +870,12 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const hasSteal   = stealRows.length > 0
   const showTotal  = allRows.length >= 2
   const cols       = hasCrit ? '1fr 1fr 1fr' : '1fr 1fr'
+
+  const showDummy      = pvpEnabled && Boolean(stats)
+  const totalDummyMin  = showDummy ? allRows.reduce((s, e) => s + applyResist(e.low,      pvpResist[e.elem]), 0) : 0
+  const totalDummyMax  = showDummy ? allRows.reduce((s, e) => s + applyResist(e.high,     pvpResist[e.elem]), 0) : 0
+  const critDummyMin   = showDummy ? allRows.reduce((s, e) => s + applyResist(e.critLow,  pvpResist[e.elem]), 0) : 0
+  const critDummyMax   = showDummy ? allRows.reduce((s, e) => s + applyResist(e.critHigh, pvpResist[e.elem]), 0) : 0
 
   const RangeCell = ({ min, max, color, bold = false }: { min: number; max: number; color: string; bold?: boolean }) => (
     <span className="text-[11px] font-mono tabular-nums" style={{ color, fontWeight: bold ? 700 : 400 }}>
@@ -957,14 +1005,23 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           </div>
 
           {/* Damage rows */}
-          {dmgRows.map(({ c, low, high, critLow, critHigh }, i) => (
-            <div key={`d${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
-                <span className="text-[10px] font-medium" style={{ color: c }}>{t(`elem_${dmgEffects[i].stat.split(' ')[0].toLowerCase()}`)}</span>
-              </span>
-              <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
-              {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+          {dmgRows.map(({ c, elem, low, high, critLow, critHigh }, i) => (
+            <div key={`d${i}`} className="space-y-px">
+              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
+                  <span className="text-[10px] font-medium" style={{ color: c }}>{t(`elem_${dmgEffects[i].stat.split(' ')[0].toLowerCase()}`)}</span>
+                </span>
+                <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
+                {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+              </div>
+              {showDummy && (
+                <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                  <span className="pl-3 flex items-center"><Target size={10} style={{ color: 'var(--ink-faint)' }} /></span>
+                  <RangeCell min={applyResist(low, pvpResist[elem])} max={applyResist(high, pvpResist[elem])} color="var(--ink-faint)" />
+                  {hasCrit && <RangeCell min={applyResist(critLow, pvpResist[elem])} max={applyResist(critHigh, pvpResist[elem])} color="var(--ink-faint)" />}
+                </div>
+              )}
             </div>
           ))}
 
@@ -981,7 +1038,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           ))}
 
           {/* Steal rows */}
-          {stealRows.map(({ c, low, high, critLow, critHigh }, i) => (
+          {stealRows.map(({ c, elem, low, high, critLow, critHigh }, i) => (
             <div key={`s${i}`} className="space-y-0.5">
               <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
                 <span className="flex items-center gap-1.5">
@@ -1004,6 +1061,13 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                   </span>
                 )}
               </div>
+              {showDummy && (
+                <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                  <span className="pl-3 flex items-center"><Target size={10} style={{ color: 'var(--ink-faint)' }} /></span>
+                  <RangeCell min={applyResist(low, pvpResist[elem])} max={applyResist(high, pvpResist[elem])} color="var(--ink-faint)" />
+                  {hasCrit && <RangeCell min={applyResist(critLow, pvpResist[elem])} max={applyResist(critHigh, pvpResist[elem])} color="var(--ink-faint)" />}
+                </div>
+              )}
             </div>
           ))}
 
@@ -1022,6 +1086,13 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                   </span>
                   <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(healMin, healMax)}</span>
                   {hasCrit && <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(healCritMin, healCritMax)}</span>}
+                </div>
+              )}
+              {showDummy && (
+                <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
+                  <span className="flex items-center"><Target size={10} style={{ color: 'var(--ink-faint)' }} /></span>
+                  <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--ink-faint)' }}>{fmtRange(totalDummyMin, totalDummyMax)}</span>
+                  {hasCrit && <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--ink-faint)' }}>{fmtRange(critDummyMin, critDummyMax)}</span>}
                 </div>
               )}
             </div>
@@ -1152,6 +1223,8 @@ export function SpellsPanel() {
           ★ {t('spell_calculated')}
         </p>
       )}
+
+      <DummyPanel />
 
       {/* Weapon attack */}
       <div className="space-y-1">
