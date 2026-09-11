@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.134',
+    date: '2026-09-11',
+    notes: [
+      'Polish: PvP arena attack picker now groups spells into "Hechizos", "Variantes" and "Comunes" (same categories as the main spell list) instead of one flat row, and wraps to multiple lines instead of hiding extras behind a horizontal scrollbar — much more usable on narrow/mobile widths',
+    ],
+  },
+  {
     version: '0.2.133',
     date: '2026-09-11',
     notes: [

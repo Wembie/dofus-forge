@@ -43,6 +43,41 @@ function TargetGlyph({ shake }: { shake: boolean }) {
   )
 }
 
+function PickerGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="text-[9px] uppercase tracking-wider mb-1" style={{ color: 'var(--ink-faint)' }}>{label}</p>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
+    </div>
+  )
+}
+
+function AttackIcon({ imageUrl, fallback, title, active, onClick }: {
+  imageUrl: string | null
+  fallback: React.ReactNode
+  title:    string
+  active:   boolean
+  onClick:  () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      className="flex-shrink-0 rounded-lg overflow-hidden transition-transform hover:scale-105 flex items-center justify-center"
+      style={{
+        width: 40, height: 40,
+        background: 'var(--surface-panel)',
+        border: active ? '2px solid var(--gold)' : '1px solid var(--metal-edge)',
+      }}
+    >
+      {imageUrl
+        ? <img src={imageUrl} alt="" className="w-full h-full object-contain p-0.5" />
+        : (typeof fallback === 'string' ? <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{fallback}</span> : fallback)
+      }
+    </button>
+  )
+}
+
 /**
  * PvP arena — a dedicated section (not scattered per-row math) where you
  * pick one spell or the weapon attack, type a target's resistances, and
@@ -83,16 +118,24 @@ export function PvpArena() {
 
   // Only spells that actually deal damage/steal/poison on a plain target —
   // pure utility/buff spells wouldn't do anything against a dummy anyway.
-  const attackSpells = useMemo(() => {
-    if (!selectedClass) return []
-    const classData  = spells.get(selectedClass)
-    const commonData = spells.get('common')
-    const all = [...(classData?.spells ?? []), ...(commonData?.spells ?? [])]
-    return all.filter(sp => {
-      const lvl = sp.levels.find(l => l.grade === grade) ?? sp.levels.at(-1)
-      if (!lvl) return false
-      return dedupEffects(lvl.effects).some(e => DMG_KINDS.has(e.kind) && e.condition !== 'shield')
-    })
+  // Grouped the same way the main spell list is (normal | variant | common)
+  // so the picker doesn't dump everything into one long undifferentiated row.
+  const isAttackSpell = (sp: AppSpell) => {
+    const lvl = sp.levels.find(l => l.grade === grade) ?? sp.levels.at(-1)
+    if (!lvl) return false
+    return dedupEffects(lvl.effects).some(e => DMG_KINDS.has(e.kind) && e.condition !== 'shield')
+  }
+
+  const spellGroups = useMemo(() => {
+    if (!selectedClass) return { normal: [], variant: [], common: [] } as Record<string, AppSpell[]>
+    const classSpells  = spells.get(selectedClass)?.spells ?? []
+    const commonSpells = spells.get('common')?.spells ?? []
+    return {
+      normal:  classSpells.filter(sp => !sp.is_variant && isAttackSpell(sp)),
+      variant: classSpells.filter(sp =>  sp.is_variant && isAttackSpell(sp)),
+      common:  commonSpells.filter(isAttackSpell),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spells, selectedClass, grade])
 
   function fire(atk: Attack) {
@@ -155,6 +198,8 @@ export function PvpArena() {
       {expanded && (
       <div className="p-3 space-y-3">
         {/* Resistances */}
+        <div>
+        <p className="text-[9px] uppercase tracking-wider mb-1" style={{ color: 'var(--ink-faint)' }}>{t('pvp_arena_resist_label')}</p>
         <div className="grid gap-y-1 items-center" style={{ gridTemplateColumns: '18px 1fr 54px 54px', columnGap: 8 }}>
           <span /><span />
           <span className="text-[9px] uppercase tracking-wider text-right" style={{ color: 'var(--ink-faint)' }}>{t('pvp_dummy_fixed')}</span>
@@ -186,8 +231,11 @@ export function PvpArena() {
             )
           })}
         </div>
+        </div>
 
         {/* Target + result */}
+        <div>
+        <p className="text-[9px] uppercase tracking-wider mb-1" style={{ color: 'var(--ink-faint)' }}>{t('pvp_arena_attack_label')}</p>
         <div className="flex flex-col items-center gap-1.5 py-1">
           <div className="relative flex items-center justify-center" style={{ width: 64, height: 64 }}>
             {hits.map(h => (
@@ -214,43 +262,64 @@ export function PvpArena() {
           </p>
         </div>
 
-        {/* Picker */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1">
+        {/* Picker — grouped like the main spell list (weapon | normal | variant | common),
+            wraps to multiple lines instead of a hidden horizontal scroller so it stays
+            usable at any width. */}
+        <div className="space-y-2">
           {equippedWeapon && (
-            <button
-              onClick={() => fire({ kind: 'weapon' })}
-              title={equippedWeapon.name}
-              className="flex-shrink-0 rounded-lg overflow-hidden transition-transform hover:scale-105 flex items-center justify-center"
-              style={{
-                width: 40, height: 40,
-                background: 'var(--surface-panel)',
-                border: selected?.kind === 'weapon' ? '2px solid var(--gold)' : '1px solid var(--metal-edge)',
-              }}
-            >
-              {equippedWeapon.image_url
-                ? <img src={equippedWeapon.image_url} alt="" className="w-full h-full object-contain p-0.5" />
-                : <Sword size={18} style={{ color: 'var(--ink-faint)' }} />
-              }
-            </button>
+            <PickerGroup label={t('weapon_attack')}>
+              <AttackIcon
+                imageUrl={equippedWeapon.image_url}
+                fallback={<Sword size={18} style={{ color: 'var(--ink-faint)' }} />}
+                title={equippedWeapon.name}
+                active={selected?.kind === 'weapon'}
+                onClick={() => fire({ kind: 'weapon' })}
+              />
+            </PickerGroup>
           )}
-          {attackSpells.map(sp => (
-            <button
-              key={sp.id}
-              onClick={() => fire({ kind: 'spell', spell: sp })}
-              title={sp.name}
-              className="flex-shrink-0 rounded-lg overflow-hidden transition-transform hover:scale-105 flex items-center justify-center"
-              style={{
-                width: 40, height: 40,
-                background: 'var(--surface-panel)',
-                border: selected?.kind === 'spell' && selected.spell.id === sp.id ? '2px solid var(--gold)' : '1px solid var(--metal-edge)',
-              }}
-            >
-              {sp.image_url
-                ? <img src={sp.image_url} alt="" className="w-full h-full object-contain" />
-                : <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{sp.name.slice(0, 2)}</span>
-              }
-            </button>
-          ))}
+          {spellGroups.normal.length > 0 && (
+            <PickerGroup label={t('spell_col_normal')}>
+              {spellGroups.normal.map(sp => (
+                <AttackIcon
+                  key={sp.id}
+                  imageUrl={sp.image_url}
+                  fallback={sp.name.slice(0, 2)}
+                  title={sp.name}
+                  active={selected?.kind === 'spell' && selected.spell.id === sp.id}
+                  onClick={() => fire({ kind: 'spell', spell: sp })}
+                />
+              ))}
+            </PickerGroup>
+          )}
+          {spellGroups.variant.length > 0 && (
+            <PickerGroup label={t('spell_col_variant')}>
+              {spellGroups.variant.map(sp => (
+                <AttackIcon
+                  key={sp.id}
+                  imageUrl={sp.image_url}
+                  fallback={sp.name.slice(0, 2)}
+                  title={sp.name}
+                  active={selected?.kind === 'spell' && selected.spell.id === sp.id}
+                  onClick={() => fire({ kind: 'spell', spell: sp })}
+                />
+              ))}
+            </PickerGroup>
+          )}
+          {spellGroups.common.length > 0 && (
+            <PickerGroup label={t('common_spells')}>
+              {spellGroups.common.map(sp => (
+                <AttackIcon
+                  key={sp.id}
+                  imageUrl={sp.image_url}
+                  fallback={sp.name.slice(0, 2)}
+                  title={sp.name}
+                  active={selected?.kind === 'spell' && selected.spell.id === sp.id}
+                  onClick={() => fire({ kind: 'spell', spell: sp })}
+                />
+              ))}
+            </PickerGroup>
+          )}
+        </div>
         </div>
       </div>
       )}

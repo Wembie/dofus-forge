@@ -459,5 +459,7 @@
   "stat_group_resistance_pct": "Resistances %",
   "elem_multi": "Mixed",
   "build_name_label": "Build name",
-  "pvp_arena_select_hint": "Pick a spell or the weapon attack to simulate"
+  "pvp_arena_select_hint": "Pick a spell or the weapon attack to simulate",
+  "pvp_arena_resist_label": "Target resistances",
+  "pvp_arena_attack_label": "Choose your attack"
 }

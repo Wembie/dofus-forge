@@ -459,5 +459,7 @@
   "stat_group_resistance_pct": "Resistências %",
   "elem_multi": "Misto",
   "build_name_label": "Nome da build",
-  "pvp_arena_select_hint": "Escolha uma magia ou o ataque com arma para simular"
+  "pvp_arena_select_hint": "Escolha uma magia ou o ataque com arma para simular",
+  "pvp_arena_resist_label": "Resistências do alvo",
+  "pvp_arena_attack_label": "Escolha seu ataque"
 }

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.134] — 2026-09-11
+- Polish: `PvpArena`'s attack picker dumped every damage-dealing spell (class normal + variant + common) into one flat, horizontally-scrolling row with no labels. Grouped it into `PickerGroup`/`AttackIcon` sections matching the main spell list's own categories (`spell_col_normal`, `spell_col_variant`, `common_spells`, plus a weapon group using `weapon_attack`), each wrapping via `flex-wrap` instead of `overflow-x-auto` so nothing hides off-screen on narrow widths. Added `pvp_arena_resist_label`/`pvp_arena_attack_label` section headers above the resistance grid and the target+picker block for clearer visual separation
+
 ## [0.2.133] — 2026-09-11
 - Fix: `BuilderPage.tsx`'s header controls (undo/redo, La Forjadora, Sets catalog, Comparar, version badge, dividers) switched from hidden to visible at Tailwind's `sm` breakpoint (640px), but the main content only switches from the single-tab mobile layout to the 2-column desktop grid at `lg` (1024px). Between 640–1023px wide the header looked fully desktop (all buttons with labels) while Characteristics/Stats were hidden behind the mobile bottom tabs — reported as "characteristics panel missing". Changed all of those header elements from `sm:` to `lg:` so both switch at the same width
 - Feat: `PvpArena` (the PvP simulator section in Spells) is now collapsed by default — its header is a toggle; resistance inputs and the attack picker only render once expanded
