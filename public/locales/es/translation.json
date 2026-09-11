@@ -110,7 +110,6 @@
   "pvp_dummy_title": "Simulador PvP (dummy)",
   "pvp_dummy_reset": "Reiniciar",
   "pvp_dummy_fixed": "Fijo",
-  "pvp_dummy_hint": "El daño marcado con el icono de diana ya tiene aplicadas estas resistencias.",
   "magesmithy_title": "Forjamagia (agregar runas)",
   "next_bonus": "Próximo bonus",
   "active_runes": "Runas activas",
@@ -459,5 +458,6 @@
   "stat_group_damage_pct": "Daños %",
   "stat_group_resistance_pct": "Resistencias %",
   "elem_multi": "Mixto",
-  "build_name_label": "Nombre del build"
+  "build_name_label": "Nombre del build",
+  "pvp_arena_select_hint": "Elige un hechizo o el ataque de arma para simular"
 }

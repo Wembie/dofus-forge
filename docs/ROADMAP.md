@@ -41,7 +41,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M35 — Reconstrucción visual completa** — JetBrains Mono para números, badges AP/MP/HP dominantes, secciones gold-accent en StatsPanel, slots 80px, retrato 130px, CharacterCenter con nivel visible, header atmosférico, tokens de rareza, gradiente triple, keyframes stat-tick/slot-equip/float-delta
 - [x] **M42 — Build Optimizer / "La Forjadora"** — algoritmo greedy por slot + beam search en Web Worker. Panel con sliders de peso por stat, constraints PA/PM/nivel, bloqueo de slots, top 3 builds sugeridos con preview de ítems + stats + botón "Cargar".
 - [x] **Comparar dos builds en paralelo** — ComparePanel debajo del grid principal, toggle en header (oculto en móvil)
-- [x] **M40 — Simulador PvP básico** — panel "Dummy" en SpellsPanel con resistencia Fijo/% por elemento; cuando está activo, cada línea de daño de hechizo (Σ incluido) y de arma (por fila + Total) muestra una línea 🎯 con el daño real tras aplicar esas resistencias (fórmula: `(daño - fijo) × (1 - %/100)`, mínimo 0)
+- [x] **M40 — Simulador PvP básico** — sección aparte "Simulador PvP" (`PvpArena`) en SpellsPanel: resistencia Fijo/% por elemento + selector de hechizos/arma (con imagen real) + click para simular un golpe contra un dummy, con número de daño flotante y animación de impacto (fórmula: `(daño - fijo) × (1 - %/100)`, mínimo 0, respeta % crítico)
 
 ### Fixes completados
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms

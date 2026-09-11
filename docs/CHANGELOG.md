@@ -5,6 +5,15 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.132] — 2026-09-11
+- Redesign: M40's PvP simulator moved from scattered inline 🎯 lines on every spell/weapon damage row into its own dedicated arena (`src/features/pvp/PvpArena.tsx`), per feedback that it should be "a separate section where you pick the spell you want to hit with, see its image, and clicking it fires at a punching-ball dummy":
+  - Reverted the inline dummy sub-rows in `SpellCard`/`WeaponCard` (`SpellsPanel.tsx`) — back to their pre-M40 rendering
+  - Extracted the pure spell/weapon math shared by both the normal cards and the arena into `src/features/spells/spellCalc.ts` (`spellGrade`, `ELEM_COLOR`, `WEAPON_ATTACK_STAT`, `IS_STEAL`, `fmtRange`, `rangePct`, `dedupEffects`) to avoid a circular import between `SpellsPanel.tsx` and the new arena
+  - New `src/features/pvp/simulate.ts`: `simulateSpellHit`/`simulateWeaponHit` collapse a spell level or weapon (transform-aware) into one resisted damage range, reusing `calcEffects`/`calcDamage`/`applyResist`
+  - `PvpArena`: resistance inputs (unchanged math) + a horizontal picker of every damage-dealing spell at the current grade plus the equipped weapon, each shown with its real icon; clicking one rolls a random value in its resisted range (respecting crit chance) and pops a floating number over a target glyph with a hit-shake animation (new `dummy-hit` keyframe)
+  - Simplified `usePvpStore` — dropped the now-unused `enabled` flag, deleted the standalone `DummyPanel.tsx`
+  - Charge-set spells (stacking buffs like Punitive/Frozen Arrow) still aren't covered — same scope note as 0.2.131
+
 ## [0.2.131] — 2026-09-10
 - Feat: **M40 — PvP dummy simulator**. New `DummyPanel` (`src/features/pvp/`) at the top of the Spells section — a collapsible panel where you type a target's fixed + % resistance per element (`usePvpStore`, not part of the shared build URL, scratch-only). `applyResist(damage, resist)` in `pvpMath.ts` applies the real Dofus PvP formula: `(damage - fixed) × (1 - percent/100)`, clamped to 0. When enabled:
   - `SpellCard`: every damage/steal effect row (normal + crit) gets an extra 🎯 sub-row with the resisted value, using that effect's own element; the Σ group total gets the same treatment summed across the group's effects
