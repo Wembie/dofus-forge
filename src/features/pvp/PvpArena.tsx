@@ -64,6 +64,7 @@ export function PvpArena() {
   const setResist       = usePvpStore(s => s.setResist)
   const resetResist     = usePvpStore(s => s.reset)
 
+  const [expanded, setExpanded] = useState(false)
   const [selected, setSelected] = useState<Attack | null>(null)
   const [hits, setHits]         = useState<{ id: number; text: string; crit: boolean }[]>([])
   const [shake, setShake]       = useState(false)
@@ -130,16 +131,28 @@ export function PvpArena() {
 
   return (
     <div className="rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-      <div className="flex items-center gap-2 px-3 py-2" style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-stone)' }}>
+      <button
+        onClick={() => setExpanded(v => !v)}
+        className="w-full flex items-center gap-2 px-3 py-2 text-left"
+        style={{ borderBottom: expanded ? '1px solid var(--metal-edge)' : 'none', background: 'var(--surface-stone)' }}
+      >
         <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1, flexShrink: 0 }} />
         <p className="text-[12px] uppercase tracking-widest font-semibold flex-1" style={{ color: 'var(--gold-deep)' }}>
           {t('pvp_dummy_title')}
         </p>
-        <button onClick={resetResist} className="text-[9px] hover:underline" style={{ color: 'var(--ink-faint)' }}>
-          {t('pvp_dummy_reset')}
-        </button>
-      </div>
+        {expanded && (
+          <span
+            onClick={e => { e.stopPropagation(); resetResist() }}
+            className="text-[9px] hover:underline"
+            style={{ color: 'var(--ink-faint)' }}
+          >
+            {t('pvp_dummy_reset')}
+          </span>
+        )}
+        <span className="text-[10px]" style={{ color: 'var(--ink-faint)', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
+      </button>
 
+      {expanded && (
       <div className="p-3 space-y-3">
         {/* Resistances */}
         <div className="grid gap-y-1 items-center" style={{ gridTemplateColumns: '18px 1fr 54px 54px', columnGap: 8 }}>
@@ -240,6 +253,7 @@ export function PvpArena() {
           ))}
         </div>
       </div>
+      )}
     </div>
   )
 }

@@ -148,7 +148,7 @@ function BuilderContent() {
           </a>
           <button
             onClick={() => setShowChangelog(true)}
-            className="font-mono text-[9px] hidden sm:flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors"
+            className="font-mono text-[9px] hidden lg:flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors"
             style={{
               color:      'var(--ink-faint)',
               background: 'var(--surface-void)',
@@ -164,7 +164,7 @@ function BuilderContent() {
 
           {/* Status indicators */}
           {loading && (
-            <span className="text-[11px] font-mono animate-pulse hidden sm:inline" style={{ color: 'var(--ink-faint)' }} role="status" aria-live="polite">
+            <span className="text-[11px] font-mono animate-pulse hidden lg:inline" style={{ color: 'var(--ink-faint)' }} role="status" aria-live="polite">
               {t('loading_data')}
             </span>
           )}
@@ -176,7 +176,7 @@ function BuilderContent() {
             <LanguageSwitcher />
             <ThemeToggle />
             {/* Divider — hidden on mobile */}
-            <div className="hidden sm:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             {/* Undo / Redo — hidden on mobile */}
             <IconButton
               label={t('undo')}
@@ -185,7 +185,7 @@ function BuilderContent() {
               onClick={undo}
               disabled={!canUndo}
               title={t('undo_title')}
-              className="hidden sm:flex"
+              className="hidden lg:flex"
             >
               <Undo2 size={14} />
             </IconButton>
@@ -196,7 +196,7 @@ function BuilderContent() {
               onClick={redo}
               disabled={!canRedo}
               title={t('redo_title')}
-              className="hidden sm:flex"
+              className="hidden lg:flex"
             >
               <Redo2 size={14} />
             </IconButton>
@@ -204,7 +204,7 @@ function BuilderContent() {
             <button
               onClick={() => setShowOptimizer(true)}
               title={t('optimizer_open')}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={{
                 background:  'transparent',
                 borderColor: 'var(--metal-edge)',
@@ -212,13 +212,13 @@ function BuilderContent() {
               }}
             >
               <Wand2 size={13} />
-              <span className="hidden sm:inline">{t('optimizer_open')}</span>
+              <span className="hidden lg:inline">{t('optimizer_open')}</span>
             </button>
             {/* Sets catalog — hidden on mobile */}
             <button
               onClick={() => setShowSetsCatalog(true)}
               title={t('sets_catalog_open')}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={{
                 background:  'transparent',
                 borderColor: 'var(--metal-edge)',
@@ -226,13 +226,13 @@ function BuilderContent() {
               }}
             >
               <Layers size={13} />
-              <span className="hidden sm:inline">{t('sets_catalog_open')}</span>
+              <span className="hidden lg:inline">{t('sets_catalog_open')}</span>
             </button>
             {/* Compare toggle — hidden on mobile */}
             <button
               onClick={toggleCompare}
               title={t('compare_mode')}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={compareActive ? {
                 background:  'color-mix(in srgb, var(--gold) 12%, transparent)',
                 borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)',
@@ -247,7 +247,7 @@ function BuilderContent() {
               <span className="hidden lg:inline">{t('compare')}</span>
             </button>
             {/* Divider — hidden on mobile */}
-            <div className="hidden sm:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             <ShareBar />
           </div>
         </div>
