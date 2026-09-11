@@ -459,5 +459,7 @@
   "stat_group_resistance_pct": "Resistencias %",
   "elem_multi": "Mixto",
   "build_name_label": "Nombre del build",
-  "pvp_arena_select_hint": "Elige un hechizo o el ataque de arma para simular"
+  "pvp_arena_select_hint": "Elige un hechizo o el ataque de arma para simular",
+  "pvp_arena_resist_label": "Resistencias del objetivo",
+  "pvp_arena_attack_label": "Elige tu ataque"
 }
