@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.132',
+    date: '2026-09-11',
+    notes: [
+      'Redesign: M40 PvP simulator is now its own dedicated arena instead of extra lines scattered on every spell/weapon row — pick one spell or the weapon attack (shown with its real icon), type the dummy\'s resistances, and click the attack to "fire" a random hit at a target with a punch animation and a floating damage number',
+    ],
+  },
+  {
     version: '0.2.131',
     date: '2026-09-10',
     notes: [

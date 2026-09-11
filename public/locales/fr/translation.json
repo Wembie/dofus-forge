@@ -110,7 +110,6 @@
   "pvp_dummy_title": "Simulateur PvP (mannequin)",
   "pvp_dummy_reset": "Réinitialiser",
   "pvp_dummy_fixed": "Fixe",
-  "pvp_dummy_hint": "Les dégâts marqués de l'icône cible intègrent déjà ces résistances.",
   "magesmithy_title": "Forgesort (ajouter des runes)",
   "next_bonus": "Prochain bonus",
   "active_runes": "Runes actives",
@@ -459,5 +458,6 @@
   "stat_group_damage_pct": "Dégâts %",
   "stat_group_resistance_pct": "Résistances %",
   "elem_multi": "Mixte",
-  "build_name_label": "Nom du build"
+  "build_name_label": "Nom du build",
+  "pvp_arena_select_hint": "Choisissez un sort ou l'attaque à l'arme pour simuler"
 }

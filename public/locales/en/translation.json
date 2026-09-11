@@ -110,7 +110,6 @@
   "pvp_dummy_title": "PvP Dummy Simulator",
   "pvp_dummy_reset": "Reset",
   "pvp_dummy_fixed": "Fixed",
-  "pvp_dummy_hint": "Damage marked with the target icon already has these resistances applied.",
   "magesmithy_title": "Magesmithy (add runes)",
   "next_bonus": "Next bonus",
   "active_runes": "Active runes",
@@ -459,5 +458,6 @@
   "stat_group_damage_pct": "Damage %",
   "stat_group_resistance_pct": "Resistances %",
   "elem_multi": "Mixed",
-  "build_name_label": "Build name"
+  "build_name_label": "Build name",
+  "pvp_arena_select_hint": "Pick a spell or the weapon attack to simulate"
 }

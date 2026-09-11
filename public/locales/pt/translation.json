@@ -110,7 +110,6 @@
   "pvp_dummy_title": "Simulador PvP (boneco)",
   "pvp_dummy_reset": "Redefinir",
   "pvp_dummy_fixed": "Fixo",
-  "pvp_dummy_hint": "O dano marcado com o ícone de alvo já tem essas resistências aplicadas.",
   "magesmithy_title": "Forjamagia (adicionar runas)",
   "next_bonus": "Próximo bônus",
   "active_runes": "Runas ativas",
@@ -459,5 +458,6 @@
   "stat_group_damage_pct": "Dano %",
   "stat_group_resistance_pct": "Resistências %",
   "elem_multi": "Misto",
-  "build_name_label": "Nome da build"
+  "build_name_label": "Nome da build",
+  "pvp_arena_select_hint": "Escolha uma magia ou o ataque com arma para simular"
 }
