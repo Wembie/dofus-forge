@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.131] — 2026-09-10
+- Feat: **M40 — PvP dummy simulator**. New `DummyPanel` (`src/features/pvp/`) at the top of the Spells section — a collapsible panel where you type a target's fixed + % resistance per element (`usePvpStore`, not part of the shared build URL, scratch-only). `applyResist(damage, resist)` in `pvpMath.ts` applies the real Dofus PvP formula: `(damage - fixed) × (1 - percent/100)`, clamped to 0. When enabled:
+  - `SpellCard`: every damage/steal effect row (normal + crit) gets an extra 🎯 sub-row with the resisted value, using that effect's own element; the Σ group total gets the same treatment summed across the group's effects
+  - `WeaponCard`: every elemental damage row and steal row gets a 🎯 sub-row, and the Total row gets a 🎯 line summed across all rows
+  - Charge-set rows (stacking buffs like Punitive/Frozen Arrow) are not covered yet — scoped out of this first pass
+
 ## [0.2.130] — 2026-09-09
 - Feat: search boxes were case-insensitive but not accent-insensitive — searching "ambar" for the "Ámbar" set/items found nothing. Added `normalizeSearch()` (`src/ui/normalize.ts`, `s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()`) and used it in every name/stat search: `ItemCatalog` (item name search, set-search dropdown), `SetsCatalog` (set name search), `StatFilter` and `StatPicker` (stat name search). Works for any language's accented characters (é, ñ, ç, ã, etc.), not just Spanish
 
