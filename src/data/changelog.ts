@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.133',
+    date: '2026-09-11',
+    notes: [
+      'Fix: header buttons (undo/redo, La Forjadora, Sets, Comparar, version badge) showed at 640px wide while the 2-column desktop layout only kicked in at 1024px — between those widths the header looked fully desktop but Characteristics/Stats were hidden behind mobile tabs. Both now switch at the same width',
+      'Feat: PvP simulator arena is now collapsed by default — click its header to reveal the resistance inputs and attack picker',
+    ],
+  },
+  {
     version: '0.2.132',
     date: '2026-09-11',
     notes: [

@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.133] — 2026-09-11
+- Fix: `BuilderPage.tsx`'s header controls (undo/redo, La Forjadora, Sets catalog, Comparar, version badge, dividers) switched from hidden to visible at Tailwind's `sm` breakpoint (640px), but the main content only switches from the single-tab mobile layout to the 2-column desktop grid at `lg` (1024px). Between 640–1023px wide the header looked fully desktop (all buttons with labels) while Characteristics/Stats were hidden behind the mobile bottom tabs — reported as "characteristics panel missing". Changed all of those header elements from `sm:` to `lg:` so both switch at the same width
+- Feat: `PvpArena` (the PvP simulator section in Spells) is now collapsed by default — its header is a toggle; resistance inputs and the attack picker only render once expanded
+
 ## [0.2.132] — 2026-09-11
 - Redesign: M40's PvP simulator moved from scattered inline 🎯 lines on every spell/weapon damage row into its own dedicated arena (`src/features/pvp/PvpArena.tsx`), per feedback that it should be "a separate section where you pick the spell you want to hit with, see its image, and clicking it fires at a punching-ball dummy":
   - Reverted the inline dummy sub-rows in `SpellCard`/`WeaponCard` (`SpellsPanel.tsx`) — back to their pre-M40 rendering
