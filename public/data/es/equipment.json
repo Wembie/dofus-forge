@@ -182530,7 +182530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "«Si la noche es negra es para que nada pueda distraernos de nuestras pesadillas». Esas fueron las palabras del joven Kilvan antes de dormirse tranquilizado por su chtigre de peluche.\n¿Por qué la noche es tan oscura? Porque oculta todos los miedos, y todos los misterios de la eternoche. Miedos cervales, brasas rojas y glifos dorados se funden y se confunden en la cuna del bien y del mal, fuente de un conflicto eternamente renovado.",
-    "ability": "Pesadilla Eterna:\n• Escudo Bontariano: cuando el portador es desembrujado o trabado, gana un escudo del 100% de su nivel durante 1 turno.\n• Potencia Brakmariana: cuando el portador ocasiona o sufre daños de empuje, gana 100 de potencia durante 1 turno. \n• Ojo de Pesadilla: si el portador activa los 2 efectos en el mismo turno, los daños que ocasiona y sufre aumentan un 10% durante 1 turno.\n• Los efectos pueden activarse solo una vez por turno."
+    "ability": "{{spell,20981,1::Pesadilla Eterna}}:\n• Escudo Bontariano: cuando se desembruja o traba al portador, este gana el 100% de su nivel en escudo durante 1 turno.\n• Potencia Brakmariana: cuando el portador ocasiona o sufre daños de empuje, gana 100 de potencia durante 1 turno. \n• Ojo de Pesadilla: si el portador activa ambos efectos en el mismo turno, los daños que ocasiona y sufre aumentan un 10% durante 1 turno.\n• Los efectos pueden activarse solo una vez por turno."
   },
   {
     "ankama_id": 26085,

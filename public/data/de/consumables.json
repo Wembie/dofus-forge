@@ -58010,7 +58010,7 @@
   },
   {
     "ankama_id": 31508,
-    "name": "Set des Himmelsritters",
+    "name": "Prunkset des Himmelsritters",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -70798,7 +70798,7 @@
   },
   {
     "ankama_id": 34551,
-    "name": "[!] Panoplie du Gouffre",
+    "name": "Prunkset des Abgrunds",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -70818,6 +70818,6 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png",
-    "description": "[!] Une petite boîte remplie d'objets magnifiques."
+    "description": "Eine kleine Box voll wunderbarer Gegenstände."
   }
 ]

@@ -182530,7 +182530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "„Die Nacht ist so dunkel, damit uns nichts von unseren Alpträumen ablenken kann“, sagte der kleine Kilvan, bevor er mit seinem Plüschtiguar im Arm beruhigt einschlief.\nWarum ist die Nacht so düster? Weil sich unter ihrem Mantel all die Ängste und Mysterien der ewigen Nacht verbergen. In der Wiege von Gut und Böse, der Quelle eines ewigen Konflikts, verschmelzen abscheuliche Ängste, glühende Glut und glänzende Glyphen zu einer untrennbaren Masse.",
-    "ability": "Ewiger Alptraum:\n• Bonta-Schild: Wenn der Träger entzaubert oder gefesselt wird, erhält er 1 Runde lang 100 % seiner Stufe als Schild.\n• Brâk-Schlagkraft: Wenn der Träger Schubsschaden verursacht oder erleidet, erhält er 1 Runde lang 100 Schlagkraft. \n• Auge des Alptraums: Löst der Träger beide Wirkungen in derselben Runde aus, erhöht sich der von ihm verursachte und erlittene Schaden 1 Runde lang um 10 %.\n• Die Wirkungen können nur einmal pro Runde ausgelöst werden."
+    "ability": "{{spell,20981,1::Ewiger Alptraum}}:\n• Bonta-Schild: Wenn der Träger entzaubert oder gefesselt wird, erhält er 1 Runde lang 100 % seiner Stufe als Schild.\n• Brâk-Schlagkraft: Wenn der Träger Schubsschaden verursacht oder erleidet, erhält er 1 Runde lang 100 Schlagkraft.\n• Auge des Alptraums: Löst der Träger beide Wirkungen in derselben Runde aus, erhöht sich der von ihm verursachte und erlittene Schaden 1 Runde lang um 10 %.\n• Die Wirkungen können nur einmal pro Runde ausgelöst werden."
   },
   {
     "ankama_id": 26085,
