@@ -48,10 +48,15 @@ export type CalcedEffect = AppSpellEffect & { calcMin: number; calcMax: number }
 export function calcEffects(effects: AppSpellEffect[], stats: StatBlock, pctBonus = 0, critFlatBonus = 0): CalcedEffect[] {
   return effects.map(e => {
     if (e.kind !== 'damage' && e.kind !== 'steal' && e.kind !== 'poison') return { ...e, calcMin: e.min, calcMax: e.max }
+    // Fixed-value effects store max=0 (no range) — fall back to min, same
+    // convention as WeaponCard's computeRow. Without this, a spell like
+    // "Reprisal" (min=20, max=0) showed a calculated range of "104–0"
+    // instead of a single "104".
+    const effMax = e.max > 0 ? e.max : e.min
     return {
       ...e,
-      calcMin: calcDamage(e.min, e.element, stats, pctBonus) + critFlatBonus,
-      calcMax: calcDamage(e.max, e.element, stats, pctBonus) + critFlatBonus,
+      calcMin: calcDamage(e.min,  e.element, stats, pctBonus) + critFlatBonus,
+      calcMax: calcDamage(effMax, e.element, stats, pctBonus) + critFlatBonus,
     }
   })
 }

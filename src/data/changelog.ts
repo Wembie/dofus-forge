@@ -8,6 +8,20 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.137',
+    date: '2026-09-15',
+    notes: [
+      'Fix (data): trap/glyph spells (Sram, Cra) showed only a "Places a trap" badge with no damage numbers — the trap\'s real damage lives on a completely separate hidden spell, triggered when it activates, that the ETL never followed. Reverse-engineered the link (a dedicated effectId whose values are the hidden spell\'s id + grade) and merged its real damage/steal/poison/push/charge effects into the placement spell. 172 trap/glyph spell levels across all classes now show their actual damage instead of just the trap-placement icon',
+    ],
+  },
+  {
+    version: '0.2.136',
+    date: '2026-09-15',
+    notes: [
+      'Fix (big one): 82 spells with a fixed (non-range) damage/steal/poison value stored max=0 in the data — calcEffects() fed that 0 straight into the damage formula instead of falling back to min, showing a broken range like "104–0" instead of just "104" (e.g. Reprisal, Reflex, Misfortune, Bravado, and many more, across every class). Same fix applies everywhere calcEffects() is used: base damage, crit damage, and charge levels',
+    ],
+  },
+  {
     version: '0.2.135',
     date: '2026-09-15',
     notes: [

@@ -101,7 +101,8 @@ export type AppSpell = {
 
 // Script-internal types (not exported to spellLoaders.ts)
 type RawBuff = { effectId: number; min: number; max: number; turns: number }
-type AppSpellLevelInternal = AppSpellLevel & { _rawBuffs?: RawBuff[] }
+type TrapRef = { spellId: number; grade: number }
+type AppSpellLevelInternal = AppSpellLevel & { _rawBuffs?: RawBuff[]; _trapRef?: TrapRef }
 
 export type ClassSpells = {
   classSlug: string
@@ -175,6 +176,11 @@ const STEAL_IDS = new Set([91, 92, 93, 94, 95])
 const EROSION_ID    = 776   // "#1~#2% Erosion" (incurable damage %)
 const HEAL_MOD_ID   = 1159  // "Heals received x#1%"
 const SPELL_BUFF_ID = 293   // "#1: +#3 base damage" stacking spell buff
+// Trap/glyph placement — the visible spell (e.g. "Miry Trap") has NO damage effects of
+// its own. diceNum = the id of a completely separate, hidden trigger spell (e.g. "Piège")
+// that fires when the trap activates; diceSide = which grade of that trigger spell to use.
+// Resolved to real damage in a second pass below, once every spell's levels are built.
+const TRAP_PLACEMENT_ID = 400
 // Internal counter/trigger — no display value (3793 = internal counter, silently ignored)
 const COUNTER_IDS = new Set([3793])
 void COUNTER_IDS
@@ -346,6 +352,21 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
     }
   }
 
+  // Trap/glyph placement (see TRAP_PLACEMENT_ID comment above) — stash the reference,
+  // resolved once every spell's levels have been built (see the pass right after
+  // levelsBySpell is populated). Left in SKIP_BUFF_IDS's absence on purpose: it also
+  // flows through the generic raw-buff pass below, keeping the "Places a trap" badge
+  // alongside the real damage this adds.
+  let trapRef: TrapRef | undefined
+  for (const e of rawEffects) {
+    if (Number(e.effectId) === TRAP_PLACEMENT_ID) {
+      const spellId = Number(e.diceNum)
+      const grade   = Number(e.diceSide)
+      if (spellId > 0 && grade > 0) trapRef = { spellId, grade }
+      break
+    }
+  }
+
   // Collect unhandled effects as raw buffs for per-lang label rendering
   const rawBuffs: RawBuff[] = []
   for (const e of rawEffects) {
@@ -368,6 +389,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
     maxPerTurn: Number(raw.maxCastPerTurn) || 0,
     critChance: Number(raw.criticalHitProbability) || 0,
     effects,
+    ...(trapRef ? { _trapRef: trapRef } : {}),
     ...(rawBuffs.length ? { _rawBuffs: rawBuffs } : {}),
   }
   if (critEffects.length > 0) level.critEffects = critEffects
@@ -555,6 +577,33 @@ async function main() {
   for (const grds of levelsBySpell.values()) {
     grds.sort((a, b) => a.grade - b.grade)
   }
+
+  // Resolve trap/glyph placement spells (see TRAP_PLACEMENT_ID above) now that every
+  // spell's levels exist — merge the hidden trigger spell's damage/steal/poison/etc.
+  // effects into the visible placement spell, so e.g. "Miry Trap" shows the water
+  // damage its "Piège" trigger spell actually deals instead of just a "Places a trap" badge.
+  let trapsResolved = 0
+  for (const [placementSpellId, grds] of levelsBySpell.entries()) {
+    for (const lvl of grds) {
+      const ref = lvl._trapRef
+      if (!ref) continue
+      const trapLvl = levelsBySpell.get(ref.spellId)?.find(l => l.grade === ref.grade)
+      if (trapLvl) {
+        // A trap's own charge buff (spell_buff) references the hidden trigger spell's
+        // id, not the visible placement spell's — remap so SpellCard's "self-charge"
+        // detection (spellId === spell.id) recognizes it as belonging to this spell.
+        const remap = (e: AppSpellEffect) =>
+          e.kind === 'spell_buff' && e.spellId === ref.spellId ? { ...e, spellId: placementSpellId } : e
+        lvl.effects = [...lvl.effects, ...trapLvl.effects.map(remap)]
+        if (trapLvl.critEffects?.length) {
+          lvl.critEffects = [...(lvl.critEffects ?? []), ...trapLvl.critEffects.map(remap)]
+        }
+        trapsResolved++
+      }
+      delete lvl._trapRef
+    }
+  }
+  console.log(`  ${trapsResolved} trap/glyph placement levels resolved to real damage`)
 
   // Resolve breed -> classSlug using English names
   const enRaw     = await download(`${base}/en.json`)
