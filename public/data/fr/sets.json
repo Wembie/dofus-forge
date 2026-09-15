@@ -53702,5 +53702,27 @@
       34561
     ],
     "bonuses": {}
+  },
+  {
+    "ankama_id": 1108,
+    "name": "Panoplie d'apparat de Porcelune",
+    "items": [
+      34606,
+      34607,
+      34608,
+      34609,
+      34610,
+      34645
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1110,
+    "name": "Panoplie d'apparat de Welsh et Shedar",
+    "items": [
+      34622,
+      34623
+    ],
+    "bonuses": {}
   }
 ]

@@ -182530,7 +182530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "\"A noite é escura para que nada possa nos distrair dos nossos pesadelos\": essas foram as palavras do jovem Kilvan antes de cair no sono, agarrado a seu Tigraxé de pelúcia.\nPor que a noite é tão sombria? Porque ela esconde todos os medos e todos os mistérios da noite eterna. Medos pálidos, brasas vermelhas e glifos acobreados se unem no berço do bem e do mal, origem de um conflito eternamente renovado.",
-    "ability": "Eterno Pesadelo:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno. \n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno."
+    "ability": "{{spell,20981,1::Eterno Pesadelo}}:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno.\n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno."
   },
   {
     "ankama_id": 26085,
