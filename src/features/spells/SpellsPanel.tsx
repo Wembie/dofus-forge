@@ -136,7 +136,9 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       const chargedFx  = applyBonus(baseFx, bonus)
       const chargedCFx = applyBonus(lvl.critEffects ?? [], bonus)
       const calced     = stats ? calcEffects(chargedFx, stats, spellPct) : chargedFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-      const calcedCrit = stats ? calcEffects(chargedCFx, stats, spellPct) : chargedCFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+      // Same crit flat bonus (stats.critDamage) as the base (uncharged) crit row below —
+      // missing this made every charge level's crit LOWER than the base crit hit.
+      const calcedCrit = stats ? calcEffects(chargedCFx, stats, spellPct, stats.critDamage) : chargedCFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
       return { calced, calcedCrit }
     }
 

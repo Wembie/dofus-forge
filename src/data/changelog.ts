@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.135',
+    date: '2026-09-15',
+    notes: [
+      'Fix: charge-based spells (e.g. "Ojo por Ojo") showed a LOWER critical hit at charge 1+ than the base uncharged crit — the charge-set crit calc was missing the +critDamage flat bonus that the base crit row already included. Empirically re-verified every charge-having spell/grade/level across all classes (75 total): after the fix, none regress — each charge level\'s normal and crit damage both scale up monotonically as expected',
+    ],
+  },
+  {
     version: '0.2.134',
     date: '2026-09-11',
     notes: [
