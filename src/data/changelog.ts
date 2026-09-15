@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.136',
+    date: '2026-09-15',
+    notes: [
+      'Fix (big one): 82 spells with a fixed (non-range) damage/steal/poison value stored max=0 in the data — calcEffects() fed that 0 straight into the damage formula instead of falling back to min, showing a broken range like "104–0" instead of just "104" (e.g. Reprisal, Reflex, Misfortune, Bravado, and many more, across every class). Same fix applies everywhere calcEffects() is used: base damage, crit damage, and charge levels',
+    ],
+  },
+  {
     version: '0.2.135',
     date: '2026-09-15',
     notes: [
