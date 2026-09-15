@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.2.135] — 2026-09-15
+- Fix: `chargeSets`' `calcSet()` in `SpellsPanel.tsx` computed the charge-level crit row via `calcEffects(chargedCFx, stats, spellPct)` — missing the 4th argument (`stats.critDamage`, the flat crit bonus) that the base/uncharged crit row (`critDisplayEffects`) already passes. Every charge level's crit therefore showed LESS damage than the uncharged crit, even though the underlying per-hit base damage (and the normal row) correctly increased with charge — reported on "Ojo por Ojo" (charge 1 crit 540–586 vs base crit 605–652)
+- Verification: wrote a standalone script replicating `calcDamage`/`calcEffects`/`chargeSets` exactly and ran it against every spell level with a self-charge buff in the real dataset (75 across all classes+common), checking crit ≥ normal and monotonic non-decreasing damage across charge levels. After the fix, zero regressions (the only "crit < normal" cases left are DoT/poison spells with no `critEffects` at all — expected, poison ticks don't crit in the real game either)
+
 ## [0.2.134] — 2026-09-11
 - Polish: `PvpArena`'s attack picker dumped every damage-dealing spell (class normal + variant + common) into one flat, horizontally-scrolling row with no labels. Grouped it into `PickerGroup`/`AttackIcon` sections matching the main spell list's own categories (`spell_col_normal`, `spell_col_variant`, `common_spells`, plus a weapon group using `weapon_attack`), each wrapping via `flex-wrap` instead of `overflow-x-auto` so nothing hides off-screen on narrow widths. Added `pvp_arena_resist_label`/`pvp_arena_attack_label` section headers above the resistance grid and the target+picker block for clearer visual separation
 
