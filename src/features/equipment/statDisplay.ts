@@ -16,6 +16,12 @@ export const STAT_META: Record<string, StatMeta> = {
   'AP':                  { icon: 'ap',                 color: 'var(--ap)',       tKey: 'stat_ap'             },
   'MP':                  { icon: 'mp',                 color: 'var(--mp)',       tKey: 'stat_mp'             },
   'Range':               { icon: 'range',              color: 'var(--water)',    tKey: 'stat_range'          },
+  // effectId 166 ("Max.", reversed min/max in the raw API — see normalize.ts):
+  // caps the character's max AP/Range/MP/Summons rather than adding to the flat stat.
+  'AP Max.':             { icon: 'ap',                 color: 'var(--ap)',       tKey: 'stat_ap_cap'         },
+  'Range Max.':          { icon: 'range',              color: 'var(--water)',    tKey: 'stat_range_cap'      },
+  'MP Max.':             { icon: 'mp',                 color: 'var(--mp)',       tKey: 'stat_mp_cap'         },
+  'Summons Max.':        { icon: 'summons',            color: 'var(--wisdom)',   tKey: 'stat_summons_cap'    },
   'Power':               { icon: 'power',              color: 'var(--gold)',     tKey: 'stat_power'          },
   'Power (traps)':       { icon: 'trap_power',         color: 'var(--gold)',     tKey: 'stat_trap_power'     },
   'Damage':              { icon: 'damage',             color: 'var(--neutral)',  tKey: 'stat_damage'         },

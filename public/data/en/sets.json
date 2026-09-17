@@ -38843,19 +38843,19 @@
     "bonuses": {
       "2": [
         {
-          "stat": "Max.",
-          "min": 23,
-          "max": 4
+          "stat": "MP Max.",
+          "min": 4,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 19,
-          "max": 4
+          "stat": "Range Max.",
+          "min": 4,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 26,
-          "max": 4
+          "stat": "Summons Max.",
+          "min": 4,
+          "max": 0
         },
         {
           "stat": "Dodge",
@@ -38920,19 +38920,19 @@
       ],
       "3": [
         {
-          "stat": "Max.",
-          "min": 26,
-          "max": 3
+          "stat": "Summons Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 23,
-          "max": 3
+          "stat": "MP Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 19,
-          "max": 3
+          "stat": "Range Max.",
+          "min": 3,
+          "max": 0
         },
         {
           "stat": "Dodge",
@@ -39002,9 +39002,9 @@
       ],
       "4": [
         {
-          "stat": "Max.",
-          "min": 26,
-          "max": 3
+          "stat": "Summons Max.",
+          "min": 3,
+          "max": 0
         },
         {
           "stat": "AP",
@@ -39072,21 +39072,21 @@
           "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 19,
-          "max": 3
+          "stat": "Range Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 23,
-          "max": 3
+          "stat": "MP Max.",
+          "min": 3,
+          "max": 0
         }
       ],
       "5": [
         {
-          "stat": "Max.",
-          "min": 26,
-          "max": 3
+          "stat": "Summons Max.",
+          "min": 3,
+          "max": 0
         },
         {
           "stat": "AP",
@@ -39154,31 +39154,31 @@
           "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 19,
-          "max": 3
+          "stat": "Range Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 23,
-          "max": 3
+          "stat": "MP Max.",
+          "min": 3,
+          "max": 0
         }
       ],
       "6": [
         {
-          "stat": "Max.",
-          "min": 26,
-          "max": 2
+          "stat": "Summons Max.",
+          "min": 2,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 23,
-          "max": 2
+          "stat": "MP Max.",
+          "min": 2,
+          "max": 0
         },
         {
-          "stat": "Max.",
-          "min": 19,
-          "max": 2
+          "stat": "Range Max.",
+          "min": 2,
+          "max": 0
         },
         {
           "stat": "Dodge",
