@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.2.138',
+    date: '2026-09-17',
+    notes: [
+      'Fix (data): "Cire Momore\'s Curse" set showed 3 unlabeled "+19/+23/+26 Max." bonuses per tier with no name and the wrong number. Confirmed a bug in the upstream dofusdude API itself: that effect type has no real name ("Max.") and its min/max fields are swapped — the "value" shown was actually the Ankama characteristic id (Range/MP/Summons), not the real number. Fixed at the source: now shows "Alcance Máx.", "PM Máx." and "Invocaciones Máx." with the correct value',
+    ],
+  },
+  {
     version: '0.2.137',
     date: '2026-09-15',
     notes: [

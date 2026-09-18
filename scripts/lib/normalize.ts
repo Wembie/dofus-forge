@@ -127,6 +127,28 @@ export function slotFromType(type: string): string {
   return SLOT_MAP[type] ?? 'other'
 }
 
+// effect type id 166: dofusdude never named this Ankama effect ("Max." with no
+// real label), and its fields are reversed from every other effect — int_minimum
+// holds the ANKAMA CHARACTERISTIC ID being capped (not a value), int_maximum holds
+// the actual cap value. Verified against dofus3-main's characteristics.json
+// (id -> keyword): 1=actionPoints, 19=range, 23=movementPoints, 26=maxSummonedCreaturesBoost.
+// e.g. Cire Momore's Curse showed "+23 Max." / "+19 Max." / "+26 Max." (the raw
+// characteristic ids, not real values) instead of "Range Max. 4" / "MP Max. 4" / "Summons Max. 4".
+const MAX_CAP_EFFECT_ID = 166
+const MAX_CAP_CHAR_NAMES: Record<number, string> = {
+  1:  'AP Max.',
+  19: 'Range Max.',
+  23: 'MP Max.',
+  26: 'Summons Max.',
+}
+function normalizeRawEffect(e: RawEffect): { stat: string; min: number; max: number } {
+  if (e.type?.id === MAX_CAP_EFFECT_ID) {
+    const charId = e.int_minimum ?? 0
+    return { stat: MAX_CAP_CHAR_NAMES[charId] ?? `Characteristic #${charId} Max.`, min: e.int_maximum ?? 0, max: 0 }
+  }
+  return { stat: e.type?.name ?? '', min: e.int_minimum ?? 0, max: e.int_maximum ?? 0 }
+}
+
 export function normalizeItem(raw: RawItem): AppItem {
   const abilityEffect = raw.effects?.find(e => e.type?.is_meta && e.formatted)
   const item: AppItem = {
@@ -136,10 +158,8 @@ export function normalizeItem(raw: RawItem): AppItem {
     type:      raw.type?.name ?? '',
     slot:      raw.is_weapon ? 'weapon' : slotFromType(raw.type?.name ?? ''),
     effects:   (raw.effects ?? []).map(e => ({
-      stat:       e.type?.name ?? '',
-      min:        e.int_minimum ?? 0,
-      max:        e.int_maximum ?? 0,
-      effect_id:  e.type?.id,
+      ...normalizeRawEffect(e),
+      effect_id: e.type?.id,
     })),
     set_id:    raw.parent_set?.id ?? null,
     image_url: raw.image_urls?.sd ?? raw.image_urls?.icon ?? null,
@@ -166,11 +186,7 @@ export function normalizeSet(raw: RawSet): AppSet {
   for (const [key, effects] of Object.entries(raw.effects ?? {})) {
     const pieces = Number(key)
     if (!Number.isNaN(pieces) && Array.isArray(effects)) {
-      bonuses[pieces] = effects.map(e => ({
-        stat: e.type?.name ?? '',
-        min:  e.int_minimum ?? 0,
-        max:  e.int_maximum ?? 0,
-      }))
+      bonuses[pieces] = effects.map(normalizeRawEffect)
     }
   }
   return {

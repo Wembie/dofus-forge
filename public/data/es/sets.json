@@ -38843,19 +38843,19 @@
     "bonuses": {
       "2": [
         {
-          "stat": "máx.",
-          "min": 23,
-          "max": 4
+          "stat": "MP Max.",
+          "min": 4,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 19,
-          "max": 4
+          "stat": "Range Max.",
+          "min": 4,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 26,
-          "max": 4
+          "stat": "Summons Max.",
+          "min": 4,
+          "max": 0
         },
         {
           "stat": "huida",
@@ -38920,19 +38920,19 @@
       ],
       "3": [
         {
-          "stat": "máx.",
-          "min": 26,
-          "max": 3
+          "stat": "Summons Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 23,
-          "max": 3
+          "stat": "MP Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 19,
-          "max": 3
+          "stat": "Range Max.",
+          "min": 3,
+          "max": 0
         },
         {
           "stat": "huida",
@@ -39002,9 +39002,9 @@
       ],
       "4": [
         {
-          "stat": "máx.",
-          "min": 26,
-          "max": 3
+          "stat": "Summons Max.",
+          "min": 3,
+          "max": 0
         },
         {
           "stat": "PA",
@@ -39072,21 +39072,21 @@
           "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 19,
-          "max": 3
+          "stat": "Range Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 23,
-          "max": 3
+          "stat": "MP Max.",
+          "min": 3,
+          "max": 0
         }
       ],
       "5": [
         {
-          "stat": "máx.",
-          "min": 26,
-          "max": 3
+          "stat": "Summons Max.",
+          "min": 3,
+          "max": 0
         },
         {
           "stat": "PA",
@@ -39154,31 +39154,31 @@
           "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 19,
-          "max": 3
+          "stat": "Range Max.",
+          "min": 3,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 23,
-          "max": 3
+          "stat": "MP Max.",
+          "min": 3,
+          "max": 0
         }
       ],
       "6": [
         {
-          "stat": "máx.",
-          "min": 26,
-          "max": 2
+          "stat": "Summons Max.",
+          "min": 2,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 23,
-          "max": 2
+          "stat": "MP Max.",
+          "min": 2,
+          "max": 0
         },
         {
-          "stat": "máx.",
-          "min": 19,
-          "max": 2
+          "stat": "Range Max.",
+          "min": 2,
+          "max": 0
         },
         {
           "stat": "huida",
