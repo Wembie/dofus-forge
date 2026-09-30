@@ -30,8 +30,10 @@ El diseño original (2026-09-01) no se validó contra el código real del builde
 2. [Diagrama de entidades](#2-diagrama-de-entidades)
 3. [Descripción de cada tabla](#3-descripción-de-cada-tabla)
 4. [SQL completo](#4-sql-completo)
+   - [4b. Storage: bucket de avatares](#4b-storage-bucket-de-avatares)
 5. [Índices y por qué](#5-índices-y-por-qué)
 6. [Row Level Security](#6-row-level-security)
+   - [6b. Grants](#6b-grants)
 7. [Funciones y triggers](#7-funciones-y-triggers)
 8. [Casos de uso — queries clave](#8-casos-de-uso--queries-clave)
 9. [Casos de borde validados](#9-casos-de-borde-validados)
@@ -1021,6 +1023,27 @@ create policy "tags admin write" on tags for all
   using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 
 create policy "slugs read" on slug_redirects for select using (true);
+```
+
+---
+
+## 6b. Grants
+
+RLS solo decide qué **filas** puede tocar un rol — antes de eso, Postgres
+exige un GRANT plano para que el rol pueda siquiera intentar la operación
+sobre la tabla. Supabase normalmente configura esto solo al crear el
+proyecto; si falta, cualquier query devuelve `403 permission denied for
+table X` (código `42501`) sin importar que las policies estén bien.
+
+Amplio a propósito — RLS sigue siendo la barrera real (ej: `authenticated`
+recibe UPDATE de toda la tabla `build_reports`, pero la policy "reports
+admin update" igual bloquea el update de alguien que no sea admin).
+
+```sql
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on all tables in schema public to authenticated;
+grant select on all tables in schema public to anon;
+grant usage, select on all sequences in schema public to authenticated;
 ```
 
 ---

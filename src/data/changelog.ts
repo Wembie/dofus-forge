@@ -8,11 +8,19 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.5',
+    date: '2026-09-30',
+    notes: [
+      'Fix: some accounts got "permission denied for table profiles" (and would have on every other table) — the database was missing basic Postgres GRANTs beneath the RLS policies, which is a separate, more fundamental permission layer that Supabase normally sets up automatically on a new project',
+    ],
+  },
+  {
     version: '0.3.4',
     date: '2026-09-30',
     notes: [
       'Feat: full profile page (from the account menu) — edit your username, display name and bio in one place, plus your builds/followers/following counts',
       'Fix: a failed profile fetch (e.g. a missing profiles row) silently fell back to showing your raw email in the header with no way to diagnose it — now logs the real error to the console',
+      'Fix: the profile page could open with blank fields even when you already had a username/display name/bio set, if it loaded before your profile data finished fetching',
     ],
   },
   {
