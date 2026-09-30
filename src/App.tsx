@@ -1,9 +1,13 @@
-import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { useEffect, lazy, Suspense } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { BuilderPage } from './pages/BuilderPage.tsx'
 import { Toaster } from './components/Toaster.tsx'
 import { LangRoute } from './LangRoute.tsx'
 import { useAuthStore } from './store/authStore.ts'
+import type { SeoLang } from './seo/useSeoMeta.ts'
+
+const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => ({ default: m.ExplorePage })))
+const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m => ({ default: m.BuildDetailPage })))
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -33,8 +37,20 @@ function RootRoute() {
       return <Navigate to={`/${stored}/${location.search}${location.hash}`} replace />
     }
   }
-  return <LangRoute lang="en"><BuilderPage /></LangRoute>
+  return <LangRoute lang="en"><Outlet /></LangRoute>
 }
+
+function LangLayout({ lang }: { lang: SeoLang }) {
+  return <LangRoute lang={lang}><Outlet /></LangRoute>
+}
+
+const LANG_SUB_ROUTES = (
+  <>
+    <Route index element={<BuilderPage />} />
+    <Route path="explore" element={<Suspense fallback={null}><ExplorePage /></Suspense>} />
+    <Route path="build/:id" element={<Suspense fallback={null}><BuildDetailPage /></Suspense>} />
+  </>
+)
 
 function App() {
   const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
@@ -46,11 +62,22 @@ function App() {
   return (
     <BrowserRouter basename={basename}>
       <Routes>
-        <Route path="/"    element={<RootRoute />} />
-        <Route path="es/*" element={<LangRoute lang="es"><BuilderPage /></LangRoute>} />
-        <Route path="fr/*" element={<LangRoute lang="fr"><BuilderPage /></LangRoute>} />
-        <Route path="pt/*" element={<LangRoute lang="pt"><BuilderPage /></LangRoute>} />
-        <Route path="*"    element={<Navigate to="/" replace />} />
+        <Route path="/" element={<RootRoute />}>
+          {LANG_SUB_ROUTES}
+        </Route>
+        <Route path="es" element={<LangLayout lang="es" />}>
+          {LANG_SUB_ROUTES}
+          <Route path="*" element={<BuilderPage />} />
+        </Route>
+        <Route path="fr" element={<LangLayout lang="fr" />}>
+          {LANG_SUB_ROUTES}
+          <Route path="*" element={<BuilderPage />} />
+        </Route>
+        <Route path="pt" element={<LangLayout lang="pt" />}>
+          {LANG_SUB_ROUTES}
+          <Route path="*" element={<BuilderPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster />
     </BrowserRouter>

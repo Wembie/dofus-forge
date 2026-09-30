@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.6',
+    date: '2026-09-30',
+    notes: [
+      'Feat: publish your build to the cloud — pick a name and visibility (private/unlisted/public) from the new "Publish" button',
+      'Feat: Explore page — browse public builds by class, sorted by rating/likes/recent/views',
+      'Feat: build detail page — like, rate (1-5 stars) and comment on public builds, or load one straight into your own planner',
+    ],
+  },
+  {
     version: '0.3.5',
     date: '2026-09-30',
     notes: [
