@@ -1,8 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
+import { useAuthStore } from '@/store/authStore.ts'
 import { encodeBuild, decodeBuild } from './codec.ts'
 import { saveBuild, listBuilds, deleteBuild, type SavedBuild } from './savedBuilds.ts'
+import { fetchMyBuilds, deleteBuild as deleteCloudBuild, type MyBuildRow } from '@/features/builds/api.ts'
 import type { ExportData } from './ExportCard.tsx'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 
@@ -17,8 +19,30 @@ export function ShareBar() {
   const [saveName,  setSaveName]  = useState('')
   const [builds,    setBuilds]    = useState<SavedBuild[]>(listBuilds)
   const [showPanel, setShowPanel] = useState(false)
+  const session        = useAuthStore(s => s.session)
+  const [cloudBuilds, setCloudBuilds] = useState<MyBuildRow[]>([])
+  const [loadingCloud, setLoadingCloud] = useState(false)
 
   const hasClass = Boolean(store.selectedClass)
+
+  useEffect(() => {
+    if (!showPanel || !session) return
+    setLoadingCloud(true)
+    fetchMyBuilds(session.user.id).then(({ data }) => {
+      setCloudBuilds(data)
+      setLoadingCloud(false)
+    })
+  }, [showPanel, session])
+
+  const handleLoadCloud = useCallback((snap: MyBuildRow['snapshot']) => {
+    store.applySnapshot(snap)
+    setShowPanel(false)
+  }, [store])
+
+  const handleDeleteCloud = useCallback(async (id: string) => {
+    await deleteCloudBuild(id)
+    setCloudBuilds(prev => prev.filter(b => b.id !== id))
+  }, [])
 
   const shareUrl = useCallback(() => {
     if (!hasClass) return ''
@@ -164,6 +188,45 @@ export function ShareBar() {
               </li>
             ))}
           </ul>
+
+          {/* Cloud builds — only when signed in */}
+          {session && (
+            <>
+              <div className="px-3 py-2 border-t border-forge-border text-[10px] uppercase tracking-wider text-ink-faint">
+                {t('my_builds_cloud')}
+              </div>
+              <ul className="max-h-64 overflow-y-auto divide-y divide-metal-edge">
+                {loadingCloud && (
+                  <li className="p-4 text-center text-forge-muted text-xs">{t('auth_loading')}</li>
+                )}
+                {!loadingCloud && cloudBuilds.length === 0 && (
+                  <li className="p-4 text-center text-forge-muted text-xs">{t('no_saved_builds')}</li>
+                )}
+                {cloudBuilds.map(b => (
+                  <li key={b.id} className="flex items-center gap-2 p-2.5 hover:bg-surface-stone transition-colors">
+                    <button
+                      className="flex-1 text-left text-xs text-forge-text truncate hover:text-forge-gold transition-colors"
+                      onClick={() => handleLoadCloud(b.snapshot)}
+                      title={t('load_build_title')}
+                    >
+                      {b.name}
+                    </button>
+                    <span
+                      className="text-[9px] uppercase font-semibold px-1.5 py-0.5 rounded flex-shrink-0"
+                      style={{ color: 'var(--ink-faint)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+                    >
+                      {t(`publish_visibility_${b.visibility}`)}
+                    </span>
+                    <button
+                      onClick={() => handleDeleteCloud(b.id)}
+                      className="text-forge-muted hover:text-red-400 transition-colors text-xs flex-shrink-0"
+                      aria-label={t('delete_build', { name: b.name })}
+                    >🗑</button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       )}
     </div>

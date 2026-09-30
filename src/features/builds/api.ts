@@ -109,6 +109,33 @@ export async function recordBuildView(buildId: string, userId: string | null) {
   await supabase.rpc('record_view', { p_build_id: buildId, p_user_id: userId, p_ip_hash: null })
 }
 
+export type MyBuildRow = {
+  id:         string
+  name:       string
+  class_slug: string
+  gender:     Gender
+  level:      number
+  visibility: BuildVisibility
+  created_at: string
+  snapshot:   BuildSnapshot
+}
+
+export async function fetchMyBuilds(userId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('builds')
+    .select('id, name, class_slug, gender, level, visibility, created_at, snapshot')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+  return { data: (data ?? []) as unknown as MyBuildRow[], error: error?.message ?? null }
+}
+
+export async function deleteBuild(buildId: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('builds').delete().eq('id', buildId)
+  return { error: error?.message ?? null }
+}
+
 export async function fetchMyLike(buildId: string, userId: string) {
   const supabase = await getSupabase()
   const { data } = await supabase.from('build_likes').select('user_id').eq('build_id', buildId).eq('user_id', userId).maybeSingle()

@@ -527,5 +527,6 @@
   "build_detail_comments": "Commentaires",
   "build_detail_comment_placeholder": "Écrire un commentaire...",
   "build_detail_comment_submit": "Commenter",
-  "build_detail_no_comments": "Soyez le premier à commenter."
+  "build_detail_no_comments": "Soyez le premier à commenter.",
+  "my_builds_cloud": "Mes builds dans le cloud"
 }

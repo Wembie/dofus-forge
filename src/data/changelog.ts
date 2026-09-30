@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.8',
+    date: '2026-09-30',
+    notes: [
+      'Feat: "My Builds" (ShareBar) now also shows your published cloud builds, with a badge for each one\'s visibility (private/unlisted/public) — click to load, trash icon to delete',
+    ],
+  },
+  {
     version: '0.3.7',
     date: '2026-09-30',
     notes: [
