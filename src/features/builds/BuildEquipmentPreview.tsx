@@ -3,10 +3,11 @@ import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
-/** Read-only equipment grid — same slot set/order as the real EquipmentGrid,
- * no click/drag handlers, used to preview someone else's build (or your own,
- * on the Explore card / build detail page / My Builds card). */
-export function BuildEquipmentPreview({ snapshot, equipment, size = 40, hideEmpty = false }: {
+/** Read-only equipment grid — same slot set/order and visual treatment as
+ * the real EquipmentGrid slot buttons (gradient, gold glow, inset shadow),
+ * just without the click/drag handlers. Used to preview a build on the
+ * Explore card / build detail page / My Builds card. */
+export function BuildEquipmentPreview({ snapshot, equipment, size = 44, hideEmpty = false }: {
   snapshot:  BuildSnapshot
   equipment: AppItem[] | null
   size?:     number
@@ -17,7 +18,7 @@ export function BuildEquipmentPreview({ snapshot, equipment, size = 40, hideEmpt
   const map = new Map((equipment ?? []).map(it => [it.ankama_id, it]))
 
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-2">
       {ALL_SLOTS.map((slot, i) => {
         const id   = snapshot.e[i]
         const item = id != null ? map.get(id) : undefined
@@ -27,18 +28,31 @@ export function BuildEquipmentPreview({ snapshot, equipment, size = 40, hideEmpt
           <div
             key={slot}
             title={item?.name}
-            className="rounded-md flex items-center justify-center flex-shrink-0 overflow-hidden"
+            className="relative rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden"
             style={{
               width:  size,
               height: size,
-              background: item ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))' : 'var(--surface-void)',
-              border: item ? '1px solid color-mix(in srgb, var(--gold) 40%, transparent)' : '1px dashed var(--metal-edge)',
+              background: item
+                ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
+                : 'var(--surface-void)',
+              border: item
+                ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
+                : '1px dashed rgba(60,80,130,0.55)',
+              boxShadow: item
+                ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+                : 'var(--well-inset)',
             }}
           >
             {item?.image_url
-              ? <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1" loading="lazy" />
-              : <span className="opacity-25 text-xs" style={{ color: 'var(--ink-muted)' }}>{cfg.icon}</span>
+              ? <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
+              : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>{cfg.icon}</span>
             }
+            {item && (
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 55%)' }}
+              />
+            )}
           </div>
         )
       })}

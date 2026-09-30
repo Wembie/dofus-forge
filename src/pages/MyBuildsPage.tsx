@@ -94,7 +94,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
         <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
       </div>
 
-      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={26} hideEmpty />
+      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
 
       <div className="flex items-center gap-1.5 pt-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
         <button

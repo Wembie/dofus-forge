@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
+import type { BuildState } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, STAT_META } from '../equipment/statDisplay.ts'
 
@@ -312,9 +313,8 @@ function DamageMods({ s }: { s: StatBlock }) {
 // have runes on several items (e.g. Vitality on a ring AND a hat) so this is
 // the only place that shows the combined total per stat.
 
-function MagesmithySummary() {
+function MagesmithySummary({ runes }: { runes: BuildState['runes'] }) {
   const { t }   = useTranslation()
-  const runes   = useBuildStore(s => s.runes)
 
   const totals = useMemo(() => {
     const acc: Record<string, number> = {}
@@ -357,7 +357,9 @@ function MagesmithySummary() {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-function StatsFromBlock({ s }: { s: StatBlock }) {
+/** Pure — no store reads — reused as-is by BuildDetailPage (a read-only view
+ * of someone else's build/stats) alongside the live StatsPanel below. */
+export function StatsFromBlock({ s, runes }: { s: StatBlock; runes: BuildState['runes'] }) {
   const { t } = useTranslation()
 
   return (
@@ -373,7 +375,7 @@ function StatsFromBlock({ s }: { s: StatBlock }) {
 
       <ElementSection s={s} />
       <CombatGrid s={s} />
-      <MagesmithySummary />
+      <MagesmithySummary runes={runes} />
       <DamageMods s={s} />
 
       {Object.keys(s.unknownStats).length > 0 && (
@@ -405,6 +407,7 @@ export function StatsPanel() {
   const { t }         = useTranslation()
   const stats         = useBuildStore(s => s.stats)
   const selectedClass = useBuildStore(s => s.selectedClass)
+  const runes         = useBuildStore(s => s.runes)
 
   if (!selectedClass) {
     return (
@@ -441,7 +444,7 @@ export function StatsPanel() {
         </h2>
         <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
       </div>
-      <StatsFromBlock s={stats} />
+      <StatsFromBlock s={stats} runes={runes} />
     </div>
   )
 }
