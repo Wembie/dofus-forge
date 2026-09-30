@@ -535,5 +535,8 @@
   "my_builds_confirm_delete": "Delete \"{{name}}\"? This cannot be undone.",
   "my_builds_cycle_visibility": "Click to change visibility",
   "my_builds_copy_link": "Copy link",
-  "my_builds_delete": "Delete"
+  "my_builds_delete": "Delete",
+  "publish_title_update": "Update build",
+  "publish_already_published_hint": "This build is already published — this updates that same one, it won't create a new one.",
+  "publish_submit_update": "Update"
 }

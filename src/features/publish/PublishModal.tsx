@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Globe, Link2, Lock, Swords } from 'lucide-react'
@@ -6,7 +6,7 @@ import { Modal, Button } from '@/ui'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useAuthStore } from '@/store/authStore.ts'
 import { buildSnapshotFromState } from '@/features/share/codec.ts'
-import { publishBuild, type BuildVisibility } from '@/features/builds/api.ts'
+import { publishBuild, updateBuild, fetchBuildById, type BuildVisibility } from '@/features/builds/api.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 
 const VISIBILITY_OPTIONS: { id: BuildVisibility; Icon: typeof Globe }[] = [
@@ -20,11 +20,23 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   const navigate     = useNavigate()
   const session       = useAuthStore(s => s.session)
   const store         = useBuildStore()
+  const linkedBuildId = useBuildStore(s => s.linkedBuildId)
+  const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
 
   const [name, setName]             = useState(store.buildName || '')
   const [visibility, setVisibility] = useState<BuildVisibility>('private')
   const [busy, setBusy]             = useState(false)
   const [error, setError]           = useState<string | null>(null)
+
+  // Editing an already-published build (loaded from My Builds, or your own
+  // build's detail page) — prefill its real name/visibility instead of
+  // defaulting to "private", since we're about to update that same row.
+  useEffect(() => {
+    if (!open || !linkedBuildId) return
+    fetchBuildById(linkedBuildId).then(({ data }) => {
+      if (data) { setName(data.name); setVisibility(data.visibility) }
+    })
+  }, [open, linkedBuildId])
 
   function close() {
     setError(null)
@@ -37,7 +49,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
     setBusy(true)
     setError(null)
 
-    const { data, error: err } = await publishBuild({
+    const payload = {
       name:        name.trim() || t('untitled_build'),
       visibility,
       classSlug:   store.selectedClass,
@@ -45,12 +57,25 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       level:       store.level,
       gameVersion: DOFUS_GAME_VERSION,
       snapshot:    buildSnapshotFromState(store),
-    })
-    setBusy(false)
-    if (err || !data) { setError(t('publish_error')); return }
+    }
 
     const lang     = i18n.language.slice(0, 2)
     const langPath = lang === 'en' ? '' : `${lang}/`
+
+    if (linkedBuildId) {
+      const { error: err } = await updateBuild(linkedBuildId, payload)
+      setBusy(false)
+      if (err) { setError(t('publish_error')); return }
+      close()
+      navigate(`/${langPath}build/${linkedBuildId}`)
+      return
+    }
+
+    const { data, error: err } = await publishBuild(payload)
+    setBusy(false)
+    if (err || !data) { setError(t('publish_error')); return }
+
+    setLinkedBuildId(data.id)
     close()
     navigate(`/${langPath}build/${data.id}`)
   }
@@ -67,8 +92,17 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   }
 
   return (
-    <Modal open={open} onClose={close} title={t('publish_title')} size="sm">
+    <Modal open={open} onClose={close} title={t(linkedBuildId ? 'publish_title_update' : 'publish_title')} size="sm">
       <form onSubmit={submit} className="p-5 space-y-4">
+        {linkedBuildId && (
+          <p
+            className="text-[11px] rounded-md px-2.5 py-1.5"
+            style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)' }}
+          >
+            {t('publish_already_published_hint')}
+          </p>
+        )}
+
         <div>
           <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
             {t('build_name_label')}
@@ -129,7 +163,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
         )}
 
         <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center">
-          {busy ? t('auth_loading') : t('publish_submit')}
+          {busy ? t('auth_loading') : t(linkedBuildId ? 'publish_submit_update' : 'publish_submit')}
         </Button>
       </form>
     </Modal>

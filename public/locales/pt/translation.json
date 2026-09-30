@@ -535,5 +535,8 @@
   "my_builds_confirm_delete": "Excluir \"{{name}}\"? Não pode ser desfeito.",
   "my_builds_cycle_visibility": "Clique para mudar a visibilidade",
   "my_builds_copy_link": "Copiar link",
-  "my_builds_delete": "Excluir"
+  "my_builds_delete": "Excluir",
+  "publish_title_update": "Atualizar build",
+  "publish_already_published_hint": "Este build já está publicado — isso atualiza essa mesma publicação, não cria uma nova.",
+  "publish_submit_update": "Atualizar"
 }

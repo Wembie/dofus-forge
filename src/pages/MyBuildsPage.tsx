@@ -36,6 +36,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
   const { t, i18n } = useTranslation()
   const navigate    = useNavigate()
   const applySnapshot = useBuildStore(s => s.applySnapshot)
+  const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
   const equipment   = useDataStore(s => s.equipment)
   const classLabel  = useClassName(build.class_slug)
   const classInfo   = CLASS_DATA.find(c => c.id === build.class_slug)
@@ -45,6 +46,9 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 
   function handleLoad() {
     applySnapshot(build.snapshot)
+    // These are all your own builds (fetchMyBuilds) — republishing this one
+    // should update it in place, not create a duplicate row.
+    setLinkedBuildId(build.id)
     navigate(`/${langPathPrefix(i18n.language)}`)
   }
 

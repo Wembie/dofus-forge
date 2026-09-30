@@ -535,5 +535,8 @@
   "my_builds_confirm_delete": "¿Eliminar \"{{name}}\"? Esta acción no se puede deshacer.",
   "my_builds_cycle_visibility": "Click para cambiar visibilidad",
   "my_builds_copy_link": "Copiar link",
-  "my_builds_delete": "Eliminar"
+  "my_builds_delete": "Eliminar",
+  "publish_title_update": "Actualizar build",
+  "publish_already_published_hint": "Este build ya está publicado — esto actualiza esa misma publicación, no crea una nueva.",
+  "publish_submit_update": "Actualizar"
 }
