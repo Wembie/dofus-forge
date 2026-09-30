@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.8] — 2026-09-30
+- **Feat**: `ShareBar.tsx`'s "My Builds" panel now has a second list — your published cloud builds (`fetchMyBuilds()`, `features/builds/api.ts`), regardless of visibility (RLS already lets the owner see their own private/unlisted/public rows). Each row shows a visibility badge, clicking loads its snapshot into the planner the same way local saved builds do, trash icon calls `deleteBuild()` (RLS-gated to the owner)
+
 ## [0.3.7] — 2026-09-30
 - **Fix**: publishing a build then opening it (Explore card or the detail link) failed with `PGRST201`: `builds` embeds `profiles` through more than one relationship — the owner FK (`builds_user_id_fkey`), `fk_pinned_build`, and transitively through `build_likes`/`build_ratings`/`build_bookmarks` as many-to-many junctions — so PostgREST rejected the bare `profiles(...)` embed in `features/builds/api.ts`'s `LIST_COLUMNS` as ambiguous. Same risk existed in `fetchComments()` (`comment_likes` joins `build_comments` to `profiles` as a second path). Both now name the exact FK: `profiles!builds_user_id_fkey(...)` and `profiles!build_comments_user_id_fkey(...)`
 
