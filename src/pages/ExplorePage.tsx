@@ -1,13 +1,12 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import { ArrowLeft, Star, Heart, Clock, Eye } from 'lucide-react'
+import { Star, Heart, Clock, Eye } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
+import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { fetchPublicBuilds, type BuildRow, type ExploreSort } from '@/features/builds/api.ts'
-import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 
 const SORT_ITEMS: TabItem[] = [
@@ -24,7 +23,7 @@ function ClassLabel({ id }: { id: string | null }) {
 }
 
 export function ExplorePage() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   useLoadGameData()
   const [sort, setSort]           = useState<ExploreSort>('rating')
   const [classSlug, setClassSlug] = useState<string | null>(null)
@@ -53,23 +52,12 @@ export function ExplorePage() {
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
-      <header
-        className="sticky top-0 z-40 px-4 sm:px-6 h-[52px] flex items-center gap-3"
-        style={{
-          background:   'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))',
-          borderBottom: '1px solid var(--metal-edge)',
-        }}
-      >
-        <Link to={`/${langPathPrefix(i18n.language)}`} className="flex items-center gap-1.5 text-[11px] font-semibold" style={{ color: 'var(--ink-faint)' }}>
-          <ArrowLeft size={14} />
-          {t('back_to_builder')}
-        </Link>
-        <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs ml-2" style={{ color: 'var(--gold)' }}>
-          {t('explore_title')}
-        </h1>
-      </header>
+      <SiteHeader />
 
       <main className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-4">
+        <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
+          {t('explore_title')}
+        </h1>
         <div className="flex flex-wrap items-center gap-3 justify-between">
           <Tabs items={sortLabels} active={sort} onChange={id => setSort(id as ExploreSort)} variant="segment" />
 

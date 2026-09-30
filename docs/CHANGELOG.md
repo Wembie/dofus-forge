@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.15] — 2026-09-30
+- **Fix**: `ExplorePage.tsx`, `MyBuildsPage.tsx` and `BuildDetailPage.tsx` each built their own minimal header (just a "back to planner" link) — no logo, no way to switch language/theme, no account menu, no way to jump between Explore/My Builds without going back through the builder first. New `components/SiteHeader.tsx` — same brand/nav/language/theme/auth controls as `BuilderPage`'s header, without the build-editing tools — now shared by all three
+
 ## [0.3.14] — 2026-09-30
 - **Feat**: replaced `BuildItemsList` (a flat row-per-item list, one iteration ago) with `BuildCharacterView.tsx` — the same character-centered arrangement as the live `EquipmentGrid` (portrait + name + level in the middle, `LEFT_SLOTS`/`RIGHT_SLOTS` columns, extras row, dofus row below), now exported from `EquipmentGrid.tsx` so both stay in sync. Hovering a slot shows `ItemHoverTooltip` same as before (runes/forjamago included)
 - **Feat**: active sets now show on the build detail page. `SetBonusesPanel.tsx` split into a pure `computeActiveSets()` + `ActiveSetsGrid` (no store reads) reused by both the live panel (interactive, opens `SetDetailModal`) and the read-only detail page (`onOpenSet` omitted — a viewer clicking "view set" must never be able to equip/unequip into the *viewer's own* unrelated live build, which is what would've happened reusing the interactive panel as-is)
