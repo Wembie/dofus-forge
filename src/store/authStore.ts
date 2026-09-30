@@ -16,7 +16,7 @@ type AuthState = {
   initialized: boolean
 
   init:           () => void
-  signUp:         (email: string, password: string) => Promise<{ error: string | null }>
+  signUp:         (email: string, password: string, username: string) => Promise<{ error: string | null }>
   signIn:         (email: string, password: string) => Promise<{ error: string | null }>
   signOut:        () => Promise<void>
   updateUsername: (username: string) => Promise<{ error: string | null }>
@@ -57,13 +57,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     })
   },
 
-  signUp: async (email, password) => {
+  signUp: async (email, password, username) => {
+    if (!USERNAME_RE.test(username)) return { error: 'invalid_username' }
+
     const supabase = await getSupabase()
-    // Without this, Supabase falls back to the dashboard's "Site URL" (defaults
-    // to http://localhost:3000 on a fresh project) for the confirmation email's
-    // link — always explicit here so it works regardless of that setting.
+    // Pre-check before hitting the auth server — handle_new_user's trigger would
+    // also reject a taken username (unique constraint), but only after creating
+    // the auth.users row, surfacing as an opaque 500 instead of a clean message.
+    const { data: existing } = await supabase.from('profiles').select('id').eq('username', username).maybeSingle()
+    if (existing) return { error: 'username_taken' }
+
+    // Without emailRedirectTo, Supabase falls back to the dashboard's "Site URL"
+    // (defaults to http://localhost:3000 on a fresh project) for the confirmation
+    // email's link — always explicit here so it works regardless of that setting.
     const redirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
-    const { error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } })
+    const { error } = await supabase.auth.signUp({
+      email, password,
+      options: { emailRedirectTo: redirectTo, data: { username } },
+    })
     return { error: error?.message ?? null }
   },
 

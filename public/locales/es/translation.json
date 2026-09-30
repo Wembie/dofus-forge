@@ -486,5 +486,6 @@
   "auth_username_hint": "Este es el nombre que verán los demás — nunca tu correo. Letras minúsculas, números, guiones. 3-30 caracteres.",
   "auth_username_invalid": "Solo minúsculas, números, - y _. Entre 3 y 30 caracteres.",
   "auth_username_taken": "Ese nombre de usuario ya está en uso.",
-  "auth_username_error": "No se pudo actualizar. Intenta de nuevo."
+  "auth_username_error": "No se pudo actualizar. Intenta de nuevo.",
+  "auth_username": "Nombre de usuario"
 }

@@ -486,15 +486,20 @@ create trigger ratings_updated_at     before update on build_ratings  for each r
 
 
 -- ── Auto-crear profile al registrarse (con manejo de colisión de username) ──
-create function handle_new_user()
+create or replace function handle_new_user()
 returns trigger language plpgsql security definer as $$
 declare
-  base_username text;
-  candidate     text;
-  suffix        int := 0;
+  requested_username text := new.raw_user_meta_data->>'username';
+  base_username       text;
+  candidate           text;
+  suffix              int := 0;
 begin
-  base_username := lower(regexp_replace(split_part(new.email, '@', 1), '[^a-z0-9_-]', '_', 'gi'));
-  base_username := left(base_username, 25);
+  if requested_username is not null and requested_username ~ '^[a-z0-9_-]{3,30}$' then
+    base_username := requested_username;
+  else
+    base_username := lower(regexp_replace(split_part(new.email, '@', 1), '[^a-z0-9_-]', '_', 'gi'));
+    base_username := left(base_username, 25);
+  end if;
   loop
     candidate := case when suffix = 0 then base_username else base_username || suffix::text end;
     exit when not exists (select 1 from public.profiles where username = candidate);
