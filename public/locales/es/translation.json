@@ -481,11 +481,16 @@
   "auth_signin_subtitle": "Entra para guardar y compartir tus builds",
   "auth_signup_subtitle": "Crea tu cuenta gratis en segundos",
   "auth_check_spam": "¿No lo ves? Revisa la carpeta de spam o no deseado.",
-  "auth_edit_username": "Cambiar nombre de usuario",
-  "auth_edit_username_title": "Nombre de usuario",
   "auth_username_hint": "Este es el nombre que verán los demás — nunca tu correo. Letras minúsculas, números, guiones. 3-30 caracteres.",
   "auth_username_invalid": "Solo minúsculas, números, - y _. Entre 3 y 30 caracteres.",
   "auth_username_taken": "Ese nombre de usuario ya está en uso.",
   "auth_username_error": "No se pudo actualizar. Intenta de nuevo.",
-  "auth_username": "Nombre de usuario"
+  "auth_username": "Nombre de usuario",
+  "auth_profile_title": "Mi perfil",
+  "auth_display_name": "Nombre visible",
+  "auth_bio": "Biografía",
+  "auth_avatar_url": "URL de avatar",
+  "auth_stat_builds": "builds",
+  "auth_stat_followers": "seguidores",
+  "auth_stat_following": "siguiendo"
 }

@@ -3,10 +3,20 @@ import type { Session } from '@supabase/supabase-js'
 import { getSupabase } from '@/lib/supabase.ts'
 
 export type Profile = {
-  id:            string
-  username:      string
-  display_name:  string | null
-  avatar_url:    string | null
+  id:               string
+  username:         string
+  display_name:     string | null
+  bio:              string | null
+  avatar_url:       string | null
+  followers_count:  number
+  following_count:  number
+  builds_count:     number
+}
+
+export type ProfileEdits = {
+  display_name?: string | null
+  bio?:          string | null
+  avatar_url?:   string | null
 }
 
 type AuthState = {
@@ -20,6 +30,7 @@ type AuthState = {
   signIn:         (email: string, password: string) => Promise<{ error: string | null }>
   signOut:        () => Promise<void>
   updateUsername: (username: string) => Promise<{ error: string | null }>
+  updateProfile:  (edits: ProfileEdits) => Promise<{ error: string | null }>
 }
 
 const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
@@ -28,10 +39,16 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, display_name, avatar_url')
+    .select('id, username, display_name, bio, avatar_url, followers_count, following_count, builds_count')
     .eq('id', userId)
     .single()
-  if (error) return null
+  if (error) {
+    // Swallowed everywhere else in this store (session still works without a
+    // profile), but silent failures here are what made a missing/blocked
+    // profiles row look like "the app just shows my email" with no clue why.
+    console.error('fetchProfile failed:', error)
+    return null
+  }
   return data
 }
 
@@ -103,6 +120,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       return { error: error.code === '23505' ? 'username_taken' : error.message }
     }
     set(s => ({ profile: s.profile ? { ...s.profile, username } : s.profile }))
+    return { error: null }
+  },
+
+  updateProfile: async (edits) => {
+    const session = get().session
+    if (!session) return { error: 'Not signed in' }
+
+    const supabase = await getSupabase()
+    const { error } = await supabase.from('profiles').update(edits).eq('id', session.user.id)
+    if (error) return { error: error.message }
+    set(s => ({ profile: s.profile ? { ...s.profile, ...edits } : s.profile }))
     return { error: null }
   },
 }))

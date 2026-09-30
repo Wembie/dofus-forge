@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.4] — 2026-09-30
+- **Feat**: `ProfileModal.tsx` replaces `EditUsernameModal.tsx` — one place to edit username, display_name, bio and avatar_url (all already existed as columns on `profiles`, no UI before), plus a read-only builds/followers/following count row. Opened from the account menu ("Mi perfil" instead of "Cambiar nombre de usuario")
+- **Fix**: `authStore.ts`'s `fetchProfile()` swallowed its error and silently fell back to `profile: null`, which made `AuthButton` show the raw email with zero indication anything was wrong. Now logs the actual Postgres/PostgREST error via `console.error` so a real failure (missing row, RLS, etc.) is debuggable instead of looking identical to "just hasn't loaded yet"
+
 ## [0.3.3] — 2026-09-30
 - **Feat**: sign-up now asks for a username directly (required, `[a-z0-9_-]{3,30}`) instead of auto-generating one from the email prefix. `authStore.signUp()` pre-checks availability against `profiles` before calling `supabase.auth.signUp()` and passes it via `options.data.username`; `handle_new_user()` trigger (`schema.sql`) now reads `raw_user_meta_data->>'username'` when present and falls back to the old email-derived logic only when it's missing (existing accounts unaffected). Needs the updated `handle_new_user()` function re-run in the Supabase SQL editor (`create or replace function`, safe on an existing DB)
 
