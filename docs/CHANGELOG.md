@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.9] — 2026-09-30
+- **Feat**: `ShareBar.tsx`'s "My Builds" panel dropped its local (localStorage) save/list entirely — it now shows only the signed-in user's own DB rows (`fetchMyBuilds()`, any visibility, RLS-gated to the owner), consistent with everything else now living server-side. No sign-in → a sign-in prompt instead of an empty local list. `savedBuilds.ts` trimmed to just `listBuilds()` (kept read-only — `ComparePanel.tsx`'s "Build B" picker still reads pre-existing local saves); `saveBuild()`/`deleteBuild()`/`renameBuild()` deleted, they had zero callers left
+
 ## [0.3.8] — 2026-09-30
 - **Feat**: `ShareBar.tsx`'s "My Builds" panel now has a second list — your published cloud builds (`fetchMyBuilds()`, `features/builds/api.ts`), regardless of visibility (RLS already lets the owner see their own private/unlisted/public rows). Each row shows a visibility badge, clicking loads its snapshot into the planner the same way local saved builds do, trash icon calls `deleteBuild()` (RLS-gated to the owner)
 
