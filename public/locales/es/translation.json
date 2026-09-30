@@ -528,5 +528,5 @@
   "build_detail_comment_placeholder": "Escribe un comentario...",
   "build_detail_comment_submit": "Comentar",
   "build_detail_no_comments": "Sé el primero en comentar.",
-  "my_builds_cloud": "Mis builds en la nube"
+  "my_builds_signin_required": "Inicia sesión para ver tus builds guardados."
 }

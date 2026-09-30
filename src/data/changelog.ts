@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.9',
+    date: '2026-09-30',
+    notes: [
+      '"My Builds" is now cloud-only — shows exactly the builds you own in the database (any visibility), no more separate local-only list. Sign in to see it',
+    ],
+  },
+  {
     version: '0.3.8',
     date: '2026-09-30',
     notes: [
