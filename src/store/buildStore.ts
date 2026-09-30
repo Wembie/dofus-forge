@@ -41,6 +41,11 @@ export interface BuildState {
   buildName:     string
   level:         number
   gender:        Gender
+  /** id of the cloud `builds` row this local state was loaded from/published
+   * as (My Builds, or your own build's detail page) — set so re-publishing
+   * updates that same row instead of always inserting a new one. Cleared on
+   * reset() or when loading someone else's build. */
+  linkedBuildId: string | null
   allocated:     AllocatedCharacteristics
   scrolled:      ScrolledCharacteristics
   /** Stores only ankama_id per slot — decoupled from data load state */
@@ -83,6 +88,7 @@ export interface BuildState {
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
   setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
   applySnapshot:       (snap: BuildSnapshot) => void
+  setLinkedBuildId:    (id: string | null) => void
   reset:         () => void
 }
 
@@ -152,6 +158,7 @@ export const useBuildStore = create<BuildState>((set) => {
     buildName:        '',
     level:            200,
     gender:           'male',
+    linkedBuildId:    null,
     allocated:        { ...ZERO_ALLOC },
     scrolled:         { ...NO_SCROLLS },
     equipped:          {},
@@ -337,14 +344,20 @@ export const useBuildStore = create<BuildState>((set) => {
           }
         }
       }
-      return update({ selectedClass, buildName, level, gender, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
+      // Loading a snapshot (shared link, My Builds, someone else's build)
+      // clears any previous cloud link — the caller re-sets it via
+      // setLinkedBuildId() right after, only when it actually knows the id.
+      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
     }),
+
+    setLinkedBuildId: (id) => set({ linkedBuildId: id }),
 
     reset: () => set(s => ({
       selectedClass:    null,
       buildName:        '',
       level:            200,
       gender:           'male',
+      linkedBuildId:    null,
       allocated:        { ...ZERO_ALLOC },
       scrolled:         { ...NO_SCROLLS },
       equipped:          {},

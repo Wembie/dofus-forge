@@ -107,6 +107,31 @@ export async function publishBuild(opts: {
   return { data: data as { id: string; slug: string | null }, error: null }
 }
 
+export async function updateBuild(buildId: string, opts: {
+  name:        string
+  visibility:  BuildVisibility
+  classSlug:   string
+  gender:      Gender
+  level:       number
+  gameVersion: string
+  snapshot:    BuildSnapshot
+}) {
+  const supabase = await getSupabase()
+  const { error } = await supabase
+    .from('builds')
+    .update({
+      name:         opts.name,
+      game_version: opts.gameVersion,
+      class_slug:   opts.classSlug,
+      gender:       opts.gender,
+      level:        opts.level,
+      visibility:   opts.visibility,
+      snapshot:     opts.snapshot,
+    })
+    .eq('id', buildId)
+  return { error: error?.message ?? null }
+}
+
 export async function recordBuildView(buildId: string, userId: string | null) {
   const supabase = await getSupabase()
   await supabase.rpc('record_view', { p_build_id: buildId, p_user_id: userId, p_ip_hash: null })

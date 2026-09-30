@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.11',
+    date: '2026-09-30',
+    notes: [
+      'Fix: publishing an already-published build created a duplicate instead of updating it (e.g. changing visibility). Re-publishing a build you loaded from My Builds, or your own build\'s page, now updates that same one instead',
+    ],
+  },
+  {
     version: '0.3.10',
     date: '2026-09-30',
     notes: [
