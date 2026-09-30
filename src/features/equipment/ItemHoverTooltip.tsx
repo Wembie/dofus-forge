@@ -6,10 +6,11 @@ import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 
 // Full item tooltip — portal, fixed position so it escapes any
 // overflow-y:auto ancestor (modals, scrollable card grids, etc).
-// Shared by SetDetailModal, SetsCatalog and BuildItemsList (read-only build
-// views) so they all show identical, complete item info (effects, weapon
-// attack, magesmithy, conditions, lore) on hover. `runes`/`forjamagoName`
-// are optional — omit them for a plain catalog item with no forgemagie.
+// Shared by SetDetailModal, SetsCatalog and BuildCharacterView (read-only
+// build views) so they all show identical, complete item info (effects,
+// weapon attack, magesmithy, conditions, lore) on hover. `runes`/
+// `forjamagoName` are optional — omit them for a plain catalog item with no
+// forgemagie.
 export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
   item: AppItem
   anchor: DOMRect

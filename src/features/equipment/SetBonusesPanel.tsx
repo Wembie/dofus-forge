@@ -2,7 +2,7 @@ import { useMemo, useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
-import type { AppSet, AppEffect } from '@/data/loaders.ts'
+import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { IconButton, Frame } from '@/ui'
 
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
@@ -61,7 +61,7 @@ function EffectRow({ e, active }: { e: AppEffect; active: boolean }) {
 
 // ── Compact set card — shows only current active tier ────────────────────────
 
-function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: () => void }) {
+function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen?: () => void }) {
   const { t }      = useTranslation()
   const tiers      = Object.entries(set.bonuses)
     .map(([k, v]) => ({ pieces: Number(k), effects: v }))
@@ -81,14 +81,20 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
       >
         <PieceDots count={count} max={maxPieces} />
 
-        <button
-          onClick={onOpen}
-          className="flex-1 text-left text-[13px] font-bold truncate min-w-0 transition-opacity hover:opacity-75"
-          style={{ color: 'var(--gold)' }}
-          title={set.name}
-        >
-          {set.name}
-        </button>
+        {onOpen ? (
+          <button
+            onClick={onOpen}
+            className="flex-1 text-left text-[13px] font-bold truncate min-w-0 transition-opacity hover:opacity-75"
+            style={{ color: 'var(--gold)' }}
+            title={set.name}
+          >
+            {set.name}
+          </button>
+        ) : (
+          <span className="flex-1 text-left text-[13px] font-bold truncate min-w-0" style={{ color: 'var(--gold)' }}>
+            {set.name}
+          </span>
+        )}
 
         <span
           className="font-mono text-[12px] font-bold flex-shrink-0 px-1.5 py-0.5 rounded"
@@ -101,9 +107,11 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
           {count}<span style={{ color: 'var(--gold-deep)' }}>/{maxPieces}</span>
         </span>
 
-        <IconButton label="View set" variant="subtle" size="sm" onClick={onOpen} title={t('view_set')}>
-          <Eye size={13} />
-        </IconButton>
+        {onOpen && (
+          <IconButton label="View set" variant="subtle" size="sm" onClick={onOpen} title={t('view_set')}>
+            <Eye size={13} />
+          </IconButton>
+        )}
       </div>
 
       {/* Active tier effects only */}
@@ -134,34 +142,36 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen: (
   )
 }
 
-// ── Panel ─────────────────────────────────────────────────────────────────────
+// ── Pure computation + read-only render — reused by the live panel below and
+// by BuildDetailPage (a snapshot, not the live store, has no set to open) ──
 
-export function SetBonusesPanel() {
-  const { t }      = useTranslation()
-  const equipped   = useBuildStore(s => s.equipped)
-  const _equipment = useBuildStore(s => s._equipment)
-  const _sets      = useBuildStore(s => s._sets)
+export function computeActiveSets(
+  equipped:  Partial<Record<string, number>>,
+  equipment: AppItem[],
+  sets:      AppSet[],
+): { set: AppSet; count: number }[] {
+  const equipMap   = new Map(equipment.map(it => [it.ankama_id, it]))
+  const countBySet = new Map<number, number>()
 
-  const [openSet, setOpenSet] = useState<AppSet | null>(null)
-
-  const activeSets = useMemo(() => {
-    const equipMap   = new Map(_equipment.map(it => [it.ankama_id, it]))
-    const countBySet = new Map<number, number>()
-
-    for (const id of Object.values(equipped)) {
-      if (id == null) continue
-      const item = equipMap.get(id)
-      if (item?.set_id != null) {
-        countBySet.set(item.set_id, (countBySet.get(item.set_id) ?? 0) + 1)
-      }
+  for (const id of Object.values(equipped)) {
+    if (id == null) continue
+    const item = equipMap.get(id)
+    if (item?.set_id != null) {
+      countBySet.set(item.set_id, (countBySet.get(item.set_id) ?? 0) + 1)
     }
+  }
 
-    return _sets
-      .filter(s => countBySet.has(s.ankama_id))
-      .map(s => ({ set: s, count: countBySet.get(s.ankama_id)! }))
-      .sort((a, b) => b.count - a.count)
-  }, [equipped, _equipment, _sets])
+  return sets
+    .filter(s => countBySet.has(s.ankama_id))
+    .map(s => ({ set: s, count: countBySet.get(s.ankama_id)! }))
+    .sort((a, b) => b.count - a.count)
+}
 
+export function ActiveSetsGrid({ activeSets, onOpenSet }: {
+  activeSets: { set: AppSet; count: number }[]
+  onOpenSet?: (set: AppSet) => void
+}) {
+  const { t } = useTranslation()
   if (activeSets.length === 0) return null
 
   const gridClass =
@@ -170,27 +180,51 @@ export function SetBonusesPanel() {
                               'grid grid-cols-3 gap-3'
 
   return (
+    <div>
+      <div className="flex items-center gap-2 pt-3 mb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+        <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest flex-1">
+          {t('active_sets')}
+        </h2>
+        <span className="text-[11px] font-mono" style={{ color: 'var(--ink-faint)' }}>
+          {t('set_count', { count: activeSets.length })}
+        </span>
+      </div>
+
+      <div className={gridClass || 'space-y-2'}>
+        {activeSets.map(({ set, count }) => (
+          <SetCard
+            key={set.ankama_id}
+            set={set}
+            count={count}
+            onOpen={onOpenSet ? () => onOpenSet(set) : undefined}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Live panel — equips/unequips through the current buildStore, so it's the
+// only place that also wires up the interactive SetDetailModal ────────────
+
+export function SetBonusesPanel() {
+  const equipped   = useBuildStore(s => s.equipped)
+  const _equipment = useBuildStore(s => s._equipment)
+  const _sets      = useBuildStore(s => s._sets)
+
+  const [openSet, setOpenSet] = useState<AppSet | null>(null)
+
+  const activeSets = useMemo(
+    () => computeActiveSets(equipped, _equipment, _sets),
+    [equipped, _equipment, _sets],
+  )
+
+  if (activeSets.length === 0) return null
+
+  return (
     <>
       <div className="px-3 pb-4">
-        <div className="flex items-center gap-2 pt-3 mb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          <h2 className="font-display text-forge-gold text-sm uppercase tracking-widest flex-1">
-            {t('active_sets')}
-          </h2>
-          <span className="text-[11px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-            {t('set_count', { count: activeSets.length })}
-          </span>
-        </div>
-
-        <div className={gridClass || 'space-y-2'}>
-          {activeSets.map(({ set, count }) => (
-            <SetCard
-              key={set.ankama_id}
-              set={set}
-              count={count}
-              onOpen={() => setOpenSet(set)}
-            />
-          ))}
-        </div>
+        <ActiveSetsGrid activeSets={activeSets} onOpenSet={setOpenSet} />
       </div>
 
       {openSet && (

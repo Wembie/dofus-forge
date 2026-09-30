@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.14',
+    date: '2026-09-30',
+    notes: [
+      'Feat: build detail page equipment now shows the real character layout (portrait in the middle, gear arranged around it, dofus row below) instead of a plain item list — same arrangement as the planner itself',
+      'Feat: active sets now show on the build detail page (piece count, active tier bonuses), just like in the planner',
+    ],
+  },
+  {
     version: '0.3.13',
     date: '2026-09-30',
     notes: [

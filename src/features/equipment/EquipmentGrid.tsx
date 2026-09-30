@@ -119,11 +119,12 @@ const SLOT_ICON: Record<string, () => JSX.Element> = {
   dofus4: DofusIcon, dofus5: DofusIcon, dofus6: DofusIcon,
 }
 
-// ── Layout groups ────────────────────────────────────────────────────────────
-const LEFT_SLOTS:   SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
-const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
-const EXTRAS_SLOTS: SlotId[] = ['sidekick']
-const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+// ── Layout groups — exported so read-only build views can mirror this exact
+// character-centered arrangement instead of a generic list/grid ───────────
+export const LEFT_SLOTS:   SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
+export const RIGHT_SLOTS:  SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
+export const EXTRAS_SLOTS: SlotId[] = ['sidekick']
+export const DOFUS_SLOTS:  SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
 const NO_RUNE_SLOTS = new Set<SlotId>(['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6','companion','sidekick'])
 

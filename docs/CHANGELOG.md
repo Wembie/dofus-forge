@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.14] — 2026-09-30
+- **Feat**: replaced `BuildItemsList` (a flat row-per-item list, one iteration ago) with `BuildCharacterView.tsx` — the same character-centered arrangement as the live `EquipmentGrid` (portrait + name + level in the middle, `LEFT_SLOTS`/`RIGHT_SLOTS` columns, extras row, dofus row below), now exported from `EquipmentGrid.tsx` so both stay in sync. Hovering a slot shows `ItemHoverTooltip` same as before (runes/forjamago included)
+- **Feat**: active sets now show on the build detail page. `SetBonusesPanel.tsx` split into a pure `computeActiveSets()` + `ActiveSetsGrid` (no store reads) reused by both the live panel (interactive, opens `SetDetailModal`) and the read-only detail page (`onOpenSet` omitted — a viewer clicking "view set" must never be able to equip/unequip into the *viewer's own* unrelated live build, which is what would've happened reusing the interactive panel as-is)
+
 ## [0.3.13] — 2026-09-30
 - **Feat**: `BuildDetailPage.tsx`'s equipment grid replaced with `BuildItemsList.tsx` — full rows styled like `SetDetailModal`'s item list (image, name, level, up to 6 stat chips) instead of a bare icon grid. Hovering a row shows the same `ItemHoverTooltip` used everywhere else, now extended with optional `runes`/`forjamagoName` props so it also renders the magesmithy section (and "Modificado por: <craftsman>") when the snapshot has runes on that slot — previously only `EquipmentGrid`'s own duplicated inline tooltip could show that
 - **Feat**: added the missing 6 base characteristics (Vitality/Wisdom/Strength/Intelligence/Chance/Agility) to the build detail page's stats panel — `StatsFromBlock` (reused from the live planner) only ever showed derived stats, never these, since the live planner shows them separately in `CharacteristicsPanel`'s allocation UI. Verified the whole page end-to-end with Playwright against a mocked build (real item ids, a rune, a craftsman name) since this sandbox has no network egress to the real Supabase project
