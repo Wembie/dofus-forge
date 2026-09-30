@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.12',
+    date: '2026-09-30',
+    notes: [
+      'Polish: equipment icons on build cards/detail pages now match the real planner\'s look (gold glow, gradient, bigger) instead of flat cramped squares',
+    ],
+  },
+  {
     version: '0.3.11',
     date: '2026-09-30',
     notes: [

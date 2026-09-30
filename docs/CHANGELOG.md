@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.12] — 2026-09-30
+- **Polish**: `BuildEquipmentPreview.tsx` was a flat, cramped grid — bare squares with thin borders, 26px icons packed tight. Reworked to match `EquipmentGrid`'s actual slot styling: gradient background, gold glow border, inset shadow, subtle diagonal highlight overlay on equipped slots. Bumped card preview size 26px → 34px, gap 1.5 → 2
+
 ## [0.3.11] — 2026-09-30
 - **Fix**: `PublishModal.tsx` always did an `insert` — publishing a build you'd already published (e.g. just to change its visibility) silently created a second row instead of updating the first. `buildStore.ts` gains `linkedBuildId` (cleared on `reset()`/`applySnapshot()`, set when loading a build you own — from `MyBuildsPage`'s cards, or your own build's `BuildDetailPage`, never when loading someone else's). `PublishModal` now calls the new `updateBuild()` (`features/builds/api.ts`) instead of `publishBuild()` whenever a build is linked, prefilling the modal from the real current row instead of defaulting back to "private"
 

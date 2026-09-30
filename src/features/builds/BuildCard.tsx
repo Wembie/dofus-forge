@@ -42,7 +42,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
         <span className="truncate">{ownerLabel}</span>
       </div>
 
-      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={26} hideEmpty />
+      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
 
       <div className="flex items-center gap-3 text-[11px] mt-auto pt-1" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
         <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
