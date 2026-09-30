@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
@@ -30,6 +30,7 @@ const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.t
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
 const AuthButton      = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
+const PublishModal    = lazy(() => import('@/features/publish/PublishModal.tsx').then(m => ({ default: m.PublishModal })))
 
 type MobileTab = 'equipment' | 'character' | 'stats'
 
@@ -58,6 +59,7 @@ function BuilderContent() {
   const [showChangelog,  setShowChangelog]  = useState(false)
   const [showOptimizer,  setShowOptimizer]  = useState(false)
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
+  const [showPublish, setShowPublish] = useState(false)
 
   const compareActive  = useCompareStore(s => s.active)
   const toggleCompare  = useCompareStore(s => s.toggle)
@@ -229,6 +231,31 @@ function BuilderContent() {
               <Layers size={13} />
               <span className="hidden lg:inline">{t('sets_catalog_open')}</span>
             </button>
+            {/* Explore public builds — hidden on mobile */}
+            <button
+              onClick={() => {
+                const lang     = i18n.language.slice(0, 2)
+                const langPath = lang === 'en' ? '' : `${lang}/`
+                navigate(`/${langPath}explore`)
+              }}
+              title={t('explore_open')}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+            >
+              <Compass size={13} />
+              <span className="hidden lg:inline">{t('explore_open')}</span>
+            </button>
+            {/* Publish current build — hidden on mobile */}
+            <button
+              onClick={() => setShowPublish(true)}
+              disabled={!hasClass}
+              title={t('publish_open')}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border disabled:opacity-30"
+              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+            >
+              <UploadCloud size={13} />
+              <span className="hidden lg:inline">{t('publish_open')}</span>
+            </button>
             {/* Compare toggle — hidden on mobile */}
             <button
               onClick={toggleCompare}
@@ -273,6 +300,13 @@ function BuilderContent() {
       {showSetsCatalog && (
         <Suspense fallback={null}>
           <SetsCatalog onClose={() => setShowSetsCatalog(false)} />
+        </Suspense>
+      )}
+
+      {/* Publish build */}
+      {showPublish && (
+        <Suspense fallback={null}>
+          <PublishModal open={showPublish} onClose={() => setShowPublish(false)} />
         </Suspense>
       )}
 

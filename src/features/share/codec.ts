@@ -4,8 +4,8 @@ import type { BuildState } from '@/store/buildStore.ts'
 
 const PREFIX = 'v1:'
 
-/** Encode build state to a URL-safe string (schema v1). */
-export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'buildName' | 'level' | 'gender' | 'allocated' | 'scrolled' | 'equipped' | 'runes' | 'forjamagoNames' | 'weaponTransforms'>): string {
+/** Build the compact BuildSnapshot object from live store state (schema v1). */
+export function buildSnapshotFromState(state: Pick<BuildState, 'selectedClass' | 'buildName' | 'level' | 'gender' | 'allocated' | 'scrolled' | 'equipped' | 'runes' | 'forjamagoNames' | 'weaponTransforms'>): BuildSnapshot {
   // Compact runes: only slots with at least one non-zero value
   const runeMap: Record<string, Record<string, number>> = {}
   for (const [slot, slotRunes] of Object.entries(state.runes ?? {})) {
@@ -26,7 +26,7 @@ export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'buildName
     if (transform) wtMap[slot] = { el: transform.element, r: transform.ratio }
   }
 
-  const snap: BuildSnapshot = {
+  return {
     v: 1,
     c: state.selectedClass ?? '',
     n: state.buildName || undefined,
@@ -39,10 +39,11 @@ export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'buildName
     fn: Object.keys(fnMap).length > 0 ? fnMap : undefined,
     wt: Object.keys(wtMap).length > 0 ? wtMap : undefined,
   }
-  const json   = JSON.stringify(snap)
-  const b64    = btoa(unescape(encodeURIComponent(json)))
-  const urlSafe = b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
-  return PREFIX + urlSafe
+}
+
+/** Encode build state to a URL-safe string (schema v1). */
+export function encodeBuild(state: Pick<BuildState, 'selectedClass' | 'buildName' | 'level' | 'gender' | 'allocated' | 'scrolled' | 'equipped' | 'runes' | 'forjamagoNames' | 'weaponTransforms'>): string {
+  return encodeSnapshot(buildSnapshotFromState(state))
 }
 
 /** Encode an already-built BuildSnapshot back to a URL-safe string. */

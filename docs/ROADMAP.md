@@ -42,6 +42,9 @@ Marcar con `[x]` cuando se complete.
 - [x] **M42 — Build Optimizer / "La Forjadora"** — algoritmo greedy por slot + beam search en Web Worker. Panel con sliders de peso por stat, constraints PA/PM/nivel, bloqueo de slots, top 3 builds sugeridos con preview de ítems + stats + botón "Cargar".
 - [x] **Comparar dos builds en paralelo** — ComparePanel debajo del grid principal, toggle en header (oculto en móvil)
 - [x] **M40 — Simulador PvP básico** — sección aparte "Simulador PvP" (`PvpArena`) en SpellsPanel: resistencia Fijo/% por elemento + selector de hechizos/arma (con imagen real) + click para simular un golpe contra un dummy, con número de daño flotante y animación de impacto (fórmula: `(daño - fijo) × (1 - %/100)`, mínimo 0, respeta % crítico)
+- [x] **M47 — Publicar build a la nube** — botón "Publicar" en el header (requiere sesión), modal con nombre + visibilidad (privado/no listado/público), inserta en `builds` con el snapshot completo como jsonb
+- [x] **M48 — Explorar builds públicos** — página `/explore` con filtro de clase + orden (mejor valorado/más likes/recientes/más vistos, usa los índices `idx_builds_explore_*`), grid de tarjetas, paginación "cargar más"
+- [x] **M49 — Página de detalle de build** — `/build/:id`: dueño, view count (RPC `record_view`), like (`build_likes`), rating 1-5 estrellas (`build_ratings`), comentarios (`build_comments`), botón "Cargar en el planner"
 
 ### Fixes completados
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms
