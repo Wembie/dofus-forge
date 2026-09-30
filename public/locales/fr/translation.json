@@ -476,5 +476,9 @@
   "auth_signup_btn": "S'inscrire",
   "auth_no_account": "Pas de compte ?",
   "auth_has_account": "Déjà un compte ?",
-  "auth_signout": "Déconnexion"
+  "auth_signout": "Déconnexion",
+  "auth_check_email_title": "Presque fini !",
+  "auth_signin_subtitle": "Connectez-vous pour sauvegarder et partager vos builds",
+  "auth_signup_subtitle": "Créez votre compte gratuit en quelques secondes",
+  "auth_check_spam": "Vous ne le voyez pas ? Vérifiez votre dossier spam ou courrier indésirable."
 }

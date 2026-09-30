@@ -476,5 +476,9 @@
   "auth_signup_btn": "Sign up",
   "auth_no_account": "Don't have an account?",
   "auth_has_account": "Already have an account?",
-  "auth_signout": "Sign out"
+  "auth_signout": "Sign out",
+  "auth_check_email_title": "Almost there!",
+  "auth_signin_subtitle": "Sign in to save and share your builds",
+  "auth_signup_subtitle": "Create your free account in seconds",
+  "auth_check_spam": "Don't see it? Check your spam or junk folder."
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Mail, Lock, MailCheck, Swords, X } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useAuthStore } from '@/store/authStore.ts'
 
@@ -39,68 +40,125 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
     close()
   }
 
-  const inputStyle: React.CSSProperties = {
-    background: 'var(--surface-panel)',
-    border:     '1px solid var(--metal-edge)',
-    color:      'var(--ink)',
-  }
-
   return (
-    <Modal open={open} onClose={close} title={t(mode === 'signin' ? 'auth_signin_title' : 'auth_signup_title')} size="sm">
-      <div className="p-4">
+    <Modal open={open} onClose={close} size="sm">
+      {/* Branded header — Modal's own title bar is plain text, this gives it the
+          same gold-accent identity used across the rest of the app. */}
+      <div
+        className="relative flex flex-col items-center gap-2 px-6 pt-7 pb-5"
+        style={{ background: 'linear-gradient(180deg, var(--surface-stone), var(--surface-panel))', borderBottom: '1px solid var(--metal-edge)' }}
+      >
+        <button
+          onClick={close}
+          aria-label={t('modal_close')}
+          className="absolute top-3 right-3 flex items-center justify-center w-6 h-6 rounded-sm transition-colors"
+          style={{ color: 'var(--ink-faint)' }}
+          onMouseEnter={e => (e.currentTarget.style.color = 'var(--ink)')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'var(--ink-faint)')}
+        >
+          <X size={14} />
+        </button>
+        <div
+          className="flex items-center justify-center w-11 h-11 rounded-full"
+          style={{ background: 'color-mix(in srgb, var(--gold) 14%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 35%, transparent)' }}
+        >
+          <Swords size={20} style={{ color: 'var(--gold)' }} />
+        </div>
+        <h2 className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
+          {t(signedUp ? 'auth_check_email_title' : mode === 'signin' ? 'auth_signin_title' : 'auth_signup_title')}
+        </h2>
+        {!signedUp && (
+          <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
+            {t(mode === 'signin' ? 'auth_signin_subtitle' : 'auth_signup_subtitle')}
+          </p>
+        )}
+      </div>
+
+      <div className="p-6">
         {signedUp ? (
-          <div className="text-center space-y-3 py-2">
+          <div className="text-center space-y-4 py-1">
+            <div className="flex justify-center">
+              <div
+                className="flex items-center justify-center w-14 h-14 rounded-full"
+                style={{ background: 'color-mix(in srgb, var(--gold) 12%, transparent)' }}
+              >
+                <MailCheck size={26} style={{ color: 'var(--gold)' }} />
+              </div>
+            </div>
             <p className="text-sm" style={{ color: 'var(--ink)' }}>{t('auth_check_email')}</p>
-            <Button variant="secondary" size="sm" onClick={close}>{t('modal_close')}</Button>
+            <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('auth_check_spam')}</p>
+            <Button variant="secondary" size="sm" onClick={close} className="w-full justify-center">
+              {t('modal_close')}
+            </Button>
           </div>
         ) : (
           <>
-            <form onSubmit={submit} className="space-y-3">
+            <form onSubmit={submit} className="space-y-3.5">
               <div>
-                <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ color: 'var(--ink-faint)' }}>
+                <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                   {t('auth_email')}
                 </label>
-                <input
-                  type="email"
-                  required
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full text-sm rounded px-2.5 py-1.5 focus:outline-none"
-                  style={inputStyle}
-                />
+                <div className="relative">
+                  <Mail size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
+                  <input
+                    type="email"
+                    required
+                    autoComplete="email"
+                    autoFocus
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
+                    style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
+                  />
+                </div>
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ color: 'var(--ink-faint)' }}>
+                <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                   {t('auth_password')}
                 </label>
-                <input
-                  type="password"
-                  required
-                  minLength={6}
-                  autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full text-sm rounded px-2.5 py-1.5 focus:outline-none"
-                  style={inputStyle}
-                />
+                <div className="relative">
+                  <Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
+                  <input
+                    type="password"
+                    required
+                    minLength={6}
+                    autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
+                    style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
+                  />
+                </div>
               </div>
 
               {error && (
-                <p className="text-[11px]" style={{ color: 'var(--negative)' }}>{error}</p>
+                <p
+                  className="text-[11px] rounded-md px-2.5 py-1.5"
+                  style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
+                >
+                  {error}
+                </p>
               )}
 
-              <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center">
+              <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center mt-1">
                 {busy ? t('auth_loading') : t(mode === 'signin' ? 'auth_signin_btn' : 'auth_signup_btn')}
               </Button>
             </form>
 
-            <p className="text-[11px] text-center mt-3" style={{ color: 'var(--ink-faint)' }}>
+            <div className="flex items-center gap-2 my-4">
+              <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
+            </div>
+
+            <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
               {mode === 'signin' ? t('auth_no_account') : t('auth_has_account')}{' '}
               <button
                 type="button"
                 onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(null) }}
-                className="underline"
+                className="font-semibold underline underline-offset-2"
                 style={{ color: 'var(--gold)' }}
               >
                 {t(mode === 'signin' ? 'auth_signup_btn' : 'auth_signin_btn')}

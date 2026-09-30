@@ -476,5 +476,9 @@
   "auth_signup_btn": "Crear cuenta",
   "auth_no_account": "¿No tienes cuenta?",
   "auth_has_account": "¿Ya tienes cuenta?",
-  "auth_signout": "Cerrar sesión"
+  "auth_signout": "Cerrar sesión",
+  "auth_check_email_title": "¡Ya casi!",
+  "auth_signin_subtitle": "Entra para guardar y compartir tus builds",
+  "auth_signup_subtitle": "Crea tu cuenta gratis en segundos",
+  "auth_check_spam": "¿No lo ves? Revisa la carpeta de spam o no deseado."
 }

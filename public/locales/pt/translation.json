@@ -476,5 +476,9 @@
   "auth_signup_btn": "Criar conta",
   "auth_no_account": "Não tem conta?",
   "auth_has_account": "Já tem conta?",
-  "auth_signout": "Sair"
+  "auth_signout": "Sair",
+  "auth_check_email_title": "Quase lá!",
+  "auth_signin_subtitle": "Entre para salvar e compartilhar suas builds",
+  "auth_signup_subtitle": "Crie sua conta grátis em segundos",
+  "auth_check_spam": "Não encontrou? Verifique sua pasta de spam ou lixo eletrônico."
 }
