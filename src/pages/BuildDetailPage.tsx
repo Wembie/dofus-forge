@@ -11,8 +11,9 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
-import { BuildItemsList } from '@/features/builds/BuildItemsList.tsx'
+import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
 import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
 import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics } from '@/engine/types.ts'
 import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
@@ -136,6 +137,14 @@ export function BuildDetailPage() {
     return recompute(snap.c as DofusClass, snap.l, allocated, scrolled, equipped, equipmentData, setsData, runes)
   }, [build, equipmentData, setsData])
 
+  const activeSets = useMemo(() => {
+    if (!build || !equipmentData || !setsData) return []
+    const equipped = Object.fromEntries(
+      ALL_SLOTS.map((slot, i) => [slot, build.snapshot.e[i] ?? undefined]).filter(([, v]) => v != null)
+    ) as Partial<Record<SlotId, number>>
+    return computeActiveSets(equipped, equipmentData, setsData)
+  }, [build, equipmentData, setsData])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-forge-bg flex items-center justify-center text-sm" style={{ color: 'var(--ink-faint)' }}>
@@ -214,10 +223,23 @@ export function BuildDetailPage() {
 
         {/* Equipment + full stats — same 2-column layout as the real planner */}
         <div className="grid lg:grid-cols-[1fr_360px] gap-4 items-start">
-          <Frame padding="lg">
-            <h2 className="text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--gold)' }}>{t('equipment')}</h2>
-            <BuildItemsList snapshot={build.snapshot} equipment={equipmentData} />
-          </Frame>
+          <div className="space-y-4">
+            <Frame padding="lg">
+              <BuildCharacterView
+                snapshot={build.snapshot}
+                equipment={equipmentData}
+                portrait={portrait}
+                classLabel={resolvedClassLabel}
+                level={build.level}
+              />
+            </Frame>
+
+            {activeSets.length > 0 && (
+              <Frame padding="lg">
+                <ActiveSetsGrid activeSets={activeSets} />
+              </Frame>
+            )}
+          </div>
 
           <div className="space-y-4">
             {computedStats && (
