@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ArrowLeft, Star, Heart, Eye, User, UploadCloud } from 'lucide-react'
 import { Button, Frame } from '@/ui'
+import { StatsFromBlock } from '@/features/stats-panel/StatsPanel.tsx'
 import { useBuildStore, recompute, ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
@@ -157,6 +158,7 @@ export function BuildDetailPage() {
   const portrait   = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
   const owner      = build.profiles
   const ownerLabel = owner?.display_name || owner?.username || ''
+  const runesForDisplay = (build.snapshot.r ?? {}) as Partial<Record<SlotId, RuneMap>>
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
@@ -170,8 +172,8 @@ export function BuildDetailPage() {
         </Link>
       </header>
 
-      <main className="px-4 sm:px-6 py-6 max-w-3xl mx-auto space-y-4">
-        <Frame padding="lg" className="space-y-4">
+      <main className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
+        <Frame padding="lg" className="space-y-3">
           <div className="flex items-center gap-3">
             {portrait && (
               <img src={portrait} alt="" width={56} height={56} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
@@ -186,15 +188,14 @@ export function BuildDetailPage() {
             </Button>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-faint)' }}>
-            {isSafeImageUrl(owner?.avatar_url)
-              ? <img src={owner.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
-              : <User size={13} />
-            }
-            <span>{ownerLabel}</span>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs pt-2" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
+          <div className="flex flex-wrap items-center gap-4 text-xs pt-1" style={{ color: 'var(--ink-faint)' }}>
+            <span className="flex items-center gap-1.5">
+              {isSafeImageUrl(owner?.avatar_url)
+                ? <img src={owner.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
+                : <User size={13} />
+              }
+              {ownerLabel}
+            </span>
             <button
               onClick={handleToggleLike}
               disabled={!session}
@@ -208,46 +209,28 @@ export function BuildDetailPage() {
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
             <span className="flex items-center gap-1.5"><Star size={14} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)} ({build.rating_count})</span>
           </div>
-
-          <div>
-            <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_your_rating')}</p>
-            <StarRating value={myRating ?? 0} onRate={handleRate} disabled={!session} />
-            {!session && <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_signin_required')}</p>}
-          </div>
         </Frame>
 
-        <Frame padding="lg" className="grid sm:grid-cols-[1fr_auto] gap-4">
-          <div>
-            <h2 className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--gold)' }}>{t('equipment')}</h2>
-            <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipmentData} size={44} />
+        {/* Equipment + full stats — same 2-column layout as the real planner */}
+        <div className="grid lg:grid-cols-[1fr_360px] gap-4 items-start">
+          <Frame padding="lg">
+            <h2 className="text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--gold)' }}>{t('equipment')}</h2>
+            <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipmentData} size={52} />
+          </Frame>
+
+          <div className="space-y-4">
+            {computedStats && (
+              <Frame padding="lg" material="parchment">
+                <StatsFromBlock s={computedStats} runes={runesForDisplay} />
+              </Frame>
+            )}
+            <Frame padding="lg">
+              <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_your_rating')}</p>
+              <StarRating value={myRating ?? 0} onRate={handleRate} disabled={!session} />
+              {!session && <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_signin_required')}</p>}
+            </Frame>
           </div>
-          {computedStats && (
-            <div className="sm:w-40 sm:pl-4 sm:border-l" style={{ borderColor: 'var(--metal-edge)' }}>
-              <h2 className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--gold)' }}>{t('stats')}</h2>
-              <div className="grid grid-cols-4 gap-1.5 mb-3">
-                {[
-                  { label: t('badge_hp'), value: computedStats.maxHp },
-                  { label: t('badge_ap'), value: computedStats.ap },
-                  { label: t('badge_mp'), value: computedStats.mp },
-                  { label: t('badge_range'), value: computedStats.range },
-                ].map(b => (
-                  <div key={b.label} className="text-center rounded-md py-1" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-                    <p className="text-xs font-bold" style={{ color: 'var(--gold)' }}>{b.value}</p>
-                    <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{b.label}</p>
-                  </div>
-                ))}
-              </div>
-              <ul className="space-y-1 text-[11px]" style={{ color: 'var(--ink-muted)' }}>
-                <li className="flex justify-between"><span>{t('char_vitality')}</span><strong>{computedStats.vitality}</strong></li>
-                <li className="flex justify-between"><span>{t('char_wisdom')}</span><strong>{computedStats.wisdom}</strong></li>
-                <li className="flex justify-between"><span>{t('char_strength')}</span><strong>{computedStats.strength}</strong></li>
-                <li className="flex justify-between"><span>{t('char_intelligence')}</span><strong>{computedStats.intelligence}</strong></li>
-                <li className="flex justify-between"><span>{t('char_chance')}</span><strong>{computedStats.chance}</strong></li>
-                <li className="flex justify-between"><span>{t('char_agility')}</span><strong>{computedStats.agility}</strong></li>
-              </ul>
-            </div>
-          )}
-        </Frame>
+        </div>
 
         <Frame padding="lg" className="space-y-3">
           <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>

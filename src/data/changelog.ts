@@ -12,6 +12,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-09-30',
     notes: [
       'Polish: equipment icons on build cards/detail pages now match the real planner\'s look (gold glow, gradient, bigger) instead of flat cramped squares',
+      'Feat: the build detail page now shows the full stat sheet (elemental damage/resistance table, crit, initiative, dodge/lock, magesmithy totals, everything) — the exact same panel as the real planner, not just a handful of numbers',
     ],
   },
   {
