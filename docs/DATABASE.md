@@ -1,9 +1,23 @@
 # Dofus Forge — Database Schema
 
 > **Motor:** PostgreSQL (Supabase)  
-> **Última revisión:** 2026-09-01  
+> **Última revisión:** 2026-09-30 — validado línea por línea contra el código real (`buildStore.ts`, `engine/types.ts`)  
 > **Estado:** Diseño validado, pendiente de implementar  
 > **Repo:** público — este archivo no contiene credenciales, URLs de conexión ni API keys
+
+### Cambios de la revisión 2026-09-30
+
+El diseño original (2026-09-01) no se validó contra el código real del builder. 5 desalineaciones encontradas y corregidas en este archivo:
+
+| # | Problema | Antes | Ahora |
+|---|---|---|---|
+| 1 | `selectedClass` es un **slug** (`'sram'`, `'cra'`...), no un breed id numérico — ver `engine/types.ts` `DOFUS_CLASSES` | `class_id smallint` | `class_slug text` con CHECK de los 19 slugs válidos |
+| 2 | `BuildState.gender` (`'male'`\|`'female'`, portrait de clase) no existía en ningún lado del schema | — | `builds.gender text` |
+| 3 | `SlotId` real (`buildStore.ts`) es `hat,cape,amulet,ring1,ring2,belt,boots,weapon,shield,companion,sidekick,dofus1-6` — el CHECK tenía `offhand`/`mount` (no existen) y le faltaba `shield` y `sidekick` | `'offhand','mount'`, sin `shield`/`sidekick` | lista exacta de `ALL_SLOTS` |
+| 4 | `WeaponTransform = {element, ratio}` — el schema solo guardaba `element`, perdiendo el `ratio` (85/68/50%) | solo `weapon_transform text` | + `weapon_transform_ratio smallint` |
+| 5 | `to_tsvector('spanish', ...)` en una app ES/EN/FR/PT hace stemming incorrecto sobre nombres/descripciones en inglés, francés o portugués | `'spanish'` | `'simple'` (sin stemming, agnóstico de idioma) |
+
+---
 
 ---
 
@@ -108,7 +122,8 @@ erDiagram
         text name
         text slug UK
         text game_version
-        smallint class_id
+        text class_slug
+        text gender
         smallint level
         build_visibility visibility
         boolean is_featured
@@ -147,6 +162,7 @@ erDiagram
         jsonb runes
         text forjamago_name
         text weapon_transform
+        smallint weapon_transform_ratio
     }
 
     build_snapshots {
@@ -371,8 +387,9 @@ Entidad principal. Contiene metadatos + snapshot completo.
 | `name` | text | Nombre del build |
 | `description` | text | Descripción libre |
 | `slug` | text UNIQUE | URL amigable auto-generada |
-| `game_version` | text | Ej: `'3.6'`, `'3.7'` |
-| `class_id` | smallint | breed ID del juego |
+| `game_version` | text | Ej: `'3.6.11.15'` — de `public/data/version.json`, sin default (siempre explícito al guardar) |
+| `class_slug` | text | Slug de `DOFUS_CLASSES` (`engine/types.ts`), no un breed id — ej. `'sram'`, `'cra'` |
+| `gender` | text | `'male'` / `'female'` — portrait de clase (`BuildState.gender`) |
 | `level` | smallint | 1-200 CHECK |
 | `visibility` | enum | `private` / `unlisted` / `public` |
 | `is_featured` | boolean | Destacado por admin |
@@ -386,15 +403,16 @@ Entidad principal. Contiene metadatos + snapshot completo.
 | `fork_of` | uuid FK self | Build origen si es fork |
 | `search_vector` | tsvector GENERATED | Full-text sobre name+description |
 
-**Formato de `snapshot`:**
+**Formato de `snapshot`** (espejo de `BuildSnapshot` en `codec.ts` — ver esa fuente para el formato compacto real que viaja en la URL; esta es la forma expandida que conviene guardar en JSONB):
 ```json
 {
+  "gender":           "male",
   "equipped":         { "hat": 12345, "ring1": 67890 },
   "characteristics":  { "vitality": 300, "strength": 100 },
   "scrolls":          { "vitality": true, "strength": false },
   "runes":            { "hat": { "Vitality": 100 } },
   "forjamagoNames":   { "hat": "Sombrero épico" },
-  "weaponTransforms": { "weapon": "fire" }
+  "weaponTransforms": { "weapon": { "element": "fire", "ratio": 85 } }
 }
 ```
 
@@ -409,7 +427,7 @@ Items equipados normalizados. Permite query "builds que usan item X".
 | `slot` | text PK | CHECK en enum de slots válidos |
 | `item_id` | int | ID del juego (datos estáticos, no FK) |
 
-**Slots válidos:** `hat`, `amulet`, `ring1`, `ring2`, `belt`, `boots`, `cape`, `weapon`, `offhand`, `mount`, `dofus1`–`dofus6`, `companion`
+**Slots válidos** (= `ALL_SLOTS` en `buildStore.ts`, exactos): `hat`, `cape`, `amulet`, `ring1`, `ring2`, `belt`, `boots`, `weapon`, `shield`, `companion`, `sidekick`, `dofus1`–`dofus6`
 
 ---
 
@@ -433,7 +451,8 @@ Runas por slot. JSONB porque los nombres de stats cambian con parches.
 | `slot` | text PK | |
 | `runes` | jsonb | `{"Vitality": 100, "AP": 1}` |
 | `forjamago_name` | text | Nombre dado al forjamago |
-| `weapon_transform` | text | CHECK en `earth/fire/water/air/neutral` o NULL |
+| `weapon_transform` | text | CHECK en `earth/fire/water/air` o NULL (`WeaponTransform.element` nunca es `'neutral'` — se transforma daño neutral HACIA un elemento) |
+| `weapon_transform_ratio` | smallint | CHECK en `85/68/50` (%) o NULL — junto con `weapon_transform`, ambos NULL o ambos con valor |
 
 ---
 
@@ -533,8 +552,13 @@ create table builds (
   name            text not null,
   description     text,
   slug            text unique,
-  game_version    text not null default '3.6',
-  class_id        smallint not null,
+  game_version    text not null,  -- ej. '3.6.11.15' (public/data/version.json), sin default: siempre explícito
+  class_slug      text not null check (class_slug in (
+    'cra','ecaflip','eniripsa','enutrof','eliotrope','feca','foggernaut',
+    'forgelance','huppermage','iop','masqueraider','osamodas','ouginak','pandawa',
+    'rogue','sacrier','sadida','sram','xelor'
+  )),
+  gender          text not null default 'male' check (gender in ('male','female')),
   level           smallint not null default 200 check (level between 1 and 200),
   visibility      build_visibility not null default 'private',
   is_featured     boolean not null default false,
@@ -547,7 +571,10 @@ create table builds (
   rating_count    int not null default 0,
   fork_of         uuid references builds(id) on delete set null,
   search_vector   tsvector generated always as (
-    to_tsvector('spanish', coalesce(name, '') || ' ' || coalesce(description, ''))
+    -- 'simple' (no stemming), no 'spanish': nombres/descripciones son texto libre del
+    -- usuario en cualquiera de los 4 idiomas de la app (es/en/fr/pt) — un config de
+    -- idioma fijo stemea mal los otros 3
+    to_tsvector('simple', coalesce(name, '') || ' ' || coalesce(description, ''))
   ) stored,
   created_at      timestamptz default now(),
   updated_at      timestamptz default now()
@@ -565,11 +592,12 @@ alter table profiles
 
 create table build_items (
   build_id  uuid not null references builds(id) on delete cascade,
+  -- = ALL_SLOTS en buildStore.ts, exacto (antes tenía 'offhand'/'mount' que no
+  -- existen y le faltaban 'shield' y 'sidekick')
   slot      text not null check (slot in (
-    'hat','amulet','ring1','ring2','belt','boots','cape',
-    'weapon','offhand','mount',
-    'dofus1','dofus2','dofus3','dofus4','dofus5','dofus6',
-    'companion'
+    'hat','cape','amulet','ring1','ring2','belt','boots',
+    'weapon','shield','companion','sidekick',
+    'dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'
   )),
   item_id   int not null,
   primary key (build_id, slot)
@@ -602,12 +630,18 @@ create table build_characteristics (
 -- ═══════════════════════════════════════════════════════════════
 
 create table build_runes (
-  build_id          uuid not null references builds(id) on delete cascade,
-  slot              text not null,
-  runes             jsonb not null default '{}',
-  forjamago_name    text,
-  weapon_transform  text check (weapon_transform in ('earth','fire','water','air','neutral')),
-  primary key (build_id, slot)
+  build_id                uuid not null references builds(id) on delete cascade,
+  slot                    text not null,
+  runes                   jsonb not null default '{}',
+  forjamago_name          text,
+  -- WeaponTransform = {element, ratio} en buildStore.ts — element nunca es 'neutral'
+  -- (se transforma daño neutral HACIA un elemento). ratio faltaba en el diseño original.
+  weapon_transform        text check (weapon_transform in ('earth','fire','water','air')),
+  weapon_transform_ratio  smallint check (weapon_transform_ratio in (85, 68, 50)),
+  primary key (build_id, slot),
+  constraint weapon_transform_pair check (
+    (weapon_transform is null) = (weapon_transform_ratio is null)
+  )
 );
 
 
@@ -793,10 +827,10 @@ create table build_reports (
 ```sql
 -- ── Explore (queries de listado con filtros + ordenamiento) ──────────
 -- Filtrar por clase + ordenar por cada métrica de popularidad
-create index idx_builds_explore_rating   on builds(class_id, avg_rating desc)  where visibility = 'public';
-create index idx_builds_explore_likes    on builds(class_id, like_count desc)  where visibility = 'public';
-create index idx_builds_explore_recent   on builds(class_id, created_at desc)  where visibility = 'public';
-create index idx_builds_explore_views    on builds(class_id, view_count desc)  where visibility = 'public';
+create index idx_builds_explore_rating   on builds(class_slug, avg_rating desc)  where visibility = 'public';
+create index idx_builds_explore_likes    on builds(class_slug, like_count desc)  where visibility = 'public';
+create index idx_builds_explore_recent   on builds(class_slug, created_at desc)  where visibility = 'public';
+create index idx_builds_explore_views    on builds(class_slug, view_count desc)  where visibility = 'public';
 -- Filtrar por nivel (builds nivel 200, builds leveling, etc.)
 create index idx_builds_level            on builds(level) where visibility = 'public';
 -- Builds destacados por admin
@@ -1144,7 +1178,7 @@ select b.*, p.username, p.avatar_url
 from builds b
 join profiles p on p.id = b.user_id
 where b.visibility = 'public'
-  and b.class_id = 1          -- Pandawa
+  and b.class_slug = 'pandawa'
   and b.level between 180 and 200
 order by b.avg_rating desc, b.rating_count desc
 limit 20 offset 0;
@@ -1152,11 +1186,11 @@ limit 20 offset 0;
 -- Búsqueda full-text
 select * from builds
 where visibility = 'public'
-  and search_vector @@ plainto_tsquery('spanish', 'panda critico pvp')
-order by ts_rank(search_vector, plainto_tsquery('spanish', 'panda critico pvp')) desc;
+  and search_vector @@ plainto_tsquery('simple', 'panda critico pvp')
+order by ts_rank(search_vector, plainto_tsquery('simple', 'panda critico pvp')) desc;
 
 -- ¿Qué builds usan el Gelano (item_id=8023)?
-select b.id, b.name, b.slug, b.class_id, b.avg_rating
+select b.id, b.name, b.slug, b.class_slug, b.avg_rating
 from builds b
 join build_items bi on bi.build_id = b.id
 where bi.item_id = 8023 and b.visibility = 'public'
@@ -1211,7 +1245,9 @@ select
 | Alguien intenta hacer follow a sí mismo | `check (follower_id != following_id)` en `follows` |
 | Rating fuera de rango | `check (rating between 1 and 5)` |
 | Characteristic negativa | `check (vitality >= 0)` etc. |
-| weapon_transform valor inválido | `check (weapon_transform in ('earth','fire','water','air','neutral'))` |
+| weapon_transform valor inválido | `check (weapon_transform in ('earth','fire','water','air'))` |
+| weapon_transform sin su ratio (o viceversa) | `constraint weapon_transform_pair check ((weapon_transform is null) = (weapon_transform_ratio is null))` |
+| class_slug inválido | `check (class_slug in (...19 slugs de DOFUS_CLASSES...))` |
 | Username con caracteres raros | `check (username ~ '^[a-z0-9_-]{3,30}$')` |
 | Vista duplicada por el mismo user | `record_view()` verifica ventana de 1 hora antes de incrementar |
 | Contador drift si trigger falla | Tolerable a esta escala. Query de reconciliación: `update builds set like_count = (select count(*) from build_likes where build_id = id)` |
@@ -1321,4 +1357,4 @@ update profiles set role = 'moderator' where username = 'wembie';
 
 El trigger `protect_profile_system_fields` verifica que la sesión sea `service_role` antes de permitir el cambio.
 
-*Generado: 2026-09-01 — No editar manualmente sin actualizar el SQL en Supabase*
+*Generado: 2026-09-01, validado y corregido: 2026-09-30 — No editar manualmente sin actualizar el SQL en Supabase*

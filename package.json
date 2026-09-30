@@ -15,6 +15,7 @@
     "fetch-images": "tsx scripts/fetch-images.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
     "clsx": "^2.1.1",
     "html-to-image": "^1.11.13",
     "i18next": "^23.16.8",
