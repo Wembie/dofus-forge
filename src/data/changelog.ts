@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.3',
+    date: '2026-09-30',
+    notes: [
+      'Feat: pick your own username at signup instead of getting an auto-generated one from your email — required field, checked for availability before creating the account',
+    ],
+  },
+  {
     version: '0.3.2',
     date: '2026-09-30',
     notes: [

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Mail, Lock, MailCheck, Swords, X } from 'lucide-react'
+import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useAuthStore } from '@/store/authStore.ts'
 
@@ -14,12 +14,13 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   const [mode, setMode]         = useState<Mode>('signin')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
   const [busy, setBusy]         = useState(false)
   const [error, setError]       = useState<string | null>(null)
   const [signedUp, setSignedUp] = useState(false)
 
   function reset() {
-    setEmail(''); setPassword(''); setError(null); setBusy(false); setSignedUp(false)
+    setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false); setSignedUp(false)
   }
 
   function close() {
@@ -33,9 +34,12 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
     setBusy(true)
     const { error: err } = mode === 'signin'
       ? await signIn(email, password)
-      : await signUp(email, password)
+      : await signUp(email, password, username.trim().toLowerCase())
     setBusy(false)
-    if (err) { setError(err); return }
+    if (err) {
+      setError(err === 'invalid_username' ? t('auth_username_invalid') : err === 'username_taken' ? t('auth_username_taken') : err)
+      return
+    }
     if (mode === 'signup') { setSignedUp(true); return }
     close()
   }
@@ -114,6 +118,31 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                   />
                 </div>
               </div>
+              {mode === 'signup' && (
+                <div>
+                  <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                    {t('auth_username')}
+                  </label>
+                  <div className="relative">
+                    <User size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
+                    <input
+                      type="text"
+                      required
+                      minLength={3}
+                      maxLength={30}
+                      pattern="[a-z0-9_-]{3,30}"
+                      autoComplete="username"
+                      value={username}
+                      onChange={e => setUsername(e.target.value)}
+                      className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
+                      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+                      onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
+                    />
+                  </div>
+                  <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_username_hint')}</p>
+                </div>
+              )}
               <div>
                 <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                   {t('auth_password')}

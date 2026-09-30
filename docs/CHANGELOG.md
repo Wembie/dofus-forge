@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.3] — 2026-09-30
+- **Feat**: sign-up now asks for a username directly (required, `[a-z0-9_-]{3,30}`) instead of auto-generating one from the email prefix. `authStore.signUp()` pre-checks availability against `profiles` before calling `supabase.auth.signUp()` and passes it via `options.data.username`; `handle_new_user()` trigger (`schema.sql`) now reads `raw_user_meta_data->>'username'` when present and falls back to the old email-derived logic only when it's missing (existing accounts unaffected). Needs the updated `handle_new_user()` function re-run in the Supabase SQL editor (`create or replace function`, safe on an existing DB)
+
 ## [0.3.2] — 2026-09-30
 - **Fix**: `RootRoute` in `App.tsx` redirects a returning visitor with a saved language preference from `/` to `/{lang}/`, but only carried `location.search` — dropping `location.hash` entirely. Supabase's confirmation link lands on `/` with `#access_token=...` in the hash; if you had a saved non-English preference, that redirect fired before the auth client ever saw the token, landing you on the real page but never actually signed in
 - **Feat**: change your own username from the account menu (top-right, next to sign out) — `EditUsernameModal.tsx` + `authStore.ts`'s `updateUsername()`. `AuthButton` already showed `display_name`/`username` instead of the raw email everywhere (the `profiles` row is auto-created on signup with a sanitized username via the `handle_new_user` trigger); this just lets you pick your own instead of the auto-generated one

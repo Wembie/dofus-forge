@@ -486,5 +486,6 @@
   "auth_username_hint": "This is the name others will see — never your email. Lowercase letters, numbers, dashes. 3-30 characters.",
   "auth_username_invalid": "Lowercase letters, numbers, - and _ only. 3-30 characters.",
   "auth_username_taken": "That username is already taken.",
-  "auth_username_error": "Could not update. Try again."
+  "auth_username_error": "Could not update. Try again.",
+  "auth_username": "Username"
 }
