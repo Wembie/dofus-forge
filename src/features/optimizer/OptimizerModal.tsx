@@ -238,7 +238,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   function toggleGroup(key: string) {
     setExpandedGroups(s => {
       const n = new Set(s)
-      n.has(key) ? n.delete(key) : n.add(key)
+      if (n.has(key)) n.delete(key)
+      else n.add(key)
       return n
     })
   }
@@ -246,7 +247,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   function toggleSlot(slot: SlotId) {
     setConfig(c => {
       const ls = new Set(c.lockedSlots)
-      ls.has(slot) ? ls.delete(slot) : ls.add(slot)
+      if (ls.has(slot)) ls.delete(slot)
+      else ls.add(slot)
       return { ...c, lockedSlots: ls }
     })
   }

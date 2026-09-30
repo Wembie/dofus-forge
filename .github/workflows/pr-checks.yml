@@ -1,0 +1,88 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Build, lint, type-check, tests ───────────────────────────────────
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # tsc -b (strict type check) + vite build — no Supabase secrets needed:
+      # missing VITE_SUPABASE_* only warns at runtime, never fails the build.
+      - name: Type check + build
+        run: pnpm build
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test --run
+
+  # ── Security ──────────────────────────────────────────────────────────
+  security:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # required for CodeQL SARIF upload
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # gitleaks needs full history to scan the PR's commit range
+
+      # Fails fast, cheap, and specific to this repo: .env holds real
+      # Supabase credentials locally and must never be committed.
+      - name: .env must never be committed
+        run: |
+          if git ls-files | grep -qx '\.env'; then
+            echo "::error::.env is tracked in git — remove it and rotate any exposed keys immediately."
+            exit 1
+          fi
+
+      - name: Scan for leaked secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # High/critical only — moderate/low in transitive deps with no fix
+      # available yet would otherwise block every PR on noise.
+      - name: Dependency audit (high/critical)
+        run: pnpm audit --audit-level=high
+
+      - name: CodeQL init
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - name: CodeQL analyze
+        uses: github/codeql-action/analyze@v3

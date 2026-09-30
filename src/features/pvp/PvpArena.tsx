@@ -143,7 +143,7 @@ export function PvpArena() {
     setSelected(atk)
 
     let result: HitResult
-    let effectiveCrit = 0
+    let effectiveCrit: number
 
     if (atk.kind === 'weapon') {
       if (!equippedWeapon) return
