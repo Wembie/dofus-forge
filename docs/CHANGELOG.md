@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.7] — 2026-09-30
+- **Fix**: publishing a build then opening it (Explore card or the detail link) failed with `PGRST201`: `builds` embeds `profiles` through more than one relationship — the owner FK (`builds_user_id_fkey`), `fk_pinned_build`, and transitively through `build_likes`/`build_ratings`/`build_bookmarks` as many-to-many junctions — so PostgREST rejected the bare `profiles(...)` embed in `features/builds/api.ts`'s `LIST_COLUMNS` as ambiguous. Same risk existed in `fetchComments()` (`comment_likes` joins `build_comments` to `profiles` as a second path). Both now name the exact FK: `profiles!builds_user_id_fkey(...)` and `profiles!build_comments_user_id_fkey(...)`
+
 ## [0.3.6] — 2026-09-30
 - **Feat (M47 — Publish)**: new `src/features/publish/PublishModal.tsx` + `src/features/builds/api.ts`'s `publishBuild()` — inserts into `builds` with the current build's `BuildSnapshot` stored directly as the `snapshot` jsonb column (refactored `codec.ts`'s `encodeBuild()` to expose `buildSnapshotFromState()` so both the URL-encoder and the cloud-publish path share the same snapshot-building logic instead of duplicating it). Requires sign-in; name + visibility (private/unlisted/public) picked in the modal; slug generated server-side via the existing `generate_slug()` RPC. New "Publicar" header button (next to "Explorar"), disabled until a class is picked, same as the other build-dependent actions
 - **Feat (M48 — Explore)**: new route `/{lang}/explore` (`src/pages/ExplorePage.tsx`) lists public builds (`visibility = 'public'`) with a class filter and 4 sort modes (rating/likes/recent/views) mapped directly to the `idx_builds_explore_*` partial indexes already in `schema.sql`. `BuildCard.tsx` shows the class portrait, name, level, owner (avatar/username), and like/rating/view counts. Paginated via `range()` + a "Load more" button (24 per page)

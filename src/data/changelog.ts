@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.7',
+    date: '2026-09-30',
+    notes: [
+      'Fix: Explore and build detail pages failed to load ("this build does not exist or is private") right after publishing — a Supabase query ambiguity (builds/build_comments link to profiles through more than one relationship), now fixed by naming the exact one to use',
+    ],
+  },
+  {
     version: '0.3.6',
     date: '2026-09-30',
     notes: [

@@ -30,7 +30,11 @@ export type BuildRow = {
 
 export type BuildDetailRow = BuildRow & { snapshot: BuildSnapshot }
 
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, profiles(username, display_name, avatar_url)'
+// `profiles!builds_user_id_fkey` is required, not optional — builds has
+// several relationships to profiles (fk_pinned_build, plus many-to-many via
+// build_likes/build_ratings/build_bookmarks as junction tables), so a bare
+// `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
+const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
 
 const SORT_COLUMN: Record<ExploreSort, string> = {
   rating: 'avg_rating',
@@ -145,7 +149,9 @@ export async function fetchComments(buildId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('build_comments')
-    .select('id, content, created_at, user_id, profiles(username, display_name, avatar_url)')
+    // Explicit FK name — same PGRST201 ambiguity risk as LIST_COLUMNS above
+    // (comment_likes joins build_comments to profiles as a second path).
+    .select('id, content, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
     .eq('build_id', buildId)
     .is('deleted_at', null)
     .order('created_at', { ascending: true })
