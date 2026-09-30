@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { User, LogOut, Pencil } from 'lucide-react'
-import { useAuthStore } from '@/store/authStore.ts'
+import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { AuthModal } from './AuthModal.tsx'
-import { EditUsernameModal } from './EditUsernameModal.tsx'
+import { ProfileModal } from './ProfileModal.tsx'
 
 export function AuthButton() {
   const { t }      = useTranslation()
@@ -12,9 +12,9 @@ export function AuthButton() {
   const loading    = useAuthStore(s => s.loading)
   const signOut    = useAuthStore(s => s.signOut)
 
-  const [showAuth, setShowAuth]     = useState(false)
-  const [showMenu, setShowMenu]     = useState(false)
-  const [showEditName, setShowEditName] = useState(false)
+  const [showAuth, setShowAuth]       = useState(false)
+  const [showMenu, setShowMenu]       = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export function AuthButton() {
         style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
         title={label}
       >
-        {profile?.avatar_url
+        {isSafeImageUrl(profile?.avatar_url)
           ? <img src={profile.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
           : <User size={13} />
         }
@@ -71,12 +71,12 @@ export function AuthButton() {
           style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame)' }}
         >
           <button
-            onClick={() => { setShowMenu(false); setShowEditName(true) }}
+            onClick={() => { setShowMenu(false); setShowProfile(true) }}
             className="w-full flex items-center gap-2 px-3 py-2 text-[11px] text-left transition-colors hover:bg-surface-raised"
             style={{ color: 'var(--ink-muted)' }}
           >
             <Pencil size={13} />
-            {t('auth_edit_username')}
+            {t('auth_profile_title')}
           </button>
           <button
             onClick={() => { setShowMenu(false); signOut() }}
@@ -89,7 +89,7 @@ export function AuthButton() {
         </div>
       )}
 
-      <EditUsernameModal open={showEditName} onClose={() => setShowEditName(false)} />
+      <ProfileModal open={showProfile} onClose={() => setShowProfile(false)} />
     </div>
   )
 }

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.4',
+    date: '2026-09-30',
+    notes: [
+      'Feat: full profile page (from the account menu) — edit your username, display name and bio in one place, plus your builds/followers/following counts',
+      'Fix: a failed profile fetch (e.g. a missing profiles row) silently fell back to showing your raw email in the header with no way to diagnose it — now logs the real error to the console',
+    ],
+  },
+  {
     version: '0.3.3',
     date: '2026-09-30',
     notes: [

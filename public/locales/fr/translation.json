@@ -481,11 +481,18 @@
   "auth_signin_subtitle": "Connectez-vous pour sauvegarder et partager vos builds",
   "auth_signup_subtitle": "Créez votre compte gratuit en quelques secondes",
   "auth_check_spam": "Vous ne le voyez pas ? Vérifiez votre dossier spam ou courrier indésirable.",
-  "auth_edit_username": "Changer le nom d'utilisateur",
-  "auth_edit_username_title": "Nom d'utilisateur",
   "auth_username_hint": "C'est le nom que les autres verront — jamais votre email. Minuscules, chiffres, tirets. 3-30 caractères.",
   "auth_username_invalid": "Minuscules, chiffres, - et _ uniquement. 3-30 caractères.",
   "auth_username_taken": "Ce nom d'utilisateur est déjà pris.",
   "auth_username_error": "Échec de la mise à jour. Réessayez.",
-  "auth_username": "Nom d'utilisateur"
+  "auth_username": "Nom d'utilisateur",
+  "auth_profile_title": "Mon profil",
+  "auth_display_name": "Nom d'affichage",
+  "auth_bio": "Bio",
+  "auth_stat_builds": "builds",
+  "auth_stat_followers": "abonnés",
+  "auth_stat_following": "abonnements",
+  "auth_avatar_change": "Changer l'avatar",
+  "auth_avatar_type_invalid": "PNG, JPG ou WEBP uniquement.",
+  "auth_avatar_too_large": "Max 2 Mo."
 }
