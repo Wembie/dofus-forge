@@ -1,513 +1,12 @@
-# Dofus Forge — Database Schema
+-- ═══════════════════════════════════════════════════════════════════════
+-- Dofus Forge — schema completo
+-- Fuente de verdad: docs/DATABASE.md (edítalo ahí, no aquí directamente,
+-- y vuelve a copiar este archivo si cambias algo)
+-- Pega esto entero en Supabase Dashboard → SQL Editor → Run. Una sola vez.
+-- ═══════════════════════════════════════════════════════════════════════
+
+begin;
 
-> **Motor:** PostgreSQL (Supabase)  
-> **Última revisión:** 2026-09-30 — validado línea por línea contra el código real (`buildStore.ts`, `engine/types.ts`)  
-> **Estado:** Diseño validado, pendiente de implementar  
-> **Repo:** público — este archivo no contiene credenciales, URLs de conexión ni API keys
-
-### Cambios de la revisión 2026-09-30
-
-El diseño original (2026-09-01) no se validó contra el código real del builder. 5 desalineaciones encontradas y corregidas en este archivo:
-
-| # | Problema | Antes | Ahora |
-|---|---|---|---|
-| 1 | `selectedClass` es un **slug** (`'sram'`, `'cra'`...), no un breed id numérico — ver `engine/types.ts` `DOFUS_CLASSES` | `class_id smallint` | `class_slug text` con CHECK de los 19 slugs válidos |
-| 2 | `BuildState.gender` (`'male'`\|`'female'`, portrait de clase) no existía en ningún lado del schema | — | `builds.gender text` |
-| 3 | `SlotId` real (`buildStore.ts`) es `hat,cape,amulet,ring1,ring2,belt,boots,weapon,shield,companion,sidekick,dofus1-6` — el CHECK tenía `offhand`/`mount` (no existen) y le faltaba `shield` y `sidekick` | `'offhand','mount'`, sin `shield`/`sidekick` | lista exacta de `ALL_SLOTS` |
-| 4 | `WeaponTransform = {element, ratio}` — el schema solo guardaba `element`, perdiendo el `ratio` (85/68/50%) | solo `weapon_transform text` | + `weapon_transform_ratio smallint` |
-| 5 | `to_tsvector('spanish', ...)` en una app ES/EN/FR/PT hace stemming incorrecto sobre nombres/descripciones en inglés, francés o portugués | `'spanish'` | `'simple'` (sin stemming, agnóstico de idioma) |
-| 6 | Sección 6 (RLS) tenía un comentario `-- mismo patrón para build_characteristics, build_runes, build_snapshots, build_tags` en vez del SQL real — esas 4 tablas quedaban con RLS activado y **cero políticas** (nadie, ni el dueño, puede leer/escribir sin una policy) | comentario, sin SQL | 8 policies reales (read+write × 4 tablas) |
-
-**`supabase/schema.sql`** tiene las secciones 4+5+6+7+10 de abajo ya concatenadas en el orden correcto, listas para copiar y pegar completas en el SQL Editor de Supabase de una sola vez.
-
----
-
----
-
-## Tabla de contenidos
-
-1. [Decisiones de arquitectura](#1-decisiones-de-arquitectura)
-2. [Diagrama de entidades](#2-diagrama-de-entidades)
-3. [Descripción de cada tabla](#3-descripción-de-cada-tabla)
-4. [SQL completo](#4-sql-completo)
-5. [Índices y por qué](#5-índices-y-por-qué)
-6. [Row Level Security](#6-row-level-security)
-7. [Funciones y triggers](#7-funciones-y-triggers)
-8. [Casos de uso — queries clave](#8-casos-de-uso--queries-clave)
-9. [Casos de borde validados](#9-casos-de-borde-validados)
-10. [Tags semilla](#10-tags-semilla)
-11. [Roadmap de la DB](#11-roadmap-de-la-db)
-12. [Notas de seguridad](#12-notas-de-seguridad)
-
----
-
-## 1. Decisiones de arquitectura
-
-### Hosting: Cloudflare Pages (no GitHub Pages)
-
-GitHub Pages no soporta SPA rewrites. Cloudflare Pages (gratis, mismo deploy desde GitHub) permite:
-
-- URLs limpias `/builds/mi-panda-pvp` sin `#`
-- OG meta dinámico por Worker (preview en WhatsApp/Discord)
-- CDN real en edge
-- `_redirects` file: `/* /index.html 200`
-
-Migración = cero código, solo conectar Cloudflare Pages al repo.
-
-### Builds anónimos vs guardados
-
-```
-/builder?b=BASE64      ← sin cuenta (backward compatible con links viejos)
-/builds/mi-panda-pvp   ← guardado en DB, cuenta requerida
-```
-
-### Visibilidad: 3 estados (no boolean)
-
-| Valor | Quién lo ve | Aparece en Explore |
-|---|---|---|
-| `private` | Solo el dueño | No |
-| `unlisted` | Cualquiera con el link | No |
-| `public` | Todos | Sí |
-
-`unlisted` es crítico para "compartir sin publicar". Un `is_public boolean` no lo permite.
-
-### Snapshot JSONB + tablas normalizadas
-
-Patrón híbrido:
-- `builds.snapshot` (JSONB) → carga completa de un build en 1 query sin JOINs
-- `build_items` (normalizado) → permite "¿qué builds usan el Gelano?"
-- `build_characteristics` (normalizado) → permite filtrar por stats base asignados
-- `build_runes` (JSONB por slot) → demasiado dinámico para columnas; cambia con cada parche
-
-Las tablas normalizadas y el snapshot se sincronizan en cada save desde la app.
-
-### Contadores desnormalizados
-
-`like_count`, `bookmark_count`, `comment_count`, `avg_rating`, `rating_count`, `followers_count`, `following_count`, `builds_count` — todos mantenidos por triggers.
-
-**Por qué:** `ORDER BY like_count DESC` en Explore sobre 10K builds es O(log n) con índice. Un `COUNT(*)` con JOIN sería O(n) en cada request.
-
-**Trade-off:** riesgo de drift si un trigger falla. Aceptable en este escala; se puede reconciliar con un cron si fuera necesario.
-
-### View count con deduplicación
-
-Incrementar `view_count` en cada request genera write contention en builds populares. Solución: RPC `record_view()` que verifica si el mismo user/IP ya vio el build en la última hora antes de incrementar.
-
-### Slug + redirects
-
-- `slug` = URL amigable auto-generada desde el nombre (`wembie-panda-pvp-200`)
-- `slug_redirects` = tabla de slugs históricos → si el user renombra, links viejos hacen redirect 301
-- Slug garantiza unicidad contra `builds.slug` Y `slug_redirects.old_slug` para evitar colisiones
-
----
-
-## 2. Diagrama de entidades
-
-### Núcleo — builds y estructura
-
-```mermaid
-erDiagram
-    profiles {
-        uuid id PK
-        text username UK
-        text display_name
-        user_role role
-        uuid pinned_build_id FK
-        int followers_count
-        int following_count
-        int builds_count
-        jsonb settings
-    }
-
-    builds {
-        uuid id PK
-        uuid user_id FK
-        text name
-        text slug UK
-        text game_version
-        text class_slug
-        text gender
-        smallint level
-        build_visibility visibility
-        boolean is_featured
-        jsonb snapshot
-        int like_count
-        int bookmark_count
-        int comment_count
-        int view_count
-        numeric avg_rating
-        int rating_count
-        uuid fork_of FK
-        tsvector search_vector
-    }
-
-    build_items {
-        uuid build_id PK-FK
-        text slot PK
-        int item_id
-    }
-
-    build_characteristics {
-        uuid build_id PK-FK
-        smallint vitality
-        smallint strength
-        smallint intelligence
-        smallint chance
-        smallint agility
-        smallint wisdom
-        boolean vit_scrolled
-        boolean str_scrolled
-    }
-
-    build_runes {
-        uuid build_id PK-FK
-        text slot PK
-        jsonb runes
-        text forjamago_name
-        text weapon_transform
-        smallint weapon_transform_ratio
-    }
-
-    build_snapshots {
-        uuid id PK
-        uuid build_id FK
-        jsonb snapshot
-        text label
-        timestamptz created_at
-    }
-
-    slug_redirects {
-        text old_slug PK
-        uuid build_id FK
-        timestamptz created_at
-    }
-
-    tags {
-        int id PK
-        text name UK
-        text category
-    }
-
-    build_tags {
-        uuid build_id PK-FK
-        int tag_id PK-FK
-    }
-
-    profiles ||--o{ builds : "crea"
-    profiles }o--o| builds : "pinea"
-    builds   }o--o| builds : "fork de"
-    builds ||--o{ build_items : ""
-    builds ||--|| build_characteristics : ""
-    builds ||--o{ build_runes : ""
-    builds ||--o{ build_snapshots : ""
-    builds ||--o{ slug_redirects : ""
-    builds ||--o{ build_tags : ""
-    tags   ||--o{ build_tags : ""
-```
-
-### Social — interacciones y comunidad
-
-```mermaid
-erDiagram
-    profiles {
-        uuid id PK
-        text username UK
-        user_role role
-    }
-
-    builds {
-        uuid id PK
-        text slug UK
-        build_visibility visibility
-    }
-
-    build_likes {
-        uuid user_id PK-FK
-        uuid build_id PK-FK
-        timestamptz created_at
-    }
-
-    build_ratings {
-        uuid user_id PK-FK
-        uuid build_id PK-FK
-        smallint rating
-    }
-
-    build_bookmarks {
-        uuid user_id PK-FK
-        uuid build_id PK-FK
-        timestamptz created_at
-    }
-
-    build_view_events {
-        uuid build_id FK
-        uuid user_id
-        text ip_hash
-        timestamptz viewed_at
-    }
-
-    build_comments {
-        uuid id PK
-        uuid build_id FK
-        uuid user_id FK
-        uuid parent_id FK
-        text content
-        int like_count
-        timestamptz deleted_at
-    }
-
-    comment_likes {
-        uuid user_id PK-FK
-        uuid comment_id PK-FK
-    }
-
-    follows {
-        uuid follower_id PK-FK
-        uuid following_id PK-FK
-        timestamptz created_at
-    }
-
-    notifications {
-        uuid id PK
-        uuid user_id FK
-        notification_type type
-        uuid actor_id FK
-        uuid build_id FK
-        uuid comment_id FK
-        boolean read
-    }
-
-    collections {
-        uuid id PK
-        uuid user_id FK
-        text name
-        boolean is_public
-    }
-
-    collection_builds {
-        uuid collection_id PK-FK
-        uuid build_id PK-FK
-        smallint position
-    }
-
-    build_reports {
-        uuid id PK
-        uuid reporter_id FK
-        uuid build_id FK
-        report_reason reason
-        text detail
-        report_status status
-        uuid reviewed_by FK
-    }
-
-    profiles ||--o{ build_likes     : "da ❤️"
-    profiles ||--o{ build_ratings   : "califica ⭐"
-    profiles ||--o{ build_bookmarks : "guarda 🔖"
-    profiles ||--o{ build_comments  : "escribe 💬"
-    profiles ||--o{ build_reports   : "reporta 🚩"
-    profiles ||--o{ follows         : "sigue →"
-    profiles ||--o{ follows         : "← seguido por"
-    profiles ||--o{ notifications   : "recibe 🔔"
-    profiles ||--o{ collections     : "crea 📁"
-
-    builds ||--o{ build_likes       : ""
-    builds ||--o{ build_ratings     : ""
-    builds ||--o{ build_bookmarks   : ""
-    builds ||--o{ build_view_events : ""
-    builds ||--o{ build_comments    : ""
-    builds ||--o{ build_reports     : ""
-    builds ||--o{ collection_builds : ""
-    builds ||--o{ notifications     : ""
-
-    build_comments ||--o{ comment_likes  : ""
-    build_comments ||--o{ build_comments : "reply"
-    build_comments ||--o{ notifications  : ""
-
-    collections ||--o{ collection_builds : ""
-```
-
-### Vista rápida — árbol de relaciones
-
-```
-auth.users (Supabase Auth)
-  └─► profiles ──────────────────────────────────────────────────┐
-        │                                                         │
-        ├──► follows (follower ↔ following)          pinned_build │
-        ├──► notifications                                        │
-        ├──► collections ──► collection_builds ──────────────► builds
-        │                                                         │
-        └──► builds ◄─────────────────────── fork_of (self-ref) ─┘
-               │
-               ├── build_items          slot CHECK + item_id (estático)
-               ├── build_characteristics stats ≥ 0 CHECK, scrolls
-               ├── build_runes          JSONB, weapon_transform CHECK
-               ├── build_tags ──────► tags (seeded)
-               ├── build_snapshots     historial con label
-               ├── slug_redirects      redirect 301 al renombrar
-               │
-               ├── build_likes         ❤️  trigger → like_count
-               ├── build_ratings       ⭐  trigger → avg_rating / rating_count
-               ├── build_bookmarks     🔖  trigger → bookmark_count
-               ├── build_view_events   👁  RPC deduplicado 1h
-               │
-               ├── build_comments ──► comment_likes
-               │     soft-delete · parent_id (1 nivel) · trigger → comment_count
-               │
-               └── build_reports       🚩  reason enum · status workflow
-```
-
----
-
-## 3. Descripción de cada tabla
-
-### `profiles`
-Extiende `auth.users` de Supabase. Se crea automáticamente al registrarse (trigger).
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `id` | uuid PK | = auth.users.id |
-| `username` | text UNIQUE | Regex `^[a-z0-9_-]{3,30}$` |
-| `display_name` | text | Nombre visible (puede tener mayúsculas/espacios) |
-| `bio` | text | Descripción del perfil |
-| `avatar_url` | text | URL de imagen de perfil |
-| `banner_url` | text | URL del banner del perfil |
-| `role` | enum | `user` / `moderator` / `admin` |
-| `pinned_build_id` | uuid FK | FK circular, añadida post-creación |
-| `followers_count` | int | Trigger-sync desde `follows` |
-| `following_count` | int | Trigger-sync desde `follows` |
-| `builds_count` | int | Trigger-sync desde `builds` |
-| `settings` | jsonb | Preferencias: notificaciones, UI, idioma |
-
----
-
-### `builds`
-Entidad principal. Contiene metadatos + snapshot completo.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `id` | uuid PK | Identificador estable, nunca cambia |
-| `user_id` | uuid FK | → profiles |
-| `name` | text | Nombre del build |
-| `description` | text | Descripción libre |
-| `slug` | text UNIQUE | URL amigable auto-generada |
-| `game_version` | text | Ej: `'3.6.11.15'` — de `public/data/version.json`, sin default (siempre explícito al guardar) |
-| `class_slug` | text | Slug de `DOFUS_CLASSES` (`engine/types.ts`), no un breed id — ej. `'sram'`, `'cra'` |
-| `gender` | text | `'male'` / `'female'` — portrait de clase (`BuildState.gender`) |
-| `level` | smallint | 1-200 CHECK |
-| `visibility` | enum | `private` / `unlisted` / `public` |
-| `is_featured` | boolean | Destacado por admin |
-| `snapshot` | jsonb | Estado completo serializado |
-| `like_count` | int | Trigger-sync |
-| `bookmark_count` | int | Trigger-sync |
-| `comment_count` | int | Trigger-sync |
-| `view_count` | int | RPC `record_view()` |
-| `avg_rating` | numeric(3,2) | Trigger-sync |
-| `rating_count` | int | Trigger-sync |
-| `fork_of` | uuid FK self | Build origen si es fork |
-| `search_vector` | tsvector GENERATED | Full-text sobre name+description |
-
-**Formato de `snapshot`** (espejo de `BuildSnapshot` en `codec.ts` — ver esa fuente para el formato compacto real que viaja en la URL; esta es la forma expandida que conviene guardar en JSONB):
-```json
-{
-  "gender":           "male",
-  "equipped":         { "hat": 12345, "ring1": 67890 },
-  "characteristics":  { "vitality": 300, "strength": 100 },
-  "scrolls":          { "vitality": true, "strength": false },
-  "runes":            { "hat": { "Vitality": 100 } },
-  "forjamagoNames":   { "hat": "Sombrero épico" },
-  "weaponTransforms": { "weapon": { "element": "fire", "ratio": 85 } }
-}
-```
-
----
-
-### `build_items`
-Items equipados normalizados. Permite query "builds que usan item X".
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `build_id` | uuid PK,FK | |
-| `slot` | text PK | CHECK en enum de slots válidos |
-| `item_id` | int | ID del juego (datos estáticos, no FK) |
-
-**Slots válidos** (= `ALL_SLOTS` en `buildStore.ts`, exactos): `hat`, `cape`, `amulet`, `ring1`, `ring2`, `belt`, `boots`, `weapon`, `shield`, `companion`, `sidekick`, `dofus1`–`dofus6`
-
----
-
-### `build_characteristics`
-Stats base asignados. Permite filtrar builds por puntos invertidos.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `build_id` | uuid PK,FK | |
-| `vitality`..`wisdom` | smallint | CHECK >= 0 |
-| `vit_scrolled`..`wis_scrolled` | boolean | Si el stat está scrolleado |
-
----
-
-### `build_runes`
-Runas por slot. JSONB porque los nombres de stats cambian con parches.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `build_id` | uuid PK,FK | |
-| `slot` | text PK | |
-| `runes` | jsonb | `{"Vitality": 100, "AP": 1}` |
-| `forjamago_name` | text | Nombre dado al forjamago |
-| `weapon_transform` | text | CHECK en `earth/fire/water/air` o NULL (`WeaponTransform.element` nunca es `'neutral'` — se transforma daño neutral HACIA un elemento) |
-| `weapon_transform_ratio` | smallint | CHECK en `85/68/50` (%) o NULL — junto con `weapon_transform`, ambos NULL o ambos con valor |
-
----
-
-### `build_comments`
-Comentarios con un nivel de replies. Soft-delete para preservar contexto.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `id` | uuid PK | |
-| `build_id` | uuid FK | |
-| `user_id` | uuid FK | |
-| `parent_id` | uuid FK self | NULL = top-level, NOT NULL = reply |
-| `content` | text | CHECK 1-2000 chars |
-| `like_count` | int | Trigger-sync |
-| `deleted_at` | timestamptz | NULL = activo; NOT NULL = soft-deleted |
-
-**Nota:** Solo 1 nivel de anidado (comentario → reply). No hay reply-de-reply. Suficiente para el caso de uso sin complejidad de `ltree`.
-
----
-
-### `build_reports`
-Denuncias con workflow de moderación.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `reason` | enum | `spam / incorrect_data / inappropriate / other` |
-| `status` | enum | `pending → reviewed → actioned / dismissed` |
-| `reviewed_by` | uuid FK | Moderador que lo revisó |
-| `reviewed_at` | timestamptz | Cuándo fue revisado |
-
----
-
-### `notifications`
-Feed de notificaciones por usuario.
-
-| `type` | Cuándo se dispara |
-|---|---|
-| `build_liked` | Alguien da like al build |
-| `build_commented` | Alguien comenta |
-| `build_rated` | Alguien califica |
-| `build_forked` | Alguien hace fork |
-| `comment_liked` | Alguien da like al comentario |
-| `comment_replied` | Alguien responde comentario |
-| `new_follower` | Alguien empieza a seguir |
-
-**Nota:** Las notificaciones NO se crean automáticamente con triggers SQL — se crean desde la app o Supabase Edge Functions para evitar exceso de complejidad en la DB.
-
----
-
-## 4. SQL completo
-
-```sql
 -- ═══════════════════════════════════════════════════════════════
 -- ENUMS
 -- ═══════════════════════════════════════════════════════════════
@@ -595,8 +94,7 @@ alter table profiles
 
 create table build_items (
   build_id  uuid not null references builds(id) on delete cascade,
-  -- = ALL_SLOTS en buildStore.ts, exacto (antes tenía 'offhand'/'mount' que no
-  -- existen y le faltaban 'shield' y 'sidekick')
+  -- = ALL_SLOTS en buildStore.ts, exacto
   slot      text not null check (slot in (
     'hat','cape','amulet','ring1','ring2','belt','boots',
     'weapon','shield','companion','sidekick',
@@ -638,7 +136,6 @@ create table build_runes (
   runes                   jsonb not null default '{}',
   forjamago_name          text,
   -- WeaponTransform = {element, ratio} en buildStore.ts — element nunca es 'neutral'
-  -- (se transforma daño neutral HACIA un elemento). ratio faltaba en el diseño original.
   weapon_transform        text check (weapon_transform in ('earth','fire','water','air')),
   weapon_transform_ratio  smallint check (weapon_transform_ratio in (85, 68, 50)),
   primary key (build_id, slot),
@@ -821,34 +318,25 @@ create table build_reports (
   created_at   timestamptz default now(),
   unique (reporter_id, build_id)
 );
-```
 
----
 
-## 5. Índices y por qué
+-- ═══════════════════════════════════════════════════════════════
+-- ÍNDICES
+-- ═══════════════════════════════════════════════════════════════
 
-```sql
 -- ── Explore (queries de listado con filtros + ordenamiento) ──────────
--- Filtrar por clase + ordenar por cada métrica de popularidad
 create index idx_builds_explore_rating   on builds(class_slug, avg_rating desc)  where visibility = 'public';
 create index idx_builds_explore_likes    on builds(class_slug, like_count desc)  where visibility = 'public';
 create index idx_builds_explore_recent   on builds(class_slug, created_at desc)  where visibility = 'public';
 create index idx_builds_explore_views    on builds(class_slug, view_count desc)  where visibility = 'public';
--- Filtrar por nivel (builds nivel 200, builds leveling, etc.)
 create index idx_builds_level            on builds(level) where visibility = 'public';
--- Builds destacados por admin
 create index idx_builds_featured         on builds(is_featured, avg_rating desc) where visibility = 'public';
--- Búsqueda full-text sobre nombre + descripción
 create index idx_builds_search           on builds using gin(search_vector) where visibility = 'public';
--- Builds del usuario (Mi perfil)
 create index idx_builds_user             on builds(user_id, updated_at desc);
--- Lookup por slug (URL → build)
 create index idx_builds_slug             on builds(slug) where slug is not null;
--- Forks de un build
 create index idx_builds_fork             on builds(fork_of) where fork_of is not null;
 
 -- ── Items ───────────────────────────────────────────────────────────
--- "¿Qué builds usan el Gelano?" → rápido
 create index idx_build_items_item on build_items(item_id);
 
 -- ── Social ──────────────────────────────────────────────────────────
@@ -861,14 +349,12 @@ create index idx_follows_following on follows(following_id);
 create index idx_slug_redirects  on slug_redirects(old_slug);
 create index idx_reports_pending on build_reports(status) where status = 'pending';
 create index idx_tags_category   on tags(category);
-```
 
----
 
-## 6. Row Level Security
+-- ═══════════════════════════════════════════════════════════════
+-- ROW LEVEL SECURITY
+-- ═══════════════════════════════════════════════════════════════
 
-```sql
--- Habilitar en todas las tablas
 alter table profiles          enable row level security;
 alter table builds            enable row level security;
 alter table build_items       enable row level security;
@@ -892,10 +378,6 @@ alter table slug_redirects    enable row level security;
 
 -- Profiles: lectura pública
 create policy "profiles public read" on profiles for select using (true);
--- SEGURIDAD: el usuario solo puede editar sus campos editables.
--- role, followers_count, following_count, builds_count son solo para
--- service role (admins vía backend) o triggers. Un trigger BEFORE UPDATE
--- los protege contra escritura directa del cliente.
 create policy "profiles own write" on profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
@@ -904,8 +386,6 @@ create policy "profiles own write" on profiles for update
 create policy "builds read" on builds for select using (
   visibility in ('public', 'unlisted') or auth.uid() = user_id
 );
--- SEGURIDAD: with check evita que el usuario se auto-feature (is_featured solo
--- lo puede cambiar service role / admin desde backend).
 create policy "builds insert" on builds for insert
   with check (auth.uid() = user_id and is_featured = false);
 create policy "builds update" on builds for update
@@ -923,9 +403,7 @@ create policy "build_items write" on build_items for all using (
   exists (select 1 from builds where id = build_id and auth.uid() = user_id)
 );
 
--- Mismo patrón read/write que build_items para las demás tablas hijas de un build.
--- IMPORTANTE: sin estas, RLS activado + cero políticas = nadie (ni el dueño) puede
--- leer/escribir estas 4 tablas.
+-- Mismo patrón read/write que build_items para las demás tablas hijas de un build
 create policy "build_characteristics read" on build_characteristics for select using (
   exists (select 1 from builds where id = build_id
     and (visibility in ('public','unlisted') or auth.uid() = user_id))
@@ -989,13 +467,12 @@ create policy "tags admin write" on tags for all
   using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 
 create policy "slugs read" on slug_redirects for select using (true);
-```
 
----
 
-## 7. Funciones y triggers
+-- ═══════════════════════════════════════════════════════════════
+-- FUNCIONES Y TRIGGERS
+-- ═══════════════════════════════════════════════════════════════
 
-```sql
 -- ── updated_at automático ────────────────────────────────────────────
 create function touch_updated_at()
 returns trigger language plpgsql as $$
@@ -1016,10 +493,8 @@ declare
   candidate     text;
   suffix        int := 0;
 begin
-  -- Limpiar parte local del email a formato válido
   base_username := lower(regexp_replace(split_part(new.email, '@', 1), '[^a-z0-9_-]', '_', 'gi'));
   base_username := left(base_username, 25);
-  -- Resolver colisiones (ej: dos usuarios con mismo email prefix)
   loop
     candidate := case when suffix = 0 then base_username else base_username || suffix::text end;
     exit when not exists (select 1 from public.profiles where username = candidate);
@@ -1036,13 +511,9 @@ create trigger on_auth_user_created
 
 
 -- ── Proteger campos de sistema en profiles ───────────────────────────
--- Evita que un cliente autenticado eleve su propio role o
--- manipule contadores desnormalizados directamente.
--- Los admins usan service role key (bypass RLS) para cambiar roles.
 create function protect_profile_system_fields()
 returns trigger language plpgsql security definer as $$
 begin
-  -- Solo service role (role = 'service_role' en JWT) puede cambiar estos campos
   if current_setting('request.jwt.claims', true)::jsonb->>'role' != 'service_role' then
     NEW.role            := OLD.role;
     NEW.followers_count := OLD.followers_count;
@@ -1203,102 +674,12 @@ begin
   end loop;
   return candidate;
 end; $$;
-```
 
----
 
-## 8. Casos de uso — queries clave
+-- ═══════════════════════════════════════════════════════════════
+-- TAGS SEMILLA
+-- ═══════════════════════════════════════════════════════════════
 
-```sql
--- Explore: builds públicos de una clase, ordenados por rating
-select b.*, p.username, p.avatar_url
-from builds b
-join profiles p on p.id = b.user_id
-where b.visibility = 'public'
-  and b.class_slug = 'pandawa'
-  and b.level between 180 and 200
-order by b.avg_rating desc, b.rating_count desc
-limit 20 offset 0;
-
--- Búsqueda full-text
-select * from builds
-where visibility = 'public'
-  and search_vector @@ plainto_tsquery('simple', 'panda critico pvp')
-order by ts_rank(search_vector, plainto_tsquery('simple', 'panda critico pvp')) desc;
-
--- ¿Qué builds usan el Gelano (item_id=8023)?
-select b.id, b.name, b.slug, b.class_slug, b.avg_rating
-from builds b
-join build_items bi on bi.build_id = b.id
-where bi.item_id = 8023 and b.visibility = 'public'
-order by b.avg_rating desc;
-
--- Perfil de usuario: sus builds públicos
-select * from builds
-where user_id = $1 and visibility = 'public'
-order by updated_at desc;
-
--- Build por slug (con redirect si cambió)
-select * from builds where slug = $1
-union all
-select b.* from builds b
-join slug_redirects sr on sr.build_id = b.id
-where sr.old_slug = $1;
-
--- Notificaciones no leídas del usuario
-select n.*, p.username as actor_username, p.avatar_url as actor_avatar
-from notifications n
-left join profiles p on p.id = n.actor_id
-where n.user_id = $1 and n.read = false
-order by n.created_at desc
-limit 20;
-
--- Comentarios de un build (con replies)
-select c.*, p.username, p.avatar_url
-from build_comments c
-join profiles p on p.id = c.user_id
-where c.build_id = $1 and c.parent_id is null and c.deleted_at is null
-order by c.created_at asc;
-
--- ¿El usuario actual dio like/rating/bookmark a este build?
-select
-  exists(select 1 from build_likes     where user_id=$1 and build_id=$2) as liked,
-  exists(select 1 from build_bookmarks where user_id=$1 and build_id=$2) as bookmarked,
-  (select rating from build_ratings    where user_id=$1 and build_id=$2) as my_rating;
-```
-
----
-
-## 9. Casos de borde validados
-
-| Caso | Cómo se maneja |
-|---|---|
-| User borra su cuenta | `on delete cascade` en profiles → borra builds, likes, etc. |
-| Build borrado con likes/comments | Cascade borra todo. `notifications` también (cascade en build_id) |
-| User se deslogea y vuelve con otro email | Supabase crea nuevo `auth.users` → nuevo profile. Builds del email viejo se pierden (esperado) |
-| Slug colisión al renombrar | `generate_slug()` itera sufijos hasta encontrar libre, comprueba también en `slug_redirects` |
-| Slug del nuevo build = slug viejo del mismo build | `on conflict (old_slug) do nothing` en insert de redirects |
-| Profile pinea un build que luego borra | `on delete set null` en `pinned_build_id` |
-| Alguien intenta hacer follow a sí mismo | `check (follower_id != following_id)` en `follows` |
-| Rating fuera de rango | `check (rating between 1 and 5)` |
-| Characteristic negativa | `check (vitality >= 0)` etc. |
-| weapon_transform valor inválido | `check (weapon_transform in ('earth','fire','water','air'))` |
-| weapon_transform sin su ratio (o viceversa) | `constraint weapon_transform_pair check ((weapon_transform is null) = (weapon_transform_ratio is null))` |
-| class_slug inválido | `check (class_slug in (...19 slugs de DOFUS_CLASSES...))` |
-| Username con caracteres raros | `check (username ~ '^[a-z0-9_-]{3,30}$')` |
-| Vista duplicada por el mismo user | `record_view()` verifica ventana de 1 hora antes de incrementar |
-| Contador drift si trigger falla | Tolerable a esta escala. Query de reconciliación: `update builds set like_count = (select count(*) from build_likes where build_id = id)` |
-| Build unlisted aparece en Explore | Explore siempre filtra `visibility = 'public'` en app. RLS permite SELECT de unlisted (para quien tiene el link) pero la query de Explore no los devuelve |
-| Moderador necesita ver reports | `role = 'moderator'` o `'admin'` en profiles; UI admin filtra `build_reports where status = 'pending'` |
-| Build con slug que es un redirect viejo de otro build | `generate_slug()` comprueba `slug_redirects` también → nunca asigna ese slug |
-| Parche de Dofus cambia stats de ítems | `game_version` en build indica para qué parche fue hecho. App puede mostrar warning si `game_version != current_version` |
-| Nivel máximo sube de 200 | `check (level between 1 and 200)` requiere migración. Aceptable — es un cambio de juego que requiere revisión de lógica igual |
-
----
-
-## 10. Tags semilla
-
-```sql
 insert into tags (name, category) values
   -- Playstyle
   ('pvp',       'playstyle'),
@@ -1323,75 +704,5 @@ insert into tags (name, category) values
   ('meta',      'general'),
   ('fun',       'general'),
   ('leveling',  'general');
-```
 
----
-
-## 11. Roadmap de la DB
-
-| M# | Feature | Estado |
-|---|---|---|
-| — | Schema diseñado y documentado | ✅ Hecho |
-| M47 | Auth — registro/login/perfil | ⬜ Pendiente |
-| M48 | Cloud builds — guardar/cargar desde Supabase | ⬜ Pendiente |
-| M49 | Landing page | ⬜ Pendiente |
-| M50 | Explore — galería pública con filtros | ⬜ Pendiente |
-| M51 | Build page pública — likes, rating, bookmarks | ⬜ Pendiente |
-| M52 | Comments — hilo por build | ⬜ Pendiente |
-| M53 | Perfiles públicos | ⬜ Pendiente |
-| M54 | Collections | ⬜ Pendiente |
-| M55 | Follows + Notifications | ⬜ Pendiente |
-| M56 | Panel de moderación | ⬜ Pendiente |
-
----
-
----
-
-## 12. Notas de seguridad
-
-> Este archivo es público. **Nunca** poner aquí: API keys, JWT secrets,
-> database passwords, connection strings, ni ninguna credencial.
-> Las credenciales van en `.env` local y en los secrets de GitHub/Cloudflare.
-
-### Vulnerabilidades auditadas y estado
-
-| # | Vulnerabilidad | Severidad | Estado |
-|---|---|---|---|
-| 1 | Usuario eleva su `role` a admin vía UPDATE directo | 🔴 Crítico | ✅ Corregido — trigger `protect_profile_system_fields` + service role check |
-| 2 | Usuario se auto-featuera (`is_featured = true`) | 🔴 Crítico | ✅ Corregido — `with check (is_featured = OLD.is_featured)` en policy de builds |
-| 3 | `handle_new_user()` falla si username ya existe | 🔴 Crítico | ✅ Corregido — loop con sufijos numéricos hasta encontrar username libre |
-| 4 | Admins no pueden leer `build_reports` | 🟡 Importante | ✅ Corregido — policy `reports admin read` con check de role |
-| 5 | `tags` sin política write para moderadores | 🟡 Importante | ✅ Corregido — policy `tags admin write` |
-| 6 | `build_reports.detail` sin límite de longitud | 🟠 Menor | ✅ Corregido — CHECK <= 500 chars |
-| 7 | `record_view()` acepta `ip_hash` del cliente | 🟠 Menor | ⚠️ Aceptado — view inflation posible; deduplicación 1h es best-effort. view_count es métrica de engagement, no crítica |
-| 8 | `build_view_events` crece sin límite | 🟠 Menor | ⚠️ Aceptado para MVP — limpiar eventos > 30 días con Edge Function scheduled |
-
-### Qué NO va en la DB pública
-
-- API keys de Supabase (`SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`)
-- JWT secret
-- Connection strings de Postgres (`postgresql://...`)
-- Credenciales de OAuth providers (GitHub, Google client secret)
-
-### Roles y permisos por actor
-
-| Actor | Clave usada | Puede hacer |
-|---|---|---|
-| Cliente anónimo | `anon key` | Leer builds públicos/unlisted, leer perfiles, registrarse |
-| Cliente autenticado | `anon key` + JWT | Todo lo anterior + CRUD de sus builds, likes, ratings, bookmarks, comments |
-| Moderador | `anon key` + JWT (role=moderator) | Todo lo anterior + leer/actualizar reports, gestionar tags |
-| Admin | `anon key` + JWT (role=admin) | Todo lo anterior + cambiar roles, feature builds |
-| Backend/Edge Function | `service_role key` | Bypass RLS completo — SOLO en servidor, nunca exponer al cliente |
-
-### Cambio de role (admin → user, user → moderator)
-
-**Nunca desde el cliente.** Solo desde Supabase Dashboard o una Edge Function con `service_role key`:
-
-```sql
--- Ejecutar en Supabase SQL Editor o desde Edge Function con service role
-update profiles set role = 'moderator' where username = 'wembie';
-```
-
-El trigger `protect_profile_system_fields` verifica que la sesión sea `service_role` antes de permitir el cambio.
-
-*Generado: 2026-09-01, validado y corregido: 2026-09-30 — No editar manualmente sin actualizar el SQL en Supabase*
+commit;

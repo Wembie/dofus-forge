@@ -28,6 +28,7 @@ const SpellsPanel     = lazy(() => import('@/features/spells/SpellsPanel.tsx').t
 const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx').then(m => ({ default: m.ComparePanel })))
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
+const AuthButton      = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
 
 type MobileTab = 'equipment' | 'character' | 'stats'
@@ -248,6 +249,7 @@ function BuilderContent() {
             </button>
             {/* Divider — hidden on mobile */}
             <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            <Suspense fallback={null}><AuthButton /></Suspense>
             <ShareBar />
           </div>
         </div>

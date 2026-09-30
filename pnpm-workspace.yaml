@@ -1,2 +1,10 @@
 allowBuilds:
   esbuild: true
+
+# Transitive dev-only deps (eslint's own chain) with known high-severity
+# advisories — same-major patch bumps, never shipped to the browser bundle.
+overrides:
+  brace-expansion@<2.0.0: ^1.1.20
+  brace-expansion@>=4.0.0: ^5.0.12
+  nanoid: ^3.3.18
+  js-yaml: ^4.3.2
