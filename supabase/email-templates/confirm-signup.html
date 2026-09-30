@@ -3,6 +3,12 @@
   Pega esto en: Supabase Dashboard → Authentication → Email Templates → Confirm signup
   (modo HTML/source, no el editor visual)
 
+  Supabase solo permite UN template por tipo (no hay variante por idioma
+  nativa), así que este va con los 4 idiomas de la app apilados — un
+  único botón/link sirve para los 4, la persona lee el bloque que entienda.
+  Para de verdad mandar el idioma correcto por usuario hace falta un Auth
+  Hook (Edge Function) interceptando el envío — tarea aparte.
+
   Variables disponibles de Supabase: {{ .ConfirmationURL }} {{ .SiteURL }} {{ .Email }}
   Layout con tablas + estilos inline a propósito: la mayoría de clientes de correo
   (Outlook, Gmail) ignoran flexbox/grid/CSS externo.
@@ -24,9 +30,29 @@
         <!-- Body -->
         <tr>
           <td style="padding:32px 28px;font-family:Arial,Helvetica,sans-serif;">
-            <h1 style="margin:0 0 12px;font-size:19px;color:#e9e5da;">Confirma tu cuenta</h1>
-            <p style="margin:0 0 24px;font-size:14px;line-height:1.6;color:#9aa0b0;">
+
+            <!-- ES -->
+            <h1 style="margin:0 0 8px;font-size:17px;color:#e9e5da;">🇪🇸 Confirma tu cuenta</h1>
+            <p style="margin:0 0 20px;font-size:13px;line-height:1.5;color:#9aa0b0;">
               Gracias por crear tu cuenta en Dofus Forge. Confirma tu correo para poder guardar y compartir tus builds.
+            </p>
+
+            <!-- EN -->
+            <h1 style="margin:0 0 8px;font-size:17px;color:#e9e5da;">🇬🇧 Confirm your account</h1>
+            <p style="margin:0 0 20px;font-size:13px;line-height:1.5;color:#9aa0b0;">
+              Thanks for signing up to Dofus Forge. Confirm your email to save and share your builds.
+            </p>
+
+            <!-- FR -->
+            <h1 style="margin:0 0 8px;font-size:17px;color:#e9e5da;">🇫🇷 Confirmez votre compte</h1>
+            <p style="margin:0 0 20px;font-size:13px;line-height:1.5;color:#9aa0b0;">
+              Merci de vous être inscrit sur Dofus Forge. Confirmez votre email pour sauvegarder et partager vos builds.
+            </p>
+
+            <!-- PT -->
+            <h1 style="margin:0 0 8px;font-size:17px;color:#e9e5da;">🇵🇹 Confirme sua conta</h1>
+            <p style="margin:0 0 24px;font-size:13px;line-height:1.5;color:#9aa0b0;">
+              Obrigado por criar sua conta no Dofus Forge. Confirme seu email para salvar e compartilhar suas builds.
             </p>
 
             <table role="presentation" cellpadding="0" cellspacing="0">
@@ -34,19 +60,19 @@
                 <td align="center" style="border-radius:8px;background-color:#c9a24b;">
                   <a href="{{ .ConfirmationURL }}"
                      style="display:inline-block;padding:12px 32px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#0a0d13;text-decoration:none;border-radius:8px;letter-spacing:0.5px;">
-                    CONFIRMAR CORREO
+                    CONFIRM EMAIL
                   </a>
                 </td>
               </tr>
             </table>
 
             <p style="margin:28px 0 0;font-size:12px;line-height:1.6;color:#7a849c;">
-              Si el botón no funciona, copia y pega este link en tu navegador:<br>
+              Si el botón no funciona / If the button doesn't work / Si le bouton ne fonctionne pas / Se o botão não funcionar:<br>
               <a href="{{ .ConfirmationURL }}" style="color:#c9a24b;word-break:break-all;">{{ .ConfirmationURL }}</a>
             </p>
 
             <p style="margin:20px 0 0;font-size:12px;line-height:1.6;color:#7a849c;">
-              Si no creaste esta cuenta, puedes ignorar este correo.
+              Si no creaste esta cuenta, ignora este correo. / If you didn't create this account, ignore this email.
             </p>
           </td>
         </tr>
