@@ -43,7 +43,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
       avatar_url:   avatarUrl.trim() || null,
     })
     setBusy(false)
-    if (err) { setError(t('auth_username_error')); return }
+    if (err) { setError(t(err === 'invalid_avatar_url' ? 'auth_avatar_url_invalid' : 'auth_username_error')); return }
     close()
   }
 

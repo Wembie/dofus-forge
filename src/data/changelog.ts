@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.5',
+    date: '2026-09-30',
+    notes: [
+      'Fix (security): avatar URL is now restricted to http(s) links before saving — it renders directly as an image source on your profile, so a javascript:/data: URI could otherwise reach that sink',
+    ],
+  },
+  {
     version: '0.3.4',
     date: '2026-09-30',
     notes: [

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.5] — 2026-09-30
+- **Fix (security)**: `authStore.ts`'s `updateProfile()` now rejects `avatar_url` values that don't start with `http://`/`https://`. `avatar_url` renders directly as `<img src>` in both `ProfileModal` and `AuthButton`, and (per `docs/DATABASE.md`'s roadmap) will eventually render on public profile pages for other users too — without this check a `javascript:`/`data:` URI saved through the new profile-edit form would reach that sink unfiltered
+
 ## [0.3.4] — 2026-09-30
 - **Feat**: `ProfileModal.tsx` replaces `EditUsernameModal.tsx` — one place to edit username, display_name, bio and avatar_url (all already existed as columns on `profiles`, no UI before), plus a read-only builds/followers/following count row. Opened from the account menu ("Mi perfil" instead of "Cambiar nombre de usuario")
 - **Fix**: `authStore.ts`'s `fetchProfile()` swallowed its error and silently fell back to `profile: null`, which made `AuthButton` show the raw email with zero indication anything was wrong. Now logs the actual Postgres/PostgREST error via `console.error` so a real failure (missing row, RLS, etc.) is debuggable instead of looking identical to "just hasn't loaded yet"

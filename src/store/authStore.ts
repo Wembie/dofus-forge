@@ -34,6 +34,9 @@ type AuthState = {
 }
 
 const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
+// avatar_url is rendered as <img src> for every viewer of a public profile —
+// restrict to http(s) so a saved `javascript:`/`data:` URI can't reach that sink.
+const SAFE_URL_RE = /^https?:\/\//i
 
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
@@ -126,6 +129,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   updateProfile: async (edits) => {
     const session = get().session
     if (!session) return { error: 'Not signed in' }
+    if (edits.avatar_url && !SAFE_URL_RE.test(edits.avatar_url)) return { error: 'invalid_avatar_url' }
 
     const supabase = await getSupabase()
     const { error } = await supabase.from('profiles').update(edits).eq('id', session.user.id)

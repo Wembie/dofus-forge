@@ -492,5 +492,6 @@
   "auth_avatar_url": "URL do avatar",
   "auth_stat_builds": "builds",
   "auth_stat_followers": "seguidores",
-  "auth_stat_following": "seguindo"
+  "auth_stat_following": "seguindo",
+  "auth_avatar_url_invalid": "Deve começar com http:// ou https://"
 }
