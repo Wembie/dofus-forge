@@ -8,6 +8,7 @@ import type { SeoLang } from './seo/useSeoMeta.ts'
 
 const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => ({ default: m.ExplorePage })))
 const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m => ({ default: m.BuildDetailPage })))
+const MyBuildsPage    = lazy(() => import('./pages/MyBuildsPage.tsx').then(m => ({ default: m.MyBuildsPage })))
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -49,6 +50,7 @@ const LANG_SUB_ROUTES = (
     <Route index element={<BuilderPage />} />
     <Route path="explore" element={<Suspense fallback={null}><ExplorePage /></Suspense>} />
     <Route path="build/:id" element={<Suspense fallback={null}><BuildDetailPage /></Suspense>} />
+    <Route path="my-builds" element={<Suspense fallback={null}><MyBuildsPage /></Suspense>} />
   </>
 )
 

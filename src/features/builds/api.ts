@@ -25,16 +25,19 @@ export type BuildRow = {
   comment_count: number
   created_at:    string
   user_id:       string
+  snapshot:      BuildSnapshot
   profiles:      BuildOwner | null
 }
 
-export type BuildDetailRow = BuildRow & { snapshot: BuildSnapshot }
+export type BuildDetailRow = BuildRow
 
 // `profiles!builds_user_id_fkey` is required, not optional — builds has
 // several relationships to profiles (fk_pinned_build, plus many-to-many via
 // build_likes/build_ratings/build_bookmarks as junction tables), so a bare
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
+// `snapshot` included even in the list query — Explore/My Builds cards show
+// equipment icons, not just text, so they need it up front too.
+const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
 
 const SORT_COLUMN: Record<ExploreSort, string> = {
   rating: 'avg_rating',
@@ -63,7 +66,7 @@ export async function fetchBuildById(id: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
-    .select(`${LIST_COLUMNS}, snapshot`)
+    .select(LIST_COLUMNS)
     .eq('id', id)
     .single()
   if (error) return { data: null, error: error.message }
@@ -110,21 +113,24 @@ export async function recordBuildView(buildId: string, userId: string | null) {
 }
 
 export type MyBuildRow = {
-  id:         string
-  name:       string
-  class_slug: string
-  gender:     Gender
-  level:      number
-  visibility: BuildVisibility
-  created_at: string
-  snapshot:   BuildSnapshot
+  id:            string
+  name:          string
+  class_slug:    string
+  gender:        Gender
+  level:         number
+  visibility:    BuildVisibility
+  like_count:    number
+  view_count:    number
+  avg_rating:    number
+  created_at:    string
+  snapshot:      BuildSnapshot
 }
 
 export async function fetchMyBuilds(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
-    .select('id, name, class_slug, gender, level, visibility, created_at, snapshot')
+    .select('id, name, class_slug, gender, level, visibility, like_count, view_count, avg_rating, created_at, snapshot')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
   return { data: (data ?? []) as unknown as MyBuildRow[], error: error?.message ?? null }
@@ -133,6 +139,12 @@ export async function fetchMyBuilds(userId: string) {
 export async function deleteBuild(buildId: string) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('builds').delete().eq('id', buildId)
+  return { error: error?.message ?? null }
+}
+
+export async function updateBuildVisibility(buildId: string, visibility: BuildVisibility) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('builds').update({ visibility }).eq('id', buildId)
   return { error: error?.message ?? null }
 }
 

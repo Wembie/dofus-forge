@@ -5,10 +5,13 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { isSafeImageUrl } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
+import { useDataStore } from '@/store/dataStore.ts'
+import { BuildEquipmentPreview } from './BuildEquipmentPreview.tsx'
 import type { BuildRow } from './api.ts'
 
 export function BuildCard({ build }: { build: BuildRow }) {
   const { t, i18n } = useTranslation()
+  const equipment    = useDataStore(s => s.equipment)
   const classLabel  = useClassName(build.class_slug)
   const classInfo   = CLASS_DATA.find(c => c.id === build.class_slug)
   const portrait    = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
@@ -38,6 +41,8 @@ export function BuildCard({ build }: { build: BuildRow }) {
         }
         <span className="truncate">{ownerLabel}</span>
       </div>
+
+      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={26} hideEmpty />
 
       <div className="flex items-center gap-3 text-[11px] mt-auto pt-1" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
         <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>

@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.10',
+    date: '2026-09-30',
+    notes: [
+      'Fix: rating a build failed with a 500 error — an unaliased subquery in the database\'s "builds update" security policy accidentally matched every build instead of one, tripped by the rating system\'s own background update',
+      'Feat: Explore cards and the build detail page now show the actual equipped items (icons) instead of just text — a build is its gear, not just a name and a level',
+      'Feat: build detail page now shows real computed stats (HP/AP/MP/Range + the 6 characteristics) next to the equipment',
+      'Feat: "My Builds" is now its own page (from the header) — bigger cards with item icons, click a visibility badge to cycle private/unlisted/public, copy link, delete',
+    ],
+  },
+  {
     version: '0.3.9',
     date: '2026-09-30',
     notes: [
