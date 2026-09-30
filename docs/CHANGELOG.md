@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.5] — 2026-09-30
+- **Fix**: some accounts got `403 permission denied for table profiles` (code `42501`) on `AuthButton`'s profile fetch, still showing the raw email in the header — RLS's "profiles public read" policy (`using (true)`) was fine, but that's a row-level filter that only applies AFTER Postgres confirms the role can touch the table at all. That base GRANT was missing — Supabase normally configures it automatically for every table on a new project, and it looks like this project never got it. Added an explicit `## 6b. Grants` section to `docs/DATABASE.md` (mirrored in `schema.sql`): broad `select/insert/update/delete` to `authenticated`, `select` to `anon`, on purpose — RLS stays the real access-control layer, this only unblocks the attempt. Needs to be run once in the Supabase SQL editor to fix existing accounts
+
 ## [0.3.4] — 2026-09-30
 - **Feat**: `ProfileModal.tsx` replaces `EditUsernameModal.tsx` — one place to edit username, display_name and bio (already existed as columns on `profiles`, no UI before), plus a read-only builds/followers/following count row. Opened from the account menu ("Mi perfil" instead of "Cambiar nombre de usuario")
 - **Fix**: `authStore.ts`'s `fetchProfile()` swallowed its error and silently fell back to `profile: null`, which made `AuthButton` show the raw email with zero indication anything was wrong. Now logs the actual Postgres/PostgREST error via `console.error` so a real failure (missing row, RLS, etc.) is debuggable instead of looking identical to "just hasn't loaded yet"

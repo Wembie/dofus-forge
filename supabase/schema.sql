@@ -493,6 +493,22 @@ create policy "slugs read" on slug_redirects for select using (true);
 
 
 -- ═══════════════════════════════════════════════════════════════
+-- GRANTS
+-- ═══════════════════════════════════════════════════════════════
+-- RLS policies above only decide which ROWS a role can touch — Postgres
+-- still needs a plain GRANT before a role can attempt the operation on the
+-- table at all. Supabase normally sets this up automatically for every new
+-- table at project creation; broad here on purpose, RLS is the real gate
+-- (e.g. authenticated gets table-wide UPDATE on build_reports, but the
+-- "reports admin update" policy still blocks a non-admin's actual update).
+
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on all tables in schema public to authenticated;
+grant select on all tables in schema public to anon;
+grant usage, select on all sequences in schema public to authenticated;
+
+
+-- ═══════════════════════════════════════════════════════════════
 -- FUNCIONES Y TRIGGERS
 -- ═══════════════════════════════════════════════════════════════
 

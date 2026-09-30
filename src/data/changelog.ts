@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.5',
+    date: '2026-09-30',
+    notes: [
+      'Fix: some accounts got "permission denied for table profiles" (and would have on every other table) — the database was missing basic Postgres GRANTs beneath the RLS policies, which is a separate, more fundamental permission layer that Supabase normally sets up automatically on a new project',
+    ],
+  },
+  {
     version: '0.3.4',
     date: '2026-09-30',
     notes: [
