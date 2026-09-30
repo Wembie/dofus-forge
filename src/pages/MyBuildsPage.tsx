@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Star, Heart, Eye, Link2, Globe, Lock, Trash2 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Star, Heart, Eye, Link2, Globe, Lock, Trash2 } from 'lucide-react'
 import { Frame } from '@/ui'
+import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { useAuthStore } from '@/store/authStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -119,7 +120,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 }
 
 export function MyBuildsPage() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   useLoadGameData()
   const session      = useAuthStore(s => s.session)
   const [builds, setBuilds]   = useState<MyBuildRow[]>([])
@@ -141,20 +142,12 @@ export function MyBuildsPage() {
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
-      <header
-        className="sticky top-0 z-40 px-4 sm:px-6 h-[52px] flex items-center gap-3"
-        style={{ background: 'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))', borderBottom: '1px solid var(--metal-edge)' }}
-      >
-        <Link to={`/${langPathPrefix(i18n.language)}`} className="flex items-center gap-1.5 text-[11px] font-semibold" style={{ color: 'var(--ink-faint)' }}>
-          <ArrowLeft size={14} />
-          {t('back_to_builder')}
-        </Link>
-        <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs ml-2" style={{ color: 'var(--gold)' }}>
-          {t('my_builds')}
-        </h1>
-      </header>
+      <SiteHeader />
 
       <main className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-5">
+        <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
+          {t('my_builds')}
+        </h1>
         {!session ? (
           <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('my_builds_signin_required')}</p>
         ) : (

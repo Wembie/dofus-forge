@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, Star, Heart, Eye, User, UploadCloud } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud } from 'lucide-react'
 import { Button, Frame } from '@/ui'
+import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { StatsFromBlock } from '@/features/stats-panel/StatsPanel.tsx'
 import { useBuildStore, recompute, ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -172,15 +173,7 @@ export function BuildDetailPage() {
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
-      <header
-        className="sticky top-0 z-40 px-4 sm:px-6 h-[52px] flex items-center gap-3"
-        style={{ background: 'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))', borderBottom: '1px solid var(--metal-edge)' }}
-      >
-        <Link to={`/${langPathPrefix(i18n.language)}explore`} className="flex items-center gap-1.5 text-[11px] font-semibold" style={{ color: 'var(--ink-faint)' }}>
-          <ArrowLeft size={14} />
-          {t('explore_title')}
-        </Link>
-      </header>
+      <SiteHeader />
 
       <main className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
         <Frame padding="lg" className="space-y-3">

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.15',
+    date: '2026-09-30',
+    notes: [
+      'Fix: Explore, My Builds and the build detail page each had their own bare "back to planner" header — now they share the same header as the builder (logo, Explore/My Builds nav, language switcher, theme toggle, account menu)',
+    ],
+  },
+  {
     version: '0.3.14',
     date: '2026-09-30',
     notes: [
