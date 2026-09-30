@@ -13,7 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Fix: confirming a new account landed on the site but never logged you in automatically if you had a saved language preference — the redirect that bounces you to your language\'s URL was dropping the #access_token from the confirmation link',
       'Feat: change your username from the account menu (top-right) — display_name/username was already shown instead of your email everywhere, this lets you pick your own instead of the auto-generated one',
-      'Polish: the account confirmation email now shows its text in all 4 supported languages (Supabase only allows one template, not one per language)',
+      'Polish: the account confirmation email is now in English (Supabase only allows one template, not one per language)',
     ],
   },
   {
