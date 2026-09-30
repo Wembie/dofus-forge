@@ -56,7 +56,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signUp: async (email, password) => {
     const supabase = await getSupabase()
-    const { error } = await supabase.auth.signUp({ email, password })
+    // Without this, Supabase falls back to the dashboard's "Site URL" (defaults
+    // to http://localhost:3000 on a fresh project) for the confirmation email's
+    // link — always explicit here so it works regardless of that setting.
+    const redirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
+    const { error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } })
     return { error: error?.message ?? null }
   },
 

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.1] — 2026-09-30
+- **Fix**: account confirmation emails redirected to `http://localhost:3000` (Supabase's default "Site URL" on a fresh project) instead of the real deployed site, throwing `otp_expired`/`access_denied` when clicked. `authStore.ts`'s `signUp()` now passes `options.emailRedirectTo` explicitly (`window.location.origin + BASE_URL`) instead of relying on the dashboard's Site URL setting
+
 ## [0.3.0] — 2026-09-30
 - **Feat**: cloud accounts, powered by Supabase — first step towards saved/shareable builds in the cloud. Full roadmap (profiles, likes, comments, follows, Explore...) in `docs/DATABASE.md`
 - **Feat (M47)**: sign up / sign in / sign out with email+password. `src/store/authStore.ts` (session + profile state, `onAuthStateChange` subscription), `src/features/auth/AuthModal.tsx` + `AuthButton.tsx` (new account button in the header, top-right next to the language switcher). `@supabase/supabase-js` is lazy-loaded (`src/lib/supabase.ts`'s `getSupabase()`, dynamic `import()`) so it never bloats the eager main bundle for visitors who don't touch auth

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.1',
+    date: '2026-09-30',
+    notes: [
+      'Fix: account confirmation emails redirected to http://localhost:3000 (Supabase\'s default "Site URL") instead of the real site. Sign-up now explicitly passes emailRedirectTo pointing at the current origin',
+    ],
+  },
+  {
     version: '0.3.0',
     date: '2026-09-30',
     notes: [
