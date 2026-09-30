@@ -538,5 +538,6 @@
   "my_builds_delete": "Supprimer",
   "publish_title_update": "Mettre à jour le build",
   "publish_already_published_hint": "Ce build est déjà publié — ceci met à jour cette même publication, pas une nouvelle.",
-  "publish_submit_update": "Mettre à jour"
+  "publish_submit_update": "Mettre à jour",
+  "build_detail_no_items": "Ce build n'a aucun objet équipé."
 }

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.13',
+    date: '2026-09-30',
+    notes: [
+      'Feat: build detail page — equipped items now show as full rows (image, name, level, stats) like the set-detail view, hovering one shows its complete tooltip including magesmithy runes and who crafted it',
+      'Feat: build detail page now also shows the 6 base characteristics (Vitality, Wisdom, Strength, Intelligence, Chance, Agility), which were missing from the stats view',
+    ],
+  },
+  {
     version: '0.3.12',
     date: '2026-09-30',
     notes: [
