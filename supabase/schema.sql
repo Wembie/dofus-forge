@@ -321,6 +321,29 @@ create table build_reports (
 
 
 -- ═══════════════════════════════════════════════════════════════
+-- STORAGE: bucket de avatares
+-- ═══════════════════════════════════════════════════════════════
+-- profiles.avatar_url se llena solo con URLs de este bucket (nunca una URL
+-- externa pegada a mano) — ruta de cada archivo: {user_id}/avatar.{ext}
+
+insert into storage.buckets (id, name, public)
+values ('avatars', 'avatars', true)
+on conflict (id) do nothing;
+
+create policy "avatar public read" on storage.objects for select
+  using (bucket_id = 'avatars');
+
+create policy "avatar upload own" on storage.objects for insert
+  with check (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+
+create policy "avatar update own" on storage.objects for update
+  using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+
+create policy "avatar delete own" on storage.objects for delete
+  using (bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text);
+
+
+-- ═══════════════════════════════════════════════════════════════
 -- ÍNDICES
 -- ═══════════════════════════════════════════════════════════════
 

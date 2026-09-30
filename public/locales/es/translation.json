@@ -489,9 +489,10 @@
   "auth_profile_title": "Mi perfil",
   "auth_display_name": "Nombre visible",
   "auth_bio": "Biografía",
-  "auth_avatar_url": "URL de avatar",
   "auth_stat_builds": "builds",
   "auth_stat_followers": "seguidores",
   "auth_stat_following": "siguiendo",
-  "auth_avatar_url_invalid": "Debe empezar con http:// o https://"
+  "auth_avatar_change": "Cambiar avatar",
+  "auth_avatar_type_invalid": "Solo PNG, JPG o WEBP.",
+  "auth_avatar_too_large": "Máximo 2MB."
 }

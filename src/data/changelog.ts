@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.7',
+    date: '2026-09-30',
+    notes: [
+      'Feat/Fix (security): avatar is now an actual file upload to your own Supabase Storage bucket instead of a free-text URL field — closes the CodeQL alert at the root (no more attacker-controlled URL string reaching the image sink at all) and blocks tracking-pixel-style external URLs as a side effect. PNG/JPG/WEBP only, 2MB max, SVG excluded (can carry embedded scripts)',
+    ],
+  },
+  {
     version: '0.3.6',
     date: '2026-09-30',
     notes: [

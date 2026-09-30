@@ -31,9 +31,17 @@ type AuthState = {
   signOut:        () => Promise<void>
   updateUsername: (username: string) => Promise<{ error: string | null }>
   updateProfile:  (edits: ProfileEdits) => Promise<{ error: string | null }>
+  uploadAvatar:   (file: File) => Promise<{ url: string | null; error: string | null }>
 }
 
 const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
+// SVG excluded deliberately — it can carry embedded <script>/event handlers.
+const AVATAR_TYPES: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' }
+export const AVATAR_ACCEPT = Object.keys(AVATAR_TYPES).join(',')
+export const AVATAR_MAX_BYTES = 2 * 1024 * 1024
+export function isAcceptedAvatarType(type: string): boolean {
+  return type in AVATAR_TYPES
+}
 // avatar_url is rendered as <img src> for every viewer of a public profile —
 // restrict to http(s) so a saved `javascript:`/`data:` URI can't reach that sink.
 const SAFE_URL_RE = /^https?:\/\//i
@@ -143,5 +151,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (error) return { error: error.message }
     set(s => ({ profile: s.profile ? { ...s.profile, ...edits } : s.profile }))
     return { error: null }
+  },
+
+  uploadAvatar: async (file) => {
+    const session = get().session
+    if (!session) return { url: null, error: 'Not signed in' }
+
+    const ext = AVATAR_TYPES[file.type]
+    if (!ext) return { url: null, error: 'invalid_avatar_type' }
+    if (file.size > AVATAR_MAX_BYTES) return { url: null, error: 'avatar_too_large' }
+
+    const supabase = await getSupabase()
+    const path = `${session.user.id}/avatar.${ext}`
+    const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true, cacheControl: '3600' })
+    if (error) return { url: null, error: error.message }
+
+    // Cache-bust: same path on every re-upload (upsert), so the URL alone
+    // wouldn't change and <img> would keep showing the stale cached image.
+    const { data } = supabase.storage.from('avatars').getPublicUrl(path)
+    return { url: `${data.publicUrl}?t=${Date.now()}`, error: null }
   },
 }))

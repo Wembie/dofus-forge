@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.7] — 2026-09-30
+- **Feat/Fix (security)**: replaced the free-text avatar URL field with a real file upload to a new `avatars` Supabase Storage bucket (`docs/DATABASE.md` § 4b, mirrored in `schema.sql`) — public read, RLS restricts insert/update/delete to `{user_id}/avatar.{ext}` (own folder only). `authStore.ts` gains `uploadAvatar()` (validates type — png/jpg/webp only, SVG excluded since it can carry embedded scripts — and a 2MB cap, before uploading); `ProfileModal.tsx`'s avatar circle is now a click-to-upload control with a local blob preview while the upload runs. This closes the CodeQL "DOM text reinterpreted as HTML" alert on `<img src={avatarUrl}>` at the root — the value reaching that sink is always our own Storage URL now, never arbitrary user-typed text — and as a side effect blocks tracking-pixel-style external avatar URLs, which the previous http(s)-only check didn't (any real http(s) URL still passed it)
+
 ## [0.3.6] — 2026-09-30
 - **Fix (security)**: CodeQL flagged `ProfileModal.tsx:55`'s `<img src={avatarUrl}>` — the 0.3.5 fix validated the scheme only in `updateProfile()` before saving, but the live avatar preview renders the raw input state on every keystroke, before that check ever runs. Added `isSafeImageUrl()` (exported from `authStore.ts`, wraps the same http(s)-only regex) and applied it directly at both render sites — `ProfileModal`'s preview and `AuthButton`'s header avatar — so the `<img>` sink itself is guarded, not just the write path
 
