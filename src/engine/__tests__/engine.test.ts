@@ -188,7 +188,9 @@ const GOBBALL_SET = {
   },
 }
 
-// Gobball Headgear (2411): Strength +16–20, Intelligence +16–20 (we use min)
+// Gobball Headgear (2411): Strength +16–20, Intelligence +16–20 — applyEffect()
+// uses max over min for a real range ((max !== 0 && max > min) ? max : min,
+// the "optimistic/best-roll" convention used throughout the engine), so 20/20.
 const GOBBALL_HAT: BuildInput['items'][0] = {
   ankama_id: 2411,
   set_id:    1,
@@ -218,23 +220,25 @@ describe('computeStats — set bonuses', () => {
       items: [GOBBALL_HAT, GOBBALL_AMULET],
       sets:  [GOBBALL_SET],
     }))
-    // Item effects: Str 16+5=21, Int 16, Vit 11
-    // Set bonus 2pc: Str+5, Int+5, Vit+5
-    expect(s.strength).toBe(16 + 5 + 5)     // 26
-    expect(s.intelligence).toBe(16 + 5)      // 21
-    expect(s.vitality).toBe(11 + 5)          // 16
+    // Item effects (max of each range): Str 20+8=28, Int 20, Vit 15
+    // Set bonus: only the highest reached tier applies (2pc, non-cumulative
+    // in Dofus 3 — see computeSetBonuses()) → Str+5, Int+5, Vit+5
+    expect(s.strength).toBe(20 + 8 + 5)     // 33
+    expect(s.intelligence).toBe(20 + 5)      // 25
+    expect(s.vitality).toBe(15 + 5)          // 20
   })
 
-  it('3-piece Gobball: applies both 2-piece and 3-piece bonuses', () => {
+  it('3-piece Gobball: only the 3-piece tier applies, not 2pc+3pc stacked', () => {
     const s = computeStats(emptyBuild({
       items: [GOBBALL_HAT, GOBBALL_AMULET, GOBBALL_BELT],
       sets:  [GOBBALL_SET],
     }))
-    // 2pc: Str+5 Int+5 Vit+5
-    // 3pc: Str+10 Int+10 Vit+10
-    expect(s.strength).toBe(16 + 5 + (5 + 10))    // 36
-    expect(s.intelligence).toBe(16 + (5 + 10))     // 31
-    expect(s.chance).toBe(6)                       // only from belt, no set bonus for chance
+    // Set bonuses are NOT cumulative in Dofus 3 — only the single highest
+    // reached tier (3pc: Str+10 Int+10 Vit+10) applies, the 2pc tier does not
+    // additionally stack on top of it.
+    expect(s.strength).toBe(20 + 8 + 10)    // 38
+    expect(s.intelligence).toBe(20 + 10)     // 30
+    expect(s.chance).toBe(9)                 // only from belt (max of 6-9), no set bonus for chance
   })
 
   it('1 item from set: no set bonus applied', () => {
@@ -242,12 +246,12 @@ describe('computeStats — set bonuses', () => {
       items: [GOBBALL_HAT],
       sets:  [GOBBALL_SET],
     }))
-    // No set bonus — only hat effects
-    expect(s.strength).toBe(16)
+    // No set bonus — only hat effects (max of range)
+    expect(s.strength).toBe(20)
     expect(s.vitality).toBe(0)
   })
 
-  it('8-piece Gobball: AP bonus from full set', () => {
+  it('8-piece Gobball: only the 8-piece tier applies, not 2pc+3pc+8pc stacked', () => {
     const fullSet: BuildInput['items'] = GOBBALL_SET.items.map(id => ({
       ankama_id: id,
       set_id:    1,
@@ -255,9 +259,9 @@ describe('computeStats — set bonuses', () => {
       effects:   [],
     }))
     const s = computeStats(emptyBuild({ items: fullSet, sets: [GOBBALL_SET] }))
-    // 8-piece bonus includes AP+1
+    // 8-piece bonus includes AP+1; lower tiers (2pc/3pc) do not also stack
     expect(s.ap).toBe(6 + 1)   // base 6 + set bonus
-    expect(s.strength).toBe(5 + 10 + 50)   // 2pc+3pc+8pc
+    expect(s.strength).toBe(50)   // 8pc tier only
   })
 })
 
