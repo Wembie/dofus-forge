@@ -465,5 +465,16 @@
   "build_name_label": "Build name",
   "pvp_arena_select_hint": "Pick a spell or the weapon attack to simulate",
   "pvp_arena_resist_label": "Target resistances",
-  "pvp_arena_attack_label": "Choose your attack"
+  "pvp_arena_attack_label": "Choose your attack",
+  "auth_signin_title": "Sign in",
+  "auth_signup_title": "Create account",
+  "auth_check_email": "Check your email to confirm your account.",
+  "auth_email": "Email",
+  "auth_password": "Password",
+  "auth_loading": "Loading...",
+  "auth_signin_btn": "Sign in",
+  "auth_signup_btn": "Sign up",
+  "auth_no_account": "Don't have an account?",
+  "auth_has_account": "Already have an account?",
+  "auth_signout": "Sign out"
 }

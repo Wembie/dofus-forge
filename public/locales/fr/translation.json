@@ -465,5 +465,16 @@
   "build_name_label": "Nom du build",
   "pvp_arena_select_hint": "Choisissez un sort ou l'attaque à l'arme pour simuler",
   "pvp_arena_resist_label": "Résistances de la cible",
-  "pvp_arena_attack_label": "Choisissez votre attaque"
+  "pvp_arena_attack_label": "Choisissez votre attaque",
+  "auth_signin_title": "Connexion",
+  "auth_signup_title": "Créer un compte",
+  "auth_check_email": "Vérifiez votre email pour confirmer le compte.",
+  "auth_email": "Email",
+  "auth_password": "Mot de passe",
+  "auth_loading": "Chargement...",
+  "auth_signin_btn": "Se connecter",
+  "auth_signup_btn": "S'inscrire",
+  "auth_no_account": "Pas de compte ?",
+  "auth_has_account": "Déjà un compte ?",
+  "auth_signout": "Déconnexion"
 }

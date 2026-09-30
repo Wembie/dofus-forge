@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { BuilderPage } from './pages/BuilderPage.tsx'
 import { Toaster } from './components/Toaster.tsx'
 import { LangRoute } from './LangRoute.tsx'
+import { useAuthStore } from './store/authStore.ts'
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -33,6 +35,10 @@ function RootRoute() {
 
 function App() {
   const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+  useEffect(() => {
+    useAuthStore.getState().init()
+  }, [])
 
   return (
     <BrowserRouter basename={basename}>

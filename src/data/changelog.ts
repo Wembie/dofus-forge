@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.0',
+    date: '2026-09-30',
+    notes: [
+      'Feat: cloud accounts, powered by Supabase — the first step towards saved/shareable builds in the cloud (see docs/DATABASE.md for the full roadmap: profiles, likes, comments, follows, Explore...)',
+      'Feat: M47 — sign up / sign in / sign out with email+password. New account button in the header (top-right, next to the language switcher)',
+      'Chore: full Postgres schema designed and validated against the real app data model (19 tables, RLS, triggers) — see docs/DATABASE.md and the ready-to-run supabase/schema.sql',
+    ],
+  },
+  {
     version: '0.2.138',
     date: '2026-09-17',
     notes: [
