@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { User, LogOut, Pencil } from 'lucide-react'
-import { useAuthStore } from '@/store/authStore.ts'
+import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { AuthModal } from './AuthModal.tsx'
 import { ProfileModal } from './ProfileModal.tsx'
 
@@ -58,7 +58,7 @@ export function AuthButton() {
         style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
         title={label}
       >
-        {profile?.avatar_url
+        {isSafeImageUrl(profile?.avatar_url)
           ? <img src={profile.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
           : <User size={13} />
         }

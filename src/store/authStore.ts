@@ -38,6 +38,13 @@ const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
 // restrict to http(s) so a saved `javascript:`/`data:` URI can't reach that sink.
 const SAFE_URL_RE = /^https?:\/\//i
 
+// Guard applied at every <img src={...}> render site, not just on save — the
+// live preview in ProfileModal renders the raw input on every keystroke,
+// before updateProfile() ever runs its own check.
+export function isSafeImageUrl(url: string | null | undefined): url is string {
+  return !!url && SAFE_URL_RE.test(url)
+}
+
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
   const { data, error } = await supabase

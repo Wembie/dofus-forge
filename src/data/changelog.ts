@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.6',
+    date: '2026-09-30',
+    notes: [
+      'Fix (security): the avatar http(s)-only check now also guards the <img> render itself (ProfileModal live preview + AuthButton), not just the save step — flagged by CodeQL since the preview rendered the raw unsaved input on every keystroke',
+    ],
+  },
+  {
     version: '0.3.5',
     date: '2026-09-30',
     notes: [

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { User, Image, FileText, LogOut } from 'lucide-react'
 import { Modal, Button } from '@/ui'
-import { useAuthStore } from '@/store/authStore.ts'
+import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 
 export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t }           = useTranslation()
@@ -51,7 +51,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
     <Modal open={open} onClose={close} title={t('auth_profile_title')} size="sm">
       <div className="p-5">
         <div className="flex items-center gap-3 mb-4">
-          {avatarUrl
+          {isSafeImageUrl(avatarUrl)
             ? <img src={avatarUrl} alt="" width={48} height={48} className="rounded-full object-cover flex-shrink-0" />
             : (
               <div

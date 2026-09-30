@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.6] — 2026-09-30
+- **Fix (security)**: CodeQL flagged `ProfileModal.tsx:55`'s `<img src={avatarUrl}>` — the 0.3.5 fix validated the scheme only in `updateProfile()` before saving, but the live avatar preview renders the raw input state on every keystroke, before that check ever runs. Added `isSafeImageUrl()` (exported from `authStore.ts`, wraps the same http(s)-only regex) and applied it directly at both render sites — `ProfileModal`'s preview and `AuthButton`'s header avatar — so the `<img>` sink itself is guarded, not just the write path
+
 ## [0.3.5] — 2026-09-30
 - **Fix (security)**: `authStore.ts`'s `updateProfile()` now rejects `avatar_url` values that don't start with `http://`/`https://`. `avatar_url` renders directly as `<img src>` in both `ProfileModal` and `AuthButton`, and (per `docs/DATABASE.md`'s roadmap) will eventually render on public profile pages for other users too — without this check a `javascript:`/`data:` URI saved through the new profile-edit form would reach that sink unfiltered
 
