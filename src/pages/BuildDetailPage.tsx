@@ -11,7 +11,8 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
-import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.tsx'
+import { BuildItemsList } from '@/features/builds/BuildItemsList.tsx'
+import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics } from '@/engine/types.ts'
 import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
@@ -215,12 +216,39 @@ export function BuildDetailPage() {
         <div className="grid lg:grid-cols-[1fr_360px] gap-4 items-start">
           <Frame padding="lg">
             <h2 className="text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--gold)' }}>{t('equipment')}</h2>
-            <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipmentData} size={52} />
+            <BuildItemsList snapshot={build.snapshot} equipment={equipmentData} />
           </Frame>
 
           <div className="space-y-4">
             {computedStats && (
-              <Frame padding="lg" material="parchment">
+              <Frame padding="lg" material="parchment" className="space-y-4">
+                <div>
+                  <h2 className="text-[11px] font-display uppercase tracking-[0.22em] font-bold mb-1.5" style={{ color: 'var(--gold)' }}>
+                    {t('characteristics')}
+                  </h2>
+                  <div className="grid grid-cols-2 gap-1">
+                    {([
+                      ['vitality',     'char_vitality',     computedStats.vitality],
+                      ['wisdom',       'char_wisdom',       computedStats.wisdom],
+                      ['strength',     'char_strength',     computedStats.strength],
+                      ['intelligence', 'char_intelligence', computedStats.intelligence],
+                      ['chance',       'char_chance',        computedStats.chance],
+                      ['agility',      'char_agility',      computedStats.agility],
+                    ] as const).map(([icon, labelKey, value]) => {
+                      const color = STAT_META[icon.charAt(0).toUpperCase() + icon.slice(1)]?.color ?? 'var(--ink-muted)'
+                      return (
+                        <div key={icon} className="flex items-center gap-1.5 px-2 py-1 rounded" style={{
+                          background: `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
+                          borderLeft: `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
+                        }}>
+                          <img src={statIconUrl(icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
+                          <span className="text-[11px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{t(labelKey)}</span>
+                          <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>{value}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
                 <StatsFromBlock s={computedStats} runes={runesForDisplay} />
               </Frame>
             )}

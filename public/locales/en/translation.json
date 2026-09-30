@@ -538,5 +538,6 @@
   "my_builds_delete": "Delete",
   "publish_title_update": "Update build",
   "publish_already_published_hint": "This build is already published — this updates that same one, it won't create a new one.",
-  "publish_submit_update": "Update"
+  "publish_submit_update": "Update",
+  "build_detail_no_items": "This build has no equipped items."
 }

@@ -538,5 +538,6 @@
   "my_builds_delete": "Excluir",
   "publish_title_update": "Atualizar build",
   "publish_already_published_hint": "Este build já está publicado — isso atualiza essa mesma publicação, não cria uma nova.",
-  "publish_submit_update": "Atualizar"
+  "publish_submit_update": "Atualizar",
+  "build_detail_no_items": "Este build não tem itens equipados."
 }

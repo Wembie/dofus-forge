@@ -1,15 +1,23 @@
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 
 // Full item tooltip — portal, fixed position so it escapes any
 // overflow-y:auto ancestor (modals, scrollable card grids, etc).
-// Shared by SetDetailModal and SetsCatalog so both show identical,
-// complete item info (effects, weapon attack, conditions, lore) on hover.
-export function ItemHoverTooltip({ item, anchor }: { item: AppItem; anchor: DOMRect }) {
+// Shared by SetDetailModal, SetsCatalog and BuildItemsList (read-only build
+// views) so they all show identical, complete item info (effects, weapon
+// attack, magesmithy, conditions, lore) on hover. `runes`/`forjamagoName`
+// are optional — omit them for a plain catalog item with no forgemagie.
+export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
+  item: AppItem
+  anchor: DOMRect
+  runes?: Record<string, number>
+  forjamagoName?: string
+}) {
   const { t } = useTranslation()
+  const activeRunes = Object.entries(runes ?? {}).filter(([, v]) => v > 0)
 
   const TW     = 288
   const left   = window.innerWidth - anchor.right - 12 >= TW
@@ -117,6 +125,40 @@ export function ItemHoverTooltip({ item, anchor }: { item: AppItem; anchor: DOMR
               {t('effects')}
             </p>
             <div className="space-y-0.5">{statFx.map((e, i) => <StatLine key={i} e={e} i={i} />)}</div>
+          </div>
+        )}
+
+        {/* Magesmithy (forgemagie) — same section as the live EquipmentGrid tooltip */}
+        {activeRunes.length > 0 && (
+          <div className="px-3 pt-1.5 pb-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+            <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5 flex items-center gap-1" style={{ color: 'var(--ink-faint)' }}>
+              <span style={{ color: 'var(--ap)' }}>✦</span> {t('magesmithy')}
+            </p>
+            <div className="space-y-0.5">
+              {activeRunes.map(([stat, val]) => {
+                const meta = STAT_META[stat]
+                const rUrl = runeIconUrl(stat)
+                return (
+                  <div key={stat} className="flex items-center gap-1.5">
+                    {rUrl
+                      ? <img src={rUrl} alt="" width={16} height={16} className="object-contain flex-shrink-0" style={{ filter: 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }} />
+                      : meta?.icon
+                      ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" style={{ filter: 'saturate(0.3) hue-rotate(200deg) brightness(1.4)' }} />
+                      : <span className="w-3 flex-shrink-0" />
+                    }
+                    <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: 'var(--ap)' }}>+{val}</span>
+                    <span className="text-[11px]" style={{ color: 'var(--water)' }}>{meta ? t(meta.tKey) : stat}</span>
+                  </div>
+                )
+              })}
+            </div>
+            {forjamagoName && (
+              <p className="text-[10px] flex items-center gap-1 mt-1.5" style={{ color: 'var(--ink-faint)' }}>
+                <span style={{ color: 'var(--water)' }}>✦</span>
+                <span>{t('modified_by')}:</span>
+                <span style={{ color: 'var(--ap)' }}>{forjamagoName}</span>
+              </p>
+            )}
           </div>
         )}
 
