@@ -8,17 +8,11 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.2',
-    date: '2026-09-30',
-    notes: [
-      'Polish: redesigned the login/sign-up window — branded header with icon, mail/lock icons in the inputs, nicer success screen after signing up, and a note to check the spam folder if the confirmation email doesn\'t show up',
-    ],
-  },
-  {
     version: '0.3.1',
     date: '2026-09-30',
     notes: [
       'Fix: account confirmation emails redirected to http://localhost:3000 (Supabase\'s default "Site URL") instead of the real site. Sign-up now explicitly passes emailRedirectTo pointing at the current origin',
+      'Polish: redesigned the login/sign-up window — branded header with icon, mail/lock icons in the inputs, nicer success screen after signing up, and a note to check the spam folder if the confirmation email doesn\'t show up',
     ],
   },
   {

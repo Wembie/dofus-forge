@@ -5,11 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.3.2] — 2026-09-30
-- **Polish**: redesigned `AuthModal` — branded header (icon + gold accent, replacing the modal's plain text title), mail/lock icons inside the email/password fields, a proper success screen after signing up (icon + message), and a hint to check the spam/junk folder if the confirmation email doesn't show up
-
 ## [0.3.1] — 2026-09-30
 - **Fix**: account confirmation emails redirected to `http://localhost:3000` (Supabase's default "Site URL" on a fresh project) instead of the real deployed site, throwing `otp_expired`/`access_denied` when clicked. `authStore.ts`'s `signUp()` now passes `options.emailRedirectTo` explicitly (`window.location.origin + BASE_URL`) instead of relying on the dashboard's Site URL setting
+- **Polish**: redesigned `AuthModal` — branded header (icon + gold accent, replacing the modal's plain text title), mail/lock icons inside the email/password fields, a proper success screen after signing up (icon + message), and a hint to check the spam/junk folder if the confirmation email doesn't show up
 
 ## [0.3.0] — 2026-09-30
 - **Feat**: cloud accounts, powered by Supabase — first step towards saved/shareable builds in the cloud. Full roadmap (profiles, likes, comments, follows, Explore...) in `docs/DATABASE.md`
