@@ -480,5 +480,11 @@
   "auth_check_email_title": "¡Ya casi!",
   "auth_signin_subtitle": "Entra para guardar y compartir tus builds",
   "auth_signup_subtitle": "Crea tu cuenta gratis en segundos",
-  "auth_check_spam": "¿No lo ves? Revisa la carpeta de spam o no deseado."
+  "auth_check_spam": "¿No lo ves? Revisa la carpeta de spam o no deseado.",
+  "auth_edit_username": "Cambiar nombre de usuario",
+  "auth_edit_username_title": "Nombre de usuario",
+  "auth_username_hint": "Este es el nombre que verán los demás — nunca tu correo. Letras minúsculas, números, guiones. 3-30 caracteres.",
+  "auth_username_invalid": "Solo minúsculas, números, - y _. Entre 3 y 30 caracteres.",
+  "auth_username_taken": "Ese nombre de usuario ya está en uso.",
+  "auth_username_error": "No se pudo actualizar. Intenta de nuevo."
 }

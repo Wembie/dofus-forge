@@ -27,7 +27,10 @@ function RootRoute() {
     let stored: string | null = null
     try { stored = localStorage.getItem('dofus-forge-lang') } catch { /* private mode etc. */ }
     if (stored && SUPPORTED_REDIRECT.includes(stored)) {
-      return <Navigate to={`/${stored}/${location.search}`} replace />
+      // Preserve the hash too — Supabase's auth confirmation links land here
+      // with #access_token=... in it; dropping it (as this did before) meant
+      // the session was silently lost on any redirect through this route.
+      return <Navigate to={`/${stored}/${location.search}${location.hash}`} replace />
     }
   }
   return <LangRoute lang="en"><BuilderPage /></LangRoute>

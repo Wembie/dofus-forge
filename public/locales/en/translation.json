@@ -480,5 +480,11 @@
   "auth_check_email_title": "Almost there!",
   "auth_signin_subtitle": "Sign in to save and share your builds",
   "auth_signup_subtitle": "Create your free account in seconds",
-  "auth_check_spam": "Don't see it? Check your spam or junk folder."
+  "auth_check_spam": "Don't see it? Check your spam or junk folder.",
+  "auth_edit_username": "Change username",
+  "auth_edit_username_title": "Username",
+  "auth_username_hint": "This is the name others will see — never your email. Lowercase letters, numbers, dashes. 3-30 characters.",
+  "auth_username_invalid": "Lowercase letters, numbers, - and _ only. 3-30 characters.",
+  "auth_username_taken": "That username is already taken.",
+  "auth_username_error": "Could not update. Try again."
 }
