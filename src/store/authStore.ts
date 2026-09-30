@@ -15,11 +15,14 @@ type AuthState = {
   loading:     boolean   // true until the initial session check resolves
   initialized: boolean
 
-  init:      () => void
-  signUp:    (email: string, password: string) => Promise<{ error: string | null }>
-  signIn:    (email: string, password: string) => Promise<{ error: string | null }>
-  signOut:   () => Promise<void>
+  init:           () => void
+  signUp:         (email: string, password: string) => Promise<{ error: string | null }>
+  signIn:         (email: string, password: string) => Promise<{ error: string | null }>
+  signOut:        () => Promise<void>
+  updateUsername: (username: string) => Promise<{ error: string | null }>
 }
+
+const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
 
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
@@ -73,5 +76,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   signOut: async () => {
     const supabase = await getSupabase()
     await supabase.auth.signOut()
+  },
+
+  updateUsername: async (username) => {
+    const session = get().session
+    if (!session) return { error: 'Not signed in' }
+    // Mirrors the DB CHECK constraint (profiles.username_format) so the
+    // error shows up before round-tripping to Postgres.
+    if (!USERNAME_RE.test(username)) return { error: 'invalid_username' }
+
+    const supabase = await getSupabase()
+    const { error } = await supabase.from('profiles').update({ username }).eq('id', session.user.id)
+    if (error) {
+      // Postgres unique_violation
+      return { error: error.code === '23505' ? 'username_taken' : error.message }
+    }
+    set(s => ({ profile: s.profile ? { ...s.profile, username } : s.profile }))
+    return { error: null }
   },
 }))

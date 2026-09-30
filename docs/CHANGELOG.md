@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.2] — 2026-09-30
+- **Fix**: `RootRoute` in `App.tsx` redirects a returning visitor with a saved language preference from `/` to `/{lang}/`, but only carried `location.search` — dropping `location.hash` entirely. Supabase's confirmation link lands on `/` with `#access_token=...` in the hash; if you had a saved non-English preference, that redirect fired before the auth client ever saw the token, landing you on the real page but never actually signed in
+- **Feat**: change your own username from the account menu (top-right, next to sign out) — `EditUsernameModal.tsx` + `authStore.ts`'s `updateUsername()`. `AuthButton` already showed `display_name`/`username` instead of the raw email everywhere (the `profiles` row is auto-created on signup with a sanitized username via the `handle_new_user` trigger); this just lets you pick your own instead of the auto-generated one
+
 ## [0.3.1] — 2026-09-30
 - **Fix**: account confirmation emails redirected to `http://localhost:3000` (Supabase's default "Site URL" on a fresh project) instead of the real deployed site, throwing `otp_expired`/`access_denied` when clicked. `authStore.ts`'s `signUp()` now passes `options.emailRedirectTo` explicitly (`window.location.origin + BASE_URL`) instead of relying on the dashboard's Site URL setting
 - **Polish**: redesigned `AuthModal` — branded header (icon + gold accent, replacing the modal's plain text title), mail/lock icons inside the email/password fields, a proper success screen after signing up (icon + message), and a hint to check the spam/junk folder if the confirmation email doesn't show up

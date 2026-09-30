@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.2',
+    date: '2026-09-30',
+    notes: [
+      'Fix: confirming a new account landed on the site but never logged you in automatically if you had a saved language preference — the redirect that bounces you to your language\'s URL was dropping the #access_token from the confirmation link',
+      'Feat: change your username from the account menu (top-right) — display_name/username was already shown instead of your email everywhere, this lets you pick your own instead of the auto-generated one',
+    ],
+  },
+  {
     version: '0.3.1',
     date: '2026-09-30',
     notes: [
