@@ -34,6 +34,21 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
     return () => { if (url.startsWith('blob:')) URL.revokeObjectURL(url) }
   }, [avatarPreview])
 
+  // AuthButton mounts this modal unconditionally (open just toggles CSS
+  // visibility) — it's alive from the start, usually before the async
+  // profile fetch resolves. Without this, the fields above stay seeded
+  // with whatever `profile` was (often null) at that very first mount and
+  // never pick up the real values, even once loaded or opened later.
+  useEffect(() => {
+    if (!open) return
+    setUsername(profile?.username ?? '')
+    setDisplayName(profile?.display_name ?? '')
+    setBio(profile?.bio ?? '')
+    setAvatarPreview(profile?.avatar_url ?? '')
+    setPendingAvatarUrl(null)
+    setError(null)
+  }, [open, profile])
+
   function close() {
     setError(null)
     onClose()
