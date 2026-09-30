@@ -4,6 +4,11 @@ import { User, FileText, LogOut, Camera } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useAuthStore, isSafeImageUrl, isAcceptedAvatarType, AVATAR_ACCEPT, AVATAR_MAX_BYTES } from '@/store/authStore.ts'
 
+// Flip once the `avatars` Storage bucket + RLS policies (schema.sql) are
+// actually created in the Supabase project — until then upload would just
+// fail against a bucket that doesn't exist yet.
+const AVATAR_UPLOAD_ENABLED = false
+
 export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t }           = useTranslation()
   const profile         = useAuthStore(s => s.profile)
@@ -80,9 +85,10 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
         <div className="flex items-center gap-3 mb-4">
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => AVATAR_UPLOAD_ENABLED && fileInputRef.current?.click()}
+            disabled={!AVATAR_UPLOAD_ENABLED}
             className="relative flex-shrink-0 w-12 h-12 rounded-full group"
-            title={t('auth_avatar_change')}
+            title={AVATAR_UPLOAD_ENABLED ? t('auth_avatar_change') : undefined}
           >
             {avatarPreview.startsWith('blob:') || isSafeImageUrl(avatarPreview)
               ? <img src={avatarPreview} alt="" width={48} height={48} className="w-12 h-12 rounded-full object-cover" />
@@ -95,19 +101,23 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
                 </div>
               )
             }
-            <div
-              className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ background: 'rgba(10,13,19,.6)' }}
-            >
-              <Camera size={16} color="#fff" />
-            </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept={AVATAR_ACCEPT}
-              onChange={onAvatarChange}
-              className="hidden"
-            />
+            {AVATAR_UPLOAD_ENABLED && (
+              <div
+                className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'rgba(10,13,19,.6)' }}
+              >
+                <Camera size={16} color="#fff" />
+              </div>
+            )}
+            {AVATAR_UPLOAD_ENABLED && (
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={AVATAR_ACCEPT}
+                onChange={onAvatarChange}
+                className="hidden"
+              />
+            )}
           </button>
           <div className="flex gap-3 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
             <span><strong style={{ color: 'var(--ink)' }}>{profile?.builds_count ?? 0}</strong> {t('auth_stat_builds')}</span>

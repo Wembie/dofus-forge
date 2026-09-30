@@ -8,31 +8,10 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.7',
-    date: '2026-09-30',
-    notes: [
-      'Feat/Fix (security): avatar is now an actual file upload to your own Supabase Storage bucket instead of a free-text URL field — closes the CodeQL alert at the root (no more attacker-controlled URL string reaching the image sink at all) and blocks tracking-pixel-style external URLs as a side effect. PNG/JPG/WEBP only, 2MB max, SVG excluded (can carry embedded scripts)',
-    ],
-  },
-  {
-    version: '0.3.6',
-    date: '2026-09-30',
-    notes: [
-      'Fix (security): the avatar http(s)-only check now also guards the <img> render itself (ProfileModal live preview + AuthButton), not just the save step — flagged by CodeQL since the preview rendered the raw unsaved input on every keystroke',
-    ],
-  },
-  {
-    version: '0.3.5',
-    date: '2026-09-30',
-    notes: [
-      'Fix (security): avatar URL is now restricted to http(s) links before saving — it renders directly as an image source on your profile, so a javascript:/data: URI could otherwise reach that sink',
-    ],
-  },
-  {
     version: '0.3.4',
     date: '2026-09-30',
     notes: [
-      'Feat: full profile page (from the account menu) — edit your username, display name, bio and avatar URL in one place, plus your builds/followers/following counts',
+      'Feat: full profile page (from the account menu) — edit your username, display name and bio in one place, plus your builds/followers/following counts',
       'Fix: a failed profile fetch (e.g. a missing profiles row) silently fell back to showing your raw email in the header with no way to diagnose it — now logs the real error to the console',
     ],
   },
