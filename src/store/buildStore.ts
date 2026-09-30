@@ -100,7 +100,9 @@ export type BuildSnapshot = {
   wt?: Record<string, { el: string, r: number }>  // weaponTransforms: slot → { element, ratio }
 }
 
-function recompute(
+/** Exported so read-only build views (build detail, previews) can compute a
+ * StatBlock from a fetched snapshot without duplicating this logic. */
+export function recompute(
   selectedClass: DofusClass | null,
   level: number,
   allocated: AllocatedCharacteristics,

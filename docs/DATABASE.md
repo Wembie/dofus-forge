@@ -944,7 +944,12 @@ create policy "builds insert" on builds for insert
   with check (auth.uid() = user_id and is_featured = false);
 create policy "builds update" on builds for update
   using (auth.uid() = user_id)
-  with check (auth.uid() = user_id and is_featured = (select is_featured from builds where id = builds.id));
+  -- Aliased subquery on purpose: an unaliased `builds where id = builds.id`
+  -- self-correlates to `id = id` (always true) and returns every row instead
+  -- of the one being updated, raising "more than one row returned by a
+  -- subquery" — this is what broke rating a build (sync_rating_stats()'s
+  -- UPDATE on builds runs as the calling user, so this WITH CHECK applies).
+  with check (auth.uid() = user_id and is_featured = (select b.is_featured from builds b where b.id = builds.id));
 create policy "builds delete" on builds for delete
   using (auth.uid() = user_id);
 

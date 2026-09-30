@@ -528,5 +528,12 @@
   "build_detail_comment_placeholder": "Écrire un commentaire...",
   "build_detail_comment_submit": "Commenter",
   "build_detail_no_comments": "Soyez le premier à commenter.",
-  "my_builds_signin_required": "Connectez-vous pour voir vos builds enregistrés."
+  "my_builds_signin_required": "Connectez-vous pour voir vos builds enregistrés.",
+  "my_builds_total": "builds",
+  "my_builds_public_count": "publics",
+  "my_builds_likes_received": "likes reçus",
+  "my_builds_confirm_delete": "Supprimer \"{{name}}\" ? Action irréversible.",
+  "my_builds_cycle_visibility": "Cliquez pour changer la visibilité",
+  "my_builds_copy_link": "Copier le lien",
+  "my_builds_delete": "Supprimer"
 }

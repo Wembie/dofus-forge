@@ -1,13 +1,17 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ArrowLeft, Star, Heart, Eye, User, UploadCloud } from 'lucide-react'
 import { Button, Frame } from '@/ui'
-import { useBuildStore } from '@/store/buildStore.ts'
+import { useBuildStore, recompute, ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
+import { useDataStore } from '@/store/dataStore.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
+import { useLoadGameData } from '@/data/useLoadGameData.ts'
+import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.tsx'
+import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics } from '@/engine/types.ts'
 import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
   fetchMyRating, rateBuild, fetchComments, postComment,
@@ -36,8 +40,11 @@ export function BuildDetailPage() {
   const { id }       = useParams<{ id: string }>()
   const { t, i18n }  = useTranslation()
   const navigate      = useNavigate()
+  useLoadGameData()
   const session        = useAuthStore(s => s.session)
   const applySnapshot  = useBuildStore(s => s.applySnapshot)
+  const equipmentData  = useDataStore(s => s.equipment)
+  const setsData       = useDataStore(s => s.sets)
 
   const [build, setBuild]     = useState<BuildDetailRow | null>(null)
   const resolvedClassLabel    = useClassName(build?.class_slug)
@@ -110,6 +117,18 @@ export function BuildDetailPage() {
     }
   }
 
+  const computedStats = useMemo(() => {
+    if (!build || !equipmentData || !setsData) return null
+    const snap      = build.snapshot
+    const allocated = Object.fromEntries(CHARACTERISTICS.map((c, i) => [c, snap.a[i] ?? 0])) as AllocatedCharacteristics
+    const scrolled  = Object.fromEntries(CHARACTERISTICS.map((c, i) => [c, Boolean(snap.s & (1 << i))])) as ScrolledCharacteristics
+    const equipped  = Object.fromEntries(
+      ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
+    ) as Partial<Record<SlotId, number>>
+    const runes = (snap.r ?? {}) as Partial<Record<SlotId, RuneMap>>
+    return recompute(snap.c as DofusClass, snap.l, allocated, scrolled, equipped, equipmentData, setsData, runes)
+  }, [build, equipmentData, setsData])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-forge-bg flex items-center justify-center text-sm" style={{ color: 'var(--ink-faint)' }}>
@@ -146,7 +165,7 @@ export function BuildDetailPage() {
         </Link>
       </header>
 
-      <main className="px-4 sm:px-6 py-6 max-w-2xl mx-auto space-y-4">
+      <main className="px-4 sm:px-6 py-6 max-w-3xl mx-auto space-y-4">
         <Frame padding="lg" className="space-y-4">
           <div className="flex items-center gap-3">
             {portrait && (
@@ -190,6 +209,39 @@ export function BuildDetailPage() {
             <StarRating value={myRating ?? 0} onRate={handleRate} disabled={!session} />
             {!session && <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_signin_required')}</p>}
           </div>
+        </Frame>
+
+        <Frame padding="lg" className="grid sm:grid-cols-[1fr_auto] gap-4">
+          <div>
+            <h2 className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--gold)' }}>{t('equipment')}</h2>
+            <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipmentData} size={44} />
+          </div>
+          {computedStats && (
+            <div className="sm:w-40 sm:pl-4 sm:border-l" style={{ borderColor: 'var(--metal-edge)' }}>
+              <h2 className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--gold)' }}>{t('stats')}</h2>
+              <div className="grid grid-cols-4 gap-1.5 mb-3">
+                {[
+                  { label: t('badge_hp'), value: computedStats.maxHp },
+                  { label: t('badge_ap'), value: computedStats.ap },
+                  { label: t('badge_mp'), value: computedStats.mp },
+                  { label: t('badge_range'), value: computedStats.range },
+                ].map(b => (
+                  <div key={b.label} className="text-center rounded-md py-1" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+                    <p className="text-xs font-bold" style={{ color: 'var(--gold)' }}>{b.value}</p>
+                    <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{b.label}</p>
+                  </div>
+                ))}
+              </div>
+              <ul className="space-y-1 text-[11px]" style={{ color: 'var(--ink-muted)' }}>
+                <li className="flex justify-between"><span>{t('char_vitality')}</span><strong>{computedStats.vitality}</strong></li>
+                <li className="flex justify-between"><span>{t('char_wisdom')}</span><strong>{computedStats.wisdom}</strong></li>
+                <li className="flex justify-between"><span>{t('char_strength')}</span><strong>{computedStats.strength}</strong></li>
+                <li className="flex justify-between"><span>{t('char_intelligence')}</span><strong>{computedStats.intelligence}</strong></li>
+                <li className="flex justify-between"><span>{t('char_chance')}</span><strong>{computedStats.chance}</strong></li>
+                <li className="flex justify-between"><span>{t('char_agility')}</span><strong>{computedStats.agility}</strong></li>
+              </ul>
+            </div>
+          )}
         </Frame>
 
         <Frame padding="lg" className="space-y-3">
