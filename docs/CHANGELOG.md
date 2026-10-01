@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.17] — 2026-10-01
+- **Fix**: every counter-sync trigger function (`sync_like_count`, `sync_rating_stats`, `sync_bookmark_count`, `sync_comment_count`, `sync_comment_like_count`, `sync_follow_counts`) ran as the calling user, not `security definer` — unlike `handle_new_user()`/`record_view()`, which already had it. Since these `UPDATE builds`/`profiles`/`build_comments` rows belonging to someone OTHER than the actor (liking/commenting/rating on someone else's build), the owner-only RLS `UPDATE` policies on those tables silently matched 0 rows whenever the actor wasn't the row's owner — no error, the counter just never moved. Confirmed live: a real comment from another user showed up fine, but `comment_count` stayed at 0. Added `security definer` to all 6 (left `sync_builds_count` alone — it only ever updates the actor's own profile, never broken). Needs these 6 functions re-run (`create or replace function ...`) once in the Supabase SQL editor to fix existing counts going forward (doesn't backfill already-wrong historical counts — those need a one-off recompute if it matters)
+
 ## [0.3.16] — 2026-10-01
 - **Fix**: `my_builds` i18n key was just "Builds" in all 4 locales (a leftover from the old cramped `ShareBar` button) — now "My Builds"/"Mis Builds"/"Mes Builds"/"Meus Builds", shown in `SiteHeader.tsx`'s nav
 - **Feat**: `MyBuildsPage.tsx`'s cards gained a comment-icon button (`handleViewDetail`) that navigates straight to that build's detail page — previously the only way to reach a build's ratings/comments/likes from My Builds was to go through Explore and find it again manually, since clicking the card itself loads the snapshot into the planner (kept as-is, still the fastest path to editing)

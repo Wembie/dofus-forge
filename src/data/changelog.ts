@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.17',
+    date: '2026-10-01',
+    notes: [
+      'Fix: comments/likes/ratings/bookmarks/follows from anyone other than a build\'s owner silently failed to update its counters — a comment from someone else would show up but comment_count stayed at 0, same for likes and average rating from non-owners',
+    ],
+  },
+  {
     version: '0.3.16',
     date: '2026-10-01',
     notes: [

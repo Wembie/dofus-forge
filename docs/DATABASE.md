@@ -1135,7 +1135,15 @@ create trigger on_build_slug_change
 
 
 -- ── Likes ────────────────────────────────────────────────────────────
-create function sync_like_count() returns trigger language plpgsql as $$
+-- security definer on every sync_* below (except sync_builds_count, which
+-- only ever updates the actor's own profile) — these UPDATE builds/profiles/
+-- build_comments rows that belong to someone OTHER than the acting user
+-- (liking/rating/commenting on someone else's build), and those tables'
+-- owner-only UPDATE policies would otherwise silently block the counter
+-- update (0 rows matched by RLS, no error) whenever the actor isn't the
+-- row's owner — exactly what made comment_count/like_count/avg_rating never
+-- move for anyone except the build's own owner testing on themselves.
+create or replace function sync_like_count() returns trigger language plpgsql security definer as $$
 begin
   if TG_OP = 'INSERT' then
     update builds set like_count = like_count + 1 where id = NEW.build_id;
@@ -1148,7 +1156,7 @@ create trigger on_like after insert or delete on build_likes for each row execut
 
 
 -- ── Ratings ──────────────────────────────────────────────────────────
-create function sync_rating_stats() returns trigger language plpgsql as $$
+create or replace function sync_rating_stats() returns trigger language plpgsql security definer as $$
 declare bid uuid := coalesce(NEW.build_id, OLD.build_id);
 begin
   update builds set
@@ -1161,7 +1169,7 @@ create trigger on_rating after insert or update or delete on build_ratings for e
 
 
 -- ── Bookmarks ────────────────────────────────────────────────────────
-create function sync_bookmark_count() returns trigger language plpgsql as $$
+create or replace function sync_bookmark_count() returns trigger language plpgsql security definer as $$
 begin
   if TG_OP = 'INSERT' then
     update builds set bookmark_count = bookmark_count + 1 where id = NEW.build_id;
@@ -1174,7 +1182,7 @@ create trigger on_bookmark after insert or delete on build_bookmarks for each ro
 
 
 -- ── Comments ─────────────────────────────────────────────────────────
-create function sync_comment_count() returns trigger language plpgsql as $$
+create or replace function sync_comment_count() returns trigger language plpgsql security definer as $$
 begin
   if TG_OP = 'INSERT' then
     update builds set comment_count = comment_count + 1 where id = NEW.build_id;
@@ -1187,7 +1195,7 @@ create trigger on_comment after insert or delete on build_comments for each row 
 
 
 -- ── Comment likes ─────────────────────────────────────────────────────
-create function sync_comment_like_count() returns trigger language plpgsql as $$
+create or replace function sync_comment_like_count() returns trigger language plpgsql security definer as $$
 begin
   if TG_OP = 'INSERT' then
     update build_comments set like_count = like_count + 1 where id = NEW.comment_id;
@@ -1200,7 +1208,7 @@ create trigger on_comment_like after insert or delete on comment_likes for each 
 
 
 -- ── Follows ──────────────────────────────────────────────────────────
-create function sync_follow_counts() returns trigger language plpgsql as $$
+create or replace function sync_follow_counts() returns trigger language plpgsql security definer as $$
 begin
   if TG_OP = 'INSERT' then
     update profiles set following_count = following_count + 1 where id = NEW.follower_id;
