@@ -545,5 +545,7 @@
   "build_detail_posting": "Posting...",
   "command_palette_title": "Command palette",
   "command_palette_placeholder": "Search an action...",
-  "command_palette_empty": "No results"
+  "command_palette_empty": "No results",
+  "sound_mute": "Mute sound",
+  "sound_unmute": "Unmute sound"
 }

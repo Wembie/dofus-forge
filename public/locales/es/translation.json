@@ -545,5 +545,7 @@
   "build_detail_posting": "Enviando...",
   "command_palette_title": "Paleta de comandos",
   "command_palette_placeholder": "Buscar una acción...",
-  "command_palette_empty": "Sin resultados"
+  "command_palette_empty": "Sin resultados",
+  "sound_mute": "Silenciar sonido",
+  "sound_unmute": "Activar sonido"
 }

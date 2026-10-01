@@ -2,6 +2,8 @@ import { useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { BuilderPage } from './pages/BuilderPage.tsx'
 import { Toaster } from './components/Toaster.tsx'
+import { MagicCursor } from './components/MagicCursor.tsx'
+import { ParticleField } from './components/ParticleField.tsx'
 import { LangRoute } from './LangRoute.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import type { SeoLang } from './seo/useSeoMeta.ts'
@@ -82,6 +84,8 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster />
+      <ParticleField />
+      <MagicCursor />
     </BrowserRouter>
   )
 }

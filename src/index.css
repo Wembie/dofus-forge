@@ -292,6 +292,29 @@ input[type=number] { -moz-appearance: textfield; }
   color: var(--gold);
 }
 
+/* ── Magic cursor — trailing glow, never replaces the real cursor ───────── */
+.magic-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold-bright) 70%, transparent) 0%, transparent 70%);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--gold) 45%, transparent);
+  transition: opacity 180ms var(--ease-out), width 160ms var(--ease-out), height 160ms var(--ease-out);
+  will-change: transform;
+}
+.magic-cursor.magic-cursor-active {
+  width: 32px;
+  height: 32px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold-bright) 55%, transparent) 0%, transparent 70%);
+  box-shadow: 0 0 20px 6px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+
 /* ── Mobile overrides ─────────────────────────────────────────────────── */
 /* Slot unequip × and rune ✦ buttons are hover-only on desktop.
    On touch devices there is no hover, so force them visible. */

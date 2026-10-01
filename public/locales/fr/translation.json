@@ -545,5 +545,7 @@
   "build_detail_posting": "Envoi...",
   "command_palette_title": "Palette de commandes",
   "command_palette_placeholder": "Rechercher une action...",
-  "command_palette_empty": "Aucun résultat"
+  "command_palette_empty": "Aucun résultat",
+  "sound_mute": "Couper le son",
+  "sound_unmute": "Activer le son"
 }

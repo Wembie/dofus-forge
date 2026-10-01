@@ -21,6 +21,7 @@ import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
+import { playUnequip, playEquip } from '@/lib/sound.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -880,7 +881,7 @@ export function EquipmentGrid() {
         key={id} slotId={id}
         item={getItem(id)}
         onOpen={() => openCatalog(id)}
-        onUnequip={() => unequipItem(id)}
+        onUnequip={() => { unequipItem(id); playUnequip() }}
         onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
         runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
         slotRunes={runes[id]}
@@ -889,7 +890,7 @@ export function EquipmentGrid() {
         onDragEnd={hasItem ? () => { setDragSlot(null); setDragOverSlot(null) } : undefined}
         onDragOver={isValidTarget ? (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; setDragOverSlot(id) } : undefined}
         onDragLeave={isValidTarget ? () => setDragOverSlot(s => s === id ? null : s) : undefined}
-        onDrop={isValidTarget ? (e) => { e.preventDefault(); if (dragSlot) swapSlots(dragSlot, id); setDragSlot(null); setDragOverSlot(null) } : undefined}
+        onDrop={isValidTarget ? (e) => { e.preventDefault(); if (dragSlot) { swapSlots(dragSlot, id); playEquip() } setDragSlot(null); setDragOverSlot(null) } : undefined}
         {...getSetProps(id)}
         {...extraProps}
       />
@@ -902,11 +903,16 @@ export function EquipmentGrid() {
 
   return (
     <div style={{
-      background: 'var(--surface-void)',
-      backgroundImage: [
+      // A single `background` shorthand (gradients + solid fallback as the
+      // last comma-separated layer) — a separate `background` +
+      // `backgroundImage` pair on the same element triggers a React
+      // dev-mode warning on re-render ("mix shorthand and non-shorthand
+      // properties"), since the two can clobber each other in the CSSOM.
+      background: [
         'radial-gradient(ellipse 72% 50% at 50% 44%, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 65%)',
         'radial-gradient(ellipse 40% 28% at 16% 85%, color-mix(in srgb, var(--water) 5%, transparent) 0%, transparent 70%)',
         'radial-gradient(ellipse 40% 28% at 84% 85%, color-mix(in srgb, var(--earth) 5%, transparent) 0%, transparent 70%)',
+        'var(--surface-void)',
       ].join(', '),
     }}>
 

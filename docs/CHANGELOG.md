@@ -5,6 +5,14 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.20] — 2026-10-01
+- **Feat**: magic cursor — a small gold glow trails the real mouse cursor and expands over interactive elements. The system cursor is never hidden/replaced (accessibility: nothing is lost for assistive-tech or non-mouse users), and it's skipped entirely on touch devices and under `prefers-reduced-motion`. Position updates write straight to the DOM via a ref, never through React state, so mouse movement can't trigger re-renders
+- **Feat**: ambient particle field — a hand-rolled canvas (no library, per this project's existing bundle-size-first stance) of slow-drifting gold motes behind all page content. Density scales with viewport area, capped at 42 particles; pauses entirely when the tab isn't visible; skipped under `prefers-reduced-motion`
+- **Feat**: sound — equipping/unequipping gear and selecting a class now play a short synthesized tone (Web Audio oscillators, no audio asset files, ~0 KB added to the bundle). New mute/unmute toggle in both headers and a matching command-palette entry; off state persists in localStorage
+- **Fix**: unrelated pre-existing React dev-warning in `EquipmentGrid.tsx` ("mix shorthand and non-shorthand properties") from setting both `background` and `backgroundImage` inline on the same element — merged into a single `background` shorthand with the solid color as the last layer. Found while testing the above, not part of the original redesign scope
+
+This closes out the "big scope" items from the premium-redesign request (particles/cursor/sound/command-palette) that the original audit (`docs/REDESIGN_AUDIT.md`) recommended skipping for bundle-size/perf reasons — built anyway per explicit request, each kept as cheap and skippable as the pattern allows (no new dependencies, hard caps, reduced-motion/touch opt-outs, mute toggle).
+
 ## [0.3.19] — 2026-10-01
 - **Feat**: command palette (`Ctrl/Cmd+K`) — a searchable list of the same actions already reachable through the header/menu buttons (navigate, publish, optimizer, sets, compare, undo/redo, reset build, theme), filterable by typing, navigable with arrow keys, run with Enter. Mounted in both `SiteHeader` (nav + theme) and `BuilderPage` (full action set). `ThemeToggle.tsx` exports a standalone `toggleTheme()` so the palette's "theme" command stays in sync with the header's own toggle button instead of going stale
 

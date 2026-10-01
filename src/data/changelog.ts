@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.20',
+    date: '2026-10-01',
+    notes: [
+      'Feat: a small magic cursor glow now follows your mouse and reacts to buttons (desktop only, respects reduced-motion)',
+      'Feat: subtle ambient gold particles drift in the background',
+      'Feat: equipping gear and selecting a class now play a short sound - mute toggle in the header',
+    ],
+  },
+  {
     version: '0.3.19',
     date: '2026-10-01',
     notes: [
