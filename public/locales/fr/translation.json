@@ -540,5 +540,7 @@
   "publish_already_published_hint": "Ce build est déjà publié — ceci met à jour cette même publication, pas une nouvelle.",
   "publish_submit_update": "Mettre à jour",
   "build_detail_no_items": "Ce build n'a aucun objet équipé.",
-  "my_builds_view_detail": "Voir le détail et les commentaires"
+  "my_builds_view_detail": "Voir le détail et les commentaires",
+  "open_menu": "Menu",
+  "build_detail_posting": "Envoi..."
 }

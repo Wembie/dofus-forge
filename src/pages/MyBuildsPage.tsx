@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare } from 'lucide-react'
@@ -17,11 +17,7 @@ import {
   type MyBuildRow, type BuildVisibility,
 } from '@/features/builds/api.ts'
 
-const VISIBILITY_CYCLE: Record<BuildVisibility, BuildVisibility> = {
-  private:  'unlisted',
-  unlisted: 'public',
-  public:   'private',
-}
+const VISIBILITY_ORDER: BuildVisibility[] = ['private', 'unlisted', 'public']
 
 const VISIBILITY_ICON: Record<BuildVisibility, typeof Globe> = {
   private:  Lock,
@@ -43,7 +39,18 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
   const classInfo   = CLASS_DATA.find(c => c.id === build.class_slug)
   const portrait    = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
   const [busy, setBusy] = useState(false)
+  const [showVisMenu, setShowVisMenu] = useState(false)
+  const visMenuRef = useRef<HTMLDivElement>(null)
   const VisIcon = VISIBILITY_ICON[build.visibility]
+
+  useEffect(() => {
+    if (!showVisMenu) return
+    function onClickOutside(e: MouseEvent) {
+      if (visMenuRef.current && !visMenuRef.current.contains(e.target as Node)) setShowVisMenu(false)
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [showVisMenu])
 
   function handleLoad() {
     applySnapshot(build.snapshot)
@@ -53,8 +60,9 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
     navigate(`/${langPathPrefix(i18n.language)}`)
   }
 
-  async function handleCycleVisibility() {
-    const next = VISIBILITY_CYCLE[build.visibility]
+  async function handleSetVisibility(next: BuildVisibility) {
+    setShowVisMenu(false)
+    if (next === build.visibility) return
     setBusy(true)
     const { error } = await updateBuildVisibility(build.id, next)
     setBusy(false)
@@ -80,15 +88,25 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 
   return (
     <div
-      className="flex flex-col gap-2.5 p-3 rounded-xl"
-      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', opacity: busy ? 0.6 : 1 }}
+      className="flex flex-col gap-2.5 p-3 rounded-xl transition-shadow"
+      style={{
+        background:   'var(--surface-panel)',
+        borderTop:    '1px solid var(--gold-deep)',
+        borderRight:  '1px solid var(--metal-edge)',
+        borderBottom: '1px solid var(--metal-edge)',
+        borderLeft:   '1px solid var(--metal-edge)',
+        boxShadow:    'var(--inset-bevel)',
+        opacity:      busy ? 0.6 : 1,
+      }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel), var(--glow-gold)'; e.currentTarget.style.borderTopColor = 'var(--gold)' }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel)'; e.currentTarget.style.borderTopColor = 'var(--gold-deep)' }}
     >
       <button onClick={handleLoad} className="flex items-center gap-2.5 text-left">
         {portrait && (
           <img src={portrait} alt="" width={44} height={44} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
         )}
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{build.name}</p>
+          <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
           <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
         </div>
       </button>
@@ -103,23 +121,61 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
       <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
 
       <div className="flex items-center gap-1.5 pt-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-        <button
-          onClick={handleCycleVisibility}
-          disabled={busy}
-          title={t('my_builds_cycle_visibility')}
-          className="flex items-center gap-1 text-[10px] uppercase font-semibold px-2 py-1 rounded transition-colors"
-          style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
-        >
-          <VisIcon size={11} />
-          {t(`publish_visibility_${build.visibility}`)}
-        </button>
-        <button onClick={handleViewDetail} title={t('my_builds_view_detail')} className="ml-auto p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
+        <div ref={visMenuRef} className="relative">
+          <button
+            onClick={() => setShowVisMenu(v => !v)}
+            disabled={busy}
+            title={t('my_builds_cycle_visibility')}
+            aria-label={t('my_builds_cycle_visibility')}
+            className="flex items-center gap-1 text-[10px] uppercase font-semibold px-2 py-1 rounded transition-colors"
+            style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
+          >
+            <VisIcon size={11} />
+            {t(`publish_visibility_${build.visibility}`)}
+          </button>
+          {showVisMenu && (
+            <div
+              role="menu"
+              className="absolute left-0 top-[calc(100%+4px)] z-10 flex flex-col gap-0.5 p-1 rounded-lg min-w-[120px]"
+              style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame)' }}
+            >
+              {VISIBILITY_ORDER.map(v => {
+                const Icon = VISIBILITY_ICON[v]
+                const active = v === build.visibility
+                return (
+                  <button
+                    key={v}
+                    role="menuitem"
+                    onClick={() => handleSetVisibility(v)}
+                    className="flex items-center gap-1.5 text-[10px] font-semibold px-2 py-1.5 rounded whitespace-nowrap transition-colors"
+                    style={active
+                      ? { color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 12%, transparent)' }
+                      : { color: 'var(--ink-faint)' }}
+                  >
+                    <Icon size={11} />
+                    {t(`publish_visibility_${v}`)}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
+        <button onClick={handleViewDetail} title={t('my_builds_view_detail')} aria-label={t('my_builds_view_detail')} className="ml-auto p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
           <MessageSquare size={13} />
         </button>
-        <button onClick={handleCopyLink} title={t('my_builds_copy_link')} className="p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
+        <button onClick={handleCopyLink} title={t('my_builds_copy_link')} aria-label={t('my_builds_copy_link')} className="p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
           <Link2 size={13} />
         </button>
-        <button onClick={handleDelete} disabled={busy} title={t('my_builds_delete')} className="p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
+        <button
+          onClick={handleDelete}
+          disabled={busy}
+          title={t('my_builds_delete')}
+          aria-label={t('my_builds_delete')}
+          className="p-1.5 rounded transition-colors"
+          style={{ color: 'var(--negative)' }}
+          onMouseEnter={e => (e.currentTarget.style.background = 'color-mix(in srgb, var(--negative) 15%, transparent)')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+        >
           <Trash2 size={13} />
         </button>
       </div>
