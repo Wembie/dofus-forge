@@ -147,6 +147,7 @@ export type MyBuildRow = {
   like_count:    number
   view_count:    number
   avg_rating:    number
+  comment_count: number
   created_at:    string
   snapshot:      BuildSnapshot
 }
@@ -155,7 +156,7 @@ export async function fetchMyBuilds(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
-    .select('id, name, class_slug, gender, level, visibility, like_count, view_count, avg_rating, created_at, snapshot')
+    .select('id, name, class_slug, gender, level, visibility, like_count, view_count, avg_rating, comment_count, created_at, snapshot')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
   return { data: (data ?? []) as unknown as MyBuildRow[], error: error?.message ?? null }

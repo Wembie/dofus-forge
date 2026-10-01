@@ -97,6 +97,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
         <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
         <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
         <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
+        <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
       </div>
 
       <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />

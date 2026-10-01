@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.17',
+    date: '2026-10-01',
+    notes: [
+      'Feat: My Builds cards now show how many comments each build has, so you know at a glance if there\'s something new to check before opening it',
+    ],
+  },
+  {
     version: '0.3.16',
     date: '2026-10-01',
     notes: [

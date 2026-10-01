@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.17] — 2026-10-01
+- **Feat**: `MyBuildRow` (`features/builds/api.ts`) and `fetchMyBuilds()`'s select now include `comment_count`; `MyBuildsPage.tsx`'s cards show it next to rating/likes/views — lets you see at a glance whether a build has new comments worth checking before clicking through to its detail page
+
 ## [0.3.16] — 2026-10-01
 - **Fix**: `my_builds` i18n key was just "Builds" in all 4 locales (a leftover from the old cramped `ShareBar` button) — now "My Builds"/"Mis Builds"/"Mes Builds"/"Meus Builds", shown in `SiteHeader.tsx`'s nav
 - **Feat**: `MyBuildsPage.tsx`'s cards gained a comment-icon button (`handleViewDetail`) that navigates straight to that build's detail page — previously the only way to reach a build's ratings/comments/likes from My Builds was to go through Explore and find it again manually, since clicking the card itself loads the snapshot into the planner (kept as-is, still the fastest path to editing)
