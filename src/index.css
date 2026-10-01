@@ -197,6 +197,10 @@ body {
   30%  { transform: translateY(-3px) scale(1.06); opacity: 1 }
   100% { transform: translateY(0) scale(1);       opacity: 1 }
 }
+.stat-tick {
+  display: inline-block;
+  animation: stat-tick 260ms var(--ease-forge);
+}
 @keyframes slot-equip {
   0%   { transform: scale(1);    box-shadow: none }
   40%  { transform: scale(1.08); box-shadow: 0 0 24px rgba(201,162,75,.5) }
@@ -221,6 +225,13 @@ body {
 @keyframes col-rise {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
+}
+@keyframes dofus-pulse {
+  0%, 100% { box-shadow: 0 0 10px 1px color-mix(in srgb, var(--gold-bright) 35%, transparent), inset 0 0 10px color-mix(in srgb, var(--gold) 15%, transparent); }
+  50%      { box-shadow: 0 0 20px 4px color-mix(in srgb, var(--gold-bright) 55%, transparent), inset 0 0 16px color-mix(in srgb, var(--gold) 25%, transparent); }
+}
+.dofus-aura {
+  animation: dofus-pulse 3.2s var(--ease-inout) infinite;
 }
 @keyframes dummy-hit {
   0%   { transform: translateX(0) rotate(0); }
@@ -291,7 +302,32 @@ input[type=number] { -moz-appearance: textfield; }
   input, select, textarea { font-size: max(16px, 1em) !important; }
 }
 
-/* ItemCatalog: reduce fixed insets on small screens */
+/* ItemCatalog: bottom-sheet on small screens instead of a floating panel —
+   anchored to the bottom edge, slides up, rounded top corners only, with a
+   drag-handle affordance bar. Desktop keeps the floating-panel inset. */
 @media (max-width: 640px) {
-  .catalog-panel { left: 8px !important; right: 8px !important; top: 8px !important; bottom: 8px !important; }
+  .catalog-panel {
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+    max-height: 88vh;
+    border-radius: 16px 16px 0 0 !important;
+    animation: sheet-up 220ms var(--ease-out);
+  }
+  .catalog-panel::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--metal-edge-strong);
+  }
+}
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
 }

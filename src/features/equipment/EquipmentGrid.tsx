@@ -181,6 +181,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
   const px      = sizeProp ?? (small ? 62 : 80)
   const slotLabel = t(slotTKey(slotId))
+  const isDofus   = slotId.startsWith('dofus')
 
   useEffect(() => {
     if (item && !prevItemRef.current) {
@@ -203,6 +204,13 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       onDrop={onDrop}
       style={{ cursor: item && onDragStart ? 'grab' : undefined }}
     >
+      {item && isDofus && (
+        <div
+          className="absolute pointer-events-none dofus-aura rounded-lg"
+          style={{ top: 0, left: '50%', transform: 'translateX(-50%)', width: px, height: px }}
+          aria-hidden="true"
+        />
+      )}
       <button
         onClick={onOpen}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
@@ -216,12 +224,16 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           border: isDragOver
             ? '2px solid var(--gold)'
             : item
-            ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
+            ? setName
+              ? '1.5px solid color-mix(in srgb, var(--water) 55%, var(--gold) 45%)'
+              : '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
             : '1px dashed rgba(60,80,130,0.55)',
           boxShadow: isDragOver
             ? 'inset 0 0 28px color-mix(in srgb, var(--gold) 30%, transparent), 0 0 12px color-mix(in srgb, var(--gold) 40%, transparent)'
             : item
-            ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+            ? setName
+              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
             : 'var(--well-inset)',
         }}
         onMouseEnter={e => {
@@ -230,7 +242,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             el.style.borderColor = 'var(--gold-deep)'
             el.style.borderStyle = 'solid'
           } else {
-            el.style.boxShadow = 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
+            el.style.boxShadow = setName
+              ? 'inset 0 0 22px color-mix(in srgb, var(--water) 20%, transparent), 0 0 14px color-mix(in srgb, var(--water) 30%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
+              : 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
           }
         }}
         onMouseLeave={e => {
@@ -239,7 +253,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             el.style.borderColor = 'rgba(60,80,130,0.55)'
             el.style.borderStyle = 'dashed'
           } else {
-            el.style.boxShadow = 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+            el.style.boxShadow = setName
+              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
           }
         }}
       >

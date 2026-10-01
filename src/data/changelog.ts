@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.18',
+    date: '2026-10-01',
+    notes: [
+      'Feat: equipped items that belong to a set now show a distinct gold/blue glow instead of the same look as any other item',
+      'Feat: Dofus slots now have their own ambient glow when equipped ("Dofus Sanctum")',
+      'Fix: stats now visibly flash when they change after equipping/unequipping gear',
+      'Feat: the item picker opens as a bottom sheet on mobile instead of a floating panel',
+    ],
+  },
+  {
     version: '0.3.17',
     date: '2026-10-01',
     notes: [
