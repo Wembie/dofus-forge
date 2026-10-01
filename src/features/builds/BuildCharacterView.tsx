@@ -16,11 +16,20 @@ function SlotCell({ slot, item, size, onHover, onLeave }: {
   onHover: (e: React.MouseEvent<HTMLDivElement>) => void
   onLeave: () => void
 }) {
-  const { t } = useTranslation()
-  const cfg   = SLOT_CONFIGS.find(sc => sc.id === slot)
+  const { t }   = useTranslation()
+  const cfg     = SLOT_CONFIGS.find(sc => sc.id === slot)
+  const isSet   = item?.set_id != null
+  const isDofus = slot.startsWith('dofus')
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="relative flex flex-col items-center gap-1">
+      {item && isDofus && (
+        <div
+          className="absolute pointer-events-none dofus-aura rounded-lg"
+          style={{ width: size, height: size }}
+          aria-hidden="true"
+        />
+      )}
       <div
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
@@ -31,10 +40,14 @@ function SlotCell({ slot, item, size, onHover, onLeave }: {
             ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
             : 'var(--surface-void)',
           border: item
-            ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
+            ? isSet
+              ? '1.5px solid color-mix(in srgb, var(--water) 55%, var(--gold) 45%)'
+              : '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
             : '1px dashed rgba(60,80,130,0.55)',
           boxShadow: item
-            ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+            ? isSet
+              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
             : 'var(--well-inset)',
         }}
       >

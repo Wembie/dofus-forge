@@ -1,11 +1,14 @@
 import { Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Compass, FolderOpen } from 'lucide-react'
-import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
+import { Compass, FolderOpen, Home, SunMoon, Volume2 } from 'lucide-react'
+import { ThemeToggle, toggleTheme } from '@/ui/ThemeToggle.tsx'
+import { SoundToggle } from '@/ui/SoundToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
+import { CommandPalette } from '@/components/CommandPalette.tsx'
+import { toggleSound } from '@/lib/sound.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 
@@ -68,6 +71,7 @@ export function SiteHeader() {
       <div className="ml-auto flex items-center gap-1.5">
         <LanguageSwitcher />
         <ThemeToggle />
+        <SoundToggle />
         <HeaderMenuButton
           className="sm:hidden"
           items={[
@@ -78,6 +82,16 @@ export function SiteHeader() {
         <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
         <Suspense fallback={null}><AuthButton /></Suspense>
       </div>
+
+      <CommandPalette
+        commands={[
+          { key: 'home',      label: t('app_title'),    Icon: Home,    onRun: () => navigate(`/${prefix}`) },
+          { key: 'explore',   label: t('explore_open'), Icon: Compass, onRun: () => navigate(`/${prefix}explore`) },
+          { key: 'my-builds', label: t('my_builds'),    Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
+          { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
+          { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
+        ]}
+      />
     </header>
   )
 }

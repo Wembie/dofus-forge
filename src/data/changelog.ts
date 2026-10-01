@@ -8,6 +8,20 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.18',
+    date: '2026-10-01',
+    notes: [
+      'Feat: equipped items that belong to a set now show a distinct gold/blue glow instead of the same look as any other item',
+      'Feat: Dofus slots now have their own ambient glow when equipped ("Dofus Sanctum")',
+      'Fix: stats now visibly flash when they change after equipping/unequipping gear',
+      'Feat: the item picker opens as a bottom sheet on mobile instead of a floating panel',
+      'Feat: command palette (Ctrl/Cmd+K) - search and run any major action without hunting through menus',
+      'Feat: a small magic cursor glow now follows your mouse and reacts to buttons (desktop only, respects reduced-motion)',
+      'Feat: subtle ambient gold particles drift in the background',
+      'Feat: equipping gear and selecting a class now play a short sound - mute toggle in the header',
+    ],
+  },
+  {
     version: '0.3.17',
     date: '2026-10-01',
     notes: [

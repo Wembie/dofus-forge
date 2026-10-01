@@ -12,6 +12,7 @@ import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch } from '@/ui'
 import { SetDetailModal } from './SetDetailModal.tsx'
+import { playEquip } from '@/lib/sound.ts'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
@@ -211,6 +212,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
 
   const handlePick = useCallback((item: AppItem) => {
     equipItem(slotId, item.ankama_id)
+    playEquip()
     addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slotImageIcon(slotId) ?? slot.icon)
     if (onAfterEquip) onAfterEquip(slotId)
     else onClose()

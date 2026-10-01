@@ -542,5 +542,10 @@
   "build_detail_no_items": "Este build não tem itens equipados.",
   "my_builds_view_detail": "Ver detalhes e comentários",
   "open_menu": "Menu",
-  "build_detail_posting": "Enviando..."
+  "build_detail_posting": "Enviando...",
+  "command_palette_title": "Paleta de comandos",
+  "command_palette_placeholder": "Buscar uma ação...",
+  "command_palette_empty": "Sem resultados",
+  "sound_mute": "Silenciar som",
+  "sound_unmute": "Ativar som"
 }

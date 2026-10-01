@@ -21,6 +21,7 @@ import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
+import { playUnequip, playEquip } from '@/lib/sound.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -181,6 +182,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
   const px      = sizeProp ?? (small ? 62 : 80)
   const slotLabel = t(slotTKey(slotId))
+  const isDofus   = slotId.startsWith('dofus')
 
   useEffect(() => {
     if (item && !prevItemRef.current) {
@@ -203,6 +205,13 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       onDrop={onDrop}
       style={{ cursor: item && onDragStart ? 'grab' : undefined }}
     >
+      {item && isDofus && (
+        <div
+          className="absolute pointer-events-none dofus-aura rounded-lg"
+          style={{ top: 0, left: '50%', transform: 'translateX(-50%)', width: px, height: px }}
+          aria-hidden="true"
+        />
+      )}
       <button
         onClick={onOpen}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
@@ -216,12 +225,16 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           border: isDragOver
             ? '2px solid var(--gold)'
             : item
-            ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
+            ? setName
+              ? '1.5px solid color-mix(in srgb, var(--water) 55%, var(--gold) 45%)'
+              : '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
             : '1px dashed rgba(60,80,130,0.55)',
           boxShadow: isDragOver
             ? 'inset 0 0 28px color-mix(in srgb, var(--gold) 30%, transparent), 0 0 12px color-mix(in srgb, var(--gold) 40%, transparent)'
             : item
-            ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+            ? setName
+              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
             : 'var(--well-inset)',
         }}
         onMouseEnter={e => {
@@ -230,7 +243,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             el.style.borderColor = 'var(--gold-deep)'
             el.style.borderStyle = 'solid'
           } else {
-            el.style.boxShadow = 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
+            el.style.boxShadow = setName
+              ? 'inset 0 0 22px color-mix(in srgb, var(--water) 20%, transparent), 0 0 14px color-mix(in srgb, var(--water) 30%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
+              : 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
           }
         }}
         onMouseLeave={e => {
@@ -239,7 +254,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             el.style.borderColor = 'rgba(60,80,130,0.55)'
             el.style.borderStyle = 'dashed'
           } else {
-            el.style.boxShadow = 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+            el.style.boxShadow = setName
+              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
+              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
           }
         }}
       >
@@ -864,7 +881,7 @@ export function EquipmentGrid() {
         key={id} slotId={id}
         item={getItem(id)}
         onOpen={() => openCatalog(id)}
-        onUnequip={() => unequipItem(id)}
+        onUnequip={() => { unequipItem(id); playUnequip() }}
         onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
         runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
         slotRunes={runes[id]}
@@ -873,7 +890,7 @@ export function EquipmentGrid() {
         onDragEnd={hasItem ? () => { setDragSlot(null); setDragOverSlot(null) } : undefined}
         onDragOver={isValidTarget ? (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; setDragOverSlot(id) } : undefined}
         onDragLeave={isValidTarget ? () => setDragOverSlot(s => s === id ? null : s) : undefined}
-        onDrop={isValidTarget ? (e) => { e.preventDefault(); if (dragSlot) swapSlots(dragSlot, id); setDragSlot(null); setDragOverSlot(null) } : undefined}
+        onDrop={isValidTarget ? (e) => { e.preventDefault(); if (dragSlot) { swapSlots(dragSlot, id); playEquip() } setDragSlot(null); setDragOverSlot(null) } : undefined}
         {...getSetProps(id)}
         {...extraProps}
       />
@@ -886,11 +903,16 @@ export function EquipmentGrid() {
 
   return (
     <div style={{
-      background: 'var(--surface-void)',
-      backgroundImage: [
+      // A single `background` shorthand (gradients + solid fallback as the
+      // last comma-separated layer) — a separate `background` +
+      // `backgroundImage` pair on the same element triggers a React
+      // dev-mode warning on re-render ("mix shorthand and non-shorthand
+      // properties"), since the two can clobber each other in the CSSOM.
+      background: [
         'radial-gradient(ellipse 72% 50% at 50% 44%, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 65%)',
         'radial-gradient(ellipse 40% 28% at 16% 85%, color-mix(in srgb, var(--water) 5%, transparent) 0%, transparent 70%)',
         'radial-gradient(ellipse 40% 28% at 84% 85%, color-mix(in srgb, var(--earth) 5%, transparent) 0%, transparent 70%)',
+        'var(--surface-void)',
       ].join(', '),
     }}>
 

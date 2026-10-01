@@ -6,6 +6,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { DofusClass } from '@/engine/types.ts'
 import type { Gender } from '@/store/buildStore.ts'
+import { playSelect } from '@/lib/sound.ts'
 
 export function ClassPicker() {
   const { t, i18n } = useTranslation()
@@ -202,7 +203,7 @@ export function ClassPicker() {
           return (
             <button
               key={cls.id}
-              onClick={() => { setClass(cls.id as DofusClass); setPicking(false) }}
+              onClick={() => { setClass(cls.id as DofusClass); setPicking(false); playSelect() }}
               role="radio"
               aria-checked={isSelected}
               className="relative flex flex-col items-center gap-1 py-2 px-1 rounded-lg border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forge-gold overflow-hidden"

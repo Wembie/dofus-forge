@@ -2,8 +2,11 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2 } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
+import { CommandPalette } from '@/components/CommandPalette.tsx'
+import { toggleTheme } from '@/ui/ThemeToggle.tsx'
+import { toggleSound } from '@/lib/sound.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
@@ -15,6 +18,7 @@ import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
 import { encodeBuild } from '@/features/share/codec.ts'
 import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
+import { SoundToggle } from '@/ui/SoundToggle.tsx'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
@@ -61,6 +65,15 @@ function BuilderContent() {
   const [showOptimizer,  setShowOptimizer]  = useState(false)
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
+
+  function resetBuild() {
+    reset()
+    clearHistory()
+    // useBuildUrl skips updating the URL once selectedClass is null (nothing
+    // to encode), so without this the old ?b=... stays stuck in the address
+    // bar even though the build itself was reset.
+    navigate(routerLocation.pathname, { replace: true })
+  }
 
   const navToLangPath = (path: string) => {
     const lang     = i18n.language.slice(0, 2)
@@ -130,13 +143,7 @@ function BuilderContent() {
             onClick={e => {
               if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return
               e.preventDefault()
-              reset()
-              clearHistory()
-              // useBuildUrl skips updating the URL once selectedClass is
-              // null (nothing to encode), so without this the old ?b=...
-              // stays stuck in the address bar even though the build
-              // itself was reset.
-              navigate(routerLocation.pathname, { replace: true })
+              resetBuild()
             }}
             title={t('reset_build')}
           >
@@ -185,6 +192,7 @@ function BuilderContent() {
           <div className="ml-auto flex items-center gap-1.5">
             <LanguageSwitcher />
             <ThemeToggle />
+            <SoundToggle />
             {/* Divider — hidden on mobile */}
             <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             {/* Undo / Redo — hidden on mobile */}
@@ -308,6 +316,22 @@ function BuilderContent() {
           </div>
         </div>
       </header>
+
+      <CommandPalette
+        commands={[
+          { key: 'my-builds', label: t('my_builds'),         Icon: FolderOpen,  onRun: () => navToLangPath('my-builds') },
+          { key: 'explore',   label: t('explore_open'),      Icon: Compass,     onRun: () => navToLangPath('explore') },
+          { key: 'publish',   label: t('publish_open'),      Icon: UploadCloud, disabled: !hasClass, onRun: () => setShowPublish(true) },
+          { key: 'optimizer', label: t('optimizer_open'),    Icon: Wand2,       onRun: () => setShowOptimizer(true) },
+          { key: 'sets',      label: t('sets_catalog_open'), Icon: Layers,      onRun: () => setShowSetsCatalog(true) },
+          { key: 'compare',   label: t('compare'),           Icon: BarChart2,   onRun: toggleCompare },
+          { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
+          { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
+          { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
+          { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
+          { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
+        ]}
+      />
 
       {/* Changelog modal */}
       {showChangelog && (
