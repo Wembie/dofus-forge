@@ -8,18 +8,12 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.17',
-    date: '2026-10-01',
-    notes: [
-      'Feat: My Builds cards now show how many comments each build has, so you know at a glance if there\'s something new to check before opening it',
-    ],
-  },
-  {
     version: '0.3.16',
     date: '2026-10-01',
     notes: [
       'Fix: header nav said just "Builds" — now says "My Builds" in every language',
       'Feat: each card in My Builds now has a comment icon that jumps straight to that build\'s detail page (ratings/comments/likes) — clicking the card itself still loads it into the planner like before',
+      'Feat: My Builds and Explore cards now also show how many comments each build has, so you know at a glance if there\'s something new to check before opening it',
     ],
   },
   {

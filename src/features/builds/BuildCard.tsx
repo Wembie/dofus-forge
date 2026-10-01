@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Star, Heart, Eye, User } from 'lucide-react'
+import { Star, Heart, Eye, User, MessageSquare } from 'lucide-react'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { isSafeImageUrl } from '@/store/authStore.ts'
@@ -48,6 +48,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
         <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
         <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
         <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
+        <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
       </div>
     </Link>
   )
