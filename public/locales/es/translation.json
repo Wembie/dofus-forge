@@ -31,7 +31,7 @@
   "stats_other": "Otros",
   "share": "Compartir",
   "copied": "¡Copiado!",
-  "my_builds": "Builds",
+  "my_builds": "Mis Builds",
   "build_name_placeholder": "Nombre del build…",
   "save": "Guardar",
   "no_saved_builds": "Sin builds guardados",
@@ -539,5 +539,6 @@
   "publish_title_update": "Actualizar build",
   "publish_already_published_hint": "Este build ya está publicado — esto actualiza esa misma publicación, no crea una nueva.",
   "publish_submit_update": "Actualizar",
-  "build_detail_no_items": "Este build no tiene ítems equipados."
+  "build_detail_no_items": "Este build no tiene ítems equipados.",
+  "my_builds_view_detail": "Ver detalle y comentarios"
 }

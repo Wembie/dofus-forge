@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Star, Heart, Eye, Link2, Globe, Lock, Trash2 } from 'lucide-react'
+import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare } from 'lucide-react'
 import { Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { useAuthStore } from '@/store/authStore.ts'
@@ -61,6 +61,10 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
     if (!error) onChanged({ ...build, visibility: next })
   }
 
+  function handleViewDetail() {
+    navigate(`/${langPathPrefix(i18n.language)}build/${build.id}`)
+  }
+
   async function handleCopyLink() {
     const url = `${location.origin}${import.meta.env.BASE_URL}${langPathPrefix(i18n.language)}build/${build.id}`
     await navigator.clipboard.writeText(url)
@@ -93,6 +97,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
         <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
         <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
         <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
+        <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
       </div>
 
       <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
@@ -108,7 +113,10 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
           <VisIcon size={11} />
           {t(`publish_visibility_${build.visibility}`)}
         </button>
-        <button onClick={handleCopyLink} title={t('my_builds_copy_link')} className="ml-auto p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
+        <button onClick={handleViewDetail} title={t('my_builds_view_detail')} className="ml-auto p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
+          <MessageSquare size={13} />
+        </button>
+        <button onClick={handleCopyLink} title={t('my_builds_copy_link')} className="p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
           <Link2 size={13} />
         </button>
         <button onClick={handleDelete} disabled={busy} title={t('my_builds_delete')} className="p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
