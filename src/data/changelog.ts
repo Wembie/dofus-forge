@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.19',
+    date: '2026-10-01',
+    notes: [
+      'Feat: command palette (Ctrl/Cmd+K) - search and run any major action without hunting through menus',
+    ],
+  },
+  {
     version: '0.3.18',
     date: '2026-10-01',
     notes: [

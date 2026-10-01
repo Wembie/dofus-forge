@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.19] — 2026-10-01
+- **Feat**: command palette (`Ctrl/Cmd+K`) — a searchable list of the same actions already reachable through the header/menu buttons (navigate, publish, optimizer, sets, compare, undo/redo, reset build, theme), filterable by typing, navigable with arrow keys, run with Enter. Mounted in both `SiteHeader` (nav + theme) and `BuilderPage` (full action set). `ThemeToggle.tsx` exports a standalone `toggleTheme()` so the palette's "theme" command stays in sync with the header's own toggle button instead of going stale
+
 ## [0.3.18] — 2026-10-01
 - **Feat**: equipment slots now visually distinguish set items from regular items — a gold/water-tinted border+glow instead of the same flat gold treatment for everything. Note: this replaces "item rarity" from the original redesign spec — Dofus 3's data (confirmed via `scripts/fetch-data.ts`'s documented API schema, and the raw `equipment.json`/`index.json` payloads) has no rarity field at all, so a 7-tier rarity system would have been fabricated. Set membership (`item.set_id`) is the closest real signal available
 - **Feat**: "Dofus Sanctum" — the 6 Dofus slots now pulse with a slow ambient gold glow when equipped (`--dofus-aura`/`dofus-pulse` keyframe), visually distinct from regular equipment slots, no new image assets required
