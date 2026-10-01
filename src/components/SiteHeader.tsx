@@ -1,13 +1,13 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Compass, FolderOpen, Home, SunMoon, Volume2 } from 'lucide-react'
-import { ThemeToggle, toggleTheme } from '@/ui/ThemeToggle.tsx'
-import { SoundToggle } from '@/ui/SoundToggle.tsx'
-import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
+import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings } from 'lucide-react'
+import { toggleTheme } from '@/ui/ThemeToggle.tsx'
+import { IconButton } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
+import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
@@ -23,6 +23,7 @@ export function SiteHeader() {
   const prefix = langPathPrefix(i18n.language)
   const isExplore  = location.pathname.includes('/explore')
   const isMyBuilds = location.pathname.includes('/my-builds')
+  const [showSettings, setShowSettings] = useState(false)
 
   return (
     <header
@@ -69,9 +70,9 @@ export function SiteHeader() {
       </nav>
 
       <div className="ml-auto flex items-center gap-1.5">
-        <LanguageSwitcher />
-        <ThemeToggle />
-        <SoundToggle />
+        <IconButton label={t('settings_title')} variant="subtle" size="md" onClick={() => setShowSettings(true)}>
+          <Settings size={14} />
+        </IconButton>
         <HeaderMenuButton
           className="sm:hidden"
           items={[
@@ -88,10 +89,12 @@ export function SiteHeader() {
           { key: 'home',      label: t('app_title'),    Icon: Home,    onRun: () => navigate(`/${prefix}`) },
           { key: 'explore',   label: t('explore_open'), Icon: Compass, onRun: () => navigate(`/${prefix}explore`) },
           { key: 'my-builds', label: t('my_builds'),    Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
+          { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
         ]}
       />
+      <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
     </header>
   )
 }

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { isParticlesEnabled, MOTION_SETTINGS_EVENT } from '@/lib/motionSettings.ts'
 
 type Particle = { x: number; y: number; r: number; vy: number; drift: number; phase: number; alpha: number }
 
@@ -19,13 +20,22 @@ function particleCount(width: number, height: number): number {
  * and paused while the tab is hidden. */
 export function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [enabled, setEnabled] = useState(isParticlesEnabled)
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const sync = () => setEnabled(isParticlesEnabled())
+    window.addEventListener(MOTION_SETTINGS_EVENT, sync)
+    return () => window.removeEventListener(MOTION_SETTINGS_EVENT, sync)
+  }, [])
 
+  useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
+    if (!enabled || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      return
+    }
 
     let particles: Particle[] = []
     let raf = 0
@@ -90,7 +100,7 @@ export function ParticleField() {
       window.removeEventListener('resize', resize)
       document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [])
+  }, [enabled])
 
   return (
     <canvas

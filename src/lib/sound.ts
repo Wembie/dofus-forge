@@ -4,7 +4,7 @@ const SOUND_EVENT = 'forge-sound-change'
 let ctx: AudioContext | null = null
 
 export function isSoundEnabled(): boolean {
-  return localStorage.getItem(LS_KEY) !== 'off'
+  return localStorage.getItem(LS_KEY) === 'on'
 }
 
 export function setSoundEnabled(on: boolean) {

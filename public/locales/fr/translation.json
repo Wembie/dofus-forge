@@ -547,5 +547,13 @@
   "command_palette_placeholder": "Rechercher une action...",
   "command_palette_empty": "Aucun résultat",
   "sound_mute": "Couper le son",
-  "sound_unmute": "Activer le son"
+  "sound_unmute": "Activer le son",
+  "settings_title": "Paramètres",
+  "settings_language": "Langue",
+  "settings_theme": "Thème",
+  "settings_sound": "Son",
+  "settings_cursor": "Curseur magique",
+  "settings_cursor_hint": "Lueur qui suit la souris",
+  "settings_particles": "Particules",
+  "settings_particles_hint": "Poussière dorée en arrière-plan"
 }

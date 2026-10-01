@@ -547,5 +547,13 @@
   "command_palette_placeholder": "Buscar uma ação...",
   "command_palette_empty": "Sem resultados",
   "sound_mute": "Silenciar som",
-  "sound_unmute": "Ativar som"
+  "sound_unmute": "Ativar som",
+  "settings_title": "Ajustes",
+  "settings_language": "Idioma",
+  "settings_theme": "Tema",
+  "settings_sound": "Som",
+  "settings_cursor": "Cursor mágico",
+  "settings_cursor_hint": "Brilho que segue o mouse",
+  "settings_particles": "Partículas",
+  "settings_particles_hint": "Poeira dourada no fundo"
 }
