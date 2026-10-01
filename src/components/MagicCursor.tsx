@@ -1,16 +1,26 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { isCursorEnabled, MOTION_SETTINGS_EVENT } from '@/lib/motionSettings.ts'
 
 const INTERACTIVE_SELECTOR = 'button, a, [role="button"], input, select, textarea, [data-cursor-interactive]'
 
 /** A small trailing glow that follows the real cursor — never replaces it
  * (system cursor stays visible, so keyboard/assistive-tech users lose
- * nothing). Skipped entirely on touch devices (no mouse to follow) and
- * under prefers-reduced-motion. Position updates go straight to the DOM
- * via refs, never React state, so mousemove can't trigger a re-render. */
+ * nothing). Skipped entirely on touch devices (no mouse to follow), under
+ * prefers-reduced-motion, and when disabled in Settings. Position updates
+ * go straight to the DOM via refs, never React state, so mousemove can't
+ * trigger a re-render. */
 export function MagicCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
+  const [enabled, setEnabled] = useState(isCursorEnabled)
 
   useEffect(() => {
+    const sync = () => setEnabled(isCursorEnabled())
+    window.addEventListener(MOTION_SETTINGS_EVENT, sync)
+    return () => window.removeEventListener(MOTION_SETTINGS_EVENT, sync)
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
     if (window.matchMedia('(pointer: coarse)').matches) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
@@ -45,8 +55,9 @@ export function MagicCursor() {
       window.removeEventListener('mousemove', onMove)
       document.documentElement.removeEventListener('mouseleave', onLeave)
       cancelAnimationFrame(raf)
+      dot.style.opacity = '0'
     }
-  }, [])
+  }, [enabled])
 
   return <div ref={dotRef} className="magic-cursor" aria-hidden="true" />
 }

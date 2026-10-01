@@ -547,5 +547,13 @@
   "command_palette_placeholder": "Search an action...",
   "command_palette_empty": "No results",
   "sound_mute": "Mute sound",
-  "sound_unmute": "Unmute sound"
+  "sound_unmute": "Unmute sound",
+  "settings_title": "Settings",
+  "settings_language": "Language",
+  "settings_theme": "Theme",
+  "settings_sound": "Sound",
+  "settings_cursor": "Magic cursor",
+  "settings_cursor_hint": "Glow that follows the mouse",
+  "settings_particles": "Particles",
+  "settings_particles_hint": "Ambient gold dust in the background"
 }

@@ -2,9 +2,10 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2 } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
+import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -16,9 +17,6 @@ import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
 import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
 import { encodeBuild } from '@/features/share/codec.ts'
-import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
-import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
-import { SoundToggle } from '@/ui/SoundToggle.tsx'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
@@ -65,6 +63,7 @@ function BuilderContent() {
   const [showOptimizer,  setShowOptimizer]  = useState(false)
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
 
   function resetBuild() {
     reset()
@@ -190,9 +189,9 @@ function BuilderContent() {
           )}
 
           <div className="ml-auto flex items-center gap-1.5">
-            <LanguageSwitcher />
-            <ThemeToggle />
-            <SoundToggle />
+            <IconButton label={t('settings_title')} variant="subtle" size="md" onClick={() => setShowSettings(true)}>
+              <Settings size={14} />
+            </IconButton>
             {/* Divider — hidden on mobile */}
             <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
             {/* Undo / Redo — hidden on mobile */}
@@ -328,10 +327,13 @@ function BuilderContent() {
           { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
+          { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
         ]}
       />
+
+      <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
 
       {/* Changelog modal */}
       {showChangelog && (

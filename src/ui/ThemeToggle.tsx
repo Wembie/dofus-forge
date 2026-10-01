@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-
 const LS_KEY      = 'dofus-forge-theme'
 const THEME_EVENT = 'forge-theme-change'
+export const THEME_EVENT_NAME = THEME_EVENT
+
+export function getCurrentTheme(): 'dark' | 'light' {
+  return getInitialTheme()
+}
 
 function getInitialTheme(): 'dark' | 'light' {
   const stored = localStorage.getItem(LS_KEY)
@@ -15,36 +17,15 @@ function applyTheme(theme: 'dark' | 'light') {
   document.documentElement.classList.toggle('dark',  theme === 'dark')
 }
 
-/** Exported so things outside the toggle button itself (e.g. the command
- * palette) can flip the theme too — dispatches an event so any mounted
- * ThemeToggle re-syncs its icon instead of going stale. */
+/** Flips the theme and dispatches an event so every mounted consumer
+ * (SettingsModal, command palette) re-syncs instead of going stale — theme
+ * is only ever changed from the Settings modal or the command palette now,
+ * there's no standalone toggle button anymore. */
 export function toggleTheme() {
   const next = getInitialTheme() === 'dark' ? 'light' : 'dark'
   applyTheme(next)
   localStorage.setItem(LS_KEY, next)
   window.dispatchEvent(new Event(THEME_EVENT))
-}
-
-export function ThemeToggle() {
-  const { t }             = useTranslation()
-  const [theme, setTheme] = useState<'dark' | 'light'>(getInitialTheme)
-
-  useEffect(() => {
-    const sync = () => setTheme(getInitialTheme())
-    window.addEventListener(THEME_EVENT, sync)
-    return () => window.removeEventListener(THEME_EVENT, sync)
-  }, [])
-
-  return (
-    <button
-      onClick={toggleTheme}
-      className="w-8 h-8 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep transition-colors flex items-center justify-center text-sm"
-      aria-label={theme === 'dark' ? t('theme_switch_light') : t('theme_switch_dark')}
-      title={theme === 'dark' ? t('theme_label_light') : t('theme_label_dark')}
-    >
-      {theme === 'dark' ? '☀️' : '🌙'}
-    </button>
-  )
 }
 
 /** Apply theme on initial load (before React mounts) */
