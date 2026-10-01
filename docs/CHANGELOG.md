@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.16] — 2026-10-01
+- **Fix**: `my_builds` i18n key was just "Builds" in all 4 locales (a leftover from the old cramped `ShareBar` button) — now "My Builds"/"Mis Builds"/"Mes Builds"/"Meus Builds", shown in `SiteHeader.tsx`'s nav
+- **Feat**: `MyBuildsPage.tsx`'s cards gained a comment-icon button (`handleViewDetail`) that navigates straight to that build's detail page — previously the only way to reach a build's ratings/comments/likes from My Builds was to go through Explore and find it again manually, since clicking the card itself loads the snapshot into the planner (kept as-is, still the fastest path to editing)
+
 ## [0.3.15] — 2026-09-30
 - **Fix**: `ExplorePage.tsx`, `MyBuildsPage.tsx` and `BuildDetailPage.tsx` each built their own minimal header (just a "back to planner" link) — no logo, no way to switch language/theme, no account menu, no way to jump between Explore/My Builds without going back through the builder first. New `components/SiteHeader.tsx` — same brand/nav/language/theme/auth controls as `BuilderPage`'s header, without the build-editing tools — now shared by all three
 
