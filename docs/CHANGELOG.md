@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.20] — 2026-10-01
+- **Fix**: sound, magic cursor and particles defaulted to ON for first-time visitors — now OFF by default (theme was already dark by default, unchanged). A new visitor gets a quiet, static experience and opts in via the Settings panel, instead of sound/motion firing without ever having been asked
+
 ## [0.3.19] — 2026-10-01
 - **Feat**: single "Ajustes" (Settings) panel, opened from a gear icon in both headers — consolidates language, theme, sound, magic cursor and particles into one place instead of separate loose icon buttons. Language reuses the existing `LanguageSwitcher`; theme/sound reuse `toggleTheme()`/`toggleSound()`
 - **Feat**: magic cursor and particle field now each have a real on/off toggle (`src/lib/motionSettings.ts`, localStorage-persisted) — previously they only ever respected `prefers-reduced-motion`/`pointer: coarse` with no explicit user control

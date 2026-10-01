@@ -3,7 +3,7 @@ const PARTICLES_LS_KEY  = 'dofus-forge-particles'
 export const MOTION_SETTINGS_EVENT = 'forge-motion-settings-change'
 
 export function isCursorEnabled(): boolean {
-  return localStorage.getItem(CURSOR_LS_KEY) !== 'off'
+  return localStorage.getItem(CURSOR_LS_KEY) === 'on'
 }
 
 export function setCursorEnabled(on: boolean) {
@@ -12,7 +12,7 @@ export function setCursorEnabled(on: boolean) {
 }
 
 export function isParticlesEnabled(): boolean {
-  return localStorage.getItem(PARTICLES_LS_KEY) !== 'off'
+  return localStorage.getItem(PARTICLES_LS_KEY) === 'on'
 }
 
 export function setParticlesEnabled(on: boolean) {

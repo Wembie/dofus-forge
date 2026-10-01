@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.20',
+    date: '2026-10-01',
+    notes: [
+      'Fix: sound, magic cursor and particles are now off by default - turn them on in Settings if you want them',
+    ],
+  },
+  {
     version: '0.3.19',
     date: '2026-10-01',
     notes: [
