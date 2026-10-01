@@ -212,6 +212,12 @@ export function BuildDetailPage() {
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
             <span className="flex items-center gap-1.5"><Star size={14} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)} ({build.rating_count})</span>
           </div>
+
+          <div className="flex items-center gap-2 pt-1" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+            <p className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_your_rating')}</p>
+            <StarRating value={myRating ?? 0} onRate={handleRate} disabled={!session} />
+            {!session && <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>({t('build_detail_signin_required')})</p>}
+          </div>
         </Frame>
 
         {/* Equipment + full stats — same 2-column layout as the real planner */}
@@ -267,11 +273,6 @@ export function BuildDetailPage() {
                 <StatsFromBlock s={computedStats} runes={runesForDisplay} />
               </Frame>
             )}
-            <Frame padding="lg">
-              <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_your_rating')}</p>
-              <StarRating value={myRating ?? 0} onRate={handleRate} disabled={!session} />
-              {!session && <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_signin_required')}</p>}
-            </Frame>
           </div>
         </div>
 
@@ -292,7 +293,7 @@ export function BuildDetailPage() {
                 style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
               />
               <Button type="submit" variant="primary" size="sm" disabled={postingComment || !commentText.trim()}>
-                {t('build_detail_comment_submit')}
+                {postingComment ? t('build_detail_posting') : t('build_detail_comment_submit')}
               </Button>
             </form>
           ) : (

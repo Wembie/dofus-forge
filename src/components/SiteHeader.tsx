@@ -1,10 +1,11 @@
 import { Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Compass, FolderOpen } from 'lucide-react'
 import { ThemeToggle } from '@/ui/ThemeToggle.tsx'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
+import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 
@@ -14,7 +15,11 @@ const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m =>
  * detail) so navigating between them doesn't feel like leaving the app. */
 export function SiteHeader() {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
   const prefix = langPathPrefix(i18n.language)
+  const isExplore  = location.pathname.includes('/explore')
+  const isMyBuilds = location.pathname.includes('/my-builds')
 
   return (
     <header
@@ -41,7 +46,9 @@ export function SiteHeader() {
         <Link
           to={`/${prefix}explore`}
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-          style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+          style={isExplore
+            ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+            : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
         >
           <Compass size={13} />
           {t('explore_open')}
@@ -49,7 +56,9 @@ export function SiteHeader() {
         <Link
           to={`/${prefix}my-builds`}
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-          style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+          style={isMyBuilds
+            ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+            : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
         >
           <FolderOpen size={13} />
           {t('my_builds')}
@@ -59,6 +68,13 @@ export function SiteHeader() {
       <div className="ml-auto flex items-center gap-1.5">
         <LanguageSwitcher />
         <ThemeToggle />
+        <HeaderMenuButton
+          className="sm:hidden"
+          items={[
+            { key: 'explore',   label: t('explore_open'), Icon: Compass,    active: isExplore,  onClick: () => navigate(`/${prefix}explore`) },
+            { key: 'my-builds', label: t('my_builds'),    Icon: FolderOpen, active: isMyBuilds, onClick: () => navigate(`/${prefix}my-builds`) },
+          ]}
+        />
         <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
         <Suspense fallback={null}><AuthButton /></Suspense>
       </div>

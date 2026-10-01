@@ -2,7 +2,8 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen } from 'lucide-react'
+import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { useDataStore } from '@/store/dataStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
@@ -60,6 +61,12 @@ function BuilderContent() {
   const [showOptimizer,  setShowOptimizer]  = useState(false)
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
+
+  const navToLangPath = (path: string) => {
+    const lang     = i18n.language.slice(0, 2)
+    const langPath = lang === 'en' ? '' : `${lang}/`
+    navigate(`/${langPath}${path}`)
+  }
 
   const compareActive  = useCompareStore(s => s.active)
   const toggleCompare  = useCompareStore(s => s.toggle)
@@ -233,17 +240,23 @@ function BuilderContent() {
             </button>
             {/* Explore public builds — hidden on mobile */}
             <button
-              onClick={() => {
-                const lang     = i18n.language.slice(0, 2)
-                const langPath = lang === 'en' ? '' : `${lang}/`
-                navigate(`/${langPath}explore`)
-              }}
+              onClick={() => navToLangPath('explore')}
               title={t('explore_open')}
               className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
               style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
             >
               <Compass size={13} />
               <span className="hidden lg:inline">{t('explore_open')}</span>
+            </button>
+            {/* My builds — hidden on mobile */}
+            <button
+              onClick={() => navToLangPath('my-builds')}
+              title={t('my_builds')}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+            >
+              <FolderOpen size={13} />
+              <span className="hidden lg:inline">{t('my_builds')}</span>
             </button>
             {/* Publish current build — hidden on mobile */}
             <button
@@ -276,6 +289,20 @@ function BuilderContent() {
             </button>
             {/* Divider — hidden on mobile */}
             <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+            {/* Mobile/tablet fallback — everything above is hidden below lg with no other way to reach it */}
+            <HeaderMenuButton
+              className="lg:hidden"
+              items={[
+                { key: 'my-builds', label: t('my_builds'),         Icon: FolderOpen, onClick: () => navToLangPath('my-builds') },
+                { key: 'explore',   label: t('explore_open'),      Icon: Compass,    onClick: () => navToLangPath('explore') },
+                { key: 'publish',   label: t('publish_open'),      Icon: UploadCloud, disabled: !hasClass, onClick: () => setShowPublish(true) },
+                { key: 'optimizer', label: t('optimizer_open'),    Icon: Wand2,      onClick: () => setShowOptimizer(true) },
+                { key: 'sets',      label: t('sets_catalog_open'), Icon: Layers,     onClick: () => setShowSetsCatalog(true) },
+                { key: 'compare',   label: t('compare'),           Icon: BarChart2,  active: compareActive, onClick: toggleCompare },
+                { key: 'undo',      label: t('undo'),              Icon: Undo2,      disabled: !canUndo, onClick: undo },
+                { key: 'redo',      label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
+              ]}
+            />
             <Suspense fallback={null}><AuthButton /></Suspense>
             <ShareBar />
           </div>

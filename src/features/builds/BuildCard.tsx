@@ -21,15 +21,24 @@ export function BuildCard({ build }: { build: BuildRow }) {
   return (
     <Link
       to={`/${langPathPrefix(i18n.language)}build/${build.id}`}
-      className="flex flex-col gap-2 p-3 rounded-xl transition-colors hover:border-gold-deep"
-      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
+      className="flex flex-col gap-2 p-3 rounded-xl transition-shadow"
+      style={{
+        background:   'var(--surface-panel)',
+        borderTop:    '1px solid var(--gold-deep)',
+        borderRight:  '1px solid var(--metal-edge)',
+        borderBottom: '1px solid var(--metal-edge)',
+        borderLeft:   '1px solid var(--metal-edge)',
+        boxShadow:    'var(--inset-bevel)',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel), var(--glow-gold)'; e.currentTarget.style.borderTopColor = 'var(--gold)' }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel)'; e.currentTarget.style.borderTopColor = 'var(--gold-deep)' }}
     >
       <div className="flex items-center gap-2.5">
         {portrait && (
           <img src={portrait} alt="" width={40} height={40} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
         )}
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{build.name}</p>
+          <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
           <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
         </div>
       </div>

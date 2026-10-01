@@ -540,5 +540,7 @@
   "publish_already_published_hint": "This build is already published — this updates that same one, it won't create a new one.",
   "publish_submit_update": "Update",
   "build_detail_no_items": "This build has no equipped items.",
-  "my_builds_view_detail": "View detail and comments"
+  "my_builds_view_detail": "View detail and comments",
+  "open_menu": "Menu",
+  "build_detail_posting": "Posting..."
 }
