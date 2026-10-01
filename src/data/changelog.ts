@@ -8,9 +8,10 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.18',
+    version: '0.3.17',
     date: '2026-10-01',
     notes: [
+      'Fix: comments/likes/ratings/bookmarks/follows from anyone other than a build\'s owner silently failed to update its counters — a comment from someone else would show up but comment_count stayed at 0, same for likes and average rating from non-owners',
       'Fix: on mobile/tablet, Explore/My Builds/Publish/Optimizer/Sets/Compare/Undo/Redo were hidden with no way to reach them — added a menu button for everything that disappears at each breakpoint',
       'Fix: header nav now highlights whichever page (Explore/My Builds) you\'re actually on',
       'Fix: My Builds\' visibility button now shows all 3 options (private/unlisted/public) instead of blindly cycling through them',
@@ -18,13 +19,6 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Polish: build cards (Explore and My Builds) now use the same gold-bordered, glowing style as the rest of the app instead of a plain flat box, with the build name in bold gold',
       'Fix: your rating and the build\'s average rating are now shown together instead of split across the page',
       'Fix: posting a comment now shows "Posting..." instead of giving no feedback',
-    ],
-  },
-  {
-    version: '0.3.17',
-    date: '2026-10-01',
-    notes: [
-      'Fix: comments/likes/ratings/bookmarks/follows from anyone other than a build\'s owner silently failed to update its counters — a comment from someone else would show up but comment_count stayed at 0, same for likes and average rating from non-owners',
     ],
   },
   {
