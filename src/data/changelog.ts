@@ -8,18 +8,12 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.20',
-    date: '2026-10-01',
-    notes: [
-      'Fix: sound, magic cursor and particles are now off by default - turn them on in Settings if you want them',
-    ],
-  },
-  {
     version: '0.3.19',
     date: '2026-10-01',
     notes: [
       'Feat: new Settings panel (gear icon) - language, theme, sound, magic cursor and particles all in one place',
       'Feat: magic cursor and particles can now be turned off individually, not just via reduced-motion',
+      'Fix: sound, magic cursor and particles are now off by default - turn them on in Settings if you want them',
     ],
   },
   {

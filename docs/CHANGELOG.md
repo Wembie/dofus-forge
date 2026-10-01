@@ -5,13 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.3.20] — 2026-10-01
-- **Fix**: sound, magic cursor and particles defaulted to ON for first-time visitors — now OFF by default (theme was already dark by default, unchanged). A new visitor gets a quiet, static experience and opts in via the Settings panel, instead of sound/motion firing without ever having been asked
-
 ## [0.3.19] — 2026-10-01
 - **Feat**: single "Ajustes" (Settings) panel, opened from a gear icon in both headers — consolidates language, theme, sound, magic cursor and particles into one place instead of separate loose icon buttons. Language reuses the existing `LanguageSwitcher`; theme/sound reuse `toggleTheme()`/`toggleSound()`
 - **Feat**: magic cursor and particle field now each have a real on/off toggle (`src/lib/motionSettings.ts`, localStorage-persisted) — previously they only ever respected `prefers-reduced-motion`/`pointer: coarse` with no explicit user control
 - **Chore**: removed the standalone `ThemeToggle`/`SoundToggle` button components — dead code now that everything lives in the Settings panel; their underlying `toggleTheme()`/`toggleSound()` functions are unchanged and still used by the command palette
+- **Fix**: sound, magic cursor and particles defaulted to ON for first-time visitors — now OFF by default (theme was already dark by default, unchanged). A new visitor gets a quiet, static experience and opts in via the Settings panel, instead of sound/motion firing without ever having been asked
 
 ## [0.3.18] — 2026-10-01
 - **Feat**: equipment slots now visually distinguish set items from regular items — a gold/water-tinted border+glow instead of the same flat gold treatment for everything. Note: this replaces "item rarity" from the original redesign spec — Dofus 3's data (confirmed via `scripts/fetch-data.ts`'s documented API schema, and the raw `equipment.json`/`index.json` payloads) has no rarity field at all, so a 7-tier rarity system would have been fabricated. Set membership (`item.set_id`) is the closest real signal available
