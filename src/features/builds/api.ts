@@ -46,7 +46,7 @@ const SORT_COLUMN: Record<ExploreSort, string> = {
   views:  'view_count',
 }
 
-export async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
+export async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
   const supabase  = await getSupabase()
   const pageSize  = opts.pageSize ?? 24
   const from      = opts.page * pageSize
@@ -59,6 +59,14 @@ export async function fetchPublicBuilds(opts: { classSlug?: string | null; userI
     .range(from, to)
   if (opts.classSlug) query = query.eq('class_slug', opts.classSlug)
   if (opts.userId) query = query.eq('user_id', opts.userId)
+  // `builds.search_vector` is a generated+indexed tsvector column (idx_builds_search,
+  // a GIN index — see docs/DATABASE.md) — no schema change needed for this. `plainto_tsquery`
+  // + 'simple' config matches exactly how the column itself was generated (no language
+  // stemming, since names/descriptions are free text in any of the app's 4 languages).
+  // Results stay ordered by the user's chosen sort rather than text-match relevance —
+  // true relevance ranking (ts_rank) isn't expressible through a plain PostgREST filter
+  // and would need a dedicated RPC; out of scope for this pass.
+  if (opts.search?.trim()) query = query.textSearch('search_vector', opts.search.trim(), { type: 'plain', config: 'simple' })
   const { data, error, count } = await query
   return { data: (data ?? []) as unknown as BuildRow[], error: error?.message ?? null, count: count ?? 0 }
 }

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.30',
+    date: '2026-10-02',
+    notes: [
+      'Feat: M50 - full-text search in Explore, using the existing indexed search_vector column, debounced 350ms',
+    ],
+  },
+  {
     version: '0.3.29',
     date: '2026-10-02',
     notes: [
@@ -1222,6 +1229,514 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Catálogo de items con búsqueda, filtros y ordenamiento',
       'Stats panel con cálculo completo del personaje',
       'Soporte multilenguaje: ES / EN / FR / PT',
+    ],
+  },
+  {
+    version: '0.1.97',
+    date: '2026-08-11',
+    notes: ['Fix: base de prospección/invocaciones, daño de aire, visualización de HP'],
+  },
+  {
+    version: '0.1.96',
+    date: '2026-08-10',
+    notes: ['M16 - renovación visual completa: fuente JetBrains Mono, badges dominantes, slots más grandes'],
+  },
+  {
+    version: '0.1.95',
+    date: '2026-08-10',
+    notes: ['Panel de hover único para los 6 asignadores de características, se eliminó la columna de robo'],
+  },
+  {
+    version: '0.1.94',
+    date: '2026-08-10',
+    notes: ['Fix: cierre instantáneo del popover + toggles de scroll unificados'],
+  },
+  {
+    version: '0.1.93',
+    date: '2026-08-10',
+    notes: ['Popover al hover para los controles de asignación + corrección de fuente del badge de HP'],
+  },
+  {
+    version: '0.1.92',
+    date: '2026-08-10',
+    notes: ['Fix: eliminar el tope de 100% en la visualización de crit efectivo - el crit puede superar 100% en Dofus 3'],
+  },
+  {
+    version: '0.1.91',
+    date: '2026-08-10',
+    notes: ['Fix: eliminar el tope de critChance - el crit% no tiene límite oficial en Dofus 3'],
+  },
+  {
+    version: '0.1.90',
+    date: '2026-08-10',
+    notes: ['Fix: aplicar los topes oficiales de stats de Dofus 3 en computeStats'],
+  },
+  {
+    version: '0.1.89',
+    date: '2026-08-10',
+    notes: ['Fix: desborde de filas - layout de dos filas para filas de stats'],
+  },
+  {
+    version: '0.1.88',
+    date: '2026-08-10',
+    notes: ['M17 - filas de robo/curación, grupo de condición de escudo, total Σ corregido'],
+  },
+  {
+    version: '0.1.87',
+    date: '2026-08-10',
+    notes: ['Fix: corregir la fórmula de daño de empuje - floor(pushbackDamage/3) × celdas'],
+  },
+  {
+    version: '0.1.86',
+    date: '2026-08-10',
+    notes: ['Fix: emparejar efectos críticos por índice, no por elemento'],
+  },
+  {
+    version: '0.1.85',
+    date: '2026-08-10',
+    notes: ['Fix: aplicar crit_bonus del arma como daño base amplificado por la fórmula de maestría'],
+  },
+  {
+    version: '0.1.84',
+    date: '2026-08-10',
+    notes: ['Dominio del Arma - checkbox con valores normales/críticos separados'],
+  },
+  {
+    version: '0.1.83',
+    date: '2026-08-10',
+    notes: ['Fix: usar meleeDamagePercent para armas/hechizos con maxRange <= 1'],
+  },
+  {
+    version: '0.1.82',
+    date: '2026-08-10',
+    notes: ['Fix: incluir crit_bonus del arma en el cálculo de daño crítico'],
+  },
+  {
+    version: '0.1.81',
+    date: '2026-08-10',
+    notes: ['Rediseño de WeaponCard - layout de tabla, separación robo/curación, Dominio del Arma'],
+  },
+  {
+    version: '0.1.80',
+    date: '2026-08-09',
+    notes: ['Fix: mostrar el delta de bonificación de equipamiento por característica'],
+  },
+  {
+    version: '0.1.79',
+    date: '2026-08-09',
+    notes: ['Fix: ensanchar el panel de stats derecho de 240px a 300px'],
+  },
+  {
+    version: '0.1.78',
+    date: '2026-08-09',
+    notes: ['Fix: corregir todas las clases de Tailwind con modificador de opacidad rotas en catálogo/modal'],
+  },
+  {
+    version: '0.1.77',
+    date: '2026-08-09',
+    notes: ['Fix: reemplazar todas las clases de Tailwind con modificador de opacidad rotas en la UI visible'],
+  },
+  {
+    version: '0.1.76',
+    date: '2026-08-09',
+    notes: ['Pulido visual de hechizos - borde izquierdo de elemento, etiquetas de sección con acento dorado'],
+  },
+  {
+    version: '0.1.75',
+    date: '2026-08-09',
+    notes: ['Header compacto de clase seleccionada con revelado progresivo'],
+  },
+  {
+    version: '0.1.74',
+    date: '2026-08-09',
+    notes: ['Eliminar la duplicación de stats mostrados entre los paneles izquierdo/derecho'],
+  },
+  {
+    version: '0.1.73',
+    date: '2026-08-09',
+    notes: ['Fase 3 - renovación visual: TopBadge, SectionHeader, Crucible, pergamino'],
+  },
+  {
+    version: '0.1.72',
+    date: '2026-08-09',
+    notes: ['Fase 3 - identidad visual Grimoire & Forge: The Crucible y materialidad'],
+  },
+  {
+    version: '0.1.71',
+    date: '2026-08-09',
+    notes: ['Fase 2 - migrar ItemCatalog y RuneModal a tokens de variables CSS'],
+  },
+  {
+    version: '0.1.70',
+    date: '2026-08-09',
+    notes: ['Design system Fase 1 - primitivas de UI principales (Grimoire & Forge)'],
+  },
+  {
+    version: '0.1.69',
+    date: '2026-08-09',
+    notes: ['Design system Fase 0 - consolidación de tokens (Grimoire & Forge)'],
+  },
+  {
+    version: '0.1.68',
+    date: '2026-08-09',
+    notes: ['Fix: el daño crítico del arma usa stats.critDamage, no crit_bonus'],
+  },
+  {
+    version: '0.1.67',
+    date: '2026-08-09',
+    notes: ['Fix: cargar los nombres de hechizos en el idioma seleccionado'],
+  },
+  {
+    version: '0.1.66',
+    date: '2026-08-09',
+    notes: ['Fix: mostrar el valor de daño de empuje en la tarjeta de hechizo'],
+  },
+  {
+    version: '0.1.65',
+    date: '2026-08-09',
+    notes: ['Fix: bonus de +1 PA a nivel 100 (mecánica de Dofus 2)'],
+  },
+  {
+    version: '0.1.64',
+    date: '2026-08-09',
+    notes: ['Fix: daño de ataque de arma excluido del bloque de stats pasivos; nombre de forjamago por slot; temporizador de hover del tooltip'],
+  },
+  {
+    version: '0.1.63',
+    date: '2026-08-09',
+    notes: ['Botón de ver set, equipar todo, firma de forjamago, correcciones de nombres i18n'],
+  },
+  {
+    version: '0.1.62',
+    date: '2026-08-09',
+    notes: ['Fix: Sabiduría también deriva Resta de PA/PM'],
+  },
+  {
+    version: '0.1.61',
+    date: '2026-08-09',
+    notes: ['Fix: agregar derivación de Suerte → Prospección (+1 cada 10 de Suerte)'],
+  },
+  {
+    version: '0.1.60',
+    date: '2026-08-09',
+    notes: ['Fix: eliminar doble conteo de Power; derivar stats secundarios desde las características'],
+  },
+  {
+    version: '0.1.59',
+    date: '2026-08-09',
+    notes: ['Fix: aplicar el bonus % de daño cuerpo a cuerpo/distancia en los cálculos de hechizos y armas'],
+  },
+  {
+    version: '0.1.58',
+    date: '2026-08-09',
+    notes: ['Fix: corregir la fórmula de daño - multiplicativa, no aditiva'],
+  },
+  {
+    version: '0.1.57',
+    date: '2026-08-09',
+    notes: ['Filas de elemento rediseñadas - chips en grid CSS con iconos por columna'],
+  },
+  {
+    version: '0.1.56',
+    date: '2026-08-09',
+    notes: ['Filas de elemento con tres iconos: maestría, daño y resistencia por columna'],
+  },
+  {
+    version: '0.1.55',
+    date: '2026-08-09',
+    notes: ['Fix: mostrar % de resistencia cuerpo a cuerpo/distancia en los modificadores de CharacteristicsPanel'],
+  },
+  {
+    version: '0.1.54',
+    date: '2026-08-09',
+    notes: ['Fix: usar statIconUrl() en CharacteristicsPanel, StatsPanel y ExportCard'],
+  },
+  {
+    version: '0.1.53',
+    date: '2026-08-09',
+    notes: ['Fix: agregar mapeo de robo de Agua y keys i18n, auditar todos los nombres de stats'],
+  },
+  {
+    version: '0.1.52',
+    date: '2026-08-09',
+    notes: ['Fix: agregar entradas de % Resistencia de Hechizo/Arma con iconos provisionales'],
+  },
+  {
+    version: '0.1.51',
+    date: '2026-08-09',
+    notes: ['Fix: usar iconos de daño elemental dedicados para stats de daño/robo'],
+  },
+  {
+    version: '0.1.50',
+    date: '2026-08-09',
+    notes: ['Fix: conectar nuevos iconos de stats en webp, corregir mapeos de iconos rotos'],
+  },
+  {
+    version: '0.1.49',
+    date: '2026-08-09',
+    notes: ['M30 - visualización de daño crítico en SpellCard y WeaponCard'],
+  },
+  {
+    version: '0.1.48',
+    date: '2026-08-09',
+    notes: ['M29 - imágenes de runas en toda la UI de Forjamagia'],
+  },
+  {
+    version: '0.1.47',
+    date: '2026-08-09',
+    notes: ['M27+M28 - tarjeta de ataque de arma + panel de hechizos comunes'],
+  },
+  {
+    version: '0.1.46',
+    date: '2026-08-09',
+    notes: ['Efectos de empuje/PA/PM + badge de Soporte para hechizos de utilidad'],
+  },
+  {
+    version: '0.1.45',
+    date: '2026-08-09',
+    notes: ['Fix: reescribir image_url para incluir BASE_URL al momento de obtener los datos'],
+  },
+  {
+    version: '0.1.44',
+    date: '2026-08-09',
+    notes: ['Rediseño de hechizos a dos columnas con imágenes y variantes'],
+  },
+  {
+    version: '0.1.43',
+    date: '2026-08-09',
+    notes: ['El modal de set permanece abierto al equipar/desequipar, se agregó botón de desequipar'],
+  },
+  {
+    version: '0.1.42',
+    date: '2026-08-09',
+    notes: ['Fix: separador de rango negativo i18n vía la key range_sep_neg'],
+  },
+  {
+    version: '0.1.41',
+    date: '2026-08-09',
+    notes: ['Fix: los rangos negativos muestran primero el valor absoluto menor'],
+  },
+  {
+    version: '0.1.40',
+    date: '2026-08-09',
+    notes: ['Fix: equipar cualquier item del set desde el modal de set, no solo el slot actual'],
+  },
+  {
+    version: '0.1.39',
+    date: '2026-08-08',
+    notes: ['Modal de detalle de set - click en el nombre del set para ver sus items, bonificaciones y equipar'],
+  },
+  {
+    version: '0.1.38',
+    date: '2026-08-08',
+    notes: ['Fix: invalidación de caché basada en versión para todos los archivos JSON de datos'],
+  },
+  {
+    version: '0.1.37',
+    date: '2026-08-08',
+    notes: ['Fix: visibilidad de descripción/habilidad - colores demasiado oscuros para leer'],
+  },
+  {
+    version: '0.1.36',
+    date: '2026-08-08',
+    notes: ['Descripción, habilidad pasiva y lore del item mostrados en las tarjetas del catálogo'],
+  },
+  {
+    version: '0.1.35',
+    date: '2026-08-08',
+    notes: ['Pestañas de filtro automático por tipo para todos los slots multi-tipo'],
+  },
+  {
+    version: '0.1.34',
+    date: '2026-08-08',
+    notes: ['Fix: renombrar etiqueta del slot de compañero a Mount/Montura en todos los idiomas'],
+  },
+  {
+    version: '0.1.33',
+    date: '2026-08-08',
+    notes: ['Fusionar mascota/petsmount/montura en un solo slot de compañero con pestañas de filtro por tipo'],
+  },
+  {
+    version: '0.1.32',
+    date: '2026-08-08',
+    notes: ['M23 - layout de catálogo en grid de tarjetas con todos los stats visibles'],
+  },
+  {
+    version: '0.1.31',
+    date: '2026-08-08',
+    notes: ['Slots de Petsmount, Montura y Sidekick agregados al grid de equipamiento'],
+  },
+  {
+    version: '0.1.30',
+    date: '2026-08-08',
+    notes: ['Fix: traducir etiquetas de stats de items en tooltips, filtro de stats y modal de runas'],
+  },
+  {
+    version: '0.1.29',
+    date: '2026-08-08',
+    notes: ['Créditos en el footer: servidor Tal Kasha, creador Juan/Wembie, en el juego Raik-Luck'],
+  },
+  {
+    version: '0.1.28',
+    date: '2026-08-08',
+    notes: ['M22 - layout responsive para móvil con navegación de pestañas inferior'],
+  },
+  {
+    version: '0.1.27',
+    date: '2026-08-08',
+    notes: ['Fix: pase completo de i18n - todos los strings hardcodeados en EN/ES reemplazados por t()'],
+  },
+  {
+    version: '0.1.26',
+    date: '2026-08-08',
+    notes: ['M18 - exportar build como imagen PNG'],
+  },
+  {
+    version: '0.1.25',
+    date: '2026-08-08',
+    notes: ['Fix: datos multilenguaje - base en inglés con overlay de nombres traducidos'],
+  },
+  {
+    version: '0.1.24',
+    date: '2026-08-08',
+    notes: ['Fix: cargar siempre datos en EN como base; persistir runas en el snapshot de la URL'],
+  },
+  {
+    version: '0.1.23',
+    date: '2026-08-08',
+    notes: ['Fix: las bonificaciones de set aplican solo en el nivel más alto; Power se muestra sin %'],
+  },
+  {
+    version: '0.1.22',
+    date: '2026-08-08',
+    notes: ['M15 polish - rediseño de UX de Forjamagia + tooltip fiel al juego'],
+  },
+  {
+    version: '0.1.21',
+    date: '2026-08-08',
+    notes: ['Fix: Power distribuye de forma plana a los stats elementales, no como multiplicador porcentual'],
+  },
+  {
+    version: '0.1.20',
+    date: '2026-08-08',
+    notes: ['M15 - sistema de runas de Forjamagia: gestión de runas por slot integrada al motor de stats'],
+  },
+  {
+    version: '0.1.19',
+    date: '2026-08-08',
+    notes: [
+      'Fix: tooltip muestra todos los stats, posicionamiento lateral (derecha/izquierda/arriba) evita el recorte por overflow-hidden',
+      'Fix: usar el valor máximo para stats de items con rango en el cómputo',
+    ],
+  },
+  {
+    version: '0.1.18',
+    date: '2026-08-08',
+    notes: ["Fix: fmtValue usa guion en vez de 'à' francesa; SetBonusesPanel rediseñado con tarjetas de nivel, puntos y botón de modal"],
+  },
+  {
+    version: '0.1.17',
+    date: '2026-08-08',
+    notes: [
+      'M14 - favoritos de items (toggle de estrella + filtro solo favoritos)',
+      'M20+M21 - selector de grado (1-6) + daño calculado desde los stats del build',
+    ],
+  },
+  {
+    version: '0.1.16',
+    date: '2026-08-07',
+    notes: ['Fix: eliminar import no usado de ALL_SLOTS, import de codec estático en useHistory'],
+  },
+  {
+    version: '0.1.15',
+    date: '2026-08-06',
+    notes: [
+      'M08+M09+M10 - badge de set, filtro de set, modal de detalle de set',
+      'M24 - nombre y progreso del set en el tooltip del slot',
+      'M12 - filtro de stat con dropdown de iconos en el catálogo',
+      'M17 - undo/redo (Ctrl+Z/Y) con botones en el header, historial de 40 estados',
+      'M11 - delta de comparación mejorado (iconos + color + etiqueta)',
+    ],
+  },
+  {
+    version: '0.1.14',
+    date: '2026-08-06',
+    notes: ['Solo bump de versión - sin cambio de código asociado en este commit'],
+  },
+  {
+    version: '0.1.13',
+    date: '2026-08-05',
+    notes: ['Panel de stats fiel al juego + iconos de stats en items + filtros de elemento'],
+  },
+  {
+    version: '0.1.12',
+    date: '2026-08-05',
+    notes: ['Iconos de stats corregidos + panel de stats de combate completo'],
+  },
+  {
+    version: '0.1.11',
+    date: '2026-08-05',
+    notes: ['Selector de género, retratos femeninos reales, filtro de elemento de hechizos con expandir'],
+  },
+  {
+    version: '0.1.10',
+    date: '2026-08-05',
+    notes: ['Rediseño fiel a Dofus: iconos reales del juego, input directo de stats, equipamiento más grande'],
+  },
+  {
+    version: '0.1.9',
+    date: '2026-08-05',
+    notes: ['Iconos de características estilo Dofus + asignación de puntos dinámica (mantener para repetir, shift/ctrl click)'],
+  },
+  {
+    version: '0.1.8',
+    date: '2026-08-05',
+    notes: [
+      'Fix: resolver slugs de clase desde en.json en vez del idioma actual',
+      'Layout de pantalla de personaje fiel a Dofus (columnas izquierda/centro/derecha como en el juego real)',
+    ],
+  },
+  {
+    version: '0.1.7',
+    date: '2026-08-05',
+    notes: ['M7 - visor de hechizos con carga perezosa por clase'],
+  },
+  {
+    version: '0.1.6',
+    date: '2026-08-05',
+    notes: ['M6 - panel de bonificaciones de set, filtro de elemento, delta de stats, lista virtual, navegación por teclado'],
+  },
+  {
+    version: '0.1.5',
+    date: '2026-08-05',
+    notes: ['M5 - i18n (ES/EN/FR/PT), tema claro/oscuro, accesibilidad y soporte de reduced-motion'],
+  },
+  {
+    version: '0.1.4',
+    date: '2026-08-05',
+    notes: ['M4 - compartir build por URL y builds guardados en localStorage'],
+  },
+  {
+    version: '0.1.3',
+    date: '2026-08-05',
+    notes: ['M3 - núcleo de la UI del builder: selector de clase, grid de equipamiento, panel de características, panel de stats'],
+  },
+  {
+    version: '0.1.2',
+    date: '2026-08-05',
+    notes: ['M2 - motor de stats puro con 27 tests de Vitest (características, mapa de stats, computeStats)'],
+  },
+  {
+    version: '0.1.1',
+    date: '2026-08-05',
+    notes: ['M1 - pipeline de ETL que obtiene datos en vivo de DofusDude (equipamiento, sets, monturas, consumibles para ES/EN/FR/PT/DE)'],
+  },
+  {
+    version: '0.1.0',
+    date: '2026-08-05',
+    notes: [
+      'M0 - scaffold inicial: Vite 6 + React 18 + TypeScript, TailwindCSS con paleta forge, Zustand/i18next/react-router, CI de GitHub Actions (deploy + actualización semanal de datos), esqueleto de ETL',
+      'Versión de la app inyectada desde el archivo VERSION vía Vite define',
     ],
   },
 ]

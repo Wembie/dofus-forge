@@ -648,5 +648,6 @@
   "profile_likes_received": "Likes received",
   "profile_comments_posted": "Comments posted",
   "profile_builds_title": "{{username}}'s builds",
-  "profile_no_builds": "No public builds yet."
+  "profile_no_builds": "No public builds yet.",
+  "explore_search_placeholder": "Search builds..."
 }

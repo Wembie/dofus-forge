@@ -89,6 +89,21 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M45 — Optimizer: constraint de pods** — limitar builds que excedan capacidad de carga del personaje
 - [ ] **M46 — Optimizer: algoritmos especializados** — motor de clase profesional: multi-start greedy, branch & bound, algoritmo genético, constraint propagation; arquitectura `src/engine/optimizer/` por módulo
 
+### Social / Supabase — usar el resto de las tablas ya existentes
+Orden recomendado (impacto/esfuerzo, de mayor a menor):
+- [x] **M50 — Búsqueda full-text en Explore** — usa `builds.search_vector` (columna `tsvector` ya generada/mantenida por Postgres, sin costo extra de escritura) vía `.textSearch()`; input de búsqueda por nombre/descripción en la barra de Explore, debounced 350ms
+- [ ] **M51 — Seguir usuarios (Follow)** — botón seguir/dejar de seguir en `/u/:username`, usa la tabla `follows` + `profiles.followers_count`/`following_count` (ya trigger-sincronizados, solo falta la UI)
+- [ ] **M52 — Guardar builds (Bookmarks)** — botón de guardado en build detail/cards, distinto de like; usa `build_bookmarks` + `builds.bookmark_count` (ya trackeado, mismo patrón que like/rating)
+- [ ] **M53 — Fork de builds públicas** — botón "Remixar" en build detail, copia el snapshot a un build propio nuevo con `fork_of` apuntando al original
+- [ ] **M54 — Tags de builds** — selector de tags al publicar (`tags`/`build_tags`), filtro por tag en Explore
+- [ ] **M55 — Likes en comentarios** — botón like por comentario en build detail, usa `comment_likes`
+- [ ] **M56 — Colecciones** — carpetas curadas de builds propias/ajenas, usa `collections`/`collection_builds`
+- [ ] **M57 — Notificaciones** — campanita con actividad (nuevo follower, like, comentario, rating recibido), usa `notifications` — el más pesado de infra (realtime o polling)
+- [ ] **M58 — Reportes y moderación** — botón "reportar" en builds/comentarios (`build_reports`) + panel de moderación gateado por `profiles.role in ('moderator','admin')`
+- [ ] **M59 — Historial de versiones de build** — guardar un snapshot en cada edición relevante (`build_snapshots`), ver/restaurar una versión anterior
+
+- [ ] **Chore — Eliminar tablas legacy sin usar** — `build_items`/`build_characteristics`/`build_runes` quedaron sin usar desde que todo vive en `builds.snapshot` (jsonb, que ya soporta buscar "builds con item X" vía containment query sin joins); dropear en vez de implementar, mantenerlas sincronizadas sería puro costo sin beneficio real
+
 
 - [x] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso
 
