@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Star, Heart, Eye, User, UploadCloud } from 'lucide-react'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
+import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { StatsFromBlock } from '@/features/stats-panel/StatsPanel.tsx'
 import { useBuildStore, recompute, ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -328,6 +329,8 @@ export function BuildDetailPage() {
           </ul>
         </Frame>
       </main>
+
+      <SiteFooter />
     </div>
   )
 }

@@ -76,6 +76,20 @@ const MY_BUILDS_META = {
   pt: { title: 'Minhas Builds — Dofus Forge', description: 'Gerencie suas builds salvas de Dofus 3 — entre para visualizar, editar, publicar ou compartilhar.' },
 }
 
+const ABOUT_META = {
+  en: { title: 'About Dofus Forge', description: 'Dofus Forge is a free, fan-made build planner for Dofus 3. Learn why it exists, where its data comes from, and who makes it.' },
+  es: { title: 'Acerca de Dofus Forge', description: 'Dofus Forge es un planificador de builds gratuito y hecho por fans para Dofus 3. Enterate por qué existe, de dónde salen los datos y quién lo hace.' },
+  fr: { title: 'À propos de Dofus Forge', description: "Dofus Forge est un planificateur de builds gratuit, créé par des fans pour Dofus 3. Découvrez pourquoi il existe, d'où viennent ses données et qui le fait." },
+  pt: { title: 'Sobre o Dofus Forge', description: 'Dofus Forge é um planejador de builds gratuito, feito por fãs para Dofus 3. Saiba por que ele existe, de onde vêm os dados e quem o faz.' },
+}
+
+const HOWTO_META = {
+  en: { title: 'How to Use Dofus Forge', description: 'A step-by-step guide to planning a Dofus 3 build — picking a class, equipping items, reading stats and set bonuses, forgemagie runes, the stat optimizer, and sharing your build.' },
+  es: { title: 'Cómo usar Dofus Forge', description: 'Guía paso a paso para armar un build de Dofus 3 — elegir clase, equipar items, leer stats y bonus de set, runas de forjamagia, el optimizador, y compartir tu build.' },
+  fr: { title: 'Comment utiliser Dofus Forge', description: "Guide pas à pas pour créer un build Dofus 3 — choisir une classe, équiper des objets, lire les stats et bonus de panoplie, les runes de forgemagie, l'optimiseur, et partager votre build." },
+  pt: { title: 'Como usar o Dofus Forge', description: 'Um guia passo a passo para montar uma build de Dofus 3 — escolher classe, equipar itens, ler stats e bônus de conjunto, runas de forjamagia, o otimizador, e compartilhar sua build.' },
+}
+
 const baseHtml = readFileSync(join(DIST, 'index.html'), 'utf-8')
 
 function patch(html, { lang, title, description, canonicalPath, noindex }) {
@@ -142,51 +156,33 @@ function write(dir, html) {
   console.log(`✓ ${dir.replace(DIST, 'dist')}/index.html`)
 }
 
-// English has no /en path segment — its routes live directly under dist/.
+// English has no /en path segment at the canonical root — its routes live
+// directly under dist/. The explicit /en/* mirror (written separately,
+// self-canonicalizing back to the no-prefix URL) is generated alongside it.
 function langDir(lang, ...subpath) {
   return lang === 'en' ? join(DIST, ...subpath) : join(DIST, lang, ...subpath)
 }
 
-// Language roots (en's own root stays as dist/index.html, already correct
-// from the Vite build — handled separately below)
-for (const lang of LANGS) {
-  if (lang === 'en') continue
-  const html = patch(baseHtml, { lang, ...ROOT_META[lang], canonicalPath: `${LANG_PATH[lang]}/` })
-  write(langDir(lang), html)
+/**
+ * Generates a static page for `slug` (empty string for a language root,
+ * otherwise e.g. 'explore') across all 4 languages, plus a self-canonicalizing
+ * /en/<slug> mirror (symmetry with /es /fr /pt — see the 0.3.21 changelog
+ * entry for why that never creates duplicate-content competition with the
+ * no-prefix URL).
+ */
+function generateRoute(slug, metaByLang, { noindex = false } = {}) {
+  const suffix = slug ? `${slug}/` : ''
+  for (const lang of LANGS) {
+    if (lang === 'en' && slug === '') continue // dist/index.html is already correct from the Vite build
+    const html = patch(baseHtml, { lang, ...metaByLang[lang], canonicalPath: `${LANG_PATH[lang]}/${suffix}`, noindex })
+    write(langDir(lang, ...(slug ? [slug] : [])), html)
+  }
+  const html = patch(baseHtml, { lang: 'en', ...metaByLang.en, canonicalPath: `/${suffix}`, noindex })
+  write(join(DIST, 'en', ...(slug ? [slug] : [])), html)
 }
 
-// /en/* is also reachable directly (symmetry with /es /fr /pt, direct links)
-// even though `/` is the canonical English URL. Each file's own canonical
-// points at the no-prefix equivalent (same canonicalPath as the English
-// root pages below), so /en/* never competes with / for ranking — it's a
-// duplicate on paper, declared as such, not a second indexable URL.
-{
-  const html = patch(baseHtml, { lang: 'en', ...ROOT_META.en, canonicalPath: '/' })
-  write(join(DIST, 'en'), html)
-}
-
-// /explore — public, indexable, one physical file per language
-for (const lang of LANGS) {
-  const html = patch(baseHtml, { lang, ...EXPLORE_META[lang], canonicalPath: `${LANG_PATH[lang]}/explore/` })
-  write(langDir(lang, 'explore'), html)
-}
-{
-  // /en/explore mirrors /explore — self-canonicalizes to the no-prefix URL
-  const html = patch(baseHtml, { lang: 'en', ...EXPLORE_META.en, canonicalPath: '/explore/' })
-  write(join(DIST, 'en', 'explore'), html)
-}
-
-// /my-builds — private/auth-gated, real 200 for bookmarked direct loads, but noindex
-for (const lang of LANGS) {
-  const html = patch(baseHtml, {
-    lang,
-    ...MY_BUILDS_META[lang],
-    canonicalPath: `${LANG_PATH[lang]}/my-builds/`,
-    noindex: true,
-  })
-  write(langDir(lang, 'my-builds'), html)
-}
-{
-  const html = patch(baseHtml, { lang: 'en', ...MY_BUILDS_META.en, canonicalPath: '/my-builds/', noindex: true })
-  write(join(DIST, 'en', 'my-builds'), html)
-}
+generateRoute('', ROOT_META)
+generateRoute('explore', EXPLORE_META)
+generateRoute('about', ABOUT_META)
+generateRoute('how-to-use', HOWTO_META)
+generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex

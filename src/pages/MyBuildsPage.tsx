@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud } from 'lucide-react'
 import { Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
+import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { useAuthStore } from '@/store/authStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -261,6 +262,8 @@ export function MyBuildsPage() {
           </>
         )}
       </main>
+
+      <SiteFooter />
     </div>
   )
 }

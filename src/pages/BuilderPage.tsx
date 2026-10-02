@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
@@ -25,6 +25,7 @@ import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SeoContent } from '@/components/SeoContent.tsx'
+import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
@@ -319,14 +320,16 @@ function BuilderContent() {
             <HeaderMenuButton
               className="lg:hidden"
               items={[
-                { key: 'my-builds', label: t('my_builds'),         Icon: FolderOpen, onClick: () => navToLangPath('my-builds') },
-                { key: 'explore',   label: t('explore_open'),      Icon: Compass,    onClick: () => navToLangPath('explore') },
-                { key: 'publish',   label: t('publish_open'),      Icon: UploadCloud, disabled: !hasClass, onClick: () => setShowPublish(true) },
-                { key: 'optimizer', label: t('optimizer_open'),    Icon: Wand2,      onClick: () => setShowOptimizer(true) },
-                { key: 'sets',      label: t('sets_catalog_open'), Icon: Layers,     onClick: () => setShowSetsCatalog(true) },
-                { key: 'compare',   label: t('compare'),           Icon: BarChart2,  active: compareActive, onClick: toggleCompare },
-                { key: 'undo',      label: t('undo'),              Icon: Undo2,      disabled: !canUndo, onClick: undo },
-                { key: 'redo',      label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
+                { key: 'my-builds',  label: t('my_builds'),         Icon: FolderOpen, onClick: () => navToLangPath('my-builds') },
+                { key: 'explore',    label: t('explore_open'),      Icon: Compass,    onClick: () => navToLangPath('explore') },
+                { key: 'publish',    label: t('publish_open'),      Icon: UploadCloud, disabled: !hasClass, onClick: () => setShowPublish(true) },
+                { key: 'optimizer',  label: t('optimizer_open'),    Icon: Wand2,      onClick: () => setShowOptimizer(true) },
+                { key: 'sets',       label: t('sets_catalog_open'), Icon: Layers,     onClick: () => setShowSetsCatalog(true) },
+                { key: 'compare',    label: t('compare'),           Icon: BarChart2,  active: compareActive, onClick: toggleCompare },
+                { key: 'undo',       label: t('undo'),              Icon: Undo2,      disabled: !canUndo, onClick: undo },
+                { key: 'redo',       label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
+                { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onClick: () => navToLangPath('how-to-use') },
+                { key: 'about',      label: t('nav_about'),         Icon: Info,       onClick: () => navToLangPath('about') },
               ]}
             />
             <Suspense fallback={null}><AuthButton /></Suspense>
@@ -346,6 +349,8 @@ function BuilderContent() {
           { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
+          { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onRun: () => navToLangPath('how-to-use') },
+          { key: 'about',      label: t('nav_about'),         Icon: Info,       onRun: () => navToLangPath('about') },
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
@@ -464,16 +469,7 @@ function BuilderContent() {
 
       <SeoContent />
 
-      <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
-        <p className="text-[10px] text-ink-faint max-w-xl mx-auto">
-          {t('disclaimer')}
-        </p>
-        <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: 'var(--ink-faint)' }}>
-          <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_server')}: </span>Tal Kasha</span>
-          <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_creator')}: </span>Juan / Wembie</span>
-          <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_ingame')}: </span>Raik-Luck</span>
-        </p>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }

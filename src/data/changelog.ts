@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.22',
+    date: '2026-10-02',
+    notes: [
+      'Feat: new /about and /how-to-use pages in all 4 languages, with real content, their own SEO meta and a sitemap entry',
+      'Feat: shared SiteFooter with Home/About/How to Use/Explore/My Builds links on every page',
+      'Fix: SiteHeader brand mark was a duplicate <h1> on every page it\'s used on - now a <span>',
+      'Fix: returning visitors with a saved language got bounced to the bare language root from any sub-route instead of their actual page',
+      'Chore: removed the Ankama affiliation disclaimer/attribution',
+    ],
+  },
+  {
     version: '0.3.21',
     date: '2026-10-02',
     notes: [
