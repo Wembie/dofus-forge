@@ -639,5 +639,14 @@
   "class_guide_not_found": "This class does not exist.",
   "class_guide_grade_label": "Lvl {{grade}} (max)",
   "class_guide_damage_label": "Damage",
-  "class_guide_spells_note": "Base numbers at max spell level — actual damage in-game depends on your stats and gear."
+  "class_guide_spells_note": "Base numbers at max spell level — actual damage in-game depends on your stats and gear.",
+  "profile_seo_title": "{{username}} — Dofus Forge",
+  "profile_seo_description": "{{username}}'s public Dofus 3 builds on Dofus Forge.",
+  "profile_not_found": "This user does not exist.",
+  "profile_joined": "Joined {{date}}",
+  "profile_public_builds": "Public builds",
+  "profile_likes_received": "Likes received",
+  "profile_comments_posted": "Comments posted",
+  "profile_builds_title": "{{username}}'s builds",
+  "profile_no_builds": "No public builds yet."
 }
