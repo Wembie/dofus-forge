@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.28] — 2026-10-02
+- **Feat**: `BuildCard` (used by Explore, My Builds, and the new profile page) now also links its owner name to `/u/:username` — the previous version flagged this as a follow-up since the whole card was already a `<Link>` to the build, and nesting a second `<a>` inside it produces invalid, unreliably-clickable HTML. Restructured: the card's outer element is now a `<div>` carrying the hover/border styling, with two independent `Link`s inside it — one for the owner row, one wrapping everything else (portrait, name, equipment preview, stats) to the build detail. Verified with Playwright: zero nested anchors, both links navigate independently
+
 ## [0.3.27] — 2026-10-02
 - **Feat**: new public profile page at `/u/:username` — routed by username, never the internal uuid, even though `profiles` is already publicly readable (`for select using (true)`). Shows username, avatar, join date, and three stats: public builds count, total likes received, and comments posted — all computed from what the user published themselves. Deliberately excludes anything about their activity on OTHER people's content (likes/ratings given), since that's browsing behavior, not something they created; this was an explicit scope decision, not an oversight
 - **Feat**: the build owner's name and each comment author's name on `BuildDetailPage` are now links to their `/u/:username` profile (previously plain text) — the only entry points into the new page besides typing the URL directly

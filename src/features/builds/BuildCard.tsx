@@ -17,10 +17,10 @@ export function BuildCard({ build }: { build: BuildRow }) {
   const portrait    = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
   const owner       = build.profiles
   const ownerLabel  = owner?.display_name || owner?.username || ''
+  const prefix      = langPathPrefix(i18n.language)
 
   return (
-    <Link
-      to={`/${langPathPrefix(i18n.language)}build/${build.id}`}
+    <div
       className="flex flex-col gap-2 p-3 rounded-xl transition-shadow"
       style={{
         background:   'var(--surface-panel)',
@@ -33,32 +33,48 @@ export function BuildCard({ build }: { build: BuildRow }) {
       onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel), var(--glow-gold)'; e.currentTarget.style.borderTopColor = 'var(--gold)' }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel)'; e.currentTarget.style.borderTopColor = 'var(--gold-deep)' }}
     >
-      <div className="flex items-center gap-2.5">
-        {portrait && (
-          <img src={portrait} alt="" width={40} height={40} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
-        )}
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
-          <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
+      {/* Owner row is its own link to /u/:username — pulled out of the
+          build-detail Link below since nesting an <a> inside an <a> is
+          invalid HTML and unreliable to click. */}
+      {owner?.username ? (
+        <Link
+          to={`/${prefix}u/${owner.username}`}
+          className="flex items-center gap-1.5 text-[11px] hover:text-gold transition-colors self-start"
+          style={{ color: 'var(--ink-faint)' }}
+        >
+          {isSafeImageUrl(owner.avatar_url)
+            ? <img src={owner.avatar_url} alt="" width={14} height={14} className="rounded-full object-cover" />
+            : <User size={12} />
+          }
+          <span className="truncate">{ownerLabel}</span>
+        </Link>
+      ) : (
+        <div className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
+          <User size={12} />
+          <span className="truncate">{ownerLabel}</span>
         </div>
-      </div>
+      )}
 
-      <div className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-        {isSafeImageUrl(owner?.avatar_url)
-          ? <img src={owner.avatar_url} alt="" width={14} height={14} className="rounded-full object-cover" />
-          : <User size={12} />
-        }
-        <span className="truncate">{ownerLabel}</span>
-      </div>
+      <Link to={`/${prefix}build/${build.id}`} className="flex flex-col gap-2 flex-1">
+        <div className="flex items-center gap-2.5">
+          {portrait && (
+            <img src={portrait} alt="" width={40} height={40} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
+            <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
+          </div>
+        </div>
 
-      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
+        <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
 
-      <div className="flex items-center gap-3 text-[11px] mt-auto pt-1" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
-        <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
-        <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
-        <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
-        <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
-      </div>
-    </Link>
+        <div className="flex items-center gap-3 text-[11px] mt-auto pt-1" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
+          <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
+          <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
+          <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
+          <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
+        </div>
+      </Link>
+    </div>
   )
 }
