@@ -23,6 +23,8 @@ import { useHistory } from '@/store/useHistory.ts'
 import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
+import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { SeoContent } from '@/components/SeoContent.tsx'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -88,6 +90,7 @@ function BuilderContent() {
   useBuildUrl()
   useCompareUrl()
   useHistory()
+  usePageSeo(i18n.language.slice(0, 2) as SeoLang, '')
 
   // Scroll to the compare panel whenever it becomes active — covers both a
   // manual toggle click and a shared compare link (?c=...) auto-activating
@@ -442,6 +445,8 @@ function BuilderContent() {
           </Suspense>
         </div>
       )}
+
+      <SeoContent />
 
       <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
         <p className="text-[10px] text-ink-faint max-w-xl mx-auto">

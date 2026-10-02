@@ -35,6 +35,10 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
   el.setAttribute('content', content)
 }
 
+function removeMeta(attr: 'name' | 'property', key: string) {
+  document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)?.remove()
+}
+
 function upsertLink(rel: string, href: string, hreflang?: string) {
   const selector = hreflang ? `link[rel="${rel}"][hreflang="${hreflang}"]` : `link[rel="${rel}"]`
   let el = document.querySelector<HTMLLinkElement>(selector)
@@ -47,31 +51,59 @@ function upsertLink(rel: string, href: string, hreflang?: string) {
   el.setAttribute('href', href)
 }
 
+function normalizePath(path: string) {
+  const trimmed = path.replace(/^\/+|\/+$/g, '')
+  return trimmed ? `/${trimmed}/` : '/'
+}
+
 /**
- * Sets document.title, meta description, canonical URL, and hreflang
- * alternates to match the active language route. This is what lets
- * Google index /es/ /fr/ /pt/ as distinct, correctly-described pages
- * instead of duplicates of the English root.
+ * Sets per-page title, description, canonical URL, hreflang alternates
+ * and (optionally) a noindex directive, keyed by the route's path
+ * (without the /es /fr /pt prefix) so every indexable page — not just
+ * the root — gets correct, distinct metadata instead of inheriting the
+ * homepage's. Call this from the page component itself, not a shared
+ * layout, since each route owns its own title/description.
  */
-export function useSeoMeta(lang: SeoLang) {
+export function usePageSeo(
+  lang: SeoLang,
+  path = '',
+  opts: { title?: string; description?: string; noindex?: boolean } = {},
+) {
+  const { title, description, noindex = false } = opts
+
   useEffect(() => {
-    const m = META[lang]
-    document.title = m.title
+    const normalized = normalizePath(path)
+    const fallback = META[lang]
+    const pageTitle = title ?? fallback.title
+    const pageDescription = description ?? fallback.description
+
+    document.title = pageTitle
     document.documentElement.lang = lang
 
-    upsertMeta('name',     'description',       m.description)
-    upsertMeta('property', 'og:title',           m.title)
-    upsertMeta('property', 'og:description',     m.description)
-    upsertMeta('name',     'twitter:title',       m.title)
-    upsertMeta('name',     'twitter:description', m.description)
+    upsertMeta('name', 'description', pageDescription)
+    upsertMeta('property', 'og:title', pageTitle)
+    upsertMeta('property', 'og:description', pageDescription)
+    upsertMeta('name', 'twitter:title', pageTitle)
+    upsertMeta('name', 'twitter:description', pageDescription)
 
-    const canonicalUrl = `${SITE}${PATH[lang]}/`
+    const canonicalUrl = `${SITE}${PATH[lang]}${normalized}`
     upsertLink('canonical', canonicalUrl)
     upsertMeta('property', 'og:url', canonicalUrl)
+    upsertMeta('property', 'og:locale', `${lang}_${lang === 'en' ? 'US' : lang.toUpperCase()}`)
 
-    ;(Object.keys(PATH) as SeoLang[]).forEach(code => {
-      upsertLink('alternate', `${SITE}${PATH[code]}/`, code)
-    })
-    upsertLink('alternate', `${SITE}/`, 'x-default')
-  }, [lang])
+    if (noindex) {
+      upsertMeta('name', 'robots', 'noindex, follow')
+    } else {
+      removeMeta('name', 'robots')
+      ;(Object.keys(PATH) as SeoLang[]).forEach(code => {
+        upsertLink('alternate', `${SITE}${PATH[code]}${normalized}`, code)
+      })
+      upsertLink('alternate', `${SITE}${normalized}`, 'x-default')
+    }
+  }, [lang, path, title, description, noindex])
+}
+
+/** Back-compat wrapper for routes that only need the language-level defaults (the root planner page). */
+export function useSeoMeta(lang: SeoLang) {
+  usePageSeo(lang, '')
 }

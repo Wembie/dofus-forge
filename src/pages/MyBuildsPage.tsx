@@ -11,6 +11,7 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
+import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.tsx'
 import {
   fetchMyBuilds, deleteBuild, updateBuildVisibility,
@@ -191,8 +192,9 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 }
 
 export function MyBuildsPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   useLoadGameData()
+  usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'my-builds', { noindex: true })
   const session      = useAuthStore(s => s.session)
   const [builds, setBuilds]   = useState<MyBuildRow[]>([])
   const [loading, setLoading] = useState(true)
