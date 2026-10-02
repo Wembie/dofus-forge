@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Star, Heart, Clock, Eye } from 'lucide-react'
+import { Star, Heart, Clock, Eye, Search } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -33,21 +33,30 @@ export function ExplorePage() {
   })
   const [sort, setSort]           = useState<ExploreSort>('rating')
   const [classSlug, setClassSlug] = useState<string | null>(null)
+  const [search, setSearch]       = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [builds, setBuilds]       = useState<BuildRow[]>([])
   const [page, setPage]           = useState(0)
   const [total, setTotal]         = useState(0)
   const [loading, setLoading]     = useState(true)
   const [error, setError]         = useState(false)
 
+  // Debounced so typing doesn't fire a network request (and a full-text
+  // query against builds) on every keystroke.
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedSearch(search), 350)
+    return () => clearTimeout(id)
+  }, [search])
+
   const load = useCallback(async (nextPage: number, reset: boolean) => {
     setLoading(true)
     setError(false)
-    const { data, error: err, count } = await fetchPublicBuilds({ classSlug, sort, page: nextPage })
+    const { data, error: err, count } = await fetchPublicBuilds({ classSlug, sort, search: debouncedSearch, page: nextPage })
     setLoading(false)
     if (err) { setError(true); return }
     setTotal(count)
     setBuilds(prev => reset ? data : [...prev, ...data])
-  }, [classSlug, sort])
+  }, [classSlug, sort, debouncedSearch])
 
   useEffect(() => {
     setPage(0)
@@ -66,6 +75,18 @@ export function ExplorePage() {
         </h1>
         <div className="flex flex-wrap items-center gap-3 justify-between">
           <Tabs items={sortLabels} active={sort} onChange={id => setSort(id as ExploreSort)} variant="segment" />
+
+          <div className="relative">
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder={t('explore_search_placeholder')}
+              className="text-xs rounded-md pl-7 pr-2.5 py-1.5 w-40 sm:w-56"
+              style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
+            />
+          </div>
 
           <select
             value={classSlug ?? ''}

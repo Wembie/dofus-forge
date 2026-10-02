@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.30',
+    date: '2026-10-02',
+    notes: [
+      'Feat: M50 - full-text search in Explore, using the existing indexed search_vector column, debounced 350ms',
+    ],
+  },
+  {
     version: '0.3.29',
     date: '2026-10-02',
     notes: [

@@ -91,7 +91,7 @@ Marcar con `[x]` cuando se complete.
 
 ### Social / Supabase — usar el resto de las tablas ya existentes
 Orden recomendado (impacto/esfuerzo, de mayor a menor):
-- [ ] **M50 — Búsqueda full-text en Explore** — usa `builds.search_vector` (columna `tsvector` ya generada/mantenida por Postgres, sin costo extra de escritura) vía `.textSearch()`; input de búsqueda por nombre/descripción en la barra de Explore
+- [x] **M50 — Búsqueda full-text en Explore** — usa `builds.search_vector` (columna `tsvector` ya generada/mantenida por Postgres, sin costo extra de escritura) vía `.textSearch()`; input de búsqueda por nombre/descripción en la barra de Explore, debounced 350ms
 - [ ] **M51 — Seguir usuarios (Follow)** — botón seguir/dejar de seguir en `/u/:username`, usa la tabla `follows` + `profiles.followers_count`/`following_count` (ya trigger-sincronizados, solo falta la UI)
 - [ ] **M52 — Guardar builds (Bookmarks)** — botón de guardado en build detail/cards, distinto de like; usa `build_bookmarks` + `builds.bookmark_count` (ya trackeado, mismo patrón que like/rating)
 - [ ] **M53 — Fork de builds públicas** — botón "Remixar" en build detail, copia el snapshot a un build propio nuevo con `fork_of` apuntando al original
