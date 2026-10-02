@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.20',
+    date: '2026-10-02',
+    notes: [
+      'Fix: My Builds cards now open the build detail page on click, same as Explore - loading into the planner moved to its own "Edit" button',
+    ],
+  },
+  {
     version: '0.3.19',
     date: '2026-10-01',
     notes: [

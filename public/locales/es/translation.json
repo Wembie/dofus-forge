@@ -555,5 +555,6 @@
   "settings_cursor": "Cursor mágico",
   "settings_cursor_hint": "Brillo que sigue el mouse",
   "settings_particles": "Partículas",
-  "settings_particles_hint": "Polvo dorado de fondo"
+  "settings_particles_hint": "Polvo dorado de fondo",
+  "my_builds_edit": "Editar"
 }

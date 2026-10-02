@@ -555,5 +555,6 @@
   "settings_cursor": "Curseur magique",
   "settings_cursor_hint": "Lueur qui suit la souris",
   "settings_particles": "Particules",
-  "settings_particles_hint": "Poussière dorée en arrière-plan"
+  "settings_particles_hint": "Poussière dorée en arrière-plan",
+  "my_builds_edit": "Modifier"
 }

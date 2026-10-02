@@ -555,5 +555,6 @@
   "settings_cursor": "Magic cursor",
   "settings_cursor_hint": "Glow that follows the mouse",
   "settings_particles": "Particles",
-  "settings_particles_hint": "Ambient gold dust in the background"
+  "settings_particles_hint": "Ambient gold dust in the background",
+  "my_builds_edit": "Edit"
 }
