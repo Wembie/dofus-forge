@@ -69,6 +69,16 @@ function App() {
         <Route path="/" element={<RootRoute />}>
           {LANG_SUB_ROUTES}
         </Route>
+        {/* /en is kept reachable too (symmetry with /es /fr /pt, direct links,
+            hreflang) even though the root `/` is the canonical English URL —
+            every page under it resolves its own SEO canonical to the no-prefix
+            equivalent (useSeoMeta's PATH['en'] is already ''), so this never
+            creates duplicate-content signals. Internal nav/LanguageSwitcher
+            still point at `/`, unchanged. */}
+        <Route path="en" element={<LangLayout lang="en" />}>
+          {LANG_SUB_ROUTES}
+          <Route path="*" element={<BuilderPage />} />
+        </Route>
         <Route path="es" element={<LangLayout lang="es" />}>
           {LANG_SUB_ROUTES}
           <Route path="*" element={<BuilderPage />} />

@@ -147,17 +147,33 @@ function langDir(lang, ...subpath) {
   return lang === 'en' ? join(DIST, ...subpath) : join(DIST, lang, ...subpath)
 }
 
-// Language roots (en stays as dist/index.html, already correct from the Vite build)
+// Language roots (en's own root stays as dist/index.html, already correct
+// from the Vite build — handled separately below)
 for (const lang of LANGS) {
   if (lang === 'en') continue
   const html = patch(baseHtml, { lang, ...ROOT_META[lang], canonicalPath: `${LANG_PATH[lang]}/` })
   write(langDir(lang), html)
 }
 
+// /en/* is also reachable directly (symmetry with /es /fr /pt, direct links)
+// even though `/` is the canonical English URL. Each file's own canonical
+// points at the no-prefix equivalent (same canonicalPath as the English
+// root pages below), so /en/* never competes with / for ranking — it's a
+// duplicate on paper, declared as such, not a second indexable URL.
+{
+  const html = patch(baseHtml, { lang: 'en', ...ROOT_META.en, canonicalPath: '/' })
+  write(join(DIST, 'en'), html)
+}
+
 // /explore — public, indexable, one physical file per language
 for (const lang of LANGS) {
   const html = patch(baseHtml, { lang, ...EXPLORE_META[lang], canonicalPath: `${LANG_PATH[lang]}/explore/` })
   write(langDir(lang, 'explore'), html)
+}
+{
+  // /en/explore mirrors /explore — self-canonicalizes to the no-prefix URL
+  const html = patch(baseHtml, { lang: 'en', ...EXPLORE_META.en, canonicalPath: '/explore/' })
+  write(join(DIST, 'en', 'explore'), html)
 }
 
 // /my-builds — private/auth-gated, real 200 for bookmarked direct loads, but noindex
@@ -169,4 +185,8 @@ for (const lang of LANGS) {
     noindex: true,
   })
   write(langDir(lang, 'my-builds'), html)
+}
+{
+  const html = patch(baseHtml, { lang: 'en', ...MY_BUILDS_META.en, canonicalPath: '/my-builds/', noindex: true })
+  write(join(DIST, 'en', 'my-builds'), html)
 }

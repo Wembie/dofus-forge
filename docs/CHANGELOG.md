@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.22] — 2026-10-02
+- **Feat**: `/en` is now also a reachable route (`App.tsx`), matching `/es` `/fr` `/pt` — kept `/` as the canonical English URL (no change to `LanguageSwitcher`/internal nav, still point at `/`). Every page under `/en/*` self-declares its canonical as the no-prefix URL (`usePageSeo`'s `PATH['en']` was already `''`), so this adds addressability without creating duplicate-content competition with `/`
+- **Chore**: `scripts/postbuild-lang-pages.mjs` now also generates `dist/en/index.html`, `dist/en/explore/index.html` and `dist/en/my-builds/index.html` so `/en/*` gets a real 200 on GitHub Pages too, same as the other 3 languages — each one's canonical points back at the no-prefix equivalent
+
 ## [0.3.21] — 2026-10-02
 - **Fix**: every route under a language prefix (`/explore`, `/my-builds`, `/build/:id`) inherited the homepage's title/description/canonical — `LangRoute` set them once for the whole layout and no page ever overrode them. Replaced with `usePageSeo(lang, path, opts)` (`src/seo/useSeoMeta.ts`), called by each page with its own path so canonical/hreflang/og/twitter meta are now correct per route instead of all pointing at `/`. `BuildDetailPage` gets a build-specific title/description (class + level); `MyBuildsPage` (private, auth-gated) now sends `noindex, follow` since there's nothing public to rank there
 - **Fix**: `/explore` and `/my-builds` had no physical file on GitHub Pages — only the language roots (`/es/`, `/fr/`, `/pt/`) got a pre-generated `index.html` after the `0.3.x` fix for that; sub-routes still 404'd on direct load/crawl (same failure mode, never extended). `scripts/postbuild-lang-pages.mjs` now also generates `dist/<lang>/explore/index.html` and `dist/<lang>/my-builds/index.html` for all 4 languages, each with correct baked-in title/description/canonical/hreflang (and `noindex` for `my-builds`) — Google can't index a 404-status page regardless of its body, so this was silently blocking `/explore` (public, meant to be found) from ever ranking

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.22',
+    date: '2026-10-02',
+    notes: [
+      'Feat: /en is now reachable too, matching /es /fr /pt - / stays the canonical English URL, internal nav unchanged',
+      'Chore: /en/* now gets real static pages on GitHub Pages, each self-canonicalizing back to the no-prefix URL',
+    ],
+  },
+  {
     version: '0.3.21',
     date: '2026-10-02',
     notes: [
