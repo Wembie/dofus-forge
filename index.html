@@ -93,6 +93,7 @@
       "alternateName": "dofus-forge",
       "description": "Build planner for Dofus 3 — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs.",
       "url": "https://wembie.github.io/dofus-forge/",
+      "image": "https://wembie.github.io/dofus-forge/og-preview.png",
       "applicationCategory": "GameApplication",
       "operatingSystem": "Web Browser",
       "inLanguage": ["en", "es", "fr", "pt"],
@@ -123,8 +124,44 @@
     }
     </script>
 
-    <!-- Favicon -->
+    <!--
+      Separate WebSite entry with an explicit name/logo — Google uses this
+      (distinct from the WebApplication entry above) to resolve the site
+      name and icon shown in search results. A fresh/thinly-crawled site
+      can otherwise show a generic fallback name until this is picked up.
+    -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Dofus Forge",
+      "url": "https://wembie.github.io/dofus-forge/",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dofus Forge",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://wembie.github.io/dofus-forge/favicon-192.png",
+          "width": 192,
+          "height": 192
+        }
+      }
+    }
+    </script>
+
+    <!--
+      Favicon — SVG for modern browsers, PNG fallbacks alongside it because
+      Google's search-result favicon fetcher (and older browsers/Safari
+      pinned tabs) are more reliable with a plain square PNG than an SVG.
+      Per Google's own favicon guidelines: square, a multiple of 48px,
+      referenced via <link rel="icon">, not blocked by robots.txt (it isn't
+      — robots.txt only disallows nothing). PNGs rendered from favicon.svg
+      with Playwright (no image-conversion tool available in this sandbox).
+    -->
     <link rel="icon" type="image/svg+xml" href="/dofus-forge/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/dofus-forge/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/dofus-forge/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/dofus-forge/apple-touch-icon.png" />
     <meta name="theme-color" content="#0d0f14" />
 
     <!-- Preconnect -->
