@@ -639,5 +639,14 @@
   "class_guide_not_found": "Essa classe não existe.",
   "class_guide_grade_label": "Nív {{grade}} (máx)",
   "class_guide_damage_label": "Dano",
-  "class_guide_spells_note": "Números base no nível máximo do feitiço — o dano real no jogo depende dos seus stats e equipamento."
+  "class_guide_spells_note": "Números base no nível máximo do feitiço — o dano real no jogo depende dos seus stats e equipamento.",
+  "profile_seo_title": "{{username}} — Dofus Forge",
+  "profile_seo_description": "Builds públicas de Dofus 3 de {{username}} no Dofus Forge.",
+  "profile_not_found": "Este usuário não existe.",
+  "profile_joined": "Entrou em {{date}}",
+  "profile_public_builds": "Builds públicas",
+  "profile_likes_received": "Curtidas recebidas",
+  "profile_comments_posted": "Comentários feitos",
+  "profile_builds_title": "Builds de {{username}}",
+  "profile_no_builds": "Ainda sem builds públicas."
 }

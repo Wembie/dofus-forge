@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.27',
+    date: '2026-10-02',
+    notes: [
+      'Feat: new public profile page at /u/:username - public builds, likes received, comments posted, join date',
+      'Feat: build owner and commenter names are now clickable links to their profile',
+      'Perf: profile stats use a lightweight query instead of fetching full build rows just to count them',
+    ],
+  },
+  {
     version: '0.3.26',
     date: '2026-10-02',
     notes: [

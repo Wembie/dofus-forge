@@ -639,5 +639,14 @@
   "class_guide_not_found": "Cette classe n'existe pas.",
   "class_guide_grade_label": "Niv {{grade}} (max)",
   "class_guide_damage_label": "Dégâts",
-  "class_guide_spells_note": "Valeurs de base au niveau maximum du sort — les dégâts réels en jeu dépendent de vos stats et équipement."
+  "class_guide_spells_note": "Valeurs de base au niveau maximum du sort — les dégâts réels en jeu dépendent de vos stats et équipement.",
+  "profile_seo_title": "{{username}} — Dofus Forge",
+  "profile_seo_description": "Builds publiques de Dofus 3 de {{username}} sur Dofus Forge.",
+  "profile_not_found": "Cet utilisateur n'existe pas.",
+  "profile_joined": "Inscrit le {{date}}",
+  "profile_public_builds": "Builds publiques",
+  "profile_likes_received": "Likes reçus",
+  "profile_comments_posted": "Commentaires postés",
+  "profile_builds_title": "Builds de {{username}}",
+  "profile_no_builds": "Pas encore de build publique."
 }

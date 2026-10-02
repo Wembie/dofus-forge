@@ -46,7 +46,7 @@ const SORT_COLUMN: Record<ExploreSort, string> = {
   views:  'view_count',
 }
 
-export async function fetchPublicBuilds(opts: { classSlug?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
+export async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
   const supabase  = await getSupabase()
   const pageSize  = opts.pageSize ?? 24
   const from      = opts.page * pageSize
@@ -58,6 +58,7 @@ export async function fetchPublicBuilds(opts: { classSlug?: string | null; sort:
     .order(SORT_COLUMN[opts.sort], { ascending: false })
     .range(from, to)
   if (opts.classSlug) query = query.eq('class_slug', opts.classSlug)
+  if (opts.userId) query = query.eq('user_id', opts.userId)
   const { data, error, count } = await query
   return { data: (data ?? []) as unknown as BuildRow[], error: error?.message ?? null, count: count ?? 0 }
 }
@@ -227,4 +228,72 @@ export async function postComment(buildId: string, userId: string, content: stri
   const supabase = await getSupabase()
   const { error } = await supabase.from('build_comments').insert({ build_id: buildId, user_id: userId, content })
   return { error: error?.message ?? null }
+}
+
+export type PublicProfile = {
+  id:           string
+  username:     string
+  display_name: string | null
+  avatar_url:   string | null
+  created_at:   string
+}
+
+/**
+ * Public profile lookup by username — never by id/UID, so the profile URL
+ * (/u/:username) never exposes the internal uuid. `profiles` already has a
+ * `for select using (true)` RLS policy (same one BuildCard/comments already
+ * rely on for owner names), so this needs no new policy.
+ */
+export async function fetchProfileByUsername(username: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, username, display_name, avatar_url, created_at')
+    .eq('username', username)
+    .maybeSingle()
+  if (error || !data) return { data: null, error: error?.message ?? null }
+  return { data: data as PublicProfile, error: null }
+}
+
+/**
+ * Lightweight aggregate stats for a profile's public builds — count + total
+ * likes received, WITHOUT ever pulling the full build rows (snapshot JSON
+ * included in LIST_COLUMNS is the heaviest part of a build row and isn't
+ * needed just to show two numbers). Deliberately excludes private/unlisted,
+ * unlike profiles.builds_count (incremented by sync_builds_count for every
+ * build regardless of visibility). The actual build cards are fetched
+ * separately, paginated, via fetchPublicBuilds({ userId }) — same function
+ * and page size Explore already uses, so a profile with many public builds
+ * doesn't pull them (and their snapshots) all at once.
+ */
+export async function fetchUserPublicStats(userId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('builds')
+    .select('like_count')
+    .eq('user_id', userId)
+    .eq('visibility', 'public')
+  const rows = data ?? []
+  return {
+    buildCount: rows.length,
+    likeCount:  rows.reduce((sum, b) => sum + (b.like_count ?? 0), 0),
+    error: error?.message ?? null,
+  }
+}
+
+/**
+ * Comments this user has posted, scoped to comments on PUBLIC builds only
+ * (the `builds!inner` embed + filter excludes comments left on private/
+ * unlisted builds from the count — those shouldn't be inferable from a
+ * public profile even as a bare number).
+ */
+export async function fetchPublicCommentCount(userId: string) {
+  const supabase = await getSupabase()
+  const { count, error } = await supabase
+    .from('build_comments')
+    .select('id, builds!inner(visibility)', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .is('deleted_at', null)
+    .eq('builds.visibility', 'public')
+  return { count: count ?? 0, error: error?.message ?? null }
 }

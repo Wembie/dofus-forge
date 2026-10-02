@@ -200,13 +200,20 @@ export function BuildDetailPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-xs pt-1" style={{ color: 'var(--ink-faint)' }}>
-            <span className="flex items-center gap-1.5">
-              {isSafeImageUrl(owner?.avatar_url)
-                ? <img src={owner.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
-                : <User size={13} />
-              }
-              {ownerLabel}
-            </span>
+            {owner?.username ? (
+              <Link to={`/${langPathPrefix(i18n.language)}u/${owner.username}`} className="flex items-center gap-1.5 hover:text-gold transition-colors">
+                {isSafeImageUrl(owner.avatar_url)
+                  ? <img src={owner.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
+                  : <User size={13} />
+                }
+                {ownerLabel}
+              </Link>
+            ) : (
+              <span className="flex items-center gap-1.5">
+                <User size={13} />
+                {ownerLabel}
+              </span>
+            )}
             <button
               onClick={handleToggleLike}
               disabled={!session}
@@ -319,9 +326,19 @@ export function BuildDetailPage() {
                   : <div className="flex items-center justify-center w-[22px] h-[22px] rounded-full flex-shrink-0" style={{ background: 'var(--surface-panel)' }}><User size={11} style={{ color: 'var(--ink-faint)' }} /></div>
                 }
                 <div className="min-w-0">
-                  <p className="text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>
-                    {c.profiles?.display_name || c.profiles?.username}
-                  </p>
+                  {c.profiles?.username ? (
+                    <Link
+                      to={`/${langPathPrefix(i18n.language)}u/${c.profiles.username}`}
+                      className="text-[11px] font-semibold hover:text-gold transition-colors"
+                      style={{ color: 'var(--ink)' }}
+                    >
+                      {c.profiles.display_name || c.profiles.username}
+                    </Link>
+                  ) : (
+                    <p className="text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>
+                      {c.profiles?.display_name || c.profiles?.username}
+                    </p>
+                  )}
                   <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>
                 </div>
               </li>
