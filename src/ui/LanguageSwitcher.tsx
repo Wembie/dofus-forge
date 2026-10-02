@@ -18,8 +18,17 @@ export function LanguageSwitcher() {
   // i18n.changeLanguage — this keeps the URL as the single source of
   // truth for language (required for /es /fr /pt to be distinct,
   // crawlable, correctly-indexed pages).
+  //
+  // Preserves the current sub-path (e.g. /classes/cra, /about) instead of
+  // hardcoding the bare language root — switching language used to always
+  // bounce you back to the planner regardless of which page you were on,
+  // same failure mode as RootRoute's redirect bug fixed in 0.3.21.
   const handleChange = (code: string) => {
-    const path = code === 'en' ? '/' : `/${code}/`
+    const currentCode = lang === 'en' ? null : lang
+    const subPath = currentCode
+      ? location.pathname.replace(new RegExp(`^/${currentCode}(?=/|$)`), '') || '/'
+      : location.pathname
+    const path = code === 'en' ? subPath : `/${code}${subPath}`
     // `explicit: true` tells RootRoute this is a deliberate choice, not a
     // fresh page load — otherwise clicking EN loops back to whatever
     // language was last cached in localStorage.

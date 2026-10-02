@@ -636,5 +636,8 @@
   "class_guide_spells_title": "Hechizos de {{class}}",
   "class_guide_cta": "Armar un {{class}}",
   "class_guide_ap": "PA",
-  "class_guide_not_found": "Esta clase no existe."
+  "class_guide_not_found": "Esta clase no existe.",
+  "class_guide_grade_label": "Nvl {{grade}} (máx)",
+  "class_guide_damage_label": "Daño",
+  "class_guide_spells_note": "Números base a nivel máximo del hechizo — el daño real en el juego depende de tus stats y equipo."
 }

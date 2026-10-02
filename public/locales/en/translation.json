@@ -636,5 +636,8 @@
   "class_guide_spells_title": "{{class}} spells",
   "class_guide_cta": "Build a {{class}}",
   "class_guide_ap": "AP",
-  "class_guide_not_found": "This class does not exist."
+  "class_guide_not_found": "This class does not exist.",
+  "class_guide_grade_label": "Lvl {{grade}} (max)",
+  "class_guide_damage_label": "Damage",
+  "class_guide_spells_note": "Base numbers at max spell level — actual damage in-game depends on your stats and gear."
 }
