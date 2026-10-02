@@ -161,4 +161,44 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/es/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/fr/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/pt/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
 </urlset>

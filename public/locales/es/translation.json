@@ -630,5 +630,11 @@
   "howto_step8_title": "8. Gestioná tus builds guardadas",
   "howto_step8_body": "Mis Builds lista todo lo que guardaste, con control de visibilidad — privada, no listada o pública.",
   "howto_cta_start": "Empezar a planificar",
-  "howto_cta_about": "Acerca de Dofus Forge"
+  "howto_cta_about": "Acerca de Dofus Forge",
+  "class_guide_seo_title": "{{class}} — Guía de hechizos Dofus 3",
+  "class_guide_seo_description": "Todos los hechizos de {{class}} en Dofus 3 — coste en PA, alcance y efectos a nivel máximo, más un atajo para armar un build de {{class}}.",
+  "class_guide_spells_title": "Hechizos de {{class}}",
+  "class_guide_cta": "Armar un {{class}}",
+  "class_guide_ap": "PA",
+  "class_guide_not_found": "Esta clase no existe."
 }

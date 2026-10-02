@@ -90,6 +90,15 @@ const HOWTO_META = {
   pt: { title: 'Como usar o Dofus Forge', description: 'Um guia passo a passo para montar uma build de Dofus 3 — escolher classe, equipar itens, ler stats e bônus de conjunto, runas de forjamagia, o otimizador, e compartilhar sua build.' },
 }
 
+// Pilot for /classes/:id (ClassGuidePage) — only Cra for now, see
+// AboutPage's CLASS_GUIDE_PILOT. Names from public/data/class-names.json.
+const CRA_META = {
+  en: { title: 'Cra — Dofus 3 Spell Guide', description: 'All Cra spells in Dofus 3 — AP cost, range and effects at max level, plus a shortcut to start a Cra build.' },
+  es: { title: 'Ocra — Guía de hechizos Dofus 3', description: 'Todos los hechizos de Ocra en Dofus 3 — coste en PA, alcance y efectos a nivel máximo, más un atajo para armar un build de Ocra.' },
+  fr: { title: 'Crâ — Guide des sorts Dofus 3', description: "Tous les sorts de Crâ dans Dofus 3 — coût en PA, portée et effets au niveau maximum, plus un raccourci pour créer un build Crâ." },
+  pt: { title: 'Cra — Guia de feitiços Dofus 3', description: 'Todos os feitiços de Cra no Dofus 3 — custo em PA, alcance e efeitos no nível máximo, além de um atalho para montar uma build de Cra.' },
+}
+
 const baseHtml = readFileSync(join(DIST, 'index.html'), 'utf-8')
 
 function patch(html, { lang, title, description, canonicalPath, noindex }) {
@@ -186,3 +195,4 @@ generateRoute('explore', EXPLORE_META)
 generateRoute('about', ABOUT_META)
 generateRoute('how-to-use', HOWTO_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex
+generateRoute('classes/cra', CRA_META)

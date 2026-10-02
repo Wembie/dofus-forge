@@ -7,6 +7,9 @@ import { Frame } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { resolveClassName } from '@/features/class-picker/useClassName.ts'
+import { useDataStore } from '@/store/dataStore.ts'
+import { useLoadGameData } from '@/data/useLoadGameData.ts'
 
 const SECTIONS = [
   { key: 'why',  Icon: Sparkles },
@@ -26,13 +29,19 @@ const FEATURES = [
 
 const FAQ_NUMS = [1, 2, 3, 4, 5] as const
 
+// Pilot for the new /classes/:id spell-guide page — see ClassGuidePage.tsx.
+const CLASS_GUIDE_PILOT = ['cra']
+
 export function AboutPage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
-  usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'about', {
+  const lang = i18n.language.slice(0, 2)
+  usePageSeo(lang as SeoLang, 'about', {
     title: t('about_seo_title'),
     description: t('about_seo_description'),
   })
+  useLoadGameData() // needed so classNames (per-language class labels) are loaded — see the class list below
+  const classNames = useDataStore(s => s.classNames)
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -108,11 +117,16 @@ export function AboutPage() {
             {CLASS_DATA.map(c => (
               <Link
                 key={c.id}
-                to={`/${prefix}?class=${c.id}`}
+                // Pilot: only Cra has a standalone guide page (/classes/cra) for now
+                // — see docs/CHANGELOG.md. Every other class still deep-links
+                // straight into the planner until the guide format is validated.
+                to={CLASS_GUIDE_PILOT.includes(c.id) ? `/${prefix}classes/${c.id}` : `/${prefix}?class=${c.id}`}
                 className="px-2 py-1 rounded text-xs border transition-colors"
-                style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+                style={CLASS_GUIDE_PILOT.includes(c.id)
+                  ? { borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+                  : { borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
               >
-                {c.name}
+                {resolveClassName(c.id, lang, classNames)}
               </Link>
             ))}
           </div>

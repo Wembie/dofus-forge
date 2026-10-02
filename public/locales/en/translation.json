@@ -630,5 +630,11 @@
   "howto_step8_title": "8. Manage your saved builds",
   "howto_step8_body": "My Builds lists everything you've saved, with visibility controls — private, unlisted, or public.",
   "howto_cta_start": "Start planning",
-  "howto_cta_about": "About Dofus Forge"
+  "howto_cta_about": "About Dofus Forge",
+  "class_guide_seo_title": "{{class}} — Dofus 3 Spell Guide",
+  "class_guide_seo_description": "All {{class}} spells in Dofus 3 — AP cost, range and effects at max level, plus a shortcut to start a {{class}} build.",
+  "class_guide_spells_title": "{{class}} spells",
+  "class_guide_cta": "Build a {{class}}",
+  "class_guide_ap": "AP",
+  "class_guide_not_found": "This class does not exist."
 }

@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.25] — 2026-10-02
+- **Fix**: `AboutPage`'s class list always showed the English/display name from `classData.ts` regardless of the active language (e.g. "Sacrier" on the French page instead of "Sacrieur") — it read `CLASS_DATA[].name` directly instead of going through the existing per-language resolver (`resolveClassName`, already used by `ClassPicker`/`BuildCard`/etc. since an earlier version). Root cause: `AboutPage` never called `useLoadGameData()`, so `classNames` (the per-language name table) was never loaded, and the resolver's fallback (the English name) was all it ever had. Now loads the data and resolves names correctly — verified es/fr now show Sacrógrito/Sacrieur, Hipermago/Huppermage, etc. instead of the same English list on every language
+- **Feat**: new `/classes/:id` page — a standalone, read-only spell guide per class, distinct from the planner's `SpellsPanel` (which needs a full build — equipped items, allocated characteristics — to compute live damage numbers). Shows each spell's base data instead: name, description, AP cost, range and raw min–max effect numbers at max grade, no build required. Pilot: only Cra/Ocra/Crâ for now (`src/pages/ClassGuidePage.tsx`, linked from `AboutPage`'s class list via `CLASS_GUIDE_PILOT`) — real indexable content per class is a strong long-tail SEO play ("[class] dofus spells"), but 19 classes × 4 languages is the biggest page-count jump yet, so validating the format on one class first before generating the other 18
+- **Fix**: an invalid `/classes/:id` showed the build-detail page's "this build doesn't exist" copy (reused by mistake) — now has its own "this class doesn't exist" message
+- **Chore**: `scripts/postbuild-lang-pages.mjs` and `sitemap.xml` extended for `/classes/cra` (all 4 languages + the `/en` mirror)
+
 ## [0.3.24] — 2026-10-02
 - **Fix**: the previous version only trimmed the homepage's marketing block (removed the features grid and "how it works" list) but left the intro paragraph, class list and FAQ behind — the actual ask was for NONE of it to live on the planner anymore, all of it on `/about`/`/how-to-use` instead. `SeoContent.tsx` deleted entirely; the remaining class list (with its real `?class=` deep links) and FAQ (with its `FAQPage` JSON-LD) moved into `AboutPage.tsx`, joining the features grid that was already moved there last version. The planner's homepage now has zero marketing copy below it — just the tool and the footer
 

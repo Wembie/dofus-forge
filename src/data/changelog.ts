@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.25',
+    date: '2026-10-02',
+    notes: [
+      'Fix: About page\'s class list now shows the real per-language class name instead of always English',
+      'Feat: new /classes/:id spell guide page (pilot: Cra only) - read-only spell data, no build needed',
+      'Fix: invalid class page had the wrong "not found" message',
+    ],
+  },
+  {
     version: '0.3.24',
     date: '2026-10-02',
     notes: [
