@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.25',
+    date: '2026-10-02',
+    notes: [
+      'Fix: About page\'s class list now shows the real per-language class name instead of always English',
+    ],
+  },
+  {
     version: '0.3.24',
     date: '2026-10-02',
     notes: [

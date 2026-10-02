@@ -7,6 +7,9 @@ import { Frame } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import { resolveClassName } from '@/features/class-picker/useClassName.ts'
+import { useDataStore } from '@/store/dataStore.ts'
+import { useLoadGameData } from '@/data/useLoadGameData.ts'
 
 const SECTIONS = [
   { key: 'why',  Icon: Sparkles },
@@ -29,10 +32,13 @@ const FAQ_NUMS = [1, 2, 3, 4, 5] as const
 export function AboutPage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
-  usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'about', {
+  const lang = i18n.language.slice(0, 2)
+  usePageSeo(lang as SeoLang, 'about', {
     title: t('about_seo_title'),
     description: t('about_seo_description'),
   })
+  useLoadGameData() // needed so classNames (per-language class labels) are loaded — see the class list below
+  const classNames = useDataStore(s => s.classNames)
 
   const faqJsonLd = {
     '@context': 'https://schema.org',
@@ -112,7 +118,7 @@ export function AboutPage() {
                 className="px-2 py-1 rounded text-xs border transition-colors"
                 style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
               >
-                {c.name}
+                {resolveClassName(c.id, lang, classNames)}
               </Link>
             ))}
           </div>
