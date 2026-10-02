@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.31] — 2026-10-02
+- **Feat**: M51 — follow users. Follow/unfollow button on `/u/:username`, using the `follows` table and `profiles.followers_count`/`following_count` (already trigger-synced — no schema change needed, just the UI). Optimistic update with rollback on error, same pattern as the existing like button; disabled with a tooltip when logged out, hidden entirely on your own profile
+- **Fix**: M50's search used `plainto_tsquery`, which only matches whole words — typing "Emp" would never find "Empujes" since it's not a complete word, which is a poor "as you type" search experience. Switched to a per-word prefix query (`word:*`, AND-joined) built manually and passed to `.textSearch()` with no `type` — still hits the exact same GIN index, no new migration needed. Considered plain `ilike '%x%'` for true substring matching instead, but there's no trigram index on `builds.name` yet, so it would force a full sequential scan on every keystroke; left as a documented follow-up if real substring matching (not just prefix) is wanted later
+
 ## [0.3.30] — 2026-10-02
 - **Feat**: M50 — full-text search in Explore. Uses `builds.search_vector`, a `tsvector` column already generated and indexed server-side (`idx_builds_search`, a GIN index) — no schema change needed, zero extra write cost. Query via `.textSearch('search_vector', q, { type: 'plain', config: 'simple' })`, matching the exact config the column itself was generated with (no language stemming, since names/descriptions are free text in any of the app's 4 languages). Input is debounced 350ms — verified with Playwright that 4 rapid keystrokes fire exactly one network request, not four. Results stay ordered by whatever sort the user picked (rating/likes/recent/views); true relevance ranking (`ts_rank`) would need a dedicated RPC, out of scope for this pass
 - First of the M50-M59 batch tracked in `docs/ROADMAP.md` for using the remaining unused Supabase tables — implementing one at a time
@@ -25,7 +29,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ## [0.3.26] — 2026-10-02
 - **Fix**: `LanguageSwitcher` (used by the Settings panel on every page) always navigated to the bare language root, regardless of the page you were actually on — switching language from `/classes/cra` or `/about` bounced you back to the planner. Same failure mode as `RootRoute`'s redirect bug fixed in 0.3.21, just in a different component: hardcoded `/` or `/${code}/` instead of preserving `location.pathname`'s sub-path. Now strips the current language prefix (if any) and re-prefixes with the new one, keeping you on the same page. Verified with Playwright: `/es/classes/cra/` → FR now lands on `/fr/classes/cra/`, not `/fr/`
-- **Polish**: `ClassGuidePage`'s spell cards were cramped and unclear — bare icon+number badges with no labels, a 2-column grid kicking in at `sm` (too narrow, squeezing descriptions into awkward wraps). Reworked: grid now goes 2-column at `lg` instead of `sm`, more padding, and every stat is labeled in words (PA/Alcance/Daño + element name) instead of bare icons — a cold visitor from Google has no reason to already know this app's icon language. Added a grade badge ("Nvl 3 (máx)") next to each spell name and a one-line note clarifying the numbers are base values at max spell level, not live stat-adjusted damage
+- **Polish**: `ClassGuidePage`'s spell cards were cramped and unclear — bare icon+number badges with no labels, a 2-column grid kicking in at `sm` (too narrow, squeezing descriptions into awkward wraps). Reworked: grid now goes 2-column at `lg` instead of `sm`, more padding, and every stat is labeled in words (AP/Range/Damage + element name) instead of bare icons — a cold visitor from Google has no reason to already know this app's icon language. Added a grade badge ("Lvl 3 (max)") next to each spell name and a one-line note clarifying the numbers are base values at max spell level, not live stat-adjusted damage
 
 ## [0.3.25] — 2026-10-02
 - **Fix**: `AboutPage`'s class list always showed the English/display name from `classData.ts` regardless of the active language (e.g. "Sacrier" on the French page instead of "Sacrieur") — it read `CLASS_DATA[].name` directly instead of going through the existing per-language resolver (`resolveClassName`, already used by `ClassPicker`/`BuildCard`/etc. since an earlier version). Root cause: `AboutPage` never called `useLoadGameData()`, so `classNames` (the per-language name table) was never loaded, and the resolver's fallback (the English name) was all it ever had. Now loads the data and resolves names correctly — verified es/fr now show Sacrógrito/Sacrieur, Hipermago/Huppermage, etc. instead of the same English list on every language
@@ -133,14 +137,14 @@ This closes out the "big scope" items from the premium-redesign request (particl
 ## [0.3.6] — 2026-09-30
 - **Feat (M47 — Publish)**: new `src/features/publish/PublishModal.tsx` + `src/features/builds/api.ts`'s `publishBuild()` — inserts into `builds` with the current build's `BuildSnapshot` stored directly as the `snapshot` jsonb column (refactored `codec.ts`'s `encodeBuild()` to expose `buildSnapshotFromState()` so both the URL-encoder and the cloud-publish path share the same snapshot-building logic instead of duplicating it). Requires sign-in; name + visibility (private/unlisted/public) picked in the modal; slug generated server-side via the existing `generate_slug()` RPC. New "Publicar" header button (next to "Explorar"), disabled until a class is picked, same as the other build-dependent actions
 - **Feat (M48 — Explore)**: new route `/{lang}/explore` (`src/pages/ExplorePage.tsx`) lists public builds (`visibility = 'public'`) with a class filter and 4 sort modes (rating/likes/recent/views) mapped directly to the `idx_builds_explore_*` partial indexes already in `schema.sql`. `BuildCard.tsx` shows the class portrait, name, level, owner (avatar/username), and like/rating/view counts. Paginated via `range()` + a "Load more" button (24 per page)
-- **Feat (M49 — Build detail)**: new route `/{lang}/build/:id` (`src/pages/BuildDetailPage.tsx`) — owner info, a live-editable 1-5 star rating (`build_ratings`, upserted on its composite PK), a like toggle (`build_likes`), a flat comment thread (`build_comments`, `content` 1-2000 chars), and a "Cargar en el planner" button that calls the existing `buildStore.applySnapshot()` and navigates back to the builder — reuses 100% of the existing equipment/stats UI instead of building a second read-only renderer. View count increments via the `record_view()` RPC already in `schema.sql` (anonymous view dedup is best-effort only — no IP hashing on the client, out of scope for this pass)
+- **Feat (M49 — Build detail)**: new route `/{lang}/build/:id` (`src/pages/BuildDetailPage.tsx`) — owner info, a live-editable 1-5 star rating (`build_ratings`, upserted on its composite PK), a like toggle (`build_likes`), a flat comment thread (`build_comments`, `content` 1-2000 chars), and a "Load into planner" button that calls the existing `buildStore.applySnapshot()` and navigates back to the builder — reuses 100% of the existing equipment/stats UI instead of building a second read-only renderer. View count increments via the `record_view()` RPC already in `schema.sql` (anonymous view dedup is best-effort only — no IP hashing on the client, out of scope for this pass)
 - **Chore**: `App.tsx`'s routing restructured from one catch-all route per language (`es/*` → always `BuilderPage`) into nested routes per language (`index` → `BuilderPage`, `explore`, `build/:id`, plus a `*` fallback to `BuilderPage` for old deep links) — React Router v6 ranks static/dynamic segments over the wildcard automatically, so this didn't need any route-ordering care. `RootRoute` (the `/` → `/{lang}/` returning-visitor redirect) now renders `<Outlet/>` instead of `<BuilderPage/>` directly so English gets the same nested sub-routes
 
 ## [0.3.5] — 2026-09-30
 - **Fix**: some accounts got `403 permission denied for table profiles` (code `42501`) on `AuthButton`'s profile fetch, still showing the raw email in the header — RLS's "profiles public read" policy (`using (true)`) was fine, but that's a row-level filter that only applies AFTER Postgres confirms the role can touch the table at all. That base GRANT was missing — Supabase normally configures it automatically for every table on a new project, and it looks like this project never got it. Added an explicit `## 6b. Grants` section to `docs/DATABASE.md` (mirrored in `schema.sql`): broad `select/insert/update/delete` to `authenticated`, `select` to `anon`, on purpose — RLS stays the real access-control layer, this only unblocks the attempt. Needs to be run once in the Supabase SQL editor to fix existing accounts
 
 ## [0.3.4] — 2026-09-30
-- **Feat**: `ProfileModal.tsx` replaces `EditUsernameModal.tsx` — one place to edit username, display_name and bio (already existed as columns on `profiles`, no UI before), plus a read-only builds/followers/following count row. Opened from the account menu ("Mi perfil" instead of "Cambiar nombre de usuario")
+- **Feat**: `ProfileModal.tsx` replaces `EditUsernameModal.tsx` — one place to edit username, display_name and bio (already existed as columns on `profiles`, no UI before), plus a read-only builds/followers/following count row. Opened from the account menu ("My Profile" instead of "Change Username")
 - **Fix**: `authStore.ts`'s `fetchProfile()` swallowed its error and silently fell back to `profile: null`, which made `AuthButton` show the raw email with zero indication anything was wrong. Now logs the actual Postgres/PostgREST error via `console.error` so a real failure (missing row, RLS, etc.) is debuggable instead of looking identical to "just hasn't loaded yet"
 - **Chore (avatar upload, disabled)**: went through a free-text avatar URL field first, then closed the resulting CodeQL alerts ("DOM text reinterpreted as HTML" on `<img src={avatarUrl}>`) by replacing it with a real file upload to a new `avatars` Supabase Storage bucket (`docs/DATABASE.md` § 4b, mirrored in `schema.sql` — public read, RLS restricts insert/update/delete to each user's own `{user_id}/avatar.{ext}`). `authStore.ts` has `uploadAvatar()` (png/jpg/webp only, no svg, 2MB cap) and `ProfileModal.tsx`'s avatar circle is upload-ready, but gated behind `AVATAR_UPLOAD_ENABLED = false` until the bucket + policies are actually created in the Supabase project — flip that one constant once they are
 - **Fix**: `ProfileModal.tsx`'s username/display_name/bio/avatar fields seeded their local state once, from `useState(profile?.x ?? '')` — but `AuthButton` mounts this modal unconditionally (`open` only toggles visibility), so that first render almost always happens before the async profile fetch resolves. Result: fields stayed blank forever even once the profile loaded, no matter how many times you reopened it. Added a `useEffect` keyed on `[open, profile]` that resyncs every field whenever the modal opens or the profile data changes
@@ -165,7 +169,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 
 ## [0.2.138] — 2026-09-17
 - **Fix (data)**: "Cire Momore's Curse" (id 507) showed three unlabeled bonuses per tier — "+19 Max.", "+23 Max.", "+26 Max." — with no icon and, worse, the wrong number. Queried `api.dofusdu.de` directly and confirmed the bug lives entirely upstream: dofusdude's own API returns `type:{name:"Max.",id:166}` for this Ankama effect (never given a real name), and — unlike every other effect — its `int_minimum`/`int_maximum` fields are reversed: `int_minimum` holds the **Ankama characteristic id being capped** (not a value), `int_maximum` holds the real number. Cross-referenced `dofus3-main`'s `characteristics.json` to resolve the ids: `1`=AP, `19`=Range, `23`=MP, `26`=Summons — this specific set's three lines were `19/23/26` (Range/MP/Summons), each with the real value in `int_maximum` (4 at 2pc, down to 2 at 6pc)
-- `scripts/lib/normalize.ts`: added `normalizeRawEffect()` — detects effect type id 166 and rebuilds the effect as `{stat: "Range Max." | "MP Max." | "AP Max." | "Summons Max.", min: <real value>, max: 0}`, used by both `normalizeItem` and `normalizeSet`. Added matching `STAT_META` entries (`statDisplay.ts`) with the AP/Range/MP/Summons icons and new `stat_*_cap` i18n keys (all 4 locales) so it now shows "Alcance Máx." / "PM Máx." / "Invocaciones Máx." with an icon, instead of a bare "Max."
+- `scripts/lib/normalize.ts`: added `normalizeRawEffect()` — detects effect type id 166 and rebuilds the effect as `{stat: "Range Max." | "MP Max." | "AP Max." | "Summons Max.", min: <real value>, max: 0}`, used by both `normalizeItem` and `normalizeSet`. Added matching `STAT_META` entries (`statDisplay.ts`) with the AP/Range/MP/Summons icons and new `stat_*_cap` i18n keys (all 4 locales) so it now shows "Range Max." / "MP Max." / "Summons Max." with an icon, instead of a bare "Max."
 - Deliberately **not** wired into `STAT_MAP` (the engine's additive stat aggregation) — the real game mechanic looks like an absolute cap/limit on Range/MP/Summons, not a flat bonus, and our engine only supports additive effects; adding it as `+N` could silently produce wrong Range/MP/Summons totals. It displays correctly everywhere (set/item tooltips) but isn't summed into the character sheet, which is the safe choice until the exact mechanic is confirmed. Scanned the full item+set catalog: this effect type appears in exactly one place, this set (15 effect instances = 3 stats × 5 tiers)
 - Re-ran `pnpm fetch-data --force` against game version 3.6.11.15 to regenerate `equipment.json`/`sets.json`/`consumables.json`/`mounts.json` for all 5 languages
 
@@ -186,7 +190,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Polish: `PvpArena`'s attack picker dumped every damage-dealing spell (class normal + variant + common) into one flat, horizontally-scrolling row with no labels. Grouped it into `PickerGroup`/`AttackIcon` sections matching the main spell list's own categories (`spell_col_normal`, `spell_col_variant`, `common_spells`, plus a weapon group using `weapon_attack`), each wrapping via `flex-wrap` instead of `overflow-x-auto` so nothing hides off-screen on narrow widths. Added `pvp_arena_resist_label`/`pvp_arena_attack_label` section headers above the resistance grid and the target+picker block for clearer visual separation
 
 ## [0.2.133] — 2026-09-11
-- Fix: `BuilderPage.tsx`'s header controls (undo/redo, La Forjadora, Sets catalog, Comparar, version badge, dividers) switched from hidden to visible at Tailwind's `sm` breakpoint (640px), but the main content only switches from the single-tab mobile layout to the 2-column desktop grid at `lg` (1024px). Between 640–1023px wide the header looked fully desktop (all buttons with labels) while Characteristics/Stats were hidden behind the mobile bottom tabs — reported as "characteristics panel missing". Changed all of those header elements from `sm:` to `lg:` so both switch at the same width
+- Fix: `BuilderPage.tsx`'s header controls (undo/redo, La Forjadora, Sets catalog, Compare, version badge, dividers) switched from hidden to visible at Tailwind's `sm` breakpoint (640px), but the main content only switches from the single-tab mobile layout to the 2-column desktop grid at `lg` (1024px). Between 640–1023px wide the header looked fully desktop (all buttons with labels) while Characteristics/Stats were hidden behind the mobile bottom tabs — reported as "characteristics panel missing". Changed all of those header elements from `sm:` to `lg:` so both switch at the same width
 - Feat: `PvpArena` (the PvP simulator section in Spells) is now collapsed by default — its header is a toggle; resistance inputs and the attack picker only render once expanded
 
 ## [0.2.132] — 2026-09-11
@@ -224,14 +228,14 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Fix: the Erosion spell effect (`SpellsPanel.tsx`) used `statIconUrl('damage_reflect')` as a placeholder icon — now uses the correct `erosion.webp`
 
 ## [0.2.125] — 2026-09-08
-- Fix: opening a shared compare link (`?c=...`) already loaded Build B and set `compareStore.active = true` via `useCompareUrl`, but the scroll-into-view for the compare panel only ran inside the manual "Comparar" button's `onClick` — landing on the link left the user at the top of the page with no visible indication the comparison loaded. Moved the scroll into a `useEffect` in `BuilderPage.tsx` that watches `compareActive` directly, so it fires the same way regardless of whether compare mode was triggered by a click or by a URL
+- Fix: opening a shared compare link (`?c=...`) already loaded Build B and set `compareStore.active = true` via `useCompareUrl`, but the scroll-into-view for the compare panel only ran inside the manual "Compare" button's `onClick` — landing on the link left the user at the top of the page with no visible indication the comparison loaded. Moved the scroll into a `useEffect` in `BuilderPage.tsx` that watches `compareActive` directly, so it fires the same way regardless of whether compare mode was triggered by a click or by a URL
 
 ## [0.2.124] — 2026-09-08
 - Fix: `ComparePanel.tsx`'s `handleLoadUrl` parsed pasted URLs by manually splitting on `#`, a leftover from the HashRouter era — with the current path-based format (`…/es/?b=...`, no `#`) it fell through to treating the ENTIRE URL as the encoded build string, always failing with "URL inválida o build corrupto". Rewrote using the native `URL` API: reads `?b=` directly off `url.searchParams` for current links, falls back to parsing inside `url.hash` for old shared links
 - Fix: `handleShare` (compare mode's "share comparison" button) still built the old `#/?b=...&c=...` hash link — now builds the correct per-language path, matching the fix already applied to `ShareBar`/`brandHref` in 0.2.109/0.2.111
 
 ## [0.2.123] — 2026-09-07
-- Fix: `stats.ts` aggregated the generic "Damage" stat (all elements, e.g. Aguja de Psikopomzopato's +4-6 Daño) into its own `block.damage` field but never applied it to the 5 elemental damage totals — `ElementSection` in the stats panel showed Air/Earth/Fire/Water/Neutral Damage without this bonus, even though the type comment already said "generic (all elements)". Now added into each of `neutralDamage`/`earthDamage`/`fireDamage`/`waterDamage`/`airDamage` right after all item/set/rune effects are aggregated
+- Fix: `stats.ts` aggregated the generic "Damage" stat (all elements, e.g. Aguja de Psikopomzopato's +4-6 Damage) into its own `block.damage` field but never applied it to the 5 elemental damage totals — `ElementSection` in the stats panel showed Air/Earth/Fire/Water/Neutral Damage without this bonus, even though the type comment already said "generic (all elements)". Now added into each of `neutralDamage`/`earthDamage`/`fireDamage`/`waterDamage`/`airDamage` right after all item/set/rune effects are aggregated
 
 ## [0.2.122] — 2026-09-07
 - Fix: elemental weapon transform (EquipmentGrid.tsx + SpellsPanel.tsx) rounded the transformed damage range UP (`Math.ceil`) instead of down. Verified against a real in-game tooltip: Aguja de Psikopomzopato's base 45-53 Neutral damage at 85% air transform should show 38-45 (`floor(45*0.85)=38`, `floor(53*0.85)=45`), but showed 39-46 with ceil. Both transform sites now use `Math.floor`
@@ -311,7 +315,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Docs: full README rewrite — feature list, tech table, clean presentation; removed GitHub Pages mentions
 
 ## [0.2.104] — 2026-09-02
-- Fix: weapon attack effects now correctly classified — added id=233 (Steals MP per hit), id=238 (MP steal on attack, stat='MP' negative), and id=261 (Fire heals weapon attack) to WEAPON_ATTACK_IDS; these were previously appearing under EFECTOS instead of ATAQUE DE ARMA
+- Fix: weapon attack effects now correctly classified — added id=233 (Steals MP per hit), id=238 (MP steal on attack, stat='MP' negative), and id=261 (Fire heals weapon attack) to WEAPON_ATTACK_IDS; these were previously appearing under EFFECTS instead of WEAPON ATTACK
 - Fix: item tooltip in EquipmentGrid and SetDetailModal now has max-height (min(82vh, 640px)) with overflow-y scroll — tall items like high-level weapons no longer clip effects at viewport bottom (e.g. Wisdom and Fire Damage were not visible)
 
 ## [0.2.103] — 2026-09-02
@@ -324,14 +328,14 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Fix: Range badge in StatsPanel now shows '+' prefix (e.g. '+1' instead of '1') — Range is a pure item bonus, not a base stat like AP/MP
 
 ## [0.2.100] — 2026-09-02
-- Feat: item tooltip now shows CONDICIONES section — requirements like "Strength > 249" listed with stat icon and color; extracted from DofusDude API conditions tree and saved per-item in normalized data; visible in both slot hover tooltip and SetDetailModal item hover tooltip
+- Feat: item tooltip now shows a CONDITIONS section — requirements like "Strength > 249" listed with stat icon and color; extracted from DofusDude API conditions tree and saved per-item in normalized data; visible in both slot hover tooltip and SetDetailModal item hover tooltip
 - Fix: stat values in item tooltip now show "+" prefix for positive values (e.g. "+1 Range", "+1 MP", "+351–400 Vitality") — replaced raw number display with fmtValue() in both StatLine components
 
 ## [0.2.99] — 2026-09-01
 - Feat: ItemCatalog "Ver Set" now opens the full SetDetailModal — replaced the old basic local set modal (basic list, no progress bar, no equip-all, no hover tooltips) with the proper SetDetailModal component used everywhere else; removed ~180 lines of duplicate code
 
 ## [0.2.98] — 2026-09-01
-- UX: set name in slot tooltip is now a clickable link — clicking the blue "Set de X" text in the item tooltip opens the SetDetailModal for that set; removed the separate Eye button since the set name covers that action; tooltip stays pointer-events-none except for that specific button
+- UX: set name in slot tooltip is now a clickable link — clicking the blue "X's Set" text in the item tooltip opens the SetDetailModal for that set; removed the separate Eye button since the set name covers that action; tooltip stays pointer-events-none except for that specific button
 
 ## [0.2.97] — 2026-09-01
 - Feat: hover tooltip in SetDetailModal — hovering any item row now shows the full item tooltip (name, level, ability, weapon attacks, all stats, lore) via a fixed-position portal that escapes the modal's overflow-y:auto clip; auto-positions right or left based on available screen space
@@ -349,15 +353,15 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Fix: equipping or unequipping an item now clears all runes, forjamago name and weapon transform for that slot — rune data from a previous item no longer carries over to the new one
 
 ## [0.2.92] — 2026-08-31
-- UX: RuneModal resistance section split into two labeled rows — "Resistencias" (flat: 5 elemental + Crit + Push) and "% Resistencias" (% elemental + % Melee + % Ranged); clean visual separation of flat vs percentage runes
+- UX: RuneModal resistance section split into two labeled rows — "Resistance" (flat: 5 elemental + Crit + Push) and "% Resistance" (% elemental + % Melee + % Ranged); clean visual separation of flat vs percentage runes
 
 ## [0.2.91] — 2026-08-31
-- Fix: Summons moved to Primarias section in RuneModal (was in Secundarias)
+- Fix: Summons moved to Primary section in RuneModal (was in Secondary)
 - UX: RuneModal wider (640px max) with auto-fill column grid — desktop shows ~8 runes per row, mobile keeps 5 columns
 
 ## [0.2.90] — 2026-08-31
 - Feat: RuneModal — 15 missing runes added (AP/MP Parry, % Spell/Weapon/Melee/Ranged Damage, % Melee/Ranged Resistance, Pushback Damage/Resistance, Trap Damage, Power (traps), Summons, Pod, reflected damage)
-- Feat: RuneModal — rune picker reorganized into 4 labeled sections: Primarias / Daños / Resistencias / Secundarias; 5-column grid per section replaces flat 7-column grid
+- Feat: RuneModal — rune picker reorganized into 4 labeled sections: Primary / Damage / Resistance / Secondary; 5-column grid per section replaces flat 7-column grid
 - Fix: % damage runes (Spell/Weapon/Melee/Ranged) now use [1,2,3,4,5] quick-value presets like % resistance runes; % Critical also corrected to [1,2,3,4,5]
 
 ## [0.2.89] — 2026-08-31
@@ -392,11 +396,11 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - StatsPanel: AP and MP badges show overcap indicator — gold `▲N` pill when value exceeds in-game cap (AP≥12 → MAX or ▲N, MP≥6 → MAX or ▲N)
 
 ## [0.2.80] — 2026-08-27
-- StatsPanel: columna RES% muestra overcap — si la resistencia % supera el cap de 50%, el valor aparece en dorado con badge `▲N` indicando cuántos puntos no aplican en juego
+- StatsPanel: RES% column now shows overcap — if % resistance exceeds the 50% cap, the value appears in gold with a `▲N` badge indicating how many points don't apply in-game
 
 ## [0.2.79] — 2026-08-27
-- StatsPanel: tabla elemental agrega columna ✦ % (forjamagia RES%) — muestra en azul (#38a7cf) solo la contribución de runas de resistencia %, separada del RES% base del equipo; `—` cuando no hay runas de ese tipo
-- RuneModal: agrega soporte para runas de % Resistencia elemental (Neutral, Tierra, Fuego, Agua, Aire)
+- StatsPanel: elemental table gains a ✦ % column (magesmithy RES%) — shows in blue (#38a7cf) just the contribution from % resistance runes, separate from the item-based base RES%; `—` when there are no runes of that type
+- RuneModal: adds support for elemental % Resistance runes (Neutral, Earth, Fire, Water, Air)
 
 ## [0.2.78] — 2026-08-18
 - Optimizer repair: expanded pool — for each constrained stat, top-60 items ranked by THAT stat are added to the repair candidate pool (not just beam's score-sorted top-50); this ensures the best items for satisfying constraints are always accessible during repair
@@ -447,124 +451,124 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Algorithm improvement: all stats get BASE_WEIGHT=0.3 so high-level diverse items score higher; level bonus (×0.1) prevents level-10 items beating level-200 ones
 - Increased TOP_K 25→50 and BEAM_WIDTH 50→120 for better coverage
 - UX fix: min input uses local string state — no longer loses focus/value when typing
-- New "⚡ Equipar el mejor build" button auto-equips top result from results page
+- New "⚡ Equip best build" button auto-equips top result from results page
 - i18n: all 4 locales updated with new optimizer keys
 
 ## [0.2.67] — 2026-08-18
 - Fix: rune badge repositioned outside slot to the right — was at `left: px-3` (overlapping slot); now `left: px+2` (clearly outside, visible beside the slot)
 
 ## [0.2.66] — 2026-08-18
-- M42 — La Forjadora (Build Optimizer): botón en header abre modal
-- Configurar pesos soft (sliders 1–10) para maximizar cualquier stat del build
-- Configurar requeridos hard (≥ mínimo) — builds que no cumplen se descartan del top-3
-- Checkboxes Exo PA/PM/Rango (preparación para futura integración de ítems forjamagiados)
-- Nivel máximo configurable y slots a optimizar seleccionables por slot
-- Algoritmo beam search (width=50) con pre-filtro greedy top-25 por slot
-- Web Worker: cálculo no bloquea la UI — barra de progreso con % en tiempo real
-- Resultados top-3: imágenes de ítems, stats clave, botón "Cargar este build"
-- i18n: ES / EN / FR / PT con nombre localizado (La Forjadora / The Forger / La Forgeuse / A Forjadora)
+- M42 — La Forjadora (Build Optimizer): header button opens the modal
+- Configure soft weights (sliders 1–10) to maximize any build stat
+- Configure hard requirements (≥ minimum) — builds that don't meet them are dropped from the top 3
+- Exo AP/MP/Range checkboxes (groundwork for future forged-item integration)
+- Configurable max level and per-slot selection of which slots to optimize
+- Beam search algorithm (width=50) with a greedy top-25-per-slot pre-filter
+- Web Worker: computation doesn't block the UI — real-time % progress bar
+- Top-3 results: item images, key stats, "Load this build" button
+- i18n: ES / EN / FR / PT with a localized name (La Forjadora / The Forger / La Forgeuse / A Forjadora)
 
 ## [0.2.65] — 2026-08-18
-- WeaponCard: ícono de poción de transformación (Wildfire/Earthquake/Tsunami/Hurricane) aparece en esquina inferior derecha de la imagen del arma cuando hay transform activo
+- WeaponCard: transformation potion icon (Wildfire/Earthquake/Tsunami/Hurricane) now appears in the bottom-right corner of the weapon image when a transform is active
 
 ## [0.2.64] — 2026-08-18
-- Fix: badge de transformación elemental ya no aparece en armas sin daño Neutro (estado obsoleto del store)
-- Fix: efectos de empuje (effect_id 225) excluidos de las filas de daño de WeaponCard — evitaba NaN en el cálculo y "TOTAL NaN-NaN"
+- Fix: elemental transformation badge no longer appears on weapons with no Neutral damage (stale store state)
+- Fix: pushback effects (effect_id 225) excluded from WeaponCard's damage rows — was causing NaN in the calculation and "TOTAL NaN-NaN"
 
 ## [0.2.63] — 2026-08-17
-- Feat: forjamagia de arma — transforma daño Neutro a elemental (Fuego/Tierra/Agua/Aire) al 85%, 68% o 50%
-- RuneModal: sección "Transformación Elemental" con iconos de poción (Wildfire/Earthquake/Tsunami/Hurricane) y botones de ratio
-- WeaponCard: aplica la transformación en la tabla de daños — el daño neutro se reemplaza por el elemento elegido con la fórmula correcta
-- WeaponCard: badge de elemento+% en el header cuando hay transformación activa
-- URL share: `wt` field preserva la transformación al compartir/guardar build
+- Feat: weapon magesmithy — transforms Neutral damage into an element (Fire/Earth/Water/Air) at 85%, 68%, or 50%
+- RuneModal: "Elemental Transformation" section with potion icons (Wildfire/Earthquake/Tsunami/Hurricane) and ratio buttons
+- WeaponCard: applies the transformation in the damage table — Neutral damage is replaced by the chosen element using the correct formula
+- WeaponCard: element+% badge in the header when a transformation is active
+- URL share: `wt` field preserves the transformation when sharing/saving a build
 
 ## [0.2.62] — 2026-08-17
-- UI: efectos quemados (robo PA, robo PM, ganar PA, ganar PM, empuje, erosión, mod curas, buff de hechizo) ahora aparecen como chips coloreados con icono de stat
-- UI: icono correcto por efecto — ap_reduction para robo PA, mp_reduction para robo PM, ap para ganar PA, mp para ganar PM, push_damage para empuje, damage_reflect para erosión, heals para curación
-- UI: fila de curas (steal ♥) reemplaza símbolo ♥ por icono heals.webp en SpellCard, WeaponCard y filas Σ
+- UI: hardcoded effects (AP steal, MP steal, AP gain, MP gain, pushback, erosion, heal mod, spell buff) now appear as colored chips with a stat icon
+- UI: correct icon per effect — ap_reduction for AP steal, mp_reduction for MP steal, ap for AP gain, mp for MP gain, push_damage for pushback, damage_reflect for erosion, heals for healing
+- UI: heal row (steal ♥) replaces the ♥ symbol with the heals.webp icon in SpellCard, WeaponCard and Σ rows
 
 ## [0.2.61] — 2026-08-17
-- Fix: buffs y descripción del hechizo ahora aparecen en el idioma seleccionado (el overlay de lang copiaba solo el nombre)
-- Fix: ETL filtra buffs con placeholders sin resolver (#3, #4) — "Disparos Lejanos" ya no genera 70+ entradas de estado
-- Fix: ETL filtra buffs con IDs de estado de 5+ dígitos embebidos en el texto
-- Fix: ETL deduplica buffs idénticos por texto en cada nivel (e.g. Flecha Explosiva "-2 Alcance" ya no aparece dos veces)
-- UI: buffs como chips coloreados — rojo para debuffs (−), azul/aire para buffs (+), oro para neutros; iconos de stat cuando aplica
+- Fix: spell buffs and description now appear in the selected language (the lang overlay only copied the name)
+- Fix: ETL filters out buffs with unresolved placeholders (#3, #4) — "Disparos Lejanos" no longer generates 70+ status entries
+- Fix: ETL filters out buffs with 5+ digit status IDs embedded in the text
+- Fix: ETL deduplicates identical buffs by text at each level (e.g. Flecha Explosiva's "-2 Range" no longer appears twice)
+- UI: buffs shown as colored chips — red for debuffs (−), blue/air for buffs (+), gold for neutral; stat icons where applicable
 
 ## [0.2.60] — 2026-08-17
-- Feat: ETL extrae buffs/debuffs genéricos (rango, crítico, curas, etc.) usando effects.json + templates por idioma; se muestran como texto en la SpellCard debajo de los daños
-- Feat: ETL extrae description del hechizo (spell.descriptionId) y la muestra al pie de la SpellCard en texto pequeño/itálico
-- Feat: renderEffectLabel — motor de templates ({{~1~2}}, pluralización, #1/#2, sufijo NT) para convertir effectId+valores a string legible por idioma
+- Feat: ETL extracts generic buffs/debuffs (range, crit, heals, etc.) using effects.json + per-language templates; shown as text in SpellCard below the damage rows
+- Feat: ETL extracts the spell's description (spell.descriptionId) and shows it at the bottom of SpellCard in small italic text
+- Feat: renderEffectLabel — a template engine ({{~1~2}}, pluralization, #1/#2, NT suffix) that converts effectId+values into a readable per-language string
 
 ## [0.2.59] — 2026-08-17
-- Fix: Flecha de Expiación (y similares) — Carga 2 ahora muestra el doble del bonus de Carga 1: cuando todos los spell_buff tienen el mismo min, se escala por ratio de stack (min × stack/baseStack) en vez de usar el valor plano
-- Fix: hechizos "mixed" (Bumerán Pérfido y similares) — no muestran Σ porque cada hit aplica un elemento aleatorio (no acumulativo); solo se muestran las filas por elemento
+- Fix: Flecha de Expiación (and similar) — Charge 2 now shows double the Charge 1 bonus: when every spell_buff shares the same min, it now scales by the stack ratio (min × stack/baseStack) instead of using the flat value
+- Fix: "mixed" spells (Bumerán Pérfido and similar) — no longer show a Σ total, since each hit applies a random element (not additive); only the per-element rows are shown
 
 ## [0.2.58] — 2026-08-17
-- Fix: daño de empuje (colisión) — coeficiente corregido a floor(nivel/6) por celda (era ×3/20=0.15, correcto es ÷6≈0.1667) — a nivel 200: 33/celda × 3 celdas = 99, coincide exactamente con el juego
+- Fix: pushback (collision) damage — coefficient corrected to floor(level/6) per cell (was ×3/20=0.15, correct is ÷6≈0.1667) — at level 200: 33/cell × 3 cells = 99, matching the game exactly
 
 ## [0.2.57] — 2026-08-17
-- Fix: daño de empuje (colisión) ahora usa fórmula determinista — floor(nivel×3/20 + pushbackDamage/4) por celda, sin dados — coincide con lo que muestra el juego (~30/celda a nivel 200)
-- Fix: Σ↷ crit ya no doble-suma critDamage — ya estaba incluido en critTotalMin vía calcEffects
-- Fix: bestElemDamage incluido en flatBonus — la stat "best-element damage" no se aplicaba a la fórmula
+- Fix: pushback (collision) damage now uses a deterministic formula — floor(level×3/20 + pushbackDamage/4) per cell, no dice rolls — matches what the game actually shows (~30/cell at level 200)
+- Fix: Σ↷ crit no longer double-counts critDamage — it was already included in critTotalMin via calcEffects
+- Fix: bestElemDamage included in flatBonus — the "best-element damage" stat wasn't being applied to the formula
 
 ## [0.2.56] — 2026-08-16
-- Fix: daño crítico (critDamage stat) ahora se suma como flat bonus en efectos críticos de hechizos
-- Fix: Σ↷ crit incluye critDamage en el daño de colisión de empuje
+- Fix: critical damage (critDamage stat) now added as a flat bonus in spell critical effects
+- Fix: Σ↷ crit now includes critDamage in pushback collision damage
 
 ## [0.2.55] — 2026-08-16
-- SpellCard: empuje muestra "(si colisión: min–max)" por celda con fórmula completa incluyendo base por nivel
-- Σ↷: fila separada que suma elemental + colisión total (todas celdas bloqueadas)
-- Σ normal no incluye empuje — el daño de empuje solo ocurre en colisión, no en push libre
+- SpellCard: pushback now shows "(on collision: min–max)" per cell, with the full formula including the per-level base
+- Σ↷: separate row that sums elemental + total collision damage (all cells blocked scenario)
+- Normal Σ no longer includes pushback — pushback damage only occurs on collision, not on a free push
 
 ## [0.2.54] — 2026-08-16
-- Fix: daño de empuje corregido — fórmula 25% por celda (antes era /3 ≈ 33%)
+- Fix: corrected pushback damage — formula is 25% per cell (was /3 ≈ 33%)
 
 ## [0.2.53] — 2026-08-16
-- Fix: hechizos con Descarga ya no muestran Σ — los daños por nivel de carga no son acumulativos sino alternativos (carga 3 = solo 916, no 498+707+916)
+- Fix: Discharge spells no longer show a Σ total — damage per charge level is alternative, not additive (charge 3 = just 916, not 498+707+916)
 
 ## [0.2.52] — 2026-08-16
-- Fix: Σ en hechizos con Descarga ya no suma la fase de robo (carga) + la descarga juntos
-- Σ solo muestra el total del daño de descarga — la fase de robo no se acumula en un solo cast
-- Heal Σ (♥) en el bloque Σ también eliminado para hechizos con Descarga (cada robo sana por separado)
+- Fix: Σ for Discharge spells no longer sums the steal (charge) phase + the discharge together
+- Σ now only shows the discharge damage total — the steal phase doesn't accumulate in a single cast
+- Heal Σ (♥) also removed from the Σ block for Discharge spells (each steal heals separately)
 
 ## [0.2.51] — 2026-08-16
-- Veneno (DoT): efectos con `triggers=TE` y `effectTriggerDuration>0` detectados como `kind:poison` en el ETL
-- SpellCard: label "Veneno (Xt)" antes del primer efecto DoT cuando hay también daño normal en el mismo hechizo
-- Flecha Tiránica / similares: daño normal + separador Veneno (2t) + daño DoT — sin confundir con daño directo
-- Fórmula de daño aplicada a poison igual que damage (se amplifica con maestría del personaje)
-- ETL regenerado: 19 clases con `kind:poison` + `turns` en todos los efectos DoT
+- Poison (DoT): effects with `triggers=TE` and `effectTriggerDuration>0` now detected as `kind:poison` in the ETL
+- SpellCard: "Poison (Xt)" label shown before the first DoT effect when the same spell also has normal damage
+- Flecha Tiránica / similar: normal damage + Poison (2t) separator + DoT damage — no longer confused with direct damage
+- Damage formula applied to poison the same as regular damage (amplified by character mastery)
+- ETL regenerated: 19 classes with `kind:poison` + `turns` on every DoT effect
 
 ## [0.2.50] — 2026-08-16
-- SpellCard: deduplica efectos idénticos (elemento+tipo+min+max) — elimina duplicados de multi-hit AoE y cargas repetidas (64 hechizos afectados en todas las clases)
-- Tyrannical Arrow / similares: 3 efectos fuego [28-32, 20-22, 28-32] ahora muestra 2 filas (el duplicado se colapsa)
-- Descarga: separador entre la fase de robo (carga) y la fase de daño (descarga) en hechizos tipo Devouring Arrow
+- SpellCard: deduplicates identical effects (element+type+min+max) — removes duplicates from multi-hit AoE and repeated charges (64 spells affected across all classes)
+- Tyrannical Arrow / similar: 3 fire effects [28-32, 20-22, 28-32] now shown as 2 rows (the duplicate is collapsed)
+- Discharge: separator between the steal phase (charge) and the damage phase (discharge) on spells like Devouring Arrow
 
 ## [0.2.49] — 2026-08-16
-- Hechizos de carga: daños calculados por nivel de carga en SpellCard
-- Cargas explícitas (ej. Flecha Castigadora ×1/×2): filas "Carga 1", "Carga 2" con normal y crítico
-- Cargas acumulativas (ej. Flecha Helada stack=0): muestra hasta min(turns,3) filas con bonus × N
-- El bonus de carga suma al base RAW antes de la fórmula — se amplifica con maestría del personaje
+- Charge spells: damage now calculated per charge level in SpellCard
+- Explicit charges (e.g. Flecha Castigadora ×1/×2): "Charge 1", "Charge 2" rows with normal and crit values
+- Stacking charges (e.g. Flecha Helada stack=0): shows up to min(turns,3) rows with bonus × N
+- Charge bonus is added to the base RAW value before the formula — amplified by character mastery
 
 ## [0.2.48] — 2026-08-16
-- Comparar: rediseño completo — hero cards con portrait + badges (AP/MP/PV/Alcance/Crítico) de ambos builds
-- Equipment diff: filas por slot alineadas (item A ← icono slot → item B), mismos items atenuados, diferentes resaltados
-- Tabla de stats: secciones agrupadas (Core/Chars/Daño/Robo/Res/Combate/Mods), cada fila A | stat | B | Δ con colores verde/rojo
-- Botón Compartir: codifica ambos builds en URL #/?b=A&c=B, copia al portapapeles
-- Auto-carga Build B desde parámetro c= de la URL via nuevo hook useCompareUrl
-- Estado vacío para Build B: input URL + lista de builds guardados
-- Modal overlay para cambiar Build B cuando ya hay uno cargado
+- Compare: full redesign — hero cards with portrait + badges (AP/MP/HP/Range/Crit) for both builds
+- Equipment diff: aligned per-slot rows (item A ← slot icon → item B), matching items dimmed, differing ones highlighted
+- Stats table: grouped sections (Core/Characteristics/Damage/Steal/Res/Combat/Mods), each row A | stat | B | Δ with green/red coloring
+- Share button: encodes both builds into the URL as #/?b=A&c=B, copies to clipboard
+- Auto-loads Build B from the URL's c= parameter via the new useCompareUrl hook
+- Empty state for Build B: URL input + list of saved builds
+- Modal overlay to switch Build B once one is already loaded
 
 ## [0.2.47] — 2026-08-16
-- Catálogo: armas muestran sección "Ataque de Arma" separada de "Efectos" — igual que el tooltip del slot equipado
-- Misma lógica de clasificación por effect_id (WEAPON_ATTACK_IDS) aplicada en las tarjetas del catálogo
+- Catalog: weapons now show a "Weapon Attack" section separate from "Effects" — same as the equipped-slot tooltip
+- Same effect_id-based classification logic (WEAPON_ATTACK_IDS) applied to catalog cards
 
 ## [0.2.46] — 2026-08-16
-- Brand "Dofus Forge": click derecho / botón medio abre nueva pestaña con el build actual codificado en la URL
-- Click izquierdo sigue reseteando el build como antes
+- Brand "Dofus Forge": right-click / middle-click opens a new tab with the current build encoded in the URL
+- Left-click still resets the build as before
 
 ## [0.2.45] — 2026-08-16
-- Comparar: clic en ⚖ hace scroll automático al panel de comparación
-- Comparar: campo para pegar URL de un build compartido — carga Build B sin necesitar builds guardados localmente
+- Compare: clicking ⚖ now auto-scrolls to the compare panel
+- Compare: field to paste a shared build's URL — loads Build B without needing locally saved builds
 
 ## [0.2.44] — 2026-08-16
 - Fix: companion/mount slot now shows items in all languages (ES/FR/PT/DE)
@@ -573,15 +577,15 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Sidekick slot also fixed by the same change
 
 ## [0.2.43] — 2026-08-16
-- Modo Comparar builds: botón "⚖ Comparar" en header activa panel de comparación completo
-- Panel muestra equipo de Build A vs Build B (lado a lado) con iconos y nombres de items
-- Tabla de stats A vs B con columna Δ coloreada (verde = B mejor, rojo = A mejor)
-- Build B se carga desde builds guardados via dropdown — persiste hasta limpiar manualmente
-- Stats de Build B se recalculan automáticamente al cambiar idioma (mismo engine que Build A)
+- Compare builds mode: "⚖ Compare" header button activates the full comparison panel
+- Panel shows Build A vs Build B equipment (side by side) with item icons and names
+- A vs B stats table with a colored Δ column (green = B better, red = A better)
+- Build B loads from saved builds via a dropdown — persists until manually cleared
+- Build B's stats automatically recalculate on language change (same engine as Build A)
 
 ## [0.2.42] — 2026-08-16
 - Spell effects validated and fixed: AP/MP steal vs gain correctly distinguished (effectIds 84/111/127/128/169)
-- New spell effect kinds rendered: +PA gain, +PM gain, % Erosión, Curas ×%, stacking spell buffs (⭐ SpellName: +N base)
+- New spell effect kinds rendered: +AP gain, +MP gain, % Erosion, Heals ×%, stacking spell buffs (⭐ SpellName: +N base)
 - ETL regenerated: all 19 classes + common spells with correct effectId mappings across EN/ES/FR/PT
 
 ## [0.2.41] — 2026-08-15
@@ -594,32 +598,32 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Right sidebar widened from 300px to 360px for more room in stats and characteristics panels
 
 ## [0.2.39] — 2026-08-15
-- Fix: "Ataque de Arma" solo muestra daños reales del arma — stats pasivos (ej. +Daño Aire) van a "Efectos"
-- Root cause: mismo nombre de stat ("Air damage") tenía dos IDs en API — id=189 = ataque, id=47 = bonus pasivo
-- Solución: effect_id guardado en JSON, clasificación por ID (funciona en todos los idiomas)
-- Stats panel: cálculo de stats de arma corregido — bonuses pasivos de daño ya no se excluyen
+- Fix: "Weapon Attack" now only shows the weapon's real damage — passive stats (e.g. +Air Damage) go to "Effects"
+- Root cause: the same stat name ("Air damage") had two IDs in the API — id=189 = attack, id=47 = passive bonus
+- Fix: effect_id saved in the JSON, classification done by ID (works in every language)
+- Stats panel: weapon stat calculation fixed — passive damage bonuses are no longer excluded
 
 ## [0.2.38] — 2026-08-15
-- Forjamagia deshabilitada para Dofus (1–6) y Montura — botón ✦ no aparece en esos slots
+- Magesmithy disabled for Dofus (1–6) and Mount slots — the ✦ button no longer appears on those slots
 
 ## [0.2.37] — 2026-08-15
-- Toast al equipar: notificación "Slot: Item" aparece abajo a la derecha por 2.8s, click para cerrar
-- Dofus sin duplicados: equipar un dofus ya puesto en otro slot lo mueve (no duplica)
-- Slot labels con número: "Dofus 1"–"Dofus 6", "Anillo 1"/"Anillo 2" en todas las lenguas
+- Equip toast: a "Slot: Item" notification appears bottom-right for 2.8s, click to dismiss
+- No duplicate Dofus: equipping a Dofus already placed in another slot moves it instead of duplicating it
+- Numbered slot labels: "Dofus 1"–"Dofus 6", "Ring 1"/"Ring 2" in every language
 
 ## [0.2.36] — 2026-08-15
-- Fix: armas en idiomas no inglés (Arco, Espada, etc.) ahora tienen slot:weapon correcto — efectos de ataque aparecen en "Ataque de Arma" y no en "Efectos"
-- ETL normalizeItem usa is_weapon del API en lugar de mapear el nombre del tipo (que varía por idioma)
-- EquipmentGrid tooltip usa ap_cost != null como check adicional de arma
+- Fix: weapons in non-English languages (Arco, Espada, etc.) now get the correct slot:weapon — attack effects now show under "Weapon Attack" instead of "Effects"
+- ETL's normalizeItem now uses the API's is_weapon flag instead of mapping the type name (which varies per language)
+- EquipmentGrid tooltip now also checks ap_cost != null as an extra weapon check
 
 ## [0.2.35] — 2026-08-15
-- SetDetailModal: items separados en "Ya tienes" / "Te falta" con headers colored
-- Items faltantes muestran badge con slot (ej. "🎩 Sombrero") para saber qué hay que liberar
-- Bonuses del set: colores y tamaños iguales al panel de sets activos
+- SetDetailModal: items split into "You Have" / "Still Need" with colored headers
+- Missing items show a slot badge (e.g. "🎩 Hat") so you know what to free up
+- Set bonuses: colors and sizes now match the active-sets panel
 
 ## [0.2.34] — 2026-08-15
-- Sets activos: 3 columnas para 3+ sets (2 columnas para exactamente 2)
-- Stats panel: títulos de sección "Elementos" y "Combate" más grandes (9px → 11px)
+- Active sets: 3 columns for 3+ sets (2 columns for exactly 2)
+- Stats panel: "Elementos" and "Combate" section titles made larger (9px → 11px)
 
 ## [0.2.33] — 2026-08-15
 - Spell cards enlarged: bigger icon (52px), larger name, stat icons and AP/range/crit/max text, damage values and column headers scaled up
@@ -714,7 +718,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Fix: apply weapon crit_bonus as base damage amplified by the mastery formula
 
 ## [0.1.84] — 2026-08-10
-- Dominio del Arma — checkbox toggle with separate normal/crit values
+- Weapon Mastery — checkbox toggle with separate normal/crit values
 
 ## [0.1.83] — 2026-08-10
 - Fix: use meleeDamagePercent for weapons/spells with maxRange <= 1
@@ -723,7 +727,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Fix: include weapon crit_bonus in critical damage calculation
 
 ## [0.1.81] — 2026-08-10
-- Redesigned WeaponCard — table layout, steal/heal split, Dominio del Arma
+- Redesigned WeaponCard — table layout, steal/heal split, Weapon Mastery
 
 ## [0.1.80] — 2026-08-09
 - Fix: show equipment bonus delta per characteristic
@@ -750,7 +754,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Phase 3 — visual overhaul: TopBadge, SectionHeader, Crucible, parchment
 
 ## [0.1.72] — 2026-08-09
-- Phase 3 — Grimoire & Forge visual identity: The Crucible and materialidad
+- Phase 3 — Grimoire & Forge visual identity: The Crucible and materiality
 
 ## [0.1.71] — 2026-08-09
 - Phase 2 — migrate ItemCatalog and RuneModal to CSS var tokens

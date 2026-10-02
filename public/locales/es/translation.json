@@ -649,5 +649,10 @@
   "profile_comments_posted": "Comentarios hechos",
   "profile_builds_title": "Builds de {{username}}",
   "profile_no_builds": "Todavía no tiene builds públicas.",
-  "explore_search_placeholder": "Buscar builds..."
+  "explore_search_placeholder": "Buscar builds...",
+  "profile_follow": "Seguir",
+  "profile_unfollow": "Siguiendo",
+  "profile_followers": "seguidores",
+  "profile_following": "siguiendo",
+  "profile_signin_to_follow": "Iniciá sesión para seguir"
 }

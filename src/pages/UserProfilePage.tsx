@@ -1,17 +1,18 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, Link } from 'react-router-dom'
-import { User, Calendar, Heart, MessageSquare, Layers } from 'lucide-react'
+import { User, Calendar, Heart, MessageSquare, Layers, UserPlus, UserCheck } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Button } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
-import { isSafeImageUrl } from '@/store/authStore.ts'
+import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import {
   fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount,
+  fetchIsFollowing, followUser, unfollowUser,
   type PublicProfile, type BuildRow,
 } from '@/features/builds/api.ts'
 
@@ -31,6 +32,7 @@ export function UserProfilePage() {
   const lang = i18n.language.slice(0, 2)
 
   useLoadGameData()
+  const session = useAuthStore(s => s.session)
 
   const [profile, setProfile]   = useState<PublicProfile | null>(null)
   const [loading, setLoading]   = useState(true)
@@ -38,6 +40,10 @@ export function UserProfilePage() {
 
   const [stats, setStats] = useState({ buildCount: 0, likeCount: 0 })
   const [commentCount, setCommentCount] = useState(0)
+
+  const [isFollowing, setIsFollowing] = useState(false)
+  const [followerCount, setFollowerCount] = useState(0)
+  const isOwnProfile = session?.user.id === profile?.id
 
   const [builds, setBuilds]         = useState<BuildRow[]>([])
   const [page, setPage]             = useState(0)
@@ -53,12 +59,28 @@ export function UserProfilePage() {
       if (cancelled) return
       if (!data) { setNotFound(true); setLoading(false); return }
       setProfile(data)
+      setFollowerCount(data.followers_count)
       setLoading(false)
       fetchUserPublicStats(data.id).then(s => { if (!cancelled) setStats(s) })
       fetchPublicCommentCount(data.id).then(c => { if (!cancelled) setCommentCount(c.count) })
+      if (session && session.user.id !== data.id) {
+        fetchIsFollowing(session.user.id, data.id).then(r => { if (!cancelled) setIsFollowing(r.following) })
+      }
     })
     return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- re-fetching on session change would race the optimistic toggle below; session is read fresh inside, just not a re-trigger
   }, [username])
+
+  const handleToggleFollow = useCallback(async () => {
+    if (!session || !profile) return
+    const next = !isFollowing
+    setIsFollowing(next)
+    setFollowerCount(c => c + (next ? 1 : -1))
+    const { error } = next
+      ? await followUser(session.user.id, profile.id)
+      : await unfollowUser(session.user.id, profile.id)
+    if (error) { setIsFollowing(!next); setFollowerCount(c => c + (next ? -1 : 1)) }
+  }, [session, profile, isFollowing])
 
   const loadBuilds = useCallback(async (userId: string, nextPage: number, reset: boolean) => {
     setBuildsLoading(true)
@@ -130,16 +152,34 @@ export function UserProfilePage() {
               ? <img src={profile.avatar_url!} alt="" className="w-full h-full object-cover" />
               : <User size={32} style={{ color: 'var(--ink-faint)' }} />}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <h1 className="font-display text-2xl font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{name}</h1>
             {profile.display_name && (
               <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>@{profile.username}</p>
             )}
-            <p className="flex items-center gap-1.5 text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>
-              <Calendar size={12} />
-              {t('profile_joined', { date: joinedDate })}
-            </p>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>
+              <span className="flex items-center gap-1.5">
+                <Calendar size={12} />
+                {t('profile_joined', { date: joinedDate })}
+              </span>
+              <span><strong style={{ color: 'var(--ink)' }}>{followerCount}</strong> {t('profile_followers')}</span>
+              <span><strong style={{ color: 'var(--ink)' }}>{profile.following_count}</strong> {t('profile_following')}</span>
+            </div>
           </div>
+
+          {!isOwnProfile && (
+            <Button
+              variant={isFollowing ? 'secondary' : 'primary'}
+              size="sm"
+              onClick={handleToggleFollow}
+              disabled={!session}
+              title={session ? undefined : t('profile_signin_to_follow')}
+              className="relative z-10 flex-shrink-0"
+            >
+              {isFollowing ? <UserCheck size={13} /> : <UserPlus size={13} />}
+              {isFollowing ? t('profile_unfollow') : t('profile_follow')}
+            </Button>
+          )}
         </div>
 
         {/* Stats */}
