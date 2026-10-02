@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.23',
+    date: '2026-10-02',
+    notes: [
+      'Fix: ShareBar\'s duplicate "My Builds" link removed - was showing twice next to BuilderPage\'s own nav',
+      'Feat: added PNG favicon fallbacks and a WebSite/Organization logo schema for better branding in Google search results',
+      'Polish: homepage content trimmed (features grid and how-it-works moved/removed, now live on /about and /how-to-use instead of duplicated on the planner)',
+    ],
+  },
+  {
     version: '0.3.22',
     date: '2026-10-02',
     notes: [

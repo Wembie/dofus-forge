@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Sparkles, Database, Heart, Users } from 'lucide-react'
+import { Sparkles, Database, Heart, Users, BookOpen, Layers, Wand2, Share2, Compass } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
@@ -12,6 +12,15 @@ const SECTIONS = [
   { key: 'data', Icon: Database },
   { key: 'free', Icon: Heart },
   { key: 'team', Icon: Users },
+] as const
+
+const FEATURES = [
+  { key: 'catalog',   Icon: BookOpen },
+  { key: 'sets',      Icon: Layers },
+  { key: 'runes',     Icon: Sparkles },
+  { key: 'optimizer', Icon: Wand2 },
+  { key: 'share',     Icon: Share2 },
+  { key: 'explore',   Icon: Compass },
 ] as const
 
 export function AboutPage() {
@@ -52,6 +61,27 @@ export function AboutPage() {
               </div>
             </Frame>
           ))}
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
+            {t('seo_features_title')}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {FEATURES.map(({ key, Icon }, i) => (
+              <div
+                key={key}
+                className="flex gap-3 p-3 rounded-lg"
+                style={{ border: '1px solid var(--metal-edge)', background: 'var(--surface-stone)', animation: `col-rise 420ms var(--ease-out) ${i * 50}ms both` }}
+              >
+                <Icon size={18} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+                <div>
+                  <h3 className="text-sm font-semibold" style={{ color: 'var(--ink)' }}>{t(`seo_feature_${key}_title`)}</h3>
+                  <p className="text-xs mt-0.5 leading-relaxed" style={{ color: 'var(--ink-muted)' }}>{t(`seo_feature_${key}_desc`)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-3">
