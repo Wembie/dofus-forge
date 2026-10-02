@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.24] — 2026-10-02
+- **Fix**: the previous version only trimmed the homepage's marketing block (removed the features grid and "how it works" list) but left the intro paragraph, class list and FAQ behind — the actual ask was for NONE of it to live on the planner anymore, all of it on `/about`/`/how-to-use` instead. `SeoContent.tsx` deleted entirely; the remaining class list (with its real `?class=` deep links) and FAQ (with its `FAQPage` JSON-LD) moved into `AboutPage.tsx`, joining the features grid that was already moved there last version. The planner's homepage now has zero marketing copy below it — just the tool and the footer
+
 ## [0.3.23] — 2026-10-02
 - **Fix**: `ShareBar` rendered its own "My Builds" link right next to `BuilderPage`'s own header nav/mobile-menu/command-palette "My Builds" entries — same destination, shown twice side by side on wide viewports. Removed the `ShareBar` copy entirely (it's only ever mounted inside `BuilderPage`, so nothing lost); `ShareBar` now only has Export and Share
 - **Feat**: proper favicon for search engines — added PNG fallbacks (`favicon-48.png`, `favicon-192.png`, `apple-touch-icon.png`, rendered from the existing `favicon.svg` via a Playwright screenshot since no image-conversion tool is available) alongside the SVG. Per Google's favicon guidelines (square, multiple of 48px, referenced via `<link rel="icon">`), the SVG-only setup was a plausible reason Google was showing a generic fallback icon/site name ("GitHub Pages documentation") for this freshly-indexed site instead of Dofus Forge's own branding

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.24',
+    date: '2026-10-02',
+    notes: [
+      'Fix: homepage no longer has any marketing content below the planner - class list and FAQ moved into /about, joining the features grid that moved there last version',
+    ],
+  },
+  {
     version: '0.3.23',
     date: '2026-10-02',
     notes: [
