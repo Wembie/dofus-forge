@@ -670,4 +670,306 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Stats panel with full character calculation
 - Multi-language support: ES / EN / FR / PT
 
+## [0.1.97] — 2026-08-11
+- Fix: prospecting/summons base, air damage, HP display
+
+## [0.1.96] — 2026-08-10
+- M16 — full visual rebuild: JetBrains Mono font, dominant badges, bigger slots
+
+## [0.1.95] — 2026-08-10
+- Single hover panel for all 6 characteristic allocators, removed steal column
+
+## [0.1.94] — 2026-08-10
+- Fix: instant popover close + unified scroll toggles
+
+## [0.1.93] — 2026-08-10
+- Hover popover for allocation controls + HP badge font fix
+
+## [0.1.92] — 2026-08-10
+- Fix: remove 100% cap on effective crit display — crit can exceed 100% in Dofus 3
+
+## [0.1.91] — 2026-08-10
+- Fix: remove critChance cap — crit% has no official limit in Dofus 3
+
+## [0.1.90] — 2026-08-10
+- Fix: apply official Dofus 3 stat caps in computeStats
+
+## [0.1.89] — 2026-08-10
+- Fix: row overflow — two-row layout for stat rows
+
+## [0.1.88] — 2026-08-10
+- M17 — steal/heal rows, shield condition group, fixed Σ total
+
+## [0.1.87] — 2026-08-10
+- Fix: correct push damage formula — floor(pushbackDamage/3) × cells
+
+## [0.1.86] — 2026-08-10
+- Fix: match crit effects by index, not by element
+
+## [0.1.85] — 2026-08-10
+- Fix: apply weapon crit_bonus as base damage amplified by the mastery formula
+
+## [0.1.84] — 2026-08-10
+- Dominio del Arma — checkbox toggle with separate normal/crit values
+
+## [0.1.83] — 2026-08-10
+- Fix: use meleeDamagePercent for weapons/spells with maxRange <= 1
+
+## [0.1.82] — 2026-08-10
+- Fix: include weapon crit_bonus in critical damage calculation
+
+## [0.1.81] — 2026-08-10
+- Redesigned WeaponCard — table layout, steal/heal split, Dominio del Arma
+
+## [0.1.80] — 2026-08-09
+- Fix: show equipment bonus delta per characteristic
+
+## [0.1.79] — 2026-08-09
+- Fix: widen right stats panel from 240px to 300px
+
+## [0.1.78] — 2026-08-09
+- Fix: fix all broken Tailwind opacity-modifier classes in catalog/modal
+
+## [0.1.77] — 2026-08-09
+- Fix: replace all broken Tailwind opacity-modifier classes in visible UI
+
+## [0.1.76] — 2026-08-09
+- Spells visual polish — element left-border, gold accent section labels
+
+## [0.1.75] — 2026-08-09
+- Compact selected-class header with progressive disclosure
+
+## [0.1.74] — 2026-08-09
+- Eliminate duplicate stat display across left/right panels
+
+## [0.1.73] — 2026-08-09
+- Phase 3 — visual overhaul: TopBadge, SectionHeader, Crucible, parchment
+
+## [0.1.72] — 2026-08-09
+- Phase 3 — Grimoire & Forge visual identity: The Crucible and materialidad
+
+## [0.1.71] — 2026-08-09
+- Phase 2 — migrate ItemCatalog and RuneModal to CSS var tokens
+
+## [0.1.70] — 2026-08-09
+- Design system Phase 1 — core UI primitives (Grimoire & Forge)
+
+## [0.1.69] — 2026-08-09
+- Design system Phase 0 — token consolidation (Grimoire & Forge)
+
+## [0.1.68] — 2026-08-09
+- Fix: weapon crit damage uses stats.critDamage, not crit_bonus
+
+## [0.1.67] — 2026-08-09
+- Fix: load spell names in the selected language
+
+## [0.1.66] — 2026-08-09
+- Fix: show push damage value in spell card
+
+## [0.1.65] — 2026-08-09
+- Fix: +1 AP bonus at level 100 (Dofus 2 mechanic)
+
+## [0.1.64] — 2026-08-09
+- Fix: weapon attack damage excluded from passive stat block; per-slot forjamago name; tooltip hover timer
+
+## [0.1.63] — 2026-08-09
+- Set view button, equip-all, forjamago signature, i18n name fixes
+
+## [0.1.62] — 2026-08-09
+- Fix: Wisdom also derives AP/MP Removal
+
+## [0.1.61] — 2026-08-09
+- Fix: add Chance → Prospecting derivation (+1 per 10 Chance)
+
+## [0.1.60] — 2026-08-09
+- Fix: remove Power double-count; derive secondary stats from characteristics
+
+## [0.1.59] — 2026-08-09
+- Fix: apply % melee/ranged damage bonus in spell and weapon calculations
+
+## [0.1.58] — 2026-08-09
+- Fix: correct damage formula — multiplicative, not additive
+
+## [0.1.57] — 2026-08-09
+- Redesigned element rows — CSS grid chips with per-column icons
+
+## [0.1.56] — 2026-08-09
+- Three-icon element rows: mastery, damage and resistance per column
+
+## [0.1.55] — 2026-08-09
+- Fix: show melee/ranged resistance % in CharacteristicsPanel modifiers
+
+## [0.1.54] — 2026-08-09
+- Fix: use statIconUrl() in CharacteristicsPanel, StatsPanel and ExportCard
+
+## [0.1.53] — 2026-08-09
+- Fix: add Water steal mapping and i18n keys, audit all stat names
+
+## [0.1.52] — 2026-08-09
+- Fix: add % Spell/Weapon Resistance entries with placeholder icons
+
+## [0.1.51] — 2026-08-09
+- Fix: use dedicated element damage icons for damage/steal stats
+
+## [0.1.50] — 2026-08-09
+- Fix: wire new webp stat icons, fix broken icon mappings
+
+## [0.1.49] — 2026-08-09
+- M30 — critical damage display in SpellCard and WeaponCard
+
+## [0.1.48] — 2026-08-09
+- M29 — rune images throughout the Forjamagia UI
+
+## [0.1.47] — 2026-08-09
+- M27+M28 — weapon attack card + common spells panel
+
+## [0.1.46] — 2026-08-09
+- Push/AP/MP effects + Support badge for utility spells
+
+## [0.1.45] — 2026-08-09
+- Fix: rewrite image_url to include BASE_URL at fetch time
+
+## [0.1.44] — 2026-08-09
+- Two-column spell redesign with images and variants
+
+## [0.1.43] — 2026-08-09
+- Set modal stays open on equip/unequip, added unequip button
+
+## [0.1.42] — 2026-08-09
+- Fix: i18n negative range separator via range_sep_neg key
+
+## [0.1.41] — 2026-08-09
+- Fix: negative ranges display the smaller absolute value first
+
+## [0.1.40] — 2026-08-09
+- Fix: equip any set item from the set modal, not just the current slot
+
+## [0.1.39] — 2026-08-08
+- Set detail modal — click a set name to view its items, bonuses and equip
+
+## [0.1.38] — 2026-08-08
+- Fix: version-based cache busting for all JSON data files
+
+## [0.1.37] — 2026-08-08
+- Fix: description/ability visibility — colors were too dark to read
+
+## [0.1.36] — 2026-08-08
+- Item description, passive ability and lore shown in catalog cards
+
+## [0.1.35] — 2026-08-08
+- Auto type-filter tabs for all multi-type slots
+
+## [0.1.34] — 2026-08-08
+- Fix: rename companion slot label to Mount/Montura in all locales
+
+## [0.1.33] — 2026-08-08
+- Merge pet/petsmount/mount into a single companion slot with type filter tabs
+
+## [0.1.32] — 2026-08-08
+- M23 — card grid layout with all stats visible
+
+## [0.1.31] — 2026-08-08
+- Petsmount, Mount and Sidekick slots added to the equipment grid
+
+## [0.1.30] — 2026-08-08
+- Fix: translate item stat labels in tooltips, stat filter and rune modal
+
+## [0.1.29] — 2026-08-08
+- Footer credits added: server Tal Kasha, creator Juan/Wembie, in-game Raik-Luck
+
+## [0.1.28] — 2026-08-08
+- M22 — mobile responsive layout with bottom tab navigation
+
+## [0.1.27] — 2026-08-08
+- Fix: full i18n pass — all hardcoded EN/ES strings replaced with t()
+
+## [0.1.26] — 2026-08-08
+- M18 — export build as PNG image
+
+## [0.1.25] — 2026-08-08
+- Fix: multilingual data — English base with translated names overlay
+
+## [0.1.24] — 2026-08-08
+- Fix: always load EN data as base; persist runes in URL snapshot
+
+## [0.1.23] — 2026-08-08
+- Fix: set bonuses apply only at the highest tier; Power displays without %
+
+## [0.1.22] — 2026-08-08
+- M15 polish — Magesmithy UX redesign + game-faithful tooltip
+
+## [0.1.21] — 2026-08-08
+- Fix: Power distributes flat to elemental stats, not as a percentage multiplier
+
+## [0.1.20] — 2026-08-08
+- M15 — Magesmithy (Forjamagia) rune system: per-slot rune management integrated into the stat engine
+
+## [0.1.19] — 2026-08-08
+- Fix: tooltip shows all stats, side positioning (right/left/top) avoids overflow-hidden clipping
+- Fix: use max value for ranged item stats in stat computation
+
+## [0.1.18] — 2026-08-08
+- Fix: fmtValue uses dash instead of French "à"; SetBonusesPanel redesigned with tier cards, dots and modal button
+
+## [0.1.17] — 2026-08-08
+- M14 — item favorites (star toggle + favorites-only filter)
+- M20+M21 — grade selector (1-6) + calculated damage from build stats
+
+## [0.1.16] — 2026-08-07
+- Fix: remove unused ALL_SLOTS import, static-ify codec import in useHistory
+
+## [0.1.15] — 2026-08-06
+- M08+M09+M10 — set badge, set filter, set detail modal
+- M24 — set name and progress in slot hover tooltip
+- M12 — stat filter with icon dropdown in item catalog
+- M17 — undo/redo (Ctrl+Z/Y) with header buttons, 40-state history
+- M11 — improved comparison delta (icons + color + label)
+
+## [0.1.14] — 2026-08-06
+- Version bump only — no associated code change in this commit
+
+## [0.1.13] — 2026-08-05
+- Game-faithful stats panel + item stat icons + element filters
+
+## [0.1.12] — 2026-08-05
+- Correct stat icons + full combat stats panel
+
+## [0.1.11] — 2026-08-05
+- Gender toggle, real female portraits, spell element filter with expand
+
+## [0.1.10] — 2026-08-05
+- Dofus-faithful redesign: real game icons, direct stat input, bigger equipment slots
+
+## [0.1.9] — 2026-08-05
+- Dofus-style characteristic icons + dynamic point allocation (hold-to-repeat, shift/ctrl click)
+
+## [0.1.8] — 2026-08-05
+- Fix: resolve class slugs from en.json instead of the current language
+- Dofus-faithful character screen layout (left/center/right columns matching the real game UI)
+
+## [0.1.7] — 2026-08-05
+- M7 — spells viewer with per-class lazy loading
+
+## [0.1.6] — 2026-08-05
+- M6 — set bonuses panel, element filter, stat delta, virtual list, keyboard navigation
+
+## [0.1.5] — 2026-08-05
+- M5 — i18n (ES/EN/FR/PT), dark/light theme, accessibility and reduced-motion support
+
+## [0.1.4] — 2026-08-05
+- M4 — URL sharing and localStorage saved builds
+
+## [0.1.3] — 2026-08-05
+- M3 — Builder UI core: class picker, equipment grid, characteristics panel, stats panel
+
+## [0.1.2] — 2026-08-05
+- M2 — pure stat engine with 27 Vitest tests (characteristics, stat map, computeStats)
+
+## [0.1.1] — 2026-08-05
+- M1 — ETL pipeline fetching live DofusDude data (equipment, sets, mounts, consumables for ES/EN/FR/PT/DE)
+
+## [0.1.0] — 2026-08-05
+- M0 — initial scaffold: Vite 6 + React 18 + TypeScript, TailwindCSS with forge color palette, Zustand/i18next/react-router, GitHub Actions CI (deploy + weekly data update), ETL skeleton
+- App version injected from VERSION file via Vite define
+
 
