@@ -636,5 +636,8 @@
   "class_guide_spells_title": "Feitiços de {{class}}",
   "class_guide_cta": "Montar um {{class}}",
   "class_guide_ap": "PA",
-  "class_guide_not_found": "Essa classe não existe."
+  "class_guide_not_found": "Essa classe não existe.",
+  "class_guide_grade_label": "Nív {{grade}} (máx)",
+  "class_guide_damage_label": "Dano",
+  "class_guide_spells_note": "Números base no nível máximo do feitiço — o dano real no jogo depende dos seus stats e equipamento."
 }

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.26',
+    date: '2026-10-02',
+    notes: [
+      'Fix: switching language from Settings no longer bounces you back to the planner - stays on the page you were on',
+      'Polish: class spell guide cards now have labeled stats and more breathing room instead of cramped icon-only badges',
+    ],
+  },
+  {
     version: '0.3.25',
     date: '2026-10-02',
     notes: [

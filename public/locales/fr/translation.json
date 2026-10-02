@@ -636,5 +636,8 @@
   "class_guide_spells_title": "Sorts de {{class}}",
   "class_guide_cta": "Créer un {{class}}",
   "class_guide_ap": "PA",
-  "class_guide_not_found": "Cette classe n'existe pas."
+  "class_guide_not_found": "Cette classe n'existe pas.",
+  "class_guide_grade_label": "Niv {{grade}} (max)",
+  "class_guide_damage_label": "Dégâts",
+  "class_guide_spells_note": "Valeurs de base au niveau maximum du sort — les dégâts réels en jeu dépendent de vos stats et équipement."
 }
