@@ -8,6 +8,7 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { fetchPublicBuilds, type BuildRow, type ExploreSort } from '@/features/builds/api.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
+import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 
 const SORT_ITEMS: TabItem[] = [
   { id: 'rating', label: 'sort_rating', Icon: Star },
@@ -23,8 +24,12 @@ function ClassLabel({ id }: { id: string | null }) {
 }
 
 export function ExplorePage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   useLoadGameData()
+  usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'explore', {
+    title: t('explore_seo_title'),
+    description: t('explore_seo_description'),
+  })
   const [sort, setSort]           = useState<ExploreSort>('rating')
   const [classSlug, setClassSlug] = useState<string | null>(null)
   const [builds, setBuilds]       = useState<BuildRow[]>([])

@@ -8,6 +8,21 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.21',
+    date: '2026-10-02',
+    notes: [
+      'Fix: every page (Explore, My Builds, build detail) now sets its own title/description/canonical instead of inheriting the homepage\'s',
+      'Fix: /explore and /my-builds now have real static pages on GitHub Pages (previously 404\'d on direct load/crawl, blocking indexing)',
+      'Feat: added SEO content section on the homepage (what it does, features, classes, how it works, FAQ) in all 4 languages',
+      'Feat: ?class=<id> deep link preselects a class on load - used by the new classes section, not just decorative text',
+      'Fix: primary language in social preview metadata is now English, matching the actual homepage',
+      'Chore: /explore added to sitemap.xml for all 4 languages',
+      'Chore: expanded keywords/featureList (index.html) across all 4 languages',
+      'Feat: /en is now reachable too, matching /es /fr /pt - / stays the canonical English URL, internal nav unchanged',
+      'Chore: /en/* now gets real static pages on GitHub Pages, each self-canonicalizing back to the no-prefix URL',
+    ],
+  },
+  {
     version: '0.3.20',
     date: '2026-10-02',
     notes: [

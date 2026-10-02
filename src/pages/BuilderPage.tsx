@@ -23,6 +23,9 @@ import { useHistory } from '@/store/useHistory.ts'
 import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
+import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { SeoContent } from '@/components/SeoContent.tsx'
+import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -42,6 +45,7 @@ function BuilderContent() {
   const navigate       = useNavigate()
   const routerLocation = useLocation()  // basename-relative pathname, unlike window.location used below for brandHref's absolute URL
   const hasClass  = useBuildStore(s => s.selectedClass !== null)
+  const setClass  = useBuildStore(s => s.setClass)
   const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
   const load      = useDataStore(s => s.load)
   const loading   = useDataStore(s => s.loading)
@@ -88,6 +92,21 @@ function BuilderContent() {
   useBuildUrl()
   useCompareUrl()
   useHistory()
+  usePageSeo(i18n.language.slice(0, 2) as SeoLang, '')
+
+  // `?class=iop` preselects a class on load — lets SeoContent's class list
+  // (and any external link) land someone straight into a real starting
+  // point instead of a bare empty planner. Skipped once a build is already
+  // underway (`?b=` or a class already picked) so it never clobbers one.
+  useEffect(() => {
+    const params = new URLSearchParams(routerLocation.search)
+    const classParam = params.get('class')
+    if (!classParam || params.get('b') || hasClass) return
+    if ((DOFUS_CLASSES as readonly string[]).includes(classParam)) {
+      setClass(classParam as DofusClass)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately mount-only, mirrors useBuildUrl's `?b=` parser
+  }, [])
 
   // Scroll to the compare panel whenever it becomes active — covers both a
   // manual toggle click and a shared compare link (?c=...) auto-activating
@@ -442,6 +461,8 @@ function BuilderContent() {
           </Suspense>
         </div>
       )}
+
+      <SeoContent />
 
       <footer className="border-t border-forge-border mt-8 py-4 px-4 text-center space-y-1.5">
         <p className="text-[10px] text-ink-faint max-w-xl mx-auto">

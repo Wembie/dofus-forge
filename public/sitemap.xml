@@ -41,4 +41,44 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/es/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/fr/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wembie.github.io/dofus-forge/pt/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

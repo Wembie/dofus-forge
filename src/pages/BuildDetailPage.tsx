@@ -12,6 +12,7 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
+import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
 import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
@@ -63,6 +64,12 @@ export function BuildDetailPage() {
   const [comments, setComments]         = useState<CommentRow[]>([])
   const [commentText, setCommentText]   = useState('')
   const [postingComment, setPostingComment] = useState(false)
+
+  usePageSeo(i18n.language.slice(0, 2) as SeoLang, `build/${id ?? ''}`, {
+    title: build ? t('build_detail_seo_title', { class: resolvedClassLabel, level: build.level }) : undefined,
+    description: build ? t('build_detail_seo_description', { class: resolvedClassLabel, level: build.level }) : undefined,
+    noindex: notFound,
+  })
 
   useEffect(() => {
     if (!id) return
