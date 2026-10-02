@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare } from 'lucide-react'
+import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud } from 'lucide-react'
 import { Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { useAuthStore } from '@/store/authStore.ts'
@@ -52,7 +52,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
     return () => document.removeEventListener('mousedown', onClickOutside)
   }, [showVisMenu])
 
-  function handleLoad() {
+  function handleEdit() {
     applySnapshot(build.snapshot)
     // These are all your own builds (fetchMyBuilds) — republishing this one
     // should update it in place, not create a duplicate row.
@@ -101,7 +101,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
       onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel), var(--glow-gold)'; e.currentTarget.style.borderTopColor = 'var(--gold)' }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel)'; e.currentTarget.style.borderTopColor = 'var(--gold-deep)' }}
     >
-      <button onClick={handleLoad} className="flex items-center gap-2.5 text-left">
+      <button onClick={handleViewDetail} className="flex items-center gap-2.5 text-left">
         {portrait && (
           <img src={portrait} alt="" width={44} height={44} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
         )}
@@ -160,8 +160,15 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
             </div>
           )}
         </div>
-        <button onClick={handleViewDetail} title={t('my_builds_view_detail')} aria-label={t('my_builds_view_detail')} className="ml-auto p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
-          <MessageSquare size={13} />
+        <button
+          onClick={handleEdit}
+          title={t('my_builds_edit')}
+          aria-label={t('my_builds_edit')}
+          className="ml-auto flex items-center gap-1 text-[10px] uppercase font-semibold px-2 py-1 rounded transition-colors"
+          style={{ color: 'var(--water)', background: 'color-mix(in srgb, var(--water) 10%, transparent)' }}
+        >
+          <UploadCloud size={11} />
+          {t('my_builds_edit')}
         </button>
         <button onClick={handleCopyLink} title={t('my_builds_copy_link')} aria-label={t('my_builds_copy_link')} className="p-1.5 rounded transition-colors hover:bg-surface-raised" style={{ color: 'var(--ink-faint)' }}>
           <Link2 size={13} />

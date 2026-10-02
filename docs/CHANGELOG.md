@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.20] — 2026-10-02
+- **Fix**: `MyBuildsPage`'s cards behaved differently from Explore's — clicking a card loaded it straight into the planner, skipping the detail/rating/comments view that Explore's cards go to. Unified: clicking a My Builds card now opens the detail page too, and loading it into the planner moved to an explicit "Editar" button in the card's footer
+
 ## [0.3.19] — 2026-10-01
 - **Feat**: single "Ajustes" (Settings) panel, opened from a gear icon in both headers — consolidates language, theme, sound, magic cursor and particles into one place instead of separate loose icon buttons. Language reuses the existing `LanguageSwitcher`; theme/sound reuse `toggleTheme()`/`toggleSound()`
 - **Feat**: magic cursor and particle field now each have a real on/off toggle (`src/lib/motionSettings.ts`, localStorage-persisted) — previously they only ever respected `prefers-reduced-motion`/`pointer: coarse` with no explicit user control
