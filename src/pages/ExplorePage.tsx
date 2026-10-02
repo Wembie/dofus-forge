@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Star, Heart, Clock, Eye } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
+import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
@@ -107,6 +108,8 @@ export function ExplorePage() {
           </div>
         )}
       </main>
+
+      <SiteFooter />
     </div>
   )
 }

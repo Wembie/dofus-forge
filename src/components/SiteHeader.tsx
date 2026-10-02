@@ -1,7 +1,7 @@
 import { Suspense, lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings } from 'lucide-react'
+import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { IconButton } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
@@ -21,8 +21,10 @@ export function SiteHeader() {
   const navigate = useNavigate()
   const location = useLocation()
   const prefix = langPathPrefix(i18n.language)
-  const isExplore  = location.pathname.includes('/explore')
-  const isMyBuilds = location.pathname.includes('/my-builds')
+  const isExplore   = location.pathname.includes('/explore')
+  const isMyBuilds  = location.pathname.includes('/my-builds')
+  const isAbout     = location.pathname.includes('/about')
+  const isHowToUse  = location.pathname.includes('/how-to-use')
   const [showSettings, setShowSettings] = useState(false)
 
   return (
@@ -38,12 +40,16 @@ export function SiteHeader() {
         <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
           <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
         </svg>
-        <h1
+        {/* Persistent brand mark, not a page heading — it's the same element on
+            every page this header is used on (Explore, My Builds, build
+            detail, About, How to Use), each of which has its own real <h1>.
+            An <h1> here duplicated that on every one of them. */}
+        <span
           className="font-display font-bold tracking-[0.18em] uppercase"
           style={{ fontSize: '0.82rem', color: 'var(--gold)', textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)', letterSpacing: '0.2em' }}
         >
           {t('app_title')}
-        </h1>
+        </span>
       </Link>
 
       <nav className="hidden sm:flex items-center gap-1.5 ml-1">
@@ -76,8 +82,10 @@ export function SiteHeader() {
         <HeaderMenuButton
           className="sm:hidden"
           items={[
-            { key: 'explore',   label: t('explore_open'), Icon: Compass,    active: isExplore,  onClick: () => navigate(`/${prefix}explore`) },
-            { key: 'my-builds', label: t('my_builds'),    Icon: FolderOpen, active: isMyBuilds, onClick: () => navigate(`/${prefix}my-builds`) },
+            { key: 'explore',    label: t('explore_open'),   Icon: Compass,    active: isExplore,    onClick: () => navigate(`/${prefix}explore`) },
+            { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, active: isMyBuilds,   onClick: () => navigate(`/${prefix}my-builds`) },
+            { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   active: isHowToUse,   onClick: () => navigate(`/${prefix}how-to-use`) },
+            { key: 'about',      label: t('nav_about'),      Icon: Info,       active: isAbout,      onClick: () => navigate(`/${prefix}about`) },
           ]}
         />
         <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
@@ -86,9 +94,11 @@ export function SiteHeader() {
 
       <CommandPalette
         commands={[
-          { key: 'home',      label: t('app_title'),    Icon: Home,    onRun: () => navigate(`/${prefix}`) },
-          { key: 'explore',   label: t('explore_open'), Icon: Compass, onRun: () => navigate(`/${prefix}explore`) },
-          { key: 'my-builds', label: t('my_builds'),    Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
+          { key: 'home',       label: t('app_title'),      Icon: Home,       onRun: () => navigate(`/${prefix}`) },
+          { key: 'explore',    label: t('explore_open'),   Icon: Compass,    onRun: () => navigate(`/${prefix}explore`) },
+          { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
+          { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   onRun: () => navigate(`/${prefix}how-to-use`) },
+          { key: 'about',      label: t('nav_about'),      Icon: Info,       onRun: () => navigate(`/${prefix}about`) },
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },

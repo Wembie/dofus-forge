@@ -11,6 +11,8 @@ import type { SeoLang } from './seo/useSeoMeta.ts'
 const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => ({ default: m.ExplorePage })))
 const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m => ({ default: m.BuildDetailPage })))
 const MyBuildsPage    = lazy(() => import('./pages/MyBuildsPage.tsx').then(m => ({ default: m.MyBuildsPage })))
+const AboutPage       = lazy(() => import('./pages/AboutPage.tsx').then(m => ({ default: m.AboutPage })))
+const HowToUsePage    = lazy(() => import('./pages/HowToUsePage.tsx').then(m => ({ default: m.HowToUsePage })))
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -37,7 +39,13 @@ function RootRoute() {
       // Preserve the hash too — Supabase's auth confirmation links land here
       // with #access_token=... in it; dropping it (as this did before) meant
       // the session was silently lost on any redirect through this route.
-      return <Navigate to={`/${stored}/${location.search}${location.hash}`} replace />
+      // Preserve the sub-path too (location.pathname, e.g. /explore,
+      // /how-to-use) — this used to hardcode a trailing "/", silently
+      // bouncing any non-index English sub-route back to the bare language
+      // root instead of its equivalent page whenever a stored preference
+      // existed. Only visible once there were sub-routes worth deep-linking
+      // to directly (found while testing /about and /how-to-use).
+      return <Navigate to={`/${stored}${location.pathname}${location.search}${location.hash}`} replace />
     }
   }
   return <LangRoute lang="en"><Outlet /></LangRoute>
@@ -53,6 +61,8 @@ const LANG_SUB_ROUTES = (
     <Route path="explore" element={<Suspense fallback={null}><ExplorePage /></Suspense>} />
     <Route path="build/:id" element={<Suspense fallback={null}><BuildDetailPage /></Suspense>} />
     <Route path="my-builds" element={<Suspense fallback={null}><MyBuildsPage /></Suspense>} />
+    <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
+    <Route path="how-to-use" element={<Suspense fallback={null}><HowToUsePage /></Suspense>} />
   </>
 )
 
