@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { FolderOpen } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild } from './codec.ts'
 import type { ExportData } from './ExportCard.tsx'
@@ -87,7 +88,7 @@ export function ShareBar() {
         to={`/${langPathPrefix(i18n.language)}my-builds`}
         className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep text-xs transition-colors"
       >
-        <span>📋</span>
+        <FolderOpen size={13} />
         <span className="hidden sm:inline">{t('my_builds')}</span>
       </Link>
     </div>
