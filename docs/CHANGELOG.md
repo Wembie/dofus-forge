@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.31] — 2026-10-02
+- **Feat**: M51 — follow users. Follow/unfollow button on `/u/:username`, using the `follows` table and `profiles.followers_count`/`following_count` (already trigger-synced — no schema change needed, just the UI). Optimistic update with rollback on error, same pattern as the existing like button; disabled with a tooltip when logged out, hidden entirely on your own profile
+- **Fix**: M50's search used `plainto_tsquery`, which only matches whole words — typing "Emp" would never find "Empujes" since it's not a complete word, which is a poor "as you type" search experience. Switched to a per-word prefix query (`word:*`, AND-joined) built manually and passed to `.textSearch()` with no `type` — still hits the exact same GIN index, no new migration needed. Considered plain `ilike '%x%'` for true substring matching instead, but there's no trigram index on `builds.name` yet, so it would force a full sequential scan on every keystroke; left as a documented follow-up if real substring matching (not just prefix) is wanted later
+
 ## [0.3.30] — 2026-10-02
 - **Feat**: M50 — full-text search in Explore. Uses `builds.search_vector`, a `tsvector` column already generated and indexed server-side (`idx_builds_search`, a GIN index) — no schema change needed, zero extra write cost. Query via `.textSearch('search_vector', q, { type: 'plain', config: 'simple' })`, matching the exact config the column itself was generated with (no language stemming, since names/descriptions are free text in any of the app's 4 languages). Input is debounced 350ms — verified with Playwright that 4 rapid keystrokes fire exactly one network request, not four. Results stay ordered by whatever sort the user picked (rating/likes/recent/views); true relevance ranking (`ts_rank`) would need a dedicated RPC, out of scope for this pass
 - First of the M50-M59 batch tracked in `docs/ROADMAP.md` for using the remaining unused Supabase tables — implementing one at a time

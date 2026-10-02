@@ -60,13 +60,25 @@ export async function fetchPublicBuilds(opts: { classSlug?: string | null; userI
   if (opts.classSlug) query = query.eq('class_slug', opts.classSlug)
   if (opts.userId) query = query.eq('user_id', opts.userId)
   // `builds.search_vector` is a generated+indexed tsvector column (idx_builds_search,
-  // a GIN index — see docs/DATABASE.md) — no schema change needed for this. `plainto_tsquery`
-  // + 'simple' config matches exactly how the column itself was generated (no language
-  // stemming, since names/descriptions are free text in any of the app's 4 languages).
-  // Results stay ordered by the user's chosen sort rather than text-match relevance —
-  // true relevance ranking (ts_rank) isn't expressible through a plain PostgREST filter
-  // and would need a dedicated RPC; out of scope for this pass.
-  if (opts.search?.trim()) query = query.textSearch('search_vector', opts.search.trim(), { type: 'plain', config: 'simple' })
+  // a GIN index — see docs/DATABASE.md) — no schema change needed for this. 'simple'
+  // config matches exactly how the column itself was generated (no language stemming,
+  // since names/descriptions are free text in any of the app's 4 languages).
+  //
+  // Per-word PREFIX match (word:*) instead of plainto_tsquery's whole-word match — typing
+  // "Emp" needs to find "Empujes" as the user types, which a whole-word tsquery can't do
+  // (and plain `ilike '%x%'` would, but at the cost of a full sequential scan: no index
+  // supports a leading wildcard without a separate pg_trgm index, which doesn't exist here).
+  // This still hits the existing GIN index — no new migration needed.
+  if (opts.search?.trim()) {
+    const tsQuery = opts.search
+      .trim()
+      .split(/\s+/)
+      .map(w => w.replace(/[^\p{L}\p{N}]/gu, '')) // strip tsquery operators/punctuation — avoid syntax errors, not a security issue (PostgREST params are always bound, never interpolated SQL)
+      .filter(Boolean)
+      .map(w => `${w}:*`)
+      .join(' & ')
+    if (tsQuery) query = query.textSearch('search_vector', tsQuery, { config: 'simple' })
+  }
   const { data, error, count } = await query
   return { data: (data ?? []) as unknown as BuildRow[], error: error?.message ?? null, count: count ?? 0 }
 }
@@ -239,24 +251,29 @@ export async function postComment(buildId: string, userId: string, content: stri
 }
 
 export type PublicProfile = {
-  id:           string
-  username:     string
-  display_name: string | null
-  avatar_url:   string | null
-  created_at:   string
+  id:               string
+  username:         string
+  display_name:     string | null
+  avatar_url:       string | null
+  created_at:       string
+  followers_count:  number
+  following_count:  number
 }
 
 /**
  * Public profile lookup by username — never by id/UID, so the profile URL
  * (/u/:username) never exposes the internal uuid. `profiles` already has a
  * `for select using (true)` RLS policy (same one BuildCard/comments already
- * rely on for owner names), so this needs no new policy.
+ * rely on for owner names), so this needs no new policy. followers_count/
+ * following_count are already trigger-synced columns (sync_follow_counts) —
+ * reading them here is just two more columns off the same row, not a
+ * separate count query.
  */
 export async function fetchProfileByUsername(username: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, display_name, avatar_url, created_at')
+    .select('id, username, display_name, avatar_url, created_at, followers_count, following_count')
     .eq('username', username)
     .maybeSingle()
   if (error || !data) return { data: null, error: error?.message ?? null }
@@ -304,4 +321,32 @@ export async function fetchPublicCommentCount(userId: string) {
     .is('deleted_at', null)
     .eq('builds.visibility', 'public')
   return { count: count ?? 0, error: error?.message ?? null }
+}
+
+/**
+ * Does `followerId` already follow `followingId`? `.maybeSingle()` on the
+ * (follower_id, following_id) primary key — a single indexed row lookup,
+ * no count/scan needed.
+ */
+export async function fetchIsFollowing(followerId: string, followingId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('follows')
+    .select('follower_id')
+    .eq('follower_id', followerId)
+    .eq('following_id', followingId)
+    .maybeSingle()
+  return { following: !!data, error: error?.message ?? null }
+}
+
+export async function followUser(followerId: string, followingId: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('follows').insert({ follower_id: followerId, following_id: followingId })
+  return { error: error?.message ?? null }
+}
+
+export async function unfollowUser(followerId: string, followingId: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('follows').delete().eq('follower_id', followerId).eq('following_id', followingId)
+  return { error: error?.message ?? null }
 }

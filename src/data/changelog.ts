@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.31',
+    date: '2026-10-02',
+    notes: [
+      'Feat: M51 - follow/unfollow users on their profile page',
+      'Fix: Explore search now matches word prefixes ("Emp" finds "Empujes"), not just whole words',
+    ],
+  },
+  {
     version: '0.3.30',
     date: '2026-10-02',
     notes: [
