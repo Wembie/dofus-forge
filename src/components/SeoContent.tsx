@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { BookOpen, Layers, Wand2, Share2, Compass, Sparkles } from 'lucide-react'
 import { langPathPrefix } from '@/i18n/langPath.ts'
+import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 
 const FEATURES = [
   { key: 'catalog',   Icon: BookOpen },
@@ -57,6 +58,25 @@ export function SeoContent() {
                 <p className="text-xs mt-0.5 leading-relaxed">{t(`seo_feature_${key}_desc`)}</p>
               </div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
+          {t('seo_classes_title')}
+        </h2>
+        <p className="text-xs leading-relaxed max-w-2xl">{t('seo_classes_body')}</p>
+        <div className="flex flex-wrap gap-1.5">
+          {CLASS_DATA.map(c => (
+            <Link
+              key={c.id}
+              to={`/${prefix}?class=${c.id}`}
+              className="px-2 py-1 rounded text-xs border transition-colors"
+              style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+            >
+              {c.name}
+            </Link>
           ))}
         </div>
       </div>

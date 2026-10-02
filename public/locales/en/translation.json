@@ -591,5 +591,7 @@
   "explore_seo_title": "Explore Community Builds — Dofus Forge",
   "explore_seo_description": "Browse Dofus 3 builds shared by the community — filter by class, sort by rating, likes or views, and find inspiration for your own setup.",
   "build_detail_seo_title": "{{class}} build (level {{level}}) — Dofus Forge",
-  "build_detail_seo_description": "Dofus 3 {{class}} build at level {{level}} — view equipment, stats and set bonuses, shared on Dofus Forge."
+  "build_detail_seo_description": "Dofus 3 {{class}} build at level {{level}} — view equipment, stats and set bonuses, shared on Dofus Forge.",
+  "seo_classes_title": "Dofus 3 Classes",
+  "seo_classes_body": "Build for any class — Iop, Cra, Eniripsa, Sram, Sacrier, Sadida and every other Dofus 3 class, each with its own spells, characteristics and best-in-slot gear."
 }

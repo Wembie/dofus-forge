@@ -47,7 +47,15 @@
     <!-- Primary SEO -->
     <title>Dofus Forge — Build Planner for Dofus 3</title>
     <meta name="description" content="Plan your Dofus 3 builds online — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs. Free, fast, always up to date." />
-    <meta name="keywords" content="dofus forge, dofus build planner, dofus 3, planificador builds dofus, dofus optimizer, dofus sets, dofus equipment, dofus stats, dofus runas, dofus forja" />
+    <!--
+      Deliberately multilingual in ONE tag (EN/ES/FR/PT mixed) — Google has
+      ignored the keywords meta tag for ranking since ~2009 (official
+      statement, still true), this costs nothing to keep filled but it is
+      NOT what makes the site rank. The real per-language signal is each
+      locale's own <title>/<meta description>/content, set by useSeoMeta.ts
+      and SeoContent.tsx for /, /es, /fr, /pt individually.
+    -->
+    <meta name="keywords" content="dofus forge, dofus build planner, dofus 3, dofus optimizer, dofus sets, dofus equipment, dofus stats, dofus runes, dofus classes, dofus calculator, planificador de builds dofus, panoplias dofus, equipo dofus, optimizador dofus, runas de forjamagia, estadisticas dofus, clases dofus, planificateur de builds dofus, panoplies dofus, equipement dofus, optimiseur dofus, forgemagie, statistiques dofus, classes dofus, planejador de builds dofus, conjuntos dofus, equipamento dofus, otimizador dofus, forjamagia, estatisticas dofus, classes de dofus" />
     <meta name="author" content="Wembie" />
     <link rel="canonical" href="https://wembie.github.io/dofus-forge/" />
 
@@ -89,6 +97,15 @@
       "operatingSystem": "Web Browser",
       "inLanguage": ["en", "es", "fr", "pt"],
       "isAccessibleForFree": true,
+      "keywords": "dofus, dofus 3, dofus forge, dofus build planner, dofus sets, dofus panoplies, dofus equipment, dofus stuff, dofus optimizer, dofus runes, dofus forgemagie, dofus stats calculator, dofus classes",
+      "featureList": [
+        "Full Dofus 3 item catalog",
+        "Real-time set bonuses",
+        "Magesmithy (Forgemagie) rune simulation",
+        "Automatic stat optimizer",
+        "Shareable build URLs",
+        "Community build explorer"
+      ],
       "offers": {
         "@type": "Offer",
         "price": "0",
