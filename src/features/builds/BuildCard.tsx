@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Star, Heart, Eye, User, MessageSquare } from 'lucide-react'
@@ -18,29 +19,34 @@ export function BuildCard({ build }: { build: BuildRow }) {
   const owner       = build.profiles
   const ownerLabel  = owner?.display_name || owner?.username || ''
   const prefix      = langPathPrefix(i18n.language)
+  const [buildHover, setBuildHover] = useState(false)
 
   return (
     <div
       className="flex flex-col gap-2 p-3 rounded-xl transition-shadow"
       style={{
         background:   'var(--surface-panel)',
-        borderTop:    '1px solid var(--gold-deep)',
+        borderTop:    `1px solid ${buildHover ? 'var(--gold)' : 'var(--gold-deep)'}`,
         borderRight:  '1px solid var(--metal-edge)',
         borderBottom: '1px solid var(--metal-edge)',
         borderLeft:   '1px solid var(--metal-edge)',
-        boxShadow:    'var(--inset-bevel)',
+        boxShadow:    buildHover ? 'var(--inset-bevel), var(--glow-gold)' : 'var(--inset-bevel)',
       }}
-      onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel), var(--glow-gold)'; e.currentTarget.style.borderTopColor = 'var(--gold)' }}
-      onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--inset-bevel)'; e.currentTarget.style.borderTopColor = 'var(--gold-deep)' }}
     >
-      {/* Owner row is its own link to /u/:username — pulled out of the
+      {/* Owner row is its own link to /u/:username, visually a small
+          "chip" (background pill + underline on hover) deliberately
+          different from the card's gold border glow below — two distinct
+          hover languages so it reads as a separate destination, not part
+          of the same click target as the build. Pulled out of the
           build-detail Link below since nesting an <a> inside an <a> is
           invalid HTML and unreliable to click. */}
       {owner?.username ? (
         <Link
           to={`/${prefix}u/${owner.username}`}
-          className="flex items-center gap-1.5 text-[11px] hover:text-gold transition-colors self-start"
+          className="flex items-center gap-1.5 text-[11px] self-start px-1.5 py-0.5 -m-1.5 rounded-md hover:underline transition-colors"
           style={{ color: 'var(--ink-faint)' }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.background = 'var(--surface-stone)' }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--ink-faint)'; e.currentTarget.style.background = 'transparent' }}
         >
           {isSafeImageUrl(owner.avatar_url)
             ? <img src={owner.avatar_url} alt="" width={14} height={14} className="rounded-full object-cover" />
@@ -55,7 +61,12 @@ export function BuildCard({ build }: { build: BuildRow }) {
         </div>
       )}
 
-      <Link to={`/${prefix}build/${build.id}`} className="flex flex-col gap-2 flex-1">
+      <Link
+        to={`/${prefix}build/${build.id}`}
+        className="flex flex-col gap-2 flex-1"
+        onMouseEnter={() => setBuildHover(true)}
+        onMouseLeave={() => setBuildHover(false)}
+      >
         <div className="flex items-center gap-2.5">
           {portrait && (
             <img src={portrait} alt="" width={40} height={40} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />

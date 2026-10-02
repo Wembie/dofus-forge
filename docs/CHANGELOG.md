@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.29] — 2026-10-02
+- **Fix**: `BuildCard`'s whole-card gold border-glow fired on hovering the owner name too (both were inside the same `<div>` with the hover handler), making the username link look like part of the same click target as the build. Moved the hover handlers to the "go to build" `Link` specifically (via `buildHover` state instead of direct DOM mutation, since now two different zones need independent hover feedback) and gave the owner link its own distinct treatment — a small background chip + underline on hover — so the two destinations read as visually different kinds of links, not one blended surface
+- **Fix**: the comment author's name on `BuildDetailPage` had an inline `style={{ color: 'var(--ink) }}` that permanently beat its own `hover:text-gold` Tailwind class — inline styles win over any stylesheet rule regardless of pseudo-state, so hovering it never visibly changed anything despite being a working link underneath. Replaced the inline color with the `text-ink` utility class so the `hover:` variant can actually take over; added `hover:underline` to both this link and the build-header owner link for clearer, consistent affordance that these are clickable
+
 ## [0.3.28] — 2026-10-02
 - **Feat**: `BuildCard` (used by Explore, My Builds, and the new profile page) now also links its owner name to `/u/:username` — the previous version flagged this as a follow-up since the whole card was already a `<Link>` to the build, and nesting a second `<a>` inside it produces invalid, unreliably-clickable HTML. Restructured: the card's outer element is now a `<div>` carrying the hover/border styling, with two independent `Link`s inside it — one for the owner row, one wrapping everything else (portrait, name, equipment preview, stats) to the build detail. Verified with Playwright: zero nested anchors, both links navigate independently
 

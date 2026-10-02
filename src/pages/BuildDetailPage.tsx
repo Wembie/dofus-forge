@@ -201,7 +201,7 @@ export function BuildDetailPage() {
 
           <div className="flex flex-wrap items-center gap-4 text-xs pt-1" style={{ color: 'var(--ink-faint)' }}>
             {owner?.username ? (
-              <Link to={`/${langPathPrefix(i18n.language)}u/${owner.username}`} className="flex items-center gap-1.5 hover:text-gold transition-colors">
+              <Link to={`/${langPathPrefix(i18n.language)}u/${owner.username}`} className="flex items-center gap-1.5 hover:text-gold hover:underline transition-colors">
                 {isSafeImageUrl(owner.avatar_url)
                   ? <img src={owner.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
                   : <User size={13} />
@@ -329,8 +329,7 @@ export function BuildDetailPage() {
                   {c.profiles?.username ? (
                     <Link
                       to={`/${langPathPrefix(i18n.language)}u/${c.profiles.username}`}
-                      className="text-[11px] font-semibold hover:text-gold transition-colors"
-                      style={{ color: 'var(--ink)' }}
+                      className="text-[11px] font-semibold text-ink hover:text-gold hover:underline transition-colors"
                     >
                       {c.profiles.display_name || c.profiles.username}
                     </Link>

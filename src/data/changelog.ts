@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.29',
+    date: '2026-10-02',
+    notes: [
+      'Fix: build card owner name no longer triggers the whole card\'s hover glow - has its own distinct hover style now',
+      'Fix: comment author name now actually visibly reacts on hover (was blocked by a leftover inline style)',
+    ],
+  },
+  {
     version: '0.3.28',
     date: '2026-10-02',
     notes: [
