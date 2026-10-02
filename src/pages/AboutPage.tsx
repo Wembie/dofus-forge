@@ -6,6 +6,7 @@ import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 
 const SECTIONS = [
   { key: 'why',  Icon: Sparkles },
@@ -23,6 +24,8 @@ const FEATURES = [
   { key: 'explore',   Icon: Compass },
 ] as const
 
+const FAQ_NUMS = [1, 2, 3, 4, 5] as const
+
 export function AboutPage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
@@ -30,6 +33,16 @@ export function AboutPage() {
     title: t('about_seo_title'),
     description: t('about_seo_description'),
   })
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_NUMS.map(n => ({
+      '@type': 'Question',
+      name: t(`seo_faq_q${n}`),
+      acceptedAnswer: { '@type': 'Answer', text: t(`seo_faq_a${n}`) },
+    })),
+  }
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
@@ -84,6 +97,41 @@ export function AboutPage() {
           </div>
         </div>
 
+        <div className="space-y-3">
+          <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
+            {t('seo_classes_title')}
+          </h2>
+          <p className="text-xs leading-relaxed max-w-2xl" style={{ color: 'var(--ink-muted)' }}>
+            {t('seo_classes_body')}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {CLASS_DATA.map(c => (
+              <Link
+                key={c.id}
+                to={`/${prefix}?class=${c.id}`}
+                className="px-2 py-1 rounded text-xs border transition-colors"
+                style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+              >
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
+            {t('seo_faq_title')}
+          </h2>
+          <div className="space-y-3">
+            {FAQ_NUMS.map(n => (
+              <div key={n}>
+                <h3 className="text-sm font-semibold" style={{ color: 'var(--ink)' }}>{t(`seo_faq_q${n}`)}</h3>
+                <p className="text-xs mt-0.5 leading-relaxed" style={{ color: 'var(--ink-muted)' }}>{t(`seo_faq_a${n}`)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="flex flex-wrap gap-3">
           <Link
             to={`/${prefix}how-to-use`}
@@ -100,6 +148,8 @@ export function AboutPage() {
             {t('about_cta_explore')}
           </Link>
         </div>
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       </main>
 
       <SiteFooter />

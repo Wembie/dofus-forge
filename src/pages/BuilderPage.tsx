@@ -24,7 +24,6 @@ import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
-import { SeoContent } from '@/components/SeoContent.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 
@@ -95,9 +94,9 @@ function BuilderContent() {
   useHistory()
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, '')
 
-  // `?class=iop` preselects a class on load — lets SeoContent's class list
-  // (and any external link) land someone straight into a real starting
-  // point instead of a bare empty planner. Skipped once a build is already
+  // `?class=iop` preselects a class on load — lets About's class list (and
+  // any external link) land someone straight into a real starting point
+  // instead of a bare empty planner. Skipped once a build is already
   // underway (`?b=` or a class already picked) so it never clobbers one.
   useEffect(() => {
     const params = new URLSearchParams(routerLocation.search)
@@ -466,8 +465,6 @@ function BuilderContent() {
           </Suspense>
         </div>
       )}
-
-      <SeoContent />
 
       <SiteFooter />
     </div>
