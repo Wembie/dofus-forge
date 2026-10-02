@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.28',
+    date: '2026-10-02',
+    notes: [
+      'Feat: build card owner names (Explore, My Builds, profile page) are now clickable links to their profile too',
+    ],
+  },
+  {
     version: '0.3.27',
     date: '2026-10-02',
     notes: [
