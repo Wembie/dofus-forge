@@ -1,5 +1,5 @@
 <!--
-  Dofus Forge — plantilla de correo "Magic Link" (incluye OTP)
+  Dofus Forge — plantilla de correo "Magic Link"
   Pega esto en: Supabase Dashboard → Authentication → Email Templates → Magic Link
   (modo HTML/source, no el editor visual)
 
@@ -8,8 +8,10 @@
   Para mandar el idioma correcto por usuario hace falta un Auth Hook (Edge
   Function) interceptando el envío — tarea aparte.
 
-  Variables disponibles de Supabase: {{ .ConfirmationURL }} {{ .Token }} {{ .SiteURL }} {{ .Email }}
-  Se incluyen link Y código — útil si además tenés OTP habilitado junto al magic link.
+  Confirmado contra el default real de Supabase: este template SOLO expone
+  {{ .ConfirmationURL }} — no hay {{ .Token }} acá (eso es solo para
+  Reauthentication). No inventar un código que no va a existir.
+  Variables disponibles de Supabase: {{ .ConfirmationURL }} {{ .SiteURL }} {{ .Email }}
   Layout con tablas + estilos inline a propósito: la mayoría de clientes de correo
   (Outlook, Gmail) ignoran flexbox/grid/CSS externo.
 -->
@@ -47,14 +49,7 @@
             </table>
 
             <p style="margin:28px 0 0;font-size:12px;line-height:1.6;color:#7a849c;">
-              Or enter this code manually:
-            </p>
-            <p style="margin:6px 0 0;font-size:28px;font-weight:bold;letter-spacing:6px;color:#c9a24b;font-family:'Courier New',monospace;">
-              {{ .Token }}
-            </p>
-
-            <p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#7a849c;">
-              If you didn't request this, you can safely ignore this email.
+              This link expires shortly and can only be used once. If you didn't request this, you can safely ignore this email.
             </p>
           </td>
         </tr>
