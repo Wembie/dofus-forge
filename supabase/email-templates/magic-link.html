@@ -1,0 +1,74 @@
+<!--
+  Dofus Forge — plantilla de correo "Magic Link" (incluye OTP)
+  Pega esto en: Supabase Dashboard → Authentication → Email Templates → Magic Link
+  (modo HTML/source, no el editor visual)
+
+  Supabase solo permite UN template por tipo (no hay variante por idioma
+  nativa) — se dejó en inglés como idioma universal, igual que confirm-signup.html.
+  Para mandar el idioma correcto por usuario hace falta un Auth Hook (Edge
+  Function) interceptando el envío — tarea aparte.
+
+  Variables disponibles de Supabase: {{ .ConfirmationURL }} {{ .Token }} {{ .SiteURL }} {{ .Email }}
+  Se incluyen link Y código — útil si además tenés OTP habilitado junto al magic link.
+  Layout con tablas + estilos inline a propósito: la mayoría de clientes de correo
+  (Outlook, Gmail) ignoran flexbox/grid/CSS externo.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a0d13;padding:32px 16px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background-color:#171c28;border:1px solid #2b3446;border-radius:12px;overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td align="center" style="background-color:#0a0d13;padding:28px 24px;border-bottom:1px solid #2b3446;">
+            <span style="font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:bold;letter-spacing:2px;color:#c9a24b;text-transform:uppercase;">
+              ⚔ Dofus Forge
+            </span>
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:32px 28px;font-family:Arial,Helvetica,sans-serif;">
+            <h1 style="margin:0 0 12px;font-size:19px;color:#e9e5da;">Your sign-in link</h1>
+            <p style="margin:0 0 24px;font-size:14px;line-height:1.6;color:#9aa0b0;">
+              Click below to sign in to Dofus Forge — no password needed.
+            </p>
+
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td align="center" style="border-radius:8px;background-color:#c9a24b;">
+                  <a href="{{ .ConfirmationURL }}"
+                     style="display:inline-block;padding:12px 32px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#0a0d13;text-decoration:none;border-radius:8px;letter-spacing:0.5px;">
+                    SIGN IN
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin:28px 0 0;font-size:12px;line-height:1.6;color:#7a849c;">
+              Or enter this code manually:
+            </p>
+            <p style="margin:6px 0 0;font-size:28px;font-weight:bold;letter-spacing:6px;color:#c9a24b;font-family:'Courier New',monospace;">
+              {{ .Token }}
+            </p>
+
+            <p style="margin:24px 0 0;font-size:12px;line-height:1.6;color:#7a849c;">
+              If you didn't request this, you can safely ignore this email.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td align="center" style="padding:16px 24px;background-color:#0a0d13;border-top:1px solid #2b3446;">
+            <span style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#7a849c;">
+              Dofus Forge — build planner for Dofus 3
+            </span>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
