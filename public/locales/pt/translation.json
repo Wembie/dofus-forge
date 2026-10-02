@@ -630,5 +630,11 @@
   "howto_step8_title": "8. Gerencie suas builds salvas",
   "howto_step8_body": "Minhas Builds lista tudo que você salvou, com controle de visibilidade — privada, não listada ou pública.",
   "howto_cta_start": "Começar a planejar",
-  "howto_cta_about": "Sobre o Dofus Forge"
+  "howto_cta_about": "Sobre o Dofus Forge",
+  "class_guide_seo_title": "{{class}} — Guia de feitiços Dofus 3",
+  "class_guide_seo_description": "Todos os feitiços de {{class}} no Dofus 3 — custo em PA, alcance e efeitos no nível máximo, além de um atalho para montar uma build de {{class}}.",
+  "class_guide_spells_title": "Feitiços de {{class}}",
+  "class_guide_cta": "Montar um {{class}}",
+  "class_guide_ap": "PA",
+  "class_guide_not_found": "Essa classe não existe."
 }

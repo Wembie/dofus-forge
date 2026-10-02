@@ -630,5 +630,11 @@
   "howto_step8_title": "8. Gérez vos builds enregistrées",
   "howto_step8_body": "Mes Builds liste tout ce que vous avez enregistré, avec un contrôle de visibilité — privée, non répertoriée ou publique.",
   "howto_cta_start": "Commencer à planifier",
-  "howto_cta_about": "À propos de Dofus Forge"
+  "howto_cta_about": "À propos de Dofus Forge",
+  "class_guide_seo_title": "{{class}} — Guide des sorts Dofus 3",
+  "class_guide_seo_description": "Tous les sorts de {{class}} dans Dofus 3 — coût en PA, portée et effets au niveau maximum, plus un raccourci pour créer un build {{class}}.",
+  "class_guide_spells_title": "Sorts de {{class}}",
+  "class_guide_cta": "Créer un {{class}}",
+  "class_guide_ap": "PA",
+  "class_guide_not_found": "Cette classe n'existe pas."
 }

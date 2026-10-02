@@ -13,6 +13,7 @@ const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m 
 const MyBuildsPage    = lazy(() => import('./pages/MyBuildsPage.tsx').then(m => ({ default: m.MyBuildsPage })))
 const AboutPage       = lazy(() => import('./pages/AboutPage.tsx').then(m => ({ default: m.AboutPage })))
 const HowToUsePage    = lazy(() => import('./pages/HowToUsePage.tsx').then(m => ({ default: m.HowToUsePage })))
+const ClassGuidePage  = lazy(() => import('./pages/ClassGuidePage.tsx').then(m => ({ default: m.ClassGuidePage })))
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -63,6 +64,7 @@ const LANG_SUB_ROUTES = (
     <Route path="my-builds" element={<Suspense fallback={null}><MyBuildsPage /></Suspense>} />
     <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
     <Route path="how-to-use" element={<Suspense fallback={null}><HowToUsePage /></Suspense>} />
+    <Route path="classes/:classId" element={<Suspense fallback={null}><ClassGuidePage /></Suspense>} />
   </>
 )
 

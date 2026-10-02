@@ -29,6 +29,9 @@ const FEATURES = [
 
 const FAQ_NUMS = [1, 2, 3, 4, 5] as const
 
+// Pilot for the new /classes/:id spell-guide page — see ClassGuidePage.tsx.
+const CLASS_GUIDE_PILOT = ['cra']
+
 export function AboutPage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
@@ -114,9 +117,14 @@ export function AboutPage() {
             {CLASS_DATA.map(c => (
               <Link
                 key={c.id}
-                to={`/${prefix}?class=${c.id}`}
+                // Pilot: only Cra has a standalone guide page (/classes/cra) for now
+                // — see docs/CHANGELOG.md. Every other class still deep-links
+                // straight into the planner until the guide format is validated.
+                to={CLASS_GUIDE_PILOT.includes(c.id) ? `/${prefix}classes/${c.id}` : `/${prefix}?class=${c.id}`}
                 className="px-2 py-1 rounded text-xs border transition-colors"
-                style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+                style={CLASS_GUIDE_PILOT.includes(c.id)
+                  ? { borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+                  : { borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
               >
                 {resolveClassName(c.id, lang, classNames)}
               </Link>
