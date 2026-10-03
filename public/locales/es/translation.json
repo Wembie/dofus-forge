@@ -660,5 +660,8 @@
   "my_builds_tab_bookmarked": "Guardadas",
   "my_builds_no_bookmarks": "Todavía no guardaste ninguna build.",
   "build_detail_scrolled": "Pergaminado (+1 por punto)",
-  "build_detail_power_breakdown": "{{base}} + {{power}} ({{label}})"
+  "build_detail_power_breakdown": "{{base}} + {{power}} ({{label}})",
+  "update_available": "Hay una nueva versión disponible",
+  "update_reload": "Recargar",
+  "dismiss": "Cerrar"
 }

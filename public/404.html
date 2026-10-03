@@ -81,6 +81,10 @@
       </svg>
       <div class="brand">Dofus Forge</div>
       <div class="status">Redirecting…</div>
+      <p class="fallback" id="stuck-fallback" style="display: none;">
+        Taking too long?
+        <a href="/dofus-forge/">Go to Dofus Forge →</a>
+      </p>
       <noscript>
         <p class="fallback">
           JavaScript is required.
@@ -96,6 +100,19 @@
       // or a user refreshing the page). This encodes the real path into a
       // query string and redirects to index.html, which decodes it back
       // via history.replaceState before the app mounts (see index.html).
+      //
+      // l.replace() below should navigate away immediately, but a user
+      // reported getting stuck on this exact screen after a deploy (likely
+      // a cached copy of this file, or of the index.html it redirects to,
+      // misbehaving) with no way out except manually typing a URL. This
+      // timer is a visible escape hatch: if the redirect hasn't already
+      // navigated away within 2.5s, show a manual link instead of leaving
+      // the user staring at "Redirecting…" indefinitely.
+      setTimeout(function () {
+        var el = document.getElementById('stuck-fallback');
+        if (el) el.style.display = 'block';
+      }, 2500);
+
       var pathSegmentsToKeep = 1; // keeps "/dofus-forge"
       var l = window.location;
       l.replace(

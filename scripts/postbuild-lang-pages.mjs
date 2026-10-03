@@ -196,3 +196,15 @@ generateRoute('about', ABOUT_META)
 generateRoute('how-to-use', HOWTO_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex
 generateRoute('classes/cra', CRA_META)
+
+// Fetched at runtime (no-store) so the running app can detect a newer
+// deploy and prompt the user to refresh instead of risking a stale
+// index.html whose JS chunk references have since been deleted from the
+// server (Vite content-hashes every chunk filename on each build — old
+// ones aren't kept around). Read from the same VERSION file vite.config.ts
+// already reads to bake in __APP_VERSION__, so the two can never drift.
+{
+  const appVersion = readFileSync(join(process.cwd(), 'VERSION'), 'utf-8').trim()
+  writeFileSync(join(DIST, 'version.json'), JSON.stringify({ version: appVersion }), 'utf-8')
+  console.log(`✓ dist/version.json (${appVersion})`)
+}
