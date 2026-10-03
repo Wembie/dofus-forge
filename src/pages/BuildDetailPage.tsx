@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark } from 'lucide-react'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -20,6 +20,7 @@ import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonus
 import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics } from '@/engine/types.ts'
 import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
+  fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
   type BuildDetailRow, type CommentRow,
 } from '@/features/builds/api.ts'
@@ -60,6 +61,7 @@ export function BuildDetailPage() {
 
   const [liked, setLiked]         = useState(false)
   const [likeCount, setLikeCount] = useState(0)
+  const [bookmarked, setBookmarked] = useState(false)
   const [myRating, setMyRating]   = useState<number | null>(null)
 
   const [comments, setComments]         = useState<CommentRow[]>([])
@@ -93,6 +95,7 @@ export function BuildDetailPage() {
   useEffect(() => {
     if (!id || !session) return
     fetchMyLike(id, session.user.id).then(setLiked)
+    fetchMyBookmark(id, session.user.id).then(setBookmarked)
     fetchMyRating(id, session.user.id).then(setMyRating)
   }, [id, session])
 
@@ -104,6 +107,14 @@ export function BuildDetailPage() {
     const { error } = await toggleBuildLike(id, session.user.id, liked)
     if (error) { setLiked(!next); setLikeCount(c => c + (next ? -1 : 1)) }
   }, [session, id, liked])
+
+  const handleToggleBookmark = useCallback(async () => {
+    if (!session || !id) return
+    const next = !bookmarked
+    setBookmarked(next)
+    const { error } = await toggleBuildBookmark(id, session.user.id, bookmarked)
+    if (error) setBookmarked(!next)
+  }, [session, id, bookmarked])
 
   const handleRate = useCallback(async (rating: number) => {
     if (!session || !id) return
@@ -223,6 +234,15 @@ export function BuildDetailPage() {
             >
               <Heart size={14} fill={liked ? 'var(--negative)' : 'none'} />
               {likeCount}
+            </button>
+            <button
+              onClick={handleToggleBookmark}
+              disabled={!session}
+              className="flex items-center gap-1.5 disabled:cursor-not-allowed"
+              style={{ color: bookmarked ? 'var(--gold)' : 'var(--ink-faint)' }}
+              title={session ? t('build_detail_bookmark') : t('build_detail_signin_required')}
+            >
+              <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
             <span className="flex items-center gap-1.5"><Star size={14} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)} ({build.rating_count})</span>

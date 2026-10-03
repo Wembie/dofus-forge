@@ -654,5 +654,9 @@
   "profile_unfollow": "Seguindo",
   "profile_followers": "seguidores",
   "profile_following": "seguindo",
-  "profile_signin_to_follow": "Entre para seguir"
+  "profile_signin_to_follow": "Entre para seguir",
+  "build_detail_bookmark": "Salvar",
+  "my_builds_tab_mine": "Minhas Builds",
+  "my_builds_tab_bookmarked": "Salvas",
+  "my_builds_no_bookmarks": "Nenhuma build salva ainda."
 }

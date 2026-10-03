@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.32',
+    date: '2026-10-03',
+    notes: [
+      'Feat: M52 - bookmark builds (save/unsave), with a new "Bookmarked" tab on My Builds',
+    ],
+  },
+  {
     version: '0.3.31',
     date: '2026-10-02',
     notes: [

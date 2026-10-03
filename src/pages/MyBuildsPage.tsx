@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud } from 'lucide-react'
-import { Frame } from '@/ui'
+import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud, Layers, Bookmark } from 'lucide-react'
+import { Frame, Tabs } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { useAuthStore } from '@/store/authStore.ts'
@@ -14,9 +14,10 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.tsx'
+import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import {
-  fetchMyBuilds, deleteBuild, updateBuildVisibility,
-  type MyBuildRow, type BuildVisibility,
+  fetchMyBuilds, deleteBuild, updateBuildVisibility, fetchMyBookmarkedBuilds,
+  type MyBuildRow, type BuildVisibility, type BuildRow,
 } from '@/features/builds/api.ts'
 
 const VISIBILITY_ORDER: BuildVisibility[] = ['private', 'unlisted', 'public']
@@ -192,13 +193,23 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
   )
 }
 
+type MyBuildsTab = 'mine' | 'bookmarked'
+
+const TAB_ITEMS: { id: MyBuildsTab; label: string; Icon: typeof Layers }[] = [
+  { id: 'mine',       label: 'my_builds_tab_mine',       Icon: Layers },
+  { id: 'bookmarked', label: 'my_builds_tab_bookmarked', Icon: Bookmark },
+]
+
 export function MyBuildsPage() {
   const { t, i18n } = useTranslation()
   useLoadGameData()
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'my-builds', { noindex: true })
   const session      = useAuthStore(s => s.session)
+  const [tab, setTab]         = useState<MyBuildsTab>('mine')
   const [builds, setBuilds]   = useState<MyBuildRow[]>([])
+  const [bookmarked, setBookmarked] = useState<BuildRow[]>([])
   const [loading, setLoading] = useState(true)
+  const [bookmarksLoaded, setBookmarksLoaded] = useState(false)
 
   const load = useCallback(() => {
     if (!session) { setLoading(false); return }
@@ -210,6 +221,15 @@ export function MyBuildsPage() {
   }, [session])
 
   useEffect(() => { load() }, [load])
+
+  // Lazy: only fetch bookmarks once the user actually opens that tab.
+  useEffect(() => {
+    if (tab !== 'bookmarked' || bookmarksLoaded || !session) return
+    fetchMyBookmarkedBuilds(session.user.id).then(({ data }) => {
+      setBookmarked(data)
+      setBookmarksLoaded(true)
+    })
+  }, [tab, bookmarksLoaded, session])
 
   const publicCount = builds.filter(b => b.visibility === 'public').length
   const totalLikes  = builds.reduce((sum, b) => sum + b.like_count, 0)
@@ -241,24 +261,49 @@ export function MyBuildsPage() {
               </div>
             </Frame>
 
-            {loading && (
-              <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
-            )}
+            <Tabs
+              items={TAB_ITEMS.map(it => ({ ...it, label: t(it.label) }))}
+              active={tab}
+              onChange={id => setTab(id as MyBuildsTab)}
+              variant="segment"
+            />
 
-            {!loading && builds.length === 0 && (
-              <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('no_saved_builds')}</p>
-            )}
+            {tab === 'mine' ? (
+              <>
+                {loading && (
+                  <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
+                )}
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {builds.map(b => (
-                <MyBuildCard
-                  key={b.id}
-                  build={b}
-                  onChanged={updated => setBuilds(prev => prev.map(x => x.id === updated.id ? updated : x))}
-                  onDeleted={id => setBuilds(prev => prev.filter(x => x.id !== id))}
-                />
-              ))}
-            </div>
+                {!loading && builds.length === 0 && (
+                  <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('no_saved_builds')}</p>
+                )}
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {builds.map(b => (
+                    <MyBuildCard
+                      key={b.id}
+                      build={b}
+                      onChanged={updated => setBuilds(prev => prev.map(x => x.id === updated.id ? updated : x))}
+                      onDeleted={id => setBuilds(prev => prev.filter(x => x.id !== id))}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                {!bookmarksLoaded && (
+                  <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
+                )}
+
+                {bookmarksLoaded && bookmarked.length === 0 && (
+                  <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('my_builds_no_bookmarks')}</p>
+                )}
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {bookmarked.map(b => <BuildCard key={b.id} build={b} />)}
+                </div>
+              </>
+            )}
           </>
         )}
       </main>

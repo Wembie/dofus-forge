@@ -93,7 +93,7 @@ Marcar con `[x]` cuando se complete.
 Orden recomendado (impacto/esfuerzo, de mayor a menor):
 - [x] **M50 — Búsqueda full-text en Explore** — usa `builds.search_vector` (columna `tsvector` ya generada/mantenida por Postgres, sin costo extra de escritura) vía `.textSearch()`; input de búsqueda por nombre/descripción en la barra de Explore, debounced 350ms
 - [x] **M51 — Seguir usuarios (Follow)** — botón seguir/dejar de seguir en `/u/:username`, usa la tabla `follows` + `profiles.followers_count`/`following_count` (ya trigger-sincronizados). Update optimista con rollback en error, deshabilitado sin sesión, oculto en el propio perfil
-- [ ] **M52 — Guardar builds (Bookmarks)** — botón de guardado en build detail/cards, distinto de like; usa `build_bookmarks` + `builds.bookmark_count` (ya trackeado, mismo patrón que like/rating)
+- [x] **M52 — Guardar builds (Bookmarks)** — botón de guardado en build detail (distinto de like), usa `build_bookmarks` (RLS owner-only, privado). Nueva pestaña "Guardadas" en My Builds listando los builds guardados (reusa `BuildCard`, no `MyBuildCard`, porque son builds ajenos de solo lectura), carga lazy al abrir la pestaña
 - [ ] **M53 — Fork de builds públicas** — botón "Remixar" en build detail, copia el snapshot a un build propio nuevo con `fork_of` apuntando al original
 - [ ] **M54 — Tags de builds** — selector de tags al publicar (`tags`/`build_tags`), filtro por tag en Explore
 - [ ] **M55 — Likes en comentarios** — botón like por comentario en build detail, usa `comment_likes`
