@@ -45,6 +45,13 @@ Marcar con `[x]` cuando se complete.
 - [x] **M47 — Publicar build a la nube** — botón "Publicar" en el header (requiere sesión), modal con nombre + visibilidad (privado/no listado/público), inserta en `builds` con el snapshot completo como jsonb
 - [x] **M48 — Explorar builds públicos** — página `/explore` con filtro de clase + orden (mejor valorado/más likes/recientes/más vistos, usa los índices `idx_builds_explore_*`), grid de tarjetas, paginación "cargar más"
 - [x] **M49 — Página de detalle de build** — `/build/:id`: dueño, view count (RPC `record_view`), like (`build_likes`), rating 1-5 estrellas (`build_ratings`), comentarios (`build_comments`), botón "Cargar en el planner"
+- [x] **M50 — Búsqueda full-text en Explore** — usa `builds.search_vector` (columna `tsvector` ya generada/mantenida por Postgres, sin costo extra de escritura) vía `.textSearch()` con prefix match por palabra (`word:*`, no `plainto_tsquery`, para que "Emp" encuentre "Empujes"); input debounced 350ms en la barra de Explore
+- [x] **M51 — Seguir usuarios (Follow)** — botón seguir/dejar de seguir en `/u/:username`, usa la tabla `follows` + `profiles.followers_count`/`following_count` (ya trigger-sincronizados). Update optimista con rollback en error, deshabilitado sin sesión, oculto en el propio perfil
+- [x] **M52 — Guardar builds (Bookmarks)** — botón de guardado en build detail (distinto de like), usa `build_bookmarks` (RLS owner-only, privado). Nueva pestaña "Guardadas" en My Builds listando los builds guardados (reusa `BuildCard`, no `MyBuildCard`, porque son builds ajenos de solo lectura), carga lazy al abrir la pestaña
+- [x] **M60 — SEO completo del sitio** — meta por página (title/description/canonical/hreflang dinámico vía `usePageSeo`, antes todas las rutas heredaban el meta del home), páginas HTML estáticas generadas por ruta para GitHub Pages (`scripts/postbuild-lang-pages.mjs`, evita 404 en crawl directo), `sitemap.xml` extendido, favicon PNG + schema `WebSite`/`Organization` (antes Google mostraba ícono genérico), ruta `/en` espejo sin competir por ranking con `/`
+- [x] **M61 — Página "Acerca de" y "Cómo usar"** — `/about` y `/how-to-use`, contenido real en los 4 idiomas (por qué existe, de dónde salen los datos, modelo gratis/sin cuenta, quién lo hace; guía paso a paso de cada feature real), FAQ con schema `FAQPage`, grid de features, lista de clases con deep-link `?class=<id>` al planner
+- [x] **M62 — Guía de hechizos por clase** — `/classes/:id`, piloto con Ocra/Crâ: nombre/elemento/hechizos reales (PA, alcance, daño base a nivel máximo), sin necesitar build armado — distinto del SpellsPanel del planner que sí requiere stats
+- [x] **M63 — Perfil público de usuario** — `/u/:username` (nunca por UID), avatar/fecha de ingreso, builds públicas, likes recibidos, comentarios hechos (solo en builds públicas); `SiteFooter` compartido en todas las páginas con navegación a Home/Acerca de/Cómo usar/Explorar/Mis Builds
 
 ### Fixes completados
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms
@@ -64,6 +71,10 @@ Marcar con `[x]` cuando se complete.
 - [x] **Fix — Input de asignación no hace commit mid-type** — `commitInput` solo en blur/Enter, no en onChange; evita saltos al escribir valores
 - [x] **Fix — Cuando se le da click al logo Dofus Forge, volver al inicio** — reset build + clearHistory
 - [x] **Fix — Foto de personajes** — vuelto al retrato estático local (data/classes/{id}.png)
+- [x] **Fix — Cambio de idioma en Ajustes volvía siempre al planner** — `LanguageSwitcher` hardcodeaba la raíz del idioma (`/` o `/${code}/`) en vez de preservar la sub-ruta actual (`/classes/cra`, `/about`, etc.) — mismo tipo de bug que `RootRoute` ya había tenido y arreglado antes
+- [x] **Fix — "Mis Builds" duplicado en el header** — `ShareBar` tenía su propio link a Mis Builds además del que ya existe en el nav/menú de `BuilderPage`; eliminado el duplicado
+- [x] **Fix — Hover de nombre de usuario mezclado con el de la card** — en `BuildCard`, pasar el mouse sobre el nombre del dueño activaba el glow dorado de toda la card (mismo div, mismo handler); separado en dos zonas de hover independientes. En comentarios, el nombre del autor no reaccionaba visualmente al hover por un `style` inline que pisaba la clase de Tailwind
+- [x] **Fix — Lista de clases en "Acerca de" mostraba siempre el nombre en inglés** — `AboutPage` no llamaba `useLoadGameData()`, así que la tabla de nombres por idioma nunca se cargaba y el resolver caía siempre al nombre en inglés de respaldo
 
 ---
 
@@ -90,10 +101,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M46 — Optimizer: algoritmos especializados** — motor de clase profesional: multi-start greedy, branch & bound, algoritmo genético, constraint propagation; arquitectura `src/engine/optimizer/` por módulo
 
 ### Social / Supabase — usar el resto de las tablas ya existentes
-Orden recomendado (impacto/esfuerzo, de mayor a menor):
-- [x] **M50 — Búsqueda full-text en Explore** — usa `builds.search_vector` (columna `tsvector` ya generada/mantenida por Postgres, sin costo extra de escritura) vía `.textSearch()`; input de búsqueda por nombre/descripción en la barra de Explore, debounced 350ms
-- [x] **M51 — Seguir usuarios (Follow)** — botón seguir/dejar de seguir en `/u/:username`, usa la tabla `follows` + `profiles.followers_count`/`following_count` (ya trigger-sincronizados). Update optimista con rollback en error, deshabilitado sin sesión, oculto en el propio perfil
-- [x] **M52 — Guardar builds (Bookmarks)** — botón de guardado en build detail (distinto de like), usa `build_bookmarks` (RLS owner-only, privado). Nueva pestaña "Guardadas" en My Builds listando los builds guardados (reusa `BuildCard`, no `MyBuildCard`, porque son builds ajenos de solo lectura), carga lazy al abrir la pestaña
+Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ver Completados.
 - [ ] **M53 — Fork de builds públicas** — botón "Remixar" en build detail, copia el snapshot a un build propio nuevo con `fork_of` apuntando al original
 - [ ] **M54 — Tags de builds** — selector de tags al publicar (`tags`/`build_tags`), filtro por tag en Explore
 - [ ] **M55 — Likes en comentarios** — botón like por comentario en build detail, usa `comment_likes`
