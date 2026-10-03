@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.35',
+    date: '2026-10-03',
+    notes: [
+      'Fix: translation files now cache-bust on app version - a new deploy no longer risks showing raw i18n keys from a stale cached copy',
+    ],
+  },
+  {
     version: '0.3.34',
     date: '2026-10-03',
     notes: [
