@@ -654,5 +654,9 @@
   "profile_unfollow": "Abonné",
   "profile_followers": "abonnés",
   "profile_following": "abonnements",
-  "profile_signin_to_follow": "Connectez-vous pour suivre"
+  "profile_signin_to_follow": "Connectez-vous pour suivre",
+  "build_detail_bookmark": "Enregistrer",
+  "my_builds_tab_mine": "Mes Builds",
+  "my_builds_tab_bookmarked": "Enregistrées",
+  "my_builds_no_bookmarks": "Aucune build enregistrée pour l'instant."
 }

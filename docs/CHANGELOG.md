@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.32] — 2026-10-03
+- **Feat**: M52 — bookmarks. Save/unsave button on `BuildDetailPage` (next to Like, same optimistic update/rollback pattern), using the existing `build_bookmarks` table — its RLS is owner-only (`using (auth.uid() = user_id)`, unlike `build_likes`/`follows` which are publicly readable), so bookmarks are private by design, no change needed there
+- **Feat**: new "Bookmarked" tab on `MyBuildsPage` (alongside the existing "My Builds" tab) listing everything the user has bookmarked — reuses `BuildCard` (the read-only Explore/profile card), not `MyBuildCard`, since these are other people's builds with no edit/delete/visibility controls to offer. Fetched lazily, only once the tab is actually opened
+- **Chore**: `fetchMyBookmarkedBuilds` joins `build_bookmarks` to `builds` via `builds!inner(...)` using the same `LIST_COLUMNS` as every other build list query, ordered by when it was bookmarked (most recent first)
+
 ## [0.3.31] — 2026-10-02
 - **Feat**: M51 — follow users. Follow/unfollow button on `/u/:username`, using the `follows` table and `profiles.followers_count`/`following_count` (already trigger-synced — no schema change needed, just the UI). Optimistic update with rollback on error, same pattern as the existing like button; disabled with a tooltip when logged out, hidden entirely on your own profile
 - **Fix**: M50's search used `plainto_tsquery`, which only matches whole words — typing "Emp" would never find "Empujes" since it's not a complete word, which is a poor "as you type" search experience. Switched to a per-word prefix query (`word:*`, AND-joined) built manually and passed to `.textSearch()` with no `type` — still hits the exact same GIN index, no new migration needed. Considered plain `ilike '%x%'` for true substring matching instead, but there's no trigram index on `builds.name` yet, so it would force a full sequential scan on every keystroke; left as a documented follow-up if real substring matching (not just prefix) is wanted later

@@ -211,6 +211,42 @@ export async function toggleBuildLike(buildId: string, userId: string, currently
   return { error: error?.message ?? null }
 }
 
+export async function fetchMyBookmark(buildId: string, userId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase.from('build_bookmarks').select('user_id').eq('build_id', buildId).eq('user_id', userId).maybeSingle()
+  return Boolean(data)
+}
+
+export async function toggleBuildBookmark(buildId: string, userId: string, currentlyBookmarked: boolean) {
+  const supabase = await getSupabase()
+  if (currentlyBookmarked) {
+    const { error } = await supabase.from('build_bookmarks').delete().eq('build_id', buildId).eq('user_id', userId)
+    return { error: error?.message ?? null }
+  }
+  const { error } = await supabase.from('build_bookmarks').insert({ build_id: buildId, user_id: userId })
+  return { error: error?.message ?? null }
+}
+
+/**
+ * Builds the current user has bookmarked. `build_bookmarks` RLS is
+ * owner-only (`using (auth.uid() = user_id)`, unlike build_likes/follows
+ * which are publicly readable) — bookmarks are private, so this can only
+ * ever be called for the signed-in user's own id, never someone else's.
+ * Inner-joins to builds for the actual card data (same LIST_COLUMNS as
+ * Explore/profile), ordered by when it was bookmarked, most recent first.
+ */
+export async function fetchMyBookmarkedBuilds(userId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('build_bookmarks')
+    .select(`created_at, builds!inner(${LIST_COLUMNS})`)
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+  if (error) return { data: [], error: error.message }
+  const builds = (data ?? []).map(row => (row as unknown as { builds: BuildRow }).builds)
+  return { data: builds, error: null }
+}
+
 export async function fetchMyRating(buildId: string, userId: string) {
   const supabase = await getSupabase()
   const { data } = await supabase.from('build_ratings').select('rating').eq('build_id', buildId).eq('user_id', userId).maybeSingle()
