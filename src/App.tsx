@@ -4,6 +4,7 @@ import { BuilderPage } from './pages/BuilderPage.tsx'
 import { Toaster } from './components/Toaster.tsx'
 import { MagicCursor } from './components/MagicCursor.tsx'
 import { ParticleField } from './components/ParticleField.tsx'
+import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { LangRoute } from './LangRoute.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import type { SeoLang } from './seo/useSeoMeta.ts'
@@ -110,6 +111,7 @@ function App() {
       <Toaster />
       <ParticleField />
       <MagicCursor />
+      <UpdateBanner />
     </BrowserRouter>
   )
 }

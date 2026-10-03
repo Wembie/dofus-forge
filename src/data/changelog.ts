@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.36',
+    date: '2026-10-03',
+    notes: [
+      'Feat: the app now detects a newer deploy and shows a dismissible "update available" banner with a reload button',
+      'Fix: the redirect page no longer leaves you stuck forever - a manual link appears if it does not navigate within 2.5s',
+    ],
+  },
+  {
     version: '0.3.35',
     date: '2026-10-03',
     notes: [

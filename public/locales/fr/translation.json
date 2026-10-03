@@ -660,5 +660,8 @@
   "my_builds_tab_bookmarked": "Enregistrées",
   "my_builds_no_bookmarks": "Aucune build enregistrée pour l'instant.",
   "build_detail_scrolled": "Parchemine (+1 par point)",
-  "build_detail_power_breakdown": "{{base}} + {{power}} ({{label}})"
+  "build_detail_power_breakdown": "{{base}} + {{power}} ({{label}})",
+  "update_available": "Une nouvelle version est disponible",
+  "update_reload": "Recharger",
+  "dismiss": "Fermer"
 }
