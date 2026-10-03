@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.34',
+    date: '2026-10-03',
+    notes: [
+      'Fix: build detail page now correctly adds Power into Strength/Intelligence/Chance/Agility, same as the planner does - shown as a single total with the breakdown in a hover tooltip',
+    ],
+  },
+  {
     version: '0.3.33',
     date: '2026-10-03',
     notes: [
