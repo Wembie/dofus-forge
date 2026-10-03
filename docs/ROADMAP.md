@@ -52,6 +52,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M61 — Página "Acerca de" y "Cómo usar"** — `/about` y `/how-to-use`, contenido real en los 4 idiomas (por qué existe, de dónde salen los datos, modelo gratis/sin cuenta, quién lo hace; guía paso a paso de cada feature real), FAQ con schema `FAQPage`, grid de features, lista de clases con deep-link `?class=<id>` al planner
 - [x] **M62 — Guía de hechizos por clase** — `/classes/:id`, piloto con Ocra/Crâ: nombre/elemento/hechizos reales (PA, alcance, daño base a nivel máximo), sin necesitar build armado — distinto del SpellsPanel del planner que sí requiere stats
 - [x] **M63 — Perfil público de usuario** — `/u/:username` (nunca por UID), avatar/fecha de ingreso, builds públicas, likes recibidos, comentarios hechos (solo en builds públicas); `SiteFooter` compartido en todas las páginas con navegación a Home/Acerca de/Cómo usar/Explorar/Mis Builds
+- [x] **M64 — Analytics públicas + límite de builds + default público** — contador de total de builds creadas (públicas+privadas) en `/about` vía RPC `get_total_builds_count()` (`security definer`, solo devuelve un número, nunca contenido); límite de 50 builds por cuenta enforced server-side con un trigger `before insert` (usa `profiles.builds_count`, ya sincronizado, cero scans extra) + mensaje claro en el modal de Publicar si se llega al límite; visibilidad por defecto al publicar cambiada de privada a pública
 
 ### Fixes completados
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms
@@ -111,6 +112,7 @@ Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ve
 - [ ] **M59 — Historial de versiones de build** — guardar un snapshot en cada edición relevante (`build_snapshots`), ver/restaurar una versión anterior
 
 - [ ] **Chore — Eliminar tablas legacy sin usar** — `build_items`/`build_characteristics`/`build_runes` quedaron sin usar desde que todo vive en `builds.snapshot` (jsonb, que ya soporta buscar "builds con item X" vía containment query sin joins); dropear en vez de implementar, mantenerlas sincronizadas sería puro costo sin beneficio real
+- [ ] **Futuro — Membresía / tiers** — mencionado como "ya si algo lo vemos después" al agregar el límite de 50 builds/cuenta (ver Completados): si el límite fijo termina siendo un problema real para alguien, ahí se evalúa un tier pago que lo suba, no antes — no implementar nada todavía, solo queda anotado
 
 
 - [x] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso

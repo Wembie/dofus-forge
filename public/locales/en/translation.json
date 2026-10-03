@@ -663,5 +663,7 @@
   "build_detail_power_breakdown": "{{base}} + {{power}} ({{label}})",
   "update_available": "A new version is available",
   "update_reload": "Reload",
-  "dismiss": "Dismiss"
+  "dismiss": "Dismiss",
+  "about_total_builds": "{{count}} builds created on Dofus Forge",
+  "publish_limit_reached": "You've reached the 50-build limit per account. Delete an old one from My Builds to publish a new one."
 }

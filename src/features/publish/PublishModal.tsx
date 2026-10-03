@@ -24,7 +24,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
 
   const [name, setName]             = useState(store.buildName || '')
-  const [visibility, setVisibility] = useState<BuildVisibility>('private')
+  const [visibility, setVisibility] = useState<BuildVisibility>('public')
   const [busy, setBusy]             = useState(false)
   const [error, setError]           = useState<string | null>(null)
 
@@ -73,7 +73,10 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
     const { data, error: err } = await publishBuild(payload)
     setBusy(false)
-    if (err || !data) { setError(t('publish_error')); return }
+    if (err || !data) {
+      setError(err?.includes('BUILD_LIMIT_REACHED') ? t('publish_limit_reached') : t('publish_error'))
+      return
+    }
 
     setLinkedBuildId(data.id)
     close()
