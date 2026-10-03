@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Sparkles, Database, Heart, Users, BookOpen, Layers, Wand2, Share2, Compass } from 'lucide-react'
+import { Sparkles, Database, Heart, Users, BookOpen, Layers, Wand2, Share2, Compass, Hammer } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
@@ -10,6 +11,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
+import { fetchTotalBuildsCount } from '@/features/builds/api.ts'
 
 const SECTIONS = [
   { key: 'why',  Icon: Sparkles },
@@ -43,6 +45,13 @@ export function AboutPage() {
   useLoadGameData() // needed so classNames (per-language class labels) are loaded — see the class list below
   const classNames = useDataStore(s => s.classNames)
 
+  const [totalBuilds, setTotalBuilds] = useState<number | null>(null)
+  useEffect(() => {
+    let cancelled = false
+    fetchTotalBuildsCount().then(({ count, error }) => { if (!cancelled && !error) setTotalBuilds(count) })
+    return () => { cancelled = true }
+  }, [])
+
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -65,6 +74,15 @@ export function AboutPage() {
           <p className="text-sm leading-relaxed mt-3 max-w-2xl" style={{ color: 'var(--ink-muted)' }}>
             {t('about_intro')}
           </p>
+          {totalBuilds !== null && (
+            <p
+              className="inline-flex items-center gap-1.5 text-xs font-semibold mt-3 px-2.5 py-1 rounded-full"
+              style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)' }}
+            >
+              <Hammer size={12} />
+              {t('about_total_builds', { count: totalBuilds })}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

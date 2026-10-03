@@ -386,3 +386,15 @@ export async function unfollowUser(followerId: string, followingId: string) {
   const { error } = await supabase.from('follows').delete().eq('follower_id', followerId).eq('following_id', followingId)
   return { error: error?.message ?? null }
 }
+
+/**
+ * Total builds on the site, public + private — a single security-definer
+ * RPC (get_total_builds_count), since builds' own RLS would otherwise only
+ * let this count public builds + the caller's own. Returns just a number,
+ * never row content, so bypassing RLS here doesn't leak anything.
+ */
+export async function fetchTotalBuildsCount() {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase.rpc('get_total_builds_count')
+  return { count: typeof data === 'number' ? data : Number(data ?? 0), error: error?.message ?? null }
+}

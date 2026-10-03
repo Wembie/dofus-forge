@@ -1235,6 +1235,48 @@ end; $$;
 create trigger on_build after insert or delete on builds for each row execute procedure sync_builds_count();
 
 
+-- ── Límite de builds por cuenta (50, regardless of visibility) ─────────
+-- before insert (not after) so it blocks the row that would be the 51st —
+-- profiles.builds_count is already trigger-synced (sync_builds_count above)
+-- and counts every build regardless of visibility, so this is a single
+-- indexed row read, no count(*) scan over builds needed.
+create function check_build_limit() returns trigger language plpgsql as $$
+begin
+  if (select builds_count from profiles where id = new.user_id) >= 50 then
+    raise exception 'BUILD_LIMIT_REACHED';
+  end if;
+  return new;
+end; $$;
+create trigger before_build_insert before insert on builds for each row execute procedure check_build_limit();
+
+
+-- ── Membresía / tiers (PLANTEADO, NO IMPLEMENTADO) ──────────────────────
+-- Si el límite fijo de 50 builds/cuenta arriba termina siendo un problema
+-- real para alguien, la idea es un tier pago que lo suba en vez de tocar
+-- el límite global. Boceto de cómo encajaría, sin crear nada todavía:
+--
+--   create type membership_tier as enum ('free', 'plus');
+--   alter table profiles add column membership_tier membership_tier not null default 'free';
+--   -- check_build_limit() arriba pasaría a leer el tope según el tier:
+--   --   case (select membership_tier from profiles where id = new.user_id)
+--   --     when 'plus' then 200 else 50 end
+--   -- en vez del 50 fijo que tiene hoy.
+--
+-- No crear el enum/columna ni tocar check_build_limit() hasta que haya
+-- una necesidad real — ver nota en docs/ROADMAP.md.
+
+
+-- ── Total de builds del sitio (público+privado) para analytics públicas ─
+-- security definer: builds' own RLS only lets a user see public builds +
+-- their own, so a plain client-side count(*) would undercount everything
+-- else. This function only ever returns a number, never row content, so
+-- bypassing RLS here doesn't leak anything.
+create function get_total_builds_count() returns bigint language sql security definer stable as $$
+  select count(*) from builds;
+$$;
+grant execute on function get_total_builds_count() to anon, authenticated;
+
+
 -- ── View deduplicado (RPC llamada desde la app) ──────────────────────
 create function record_view(p_build_id uuid, p_user_id uuid, p_ip_hash text)
 returns void language plpgsql security definer as $$

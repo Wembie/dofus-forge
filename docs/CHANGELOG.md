@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.37] — 2026-10-03
+- **Feat**: M64 — public site-wide build counter on `/about`, showing the total number of builds ever created (public + private combined), via a new `get_total_builds_count()` Postgres function. Built as `security definer` because `builds`' own row-level security only lets a regular query see public builds plus the caller's own — this function returns nothing but a single count, never row content, so bypassing RLS here can't leak anything private
+- **Feat**: M64 — hard limit of 50 builds per account, enforced server-side with a `before insert` trigger on `builds` (checks the already trigger-synced `profiles.builds_count`, so no extra table scan). Enforced in the database, not just the UI, since a client-only check can be bypassed by calling the API directly. The Publish modal now shows a clear "limit reached, delete an old one" message when this hits
+- **Feat**: M64 — publishing a build now defaults to **public** visibility instead of private, so new builds are discoverable in Explore by default
+- Noted for later (not implemented): if the 50-build cap becomes a real problem for someone, a paid tier that raises it is worth evaluating then — tracked in `docs/ROADMAP.md`
+
 ## [0.3.36] — 2026-10-03
 - **Feat**: proactive "update available" banner. A user reported getting stuck on `404.html`'s "Redirecting…" screen after a deploy with no way out besides manually typing a URL — likely a stale cached `index.html` referencing JS chunk filenames Vite had already deleted on the next build (every chunk is content-hashed, old ones aren't kept around). New `dist/version.json` (generated fresh on every build, from the same `VERSION` file `__APP_VERSION__` is baked from) is fetched with `cache: 'no-store'` on load, every 10 minutes, and whenever the tab becomes visible again — the case that actually matters, a build-detail tab left open across a deploy. On a mismatch, shows a dismissible banner with a reload button instead of letting the user hit the stale-cache failure the hard way
 - **Fix**: `404.html`'s redirect now has a visible escape hatch — if the automatic JS redirect hasn't navigated away within 2.5s (same failure as above, or any other reason it stalls), a manual "Go to Dofus Forge" link appears instead of leaving the user staring at "Redirecting…" indefinitely
