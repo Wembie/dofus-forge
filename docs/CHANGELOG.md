@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.34] — 2026-10-03
+- **Fix**: `BuildDetailPage`'s characteristics grid showed the raw `Strength`/`Intelligence`/`Chance`/`Agility` values without the `Power` stat's bonus added in — these 4 double as their matching element's damage stat in Dofus 3, so `Power` boosts them directly. The planner's own `CharacteristicsPanel` already applies this (shown inline as "980 +290 =1,270"); `BuildDetailPage` was reading the unboosted base straight off the computed `StatBlock` and never added `Power` on top, under-reporting these 4 stats for any build with a `Power` source equipped
+- **Polish**: unlike the planner (which shows the full "base +power =total" breakdown inline since you're actively tuning it), the read-only build page just shows the final total — the breakdown is a hover tooltip instead, since nobody's editing it. Verified end-to-end with Playwright using a real low-level item with a real `Power` effect (not a fabricated one): Agility showed the correctly-summed total, with "50 + 7 (Power)" in the tooltip; Vitality/Wisdom (unaffected by Power) got no tooltip
+
 ## [0.3.33] — 2026-10-03
 - **Feat**: `BuildDetailPage`'s read-only characteristics grid now shows a small scroll icon next to any stat the build's author scrolled (pergamino) — this was only ever visible in the editable planner's own `ScrollToggles`, with no equivalent when viewing someone else's published build. `scrolled` is now computed in its own `useMemo` (just unpacking the snapshot's bitmask, no equipment/sets data needed) instead of being a throwaway local inside the `computedStats` memo, so it's available for display without changing what `recompute()` was already fed. Verified with Playwright with a known bitmask (vitality+wisdom scrolled, others not) — exactly those two rows show the icon
 

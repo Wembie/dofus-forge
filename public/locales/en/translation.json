@@ -659,5 +659,6 @@
   "my_builds_tab_mine": "My Builds",
   "my_builds_tab_bookmarked": "Bookmarked",
   "my_builds_no_bookmarks": "No bookmarked builds yet.",
-  "build_detail_scrolled": "Scrolled (+1 per point)"
+  "build_detail_scrolled": "Scrolled (+1 per point)",
+  "build_detail_power_breakdown": "{{base}} + {{power}} ({{label}})"
 }

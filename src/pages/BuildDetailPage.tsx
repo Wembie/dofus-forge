@@ -15,9 +15,21 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
-import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
-import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics } from '@/engine/types.ts'
+import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics, type Characteristic } from '@/engine/types.ts'
+
+// Same mapping as CharacteristicsPanel.tsx's local CHAR_COLOR — kept as its
+// own copy rather than importing a planner-page component just for one
+// constant (that component isn't otherwise part of BuildDetailPage's chunk).
+const CHAR_COLOR: Record<Characteristic, string> = {
+  vitality:     'var(--vitality)',
+  wisdom:       'var(--wisdom)',
+  strength:     'var(--earth)',
+  intelligence: 'var(--fire)',
+  chance:       'var(--water)',
+  agility:      'var(--air)',
+}
 import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
   fetchMyBookmark, toggleBuildBookmark,
@@ -294,19 +306,34 @@ export function BuildDetailPage() {
                   </h2>
                   <div className="grid grid-cols-2 gap-1">
                     {([
-                      ['vitality',     'char_vitality',     computedStats.vitality],
-                      ['wisdom',       'char_wisdom',       computedStats.wisdom],
-                      ['strength',     'char_strength',     computedStats.strength],
-                      ['intelligence', 'char_intelligence', computedStats.intelligence],
-                      ['chance',       'char_chance',        computedStats.chance],
-                      ['agility',      'char_agility',      computedStats.agility],
-                    ] as const).map(([icon, labelKey, value]) => {
-                      const color = STAT_META[icon.charAt(0).toUpperCase() + icon.slice(1)]?.color ?? 'var(--ink-muted)'
+                      ['vitality',     'char_vitality',     computedStats.vitality,     false],
+                      ['wisdom',       'char_wisdom',       computedStats.wisdom,       false],
+                      ['strength',     'char_strength',     computedStats.strength,     true],
+                      ['intelligence', 'char_intelligence', computedStats.intelligence, true],
+                      ['chance',       'char_chance',       computedStats.chance,       true],
+                      ['agility',      'char_agility',      computedStats.agility,      true],
+                    ] as const).map(([icon, labelKey, base, getsPower]) => {
+                      const color    = CHAR_COLOR[icon]
+                      const power    = getsPower ? computedStats.power : 0
+                      const total    = base + power
+                      // Power boosts these 4 (they double as the matching
+                      // element's damage stat in Dofus 3) — the planner shows
+                      // it as "980 +290 =1,270" inline since you're actively
+                      // tuning it; here it's just noise, so show one number
+                      // and put the breakdown in a hover tooltip instead.
+                      const tooltip  = power > 0
+                        ? t('build_detail_power_breakdown', { base, power, label: t('stat_power') })
+                        : undefined
                       return (
-                        <div key={icon} className="flex items-center gap-1.5 px-2 py-1 rounded" style={{
-                          background: `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
-                          borderLeft: `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
-                        }}>
+                        <div
+                          key={icon}
+                          className="flex items-center gap-1.5 px-2 py-1 rounded"
+                          title={tooltip}
+                          style={{
+                            background: `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
+                            borderLeft: `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
+                          }}
+                        >
                           <img src={statIconUrl(icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
                           <span className="text-[11px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{t(labelKey)}</span>
                           {scrolledMap?.[icon] && (
@@ -314,7 +341,7 @@ export function BuildDetailPage() {
                               <ScrollText size={11} style={{ color }} aria-label={t('build_detail_scrolled')} />
                             </span>
                           )}
-                          <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>{value}</span>
+                          <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>{total.toLocaleString()}</span>
                         </div>
                       )
                     })}
