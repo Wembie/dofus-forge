@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.33',
+    date: '2026-10-03',
+    notes: [
+      'Feat: build detail page now shows which characteristics were scrolled, like the planner already does',
+    ],
+  },
+  {
     version: '0.3.32',
     date: '2026-10-03',
     notes: [

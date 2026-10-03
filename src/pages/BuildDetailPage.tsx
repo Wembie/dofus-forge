@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText } from 'lucide-react'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -145,17 +145,27 @@ export function BuildDetailPage() {
     }
   }
 
+  // Separate from computedStats below: this only needs the snapshot's bitmask
+  // (not equipment/sets data), so the scroll badges can render before game
+  // data finishes loading, and so the read-only characteristics grid can show
+  // which stats the build's author scrolled — that's otherwise only visible
+  // in the editable planner's own ScrollToggles, with no equivalent here.
+  const scrolledMap = useMemo(() => {
+    if (!build) return null
+    const snap = build.snapshot
+    return Object.fromEntries(CHARACTERISTICS.map((c, i) => [c, Boolean(snap.s & (1 << i))])) as ScrolledCharacteristics
+  }, [build])
+
   const computedStats = useMemo(() => {
-    if (!build || !equipmentData || !setsData) return null
+    if (!build || !equipmentData || !setsData || !scrolledMap) return null
     const snap      = build.snapshot
     const allocated = Object.fromEntries(CHARACTERISTICS.map((c, i) => [c, snap.a[i] ?? 0])) as AllocatedCharacteristics
-    const scrolled  = Object.fromEntries(CHARACTERISTICS.map((c, i) => [c, Boolean(snap.s & (1 << i))])) as ScrolledCharacteristics
     const equipped  = Object.fromEntries(
       ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)
     ) as Partial<Record<SlotId, number>>
     const runes = (snap.r ?? {}) as Partial<Record<SlotId, RuneMap>>
-    return recompute(snap.c as DofusClass, snap.l, allocated, scrolled, equipped, equipmentData, setsData, runes)
-  }, [build, equipmentData, setsData])
+    return recompute(snap.c as DofusClass, snap.l, allocated, scrolledMap, equipped, equipmentData, setsData, runes)
+  }, [build, equipmentData, setsData, scrolledMap])
 
   const activeSets = useMemo(() => {
     if (!build || !equipmentData || !setsData) return []
@@ -299,6 +309,11 @@ export function BuildDetailPage() {
                         }}>
                           <img src={statIconUrl(icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
                           <span className="text-[11px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{t(labelKey)}</span>
+                          {scrolledMap?.[icon] && (
+                            <span title={t('build_detail_scrolled')}>
+                              <ScrollText size={11} style={{ color }} aria-label={t('build_detail_scrolled')} />
+                            </span>
+                          )}
                           <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>{value}</span>
                         </div>
                       )

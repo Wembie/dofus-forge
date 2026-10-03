@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.33] — 2026-10-03
+- **Feat**: `BuildDetailPage`'s read-only characteristics grid now shows a small scroll icon next to any stat the build's author scrolled (pergamino) — this was only ever visible in the editable planner's own `ScrollToggles`, with no equivalent when viewing someone else's published build. `scrolled` is now computed in its own `useMemo` (just unpacking the snapshot's bitmask, no equipment/sets data needed) instead of being a throwaway local inside the `computedStats` memo, so it's available for display without changing what `recompute()` was already fed. Verified with Playwright with a known bitmask (vitality+wisdom scrolled, others not) — exactly those two rows show the icon
+
 ## [0.3.32] — 2026-10-03
 - **Feat**: M52 — bookmarks. Save/unsave button on `BuildDetailPage` (next to Like, same optimistic update/rollback pattern), using the existing `build_bookmarks` table — its RLS is owner-only (`using (auth.uid() = user_id)`, unlike `build_likes`/`follows` which are publicly readable), so bookmarks are private by design, no change needed there
 - **Feat**: new "Bookmarked" tab on `MyBuildsPage` (alongside the existing "My Builds" tab) listing everything the user has bookmarked — reuses `BuildCard` (the read-only Explore/profile card), not `MyBuildCard`, since these are other people's builds with no edit/delete/visibility controls to offer. Fetched lazily, only once the tab is actually opened

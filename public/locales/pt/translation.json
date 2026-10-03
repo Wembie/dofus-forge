@@ -658,5 +658,6 @@
   "build_detail_bookmark": "Salvar",
   "my_builds_tab_mine": "Minhas Builds",
   "my_builds_tab_bookmarked": "Salvas",
-  "my_builds_no_bookmarks": "Nenhuma build salva ainda."
+  "my_builds_no_bookmarks": "Nenhuma build salva ainda.",
+  "build_detail_scrolled": "Pergaminhado (+1 por ponto)"
 }
