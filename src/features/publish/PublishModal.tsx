@@ -19,11 +19,14 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   const { t, i18n } = useTranslation()
   const navigate     = useNavigate()
   const session       = useAuthStore(s => s.session)
-  const store         = useBuildStore()
+  // Not subscribed with a selector: the build itself (selectedClass,
+  // equipment, level, stats…) is only read inside submit() via
+  // useBuildStore.getState(), so editing the build elsewhere doesn't
+  // re-render this modal on every change.
   const linkedBuildId = useBuildStore(s => s.linkedBuildId)
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
 
-  const [name, setName]             = useState(store.buildName || '')
+  const [name, setName]             = useState(() => useBuildStore.getState().buildName || '')
   const [visibility, setVisibility] = useState<BuildVisibility>('public')
   const [busy, setBusy]             = useState(false)
   const [error, setError]           = useState<string | null>(null)
@@ -45,6 +48,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
+    const store = useBuildStore.getState()
     if (!store.selectedClass) return
     setBusy(true)
     setError(null)
