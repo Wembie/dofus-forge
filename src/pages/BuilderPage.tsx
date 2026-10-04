@@ -40,6 +40,54 @@ const PublishModal    = lazy(() => import('@/features/publish/PublishModal.tsx')
 
 type MobileTab = 'equipment' | 'character' | 'stats'
 
+// Isolated in its own component because its href has to encode the FULL
+// build state (so right-click/middle-click "open in new tab" carries the
+// current build) — that means subscribing to the whole buildStore. Doing
+// that subscription here, instead of in BuilderContent, keeps the re-render
+// it triggers on every single build change (equip, scroll toggle, level,
+// stat point, …) scoped to this one small link instead of cascading through
+// the entire page (header, equipment grid, stats panel, characteristics, …).
+function BrandLink({ onReset }: { onReset: () => void }) {
+  const { t, i18n } = useTranslation()
+  const buildState  = useBuildStore(s => s)
+  const brandHref   = useMemo(() => {
+    const encoded  = encodeBuild(buildState)
+    const lang     = i18n.language.slice(0, 2)
+    const langPath = lang === 'en' ? '' : `${lang}/`
+    return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
+  }, [buildState, i18n.language])
+
+  return (
+    <a
+      href={brandHref}
+      className="flex items-center gap-2 flex-shrink-0"
+      style={{ textDecoration: 'none', cursor: 'pointer' }}
+      onClick={e => {
+        if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return
+        e.preventDefault()
+        onReset()
+      }}
+      title={t('reset_build')}
+    >
+      {/* Diamond accent */}
+      <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
+        <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
+      </svg>
+      <h1
+        className="font-display font-bold tracking-[0.18em] uppercase"
+        style={{
+          fontSize:   '0.82rem',
+          color:      'var(--gold)',
+          textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)',
+          letterSpacing: '0.2em',
+        }}
+      >
+        {t('app_title')}
+      </h1>
+    </a>
+  )
+}
+
 function BuilderContent() {
   const { t, i18n } = useTranslation()
   const navigate       = useNavigate()
@@ -56,13 +104,6 @@ function BuilderContent() {
   const redo      = useHistoryStore(s => s.redo)
   const reset        = useBuildStore(s => s.reset)
   const clearHistory = useHistoryStore(s => s.clear)
-  const buildState   = useBuildStore(s => s)
-  const brandHref    = useMemo(() => {
-    const encoded  = encodeBuild(buildState)
-    const lang     = i18n.language.slice(0, 2)
-    const langPath = lang === 'en' ? '' : `${lang}/`
-    return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
-  }, [buildState, i18n.language])
   const [showChangelog,  setShowChangelog]  = useState(false)
   const [showOptimizer,  setShowOptimizer]  = useState(false)
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
@@ -154,33 +195,7 @@ function BuilderContent() {
           <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
 
           {/* Brand — left-click resets, right-click/middle-click opens new tab with current build */}
-          <a
-            href={brandHref}
-            className="flex items-center gap-2 flex-shrink-0"
-            style={{ textDecoration: 'none', cursor: 'pointer' }}
-            onClick={e => {
-              if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return
-              e.preventDefault()
-              resetBuild()
-            }}
-            title={t('reset_build')}
-          >
-            {/* Diamond accent */}
-            <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
-              <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
-            </svg>
-            <h1
-              className="font-display font-bold tracking-[0.18em] uppercase"
-              style={{
-                fontSize:   '0.82rem',
-                color:      'var(--gold)',
-                textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)',
-                letterSpacing: '0.2em',
-              }}
-            >
-              {t('app_title')}
-            </h1>
-          </a>
+          <BrandLink onReset={resetBuild} />
           <button
             onClick={() => setShowChangelog(true)}
             className="font-mono text-[9px] hidden lg:flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors"

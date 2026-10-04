@@ -127,7 +127,10 @@ export function ComparePanel() {
   const { t, i18n } = useTranslation()
 
   const { nameB, statsB, equippedB, classB, levelB, genderB, snapshotB, loadBuild, clearB, toggle } = useCompareStore()
-  const buildState = useBuildStore(s => s)
+  // No `s => s` subscription here on purpose — it would re-render this whole
+  // panel (both sides' comparison tables) on every single build A mutation,
+  // making the narrow selectors below pointless. handleShare below reads the
+  // full state on demand via useBuildStore.getState() instead.
   const statsA     = useBuildStore(s => s.stats)
   const equippedA  = useBuildStore(s => s.equipped)
   const classA     = useBuildStore(s => s.selectedClass)
@@ -179,7 +182,7 @@ export function ComparePanel() {
   }
 
   const handleShare = () => {
-    const encodedA  = encodeBuild(buildState)
+    const encodedA  = encodeBuild(useBuildStore.getState())
     const encodedB  = snapshotB ? encodeSnapshot(snapshotB) : ''
     const lang      = i18n.language.slice(0, 2)
     const langPath  = lang === 'en' ? '' : `${lang}/`

@@ -5,6 +5,14 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.38] — 2026-10-03
+- **Perf**: fixed the item-picker modal freezing on low-end PCs, reported by a user whose friend's machine lagged badly whenever reopening the picker with a full set already equipped — turned out to be unrelated to set-completion and purely about how many items got mounted at once (the weapon slot alone has 769 matching items, all rendered as real, hover-handler-laden DOM nodes synchronously on every open)
+  - Item grid now renders in pages of 20, growing via infinite scroll (`IntersectionObserver` on a sentinel, no new dependency) as you scroll, with a small loading spinner — opening any slot now mounts at most 20 cards instead of up to 769
+  - Each card is now its own memoized component, so toggling a favorite or hovering one card no longer re-renders every other card in the grid
+  - `content-visibility: auto` on each card so the browser skips layout/paint for ones scrolled out of view
+  - Per-slot derived data (available sets/stats/types for the picker's filters) is now cached per equipment dataset instead of re-scanning the ~4300-item catalog on every single modal open
+- **Perf**: fixed a broad Zustand subscription (`useBuildStore(s => s)` / `useBuildStore()` with no selector) in `BuilderPage`, `ShareBar`, `PublishModal`, and `ComparePanel` that re-rendered far more of the page than necessary on every build change (equip, scroll toggle, level, stat point…). The brand-link's "open current build in new tab" href needed the full build (only it does, so it's now isolated into its own small component); the rest only ever used the full state inside a click handler, so they now read it on demand via `useBuildStore.getState()` instead of subscribing to it
+
 ## [0.3.37] — 2026-10-03
 - **Feat**: M64 — public site-wide build counter on `/about`, showing the total number of builds ever created (public + private combined), via a new `get_total_builds_count()` Postgres function. Built as `security definer` because `builds`' own row-level security only lets a regular query see public builds plus the caller's own — this function returns nothing but a single count, never row content, so bypassing RLS here can't leak anything private
 - **Feat**: M64 — hard limit of 50 builds per account, enforced server-side with a `before insert` trigger on `builds` (checks the already trigger-synced `profiles.builds_count`, so no extra table scan). Enforced in the database, not just the UI, since a client-only check can be bypassed by calling the API directly. The Publish modal now shows a clear "limit reached, delete an old one" message when this hits

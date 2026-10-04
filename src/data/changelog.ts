@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.38',
+    date: '2026-10-03',
+    notes: [
+      'Perf: the item picker no longer freezes on slower PCs - it now loads items gradually as you scroll instead of all at once',
+      'Perf: equipping or tweaking a build now triggers fewer unnecessary re-renders across the page',
+    ],
+  },
+  {
     version: '0.3.37',
     date: '2026-10-03',
     notes: [
