@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.39',
+    date: '2026-10-03',
+    notes: [
+      'Feat: new Settings option to move the characteristics sidebar to the left side of the planner (desktop)',
+    ],
+  },
+  {
     version: '0.3.38',
     date: '2026-10-03',
     notes: [

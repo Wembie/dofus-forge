@@ -665,5 +665,9 @@
   "update_reload": "Reload",
   "dismiss": "Dismiss",
   "about_total_builds": "{{count}} builds created on Dofus Forge",
-  "publish_limit_reached": "You've reached the 50-build limit per account. Delete an old one from My Builds to publish a new one."
+  "publish_limit_reached": "You've reached the 50-build limit per account. Delete an old one from My Builds to publish a new one.",
+  "settings_sidebar_side": "Characteristics side",
+  "settings_sidebar_side_hint": "Which side the class/characteristics/stats sidebar sits on in the planner (desktop)",
+  "sidebar_side_left": "Left",
+  "sidebar_side_right": "Right"
 }

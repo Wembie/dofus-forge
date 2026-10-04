@@ -26,6 +26,7 @@ import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
+import { getSidebarSide, LAYOUT_SETTINGS_EVENT } from '@/lib/layoutSettings.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -109,6 +110,14 @@ function BuilderContent() {
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [sidebarSide, setSidebarSideState] = useState(getSidebarSide)
+
+  useEffect(() => {
+    const sync = () => setSidebarSideState(getSidebarSide())
+    window.addEventListener(LAYOUT_SETTINGS_EVENT, sync)
+    return () => window.removeEventListener(LAYOUT_SETTINGS_EVENT, sync)
+  }, [])
+  const sidebarLeft = sidebarSide === 'left'
 
   function resetBuild() {
     reset()
@@ -425,10 +434,10 @@ function BuilderContent() {
         </div>
 
         {/* Desktop: 2-column grid (lg+) */}
-        <div className="hidden lg:grid lg:grid-cols-[1fr_360px] gap-5 items-start">
+        <div className={`hidden lg:grid gap-5 items-start ${sidebarLeft ? 'lg:grid-cols-[360px_1fr]' : 'lg:grid-cols-[1fr_360px]'}`}>
 
-          {/* Left: Equipment + Spells stacked */}
-          <div className="flex flex-col gap-5">
+          {/* Equipment + Spells stacked — order flips with the sidebar side setting */}
+          <div className="flex flex-col gap-5" style={{ order: sidebarLeft ? 2 : 1 }}>
             <section
               aria-label={t('equipment')}
               className="rounded-xl overflow-hidden"
@@ -447,12 +456,12 @@ function BuilderContent() {
             )}
           </div>
 
-          {/* Right sidebar: Class + Characteristics + Stats (sticky, scrollable) */}
+          {/* Class + Characteristics + Stats sidebar (sticky, scrollable) — side set in Settings */}
           <aside
             aria-label={`${t('class')} & ${t('characteristics')} & ${t('stats')}`}
             aria-live="polite"
             className="sticky top-[58px] max-h-[calc(100vh-68px)] overflow-y-auto space-y-4 pb-4"
-            style={{ animation: 'col-rise 520ms var(--ease-out) 60ms both' }}
+            style={{ order: sidebarLeft ? 1 : 2, animation: 'col-rise 520ms var(--ease-out) 60ms both' }}
           >
             <Frame><ClassPicker /></Frame>
             <Frame><CharacteristicsPanel /></Frame>

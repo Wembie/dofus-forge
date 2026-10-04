@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.39] — 2026-10-03
+- **Feat**: new Settings option — "Characteristics side" — lets you move the planner's class/characteristics/stats sidebar to the left instead of the right (desktop only; mobile already stacks everything via tabs). Requested by a user whose friend has muscle memory for the sidebar on the left from other build planners. Persisted in `localStorage`, applies instantly without reload, same event-driven settings pattern as the existing theme/sound/cursor/particles toggles
+
 ## [0.3.38] — 2026-10-03
 - **Perf**: fixed the item-picker modal freezing on low-end PCs, reported by a user whose friend's machine lagged badly whenever reopening the picker with a full set already equipped — turned out to be unrelated to set-completion and purely about how many items got mounted at once (the weapon slot alone has 769 matching items, all rendered as real, hover-handler-laden DOM nodes synchronously on every open)
   - Item grid now renders in pages of 20, growing via infinite scroll (`IntersectionObserver` on a sentinel, no new dependency) as you scroll, with a small loading spinner — opening any slot now mounts at most 20 cards instead of up to 769
