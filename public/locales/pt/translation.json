@@ -665,5 +665,9 @@
   "update_reload": "Recarregar",
   "dismiss": "Fechar",
   "about_total_builds": "{{count}} builds criadas no Dofus Forge",
-  "publish_limit_reached": "Você atingiu o limite de 50 builds por conta. Apague uma antiga em Minhas Builds para publicar uma nova."
+  "publish_limit_reached": "Você atingiu o limite de 50 builds por conta. Apague uma antiga em Minhas Builds para publicar uma nova.",
+  "settings_sidebar_side": "Lado das características",
+  "settings_sidebar_side_hint": "De que lado fica a barra de classe/características/stats no planejador (tela grande)",
+  "sidebar_side_left": "Esquerda",
+  "sidebar_side_right": "Direita"
 }

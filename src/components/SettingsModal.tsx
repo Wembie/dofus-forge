@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Languages, Moon, SunMedium, Volume2, VolumeX, MousePointer2, Sparkles } from 'lucide-react'
+import { Languages, Moon, SunMedium, Volume2, VolumeX, MousePointer2, Sparkles, PanelLeft, PanelRight } from 'lucide-react'
 import { Modal } from '@/ui'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
 import { getCurrentTheme, toggleTheme, THEME_EVENT_NAME } from '@/ui/ThemeToggle.tsx'
@@ -10,6 +10,7 @@ import {
   isParticlesEnabled, setParticlesEnabled,
   MOTION_SETTINGS_EVENT,
 } from '@/lib/motionSettings.ts'
+import { getSidebarSide, setSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
 
 function Switch({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
   return (
@@ -37,6 +38,35 @@ function Switch({ on, onToggle, label }: { on: boolean; onToggle: () => void; la
   )
 }
 
+function SideToggle({ side, onChange }: { side: SidebarSide; onChange: (side: SidebarSide) => void }) {
+  const { t } = useTranslation()
+  const options: { id: SidebarSide; label: string; Icon: React.ElementType }[] = [
+    { id: 'left',  label: t('sidebar_side_left'),  Icon: PanelLeft },
+    { id: 'right', label: t('sidebar_side_right'), Icon: PanelRight },
+  ]
+  return (
+    <div className="flex gap-1 flex-shrink-0">
+      {options.map(({ id, label, Icon }) => (
+        <button
+          key={id}
+          onClick={() => onChange(id)}
+          aria-pressed={side === id}
+          title={label}
+          className="flex items-center justify-center rounded-md border transition-colors"
+          style={{
+            width: 30, height: 30,
+            background: side === id ? 'color-mix(in srgb, var(--gold) 15%, transparent)' : 'var(--surface-void)',
+            borderColor: side === id ? 'var(--gold-deep)' : 'var(--metal-edge)',
+            color: side === id ? 'var(--gold)' : 'var(--ink-faint)',
+          }}
+        >
+          <Icon size={15} />
+        </button>
+      ))}
+    </div>
+  )
+}
+
 function SettingRow({ Icon, title, hint, children }: { Icon: React.ElementType; title: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 py-3 border-b last:border-b-0" style={{ borderColor: 'var(--metal-edge)' }}>
@@ -61,18 +91,22 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
   const [sound, setSound]         = useState(isSoundEnabled)
   const [cursor, setCursor]       = useState(isCursorEnabled)
   const [particles, setParticles] = useState(isParticlesEnabled)
+  const [sidebarSide, setSidebarSideState] = useState(getSidebarSide)
 
   useEffect(() => {
     const syncTheme     = () => setTheme(getCurrentTheme())
     const syncSound     = () => setSound(isSoundEnabled())
     const syncMotion    = () => { setCursor(isCursorEnabled()); setParticles(isParticlesEnabled()) }
+    const syncLayout    = () => setSidebarSideState(getSidebarSide())
     window.addEventListener(THEME_EVENT_NAME, syncTheme)
     window.addEventListener(SOUND_EVENT_NAME, syncSound)
     window.addEventListener(MOTION_SETTINGS_EVENT, syncMotion)
+    window.addEventListener(LAYOUT_SETTINGS_EVENT, syncLayout)
     return () => {
       window.removeEventListener(THEME_EVENT_NAME, syncTheme)
       window.removeEventListener(SOUND_EVENT_NAME, syncSound)
       window.removeEventListener(MOTION_SETTINGS_EVENT, syncMotion)
+      window.removeEventListener(LAYOUT_SETTINGS_EVENT, syncLayout)
     }
   }, [])
 
@@ -105,6 +139,14 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
 
         <SettingRow Icon={Sparkles} title={t('settings_particles')} hint={t('settings_particles_hint')}>
           <Switch on={particles} onToggle={() => setParticlesEnabled(!particles)} label={t('settings_particles')} />
+        </SettingRow>
+
+        <SettingRow
+          Icon={sidebarSide === 'left' ? PanelLeft : PanelRight}
+          title={t('settings_sidebar_side')}
+          hint={t('settings_sidebar_side_hint')}
+        >
+          <SideToggle side={sidebarSide} onChange={setSidebarSide} />
         </SettingRow>
       </div>
     </Modal>

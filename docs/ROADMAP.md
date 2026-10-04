@@ -54,6 +54,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **M63 — Perfil público de usuario** — `/u/:username` (nunca por UID), avatar/fecha de ingreso, builds públicas, likes recibidos, comentarios hechos (solo en builds públicas); `SiteFooter` compartido en todas las páginas con navegación a Home/Acerca de/Cómo usar/Explorar/Mis Builds
 - [x] **M64 — Analytics públicas + límite de builds + default público** — contador de total de builds creadas (públicas+privadas) en `/about` vía RPC `get_total_builds_count()` (`security definer`, solo devuelve un número, nunca contenido); límite de 50 builds por cuenta enforced server-side con un trigger `before insert` (usa `profiles.builds_count`, ya sincronizado, cero scans extra) + mensaje claro en el modal de Publicar si se llega al límite; visibilidad por defecto al publicar cambiada de privada a pública
 - [x] **M65 — Perf: freeze del selector de ítems + re-renders globales** — reportado por un usuario cuyo amigo sufría trabas al reabrir el selector con el set ya completo; la causa real era el slot arma montando sus 769 ítems de una sola vez (sin relación con sets completos). Infinite scroll en páginas de 20 (`IntersectionObserver`, sin dependencia nueva) + spinner de carga; cards extraídas a componente memoizado (`React.memo`) para que favoritear/hover uno no re-renderice el resto; `content-visibility: auto` por card; índice de sets/stats/tipos por slot cacheado por dataset de equipo en vez de reescanear ~4300 ítems en cada apertura. Además, se eliminaron suscripciones amplias de Zustand (`useBuildStore(s => s)` / sin selector) en `BuilderPage`, `ShareBar`, `PublishModal` y `ComparePanel` que re-renderizaban de más en cada cambio de build — el brand-link (que sí necesita el build completo para su href) se aisló en su propio componente, el resto pasó a leer el estado on-demand con `useBuildStore.getState()`
+- [x] **M66 — Lado de la barra de características configurable** — pedido por un usuario cuyo amigo tiene memoria muscular de otros planners con la barra a la izquierda. Nuevo setting en Ajustes ("Lado de características", botones izquierda/derecha con íconos `PanelLeft`/`PanelRight`), solo aplica en desktop (`lg:grid`, mobile ya usa tabs apiladas sin concepto de lado). Implementado con el mismo patrón ya usado para tema/sonido/cursor/partículas (`src/lib/layoutSettings.ts`: `localStorage` + evento custom `forge-layout-settings-change`, sin dependencia de Zustand); el grid de `BuilderPage` swapea `grid-cols-[1fr_360px]`/`[360px_1fr]` + `order` CSS en los dos hijos en vez de duplicar JSX. Verificado con Playwright: swap visual correcto y persiste tras reload
 
 ### Fixes completados
 - [x] **Fix — Hover persistente en tooltip de slot** — reemplazado CSS group-hover por React state + timer 250ms
@@ -114,6 +115,41 @@ Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ve
 
 - [ ] **Chore — Eliminar tablas legacy sin usar** — `build_items`/`build_characteristics`/`build_runes` quedaron sin usar desde que todo vive en `builds.snapshot` (jsonb, que ya soporta buscar "builds con item X" vía containment query sin joins); dropear en vez de implementar, mantenerlas sincronizadas sería puro costo sin beneficio real
 - [ ] **Futuro — Membresía / tiers** — mencionado como "ya si algo lo vemos después" al agregar el límite de 50 builds/cuenta (ver Completados): si el límite fijo termina siendo un problema real para alguien, ahí se evalúa un tier pago que lo suba, no antes — no implementar nada todavía, solo queda anotado
+
+### Futuro — Perf & buenas prácticas (audit post-M65, sin implementar)
+Hallazgos concretos de una segunda pasada sobre el resto del código, mismo estilo del bug que arregló M65 (listas sin paginar, N+1 scans, subscripciones amplias). Cada uno con archivo:línea para arrancar directo cuando se decida hacerlo — no son prosa genérica.
+
+**Alto impacto:**
+- [ ] `SetsCatalog.tsx:391` — misma clase de bug que M65 pero sin arreglar: el modal de sets monta TODOS los sets que matchean (hasta ~931) sin paginar/virtualizar. Aplicar el mismo patrón de infinite scroll de `ItemCatalog.tsx`
+- [ ] `SetsCatalog.tsx:202-222` (`enriched` useMemo) — por cada ítem de cada set hace `equipment.find(it => it.ankama_id === id)`, un scan lineal del catálogo completo (~4300 ítems); con ~931 sets × varios ítems esto es del orden de decenas de millones de comparaciones en cada apertura del modal. Arreglo: un `Map<id, AppItem>` construido una sola vez (mismo patrón WeakMap que ya se usó en `ItemCatalog`)
+- [ ] `src/features/builds/api.ts` — ~30 funciones exportadas (`fetchPublicBuilds`, `publishBuild`, `rateBuild`, etc.) llaman a Supabase sin `try/catch`; una excepción real (offline, DNS, cliente mal configurado) queda como unhandled promise rejection y deja el loading spinner de la UI colgado para siempre (ej. ExplorePage, PublishModal)
+- [ ] `src/store/authStore.ts:83-92` (`init()`) — la promesa de `getSupabase().then(...)` no tiene `.catch()`; si falla el import dinámico de supabase-js o `getSession()`, `loading` queda en `true` para siempre (AuthButton girando sin parar)
+
+**Medio impacto:**
+- [ ] `src/features/equipment/RuneModal.tsx:77` — `useBuildStore(s => s.runes[slotId] ?? {})` crea un objeto nuevo en cada llamada cuando no hay runas, rompiendo la comparación por referencia y re-renderizando en cada cambio del build mientras el modal está abierto — mismo tipo de problema que M65 arregló en otros 4 componentes. Fix: constante compartida `EMPTY_RUNES = {}` como fallback
+- [ ] `SetsCatalog.tsx` (`SetCard`, línea 30) — no está envuelto en `React.memo`, cada tecla de filtro re-renderiza todas las cards visibles desde cero
+- [ ] `src/engine/optimizer.ts:55-75,280,283` — `itemPartialScore()` reconstruye un `Map` desde cero en cada llamada, y se llama 2 veces por comparación dentro de un `.sort()`; corre en el Web Worker así que no bloquea la UI, pero enlentece el optimizador de forma innecesaria. Fix: construir el `Map` una vez afuera del sort
+- [ ] `src/features/builds/BuildEquipmentPreview.tsx:18` — reconstruye un `Map` del catálogo completo (~4300 ítems) en CADA render, sin `useMemo`; este componente se instancia por card en grids de Explore/MyBuilds (hasta 24+ a la vez)
+- [ ] `src/lib/supabase.ts:9-26` — `clientPromise` queda cacheada aunque la promesa interna falle; si `getSupabase()` falla una vez, toda llamada futura repite el mismo rechazo (login/cloud roto hasta recargar la página entera). Fix: limpiar `clientPromise` en el catch
+- [ ] `src/ui/Modal.tsx:70-100` — hace focus trap y foco inicial al abrir, pero nunca guarda ni restaura el `document.activeElement` previo al cerrar — usuarios de teclado/lector de pantalla pierden su posición en la página tras cerrar cualquier modal
+- [ ] `src/features/optimizer/OptimizerModal.tsx:201` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio, incluyendo cada tick de los sliders de peso al arrastrar (`StatWeightRow.tsx:27-35`); debería debounce 300-500ms
+
+**Bajo impacto / pulido:**
+- [ ] `ComparePanel.tsx:129` — `useCompareStore()` sin selector al lado de selectores angostos de `useBuildStore` en las mismas líneas; mismo patrón que M65 ya arregló en otros lados, acá el store es chico así que es bajo impacto
+- [ ] `ComparePanel.tsx:140-141` — `?? []` inline en el selector de `useDataStore` crea un array nuevo en cada notificación mientras carga
+- [ ] `public/og-preview.png` — 489KB sin comprimir/WebP (solo se usa como meta-imagen social, no se renderiza en la app)
+- [ ] `BuildCard.tsx:52,72` — avatar e ícono de clase sin `loading="lazy"`, a diferencia de `BuildEquipmentPreview.tsx:47` que sí lo tiene; se renderiza en grids de hasta 24 cards
+- [ ] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
+- [ ] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
+- [ ] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
+- [ ] `HeaderMenuButton.tsx:57-59` — el ítem de menú activo se indica solo con color (dorado), sin `aria-current` — falla WCAG 1.4.1 (uso de color solo)
+- [ ] `StatWeightRow.tsx:39-47` — botón de quitar stat es solo ícono sin `aria-label`, bypaseando el `IconButton` propio del proyecto que sí lo exige
+
+**Revisado y confirmado OK, sin acción necesaria:**
+- `src/data/loaders.ts` — el catálogo de equipo/sets/hechizos se fetchea en runtime vía `fetch()` con cache en memoria, no va bundleado en el JS
+- `tsconfig.app.json` ya tiene `strict`/`noUnusedLocals`/`noUnusedParameters` activos; sin `any` ni `@ts-ignore` encontrados en los stores/engine principales
+- `src/store/useFavorites.ts` — `localStorage.setItem` síncrono por toggle de favorito, pero el array es chico (favoritos propios), no vale la pena optimizar
+- `src/store/historyStore.ts` — undo/redo en memoria, no persiste a `localStorage`; el único costo de serialización por mutación es acotado (`MAX_HISTORY = 40`)
 
 
 - [x] Que haya forma cuadno se filtre un stats a la hora de buscar un set, que no salga negativo, ejemplo busque alcance, y me salio un un sombrero que salga -1 alcance, entonces revisar eso
