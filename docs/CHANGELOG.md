@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.41] — 2026-10-05
+- **Fix**: the account menu (top-right corner) could show ONLY your optional display name, with no username visible anywhere — if you set a real name/alias, your actual public @username was effectively hidden from the one place you look at your own account most. The dropdown now shows your username underneath your name (same pattern as your public profile page), and the button's tooltip includes it too
+
 ## [0.3.40] — 2026-10-05
 - **Fix**: build and comment attribution ("by X") showed the optional display name instead of the username — if you set a real name/alias in your profile, it replaced your public username everywhere your builds and comments appeared, contradicting the username field's own hint that it's "the name others will see". `BuildCard`, `BuildDetailPage` (build owner + comments) now always show the username, never the display name
 - **Polish**: renamed the profile field from "Display name" to "Name (optional)" with a new hint clarifying it only shows on your own profile next to your @username, never as attribution elsewhere. Your own profile page and account menu are unchanged on purpose — showing your chosen name next to your @handle there is the intended feature, not the bug
