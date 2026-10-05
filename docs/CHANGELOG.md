@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.42] — 2026-10-05
+- **Fix**: the previous fix didn't go far enough — the account menu and your own public profile page (`/u/:username`) still showed the optional display name as the PRIMARY name (e.g. "Juan"), with the username only as a small subtitle. Per the same rule now applied everywhere else, the username is always the primary identity shown; the display name (if set) is now just a small secondary caption underneath it, never the headline
+
 ## [0.3.41] — 2026-10-05
 - **Fix**: the account menu (top-right corner) could show ONLY your optional display name, with no username visible anywhere — if you set a real name/alias, your actual public @username was effectively hidden from the one place you look at your own account most. The dropdown now shows your username underneath your name (same pattern as your public profile page), and the button's tooltip includes it too
 
