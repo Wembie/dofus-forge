@@ -209,7 +209,8 @@ export function BuildDetailPage() {
   const classInfo  = CLASS_DATA.find(c => c.id === build.class_slug)
   const portrait   = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
   const owner      = build.profiles
-  const ownerLabel = owner?.display_name || owner?.username || ''
+  // Always the username, never display_name — see BuildCard.tsx for why.
+  const ownerLabel = owner?.username || ''
   const runesForDisplay = (build.snapshot.r ?? {}) as Partial<Record<SlotId, RuneMap>>
 
   return (
@@ -393,11 +394,11 @@ export function BuildDetailPage() {
                       to={`/${langPathPrefix(i18n.language)}u/${c.profiles.username}`}
                       className="text-[11px] font-semibold text-ink hover:text-gold hover:underline transition-colors"
                     >
-                      {c.profiles.display_name || c.profiles.username}
+                      {c.profiles.username}
                     </Link>
                   ) : (
                     <p className="text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>
-                      {c.profiles?.display_name || c.profiles?.username}
+                      {c.profiles?.username}
                     </p>
                   )}
                   <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>

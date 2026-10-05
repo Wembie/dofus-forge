@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.40] — 2026-10-05
+- **Fix**: build and comment attribution ("by X") showed the optional display name instead of the username — if you set a real name/alias in your profile, it replaced your public username everywhere your builds and comments appeared, contradicting the username field's own hint that it's "the name others will see". `BuildCard`, `BuildDetailPage` (build owner + comments) now always show the username, never the display name
+- **Polish**: renamed the profile field from "Display name" to "Name (optional)" with a new hint clarifying it only shows on your own profile next to your @username, never as attribution elsewhere. Your own profile page and account menu are unchanged on purpose — showing your chosen name next to your @handle there is the intended feature, not the bug
+
 ## [0.3.39] — 2026-10-03
 - **Feat**: new Settings option — "Characteristics side" — lets you move the planner's class/characteristics/stats sidebar to the left instead of the right (desktop only; mobile already stacks everything via tabs). Requested by a user whose friend has muscle memory for the sidebar on the left from other build planners. Persisted in `localStorage`, applies instantly without reload, same event-driven settings pattern as the existing theme/sound/cursor/particles toggles
 

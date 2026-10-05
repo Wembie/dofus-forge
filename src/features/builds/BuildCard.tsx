@@ -17,7 +17,10 @@ export function BuildCard({ build }: { build: BuildRow }) {
   const classInfo   = CLASS_DATA.find(c => c.id === build.class_slug)
   const portrait    = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
   const owner       = build.profiles
-  const ownerLabel  = owner?.display_name || owner?.username || ''
+  // Always the username, never display_name — display_name is an optional
+  // name shown only on the owner's own profile, attribution elsewhere must
+  // always be the nickname people actually know them by on the site.
+  const ownerLabel  = owner?.username || ''
   const prefix      = langPathPrefix(i18n.language)
   const [buildHover, setBuildHover] = useState(false)
 

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.40',
+    date: '2026-10-05',
+    notes: [
+      'Fix: builds and comments now always show your username as the author, never your optional display name',
+      'Polish: the profile "display name" field was renamed to "Name (optional)" with a clearer explanation of where it shows up',
+    ],
+  },
+  {
     version: '0.3.39',
     date: '2026-10-03',
     notes: [
