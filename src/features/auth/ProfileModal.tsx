@@ -181,6 +181,7 @@ export function ProfileModal({ open, onClose }: { open: boolean; onClose: () => 
               onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
               onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
             />
+            <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_display_name_hint')}</p>
           </div>
 
           <div>
