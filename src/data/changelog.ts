@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.41',
+    date: '2026-10-05',
+    notes: [
+      'Fix: the account menu now always shows your username too, even when you have a display name set',
+    ],
+  },
+  {
     version: '0.3.40',
     date: '2026-10-05',
     notes: [

@@ -49,6 +49,11 @@ export function AuthButton() {
   // auto-created on signup (handle_new_user trigger, schema.sql) with a
   // sanitized username, so a build shared publicly later never leaks it.
   const label = profile?.display_name || profile?.username || session.user.email || ''
+  // display_name can fully mask the username in this corner button (the one
+  // place you look at your own account most) — show the real @username
+  // underneath in the dropdown, and in the tooltip, same as UserProfilePage
+  // already does, so it's never a mystery which name is actually public.
+  const hasSeparateUsername = Boolean(profile?.display_name && profile?.username)
 
   return (
     <div className="relative" ref={menuRef}>
@@ -56,7 +61,7 @@ export function AuthButton() {
         onClick={() => setShowMenu(v => !v)}
         className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
         style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
-        title={label}
+        title={hasSeparateUsername ? `${label} (@${profile?.username})` : label}
       >
         {isSafeImageUrl(profile?.avatar_url)
           ? <img src={profile.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
@@ -70,6 +75,12 @@ export function AuthButton() {
           className="absolute right-0 top-full mt-1 rounded-lg overflow-hidden z-50 min-w-[160px]"
           style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame)' }}
         >
+          <div className="px-3 py-2" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
+            <p className="text-[11px] font-semibold truncate" style={{ color: 'var(--ink)' }}>{label}</p>
+            {hasSeparateUsername && (
+              <p className="text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>@{profile?.username}</p>
+            )}
+          </div>
           <button
             onClick={() => { setShowMenu(false); setShowProfile(true) }}
             className="w-full flex items-center gap-2 px-3 py-2 text-[11px] text-left transition-colors hover:bg-surface-raised"
