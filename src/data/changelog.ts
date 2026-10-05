@@ -8,17 +8,11 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.43',
-    date: '2026-10-05',
-    notes: [
-      'Chore: game data refreshed to the latest Dofus version (3.6.12.16)',
-    ],
-  },
-  {
     version: '0.3.42',
     date: '2026-10-05',
     notes: [
       'Fix: your username is now always the primary name shown - on your profile page and account menu too, not just builds and comments',
+      'Chore: game data refreshed to the latest Dofus version (3.6.12.16)',
     ],
   },
   {
