@@ -45,15 +45,11 @@ export function AuthButton() {
     )
   }
 
-  // display_name/username are never the raw email — the profile row is
-  // auto-created on signup (handle_new_user trigger, schema.sql) with a
-  // sanitized username, so a build shared publicly later never leaks it.
-  const label = profile?.display_name || profile?.username || session.user.email || ''
-  // display_name can fully mask the username in this corner button (the one
-  // place you look at your own account most) — show the real @username
-  // underneath in the dropdown, and in the tooltip, same as UserProfilePage
-  // already does, so it's never a mystery which name is actually public.
-  const hasSeparateUsername = Boolean(profile?.display_name && profile?.username)
+  // Always the username, never display_name — same rule as build/comment
+  // attribution (BuildCard.tsx): the nickname is the identity shown
+  // everywhere, display_name is just optional flavor text, never primary.
+  const label    = profile?.username || session.user.email || ''
+  const realName = profile?.display_name
 
   return (
     <div className="relative" ref={menuRef}>
@@ -61,7 +57,7 @@ export function AuthButton() {
         onClick={() => setShowMenu(v => !v)}
         className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
         style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
-        title={hasSeparateUsername ? `${label} (@${profile?.username})` : label}
+        title={realName ? `${label} (${realName})` : label}
       >
         {isSafeImageUrl(profile?.avatar_url)
           ? <img src={profile.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
@@ -77,8 +73,8 @@ export function AuthButton() {
         >
           <div className="px-3 py-2" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
             <p className="text-[11px] font-semibold truncate" style={{ color: 'var(--ink)' }}>{label}</p>
-            {hasSeparateUsername && (
-              <p className="text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>@{profile?.username}</p>
+            {realName && (
+              <p className="text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>{realName}</p>
             )}
           </div>
           <button

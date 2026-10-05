@@ -97,8 +97,8 @@ export function UserProfilePage() {
   }, [profile, loadBuilds])
 
   usePageSeo(lang as SeoLang, `u/${username ?? ''}`, {
-    title: profile ? t('profile_seo_title', { username: profile.display_name || profile.username }) : undefined,
-    description: profile ? t('profile_seo_description', { username: profile.display_name || profile.username }) : undefined,
+    title: profile ? t('profile_seo_title', { username: profile.username }) : undefined,
+    description: profile ? t('profile_seo_description', { username: profile.username }) : undefined,
     noindex: !profile,
   })
 
@@ -119,7 +119,10 @@ export function UserProfilePage() {
     )
   }
 
-  const name = profile.display_name || profile.username
+  // Always the username, never display_name — same rule as build/comment
+  // attribution and the account menu: the nickname is the identity shown
+  // everywhere, display_name is just optional flavor text underneath it.
+  const name = profile.username
   const joinedDate = new Date(profile.created_at).toLocaleDateString(i18n.language)
 
   return (
@@ -155,7 +158,7 @@ export function UserProfilePage() {
           <div className="min-w-0 flex-1">
             <h1 className="font-display text-2xl font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{name}</h1>
             {profile.display_name && (
-              <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>@{profile.username}</p>
+              <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{profile.display_name}</p>
             )}
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>
               <span className="flex items-center gap-1.5">

@@ -1,9 +1,14 @@
 ﻿# Changelog
 
 All notable changes to Dofus Forge are documented here.  
-Game version is read automatically from `public/data/version.json` (currently **3.6.10.11**).
+Game version is read automatically from `public/data/version.json` (currently **3.6.12.16**).
 
 ---
+
+## [0.3.42] — 2026-10-05
+- **Fix**: the previous fix didn't go far enough — the account menu and your own public profile page (`/u/:username`) still showed the optional display name as the PRIMARY name (e.g. "Juan"), with the username only as a small subtitle. Per the same rule now applied everywhere else, the username is always the primary identity shown; the display name (if set) is now just a small secondary caption underneath it, never the headline
+- **Chore**: refreshed game data to Dofus **3.6.12.16** (equipment, sets, mounts, spells, stat/class images) — item/set/mount catalog unchanged (4356/931/308), this was a game patch with no new equipment
+- **Fix**: `scripts/fetch-images.ts` used a shell `mv` command to rename extracted files, which only works under a Unix-like shell — failed outright on a plain Windows `cmd.exe`/PowerShell invocation of the ETL script. Switched to `fs.renameSync`, which works identically regardless of which shell runs the script
 
 ## [0.3.41] — 2026-10-05
 - **Fix**: the account menu (top-right corner) could show ONLY your optional display name, with no username visible anywhere — if you set a real name/alias, your actual public @username was effectively hidden from the one place you look at your own account most. The dropdown now shows your username underneath your name (same pattern as your public profile page), and the button's tooltip includes it too

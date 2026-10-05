@@ -8,7 +8,7 @@
  *   class_head_images_64.tar.gz  -> public/data/classes/{slug}.png (19 class portraits)
  */
 
-import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync, renameSync } from 'node:fs'
 import { join } from 'node:path'
 import { execSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
@@ -111,10 +111,11 @@ async function main() {
     const member = `data/img/statistics/1x/${id}-48.png`
     const dest   = join(statsDir, `${slug}.png`)
     extractFile(statsTar, member, statsDir)
-    // tar extracts as the filename, so rename if needed
+    // tar extracts as the filename, so rename if needed — fs.renameSync
+    // instead of a shell `mv` so this works the same under bash/cmd/PowerShell
     const extracted = join(statsDir, `${id}-48.png`)
     if (existsSync(extracted)) {
-      execSync(`mv "${extracted}" "${dest}"`, { stdio: 'pipe' })
+      renameSync(extracted, dest)
     }
     process.stdout.write(`  ${slug} `)
   }
@@ -127,7 +128,7 @@ async function main() {
     extractFile(classTar, member, classesDir)
     const extracted = join(classesDir, `Head_${headId}-64.png`)
     if (existsSync(extracted)) {
-      execSync(`mv "${extracted}" "${dest}"`, { stdio: 'pipe' })
+      renameSync(extracted, dest)
     }
     process.stdout.write(`  ${slug} `)
   }
