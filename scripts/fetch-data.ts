@@ -1,28 +1,30 @@
 /**
- * ETL: equipment/sets from dofus3-main's raw GitHub release data, mounts +
- * consumables + the game version check from the DofusDude REST API.
+ * ETL: DofusDude public API -> normalized static JSON
  *
  * Usage:
  *   pnpm fetch-data [--force]
  *
- * Equipment/sets moved off the REST API (items/equipment/all, sets/all) as of
- * Dofus 3.7: that API stopped returning `effects` for any item or set, on
- * both bulk and single-item endpoints, with no fix on our end possible — see
- * scripts/lib/rawGameData.ts for the full story and the replacement source.
- * Mounts never carried effects to begin with, and consumables aren't used
- * anywhere in the app (src/data/loaders.ts), so both stay on the REST API —
- * no reason to move something that isn't broken.
- *
- * Verified endpoints (REST, still used here):
- *   GET /dofus3/v1/meta/version                 -> { version, release, update_stamp }
+ * Verified endpoints (against live DofusDude API 2026-08-05):
+ *   GET /dofus3/v1/meta/version             -> { version, release, update_stamp }
+ *   GET /dofus3/v1/{lang}/items/equipment/all -> { items: RawItem[] }
  *   GET /dofus3/v1/{lang}/items/consumables/all -> { items: RawItem[] }
- *   GET /dofus3/v1/{lang}/mounts/all            -> { mounts: RawMount[] }
+ *   GET /dofus3/v1/{lang}/sets/all           -> { sets: RawSet[] }
+ *   GET /dofus3/v1/{lang}/mounts/all         -> { mounts: RawMount[] }
+ *
+ * Confirmed field shapes:
+ *   image_urls: { icon, sd }  (no "hd" field)
+ *   effects[]: { int_minimum, int_maximum, type: { name, id } }
+ *   parent_set: { id, name }
+ *   sets.effects: Record<"2"|"3"..., effect[]>  (string-keyed by piece count)
+ *   mounts: { ankama_id, name, family: { name }, image_urls }  — no level/type/effects
  */
 
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { normalizeItem, normalizeMount, type AppItem, type RawItem, type RawMount } from './lib/normalize.ts'
-import { fetchRawGameData, buildEquipmentAndSets } from './lib/rawGameData.ts'
+import {
+  normalizeItem, normalizeSet, normalizeMount, slotFromType,
+  type AppItem, type RawItem, type RawSet, type RawMount,
+} from './lib/normalize.ts'
 
 const BASE_URL = 'https://api.dofusdu.de'
 const GAME     = 'dofus3'
@@ -62,22 +64,43 @@ async function main() {
     }
   }
 
-  console.log(`New version: ${gameVersion}. Fetching raw equipment/sets data (GitHub)...`)
-  const raw = await fetchRawGameData(gameVersion)
+  console.log(`New version: ${gameVersion}. Fetching all languages...`)
+
+  // Build canonical (EN) type map: ankama_id → English type name.
+  // Non-English API responses return localized type names (e.g. "Dragopavo" instead of
+  // "Dragoturkey"), which breaks slotConfig.ts apiTypes filters. We override type+slot
+  // in every language with the EN canonical value so filtering always works.
+  console.log('  Fetching EN canonical types...')
+  const enRaw = await get<{ items: RawItem[] }>(`/${GAME}/${VER}/en/items/equipment/all`)
+  const canonicalType = new Map<number, string>()
+  for (const item of enRaw.items) {
+    if (item.ankama_id != null) canonicalType.set(item.ankama_id, item.type?.name ?? '')
+  }
 
   for (const lang of LANGS) {
     console.log(`  [${lang}] fetching...`)
     const langDir = join(DATA_DIR, lang)
     mkdirSync(langDir, { recursive: true })
 
-    const [{ equipment, sets }, rawConsum, rawMounts] = await Promise.all([
-      buildEquipmentAndSets(raw, lang),
+    const [rawEquip, rawConsum, rawSets, rawMounts] = await Promise.all([
+      get<{ items: RawItem[] }>(`/${GAME}/${VER}/${lang}/items/equipment/all`),
       get<{ items: RawItem[] }>(`/${GAME}/${VER}/${lang}/items/consumables/all`),
+      get<{ sets: RawSet[] }>(`/${GAME}/${VER}/${lang}/sets/all`),
       get<{ mounts: RawMount[] }>(`/${GAME}/${VER}/${lang}/mounts/all`),
     ])
 
+    const equipment = rawEquip.items.map(raw => {
+      const item = normalizeItem(raw)
+      const cType = canonicalType.get(item.ankama_id)
+      if (cType !== undefined && lang !== 'en') {
+        item.type = cType
+        if (!raw.is_weapon) item.slot = slotFromType(cType)
+      }
+      return item
+    })
     const consumables = rawConsum.items.map(normalizeItem)
-    const mounts       = rawMounts.mounts.map(normalizeMount)
+    const sets        = rawSets.sets.map(normalizeSet)
+    const mounts      = rawMounts.mounts.map(normalizeMount)
 
     writeFileSync(join(langDir, 'equipment.json'),   stringify(equipment),   'utf-8')
     writeFileSync(join(langDir, 'consumables.json'), stringify(consumables), 'utf-8')
