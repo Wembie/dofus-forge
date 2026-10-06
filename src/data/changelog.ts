@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.43',
+    date: '2026-10-06',
+    notes: [
+      'Chore: game data refreshed to Dofus 3.7.1.0 - equipment and sets catalog updated',
+      'Fix: trap and glyph spells (Sram, Sadida, Feca...) were showing no damage numbers after the 3.7 update - fixed',
+    ],
+  },
+  {
     version: '0.3.42',
     date: '2026-10-05',
     notes: [
