@@ -150,7 +150,10 @@ function dominantElement(effects: AppSpellEffect[]): AppSpellElement {
   return [...elems][0]
 }
 
-// effectId constants (verified from dofus3-main Unity data, 2026-08-09):
+// actionId constants (verified from dofus3-main Unity data, 2026-08-09; the raw
+// JSON field itself was renamed from `effectId` to `actionId` as of game version
+// 3.7.1.0 — same numeric ids, confirmed against effects.json's own `id` field,
+// which was NOT renamed, so every id below is still correct as-is):
 //   5    = push (diceNum = cells)
 //   128  = steal/modify AP (diceNum = amount)
 //   141  = steal/modify MP (diceNum = amount)
@@ -232,7 +235,7 @@ function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEf
   // Elemental damage/steal effects (effectElement 0-4); skip lifesteal % modifiers
   for (const e of rawEffects) {
     const el   = Number(e.effectElement)
-    const eid  = Number(e.effectId)
+    const eid  = Number(e.actionId)
     const mask = String(e.targetMask ?? '')
     if (el >= 0 && el <= 4 && !LIFESTEAL_PCT_IDS.has(eid)) {
       const triggerTurns = Number(e.effectTriggerDuration)
@@ -252,7 +255,7 @@ function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEf
 
   // Best/worst-element damage (effectElement=-1, displayed as neutral)
   for (const e of rawEffects) {
-    const eid  = Number(e.effectId)
+    const eid  = Number(e.actionId)
     const mask = String(e.targetMask ?? '')
     if (OMNI_DMG_IDS.has(eid)) {
       const min = Number(e.diceNum)
@@ -286,9 +289,9 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
   // If empty, no crit display. extractDamageEffects filters to damage-only effects.
   const critEffects = extractDamageEffects(rawCritEffs)
 
-  // Push effects (effectId=5, normal effects only)
+  // Push effects (actionId=5, normal effects only)
   for (const e of rawEffects) {
-    if (Number(e.effectId) === PUSH_ID) {
+    if (Number(e.actionId) === PUSH_ID) {
       const cells = Number(e.diceNum)
       if (cells > 0 && cells <= 20) {
         effects.push({ element: 'neutral', min: cells, max: cells, kind: 'push' })
@@ -297,11 +300,11 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
     }
   }
 
-  // AP/MP effects (steal vs gain distinguished by effectId)
+  // AP/MP effects (steal vs gain distinguished by actionId)
   const seenAPSteal = new Set<number>(), seenAPGain = new Set<number>()
   const seenMPSteal = new Set<number>(), seenMPGain = new Set<number>()
   for (const e of rawEffects) {
-    const eid = Number(e.effectId)
+    const eid = Number(e.actionId)
     const amt = Number(e.diceNum)
     if (AP_STEAL_IDS.has(eid) && amt > 0 && amt <= 20 && !seenAPSteal.has(amt)) {
       effects.push({ element: 'neutral', min: amt, max: amt, kind: 'ap' })
@@ -323,7 +326,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
 
   // Erosion (% incurable damage)
   for (const e of rawEffects) {
-    if (Number(e.effectId) === EROSION_ID) {
+    if (Number(e.actionId) === EROSION_ID) {
       const pct   = Number(e.diceNum)
       const turns = Number(e.duration)
       if (pct > 0) effects.push({ element: 'neutral', min: pct, max: 0, kind: 'erosion', turns })
@@ -332,7 +335,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
 
   // Heal modifier (heals received x%)
   for (const e of rawEffects) {
-    if (Number(e.effectId) === HEAL_MOD_ID) {
+    if (Number(e.actionId) === HEAL_MOD_ID) {
       const pct = Number(e.diceNum)
       if (pct > 0) effects.push({ element: 'neutral', min: pct, max: 0, kind: 'heal_mod' })
     }
@@ -340,7 +343,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
 
   // Spell stacking buff (e.g. "Flecha Castigadora: +24 base dmg - 1t(on cast 1)")
   for (const e of rawEffects) {
-    if (Number(e.effectId) === SPELL_BUFF_ID) {
+    if (Number(e.actionId) === SPELL_BUFF_ID) {
       const spellId    = Number(e.diceNum)
       const buffAmount = Number(e.value)
       const stack      = Number(e.delay)
@@ -359,7 +362,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
   // alongside the real damage this adds.
   let trapRef: TrapRef | undefined
   for (const e of rawEffects) {
-    if (Number(e.effectId) === TRAP_PLACEMENT_ID) {
+    if (Number(e.actionId) === TRAP_PLACEMENT_ID) {
       const spellId = Number(e.diceNum)
       const grade   = Number(e.diceSide)
       if (spellId > 0 && grade > 0) trapRef = { spellId, grade }
@@ -370,7 +373,7 @@ function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
   // Collect unhandled effects as raw buffs for per-lang label rendering
   const rawBuffs: RawBuff[] = []
   for (const e of rawEffects) {
-    const eid = Number(e.effectId)
+    const eid = Number(e.actionId)
     if (SKIP_BUFF_IDS.has(eid)) continue
     const el = Number(e.effectElement)
     if (el >= 0 && el <= 4) continue  // caught by elemental damage extraction
