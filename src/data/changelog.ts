@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.45',
+    date: '2026-10-06',
+    notes: [
+      'Feat: the equipment catalog is updated to Dofus 3.7.1.0, with correct stats - no longer waiting on the game data provider',
+    ],
+  },
+  {
     version: '0.3.44',
     date: '2026-10-06',
     notes: [

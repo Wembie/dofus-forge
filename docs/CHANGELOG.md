@@ -1,9 +1,14 @@
 ﻿# Changelog
 
 All notable changes to Dofus Forge are documented here.  
-Game version is read automatically from `public/data/version.json` (currently **3.6.12.16** — equipment data rolled back, see 0.3.44).
+Game version is read automatically from `public/data/version.json` (currently **3.7.1.0**).
 
 ---
+
+## [0.3.45] — 2026-10-06
+- **Feat**: the equipment/sets catalog is back on Dofus **3.7.1.0**, with real stats this time — without waiting for `api.dofusdu.de`'s broken effects endpoint (see 0.3.44). Rebuilt that part of the data pipeline to read directly from the same raw game-data source already used for spells (dofus3-main's GitHub releases) instead of the REST API, so it no longer depends on dofusdu.de's effects resolution at all. Mounts and consumables stay on the REST API — unaffected, and consumables aren't used anywhere in the app
+- Along the way, found and fixed a subtler bug in the new pipeline itself before shipping it: the game's internal effect-reference ids (`rid`) are 64-bit numbers that silently lose precision through a normal JSON parse (66,370 distinct ids were collapsing to 1,039 after parsing) — fixed by preserving them as strings, confirmed against items whose stats are already known-correct (e.g. Twiggy Sword: Neutral damage 8–10, Strength 7–10, Earth Damage steal — now byte-for-byte identical to the old, working data)
+- Known gap for now: item "ability" flavor-text boxes (rare passive effect descriptions) and equip conditions ("requires level X in class Y") aren't populated from this new source yet — both are display-only and don't affect stat totals or equipping
 
 ## [0.3.44] — 2026-10-06
 - **Fix**: rolled the equipment/sets/consumables catalog back to Dofus **3.6.12.16**. The 3.7.1.0 refresh (0.3.43) exposed a problem on the third-party data provider's side: `api.dofusdu.de`'s equipment endpoints stopped returning any `effects` at all for any item, on both the bulk list and the single-item detail endpoint — every single item in the catalog (4095/4095) came back with zero stats. This isn't something in our code to fix (verified directly against the live API with no query parameter restoring it); it's an upstream outage/regression tied to the 3.7 rollout. Rather than ship every item in the game with no stats, reverted equipment/sets/consumables/index to the last known-good 3.6.12.16 data
