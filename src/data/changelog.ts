@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.44',
+    date: '2026-10-06',
+    notes: [
+      'Fix: items showed no stats at all - a bug on the game data provider\'s side with the 3.7 rollout. Rolled the equipment catalog back to the last working version while we wait for it to be fixed upstream',
+    ],
+  },
+  {
     version: '0.3.43',
     date: '2026-10-06',
     notes: [

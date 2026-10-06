@@ -6916,6 +6916,496 @@
     "level": 160
   },
   {
+    "id": 7806,
+    "name": "Reittierzertifikat",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7807,
+    "name": "Wilder Mandel-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7808,
+    "name": "Ebenholz-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7809,
+    "name": "Wilder Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7810,
+    "name": "Ebenholz-Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7811,
+    "name": "Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7812,
+    "name": "Elfenbein-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7813,
+    "name": "Ebenholz-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7814,
+    "name": "Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7815,
+    "name": "Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7816,
+    "name": "Indigo-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7817,
+    "name": "Gold-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7818,
+    "name": "Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7819,
+    "name": "Mandel-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7820,
+    "name": "Smaragd-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7821,
+    "name": "Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7822,
+    "name": "Pflaume-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7823,
+    "name": "Mandel-Gold-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7824,
+    "name": "Mandel-Ebenholz-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7825,
+    "name": "Mandel-Smaragd-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7826,
+    "name": "Mandel-Indigo-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7827,
+    "name": "Mandel-Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7828,
+    "name": "Mandel-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7829,
+    "name": "Mandel-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7830,
+    "name": "Mandel-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7831,
+    "name": "Mandel-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7832,
+    "name": "Gold-Ebenholz-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7833,
+    "name": "Gold-Smaragd-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7834,
+    "name": "Gold-Indigo-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7835,
+    "name": "Gold-Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7836,
+    "name": "Gold-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7837,
+    "name": "Gold-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7838,
+    "name": "Gold-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7839,
+    "name": "Gold-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7840,
+    "name": "Ebenholz-Smaragd-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7841,
+    "name": "Ebenholz-Indigo-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7842,
+    "name": "Ebenholz-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7843,
+    "name": "Ebenholz-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7844,
+    "name": "Ebenholz-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7845,
+    "name": "Smaragd-Indigo-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7846,
+    "name": "Smaragd-Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7847,
+    "name": "Smaragd-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7848,
+    "name": "Smaragd-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7849,
+    "name": "Smaragd-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7850,
+    "name": "Smaragd-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7851,
+    "name": "Indigo-Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7852,
+    "name": "Indigo-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7853,
+    "name": "Indigo-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7854,
+    "name": "Indigo-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7855,
+    "name": "Indigo-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7856,
+    "name": "Elfenbein-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7857,
+    "name": "Elfenbein-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7858,
+    "name": "Elfenbein-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7859,
+    "name": "Türkis-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7860,
+    "name": "Orchidee-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7861,
+    "name": "Purpur-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7862,
+    "name": "Türkis-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7863,
+    "name": "Türkis-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7864,
+    "name": "Wilder Gold-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7866,
+    "name": "Orchidee-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7867,
+    "name": "Pflaume-Mandel-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7868,
+    "name": "Pflaume-Gold-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7869,
+    "name": "Pflaume-Ebenholz-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7870,
+    "name": "Pflaume-Smaragd-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7871,
+    "name": "Pflaume-Indigo-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7872,
+    "name": "Pflaume-Elfenbein-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7873,
+    "name": "Pflaume-Fuchsrot-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7874,
+    "name": "Pflaume-Türkis-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7875,
+    "name": "Pflaume-Orchidee-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7876,
+    "name": "Pflaume-Purpur-Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
     "id": 7880,
     "name": "Fresscool-Amulett",
     "type": "Amulet",
@@ -10400,6 +10890,13 @@
     "type": "Boots",
     "slot": "boots",
     "level": 47
+  },
+  {
+    "id": 9582,
+    "name": "Gepanzerter Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
   },
   {
     "id": 9594,
@@ -14320,6 +14817,13 @@
     "type": "Pet",
     "slot": "pet",
     "level": 20
+  },
+  {
+    "id": 13010,
+    "name": "Befiederter Dracotruter",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
   },
   {
     "id": 13017,
@@ -19614,6 +20118,503 @@
     "level": 40
   },
   {
+    "id": 17874,
+    "name": "Ebenholz-Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17875,
+    "name": "Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17876,
+    "name": "Ebenholz-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17877,
+    "name": "Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17878,
+    "name": "Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17879,
+    "name": "Gold-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17880,
+    "name": "Fuchsrot-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17881,
+    "name": "Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17882,
+    "name": "Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17883,
+    "name": "Türkis-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17884,
+    "name": "Pflaume-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17885,
+    "name": "Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17886,
+    "name": "Gold-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17887,
+    "name": "Indigo-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17888,
+    "name": "Ebenholz-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17889,
+    "name": "Orchidee-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17890,
+    "name": "Gold-Ebenholz-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17891,
+    "name": "Indigo-Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17892,
+    "name": "Ebenholz-Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17893,
+    "name": "Gold-Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17894,
+    "name": "Fuchsrot-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17895,
+    "name": "Fuchsrot-Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17896,
+    "name": "Fuchsrot-Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17897,
+    "name": "Fuchsrot-Ebenholz-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17898,
+    "name": "Fuchsrot-Gold-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17899,
+    "name": "Fuchsrot-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17900,
+    "name": "Purpur-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17901,
+    "name": "Orchidee-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17902,
+    "name": "Indigo-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17903,
+    "name": "Ebenholz-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17904,
+    "name": "Gold-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17905,
+    "name": "Purpur-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17906,
+    "name": "Orchidee-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17907,
+    "name": "Indigo-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17908,
+    "name": "Ebenholz-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17909,
+    "name": "Gold-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17910,
+    "name": "Fuchsrot-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17911,
+    "name": "Mandel-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17912,
+    "name": "Türkis-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17913,
+    "name": "Türkis-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17914,
+    "name": "Türkis-Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17915,
+    "name": "Türkis-Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17916,
+    "name": "Türkis-Ebenholz-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17917,
+    "name": "Türkis-Fuchsrot-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17918,
+    "name": "Türkis-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17919,
+    "name": "Türkis-Gold-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17920,
+    "name": "Pflaume-Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17921,
+    "name": "Pflaume-Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17922,
+    "name": "Pflaume-Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17923,
+    "name": "Pflaume-Ebenholz-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17924,
+    "name": "Pflaume-Gold-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17925,
+    "name": "Pflaume-Fuchsrot-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17926,
+    "name": "Pflaume-Mandel-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17927,
+    "name": "Pflaume-Elfenbein-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17928,
+    "name": "Pflaume-Türkis-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17929,
+    "name": "Pflaume-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17930,
+    "name": "Purpur-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17931,
+    "name": "Orchidee-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17932,
+    "name": "Indigo-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17933,
+    "name": "Ebenholz-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17934,
+    "name": "Gold-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17935,
+    "name": "Fuchsrot-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17936,
+    "name": "Mandel-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17937,
+    "name": "Elfenbein-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17938,
+    "name": "Türkis-Smaragd-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17939,
+    "name": "Gold-Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17956,
+    "name": "Wilder Ebenholz-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17957,
+    "name": "Wilder Indigo-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17958,
+    "name": "Wilder Orchidee-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17959,
+    "name": "Wilder Purpur-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17960,
+    "name": "Wilder Gold-Seequagga",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
     "id": 17961,
     "name": "Schalldämpfenden Helm",
     "type": "Hat",
@@ -21341,6 +22342,874 @@
     "type": "Tool",
     "slot": "weapon",
     "level": 1
+  },
+  {
+    "id": 19780,
+    "name": "Wilder Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19781,
+    "name": "Wilder Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19783,
+    "name": "Wilder Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19784,
+    "name": "Wilder Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19785,
+    "name": "Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19786,
+    "name": "Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19787,
+    "name": "Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19788,
+    "name": "Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19789,
+    "name": "Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19790,
+    "name": "Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19791,
+    "name": "Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19792,
+    "name": "Türkiser Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19793,
+    "name": "Pflaume-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19794,
+    "name": "Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19795,
+    "name": "Gold-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19796,
+    "name": "Jade-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19797,
+    "name": "Saphir-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19798,
+    "name": "Rubin-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19799,
+    "name": "Amethyst-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19800,
+    "name": "Purpur-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19801,
+    "name": "Purpur-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19802,
+    "name": "Purpur-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19803,
+    "name": "Orchidee-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19804,
+    "name": "Orchidee-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19805,
+    "name": "Indigo-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19806,
+    "name": "Mandel-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19807,
+    "name": "Mandel-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19808,
+    "name": "Mandel-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19809,
+    "name": "Mandel-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19810,
+    "name": "Mandel-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19811,
+    "name": "Mandel-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19812,
+    "name": "Mandel-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19813,
+    "name": "Fuchsrot-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19814,
+    "name": "Fuchsrot-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19815,
+    "name": "Fuchsrot-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19816,
+    "name": "Fuchsrot-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19817,
+    "name": "Fuchsrot-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19818,
+    "name": "Fuchsrot-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19819,
+    "name": "Elfenbein-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19820,
+    "name": "Elfenbein-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19821,
+    "name": "Elfenbein-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19822,
+    "name": "Elfenbein-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19823,
+    "name": "Elfenbein-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19824,
+    "name": "Türkis-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19825,
+    "name": "Türkis-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19826,
+    "name": "Türkis-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19827,
+    "name": "Türkis-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19828,
+    "name": "Pflaume-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19829,
+    "name": "Pflaume-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19830,
+    "name": "Pflaume-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19831,
+    "name": "Pflaume-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19832,
+    "name": "Pflaume-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19833,
+    "name": "Pflaume-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19834,
+    "name": "Pflaume-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19835,
+    "name": "Pflaume-Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19836,
+    "name": "Pflaume-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19837,
+    "name": "Smaragd-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19838,
+    "name": "Smaragd-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19839,
+    "name": "Smaragd-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19840,
+    "name": "Smaragd-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19841,
+    "name": "Smaragd-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19842,
+    "name": "Smaragd-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19843,
+    "name": "Smaragd-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19844,
+    "name": "Smaragd-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19845,
+    "name": "Gold-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19846,
+    "name": "Gold-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19847,
+    "name": "Gold-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19848,
+    "name": "Gold-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19849,
+    "name": "Jade-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19850,
+    "name": "Jade-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19851,
+    "name": "Jade-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19852,
+    "name": "Jade-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19853,
+    "name": "Jade-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19854,
+    "name": "Jade-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19855,
+    "name": "Jade-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19856,
+    "name": "Jade-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19857,
+    "name": "Jade-Pflaume-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19858,
+    "name": "Jade-Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19859,
+    "name": "Jade-Gold-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19860,
+    "name": "Jade-Rubin-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19861,
+    "name": "Jade-Saphir-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19862,
+    "name": "Jade-Amethyst-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19863,
+    "name": "Rubin-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19864,
+    "name": "Rubin-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19865,
+    "name": "Rubin-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19866,
+    "name": "Rubin-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19867,
+    "name": "Rubin-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19868,
+    "name": "Rubin-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19869,
+    "name": "Rubin-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19870,
+    "name": "Rubin-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19871,
+    "name": "Rubin-Pflaume-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19872,
+    "name": "Rubin-Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19873,
+    "name": "Rubin-Gold-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19874,
+    "name": "Rubin-Saphir-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19875,
+    "name": "Rubin-Amethyst-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19876,
+    "name": "Saphir-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19877,
+    "name": "Saphir-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19878,
+    "name": "Saphir-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19879,
+    "name": "Saphir-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19880,
+    "name": "Saphir-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19881,
+    "name": "Saphir-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19882,
+    "name": "Saphir-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19883,
+    "name": "Saphir-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19884,
+    "name": "Saphir-Pflaume-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19885,
+    "name": "Saphir-Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19886,
+    "name": "Saphir-Gold-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19887,
+    "name": "Saphir-Amethyst-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19888,
+    "name": "Amethyst-Purpur-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19889,
+    "name": "Amethyst-Orchidee-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19890,
+    "name": "Amethyst-Indigo-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19891,
+    "name": "Amethyst-Ebenholz-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19892,
+    "name": "Amethyst-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19893,
+    "name": "Amethyst-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19894,
+    "name": "Amethyst-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19895,
+    "name": "Amethyst-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19896,
+    "name": "Amethyst-Pflaume-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19897,
+    "name": "Amethyst-Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19898,
+    "name": "Amethyst-Gold-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19899,
+    "name": "Gold-Fuchsrot-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19900,
+    "name": "Gold-Mandel-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19901,
+    "name": "Gold-Elfenbein-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19902,
+    "name": "Gold-Türkis-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19903,
+    "name": "Gold-Pflaume-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19904,
+    "name": "Gold-Smaragd-Naskäfer",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
   },
   {
     "id": 19976,
@@ -28621,47 +30490,5 @@
     "type": "Cloak",
     "slot": "cape",
     "level": 200
-  },
-  {
-    "id": 34569,
-    "name": "Test – Wirkung maskieren",
-    "type": "",
-    "slot": "other",
-    "level": 1
-  },
-  {
-    "id": 34612,
-    "name": "Dresseur",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 50
-  },
-  {
-    "id": 34613,
-    "name": "Dompteur",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 50
-  },
-  {
-    "id": 34615,
-    "name": "Kleiner Maulesel",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 50
-  },
-  {
-    "id": 34616,
-    "name": "Maulesel",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 100
-  },
-  {
-    "id": 34617,
-    "name": "Großer Maulesel",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 150
   }
 ]

@@ -1,12 +1,17 @@
 ﻿# Changelog
 
 All notable changes to Dofus Forge are documented here.  
-Game version is read automatically from `public/data/version.json` (currently **3.7.1.0**).
+Game version is read automatically from `public/data/version.json` (currently **3.6.12.16** — equipment data rolled back, see 0.3.44).
 
 ---
 
+## [0.3.44] — 2026-10-06
+- **Fix**: rolled the equipment/sets/consumables catalog back to Dofus **3.6.12.16**. The 3.7.1.0 refresh (0.3.43) exposed a problem on the third-party data provider's side: `api.dofusdu.de`'s equipment endpoints stopped returning any `effects` at all for any item, on both the bulk list and the single-item detail endpoint — every single item in the catalog (4095/4095) came back with zero stats. This isn't something in our code to fix (verified directly against the live API with no query parameter restoring it); it's an upstream outage/regression tied to the 3.7 rollout. Rather than ship every item in the game with no stats, reverted equipment/sets/consumables/index to the last known-good 3.6.12.16 data
+- Spell data stays on **3.7.1.0** (`spells-version.json`) — that data source (GitHub Unity dumps, not the REST API) is unaffected and already verified correct, including the trap/glyph damage fix from 0.3.43. Class/stat images also stay on 3.7.1.0, same reasoning
+- Will re-run `pnpm fetch-data` to pick 3.7's equipment back up once dofusdu.de's API serves effects again — nothing else needs to change on our end for that
+
 ## [0.3.43] — 2026-10-06
-- **Chore**: refreshed game data to Dofus **3.7.1.0** — real content changes this time: equipment catalog 4356→4095 items, sets 931→940 (not just a version-string bump like the previous 3.6.12.16 refresh)
+- **Chore**: refreshed game data to Dofus **3.7.1.0** — real content changes this time: equipment catalog 4356→4095 items, sets 931→940 (not just a version-string bump like the previous 3.6.12.16 refresh). *(Superseded for equipment by 0.3.44 — see above.)*
 - **Fix**: spell effect extraction (`scripts/fetch-spells.ts`) silently broke for this version — the game's raw data renamed the per-effect type field from `effectId` to `actionId` (same numeric ids, confirmed against the effect registry's own unrenamed `id` field), so every ID-based check (trap/glyph damage, push, AP/MP steal, erosion, stacking spell buffs) was comparing against `undefined` and failing. Trap/glyph placement damage resolution dropped from ~172 to exactly 0 under the old field name — a real regression for every trap/glyph spell (Sram, Sadida, Feca, etc.), not just a cosmetic change. Fixed by reading `actionId` instead; verified in the actual rendered Spells panel that trap damage (e.g. Sram's "Miry Trap" 33–37, "Malevolent Trap" charge tiers) displays correctly again
 - **Fix**: `scripts/fetch-images.ts` used a shell `mv` command to rename extracted files, which only works under a Unix-like shell — failed outright on a plain Windows `cmd.exe`/PowerShell invocation of the ETL script. Switched to `fs.renameSync`, which works identically regardless of which shell runs the script
 

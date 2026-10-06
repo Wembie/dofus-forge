@@ -6916,6 +6916,496 @@
     "level": 160
   },
   {
+    "id": 7806,
+    "name": "Certificado de montura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7807,
+    "name": "Dragopavo almendrado salvaje",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7808,
+    "name": "Dragopavo ébano",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7809,
+    "name": "Dragopavo pelirrojo salvaje",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7810,
+    "name": "Dragopavo ébano y marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7811,
+    "name": "Dragopavo pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7812,
+    "name": "Dragopavo marfil y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7813,
+    "name": "Dragopavo ébano y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7814,
+    "name": "Dragopavo turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7815,
+    "name": "Dragopavo marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7816,
+    "name": "Dragopavo índigo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7817,
+    "name": "Dragopavo dorado",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7818,
+    "name": "Dragopavo púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7819,
+    "name": "Dragopavo almendrado",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7820,
+    "name": "Dragopavo esmeralda",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7821,
+    "name": "Dragopavo orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7822,
+    "name": "Dragopavo ciruela",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7823,
+    "name": "Dragopavo almendrado y dorado",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7824,
+    "name": "Dragopavo almendrado y ébano",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7825,
+    "name": "Dragopavo almendrado y esmeralda",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7826,
+    "name": "Dragopavo almendrado e índigo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7827,
+    "name": "Dragopavo almendrado y marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7828,
+    "name": "Dragopavo almendrado y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7829,
+    "name": "Dragopavo almendrado y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7830,
+    "name": "Dragopavo almendrado y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7831,
+    "name": "Dragopavo almendrado y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7832,
+    "name": "Dragopavo dorado y ébano",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7833,
+    "name": "Dragopavo dorado y esmeralda",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7834,
+    "name": "Dragopavo dorado e índigo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7835,
+    "name": "Dragopavo dorado y marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7836,
+    "name": "Dragopavo dorado y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7837,
+    "name": "Dragopavo dorado y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7838,
+    "name": "Dragopavo dorado y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7839,
+    "name": "Dragopavo dorado y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7840,
+    "name": "Dragopavo ébano y esmeralda",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7841,
+    "name": "Dragopavo ébano e índigo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7842,
+    "name": "Dragopavo ébano y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7843,
+    "name": "Dragopavo ébano y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7844,
+    "name": "Dragopavo ébano y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7845,
+    "name": "Dragopavo esmeralda e índigo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7846,
+    "name": "Dragopavo esmeralda y marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7847,
+    "name": "Dragopavo esmeralda y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7848,
+    "name": "Dragopavo esmeralda y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7849,
+    "name": "Dragopavo esmeralda y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7850,
+    "name": "Dragopavo esmeralda y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7851,
+    "name": "Dragopavo índigo y marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7852,
+    "name": "Dragopavo índigo y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7853,
+    "name": "Dragopavo índigo y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7854,
+    "name": "Dragopavo índigo y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7855,
+    "name": "Dragopavo índigo y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7856,
+    "name": "Dragopavo marfil y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 1
+  },
+  {
+    "id": 7857,
+    "name": "Dragopavo marfil y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7858,
+    "name": "Dragopavo marfil y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7859,
+    "name": "Dragopavo turquesa y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7860,
+    "name": "Dragopavo orquídeo y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7861,
+    "name": "Dragopavo púrpura y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7862,
+    "name": "Dragopavo turquesa y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7863,
+    "name": "Dragopavo turquesa y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7864,
+    "name": "Dragopavo dorado salvaje",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7866,
+    "name": "Dragopavo orquídeo y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7867,
+    "name": "Dragopavo ciruela y almendrado",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7868,
+    "name": "Dragopavo ciruela y dorado",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7869,
+    "name": "Dragopavo ciruela y ébano",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7870,
+    "name": "Dragopavo ciruela y esmeralda",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7871,
+    "name": "Dragopavo ciruela e índigo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7872,
+    "name": "Dragopavo ciruela y marfil",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7873,
+    "name": "Dragopavo ciruela y pelirrojo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7874,
+    "name": "Dragopavo ciruela y turquesa",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7875,
+    "name": "Dragopavo ciruela y orquídeo",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 7876,
+    "name": "Dragopavo ciruela y púrpura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
     "id": 7880,
     "name": "Amuleto de jalatranki",
     "type": "Amulet",
@@ -10400,6 +10890,13 @@
     "type": "Boots",
     "slot": "boots",
     "level": 47
+  },
+  {
+    "id": 9582,
+    "name": "Dragopavo con armadura",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
   },
   {
     "id": 9594,
@@ -14320,6 +14817,13 @@
     "type": "Pet",
     "slot": "pet",
     "level": 20
+  },
+  {
+    "id": 13010,
+    "name": "Dragopavo con plumas",
+    "type": "Dragoturkey Certificate",
+    "slot": "other",
+    "level": 60
   },
   {
     "id": 13017,
@@ -19614,6 +20118,503 @@
     "level": 40
   },
   {
+    "id": 17874,
+    "name": "Mulagua ébano e índigo",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17875,
+    "name": "Mulagua orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17876,
+    "name": "Mulagua ébano",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17877,
+    "name": "Mulagua índigo",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17878,
+    "name": "Mulagua púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17879,
+    "name": "Mulagua dorada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17880,
+    "name": "Mulagua roja",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17881,
+    "name": "Mulagua almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17882,
+    "name": "Mulagua marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17883,
+    "name": "Mulagua turquesa",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17884,
+    "name": "Mulagua ciruela",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17885,
+    "name": "Mulagua esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17886,
+    "name": "Mulagua dorada y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17887,
+    "name": "Mulagua índigo y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17888,
+    "name": "Mulagua ébano y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17889,
+    "name": "Mulagua orquídea y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17890,
+    "name": "Mulagua dorada y ébano",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17891,
+    "name": "Mulagua índigo y orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17892,
+    "name": "Mulagua ébano y orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17893,
+    "name": "Mulagua dorada y orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17894,
+    "name": "Mulagua roja y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17895,
+    "name": "Mulagua roja y orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17896,
+    "name": "Mulagua roja e índigo",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17897,
+    "name": "Mulagua roja y ébano",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17898,
+    "name": "Mulagua roja y dorada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17899,
+    "name": "Mulagua roja y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17900,
+    "name": "Mulagua púrpura y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17901,
+    "name": "Mulagua orquídea y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17902,
+    "name": "Mulagua índigo y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17903,
+    "name": "Mulagua ébano y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17904,
+    "name": "Mulagua dorada y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17905,
+    "name": "Mulagua púrpura y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17906,
+    "name": "Mulagua orquídea y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17907,
+    "name": "Mulagua índigo y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17908,
+    "name": "Mulagua ébano y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17909,
+    "name": "Mulagua dorada y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17910,
+    "name": "Mulagua roja y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17911,
+    "name": "Mulagua almendrada y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17912,
+    "name": "Mulagua turquesa y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17913,
+    "name": "Mulagua turquesa y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17914,
+    "name": "Mulagua turquesa y orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17915,
+    "name": "Mulagua turquesa e índigo",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17916,
+    "name": "Mulagua turquesa y ébano",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17917,
+    "name": "Mulagua turquesa y roja",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17918,
+    "name": "Mulagua turquesa y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17919,
+    "name": "Mulagua turquesa y dorada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17920,
+    "name": "Mulagua ciruela y púrpura",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17921,
+    "name": "Mulagua ciruela y orquídea",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17922,
+    "name": "Mulagua ciruela e índigo",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17923,
+    "name": "Mulagua ciruela y ébano",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17924,
+    "name": "Mulagua ciruela y dorada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17925,
+    "name": "Mulagua ciruela y roja",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17926,
+    "name": "Mulagua ciruela y almendrada",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17927,
+    "name": "Mulagua ciruela y marfil",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17928,
+    "name": "Mulagua ciruela y turquesa",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17929,
+    "name": "Mulagua ciruela y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17930,
+    "name": "Mulagua púrpura y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17931,
+    "name": "Mulagua orquídea y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17932,
+    "name": "Mulagua índigo y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17933,
+    "name": "Mulagua ébano y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17934,
+    "name": "Mulagua dorada y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17935,
+    "name": "Mulagua roja y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17936,
+    "name": "Mulagua almendrada y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17937,
+    "name": "Mulagua marfil y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17938,
+    "name": "Mulagua turquesa y esmeralda",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17939,
+    "name": "Mulagua dorada e índigo",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17956,
+    "name": "Mulagua ébano salvaje",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17957,
+    "name": "Mulagua índigo salvaje",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17958,
+    "name": "Mulagua orquídea salvaje",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17959,
+    "name": "Mulagua púrpura salvaje",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 17960,
+    "name": "Mulagua dorada salvaje",
+    "type": "Seemyool Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
     "id": 17961,
     "name": "Casco aislante",
     "type": "Hat",
@@ -21341,6 +22342,874 @@
     "type": "Tool",
     "slot": "weapon",
     "level": 1
+  },
+  {
+    "id": 19780,
+    "name": "Vueloceronte púrpura salvaje",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19781,
+    "name": "Vueloceronte índigo salvaje",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19783,
+    "name": "Vueloceronte ébano salvaje",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19784,
+    "name": "Vueloceronte orquídeo salvaje",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19785,
+    "name": "Vueloceronte índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19786,
+    "name": "Vueloceronte ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19787,
+    "name": "Vueloceronte púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19788,
+    "name": "Vueloceronte orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19789,
+    "name": "Vueloceronte pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19790,
+    "name": "Vueloceronte almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19791,
+    "name": "Vueloceronte marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19792,
+    "name": "Vueloceronte turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19793,
+    "name": "Vueloceronte ciruela",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19794,
+    "name": "Vueloceronte esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19795,
+    "name": "Vueloceronte dorado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19796,
+    "name": "Vueloceronte jade",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19797,
+    "name": "Vueloceronte zafiro",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19798,
+    "name": "Vueloceronte rubí",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19799,
+    "name": "Vueloceronte amatista",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19800,
+    "name": "Vueloceronte púrpura y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19801,
+    "name": "Vueloceronte púrpura e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19802,
+    "name": "Vueloceronte púrpura y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19803,
+    "name": "Vueloceronte orquídeo e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19804,
+    "name": "Vueloceronte orquídeo y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19805,
+    "name": "Vueloceronte índigo y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19806,
+    "name": "Vueloceronte almendrado y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19807,
+    "name": "Vueloceronte almendrado y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19808,
+    "name": "Vueloceronte almendrado e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19809,
+    "name": "Vueloceronte almendrado y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19810,
+    "name": "Vueloceronte almendrado y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19811,
+    "name": "Vueloceronte almendrado y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19812,
+    "name": "Vueloceronte almendrado y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19813,
+    "name": "Vueloceronte pelirrojo y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19814,
+    "name": "Vueloceronte pelirrojo y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19815,
+    "name": "Vueloceronte pelirrojo e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19816,
+    "name": "Vueloceronte pelirrojo y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19817,
+    "name": "Vueloceronte pelirrojo y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19818,
+    "name": "Vueloceronte pelirrojo y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19819,
+    "name": "Vueloceronte marfil y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19820,
+    "name": "Vueloceronte marfil y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19821,
+    "name": "Vueloceronte marfil e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19822,
+    "name": "Vueloceronte marfil y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19823,
+    "name": "Vueloceronte marfil y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19824,
+    "name": "Vueloceronte turquesa y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19825,
+    "name": "Vueloceronte turquesa y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19826,
+    "name": "Vueloceronte turquesa e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19827,
+    "name": "Vueloceronte turquesa y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19828,
+    "name": "Vueloceronte ciruela y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19829,
+    "name": "Vueloceronte ciruela e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19830,
+    "name": "Vueloceronte ciruela y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19831,
+    "name": "Vueloceronte ciruela y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19832,
+    "name": "Vueloceronte ciruela y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19833,
+    "name": "Vueloceronte ciruela y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19834,
+    "name": "Vueloceronte ciruela y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19835,
+    "name": "Vueloceronte ciruela y esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19836,
+    "name": "Vueloceronte ciruela y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19837,
+    "name": "Vueloceronte esmeralda y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19838,
+    "name": "Vueloceronte esmeralda y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19839,
+    "name": "Vueloceronte esmeralda e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19840,
+    "name": "Vueloceronte esmeralda y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19841,
+    "name": "Vueloceronte esmeralda y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19842,
+    "name": "Vueloceronte esmeralda y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19843,
+    "name": "Vueloceronte esmeralda y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19844,
+    "name": "Vueloceronte esmeralda y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19845,
+    "name": "Vueloceronte dorado y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19846,
+    "name": "Vueloceronte dorado y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19847,
+    "name": "Vueloceronte dorado e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19848,
+    "name": "Vueloceronte dorado y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19849,
+    "name": "Vueloceronte jade y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19850,
+    "name": "Vueloceronte jade y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19851,
+    "name": "Vueloceronte jade e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19852,
+    "name": "Vueloceronte jade y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19853,
+    "name": "Vueloceronte jade y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19854,
+    "name": "Vueloceronte jade y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19855,
+    "name": "Vueloceronte jade y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19856,
+    "name": "Vueloceronte jade y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19857,
+    "name": "Vueloceronte jade y ciruela",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19858,
+    "name": "Vueloceronte jade y esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19859,
+    "name": "Vueloceronte jade y dorado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19860,
+    "name": "Vueloceronte jade y rubí",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19861,
+    "name": "Vueloceronte jade y zafiro",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19862,
+    "name": "Vueloceronte jade y amatista",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19863,
+    "name": "Vueloceronte rubí y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19864,
+    "name": "Vueloceronte rubí y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19865,
+    "name": "Vueloceronte rubí e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19866,
+    "name": "Vueloceronte rubí y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19867,
+    "name": "Vueloceronte rubí y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19868,
+    "name": "Vueloceronte rubí y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19869,
+    "name": "Vueloceronte rubí y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19870,
+    "name": "Vueloceronte rubí y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19871,
+    "name": "Vueloceronte rubí y ciruela",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19872,
+    "name": "Vueloceronte rubí y esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19873,
+    "name": "Vueloceronte rubí y dorado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19874,
+    "name": "Vueloceronte rubí y zafiro",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19875,
+    "name": "Vueloceronte rubí y amatista",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19876,
+    "name": "Vueloceronte zafiro y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19877,
+    "name": "Vueloceronte zafiro y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19878,
+    "name": "Vueloceronte zafiro e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19879,
+    "name": "Vueloceronte zafiro y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19880,
+    "name": "Vueloceronte zafiro y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19881,
+    "name": "Vueloceronte zafiro y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19882,
+    "name": "Vueloceronte zafiro y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19883,
+    "name": "Vueloceronte zafiro y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19884,
+    "name": "Vueloceronte zafiro y ciruela",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19885,
+    "name": "Vueloceronte zafiro y esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19886,
+    "name": "Vueloceronte zafiro y dorado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19887,
+    "name": "Vueloceronte zafiro y amatista",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19888,
+    "name": "Vueloceronte amatista y púrpura",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19889,
+    "name": "Vueloceronte amatista y orquídeo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19890,
+    "name": "Vueloceronte amatista e índigo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19891,
+    "name": "Vueloceronte amatista y ébano",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19892,
+    "name": "Vueloceronte amatista y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19893,
+    "name": "Vueloceronte amatista y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19894,
+    "name": "Vueloceronte amatista y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19895,
+    "name": "Vueloceronte amatista y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19896,
+    "name": "Vueloceronte amatista y ciruela",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19897,
+    "name": "Vueloceronte amatista y esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19898,
+    "name": "Vueloceronte amatista y dorado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19899,
+    "name": "Vueloceronte dorado y pelirrojo",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19900,
+    "name": "Vueloceronte dorado y almendrado",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19901,
+    "name": "Vueloceronte dorado y marfil",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19902,
+    "name": "Vueloceronte dorado y turquesa",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19903,
+    "name": "Vueloceronte dorado y ciruela",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
+  },
+  {
+    "id": 19904,
+    "name": "Vueloceronte dorado y esmeralda",
+    "type": "Rhineetle Certificate",
+    "slot": "other",
+    "level": 60
   },
   {
     "id": 19976,
@@ -28621,47 +30490,5 @@
     "type": "Cloak",
     "slot": "cape",
     "level": 200
-  },
-  {
-    "id": 34569,
-    "name": "Test Ocultar efecto",
-    "type": "",
-    "slot": "other",
-    "level": 1
-  },
-  {
-    "id": 34612,
-    "name": "Adiestrador",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 50
-  },
-  {
-    "id": 34613,
-    "name": "Domador",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 50
-  },
-  {
-    "id": 34615,
-    "name": "Mula menor",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 50
-  },
-  {
-    "id": 34616,
-    "name": "Mula",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 100
-  },
-  {
-    "id": 34617,
-    "name": "Mula mayor",
-    "type": "Trophy",
-    "slot": "dofus",
-    "level": 150
   }
 ]
