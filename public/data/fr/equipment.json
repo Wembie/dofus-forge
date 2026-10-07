@@ -5025,7 +5025,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23001-128.png",
     "description": "C'est le Dragon du Feu Ignemikhal qui créa le Dofus Pourpre, un Œuf dont le moins qu'on puisse dire, c'est qu'il sent le soufre - mais il sent bien d'autres choses encore...",
-    "ability": "{{spell,8395,1::Pourpre Profond}} :\n• Lorsque le porteur est attaqué, il gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois)."
+    "ability": "Pourpre Profond :\n• Lorsque le porteur est attaqué, il gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois)."
   },
   {
     "ankama_id": 696,
@@ -5704,7 +5704,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23002-128.png",
     "description": "Plus vert qu'un Tofu malade, le Dofus Émeraude fut créé par Aerafal, le Dragon de l'Air. Pour créer quelque chose d'aussi vert, il devait avoir le mal de l'air. Un comble, non ?",
-    "ability": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation."
+    "ability": "Vert Émeraude :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation."
   },
   {
     "ankama_id": 739,
@@ -5741,7 +5741,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23003-128.png",
     "description": "Le Dofus Turquoise fut créé par Aguabrial, le Dragon de l'Eau. Quand on y pense, c'est fou ce qu'un Dragon peut faire avec de l'eau...",
-    "ability": "{{spell,5952,1::Bleu Turquoise}} :\n• Lorsque le porteur effectue un coup critique, il gagne 1% de dommages finaux pendant 3 tours (cumulable 10 fois)."
+    "ability": "Bleu Turquoise :\n• Lorsque le porteur effectue un coup critique, il gagne 1% de dommages finaux pendant 3 tours (cumulable 10 fois)."
   },
   {
     "ankama_id": 742,
@@ -8529,7 +8529,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17251-128.png",
     "description": "Cette cape est certainement l'une des plus puissantes au monde. Elle augmente toutes les caractéristiques élémentaires de son porteur.",
-    "ability": "{{spell,7331,1::Bénédiction des Dofus}} :\n• Augmente une caractéristique élémentaire du porteur par tour de jeu :\n • <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Force > <sprite name=\"air\"> 400 Agilité > <sprite name=\"feu\"> 400 Intelligence"
+    "ability": "Bénédiction des Dofus :\n• Augmente une caractéristique élémentaire du porteur par tour de jeu :\n • <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Force > <sprite name=\"air\"> 400 Agilité > <sprite name=\"feu\"> 400 Intelligence"
   },
   {
     "ankama_id": 967,
@@ -8814,7 +8814,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23006-128.png",
     "description": "Si un dragon avait véritablement pondu cet œuf, il serait très aimable. Plus en tout cas que le Wa Wabbit, qui s'en sert pour attirer les aventuriers sur son île afin de les dépouiller de leur équipement et, accessoirement, de leur fierté. Un moyen ingénieux et peu onéreux de se procurer les panoplies dernier cri sans bouger de chez soi.",
-    "ability": "{{spell,8418,1::Sagesse Wabbit}} :\n• Lorsque le porteur subit une tentative de retrait de PA ou de PM, il gagne 25 Esquive PA ou 25 Esquive PM pendant 1 tour (cumulable 1 fois, partagé entre les effets)."
+    "ability": "Sagesse Wabbit :\n• Lorsque le porteur subit une tentative de retrait de PA ou de PM, il gagne 25 Esquive PA ou 25 Esquive PM pendant 1 tour (cumulable 1 fois, partagé entre les effets)."
   },
   {
     "ankama_id": 976,
@@ -34061,7 +34061,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23004-128.png",
     "description": "Le Dofus Vulbis est source de rumeurs fort effrayantes. On dit que le dragon qui a créé cet œuf couleur de rubis serait plus impitoyable que la mort elle-même, et qu'il dévorerait ses victimes pour tenter de satisfaire son insatiable appétit. Légende ou vérité ? Seuls les héros à la fois valeureux et indigestes le savent.",
-    "ability": "{{spell,8396,1::Rouge Vermeil}} :\n• À chaque début de tour, le porteur gagne 10% de dommages finaux s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Tacle."
+    "ability": "Rouge Vermeil :\n• À chaque début de tour, le porteur gagne 10% de dommages finaux s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Tacle."
   },
   {
     "ankama_id": 6981,
@@ -36163,7 +36163,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23008-128.png",
     "description": "Comme un poème naissant de l'encre noire et du papier blanc, ce Dofus est né d'une île et d'un dragon. N'est-il qu'un rêve, un paradoxe, un reflet illusoire ? Bien au contraire. Il est le fruit de deux mondes, et le symbole de leur union. À travers lui, le Krosmoz vous contemple... ou vous engloutit.",
-    "ability": "{{spell,18888,1::Harmonie de Pandala}} :\n• Lorsque le porteur occasionne des dommages durant son tour de jeu, lui et ses alliés porteurs du {{item,23408::Dorigami}} gagnent 20 de Dommages pendant 1 tour (cumulable 1 fois).\n• S'il n'en occasionne pas, lui et ses alliés porteurs du {{item,23237::Domakuro}} gagnent 100% de son niveau en bouclier pendant 1 tour."
+    "ability": "Harmonie de Pandala :\n• Lorsque le porteur occasionne des dommages durant son tour de jeu, lui et ses alliés porteurs du Dorigami gagnent 20 de Dommages pendant 1 tour (cumulable 1 fois).\n• S'il n'en occasionne pas, lui et ses alliés porteurs du Domakuro gagnent 100% de son niveau en bouclier pendant 1 tour."
   },
   {
     "ankama_id": 7113,
@@ -36224,7 +36224,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23007-128.png",
     "description": "Sombre comme les ténèbres, dur comme le roc, Grougalorasalar le Dragon Noir a créé le Dofus Ébène pour lui tenir compagnie. Il avait simplement oublié qu'un œuf, aussi magique fût-il, ne parle pas.",
-    "ability": "{{spell,18629,1::Noir Ébène}} :\n• Lorsque le porteur attaque en mêlée durant son tour, il gagne 2% de dommages à distance, et s'il attaque à distance, il gagne 2% de dommages en mêlée pendant 3 tours (cumulable 5 fois).\n• Déclencher les 2 effets dans le tour permet à la prochaine attaque d'appliquer un poison de 16 dans son élément pendant 2 tours (cumulable 2 fois).\n• Le temps de relance du poison est de 2 tours, mais peut être réinitialisé si la cible est achevée."
+    "ability": "Noir Ébène :\n• Lorsque le porteur attaque en mêlée durant son tour, il gagne 2% de dommages à distance, et s'il attaque à distance, il gagne 2% de dommages en mêlée pendant 3 tours (cumulable 5 fois).\n• Déclencher les 2 effets dans le tour permet à la prochaine attaque d'appliquer un poison de 16 dans son élément pendant 2 tours (cumulable 2 fois).\n• Le temps de relance du poison est de 2 tours, mais peut être réinitialisé si la cible est achevée."
   },
   {
     "ankama_id": 7115,
@@ -36285,7 +36285,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23011-128.png",
     "description": "Si sa blancheur n'a pas d'égal, c'est que Dardondakal le Dragon blanc, blanchit le Dofus Ivoire à grands coups d'haleine chaque matin (un vieux truc que lui a refilé sa grand-mère Dragon).",
-    "ability": "{{spell,18665,1::Blanc Ivoire}} :\n• Le porteur réduit de 50% les dommages d'une attaque sur 5. Les effets d'interception et de partage de dommages sont incompatibles."
+    "ability": "Blanc Ivoire :\n• Le porteur réduit de 50% les dommages d'une attaque sur 5. Les effets d'interception et de partage de dommages sont incompatibles."
   },
   {
     "ankama_id": 7116,
@@ -43629,7 +43629,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23012-128.png",
     "description": "Créé par Terrakourial, le Dragon de la Terre, ce Dofus concentre de grands pouvoirs à ne pas mettre entre toutes les mains... Ni entre tous les pieds d'ailleurs.",
-    "ability": "{{spell,8394,1::Jaune Ocre}} :\n• À chaque début de tour, le porteur gagne 1 PA s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Fuite."
+    "ability": "Jaune Ocre :\n• À chaque début de tour, le porteur gagne 1 PA s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Fuite."
   },
   {
     "ankama_id": 7880,
@@ -60060,7 +60060,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23016-128.png",
     "description": "Créé par l'amour de Khelebragon pour la prêtresse Méthée, ce Dofus est un concentré de nostalgie. Ne le contemplez pas trop longtemps, sans quoi vous risquez de verser quelques larmes... ce qui nuirait sans nul doute à votre réputation d'aventurier au cœur de pierre.",
-    "ability": "{{spell,5454,1::Rêve Nébuleux}} :\n• Les tours impairs, le porteur sacrifie 10% de soins finaux pour gagner 20% de dommages finaux.\n• Les tours pairs, il sacrifie 10% de dommages finaux pour gagner 20% de soins finaux."
+    "ability": "Rêve Nébuleux :\n• Les tours impairs, le porteur sacrifie 10% de soins finaux pour gagner 20% de dommages finaux.\n• Les tours pairs, il sacrifie 10% de dommages finaux pour gagner 20% de soins finaux."
   },
   {
     "ankama_id": 8699,
@@ -136315,7 +136315,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23020-128.png",
     "description": "Ce Dofus a été façonné d'après le souvenir nébuleux d'un authentique œuf de Dragon. Lorsque vous le touchez, des moments oubliés vous reviennent en mémoire, comme si vous aviez mordu dans une madeleine de Marcelle Rouste : vous revivez votre arrivée sur Incarnam, le massacre de votre premier boufton... Ah, c'était le bon temps.",
-    "ability": "{{spell,5453,1::Veille Dimensionnelle}} :\n• Lorsque le porteur termine son tour, il soigne ses alliés alignés avec lui de 7% de leur vie."
+    "ability": "Veille Dimensionnelle :\n• Lorsque le porteur termine son tour, il soigne ses alliés alignés avec lui de 7% de leur vie."
   },
   {
     "ankama_id": 16116,
@@ -140084,7 +140084,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23022-128.png",
     "description": "Les Kannibouls prétendent que l'Arbre de Moon est en réalité un dragon endormi : venu de la lune, l'être immortel aurait pris la forme d'un grand kokotier pour donner un peu d'ombre à une princesse souffrant de la chaleur du soleil. Il se serait ensuite assoupi... Le Dokoko, fruit de l'Arbre de Moon, serait donc un authentique Dofus ? Permettez-nous d'émettre quelques doutes.",
-    "ability": "{{spell,6149,1::Le Singe et la Lune}} :\n• Tous les 3 tours à partir du tour 3, le porteur est soigné de 10% de sa vie."
+    "ability": "Le Singe et la Lune :\n• Tous les 3 tours à partir du tour 3, le porteur est soigné de 10% de sa vie."
   },
   {
     "ankama_id": 17079,
@@ -149491,7 +149491,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23023-128.png",
     "description": "Selon des sources officielles, ce Dofus à l'aspect inhabituel serait une création des Steamers de Sufokia : on peut donc en conclure qu'il ne s'agit pas d'un véritable œuf de dragon. Enfin, c'est ce que les autorités veulent nous faire croire... car qui sait réellement ce qui se cache dans les abysses ?",
-    "ability": "{{spell,6828,1::Descente aux Abysses}} :\n• À chaque début de tour, le porteur gagne 1 PM si aucun ennemi n'est à son contact. Sinon, il gagne 1 PA."
+    "ability": "Descente aux Abysses :\n• À chaque début de tour, le porteur gagne 1 PM si aucun ennemi n'est à son contact. Sinon, il gagne 1 PA."
   },
   {
     "ankama_id": 18088,
@@ -160962,7 +160962,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23024-128.png",
     "description": "Malgré son aspect quelque peu insolite, ce Dofus est un authentique œuf de dragon : ce serait donc dommage de le mettre au clou. Il vous réchauffera durant les longues soirées d'hiver et vous permettra d'organiser des barbecues en été. Évitez tout de même de passer trop près des meules de foin ou des fagots de bois sec, sinon vous risquez d'être pris pour un dangereux pyromane.",
-    "ability": "{{spell,10164,1::Forge du Volcan}} :\n• Le porteur gagne 100% de son niveau en bouclier selon les effets qu'il subit d'un ennemi (1 fois par type d'effet par tour) :\n • Dommages de poussée\n • Attirance ou poussée\n • Échange de positions, téléportation ou téléportail\n • Portage Pandawa"
+    "ability": "Forge du Volcan :\n• Le porteur gagne 100% de son niveau en bouclier selon les effets qu'il subit d'un ennemi (1 fois par type d'effet par tour) :\n • Dommages de poussée\n • Attirance ou poussée\n • Échange de positions, téléportation ou téléportail\n • Portage Pandawa"
   },
   {
     "ankama_id": 19415,
@@ -163099,7 +163099,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23025-128.png",
     "description": "Créé par Rathrosk le dragon gris, cet œuf est une énigme. Bien que son pouvoir n'égale pas celui d'un Dofus Primordial, il semble plus ancien que le temps... Vous feriez bien de le garder précieusement. Après tout, seules les Nordes et le dieu Xélor savent de quoi l'avenir sera fait.",
-    "ability": "{{spell,18674,1::Souvenir d'Argent}} :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 20% de sa vie au début de son prochain tour (1 fois par combat)."
+    "ability": "Souvenir d'Argent :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 20% de sa vie au début de son prochain tour (1 fois par combat)."
   },
   {
     "ankama_id": 19637,
@@ -164174,7 +164174,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23027-128.png",
     "description": "Lorsque le dragon Rathrosk a créé le Dofus Argenté, alors que le Monde des Douze n'existait pas encore, un miracle s'est produit : la première des Phénix est revenue à la vie. Le temps a passé, des dieux ont disparu, des étoiles se sont éteintes. Aujourd'hui, l'œuf que vous tenez entre vos mains scintille de mille feux, comme autrefois... comme un amour perdu dont la flamme brûlerait à nouveau.",
-    "ability": "{{spell,18672,1::Promesse d'Argent}} :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 30% de sa vie et gagne 20% de dommages finaux pendant 1 tour au début de son prochain tour (1 fois par combat)."
+    "ability": "Promesse d'Argent :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 30% de sa vie et gagne 20% de dommages finaux pendant 1 tour au début de son prochain tour (1 fois par combat)."
   },
   {
     "ankama_id": 20353,
@@ -164277,7 +164277,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6740-128.png",
     "description": "« Les Crocodailles étaient des milliers, à quelques centaines de kamètres des portes de la cité. Nous nous étions préparés à l'assaut, la garde au grand complet était rassemblée devant la grande porte et les machines de guerre avaient été installées sur les remparts. La vue de la gigantesque armée de reptiles était déjà terrifiante, mais le pire fût lorsque nous l'aperçûmes. Crocoburio se tenait au milieu de ses soldats, les dépassant tous de plusieurs têtes et brandissant sa maudite épée dans notre direction. Quand la masse verte se mit en marche, un frisson parcourut nos rangs, et nous sûmes que la bataille qui allait avoir lieu serait terrible. »\n\n- Un soldat bontarien",
-    "ability": "{{spell,11352,1::Appétit de Crocobur}} :\n• À chaque début de tour, le porteur s'inflige 15 de dommages dans son meilleur élément d'attaque pour infliger les mêmes dommages en vol de vie aux entités à son contact à la fin de son tour. Soigne également les attaquants de 7% des dommages occasionnés aux ennemis touchés pendant 2 tours (cumulable 1 fois).",
+    "ability": "Appétit de Crocobur :\n• À chaque début de tour, le porteur s'inflige 15 de dommages dans son meilleur élément d'attaque pour infliger les mêmes dommages en vol de vie aux entités à son contact à la fin de son tour. Soigne également les attaquants de 7% des dommages occasionnés aux ennemis touchés pendant 2 tours (cumulable 1 fois).",
     "ap_cost": 6,
     "crit_chance": 10,
     "crit_bonus": 7,
@@ -164362,7 +164362,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5100-128.png",
     "description": "« J'ai tant de noms que j'ai du mal à me souvenir de tous. Mais tu peux m'appeler Atroskulda. Je suis la plus vieille des trois Nordes, celle qui coupe impitoyablement le fil de l'existence. Toute chose a une fin, et mon travail est de m'assurer que cette fin arrive au moment convenu. »\n\n— Atroskulda",
-    "ability": "{{spell,11354,1::Destin Fatidique}} :\n• À chaque fin de tour, le porteur partage les dommages entre les ennemis dans un carré de taille 1 et augmente les dommages qu'ils subissent de 6% pendant 2 tours (cumulable 1 fois). Il gagne également 10 de Tacle pendant 1 tour pour chaque ennemi touché.",
+    "ability": "Destin Fatidique :\n• À chaque fin de tour, le porteur partage les dommages entre les ennemis dans un carré de taille 1 et augmente les dommages qu'ils subissent de 6% pendant 2 tours (cumulable 1 fois). Il gagne également 10 de Tacle pendant 1 tour pour chaque ennemi touché.",
     "ap_cost": 3,
     "crit_chance": 100,
     "crit_bonus": 6,
@@ -164459,7 +164459,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4135-128.png",
     "description": "« Le cortège s'étend dans la brume en une longue file d'argent. Tous trépignent, grelottent, se frottent les mains et claquent des dents au son de mon violon grinçant. Accompagnez-nous, ne soyez pas timide. Une danse avec le froid ne se refuse pas. »\n\n— Brumaire le Saigneur Macabre, Protecteur de Novamaire",
-    "ability": "{{spell,12147,1::Froid de Novamaire}} :\n• À chaque fin de tour, le porteur retire 1 PA aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PA pendant 1 tour (cumulable 2 fois).\n• Lorsque le porteur achève un combattant ennemi, il pose un glyphe-aura qui rend les alliés invisibles pendant 1 tour dans un cercle de taille 3.",
+    "ability": "Froid de Novamaire :\n• À chaque fin de tour, le porteur retire 1 PA aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PA pendant 1 tour (cumulable 2 fois).\n• Lorsque le porteur achève un combattant ennemi, il pose un glyphe-aura qui rend les alliés invisibles pendant 1 tour dans un cercle de taille 3.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -164556,7 +164556,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/2087-128.png",
     "description": "« Il fut un temps où il n'y avait pas de coffres-forts. Les Enutrofs cachaient leurs économies dans des bas de laine ou sous leur matelas, les écureuils planquaient leurs noisettes à l'intérieur des troncs d'arbre, les dragons empilaient leurs pièces d'or dans des cavernes sombres et humides. Puis la Firme a créé le réseau bancaire. Une véritable révolution ! Enfin, les Douziens pouvaient mettre leurs biens à l'abri derrière des portes blindées. Certes, il y a toujours des Roublards pour faire exploser des bombes et des trafiquants de kamas pour rouler les aventuriers trop cupides, mais ce n'est pas si grave. Il suffit de prendre une bonne assurance. »\n\n- Buhorado",
-    "ability": "{{spell,11357,1::Plume de Buhorado}} :\n• Lorsque le porteur effectue un coup critique, il gagne 10 de Dommages Poussée pendant 3 tours.",
+    "ability": "Plume de Buhorado :\n• Lorsque le porteur effectue un coup critique, il gagne 10 de Dommages Poussée pendant 3 tours.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -164635,7 +164635,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82212-128.png",
     "description": "« Tout Féca qui part au combat se doit de porter un bouclier. Mais la meilleure protection contre l'adversité, le meilleur rempart contre tous ceux qui cherchent à nous nuire ou à nous détruire, c'est l'union. Mercenaires ! Le temps est venu de mettre nos querelles de côté et de nous rassembler sous une seule bannière. Astrub n'est pas qu'une ville marchande fondée par une bande de brigands qui se sont assagis. Astrub est aussi une cité ancienne, avec son patrimoine et sa culture. Astrub est une nation ! Aujourd'hui, membres du conseil, vous allez élire un nouveau chef. J'ai posé ma candidature. M'accorderez-vous votre confiance ? C'est à vous d'en décider. »\n\n- Fallanster, chef du Conseil d'Astrub",
-    "ability": "{{spell,11358,1::Droiture de Fallanster}} :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans un carré de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour (cumulable 1 fois). Le glyphe est dissipé au prochain tour ou s'il est déplacé."
+    "ability": "Droiture de Fallanster :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans un carré de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour (cumulable 1 fois). Le glyphe est dissipé au prochain tour ou s'il est déplacé."
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164708,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82211-128.png",
     "description": "« La mort est un mal nécessaire, mais tant qu'à faire, nous préférons tous qu'elle frappe quelqu'un d'autre que nous, n'est-ce pas ? C'est pourquoi j'ai forgé ce bouclier. Il est indestructible, inusable et inoxydable. Il dévie tous les coups qui risquent de vous faire passer de vie à trépas. Bien que de dimensions imposantes, il reste léger et maniable. De plus, son aspect macabre impressionnera vos adversaires ; les plus lâches ne pourront supporter la noirceur abyssale de ses orbites vides et s'enfuiront en hurlant. Vous avez encore besoin d'être convaincus ? Nous allons donc passer à la démonstration. Sergent Kocksis, c'est à vous. »\n\n- Un artisan désirant rester anonyme",
-    "ability": "{{spell,11359,1::Trompe-la-Mort}} :\n• Lorsque le porteur a plus de 50% de sa vie, ses dommages finaux sont augmentés de 7%, mais il perd 10% de sa vie à chaque début de tour.\n• Lorsqu'il a moins de 50% de sa vie, les dommages qu'il subit sont réduits de 20%."
+    "ability": "Trompe-la-Mort :\n• Lorsque le porteur a plus de 50% de sa vie, ses dommages finaux sont augmentés de 7%, mais il perd 10% de sa vie à chaque début de tour.\n• Lorsqu'il a moins de 50% de sa vie, les dommages qu'il subit sont réduits de 20%."
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164811,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16555-128.png",
     "description": "« Ils pensent que nous sommes petits et faibles. Ils se moquent de nos coutumes, de nos traditions ancestrales. Ils nous prennent pour des barbares puants, avides et nincultes. Ils croient que nous nous contenterons de rester dans nos mines, à creuser dans le noir comme des Sidoas ? Ils vont tomber de haut ! Je vais leur montrer qui sont les Nimbos. Je vais brûler leurs fermes et leurs récoltes. Je vais raser leurs cheveux, leurs sourcils, leurs cités. Je vais tondre leurs bouftous. Je vais m'emparer de leur or, vider leurs tonneaux, déchirer leurs bannières. Je suis le roi sous la montagne... et bientôt, je serai le roi du monde ! »\n\n- Brâm Barbe-Monde",
-    "ability": "{{spell,11360,1::Roi sous la Montagne}} :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible."
+    "ability": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible."
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164896,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16564-128.png",
     "description": "« Quand une jeune âme quitte le temple d'Incarnam, elle rêve à la vie qui l'attend au dehors. Une vie d'aventures trépidantes, d'accomplissements personnels, d'échanges enrichissants et de partage avec les autres. Elle a oublié qui elle était autrefois. Peut-être a-t-elle régné sur un empire dont il ne reste que quelques pierres. Peut-être a-t-elle été un humble berger qui gardait un troupeau de bouftous. Le passé n'a que peu d'importance lorsque l'on regarde vers l'avenir : les Aigles Célestes veillent à ce que chaque être prenne un nouveau départ, sans craintes ni regrets, jusqu'à ce que son destin s'accomplisse. »\n\n- Maître Ganymède",
-    "ability": "{{spell,11361,1::Sagesse de Ganymède}} :\n• Le porteur gagne 2 PA les tours pairs, mais perd 1 PA et 1 PM les tours impairs."
+    "ability": "Sagesse de Ganymède :\n• Le porteur gagne 2 PA les tours pairs, mais perd 1 PA et 1 PM les tours impairs."
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164987,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17418-128.png",
     "description": "« Depuis tout petit, j'ai été entraîné à combattre les dragons. Je suis un chevalier, et les chevaliers pourfendent les gros lézards qui crachent du feu. C'est écrit dans tous les livres d'histoire pour les enfants, c'est donc forcément vrai ! Vous pouvez donc imaginer ma surprise quand j'ai rencontré Bolgrot. Qui aurait cru que je deviendrais son meilleur ami ? Pas moi, en tout cas ! J'ai été le premier surpris. Comme quoi, il ne faut pas se fier aux apparences... Voilà des semaines qu'on ne se quitte plus. J'ai hâte de lui présenter Helséphine ! Je suis sûr qu'ils vont bien s'entendre tous les deux. »\n\n- Rykke-Errel, chevalier iop",
-    "ability": "{{spell,11363,1::Bravoure de Rykke Errel}} :\n• Lorsque le porteur subit une attaque à distance, il gagne 10% de son niveau en bouclier et perd 1% de dommages à distance pendant 1 tour par case d'éloignement avec son attaquant (11 cases maximum)."
+    "ability": "Bravoure de Rykke Errel :\n• Lorsque le porteur subit une attaque à distance, il gagne 10% de son niveau en bouclier et perd 1% de dommages à distance pendant 1 tour par case d'éloignement avec son attaquant (11 cases maximum)."
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165042,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17423-128.png",
     "description": "« Alors que nos troupes se rassemblent pour faire face à l'armée de la cité sombre, je suis monté au sommet de la colline la plus proche pour une dernière prière. En ce jour, de nombreux Douziens vont mourir. Je m'interroge. Toute cette violence est-elle nécessaire ? Faut-il sacrifier des milliers d'âmes pour que l'harmonie ait une chance de régner à nouveau ? Mais l'heure n'est plus aux questions, ni aux doutes. Esprit de la Balance, éclaire-moi de ta lumière. Montre-moi la voie de la justice qui mène à la paix. Et si je croise le chemin de la Bouchère de Brâkmar... Donne-moi la force de l'affronter, pour qu'en ce monde, l'espoir renaisse. »\n\n- Jahash Jurgen",
-    "ability": "{{spell,11365,1::Assimilation Élémentaire}} :\n• Lorsque le porteur subit des dommages dans un élément, il gagne 4% de résistance dans cet élément pendant 2 tours (cumulable 5 fois, partagé entre les éléments)."
+    "ability": "Assimilation Élémentaire :\n• Lorsque le porteur subit des dommages dans un élément, il gagne 4% de résistance dans cet élément pendant 2 tours (cumulable 5 fois, partagé entre les éléments)."
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165121,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11338-128.png",
     "description": "« On dit que les premiers forestiers étaient capables de parcourir les terres d'Amakna en long et en large sans jamais ressentir la moindre fatigue. Les bottes qu'ils portaient avaient été enchantées par les quatre gardiennes : elles permettaient de traverser le pays en un clin d'œil. D'une seule enjambée, les sentinelles aux yeux perçants passaient d'une frontière à l'autre, des rivages de la mer d'Asse aux vallées rocailleuses envahies par les Bworks et les Gobelins. Hélas, le pouvoir de ces bottes miraculeuses déclina quand les Quatre se retirèrent... mais les éclaireurs qui ont la chance d'en posséder une paire gardent une longueur d'avance sur les ennemis du royaume. »\n\n- Cornelia Granpa",
-    "ability": "{{spell,11366,1::Mille Lieues}} :\n• Le porteur gagne 2 PM les tours impairs."
+    "ability": "Mille Lieues :\n• Le porteur gagne 2 PM les tours impairs."
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165218,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11337-128.png",
     "description": "« Approchez, novices ! Ne restez pas dans le fond, car je ne me répéterai pas. Sachez tout d'abord que seuls les maîtres de l'ordre sont autorisés à porter les bottes sacrées durant les cérémonies officielles de cirage de pompes. Il faut être une pointure, vous comprenez. Les éventuels contrevenants seront piétinés par l'ensemble de leurs condisciples avant d'être jetés dehors à grand coup de pied au derrière. Tout le monde a sa brosse à reluire et sa cire de gligli ? Bien ! Mettez-vous en rang, et entrez dans la salle sans bavardages. Je ne veux entendre qu'une seule paire de talons ! »\n\n- Bowisse, grand maître du Cul Botté",
-    "ability": "{{spell,11367,1::Les Culs Bottés}} :\n• À chaque début et fin de tour, le porteur repousse de 2 cases les entités à son contact."
+    "ability": "Les Culs Bottés :\n• À chaque début et fin de tour, le porteur repousse de 2 cases les entités à son contact."
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165309,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10335-128.png",
     "description": "« Quand on est malchanceux, on est tenté de ne rien faire, de rester cloîtré chez soi à se ronger les griffes pour ne pas provoquer de catastrophe... Mais quitte à avoir la scoumoune, autant que ça serve à quelque chose ! L'audace permet de ne plus être paralysé par la poisse. Rien ne vaut un peu de culot pour conjurer le mauvais sort. Vous avez tenté un truc, et vous vous êtes planté ? La belle affaire ! Vous n'avez qu'à réessayer ! Mieux vaut rater son coup par manque de chance que de toupet. L'important, c'est de retomber sur ses pattes. »\n\n- Dodge l'Ecaflip",
-    "ability": "{{spell,11368,1::Audace de Dodge}} :\n• À chaque début de tour, le porteur se téléporte ou échange de position sur une case adjacente aléatoire et gagne 1 PM et 10% Critique, ou n'est pas déplacé et gagne 40 de Fuite et de Dommages Poussée, pendant 1 tour."
+    "ability": "Audace de Dodge :\n• À chaque début de tour, le porteur se téléporte ou échange de position sur une case adjacente aléatoire et gagne 1 PM et 10% Critique, ou n'est pas déplacé et gagne 40 de Fuite et de Dommages Poussée, pendant 1 tour."
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165376,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10336-128.png",
     "description": "« Le départ d'un maître est une tragédie pour ses élèves. Lorsque Prosperus Elementor a disparu, ce sont tous les Huppermages qui se sont retrouvés orphelins. Comment survivre face au vide laissé derrière lui ? Comment transmettre un héritage aux jeunes générations quand certaines questions restent sans réponse ? Je pars aujourd'hui pour l'île verdoyante de Saharach afin d'ouvrir une porte qui me permettra de retrouver notre guide. Puisse la Balance pencher en ma faveur... et que le dieu Xélor m'accorde le temps dont j'ai besoin pour atteindre mon but. »\n\n- Dame Jhessica",
-    "ability": "{{spell,11369,1::Courage de Dame Jhessica}} :\n• À chaque fin de tour, le porteur retire 60 de Fuite aux ennemis à son contact (cumulable 1 fois) et gagne 1% de dommages aux sorts pour chaque ennemi touché pendant 2 tours (cumulable 4 fois)."
+    "ability": "Courage de Dame Jhessica :\n• À chaque fin de tour, le porteur retire 60 de Fuite aux ennemis à son contact (cumulable 1 fois) et gagne 1% de dommages aux sorts pour chaque ennemi touché pendant 2 tours (cumulable 4 fois)."
   },
   {
     "ankama_id": 20391,
@@ -166661,7 +166661,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23029-128.png",
     "description": "Vous fermez les yeux et soudain, les fragrances chocolatées de l'œuf divin emplissent vos narines. Vous portez alors l'objet mythique à vos lèvres ingénues, enivré par la tentation d'un plaisir culinaire inconnu. Alors que vos papilles sont submergées par une vague d'amertume, vous apprenez à vos dépens que toutes les essences divines n'ont pas bon goût.",
-    "ability": "{{spell,12344,1::Bénédiction chocolatée}} :\n• Lorsque le porteur est attaqué à distance en étant au contact d'un ennemi, il gagne 35% de son niveau en bouclier pendant 1 tour au début de son prochain tour."
+    "ability": "Bénédiction chocolatée :\n• Lorsque le porteur est attaqué à distance en étant au contact d'un ennemi, il gagne 35% de son niveau en bouclier pendant 1 tour au début de son prochain tour."
   },
   {
     "ankama_id": 21009,
@@ -167466,7 +167466,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217000-128.png",
     "description": "Cette prysmaradite vous protégera contre la première flèche d'un Iop fraîchement reconverti en Crâ.",
-    "ability": "{{spell,14762,1::Prytek Mate}} :\n• Le porteur gagne 550% de son niveau en bouclier au premier tour, puis 200% au deuxième tour, et 100% au troisième tour."
+    "ability": "Prytek Mate :\n• Le porteur gagne 550% de son niveau en bouclier au premier tour, puis 200% au deuxième tour, et 100% au troisième tour."
   },
   {
     "ankama_id": 21452,
@@ -167521,7 +167521,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217001-128.png",
     "description": "Cette prysmaradite vous protégera contre la première flèche d'un Iop fraîchement reconverti en Crâ.",
-    "ability": "{{spell,14763,1::Prytek Brillante}} :\n• Le porteur gagne 150% de son niveau en bouclier au premier tour, puis 450% au deuxième tour et 150% au troisième tour."
+    "ability": "Prytek Brillante :\n• Le porteur gagne 150% de son niveau en bouclier au premier tour, puis 450% au deuxième tour et 150% au troisième tour."
   },
   {
     "ankama_id": 21453,
@@ -167576,7 +167576,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217002-128.png",
     "description": "Cette prysmaradite vous protégera contre la première flèche d'un Iop fraîchement reconverti en Crâ.",
-    "ability": "{{spell,14764,1::Prytek Iridescente}} :\n• Le porteur gagne 100% de son niveau en bouclier au premier tour, puis 200% au deuxième tour et 350% au troisième tour."
+    "ability": "Prytek Iridescente :\n• Le porteur gagne 100% de son niveau en bouclier au premier tour, puis 200% au deuxième tour et 350% au troisième tour."
   },
   {
     "ankama_id": 21506,
@@ -167877,7 +167877,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217005-128.png",
     "description": "Cette prysmaradite donne envie de courir comme un archer raté. Ne faîtes pas de pause, on ne vous attendra pas.",
-    "ability": "{{spell,14902,1::Sprynt}} :\n• Le porteur est Intaclable tant qu'il n'a pas occasionné de dommages. S'il en occasionne, la durée de l'état passe à 1 tour."
+    "ability": "Sprynt :\n• Le porteur est Intaclable tant qu'il n'a pas occasionné de dommages. S'il en occasionne, la durée de l'état passe à 1 tour."
   },
   {
     "ankama_id": 21996,
@@ -167908,7 +167908,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217006-128.png",
     "description": "Cette prysmaradite va vous mettre la pression, à vous de ne pas perdre vos moyens.",
-    "ability": "{{spell,14903,1::Pryssion Mate}} :\n• Le porteur sacrifie 10% de dommages finaux pour gagner 1 PA pendant 3 tours."
+    "ability": "Pryssion Mate :\n• Le porteur sacrifie 10% de dommages finaux pour gagner 1 PA pendant 3 tours."
   },
   {
     "ankama_id": 21997,
@@ -167939,7 +167939,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217007-128.png",
     "description": "Cette prysmaradite va vous mettre la pression, à vous de ne pas perdre vos moyens.",
-    "ability": "{{spell,14904,1::Pryssion Brillante}} :\n• Le porteur sacrifie 35% de dommages finaux pour gagner 2 PA pendant 2 tours."
+    "ability": "Pryssion Brillante :\n• Le porteur sacrifie 35% de dommages finaux pour gagner 2 PA pendant 2 tours."
   },
   {
     "ankama_id": 21998,
@@ -167970,7 +167970,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217008-128.png",
     "description": "Cette prysmaradite va vous mettre la pression, à vous de ne pas perdre vos moyens.",
-    "ability": "{{spell,14905,1::Pryssion Iridescente}} :\n• Le porteur sacrifie 50% de dommages finaux pour gagner 3 PA pendant 1 tour."
+    "ability": "Pryssion Iridescente :\n• Le porteur sacrifie 50% de dommages finaux pour gagner 3 PA pendant 1 tour."
   },
   {
     "ankama_id": 22001,
@@ -168001,7 +168001,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217011-128.png",
     "description": "Cette prysmaradite rend chanceux ! Ça tombe bien, depuis votre dernière aventure à Saharach, vous en avez terriblement besoin.",
-    "ability": "{{spell,14908,1::Surpryz}} :\n• Le porteur gagne 100% de Critique au premier tour, puis 35% au deuxième tour, et 15% au troisième tour."
+    "ability": "Surpryz :\n• Le porteur gagne 100% de Critique au premier tour, puis 35% au deuxième tour, et 15% au troisième tour."
   },
   {
     "ankama_id": 22004,
@@ -168032,7 +168032,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217014-128.png",
     "description": "Cette prysmaradite est un équilibre parfait entre deux énergies qui s'attirent et s'opposent mutuellement.",
-    "ability": "{{spell,14913,1::Prynyang}} :\n• Le porteur sacrifie 10% de résistance pour gagner 10% de dommages finaux au premier tour, puis gagne 3% de dommages finaux et de résistance au deuxième tour, et sacrifie 10% de dommages finaux pour gagner 10% de résistance au troisième tour."
+    "ability": "Prynyang :\n• Le porteur sacrifie 10% de résistance pour gagner 10% de dommages finaux au premier tour, puis gagne 3% de dommages finaux et de résistance au deuxième tour, et sacrifie 10% de dommages finaux pour gagner 10% de résistance au troisième tour."
   },
   {
     "ankama_id": 22007,
@@ -168063,7 +168063,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217017-128.png",
     "description": "Cette prysmaradite est parfaite pour vous rapprocher des aventurier ou aventurières qui chercheraient à prendre leurs distances de vous. En bon érudit, vous connaissez le secret des héros bien lourds : la persévérance.",
-    "ability": "{{spell,14919,1::Ratrapry}} :\n• Le porteur gagne 1 PM pendant 1 tour pour chaque combattant ennemi à plus de 9 cases de lui au début des 3 premiers tours de jeu (cumulable 3 fois)."
+    "ability": "Ratrapry :\n• Le porteur gagne 1 PM pendant 1 tour pour chaque combattant ennemi à plus de 9 cases de lui au début des 3 premiers tours de jeu (cumulable 3 fois)."
   },
   {
     "ankama_id": 22010,
@@ -168094,7 +168094,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217020-128.png",
     "description": "Cette prysmaradite est un peu comme une fontaine de jouvence mais sans eau... et sans fontaine d'ailleurs. Elle ne vous rajeunit pas vraiment non plus. En fait c'est une très mauvaise comparaison.",
-    "ability": "{{spell,14926,1::Prygen}} :\n• Soigne 60% des dommages ennemis subis au premier tour, puis 30% au deuxième tour, et 10% au troisième tour."
+    "ability": "Prygen :\n• Soigne 60% des dommages ennemis subis au premier tour, puis 30% au deuxième tour, et 10% au troisième tour."
   },
   {
     "ankama_id": 22011,
@@ -168125,7 +168125,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217021-128.png",
     "description": "Cette prysmaradite donne la sensation d'être toujours en retard. Malheureusement, elle n'explique pas votre côté retardé.",
-    "ability": "{{spell,14930,1::Prycipithon Mate}} :\n• Le porteur gagne 2 PA au premier tour."
+    "ability": "Prycipithon Mate :\n• Le porteur gagne 2 PA au premier tour."
   },
   {
     "ankama_id": 22012,
@@ -168156,7 +168156,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217022-128.png",
     "description": "Cette prysmaradite donne la sensation d'être toujours en retard. Malheureusement, elle n'explique pas votre côté retardé.",
-    "ability": "{{spell,14931,1::Prycipithon Brillante}} :\n• Le porteur sacrifie 2 PM pour gagner 3 PA au premier tour."
+    "ability": "Prycipithon Brillante :\n• Le porteur sacrifie 2 PM pour gagner 3 PA au premier tour."
   },
   {
     "ankama_id": 22013,
@@ -168187,7 +168187,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217023-128.png",
     "description": "Cette prysmaradite donne la sensation d'être toujours en retard. Malheureusement, elle n'explique pas votre côté retardé.",
-    "ability": "{{spell,14932,1::Prycipithon Iridescente}} :\n• Le porteur sacrifie 4 PM pour gagner 4 PA au premier tour."
+    "ability": "Prycipithon Iridescente :\n• Le porteur sacrifie 4 PM pour gagner 4 PA au premier tour."
   },
   {
     "ankama_id": 22014,
@@ -168230,7 +168230,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217024-128.png",
     "description": "Cette prysmaradite élève l'esprit de son porteur, sans pour autant lui enseigner la bienséance. Vous êtes sauvés.",
-    "ability": "{{spell,14933,1::Espryt}} :\n• Le porteur gagne 100 de Retrait au premier tour, puis 50 au deuxième tour, et 25 au troisième tour."
+    "ability": "Espryt :\n• Le porteur gagne 100 de Retrait au premier tour, puis 50 au deuxième tour, et 25 au troisième tour."
   },
   {
     "ankama_id": 22015,
@@ -168273,7 +168273,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217025-128.png",
     "description": "Cette prysmaradite donnera à votre corps le nécessaire pour endurer les épreuves d'une vie d'aventurier.\n\nCeci est un caillou, ne pas ingérer. Nous ne testons pas nos produits sur les Ecaflips et les Ouginaks. Sans alcool. Sans huile de Palmifleur.",
-    "ability": "{{spell,14934,1::Korprys}} :\n• Le porteur gagne 200 d'Esquive au premier tour, puis 100 au deuxième tour, et 50 au troisième tour."
+    "ability": "Korprys :\n• Le porteur gagne 200 d'Esquive au premier tour, puis 100 au deuxième tour, et 50 au troisième tour."
   },
   {
     "ankama_id": 22018,
@@ -168304,7 +168304,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217028-128.png",
     "description": "Cette prysmaradite vous donnera ce petit côté insolent qu'ont les adolescents de nos jours, sans sacrifier le confort indécent de votre situation privilégiée.",
-    "ability": "{{spell,14939,1::Caraprys}} :\n• Le porteur donne 15% de résistances à ses invocations au premier tour, puis 10% au deuxième tour, et 5% au troisième tour."
+    "ability": "Caraprys :\n• Le porteur donne 15% de résistances à ses invocations au premier tour, puis 10% au deuxième tour, et 5% au troisième tour."
   },
   {
     "ankama_id": 22019,
@@ -168341,7 +168341,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217029-128.png",
     "description": "Cette prysmaradite vous fera vivre les plus folles expériences à base de disparition temporaire. Imaginez par exemple la déception sur le visage de votre belle-mère quand elle va vous voir réapparaître.",
-    "ability": "{{spell,14940,1::Prysmaru}} :\n• Le porteur devient invisible pendant 1 tour au début de son premier tour de jeu. L'invisibilité ne se dissipe pas lorsqu'il attaque, mais elle est retirée s'il subit des dommages."
+    "ability": "Prysmaru :\n• Le porteur devient invisible pendant 1 tour au début de son premier tour de jeu. L'invisibilité ne se dissipe pas lorsqu'il attaque, mais elle est retirée s'il subit des dommages."
   },
   {
     "ankama_id": 22020,
@@ -168372,7 +168372,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217030-128.png",
     "description": "Cette prysmaradite désenvoûtante est parfaite pour s'entraîner au Kolizéum après une soirée bien arrosée. Votre haleine de porkass sera même une alliée en combat rapproché.",
-    "ability": "{{spell,14941,1::Prysmenvout}} :\n• Le porteur réduit la durée des effets actifs sur lui de 4 tours au début de son premier tour de jeu."
+    "ability": "Prysmenvout :\n• Le porteur réduit la durée des effets actifs sur lui de 4 tours au début de son premier tour de jeu."
   },
   {
     "ankama_id": 22021,
@@ -168403,7 +168403,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217031-128.png",
     "description": "Cette prysmaradite est parfaite pour les âmes délicates qui ont bien compris que les tâches périlleuses pouvaient être déléguées à des Iops.",
-    "ability": "{{spell,14943,1::Supprys}} :\n• Le porteur augmente les soins reçus par ses combattants alliés de 10% pendant son tour de jeu au premier tour, puis de 35% au deuxième tour, et de 50% au troisième tour."
+    "ability": "Supprys :\n• Le porteur augmente les soins reçus par ses combattants alliés de 10% pendant son tour de jeu au premier tour, puis de 35% au deuxième tour, et de 50% au troisième tour."
   },
   {
     "ankama_id": 22022,
@@ -168458,7 +168458,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217032-128.png",
     "description": "Cette prysmaradite est parfaite pour les escargots et les limaces. Ce n'est d'ailleurs pas qu'une métaphore.",
-    "ability": "{{spell,14945,1::Aprybou}} :\n• Le porteur gagne 200% de son niveau en bouclier jusqu'à la fin du combat au début du premier tour de jeu de chaque combattant ennemi qui joue avant lui."
+    "ability": "Aprybou :\n• Le porteur gagne 200% de son niveau en bouclier jusqu'à la fin du combat au début du premier tour de jeu de chaque combattant ennemi qui joue avant lui."
   },
   {
     "ankama_id": 22023,
@@ -168489,7 +168489,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217033-128.png",
     "description": "Cette prysmaradite protège les introvertis contre les rassemblements un peu trop importants.",
-    "ability": "{{spell,14948,1::Pryximite}} :\n• Le porteur gagne 2% de dommages en mêlée pendant 3 tours pour chaque combattant ennemi à 3 cases ou moins de lui au début et à la fin de son premier tour."
+    "ability": "Pryximite :\n• Le porteur gagne 2% de dommages en mêlée pendant 3 tours pour chaque combattant ennemi à 3 cases ou moins de lui au début et à la fin de son premier tour."
   },
   {
     "ankama_id": 22024,
@@ -168550,7 +168550,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217034-128.png",
     "description": "Cette prysmaradite plaira aux aventuriers qui sont incapables de faire preuve d'initiative.",
-    "ability": "{{spell,14949,1::Prymune}} :\n• Le porteur réduit tout type de dommages subis de 80% au premier tour."
+    "ability": "Prymune :\n• Le porteur réduit tout type de dommages subis de 80% au premier tour."
   },
   {
     "ankama_id": 22025,
@@ -168581,7 +168581,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217035-128.png",
     "description": "Cette prysmaradite pèse lourd. C'est vraiment incroyable pour une chose si petite. Elle vous rappelle quelqu'un.",
-    "ability": "{{spell,14950,1::Prysantor}} :\n• Le porteur est dans l'état Pesanteur tant qu'il n'a pas subi de dommages. S'il en subit, la durée de l'état passe à 1 tour."
+    "ability": "Prysantor :\n• Le porteur est dans l'état Pesanteur tant qu'il n'a pas subi de dommages. S'il en subit, la durée de l'état passe à 1 tour."
   },
   {
     "ankama_id": 22027,
@@ -170130,7 +170130,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/19081-128.png",
     "description": "« Quand le prince de Brâkmar et le roi de Bonta se sont empalés mutuellement, répandant leurs entrailles sur le sol rougi, j'ai ressenti une grande satisfaction. Ainsi s'achevait la guerre entre les deux cités, au milieu d'une montagne de cadavres ! C'était une scène de toute beauté. Alors que les cris des corbacs se mêlaient aux râles des agonisants, j'ai été submergée par la nostalgie. Des souvenirs poignants de la première Aurore Pourpre me sont revenus en mémoire. La charge des chevaucheurs de karnes, la décapitation de Menalt, le coup de théâtre orchestré par Raval... C'était le début d'un conflit meurtrier et jubilatoire, qui m'aura tenu en haleine pendant près de mille ans ! Aujourd'hui, le rideau est tombé. Mais le spectacle doit continuer... Il y aura toujours d'autres batailles. »\n\n- Guerre",
-    "ability": "{{spell,15739,1::Guerre de Positions}} :\n• À chaque fin de tour, le porteur retire 2 PM aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PM jusqu'à la fin du combat (cumulable 5 fois).",
+    "ability": "Guerre de Positions :\n• À chaque fin de tour, le porteur retire 2 PM aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PM jusqu'à la fin du combat (cumulable 5 fois).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -170251,7 +170251,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17454-128.png",
     "description": "« Qu'il est agréable de sentir ce parfum de désespoir dans l'air... Mercenaires jadis si fiers, si braves, si... arrogants. Regardez-vous, vos visages couverts de larmes, jeter dans des fosses communes vos êtres chers. Ces liens, ces promesses, ces sentiments... Tous sont balayés par la folie qui rampe sous votre peau. Y a-t-il plus savoureux que de voir l'horreur et le dégoût se peindre sur les regards de vos semblables, aux premiers signes de votre propre pestilence ? Tremble Astrub... implore donc tes dieux, ces imposteurs qui ne peuvent rien pour toi... Cette gangrène que vous redoutez tant... ne vient pas du ciel... mais de chacun de vous. »\n\n- Corruption",
-    "ability": "{{spell,15975,1::Nuée Pestilentielle}} :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les ennemis à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois)."
+    "ability": "Nuée Pestilentielle :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les ennemis à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois)."
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170360,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10343-128.png",
     "description": "« Regardez-vous, fiers Kanigs, asservis par vos ennemis... Quelle déchéance ! Vous auriez pu bâtir un véritable empire si vous n'étiez pas aussi faibles. Il fut un temps où vous aviez des rêves de gloire et de conquête, où les prisonniers travaillant dans vos carrières de pierre geignaient sous les coups de fouet... Mais de maître à esclave, il n'y a parfois qu'un pas. Courbant l'échine sous le poids des chaînes, rampant dans la boue telles des larves, vous avez oublié qui vous étiez. Vous êtes pathétiques. Lorsque votre matriarche mourra, votre destin sera accompli. Votre sacrifice aura été moins vain que votre existence... car il changera l'Histoire. »\n\n- Servitude",
-    "ability": "{{spell,15984,1::Fers de la Tyrannie}} :\n• À chaque fin de tour, le porteur attire les entités à 3 cases ou moins alignés à lui. S'il n'y a aucune entité à son contact, il devient Indéplaçable jusqu'au début de son prochain tour. L'état est retiré s'il subit des dommages."
+    "ability": "Fers de la Tyrannie :\n• À chaque fin de tour, le porteur attire les entités à 3 cases ou moins alignés à lui. S'il n'y a aucune entité à son contact, il devient Indéplaçable jusqu'au début de son prochain tour. L'état est retiré s'il subit des dommages."
   },
   {
     "ankama_id": 22444,
@@ -170469,7 +170469,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4138-128.png",
     "description": "« Entendez-vous les plaintes charriées par le vent, les grognements des Troolgrodytes et les gargouillements des ventres affamés ? C'est une symphonie si douce à mes oreilles... Le désert gagne du terrain. Il avance, dune après dune. Les grains de sable remplacent les grains de blé. Les puits se tarissent. Les assiettes se vident. Les Cacterres se dessèchent. Bientôt, les terres fertiles ne seront plus qu'un conte qui bercera les espoirs inutiles des enfants malingres, le soir à la veillée. Bientôt, je règnerai sans partage sur Saharach... Ce pays sera à moi, enfin. »\n\n- Misère",
-    "ability": "{{spell,15996,1::Épreuve de la Balance}} :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur.",
+    "ability": "Épreuve de la Balance :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur.",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 3,
@@ -170530,7 +170530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23032-128.png",
     "description": "Comme la lune voilée par les sombres nuages de la nuit, la plus vive des lumières se cache souvent dans la plus noire des encres.",
-    "ability": "{{spell,17006,1::Rivière d'Encre}} :\n• À chaque fin de tour sur les 4 premiers tours, le porteur et ses invocations gagnent jusqu'à 16 Dommages jusqu'à la fin du combat.\n• Ce bonus est réduit à chaque fois que le porteur attaque un ennemi durant son tour :\n • Aucune attaque : 16 Dommages.\n • 1 attaque : 8 Dommages.\n • 2 attaques et plus : 0 Dommages."
+    "ability": "Rivière d'Encre :\n• À chaque fin de tour sur les 4 premiers tours, le porteur et ses invocations gagnent jusqu'à 16 Dommages jusqu'à la fin du combat.\n• Ce bonus est réduit à chaque fois que le porteur attaque un ennemi durant son tour :\n • Aucune attaque : 16 Dommages.\n • 1 attaque : 8 Dommages.\n • 2 attaques et plus : 0 Dommages."
   },
   {
     "ankama_id": 23248,
@@ -172654,7 +172654,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23033-128.png",
     "description": "On dit que chacun des mille plis du Dorigami dissimule un mystère, le reflet d'un mensonge ou d'une vérité à l'éclat douloureux, d'une pureté aveuglante, à l'instar des facettes d'un diamant de papier.",
-    "ability": "{{spell,17307,1::Tigre de Papier}} :\n• À chaque début de tour sur les 5 premiers tours, le porteur gagne 100% de son niveau en bouclier pendant 1 tour.\n• Sur ces 5 premiers tours, si le porteur achève un ennemi durant son tour de jeu, il gagne un bouclier pendant 2 tours selon la nature de l'ennemi :\n • Invocation : 100% de son niveau en bouclier (cumulable 4 fois).\n • Combattant : 300% de son niveau en bouclier (cumulable 2 fois)."
+    "ability": "Tigre de Papier :\n• À chaque début de tour sur les 5 premiers tours, le porteur gagne 100% de son niveau en bouclier pendant 1 tour.\n• Sur ces 5 premiers tours, si le porteur achève un ennemi durant son tour de jeu, il gagne un bouclier pendant 2 tours selon la nature de l'ennemi :\n • Invocation : 100% de son niveau en bouclier (cumulable 4 fois).\n • Combattant : 300% de son niveau en bouclier (cumulable 2 fois)."
   },
   {
     "ankama_id": 23501,
@@ -178232,7 +178232,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "« Si la nuit est noire, c'est pour que rien ne puisse nous distraire de nos cauchemars » : tels étaient les mots du jeune Kilvan avant qu'il ne s'endorme, rassuré par son chtigre en peluche.\nPourquoi la nuit est-elle si sombre ? Parce qu'elle cache en son sein toutes les craintes, et tous les mystères, de l'éternuitée. Peurs bleues, braises rouges et glyphes mordorés se fondent et se confondent dans le berceau du bien et du mal, source d'un conflit éternellement renouvelé.",
-    "ability": "{{spell,20981,1::Éternel Cauchemar}} :\n• Bouclier Bontarien : lorsque le porteur est désenvoûté ou entravé, il gagne 100% de son niveau en bouclier pour 1 tour.\n• Puissance Brâkmarienne : lorsque le porteur occasionne ou subit des dommages de poussée, il gagne 100 de Puissance pour 1 tour. \n• Œil du Cauchemar : si le porteur déclenche les 2 effets dans le même tour, les dommages qu'il occasionne et subit sont augmentés de 10% pendant 1 tour.\n• Les effets ne peuvent être déclenchés qu'une seule fois par tour."
+    "ability": "Éternel Cauchemar :\n• Bouclier Bontarien : lorsque le porteur est désenvoûté ou entravé, il gagne 100% de son niveau en bouclier pour 1 tour.\n• Puissance Brâkmarienne : lorsque le porteur occasionne ou subit des dommages de poussée, il gagne 100 de Puissance pour 1 tour. \n• Œil du Cauchemar : si le porteur déclenche les 2 effets dans le même tour, les dommages qu'il occasionne et subit sont augmentés de 10% pendant 1 tour.\n• Les effets ne peuvent être déclenchés qu'une seule fois par tour."
   },
   {
     "ankama_id": 26085,
@@ -191727,7 +191727,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23036-128.png",
     "description": "Le fruit du sacrifice sème les graines du renouveau. Douloureuse métamorphose, guérison naturelle ou simple passage du temps, la fin de l'interminable hiver est toujours un miracle.",
-    "ability": "{{spell,28516,1::Garde Champêtre}} :\n• Le porteur gagne 8 de Puissance pendant 2 tours pour chaque PM qu'il utilise.\n• S'il n'a utilisé aucun PM durant son tour, il est soigné de 8% de sa vie."
+    "ability": "Garde Champêtre :\n• Le porteur gagne 8 de Puissance pendant 2 tours pour chaque PM qu'il utilise.\n• S'il n'a utilisé aucun PM durant son tour, il est soigné de 8% de sa vie."
   },
   {
     "ankama_id": 29430,
@@ -197567,7 +197567,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23039-128.png",
     "description": "« Bobz zozzfbz. Zozzfbz zpzzzalbz. Przzqzzbz zozzfbz dragonbz ! »\n\n— Rzznzbz Alzktabz",
-    "ability": "{{spell,31607,1::Éclosion Explosive}} :\n• Lorsqu'une invocation du porteur est attaquée, le porteur gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).\n• Si elle est achevée par un ennemi, le porteur occasionne 10 dommages dans son meilleur élément aux ennemis dans un cercle de taille 2 autour d'elle."
+    "ability": "Éclosion Explosive :\n• Lorsqu'une invocation du porteur est attaquée, le porteur gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).\n• Si elle est achevée par un ennemi, le porteur occasionne 10 dommages dans son meilleur élément aux ennemis dans un cercle de taille 2 autour d'elle."
   },
   {
     "ankama_id": 31796,
@@ -198324,7 +198324,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16869-128.png",
     "description": "« L'avantage quand on dirige une cité comme celle de Brâkmar, c'est que personne ne s'étonne que certains individus disparaissent subitement. Quel plaisir de pouvoir laisser libre cours à ses pulsions sans avoir à se justifier ! De toute façon, celui qui oserait me tenir tête finirait tout droit au cœur du volcan. »\n\n— Oto Mustam",
-    "ability": "{{spell,31856,1::Ardeur de la Cité Sombre}} :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de dommages finaux pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois)."
+    "ability": "Ardeur de la Cité Sombre :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de dommages finaux pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois)."
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198385,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82553-128.png",
     "description": "« Tu es confronté à une terrible destinée, n'est-ce pas ? »\n\n- Le Prisonnier du Miroir",
-    "ability": "{{spell,31857,1::Reflet Aveuglant}} :\n• Le porteur réduit et renvoie 75% des dommages initiaux de la première attaque alliée subie à l'ennemi le plus proche de lui dans sa ligne de vue (une fois par tour).\n• À chaque fin de tour, il retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois)."
+    "ability": "Reflet Aveuglant :\n• Le porteur réduit et renvoie 75% des dommages initiaux de la première attaque alliée subie à l'ennemi le plus proche de lui dans sa ligne de vue (une fois par tour).\n• À chaque fin de tour, il retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois)."
   },
   {
     "ankama_id": 32116,
@@ -198476,7 +198476,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/183011-128.png",
     "description": "« Ici, nous resterons debout et nous nous battrons ; il n'y aura pas d'autre retraite. Nous sommes les Cœurs Vaillants, fiers membres de l'Ordre du Tonnerre, les fers de lance de la glorieuse Bonta ! Nous allons rester ici et nous battre. Et si nous ne pouvons rester ici vivants, alors restons ici morts ! »\n\n— Menalt, Protecteur de Martalo et maître de l'Ordre du Cœur Vaillant",
-    "ability": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 6 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).",
+    "ability": "Ordre du Tonnerre :\n• Le porteur gagne 6 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -198585,7 +198585,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/22014-128.png",
     "description": "« Il n'est nul besoin de faire des courbettes devant moi. Lorsque l'on est face à la Mort, il n'y a plus de protocole, d'hypocrisie, ni de mensonges : il ne reste que la vérité. Nue, cruelle, douloureuse... et libératrice. »\n\n— Thanatena, reine d'Externam",
-    "ability": "{{spell,31860,1::Jugement de Thanatena}} :\n• À chaque début de tour, le porteur érode et augmente les dommages subis par tout le monde de 4% pendant 1 tour (cumulable 1 fois).\n• Lorsqu'il achève un ennemi, il est soigné de 20% de sa vie et gagne 10% de dommages finaux pendant 1 tour. Les soins sont de 5% de sa vie si c'est une invocation.",
+    "ability": "Jugement de Thanatena :\n• À chaque début de tour, le porteur érode et augmente les dommages subis par tout le monde de 4% pendant 1 tour (cumulable 1 fois).\n• Lorsqu'il achève un ennemi, il est soigné de 20% de sa vie et gagne 10% de dommages finaux pendant 1 tour. Les soins sont de 5% de sa vie si c'est une invocation.",
     "ap_cost": 5,
     "crit_chance": 20,
     "crit_bonus": 4,
@@ -198676,7 +198676,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1330-128.png",
     "description": "« Ô cher amour, comme je me languis de nos étreintes ! Mes récentes aventures m'ont épuisée, et une petite pause me ferait le plus grand bien. Il me tarde aussi de rencontrer ton ami le dragon ! Je vous imagine vous chamailler comme des enfants, cela m'amuse beaucoup.\nÀ très bientôt, ta Séphine qui t'aime. »\n\n— Helséphine, magicienne et alchimiste iop",
-    "ability": "{{spell,31861,1::Amour d'Helséphine}} :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 6% de leur vie à 3 cases ou moins autour de lui (une fois par type de déclenchement par tour)."
+    "ability": "Amour d'Helséphine :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 6% de leur vie à 3 cases ou moins autour de lui (une fois par type de déclenchement par tour)."
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198755,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9392-128.png",
     "description": "« Hop, pile à l'heure, comme toujours ! Fais vite, j'ai exactement cinq minutes à t'accorder. L'Horloge Divine n'attend pas. »\n\n— Henual",
-    "ability": "{{spell,31862,1::Ponctualité d'Henual}} :\n• Le porteur gagne 1 PA lorsqu'il est téléporté, se téléporte ou échange de position (1 fois par tour).\n• S'il n'a rien subi au tour précédent, il est téléporté à sa position précédente au début de son tour."
+    "ability": "Ponctualité d'Henual :\n• Le porteur gagne 1 PA lorsqu'il est téléporté, se téléporte ou échange de position (1 fois par tour).\n• S'il n'a rien subi au tour précédent, il est téléporté à sa position précédente au début de son tour."
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198864,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11382-128.png",
     "description": "« Nous avons parcouru un long chemin ensemble, mais cette victoire est la tienne. Les Douze n'ont fait que t'aiguiller sur la bonne voie... Nous nous reverrons bientôt, Élu des Dieux. Ton histoire ne fait que commencer. »\n\n— Mériana",
-    "ability": "{{spell,31858,1::Clairvoyance de Mériana}} :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA"
+    "ability": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA"
   },
   {
     "ankama_id": 32163,
@@ -198973,7 +198973,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6760-128.png",
     "description": "« Quand il s'agit de défendre les valeurs de Bonta, rien ne vaut un esprit affûté comme une lame, et un corps aguerri. »\n\n— Amayiro",
-    "ability": "{{spell,31880,1::Ferveur de la Cité Blanche}} :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de résistance pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois).",
+    "ability": "Ferveur de la Cité Blanche :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de résistance pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois).",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -199010,7 +199010,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219012-128.png",
     "description": "Cette prysmaradite pèse lourd. C'est vraiment incroyable pour une chose si petite. Elle vous rappelle quelqu'un.",
-    "ability": "{{spell,31881,1::Indeprys}} :\n• Le porteur est Indéplaçable tant qu'il n'a pas subi de dommages. S'il en subit, la durée de l'état passe à 1 tour."
+    "ability": "Indeprys :\n• Le porteur est Indéplaçable tant qu'il n'a pas subi de dommages. S'il en subit, la durée de l'état passe à 1 tour."
   },
   {
     "ankama_id": 32201,

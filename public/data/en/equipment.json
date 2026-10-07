@@ -5025,7 +5025,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23001-128.png",
     "description": "Ignemikahl, the Fire Dragon, created the Crimson Dofus. I would tell you that it stinks of sulphur... but it stinks of so many other things too.",
-    "ability": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times)."
+    "ability": "Deep Crimson:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times)."
   },
   {
     "ankama_id": 696,
@@ -5704,7 +5704,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23002-128.png",
     "description": "Greener than a sick tofu, the Emerald Dofus was created by Aerafal, the Air Dragon. He must have been feeling very airsick when he created something so green. Doesn't that just take the cake?",
-    "ability": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons."
+    "ability": "Emerald Green:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons."
   },
   {
     "ankama_id": 739,
@@ -5741,7 +5741,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23003-128.png",
     "description": "The Turquoise Dofus was created by Aguabrial, the Water Dragon. Isn't it wild what a dragon can do with some water?",
-    "ability": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times)."
+    "ability": "Turquoise Blue:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times)."
   },
   {
     "ankama_id": 742,
@@ -8529,7 +8529,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17251-128.png",
     "description": "This cloak is certainly one of the most powerful of its kind in the World. It increases all the elemental characteristics of its wearer.",
-    "ability": "{{spell,7331,1::Dofus Blessing}}:\n• Increases one of the bearer's elemental characteristics per turn:\n• <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Strength > <sprite name=\"air\"> 400 Agility > <sprite name=\"feu\"> 400 Intelligence"
+    "ability": "Dofus Blessing:\n• Increases one of the bearer's elemental characteristics per turn:\n• <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Strength > <sprite name=\"air\"> 400 Agility > <sprite name=\"feu\"> 400 Intelligence"
   },
   {
     "ankama_id": 967,
@@ -8814,7 +8814,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23006-128.png",
     "description": "If a dragon really did lay this egg, then he must have been a right sweetheart. Especially since its main purpose seems to be to attract adventurers to the Wa Wabbit's island so he can nick all their garb and gear before humiliating them. All in all, it's quite a good way to obtain the latest sets without having to leave the house.",
-    "ability": "{{spell,8418,1::Wabbit Wisdom}}:\n• When the bearer suffers an attempted AP or MP reduction, they gain 25 AP Parry or 25 MP Parry for 1 turn (stackable 1 time, shared among effects)."
+    "ability": "Wabbit Wisdom:\n• When the bearer suffers an attempted AP or MP reduction, they gain 25 AP Parry or 25 MP Parry for 1 turn (stackable 1 time, shared among effects)."
   },
   {
     "ankama_id": 976,
@@ -34061,7 +34061,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23004-128.png",
     "description": "The Vulbis Dofus is the subject of terrifying rumours. It's said that the dragon who created the ruby-coloured egg is more pitiless than death itself, devouring her victims in an attempt to satisfy her insatiable appetite. Tall tale or truth? Only the most valiant and foul-tasting heroes know for sure.",
-    "ability": "{{spell,8396,1::Ruby Red}}:\n• At the start of each turn, the bearer gains 10% final damage if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Lock."
+    "ability": "Ruby Red:\n• At the start of each turn, the bearer gains 10% final damage if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Lock."
   },
   {
     "ankama_id": 6981,
@@ -36163,7 +36163,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23008-128.png",
     "description": "Like a poem born of black ink and white paper, this Dofus was born from an island and a dragon. Is it just a dream, a paradox or an illusory reflection? Quite the contrary! It's the fruit of two worlds and the symbol of their union. Through it, the Krosmoz contemplates you... or engulfs you.",
-    "ability": "{{spell,18888,1::Harmony of Pandala}}:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 100% of the bearer's level as shield for 1 turn."
+    "ability": "Harmony of Pandala:\n• When the bearer inflicts damage during their turn, they and their allies carrying the Dorigami gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the Domakuro gain 100% of the bearer's level as shield for 1 turn."
   },
   {
     "ankama_id": 7113,
@@ -36224,7 +36224,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23007-128.png",
     "description": "Grougalorasalar, the Black Dragon, created the Ebony Dofus and made it as dark as darkness can be and as solid as a rock to keep him company. He had forgotten that eggs – no matter how magical they may be – do not talk.",
-    "ability": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed."
+    "ability": "Ebony Black:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed."
   },
   {
     "ankama_id": 7115,
@@ -36285,7 +36285,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23011-128.png",
     "description": "The Ivory Dofus is incomparably white, which is hardly surprising given that Dardondakal, the White Dragon, whitened it with his breath every morning (an old trick he learned from his dragon grandmother).",
-    "ability": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible."
+    "ability": "Ivory White:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible."
   },
   {
     "ankama_id": 7116,
@@ -43629,7 +43629,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23012-128.png",
     "description": "Created by Terrakourial, the Earth Dragon, this Dofus has considerable powers and shouldn't be put in the hands of just anyone. Or at anyone's feet, for that matter.",
-    "ability": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge."
+    "ability": "Ochre Yellow:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge."
   },
   {
     "ankama_id": 7880,
@@ -60060,7 +60060,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23016-128.png",
     "description": "Created by Khelebragon's love for the priestess Methea, this Dofus is full of nostalgia. Don't gaze at it too long, or you might feel like crying... which might damage your reputation as a stone-cold adventurer.",
-    "ability": "{{spell,5454,1::Nebulous Dream}}:\n• On odd turns, the bearer sacrifices 10% final healing to gain 20% final damage.\n• On even turns, the bearer sacrifices 10% final damage to gain 20% final healing."
+    "ability": "Nebulous Dream:\n• On odd turns, the bearer sacrifices 10% final healing to gain 20% final damage.\n• On even turns, the bearer sacrifices 10% final damage to gain 20% final healing."
   },
   {
     "ankama_id": 8699,
@@ -136315,7 +136315,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23020-128.png",
     "description": "This Dofus was fashioned based on someone's hazy recollection of an authentic dragon egg. Touching it causes long-lost memories to come flooding back, like tasting one of Becky Stein's cakes: you relive your arrival in Incarnam, the first time you ever slaughtered a gobbly... Ah, great times!",
-    "ability": "{{spell,5453,1::Dimensional Vigil}}:\n• When the bearer ends their turn, heals all allies in line with the bearer for 7% of their health."
+    "ability": "Dimensional Vigil:\n• When the bearer ends their turn, heals all allies in line with the bearer for 7% of their health."
   },
   {
     "ankama_id": 16116,
@@ -140084,7 +140084,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23022-128.png",
     "description": "The Kanniballs claim that Moon's Tree is actually a sleeping dragon. They say that the immortal being came down from the moon and took the form of a great kokokonut tree to shade a princess from the blistering sun. Then, he dozed off... So... does that mean that the Dokoko, the fruit of Moon's Tree, is a real Dofus? The jury's still out on that one.",
-    "ability": "{{spell,6149,1::The Monkey and the Moon}}:\n• Every 3 turns starting on turn 3, the bearer is healed for 10% of their health."
+    "ability": "The Monkey and the Moon:\n• Every 3 turns starting on turn 3, the bearer is healed for 10% of their health."
   },
   {
     "ankama_id": 17079,
@@ -149491,7 +149491,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23023-128.png",
     "description": "According to official sources, this unusual-looking Dofus was created by the Foggernauts of Sufokia. We can therefore conclude that it is not a real dragon egg. At least that's what the authorities would like us to believe... Anyway, who really knows what's hiding in the abysses?",
-    "ability": "{{spell,6828,1::Descent to the Abysses}}:\n• At the start of each turn, the bearer gains 1 MP if they have no adjacent enemies. Otherwise, they gain 1 AP."
+    "ability": "Descent to the Abysses:\n• At the start of each turn, the bearer gains 1 MP if they have no adjacent enemies. Otherwise, they gain 1 AP."
   },
   {
     "ankama_id": 18088,
@@ -160962,7 +160962,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23024-128.png",
     "description": "Despite its somewhat unusual appearance, this Dofus is a genuine dragon egg. It would be a shame to hock it for a few nails. It will keep warm you during the long winter nights, and let you to host barbecues in the summer. Still, you'd better avoid getting too close to haystacks or bundles of kindling with it or you might be mistaken for a dangerous arsonist.",
-    "ability": "{{spell,10164,1::Volcano Forge}}:\n• The bearer gains 100% of their level as shield based on the enemy effects suffered (1 time per effect type per turn):\n • pushback damage\n • attraction or pushback\n • place switching, teleportation or teleportal\n• carried by a Pandawa"
+    "ability": "Volcano Forge:\n• The bearer gains 100% of their level as shield based on the enemy effects suffered (1 time per effect type per turn):\n • pushback damage\n • attraction or pushback\n • place switching, teleportation or teleportal\n• carried by a Pandawa"
   },
   {
     "ankama_id": 19415,
@@ -163099,7 +163099,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23025-128.png",
     "description": "Created by Ratathrosk, the Grey Dragon, this egg is an enigma. It may not be as powerful as a Primordial Dofus, but it seems older than time... You'd do well to keep it guard it closely. After all, only the Norrai and the god Xelor know what the future holds.",
-    "ability": "{{spell,18674,1::Memory of Silver}}:\n• When the bearer falls below 20% health, they are healed for 20% of their health at the start of their next turn (1 time per fight)."
+    "ability": "Memory of Silver:\n• When the bearer falls below 20% health, they are healed for 20% of their health at the start of their next turn (1 time per fight)."
   },
   {
     "ankama_id": 19637,
@@ -164174,7 +164174,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23027-128.png",
     "description": "When the dragon Ratathrosk created the Silver Dofus before the World of the Twelve even existed, a miracle happened: the first of the Phoenixes came back to life. Time has passed, gods have vanished, stars have gone out. Now, the egg that you hold in your hands sparkles brightly like it once did... like a lost love whose flame burns anew.",
-    "ability": "{{spell,18672,1::Promise of Silver}}:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (1 time per fight)."
+    "ability": "Promise of Silver:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (1 time per fight)."
   },
   {
     "ankama_id": 20353,
@@ -164277,7 +164277,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6740-128.png",
     "description": "\"The Crocodyls numbered in the thousands, a few hundred kametres from the city gates. We had prepared for the assault, the full guard were assembled in front of the main gate, and the war machines had been set up on the ramparts. The sight of the gigantic army of reptiles was already terrifying, but the worst was when we saw them. Crocoburio stood in the midst of his soldiers, several heads taller than all of them, brandishing his cursed sword towards us. When the green mass began to march, a shiver ran through our ranks, and we knew that the coming battle would be terrible.\"\n\n– A Bontarian soldier",
-    "ability": "{{spell,11352,1::Crocobur's Appetite}}:\n• At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit for 2 turns (stackable 1 time).",
+    "ability": "Crocobur's Appetite:\n• At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit for 2 turns (stackable 1 time).",
     "ap_cost": 6,
     "crit_chance": 10,
     "crit_bonus": 7,
@@ -164362,7 +164362,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5100-128.png",
     "description": "\"I have so many names that I have trouble remembering them all. But you may call me Skuldmort. I am the oldest of the three Norrai, she who mercilessly cuts short the thread of existence. All things must come to an end, and my job is to ensure that the end comes just when it is meant to.\"\n\n— Skuldmort",
-    "ability": "{{spell,11354,1::Fateful Destiny}}:\n• At the end of each turn, the bearer shares damage between enemies in a 1-cell square and increases the damage they suffer by 6% for 2 turns (stackable 1 time). The bearer also gains 10 Lock for 1 turn for each enemy hit.",
+    "ability": "Fateful Destiny:\n• At the end of each turn, the bearer shares damage between enemies in a 1-cell square and increases the damage they suffer by 6% for 2 turns (stackable 1 time). The bearer also gains 10 Lock for 1 turn for each enemy hit.",
     "ap_cost": 3,
     "crit_chance": 100,
     "crit_bonus": 6,
@@ -164459,7 +164459,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4135-128.png",
     "description": "\"The procession winds through the mist in a long silver line. Feet stamp, hands rub together, and teeth chatter to the grating sound of my violin. Join us; don't be shy. None can refuse a dance with the cold.\"\n\n— Brumaire the Dark Bleeder, Protector of Novamaire",
-    "ability": "{{spell,12147,1::Novamaire Cold}}:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle.",
+    "ability": "Novamaire Cold:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -164556,7 +164556,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/2087-128.png",
     "description": "\"There was a time before safes existed. Enutrofs would hide their savings in socks or under their mattresses, squirrels would hide their hazelnuts inside tree trunks, and dragons would stockpile their gold coins in dark, damp caves. Then the Firm created the banking network. What a revolution! Finally, Twelvians could keep their belongings safe behind reinforced doors. Of course, there are still Rogues setting off bombs and illegal kama dealers cheating overly greedy adventurers, but that's no big deal. You just need good insurance.\"\n\n– Buhorado",
-    "ability": "{{spell,11357,1::Buhorado Feather}}:\n• When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns.",
+    "ability": "Buhorado Feather:\n• When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -164635,7 +164635,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82212-128.png",
     "description": "\"Any Feca heading into combat must carry a shield. But the best protection against adversity, the best rampart against all those who seek to harm or destroy us, is union. Mercenaries! Time has come to set our quarrels aside and unite under a single banner. Astrub is not merely an old merchant city founded by a gang of bandits who've grown tame. Astrub is also an ancient city, with its own heritage and culture. Astrub is a nation! Today, dear council members, you are going to elect a new leader. I have applied for the position. Will you place your trust in me? It's your decision.\"\n\n– Fallanster, Head of the Council of Astrub",
-    "ability": "{{spell,11358,1::Fallanster's Rectitude}}:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn (stackable 1 time). The glyph disappears on the next turn or if it is moved."
+    "ability": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn (stackable 1 time). The glyph disappears on the next turn or if it is moved."
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164708,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82211-128.png",
     "description": "\"Death is a necessary evil, but even so, we'd all prefer it comes for someone else, isn't that so? That's why I forged this shield. It is indestructible; it will never wear out and never rust. It turns away all blows that could take you from living to dead. Despite its impressive size, it is light and manageable. Plus, its macabre looks will intimidate your opponents; the most cowardly among them won't be able to bear the dark pits of its empty eyes and will run away screaming. Still need convincing? Time for a demonstration. You're up, Sargent Kocksis.\"\n\n– a craftsman who wishes to remain anonymous",
-    "ability": "{{spell,11359,1::Death-Defying}}:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% health, the damage they suffer is reduced by 20%."
+    "ability": "Death-Defying:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% health, the damage they suffer is reduced by 20%."
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164811,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16555-128.png",
     "description": "\"They think us small and weak. They mock our costumes and our ancestral traditions. They take us for smelly barbarians, greedy and uncouth. They think us happy to stay in our mines, digging in the dark like Rotceres. But they are wrong! I will show them the Stubbyobs' true nature. I will burn their farms and crops. I will flatten their cities. I will shave their heads and eyebrows. I will shear their Gobballs. I will take their gold, empty their barrels, shred their banners. I am the King Under the Mountain... and soon, I shall be king of the world!\n\n– Bram Worldbeard",
-    "ability": "{{spell,11360,1::King Under the Mountain}}:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target."
+    "ability": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target."
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164896,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16564-128.png",
     "description": "\"When a young soul leaves the temple in Incarnam, that soul dreams of the life waiting for it outside. A life full of thrilling adventures, personal exploits, enriching exchanges, and communion with others. The soul has forgotten who it was before. Perhaps it reigned over an empire, only a little rubble of which remains. Perhaps it was a humble shepherd watching over a herd of Gobballs. The past is of little importance when one looks to the future. The Celestial Eagles ensure that every being gets a new start, without fear or regret, until destiny has been fulfilled.\"\n\n– Master Ganymede",
-    "ability": "{{spell,11361,1::Ganymede's Wisdom}}:\n• The bearer gains 2 AP on even turns but loses 1 AP and 1 MP on odd turns."
+    "ability": "Ganymede's Wisdom:\n• The bearer gains 2 AP on even turns but loses 1 AP and 1 MP on odd turns."
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164987,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17418-128.png",
     "description": "\"I've been training to fight dragons since I was very young. I am a knight, and knights assail huge fire-breathing lizards. That's what all the children's history books say, so it must be true! You can imagine my surprise when I met Bolgrot, then. Who would have ever thought that I'd become his best friend? Not me, that's for sure! I was as surprised as anyone. It just goes to show that you can't count on appearances... We've been together constantly for weeks. I can't wait to introduce him to Helsephine! I'm sure they'll get along famously.\"\n\n– Rykke Errel, Iop knight",
-    "ability": "{{spell,11363,1::Rykke Errel's Bravery}}:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells)."
+    "ability": "Rykke Errel's Bravery:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells)."
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165042,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17423-128.png",
     "description": "\"While our troops were gathering to fight off the army of the Dark City, I climbed to the top of the closest hill for one last prayer. Today, many Twelvians shall die. I wonder. Is all this violence necessary? Must we sacrifice thousands of souls so that harmony might reign again? But now is not the time for questions or doubts. Spirit of Balance, send me your wisdom. Show me the path of justice that leads to peace. And if my path should cross that of the Butcher of Brakmar... then give me the strength to fight her so that hope can be reborn in this world.\"\n\n– Jahash Jurgen",
-    "ability": "{{spell,11365,1::Elemental Assimilation}}:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements)."
+    "ability": "Elemental Assimilation:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements)."
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165121,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11338-128.png",
     "description": "\"They say that the first lumberjacks could travel the length and breadth of Amakna without ever tiring. The boots they wore had been enchanted by the four guardians and let them cross the country in the blink of an eye. In a single step, the sentinels with piercing eyes leapt from border to border, from the shores of the Asse Sea to the rocky valleys full of Bworks and Goblins. Alas! The power of these miraculous boots declined when the Four left... But scouts who are lucky enough to own a pair stay a few steps ahead of the kingdom's enemies.\"\n\n– Cornelia Granpa",
-    "ability": "{{spell,11366,1::Thousand Leagues}}:\n• The bearer gains 2 MP on odd turns."
+    "ability": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns."
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165218,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11337-128.png",
     "description": "\"Come close, newcomers! Don't hang back. I won't repeat myself. First, know this: Only Masters of the Order are allowed to wear the sacred boots during official boot-kissing ceremonies. You must be able to fill the boots, you see. Anyone who dares disobey will be trampled by all their peers before being booted out on their backsides. Does everyone have their polishing brushes and Blibli wax? Good! Line up and enter the room in silence. I only want to hear one pair of heels!\"\n\n– Bowisse, Grand Master of the Kicked Ass",
-    "ability": "{{spell,11367,1::The Kicked Asses}}:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells."
+    "ability": "The Kicked Asses:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells."
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165309,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10335-128.png",
     "description": "\"When you're unlucky, it's tempting to do nothing and stay at home filing one's claws so you don't trigger a disaster... But if you must be jinxed with bad luck, you might as well make it count! Audacity can break the paralysing grip of an unlucky jinx. There's nothing like a bit of nerve to ward off bad luck. You tried something and failed? Brilliant! You just have to try again! 'Tis better to try and fail because of bad luck than because you lacked nerve. What's important is landing on your feet.\"\n\n– Dodge the Ecaflip",
-    "ability": "{{spell,11368,1::Dodge's Audacity}}:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn."
+    "ability": "Dodge's Audacity:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn."
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165376,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10336-128.png",
     "description": "\"A master's passing is a tragedy for his students. When Prosperus Elementor disappeared, all Huppermages were orphaned. How can we survive the emptiness left in his wake? How can the young generations receive their heritage when questions remain unanswered? I'm leaving today for the lush green island of Ohwymi to open a door that will let me find our guide. May the Scales tip in my favour... and may the god Xelor grant me the time I need to reach my goal.\"\n\n– Lady Jhessica",
-    "ability": "{{spell,11369,1::Lady Jhessica's Courage}}:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies (stackable 1 time) and gains 1% spell damage for each enemy hit for 2 turns (stackable 4 times)."
+    "ability": "Lady Jhessica's Courage:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies (stackable 1 time) and gains 1% spell damage for each enemy hit for 2 turns (stackable 4 times)."
   },
   {
     "ankama_id": 20391,
@@ -166661,7 +166661,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23029-128.png",
     "description": "You close your eyes and suddenly the divine egg's chocolate scent fills your nose. You bring the mythical object to your innocent lips, heady with temptation and yearning for a new culinary pleasure. As your taste buds are flooded with bitterness, you learn to your great dismay that not all divine essences taste good.",
-    "ability": "{{spell,12344,1::Chocolatey Blessing}}:\n• When attacked from long range and adjacent to an enemy, the bearer gains 35% of their level as shield for 1 turn at the start of their next turn."
+    "ability": "Chocolatey Blessing:\n• When attacked from long range and adjacent to an enemy, the bearer gains 35% of their level as shield for 1 turn at the start of their next turn."
   },
   {
     "ankama_id": 21009,
@@ -167466,7 +167466,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217000-128.png",
     "description": "This prysmaradite will protect you against the first arrow from a Iop who only just became a Cra.",
-    "ability": "{{spell,14762,1::Prytekt-O-Mat}}:\n• The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn."
+    "ability": "Prytekt-O-Mat:\n• The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn."
   },
   {
     "ankama_id": 21452,
@@ -167521,7 +167521,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217001-128.png",
     "description": "This prysmaradite will protect you against the first arrow from a Iop who only just became a Cra.",
-    "ability": "{{spell,14763,1::Shiny Prytekt}}:\n• The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn."
+    "ability": "Shiny Prytekt:\n• The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn."
   },
   {
     "ankama_id": 21453,
@@ -167576,7 +167576,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217002-128.png",
     "description": "This prysmaradite will protect you against the first arrow from a Iop who only just became a Cra.",
-    "ability": "{{spell,14764,1::Iridescent Prytekt}}:\n• The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn."
+    "ability": "Iridescent Prytekt:\n• The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn."
   },
   {
     "ankama_id": 21506,
@@ -167877,7 +167877,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217005-128.png",
     "description": "This prysmaradite makes you want to run like an archer who missed the bullseye. Don't take a break, because nobody's gonna wait for you.",
-    "ability": "{{spell,14902,1::Sprynt}}:\n• The bearer is Unlockable as long as they have not inflicted any damage. If they inflict damage, the duration of the state changes to 1 turn."
+    "ability": "Sprynt:\n• The bearer is Unlockable as long as they have not inflicted any damage. If they inflict damage, the duration of the state changes to 1 turn."
   },
   {
     "ankama_id": 21996,
@@ -167908,7 +167908,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217006-128.png",
     "description": "This prysmaradite will put you under pressure, so don't lose your cool.",
-    "ability": "{{spell,14903,1::Pryssure-O-Mat}}:\n• The bearer sacrifices 10% final damage to gain 1 AP for 3 turns."
+    "ability": "Pryssure-O-Mat:\n• The bearer sacrifices 10% final damage to gain 1 AP for 3 turns."
   },
   {
     "ankama_id": 21997,
@@ -167939,7 +167939,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217007-128.png",
     "description": "This prysmaradite will put you under pressure, so don't lose your cool.",
-    "ability": "{{spell,14904,1::Shiny Pryssure}}:\n• The bearer sacrifices 35% final damage to gain 2 AP for 2 turns."
+    "ability": "Shiny Pryssure:\n• The bearer sacrifices 35% final damage to gain 2 AP for 2 turns."
   },
   {
     "ankama_id": 21998,
@@ -167970,7 +167970,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217008-128.png",
     "description": "This prysmaradite will put you under pressure, so don't lose your cool.",
-    "ability": "{{spell,14905,1::Iridescent Pryssure}}:\n• The bearer sacrifices 50% final damage to gain 3 AP for 1 turn."
+    "ability": "Iridescent Pryssure:\n• The bearer sacrifices 50% final damage to gain 3 AP for 1 turn."
   },
   {
     "ankama_id": 22001,
@@ -168001,7 +168001,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217011-128.png",
     "description": "This prysmaradite brings luck! How lucky! Since your last adventure to Ohwymi, you've really needed some.",
-    "ability": "{{spell,14908,1::Surpryz}}:\n• The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn."
+    "ability": "Surpryz:\n• The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn."
   },
   {
     "ankama_id": 22004,
@@ -168032,7 +168032,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217014-128.png",
     "description": "This prysmaradite is a perfect balance between two energies that both attract and oppose each other.",
-    "ability": "{{spell,14913,1::Prynyang}}:\n• The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn."
+    "ability": "Prynyang:\n• The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn."
   },
   {
     "ankama_id": 22007,
@@ -168063,7 +168063,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217017-128.png",
     "description": "This prysmaradite is perfect for getting close to adventurers who would have liked to put some distance between you and them. As a very wise person, you know the secret of heroes who can be a drag: perseverance.",
-    "ability": "{{spell,14919,1::Prycapture}}:\n• The bearer gains 1 MP for 1 turn for each enemy fighter more than 9 cells away from them at the start of the first 3 turns (stackable 3 times)."
+    "ability": "Prycapture:\n• The bearer gains 1 MP for 1 turn for each enemy fighter more than 9 cells away from them at the start of the first 3 turns (stackable 3 times)."
   },
   {
     "ankama_id": 22010,
@@ -168094,7 +168094,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217020-128.png",
     "description": "This prysmaradite is a bit like a fountain of youth, just without the water... and without the fountain, come to think of it. It won't really make you any younger, either. Actually, as analogies go, this is a pretty bad one.",
-    "ability": "{{spell,14926,1::Prygenerate}}:\n• Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn."
+    "ability": "Prygenerate:\n• Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn."
   },
   {
     "ankama_id": 22011,
@@ -168125,7 +168125,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217021-128.png",
     "description": "This prysmaradite gives you the feeling that you're always late. Maybe it's not just a feeling...",
-    "ability": "{{spell,14930,1::Prysipitate-O-Mat}}:\n• The bearer gains 2 AP on their first turn."
+    "ability": "Prysipitate-O-Mat:\n• The bearer gains 2 AP on their first turn."
   },
   {
     "ankama_id": 22012,
@@ -168156,7 +168156,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217022-128.png",
     "description": "This prysmaradite gives you the feeling that you're always late. Maybe it's not just a feeling...",
-    "ability": "{{spell,14931,1::Shiny Prysipitate}}:\n• The bearer sacrifices 2 MP to gain 3 AP on their first turn."
+    "ability": "Shiny Prysipitate:\n• The bearer sacrifices 2 MP to gain 3 AP on their first turn."
   },
   {
     "ankama_id": 22013,
@@ -168187,7 +168187,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217023-128.png",
     "description": "This prysmaradite gives you the feeling that you're always late. Maybe it's not just a feeling...",
-    "ability": "{{spell,14932,1::Iridescent Prysipitate}}:\n• The bearer sacrifices 4 MP to gain 4 AP on their first turn."
+    "ability": "Iridescent Prysipitate:\n• The bearer sacrifices 4 MP to gain 4 AP on their first turn."
   },
   {
     "ankama_id": 22014,
@@ -168230,7 +168230,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217024-128.png",
     "description": "This prysmaradite lifts its bearer's spirits, but without teaching them good manners, so you're safe.",
-    "ability": "{{spell,14933,1::Spryritual}}:\n• The bearer gains 100 Reduction on the first turn, 50 on the second turn and 25 on the third turn."
+    "ability": "Spryritual:\n• The bearer gains 100 Reduction on the first turn, 50 on the second turn and 25 on the third turn."
   },
   {
     "ankama_id": 22015,
@@ -168273,7 +168273,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217025-128.png",
     "description": "This prysmaradite will give your body what it needs to endure the hardships of an adventurer's life.\n\nThis is a stone. Do not ingest. Our products are not tested on Ecaflips or Ouginaks. Non alcoholic. Does not contain palmiflower oil.",
-    "ability": "{{spell,14934,1::Prysical}}:\n• The bearer gains 200 Parry on the first turn, 100 on the second turn and 50 on the third turn."
+    "ability": "Prysical:\n• The bearer gains 200 Parry on the first turn, 100 on the second turn and 50 on the third turn."
   },
   {
     "ankama_id": 22018,
@@ -168304,7 +168304,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217028-128.png",
     "description": "This prysmaradite will give you that cheeky quality that teens have these days without sacrificing the obscene comfort of your privileged position.",
-    "ability": "{{spell,14939,1::Caraprys}}:\n• The bearer gives 15% resistance to their summons on the first turn, 10% on the second turn and 5% on the third turn."
+    "ability": "Caraprys:\n• The bearer gives 15% resistance to their summons on the first turn, 10% on the second turn and 5% on the third turn."
   },
   {
     "ankama_id": 22019,
@@ -168341,7 +168341,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217029-128.png",
     "description": "This prysmaradite will give you the wildest experiences that involve disappearing temporarily. For example, imagine the disappointment on your mother-in-law's face when she sees you reappear!",
-    "ability": "{{spell,14940,1::Disaprys}}:\n• The bearer becomes Invisible for 1 turn at the start of their first turn. The invisibility does not wear off when the bearer attacks, but it is removed if they suffer any damage."
+    "ability": "Disaprys:\n• The bearer becomes Invisible for 1 turn at the start of their first turn. The invisibility does not wear off when the bearer attacks, but it is removed if they suffer any damage."
   },
   {
     "ankama_id": 22020,
@@ -168372,7 +168372,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217030-128.png",
     "description": "This unbewitching prysmaradite is perfect if you want to train for the Kolossium after a rather boozy party. You Lousy Pig breath will even be an ally in close combat.",
-    "ability": "{{spell,14941,1::Prywitchment}}:\n• The bearer reduces the duration of active effects on themself by 4 turns at the start of their first turn."
+    "ability": "Prywitchment:\n• The bearer reduces the duration of active effects on themself by 4 turns at the start of their first turn."
   },
   {
     "ankama_id": 22021,
@@ -168403,7 +168403,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217031-128.png",
     "description": "This prysmaradite is perfect for sensitive souls who understand that dangerous tasks can be offloaded onto Iops.",
-    "ability": "{{spell,14943,1::Aspryst}}:\n• The bearer increases the healing received by their allied fighters by 10% during the bearer's turn on the first turn, then by 35% on the second turn and by 50% on the third turn."
+    "ability": "Aspryst:\n• The bearer increases the healing received by their allied fighters by 10% during the bearer's turn on the first turn, then by 35% on the second turn and by 50% on the third turn."
   },
   {
     "ankama_id": 22022,
@@ -168458,7 +168458,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217032-128.png",
     "description": "This prysmaradite is perfect for slugs and snails, and that's not just a metaphor.",
-    "ability": "{{spell,14945,1::Pryshield}}:\n• The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them."
+    "ability": "Pryshield:\n• The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them."
   },
   {
     "ankama_id": 22023,
@@ -168489,7 +168489,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217033-128.png",
     "description": "This prysmaradite protects introverts at gatherings where a few too many people have... well, gathered.",
-    "ability": "{{spell,14948,1::Pryximity}}:\n• The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn."
+    "ability": "Pryximity:\n• The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn."
   },
   {
     "ankama_id": 22024,
@@ -168550,7 +168550,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217034-128.png",
     "description": "This prysmaradite will be the delight of adventurers who don't show the slightest drop of initiative.",
-    "ability": "{{spell,14949,1::Prymune}}:\n• The bearer reduces all types of damage suffered by 80% on the first turn."
+    "ability": "Prymune:\n• The bearer reduces all types of damage suffered by 80% on the first turn."
   },
   {
     "ankama_id": 22025,
@@ -168581,7 +168581,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217035-128.png",
     "description": "This is one heavy prysmaradite. It's quite remarkable for something so small. It reminds you of someone.",
-    "ability": "{{spell,14950,1::Gravprysy}}:\n• The bearer is in the Gravity state as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
+    "ability": "Gravprysy:\n• The bearer is in the Gravity state as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
   },
   {
     "ankama_id": 22027,
@@ -170130,7 +170130,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/19081-128.png",
     "description": "\"When the Prince of Brakmar and the King of Bonta impaled each other, spilling their entrails over the blood-reddened ground, I felt deep satisfaction. And thus ended the war between the two cities, surrounded by a mountain of corpses! It was a scene of great beauty. So when the cawing of the Crobaks mingled with the agonising death rattles, nostalgia washed over me. Poignant memories of the first Crimson Dawn flooded my mind. The charge of the Karne Riders, Menalt's decapitation, Raval's theatrics... It was the opening of a murderous and jubilatory conflict, one that would have kept me on tenterhooks for nearly a thousand years! Today, the curtain has fallen. But the show must go on... There will always be other battles.\"\n\n– War",
-    "ability": "{{spell,15739,1::Attrition Warfare}}:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times).",
+    "ability": "Attrition Warfare:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -170251,7 +170251,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17454-128.png",
     "description": "\"Oh, how lovely it is to smell the scent of despair in the air... Mercenaries once so proud, so brave, so... arrogant. Look at you, your faces covered in tears, throwing your loved ones in mass graves. Attachments, promises, feelings... All swept away by the madness crawling under your skin. Is there anything more delicious than seeing the horror and disgust wash over your peers' faces at the first signs of your own pestilence? Tremble, Astrub... Implore the gods, those imposters who can do nothing for you... This gangrene that you fear so deeply... come not from the sky... but from each and every one of you.\"\n\n– Corruption",
-    "ability": "{{spell,15975,1::Pestilential Fog}}:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on enemies within 2 cells or less of the bearer for 2 turns (stackable 1 time)."
+    "ability": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on enemies within 2 cells or less of the bearer for 2 turns (stackable 1 time)."
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170360,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10343-128.png",
     "description": "\"Look at you, you proud Kanigs, subjugated by your enemies... What a fall! You could have built a true empire if you weren't so weak. There was a time when you dreamed of glory and conquest, when prisoners worked in your rock quarries and moaned under the lash of whips... But the road from master to slave is sometimes very short. Kowtowing under the weight of your chains, crawling in the mud like larvae, you've forgotten who you once were. You are pathetic. When your matriarch dies, you destiny shall be complete. Your sacrifice will have been less vain than your existence... since it will change history.\"\n\n– Servitude",
-    "ability": "{{spell,15984,1::Shackles of Tyranny}}:\n• At the end of each turn, the bearer attracts entities within 3 cells or less of them and in a straight line with them. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage."
+    "ability": "Shackles of Tyranny:\n• At the end of each turn, the bearer attracts entities within 3 cells or less of them and in a straight line with them. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage."
   },
   {
     "ankama_id": 22444,
@@ -170469,7 +170469,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4138-128.png",
     "description": "\"Do you hear the cries carried, the growling of Troolgodytes, and the rumbling of starving stomachs? What a sweet symphony it is for my ears... The desert is spreading. Advancing, dune by dune. Grains of sand replacing grains of wheat. Wells running dry. Plates emptying. Castucs drying up. Soon, fertile lands will be but a fairy tale to raise the useless hopes of sickly children as night falls. Soon, I shall reign alone and uncontested over Ohwymi... The land will finally be mine.\"\n\n– Misery",
-    "ability": "{{spell,15996,1::Trial of the Scales}}:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer.",
+    "ability": "Trial of the Scales:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer.",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 3,
@@ -170530,7 +170530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23032-128.png",
     "description": "Like a moon veiled behind dark clouds at night, the brightest light is often hidden in the blackest of inks.",
-    "ability": "{{spell,17006,1::Ink River}}:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage"
+    "ability": "Ink River:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage"
   },
   {
     "ankama_id": 23248,
@@ -172654,7 +172654,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23033-128.png",
     "description": "They say that every one of the Dorigami's thousand folds hides a mystery, the reflection of a lie or painful truth, of blinding purity, like as many facets of a paper diamond.",
-    "ability": "{{spell,17307,1::Paper Tiger}}:\n• For the first 5 turns, the bearer gains 100% of their level as shield for 1 turn at the start of every turn.\n• For the first 5 turns, if the bearer kills an enemy during their turn, they gain a shield for 2 turns based on the nature of the enemy:\n • Summons: 100% of its level as shield (stackable 4 times).\n• Fighter: 300% of its level as shield (stackable 2 times)."
+    "ability": "Paper Tiger:\n• For the first 5 turns, the bearer gains 100% of their level as shield for 1 turn at the start of every turn.\n• For the first 5 turns, if the bearer kills an enemy during their turn, they gain a shield for 2 turns based on the nature of the enemy:\n • Summons: 100% of its level as shield (stackable 4 times).\n• Fighter: 300% of its level as shield (stackable 2 times)."
   },
   {
     "ankama_id": 23501,
@@ -178232,7 +178232,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "\"Night is dark so that nothing can distract us from our nightmares,\" said young Kilvan before going to sleep, comforted by his stuffed chtiger.\nWhy is night so dark? Because it hides within itself all the fears and mysteries contained in the eternighty. Bejabers, red coals and bronze glyphs mingle and merge in the cradle of good and evil, the source of an eternally revived conflict.",
-    "ability": "{{spell,20981,1::Nightmare Eternal}}:\n• Bontarian Shield: when the bearer is unbewitched or hindered, the bearer gains 100% of their level as shield for 1 turn.\n• Brakmarian Power: when the bearer inflicts or suffers pushback damage, the bearer gains 100 Power for 1 turn. \n• Nightmare Eye: if the bearer triggers both effects in the same turn, the damage they inflict and suffer increases by 10% for 1 turn.\n• The effects can only be triggered once per turn."
+    "ability": "Nightmare Eternal:\n• Bontarian Shield: when the bearer is unbewitched or hindered, the bearer gains 100% of their level as shield for 1 turn.\n• Brakmarian Power: when the bearer inflicts or suffers pushback damage, the bearer gains 100 Power for 1 turn. \n• Nightmare Eye: if the bearer triggers both effects in the same turn, the damage they inflict and suffer increases by 10% for 1 turn.\n• The effects can only be triggered once per turn."
   },
   {
     "ankama_id": 26085,
@@ -191727,7 +191727,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23036-128.png",
     "description": "The sacrificial fruit sows the seeds of renewal. Whether painful metamorphosis, natural healing, or a simple passage of time, the end of an interminable winter is always a miracle.",
-    "ability": "{{spell,28516,1::Country Ranger}}:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health."
+    "ability": "Country Ranger:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health."
   },
   {
     "ankama_id": 29430,
@@ -197567,7 +197567,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23039-128.png",
     "description": "\"Nzkzbz bzzzkkbz. Zpzkzalbz bzzzkkbz. Almozzbz drakonbz bzzzkkbz!\"\n\n— Qzzznbz Alzkzabz",
-    "ability": "{{spell,31607,1::Explosive Hatching}}:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons."
+    "ability": "Explosive Hatching:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons."
   },
   {
     "ankama_id": 31796,
@@ -198324,7 +198324,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16869-128.png",
     "description": "\"The advantage when you run a city like Brakmar is that no one's surprised when certain individuals disappear without warning. It's such a joy being able to give in to one's urges without having to justify one's actions. In any case, anyone who dares stand up to me will end up in the heart of the volcano in two shakes.\"\n\n— Oto Mustam",
-    "ability": "{{spell,31856,1::Ardour of the Dark City}}:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times)."
+    "ability": "Ardour of the Dark City:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times)."
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198385,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82553-128.png",
     "description": "\"You've met with a terrible fate, haven't you?\"\n\n— The Prisoner of the Mirror",
-    "ability": "{{spell,31857,1::Blinding Reflection}}:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time)."
+    "ability": "Blinding Reflection:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time)."
   },
   {
     "ankama_id": 32116,
@@ -198476,7 +198476,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/183011-128.png",
     "description": "\"Here we will stand and fight. There will be no more retreats. We are the Valiant Hearts, proud members of the Order of Thunder, the spearheads of glorious Bonta! We are going to stay and fight. And if we cannot stay here alive, we shall stay here dead!\"\n\n— Menalt, Protector of Martalo and Head of the Order of the Valiant Heart",
-    "ability": "{{spell,31859,1::Order of Thunder}}:\n• The bearer gains 6 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).",
+    "ability": "Order of Thunder:\n• The bearer gains 6 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -198585,7 +198585,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/22014-128.png",
     "description": "\"There is no need to bow before me. When you are face to face with death, there is no more protocol, hypocrisy or lies. Only the truth remains. Naked, cruel, harrowing... and liberating.\"\n\n— Thanatena, Queen of Externam",
-    "ability": "{{spell,31860,1::Thanatena's Judgement}}:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons.",
+    "ability": "Thanatena's Judgement:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons.",
     "ap_cost": 5,
     "crit_chance": 20,
     "crit_bonus": 4,
@@ -198676,7 +198676,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1330-128.png",
     "description": "\"Oh my love, how I long to embrace you! My recent adventures have been exhausting, and a break would do me a world of good. It will also be lovely to meet your dragon friend! I can picture the two of you fighting like children, which amuses me so.\nSee you soon. Your adoring Sephine.\"\n\n— Helsephine, Iop Magician and Alchemist",
-    "ability": "{{spell,31861,1::Helsephine's Love}}:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 6% of their health within 3 cells or less around them (once per trigger type per turn)."
+    "ability": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 6% of their health within 3 cells or less around them (once per trigger type per turn)."
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198755,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9392-128.png",
     "description": "\"You're right on time, as usual! Hurry up – I have exactly five minutes to spare. The Divine Clock waits for no one.\"\n\n— Henual",
-    "ability": "{{spell,31862,1::Henual's Punctuality}}:\n• The bearer gains 1 AP when they teleport, are teleported, or switch places (1 time per turn).\n• If the bearer didn't suffer anything on the previous turn, they are teleported to their previous position at the start of their turn."
+    "ability": "Henual's Punctuality:\n• The bearer gains 1 AP when they teleport, are teleported, or switch places (1 time per turn).\n• If the bearer didn't suffer anything on the previous turn, they are teleported to their previous position at the start of their turn."
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198864,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11382-128.png",
     "description": "\"We have travelled a long road together, but this victory belongs to you. The Twelve merely pointed you to the right path... We shall meet again soon, Gods' Chosen One. Your story has only just begun.\"\n\n— Meriana",
-    "ability": "{{spell,31858,1::Meriana's Clairvoyance}}:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction"
+    "ability": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction"
   },
   {
     "ankama_id": 32163,
@@ -198973,7 +198973,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6760-128.png",
     "description": "\"When it comes to defending Bonta's values, all you need is a mind as sharp as a blade and a hardened body.\"\n\n— Amayiro",
-    "ability": "{{spell,31880,1::Fervour of the White City}}:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times).",
+    "ability": "Fervour of the White City:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times).",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -199010,7 +199010,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219012-128.png",
     "description": "This is one heavy prysmaradite. It's quite remarkable for something so small. It reminds you of someone.",
-    "ability": "{{spell,31881,1::Unmovaprys}}:\n• The bearer is Unmovable as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
+    "ability": "Unmovaprys:\n• The bearer is Unmovable as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
   },
   {
     "ankama_id": 32201,

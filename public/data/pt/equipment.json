@@ -5025,7 +5025,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23001-128.png",
     "description": "O Dofus Púrpura foi criado por Ignemikhal, o Dragão do Fogo. O mínimo que podemos dizer sobre este ovo é que ele fede a enxofre... Mas, pensando bem, ele também fede a muitas outras coisas...",
-    "ability": "{{spell,8395,1::Púrpura Profundo}}:\n• Quando o portador é atacado, ele recebe 1% de danos finais por 2 turnos (acumula 10 vezes)."
+    "ability": "Púrpura Profundo:\n• Quando o portador é atacado, ele recebe 1% de danos finais por 2 turnos (acumula 10 vezes)."
   },
   {
     "ankama_id": 696,
@@ -5704,7 +5704,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23002-128.png",
     "description": "Mais verde que um Tofu doente, o Dofus Esmeralda foi criado por Aerafal, o Dragão do Ar. Para criar algo tão verde, ele devia sofrer enjoos quando voava. É o cúmulo, não?",
-    "ability": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação."
+    "ability": "Verde-Esmeralda:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação."
   },
   {
     "ankama_id": 739,
@@ -5741,7 +5741,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23003-128.png",
     "description": "O Dofus Turquesa foi criado por Aguabrial, o Dragão da Água. É incrível o que um Dragão é capaz de fazer com a água...",
-    "ability": "{{spell,5952,1::Azul-Turquesa}}:\n• Quando o portador efetua um golpe crítico, ele recebe 1% de danos finais por 3 turnos (acumula 10 vezes)."
+    "ability": "Azul-Turquesa:\n• Quando o portador efetua um golpe crítico, ele recebe 1% de danos finais por 3 turnos (acumula 10 vezes)."
   },
   {
     "ankama_id": 742,
@@ -8529,7 +8529,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17251-128.png",
     "description": "Esta capa é certamente uma das mais poderosas do mundo. Ela aumenta todas as características elementares de quem a usa.",
-    "ability": "{{spell,7331,1::Bênção dos Dofus}}:\n• Aumenta os atributos elementares do portador por turno de jogo:\n • <sprite name=\"eau\"> 400 de sorte > <sprite name=\"terre\"> 400 de força > <sprite name=\"air\"> 400 de agilidade > <sprite name=\"feu\"> 400 de inteligência"
+    "ability": "Bênção dos Dofus:\n• Aumenta os atributos elementares do portador por turno de jogo:\n • <sprite name=\"eau\"> 400 de sorte > <sprite name=\"terre\"> 400 de força > <sprite name=\"air\"> 400 de agilidade > <sprite name=\"feu\"> 400 de inteligência"
   },
   {
     "ankama_id": 967,
@@ -8814,7 +8814,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23006-128.png",
     "description": "Se foi mesmo um dragão que botou este ovo, ele devia ser muito bonzinho. Ao contrário do Wei Wabbit, que o utiliza para atrair aventureiros e deixá-los sem seus equipamentos e sem um pingo de dignidade. Uma maneira criativa e barata de conseguir os conjuntos mais modernos sem precisar sair de casa.",
-    "ability": "{{spell,8418,1::Sabedoria Wabbit}}:\n• Quando o portador sofre uma tentativa de retirada de PA ou PM, ele ganha 25 de esquiva PA ou 25 de esquiva PM por 1 turno (acumula 1 vez, compartilhado entre os efeitos)."
+    "ability": "Sabedoria Wabbit:\n• Quando o portador sofre uma tentativa de retirada de PA ou PM, ele ganha 25 de esquiva PA ou 25 de esquiva PM por 1 turno (acumula 1 vez, compartilhado entre os efeitos)."
   },
   {
     "ankama_id": 976,
@@ -34061,7 +34061,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23004-128.png",
     "description": "O Dofus Vulbis é fonte de rumores bem assustadores. Dizem que o dragão que criou este ovo cor de rubi é mais impiedoso que a própria morte e devora suas vítimas para tentar satisfazer seu apetite insaciável. Verdade ou lenda? Só os heróis corajosos e indigestos sabem.",
-    "ability": "{{spell,8396,1::Vermelho Colorado}}:\n• A cada início de turno, o portador ganha 10% de danos finais se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ele ganha 20 de bloqueio."
+    "ability": "Vermelho Colorado:\n• A cada início de turno, o portador ganha 10% de danos finais se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ele ganha 20 de bloqueio."
   },
   {
     "ankama_id": 6981,
@@ -36163,7 +36163,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23008-128.png",
     "description": "Assim como um poema nasce da tinta preta e do papel branco, este Dofus nasceu de uma ilha e de um dragão. Ele não passa de um sonho, paradoxo, reflexo ilusório? Muito pelo contrário. Ele é fruto de dois mundos e símbolo de sua união. Através dele, o Krosmoz contempla você... ou devora.",
-    "ability": "{{spell,18888,1::Harmonia de Pandala}}:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o {{item,23408::Dorigami}} ganham 20 de danos por 1 turno (acumula até 1 vez).\n• Se não causar dano, ele e seus aliados portadores do {{item,23237::Domakuro}} ganharão 100% de seu nível em escudo durante 1 turno."
+    "ability": "Harmonia de Pandala:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o Dorigami ganham 20 de danos por 1 turno (acumula até 1 vez).\n• Se não causar dano, ele e seus aliados portadores do Domakuro ganharão 100% de seu nível em escudo durante 1 turno."
   },
   {
     "ankama_id": 7113,
@@ -36224,7 +36224,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23007-128.png",
     "description": "Escuro como as trevas e duro feito pedra, o Dofus Ébano foi criado por Grugalorasalar, o Dragão Negro, para lhe fazer companhia. Ele só se esqueceu de um pequeno detalhe: um ovo, por mais mágico que seja, não fala.",
-    "ability": "{{spell,18629,1::Negro Ébano}}:\n• Quando o portador efetua um ataque corpo a corpo durante seu turno, ele recebe 2% de danos a distância, e, quando ataca a distância, ele recebe 2% de danos corpo a corpo durante 3 turnos (acumula até 5 vezes).\n• Acionar os 2 efeitos em um turno permite que o próximo ataque aplique um veneno de 16 em seu elemento durante 2 turnos (acumula até 2 vezes).\n• O intervalo de relançamento do veneno é de 2 turnos, mas pode ser reinicializado se o alvo for derrotado."
+    "ability": "Negro Ébano:\n• Quando o portador efetua um ataque corpo a corpo durante seu turno, ele recebe 2% de danos a distância, e, quando ataca a distância, ele recebe 2% de danos corpo a corpo durante 3 turnos (acumula até 5 vezes).\n• Acionar os 2 efeitos em um turno permite que o próximo ataque aplique um veneno de 16 em seu elemento durante 2 turnos (acumula até 2 vezes).\n• O intervalo de relançamento do veneno é de 2 turnos, mas pode ser reinicializado se o alvo for derrotado."
   },
   {
     "ankama_id": 7115,
@@ -36285,7 +36285,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23011-128.png",
     "description": "Se sua brancura é inigualável, é porque Dardondakal, o Dragão Branco, clareia o Dofus Marfim com sua respiração todas as manhãs (um velho truque que sua avó Dragona ensinou).",
-    "ability": "{{spell,18665,1::Branco-Marfim}}:\n• O portador reduz em 50% os danos de um ataque em 5. Os efeitos de interceptação e partilha de dano são incompatíveis."
+    "ability": "Branco-Marfim:\n• O portador reduz em 50% os danos de um ataque em 5. Os efeitos de interceptação e partilha de dano são incompatíveis."
   },
   {
     "ankama_id": 7116,
@@ -43629,7 +43629,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23012-128.png",
     "description": "Criado por Terrakurial, o Dragão da Terra, este Dofus concentra grandes poderes que não devem cair nas mãos de qualquer um... Nem nos pés, aliás.",
-    "ability": "{{spell,8394,1::Amarelo Ocre}}:\n• A cada início de turno, o portador ganha 1 PA se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ganha 20 de fuga."
+    "ability": "Amarelo Ocre:\n• A cada início de turno, o portador ganha 1 PA se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ganha 20 de fuga."
   },
   {
     "ankama_id": 7880,
@@ -60060,7 +60060,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23016-128.png",
     "description": "Fruto do amor de Khelebragon pela sacerdotisa Prometeia, este Dofus é um concentrado de nostalgia. É melhor não contemplá-lo por muito tempo, senão você pode acabar caindo em lágrimas... o que com certeza prejudicaria sua reputação de aventureiro com coração de pedra.",
-    "ability": "{{spell,5454,1::Sonho Nebuloso}}:\n• Nos turnos ímpares, o portador sacrifica 10% de curas finais para ganhar 20% de danos finais.\n• Nos turnos pares, ele sacrifica 10% de danos finais para ganhar 20% de curas finais."
+    "ability": "Sonho Nebuloso:\n• Nos turnos ímpares, o portador sacrifica 10% de curas finais para ganhar 20% de danos finais.\n• Nos turnos pares, ele sacrifica 10% de danos finais para ganhar 20% de curas finais."
   },
   {
     "ankama_id": 8699,
@@ -136315,7 +136315,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23020-128.png",
     "description": "Este Dofus foi criado com base nas vagas lembranças de alguém que viu um autêntico ovo de dragão. Só de tocá-lo, suas lembranças voltam com força total... É como saborear um bolo do Zalencar depois de muitos anos. Você se lembra do dia em que chegou a Incarnam, da primeira vez que matou um Paparneiro... Ah, bons tempos.",
-    "ability": "{{spell,5453,1::Vigilância Dimensional}}:\n• Quando o portador termina seu turno, ele cura todos os aliados alinhados a ele em 7% da vida."
+    "ability": "Vigilância Dimensional:\n• Quando o portador termina seu turno, ele cura todos os aliados alinhados a ele em 7% da vida."
   },
   {
     "ankama_id": 16116,
@@ -140084,7 +140084,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23022-128.png",
     "description": "Os Kanibolas fingem que a Árvore de Moon é, na verdade, um dragão adormecido. Vindo da lua, o ser imortal teria adotado a forma de um grande kokeiro para dar sombra a uma princesa que sofria com o calor do sol. Ele teria adormecido logo em seguida... O Dokoko, fruto da Árvore de Moon, seria então um autêntico Dofus? Nós ainda não temos certeza disso.",
-    "ability": "{{spell,6149,1::O Macaco e a Lua}}:\n• A cada 3 turnos a partir do 3º turno, o portador recupera 10% da vida."
+    "ability": "O Macaco e a Lua:\n• A cada 3 turnos a partir do 3º turno, o portador recupera 10% da vida."
   },
   {
     "ankama_id": 17079,
@@ -149491,7 +149491,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23023-128.png",
     "description": "Segundo fontes oficiais, este Dofus de aparência incomum seria uma criação dos Steamers de Sufokia. Podemos concluir, então, que não se trata de um verdadeiro ovo de dragão. Bom, pelo menos é isso que as autoridades querem nos fazer acreditar... Quem sabe realmente o que se esconde nos abismos, afinal?",
-    "ability": "{{spell,6828,1::Descida aos Abismos}}:\n• A cada início de turno, o portador ganha 1 PM se não houver nenhum inimigo em contato com ele. Do contrário, ele ganha 1 PA."
+    "ability": "Descida aos Abismos:\n• A cada início de turno, o portador ganha 1 PM se não houver nenhum inimigo em contato com ele. Do contrário, ele ganha 1 PA."
   },
   {
     "ankama_id": 18088,
@@ -160962,7 +160962,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23024-128.png",
     "description": "Apesar do aspecto insólito, este Dofus é um autêntico ovo de dragão. Seria um desperdício não aproveitá-lo. Ele vai aquecer você nas longas noites de inverno e, no verão, vai assar a carne do churrasco. Mas procure não passar muito perto de montes de feno ou pilhas de lenha seca para não ser confundido com um piromaníaco perigoso.",
-    "ability": "{{spell,10164,1::Forja do Vulcão}}:\n• O portador recebe 100% do seu nível em escudo de acordo com os efeitos que sofrer de um inimigo (1 vez por tipo de efeito por turno):\n • Danos de empurrão\n • Atração ou empurrão\n • Troca de lugar, teletransporte ou teleportal\n • Carregamento Pandawa"
+    "ability": "Forja do Vulcão:\n• O portador recebe 100% do seu nível em escudo de acordo com os efeitos que sofrer de um inimigo (1 vez por tipo de efeito por turno):\n • Danos de empurrão\n • Atração ou empurrão\n • Troca de lugar, teletransporte ou teleportal\n • Carregamento Pandawa"
   },
   {
     "ankama_id": 19415,
@@ -163099,7 +163099,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23025-128.png",
     "description": "Criado por Rathrosk, o dragão cinza, este ovo é um enigma. Embora seu poder não se equipare ao de um Dofus Primordial, ele parece ser mais antigo do que o próprio tempo... Guarde-o com muito cuidado. Afinal de contas, só as Moirnas e o deus Xelor sabem o que o futuro reserva.",
-    "ability": "{{spell,18674,1::Lembrança de Prata}}:\n• Quando o portador estiver com menos de 20% de sua vida, ele será curado em 20% da vida no começo do próximo turno dele (1 vez por combate)."
+    "ability": "Lembrança de Prata:\n• Quando o portador estiver com menos de 20% de sua vida, ele será curado em 20% da vida no começo do próximo turno dele (1 vez por combate)."
   },
   {
     "ankama_id": 19637,
@@ -164174,7 +164174,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23027-128.png",
     "description": "Quando o dragão Rathrosk criou o Dofus Prateado, na época em que o Mundo dos Doze ainda nem existia, aconteceu um milagre: a primeira fênix ressurgiu das próprias cinzas. O tempo passou, deuses desapareceram, estrelas morreram. Hoje, o ovo que você tem em mãos cintila como antigamente... como um amor perdido cuja chama arde novamente.",
-    "ability": "{{spell,18672,1::Promessa de Prata}}:\n• Quando o portador estiver com menos de 20% de sua vida, ele será curado em 30% da vida e ganhará 20% de danos finais durante 1 turno no começo do próximo turno dele (1 vez por combate)."
+    "ability": "Promessa de Prata:\n• Quando o portador estiver com menos de 20% de sua vida, ele será curado em 30% da vida e ganhará 20% de danos finais durante 1 turno no começo do próximo turno dele (1 vez por combate)."
   },
   {
     "ankama_id": 20353,
@@ -164277,7 +164277,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6740-128.png",
     "description": "\"Havia milhares de Crocodyls a algumas centenas de kametros das portas da cidade. Nós estávamos preparados para o ataque, a guarda inteira estava reunida em frente à grande porta e as máquinas de guerra estavam instaladas sobre as muralhas. A visão do gigantesco exército de répteis já era aterrorizante por si só, mas o pior foi quando percebemos. Crocoburio estava em meio aos soldados, muito mais alto que todos eles, brandindo sua espada amaldiçoada em nossa direção. Quando a massa verde começou a marchar, nós sentimos um calafrio. Assim soubemos que a batalha que viria a acontecer seria terrível.\"\n\n- Um soldado bontariano.",
-    "ability": "{{spell,11352,1::Apetite da Crocálibur}}:\n• A cada início de turno, o portador inflige a si mesmo 15 de danos em seu melhor elemento de ataque para infligir os mesmos danos em roubo de vida às entidades em contato com ele ao final do turno. Também cura os atacantes em 7% dos danos infligidos aos inimigos atingidos por 2 turnos (acumula 1 vez).",
+    "ability": "Apetite da Crocálibur:\n• A cada início de turno, o portador inflige a si mesmo 15 de danos em seu melhor elemento de ataque para infligir os mesmos danos em roubo de vida às entidades em contato com ele ao final do turno. Também cura os atacantes em 7% dos danos infligidos aos inimigos atingidos por 2 turnos (acumula 1 vez).",
     "ap_cost": 6,
     "crit_chance": 10,
     "crit_bonus": 7,
@@ -164362,7 +164362,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5100-128.png",
     "description": "\"Eu tenho tantos nomes que nem consigo me lembrar de todos eles. Mas você pode me chamar de Atroskuld. Sou a mais velha das três Moirnas, aquela que corta o fio da existência impiedosamente. Tudo acaba uma hora, e meu trabalho é garantir que tudo acabe na hora certa.\"\n\n– Atroskuld",
-    "ability": "{{spell,11354,1::Destino Fatídico}}:\n• No fim de cada turno, o portador divide os danos entre os inimigos em um quadrado de tamanho 1 e aumenta os danos que eles sofrem em 6% durante 2 turnos (acumula 1 vez). Ele também ganha 10 de bloqueio durante 1 turno para cada inimigo atingido.",
+    "ability": "Destino Fatídico:\n• No fim de cada turno, o portador divide os danos entre os inimigos em um quadrado de tamanho 1 e aumenta os danos que eles sofrem em 6% durante 2 turnos (acumula 1 vez). Ele também ganha 10 de bloqueio durante 1 turno para cada inimigo atingido.",
     "ap_cost": 3,
     "crit_chance": 100,
     "crit_bonus": 6,
@@ -164459,7 +164459,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4135-128.png",
     "description": "\"O cortejo se estende na bruma em uma longa fila de prata. Todos trepidam, tiritam, esfregam as mãos e batem os dentes ao som do meu violino rangente. Acompanhe-nos, não se acanhe. Não se recusa uma dança com o frio.\"\n\n– Brumário, o Sangrador Macabro, Protetor de Novemeiro",
-    "ability": "{{spell,12147,1::Frio de Novemeiro}}:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula até 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PA durante 1 turno (acumula até 2 vezes).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3.",
+    "ability": "Frio de Novemeiro:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula até 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PA durante 1 turno (acumula até 2 vezes).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -164556,7 +164556,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/2087-128.png",
     "description": "\"Antigamente, não existiam cofres. Os Enutrofs escondiam as economias na meia ou embaixo do colchão, os esquilos guardava nozes no oco das árvores, os dragões empilhavam suas moedas de ouro em cavernas escuras e úmidas. Então a Sociedade criou a rede bancária. Uma verdadeira revolução! Finalmente os dozeanos podiam deixar seus bens protegidos atrás de portas blindadas. Claro que sempre tem um Ladino para explodir bombas e traficantes de kamas para ludibriar aventureiros gananciosos, mas não é nada muito sério. Basta fazer um bom seguro.\"\n\n- Buhorado",
-    "ability": "{{spell,11357,1::Pena de Buhorado}}:\n• Quando o portador efetua um golpe crítico, ele recebe 10 de danos de empurrão por 3 turnos.",
+    "ability": "Pena de Buhorado:\n• Quando o portador efetua um golpe crítico, ele recebe 10 de danos de empurrão por 3 turnos.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -164635,7 +164635,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82212-128.png",
     "description": "\"Todo Feca que vai ao combate precisa levar um escudo. Mas a melhor proteção contra a adversidade, a melhor muralha contra todos os que querem nos aniquilar, é a união. Mercenários! Chegou a hora de deixarmos nossas diferenças de lado e nos reunirmos sob um só estandarte. Astrub é mais que um burgo mercantil fundado por um bando de bandoleiros que se acomodou. Astrub é também uma cidade antiga, com patrimônio e cultura. Astrub é uma nação! Hoje, membros do conselho, vocês elegerão um novo líder. Eu oficializei minha candidatura. Poderei contar com a sua confiança? A escolha é de vocês.\"\n\n- Fallanster, chefe do Conselho de Astrub",
-    "ability": "{{spell,11358,1::Retidão de Fallanster}}:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em um quadrado de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno (acumula até 1 vez). O glifo desaparece no próximo turno ou ao ser movido."
+    "ability": "Retidão de Fallanster:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em um quadrado de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno (acumula até 1 vez). O glifo desaparece no próximo turno ou ao ser movido."
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164708,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82211-128.png",
     "description": "\"A morte é um mal necessário, mas, pelo sim, pelo não, é preferível que ela leve outra pessoa, não é? Foi por isso que eu forjei esse escudo. Ele é indestrutível, inesgotável e inoxidável. Detém todos os golpes que fariam você passar para o outro lado. Apesar das dimensões imponentes, é leve e fácil de manusear. Além disso, seu aspecto macabro impressionará os adversários: os mais covardes não suportarão o negrume abissal das órbitas vazias e fugirão aos berros. Ainda não se convenceu? Então vamos demonstrar na prática. Sargento Koksis, é com você.\"\n\n- Um artesão que preferiu se manter no anonimato",
-    "ability": "{{spell,11359,1::Engana-a-Morte}}:\n• Quando o portador tem mais de 50% de vida, seus danos finais aumentam em 7%, mas ele perde 10% da vida no começo de cada turno.\n• Quando ele tem menos de 50% da vida, os danos que ele sofre são reduzidos em 20%."
+    "ability": "Engana-a-Morte:\n• Quando o portador tem mais de 50% de vida, seus danos finais aumentam em 7%, mas ele perde 10% da vida no começo de cada turno.\n• Quando ele tem menos de 50% da vida, os danos que ele sofre são reduzidos em 20%."
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164811,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16555-128.png",
     "description": "\"Eles acham que nós somos pequenos e fracos. Zombam dos nossos costumes, das nossas tradições ancestrais. Eles nos tomam por bárbaros sujos, vorazes e incultos. Acham que vamos nos contentar em ficar nas nossas minas, cavando no escuro como Gwaimos? Vão ter uma surpresa! Eu vou mostrar quem são os Brutanões. Vou queimar suas fazendas e colheitas. Vou rapar seus cabelos, suas sobrancelhas, suas cidades. Vou tosar seus Papatudos. Vou tomar seu ouro, esvaziar as barricas, rasgar os estandartes. Eu sou o rei debaixo da montanha... e, em breve, serei o rei do mundo!\"\n\n- Bram Barba-Mundo",
-    "ability": "{{spell,11360,1::Rei Debaixo da Montanha}}:\n• Ao realizar ou sofrer uma tentativa de retirada de PA ou PM, o portador ganha 2% de danos finais durante 2 turnos (acumula até 5 vezes).\n• Os efeitos não poderão ser acionados se o portador for, ao mesmo tempo, atacante e alvo."
+    "ability": "Rei Debaixo da Montanha:\n• Ao realizar ou sofrer uma tentativa de retirada de PA ou PM, o portador ganha 2% de danos finais durante 2 turnos (acumula até 5 vezes).\n• Os efeitos não poderão ser acionados se o portador for, ao mesmo tempo, atacante e alvo."
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164896,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16564-128.png",
     "description": "\"Quando uma alma jovem deixa o templo de Incarnam, ela sonha com a vida que a espera lá fora. Uma vida de aventuras palpitantes, de realizações pessoais, de trocas enriquecedoras e de partilha com os outros. Ela já esqueceu quem foi. Talvez tenha reinado sobre um império do qual só resta pedra. Talvez tenha sido um humilde pastor que guardava um rebanho de Papatudos. O passado é insignificante quando olhamos para o futuro: as Águias Celestes cuidam para que cada ser possa recomeçar, sem temores nem arrependimentos, até seu destino se cumprir.\"\n\n- Mestre Ganimede",
-    "ability": "{{spell,11361,1::Sabedoria de Ganimede}}:\n• O portador ganha 2 PA nos turnos pares, mas perde 1 PA e 1 PM nos turnos ímpares."
+    "ability": "Sabedoria de Ganimede:\n• O portador ganha 2 PA nos turnos pares, mas perde 1 PA e 1 PM nos turnos ímpares."
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164987,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17418-128.png",
     "description": "\"Desde pequeno, eu fui treinado para lutar contra dragões. Eu sou um cavaleiro, e cavaleiros exterminam os grandes lagartos cuspidores de fogo. É o que está escrito em todos os livros infantis, então só pode ser verdade! Qual não foi minha surpresa, então, quando conheci Bolgrot. Quem iria imaginar que ele se tornaria o meu melhor amigo? Não eu! Eu fui o primeiro a se surpreender. Quem diria? As aparências enganam... Já faz semanas que a gente está unha e carne. Mal posso esperar para apresentá-lo a Helsefina! Tenho certeza de que eles vão se dar bem.\"\n\n- Rykke Errel, cavaleiro iop",
-    "ability": "{{spell,11363,1::Bravura de Rykke Errel}}:\n• Ao sofrer um ataque a distância, o portador ganha 10% do seu nível em escudo e perde 1% dos danos a distância durante 1 turno por célula de distância do atacante (máximo de 11 células)."
+    "ability": "Bravura de Rykke Errel:\n• Ao sofrer um ataque a distância, o portador ganha 10% do seu nível em escudo e perde 1% dos danos a distância durante 1 turno por célula de distância do atacante (máximo de 11 células)."
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165042,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17423-128.png",
     "description": "\"Enquanto nossas tropas se reuniam para enfrentar o exército da cidade sombria, eu subi ao pico da colina mais próxima para fazer uma última oração. Neste dia, muitos dozeanos morrerão. Eu me pergunto: toda essa violência é mesmo necessária? Será mesmo preciso sacrificar milhares de almas para que haja uma chance de a harmonia voltar a reinar? Mas o momento já não é para dúvidas e hesitação. Espírito da Balança, ilumine-me com a sua luz. Mostre-me o caminho de justiça que leva à paz. E se eu ficar frente a frente com a Açougueira de Brakmar... Dê-me forças para enfrentá-la para que a esperança renasça neste mundo.\"\n\n- Jahash Jurgen",
-    "ability": "{{spell,11365,1::Assimilação Elementar}}:\n• Ao sofrer danos em um elemento, o portador ganha 4% de resistência nesse elemento por 2 turnos (acumula até 5 vezes, repartido entre os elementos)."
+    "ability": "Assimilação Elementar:\n• Ao sofrer danos em um elemento, o portador ganha 4% de resistência nesse elemento por 2 turnos (acumula até 5 vezes, repartido entre os elementos)."
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165121,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11338-128.png",
     "description": "\"Dizem que os primeiros lenhadores cruzavam Amakna de ponta a ponta sem sentir um pingo de cansaço. Eles calçavam botas encantadas pelas quatro guardiãs: com elas, atravessavam as terras em um piscar de olhos. De uma só pernada, as sentinelas de olhos penetrantes iam de uma fronteira a outra, das praias do mar Mota aos vales rochosos tomados por Bworks e Goblins. Ai de nós, o poder dessas botas milagrosas se esvaneceu quando as Quatro se retiraram... mas os batedores que têm a sorte de dispor de um par estão sempre um passo à frente dos inimigos do reino.\"\n\n- Cornélia Largopasso",
-    "ability": "{{spell,11366,1::Mil Léguas}}:\n• O portador ganha 2 PM nos turnos ímpares."
+    "ability": "Mil Léguas:\n• O portador ganha 2 PM nos turnos ímpares."
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165218,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11337-128.png",
     "description": "\"Aproximem-se, novatos! Não fiquem no fundo, eu não vou me repetir. Antes de mais nada, saibam que só os mestres da ordem têm autorização para calçar as botas sagradas nas cerimônias oficiais pomposas. Vejam bem, tem que ser uma autoridade. Os eventuais transgressores serão pisoteados pelos condiscípulos e expulsos com um pontapé nos fundilhos. Todo mundo com escova de engraxate e cera de java? Ótimo! Façam fila e entrem na sala sem algazarra. Não quero ouvir um barulhinho de sola!\"\n\n- Bowis, grão-mestre do Bota-Fora",
-    "ability": "{{spell,11367,1::Os Bota-Fora}}:\n• No começo e no fim de cada turno, o portador empurra as entidades em contato por 2 células."
+    "ability": "Os Bota-Fora:\n• No começo e no fim de cada turno, o portador empurra as entidades em contato por 2 células."
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165309,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10335-128.png",
     "description": "\"Quando se é azarado, é muito tentador não fazer nada, ficar enclausurado em casa roendo as garras para não provocar uma catástrofe... Mas, já que a gente já tá zicado mesmo, é melhor aproveitar! É preciso ter audácia para não se deixar paralisar pela desdita. Nada como um pouco de ousadia para afastar o azar. Tentou fazer um negócio e se deu mal? Grande coisa! É só tentar de novo. É melhor errar por falta de sorte do que por falta de fibra. O importante é cair sempre de pé.\"\n\n- Dodge, o Ecaflip",
-    "ability": "{{spell,11368,1::Audácia de Dodge}}:\n• No começo de cada turno, o portador se teletransporta ou troca de posição para uma célula adjacente aleatória e ganha 1 PM e 10% de crítico, ou não é deslocado e ganha 40 de fuga e de danos de empurrão, durante 1 turno."
+    "ability": "Audácia de Dodge:\n• No começo de cada turno, o portador se teletransporta ou troca de posição para uma célula adjacente aleatória e ganha 1 PM e 10% de crítico, ou não é deslocado e ganha 40 de fuga e de danos de empurrão, durante 1 turno."
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165376,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10336-128.png",
     "description": "\"A perda de um mestre é uma tragédia para seus discípulos. Quando Prosperus Elementor faleceu, todos os Huppermagos ficaram órfãos da noite para o dia. Como sobreviver ao vazio que ele deixou? Como transmitir um legado às novas gerações quando algumas perguntas permanecem sem resposta? Hoje, eu partirei para a ilha verdejante de Espetárida a fim de abrir uma porta para reencontrar nosso guia. Que a Balança penda em meu favor... e que o deus Xelor me conceda o tempo de que eu preciso para atingir meu objetivo.\"\n\n- Lady Jhéssica",
-    "ability": "{{spell,11369,1::Coragem de Lady Jhéssica}}:\n• No final de cada turno, o portador retira 60 de fuga dos inimigos em contato com ele (acumula até 1 vez) e ganha 1% de danos de feitiços para cada inimigo atingido durante 2 turnos (acumula até 4 vezes)."
+    "ability": "Coragem de Lady Jhéssica:\n• No final de cada turno, o portador retira 60 de fuga dos inimigos em contato com ele (acumula até 1 vez) e ganha 1% de danos de feitiços para cada inimigo atingido durante 2 turnos (acumula até 4 vezes)."
   },
   {
     "ankama_id": 20391,
@@ -166661,7 +166661,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23029-128.png",
     "description": "Você fecha os olhos e, de repente, os aromas achocolatados do ovo divino invadem suas narinas. Você leva, então, o objeto mítico aos seus lábios ingênuos, inebriado pela tentação de um prazer culinário desconhecido. Quando suas papilas são tomadas por uma onda de amargor, você aprende da pior forma possível que nem todas as essências divinas têm gosto bom.",
-    "ability": "{{spell,12344,1::Bênção Achocolatada}}:\n• Quando o portador é atacado a distância enquanto está em contato com um inimigo, ele ganha 35% do seu nível em escudo por 1 turno no início de seu próximo turno."
+    "ability": "Bênção Achocolatada:\n• Quando o portador é atacado a distância enquanto está em contato com um inimigo, ele ganha 35% do seu nível em escudo por 1 turno no início de seu próximo turno."
   },
   {
     "ankama_id": 21009,
@@ -167466,7 +167466,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217000-128.png",
     "description": "Esta prismaradita protegerá você da primeira flecha de um Iop recém-reconvertido em Cra.",
-    "ability": "{{spell,14762,1::Pritek Mate}}:\n• O portador ganha 550% de seu nível em escudo no primeiro turno, 200% no segundo e 100% no terceiro."
+    "ability": "Pritek Mate:\n• O portador ganha 550% de seu nível em escudo no primeiro turno, 200% no segundo e 100% no terceiro."
   },
   {
     "ankama_id": 21452,
@@ -167521,7 +167521,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217001-128.png",
     "description": "Esta prismaradita protegerá você da primeira flecha de um Iop recém-reconvertido em Cra.",
-    "ability": "{{spell,14763,1::Pritek Brilhante}}:\n• O portador ganha 150% de seu nível em escudo no primeiro turno, 450% no segundo e 150% no terceiro."
+    "ability": "Pritek Brilhante:\n• O portador ganha 150% de seu nível em escudo no primeiro turno, 450% no segundo e 150% no terceiro."
   },
   {
     "ankama_id": 21453,
@@ -167576,7 +167576,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217002-128.png",
     "description": "Esta prismaradita protegerá você da primeira flecha de um Iop recém-reconvertido em Cra.",
-    "ability": "{{spell,14764,1::Pritek Iridescente}}:\n• O portador ganha 100% de seu nível em escudo no primeiro turno, 200% no segundo e 350% no terceiro."
+    "ability": "Pritek Iridescente:\n• O portador ganha 100% de seu nível em escudo no primeiro turno, 200% no segundo e 350% no terceiro."
   },
   {
     "ankama_id": 21506,
@@ -167877,7 +167877,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217005-128.png",
     "description": "Esta prismaradita dá vontade de correr como um arqueiro frustrado. Não pare, ninguém vai ficar esperando.",
-    "ability": "{{spell,14902,1::Sprint}}:\n• O portador fica Imbloqueável contanto que não tenha infligido danos. Se infligir, a duração do estado passará a ser de 1 turno."
+    "ability": "Sprint:\n• O portador fica Imbloqueável contanto que não tenha infligido danos. Se infligir, a duração do estado passará a ser de 1 turno."
   },
   {
     "ankama_id": 21996,
@@ -167908,7 +167908,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217006-128.png",
     "description": "Esta prismaradita vai meter pressão. Cuidado para não perder a cabeça.",
-    "ability": "{{spell,14903,1::Prissão Mate}}:\n• O portador sacrifica 10% de danos finais para ganhar 1 PA durante 3 turnos."
+    "ability": "Prissão Mate:\n• O portador sacrifica 10% de danos finais para ganhar 1 PA durante 3 turnos."
   },
   {
     "ankama_id": 21997,
@@ -167939,7 +167939,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217007-128.png",
     "description": "Esta prismaradita vai meter pressão. Cuidado para não perder a cabeça.",
-    "ability": "{{spell,14904,1::Prissão Brilhante}}:\n• O portador sacrifica 35% de danos finais para ganhar 2 PA durante 2 turnos."
+    "ability": "Prissão Brilhante:\n• O portador sacrifica 35% de danos finais para ganhar 2 PA durante 2 turnos."
   },
   {
     "ankama_id": 21998,
@@ -167970,7 +167970,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217008-128.png",
     "description": "Esta prismaradita vai meter pressão. Cuidado para não perder a cabeça.",
-    "ability": "{{spell,14905,1::Prissão Iridescente}}:\n• O portador sacrifica 50% de danos finais para ganhar 3 PA durante 1 turno."
+    "ability": "Prissão Iridescente:\n• O portador sacrifica 50% de danos finais para ganhar 3 PA durante 1 turno."
   },
   {
     "ankama_id": 22001,
@@ -168001,7 +168001,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217011-128.png",
     "description": "Esta prismaradita dá sorte! Vem bem a calhar. Depois da sua última aventura em Espetárida, você está precisando urgentemente.",
-    "ability": "{{spell,14908,1::Surprisma}}:\n• O portador ganha 100% de crítico no primeiro turno, 35% no segundo e 15% no terceiro."
+    "ability": "Surprisma:\n• O portador ganha 100% de crítico no primeiro turno, 35% no segundo e 15% no terceiro."
   },
   {
     "ankama_id": 22004,
@@ -168032,7 +168032,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217014-128.png",
     "description": "Esta prismaradita é o equilíbrio perfeito entre duas energias que se atraem e se opõem mutuamente.",
-    "ability": "{{spell,14913,1::Pringyang}}:\n• O portador sacrifica 10% de resistência para ganhar 10% de danos finais no primeiro turno, depois ganha 3% de danos finais e de resistência no segundo turno e sacrifica 10% de danos finais para ganhar 10% de resistência no terceiro turno."
+    "ability": "Pringyang:\n• O portador sacrifica 10% de resistência para ganhar 10% de danos finais no primeiro turno, depois ganha 3% de danos finais e de resistência no segundo turno e sacrifica 10% de danos finais para ganhar 10% de resistência no terceiro turno."
   },
   {
     "ankama_id": 22007,
@@ -168063,7 +168063,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217017-128.png",
     "description": "Esta prismaradita é perfeita para aproximar você dos aventureiros que tentam abrir distância. Em suma, você sabe o segredo dos aventureiros pesados: a perseverança.",
-    "ability": "{{spell,14919,1::Aprissar}}:\n• O portador ganha 1 PM durante 1 turno para cada combatente inimigo a mais de 9 células de distância dele no começo dos 3 primeiros turnos de jogo (acumula até 3 vezes)."
+    "ability": "Aprissar:\n• O portador ganha 1 PM durante 1 turno para cada combatente inimigo a mais de 9 células de distância dele no começo dos 3 primeiros turnos de jogo (acumula até 3 vezes)."
   },
   {
     "ankama_id": 22010,
@@ -168094,7 +168094,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217020-128.png",
     "description": "Esta prismaradita é um pouco como uma fonte da juventude, só que sem água... e sem fonte. Na verdade, ela também não rejuvenesce. É, não foi uma comparação muito boa.",
-    "ability": "{{spell,14926,1::Prigen}}:\n• Cura 60% dos danos inimigos sofridos no primeiro turno, 30% no segundo e 10% no terceiro."
+    "ability": "Prigen:\n• Cura 60% dos danos inimigos sofridos no primeiro turno, 30% no segundo e 10% no terceiro."
   },
   {
     "ankama_id": 22011,
@@ -168125,7 +168125,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217021-128.png",
     "description": "Esta prismaradita dá a sensação de se estar sempre atrasado. Infelizmente, ela não explica seu atraso mental.",
-    "ability": "{{spell,14930,1::Pricipitada Mate}}:\n• O portador ganha 2 PA no primeiro turno."
+    "ability": "Pricipitada Mate:\n• O portador ganha 2 PA no primeiro turno."
   },
   {
     "ankama_id": 22012,
@@ -168156,7 +168156,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217022-128.png",
     "description": "Esta prismaradita dá a sensação de se estar sempre atrasado. Infelizmente, ela não explica seu atraso mental.",
-    "ability": "{{spell,14931,1::Pricipitada Brilhante}}:\n• O portador sacrifica 2 PM para ganhar 3 PA no primeiro turno."
+    "ability": "Pricipitada Brilhante:\n• O portador sacrifica 2 PM para ganhar 3 PA no primeiro turno."
   },
   {
     "ankama_id": 22013,
@@ -168187,7 +168187,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217023-128.png",
     "description": "Esta prismaradita dá a sensação de se estar sempre atrasado. Infelizmente, ela não explica seu atraso mental.",
-    "ability": "{{spell,14932,1::Pricipitada Iridescente}}:\n• O portador sacrifica 4 PM para ganhar 4 PA no primeiro turno."
+    "ability": "Pricipitada Iridescente:\n• O portador sacrifica 4 PM para ganhar 4 PA no primeiro turno."
   },
   {
     "ankama_id": 22014,
@@ -168230,7 +168230,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217024-128.png",
     "description": "Esta prismaradita eleva o espírito do portador, mas não o faz tomar vergonha na cara. Dessa você escapou.",
-    "ability": "{{spell,14933,1::Esprírito}}:\n• O portador ganha 100 de retirada no primeiro turno, 50 no segundo e 25 no terceiro."
+    "ability": "Esprírito:\n• O portador ganha 100 de retirada no primeiro turno, 50 no segundo e 25 no terceiro."
   },
   {
     "ankama_id": 22015,
@@ -168273,7 +168273,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217025-128.png",
     "description": "Esta prismaradita dará ao seu corpo o necessário para resistir às provações da vida de aventureiro.\n\nIsto é uma pedra, favor não ingerir. Nossos produtos não são testados em Ecaflips e Kilorfs. Não contém álcool. Não contém óleo de palma.",
-    "ability": "{{spell,14934,1::Korpris}}:\n• O portador ganha 200 de esquiva no primeiro turno, 100 no segundo e 50 no terceiro."
+    "ability": "Korpris:\n• O portador ganha 200 de esquiva no primeiro turno, 100 no segundo e 50 no terceiro."
   },
   {
     "ankama_id": 22018,
@@ -168304,7 +168304,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217028-128.png",
     "description": "Esta prismaradita vai deixar você com um ar insolente sem ter que abrir mão da sua situação privilegiada.",
-    "ability": "{{spell,14939,1::Carapris}}:\n• O portador concede 15% de resistência a suas invocações no primeiro turno, 10% no segundo e 5% no terceiro."
+    "ability": "Carapris:\n• O portador concede 15% de resistência a suas invocações no primeiro turno, 10% no segundo e 5% no terceiro."
   },
   {
     "ankama_id": 22019,
@@ -168341,7 +168341,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217029-128.png",
     "description": "Esta prismaradita fará você passar por experiências loucas com o desaparecimento temporário. Imagine a cara de decepção da sua sogra, por exemplo, quando ela vir você reaparecer.",
-    "ability": "{{spell,14940,1::Prismaparecido}}:\n• O portador fica invisível durante 1 turno no começo de seu primeiro turno de jogo. A invisibilidade não se dissipa quando ele ataca, mas é retirada quando ele sofre danos."
+    "ability": "Prismaparecido:\n• O portador fica invisível durante 1 turno no começo de seu primeiro turno de jogo. A invisibilidade não se dissipa quando ele ataca, mas é retirada quando ele sofre danos."
   },
   {
     "ankama_id": 22020,
@@ -168372,7 +168372,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217030-128.png",
     "description": "Esta prismaradita desencantadora é perfeita para você treinar no Koliseu depois de pegar pesado na noite anterior. Seu bafo de Porkasso inclusive vai ser um aliado no combate aproximado.",
-    "ability": "{{spell,14941,1::Prismencanto}}:\n• O portador reduz em 4 turnos a duração dos efeitos ativos sobre ele no começo de seu primeiro turno de jogo."
+    "ability": "Prismencanto:\n• O portador reduz em 4 turnos a duração dos efeitos ativos sobre ele no começo de seu primeiro turno de jogo."
   },
   {
     "ankama_id": 22021,
@@ -168403,7 +168403,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217031-128.png",
     "description": "Esta prismaradita é perfeita para as almas sensíveis que perceberam que as tarefas perigosas podem ser delegadas aos Iops.",
-    "ability": "{{spell,14943,1::Pristeção}}:\n• O portador aumenta as curas recebidas pelos combatentes aliados em 10% durante seu turno de jogo no primeiro turno, em 35% no segundo e em 50% no terceiro."
+    "ability": "Pristeção:\n• O portador aumenta as curas recebidas pelos combatentes aliados em 10% durante seu turno de jogo no primeiro turno, em 35% no segundo e em 50% no terceiro."
   },
   {
     "ankama_id": 22022,
@@ -168458,7 +168458,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217032-128.png",
     "description": "Esta prismaradita é perfeita para caracóis e lesmas. Não é uma metáfora.",
-    "ability": "{{spell,14945,1::Prismeiros}}:\n• O portador ganha 200% de seu nível em escudo até o fim do combate no começo do primeiro turno de jogo de cada combatente inimigo que jogar antes dele."
+    "ability": "Prismeiros:\n• O portador ganha 200% de seu nível em escudo até o fim do combate no começo do primeiro turno de jogo de cada combatente inimigo que jogar antes dele."
   },
   {
     "ankama_id": 22023,
@@ -168489,7 +168489,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217033-128.png",
     "description": "Esta prismaradita protege os introvertidos de aglomerações.",
-    "ability": "{{spell,14948,1::Priximidade}}:\n• O portador ganha 2% de danos corpo a corpo durante 3 turnos para cada combatente inimigo a até 3 células dele no começo e no fim de seu primeiro turno."
+    "ability": "Priximidade:\n• O portador ganha 2% de danos corpo a corpo durante 3 turnos para cada combatente inimigo a até 3 células dele no começo e no fim de seu primeiro turno."
   },
   {
     "ankama_id": 22024,
@@ -168550,7 +168550,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217034-128.png",
     "description": "Esta prismaradita vai cair no gosto daqueles aventureiros que são incapazes de tomar a iniciativa.",
-    "ability": "{{spell,14949,1::Primune}}:\n• O portador reduz todo tipo de dano sofrido em 80% no primeiro turno."
+    "ability": "Primune:\n• O portador reduz todo tipo de dano sofrido em 80% no primeiro turno."
   },
   {
     "ankama_id": 22025,
@@ -168581,7 +168581,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217035-128.png",
     "description": "Esta prismaradita é um chumbo. Para uma coisinha tão pequena, é difícil de acreditar. Lembra certas pessoas.",
-    "ability": "{{spell,14950,1::Prisada}}:\n• O portador fica no estado Gravidade contanto que não tenha sofrido danos. Se tiver sofrido, a duração do estado passa a ser de 1 turno."
+    "ability": "Prisada:\n• O portador fica no estado Gravidade contanto que não tenha sofrido danos. Se tiver sofrido, a duração do estado passa a ser de 1 turno."
   },
   {
     "ankama_id": 22027,
@@ -170130,7 +170130,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/19081-128.png",
     "description": "\"Quando o príncipe de Brakmar e o rei de Bonta trespassaram um ao outro, espalhando entranhas no solo avermelhado, senti uma grande satisfação. Assim se encerrava a guerra entre as duas cidades, em meio a uma montanha de cadáveres! Era uma cena de grande beleza. Enquanto os gritos dos Corvocs se misturavam às lamúrias dos agonizantes, fui levada por uma nostalgia. Lembranças comoventes da primeira Aurora Púrpura me vieram à memória. A investida dos cavaleiros de karne, a decapitação de Menalt, o golpe teatral orquestrado por Raval... Era o início de um conflito mortífero e edificante, que me deixou vidrada por quase mil anos! Hoje desceu a cortina. Mas o espetáculo deve continuar... Sempre haverá outras batalhas.\"\n\n- Guerra",
-    "ability": "{{spell,15739,1::Guerra de Posição}}:\n• No final de cada turno, o portador retira 2 PM dos inimigos em contato com ele durante 1 turno (acumula até 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PM até o fim do combate (acumula até 5 vezes).",
+    "ability": "Guerra de Posição:\n• No final de cada turno, o portador retira 2 PM dos inimigos em contato com ele durante 1 turno (acumula até 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PM até o fim do combate (acumula até 5 vezes).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -170251,7 +170251,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17454-128.png",
     "description": "\"Como é agradável sentir esse perfume de desespero no ar... Mercenários, antes tão altivos, tão valentes, tão... arrogantes. Observem como vocês, com o rosto coberto de lágrimas, atiram seus entes queridos na vala comum. Relações, promessas, sentimentos... Tudo varrido pela loucura que rasteja debaixo da sua pele. Tem coisa mais saborosa que ver o terror e a repugnância surgirem no olhar dos seus irmãos ao menor sinal da sua própria pestilência? Trema, Astrub... Implore aos seus deuses, esses impostores que nada podem fazer por você... A gangrena que vocês tanto temem... não vem do céu... mas de cada um de vocês.\"\n\n- Corrupção",
-    "ability": "{{spell,15975,1::Nuvem Pestilenta}}:\n• Quando o portador volta a ter 90% da vida, ele aplica um veneno de início de turno de 18 em seu melhor elemento de ataque aos inimigos a até 2 células dele por 2 turnos (acumula até 1 vez)."
+    "ability": "Nuvem Pestilenta:\n• Quando o portador volta a ter 90% da vida, ele aplica um veneno de início de turno de 18 em seu melhor elemento de ataque aos inimigos a até 2 células dele por 2 turnos (acumula até 1 vez)."
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170360,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10343-128.png",
     "description": "\"Olhem para vocês, altivos Kanigs, escravizados pelos seus inimigos... Que decadência! Vocês poderiam ter erigido um verdadeiro império se não fossem tão fracos. Houve um tempo em que vocês tinham sonhos de glória e conquista, em que os prisioneiros trabalhavam nas suas pedreiras sob o estalo dos chicotes... Mas, de senhor a escravo, às vezes basta um passo. Curvando-se com o peso das correntes, rastejando na lama como larvas, vocês esqueceram quem são. Vocês são patéticos. Quando sua matriarca morrer, seu destino estará cumprido. Seu sacrifício será menos vão que sua existência... pois ele mudará a História.\"\n\n- Servidão",
-    "ability": "{{spell,15984,1::Ferros da Tirania}}:\n• No final de cada turno, o portador atrai entidades a até 3 células alinhadas a ele. Se não houver nenhuma entidade em contato com ele, ele ficará Irremovível até o início de seu próximo turno. O estado será retirado se ele sofrer danos."
+    "ability": "Ferros da Tirania:\n• No final de cada turno, o portador atrai entidades a até 3 células alinhadas a ele. Se não houver nenhuma entidade em contato com ele, ele ficará Irremovível até o início de seu próximo turno. O estado será retirado se ele sofrer danos."
   },
   {
     "ankama_id": 22444,
@@ -170469,7 +170469,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4138-128.png",
     "description": "\"Está ouvindo as lamúrias carregadas pelo vento, os grunhidos dos Troolgloditas e o roncar de ventres famintos? É uma sinfonia tão doce para os meus ouvidos... O deserto ganha terreno. Ele avança, duna a duna. Os grãos de areia substituem os grãos de trigo. Os poços secam. Os pratos se esvaziam. Os Cacterras murcham. Em breve, as terras férteis serão um mero conto que embalará as esperanças vãs de crianças raquíticas no lusco-fusco. Em breve, eu retomarei Espetárida por inteiro... Essa terra finalmente será minha.\"\n\n- Miséria",
-    "ability": "{{spell,15996,1::Prova da Balança}}:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula até 4 vezes).\n• Os efeitos não podem ser acionados pelo portador.",
+    "ability": "Prova da Balança:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula até 4 vezes).\n• Os efeitos não podem ser acionados pelo portador.",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 3,
@@ -170530,7 +170530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23032-128.png",
     "description": "Assim como a lua se cobre com o véu das nuvens escuras da noite, a mais intensa das luzes muitas vezes se esconde na mais preta das tintas.",
-    "ability": "{{spell,17006,1::Rio de Tinta}}:\n• Ao final de cada turno nos 4 primeiros turnos, o portador e suas invocações ganham até 16 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador ataca um inimigo durante seu turno:\n• Nenhum ataque: 16 de danos.\n• 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos."
+    "ability": "Rio de Tinta:\n• Ao final de cada turno nos 4 primeiros turnos, o portador e suas invocações ganham até 16 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador ataca um inimigo durante seu turno:\n• Nenhum ataque: 16 de danos.\n• 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos."
   },
   {
     "ankama_id": 23248,
@@ -172654,7 +172654,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23033-128.png",
     "description": "Dizem que cada uma das milhares de dobraduras do Dorigami esconde um mistério, o reflexo de uma mentira ou verdade com brilho doloroso e pureza ofuscante, assim como as facetas de um diamante de papel.",
-    "ability": "{{spell,17307,1::Tigre de Papel}}:\n• A cada início de turno nos 5 primeiros turnos, o portador ganha 100% de seu nível em escudo durante 1 turno.\n• Nesses 5 primeiros turnos, se o portador eliminar um inimigo durante seu turno de jogo, ele ganhará um escudo durante 2 turnos de acordo com a natureza do inimigo:\n• Invocação: 100% de seu nível em escudo (acumula até 4 vezes).\n• Combatente: 300% de seu nível em escudo (acumula até 2 vezes)."
+    "ability": "Tigre de Papel:\n• A cada início de turno nos 5 primeiros turnos, o portador ganha 100% de seu nível em escudo durante 1 turno.\n• Nesses 5 primeiros turnos, se o portador eliminar um inimigo durante seu turno de jogo, ele ganhará um escudo durante 2 turnos de acordo com a natureza do inimigo:\n• Invocação: 100% de seu nível em escudo (acumula até 4 vezes).\n• Combatente: 300% de seu nível em escudo (acumula até 2 vezes)."
   },
   {
     "ankama_id": 23501,
@@ -178232,7 +178232,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "\"A noite é escura para que nada possa nos distrair dos nossos pesadelos\": essas foram as palavras do jovem Kilvan antes de cair no sono, agarrado a seu Tigraxé de pelúcia.\nPor que a noite é tão sombria? Porque ela esconde todos os medos e todos os mistérios da noite eterna. Medos pálidos, brasas vermelhas e glifos acobreados se unem no berço do bem e do mal, origem de um conflito eternamente renovado.",
-    "ability": "{{spell,20981,1::Eterno Pesadelo}}:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno.\n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno."
+    "ability": "Eterno Pesadelo:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno.\n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno."
   },
   {
     "ankama_id": 26085,
@@ -191727,7 +191727,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23036-128.png",
     "description": "O fruto do sacrifício espalha as sementes da renovação. Dolorosa metamorfose, cura natural ou simples passagem do tempo, o fim do interminável inverno é sempre um milagre.",
-    "ability": "{{spell,28516,1::Guarda Campestre}}:\n• O portador ganha 8 de potência durante 2 turnos para cada PM que ele utilizar.\n• Se ele não tiver usado PM durante seu turno, ele será curado em 8% da vida."
+    "ability": "Guarda Campestre:\n• O portador ganha 8 de potência durante 2 turnos para cada PM que ele utilizar.\n• Se ele não tiver usado PM durante seu turno, ele será curado em 8% da vida."
   },
   {
     "ankama_id": 29430,
@@ -197567,7 +197567,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23039-128.png",
     "description": "\"Bzlobz zovobz. Zovobz zzpzzzalbz. Kazzbz zovobz dragaobz!\"\n\n— Raznhabz Alzktabz",
-    "ability": "{{spell,31607,1::Eclosão Explosiva}}:\n• Quando uma invocação do portador é atacada, ele recebe 1% de danos finais por 2 turnos (acumula até 10 vezes).\n• Se ela for eliminada por um inimigo, o portador inflige 10 de danos em seu melhor elemento aos inimigos em um círculo de tamanho 2 ao redor dela."
+    "ability": "Eclosão Explosiva:\n• Quando uma invocação do portador é atacada, ele recebe 1% de danos finais por 2 turnos (acumula até 10 vezes).\n• Se ela for eliminada por um inimigo, o portador inflige 10 de danos em seu melhor elemento aos inimigos em um círculo de tamanho 2 ao redor dela."
   },
   {
     "ankama_id": 31796,
@@ -198324,7 +198324,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16869-128.png",
     "description": "\"A vantagem de administrar uma cidade como Brakmar é que ninguém nem liga mais quando alguns indivíduos desaparecem de repente. Como é bom poder dar vazão aos seus impulsos sem ter que ficar se justificando! De toda forma, o sujeito que tiver a audácia de me enfrentar vai terminar dentro do vulcão.\"\n\n– Oto Mustam",
-    "ability": "{{spell,31856,1::Ímpeto da Cidade Sombria}}:\n• No começo de cada turno, o portador e seus aliados ganham 1% de danos finais durante 1 turno para cada combatente inimigo vivo (acumula até 4 vezes)."
+    "ability": "Ímpeto da Cidade Sombria:\n• No começo de cada turno, o portador e seus aliados ganham 1% de danos finais durante 1 turno para cada combatente inimigo vivo (acumula até 4 vezes)."
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198385,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82553-128.png",
     "description": "\"Você está diante de um destino terrível, não é?\"\n\nO Prisioneiro do Espelho",
-    "ability": "{{spell,31857,1::Reflexo Cegante}}:\n• O portador reduz e reflete 75% dos danos iniciais do primeiro ataque aliado sofrido ao inimigo mais próximo dele em sua linha de visão (uma vez por turno).\n• No fim de cada turno, ele retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula até 1 vez)."
+    "ability": "Reflexo Cegante:\n• O portador reduz e reflete 75% dos danos iniciais do primeiro ataque aliado sofrido ao inimigo mais próximo dele em sua linha de visão (uma vez por turno).\n• No fim de cada turno, ele retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula até 1 vez)."
   },
   {
     "ankama_id": 32116,
@@ -198476,7 +198476,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/183011-128.png",
     "description": "\"Aqui, nós ficaremos de pé e lutaremos. Não haverá outra retirada. Somos os Corações Valentes, orgulhosos membros da Ordem do Trovão, a linha de frente da gloriosa Bonta! Vamos ficar aqui e lutar. E, se não pudermos ficar aqui vivos, então ficaremos aqui mortos!\"\n\n– Menalt, Protetor de Martalo e mestre da Ordem do Coração Valente",
-    "ability": "{{spell,31859,1::Ordem do Trovão}}:\n• O portador ganha 6 de danos de empurrão durante 2 turnos para cada PM que usa.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula 1 vez).",
+    "ability": "Ordem do Trovão:\n• O portador ganha 6 de danos de empurrão durante 2 turnos para cada PM que usa.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula 1 vez).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -198585,7 +198585,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/22014-128.png",
     "description": "\"Não precisa fazer reverências diante de mim. Quando estamos diante da Morte, não há mais protocolo, hipocrisia, mentiras: só resta a verdade. Nua, cruel, dolorosa... e libertadora.\"\n\n– Tanatena, rainha de Externam",
-    "ability": "{{spell,31860,1::Julgamento de Tanatena}}:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula até 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. As curas são de 5% da vida dele se for uma invocação.",
+    "ability": "Julgamento de Tanatena:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula até 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. As curas são de 5% da vida dele se for uma invocação.",
     "ap_cost": 5,
     "crit_chance": 20,
     "crit_bonus": 4,
@@ -198676,7 +198676,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1330-128.png",
     "description": "\"Ó querido amor, como eu anseio pelos nossos enlaces! Minhas aventuras recentes me deixaram esgotada, e uma pausinha me faria muito bem. Mal posso esperar para conhecer seu amigo dragão! Eu imagino vocês implicando um com o outro que nem crianças. Isso me diverte muito.\nAté muito breve, sua Sefina que te ama.\"\n\n– Helsefina, mágica e alquimista iop",
-    "ability": "{{spell,31861,1::Amor de Helsefina}}:\n• Ao aplicar escudo ou infligir danos corpo a corpo, o portador cura 6% da vida dos aliados a até 3 células ao redor de si (uma vez por tipo de acionamento por turno)."
+    "ability": "Amor de Helsefina:\n• Ao aplicar escudo ou infligir danos corpo a corpo, o portador cura 6% da vida dos aliados a até 3 células ao redor de si (uma vez por tipo de acionamento por turno)."
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198755,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9392-128.png",
     "description": "\"Pronto, bem na hora, como sempre! Vai logo, eu tenho exatamente cinco minutos pra te dar. O Relógio Divino não espera.\"\n\n– Henual",
-    "ability": "{{spell,31862,1::Pontualidade de Henual}}:\n• O portador ganha 1 PA quando é teletransportado, se teletransporta ou troca de posição (1 vez por turno).\n• Se ele não tiver sofrido nada no turno anterior, é teletransportado para sua posição anterior no início do seu turno."
+    "ability": "Pontualidade de Henual:\n• O portador ganha 1 PA quando é teletransportado, se teletransporta ou troca de posição (1 vez por turno).\n• Se ele não tiver sofrido nada no turno anterior, é teletransportado para sua posição anterior no início do seu turno."
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198864,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11382-128.png",
     "description": "\"Percorremos um longo caminho juntos, mas a vitória é sua. Os Doze apenas mostraram o caminho para você... Nos veremos em breve, Escolhido dos Deuses. Sua história está só começando.\"\n\n– Meriana",
-    "ability": "{{spell,31858,1::Clarividência de Meriana}}:\n• Quando o portador inflige danos elementares, ele ganha Retirada de acordo com o elemento durante 2 turnos (acumula até 8 vezes, repartido entre os efeitos):\n• Terra e água: 5 de retirada de PM\n• Fogo e ar: 5 de retirada de PA"
+    "ability": "Clarividência de Meriana:\n• Quando o portador inflige danos elementares, ele ganha Retirada de acordo com o elemento durante 2 turnos (acumula até 8 vezes, repartido entre os efeitos):\n• Terra e água: 5 de retirada de PM\n• Fogo e ar: 5 de retirada de PA"
   },
   {
     "ankama_id": 32163,
@@ -198973,7 +198973,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6760-128.png",
     "description": "\"Para defender os valores de Bonta, é preciso ter uma mente afiada como uma navalha e um corpo forte.\"\n\n– Amayiro",
-    "ability": "{{spell,31880,1::Fervor da Cidade Branca}}:\n• No começo de cada turno, o portador e seus aliados ganham 1% de resistência durante 1 turno para cada combatente inimigo vivo (acumula até 4 vezes).",
+    "ability": "Fervor da Cidade Branca:\n• No começo de cada turno, o portador e seus aliados ganham 1% de resistência durante 1 turno para cada combatente inimigo vivo (acumula até 4 vezes).",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -199010,7 +199010,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219012-128.png",
     "description": "Esta prismaradita é um chumbo. Para uma coisinha tão pequena, é difícil de acreditar. Lembra certas pessoas.",
-    "ability": "{{spell,31881,1::Indepris}}:\n• O portador fica Irremovível contanto que não tenha sofrido danos. Se tiver sofrido, a duração do estado passa a ser de 1 turno."
+    "ability": "Indepris:\n• O portador fica Irremovível contanto que não tenha sofrido danos. Se tiver sofrido, a duração do estado passa a ser de 1 turno."
   },
   {
     "ankama_id": 32201,

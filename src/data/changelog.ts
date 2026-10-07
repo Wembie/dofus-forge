@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.46',
+    date: '2026-10-06',
+    notes: [
+      'Fix: some items showed raw unresolved text markup in their special ability description instead of a clean name',
+    ],
+  },
+  {
     version: '0.3.45',
     date: '2026-10-06',
     notes: [

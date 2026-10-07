@@ -5025,7 +5025,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23001-128.png",
     "description": "Der Purpur-Dofus wurde vom Drachen des Feuers, Ignemikhal, erschaffen. Er riecht ziemlich stark nach Schwefel, doch es mischen sich auch noch andere Aromen hinein, sodass ein wahres Geruchserlebnis entsteht ...",
-    "ability": "{{spell,8395,1::Purpurrot}}:\n• Wenn der Träger angegriffen wird, erhöht sich sein Endschaden 2 Runden lang um 1 % (10-mal kumulierbar)."
+    "ability": "Purpurrot:\n• Wenn der Träger angegriffen wird, erhöht sich sein Endschaden 2 Runden lang um 1 % (10-mal kumulierbar)."
   },
   {
     "ankama_id": 696,
@@ -5704,7 +5704,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23002-128.png",
     "description": "Dieser Smaragd-Dofus ist noch grüner als ein kranker Tofu. Das Ei wurde von Aerafal, dem Luftdrachen gelegt. Doch damit es so grün wurde, muss dieser ganz schön luftkrank gewesen sein ... Der Gipfel der Seltsamkeit, nicht wahr?",
-    "ability": "{{spell,8393,1::Smaragdgrün}}:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
+    "ability": "Smaragdgrün:\n• Am Rundenende erhält der Träger 1 Runde lang für jeden Gegner in Reichweite 100 % seiner Stufe als Schild. Handelt es sich beim Gegner um eine Beschwörung, werden die Wirkungen um die Hälfte verringert."
   },
   {
     "ankama_id": 739,
@@ -5741,7 +5741,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23003-128.png",
     "description": "Der Türkis-Dofus wurde von Aguabrial, dem Drachen des Wassers, erschaffen. Schon verrückt, was ein Drache alles mit Wasser machen kann, nicht wahr?",
-    "ability": "{{spell,5952,1::Türkisblau}}:\n• Wenn der Träger einen kritischen Treffer landet, erhöht sich sein Endschaden 3 Runden lang um 1 % (10-mal kumulierbar)."
+    "ability": "Türkisblau:\n• Wenn der Träger einen kritischen Treffer landet, erhöht sich sein Endschaden 3 Runden lang um 1 % (10-mal kumulierbar)."
   },
   {
     "ankama_id": 742,
@@ -8529,7 +8529,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17251-128.png",
     "description": "Dieser Umhang gehört ohne Zweifel zu den mächtigsten der ganzen Welt. Es verstärkt alle Elementarattribute seines Trägers.",
-    "ability": "{{spell,7331,1::Segen der Dofus}}:\n• Erhöht pro Runde eine Elementareigenschaft des Trägers:\n • <sprite name=\"eau\"> 400 Glück -> <sprite name=\"terre\"> 400 Stärke -> <sprite name=\"air\"> 400 Flinkheit -> <sprite name=\"feu\"> 400 Intelligenz"
+    "ability": "Segen der Dofus:\n• Erhöht pro Runde eine Elementareigenschaft des Trägers:\n • <sprite name=\"eau\"> 400 Glück -> <sprite name=\"terre\"> 400 Stärke -> <sprite name=\"air\"> 400 Flinkheit -> <sprite name=\"feu\"> 400 Intelligenz"
   },
   {
     "ankama_id": 967,
@@ -8814,7 +8814,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23006-128.png",
     "description": "Hätte dieses Ei wirklich ein Drache gelegt, wäre er sicherlich sehr nett. Auf jeden Fall netter als der Wa Wabbit, der sich des Eis bedient, um Abenteurer auf seine Insel zu locken und ihnen dann ihre Ausrüstung und gleichzeitig ihren Stolz zu nehmen. Auf so eine raffinierte und günstige Möglichkeit, immer an die neuesten Ausrüstungssets zu gelangen, ohne die eigenen vier Wände zu verlassen, muss man erst einmal kommen.",
-    "ability": "{{spell,8418,1::Weisheit des Wabbits}}:\n• Wenn ein Gegner versucht, dem Träger AP oder BP zu entziehen, erhält dieser 1 Runde lang 25 Res. gg. AP-Entzug oder 25 Res. gg. BP-Entzug (1-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt)."
+    "ability": "Weisheit des Wabbits:\n• Wenn ein Gegner versucht, dem Träger AP oder BP zu entziehen, erhält dieser 1 Runde lang 25 Res. gg. AP-Entzug oder 25 Res. gg. BP-Entzug (1-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt)."
   },
   {
     "ankama_id": 976,
@@ -34061,7 +34061,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23004-128.png",
     "description": "Die Gerüchte, die sich um den Dofus Vulbis ranken, sind wirklich erschreckend. Man sagt, dass der Drache, der dieses rubinrote Ei erschaffen hat, erbarmungsloser sei als der Tod selbst und seine Opfer verschlinge, um seinen unersättlichen Appetit zu stillen. Legende oder Wahrheit? Das wissen nur Helden, die sowohl unerschrocken als auch schwer verdaulich sind.",
-    "ability": "{{spell,8396,1::Leuchtend Rot}}:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhöht sich sein Endschaden jeweils zu Rundenbeginn um 10 %. Ansonsten erhält er 20 Blocken."
+    "ability": "Leuchtend Rot:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhöht sich sein Endschaden jeweils zu Rundenbeginn um 10 %. Ansonsten erhält er 20 Blocken."
   },
   {
     "ankama_id": 6981,
@@ -36163,7 +36163,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23008-128.png",
     "description": "Wie ein Gedicht aus schwarzer Tinte und weißem Papier wurde dieser Dofus aus einer Insel und einem Drachen geboren. Ist er vielleicht nur ein Traum, ein Paradoxon, eine trügerische Spiegelung? Ganz im Gegenteil. Er ist die Frucht zweier Welten und Symbol ihrer Vereinigung. Durch ihn betrachtet euch der Krosmoz ... oder verschlingt euch.",
-    "ability": "{{spell,18888,1::Harmonie von Pandala}}:\n• Wenn der Träger während seiner Runde Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23408::Dorigami}} bei sich tragen, 1 Runde lang 20 Schaden (1-mal kumulierbar).\n• Wenn er keinen Schaden verursacht, erhalten er und seine Verbündeten, die einen {{item,23237::Domakuro}} bei sich tragen, 1 Runde lang 100 % seiner Stufe als Schild."
+    "ability": "Harmonie von Pandala:\n• Wenn der Träger während seiner Runde Schaden verursacht, erhalten er und seine Verbündeten, die einen Dorigami bei sich tragen, 1 Runde lang 20 Schaden (1-mal kumulierbar).\n• Wenn er keinen Schaden verursacht, erhalten er und seine Verbündeten, die einen Domakuro bei sich tragen, 1 Runde lang 100 % seiner Stufe als Schild."
   },
   {
     "ankama_id": 7113,
@@ -36224,7 +36224,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23007-128.png",
     "description": "Düster wie die tiefste Finsternis und hart wie ein Fels hatte der schwarze Drache Grougalorasalar den Ebenholz-Dofus erschaffen, auf dass er ihm Gesellschaft leiste. Ihm war schlichtweg entfallen, dass ein Ei – sei es auch ein magisches – nicht sprechen kann.",
-    "ability": "{{spell,18629,1::Ebenholzschwarz}}:\n• Wenn der Träger während seiner Runde einen Nahkampfangriff ausführt, erhöht sich sein Fernkampfschaden 3 Runden lang um 2 %, und wenn er einen Fernkampfangriff ausführt, erhöht sich sein Nahkampfschaden 3 Runden lang um 2 % (5-mal kumulierbar).\n• Werden beide Wirkungen in derselben Runde ausgelöst, kann der Träger beim nächsten Angriff ein Gift anwenden, das 2 Runden lang 16 Schaden in seinem Element verursacht (2-mal kumulierbar).\n• Die Abklingzeit des Gifts beträgt 2 Runden, sie kann aber zurückgesetzt werden, wenn das Ziel besiegt wird."
+    "ability": "Ebenholzschwarz:\n• Wenn der Träger während seiner Runde einen Nahkampfangriff ausführt, erhöht sich sein Fernkampfschaden 3 Runden lang um 2 %, und wenn er einen Fernkampfangriff ausführt, erhöht sich sein Nahkampfschaden 3 Runden lang um 2 % (5-mal kumulierbar).\n• Werden beide Wirkungen in derselben Runde ausgelöst, kann der Träger beim nächsten Angriff ein Gift anwenden, das 2 Runden lang 16 Schaden in seinem Element verursacht (2-mal kumulierbar).\n• Die Abklingzeit des Gifts beträgt 2 Runden, sie kann aber zurückgesetzt werden, wenn das Ziel besiegt wird."
   },
   {
     "ankama_id": 7115,
@@ -36285,7 +36285,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23011-128.png",
     "description": "Der Elfenbein-Dofus erstrahlt in einem unvergleichlichen Weiß, das nur erhalten bleibt, weil es jeden Morgen dem Atem des weißen Drachen Dardondakal ausgesetzt ist, der eine starke Bleichwirkung hat (den hat er wohl von seiner Großmutter geerbt).",
-    "ability": "{{spell,18665,1::Elfenbeinweiß}}:\n• Bei jedem fünften Angriff des Trägers reduziert sich der Schaden um 50 %. Die Wirkungen von „Abfangen“ und „Schadensteilung“ sind damit nicht kompatibel."
+    "ability": "Elfenbeinweiß:\n• Bei jedem fünften Angriff des Trägers reduziert sich der Schaden um 50 %. Die Wirkungen von „Abfangen“ und „Schadensteilung“ sind damit nicht kompatibel."
   },
   {
     "ankama_id": 7116,
@@ -43629,7 +43629,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23012-128.png",
     "description": "Dieser Dofus – eine Schöpfung von Terrakourial, dem Drachen der Erde – birgt eine gewaltige Macht, die nicht in die falschen Hände gelangen sollte ... Wenn man es recht bedenkt, auch nicht in die falschen Füße.",
-    "ability": "{{spell,8394,1::Ockergelb}}:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhält er jeweils zu Rundenbeginn 1 AP. Ansonsten erhält er 20 Ausweichen."
+    "ability": "Ockergelb:\n• Wenn der Träger seit seiner letzten Spielrunde nicht von einem Gegner angegriffen wurde, erhält er jeweils zu Rundenbeginn 1 AP. Ansonsten erhält er 20 Ausweichen."
   },
   {
     "ankama_id": 7880,
@@ -60060,7 +60060,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23016-128.png",
     "description": "Dieser Dofus ist aus Khalbragons Liebe für die Priesterin Methea entstanden und steckt voller Nostalgie. Wer ihn zu lange betrachtet, kann nicht umhin, einige Tränen zu vergießen. Das ist dem Image des hartgesottenen Abenteurers mit einem Herz aus Stein natürlich gar nicht zuträglich.",
-    "ability": "{{spell,5454,1::Nebulöser Traum}}:\n• In ungeraden Runden opfert der Träger 10 % Endheilung und erhält dafür 20 % Endschaden zusätzlich.\n• In geraden Runden opfert er 10 % Endschaden und erhält dafür 20 % Endheilung zusätzlich."
+    "ability": "Nebulöser Traum:\n• In ungeraden Runden opfert der Träger 10 % Endheilung und erhält dafür 20 % Endschaden zusätzlich.\n• In geraden Runden opfert er 10 % Endschaden und erhält dafür 20 % Endheilung zusätzlich."
   },
   {
     "ankama_id": 8699,
@@ -136315,7 +136315,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23020-128.png",
     "description": "Dieser Dofus wurde anhand der schwammigen Erinnerungen an ein echtes Drachenei kreiert. Wer ihn berührt, erinnert sich plötzlich wieder an Dinge, die er schon lange vergessen glaubte. Es ist, als hätte man in eine von Marcel Rousts Madeleines gebissen: ihr erinnert euch an eure Ankunft in Incarnam, das erste Fresssäckchen, das ihr getötet habt ... Ah, das waren noch Zeiten.",
-    "ability": "{{spell,5453,1::Dimensionswache}}:\n• Wenn der Träger seine Runde beendet, heilt er die mit ihm in einer Linie stehenden Verbündeten um 7 % ihrer LP."
+    "ability": "Dimensionswache:\n• Wenn der Träger seine Runde beendet, heilt er die mit ihm in einer Linie stehenden Verbündeten um 7 % ihrer LP."
   },
   {
     "ankama_id": 16116,
@@ -140084,7 +140084,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23022-128.png",
     "description": "Die Kannibälle sind überzeugt, dass sich hinter Moons Baum eigentlich ein schlafender Drache verbirgt: Der vom Mond herabgestiegene Unsterbliche habe sich in eine große Kokospalme verwandelt, um einer Prinzessin, der schrecklich heiß war, etwas Schatten zu spenden. Danach sei er in dieser Form eingeschlafen ... Dann wäre ja die Dokoko, die Frucht von Moons Baum, ein echter Dofus? Irgendwie erscheint diese Geschichte nicht ganz plausibel.",
-    "ability": "{{spell,6149,1::Der Affe und der Mond}}:\n• Ab der 3. Runde wird der Träger alle 3 Runden um 10 % seiner LP geheilt."
+    "ability": "Der Affe und der Mond:\n• Ab der 3. Runde wird der Träger alle 3 Runden um 10 % seiner LP geheilt."
   },
   {
     "ankama_id": 17079,
@@ -149491,7 +149491,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23023-128.png",
     "description": "Offiziellen Quellen zufolge soll dieser ungewöhnlich aussehende Dofus von Steamern aus Sufokia geschaffen worden sein. Das bedeutet wohl, dass es sich nicht um ein echtes Drachenei handelt. Zumindest wollen uns die Behörden das glauben machen ... Denn wer weiß schon, was sich wirklich in den Abgründen verbirgt?",
-    "ability": "{{spell,6828,1::Abstieg in die Untiefen}}:\n• Wenn sich kein Gegner in Reichweite befindet, erhält der Träger jeweils zu Rundenbeginn 1 BP. Ansonsten erhält er 1 AP."
+    "ability": "Abstieg in die Untiefen:\n• Wenn sich kein Gegner in Reichweite befindet, erhält der Träger jeweils zu Rundenbeginn 1 BP. Ansonsten erhält er 1 AP."
   },
   {
     "ankama_id": 18088,
@@ -160962,7 +160962,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23024-128.png",
     "description": "Dieser Dofus sieht zwar etwas speziell aus, ist aber garantiert ein echtes Drachenei. Viel zu schade also, um ihn zu verpfänden. Außerdem hält er euch in langen, kalten Winternächten warm und erleichtert es euch im Sommer, den Grill anzuheizen. Heuschobern oder Reisigbündeln solltet ihr damit besser nicht zu nahe kommen, sonst könnte es sein, dass ihr bald einen Ruf als gefährlicher Brandstifter genießt.",
-    "ability": "{{spell,10164,1::Vulkanschmiede}}:\n• Der Träger erhält entsprechend den Wirkungen, die durch einen Gegner ausgelöst wurden, 100 % seiner Stufe als Schild (1 Mal pro Wirkungsart und Runde):\n • Schubsschaden\n • Anziehung oder Schubsen\n • Positionstausch, Teleportation oder Teleportal\n • Tragen durch Pandawa"
+    "ability": "Vulkanschmiede:\n• Der Träger erhält entsprechend den Wirkungen, die durch einen Gegner ausgelöst wurden, 100 % seiner Stufe als Schild (1 Mal pro Wirkungsart und Runde):\n • Schubsschaden\n • Anziehung oder Schubsen\n • Positionstausch, Teleportation oder Teleportal\n • Tragen durch Pandawa"
   },
   {
     "ankama_id": 19415,
@@ -163099,7 +163099,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23025-128.png",
     "description": "Dieses Ei, das vom grauen Drachen Rattatrosk erschaffen wurde, ist ein echtes Rätsel. Seine Macht reicht zwar nicht an die eines Ur-Dofus heran, doch es scheint älter als die Zeit selbst zu sein ... Ihr solltet gut darauf aufpassen. Schließlich wissen nur die Nohrden und der Gott Xélor, was die Zukunft bringt.",
-    "ability": "{{spell,18674,1::Silbernes Souvenir}}:\n• Wenn der Träger weniger als 20 % seiner Lebenspunkte besitzt, wird er zu Beginn seiner nächsten Runde um 20 % seiner LP geheilt (1-mal pro Kampf)."
+    "ability": "Silbernes Souvenir:\n• Wenn der Träger weniger als 20 % seiner Lebenspunkte besitzt, wird er zu Beginn seiner nächsten Runde um 20 % seiner LP geheilt (1-mal pro Kampf)."
   },
   {
     "ankama_id": 19637,
@@ -164174,7 +164174,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23027-128.png",
     "description": "Als der Drache Rattatrosk den Silberdofus erschuf, bevor die Welt der Zwölf überhaupt existierte, geschah ein Wunder: der erste Phönix erwachte wieder zum Leben. Seitdem ist viel Zeit vergangen. Götter sind verschwunden und Sterne sind erloschen. Doch das Ei, das ihr in den Händen haltet, erstrahlt wie einst im Licht von Tausend Sternen ... wie eine verlorene Liebe, deren Feuer erneut entfacht wird.",
-    "ability": "{{spell,18672,1::Silbernes Versprechen}}:\n• Wenn der Träger weniger als 20 % seiner Lebenspunkte besitzt, wird er um 30 % seiner LP geheilt und erhält zu Beginn seiner nächsten Runde 1 Runde lang 20 % Endschaden (1-mal pro Kampf)."
+    "ability": "Silbernes Versprechen:\n• Wenn der Träger weniger als 20 % seiner Lebenspunkte besitzt, wird er um 30 % seiner LP geheilt und erhält zu Beginn seiner nächsten Runde 1 Runde lang 20 % Endschaden (1-mal pro Kampf)."
   },
   {
     "ankama_id": 20353,
@@ -164277,7 +164277,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6740-128.png",
     "description": "„Einige hundert Kameter vor den Toren der Stadt hatten sich tausende von Crocodylls zusammengerottet. Wir hatten uns auf den Angriff vorbereitet, die Wache hatte sich vollzählig vor dem großen Tor versammelt und die Kriegsmaschinen waren auf den Festungsmauern aufgestellt worden. Der Anblick der riesigen Reptilienarmee war bereits furchterregend, doch als wir IHN erblickten, gefror uns das Blut in den Adern. Crocoburio stand inmitten seiner Soldaten, er überragte sie alle um mehrere Köpfe und hatte sein verfluchtes Schwert drohend in unsere Richtung erhoben. Als sich die grüne Masse in Bewegung setzte, lief ein Schauder durch unsere Reihen und wir wussten, dass die Schlacht, die auf uns zukam, fürchterlich sein würde.“\n\n– Ein Soldat aus Bonta",
-    "ability": "{{spell,11352,1::Appetit von Crocobur}}:\n• Zu Beginn jeder Runde fügt sich der Träger selbst 15 Schaden in seinem besten Angriffselement zu, um Einheiten in Reichweite am Ende seiner Runde durch LP-Diebstahl Schaden in gleicher Höhe zuzufügen. Außerdem werden Angreifer 2 Runden lang um 7 % des getroffenen Gegnern zugefügten Schadens geheilt (1-mal kumulierbar).",
+    "ability": "Appetit von Crocobur:\n• Zu Beginn jeder Runde fügt sich der Träger selbst 15 Schaden in seinem besten Angriffselement zu, um Einheiten in Reichweite am Ende seiner Runde durch LP-Diebstahl Schaden in gleicher Höhe zuzufügen. Außerdem werden Angreifer 2 Runden lang um 7 % des getroffenen Gegnern zugefügten Schadens geheilt (1-mal kumulierbar).",
     "ap_cost": 6,
     "crit_chance": 10,
     "crit_bonus": 7,
@@ -164362,7 +164362,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/5100-128.png",
     "description": "„Ich habe eine Menge Namen und kann mich kaum an alle erinnern. Aber du kannst mich Atroskulda nennen. Ich bin die älteste der drei Nohrden, die erbarmungslos den Faden der Existenz durchtrennt. Alles hat ein Ende, und meine Arbeit besteht darin, sicherzustellen, dass es im richtigen Moment kommt.\n\n– Atroskulda",
-    "ability": "{{spell,11354,1::Schicksalhafte Bestimmung}}:\n• Am Ende jeder Runde teilt der Träger den Schaden auf die Gegner in einem quadratischen Bereich der Größe 1 auf und erhöht den Schaden, den sie erleiden, 2 Runden lang um 6 % (1-mal kumulierbar). Er erhält außerdem 1 Runde lang 10 Blocken pro getroffenem Gegner.",
+    "ability": "Schicksalhafte Bestimmung:\n• Am Ende jeder Runde teilt der Träger den Schaden auf die Gegner in einem quadratischen Bereich der Größe 1 auf und erhöht den Schaden, den sie erleiden, 2 Runden lang um 6 % (1-mal kumulierbar). Er erhält außerdem 1 Runde lang 10 Blocken pro getroffenem Gegner.",
     "ap_cost": 3,
     "crit_chance": 100,
     "crit_bonus": 6,
@@ -164459,7 +164459,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4135-128.png",
     "description": "„Der Trauerzug erstreckt sich im Nebel in einer langen, silbernen Reihe. Alle treten von einem Fuß auf den anderen, schlottern, reiben sich die Hände und klappern mit den Zähnen beim Klang meiner schrillen Geige. Begleitet uns, seid nicht schüchtern! Einen Tanz mit dem Frost lehnt man nicht ab.“\n\n– Brumaire, der Fürst der Finsternis, Beschützer des Novamaire",
-    "ability": "{{spell,12147,1::Kälte von Novamaire}}:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 1 AP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger 1 Runde lang 1 AP (2-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, platziert er eine Aura-Glyphe, die seine Verbündeten im Umkreis von 3 Feldern 1 Runde lang unsichtbar macht.",
+    "ability": "Kälte von Novamaire:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 1 AP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger 1 Runde lang 1 AP (2-mal kumulierbar).\n• Wenn der Träger einen gegnerischen Kämpfer besiegt, platziert er eine Aura-Glyphe, die seine Verbündeten im Umkreis von 3 Feldern 1 Runde lang unsichtbar macht.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -164556,7 +164556,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/2087-128.png",
     "description": "„Es gab einmal eine Zeit, in der Schatztruhen noch völlig unbekannt waren. Die Enutrofs versteckten ihre Ersparnisse unter ihren Matratzen oder in ihren Sparstrümpfen. Die Eichhörnchen brachten ihre Nüsse im Inneren von Baumstämmen in Sicherheit, während die Drachen ihre Goldklumpen in dunklen und feuchten Höhlen aufhäuften. Dann jedoch schuf die Firma das Bankennetz. Eine echte Revolution! Endlich konnten die Zwölfianer ihr Hab und Gut hinter gepanzerten Türen aufbewahren. Natürlich gibt es immer ein paar Halsabschneider, die sich mit Dynamit den Weg freisprengen, und Kamaschmuggler, die zu raffgierige Abenteurer übers Ohr hauen. Aber all das ist nicht so schlimm. Man braucht einfach nur eine gute Versicherung.“\n\n– Buhorado",
-    "ability": "{{spell,11357,1::Buhorado-Feder}}:\n• Wenn der Träger einen kritischen Treffer landet, erhält er 3 Runden lang 10 Schubsschaden.",
+    "ability": "Buhorado-Feder:\n• Wenn der Träger einen kritischen Treffer landet, erhält er 3 Runden lang 10 Schubsschaden.",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -164635,7 +164635,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82212-128.png",
     "description": "„Jeder Féca, der etwas auf sich hält, zieht mit einem Schild in die Schlacht. Aber der sicherste Schutz gegen gegnerische Angriffe, das beste Bollwerk gegen alle, die uns schaden oder uns vernichten wollen, ist die Einigkeit. Söldner! Die Zeit ist gekommen, unsere Querelen beiseitezulegen und uns unter einem gemeinsamen Banner zu versammeln. Astrub ist nur eine Handelsstadt. Sie wurde von einer Bande von Gaunern gegründet, die die Gaunerei an den Nagel gehängt haben. Astrub ist aber auch eine alte Stadt voller Kultur und Welterbe. Astrub ist eine Nation! Heute, werte Ratsmitglieder, werdet ihr einen neuen Anführer wählen. Ich habe mich selbst auf diesen Posten beworben. Werdet ihr mir euer Vertrauen schenken? Die Entscheidung liegt bei euch.“\n\n– Fallanster, oberstes Ratsmitglied von Astrub",
-    "ability": "{{spell,11358,1::Rechtschaffenheit von Fallanster}}:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem quadratischen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert (1-mal kumulierbar). Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
+    "ability": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem quadratischen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert (1-mal kumulierbar). Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164708,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82211-128.png",
     "description": "„Der Tod ist ein notwendiges Übel, aber wenn er sich schon nicht abwenden lässt, ist es uns doch allen lieber, wenn er jemand anderen ereilt als uns, nicht wahr? Darum habe ich diesen Schild geschmiedet. Er ist unzerstörbar, unverwüstlich und zudem rostfrei. Er blockt alle Schläge ab, die euer Leben empfindlich verkürzen könnten. Trotz seiner imposanten Größe ist er leicht und überaus handlich. Außerdem wird sein makabres Aussehen all eure Gegner tief beeindrucken. Die größten Feiglinge unter ihnen werden das tiefe Schwarz seiner leeren Augenhöhlen nicht aushalten und kreischend davonlaufen. Muss ich noch mehr sagen, um euch zu überzeugen? Es folgt eine kleine Demonstration. Sergeant Racknacknock, Ihr seid dran.“\n\n– Ein Handwerker, der lieber anonym bleiben möchte",
-    "ability": "{{spell,11359,1::Todesverachter}}:\n• Wenn der Träger mehr als 50 % seiner Lebenspunkte hat, erhöht sich sein Endschaden um 7 %. Dafür verliert er zu Beginn jeder Runde 10 % seiner LP.\n• Wenn er weniger als 50 % seiner Lebenspunkte hat, verringert sich der Schaden, den er erleidet, um 20 %."
+    "ability": "Todesverachter:\n• Wenn der Träger mehr als 50 % seiner Lebenspunkte hat, erhöht sich sein Endschaden um 7 %. Dafür verliert er zu Beginn jeder Runde 10 % seiner LP.\n• Wenn er weniger als 50 % seiner Lebenspunkte hat, verringert sich der Schaden, den er erleidet, um 20 %."
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164811,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16555-128.png",
     "description": "„Sie halten uns für klein und schwach. Sie machen sich über unsere Bräuche und uralten Traditionen lustig. Sie halten uns für stinkende, gierige und kulturlose Barbaren. Glauben sie denn wirklich, dass wir uns damit zufriedengeben, wie Sidoas im Dunkel unserer Minen herumzubuddeln? Die werden wir schon von ihrem hohen Ross herunterholen! Ich werde ihnen zeigen, aus welchem Holz die Nimbos geschnitzt sind. Ich werde ihre Höfe und Ernten verbrennen. Ich werde ihre Haare, ihre Wimpern und ihre Städte versengen. Ich werde ihre Fresssäcke scheren. Ich werde ihr Gold rauben, ihre Fässer leeren und ihre Banner zerfetzen. Ich bin der König unter dem Berg ... und schon bald werde ich der König der Welt sein!“\n\n– Bram Weltbart",
-    "ability": "{{spell,11360,1::König unter dem Berg}}:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Endschaden 2 Runden lang um 2 % (5-mal kumulierbar).\n• Wenn der Träger sowohl der Angreifer als auch das Ziel ist, wird die Wirkung nicht ausgelöst."
+    "ability": "König unter dem Berg:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Endschaden 2 Runden lang um 2 % (5-mal kumulierbar).\n• Wenn der Träger sowohl der Angreifer als auch das Ziel ist, wird die Wirkung nicht ausgelöst."
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164896,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16564-128.png",
     "description": "„Wenn eine junge Seele den Tempel von Incarnam verlässt, träumt sie von dem Leben, das sie draußen erwartet. Ein Leben voll spannender Abenteuer, persönlicher Errungenschaften und erfüllendem Austausch mit Gleichgesinnten. Sie wird bald vergessen, wer sie einst gewesen ist. Vielleicht hat sie einmal über ein Reich geherrscht, von dem jetzt nur noch ein paar Ruinen übrig sind. Vielleicht war sie ein bescheidener Hirte, der über eine Herde Fresssäcke wachte. Die Vergangenheit bedeutet nur wenig, wenn wir unseren Blick in die Zukunft richten: Die Himmlischen Adler wachen darüber, dass jedes Wesen einen neuen Aufbruch wagen kann, ohne Zweifel und Bedauern, bis sich sein Schicksal erfüllt hat.“\n\n– Meister Ganymed",
-    "ability": "{{spell,11361,1::Weisheit von Ganymed}}:\n• Der Träger erhält in den geraden Runden 2 AP, aber verliert in den ungeraden Runden 1 AP und 1 BP."
+    "ability": "Weisheit von Ganymed:\n• Der Träger erhält in den geraden Runden 2 AP, aber verliert in den ungeraden Runden 1 AP und 1 BP."
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164987,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17418-128.png",
     "description": "„Von Kindesbeinen an habe ich hart trainiert, um irgendwann gegen Drachen kämpfen zu können. Ich bin ein Ritter, und Ritter vernichten nun mal große Echsen, die Feuer spucken. Das steht immerhin in allen Geschichtsbüchern für Kinder so geschrieben. Also muss es wahr sein! Ihr könnt euch also meine Verwunderung vorstellen, als ich Bolgrot getroffen habe. Wer hätte gedacht, dass ich einmal sein bester Freund werden würde? Ich jedenfalls nicht! Mich hat es von allen am meisten überrascht. Aber man darf sich eben nicht vom Äußeren leiten lassen ... Wir sind seit Wochen unzertrennlich. Ich will ihm unbedingt Helsephine vorstellen! Ich bin sicher, dass sich die beiden gut verstehen werden.“\n\n– Rykke Errel, Iop-Ritter",
-    "ability": "{{spell,11363,1::Mut von Rykke Errel}}:\n• Wenn der Träger einen Fernkampfangriff erleidet, erhält er 1 Runde lang 10 % seiner Stufe als Schild und sein Fernkampfschaden verringert sich um 1 % pro Feld Entfernung von seinem Angreifer (maximal 11 Felder)."
+    "ability": "Mut von Rykke Errel:\n• Wenn der Träger einen Fernkampfangriff erleidet, erhält er 1 Runde lang 10 % seiner Stufe als Schild und sein Fernkampfschaden verringert sich um 1 % pro Feld Entfernung von seinem Angreifer (maximal 11 Felder)."
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165042,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17423-128.png",
     "description": "„Als unsere Truppen sich versammelten, um der Armee der dunklen Stadt die Stirn zu bieten, bin ich für ein letztes Gebet auf den Gipfel des nächsten Hügels gestiegen. Am heutigen Tag werden viele Zwölfianer ihr Ende finden. Ich frage mich: Ist all diese Gewalt wirklich notwendig? Müssen wirklich tausende Seelen geopfert werden, damit die Harmonie erneut Einzug halten kann? Aber jetzt ist keine Zeit für Fragen oder Zweifel. Geist der Balance, erleuchte mich mit deinem Licht. Zeig mir den Weg der Gerechtigkeit, der zum Frieden führt. Und wenn ich dabei auf die Schlächterin von Brâkmar treffe ... gib mir die Kraft, ihr entgegenzutreten, damit in dieser Welt die Hoffnung von Neuem erblühen kann.“\n\n– Jahash Jürgen",
-    "ability": "{{spell,11365,1::Elementar-Assimilierung}}:\n• Wenn der Träger Schaden in einem Element erleidet, erhält er 2 Runden lang 4 % Resistenz in diesem Element (5-mal kumulierbar, zwischen den Elementen aufgeteilt)."
+    "ability": "Elementar-Assimilierung:\n• Wenn der Träger Schaden in einem Element erleidet, erhält er 2 Runden lang 4 % Resistenz in diesem Element (5-mal kumulierbar, zwischen den Elementen aufgeteilt)."
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165121,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11338-128.png",
     "description": "„Man sagt, die ersten Förster seien in der Lage gewesen, ohne Unterlass die Weiten von Amakna zu durchstreifen ohne jemals auch nur die geringste Müdigkeit zu verspüren. Ihre Stiefel waren von den vier Wächterinnen verzaubert worden: Mit ihnen konnte man das Land im Handumdrehen durchqueren. Mit einem einzigen Schritt liefen die scharfäugigen Wächter von einer Grenze zur anderen, von den Ufern des Assel-Meers bis zu den felsigen Tälern, in denen es von Bworks und Goblins nur so wimmelte. Allerdings wurde die Macht dieser wundersamen Stiefel schwächer, als sich die Vier zurückzogen ... aber die Aufklärer, die das Glück haben, ein Paar zu besitzen, sind den Feinden des Reichs immer einen Schritt voraus.“\n\n– Cornelia Streicher",
-    "ability": "{{spell,11366,1::Tausend Meilen}}:\n• Der Träger erhält in den ungeraden Runden 2 BP."
+    "ability": "Tausend Meilen:\n• Der Träger erhält in den ungeraden Runden 2 BP."
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165218,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11337-128.png",
     "description": "„Tretet näher, werte Novizen! Bleibt nicht da hinten stehen, ich werde mich nämlich nicht wiederholen. Zunächst einmal müsst ihr wissen, dass allein die Meister des Ordens die heiligen Stiefel während der offiziellen Schuhputz-Zeremonien tragen dürfen. Da muss man schon ein hohes Tier sein, das werdet ihr verstehen. Wer dieser Regel zuwiderhandelt, wird von all seinen Mitschülern zu Boden getrampelt, bevor er mit einem enormen Tritt in den Hintern nach draußen befördert wird. Haben alle ihre Polierbürste und ihr Gligli-Wachs? Sehr gut! Stellt euch also auf und betretet den Saal, aber leise! Ich will nur ein einziges Paar Absätze klacken hören!“\n\n– Bowisse, Großmeister der Allerwertesten Treter",
-    "ability": "{{spell,11367,1::Die allerwertesten Treter}}:\n• Jedes Mal zu Rundenbeginn und am Rundenende stößt der Träger alle Gegner in Reichweite um 2 Felder zurück."
+    "ability": "Die allerwertesten Treter:\n• Jedes Mal zu Rundenbeginn und am Rundenende stößt der Träger alle Gegner in Reichweite um 2 Felder zurück."
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165309,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10335-128.png",
     "description": "„Wenn man ein Unglücksrabe ist, erliegt man schnell der Versuchung, gar nichts mehr zu tun, sich zu Hause einzuigeln und nervös an den Krallen zu knabbern, um keine Katastrophe heraufzubeschwören ... Aber wenn das Chaos schon hereinbrechen muss, dann sollte man wenigstens noch seinen Nutzen daraus ziehen! Wer tollkühn ist, läuft weniger Gefahr, vom Pech gelähmt zu werden. Es geht doch nichts über ein bisschen Mumm, um das böse Schicksal zu bannen. Ihr habt euch an einer Sache versucht und den totalen Reinfall erlebt? Und wenn schon! Ihr müsst es nur noch mal versuchen! Es ist immer noch besser, einen Fehlschlag aufgrund von Pech statt mangelnder Dreistigkeit zu erleiden. Es ist nur wichtig, auf allen vier Pfoten zu landen.“\n\n– Dodge der Ecaflip",
-    "ability": "{{spell,11368,1::Kühnheit von Dodge}}:\n• Zu Beginn jeder Runde begibt sich der Träger per Teleportation oder Platztausch auf ein zufälliges angrenzendes Feld und erhält 1 Runde lang 1 BP und 10 % Chance auf kritische Treffer oder er ändert seine Position nicht und erhält stattdessen 40 Ausweichen und Schubsschaden."
+    "ability": "Kühnheit von Dodge:\n• Zu Beginn jeder Runde begibt sich der Träger per Teleportation oder Platztausch auf ein zufälliges angrenzendes Feld und erhält 1 Runde lang 1 BP und 10 % Chance auf kritische Treffer oder er ändert seine Position nicht und erhält stattdessen 40 Ausweichen und Schubsschaden."
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165376,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10336-128.png",
     "description": "„Der Weggang eines Meisters ist eine große Tragödie für seine Schüler. Als Prosperus Elementor verschwand, wurden alle Übermagier auf einen Schlag zu Waisen. Wie sollten sie angesichts der Leere, die er hinterlassen hatte, überleben? Wie sollten sie jüngeren Generationen ein würdiges Erbe hinterlassen, wenn gewisse Fragen noch immer unbeantwortet waren? Ich werde mich heute zur grünen Insel Saharach aufmachen, um ein Tor zu öffnen, mit dessen Hilfe ich unseren Anführer wiederfinden kann. Möge das Gleichgewicht mir gewogen sein ... und möge mir der Gott Xélor die nötige Zeit gewähren, um mein Ziel zu erreichen.“\n\n– Madame Jhessica",
-    "ability": "{{spell,11369,1::Mut von Madame Jhessica}}:\n• Am Ende jeder Runde entzieht der Träger 2 Runden lang Gegnern in Reichweite 60 Ausweichen (1-mal kumulierbar) und sein Zauberschaden erhöht sich um 1 % pro getroffenem Gegner (4-mal kumulierbar)."
+    "ability": "Mut von Madame Jhessica:\n• Am Ende jeder Runde entzieht der Träger 2 Runden lang Gegnern in Reichweite 60 Ausweichen (1-mal kumulierbar) und sein Zauberschaden erhöht sich um 1 % pro getroffenem Gegner (4-mal kumulierbar)."
   },
   {
     "ankama_id": 20391,
@@ -166661,7 +166661,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23029-128.png",
     "description": "Ihr schließt die Augen und plötzlich wird eure Nase von den schokoladigen Aromen des göttlichen Eis erfüllt. Berauscht von der Versuchung eines unbekannten kulinarischen Genusses führt ihr den mystischen Gegenstand an eure arglosen Lippen heran. Als eure Geschmacksknospen von einer Welle der Bitterkeit überschwemmt werden, erfahrt ihr am eigenen Leib, dass nicht alle göttlichen Essenzen lecker schmecken.",
-    "ability": "{{spell,12344,1::Schokoladiger Segen}}:\n• Wenn ein Fernkampfangriff auf den Träger ausgeführt wird, während sich dieser in Nahkampfentfernung zu einem Gegner befindet, erhält er zu Beginn seiner nächsten Runde 1 Runde lang 35 % seiner Stufe als Schild."
+    "ability": "Schokoladiger Segen:\n• Wenn ein Fernkampfangriff auf den Träger ausgeführt wird, während sich dieser in Nahkampfentfernung zu einem Gegner befindet, erhält er zu Beginn seiner nächsten Runde 1 Runde lang 35 % seiner Stufe als Schild."
   },
   {
     "ankama_id": 21009,
@@ -167466,7 +167466,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217000-128.png",
     "description": "Dieser Prysmaradit schützt euch vor dem ersten Pfeil eines Iops, der kürzlich zum Crâ zurückkonvertiert ist.",
-    "ability": "{{spell,14762,1::Matte Prytektion}}:\n• In der ersten Runde erhält der Träger 550 % seiner Stufe als Schild, in der zweiten Runde 200 % und in der dritten Runde 100 %."
+    "ability": "Matte Prytektion:\n• In der ersten Runde erhält der Träger 550 % seiner Stufe als Schild, in der zweiten Runde 200 % und in der dritten Runde 100 %."
   },
   {
     "ankama_id": 21452,
@@ -167521,7 +167521,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217001-128.png",
     "description": "Dieser Prysmaradit schützt euch vor dem ersten Pfeil eines Iops, der kürzlich zum Crâ zurückkonvertiert ist.",
-    "ability": "{{spell,14763,1::Brillante Prytektion}}:\n• In der ersten Runde erhält der Träger 150 % seiner Stufe als Schild, in der zweiten Runde 450 % und in der dritten Runde 150 %."
+    "ability": "Brillante Prytektion:\n• In der ersten Runde erhält der Träger 150 % seiner Stufe als Schild, in der zweiten Runde 450 % und in der dritten Runde 150 %."
   },
   {
     "ankama_id": 21453,
@@ -167576,7 +167576,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217002-128.png",
     "description": "Dieser Prysmaradit schützt euch vor dem ersten Pfeil eines Iops, der kürzlich zum Crâ zurückkonvertiert ist.",
-    "ability": "{{spell,14764,1::Schillernde Prytektion}}:\n• In der ersten Runde erhält der Träger 100 % seiner Stufe als Schild, in der zweiten Runde 200 % und in der dritten Runde 350 %."
+    "ability": "Schillernde Prytektion:\n• In der ersten Runde erhält der Träger 100 % seiner Stufe als Schild, in der zweiten Runde 200 % und in der dritten Runde 350 %."
   },
   {
     "ankama_id": 21506,
@@ -167877,7 +167877,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217005-128.png",
     "description": "Dieser Prysmaradit weckt die Lust, loszuflitzen wie ein Bogenschütze, der sein Ziel verfehlt hat. Pausen nicht erlaubt, gewartet wird nicht.",
-    "ability": "{{spell,14902,1::Sprynt}}:\n• Der Träger ist unblockbar, solange er keinen Schaden verursacht. Wenn er Schaden verursacht, wird die Dauer des Zustands auf 1 Runde gesetzt."
+    "ability": "Sprynt:\n• Der Träger ist unblockbar, solange er keinen Schaden verursacht. Wenn er Schaden verursacht, wird die Dauer des Zustands auf 1 Runde gesetzt."
   },
   {
     "ankama_id": 21996,
@@ -167908,7 +167908,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217006-128.png",
     "description": "Dieser Prysmaradit wird euch gehörig unter Druck setzen. Lasst euch nicht unterkriegen!",
-    "ability": "{{spell,14903,1::Matte Pryssion}}:\n• Der Träger opfert 10 % Endschaden, um 3 Runden lang 1 AP zu erhalten."
+    "ability": "Matte Pryssion:\n• Der Träger opfert 10 % Endschaden, um 3 Runden lang 1 AP zu erhalten."
   },
   {
     "ankama_id": 21997,
@@ -167939,7 +167939,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217007-128.png",
     "description": "Dieser Prysmaradit wird euch gehörig unter Druck setzen. Lasst euch nicht unterkriegen!",
-    "ability": "{{spell,14904,1::Brillante Pryssion}}:\n• Der Träger opfert 35 % Endschaden, um 2 Runden lang 2 AP zu erhalten."
+    "ability": "Brillante Pryssion:\n• Der Träger opfert 35 % Endschaden, um 2 Runden lang 2 AP zu erhalten."
   },
   {
     "ankama_id": 21998,
@@ -167970,7 +167970,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217008-128.png",
     "description": "Dieser Prysmaradit wird euch gehörig unter Druck setzen. Lasst euch nicht unterkriegen!",
-    "ability": "{{spell,14905,1::Schillernde Pryssion}}:\n• Der Träger opfert 50 % Endschaden, um 1 Runde lang 3 AP zu erhalten."
+    "ability": "Schillernde Pryssion:\n• Der Träger opfert 50 % Endschaden, um 1 Runde lang 3 AP zu erhalten."
   },
   {
     "ankama_id": 22001,
@@ -168001,7 +168001,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217011-128.png",
     "description": "Dieser Prysmaradit macht euch zum Glückspilz! Das trifft sich gut, denn nach eurem letzten Abenteuer in Saharach könnt ihr Glück echt gut gebrauchen.",
-    "ability": "{{spell,14908,1::Pryberraschung}}:\n• In der ersten Runde erhält der Träger 100 % Chance auf kritische Treffer, in der zweiten Runde 35 % und in der dritten Runde 15 %."
+    "ability": "Pryberraschung:\n• In der ersten Runde erhält der Träger 100 % Chance auf kritische Treffer, in der zweiten Runde 35 % und in der dritten Runde 15 %."
   },
   {
     "ankama_id": 22004,
@@ -168032,7 +168032,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217014-128.png",
     "description": "Dieser Prysmaradit bildet ein perfektes Gleichgewicht zwischen zwei Energien, die sich gleichermaßen anziehen und abstoßen.",
-    "ability": "{{spell,14913,1::Prynyang}}:\n• Der Träger opfert in der ersten Runde 10 % Resistenz, um 10 % Endschaden zu erhalten, erhält dann 3 % Endschaden und Resistenz in der zweiten Runde und opfert in der dritten Runde schließlich 10 % Endschaden, um 10 % Resistenz zu erhalten."
+    "ability": "Prynyang:\n• Der Träger opfert in der ersten Runde 10 % Resistenz, um 10 % Endschaden zu erhalten, erhält dann 3 % Endschaden und Resistenz in der zweiten Runde und opfert in der dritten Runde schließlich 10 % Endschaden, um 10 % Resistenz zu erhalten."
   },
   {
     "ankama_id": 22007,
@@ -168063,7 +168063,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217017-128.png",
     "description": "Mit diesem Prysmaradit bleibt ihr Abenteurern und Abenteurerinnen auf den Fersen, die sich aus dem Staub machen wollen. Ihr habt eure Lektion gelernt und kennt das Geheimnis aller schwerfälligen Helden: Durchhaltevermögen.",
-    "ability": "{{spell,14919,1::Prynholjagd}}:\n• Der Träger erhält zu Beginn der ersten drei Spielrunden 1 Runde lang 1 BP pro gegnerischem Kämpfer, der mehr als 9 Felder von ihm entfernt ist (3-mal kumulierbar)."
+    "ability": "Prynholjagd:\n• Der Träger erhält zu Beginn der ersten drei Spielrunden 1 Runde lang 1 BP pro gegnerischem Kämpfer, der mehr als 9 Felder von ihm entfernt ist (3-mal kumulierbar)."
   },
   {
     "ankama_id": 22010,
@@ -168094,7 +168094,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217020-128.png",
     "description": "Dieser Prysmaradit ist fast wie ein Jungbrunnen, nur ohne Wasser ... und ohne Brunnen. Verjüngen tut er auch nicht wirklich. Der Vergleich hinkt wohl ein wenig.",
-    "ability": "{{spell,14926,1::Prygeneration}}:\n• Heilt in der ersten Runde 60 % des durch Gegner erlittenen Schadens, in der zweiten Runde 30 % und in der dritten Runde 10 %."
+    "ability": "Prygeneration:\n• Heilt in der ersten Runde 60 % des durch Gegner erlittenen Schadens, in der zweiten Runde 30 % und in der dritten Runde 10 %."
   },
   {
     "ankama_id": 22011,
@@ -168125,7 +168125,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217021-128.png",
     "description": "Dieser Prysmaradit vermittelt das Gefühl, ständig zu spät zu sein. Er entschuldigt eure Tendenz, auch wirklich zu spät zu kommen, allerdings nicht.",
-    "ability": "{{spell,14930,1::Matte Pryberstürzung}}:\n• Der Träger erhält in der ersten Runde 2 AP."
+    "ability": "Matte Pryberstürzung:\n• Der Träger erhält in der ersten Runde 2 AP."
   },
   {
     "ankama_id": 22012,
@@ -168156,7 +168156,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217022-128.png",
     "description": "Dieser Prysmaradit vermittelt das Gefühl, ständig zu spät zu sein. Er entschuldigt eure Tendenz, auch wirklich zu spät zu kommen, allerdings nicht.",
-    "ability": "{{spell,14931,1::Brillante Pryberstürzung}}:\n• Der Träger opfert 2 BP, um in der ersten Runde 3 AP zu erhalten."
+    "ability": "Brillante Pryberstürzung:\n• Der Träger opfert 2 BP, um in der ersten Runde 3 AP zu erhalten."
   },
   {
     "ankama_id": 22013,
@@ -168187,7 +168187,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217023-128.png",
     "description": "Dieser Prysmaradit vermittelt das Gefühl, ständig zu spät zu sein. Er entschuldigt eure Tendenz, auch wirklich zu spät zu kommen, allerdings nicht.",
-    "ability": "{{spell,14932,1::Schillernde Pryberstürzung}}:\n• Der Träger opfert 4 BP, um in der ersten Runde 4 AP zu erhalten."
+    "ability": "Schillernde Pryberstürzung:\n• Der Träger opfert 4 BP, um in der ersten Runde 4 AP zu erhalten."
   },
   {
     "ankama_id": 22014,
@@ -168230,7 +168230,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217024-128.png",
     "description": "Dieser Prysmaradit schärft den Geist seines Trägers, ohne ihm jedoch Anstand beizubringen. Glück gehabt.",
-    "ability": "{{spell,14933,1::Espryt}}:\n• In der ersten Runde erhält der Träger 100 Entzug, in der zweiten Runde 50 und in der dritten Runde 25."
+    "ability": "Espryt:\n• In der ersten Runde erhält der Träger 100 Entzug, in der zweiten Runde 50 und in der dritten Runde 25."
   },
   {
     "ankama_id": 22015,
@@ -168273,7 +168273,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217025-128.png",
     "description": "Dieser Prysmaradit lässt euren Körper die Herausforderungen des harten Abenteurerlebens überstehen.\n\nDas ist ein Kieselstein, bitte nicht verschlucken. Wir testen unsere Produkte nicht an Ecaflips oder Ouginaks. Ohne Alkohol. Ohne Palmblumenöl.",
-    "ability": "{{spell,14934,1::Körprys}}:\n• In der ersten Runde erhält der Träger 200 Ausweichen, in der zweiten Runde 100 und in der dritten Runde 50."
+    "ability": "Körprys:\n• In der ersten Runde erhält der Träger 200 Ausweichen, in der zweiten Runde 100 und in der dritten Runde 50."
   },
   {
     "ankama_id": 22018,
@@ -168304,7 +168304,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217028-128.png",
     "description": "Dieser Prysmaradit verleiht euch die Dreistigkeit der heutigen Jugend, ohne dass ihr dafür den dekadenten Komfort eurer privilegierten Stellung aufgeben müsst.",
-    "ability": "{{spell,14939,1::Prystektion}}:\n• In der ersten Runde gibt der Träger 15 % Resistenzen an seine Beschwörungen weiter, in der zweiten Runde 10 % und in der dritten Runde 5 %."
+    "ability": "Prystektion:\n• In der ersten Runde gibt der Träger 15 % Resistenzen an seine Beschwörungen weiter, in der zweiten Runde 10 % und in der dritten Runde 5 %."
   },
   {
     "ankama_id": 22019,
@@ -168341,7 +168341,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217029-128.png",
     "description": "Dieser Prysmaradit lässt euch vorübergehend verschwinden und so die verrücktesten Erfahrungen machen. Stellt euch nur das enttäuschte Gesicht eurer Schwiegermutter vor, wenn ihr wiederauftaucht.",
-    "ability": "{{spell,14940,1::Ausgepryxt}}:\n• Der Träger wird zu Beginn seiner ersten Spielrunde 1 Runde lang unsichtbar. Die Unsichtbarkeit verfliegt nicht, wenn er angreift, aber sie wird aufgehoben, wenn er Schaden erleidet."
+    "ability": "Ausgepryxt:\n• Der Träger wird zu Beginn seiner ersten Spielrunde 1 Runde lang unsichtbar. Die Unsichtbarkeit verfliegt nicht, wenn er angreift, aber sie wird aufgehoben, wenn er Schaden erleidet."
   },
   {
     "ankama_id": 22020,
@@ -168372,7 +168372,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217030-128.png",
     "description": "Dieser entzaubernde Prysmaradit eignet sich perfekt, um nach einem feuchtfröhlichen Abend im Kolosseum zu trainieren. Euer Schweinepriesteratem wird euch im Nahkampf sogar von Nutzen sein.",
-    "ability": "{{spell,14941,1::Pryverzauberung}}:\n• Der Träger verringert die Dauer der Effekte, die auf ihn einwirken, zu Beginn seiner ersten Spielrunde um 4 Runden."
+    "ability": "Pryverzauberung:\n• Der Träger verringert die Dauer der Effekte, die auf ihn einwirken, zu Beginn seiner ersten Spielrunde um 4 Runden."
   },
   {
     "ankama_id": 22021,
@@ -168403,7 +168403,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217031-128.png",
     "description": "Dieser Prysmaradit eignet sich perfekt für zarte Seelchen, die verstanden haben, dass man gefährliche Aufträge gut an Iops delegieren kann.",
-    "ability": "{{spell,14943,1::Suppryt}}:\n• Der Träger erhöht während seiner Spielrunde die von verbündeten Kämpfern erhaltene Heilung, und zwar in der ersten Runde um 10 %, in der zweiten Runde um 35 % und in der dritten Runde um 50 %."
+    "ability": "Suppryt:\n• Der Träger erhöht während seiner Spielrunde die von verbündeten Kämpfern erhaltene Heilung, und zwar in der ersten Runde um 10 %, in der zweiten Runde um 35 % und in der dritten Runde um 50 %."
   },
   {
     "ankama_id": 22022,
@@ -168458,7 +168458,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217032-128.png",
     "description": "Dieser Prysmaradit eignet sich perfekt für Weinberg- und Nacktschnecken. Und dabei handelt es sich nicht nur um eine Metapher.",
-    "ability": "{{spell,14945,1::Nachpryschild}}:\n• Der Träger erhält zu Beginn der ersten Spielrunde jedes gegnerischen Kämpfers, der vor ihm an der Reihe ist, bis zum Ende des Kampfes 200 % seiner Stufe als Schild."
+    "ability": "Nachpryschild:\n• Der Träger erhält zu Beginn der ersten Spielrunde jedes gegnerischen Kämpfers, der vor ihm an der Reihe ist, bis zum Ende des Kampfes 200 % seiner Stufe als Schild."
   },
   {
     "ankama_id": 22023,
@@ -168489,7 +168489,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217033-128.png",
     "description": "Dieser Prysmaradit schützt Einzelgänger gegen zu große Menschenmassen.",
-    "ability": "{{spell,14948,1::Prymgebung}}:\n• Der Träger erhält zu Beginn und am Ende seiner ersten Runde 3 Runden lang 2 % Nahkampfschaden pro gegnerischem Kämpfer, der nicht mehr als 3 Felder von ihm entfernt ist."
+    "ability": "Prymgebung:\n• Der Träger erhält zu Beginn und am Ende seiner ersten Runde 3 Runden lang 2 % Nahkampfschaden pro gegnerischem Kämpfer, der nicht mehr als 3 Felder von ihm entfernt ist."
   },
   {
     "ankama_id": 22024,
@@ -168550,7 +168550,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217034-128.png",
     "description": "Dieser Prysmaradit wird den Abenteurern gefallen, die unter einem geringen Initiativewert leiden.",
-    "ability": "{{spell,14949,1::Prymun}}:\n• Verringert den erlittenen Schaden des Trägers in der ersten Runde um 80 %."
+    "ability": "Prymun:\n• Verringert den erlittenen Schaden des Trägers in der ersten Runde um 80 %."
   },
   {
     "ankama_id": 22025,
@@ -168581,7 +168581,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217035-128.png",
     "description": "Dieser Prysmaradit ist ganz schön schwer. Wirklich unglaublich für einen so kleinen Gegenstand. Er erinnert euch an jemanden.",
-    "ability": "{{spell,14950,1::Pryrkraft}}:\n• Der Träger befindet sich im Zustand „Schwerkraft“, solange er keinen Schaden erleidet. Wenn er Schaden erleidet, wird die Dauer des Zustands auf 1 Runde gesetzt."
+    "ability": "Pryrkraft:\n• Der Träger befindet sich im Zustand „Schwerkraft“, solange er keinen Schaden erleidet. Wenn er Schaden erleidet, wird die Dauer des Zustands auf 1 Runde gesetzt."
   },
   {
     "ankama_id": 22027,
@@ -170130,7 +170130,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/19081-128.png",
     "description": "„Als sich der Prinz von Brâkmar und der König von Bonta gegenseitig pfählten und ihre Eingeweide auf der roten Erde verteilten, empfand ich große Genugtuung. Somit endete der Krieg zwischen den beiden Städten mitten in einem Riesenberg von Leichen! Welch wunderschöner Anblick. Während die Schreie der Rablinge sich mit dem Röcheln der Sterbenden vermengten, wurde ich von Nostalgie überwältigt. Schmerzliche Erinnerungen an die erste Morgenröte stiegen in mir hoch. Der Ansturm der Raubritter von Kleppripp, das Köpfen von Menalt, der inszenierte Paukenschlag von Raval ... Dies war der Beginn eines blutigen und amüsanten Konflikts, der mich fast Tausend Jahre lang in Atem gehalten hatte! Nun ist der Vorhang gefallen. Aber das Schauspiel muss weitergehen ... Es wird immer wieder Kämpfe geben.“\n\n– Krieg",
-    "ability": "{{spell,15739,1::Stellungskrieg}}:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 2 BP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger bis zum Ende des Kampfes 1 BP (5-mal kumulierbar).",
+    "ability": "Stellungskrieg:\n• Am Ende jeder Runde entzieht der Träger 1 Runde lang Gegnern in Reichweite 2 BP (1-mal kumulierbar).\n• Wenn ein gegnerischer Kämpfer besiegt wird, erhält der Träger bis zum Ende des Kampfes 1 BP (5-mal kumulierbar).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 10,
@@ -170251,7 +170251,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/17454-128.png",
     "description": "„Welch angenehmer Duft von Verzweiflung, der hier in der Luft liegt ... Einst so stolze, so mutige, so ... arrogante Söldner. Seht euch doch mal an, mit euren tränenüberfluteten Gesichtern, beim Anblick eurer geliebten Menschen im Massengrab. Diese Bindungen, diese Versprechen, diese Gefühle ... Alles in Luft aufgelöst wegen dem Wahnsinn, der sich unter eure Haut frisst. Gibt es etwas Schöneres als das Entsetzen und die Abscheu auf den Gesichtern eurer Mitmenschen bei den ersten Anzeichen eurer eigenen Pestilenz? Zittere Astrub ... flehe zu deinen Göttern, diesen Hochstaplern, die nichts für dich tun können ... Diese Fäulnis, vor der ihr euch so fürchtet ... fällt nicht vom Himmel ... sondern steckt in jedem von uns.“\n\n– Verderbnis",
-    "ability": "{{spell,15975,1::Pestilenzwolke}}:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Gegner an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar)."
+    "ability": "Pestilenzwolke:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Gegner an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar)."
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170360,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/10343-128.png",
     "description": "„Seht euch doch mal an, stolze Kanigs, wie ihr durch eure Gegner geknechtet seid ... Welch ein Niedergang! Ihr hättet ein richtiges Imperium aufbauen können, wenn ihr nicht so schwach gewesen wärt. Es gab eine Zeit, da hattet ihr noch von Ruhm und Eroberung geträumt, da arbeiteten die Häftlinge in eure Steinbrüchen und stöhnten unter euren Peitschenhieben ... Aber vom Meister zum Sklaven ist es manchmal nur ein kleiner Schritt. Katzbuckeln unter dem Gewicht der Ketten, wie Larven durch den Schlamm waten, ihr habt schon vergessen, wer ihr wirklich wart. Ihr seid pathetisch. Wenn euer Matriarch stirbt, ist euer Schicksal vollendet. Euer Opfer wird weniger unnütz als eure Existenz gewesen sein ... denn es wird die Geschichte verändern.“\n\n– Knechtschaft",
-    "ability": "{{spell,15984,1::Eisen der Tyrannei}}:\n• Am Ende einer jeden Runde zieht der Träger alle Einheiten zu sich heran, die maximal 3 Felder von ihm entfernt in einer Linie zu ihm stehen. Wenn sich keine Einheit in Reichweite befindet, wird er bis zum Beginn seiner nächsten Runde Unverrückbar. Der Zustand wird rückgängig gemacht, wenn er Schaden erleidet."
+    "ability": "Eisen der Tyrannei:\n• Am Ende einer jeden Runde zieht der Träger alle Einheiten zu sich heran, die maximal 3 Felder von ihm entfernt in einer Linie zu ihm stehen. Wenn sich keine Einheit in Reichweite befindet, wird er bis zum Beginn seiner nächsten Runde Unverrückbar. Der Zustand wird rückgängig gemacht, wenn er Schaden erleidet."
   },
   {
     "ankama_id": 22444,
@@ -170469,7 +170469,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/4138-128.png",
     "description": "„Hört ihr auch die vom Wind verwehten Klagelaute, das Brummen der Troolglodyts und das Knurren der hungrigen Mägen? Dies ist sanfte Musik in meinen Ohren ... Die Wüste breitet sich weiter aus. Sie nimmt immer mehr Dünen ein. Die Weizenkörner werden zu Sandkörnern. Die Brunnen versiegen. Die Teller leeren sich. Die Kakteen trocknen aus. Bald wird fruchtbarer Boden nur noch ein Märchen sein, das die zarten Kinder am Abend beim Zubettgehen mit unnötigen Hoffnungen erfüllt. Bald werde ich uneingeschränkter Herrscher der Saharach sein ...Dieses Land wird endlich mir gehören.“\n\n– Elend",
-    "ability": "{{spell,15996,1::Prüfung der Waage}}:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (4-mal kumulierbar).\n• Die Wirkungen können nicht durch den Träger ausgelöst werden.",
+    "ability": "Prüfung der Waage:\n• Wenn versucht wird, dem Träger AP, BP oder Reichweite zu entziehen, stiehlt er 2 Runden lang 2 % der Resistenzen seines Angreifers (4-mal kumulierbar).\n• Die Wirkungen können nicht durch den Träger ausgelöst werden.",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 3,
@@ -170530,7 +170530,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23032-128.png",
     "description": "So wie der Mond von dunklen Nachtwolken verborgen wird, findet sich auch manchmal das lebhafteste Licht umgeben von tiefster Dunkelheit.",
-    "ability": "{{spell,17006,1::Tintenfluss}}:\n• In den ersten 4 Runden erhalten der Träger und seine Beschwörungen jeweils am Rundenende bis zu 16 Schadenspunkte zusätzlich, die sie bis zum Ende des Kampfes behalten.\n• Jedes Mal, wenn der Träger während seiner Runde einen Gegner angreift, verringert sich dieser Bonus:\n • Kein Angriff: 16 Schaden.\n • 1 Angriff: 8 Schaden.\n • 2 oder mehr Angriffe: 0 Schaden."
+    "ability": "Tintenfluss:\n• In den ersten 4 Runden erhalten der Träger und seine Beschwörungen jeweils am Rundenende bis zu 16 Schadenspunkte zusätzlich, die sie bis zum Ende des Kampfes behalten.\n• Jedes Mal, wenn der Träger während seiner Runde einen Gegner angreift, verringert sich dieser Bonus:\n • Kein Angriff: 16 Schaden.\n • 1 Angriff: 8 Schaden.\n • 2 oder mehr Angriffe: 0 Schaden."
   },
   {
     "ankama_id": 23248,
@@ -172654,7 +172654,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23033-128.png",
     "description": "Man sagt, dass jede der tausend Falten des Dorigamis ein Rätsel birgt, den Widerschein einer Lüge oder einer schmerzhaften, blendend reinen Wahrheit, wie die Facetten eines Papierdiamanten.",
-    "ability": "{{spell,17307,1::Papiertiger}}:\n• In den ersten 5 Spielrunden erhält der Träger jedes Mal zu Rundenbeginn 1 Runde lang 100 % seiner Stufe als Schild.\n• Wenn der Träger in den ersten 5 Spielrunden einen Gegner besiegt, erhält er 2 Runden lang einen Schild. Der Schild hängt von der Art des Gegners ab:\n • Beschwörung: 100 % seiner Stufe als Schild (4-mal kumulierbar).\n • Kämpfer: 300 % seiner Stufe als Schild (2-mal kumulierbar)."
+    "ability": "Papiertiger:\n• In den ersten 5 Spielrunden erhält der Träger jedes Mal zu Rundenbeginn 1 Runde lang 100 % seiner Stufe als Schild.\n• Wenn der Träger in den ersten 5 Spielrunden einen Gegner besiegt, erhält er 2 Runden lang einen Schild. Der Schild hängt von der Art des Gegners ab:\n • Beschwörung: 100 % seiner Stufe als Schild (4-mal kumulierbar).\n • Kämpfer: 300 % seiner Stufe als Schild (2-mal kumulierbar)."
   },
   {
     "ankama_id": 23501,
@@ -178232,7 +178232,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23034-128.png",
     "description": "„Die Nacht ist so dunkel, damit uns nichts von unseren Alpträumen ablenken kann“, sagte der kleine Kilvan, bevor er mit seinem Plüschtiguar im Arm beruhigt einschlief.\nWarum ist die Nacht so düster? Weil sich unter ihrem Mantel all die Ängste und Mysterien der ewigen Nacht verbergen. In der Wiege von Gut und Böse, der Quelle eines ewigen Konflikts, verschmelzen abscheuliche Ängste, glühende Glut und glänzende Glyphen zu einer untrennbaren Masse.",
-    "ability": "{{spell,20981,1::Ewiger Alptraum}}:\n• Bonta-Schild: Wenn der Träger entzaubert oder gefesselt wird, erhält er 1 Runde lang 100 % seiner Stufe als Schild.\n• Brâk-Schlagkraft: Wenn der Träger Schubsschaden verursacht oder erleidet, erhält er 1 Runde lang 100 Schlagkraft.\n• Auge des Alptraums: Löst der Träger beide Wirkungen in derselben Runde aus, erhöht sich der von ihm verursachte und erlittene Schaden 1 Runde lang um 10 %.\n• Die Wirkungen können nur einmal pro Runde ausgelöst werden."
+    "ability": "Ewiger Alptraum:\n• Bonta-Schild: Wenn der Träger entzaubert oder gefesselt wird, erhält er 1 Runde lang 100 % seiner Stufe als Schild.\n• Brâk-Schlagkraft: Wenn der Träger Schubsschaden verursacht oder erleidet, erhält er 1 Runde lang 100 Schlagkraft.\n• Auge des Alptraums: Löst der Träger beide Wirkungen in derselben Runde aus, erhöht sich der von ihm verursachte und erlittene Schaden 1 Runde lang um 10 %.\n• Die Wirkungen können nur einmal pro Runde ausgelöst werden."
   },
   {
     "ankama_id": 26085,
@@ -191727,7 +191727,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23036-128.png",
     "description": "Die Frucht des Opfers sät die Samen der Erneuerung. Schmerzhafte Metamorphose, natürliche Heilung oder einfach das Fortschreiten der Zeit – das Ende des ewigen Winters ist immer ein Wunder.",
-    "ability": "{{spell,28516,1::Feldschütz}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 8 Schlagkraft.\n• Hat er in seiner Runde keinen BP verwendet, wird er um 8 % seiner LP geheilt."
+    "ability": "Feldschütz:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 8 Schlagkraft.\n• Hat er in seiner Runde keinen BP verwendet, wird er um 8 % seiner LP geheilt."
   },
   {
     "ankama_id": 29430,
@@ -197567,7 +197567,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23039-128.png",
     "description": "„Sssosummssbs Zsbs. „Bssssummdszssbs Zsbs. Fassbs Dzachssummzsbs!“\n\n– Kosummsgssummbs Alsktabs",
-    "ability": "{{spell,31607,1::Explosives Ausschlüpfen}}:\n• Wenn eine Beschwörung des Trägers angegriffen wird, erhöht sich der Endschaden des Trägers 2 Runden lang um 1 % (10-mal kumulierbar).\n• Wenn sie von einem Gegner besiegt wurde, fügt der Träger Gegnern im Umkreis von 2 Feldern um sie herum 10 Schaden in seinem besten Element zu."
+    "ability": "Explosives Ausschlüpfen:\n• Wenn eine Beschwörung des Trägers angegriffen wird, erhöht sich der Endschaden des Trägers 2 Runden lang um 1 % (10-mal kumulierbar).\n• Wenn sie von einem Gegner besiegt wurde, fügt der Träger Gegnern im Umkreis von 2 Feldern um sie herum 10 Schaden in seinem besten Element zu."
   },
   {
     "ankama_id": 31796,
@@ -198324,7 +198324,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/16869-128.png",
     "description": "Der Vorteil, wenn man in einer Stadt wie Brâkmar das Sagen hat, ist, dass sich niemand wundert, wenn gewisse Individuen plötzlich verschwinden. Welch Freude, seinen niederen Trieben nachzugeben, ohne sich rechtfertigen zu müssen! Und überhaupt, jeder, der es wagen würde, mir die Stirn zu bieten, würde umgehend im Herzen des Vulkans landen.\n\n– Oto Mustam",
-    "ability": "{{spell,31856,1::Leidenschaft der Dunklen Stadt}}:\n• Zu Beginn jeder Runde erhöht sich der Endschaden des Trägers und seiner Verbündeten 1 Runde lang um 1 % pro am Leben befindlichem gegnerischen Kämpfer (4-mal kumulierbar)."
+    "ability": "Leidenschaft der Dunklen Stadt:\n• Zu Beginn jeder Runde erhöht sich der Endschaden des Trägers und seiner Verbündeten 1 Runde lang um 1 % pro am Leben befindlichem gegnerischen Kämpfer (4-mal kumulierbar)."
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198385,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/82553-128.png",
     "description": "„Dich erwartet ein schreckliches Schicksal, nicht wahr?“\n\n- Der Gefangene des Spiegels",
-    "ability": "{{spell,31857,1::Blendende Spiegelung}}:\n• Der Träger verringert den anfänglichen Schaden des ersten von einem Verbündeten erlittenen Angriffs und wirft 75 % dieses Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar)."
+    "ability": "Blendende Spiegelung:\n• Der Träger verringert den anfänglichen Schaden des ersten von einem Verbündeten erlittenen Angriffs und wirft 75 % dieses Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar)."
   },
   {
     "ankama_id": 32116,
@@ -198476,7 +198476,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/183011-128.png",
     "description": "„Hier werden wir standhaft bleiben und kämpfen; es wird keinen Rückzug mehr geben. Wir sind die Tapferen Herzen, stolze Mitglieder des Donnerordens, die Speerspitze des glorreichen Bonta! Wir werden hier bleiben und kämpfen. Und wenn wir nicht lebendig hier bleiben können, dann bleiben wir tot hier!“\n\n– Menalt, Beschützer des Martalo und Meister des Ordens des Tapferen Herzens",
-    "ability": "{{spell,31859,1::Orden des Donners}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 6 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP (1-mal kumulierbar).",
+    "ability": "Orden des Donners:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 6 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP (1-mal kumulierbar).",
     "ap_cost": 5,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -198585,7 +198585,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/22014-128.png",
     "description": "„Es ist nicht nötig, vor mir zu buckeln. Wenn man dem Tod gegenübersteht, sind Protokoll, Heuchelei und Lügen nicht länger von Bedeutung: Allein die Wahrheit bleibt. Nackt, grausam, schmerzhaft ... und befreiend.“\n\n– Thanatena, Königin von Externam",
-    "ability": "{{spell,31860,1::Thanatenas Urteil}}:\n• Zu Beginn jeder Runde erodiert der Träger alle und erhöht den von ihnen erlittenen Schaden 1 Runde lang um 4 % (1-mal kumulierbar).\n• Wenn er einen Gegner besiegt, wird er um 20 % seiner LP geheilt und sein Endschaden erhöht sich 1 Runde lang um 10 %. Wenn es sich um eine Beschwörung handelt, wird sie um 5 % ihrer LP geheilt.",
+    "ability": "Thanatenas Urteil:\n• Zu Beginn jeder Runde erodiert der Träger alle und erhöht den von ihnen erlittenen Schaden 1 Runde lang um 4 % (1-mal kumulierbar).\n• Wenn er einen Gegner besiegt, wird er um 20 % seiner LP geheilt und sein Endschaden erhöht sich 1 Runde lang um 10 %. Wenn es sich um eine Beschwörung handelt, wird sie um 5 % ihrer LP geheilt.",
     "ap_cost": 5,
     "crit_chance": 20,
     "crit_bonus": 4,
@@ -198676,7 +198676,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/1330-128.png",
     "description": "„Oh Geliebter, wie ich mich nach deiner Umarmung sehne! Meine kürzlichen Abenteuer haben mich erschöpft, und eine kleine Pause wäre die größte aller Wonnen. Ebenso verlangt es mich danach, deinen Drachenfreund zu treffen! Ich amüsiere mich köstlich bei der Vorstellung, dass ihr wie zwei Kinder herumbalgt.\nBis bald, deine dich liebende Sefine.“\n\n– Helsefine, Iop-Magierin und -Alchemistin",
-    "ability": "{{spell,31861,1::Helsefines Liebe}}:\n• Wenn der Träger einen Schild wirkt oder Nahkampfschaden verursacht, heilt er Verbündete, die nicht weiter als 3 Felder von ihm entfernt sind, um 6 % ihrer LP (einmal pro Auslösungsart und pro Runde)."
+    "ability": "Helsefines Liebe:\n• Wenn der Träger einen Schild wirkt oder Nahkampfschaden verursacht, heilt er Verbündete, die nicht weiter als 3 Felder von ihm entfernt sind, um 6 % ihrer LP (einmal pro Auslösungsart und pro Runde)."
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198755,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/9392-128.png",
     "description": "„Hopp, pünktlich auf die Minute, wie immer! Mach schnell, ich habe genau fünf Minuten für dich. Das göttliche Uhrwerk wartet nicht.“\n\n– Henual",
-    "ability": "{{spell,31862,1::Henuals Pünktlichkeit}}:\n• Der Träger erhält 1 AP, wenn er teleportiert wird, sich selbst teleportiert oder die Position tauscht (1 Mal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert."
+    "ability": "Henuals Pünktlichkeit:\n• Der Träger erhält 1 AP, wenn er teleportiert wird, sich selbst teleportiert oder die Position tauscht (1 Mal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert."
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198864,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/11382-128.png",
     "description": "„Wir sind gemeinsam einen weiten Weg gegangen, aber dieser Sieg gehört dir. Die Zwölf haben dir nur den richtigen Weg gezeigt ... Wir werden uns bald wiedersehen, Auserwählter der Götter. Deine Geschichte hat gerade erst begonnen.“\n\n– Meriana",
-    "ability": "{{spell,31858,1::Merianas Hellsicht}}:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang einen Entzug im jeweiligen Element (8-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde & Wasser: 5 BP-Entzug\n • Feuer & Luft: 5 AP-Entzug"
+    "ability": "Merianas Hellsicht:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang einen Entzug im jeweiligen Element (8-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde & Wasser: 5 BP-Entzug\n • Feuer & Luft: 5 AP-Entzug"
   },
   {
     "ankama_id": 32163,
@@ -198973,7 +198973,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/6760-128.png",
     "description": "„Wer Bontas Werte verteidigen will, braucht einen scharfen Verstand und einen gestählten Körper.“\n\n– Amayiro",
-    "ability": "{{spell,31880,1::Eifer der Weißen Stadt}}:\n• Zu Beginn jeder Runde erhöht sich die Resistenz des Trägers und seiner Verbündeten 1 Runde lang um 1 % pro am Leben befindlichem gegnerischen Kämpfer (4-mal kumulierbar).",
+    "ability": "Eifer der Weißen Stadt:\n• Zu Beginn jeder Runde erhöht sich die Resistenz des Trägers und seiner Verbündeten 1 Runde lang um 1 % pro am Leben befindlichem gegnerischen Kämpfer (4-mal kumulierbar).",
     "ap_cost": 4,
     "crit_chance": 15,
     "crit_bonus": 15,
@@ -199010,7 +199010,7 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219012-128.png",
     "description": "Dieser Prysmaradit ist ganz schön schwer. Wirklich unglaublich für einen so kleinen Gegenstand. Er erinnert euch an jemanden.",
-    "ability": "{{spell,31881,1::Unverpryt}}:\nDer Träger ist unverrückbar, solange er keinen Schaden erleidet. Wenn er Schaden erleidet, wird die Dauer des Zustands auf 1 Runde gesetzt."
+    "ability": "Unverpryt:\nDer Träger ist unverrückbar, solange er keinen Schaden erleidet. Wenn er Schaden erleidet, wird die Dauer des Zustands auf 1 Runde gesetzt."
   },
   {
     "ankama_id": 32201,
