@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.48',
+    date: '2026-10-07',
+    notes: [
+      "Fix: loading a build into the planner could show the placeholder instead of its real name",
+      'Fix: loading a build and refreshing before re-publishing could silently create a duplicate instead of updating it',
+    ],
+  },
+  {
     version: '0.3.47',
     date: '2026-10-07',
     notes: [
