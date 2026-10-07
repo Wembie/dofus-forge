@@ -1591,7 +1591,7 @@
     "slot": "other",
     "effects": [],
     "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png",
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png",
     "description": "Esta pócima mágica es la única que puede darle magia a los calzoncillos de cuero de Capitán Chafer trenzados entre ellos, eso lo dice todo acerca del poder de esta pócima."
   },
   {
@@ -20664,6 +20664,1164 @@
     "description": "Gracias a esta pócima con sabor a limonada podrás teletransportarte a la taberna de Panzudo, el veterano kerubim. Solo puedes utilizarla en Incarnam. Tampoco funciona en las mazmorras ni en las noches de tormenta y no te salvará de la riña con tu pareja tras haberte pasado el día detrás de la barra."
   },
   {
+    "ankama_id": 14645,
+    "name": "Esencia del Girasol Hambriento",
+    "level": 20,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14646,
+    "name": "Esencia de Mob Lasponja",
+    "level": 10,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14647,
+    "name": "Esencia del Jalató Real",
+    "level": 30,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14648,
+    "name": "Esencia del Escarajefe Dorado",
+    "level": 40,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14649,
+    "name": "Esencia de Batofu",
+    "level": 40,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14650,
+    "name": "Esencia de Boostacho",
+    "level": 40,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14651,
+    "name": "Esencia del Chafer Rōnin",
+    "level": 40,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14652,
+    "name": "Esencia de Bworka",
+    "level": 50,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14653,
+    "name": "Esencia de herreros",
+    "level": 50,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14654,
+    "name": "Esencia de Shin Larva",
+    "level": 50,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14655,
+    "name": "Esencia del Coralador Magistral",
+    "level": 50,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14656,
+    "name": "Esencia de Kodámade",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14657,
+    "name": "Esencia del Wey Wabbit",
+    "level": 60,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14658,
+    "name": "Esencia del Blop Real",
+    "level": 60,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14659,
+    "name": "Esencia de la Gelatina Real",
+    "level": 60,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "¿Qué hay ahí dentro?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14660,
+    "name": "Esencia de Nelwynn",
+    "level": 70,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14661,
+    "name": "Esencia de Gurlo el Terrible",
+    "level": 70,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14662,
+    "name": "Esencia del Crujidor Legendario",
+    "level": 70,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14663,
+    "name": "Esencia de Nagate",
+    "level": 130,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14664,
+    "name": "Esencia del Wey Wobot",
+    "level": 80,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14665,
+    "name": "Esencia del Abráknido Ancestral",
+    "level": 90,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14666,
+    "name": "Esencia del Dragocerdo",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14667,
+    "name": "Esencia del Trankitronko",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14668,
+    "name": "Esencia de Maxilubo",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14669,
+    "name": "Esencia de Moon",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14670,
+    "name": "Esencia de Dramak",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14671,
+    "name": "Esencia del Rasgabola Mayor",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14672,
+    "name": "Esencia del Maestro Cuerbok",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14673,
+    "name": "Esencia de la Rata Blanca",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14674,
+    "name": "Esencia de la Rata Negra",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14675,
+    "name": "Esencia del Blop Multicolor Real",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14676,
+    "name": "Esencia del Minotauroro",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14677,
+    "name": "Esencia del Jalamut Real",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14678,
+    "name": "Esencia de Shihan y Hanshi",
+    "level": 140,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      },
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14679,
+    "name": "Esencia del Tofu Real",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14680,
+    "name": "Esencia de Cocabulia",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14681,
+    "name": "Esencia de Skonk",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14682,
+    "name": "Esencia de Tanukui San",
+    "level": 130,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14683,
+    "name": "Esencia de Funoroshi",
+    "level": 140,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14684,
+    "name": "Esencia del Roble Blando",
+    "level": 140,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14685,
+    "name": "Esencia del Tynril",
+    "level": 140,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14686,
+    "name": "Esencia del Morsagüino Real",
+    "level": 140,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14687,
+    "name": "Esencia de Ben el Ripata",
+    "level": 150,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14688,
+    "name": "Esencia de Sfinter Cell",
+    "level": 150,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14689,
+    "name": "Esencia del Kimbo",
+    "level": 160,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14690,
+    "name": "Esencia del Minotot",
+    "level": 160,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14691,
+    "name": "Esencia del Obsidiantre",
+    "level": 160,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14692,
+    "name": "Esencia de Tengu Gélifux",
+    "level": 170,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14693,
+    "name": "Esencia del Cil",
+    "level": 180,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14694,
+    "name": "Esencia del Kralamar Gigante",
+    "level": 180,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14695,
+    "name": "Esencia de Bworker",
+    "level": 180,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14696,
+    "name": "Esencia de Ugah",
+    "level": 180,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14697,
+    "name": "Esencia de Tejossus",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14698,
+    "name": "Esencia de Fuji Gélifux Nodriza",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14699,
+    "name": "Esencia de Esmígol",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14700,
+    "name": "Esencia del Golosotrón Real",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14701,
+    "name": "Esencia de Mizz Frizz",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14702,
+    "name": "Esencia de Sylargh",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14703,
+    "name": "Esencia de Klim",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14704,
+    "name": "Esencia de Nileza",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14705,
+    "name": "Esencia del conde Kontatrás",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14706,
+    "name": "Esencia de Merkator",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14720,
+    "name": "Esencia de Kwoknan",
+    "level": 50,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 14774,
+    "name": "Esencia del Kaníbola Daldrrak",
+    "level": 60,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 14812,
     "name": "Regalar una tarta",
     "level": 1,
@@ -20866,6 +22024,24 @@
     "description": "Esta gran colección de crápulas puede utilizarse como guía de personas con las que no cruzarte o para asustar a los niños: «Si no eres bueno, ¡el bandido de la página 6 vendrá a por ti!». El gramaje moderado de las páginas de esta obra también lo convierte en un libro apto para hojear en el excusado."
   },
   {
+    "ankama_id": 14975,
+    "name": "Esencia de Sombra",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 15026,
     "name": "Cuerbax",
     "level": 1,
@@ -20889,7 +22065,7 @@
   },
   {
     "ankama_id": 15028,
-    "name": "Scalo",
+    "name": "Skalo",
     "level": 1,
     "type": "Figura",
     "slot": "other",
@@ -21079,6 +22255,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69740-128.png",
     "description": "Tras todas las humillaciones que Thor Pestruz infligió a tu trasero, es más que justo que ahora te comas su carne sin miramientos."
+  },
+  {
+    "ankama_id": 15095,
+    "name": "Esencia de Kanígrula",
+    "level": 160,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 15163,
@@ -21388,6 +22582,60 @@
     "description": "Al beberte esta pócima, te teletransportarás a la sala del portal de la torre de los viajeros dimensionales. Bueno, si todo va bien, obviamente."
   },
   {
+    "ankama_id": 15272,
+    "name": "Esencia del Rey Nidas",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15273,
+    "name": "Esencia de Malefíscof",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15274,
+    "name": "Esencia de Perfósil",
+    "level": 150,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 15312,
     "name": "Riquísimo",
     "level": 1,
@@ -21488,6 +22736,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51001-128.png",
     "description": "Mojada en una buena sopa, esta piedra divina hará de ti un prospectador divino... Al menos temporalmente."
+  },
+  {
+    "ankama_id": 15362,
+    "name": "Esencia de Thor Pestruz",
+    "level": 130,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 15399,
@@ -22030,6 +23296,132 @@
     "description": "Con este pergamino, podrás aprender la actitud especial de los tymadores."
   },
   {
+    "ankama_id": 15702,
+    "name": "Esencia del Capitán Eskarlata",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15703,
+    "name": "Esencia de Toxoliat",
+    "level": 180,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15704,
+    "name": "Esencia de la Reina de los Ladrones",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15705,
+    "name": "Esencia de Protozorror",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15734,
+    "name": "Esencia de Vórtex",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15735,
+    "name": "Esencia de XLII",
+    "level": 170,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 15736,
+    "name": "Esencia de Fraktal",
+    "level": 120,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 15802,
     "name": "Velo eidolónico de trasgolog",
     "level": 1,
@@ -22531,6 +23923,42 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png",
     "description": "Con este pergamino, podrás aprender la actitud Ira de Bolgrot."
+  },
+  {
+    "ankama_id": 16285,
+    "name": "Esencia de Blatarata",
+    "level": 40,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 16286,
+    "name": "Esencia de Lasoberaña",
+    "level": 90,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 16304,
@@ -27013,6 +28441,24 @@
     "description": "Con este pergamino, podrás aprender la actitud cuadrarse."
   },
   {
+    "ankama_id": 17037,
+    "name": "Esencia de Chadalid",
+    "level": 10,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 17063,
     "name": "Balístico",
     "level": 1,
@@ -28259,6 +29705,24 @@
     "description": "Solo un ser en estado de ebriedad avanzado puede encontrar este cofre."
   },
   {
+    "ankama_id": 17414,
+    "name": "Esencia de Le Chuko",
+    "level": 90,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 17420,
     "name": "Etílico",
     "level": 1,
@@ -28681,6 +30145,60 @@
     "description": "Con este pergamino, podrás aprender la actitud especial de los sacrógritos."
   },
   {
+    "ankama_id": 17735,
+    "name": "Esencia de Miauvizor",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 17736,
+    "name": "Esencia de Ush",
+    "level": 160,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 17737,
+    "name": "Esencia de Piojoporojo",
+    "level": 110,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 17766,
     "name": "Pócima de Gisgul",
     "level": 30,
@@ -29098,7 +30616,7 @@
   },
   {
     "ankama_id": 18338,
-    "name": "Golpe de gracia yopuka",
+    "name": "Ardor de Yopuka",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -29118,7 +30636,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia del dios Yopuka."
+    "description": "Con este pergamino, podrás aprender la actitud Ardor de Yopuka."
   },
   {
     "ankama_id": 18412,
@@ -29952,7 +31470,7 @@
   },
   {
     "ankama_id": 19568,
-    "name": "Golpe de gracia de Zurcarák",
+    "name": "Malicia de Zurcarák",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -29972,11 +31490,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25272-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia del dios Zurcarák."
+    "description": "Con este pergamino, podrás aprender la actitud Malicia de Zurcarák."
   },
   {
     "ankama_id": 19569,
-    "name": "Golpe de gracia de Aniripsa",
+    "name": "Alquibendición de Aniripsa",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -29996,11 +31514,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia de la diosa Aniripsa."
+    "description": "Con este pergamino, podrás aprender la actitud Alquibendición de Aniripsa."
   },
   {
     "ankama_id": 19570,
-    "name": "Golpe de gracia de Ocra",
+    "name": "Precisión de Ocra",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30020,11 +31538,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25274-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia de la diosa Ocra."
+    "description": "Con este pergamino, podrás aprender la actitud Precisión de Ocra."
   },
   {
     "ankama_id": 19571,
-    "name": "Golpe de gracia de Feca",
+    "name": "Pavés de Feca",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30044,11 +31562,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25273-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia de la diosa Feca."
+    "description": "Con este pergamino, podrás aprender la actitud Pavés de Feca."
   },
   {
     "ankama_id": 19572,
-    "name": "Golpe de gracia de Sacrógrito",
+    "name": "Abrazo de Sacrógrito",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30068,11 +31586,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25267-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia de la diosa Sacrógrito."
+    "description": "Con este pergamino, podrás aprender la actitud Abrazo de Sacrógrito."
   },
   {
     "ankama_id": 19573,
-    "name": "Golpe de gracia de Sadida",
+    "name": "Manipulación de Sadida",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30092,11 +31610,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25283-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia del dios Sadida."
+    "description": "Con este pergamino, podrás aprender la actitud Manipulación de Sadida."
   },
   {
     "ankama_id": 19574,
-    "name": "Golpe de gracia de Osamodas",
+    "name": "Jalamorfosis de Osamodas",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30116,7 +31634,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25266-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia del dios Osamodas."
+    "description": "Con este pergamino, podrás aprender la actitud Jalamorfosis de Osamodas."
   },
   {
     "ankama_id": 19575,
@@ -30144,7 +31662,7 @@
   },
   {
     "ankama_id": 19576,
-    "name": "Golpe de gracia de Sram",
+    "name": "Engaño de Sram",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30164,11 +31682,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25284-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia del dios Sram."
+    "description": "Con este pergamino, podrás aprender la actitud Engaño de Sram."
   },
   {
     "ankama_id": 19577,
-    "name": "Golpe de gracia de Xelor",
+    "name": "Prisión Temporal de Xelor",
     "level": 1,
     "type": "Pergamino de actitud",
     "slot": "other",
@@ -30188,7 +31706,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25265-128.png",
-    "description": "Con este pergamino podrás aprender el golpe de gracia del dios Xelor."
+    "description": "Con este pergamino, podrás aprender la actitud Prisión Temporal de Xelor."
   },
   {
     "ankama_id": 19578,
@@ -30445,6 +31963,258 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "Este diploma otorga el título de «Campeón de Furyha 648».",
     "ability": "Título: Campeón de Furyha 648."
+  },
+  {
+    "ankama_id": 19905,
+    "name": "Esencia de Mantícoro",
+    "level": 80,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19906,
+    "name": "Esencia de Bethel Akarna",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19907,
+    "name": "Esencia de Solar",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19908,
+    "name": "Esencia de Meno",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19909,
+    "name": "Esencia de Ilyzaelle",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19910,
+    "name": "Esencia de Dientinea",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19911,
+    "name": "Esencia de la Larva de Kutulú",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19912,
+    "name": "Esencia de Anerice la Fab'huquesa",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19913,
+    "name": "Esencia del conde Razof",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19914,
+    "name": "Esencia de Dazahk Martillelo",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19915,
+    "name": "Esencia de El Piko",
+    "level": 130,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19916,
+    "name": "Esencia de Tal Kasha",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19921,
+    "name": "Esencia de Judini",
+    "level": 90,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 19938,
+    "name": "Esencia de Anelidón",
+    "level": 170,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 19951,
@@ -31920,42 +33690,6 @@
     "description": "Transfórmate en una criatura de Nawidad gracias a esta pócima fabricada a partir de púas de kepika, baba de duende, montones de nieve y una pizca de magia nawideña."
   },
   {
-    "ankama_id": 20670,
-    "name": "Bolsa de reflejos oníricos",
-    "level": 1,
-    "type": "Objeto utilizable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 66,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/100056-128.png",
-    "description": "Esta bolsa contiene varios reflejos oníricos."
-  },
-  {
-    "ankama_id": 20671,
-    "name": "Caja de reflejos oníricos",
-    "level": 1,
-    "type": "Objeto utilizable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 372,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/15056-128.png",
-    "description": "Esta caja contiene varios reflejos oníricos."
-  },
-  {
     "ankama_id": 20675,
     "name": "Los paztekas: tradiciones y anécdotas",
     "level": 1,
@@ -32038,60 +33772,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/24871-128.png",
     "description": "Si te bebes esta gotita con un sabor amargo, podrás adquirir temporalmente la apariencia de Cocoburio. Los efectos desaparecerán en cuanto entres en combate."
-  },
-  {
-    "ankama_id": 20706,
-    "name": "Bolsa de 1000 reflejos olvidados",
-    "level": 1,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164150-128.png",
-    "description": "Esta bolsa contiene un montón de reflejos olvidados."
-  },
-  {
-    "ankama_id": 20707,
-    "name": "Bolsa de 1000 bolsas de 1000 reflejos olvidados",
-    "level": 1,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164154-128.png",
-    "description": "Esta bolsa llena de bolsas contiene un montón de reflejos olvidados."
-  },
-  {
-    "ankama_id": 20708,
-    "name": "Cofre de reflejos olvidados",
-    "level": 1,
-    "type": "Objeto utilizable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1047,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "Este cofre contiene varios reflejos olvidados."
   },
   {
     "ankama_id": 20709,
@@ -32188,24 +33868,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43039-128.png",
     "description": "Bebe y siente como la sombra del dragón pasa sobre ti.\n\nAtención, esta pócima es de un solo uso."
-  },
-  {
-    "ankama_id": 20724,
-    "name": "Regalo de reflejos oníricos",
-    "level": 1,
-    "type": "Objeto utilizable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 4,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "Este regalo contiene varios reflejos oníricos."
   },
   {
     "ankama_id": 20753,
@@ -32758,78 +34420,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12781-128.png",
     "description": "Nadie garantiza los efectos que tendrá la ingesta de este elixir en criaturas sujetas a una anomalía temporal."
-  },
-  {
-    "ankama_id": 20973,
-    "name": "Quintaesencia de kwaketch'd",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12776-128.png",
-    "description": "Esta quintaesencia alberga una croqueta impregnada aleatoria, que puede darle a una mascota legendaria un poder de desplazamiento."
-  },
-  {
-    "ankama_id": 20974,
-    "name": "Quintaesencia de pukachi",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12777-128.png",
-    "description": "Esta quintaesencia alberga una croqueta impregnada aleatoria, que puede darle a una mascota legendaria un poder ofensivo."
-  },
-  {
-    "ankama_id": 20975,
-    "name": "Quintaesencia de magikangrejo",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12778-128.png",
-    "description": "Esta quintaesencia alberga una croqueta impregnada aleatoria, que puede darle a una mascota legendaria un poder defensivo o de apoyo."
-  },
-  {
-    "ankama_id": 20976,
-    "name": "Quintaesencia de bakusharna",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12779-128.png",
-    "description": "Esta quintaesencia alberga una croqueta impregnada aleatoria, que puede darle a una mascota legendaria un poder especial."
   },
   {
     "ankama_id": 20988,
@@ -34776,6 +36366,24 @@
     "description": "Con este pergamino, podrás aprender la actitud Cocabulia."
   },
   {
+    "ankama_id": 21217,
+    "name": "Esencia de Torkelonia",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 21281,
     "name": "Pócima cocuzkeña",
     "level": 1,
@@ -35288,6 +36896,60 @@
     "description": "¡Eshtá rico, pero quema musho!"
   },
   {
+    "ankama_id": 21513,
+    "name": "Esencia de Dragenerys",
+    "level": 70,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 21514,
+    "name": "Esencia de Karnozor",
+    "level": 100,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 21515,
+    "name": "Esencia de Corrupción",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 21517,
     "name": "Bolsillito de merkasako de Ankama",
     "level": 1,
@@ -35776,624 +37438,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/71059-128.png",
     "description": "Esta pequeña pócima te refresca el aliento y puede, además, llevarte a un lugar mu particular del Éter."
-  },
-  {
-    "ankama_id": 21950,
-    "name": "Narketilla onírica",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172012-128.png",
-    "description": "¿Qué esperas para abrir este cofrecillo blanco? La suerte sonríe a los valientes, no a los acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21951,
-    "name": "Narketilla fantástica",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172015-128.png",
-    "description": "¿Qué esperas para abrir este cofrecillo amarillo? La suerte sonríe a los valientes, no a los acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21952,
-    "name": "Narketilla imaginaria",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172018-128.png",
-    "description": "¿Qué esperas para abrir este cofrecillo azul? La suerte sonríe a los valientes, no a los acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21953,
-    "name": "Narketilla brumosa",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172021-128.png",
-    "description": "¿Qué esperas para abrir este cofrecillo parma? La suerte sonríe a los valientes, no a los acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21954,
-    "name": "Narkofre onírico",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172013-128.png",
-    "description": "Este pequeño cofre blanco solo espera una cosa: que alguien lo abra como una yopukita desgarra a sus enemigos."
-  },
-  {
-    "ankama_id": 21955,
-    "name": "Narkofre fantástico",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172016-128.png",
-    "description": "Este pequeño cofre amarillo solo espera una cosa: que tu mano lo abra y toque con el dedo sus riquezas."
-  },
-  {
-    "ankama_id": 21956,
-    "name": "Narkofre imaginario",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172019-128.png",
-    "description": "Este pequeño cofre azul solo espera una cosa: que un aventurero ávido de riquezas lo abra."
-  },
-  {
-    "ankama_id": 21957,
-    "name": "Narkofre brumoso",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172022-128.png",
-    "description": "Este pequeño cofre parma solo espera una cosa: dejar su contenido al desnudo para el disfrute de tus ojos."
-  },
-  {
-    "ankama_id": 21958,
-    "name": "Narkaja onírica",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172014-128.png",
-    "description": "No sufras más, ¡ábrela!"
-  },
-  {
-    "ankama_id": 21959,
-    "name": "Narkaja fantástica",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172017-128.png",
-    "description": "¡Qué animadas están las cajas amarillas!"
-  },
-  {
-    "ankama_id": 21960,
-    "name": "Narkaja imaginaria",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172020-128.png",
-    "description": "¡Deja de imaginar su contenido y ábrela ya!"
-  },
-  {
-    "ankama_id": 21961,
-    "name": "Narkaja brumosa",
-    "level": 180,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "¿Qué hay ahí dentro?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172023-128.png",
-    "description": "No te dejes desalentar por su color violeta, ya que esta caja guarda productos de la mejor calidad."
-  },
-  {
-    "ankama_id": 21970,
-    "name": "Prismaradita ámbar",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 2,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219000-128.png",
-    "description": "Cuando miras esta piedra astral de color ámbar, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21971,
-    "name": "Prismaradita coral",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219001-128.png",
-    "description": "Cuando miras esta piedra astral de color coral, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21972,
-    "name": "Prismaradita carmesí",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219002-128.png",
-    "description": "Cuando miras esta piedra astral carmesí, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21973,
-    "name": "Prismaradita prasio",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219003-128.png",
-    "description": "Cuando miras esta piedra astral de color prasio, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21974,
-    "name": "Prismaradita esmeralda",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219004-128.png",
-    "description": "Cuando miras esta piedra astral de color esmeralda, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21975,
-    "name": "Prismaradita abeto",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219005-128.png",
-    "description": "Cuando miras esta piedra astral de color verde abeto, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21976,
-    "name": "Prismaradita cian",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219006-128.png",
-    "description": "Cuando miras esta piedra astral cian, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21977,
-    "name": "Prismaradita azulada",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219007-128.png",
-    "description": "Cuando miras esta piedra astral azulada, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21978,
-    "name": "Prismaradita zafiro",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219008-128.png",
-    "description": "Cuando miras esta piedra astral de color zafiro, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21979,
-    "name": "Prismaradita malva",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219009-128.png",
-    "description": "Cuando miras esta piedra astral malva, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21980,
-    "name": "Prismaradita añil",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219010-128.png",
-    "description": "Cuando miras esta piedra astral de color añil, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21981,
-    "name": "Prismaradita cinzolín",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 250,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219011-128.png",
-    "description": "Cuando miras esta piedra astral de color cinzolín, se te cierran los ojos lentamente, listos para transportarte a un nuevo sueño."
-  },
-  {
-    "ankama_id": 21999,
-    "name": "Prisorpresa de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217009-128.png",
-    "description": "¡Esta prismaradita da suerte! Te vendrá bien porque, después de tu última aventura en el Picahari, lo necesitas con creces."
-  },
-  {
-    "ankama_id": 22000,
-    "name": "Prisorpresa brillante de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217010-128.png",
-    "description": "¡Esta prismaradita da suerte! Te vendrá bien porque, después de tu última aventura en el Picahari, lo necesitas con creces."
-  },
-  {
-    "ankama_id": 22002,
-    "name": "Pristraumático brillante de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "-special spell-",
-        "min": 0,
-        "max": 0,
-        "effect_id": 163
-      },
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217012-128.png",
-    "description": "Esta prismaradita es perfecta para los aventureros con efecto retardado y rencorosos. Algo parecido a ti, vamos."
-  },
-  {
-    "ankama_id": 22003,
-    "name": "Pristraumático de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217013-128.png",
-    "description": "Esta prismaradita es perfecta para los aventureros con efecto retardado y rencorosos. Algo parecido a ti, vamos."
-  },
-  {
-    "ankama_id": 22005,
-    "name": "Pristeza de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217015-128.png",
-    "description": "Esta prismaradita es perfecta para acercarte a aventureros o aventureras que estuvieran buscando marcar las distancias contigo. Como buen erudito, conoces el secreto de los héroes de gran peso: la perseverancia."
-  },
-  {
-    "ankama_id": 22006,
-    "name": "Pristeza brillante de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217016-128.png",
-    "description": "Esta prismaradita es perfecta para acercarte a aventureros o aventureras que estuvieran buscando marcar las distancias contigo. Como buen erudito, conoces el secreto de los héroes de gran peso: la perseverancia."
-  },
-  {
-    "ankama_id": 22008,
-    "name": "Prisanación de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217018-128.png",
-    "description": "Esta prismaradita es algo así como una fuente de la juventud, pero sin agua... y sin fuente. Tampoco se puede decir que rejuvenezca. Vale, sí, es una comparación malísima."
-  },
-  {
-    "ankama_id": 22009,
-    "name": "Prisanación brillante de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217019-128.png",
-    "description": "Esta prismaradita es algo así como una fuente de la juventud, pero sin agua... y sin fuente. Tampoco se puede decir que rejuvenezca. Vale, sí, es una comparación malísima."
-  },
-  {
-    "ankama_id": 22016,
-    "name": "Prisentimiento de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217026-128.png",
-    "description": "Esta prismaradita te dará ese lado resabido que tienen los adolescentes actuales, sin sacrificar la comodidad indecorosa de tu situación privilegiada."
-  },
-  {
-    "ankama_id": 22017,
-    "name": "Prisentimiento brillante de antaño",
-    "level": 200,
-    "type": "Consumible obsoleto de los Sueños",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gana x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217027-128.png",
-    "description": "Esta prismaradita te dará ese lado resabido que tienen los adolescentes actuales, sin sacrificar la comodidad indecorosa de tu situación privilegiada."
   },
   {
     "ankama_id": 22071,
@@ -36934,6 +37978,60 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141053-128.png",
     "description": "Este bolsillito te permite adquirir el tema de merkasako Verano junto con todos sus elementos de entorno."
+  },
+  {
+    "ankama_id": 22128,
+    "name": "Esencia de Guerra",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 22129,
+    "name": "Esencia de Miseria",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 22130,
+    "name": "Esencia de Servidumbre",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 22237,
@@ -37678,7 +38776,7 @@
   },
   {
     "ankama_id": 22526,
-    "name": "Cápsula de hechizo: Flecha Absorbente",
+    "name": "Cápsula de hechizo: Ojo por Ojo",
     "level": 1,
     "type": "Hada artificial",
     "slot": "other",
@@ -39868,6 +40966,78 @@
     "description": "Si te bebes esta cerveza te volverás tan ágil como una tortuga ninjawa, pero ¿cuál?"
   },
   {
+    "ankama_id": 24133,
+    "name": "Esencia del shogun Tofugawa",
+    "level": 160,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 24134,
+    "name": "Esencia de Kumijo",
+    "level": 170,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 24135,
+    "name": "Esencia del rey Imagami",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 24136,
+    "name": "Esencia de la reina Amirukam",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 24145,
     "name": "Kerrima",
     "level": 1,
@@ -41568,6 +42738,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
     "description": "La grasa es vida y quien esparza este salchichón de sabor salvaje podría cambiar la tuya.\n¿Oink?"
+  },
+  {
+    "ankama_id": 25318,
+    "name": "Esencia de Kabaal",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 25352,
@@ -43993,6 +45181,24 @@
     "ability": "Título: Pergamigromante valeroso."
   },
   {
+    "ankama_id": 26041,
+    "name": "Esencia del Conflicto Eterno",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165045-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 26059,
     "name": "Jalabola dedicada de Bonta",
     "level": 1,
@@ -45162,6 +46368,42 @@
     "description": "Con este pergamino, podrás aprender la actitud Dragón ocre."
   },
   {
+    "ankama_id": 26803,
+    "name": "Esencia de Hell Mina",
+    "level": 150,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
+    "ankama_id": 26804,
+    "name": "Esencia del director Grunob",
+    "level": 40,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 26811,
     "name": "Tofupuak efímero",
     "level": 1,
@@ -46097,6 +47339,24 @@
     "description": "Has recibido este regalo de cartón tras una aventura increíble. Contiene un ser efímero que te permitirá sacarle provecho a tu experiencia."
   },
   {
+    "ankama_id": 27372,
+    "name": "Esencia de rakooper",
+    "level": 50,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
+  },
+  {
     "ankama_id": 27380,
     "name": "Beso de Hécate",
     "level": 1,
@@ -46161,6 +47421,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141010-128.png",
     "description": "El universo es extenso, pero debes saber que sea cual sea el lugar en el que te encuentres, puedes utilizar las galimichas que se encuentran en esta bolsa."
+  },
+  {
+    "ankama_id": 27405,
+    "name": "Esencia de Belladona",
+    "level": 200,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 27410,
@@ -46312,6 +47590,24 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/222005-128.png",
     "description": "Este pergamino te dará acceso al ornamento y al título Veterano.",
     "ability": "Título: Veterano."
+  },
+  {
+    "ankama_id": 27451,
+    "name": "Esencia de Demena Decobre",
+    "level": 190,
+    "type": "Esencia de guardián de mazmorra",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gana x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta esencia posee una parte del poder de un guardián de mazmorra, la flor y nata de los monstruos del Mundo de los Doce. Ahora depende de ti encontrarle una utilidad a la altura de su potencia."
   },
   {
     "ankama_id": 27454,
@@ -48825,14 +50121,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "Si no temes que unos aventureros te cacen en tu próximo paseo por el Bosque Petrificado, bébete esta pócima.\nSolo quienes han rezado en el corazón de las profundidades del templo encantado son dignos de calmar su sed de espiritualidad.",
-    "conditions": [
-      {
-        "stat": "Estar abonado",
-        "operator": "=",
-        "value": 1
-      }
-    ]
+    "description": "Si no temes que unos aventureros te cacen en tu próximo paseo por el Bosque Petrificado, bébete esta pócima.\nSolo quienes han rezado en el corazón de las profundidades del templo encantado son dignos de calmar su sed de espiritualidad."
   },
   {
     "ankama_id": 28499,
@@ -51467,6 +52756,12 @@
         "min": 100,
         "max": 0,
         "effect_id": 36
+      },
+      {
+        "stat": "Número de víctimas:.",
+        "min": 1,
+        "max": 0,
+        "effect_id": 123
       }
     ],
     "set_id": null,
@@ -53388,7 +54683,7 @@
   },
   {
     "ankama_id": 30527,
-    "name": "Set de maestro de armas",
+    "name": "Set cosmético de maestro de armas",
     "level": 1,
     "type": "Set cosmético",
     "slot": "other",
@@ -53412,7 +54707,7 @@
   },
   {
     "ankama_id": 30528,
-    "name": "Set afilado",
+    "name": "Set cosmético afilado",
     "level": 1,
     "type": "Set cosmético",
     "slot": "other",
@@ -58561,7 +59856,7 @@
   },
   {
     "ankama_id": 31913,
-    "name": "Set de agente de viajes",
+    "name": "Set cosmético de agente de viajes",
     "level": 1,
     "type": "Set cosmético",
     "slot": "other",
@@ -60477,7 +61772,7 @@
     "ankama_id": 32491,
     "name": "Esquirla entorpecedora",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60502,7 +61797,7 @@
     "ankama_id": 32492,
     "name": "Esquirla evasiva",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60527,7 +61822,7 @@
     "ankama_id": 32493,
     "name": "Esquirla repulsiva",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60552,7 +61847,7 @@
     "ankama_id": 32494,
     "name": "Esquirla afilada",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60577,7 +61872,7 @@
     "ankama_id": 32495,
     "name": "Esquirla acerada",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60602,7 +61897,7 @@
     "ankama_id": 32496,
     "name": "Esquirla robusta",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60627,7 +61922,7 @@
     "ankama_id": 32497,
     "name": "Esquirla anclada",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60652,7 +61947,7 @@
     "ankama_id": 32498,
     "name": "Esquirla curativa",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60677,7 +61972,7 @@
     "ankama_id": 32499,
     "name": "Esquirla bloqueadora",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -60702,7 +61997,7 @@
     "ankama_id": 32500,
     "name": "Esquirla fugaz",
     "level": 20,
-    "type": "Esquirlas",
+    "type": "Esquirla",
     "slot": "other",
     "effects": [
       {
@@ -61843,7 +63138,7 @@
   },
   {
     "ankama_id": 33552,
-    "name": "Set de los adoradores de onis",
+    "name": "Set cosmético de los adoradores de onis",
     "level": 1,
     "type": "Set cosmético",
     "slot": "other",
@@ -68906,7 +70201,7 @@
   },
   {
     "ankama_id": 34266,
-    "name": "Set resplandeciente del fénix",
+    "name": "Set cosmético flamígero del fénix",
     "level": 1,
     "type": "Set cosmético",
     "slot": "other",
@@ -70819,5 +72114,234 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png",
     "description": "Una cajita llena de fantásticos objetos."
+  },
+  {
+    "ankama_id": 34584,
+    "name": "Set cosmético de Gúltar el Maldito",
+    "level": 1,
+    "type": "Set cosmético",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Intercambiable:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "¿Qué hay ahí dentro?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165136-128.png",
+    "description": "Una cajita llena de fantásticos objetos."
+  },
+  {
+    "ankama_id": 34618,
+    "name": "Ungüento manosanto",
+    "level": 1,
+    "type": "Objeto utilizable",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Devuelve puntos de vida",
+        "min": 15,
+        "max": 0,
+        "effect_id": 201
+      },
+      {
+        "stat": "Devuelve punto de energía",
+        "min": 15,
+        "max": 0,
+        "effect_id": 211
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165057-128.png",
+    "description": "Este ungüento te permite recuperar vida y energía, y tal vez incluso conseguir la felicidad."
+  },
+  {
+    "ankama_id": 34624,
+    "name": "[!] Malédiction de Médoroziam",
+    "level": 1,
+    "type": "Pergamino de actitud",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Intercambiable:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Actitud",
+        "min": 353,
+        "max": 0,
+        "effect_id": 98
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png",
+    "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam."
+  },
+  {
+    "ankama_id": 34704,
+    "name": "Pastel de setas",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49162-128.png",
+    "description": "Tras 45 minutos de horno, disfruta de un aroma que hará que te dé vueltas la cabeza."
+  },
+  {
+    "ankama_id": 34705,
+    "name": "Tortilla de queso",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49163-128.png",
+    "description": "Como dice el refrán: «No se puede hacer una tortilla sin rallar queso azul»."
+  },
+  {
+    "ankama_id": 34706,
+    "name": "Té al regaliz",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49164-128.png",
+    "description": "La bebida perfecta para salir kas... cando y dejar atrás a tus adversarios."
+  },
+  {
+    "ankama_id": 34707,
+    "name": "Brochetas caramelizadas",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49165-128.png",
+    "description": "Llueva, truene o relampaguee, siempre es un buen momento para sacar la barbacoa y preparar unas brochetas para chuparse los dedos."
+  },
+  {
+    "ankama_id": 34708,
+    "name": "Carbonada",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49166-128.png",
+    "description": "Entre picarlo todo, marinar los ingredientes y esperar tres horas a que se cocine, hay que trabajar a fuego lento para ganarse este manjar."
+  },
+  {
+    "ankama_id": 34709,
+    "name": "Parrillada tierra y mar",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49167-128.png",
+    "description": "Para probar esta delicia, muchos gourmets están dispuestos a remover cielo, tierra... y hasta el mar."
+  },
+  {
+    "ankama_id": 34710,
+    "name": "La comida de Zabelle",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49168-128.png",
+    "description": "Pocos lo saben, pero añadir a la receta una pizca de almas amakneanas es la mejor forma de potenciar el sabor sin añadir ni una sola caloría extra."
+  },
+  {
+    "ankama_id": 34711,
+    "name": "Caldo de gato",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49169-128.png",
+    "description": "No te preocupes: ningún felino ha acabado dentro de este caldo. Aunque ha faltado poco, así que cuidado con las bolas de pelo que puedas encontrarte en el plato."
+  },
+  {
+    "ankama_id": 34712,
+    "name": "Compota de manzana",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49170-128.png",
+    "description": "Esta compota es muy popular en la Fuente, ya que se elabora con una fruta de la zona: las belinzanas."
+  },
+  {
+    "ankama_id": 34713,
+    "name": "Sopa de cebolla",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49171-128.png",
+    "description": "Tan sencilla como sabrosa, esta sopa está para llorar de gusto."
+  },
+  {
+    "ankama_id": 34714,
+    "name": "Magdalenas de canela",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49172-128.png",
+    "description": "Recién salidas del horno, estas magdalenas desprenden un aroma solo comparable a lo esponjosas que están."
+  },
+  {
+    "ankama_id": 34715,
+    "name": "Welsh y Shedar",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49173-128.png",
+    "description": "¿Qué mejor forma de terminar una comida que con queso? Queso marinado en queso, espolvoreado con queso y servido sobre un lecho de queso. Después de esto, imposible comer nada más."
+  },
+  {
+    "ankama_id": 34799,
+    "name": "Diploma de rey de la cocina",
+    "level": 1,
+    "type": "Pergamino de título",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Título:.",
+        "min": 0,
+        "max": 0,
+        "effect_id": 35
+      },
+      {
+        "stat": "Intercambiable:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
+    "description": "Este diploma otorga el título de «Rey de la cocina».",
+    "ability": "Título: Rey de la cocina."
   }
 ]

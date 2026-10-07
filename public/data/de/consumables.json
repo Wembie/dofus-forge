@@ -1591,7 +1591,7 @@
     "slot": "other",
     "effects": [],
     "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png",
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png",
     "description": "Dieser magische Trank ist als einziger stark genug, ineinander verknotete Lederschlüpfer des Chafer-Offiziers zu verzaubern. Das spricht Bände über die magische Macht, die diesem Trank innewohnt."
   },
   {
@@ -20664,6 +20664,1164 @@
     "description": "Mit diesem lecker nach Zitronenlimonade schmeckenden Trank könnt ihr euch direkt in Grobidans Gasthaus teleportieren. Er kann nur in Incarnam verwendet werden. Er funktioniert jedoch nicht bei schaurigen Gewitternächten und um den Zurechtweisungen eures Partners zu entkommen, nachdem ihr euch den ganzen Tag im Gasthaus um die Ohren geschlagen habt!"
   },
   {
+    "ankama_id": 14645,
+    "name": "Essenz des Ausgehungerten Sonnenblümchens",
+    "level": 20,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14646,
+    "name": "Essenz von Spongemob",
+    "level": 10,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14647,
+    "name": "Essenz des Königlichen Fresssacks",
+    "level": 30,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14648,
+    "name": "Essenz des Goldenen Scarabiests",
+    "level": 40,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14649,
+    "name": "Essenz des Batofus",
+    "level": 40,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14650,
+    "name": "Essenz des Bartaboos",
+    "level": 40,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14651,
+    "name": "Essenz des Ronin-Chafers",
+    "level": 40,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14652,
+    "name": "Essenz der Bworkette",
+    "level": 50,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14653,
+    "name": "Essenz der Schatztruhe der Schattenschmiede",
+    "level": 50,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14654,
+    "name": "Essenz der Shin-Larve",
+    "level": 50,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14655,
+    "name": "Essenz des Mächtigen Korallators",
+    "level": 50,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14656,
+    "name": "Damadryas Essenz",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14657,
+    "name": "Essenz des Wa Wabbits",
+    "level": 60,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14658,
+    "name": "Essenz des Königlichen Blobs",
+    "level": 60,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14659,
+    "name": "Essenz des Königlichen Gelees",
+    "level": 60,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Was ist da drin?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14660,
+    "name": "Essenz von Nelwynn",
+    "level": 70,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14661,
+    "name": "Essenz von Gurrlo, dem Fürchterlichen",
+    "level": 70,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14662,
+    "name": "Essenz des Legendären Megakrachlers",
+    "level": 70,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14663,
+    "name": "Nagates Essenz",
+    "level": 130,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14664,
+    "name": "Essenz des Wa Wobots",
+    "level": 80,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14665,
+    "name": "Essenz des Ur-Astaknyden",
+    "level": 90,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14666,
+    "name": "Essenz des Schweinedrachens",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14667,
+    "name": "Essenz des Kuhlosses",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14668,
+    "name": "MuWulf-Essenz",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14669,
+    "name": "Essenz von Moon",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14670,
+    "name": "Essenz von Dramak",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14671,
+    "name": "Essenz des Groß-Shilfs",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14672,
+    "name": "Essenz von Meister Rab",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14673,
+    "name": "Essenz der Weißen Ratte",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14674,
+    "name": "Essenz der Schwarzen Ratte",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14675,
+    "name": "Essenz des Königlichen Multiblobs",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14676,
+    "name": "Essenz des Minotorors",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14677,
+    "name": "Essenz des Königlichen Fressmuts",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14678,
+    "name": "Essenz von Shihan und Hanshi",
+    "level": 140,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      },
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14679,
+    "name": "Essenz des Königlichen Tofus",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14680,
+    "name": "Essenz von Crocabulia",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14681,
+    "name": "Essenz von Skeunk",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14682,
+    "name": "Essenz von Tanukouï San",
+    "level": 130,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14683,
+    "name": "Fuxoroshi-Essenz",
+    "level": 140,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14684,
+    "name": "Essenz von Weich-Eich",
+    "level": 140,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14685,
+    "name": "Essenz des Tynrils",
+    "level": 140,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14686,
+    "name": "Essenz des King Pings",
+    "level": 140,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14687,
+    "name": "Essenz von Ben, dem Ripaten",
+    "level": 150,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14688,
+    "name": "Essenz von Sphincter Cell",
+    "level": 150,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14689,
+    "name": "Essenz des Kimbos",
+    "level": 160,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14690,
+    "name": "Essenz des Minotots",
+    "level": 160,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14691,
+    "name": "Essenz des Obsidianters",
+    "level": 160,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14692,
+    "name": "Essenz von Tengu Eisfux",
+    "level": 170,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14693,
+    "name": "Essenz des Korrianders",
+    "level": 180,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14694,
+    "name": "Essenz des Riesenkrakamors",
+    "level": 180,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14695,
+    "name": "Essenz des Bworkers",
+    "level": 180,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14696,
+    "name": "Essenz des Stinkelings",
+    "level": 180,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14697,
+    "name": "Essenz des Daxolossus",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14698,
+    "name": "Essenz von Fuji Eisfux",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14699,
+    "name": "Essenz von Grollum",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14700,
+    "name": "Essenz des Himmlischen Barbären",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14701,
+    "name": "Essenz von Missiz Frizz",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14702,
+    "name": "Essenz von Sylargh",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14703,
+    "name": "Essenz von R.Klimm",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14704,
+    "name": "Essenz von Nileza",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14705,
+    "name": "Essenz von Graf Primzahl",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14706,
+    "name": "Essenz von Merkator",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14720,
+    "name": "Essenz des Kwackataus",
+    "level": 50,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 14774,
+    "name": "Essenz von Kanniball Aahde",
+    "level": 60,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
     "ankama_id": 14812,
     "name": "Emote-Schriftrolle: \"Einen Kuchen verschenken\"",
     "level": 1,
@@ -20864,6 +22022,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25137-128.png",
     "description": "Diese reichhaltige Sammlung an Widerlingen kann als Leitfaden dienen, welche Leute man besser meidet oder zum Erschrecken von Kindern: \"Wenn du nicht brav bist, dann holt dich der Bandit auf Seite 6!\" Die Seiten sind robust genug, um auf der Toilette geblättert werden zu können."
+  },
+  {
+    "ankama_id": 14975,
+    "name": "Schattens Essenz",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
   },
   {
     "ankama_id": 15026,
@@ -21079,6 +22255,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69740-128.png",
     "description": "Jetzt ist es endlich an der Zeit, den Viechern all ihre Kränkungen und Schmerzen heimzuzahlen. Drum habt ihr dem Filetstück kräftig eins übergebraten und leckt euch nach dem üppigen Mahl verzückt eure Finger ab."
+  },
+  {
+    "ankama_id": 15095,
+    "name": "Essenz von Kanigroula",
+    "level": 160,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
   },
   {
     "ankama_id": 15163,
@@ -21388,6 +22582,60 @@
     "description": "Wenn ihr diesen Trank zu euch nehmt, werdet ihr in den Portalraum des Turms der Dimensionsreisenden teleportiert. Zumindest, wenn alles gut geht."
   },
   {
+    "ankama_id": 15272,
+    "name": "Essenz von König Nidas",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15273,
+    "name": "Essenz von Unruhtruh",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15274,
+    "name": "Essenz von Griesengad",
+    "level": 150,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
     "ankama_id": 15312,
     "name": "Emote-Schriftrolle: \"Reicher als reich\"",
     "level": 1,
@@ -21488,6 +22736,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51001-128.png",
     "description": "Wenn man diesen göttlichen Stein in einer Suppe einweichen lässt, macht dies aus euch einen hervorragenden Filzer. Für eine gewisse Zeit zumindest."
+  },
+  {
+    "ankama_id": 15362,
+    "name": "Essenz des Kamedelspatzen",
+    "level": 130,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
   },
   {
     "ankama_id": 15399,
@@ -22030,6 +23296,132 @@
     "description": "Dank dieser Schriftrolle könnt ihr das Spezialemote der Halsabschneider erlernen."
   },
   {
+    "ankama_id": 15702,
+    "name": "Essenz von Hauptmann Rot-Teka",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15703,
+    "name": "Essenz des Toxoliath",
+    "level": 180,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15704,
+    "name": "Essenz der Königin der Diebe",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15705,
+    "name": "Essenz des Protozoomax",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15734,
+    "name": "Vortex-Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15735,
+    "name": "XLII-Essenz",
+    "level": 170,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
+    "ankama_id": 15736,
+    "name": "Fraktal-Essenz",
+    "level": 120,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird..."
+  },
+  {
     "ankama_id": 15802,
     "name": "Fassetzfetzs eidolonischer Schleier",
     "level": 1,
@@ -22531,6 +23923,42 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png",
     "description": "Dank dieser Schriftrolle könnt ihr das Emote \"Bolgrots Zorn\" erlernen."
+  },
+  {
+    "ankama_id": 16285,
+    "name": "Essenz des Kaakerlaaks",
+    "level": 40,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, welcher der Macht gerecht wird, die der Essenz innewohnt..."
+  },
+  {
+    "ankama_id": 16286,
+    "name": "Essenz der Arachkönigin",
+    "level": 90,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, welcher der Macht gerecht wird, die der Essenz innewohnt..."
   },
   {
     "ankama_id": 16304,
@@ -27013,6 +28441,24 @@
     "description": "Dank dieser Schriftrolle könnt ihr das Emote \"Achtung!\" erlernen"
   },
   {
+    "ankama_id": 17037,
+    "name": "Kardorim-Essenz",
+    "level": 10,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird ..."
+  },
+  {
     "ankama_id": 17063,
     "name": "Emote-Schriftrolle: \"Ballistisch\"",
     "level": 1,
@@ -28259,6 +29705,24 @@
     "description": "Nur eine äußerst trunkene Person kann diese Truhe finden."
   },
   {
+    "ankama_id": 17414,
+    "name": "Le Tschucks Essenz",
+    "level": 90,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird ..."
+  },
+  {
     "ankama_id": 17420,
     "name": "Feuerwasser",
     "level": 1,
@@ -28681,6 +30145,60 @@
     "description": "Dank dieser Schriftrolle könnt ihr das Spezialemote der Sacrieurs erlernen."
   },
   {
+    "ankama_id": 17735,
+    "name": "Essenz des Maunzaugs",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird ..."
+  },
+  {
+    "ankama_id": 17736,
+    "name": "Ush-Essenz",
+    "level": 160,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird ..."
+  },
+  {
+    "ankama_id": 17737,
+    "name": "Flohzilla-Essenz",
+    "level": 110,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Jetzt liegt es an euch, einen Verwendungszweck hierfür zu finden, der der innewohnenden Macht der Essenz gerecht wird ..."
+  },
+  {
     "ankama_id": 17766,
     "name": "Gisgoultrank",
     "level": 30,
@@ -29098,7 +30616,7 @@
   },
   {
     "ankama_id": 18338,
-    "name": "Todesstoß des Iop",
+    "name": "Iops Begeisterung",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -29118,7 +30636,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png",
-    "description": "Mit dieser Schriftrolle kannst du den Todesstoß des Gottes Iop lernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Iops Begeisterung“ erlernen."
   },
   {
     "ankama_id": 18412,
@@ -29952,7 +31470,7 @@
   },
   {
     "ankama_id": 19568,
-    "name": "Todesstoß des Ecaflip",
+    "name": "Ecaflips Neckerei",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -29972,11 +31490,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25272-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß des Gottes Ecaflip erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Ecaflips Neckerei“ erlernen."
   },
   {
     "ankama_id": 19569,
-    "name": "Todesstoß des Eniripsa",
+    "name": "Eniripsas Segen",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -29996,11 +31514,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß der Göttin Eniripsa erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Eniripsas Segen“ erlernen."
   },
   {
     "ankama_id": 19570,
-    "name": "Todesstoß des Crâ",
+    "name": "Crâs Präzision",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30020,11 +31538,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25274-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß der Göttin Crâ erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Crâs Präzision“ erlernen."
   },
   {
     "ankama_id": 19571,
-    "name": "Todesstoß des Féca",
+    "name": "Fécas Pavese",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30044,11 +31562,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25273-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß der Göttin Féca erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Fécas Pavese“ erlernen."
   },
   {
     "ankama_id": 19572,
-    "name": "Todesstoß des Sacrieur",
+    "name": "Sacrieurs Umarmung",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30068,11 +31586,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25267-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß der Göttin Sacrieur erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Sacrieurs Umarmung“ erlernen."
   },
   {
     "ankama_id": 19573,
-    "name": "Todesstoß des Sadida",
+    "name": "Sadidas Manipulation",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30092,11 +31610,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25283-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß des Gottes Sadida erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Sadidas Manipulation“ erlernen."
   },
   {
     "ankama_id": 19574,
-    "name": "Todesstoß des Osamodas",
+    "name": "Osamodas' Fressackmorphose",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30116,7 +31634,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25266-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß des Gottes Osamodas erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Osamodas' Fressackmorphose“ erlernen."
   },
   {
     "ankama_id": 19575,
@@ -30144,7 +31662,7 @@
   },
   {
     "ankama_id": 19576,
-    "name": "Todesstoß des Sram",
+    "name": "Srams Heimtücke",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30164,11 +31682,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25284-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß des Gottes Sram erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Srams Heimtücke“ erlernen."
   },
   {
     "ankama_id": 19577,
-    "name": "Todesstoß des Xélor",
+    "name": "Xélors Zeitgefängnis",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -30188,7 +31706,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25265-128.png",
-    "description": "Mit dieser Schriftrolle könnt ihr den Todesstoß des Gottes Xélor erlernen."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Xélors Zeitgefängnis“ erlernen."
   },
   {
     "ankama_id": 19578,
@@ -30445,6 +31963,258 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "Dieses Diplom verleiht einem den Titel „Furye-Champion 648“.",
     "ability": "Titel: Furye-Champion 648"
+  },
+  {
+    "ankama_id": 19905,
+    "name": "Essenz des Mantiskors",
+    "level": 80,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19906,
+    "name": "Essenz von Bethel Akarna",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19907,
+    "name": "Essenz von Solar",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19908,
+    "name": "Essenz von Meno",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19909,
+    "name": "Essenz von Ilyzaelle",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19910,
+    "name": "Essenz von Zantinea",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19911,
+    "name": "Essenz einer Kutuluhlarve",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19912,
+    "name": "Essenz von Anerice der Shushu-Königin",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19913,
+    "name": "Essenz von Graf Razoff",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19914,
+    "name": "Essenz von Dazahk Eishammer",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht des Dungeonbosses, der zu den echten Elitemonstern der Welt der Zwölf zählte. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19915,
+    "name": "Essenz von El Piekso",
+    "level": 130,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19916,
+    "name": "Essenz von Tal Kasha",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19921,
+    "name": "Essenz von Helmukol",
+    "level": 90,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
+  },
+  {
+    "ankama_id": 19938,
+    "name": "Essenz von Vater Wurm",
+    "level": 170,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeonwächters, der zur Crème de la Crème der Monster in der Welt der Zwölf gehört. Nun liegt es an euch, dafür einen geeigneten Verwendungszweck zu finden."
   },
   {
     "ankama_id": 19951,
@@ -31920,42 +33690,6 @@
     "description": "Verwandelt euch in eine Weißnachtskreatur dank dieses Tranks, der aus Kipik-Nadeln, Gwichtel-Sabber, einer großen Menge Schnee und einer Prise Weißnachtszauber gebraut wurde."
   },
   {
-    "ankama_id": 20670,
-    "name": "Geldbeutel mit Traumspiegelungen",
-    "level": 1,
-    "type": "Gebrauchsgegenstände",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 66,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/100056-128.png",
-    "description": "Dieser Geldbeutel enthält mehrere Traumspiegelungen."
-  },
-  {
-    "ankama_id": 20671,
-    "name": "Kiste mit Traumspiegelungen",
-    "level": 1,
-    "type": "Gebrauchsgegenstände",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 372,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/15056-128.png",
-    "description": "Diese Kiste enthält mehrere Traumspiegelungen."
-  },
-  {
     "ankama_id": 20675,
     "name": "Die Pazteken: Bräuche und Anekdoten",
     "level": 1,
@@ -32038,60 +33772,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/24871-128.png",
     "description": "Wenn ihr diesen etwas bitteren Tropfen trinkt, nehmt ihr für kurze Zeit das Aussehen von Crocoburio an. Dieser Effekt verschwindet, sobald ihr einen Kampf beginnt."
-  },
-  {
-    "ankama_id": 20706,
-    "name": "Beutel mit 1000 Vergessenen Spiegelungen",
-    "level": 1,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164150-128.png",
-    "description": "Dieser Beutel enthält zahlreiche Vergessene Spiegelungen."
-  },
-  {
-    "ankama_id": 20707,
-    "name": "Beutel mit 1000 Beuteln mit 1000 Vergessenen Spiegelungen",
-    "level": 1,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164154-128.png",
-    "description": "Dieser Beutel voller Beutel enthält zahlreiche Vergessene Spiegelungen."
-  },
-  {
-    "ankama_id": 20708,
-    "name": "Truhe mit vergessenen Spiegelungen",
-    "level": 1,
-    "type": "Gebrauchsgegenstände",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1047,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "Diese Truhe enthält vergessene Spiegelungen."
   },
   {
     "ankama_id": 20709,
@@ -32188,24 +33868,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43039-128.png",
     "description": "Trinkt ihn und spürt den Schatten des Drachen, der über euch hinwegfliegt.\n\nAchtung, dieser Trank kann nur einmal genutzt werden."
-  },
-  {
-    "ankama_id": 20724,
-    "name": "Geschenk mit Traumspiegelungen",
-    "level": 1,
-    "type": "Gebrauchsgegenstände",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 4,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "Dieses Geschenk enthält mehrere Traumspiegelungen."
   },
   {
     "ankama_id": 20753,
@@ -32758,78 +34420,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12781-128.png",
     "description": "Keine Garantie für die Effekte dieses Elixiers auf Kreaturen, die einer Zeitanomalie ausgesetzt sind."
-  },
-  {
-    "ankama_id": 20973,
-    "name": "Quintessenz von Kwaporenta",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12776-128.png",
-    "description": "Diese Quintessenz enthält einen Hundeknochen, der von etwas zufälligem durchdrungen ist und einem legendären Vertrauten eine Bewegungsfähigkeit verleihen kann."
-  },
-  {
-    "ankama_id": 20974,
-    "name": "Quintessenz von Pukachi",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12777-128.png",
-    "description": "Diese Quintessenz enthält einen Hundeknochen, der von etwas zufälligem durchdrungen ist und einem legendären Vertrauten eine offensive Fähigkeit verleihen kann."
-  },
-  {
-    "ankama_id": 20975,
-    "name": "Quintessenz von Krabbador",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12778-128.png",
-    "description": "Diese Quintessenz enthält einen Hundeknochen, der von etwas zufälligem durchdrungen ist und einem legendären Vertrauten eine defensive Fähigkeit verleihen kann."
-  },
-  {
-    "ankama_id": 20976,
-    "name": "Quintessenz von Bakusomni",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12779-128.png",
-    "description": "Diese Quintessenz enthält einen Hundeknochen, der von etwas zufälligem durchdrungen ist und einem legendären Vertrauten eine besondere Fähigkeit verleihen kann."
   },
   {
     "ankama_id": 20988,
@@ -34776,6 +36366,24 @@
     "description": "Mit dieser Schriftrolle könnt ihr das Emote „Crocabulia“ erlernen."
   },
   {
+    "ankama_id": 21217,
+    "name": "Essenz von Torkélonia",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
     "ankama_id": 21281,
     "name": "Crocuzkianischer Trank",
     "level": 1,
@@ -35288,6 +36896,60 @@
     "description": "Gansch schön lecker, aber auch gansch schön heisch!"
   },
   {
+    "ankama_id": 21513,
+    "name": "Draegnerys' Essenz",
+    "level": 70,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 21514,
+    "name": "Kharnozors Essenz",
+    "level": 100,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 21515,
+    "name": "Verderbnis' Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
     "ankama_id": 21517,
     "name": "Ankama-Wandertaschen-Täschchen",
     "level": 1,
@@ -35776,624 +37438,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/71059-128.png",
     "description": "Dieser kleine Trank erfrischt euren Atem und kann euch ganz nebenbei an einen sehr besonderen Ort des Äthers bringen."
-  },
-  {
-    "ankama_id": 21950,
-    "name": "Traumhafte Narkokassette",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172012-128.png",
-    "description": "Was zögert ihr noch, diese kleine weiße Schatulle zu öffnen? Das Glück ist mit den Mutigen, nicht mit zwanghaften Hortern."
-  },
-  {
-    "ankama_id": 21951,
-    "name": "Fantastische Narkokassette",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172015-128.png",
-    "description": "Was zögert ihr noch, diese kleine gelbe Schatulle zu öffnen? Das Glück ist mit den Mutigen, nicht mit zwanghaften Hortern."
-  },
-  {
-    "ankama_id": 21952,
-    "name": "Imaginäre Narkokassette",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172018-128.png",
-    "description": "Was zögert ihr noch, diese kleine blaue Schatulle zu öffnen? Das Glück ist mit den Mutigen, nicht mit zwanghaften Hortern."
-  },
-  {
-    "ankama_id": 21953,
-    "name": "Nebulöse Narkokassette",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172021-128.png",
-    "description": "Was zögert ihr noch, diese kleine veilchenblaue Schatulle zu öffnen? Das Glück ist mit den Mutigen, nicht mit zwanghaften Hortern."
-  },
-  {
-    "ankama_id": 21954,
-    "name": "Traumhafte Narkotruhe",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172013-128.png",
-    "description": "Diese kleine weiße Schatztruhe erwartet nur eins: einen Spalt breit geöffnet zu werden, so wie eine Iopine ihre Gegner aufreißt."
-  },
-  {
-    "ankama_id": 21955,
-    "name": "Fantastische Narkotruhe",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172016-128.png",
-    "description": "Diese kleine gelbe Schatztruhe erwartet nur eins: durch eure Hand geöffnet zu werden, auf dass eure Finger mit ihren Reichtümern spielen."
-  },
-  {
-    "ankama_id": 21956,
-    "name": "Imaginäre Narkotruhe",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172019-128.png",
-    "description": "Diese kleine blaue Schatztruhe erwartet nur eins: von einem Abenteurer aufgeknackt zu werden, der es auf Reichtümer abgesehen hat."
-  },
-  {
-    "ankama_id": 21957,
-    "name": "Nebulöse Narkotruhe",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172022-128.png",
-    "description": "Diese kleine veilchenblaue Schatztruhe erwartet nur eins: euch ihren Inhalt zu offenbaren, damit sich eure Augen daran ergötzen können."
-  },
-  {
-    "ankama_id": 21958,
-    "name": "Traumhafte Narkokiste",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172014-128.png",
-    "description": "Tut euch keinen Zwang an und öffnet sie!"
-  },
-  {
-    "ankama_id": 21959,
-    "name": "Fantastische Narkokiste",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172017-128.png",
-    "description": "In diesen gelben Truhen ist einiges los!"
-  },
-  {
-    "ankama_id": 21960,
-    "name": "Imaginäre Narkokiste",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172020-128.png",
-    "description": "Hört auf, über den Inhalt zu fantasieren, und öffnet sie sofort!"
-  },
-  {
-    "ankama_id": 21961,
-    "name": "Nebulöse Narkokiste",
-    "level": 180,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Was ist da drin?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172023-128.png",
-    "description": "Lasst euch nicht von der violetten Farbe abschrecken. Diese Truhe enthält Güter von erstklassiger Qualität."
-  },
-  {
-    "ankama_id": 21970,
-    "name": "Bernsteinfarbener Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 2,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219000-128.png",
-    "description": "Wenn ihr in diesen bernsteinfarbenen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21971,
-    "name": "Korallenfarbener Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219001-128.png",
-    "description": "Wenn ihr in diesen korallenfarbenen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21972,
-    "name": "Knallroter Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219002-128.png",
-    "description": "Wenn ihr in diesen knallroten Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21973,
-    "name": "Hellgrüner Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219003-128.png",
-    "description": "Wenn ihr in diesen hellgrünen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21974,
-    "name": "Smaragdgrüner Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219004-128.png",
-    "description": "Wenn ihr in diesen smaragdgrünen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21975,
-    "name": "Tannengrüner Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219005-128.png",
-    "description": "Wenn ihr in diesen tannengrünen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21976,
-    "name": "Hellblauer Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219006-128.png",
-    "description": "Wenn ihr in diesen hellblauen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21977,
-    "name": "Azurblauer Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219007-128.png",
-    "description": "Wenn ihr in diesen azurblauen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21978,
-    "name": "Saphirblauer Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219008-128.png",
-    "description": "Wenn ihr in diesen saphirblauen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21979,
-    "name": "Veilchenblauer Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219009-128.png",
-    "description": "Wenn ihr in diesen veilchenblauen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21980,
-    "name": "Indigoblauer Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219010-128.png",
-    "description": "Wenn ihr in diesen indigoblauen Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21981,
-    "name": "Purpurvioletter Prysmaradit",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 250,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219011-128.png",
-    "description": "Wenn ihr in diesen purpurvioletten Astralstein blickt, schließen sich eure Augen sanft und ihr seid bereit, in einen neuen Traum einzutauchen."
-  },
-  {
-    "ankama_id": 21999,
-    "name": "Vergangene Pryberraschung",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217009-128.png",
-    "description": "Dieser Prysmaradit macht euch zum Glückspilz! Das trifft sich gut, denn nach eurem letzten Abenteuer in Saharach könnt ihr Glück echt gut gebrauchen."
-  },
-  {
-    "ankama_id": 22000,
-    "name": "Brillante vergangene Pryberraschung",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217010-128.png",
-    "description": "Dieser Prysmaradit macht euch zum Glückspilz! Das trifft sich gut, denn nach eurem letzten Abenteuer in Saharach könnt ihr Glück echt gut gebrauchen."
-  },
-  {
-    "ankama_id": 22002,
-    "name": "Vergangenes brillantes Prynterher",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "-special spell-",
-        "min": 0,
-        "max": 0,
-        "effect_id": 163
-      },
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217012-128.png",
-    "description": "Dieser Prysmaradit ist perfekt für langsame, nachtragende Abenteurer. Also quasi für Leute wie euch."
-  },
-  {
-    "ankama_id": 22003,
-    "name": "Vergangenes Prynterher",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217013-128.png",
-    "description": "Dieser Prysmaradit ist perfekt für langsame, nachtragende Abenteurer. Also quasi für Leute wie euch."
-  },
-  {
-    "ankama_id": 22005,
-    "name": "Vergangene Prynholjagd",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217015-128.png",
-    "description": "Mit diesem Prysmaradit bleibt ihr Abenteurern und Abenteurerinnen auf den Fersen, die sich aus dem Staub machen wollen. Ihr habt eure Lektion gelernt und kennt das Geheimnis aller schwerfälligen Helden: Durchhaltevermögen."
-  },
-  {
-    "ankama_id": 22006,
-    "name": "Brillante vergangene Prynholjagd",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217016-128.png",
-    "description": "Mit diesem Prysmaradit bleibt ihr Abenteurern und Abenteurerinnen auf den Fersen, die sich aus dem Staub machen wollen. Ihr habt eure Lektion gelernt und kennt das Geheimnis aller schwerfälligen Helden: Durchhaltevermögen."
-  },
-  {
-    "ankama_id": 22008,
-    "name": "Vergangene Prygeneration",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217018-128.png",
-    "description": "Dieser Prysmaradit ist fast wie ein Jungbrunnen, nur ohne Wasser ... und ohne Brunnen. Verjüngen tut er auch nicht wirklich. Der Vergleich hinkt wohl ein wenig."
-  },
-  {
-    "ankama_id": 22009,
-    "name": "Brillante vergangene Prygeneration",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217019-128.png",
-    "description": "Dieser Prysmaradit ist fast wie ein Jungbrunnen, nur ohne Wasser ... und ohne Brunnen. Verjüngen tut er auch nicht wirklich. Der Vergleich hinkt wohl ein wenig."
-  },
-  {
-    "ankama_id": 22016,
-    "name": "Vergangene Hyprys",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217026-128.png",
-    "description": "Dieser Prysmaradit verleiht euch die Dreistigkeit der heutigen Jugend, ohne dass ihr dafür den dekadenten Komfort eurer privilegierten Stellung aufgeben müsst."
-  },
-  {
-    "ankama_id": 22017,
-    "name": "Brillante vergangene Hyprys",
-    "level": 200,
-    "type": "Veraltetes Konsumgut der Träume",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Erhalte x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217027-128.png",
-    "description": "Dieser Prysmaradit verleiht euch die Dreistigkeit der heutigen Jugend, ohne dass ihr dafür den dekadenten Komfort eurer privilegierten Stellung aufgeben müsst."
   },
   {
     "ankama_id": 22071,
@@ -36934,6 +37978,60 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141053-128.png",
     "description": "Mit diesem Täschchen erhaltet ihr das Thema der Sommer-Wandertasche mit all ihren Dekoelementen."
+  },
+  {
+    "ankama_id": 22128,
+    "name": "Kriegs Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 22129,
+    "name": "Elends Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 22130,
+    "name": "Knechtschafts Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
   },
   {
     "ankama_id": 22237,
@@ -37678,7 +38776,7 @@
   },
   {
     "ankama_id": 22526,
-    "name": "Zauberkapsel: Absorbierender Pfeil",
+    "name": "Zauberkapsel: Auge um Auge",
     "level": 1,
     "type": "Feenwerk",
     "slot": "other",
@@ -39868,6 +40966,78 @@
     "description": "Wenn ihr dieses Bier trinkt, werdet ihr so flink wie eine Ninjawa-Törtel. Aber welche genau?"
   },
   {
+    "ankama_id": 24133,
+    "name": "Shogun Tofugawas Essenz",
+    "level": 160,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 24134,
+    "name": "Kumihos Essenz",
+    "level": 170,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 24135,
+    "name": "König Imagamis Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 24136,
+    "name": "Königin Amirukams Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
     "ankama_id": 24145,
     "name": "Kireim",
     "level": 1,
@@ -41568,6 +42738,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
     "description": "Fett ist das Leben und jenes, das diese wild gewürzte Wurst durchzieht, könnte sogar euer Leben verändern.\nGrunz?"
+  },
+  {
+    "ankama_id": 25318,
+    "name": "Kabahals Essenz",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
   },
   {
     "ankama_id": 25352,
@@ -43993,6 +45181,24 @@
     "ability": "Titel: Tapferer Schriftrollenbeschwörer"
   },
   {
+    "ankama_id": 26041,
+    "name": "Essenz des Ewigen Konflikts",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165045-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
     "ankama_id": 26059,
     "name": "Von Bonta signierter Fressball",
     "level": 1,
@@ -45162,6 +46368,42 @@
     "description": "Mit dieser Schriftrolle könnt ihr das Emote „Ocker-Drache“ erlernen."
   },
   {
+    "ankama_id": 26803,
+    "name": "Essenz von Hell Mina",
+    "level": 150,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
+    "ankama_id": 26804,
+    "name": "Essenz des Direktors Grunob",
+    "level": 40,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
     "ankama_id": 26811,
     "name": "Vergänglicher Tofewnos",
     "level": 1,
@@ -46097,6 +47339,24 @@
     "description": "Dieses Pappgeschenk habt ihr nach einem unglaublichen Abenteuer erhalten. Es beinhaltet ein kurzlebiges Ausrüstungsset, mit dem ihr eure Erfahrung nutzen könnt."
   },
   {
+    "ankama_id": 27372,
+    "name": "Racooper-Essenz",
+    "level": 50,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
+  },
+  {
     "ankama_id": 27380,
     "name": "Kuss der Hécate",
     "level": 1,
@@ -46161,6 +47421,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141010-128.png",
     "description": "Das Universum ist riesig, doch wo immer ihr auch seid, könnt ihr die Sharivari in dieser Börse benutzen."
+  },
+  {
+    "ankama_id": 27405,
+    "name": "Essenz der Belladonna",
+    "level": 200,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
   },
   {
     "ankama_id": 27410,
@@ -46312,6 +47590,24 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/222005-128.png",
     "description": "Diese Schriftrolle verschafft euch Zugriff auf die Verzierung und den Titel „Veteran“.",
     "ability": "Titel: Veteran"
+  },
+  {
+    "ankama_id": 27451,
+    "name": "Essenz von Barberyl Glockenleder",
+    "level": 190,
+    "type": "Dungeonboss-Essenz",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Erhalte x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Diese Essenz enthält einen Teil der Macht eines Dungeon-Wächters, der Crème de la Crème der Monster in der Welt der Zwölf. Jetzt ist es an euch, eine Einsatzmöglichkeit zu finden, die der Macht dieser Essenz würdig ist."
   },
   {
     "ankama_id": 27454,
@@ -48825,14 +50121,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "Wenn ihr keine Angst davor habt, bei eurem nächsten Spaziergang durch den Versteinerten Wald von Abenteurern gejagt zu werden, dann trinkt diesen Trank.\nNur jene, die in den Tiefen des trügerischen Tempels gebetet haben, sind würdig, ihren Durst nach Spiritualität zu stillen.",
-    "conditions": [
-      {
-        "stat": "Abonniert",
-        "operator": "=",
-        "value": 1
-      }
-    ]
+    "description": "Wenn ihr keine Angst davor habt, bei eurem nächsten Spaziergang durch den Versteinerten Wald von Abenteurern gejagt zu werden, dann trinkt diesen Trank.\nNur jene, die in den Tiefen des trügerischen Tempels gebetet haben, sind würdig, ihren Durst nach Spiritualität zu stillen."
   },
   {
     "ankama_id": 28499,
@@ -51467,6 +52756,12 @@
         "min": 100,
         "max": 0,
         "effect_id": 36
+      },
+      {
+        "stat": "Zahl der Opfer:",
+        "min": 1,
+        "max": 0,
+        "effect_id": 123
       }
     ],
     "set_id": null,
@@ -53388,7 +54683,7 @@
   },
   {
     "ankama_id": 30527,
-    "name": "Ausrüstungsset des Waffenmeisters",
+    "name": "Waffenmeisters Prunkset",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -53412,7 +54707,7 @@
   },
   {
     "ankama_id": 30528,
-    "name": "Geschärftes Ausrüstungsset",
+    "name": "Geschärftes Prunkset",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -58561,7 +59856,7 @@
   },
   {
     "ankama_id": 31913,
-    "name": "Reiseleiter-Set",
+    "name": "Prunkset des Reiseleiters",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -59106,7 +60401,7 @@
   },
   {
     "ankama_id": 32177,
-    "name": "Lebendtraum-Set",
+    "name": "Lebendtraum-Prunkset",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -61843,7 +63138,7 @@
   },
   {
     "ankama_id": 33552,
-    "name": "Set der Oni-Bewunderer",
+    "name": "Prunkset der Oni-Bewunderer",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -68906,7 +70201,7 @@
   },
   {
     "ankama_id": 34266,
-    "name": "Flammendes Set des Phönix",
+    "name": "Flammendes Prunkset des Phönix",
     "level": 1,
     "type": "Prunkset",
     "slot": "other",
@@ -70819,5 +72114,234 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png",
     "description": "Eine kleine Box voll wunderbarer Gegenstände."
+  },
+  {
+    "ankama_id": 34584,
+    "name": "Prunkset von Goultard dem Verfluchten",
+    "level": 1,
+    "type": "Prunkset",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Austauschbar:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Was ist da drin?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165136-128.png",
+    "description": "Eine kleine Box voll wunderbarer Gegenstände."
+  },
+  {
+    "ankama_id": 34618,
+    "name": "Belebender Balsam",
+    "level": 1,
+    "type": "Gebrauchsgegenstände",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Verleiht Lebenspunkte",
+        "min": 15,
+        "max": 0,
+        "effect_id": 201
+      },
+      {
+        "stat": "Verleiht Energiepunkt",
+        "min": 15,
+        "max": 0,
+        "effect_id": 211
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165057-128.png",
+    "description": "Dieser Balsam erfüllt euch wieder mit Leben und Energie – und vielleicht sogar mit Freude."
+  },
+  {
+    "ankama_id": 34624,
+    "name": "[!] Malédiction de Médoroziam",
+    "level": 1,
+    "type": "Emote-Schriftrolle",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Austauschbar:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Emote",
+        "min": 353,
+        "max": 0,
+        "effect_id": 98
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png",
+    "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam."
+  },
+  {
+    "ankama_id": 34704,
+    "name": "Champignonpastete",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49162-128.png",
+    "description": "Nach 45 Minuten Garzeit könnt ihr eine Mahlzeit genießen, die euch aus den Socken hauen wird."
+  },
+  {
+    "ankama_id": 34705,
+    "name": "Käseomelette",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49163-128.png",
+    "description": "Ganz nach dem alten Sprichwort: „Ohne Reibekäse kein Omelett.“"
+  },
+  {
+    "ankama_id": 34706,
+    "name": "Lakritztee",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49164-128.png",
+    "description": "Dies ist das perfekte Getränk, um loszulaufen und euren Gegnern davonzuflitzen."
+  },
+  {
+    "ankama_id": 34707,
+    "name": "Karamellisierte Spieße",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49165-128.png",
+    "description": "Ganz egal, ob es regnet, stürmt oder schneit. Jedes Wetter ist ideal, um den Grill hervorzuholen und ein paar leckere Spieße aufzulegen."
+  },
+  {
+    "ankama_id": 34708,
+    "name": "Schmorfleischeintopf",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49166-128.png",
+    "description": "Zwischen Schneiden, Marinieren und drei Stunden Garzeit muss man sich ganz schön ins Zeug legen, um diese Köstlichkeit genießen zu können."
+  },
+  {
+    "ankama_id": 34709,
+    "name": "Gemischte Grillplatte",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49167-128.png",
+    "description": "Viele Feinschmecker sind bereit, Himmel und Hölle (und das Meer) in Bewegung zu setzen, um diese Delikatesse einmal probieren zu dürfen."
+  },
+  {
+    "ankama_id": 34710,
+    "name": "Zabelles Mahlzeit",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49168-128.png",
+    "description": "Kaum jemand weiß es ... aber wenn ihr das Rezept mit einem Hauch von Amaknaer-Seelen verfeinert, wird das Gericht noch leckerer – ohne auch nur eine einzige zusätzliche Kalorie."
+  },
+  {
+    "ankama_id": 34711,
+    "name": "Katzenbrühe",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49169-128.png",
+    "description": "Keine Sorge, in dieser Brühe ist keine Katze enthalten. Viel hat allerdings nicht gefehlt ... Achtet also lieber auf eventuelle Haarbüschel, die auf eurem Teller gelandet sein könnten."
+  },
+  {
+    "ankama_id": 34712,
+    "name": "Apfelkompott",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49170-128.png",
+    "description": "Dieses Kompott ist in der Gegend der Quelle äußerst beliebt, da es aus regionalem Obst zubereitet wird – den Belläpfeln."
+  },
+  {
+    "ankama_id": 34713,
+    "name": "Zwiebelsuppe",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49171-128.png",
+    "description": "So einfach und doch so lecker! Diese Suppe ist so köstlich, dass man vor Freude weinen könnte."
+  },
+  {
+    "ankama_id": 34714,
+    "name": "Zimt-Madeleines",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49172-128.png",
+    "description": "Ihre fluffige Konsistenz ist ebenso unwiderstehlich wie der Duft, den diese frisch gebackenen Madeleines verströmen."
+  },
+  {
+    "ankama_id": 34715,
+    "name": "Welsh und Shedar",
+    "level": 1,
+    "type": "Event-Nahrung",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49173-128.png",
+    "description": "Käse schließt den Magen! Was könnte es also Besseres geben, um eine Mahlzeit zu beenden? In Käse marinierter Käse, mit Käse bestreut und auf einem Bett aus Käse. Danach kann man einfach nichts anderes mehr essen."
+  },
+  {
+    "ankama_id": 34799,
+    "name": "Diplom „König der Küche“",
+    "level": 1,
+    "type": "Titel-Schriftrolle",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Titel:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 35
+      },
+      {
+        "stat": "Austauschbar:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
+    "description": "Dieses Diplom verleiht den Titel „König der Küche“.",
+    "ability": "Titel: Meister der Kochkünste"
   }
 ]

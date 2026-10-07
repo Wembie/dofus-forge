@@ -1,9 +1,12 @@
 ﻿# Changelog
 
 All notable changes to Dofus Forge are documented here.  
-Game version is read automatically from `public/data/version.json` (currently **3.6.12.16** — equipment data held back, see below).
+Game version is read automatically from `public/data/version.json` (currently **3.7.1.0**).
 
 ---
+
+## [0.3.45] — 2026-10-06
+- **Fix**: equipment/sets are finally back on Dofus **3.7.1.0** with real stats — `api.dofusdu.de` fixed the effects outage on their end (reported to them directly; fixed same day). Re-ran the normal `pnpm fetch-data` against the REST API, no code changes needed — confirmed byte-for-byte consistent with items whose stats were already known (Twiggy Sword, Age-Old Amulet). 4073/4095 items now carry real effects, 527/940 sets have bonuses
 
 ## [0.3.44] — 2026-10-06
 - **Fix**: the equipment/sets endpoints on `api.dofusdu.de` (our third-party game data provider) stopped returning any `effects` at all for any item as of the Dofus 3.7 rollout, on both the bulk list and single-item detail endpoints — every item in the catalog (4095/4095) came back with zero stats. Verified directly against the live API, with no query parameter restoring it — an outage on their side, not something fixable by calling it differently. Rolled equipment/sets/consumables/index back to the last known-good **3.6.12.16** data while the provider's outage lasts

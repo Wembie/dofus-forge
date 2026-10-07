@@ -1591,7 +1591,7 @@
     "slot": "other",
     "effects": [],
     "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png",
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png",
     "description": "Esta poção mágica é a única capaz de fazer mágica nas ceroulas de couro entrelaçado do Capitão Chafer...Fala-se muito sobre o poder de tal poção."
   },
   {
@@ -20664,6 +20664,1164 @@
     "description": "Graças a essa poção com gosto de limonada, você poderá se teletransportar para a taberna do Panturra, o veterano Kerubim. Ela só pode ser utilizada em Incarnam e não funciona em noites de tempestade nem serve para fugir da ira da sua esposa quando você passar o dia inteiro no bar."
   },
   {
+    "ankama_id": 14645,
+    "name": "Essência do Girassol Faminto",
+    "level": 20,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14646,
+    "name": "Essência de Mob Esponja",
+    "level": 10,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14647,
+    "name": "Essência do Papatudo Real",
+    "level": 30,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14648,
+    "name": "Essência do Scarachefe Dourado",
+    "level": 40,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14649,
+    "name": "Essência de Batofu",
+    "level": 40,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14650,
+    "name": "Essência de Boostache",
+    "level": 40,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14651,
+    "name": "Essência do Chafer Ronin",
+    "level": 40,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14652,
+    "name": "Essência da Bworka",
+    "level": 50,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14653,
+    "name": "Essência dos Ferreiros",
+    "level": 50,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14654,
+    "name": "Essência da Shin Larva",
+    "level": 50,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14655,
+    "name": "Essência do Coralador Magistral",
+    "level": 50,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14656,
+    "name": "Essência de Damadríade",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14657,
+    "name": "Essência do Wei Wabbit",
+    "level": 60,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14658,
+    "name": "Essência do Blop Real",
+    "level": 60,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14659,
+    "name": "Essência da Gelatina Real",
+    "level": 60,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "O que tem aí?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14660,
+    "name": "Essência de Nelween",
+    "level": 70,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14661,
+    "name": "Essência de Gurlo, o Terrível",
+    "level": 70,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14662,
+    "name": "Essência do Smagador Legendário",
+    "level": 70,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14663,
+    "name": "Essência de Nagate",
+    "level": 130,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14664,
+    "name": "Essência do Wei Wobot",
+    "level": 80,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14665,
+    "name": "Essência do Arvraknídeo Ancestral",
+    "level": 90,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14666,
+    "name": "Essência do Dragão-Porco",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14667,
+    "name": "Essência do Tronkoso",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14668,
+    "name": "Essência do Mulobo",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14669,
+    "name": "Essência de Moon",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14670,
+    "name": "Essência de Dramak",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14671,
+    "name": "Essência do Rasgabola Maior",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14672,
+    "name": "Essência do Mestre Corvoc",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14673,
+    "name": "Essência do Rato Branco",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14674,
+    "name": "Essência do Rato Negro",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14675,
+    "name": "Essência do Blop Arco-íris Real",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14676,
+    "name": "Essência do Minotoror",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14677,
+    "name": "Essência do Papamute Real",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14678,
+    "name": "Essência de Shihan e Hanshi",
+    "level": 140,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      },
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14679,
+    "name": "Essência do Tofu Real",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14680,
+    "name": "Essência de Crocabulia",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14681,
+    "name": "Essência de Skonk",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14682,
+    "name": "Essência de Tanukui San",
+    "level": 130,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14683,
+    "name": "Essência de Foxnoroshi",
+    "level": 140,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14684,
+    "name": "Essência do Carvalho Mole",
+    "level": 140,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14685,
+    "name": "Essência do Tynril",
+    "level": 140,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14686,
+    "name": "Essência do Pingwin Real",
+    "level": 140,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14687,
+    "name": "Essência de Ben, o Ripata",
+    "level": 150,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14688,
+    "name": "Essência de Sphincter Cell",
+    "level": 150,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14689,
+    "name": "Essência do Kimbo",
+    "level": 160,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14690,
+    "name": "Essência do Minotot",
+    "level": 160,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14691,
+    "name": "Essência do Obsidemônio",
+    "level": 160,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14692,
+    "name": "Essência do Tengu Gelifox",
+    "level": 170,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14693,
+    "name": "Essência do Kwentro",
+    "level": 180,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14694,
+    "name": "Essência do Kralamor Gigante",
+    "level": 180,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14695,
+    "name": "Essência do Bworker",
+    "level": 180,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14696,
+    "name": "Essência de Ugah",
+    "level": 180,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14697,
+    "name": "Essência do Kolosso",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14698,
+    "name": "Essência de Fuji Gelifox",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14699,
+    "name": "Essência do Gordum",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14700,
+    "name": "Essência do Glurseleste",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14701,
+    "name": "Essência de Missiz Frizz",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14702,
+    "name": "Essência de Sylargh",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14703,
+    "name": "Essência de Klim",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14704,
+    "name": "Essência de Nileza",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14705,
+    "name": "Essência do Conde Traspafrent",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14706,
+    "name": "Essência de Merkator",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14720,
+    "name": "Essência do Kwakwa",
+    "level": 50,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 14774,
+    "name": "Essência do Kanibola Phora",
+    "level": 60,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
     "ankama_id": 14812,
     "name": "Dar um bolo",
     "level": 1,
@@ -20864,6 +22022,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25137-128.png",
     "description": "Esta grande compilação de crápulas pode ser usada como guia de pessoas que você não gostaria de encontrar ou então para assustar criancinhas: \"Se não se comportar, o bandido da página 6 vai te pegar!\". Graças à sua baixa gramatura, este livro também pode ser folheado no banheiro."
+  },
+  {
+    "ankama_id": 14975,
+    "name": "Essência do Sombra",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
   },
   {
     "ankama_id": 15026,
@@ -21079,6 +22255,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69740-128.png",
     "description": "Depois das inúmeras humilhações infligidas ao seu traseiro pelo Altostruz, devorar a sua carne assada com gosto será uma vingança perfeita."
+  },
+  {
+    "ankama_id": 15095,
+    "name": "Essência de Kanígrula",
+    "level": 160,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
   },
   {
     "ankama_id": 15163,
@@ -21388,6 +22582,60 @@
     "description": "Ao beber esta poção, você será teletransportado para a sala do portal da torre dos Viajantes Dimensionais. Se tudo correr bem, é claro."
   },
   {
+    "ankama_id": 15272,
+    "name": "Essência do Rei Nidas",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15273,
+    "name": "Essência de Malefisko",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15274,
+    "name": "Essência do Perfuror",
+    "level": 150,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
     "ankama_id": 15312,
     "name": "Ricaço",
     "level": 1,
@@ -21488,6 +22736,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51001-128.png",
     "description": "Embebida em uma boa sopa, esta pedra divina o transformará em um divino prospector... Temporariamente, pelo menos."
+  },
+  {
+    "ankama_id": 15362,
+    "name": "Essência do Altostruz",
+    "level": 130,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
   },
   {
     "ankama_id": 15399,
@@ -22030,6 +23296,132 @@
     "description": "Com este pergaminho, você poderá aprender o emote especial da classe Ladina."
   },
   {
+    "ankama_id": 15702,
+    "name": "Essência do Capitão Skarlat",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15703,
+    "name": "Essência do Toxolias",
+    "level": 180,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15704,
+    "name": "Essência da Rainha dos Ladrões",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15705,
+    "name": "Essência do Protozorror",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15734,
+    "name": "Essência de Vórtex",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15735,
+    "name": "Essência de XLII",
+    "level": 170,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 15736,
+    "name": "Essência de Fraktal",
+    "level": 120,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
     "ankama_id": 15802,
     "name": "Véu Simulador de Elfaceta",
     "level": 1,
@@ -22531,6 +23923,42 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png",
     "description": "Use este pergaminho para aprender o emote Ira de Bolgrot."
+  },
+  {
+    "ankama_id": 16285,
+    "name": "Essência de Karoblatta",
+    "level": 40,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 16286,
+    "name": "Essência da Rainha Donarânia",
+    "level": 90,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
   },
   {
     "ankama_id": 16304,
@@ -27013,6 +28441,24 @@
     "description": "Com este pergaminho, você poderá aprender o emote \"Sentido!\"."
   },
   {
+    "ankama_id": 17037,
+    "name": "Essência de Kardorim",
+    "level": 10,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
     "ankama_id": 17063,
     "name": "Balístico",
     "level": 1,
@@ -28259,6 +29705,24 @@
     "description": "Apenas um ser em estado de embriaguez avançado pode encontrar este baú."
   },
   {
+    "ankama_id": 17414,
+    "name": "Essência do Tchuke",
+    "level": 90,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
     "ankama_id": 17420,
     "name": "Etílico",
     "level": 1,
@@ -28681,6 +30145,60 @@
     "description": "Com este pergaminho, você poderá aprender o emote especial da classe Sacrier."
   },
   {
+    "ankama_id": 17735,
+    "name": "Essência do Gatolho",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 17736,
+    "name": "Essência de Ush",
+    "level": 160,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
+    "ankama_id": 17737,
+    "name": "Essência do Repulgnante",
+    "level": 110,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar para ela uma utilidade à altura de sua potência."
+  },
+  {
     "ankama_id": 17766,
     "name": "Poção de Gisgul",
     "level": 30,
@@ -29098,7 +30616,7 @@
   },
   {
     "ankama_id": 18338,
-    "name": "Golpe Fatal do Iop",
+    "name": "Ímpeto de Iop",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -29118,7 +30636,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png",
-    "description": "Este pergaminho lhe ensina o golpe fatal do deus Iop."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Ímpeto de Iop\"."
   },
   {
     "ankama_id": 18412,
@@ -29952,7 +31470,7 @@
   },
   {
     "ankama_id": 19568,
-    "name": "Golpe Fatal de Ecaflip",
+    "name": "Zoeira de Ecaflip",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -29972,11 +31490,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25272-128.png",
-    "description": "Este pergaminho ensina o golpe fatal do deus Ecaflip."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Zoeira de Ecaflip\"."
   },
   {
     "ankama_id": 19569,
-    "name": "Golpe Fatal de Eniripsa",
+    "name": "Alquibênção de Eniripsa",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -29996,11 +31514,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png",
-    "description": "Este pergaminho ensina o golpe fatal da deusa Eniripsa."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Alquibênção de Eniripsa\"."
   },
   {
     "ankama_id": 19570,
-    "name": "Golpe Fatal de Cra",
+    "name": "Precisão de Cra",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30020,11 +31538,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25274-128.png",
-    "description": "Este pergaminho ensina o golpe fatal da deusa Cra."
+    "description": "Com este pergaminho, você poderá aprender o emote Precisão de Cra."
   },
   {
     "ankama_id": 19571,
-    "name": "Golpe Fatal de Feca",
+    "name": "Broquel de Feca",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30044,11 +31562,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25273-128.png",
-    "description": "Este pergaminho ensina o golpe fatal da deusa Feca."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Broquel de Feca\"."
   },
   {
     "ankama_id": 19572,
-    "name": "Golpe Fatal de Sacrier",
+    "name": "Aperto de Sacrier",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30068,11 +31586,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25267-128.png",
-    "description": "Este pergaminho ensina o golpe fatal da deusa Sacrier."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Aperto de Sacrier\"."
   },
   {
     "ankama_id": 19573,
-    "name": "Golpe Fatal de Sadida",
+    "name": "Manipulação de Sadida",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30092,11 +31610,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25283-128.png",
-    "description": "Este pergaminho ensina o golpe fatal do deus Sadida."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Manipulação de Sadida\"."
   },
   {
     "ankama_id": 19574,
-    "name": "Golpe Fatal de Osamodas",
+    "name": "Papamorfose de Osamodas",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30116,7 +31634,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25266-128.png",
-    "description": "Este pergaminho ensina o golpe fatal do deus Osamodas."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Papamorfose de Osamodas\"."
   },
   {
     "ankama_id": 19575,
@@ -30144,7 +31662,7 @@
   },
   {
     "ankama_id": 19576,
-    "name": "Golpe Fatal de Sram",
+    "name": "Perfídia de Sram",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30164,11 +31682,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25284-128.png",
-    "description": "Este pergaminho ensina o golpe fatal do deus Sram."
+    "description": "Com este pergaminho, você poderá aprender o emote Perfídia de Sram."
   },
   {
     "ankama_id": 19577,
-    "name": "Golpe Fatal de Xelor",
+    "name": "Prisão Temporal de Xelor",
     "level": 1,
     "type": "Pergaminho de emote",
     "slot": "other",
@@ -30188,7 +31706,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25265-128.png",
-    "description": "Este pergaminho ensina o golpe fatal do deus Xelor."
+    "description": "Com este pergaminho, você poderá aprender o emote \"Prisão Temporal de Xelor\"."
   },
   {
     "ankama_id": 19578,
@@ -30445,6 +31963,258 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "Este diploma confere o título de \"Campeão de Furya 648\"",
     "ability": "Título: Campeão de Furya 648"
+  },
+  {
+    "ankama_id": 19905,
+    "name": "Essência do Mantiscorp",
+    "level": 80,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19906,
+    "name": "Essência de Bethel Akarna",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19907,
+    "name": "Essência de Solar",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19908,
+    "name": "Essência de Meno",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19909,
+    "name": "Essência de Ilyzaelle",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19910,
+    "name": "Essência de Dentinea",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19911,
+    "name": "Essência da Larva de Katulu",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19912,
+    "name": "Essência de Anerrais, a Shushesa",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19913,
+    "name": "Essência do Conde Razof",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19914,
+    "name": "Essência de Dazak Martegelo",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19915,
+    "name": "Essência de El Piko",
+    "level": 130,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19916,
+    "name": "Essência de Tal Kasha",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19921,
+    "name": "Essência de Couvefield",
+    "level": 90,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 19938,
+    "name": "Essência do Ver Medo",
+    "level": 170,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
   },
   {
     "ankama_id": 19951,
@@ -31920,42 +33690,6 @@
     "description": "Transforme-se em uma criatura de Nataw graças a esta poção, que leva agulhas de pinheto, baba de gluende, neve pra caramba e um toque de magia de Nataw."
   },
   {
-    "ankama_id": 20670,
-    "name": "Bolsa de Reflexos Oníricos",
-    "level": 1,
-    "type": "Item usável",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 66,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/100056-128.png",
-    "description": "Esta bolsa contém vários reflexos oníricos."
-  },
-  {
-    "ankama_id": 20671,
-    "name": "Caixa de Reflexos Oníricos",
-    "level": 1,
-    "type": "Item usável",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 372,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/15056-128.png",
-    "description": "Esta caixa contém vários reflexos oníricos."
-  },
-  {
     "ankama_id": 20675,
     "name": "Melaztecas: costumes e curiosidades",
     "level": 1,
@@ -32038,60 +33772,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/24871-128.png",
     "description": "Beber esta gotinha amarga faz você assumir a aparência de Crocoburio temporariamente. Os efeitos vão desaparecer quando você entrar em combate."
-  },
-  {
-    "ankama_id": 20706,
-    "name": "Bolsa com 1.000 Reflexos Esquecidos",
-    "level": 1,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164150-128.png",
-    "description": "Esta bolsa contém inúmeros Reflexos Esquecidos."
-  },
-  {
-    "ankama_id": 20707,
-    "name": "Bolsa com 1.000 Bolsas com 1.000 Reflexos Esquecidos",
-    "level": 1,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164154-128.png",
-    "description": "Esta bolsa de bolsas contém inúmeros Reflexos Esquecidos."
-  },
-  {
-    "ankama_id": 20708,
-    "name": "Baú de Reflexos Esquecidos",
-    "level": 1,
-    "type": "Item usável",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1047,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "Este baú contém vários Reflexos Esquecidos."
   },
   {
     "ankama_id": 20709,
@@ -32188,24 +33868,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43039-128.png",
     "description": "Beba e sinta a sombra do Dragão invadir você.\n\nAtenção: esta poção é de uso único."
-  },
-  {
-    "ankama_id": 20724,
-    "name": "Reflexos Oníricos de Presente",
-    "level": 1,
-    "type": "Item usável",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 4,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "Este presente contém vários reflexos oníricos."
   },
   {
     "ankama_id": 20753,
@@ -32758,78 +34420,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12781-128.png",
     "description": "Ninguém sabe ao certo qual seria o efeito deste elixir nas criaturas sujeitas às anomalias temporais."
-  },
-  {
-    "ankama_id": 20973,
-    "name": "Quintessência de Kwarkwetch",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12776-128.png",
-    "description": "Esta quintessência contém um biscoito infundido aleatoriamente, que pode conceder a uma mascote lendária um poder ligado ao deslocamento."
-  },
-  {
-    "ankama_id": 20974,
-    "name": "Quintessência de Pukachi",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12777-128.png",
-    "description": "Esta quintessência contém um biscoito infundido aleatoriamente, que pode conceder a uma mascote lendária um poder ofensivo."
-  },
-  {
-    "ankama_id": 20975,
-    "name": "Quintessência de Magikaranguejo",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12778-128.png",
-    "description": "Esta quintessência contém um biscoito infundido aleatoriamente, que pode conceder a uma mascote lendária um poder defensivo ou de apoio."
-  },
-  {
-    "ankama_id": 20976,
-    "name": "Quintessência de Bakusharna",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12779-128.png",
-    "description": "Esta quintessência contém um biscoito infundido aleatoriamente, que pode conceder a uma mascote lendária um poder especial."
   },
   {
     "ankama_id": 20988,
@@ -34776,6 +36366,24 @@
     "description": "Com este pergaminho, você poderá aprender o emote \"Crocabulia\"."
   },
   {
+    "ankama_id": 21217,
+    "name": "Essência de Torkelônia",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
     "ankama_id": 21281,
     "name": "Poção Crocuzkiana",
     "level": 1,
@@ -35288,6 +36896,60 @@
     "description": "Cuidado que tá quente!"
   },
   {
+    "ankama_id": 21513,
+    "name": "Essência de Draegnerys",
+    "level": 70,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 21514,
+    "name": "Essência do Kharnossauro",
+    "level": 100,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 21515,
+    "name": "Essência de Corrupção",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
     "ankama_id": 21517,
     "name": "Bolso de Saco de Viagem Ankama",
     "level": 1,
@@ -35776,624 +37438,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/71059-128.png",
     "description": "Esta pequena poção refresca o hálito e, de quebra, pode levar você para um lugar muito especial do Éter."
-  },
-  {
-    "ankama_id": 21950,
-    "name": "Narkaixote Onírico",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172012-128.png",
-    "description": "O que está esperando para abrir esta caixinha branca? A sorte sorri para os audaciosos, não para os acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21951,
-    "name": "Narkaixote Fantástico",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172015-128.png",
-    "description": "O que está esperando para abrir esta caixinha amarela? A sorte sorri para os audaciosos, não para os acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21952,
-    "name": "Narkaixote Imaginário",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172018-128.png",
-    "description": "O que está esperando para abrir esta caixinha azul? A sorte sorri para os audaciosos, não para os acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21953,
-    "name": "Narkaixote Nebuloso",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172021-128.png",
-    "description": "O que está esperando para abrir esta caixinha lilás? A sorte sorri para os audaciosos, não para os acumuladores compulsivos."
-  },
-  {
-    "ankama_id": 21954,
-    "name": "Narkofre Onírico",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172013-128.png",
-    "description": "Este pequeno baú branco só quer uma coisa: que você o abra como uma Iop que dilacera seus inimigos."
-  },
-  {
-    "ankama_id": 21955,
-    "name": "Narkofre Fantástico",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172016-128.png",
-    "description": "Este pequeno baú amarelo só quer uma coisa: que sua mão o abra e seus dedos toquem as riquezas contidas nele."
-  },
-  {
-    "ankama_id": 21956,
-    "name": "Narkofre Imaginário",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172019-128.png",
-    "description": "Este pequeno baú azul só quer uma coisa: ser destrancado por um aventureiro ávido de riquezas."
-  },
-  {
-    "ankama_id": 21957,
-    "name": "Narkofre Nebuloso",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172022-128.png",
-    "description": "Este pequeno baú lilás só quer uma coisa: revelar seu conteúdo para deleitar você."
-  },
-  {
-    "ankama_id": 21958,
-    "name": "Narkaixa Onírica",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172014-128.png",
-    "description": "Não se torture, abra-o logo!"
-  },
-  {
-    "ankama_id": 21959,
-    "name": "Narkaixa Fantástica",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172017-128.png",
-    "description": "Essas caixas amarelas são cheias de surpresas!"
-  },
-  {
-    "ankama_id": 21960,
-    "name": "Narkaixa Imaginária",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172020-128.png",
-    "description": "Pare de tentar imaginar o que tem aí dentro e abra logo esta caixa!"
-  },
-  {
-    "ankama_id": 21961,
-    "name": "Narkaixa Nebulosa",
-    "level": 180,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "O que tem aí?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172023-128.png",
-    "description": "Não se deixe afastar pela cor lilás desta caixa, pois ela contém produtos da melhor qualidade."
-  },
-  {
-    "ankama_id": 21970,
-    "name": "Prismaradita Âmbar",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 2,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219000-128.png",
-    "description": "Ao observar esta pedra ancestral âmbar, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21971,
-    "name": "Prismaradita Coral",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219001-128.png",
-    "description": "Ao observar esta pedra ancestral coral, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21972,
-    "name": "Prismaradita Carmesim",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219002-128.png",
-    "description": "Ao observar esta pedra ancestral carmesim, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21973,
-    "name": "Prismaradita Menta",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219003-128.png",
-    "description": "Ao observar esta pedra ancestral menta, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21974,
-    "name": "Prismaradita Esmeralda",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219004-128.png",
-    "description": "Ao observar esta pedra ancestral esmeralda, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21975,
-    "name": "Prismaradita Musgo",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219005-128.png",
-    "description": "Ao observar esta pedra ancestral verde-musgo, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21976,
-    "name": "Prismaradita Ciano",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219006-128.png",
-    "description": "Ao observar esta pedra ancestral ciano, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21977,
-    "name": "Prismaradita Celeste",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219007-128.png",
-    "description": "Ao observar esta pedra ancestral azul-celeste, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21978,
-    "name": "Prismaradita Safira",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219008-128.png",
-    "description": "Ao observar esta pedra ancestral safira, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21979,
-    "name": "Prismaradita Violeta",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219009-128.png",
-    "description": "Ao observar esta pedra ancestral violeta, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21980,
-    "name": "Prismaradita Índigo",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219010-128.png",
-    "description": "Ao observar esta pedra ancestral índigo, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21981,
-    "name": "Prismaradita Zinzolina",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 250,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219011-128.png",
-    "description": "Ao observar esta pedra ancestral zinzolina, seus olhos vão se fechando devagarinho, prontos para levar você a um novo sonho."
-  },
-  {
-    "ankama_id": 21999,
-    "name": "Surprisma do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217009-128.png",
-    "description": "Esta prismaradita dá sorte! Vem bem a calhar. Depois da sua última aventura em Espetárida, você está precisando urgentemente."
-  },
-  {
-    "ankama_id": 22000,
-    "name": "Surprisma Brilhante do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217010-128.png",
-    "description": "Esta prismaradita dá sorte! Vem bem a calhar. Depois da sua última aventura em Espetárida, você está precisando urgentemente."
-  },
-  {
-    "ankama_id": 22002,
-    "name": "Golprisma Brilhante do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "-special spell-",
-        "min": 0,
-        "max": 0,
-        "effect_id": 163
-      },
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217012-128.png",
-    "description": "Esta prismaradita é perfeita para os aventureiros lentos e rancorosos. Um pouco como você, na verdade."
-  },
-  {
-    "ankama_id": 22003,
-    "name": "Golprisma do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217013-128.png",
-    "description": "Esta prismaradita é perfeita para aventureiros lentos e rancorosos. Um pouco como você, na verdade."
-  },
-  {
-    "ankama_id": 22005,
-    "name": "Aprissar do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217015-128.png",
-    "description": "Esta prismaradita é perfeita para aproximar você dos aventureiros que tentam abrir distância. Em suma, você sabe o segredo dos aventureiros pesados: a perseverança."
-  },
-  {
-    "ankama_id": 22006,
-    "name": "Aprissar Brilhante do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217016-128.png",
-    "description": "Esta prismaradita é perfeita para aproximar você dos aventureiros que tentam abrir distância. Em suma, você sabe o segredo dos aventureiros pesados: a perseverança."
-  },
-  {
-    "ankama_id": 22008,
-    "name": "Prigen do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217018-128.png",
-    "description": "Esta prismaradita é um pouco como uma fonte da juventude, só que sem água... e sem fonte. Na verdade, ela também não rejuvenesce. É, não foi uma comparação muito boa."
-  },
-  {
-    "ankama_id": 22009,
-    "name": "Prigen Brilhante do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217019-128.png",
-    "description": "Esta prismaradita é um pouco como uma fonte da juventude, só que sem água... e sem fonte. Na verdade, ela também não rejuvenesce. É, não foi uma comparação muito boa."
-  },
-  {
-    "ankama_id": 22016,
-    "name": "Priora do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217026-128.png",
-    "description": "Esta prismaradita vai deixar você com um ar insolente sem ter que abrir mão da sua situação privilegiada."
-  },
-  {
-    "ankama_id": 22017,
-    "name": "Priora Brilhante do Passado",
-    "level": 200,
-    "type": "Consumível obsoleto dos Sonhos",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Ganha x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217027-128.png",
-    "description": "Esta prismaradita vai deixar você com um ar insolente sem ter que abrir mão da sua situação privilegiada."
   },
   {
     "ankama_id": 22071,
@@ -36934,6 +37978,60 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141053-128.png",
     "description": "Com este bolso, você pode adquirir o tema do Saco de Viagem de Verão com todos os seus elementos decorativos."
+  },
+  {
+    "ankama_id": 22128,
+    "name": "Essência de Guerra",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 22129,
+    "name": "Essência de Miséria",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 22130,
+    "name": "Essência de Servidão",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
   },
   {
     "ankama_id": 22237,
@@ -37678,7 +38776,7 @@
   },
   {
     "ankama_id": 22526,
-    "name": "Cápsula de Feitiço: Flecha Absorvente",
+    "name": "Cápsula de Feitiço: Olho por Olho",
     "level": 1,
     "type": "Fada de artifício",
     "slot": "other",
@@ -39868,6 +40966,78 @@
     "description": "Bebendo esta cerveja, você fica tão ágil quanto uma tartaruga ninjawa, mas qual?"
   },
   {
+    "ankama_id": 24133,
+    "name": "Essência do Xogum Tofugawa",
+    "level": 160,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 24134,
+    "name": "Essência de Kumihu",
+    "level": 170,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 24135,
+    "name": "Essência do Rei Imagami",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 24136,
+    "name": "Essência da Rainha Amirukam",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
     "ankama_id": 24145,
     "name": "Kirim",
     "level": 1,
@@ -41568,6 +42738,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
     "description": "Gordura é vida, e a que recobre este linguiça de gosto rústico pode muito bem mudar a sua.\nÓinc?"
+  },
+  {
+    "ankama_id": 25318,
+    "name": "Essência de Kabaal",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
   },
   {
     "ankama_id": 25352,
@@ -43993,6 +45181,24 @@
     "ability": "Título: Bravo Pergamante"
   },
   {
+    "ankama_id": 26041,
+    "name": "Essência do Conflito Eterno",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165045-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
     "ankama_id": 26059,
     "name": "Papabola Autografada de Bonta",
     "level": 1,
@@ -45162,6 +46368,42 @@
     "description": "Com este pergaminho, você poderá aprender o emote \"Dragão Ocre\"."
   },
   {
+    "ankama_id": 26803,
+    "name": "Essência de Hell Mina",
+    "level": 150,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
+    "ankama_id": 26804,
+    "name": "Essência do Diretor Grunob",
+    "level": 40,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
     "ankama_id": 26811,
     "name": "Tofwaksap Efêmero",
     "level": 1,
@@ -46097,6 +47339,24 @@
     "description": "Você ganhou este conjunto de cartolina após uma aventura incrível. Ele contém um conjunto efêmero para você aproveitar a sua experiência."
   },
   {
+    "ankama_id": 27372,
+    "name": "Essência de Rakooper",
+    "level": 50,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
+  },
+  {
     "ankama_id": 27380,
     "name": "Beijo de Hecate",
     "level": 1,
@@ -46161,6 +47421,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141010-128.png",
     "description": "O universo é vasto, mas saiba que, onde quer que esteja, você sempre poderá usar as Fichazarras desta bolsa."
+  },
+  {
+    "ankama_id": 27405,
+    "name": "Essência de Beladona",
+    "level": 200,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
   },
   {
     "ankama_id": 27410,
@@ -46312,6 +47590,24 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/222005-128.png",
     "description": "Este pergaminho lhe dará acesso ao ornamento e ao título Veterano.",
     "ability": "Título: Veterano"
+  },
+  {
+    "ankama_id": 27451,
+    "name": "Essência de Barberila Sinocobre",
+    "level": 190,
+    "type": "Essência de guardião de calabouço",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Ganha x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Esta essência contém uma parte do poder de um guardião de calabouço, a nata dos monstros do Mundo dos Doze. Agora cabe a você encontrar uma utilidade à altura da potência dela."
   },
   {
     "ankama_id": 27454,
@@ -48825,14 +50121,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "Se você tem medo de ser caçado por aventureiros no seu próximo passeio pela Floresta Petrificada, beba esta poção.\nSó quem orou ao coração das profundezas do templo mistificado é digno de saciar a sede de espiritualidade.",
-    "conditions": [
-      {
-        "stat": "Ser assinante",
-        "operator": "=",
-        "value": 1
-      }
-    ]
+    "description": "Se você tem medo de ser caçado por aventureiros no seu próximo passeio pela Floresta Petrificada, beba esta poção.\nSó quem orou ao coração das profundezas do templo mistificado é digno de saciar a sede de espiritualidade."
   },
   {
     "ankama_id": 28499,
@@ -51467,6 +52756,12 @@
         "min": 100,
         "max": 0,
         "effect_id": 36
+      },
+      {
+        "stat": "Número de vítimas:",
+        "min": 1,
+        "max": 0,
+        "effect_id": 123
       }
     ],
     "set_id": null,
@@ -53388,7 +54683,7 @@
   },
   {
     "ankama_id": 30527,
-    "name": "Conjunto do Mestre de Armas",
+    "name": "Conjunto de Aparência do Mestre de Armas",
     "level": 1,
     "type": "Conjunto de aparência",
     "slot": "other",
@@ -53412,7 +54707,7 @@
   },
   {
     "ankama_id": 30528,
-    "name": "Conjunto Afiado",
+    "name": "Conjunto de Aparência Afiado",
     "level": 1,
     "type": "Conjunto de aparência",
     "slot": "other",
@@ -58561,7 +59856,7 @@
   },
   {
     "ankama_id": 31913,
-    "name": "Conjunto do Agente de Viagens",
+    "name": "Conjunto de Aparência do Agente de Viagens",
     "level": 1,
     "type": "Conjunto de aparência",
     "slot": "other",
@@ -59106,7 +60401,7 @@
   },
   {
     "ankama_id": 32177,
-    "name": "Conjunto Sonhante",
+    "name": "Conjunto de Aparência Sonhante",
     "level": 1,
     "type": "Conjunto de aparência",
     "slot": "other",
@@ -60477,7 +61772,7 @@
     "ankama_id": 32491,
     "name": "Fragmento Obstrutor",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60502,7 +61797,7 @@
     "ankama_id": 32492,
     "name": "Brilho Evasivo",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60527,7 +61822,7 @@
     "ankama_id": 32493,
     "name": "Brilho Repulsivo",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60552,7 +61847,7 @@
     "ankama_id": 32494,
     "name": "Brilho Afiado",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60577,7 +61872,7 @@
     "ankama_id": 32495,
     "name": "Brilho Amolado",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60602,7 +61897,7 @@
     "ankama_id": 32496,
     "name": "Brilho Robusto",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60627,7 +61922,7 @@
     "ankama_id": 32497,
     "name": "Brilho Ancorado",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60652,7 +61947,7 @@
     "ankama_id": 32498,
     "name": "Brilho Curativo",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60677,7 +61972,7 @@
     "ankama_id": 32499,
     "name": "Brilho Bloqueador",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -60702,7 +61997,7 @@
     "ankama_id": 32500,
     "name": "Brilho Fugaz",
     "level": 20,
-    "type": "Fragmentos",
+    "type": "Fragmento",
     "slot": "other",
     "effects": [
       {
@@ -61843,7 +63138,7 @@
   },
   {
     "ankama_id": 33552,
-    "name": "Conjunto dos Adoradores de Onis",
+    "name": "Conjunto de Aparência dos Adoradores de Onis",
     "level": 1,
     "type": "Conjunto de aparência",
     "slot": "other",
@@ -68906,7 +70201,7 @@
   },
   {
     "ankama_id": 34266,
-    "name": "Conjunto Flamejante da Fênix",
+    "name": "Conjunto de Aparência Flamejante da Fênix",
     "level": 1,
     "type": "Conjunto de aparência",
     "slot": "other",
@@ -70819,5 +72114,234 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png",
     "description": "Uma caixinha cheia de itens magníficos."
+  },
+  {
+    "ankama_id": 34584,
+    "name": "Conjunto de Aparência de Gultar, o Maldito",
+    "level": 1,
+    "type": "Conjunto de aparência",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Trocável:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "O que tem aí?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165136-128.png",
+    "description": "Uma caixinha cheia de itens magníficos."
+  },
+  {
+    "ankama_id": 34618,
+    "name": "Bálsamo Curação",
+    "level": 1,
+    "type": "Item usável",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Devolve de pontos de vida",
+        "min": 15,
+        "max": 0,
+        "effect_id": 201
+      },
+      {
+        "stat": "Concede de ponto de energia",
+        "min": 15,
+        "max": 0,
+        "effect_id": 211
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165057-128.png",
+    "description": "Este bálsamo permite que você recupere vida e energia, e talvez até te deixe mais feliz."
+  },
+  {
+    "ankama_id": 34624,
+    "name": "[!] Malédiction de Médoroziam",
+    "level": 1,
+    "type": "Pergaminho de emote",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Trocável:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Emote",
+        "min": 353,
+        "max": 0,
+        "effect_id": 98
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png",
+    "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam."
+  },
+  {
+    "ankama_id": 34704,
+    "name": "Torta de Cogumelos",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49162-128.png",
+    "description": "Após 45 minutos de cozimento, desfrute de um aroma que vai te fazer entortar a cabeça."
+  },
+  {
+    "ankama_id": 34705,
+    "name": "Omelete de Queijo",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49163-128.png",
+    "description": "Como diz o ditado: \"Não se faz omelete sem ralar queijo\"."
+  },
+  {
+    "ankama_id": 34706,
+    "name": "Chá de Alcaçuz",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49164-128.png",
+    "description": "A bebida perfeita para correr e deixar seus adversários para trás."
+  },
+  {
+    "ankama_id": 34707,
+    "name": "Espetinho Caramelizado",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49165-128.png",
+    "description": "Faça chuva ou faça sol, é sempre o momento ideal para colocar a churrasqueira para fora e assar uns espetinhos suculentos."
+  },
+  {
+    "ankama_id": 34708,
+    "name": "Ensopado de Carne com Cerveja",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49166-128.png",
+    "description": "Entre picar, deixar marinando e cozinhar por três horas, é preciso muito esforço para degustar esta iguaria."
+  },
+  {
+    "ankama_id": 34709,
+    "name": "Grelhados da Terra e do Mar",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49167-128.png",
+    "description": "Para poder experimentar esta delícia, muitas pessoas de paladar refinado estão dispostas a mover céu e terra (e mar)."
+  },
+  {
+    "ankama_id": 34710,
+    "name": "A Refeição de Zabelle",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49168-128.png",
+    "description": "Poucos sabem, mas acrescentar alguns eflúvios de almas de amaknianos à receita é a melhor maneira de dar um sabor sem nenhuma caloria a mais."
+  },
+  {
+    "ankama_id": 34711,
+    "name": "Caldo de Gato",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49169-128.png",
+    "description": "Não se preocupe, nenhum felino foi incorporado a este caldo. Mas quase. Então é melhor prestar atenção às bolas de pelo que podem estar boiando no seu prato."
+  },
+  {
+    "ankama_id": 34712,
+    "name": "Compota de Maçã",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49170-128.png",
+    "description": "Esta compota é extremamente popular na Fonte, pois é feita com uma fruta local: a belaçã."
+  },
+  {
+    "ankama_id": 34713,
+    "name": "Sopa de Cebola",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49171-128.png",
+    "description": "Muito simples, mas muito saborosa, esta sopa é de tomar chorando."
+  },
+  {
+    "ankama_id": 34714,
+    "name": "Bolinhos de Canela",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49172-128.png",
+    "description": "Recém-saídos do forno, esses bolinhos têm um aroma tão irresistível quanto sua textura macia."
+  },
+  {
+    "ankama_id": 34715,
+    "name": "Welsh e Shedar",
+    "level": 1,
+    "type": "Comida de evento",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49173-128.png",
+    "description": "Tem jeito melhor de terminar uma refeição que com um pedaço de queijo? Queijo marinado em queijo, com queijo ralado e em cima de uma camada de queijo. É impossível comer qualquer coisa depois disso."
+  },
+  {
+    "ankama_id": 34799,
+    "name": "Diploma de Rei da Cozinha",
+    "level": 1,
+    "type": "Pergaminho de título",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Título:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 35
+      },
+      {
+        "stat": "Trocável:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
+    "description": "Este diploma confere o título de \"Rei da Cozinha\".",
+    "ability": "Título: Rei da Cozinha"
   }
 ]
