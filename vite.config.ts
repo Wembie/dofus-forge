@@ -13,7 +13,7 @@ export default defineConfig({
     __DOFUS_VERSION__: JSON.stringify(gameVersion),
   },
   plugins: [react()],
-  base: '/dofus-forge/',
+  base: process.env.CF_PAGES || process.env.CLOUDFLARE_DEPLOY ? '/' : '/dofus-forge/',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
