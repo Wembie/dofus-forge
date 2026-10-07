@@ -13,7 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Change: "Equip All" in the set detail modal now closes it and returns to the planner',
       'Change: moved the "Equip All" button next to the Items section',
-      'Design review by Mila',
+      'Design review by Living-Legend',
     ],
   },
   {

@@ -8,7 +8,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ## [0.3.51] — 2026-10-07
 - **Change**: "Equip All" in the set detail modal now closes the modal and returns to the planner — it used to leave you to close it by hand after it already did what you came there for
 - **Change**: moved the "Equip All" button down next to the Items section, instead of at the very top of the modal
-- Design review by Mila
+- Design review by Living-Legend
 
 ## [0.3.50] — 2026-10-07
 - **Design**: removed the gold top-border accent that every panel card had by default across the whole app (set cards, spell cards, etc.) — a leftover templated look, flagged in design review. All 4 sides are now the same neutral color unless explicitly requested
