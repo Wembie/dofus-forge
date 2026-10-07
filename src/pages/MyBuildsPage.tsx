@@ -6,7 +6,6 @@ import { Frame, Tabs } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { useAuthStore } from '@/store/authStore.ts'
-import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
@@ -15,6 +14,7 @@ import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.tsx'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
+import { encodeSnapshot } from '@/features/share/codec.ts'
 import {
   fetchMyBuilds, deleteBuild, updateBuildVisibility, fetchMyBookmarkedBuilds,
   type MyBuildRow, type BuildVisibility, type BuildRow,
@@ -35,9 +35,6 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 }) {
   const { t, i18n } = useTranslation()
   const navigate    = useNavigate()
-  const applySnapshot = useBuildStore(s => s.applySnapshot)
-  const setBuildName = useBuildStore(s => s.setBuildName)
-  const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
   const equipment   = useDataStore(s => s.equipment)
   const classLabel  = useClassName(build.class_slug)
   const classInfo   = CLASS_DATA.find(c => c.id === build.class_slug)
@@ -57,16 +54,20 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
   }, [showVisMenu])
 
   function handleEdit() {
-    applySnapshot(build.snapshot)
-    // build.name (the real DB column) is authoritative — the snapshot's own
-    // embedded name can be stale/empty for builds saved before that name was
-    // synced back into the store on publish, so it's set explicitly here
-    // rather than trusted from applySnapshot alone.
-    setBuildName(build.name)
+    // Routed through the same ?b=/?edit= URL the builder restores a shared
+    // link from (useBuildUrl.ts), instead of mutating the store directly
+    // and navigating to a bare path — that left a refresh with nothing to
+    // recover `linkedBuildId` from, so hitting Update post-refresh silently
+    // published a duplicate instead of updating this build. build.name (the
+    // real DB column) overrides the snapshot's own `n`, which can be stale
+    // for builds saved before that name was synced back on publish.
+    const snapshot = { ...build.snapshot, n: build.name || undefined }
+    const encoded  = encodeSnapshot(snapshot)
+    const lang     = i18n.language.slice(0, 2)
+    const langPath = lang === 'en' ? '' : `${lang}/`
     // These are all your own builds (fetchMyBuilds) — republishing this one
     // should update it in place, not create a duplicate row.
-    setLinkedBuildId(build.id)
-    navigate(`/${langPathPrefix(i18n.language)}`)
+    navigate(`/${langPath}?b=${encoded}&edit=${build.id}`)
   }
 
   async function handleSetVisibility(next: BuildVisibility) {

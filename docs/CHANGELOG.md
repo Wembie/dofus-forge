@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.48] — 2026-10-07
+- **Fix**: loading a build into the planner ("Cargar" from My Builds, or from a build's own page) could show the "Untitled build…" placeholder instead of its real name — the snapshot's own embedded name can be stale for builds saved before the name was synced back into the store on publish. Now uses the build's real name (the DB column) directly
+- **Fix**: loading a build into the planner and then refreshing the page before publishing again silently created a duplicate build instead of updating the original — the planner had no way left to recover which build it was editing after a refresh. Now routed through the same URL mechanism a shared build link already restores from, so it survives a refresh from the first navigation
+
 ## [0.3.47] — 2026-10-07
 - **Feature**: shared build links (`/build/:id`) now unfurl with a real, build-specific preview image on Discord/WhatsApp/X/Facebook — build name, class portrait, level, equipped items with their icons, AP/MP/HP/Range, and characteristics, rendered at the edge (Cloudflare Worker, satori + resvg) and cached. Title/description also now reflect the actual build instead of generic copy, injected server-side via `HTMLRewriter` so crawlers see correct metadata without running JS
 - **Fix**: shared build page `<title>` now includes the build's own name (when set) instead of only "`<Class>` build (level `N`)"
