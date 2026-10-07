@@ -27,7 +27,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const DIST = join(process.cwd(), 'dist')
-const SITE = 'https://wembie.github.io/dofus-forge'
+const SITE = 'https://dofusforge.com'
 const LANGS = ['en', 'es', 'fr', 'pt']
 const LANG_PATH = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 

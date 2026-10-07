@@ -1,3 +1,12 @@
+# Site moved to Cloudflare Worker (wrangler.jsonc), custom domain
+# dofusforge.com, 2026-10. GH Pages no longer serves the real app — it
+# now just redirects old github.io links to the new domain, preserving
+# path/query/hash (scripts/gh-pages-redirect.html).
+#
+# To restore the full GH Pages build instead of the redirect, swap the
+# "Prepare redirect page" step back for the old pnpm install/build +
+# upload-pages-artifact(path: dist) steps, and revert vite.config.ts
+# base path default to '/dofus-forge/'.
 name: Deploy to GitHub Pages
 
 on:
@@ -20,25 +29,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v5
-
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
-        env:
-          VITE_SUPABASE_URL:      ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+      - name: Prepare redirect page
+        run: |
+          mkdir -p redirect-dist
+          cp scripts/gh-pages-redirect.html redirect-dist/index.html
+          cp scripts/gh-pages-redirect.html redirect-dist/404.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: redirect-dist
 
   deploy:
     needs: build
