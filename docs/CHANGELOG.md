@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.50] — 2026-10-07
+- **Design**: removed the gold top-border accent that every panel card had by default across the whole app (set cards, spell cards, etc.) — a leftover templated look, flagged in design review. All 4 sides are now the same neutral color unless explicitly requested
+- **Fix**: the Normal/Crítico damage columns in the spell panel were stretched across the full row width, leaving a large empty gap between the two numbers instead of sitting together like a real table
+- Design review by Mila
+
 ## [0.3.49] — 2026-10-07
 - **Fix**: the rune value input in the Forgemagie panel forced a minimum of 1 the instant it was cleared, making it impossible to delete the number and type a new one from scratch — the field now allows clearing to empty/0, and "Add" is disabled while it's empty or 0
 - **Change**: "% Critical" moved from the Damage section to the Primary section in the rune panel
