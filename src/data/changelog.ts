@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.50',
+    date: '2026-10-07',
+    notes: [
+      'Design: removed the default gold top-border accent from panel cards across the app',
+      'Fix: Normal/Crítico damage columns in the spell panel no longer have a big gap between them',
+      'Design review by Mila',
+    ],
+  },
+  {
     version: '0.3.49',
     date: '2026-10-07',
     notes: [

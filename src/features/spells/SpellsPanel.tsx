@@ -204,7 +204,11 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const hasCritGroup   = critGroup.some(c => c != null)
     const showCritCol    = hasCritGroup && critDmgEffects.length > 0
     const hasDmgRows     = groupDmgEffects.length > 0
-    const dmgCols        = showCritCol ? '13px 1fr 1fr' : '13px 1fr'
+    // Fixed widths (not 1fr) — with only short numbers in these columns, fr
+    // tracks stretched to the row's full width, pushing Normal and Crítico
+    // apart with a lot of dead space between them instead of sitting close
+    // together like a real table.
+    const dmgCols        = showCritCol ? '13px 56px 56px' : '13px 56px'
 
     // Descarga detection must come before Σ totals so we can exclude the steal (charge) phase
     const groupEffectsInOrder = displayEffects.filter(e =>

@@ -54,7 +54,7 @@ export function Frame({
       className={cn('rounded-frame overflow-hidden', materialBg[material], paddingCls[padding], className)}
       style={{
         backgroundImage: parchmentImage,
-        borderTop:    `1px solid ${gold ? 'var(--gold)' : 'var(--gold-deep)'}`,
+        borderTop:    `1px solid ${gold ? 'var(--gold)' : 'var(--metal-edge)'}`,
         borderRight:  `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
         borderBottom: `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
         borderLeft:   `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
