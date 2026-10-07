@@ -9,14 +9,14 @@ type RuneSection = { labelKey: string; stats: string[] }
 const RUNE_SECTIONS: RuneSection[] = [
   {
     labelKey: 'rune_section_primary',
-    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range', 'Summons'],
+    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range', 'Summons', '% Critical'],
   },
   {
     labelKey: 'rune_section_damage',
     stats: [
       'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage', 'Air Damage', 'Neutral Damage',
       '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
-      'Critical Damage', 'Pushback Damage', 'Trap Damage', 'Power (traps)', '% Critical',
+      'Critical Damage', 'Pushback Damage', 'Trap Damage', 'Power (traps)',
     ],
   },
   {
@@ -87,7 +87,8 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const hasNeutralDamage = isWeaponSlot && item.effects.some(e => e.stat === 'Neutral damage')
 
   const [selected, setSelected] = useState(ALL_RUNES[0])
-  const [addValue, setAddValue] = useState(10)
+  const [addValue, setAddValue] = useState<number | ''>(10)
+  const addValueNum = addValue === '' ? 0 : addValue
 
   const runeEntries = Object.entries(runes).filter(([, v]) => v > 0)
   const selMeta     = STAT_META[selected]
@@ -101,8 +102,8 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   }
 
   function addRune() {
-    if (addValue <= 0) return
-    setRune(slotId, selected, (runes[selected] ?? 0) + addValue)
+    if (addValueNum <= 0) return
+    setRune(slotId, selected, (runes[selected] ?? 0) + addValueNum)
   }
 
   return (
@@ -229,21 +230,26 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
               <button
-                onClick={() => setAddValue(v => Math.max(1, v - 1))}
+                onClick={() => setAddValue(v => Math.max(0, (v === '' ? 0 : v) - 1))}
                 className="w-5 h-6 flex items-center justify-center text-sm font-bold select-none transition-colors"
                 style={{ color: 'var(--ink-faint)' }}
               >−</button>
               <input
                 type="number"
                 value={addValue}
-                min={1}
+                min={0}
                 max={9999}
-                onChange={e => setAddValue(Math.max(1, parseInt(e.target.value) || 1))}
+                onChange={e => {
+                  const raw = e.target.value
+                  if (raw === '') { setAddValue(''); return }
+                  const n = parseInt(raw)
+                  setAddValue(Number.isNaN(n) ? '' : Math.max(0, n))
+                }}
                 className="flex-1 bg-transparent text-center text-xs py-1 font-mono tabular-nums"
                 style={{ color: selColor, outline: 'none', minWidth: 0 }}
               />
               <button
-                onClick={() => setAddValue(v => v + 1)}
+                onClick={() => setAddValue(v => (v === '' ? 0 : v) + 1)}
                 className="w-5 h-6 flex items-center justify-center text-sm font-bold select-none transition-colors"
                 style={{ color: 'var(--ink-faint)' }}
               >+</button>
@@ -252,19 +258,26 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             {/* Add button */}
             <button
               onClick={addRune}
-              className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all flex-shrink-0"
-              style={{
+              disabled={addValueNum <= 0}
+              className="px-4 py-1.5 rounded-lg text-sm font-bold transition-all flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={addValueNum <= 0 ? {
+                background: 'var(--surface-void)',
+                border:     '1.5px solid var(--metal-edge)',
+                color:      'var(--ink-faint)',
+              } : {
                 background: `linear-gradient(135deg, color-mix(in srgb, ${selColor} 15%, transparent), color-mix(in srgb, ${selColor} 8%, transparent))`,
                 border:     `1.5px solid color-mix(in srgb, ${selColor} 50%, transparent)`,
                 color:      selColor,
                 boxShadow:  `0 0 10px color-mix(in srgb, ${selColor} 13%, transparent)`,
               }}
               onMouseEnter={e => {
+                if (addValueNum <= 0) return
                 const el = e.currentTarget as HTMLButtonElement
                 el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${selColor} 22%, transparent), color-mix(in srgb, ${selColor} 14%, transparent))`
                 el.style.boxShadow  = `0 0 16px color-mix(in srgb, ${selColor} 27%, transparent)`
               }}
               onMouseLeave={e => {
+                if (addValueNum <= 0) return
                 const el = e.currentTarget as HTMLButtonElement
                 el.style.background = `linear-gradient(135deg, color-mix(in srgb, ${selColor} 15%, transparent), color-mix(in srgb, ${selColor} 8%, transparent))`
                 el.style.boxShadow  = `0 0 10px color-mix(in srgb, ${selColor} 13%, transparent)`

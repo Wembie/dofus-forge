@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.49] — 2026-10-07
+- **Fix**: the rune value input in the Forgemagie panel forced a minimum of 1 the instant it was cleared, making it impossible to delete the number and type a new one from scratch — the field now allows clearing to empty/0, and "Add" is disabled while it's empty or 0
+- **Change**: "% Critical" moved from the Damage section to the Primary section in the rune panel
+
 ## [0.3.48] — 2026-10-07
 - **Fix**: loading a build into the planner ("Cargar" from My Builds, or from a build's own page) could show the "Untitled build…" placeholder instead of its real name — the snapshot's own embedded name can be stale for builds saved before the name was synced back into the store on publish. Now uses the build's real name (the DB column) directly
 - **Fix**: loading a build into the planner and then refreshing the page before publishing again silently created a duplicate build instead of updating the original — the planner had no way left to recover which build it was editing after a refresh. Now routed through the same URL mechanism a shared build link already restores from, so it survives a refresh from the first navigation
