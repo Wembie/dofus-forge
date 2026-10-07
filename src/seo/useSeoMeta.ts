@@ -67,9 +67,9 @@ function normalizePath(path: string) {
 export function usePageSeo(
   lang: SeoLang,
   path = '',
-  opts: { title?: string; description?: string; noindex?: boolean } = {},
+  opts: { title?: string; description?: string; noindex?: boolean; image?: string } = {},
 ) {
-  const { title, description, noindex = false } = opts
+  const { title, description, noindex = false, image } = opts
 
   useEffect(() => {
     const normalized = normalizePath(path)
@@ -86,6 +86,11 @@ export function usePageSeo(
     upsertMeta('name', 'twitter:title', pageTitle)
     upsertMeta('name', 'twitter:description', pageDescription)
 
+    if (image) {
+      upsertMeta('property', 'og:image', image)
+      upsertMeta('name', 'twitter:image', image)
+    }
+
     const canonicalUrl = `${SITE}${PATH[lang]}${normalized}`
     upsertLink('canonical', canonicalUrl)
     upsertMeta('property', 'og:url', canonicalUrl)
@@ -100,7 +105,7 @@ export function usePageSeo(
       })
       upsertLink('alternate', `${SITE}${normalized}`, 'x-default')
     }
-  }, [lang, path, title, description, noindex])
+  }, [lang, path, title, description, noindex, image])
 }
 
 /** Back-compat wrapper for routes that only need the language-level defaults (the root planner page). */

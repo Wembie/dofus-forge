@@ -16,6 +16,7 @@
     "fetch-images": "tsx scripts/fetch-images.ts"
   },
   "dependencies": {
+    "@cf-wasm/resvg": "^0.4.0",
     "@supabase/supabase-js": "^2.117.2",
     "clsx": "^2.1.1",
     "html-to-image": "^1.11.13",
@@ -26,11 +27,13 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^15.1.3",
     "react-router-dom": "^6.28.2",
+    "satori": "^0.35.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.7"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261006.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.7",
     "@types/react": "^18.3.18",

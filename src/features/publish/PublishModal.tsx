@@ -70,6 +70,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       const { error: err } = await updateBuild(linkedBuildId, payload)
       setBusy(false)
       if (err) { setError(t('publish_error')); return }
+      store.setBuildName(payload.name)
       close()
       navigate(`/${langPath}build/${linkedBuildId}`)
       return
@@ -82,6 +83,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       return
     }
 
+    store.setBuildName(payload.name)
     setLinkedBuildId(data.id)
     close()
     navigate(`/${langPath}build/${data.id}`)

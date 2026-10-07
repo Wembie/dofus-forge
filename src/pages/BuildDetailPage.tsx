@@ -80,9 +80,12 @@ export function BuildDetailPage() {
   const [commentText, setCommentText]   = useState('')
   const [postingComment, setPostingComment] = useState(false)
 
+  const baseSeoTitle = build ? t('build_detail_seo_title', { class: resolvedClassLabel, level: build.level }) : undefined
+
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, `build/${id ?? ''}`, {
-    title: build ? t('build_detail_seo_title', { class: resolvedClassLabel, level: build.level }) : undefined,
+    title: build ? (build.name ? `${build.name} — ${baseSeoTitle}` : baseSeoTitle) : undefined,
     description: build ? t('build_detail_seo_description', { class: resolvedClassLabel, level: build.level }) : undefined,
+    image: build ? `https://dofusforge.com/og/${i18n.language.slice(0, 2)}/${id}.png` : undefined,
     noindex: notFound,
   })
 
