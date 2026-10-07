@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.47',
+    date: '2026-10-07',
+    notes: [
+      'Feature: shared build links now show a real preview image (name, class, equipped items, stats) when posted on Discord/WhatsApp/X/Facebook',
+      'Fix: shared build page title now includes the build\'s own name when set',
+    ],
+  },
+  {
     version: '0.3.46',
     date: '2026-10-06',
     notes: [
