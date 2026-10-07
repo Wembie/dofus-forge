@@ -699,6 +699,11 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       <SetDetailModal
         set={setModal}
         onClose={() => setSetModal(null)}
+        // "Equip All" is meant to drop the user back on the main planner,
+        // not just peel this modal off and leave the item catalog
+        // underneath still open — closing it with X/Escape instead (just
+        // browsing the set, not equipping) leaves the catalog open as usual.
+        onEquipAll={onClose}
       />
     )}
     </>
