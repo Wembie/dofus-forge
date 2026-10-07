@@ -40791,7 +40791,8 @@
       28344,
       28428,
       28429,
-      28430
+      28430,
+      34578
     ],
     "bonuses": {}
   },
@@ -40927,7 +40928,8 @@
       23568,
       23583,
       23584,
-      23646
+      23646,
+      34580
     ],
     "bonuses": {}
   },
@@ -41017,7 +41019,8 @@
       25363,
       25364,
       25994,
-      30235
+      30235,
+      34579
     ],
     "bonuses": {}
   },
@@ -41153,7 +41156,7 @@
   },
   {
     "ankama_id": 604,
-    "name": "Prunkset Lumino",
+    "name": "Prunkset von Lumino Star",
     "items": [
       27428,
       27429,
@@ -42642,7 +42645,8 @@
       28564,
       28565,
       28566,
-      30812
+      30812,
+      34500
     ],
     "bonuses": {}
   },
@@ -43059,8 +43063,7 @@
     "name": "Barbärdizer-Prunkset",
     "items": [
       9924,
-      9926,
-      12273
+      9926
     ],
     "bonuses": {}
   },
@@ -43654,7 +43657,8 @@
       30062,
       30063,
       30064,
-      30066
+      30066,
+      30240
     ],
     "bonuses": {}
   },
@@ -43800,7 +43804,7 @@
   },
   {
     "ankama_id": 858,
-    "name": "Retrofus-Ausrüstungsset",
+    "name": "Retrofus-Prunkset",
     "items": [
       30434,
       30538,
@@ -51866,7 +51870,7 @@
   },
   {
     "ankama_id": 1059,
-    "name": "Ankamaset",
+    "name": "Ankama-Prunkset",
     "items": [
       33531,
       33532,
@@ -53186,12 +53190,12 @@
   },
   {
     "ankama_id": 1081,
-    "name": "Prunkset der Türkis-Lotterie",
+    "name": "Prunkset der Ebenholz-Lotterie",
     "items": [
-      34128,
-      34129,
-      34130,
-      34131
+      34641,
+      34642,
+      34643,
+      34644
     ],
     "bonuses": {}
   },
@@ -53669,7 +53673,7 @@
   },
   {
     "ankama_id": 1102,
-    "name": "25-Jahre-Jubiläumsset des Krosmoz",
+    "name": "Prunkset zum 25. Jubiläum des Krosmoz",
     "items": [
       34512,
       34513,
@@ -53693,6 +53697,19 @@
     "bonuses": {}
   },
   {
+    "ankama_id": 1103,
+    "name": "Prunkset von Goultard dem Verfluchten",
+    "items": [
+      34552,
+      34553,
+      34554,
+      34555,
+      34556,
+      34557
+    ],
+    "bonuses": {}
+  },
+  {
     "ankama_id": 1104,
     "name": "Prunkset der Elfenbein-Lotterie",
     "items": [
@@ -53700,6 +53717,16 @@
       34559,
       34560,
       34561
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1105,
+    "name": "Otomaï-Prunkset",
+    "items": [
+      34563,
+      34564,
+      34565
     ],
     "bonuses": {}
   },
@@ -53717,11 +53744,90 @@
     "bonuses": {}
   },
   {
+    "ankama_id": 1109,
+    "name": "Jade-Prunkset",
+    "items": [
+      34636,
+      34637,
+      34638,
+      34639,
+      34640
+    ],
+    "bonuses": {}
+  },
+  {
     "ankama_id": 1110,
     "name": "Prunkset von Welsh und Shedar",
     "items": [
       34622,
       34623
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1111,
+    "name": "Prunkset von Dämonin VII",
+    "items": [
+      34676,
+      34677,
+      34678,
+      34679
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1112,
+    "name": "Schillerndes Prunkset von Dämonin VII",
+    "items": [
+      34680,
+      34681,
+      34682,
+      34683
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1113,
+    "name": "Seelenwächter-Prunkset",
+    "items": [
+      34684,
+      34685,
+      34687,
+      34688,
+      34689,
+      34690
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1125,
+    "name": "Zabelle-Prunkset",
+    "items": [
+      34795,
+      34796,
+      34797,
+      34798
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1126,
+    "name": "Welsh-Prunkset",
+    "items": [
+      34800,
+      34802,
+      34804,
+      34805
+    ],
+    "bonuses": {}
+  },
+  {
+    "ankama_id": 1127,
+    "name": "Shedar-Prunkset",
+    "items": [
+      34801,
+      34803,
+      34806
     ],
     "bonuses": {}
   }

@@ -1591,7 +1591,7 @@
     "slot": "other",
     "effects": [],
     "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png",
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png",
     "description": "Cette potion magique est la seule à même de rendre magiques des Slips en Cuir de Captain Chafer tressés entre eux, voilà qui en dit long sur la puissance d'une telle potion."
   },
   {
@@ -20664,6 +20664,1164 @@
     "description": "Cette potion au bon goût de limonade permet de se téléporter à la taverne de Grobid, le vétéran Kerubim. Elle n'est utilisable que sur Incarnam. Elle ne fonctionne pas les nuits de tempête, ce qui fait qu'elle ne permet pas d'échapper aux remontrances de votre conjoint après une journée passée au comptoir."
   },
   {
+    "ankama_id": 14645,
+    "name": "Essence du Tournesol Affamé",
+    "level": 20,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14646,
+    "name": "Essence de Mob l'Éponge",
+    "level": 10,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14647,
+    "name": "Essence du Bouftou Royal",
+    "level": 30,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14648,
+    "name": "Essence du Scarabosse Doré",
+    "level": 40,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14649,
+    "name": "Essence de Batofu",
+    "level": 40,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14650,
+    "name": "Essence de Boostache",
+    "level": 40,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14651,
+    "name": "Essence du Chafer Rōnin",
+    "level": 40,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14652,
+    "name": "Essence de la Bworkette",
+    "level": 50,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14653,
+    "name": "Essence des Forgerons",
+    "level": 50,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14654,
+    "name": "Essence de la Shin Larve",
+    "level": 50,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14655,
+    "name": "Essence du Corailleur Magistral",
+    "level": 50,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14656,
+    "name": "Essence de Damadrya",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14657,
+    "name": "Essence du Wa Wabbit",
+    "level": 60,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14658,
+    "name": "Essence du Blop Royal",
+    "level": 60,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14659,
+    "name": "Essence de la Gelée Royale",
+    "level": 60,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Qu'y a-t-il là-dedans ?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14660,
+    "name": "Essence de Nelween",
+    "level": 70,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14661,
+    "name": "Essence de Gourlo le Terrible",
+    "level": 70,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14662,
+    "name": "Essence du Craqueleur Légendaire",
+    "level": 70,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14663,
+    "name": "Essence de Nagate",
+    "level": 130,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14664,
+    "name": "Essence du Wa Wobot",
+    "level": 80,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14665,
+    "name": "Essence de l'Abraknyde Ancestral",
+    "level": 90,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14666,
+    "name": "Essence du Dragon Cochon",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14667,
+    "name": "Essence du Koulosse",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14668,
+    "name": "Essence du Meulou",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14669,
+    "name": "Essence de Moon",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14670,
+    "name": "Essence de Dramak",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14671,
+    "name": "Essence du Rasboul Majeur",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14672,
+    "name": "Essence du Maître Corbac",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14673,
+    "name": "Essence du Rat Blanc",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14674,
+    "name": "Essence du Rat Noir",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14675,
+    "name": "Essence du Blop Multicolore Royal",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14676,
+    "name": "Essence du Minotoror",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14677,
+    "name": "Essence du Royalmouth",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14678,
+    "name": "Essence de Shihan et Hanshi",
+    "level": 140,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      },
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14679,
+    "name": "Essence du Tofu Royal",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14680,
+    "name": "Essence de Crocabulia",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14681,
+    "name": "Essence de Skeunk",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14682,
+    "name": "Essence de Tanukouï San",
+    "level": 130,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14683,
+    "name": "Essence de Founoroshi",
+    "level": 140,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14684,
+    "name": "Essence du Chêne Mou",
+    "level": 140,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14685,
+    "name": "Essence du Tynril",
+    "level": 140,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14686,
+    "name": "Essence du Mansot Royal",
+    "level": 140,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14687,
+    "name": "Essence de Ben le Ripate",
+    "level": 150,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14688,
+    "name": "Essence de Sphincter Cell",
+    "level": 150,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14689,
+    "name": "Essence du Kimbo",
+    "level": 160,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14690,
+    "name": "Essence du Minotot",
+    "level": 160,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14691,
+    "name": "Essence de l'Obsidiantre",
+    "level": 160,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14692,
+    "name": "Essence du Tengu Givrefoux",
+    "level": 170,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14693,
+    "name": "Essence du Korriandre",
+    "level": 180,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14694,
+    "name": "Essence du Kralamoure Géant",
+    "level": 180,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14695,
+    "name": "Essence du Bworker",
+    "level": 180,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14696,
+    "name": "Essence d'Ougah",
+    "level": 180,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14697,
+    "name": "Essence du Kolosso",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14698,
+    "name": "Essence de Fuji Givrefoux",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14699,
+    "name": "Essence de Grolloum",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14700,
+    "name": "Essence du Glourséleste",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14701,
+    "name": "Essence de Missiz Frizz",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14702,
+    "name": "Essence de Sylargh",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14703,
+    "name": "Essence de Klime",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14704,
+    "name": "Essence de Nileza",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14705,
+    "name": "Essence du Comte Harebourg",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14706,
+    "name": "Essence de Merkator",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14720,
+    "name": "Essence du Kwakwa",
+    "level": 50,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 14774,
+    "name": "Essence du Kanniboul Ebil",
+    "level": 60,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 14812,
     "name": "Offrir un Gâteau",
     "level": 1,
@@ -20864,6 +22022,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25137-128.png",
     "description": "Cette copieuse compilation de crapules peut être utilisée comme un guide des personnes à ne pas rencontrer, ou bien pour effrayer les enfants : « Si tu n'es pas sage, le bandit de la page 6 va venir te chercher ! » Le grammage modéré des pages de cet ouvrage l'autorise également à être feuilleté dans les toilettes."
+  },
+  {
+    "ankama_id": 14975,
+    "name": "Essence d'Ombre",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 15026,
@@ -21079,6 +22255,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69740-128.png",
     "description": "Après les multiples humiliations subies par votre postérieur à cause de la Haute Truche, ce n'est qu'un juste retour des choses de dévorer sa chair rôtie avec entrain."
+  },
+  {
+    "ankama_id": 15095,
+    "name": "Essence de Kanigroula",
+    "level": 160,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 15163,
@@ -21388,6 +22582,60 @@
     "description": "En buvant cette potion, vous serez téléporté dans la salle du portail de la tour des Voyageurs Dimensionnels. Enfin, si tout se passe bien, évidemment."
   },
   {
+    "ankama_id": 15272,
+    "name": "Essence du Roi Nidas",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15273,
+    "name": "Essence de Malléfisk",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15274,
+    "name": "Essence du Phossile",
+    "level": 150,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 15312,
     "name": "Richissime",
     "level": 1,
@@ -21488,6 +22736,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51001-128.png",
     "description": "Trempé dans une bonne soupe, ce divin caillou fera de vous un divin prospecteur... temporairement du moins."
+  },
+  {
+    "ankama_id": 15362,
+    "name": "Essence de la Haute Truche",
+    "level": 130,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 15399,
@@ -22030,6 +23296,132 @@
     "description": "Ce parchemin vous permet d'apprendre l'attitude spéciale de la classe Roublard."
   },
   {
+    "ankama_id": 15702,
+    "name": "Essence du Capitaine Ekarlatte",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15703,
+    "name": "Essence du Toxoliath",
+    "level": 180,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15704,
+    "name": "Essence de la Reine des Voleurs",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15705,
+    "name": "Essence du Protozorreur",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15734,
+    "name": "Essence de Vortex",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15735,
+    "name": "Essence de XLII",
+    "level": 170,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 15736,
+    "name": "Essence de Fraktale",
+    "level": 120,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 15802,
     "name": "Voile Eidolonique de Farfacette",
     "level": 1,
@@ -22531,6 +23923,42 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png",
     "description": "Ce parchemin vous permet d'apprendre l'attitude Colère de Bolgrot."
+  },
+  {
+    "ankama_id": 16285,
+    "name": "Essence de Kankreblath",
+    "level": 40,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 16286,
+    "name": "Essence de la Reine Nyée",
+    "level": 90,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 16304,
@@ -27013,6 +28441,24 @@
     "description": "Ce parchemin vous permet d'apprendre l'attitude Garde-à-vous."
   },
   {
+    "ankama_id": 17037,
+    "name": "Essence de Kardorim",
+    "level": 10,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 17063,
     "name": "Balistique",
     "level": 1,
@@ -28259,6 +29705,24 @@
     "description": "Seul un être en état d'ébriété avancé peut trouver ce coffre."
   },
   {
+    "ankama_id": 17414,
+    "name": "Essence du Chouque",
+    "level": 90,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 17420,
     "name": "Éthylique",
     "level": 1,
@@ -28681,6 +30145,60 @@
     "description": "Ce parchemin vous permet d'apprendre l'attitude spéciale de la classe Sacrieur."
   },
   {
+    "ankama_id": 17735,
+    "name": "Essence du Chalœil",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 17736,
+    "name": "Essence de Ush",
+    "level": 160,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 17737,
+    "name": "Essence du Pounicheur",
+    "level": 110,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 17766,
     "name": "Potion de Gisgoul",
     "level": 30,
@@ -29098,7 +30616,7 @@
   },
   {
     "ankama_id": 18338,
-    "name": "Coup fatal Iop",
+    "name": "Ardeur d'Iop",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -29118,7 +30636,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Iop."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Ardeur d'Iop."
   },
   {
     "ankama_id": 18412,
@@ -29952,7 +31470,7 @@
   },
   {
     "ankama_id": 19568,
-    "name": "Coup fatal Ecaflip",
+    "name": "Taquinerie d'Ecaflip",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -29972,11 +31490,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25272-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Ecaflip."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Taquinerie d'Ecaflip."
   },
   {
     "ankama_id": 19569,
-    "name": "Coup fatal Eniripsa",
+    "name": "Alchi-bénédiction d'Eniripsa",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -29996,11 +31514,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal de la déesse Eniripsa."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Alchi-bénédiction d'Eniripsa."
   },
   {
     "ankama_id": 19570,
-    "name": "Coup fatal Crâ",
+    "name": "Précision de Crâ",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30020,11 +31538,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25274-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal de la déesse Crâ."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Précision de Crâ."
   },
   {
     "ankama_id": 19571,
-    "name": "Coup fatal Féca",
+    "name": "Pavois de Féca",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30044,11 +31562,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25273-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal de la déesse Féca."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Pavois de Féca."
   },
   {
     "ankama_id": 19572,
-    "name": "Coup fatal Sacrieur",
+    "name": "Étreinte de Sacrieur",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30068,11 +31586,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25267-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal de la déesse Sacrieur."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Étreinte de Sacrieur."
   },
   {
     "ankama_id": 19573,
-    "name": "Coup fatal Sadida",
+    "name": "Manipulation de Sadida",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30092,11 +31610,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25283-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Sadida."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Manipulation de Sadida."
   },
   {
     "ankama_id": 19574,
-    "name": "Coup fatal Osamodas",
+    "name": "Bouftomorphose d'Osamodas",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30116,7 +31634,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25266-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Osamodas."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Bouftomorphose d'Osamodas."
   },
   {
     "ankama_id": 19575,
@@ -30144,7 +31662,7 @@
   },
   {
     "ankama_id": 19576,
-    "name": "Coup fatal Sram",
+    "name": "Sournoiserie de Sram",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30164,11 +31682,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25284-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Sram."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Sournoiserie de Sram."
   },
   {
     "ankama_id": 19577,
-    "name": "Coup fatal Xélor",
+    "name": "Prison temporelle de Xélor",
     "level": 1,
     "type": "Parchemin d'attitude",
     "slot": "other",
@@ -30188,7 +31706,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25265-128.png",
-    "description": "Ce parchemin vous permet d'apprendre le coup fatal du dieu Xélor."
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Prison temporelle de Xélor."
   },
   {
     "ankama_id": 19578,
@@ -30445,6 +31963,258 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "Ce diplôme confère le titre « Champion de Furye 648 ».",
     "ability": "Titre : Champion de Furye 648"
+  },
+  {
+    "ankama_id": 19905,
+    "name": "Essence du Mantiscore",
+    "level": 80,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19906,
+    "name": "Essence de Bethel Akarna",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19907,
+    "name": "Essence de Solar",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19908,
+    "name": "Essence de Meno",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19909,
+    "name": "Essence d'Ilyzaelle",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19910,
+    "name": "Essence de Dantinéa",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19911,
+    "name": "Essence de la Larve de Koutoulou",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19912,
+    "name": "Essence d'Anerice la Shushess",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19913,
+    "name": "Essence du Comte Razof",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19914,
+    "name": "Essence de Dazak Martegel",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19915,
+    "name": "Essence d'El Piko",
+    "level": 130,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19916,
+    "name": "Essence de Tal Kasha",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19921,
+    "name": "Essence de Choudini",
+    "level": 90,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 19938,
+    "name": "Essence du Père Ver",
+    "level": 170,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 19951,
@@ -31920,42 +33690,6 @@
     "description": "Transformez-vous en créature de Nowel grâce à cette potion, concoctée à partir d'aiguilles de kipik, de bave de glutin, d'énormément de neige et d'un soupçon de magie de Nowel."
   },
   {
-    "ankama_id": 20670,
-    "name": "Bourse de reflets oniriques",
-    "level": 1,
-    "type": "Objet utilisable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 66,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/100056-128.png",
-    "description": "Cette bourse contient plusieurs reflets oniriques."
-  },
-  {
-    "ankama_id": 20671,
-    "name": "Caisse de reflets oniriques",
-    "level": 1,
-    "type": "Objet utilisable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 372,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/15056-128.png",
-    "description": "Cette caisse contient plusieurs reflets oniriques."
-  },
-  {
     "ankama_id": 20675,
     "name": "Les Paztek : coutumes et anecdotes",
     "level": 1,
@@ -32038,60 +33772,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/24871-128.png",
     "description": "Boire cette petite goutte au goût amer vous permettra de prendre temporairement l'apparence de Crocoburio. Les effets disparaîtront dès que vous entrerez en combat."
-  },
-  {
-    "ankama_id": 20706,
-    "name": "Sac de 1000 reflets oubliés",
-    "level": 1,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164150-128.png",
-    "description": "Ce sac contient de nombreux reflets oubliés."
-  },
-  {
-    "ankama_id": 20707,
-    "name": "Sac de 1000 sacs de 1000 reflets oubliés",
-    "level": 1,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164154-128.png",
-    "description": "Ce sac à sac contient de nombreux reflets oubliés."
-  },
-  {
-    "ankama_id": 20708,
-    "name": "Coffre de reflets oubliés",
-    "level": 1,
-    "type": "Objet utilisable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1047,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "Ce coffre contient plusieurs reflets oubliés."
   },
   {
     "ankama_id": 20709,
@@ -32188,24 +33868,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43039-128.png",
     "description": "Buvez et sentez l'ombre du Dragon passer sur vous.\n\nAttention, cette potion est à usage unique."
-  },
-  {
-    "ankama_id": 20724,
-    "name": "Cadeau de reflets oniriques",
-    "level": 1,
-    "type": "Objet utilisable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 4,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "Ce cadeau contient plusieurs reflets oniriques."
   },
   {
     "ankama_id": 20753,
@@ -32758,78 +34420,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12781-128.png",
     "description": "Nul ne garantit les effets qu'aura l'ingestion de cet élixir sur des créatures sujettes à une anomalie temporelle."
-  },
-  {
-    "ankama_id": 20973,
-    "name": "Quintessence de Kwakarticho",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12776-128.png",
-    "description": "Cette quintessence renferme une croquette infusée aléatoire, qui peut octroyer à un familier légendaire un pouvoir lié au déplacement."
-  },
-  {
-    "ankama_id": 20974,
-    "name": "Quintessence de Poukachi",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12777-128.png",
-    "description": "Cette quintessence renferme une croquette infusée aléatoire, qui peut octroyer à un familier légendaire un pouvoir offensif."
-  },
-  {
-    "ankama_id": 20975,
-    "name": "Quintessence de Magicrabe",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12778-128.png",
-    "description": "Cette quintessence renferme une croquette infusée aléatoire, qui peut octroyer à un familier légendaire un pouvoir défensif ou de soutien."
-  },
-  {
-    "ankama_id": 20976,
-    "name": "Quintessence de Bakushana",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12779-128.png",
-    "description": "Cette quintessence renferme une croquette infusée aléatoire, qui peut octroyer à un familier légendaire un pouvoir spécial."
   },
   {
     "ankama_id": 20988,
@@ -34776,6 +36366,24 @@
     "description": "Ce parchemin vous permet d'apprendre l'attitude Crocabulia."
   },
   {
+    "ankama_id": 21217,
+    "name": "Essence de Torkélonia",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 21281,
     "name": "Potion crocuzkienne",
     "level": 1,
@@ -35288,6 +36896,60 @@
     "description": "Ch'est bon mais ch'est chaud !"
   },
   {
+    "ankama_id": 21513,
+    "name": "Essence de Draegnerys",
+    "level": 70,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 21514,
+    "name": "Essence du Kharnozor",
+    "level": 100,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 21515,
+    "name": "Essence de Corruption",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 21517,
     "name": "Popoche de Havre-Sac Ankama",
     "level": 1,
@@ -35776,624 +37438,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/71059-128.png",
     "description": "Cette petite potion vous rafraichit l'haleine et peut, accessoirement, vous amener dans un lieu très particulier de l'Éther."
-  },
-  {
-    "ankama_id": 21950,
-    "name": "Narkasseth Onirique",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172012-128.png",
-    "description": "Qu'attendez-vous pour ouvrir cette petite cassette blanche ? La chance sourit aux audacieux, pas aux amasseurs compulsifs."
-  },
-  {
-    "ankama_id": 21951,
-    "name": "Narkasseth Fantastique",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172015-128.png",
-    "description": "Qu'attendez-vous pour ouvrir cette petite cassette jaune ? La chance sourit aux audacieux, pas aux amasseurs compulsifs."
-  },
-  {
-    "ankama_id": 21952,
-    "name": "Narkasseth Imaginaire",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172018-128.png",
-    "description": "Qu'attendez-vous pour ouvrir cette petite cassette bleue ? La chance sourit aux audacieux, pas aux amasseurs compulsifs."
-  },
-  {
-    "ankama_id": 21953,
-    "name": "Narkasseth Brumeuse",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172021-128.png",
-    "description": "Qu'attendez-vous pour ouvrir cette petite cassette parme ? La chance sourit aux audacieux, pas aux amasseurs compulsifs."
-  },
-  {
-    "ankama_id": 21954,
-    "name": "Narkofret Onirique",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172013-128.png",
-    "description": "Ce petit coffret blanc n'attend qu'une chose : se faire entrouvrir comme une Iopette déchire ses ennemis."
-  },
-  {
-    "ankama_id": 21955,
-    "name": "Narkofret Fantastique",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172016-128.png",
-    "description": "Ce petit coffret jaune n'attend qu'une chose : que votre main l'entrouvre et touche du doigt ses richesses."
-  },
-  {
-    "ankama_id": 21956,
-    "name": "Narkofret Imaginaire",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172019-128.png",
-    "description": "Ce petit coffret bleu n'attend qu'une chose : se faire déverrouiller par un aventurier avide de richesses."
-  },
-  {
-    "ankama_id": 21957,
-    "name": "Narkofret Brumeux",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172022-128.png",
-    "description": "Ce petit coffret parme n'attend qu'une chose : mettre à nu son contenu pour le plaisir de vos yeux."
-  },
-  {
-    "ankama_id": 21958,
-    "name": "Narkès Onirique",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172014-128.png",
-    "description": "Ne vous faîtes pas plus de mal, ouvrez-la !"
-  },
-  {
-    "ankama_id": 21959,
-    "name": "Narkès Fantastique",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172017-128.png",
-    "description": "Y'a de l'ambiance dans ces boîtes jaunes !"
-  },
-  {
-    "ankama_id": 21960,
-    "name": "Narkès Imaginaire",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172020-128.png",
-    "description": "Cessez d'imaginer son contenu et ouvrez-la tout de suite !"
-  },
-  {
-    "ankama_id": 21961,
-    "name": "Narkès Brumeuse",
-    "level": 180,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Qu'y a-t-il là-dedans ?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172023-128.png",
-    "description": "Ne vous laissez pas rebuter par sa couleur violette, cette boîte renferme des denrées de la meilleure qualité."
-  },
-  {
-    "ankama_id": 21970,
-    "name": "Prysmaradite Ambrée",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 2,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219000-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale ambrée, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21971,
-    "name": "Prysmaradite Corail",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219001-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale couleur corail, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21972,
-    "name": "Prysmaradite Cramoisie",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219002-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale cramoisie, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21973,
-    "name": "Prysmaradite Prasine",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219003-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale prasine, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21974,
-    "name": "Prysmaradite Émeraude",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219004-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale émeraude, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21975,
-    "name": "Prysmaradite Sapin",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219005-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale couleur sapin, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21976,
-    "name": "Prysmaradite Cyan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219006-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale cyan, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21977,
-    "name": "Prysmaradite Azurée",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219007-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale azurée, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21978,
-    "name": "Prysmaradite Safre",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219008-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale couleur safre, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21979,
-    "name": "Prysmaradite Parme",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219009-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale parme, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21980,
-    "name": "Prysmaradite Indigo",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219010-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale couleur indigo, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21981,
-    "name": "Prysmaradite Zinzolin",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 250,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219011-128.png",
-    "description": "Lorsque vous regardez cette pierre astrale zinzoline, vos yeux se ferment doucement, prêts à vous transporter vers un nouveau songe."
-  },
-  {
-    "ankama_id": 21999,
-    "name": "Surpryz d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217009-128.png",
-    "description": "Cette prysmaradite rend chanceux ! Ça tombe bien, depuis votre dernière aventure à Saharach, vous en avez terriblement besoin."
-  },
-  {
-    "ankama_id": 22000,
-    "name": "Surpryz Brillante d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217010-128.png",
-    "description": "Cette prysmaradite rend chanceux ! Ça tombe bien, depuis votre dernière aventure à Saharach, vous en avez terriblement besoin."
-  },
-  {
-    "ankama_id": 22002,
-    "name": "Aprykou Brillante d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "-special spell-",
-        "min": 0,
-        "max": 0,
-        "effect_id": 163
-      },
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217012-128.png",
-    "description": "Cette prysmaradite est parfaite pour les aventuriers lents et rancuniers. Un peu comme vous, quoi."
-  },
-  {
-    "ankama_id": 22003,
-    "name": "Aprykou d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217013-128.png",
-    "description": "Cette prysmaradite est parfaite pour les aventuriers lents et rancuniers. Un peu comme vous, quoi."
-  },
-  {
-    "ankama_id": 22005,
-    "name": "Ratrapry d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217015-128.png",
-    "description": "Cette prysmaradite est parfaite pour vous rapprocher des aventurier ou aventurières qui chercheraient à prendre leurs distances de vous. En bon érudit, vous connaissez le secret des héros bien lourds : la persévérance."
-  },
-  {
-    "ankama_id": 22006,
-    "name": "Ratrapry Brillante d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217016-128.png",
-    "description": "Cette prysmaradite est parfaite pour vous rapprocher des aventurier ou aventurières qui chercheraient à prendre leurs distances de vous. En bon érudit, vous connaissez le secret des héros bien lourds : la persévérance."
-  },
-  {
-    "ankama_id": 22008,
-    "name": "Prygen d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217018-128.png",
-    "description": "Cette prysmaradite est un peu comme une fontaine de jouvence mais sans eau... et sans fontaine d'ailleurs. Elle ne vous rajeunit pas vraiment non plus. En fait c'est une très mauvaise comparaison."
-  },
-  {
-    "ankama_id": 22009,
-    "name": "Prygen Brillante d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217019-128.png",
-    "description": "Cette prysmaradite est un peu comme une fontaine de jouvence mais sans eau... et sans fontaine d'ailleurs. Elle ne vous rajeunit pas vraiment non plus. En fait c'est une très mauvaise comparaison."
-  },
-  {
-    "ankama_id": 22016,
-    "name": "Telprys d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217026-128.png",
-    "description": "Cette prysmaradite vous donnera ce petit côté insolent qu'ont les adolescents de nos jours, sans sacrifier le confort indécent de votre situation privilégiée."
-  },
-  {
-    "ankama_id": 22017,
-    "name": "Telprys Brillante d'antan",
-    "level": 200,
-    "type": "Consommable obsolète des Songes",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gagne x",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217027-128.png",
-    "description": "Cette prysmaradite vous donnera ce petit côté insolent qu'ont les adolescents de nos jours, sans sacrifier le confort indécent de votre situation privilégiée."
   },
   {
     "ankama_id": 22071,
@@ -36934,6 +37978,60 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141053-128.png",
     "description": "Cette popoche vous permet d'acquérir le thème de Havre-Sac Été avec tous ses éléments de décor."
+  },
+  {
+    "ankama_id": 22128,
+    "name": "Essence de Guerre",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 22129,
+    "name": "Essence de Misère",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 22130,
+    "name": "Essence de Servitude",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 22237,
@@ -37678,7 +38776,7 @@
   },
   {
     "ankama_id": 22526,
-    "name": "Capsule de sort : Flèche Absorbante",
+    "name": "Capsule de sort : Œil pour Œil",
     "level": 1,
     "type": "Fée d'artifice",
     "slot": "other",
@@ -39868,6 +40966,78 @@
     "description": "En buvant cette bière vous deviendrez aussi agile qu'une tortue ninjawa, mais laquelle ?"
   },
   {
+    "ankama_id": 24133,
+    "name": "Essence du Shogun Tofugawa",
+    "level": 160,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 24134,
+    "name": "Essence de Koumiho",
+    "level": 170,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 24135,
+    "name": "Essence du Roi Imagami",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 24136,
+    "name": "Essence de la Reine Amirukam",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 24145,
     "name": "Kirim",
     "level": 1,
@@ -41568,6 +42738,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
     "description": "Le gras, c'est la vie, et celui qui parsème ce saucisson au goût sauvage pourrait bien changer la vôtre.\nGrouik ?"
+  },
+  {
+    "ankama_id": 25318,
+    "name": "Essence de Kabahal",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 25352,
@@ -43993,6 +45181,24 @@
     "ability": "Titre : Valeureux Parchomancien"
   },
   {
+    "ankama_id": 26041,
+    "name": "Essence de l'Éternel Conflit",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165045-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 26059,
     "name": "Boufballe dédicacée de Bonta",
     "level": 1,
@@ -45162,6 +46368,42 @@
     "description": "Ce parchemin vous permet d'apprendre l'attitude Dragon Ocre."
   },
   {
+    "ankama_id": 26803,
+    "name": "Essence d'Hell Mina",
+    "level": 150,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
+    "ankama_id": 26804,
+    "name": "Essence du Directeur Grunob",
+    "level": 40,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 26811,
     "name": "Tofukwâp éphémère",
     "level": 1,
@@ -46097,6 +47339,24 @@
     "description": "Ce cadeau en carton vous a été offert après une aventure incroyable. Il contient une panoplie éphémère qui vous permettra de mettre votre expérience à profit."
   },
   {
+    "ankama_id": 27372,
+    "name": "Essence de Rakoopeur",
+    "level": 50,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
+  },
+  {
     "ankama_id": 27380,
     "name": "Baiser d'Hécate",
     "level": 1,
@@ -46161,6 +47421,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141010-128.png",
     "description": "L'univers est vaste, mais sachez que quel que soit le lieu où vous vous trouvez, vous pourrez utiliser les sharivatons qui se trouvent dans cette bourse."
+  },
+  {
+    "ankama_id": 27405,
+    "name": "Essence de Belladone",
+    "level": 200,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 27410,
@@ -46312,6 +47590,24 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/222005-128.png",
     "description": "Ce parchemin vous donnera accès à l'ornement et au titre Vétéran.",
     "ability": "Titre : Vétéran"
+  },
+  {
+    "ankama_id": 27451,
+    "name": "Essence de Barbéryl Clochecuivre",
+    "level": 190,
+    "type": "Essence de gardien de donjon",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gagne x",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "Cette essence renferme une partie du pouvoir d'un gardien de donjon, la crème de la crème des monstres du Monde des Douze. À vous maintenant de lui trouver une utilité à la hauteur de sa puissance."
   },
   {
     "ankama_id": 27454,
@@ -48825,14 +50121,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "Si vous ne craignez pas d'être pris en chasse par des aventuriers lors de votre prochaine promenade dans la Forêt Pétrifiée, buvez cette potion.\nSeuls ceux qui ont prié au cœur des profondeurs du temple mystifié sont dignes d'étancher leur soif de spiritualité.",
-    "conditions": [
-      {
-        "stat": "Être abonné",
-        "operator": "=",
-        "value": 1
-      }
-    ]
+    "description": "Si vous ne craignez pas d'être pris en chasse par des aventuriers lors de votre prochaine promenade dans la Forêt Pétrifiée, buvez cette potion.\nSeuls ceux qui ont prié au cœur des profondeurs du temple mystifié sont dignes d'étancher leur soif de spiritualité."
   },
   {
     "ankama_id": 28499,
@@ -51467,6 +52756,12 @@
         "min": 100,
         "max": 0,
         "effect_id": 36
+      },
+      {
+        "stat": "Nombre de victimes :",
+        "min": 1,
+        "max": 0,
+        "effect_id": 123
       }
     ],
     "set_id": null,
@@ -53388,7 +54683,7 @@
   },
   {
     "ankama_id": 30527,
-    "name": "Panoplie du Maître d'Armes",
+    "name": "Panoplie d'apparat du Maître d'Armes",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -53412,7 +54707,7 @@
   },
   {
     "ankama_id": 30528,
-    "name": "Panoplie Aiguisée",
+    "name": "Panoplie d'apparat Aiguisée",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -58010,7 +59305,7 @@
   },
   {
     "ankama_id": 31508,
-    "name": "Panoplie du Chevalier du Ciel",
+    "name": "Panoplie d'apparat du Chevalier du Ciel",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -58561,7 +59856,7 @@
   },
   {
     "ankama_id": 31913,
-    "name": "Panoplie de l'Agent de Voyage",
+    "name": "Panoplie d'apparat de l'Agent de Voyage",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -59106,7 +60401,7 @@
   },
   {
     "ankama_id": 32177,
-    "name": "Panoplie Songevante",
+    "name": "Panoplie d'apparat Songevante",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -60477,7 +61772,7 @@
     "ankama_id": 32491,
     "name": "Éclat entravant",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60502,7 +61797,7 @@
     "ankama_id": 32492,
     "name": "Éclat évasif",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60527,7 +61822,7 @@
     "ankama_id": 32493,
     "name": "Éclat répulsif",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60552,7 +61847,7 @@
     "ankama_id": 32494,
     "name": "Éclat aiguisé",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60577,7 +61872,7 @@
     "ankama_id": 32495,
     "name": "Éclat acéré",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60602,7 +61897,7 @@
     "ankama_id": 32496,
     "name": "Éclat robuste",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60627,7 +61922,7 @@
     "ankama_id": 32497,
     "name": "Éclat ancré",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60652,7 +61947,7 @@
     "ankama_id": 32498,
     "name": "Éclat curatif",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60677,7 +61972,7 @@
     "ankama_id": 32499,
     "name": "Éclat bloquant",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -60702,7 +61997,7 @@
     "ankama_id": 32500,
     "name": "Éclat fugace",
     "level": 20,
-    "type": "Éclats",
+    "type": "Éclat",
     "slot": "other",
     "effects": [
       {
@@ -61843,7 +63138,7 @@
   },
   {
     "ankama_id": 33552,
-    "name": "Panoplie des adorateurs d'Onis",
+    "name": "Panoplie d'apparat des adorateurs d'Onis",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -68906,7 +70201,7 @@
   },
   {
     "ankama_id": 34266,
-    "name": "Panoplie flamboyante du Phénix",
+    "name": "Panoplie d'apparat flamboyante du Phénix",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -70798,7 +72093,7 @@
   },
   {
     "ankama_id": 34551,
-    "name": "Panoplie du Gouffre",
+    "name": "Panoplie d'apparat du Gouffre",
     "level": 1,
     "type": "Panoplie d'apparat",
     "slot": "other",
@@ -70819,5 +72114,234 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png",
     "description": "Une petite boîte remplie d'objets magnifiques."
+  },
+  {
+    "ankama_id": 34584,
+    "name": "Panoplie d'apparat de Goultard le Maudit",
+    "level": 1,
+    "type": "Panoplie d'apparat",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Échangeable :",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Qu'y a-t-il là-dedans ?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165136-128.png",
+    "description": "Une petite boîte remplie d'objets magnifiques."
+  },
+  {
+    "ankama_id": 34618,
+    "name": "Baume Okeur",
+    "level": 1,
+    "type": "Objet utilisable",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Rend points de vie",
+        "min": 15,
+        "max": 0,
+        "effect_id": 201
+      },
+      {
+        "stat": "Rend point d'énergie",
+        "min": 15,
+        "max": 0,
+        "effect_id": 211
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165057-128.png",
+    "description": "Ce baume vous permet de regagner de la vie et de l'énergie, et peut-être même d'accéder au bonheur."
+  },
+  {
+    "ankama_id": 34624,
+    "name": "Malédiction de Médoroziam",
+    "level": 1,
+    "type": "Parchemin d'attitude",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Échangeable :",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Attitude",
+        "min": 353,
+        "max": 0,
+        "effect_id": 98
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png",
+    "description": "Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam."
+  },
+  {
+    "ankama_id": 34704,
+    "name": "Tourte aux champignons",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49162-128.png",
+    "description": "Après 45 minutes de cuisson, profitez d'un fumet à vous en faire tourter la tête."
+  },
+  {
+    "ankama_id": 34705,
+    "name": "Omelette au fromage",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49163-128.png",
+    "description": "Comme dit le proverbe : \"On ne fait pas d'omelette sans râper du bleu\""
+  },
+  {
+    "ankama_id": 34706,
+    "name": "Thé à la réglisse",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49164-128.png",
+    "description": "La boisson parfaite pour courir et glisser hors de portée de vos adversaires."
+  },
+  {
+    "ankama_id": 34707,
+    "name": "Brochettes caramélisées",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49165-128.png",
+    "description": "Qu'il pleuve, qu'il vente ou qu'il neige, c'est toujours le temps idéal pour sortir le barbecue et se faire cuire de succulentes brochettes."
+  },
+  {
+    "ankama_id": 34708,
+    "name": "Carbonade",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49166-128.png",
+    "description": "Entre la découpe, la marinade et les trois heures de cuisson, il faut sacrément charbonner pour déguster cette délicatesse."
+  },
+  {
+    "ankama_id": 34709,
+    "name": "Grillades terre et mer",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49167-128.png",
+    "description": "Pour pouvoir goûter à ce délice, de nombreux gourmets sont prêts à remuer ciel et terre (et mer)."
+  },
+  {
+    "ankama_id": 34710,
+    "name": "Le repas de Zabelle",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49168-128.png",
+    "description": "C'est peu connu, mais ajouter quelques effluves d'âmes d'amaknéens à votre recette est le meilleur moyen d'ajouter du goût sans le moindre calorie supplémentaire."
+  },
+  {
+    "ankama_id": 34711,
+    "name": "Bouillon de chat",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49169-128.png",
+    "description": "Rassurez-vous, aucun félin n'a été incorporé dans ce bouillon. Ce n'est pas passé loin par contre, alors faites attention aux boules de poils qui traîneraient dans votre assiette."
+  },
+  {
+    "ankama_id": 34712,
+    "name": "Compote de pommes",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49170-128.png",
+    "description": "Cette compote est extrêmement populaire à la Source, car elle est réalisée avec des fruits locaux : les Bellapommes."
+  },
+  {
+    "ankama_id": 34713,
+    "name": "Soupe à l'oignon",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49171-128.png",
+    "description": "Si simple, mais si savoureuse, cette soupe est à en pleurer de délice."
+  },
+  {
+    "ankama_id": 34714,
+    "name": "Madeleines à la cannelle",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49172-128.png",
+    "description": "Fraîchement sorties du four, le parfum qui se dégage de ces madeleines n'a d'égal que leur moelleux."
+  },
+  {
+    "ankama_id": 34715,
+    "name": "Welsh et Shedar",
+    "level": 1,
+    "type": "Nourriture évènementielle",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49173-128.png",
+    "description": "Quoi de mieux pour finir un repas que du fromage ? Du fromage mariné dans du fromage, saupoudré de fromage, sur son lit de fromage. Impossible de manger quoi que ce soit d'autres après ça."
+  },
+  {
+    "ankama_id": 34799,
+    "name": "Diplôme de Roi de la cuisine",
+    "level": 1,
+    "type": "Parchemin de titre",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Titre :",
+        "min": 0,
+        "max": 0,
+        "effect_id": 35
+      },
+      {
+        "stat": "Échangeable :",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
+    "description": "Ce diplôme confère le titre « Roi de la cuisine ».",
+    "ability": "Titre : Roi de la cuisine"
   }
 ]

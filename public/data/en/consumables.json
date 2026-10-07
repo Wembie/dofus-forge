@@ -1591,7 +1591,7 @@
     "slot": "other",
     "effects": [],
     "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/23121-128.png",
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12139-128.png",
     "description": "This magic potion is the only one that can cast magic into the lattice-work leather panties of Captain Chafer...It speaks volumes about the power of such a potion."
   },
   {
@@ -20664,6 +20664,1164 @@
     "description": "This potion tastes good, like lemonade! Unlike lemonade, it will teleport you straight to Fattumy's Inn. Only works in Incarnam. Definitely doesn't work in the depths of a dungeon or on dark and stormy nights. Fattumy won't be there to take care of you forever, you know!"
   },
   {
+    "ankama_id": 14645,
+    "name": "Famished Sunflower Essence",
+    "level": 20,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14646,
+    "name": "Sponge Mob Essence",
+    "level": 10,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14647,
+    "name": "Royal Gobball Essence",
+    "level": 30,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14648,
+    "name": "Golden Scarabugly Essence",
+    "level": 40,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14649,
+    "name": "Batofu Essence",
+    "level": 40,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14650,
+    "name": "Boostache Essence",
+    "level": 40,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14651,
+    "name": "Ronin Chafer Essence",
+    "level": 40,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14652,
+    "name": "Bworkette Essence",
+    "level": 50,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14653,
+    "name": "Smiths' Essence",
+    "level": 50,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14654,
+    "name": "Shin Larva Essence",
+    "level": 50,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14655,
+    "name": "Great Coralator Essence",
+    "level": 50,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14656,
+    "name": "Damadrya Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14657,
+    "name": "Wa Wabbit Essence",
+    "level": 60,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14658,
+    "name": "Royal Blop Essence",
+    "level": 60,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14659,
+    "name": "Royal Jelly Essence",
+    "level": 60,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "What's inside?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14660,
+    "name": "Nelween Essence",
+    "level": 70,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14661,
+    "name": "Gourlo the Terrible Essence",
+    "level": 70,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14662,
+    "name": "Legendary Crackler Essence",
+    "level": 70,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14663,
+    "name": "Nagate Essence",
+    "level": 130,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14664,
+    "name": "Wa Wobot Essence",
+    "level": 80,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14665,
+    "name": "Ancestral Treechnid Essence",
+    "level": 90,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14666,
+    "name": "Dragon Pig Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14667,
+    "name": "Koolich Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14668,
+    "name": "Moowolf Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14669,
+    "name": "Moon Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14670,
+    "name": "Dramak Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14671,
+    "name": "Silf the Greater Bherb Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14672,
+    "name": "Lord Crow Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14673,
+    "name": "White Rat Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14674,
+    "name": "Black Rat Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14675,
+    "name": "Royal Rainbow Blop Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14676,
+    "name": "Minotoror Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14677,
+    "name": "Royal Mastogob Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14678,
+    "name": "Shihan and Hanshi Essence",
+    "level": 140,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      },
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14679,
+    "name": "Royal Tofu Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14680,
+    "name": "Crocabulia Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14681,
+    "name": "Skeunk Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14682,
+    "name": "Tanukouï San Essence",
+    "level": 130,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14683,
+    "name": "Founoroshi Essence",
+    "level": 140,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14684,
+    "name": "Soft Oak Essence",
+    "level": 140,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14685,
+    "name": "Tynril Essence",
+    "level": 140,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14686,
+    "name": "Royal Pingwin Essence",
+    "level": 140,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14687,
+    "name": "Buck Anear Essence",
+    "level": 150,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14688,
+    "name": "Sphincter Cell Essence",
+    "level": 150,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14689,
+    "name": "Kimbo Essence",
+    "level": 160,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14690,
+    "name": "Minotot Essence",
+    "level": 160,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14691,
+    "name": "Obsidemon Essence",
+    "level": 160,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14692,
+    "name": "Tengu Snowfoux Essence",
+    "level": 170,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14693,
+    "name": "Korriander Essence",
+    "level": 180,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14694,
+    "name": "Giant Kralove Essence",
+    "level": 180,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14695,
+    "name": "Bworker Essence",
+    "level": 180,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14696,
+    "name": "Ougaa Essence",
+    "level": 180,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14697,
+    "name": "Kolosso Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14698,
+    "name": "Fuji Snowfoux Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14699,
+    "name": "Grohlum Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14700,
+    "name": "Celestial Bearbarian Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14701,
+    "name": "Missiz Freezz Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14702,
+    "name": "Sylargh Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14703,
+    "name": "Klime Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14704,
+    "name": "Nileza Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14705,
+    "name": "Count Harebourg Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14706,
+    "name": "Merkator Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14720,
+    "name": "Kwakwa Essence",
+    "level": 50,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 14774,
+    "name": "Kanniball Andchain Essence",
+    "level": 60,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 14812,
     "name": "Emote Scroll: Give a Cake",
     "level": 1,
@@ -20864,6 +22022,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25137-128.png",
     "description": "This copious compilation of crooks could serve as a guide to people you don't want to meet, and can do double duty as a disciplinary tool for kids: \"If you don't behave, the guy on page 6 will come and get you!\" Other uses include doorstop, hammer, firestarter, and we reckon it'd make a decent murder weapon."
+  },
+  {
+    "ankama_id": 14975,
+    "name": "Shadow Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 15026,
@@ -21079,6 +22255,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/69740-128.png",
     "description": "Given the number of times the Cross Strich handed you your arse on a plate, you can't help but grin as your prepare to tuck into this roast dinner with gusto."
+  },
+  {
+    "ankama_id": 15095,
+    "name": "Kanigrula Essence",
+    "level": 160,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 15163,
@@ -21388,6 +22582,60 @@
     "description": "When you drink this potion, you'll be teleported to the portal room in the Dimensional Voyagers' Tower. If everything goes to plan, that is."
   },
   {
+    "ankama_id": 15272,
+    "name": "King Nidas Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15273,
+    "name": "Brutatax Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15274,
+    "name": "Drhossil Essence",
+    "level": 150,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 15312,
     "name": "Emote Scroll: Greed",
     "level": 1,
@@ -21488,6 +22736,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/51001-128.png",
     "description": "When used to make soup, this divine stone will make you a divine prospector... For a while, at least."
+  },
+  {
+    "ankama_id": 15362,
+    "name": "Cross Strich Essence",
+    "level": 130,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 15399,
@@ -22030,6 +23296,132 @@
     "description": "This scroll lets you learn the special Rogue class emote."
   },
   {
+    "ankama_id": 15702,
+    "name": "Captain Scarlight Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15703,
+    "name": "Toxoliath Essence",
+    "level": 180,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15704,
+    "name": "Queen of Thieves Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15705,
+    "name": "Protoz'orror Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15734,
+    "name": "Vortex Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15735,
+    "name": "XLII Essence",
+    "level": 170,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 15736,
+    "name": "Fraktal Essence",
+    "level": 120,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 15802,
     "name": "Elfacet Eidolonic Veil",
     "level": 1,
@@ -22531,6 +23923,42 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25009-128.png",
     "description": "Use this scroll to learn the Bolgrot's Wrath emote."
+  },
+  {
+    "ankama_id": 16285,
+    "name": "Kickroach Essence",
+    "level": 40,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 16286,
+    "name": "Rac Queen Essence",
+    "level": 90,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 16304,
@@ -27013,6 +28441,24 @@
     "description": "Use this scroll to learn the Salute emote."
   },
   {
+    "ankama_id": 17037,
+    "name": "Kardorim Essence",
+    "level": 10,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 17063,
     "name": "Emote Scroll: Ballistic",
     "level": 1,
@@ -28259,6 +29705,24 @@
     "description": "Only a very inebriated person can find this chest."
   },
   {
+    "ankama_id": 17414,
+    "name": "LeChouque Essence",
+    "level": 90,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 17420,
     "name": "Emote Scroll: Ethyl",
     "level": 1,
@@ -28681,6 +30145,60 @@
     "description": "Use this scroll to learn the Sacrier class's special emote."
   },
   {
+    "ankama_id": 17735,
+    "name": "Catseye Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 17736,
+    "name": "Ush Essence",
+    "level": 160,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 17737,
+    "name": "Colousses Essence",
+    "level": 110,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 17766,
     "name": "Gisgoul Potion",
     "level": 30,
@@ -29098,7 +30616,7 @@
   },
   {
     "ankama_id": 18338,
-    "name": "Iop Fatal Blow",
+    "name": "Iop Ardour",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -29118,7 +30636,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25282-128.png",
-    "description": "Use this scroll to learn the god Iop's Fatal Blow."
+    "description": "Use this scroll to learn the Iop Ardour emote."
   },
   {
     "ankama_id": 18412,
@@ -29952,7 +31470,7 @@
   },
   {
     "ankama_id": 19568,
-    "name": "Ecaflip Fatal Blow",
+    "name": "Ecaflip Mischief",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -29972,11 +31490,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25272-128.png",
-    "description": "Use this scroll to learn the god Ecaflip's Fatal Blow."
+    "description": "Use this scroll to learn the Ecaflip Mischief emote."
   },
   {
     "ankama_id": 19569,
-    "name": "Eniripsa Fatal Blow",
+    "name": "Eniripsa Alchemical Blessing",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -29996,11 +31514,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25281-128.png",
-    "description": "Use this scroll to learn the goddess Eniripsa's Fatal Blow."
+    "description": "Use this scroll to learn the Eniripsa Alchemical Blessing emote."
   },
   {
     "ankama_id": 19570,
-    "name": "Cra Fatal Blow",
+    "name": "Cra Precision",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30020,11 +31538,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25274-128.png",
-    "description": "Use this scroll to learn the goddess Cra's Fatal Blow."
+    "description": "Use this scroll to learn the Cra Precision emote."
   },
   {
     "ankama_id": 19571,
-    "name": "Feca Fatal Blow",
+    "name": "Feca Pavise",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30044,11 +31562,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25273-128.png",
-    "description": "Use this scroll to learn the goddess Feca's Fatal Blow."
+    "description": "Use this scroll to learn the Feca Pavise emote."
   },
   {
     "ankama_id": 19572,
-    "name": "Sacrier Fatal Blow",
+    "name": "Sacrier Grip",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30068,11 +31586,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25267-128.png",
-    "description": "Use this scroll to learn the goddess Sacrier's Fatal Blow."
+    "description": "Use this scroll to learn the Sacrier Grip emote."
   },
   {
     "ankama_id": 19573,
-    "name": "Sadida Fatal Blow",
+    "name": "Sadida Manipulation",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30092,11 +31610,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25283-128.png",
-    "description": "Use this scroll to learn the god Sadida's Fatal Blow."
+    "description": "Use this scroll to learn the Sadida Manipulation emote."
   },
   {
     "ankama_id": 19574,
-    "name": "Osamodas Fatal Blow",
+    "name": "Osamodas Gobbamorphosis",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30116,7 +31634,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25266-128.png",
-    "description": "Use this scroll to learn the god Osamodas's Fatal Blow."
+    "description": "Use this scroll to learn the Osamodas Gobbamorphosis emote."
   },
   {
     "ankama_id": 19575,
@@ -30144,7 +31662,7 @@
   },
   {
     "ankama_id": 19576,
-    "name": "Sram Fatal Blow",
+    "name": "Sram Cunning",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30164,11 +31682,11 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25284-128.png",
-    "description": "Use this scroll to learn the god Sram's Fatal Blow."
+    "description": "Use this scroll to learn the Sram Cunning emote."
   },
   {
     "ankama_id": 19577,
-    "name": "Xelor fatal blow",
+    "name": "Xelor Temporal Prison",
     "level": 1,
     "type": "Emote scroll",
     "slot": "other",
@@ -30188,7 +31706,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25265-128.png",
-    "description": "Use this scroll to learn the god Xelor's Fatal Blow."
+    "description": "Use this scroll to learn the Xelor Temporal Prison emote."
   },
   {
     "ankama_id": 19578,
@@ -30445,6 +31963,258 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
     "description": "This certificate awards you the title of \"Furye's Champion 648\".",
     "ability": "Title: Furye's Champion 648"
+  },
+  {
+    "ankama_id": 19905,
+    "name": "Mantiscore Essence",
+    "level": 80,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19906,
+    "name": "Bethel Akarna Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19907,
+    "name": "Solar Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19908,
+    "name": "Meno Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19909,
+    "name": "Ilyzaelle Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19910,
+    "name": "Dantinea Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19911,
+    "name": "Koutoulou Larva Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19912,
+    "name": "Anerice the Shushess Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19913,
+    "name": "Count Razof Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19914,
+    "name": "Dazahk Freezammer Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19915,
+    "name": "El Piko Essence",
+    "level": 130,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19916,
+    "name": "Tal Kasha Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19921,
+    "name": "Cauldini Essence",
+    "level": 90,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 19938,
+    "name": "Wurmlord Essence",
+    "level": 170,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 19951,
@@ -31920,42 +33690,6 @@
     "description": "Become a Kwismas creature thanks to this potion, concocted from Pricky wings, Goblimp slobber, loads of snow and a hint of Kwismas magic."
   },
   {
-    "ankama_id": 20670,
-    "name": "Pouch of Dream Reflections",
-    "level": 1,
-    "type": "Various",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 66,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/100056-128.png",
-    "description": "This pouch contains several dream reflections."
-  },
-  {
-    "ankama_id": 20671,
-    "name": "Crate of Dream Reflections",
-    "level": 1,
-    "type": "Various",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 372,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/15056-128.png",
-    "description": "This crate contains several dream reflections."
-  },
-  {
     "ankama_id": 20675,
     "name": "The Pazteks: Customs and Anecdotes",
     "level": 1,
@@ -32038,60 +33772,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/24871-128.png",
     "description": "Drinking this wee dram with a bitter taste will let you temporarily take on the appearance of Crocoburio. The effects will wear off as soon as you get in a fight."
-  },
-  {
-    "ankama_id": 20706,
-    "name": "Bag of 1,000 Forgotten Reflections",
-    "level": 1,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164150-128.png",
-    "description": "This bag contains many forgotten reflections."
-  },
-  {
-    "ankama_id": 20707,
-    "name": "Bag of 1,000 Bags of 1,000 Forgotten Reflections",
-    "level": 1,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1000,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/164154-128.png",
-    "description": "This bag of bags contains many forgotten reflections."
-  },
-  {
-    "ankama_id": 20708,
-    "name": "Chest of Forgotten Reflections",
-    "level": 1,
-    "type": "Various",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1047,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/94023-128.png",
-    "description": "This chest contains several forgotten reflections."
   },
   {
     "ankama_id": 20709,
@@ -32188,24 +33868,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/43039-128.png",
     "description": "Drink and feel the Dragon's shadow pass over you.\n\nNote: this is a single-use potion."
-  },
-  {
-    "ankama_id": 20724,
-    "name": "Gift Dream Reflections",
-    "level": 1,
-    "type": "Various",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 4,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/89042-128.png",
-    "description": "This gift contains several dream reflections."
   },
   {
     "ankama_id": 20753,
@@ -32758,78 +34420,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12781-128.png",
     "description": "There's no guarantee what effect ingesting this elixir will have on creatures affected by a temporal anomaly."
-  },
-  {
-    "ankama_id": 20973,
-    "name": "Kwaketch'd Quintessence",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12776-128.png",
-    "description": "This quintessence contains a random infused croquette that can grant a movement-related power to a legendary pet."
-  },
-  {
-    "ankama_id": 20974,
-    "name": "Pukachi Quintessence",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12777-128.png",
-    "description": "This quintessence contains a random infused croquette that can grant an offensive power to a legendary pet."
-  },
-  {
-    "ankama_id": 20975,
-    "name": "Magikrab Quintessence",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12778-128.png",
-    "description": "This quintessence contains a random infused croquette that can grant a defensive or support power to a legendary pet."
-  },
-  {
-    "ankama_id": 20976,
-    "name": "Bakusharna Quintessence",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12779-128.png",
-    "description": "This quintessence contains a random infused croquette that can grant a special power to a legendary pet."
   },
   {
     "ankama_id": 20988,
@@ -34776,6 +36366,24 @@
     "description": "Use this scroll to learn the Crocabulia emote."
   },
   {
+    "ankama_id": 21217,
+    "name": "Turtelonia Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 21281,
     "name": "Crocuzkoian Potion",
     "level": 1,
@@ -35288,6 +36896,60 @@
     "description": "It'sh good but it'sh hot!"
   },
   {
+    "ankama_id": 21513,
+    "name": "Draegnerys Essence",
+    "level": 70,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 21514,
+    "name": "Kharnotaurus Essence",
+    "level": 100,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 21515,
+    "name": "Corruption Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 21517,
     "name": "Ankama Haven Bag Popocket",
     "level": 1,
@@ -35776,624 +37438,6 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/71059-128.png",
     "description": "This little potion freshens your breath and can, incidentally, take you to a very special place in the Ether."
-  },
-  {
-    "ankama_id": 21950,
-    "name": "Dream Narkasseth",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172012-128.png",
-    "description": "Why don't you go ahead and open this little white box? Luck favours the bold, not compulsive hoarders."
-  },
-  {
-    "ankama_id": 21951,
-    "name": "Fantastic Narkasseth",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172015-128.png",
-    "description": "Why don't you go ahead and open this little yellow box? Luck favours the bold, not compulsive hoarders."
-  },
-  {
-    "ankama_id": 21952,
-    "name": "Imaginary Narkasseth",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172018-128.png",
-    "description": "Why don't you go ahead and open this little blue box? Luck favours the bold, not compulsive hoarders."
-  },
-  {
-    "ankama_id": 21953,
-    "name": "Misty Narkasseth",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172021-128.png",
-    "description": "Why don't you go ahead and open this little mauve box? Luck favours the bold, not compulsive hoarders."
-  },
-  {
-    "ankama_id": 21954,
-    "name": "Dream Narkofret",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172013-128.png",
-    "description": "This little white chest wants one thing only: to be opened up just like a Iop rips apart the enemy."
-  },
-  {
-    "ankama_id": 21955,
-    "name": "Fantastic Narkofret",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172016-128.png",
-    "description": "This little yellow chest wants one thing only: for your to open it up and touch its riches with your fingertips."
-  },
-  {
-    "ankama_id": 21956,
-    "name": "Imaginary Narkofret",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172019-128.png",
-    "description": "This little blue chest wants one thing only: to be unlocked by an adventurer hungry for wealth."
-  },
-  {
-    "ankama_id": 21957,
-    "name": "Misty Narkofret",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172022-128.png",
-    "description": "This little mauve chest wants one thing only: to expose its contents for your viewing pleasure."
-  },
-  {
-    "ankama_id": 21958,
-    "name": "Dream Narkes",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172014-128.png",
-    "description": "Don't torture yourself over this! Open it!"
-  },
-  {
-    "ankama_id": 21959,
-    "name": "Fantastic Narkes",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172017-128.png",
-    "description": "There's a lot going on in these yellow boxes!"
-  },
-  {
-    "ankama_id": 21960,
-    "name": "Imaginary Narkes",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172020-128.png",
-    "description": "Stop imagining what's inside and open it up!"
-  },
-  {
-    "ankama_id": 21961,
-    "name": "Misty Narkes",
-    "level": 180,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "What's inside?",
-        "min": 1,
-        "max": 0,
-        "effect_id": 196
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/172023-128.png",
-    "description": "This box contains the very best quality grub... so don't be put off by the purple."
-  },
-  {
-    "ankama_id": 21970,
-    "name": "Amber Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 2,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219000-128.png",
-    "description": "As you look at this amber astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21971,
-    "name": "Coral Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219001-128.png",
-    "description": "As you look at this coral astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21972,
-    "name": "Crimson Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219002-128.png",
-    "description": "As you look at this crimson astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21973,
-    "name": "Jade Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 5,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219003-128.png",
-    "description": "As you look at this jade astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21974,
-    "name": "Emerald Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219004-128.png",
-    "description": "As you look at this emerald astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21975,
-    "name": "Fir-Green Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219005-128.png",
-    "description": "As you look at this fir-green astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21976,
-    "name": "Cyan Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 15,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219006-128.png",
-    "description": "As you look at this cyan astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21977,
-    "name": "Azure Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219007-128.png",
-    "description": "As you look at this azure astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21978,
-    "name": "Sapphire Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219008-128.png",
-    "description": "As you look at this sapphire astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21979,
-    "name": "Mauve Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 30,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219009-128.png",
-    "description": "As you look at this mauve astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21980,
-    "name": "Indigo Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 100,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219010-128.png",
-    "description": "As you look at this indigo astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21981,
-    "name": "Zinzolin Prysmaradite",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 250,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/219011-128.png",
-    "description": "As you look at this zinzolin astral stone, your eyes slowly close, ready to transport you to a new dream."
-  },
-  {
-    "ankama_id": 21999,
-    "name": "Surpryz of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217009-128.png",
-    "description": "This prysmaradite brings luck! How lucky! Since your last adventure to Ohwymi, you've really needed some."
-  },
-  {
-    "ankama_id": 22000,
-    "name": "Shiny Surpryz of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217010-128.png",
-    "description": "This prysmaradite brings luck! How lucky! Since your last adventure to Ohwymi, you've really needed some."
-  },
-  {
-    "ankama_id": 22002,
-    "name": "Shiny Pryndsight of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "-special spell-",
-        "min": 0,
-        "max": 0,
-        "effect_id": 163
-      },
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217012-128.png",
-    "description": "This prysmaradite is perfect for slow and resentful adventurers. Kind of like you, actually."
-  },
-  {
-    "ankama_id": 22003,
-    "name": "Pryndsight of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217013-128.png",
-    "description": "This prysmaradite is perfect for slow and resentful adventurers. Kind of like you, actually."
-  },
-  {
-    "ankama_id": 22005,
-    "name": "Prycapture of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217015-128.png",
-    "description": "This prysmaradite is perfect for getting close to adventurers who would have liked to put some distance between you and them. As a very wise person, you know the secret of heroes who can be a drag: perseverance."
-  },
-  {
-    "ankama_id": 22006,
-    "name": "Shiny Prycapture of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217016-128.png",
-    "description": "This prysmaradite is perfect for getting close to adventurers who would have liked to put some distance between you and them. As a very wise person, you know the secret of heroes who can be a drag: perseverance."
-  },
-  {
-    "ankama_id": 22008,
-    "name": "Prygenerate of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217018-128.png",
-    "description": "This prysmaradite is a bit like a fountain of youth, just without the water... and without the fountain, come to think of it. It won't really make you any younger, either. Actually, as analogies go, this is a pretty bad one."
-  },
-  {
-    "ankama_id": 22009,
-    "name": "Shiny Prygenerate of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217019-128.png",
-    "description": "This prysmaradite is a bit like a fountain of youth, just without the water... and without the fountain, come to think of it. It won't really make you any younger, either. Actually, as analogies go, this is a pretty bad one."
-  },
-  {
-    "ankama_id": 22016,
-    "name": "Pryank of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217026-128.png",
-    "description": "This prysmaradite will give you that cheeky quality that teens have these days without sacrificing the obscene comfort of your privileged position."
-  },
-  {
-    "ankama_id": 22017,
-    "name": "Shiny Pryank of Yesteryear",
-    "level": 200,
-    "type": "Obsolete Dream Consumable",
-    "slot": "other",
-    "effects": [
-      {
-        "stat": "Gainsx",
-        "min": 1,
-        "max": 0,
-        "effect_id": 260
-      }
-    ],
-    "set_id": null,
-    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/217027-128.png",
-    "description": "This prysmaradite will give you that cheeky quality that teens have these days without sacrificing the obscene comfort of your privileged position."
   },
   {
     "ankama_id": 22071,
@@ -36934,6 +37978,60 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141053-128.png",
     "description": "Use this popocket to acquire the Summer haven bag theme and all its decorative elements."
+  },
+  {
+    "ankama_id": 22128,
+    "name": "War Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 22129,
+    "name": "Misery Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 22130,
+    "name": "Servitude Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 22237,
@@ -37678,7 +38776,7 @@
   },
   {
     "ankama_id": 22526,
-    "name": "Spell Capsule: Absorptive Arrow",
+    "name": "Spell Capsule: Eye for Eye",
     "level": 1,
     "type": "Fairywork",
     "slot": "other",
@@ -39868,6 +40966,78 @@
     "description": "Drink this beer to become as agile as a Ninjawa Turtle. Which one can be a bit of a toss-up, though."
   },
   {
+    "ankama_id": 24133,
+    "name": "Shogun Tofugawa Essence",
+    "level": 160,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 24134,
+    "name": "Koumiho Essence",
+    "level": 170,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 24135,
+    "name": "King Imagami Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 24136,
+    "name": "Queen Amirukam Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 24145,
     "name": "Okirhym",
     "level": 1,
@@ -41568,6 +42738,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/126065-128.png",
     "description": "Fat is life, and the fat inside this wild-tasting sausage might just change yours.\nOink?"
+  },
+  {
+    "ankama_id": 25318,
+    "name": "Kabaal Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 25352,
@@ -43993,6 +45181,24 @@
     "ability": "Title: Valiant Scrollsayer"
   },
   {
+    "ankama_id": 26041,
+    "name": "Eternal Conflict Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165045-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 26059,
     "name": "Signed Bonta Gobbowl Ball",
     "level": 1,
@@ -45162,6 +46368,42 @@
     "description": "Use this scroll to learn the Ochre Dragon emote."
   },
   {
+    "ankama_id": 26803,
+    "name": "Hell Mina Essence",
+    "level": 150,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
+    "ankama_id": 26804,
+    "name": "Director Grunob Essence",
+    "level": 40,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 26811,
     "name": "Ephemeral Fleestofura",
     "level": 1,
@@ -46097,6 +47339,24 @@
     "description": "This khardboard gift was given to you after an incredible adventure. It contains an ephemeral set that will let you show off your experience for maximum effect."
   },
   {
+    "ankama_id": 27372,
+    "name": "Raccooper Essence",
+    "level": 50,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
+  },
+  {
     "ankama_id": 27380,
     "name": "Hecate's Kiss",
     "level": 1,
@@ -46161,6 +47421,24 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/141010-128.png",
     "description": "The universe is vast, indeed, and wherever you are, you can use the sharivakens contained in this purse."
+  },
+  {
+    "ankama_id": 27405,
+    "name": "Belladonna Essence",
+    "level": 200,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 27410,
@@ -46312,6 +47590,24 @@
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/222005-128.png",
     "description": "This scroll will give you access to the Veteran ornament and title.",
     "ability": "Title: Veteran"
+  },
+  {
+    "ankama_id": 27451,
+    "name": "Berylbell Copperbeard Essence",
+    "level": 190,
+    "type": "Dungeon keeper essence",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gainsx",
+        "min": 2,
+        "max": 0,
+        "effect_id": 260
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/167001-128.png",
+    "description": "This essence contains a part of the immense power of a dungeon keeper: the pick of the litter of monsters in the World of Twelve. Now you just have to find a use befitting such power."
   },
   {
     "ankama_id": 27454,
@@ -48825,14 +50121,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/12812-128.png",
-    "description": "If you're not worried about being hunted by adventurers the next time you go for a walk in the Petrified Forest, go ahead and drink this potion.\nOnly those who have prayed in the deepest depths of the mystified temple are worthy of quenching their spiritual thirst.",
-    "conditions": [
-      {
-        "stat": "Be subscribed",
-        "operator": "=",
-        "value": 1
-      }
-    ]
+    "description": "If you're not worried about being hunted by adventurers the next time you go for a walk in the Petrified Forest, go ahead and drink this potion.\nOnly those who have prayed in the deepest depths of the mystified temple are worthy of quenching their spiritual thirst."
   },
   {
     "ankama_id": 28499,
@@ -51467,6 +52756,12 @@
         "min": 100,
         "max": 0,
         "effect_id": 36
+      },
+      {
+        "stat": "Number of victims:",
+        "min": 1,
+        "max": 0,
+        "effect_id": 123
       }
     ],
     "set_id": null,
@@ -53388,7 +54683,7 @@
   },
   {
     "ankama_id": 30527,
-    "name": "Weapons Master Set",
+    "name": "Weapons Master Ceremonial Set",
     "level": 1,
     "type": "Ceremonial Set",
     "slot": "other",
@@ -53412,7 +54707,7 @@
   },
   {
     "ankama_id": 30528,
-    "name": "Sharp Set",
+    "name": "Sharp Ceremonial Set",
     "level": 1,
     "type": "Ceremonial Set",
     "slot": "other",
@@ -58561,7 +59856,7 @@
   },
   {
     "ankama_id": 31913,
-    "name": "Travel Agent Set",
+    "name": "Travel Agent Ceremonial Set",
     "level": 1,
     "type": "Ceremonial Set",
     "slot": "other",
@@ -59106,7 +60401,7 @@
   },
   {
     "ankama_id": 32177,
-    "name": "Dreamalive Set",
+    "name": "Dreamalive Ceremonial Set",
     "level": 1,
     "type": "Ceremonial Set",
     "slot": "other",
@@ -60477,7 +61772,7 @@
     "ankama_id": 32491,
     "name": "Binding Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60502,7 +61797,7 @@
     "ankama_id": 32492,
     "name": "Evasive Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60527,7 +61822,7 @@
     "ankama_id": 32493,
     "name": "Repulsive Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60552,7 +61847,7 @@
     "ankama_id": 32494,
     "name": "Sharpened Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60577,7 +61872,7 @@
     "ankama_id": 32495,
     "name": "Steely Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60602,7 +61897,7 @@
     "ankama_id": 32496,
     "name": "Robust Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60627,7 +61922,7 @@
     "ankama_id": 32497,
     "name": "Anchored Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60652,7 +61947,7 @@
     "ankama_id": 32498,
     "name": "Curative Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60677,7 +61972,7 @@
     "ankama_id": 32499,
     "name": "Blocking Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -60702,7 +61997,7 @@
     "ankama_id": 32500,
     "name": "Elusive Shard",
     "level": 20,
-    "type": "Shards",
+    "type": "Shard",
     "slot": "other",
     "effects": [
       {
@@ -61843,7 +63138,7 @@
   },
   {
     "ankama_id": 33552,
-    "name": "Oni Devotee Set",
+    "name": "Oni Devotee Ceremonial Set",
     "level": 1,
     "type": "Ceremonial Set",
     "slot": "other",
@@ -68906,7 +70201,7 @@
   },
   {
     "ankama_id": 34266,
-    "name": "Flamboyant Set of the Phoenix",
+    "name": "Flamboyant Ceremonial Set of the Phoenix",
     "level": 1,
     "type": "Ceremonial Set",
     "slot": "other",
@@ -70819,5 +72114,234 @@
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png",
     "description": "A small box full of wonderful items."
+  },
+  {
+    "ankama_id": 34584,
+    "name": "Goultard the Cursed Ceremonial Set",
+    "level": 1,
+    "type": "Ceremonial Set",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Exchangeable:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "What's inside?",
+        "min": 1,
+        "max": 0,
+        "effect_id": 196
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165136-128.png",
+    "description": "A small box full of wonderful items."
+  },
+  {
+    "ankama_id": 34618,
+    "name": "Zip Balm",
+    "level": 1,
+    "type": "Various",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Gives back Health Points",
+        "min": 15,
+        "max": 0,
+        "effect_id": 201
+      },
+      {
+        "stat": "Gives back Energy Point",
+        "min": 15,
+        "max": 0,
+        "effect_id": 211
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/165057-128.png",
+    "description": "This balm restores health, energy, and sometimes even a bit of happiness."
+  },
+  {
+    "ankama_id": 34624,
+    "name": "[!] Malédiction de Médoroziam",
+    "level": 1,
+    "type": "Emote scroll",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Exchangeable:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      },
+      {
+        "stat": "Emote",
+        "min": 353,
+        "max": 0,
+        "effect_id": 98
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png",
+    "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam."
+  },
+  {
+    "ankama_id": 34704,
+    "name": "Mushroom Pie",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49162-128.png",
+    "description": "Done in just 45 minutes – you might say it's a piece of cake..."
+  },
+  {
+    "ankama_id": 34705,
+    "name": "Cheese Omelette",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49163-128.png",
+    "description": "If you're feeling blue, simply eat this to make your troubles go away."
+  },
+  {
+    "ankama_id": 34706,
+    "name": "Liquorice Tea",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49164-128.png",
+    "description": "Victory will be bittersweet with this drink."
+  },
+  {
+    "ankama_id": 34707,
+    "name": "Caramelised Kebabs",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49165-128.png",
+    "description": "There's never a bad time to get out the grill and cook up some tasty kebabs."
+  },
+  {
+    "ankama_id": 34708,
+    "name": "Carbonade",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49166-128.png",
+    "description": "You'll have plenty of time to stew over this dish..."
+  },
+  {
+    "ankama_id": 34709,
+    "name": "Grilled Surf and Turf",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49167-128.png",
+    "description": "Whether you call it \"surf and turf\" or \"reef and beef\", it'll leave you \"gratified and satisfied\"."
+  },
+  {
+    "ankama_id": 34710,
+    "name": "Zabelle's Meal",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49168-128.png",
+    "description": "Here's a tip: toss in some essence of Amaknian souls to any recipe. It's a great way to add more flavour, without the extra calories."
+  },
+  {
+    "ankama_id": 34711,
+    "name": "Kitty Broth",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49169-128.png",
+    "description": "Rest assured, no felines were used to make this broth. It was a close call, though – so watch out for hairballs..."
+  },
+  {
+    "ankama_id": 34712,
+    "name": "Apple Sauce",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49170-128.png",
+    "description": "You'll love this compote to the core."
+  },
+  {
+    "ankama_id": 34713,
+    "name": "Onion Soup",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49171-128.png",
+    "description": "Simple yet delicious, this soup is so good it'll make you cry."
+  },
+  {
+    "ankama_id": 34714,
+    "name": "Cinnamon Madeleines",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49172-128.png",
+    "description": "Fresh out of the oven, the aroma of these madeleines is matched only by their softness."
+  },
+  {
+    "ankama_id": 34715,
+    "name": "Welsh and Shedar",
+    "level": 1,
+    "type": "Event Food",
+    "slot": "other",
+    "effects": [],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/49173-128.png",
+    "description": "Who doesn't love cheese? Sprinkle some cheese on your cheese, with an extra side of cheese... You'll be over the moon."
+  },
+  {
+    "ankama_id": 34799,
+    "name": "King of the Kitchen Certificate",
+    "level": 1,
+    "type": "Title Scroll",
+    "slot": "other",
+    "effects": [
+      {
+        "stat": "Title:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 35
+      },
+      {
+        "stat": "Exchangeable:",
+        "min": 0,
+        "max": 0,
+        "effect_id": 0
+      }
+    ],
+    "set_id": null,
+    "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/76046-128.png",
+    "description": "This certificate awards you the title of \"King of the Kitchen\".",
+    "ability": "Title: King of the Kitchen"
   }
 ]
