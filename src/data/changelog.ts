@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.51',
+    date: '2026-10-07',
+    notes: [
+      'Change: "Equip All" in the set detail modal now closes it and returns to the planner',
+      'Change: moved the "Equip All" button next to the Items section',
+      'Design review by Mila',
+    ],
+  },
+  {
     version: '0.3.50',
     date: '2026-10-07',
     notes: [

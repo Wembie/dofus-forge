@@ -105,12 +105,17 @@ export function SetDetailModal({ set, onClose }: Props) {
       equippedItems.push({ slot: target, item })
     }
 
-    if (toEquip.length === 0) return
-    equipMultiple(toEquip)
-    for (const { slot, item } of equippedItems) {
-      const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
-      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
+    if (toEquip.length > 0) {
+      equipMultiple(toEquip)
+      for (const { slot, item } of equippedItems) {
+        const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
+        addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
+      }
     }
+    // "Equip All" means "I'm done here" — closes the modal and drops the
+    // user back on the main planner view instead of leaving them to close
+    // it by hand after it already did what they came here for.
+    onClose()
   }
 
   function handleEquip(item: AppItem) {
@@ -176,7 +181,6 @@ export function SetDetailModal({ set, onClose }: Props) {
             {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
           </span>
         </div>
-        <Button variant="ghost" size="sm" onClick={handleEquipAll}>{t('equip_all')}</Button>
       </div>
 
       <div className="p-4 space-y-5 overflow-y-auto">
@@ -253,9 +257,12 @@ export function SetDetailModal({ set, onClose }: Props) {
 
         {/* ── Items list ── */}
         <section>
-          <p className="text-[10px] uppercase tracking-[0.18em] font-medium mb-2.5" style={{ color: 'var(--ink-faint)' }}>
-            {t('set_items_title')}
-          </p>
+          <div className="flex items-center justify-between gap-3 mb-2.5">
+            <p className="text-[10px] uppercase tracking-[0.18em] font-medium" style={{ color: 'var(--ink-faint)' }}>
+              {t('set_items_title')}
+            </p>
+            <Button variant="ghost" size="sm" onClick={handleEquipAll}>{t('equip_all')}</Button>
+          </div>
           <div className="space-y-3">
             {[
               { items: setItems.filter(it => equippedIds.has(it.ankama_id)),   label: t('set_items_have',    { n: setItems.filter(it => equippedIds.has(it.ankama_id)).length }),    color: 'var(--gold)' },
