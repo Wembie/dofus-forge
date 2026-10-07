@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 export type SeoLang = 'en' | 'es' | 'fr' | 'pt'
 
-const SITE = 'https://wembie.github.io/dofus-forge'
+const SITE = 'https://dofusforge.com'
 
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 

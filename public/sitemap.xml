@@ -1,203 +1,203 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://wembie.github.io/dofus-forge/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/"/>
+    <loc>https://dofusforge.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/es/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/"/>
+    <loc>https://dofusforge.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/fr/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/"/>
+    <loc>https://dofusforge.com/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/pt/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/"/>
+    <loc>https://dofusforge.com/pt/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/"/>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/explore/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/explore/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/explore/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/explore/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/explore/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <loc>https://dofusforge.com/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/explore/"/>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/es/explore/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/explore/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/explore/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/explore/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/explore/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <loc>https://dofusforge.com/es/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/explore/"/>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/fr/explore/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/explore/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/explore/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/explore/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/explore/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <loc>https://dofusforge.com/fr/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/explore/"/>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/pt/explore/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/explore/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/explore/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/explore/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/explore/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/explore/"/>
+    <loc>https://dofusforge.com/pt/explore/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/explore/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/explore/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/explore/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/explore/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/explore/"/>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/about/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/about/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/about/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/about/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/about/"/>
+    <loc>https://dofusforge.com/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/about/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/es/about/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/about/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/about/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/about/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/about/"/>
+    <loc>https://dofusforge.com/es/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/about/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/fr/about/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/about/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/about/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/about/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/about/"/>
+    <loc>https://dofusforge.com/fr/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/about/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/pt/about/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/about/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/about/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/about/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/about/"/>
+    <loc>https://dofusforge.com/pt/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/about/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/how-to-use/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/how-to-use/"/>
+    <loc>https://dofusforge.com/how-to-use/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/how-to-use/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/es/how-to-use/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/how-to-use/"/>
+    <loc>https://dofusforge.com/es/how-to-use/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/how-to-use/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/fr/how-to-use/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/how-to-use/"/>
+    <loc>https://dofusforge.com/fr/how-to-use/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/how-to-use/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/pt/how-to-use/</loc>
-    <xhtml:link rel="alternate" hreflang="en"       href="https://wembie.github.io/dofus-forge/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="es"       href="https://wembie.github.io/dofus-forge/es/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="fr"       href="https://wembie.github.io/dofus-forge/fr/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="pt"       href="https://wembie.github.io/dofus-forge/pt/how-to-use/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/how-to-use/"/>
+    <loc>https://dofusforge.com/pt/how-to-use/</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/how-to-use/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/how-to-use/"/>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/classes/cra/</loc>
-    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <loc>https://dofusforge.com/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/cra/"/>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/es/classes/cra/</loc>
-    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <loc>https://dofusforge.com/es/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/cra/"/>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/fr/classes/cra/</loc>
-    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <loc>https://dofusforge.com/fr/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/cra/"/>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://wembie.github.io/dofus-forge/pt/classes/cra/</loc>
-    <xhtml:link rel="alternate" hreflang="en"        href="https://wembie.github.io/dofus-forge/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="es"        href="https://wembie.github.io/dofus-forge/es/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="fr"        href="https://wembie.github.io/dofus-forge/fr/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="pt"        href="https://wembie.github.io/dofus-forge/pt/classes/cra/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://wembie.github.io/dofus-forge/classes/cra/"/>
+    <loc>https://dofusforge.com/pt/classes/cra/</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/cra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/cra/"/>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
