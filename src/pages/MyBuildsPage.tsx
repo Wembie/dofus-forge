@@ -36,6 +36,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
   const { t, i18n } = useTranslation()
   const navigate    = useNavigate()
   const applySnapshot = useBuildStore(s => s.applySnapshot)
+  const setBuildName = useBuildStore(s => s.setBuildName)
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
   const equipment   = useDataStore(s => s.equipment)
   const classLabel  = useClassName(build.class_slug)
@@ -57,6 +58,11 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 
   function handleEdit() {
     applySnapshot(build.snapshot)
+    // build.name (the real DB column) is authoritative — the snapshot's own
+    // embedded name can be stale/empty for builds saved before that name was
+    // synced back into the store on publish, so it's set explicitly here
+    // rather than trusted from applySnapshot alone.
+    setBuildName(build.name)
     // These are all your own builds (fetchMyBuilds) — republishing this one
     // should update it in place, not create a duplicate row.
     setLinkedBuildId(build.id)

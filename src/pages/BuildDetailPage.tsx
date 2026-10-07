@@ -62,6 +62,7 @@ export function BuildDetailPage() {
   useLoadGameData()
   const session        = useAuthStore(s => s.session)
   const applySnapshot  = useBuildStore(s => s.applySnapshot)
+  const setBuildName   = useBuildStore(s => s.setBuildName)
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
   const equipmentData  = useDataStore(s => s.equipment)
   const setsData       = useDataStore(s => s.sets)
@@ -140,6 +141,11 @@ export function BuildDetailPage() {
   function handleLoadIntoPlanner() {
     if (!build) return
     applySnapshot(build.snapshot)
+    // build.name (the real DB column) is authoritative — the snapshot's own
+    // embedded name can be stale/empty for builds saved before that name was
+    // synced back into the store on publish, so it's set explicitly here
+    // rather than trusted from applySnapshot alone.
+    setBuildName(build.name)
     // Only link back to this build if you actually own it — loading someone
     // else's build should let you publish your own copy, never silently
     // overwrite theirs.

@@ -29,7 +29,16 @@ function interpolate(template: string, vars: Record<string, string | number>): s
 
 async function renderOgImage(env: Env, origin: string, lang: Lang, id: string): Promise<Response> {
   const build = await fetchBuildMeta(env, id)
-  if (!build) return Response.redirect(`${origin}/og-preview.png`, 302)
+  if (!build) {
+    // TEMP debug: show exactly what Supabase returned instead of silently
+    // falling back, so we can see why fetchBuildMeta came back null here.
+    const diagUrl = `${env.SUPABASE_URL}/rest/v1/builds?id=eq.${id}&select=name,visibility`
+    const diagRes = await fetch(diagUrl, {
+      headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` },
+    })
+    const diagBody = await diagRes.text()
+    return new Response(`DEBUG build=null id=${id} keyLen=${env.SUPABASE_ANON_KEY?.length ?? 0} diagStatus=${diagRes.status} diagBody=${diagBody}`, { status: 500 })
+  }
 
   const [equipment, sets, classNames, translation] = await Promise.all([
     getEquipment(env.ASSETS, origin, lang),
