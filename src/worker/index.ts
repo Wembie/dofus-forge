@@ -105,8 +105,9 @@ export default {
         const response = await renderOgImage(env, url.origin, lang as Lang, id)
         if (response.status === 200) await cache.put(request, response.clone())
         return response
-      } catch {
-        return Response.redirect(`${url.origin}/og-preview.png`, 302)
+      } catch (e) {
+        // TEMP debug: surface the real error instead of silently falling back.
+        return new Response(`DEBUG: ${e instanceof Error ? e.stack : String(e)}`, { status: 500 })
       }
     }
 
