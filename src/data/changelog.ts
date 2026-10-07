@@ -13,6 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Feature: shared build links now show a real preview image (name, class, equipped items, stats) when posted on Discord/WhatsApp/X/Facebook',
       'Fix: shared build page title now includes the build\'s own name when set',
+      "Fix: the build name typed in the Publish modal wasn't synced back to the planner header after publishing/updating",
     ],
   },
   {

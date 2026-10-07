@@ -8,6 +8,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ## [0.3.47] — 2026-10-07
 - **Feature**: shared build links (`/build/:id`) now unfurl with a real, build-specific preview image on Discord/WhatsApp/X/Facebook — build name, class portrait, level, equipped items with their icons, AP/MP/HP/Range, and characteristics, rendered at the edge (Cloudflare Worker, satori + resvg) and cached. Title/description also now reflect the actual build instead of generic copy, injected server-side via `HTMLRewriter` so crawlers see correct metadata without running JS
 - **Fix**: shared build page `<title>` now includes the build's own name (when set) instead of only "`<Class>` build (level `N`)"
+- **Fix**: after publishing or updating a build, the name typed into the Publish modal never made it back into the planner's own build-name field — it was only sent to Supabase, so the header still showed the placeholder ("Untitled build…") right after a successful publish, even though the build was saved correctly under the real name
 
 ## [0.3.46] — 2026-10-06
 - **Fix**: some items' special ability text showed raw unresolved markup instead of a clean description — e.g. boots showing `{{spell,31858,1::Clarividencia de Meriana}}` literally instead of just "Clarividencia de Meriana". Ankama's API embeds a clickable in-game link reference in that text (`{{category,id,grade::display name}}`), which our plain-text rendering has no way to resolve — now stripped down to just the display name at the data-normalization step. Affected 74 items in the catalog
