@@ -13,6 +13,12 @@ import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 type Props = {
   set:     AppSet
   onClose: () => void
+  /** Called (in addition to onClose) when "Equip All" is used — lets a
+   * parent that opened this modal from inside another modal (e.g. the item
+   * catalog) also close that enclosing modal, so the user actually lands
+   * back on the main planner instead of an empty modal shell behind this
+   * one. Not called when the modal is just closed via X/Escape/backdrop. */
+  onEquipAll?: () => void
 }
 
 function TierEffectRow({ e, active }: { e: AppEffect; active: boolean }) {
@@ -37,7 +43,7 @@ function TierEffectRow({ e, active }: { e: AppEffect; active: boolean }) {
   )
 }
 
-export function SetDetailModal({ set, onClose }: Props) {
+export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
   const { t }     = useTranslation()
   const equipment   = useDataStore(s => s.equipment)
   const equipped      = useBuildStore(s => s.equipped)
@@ -116,6 +122,7 @@ export function SetDetailModal({ set, onClose }: Props) {
     // user back on the main planner view instead of leaving them to close
     // it by hand after it already did what they came here for.
     onClose()
+    onEquipAll?.()
   }
 
   function handleEquip(item: AppItem) {
@@ -191,8 +198,13 @@ export function SetDetailModal({ set, onClose }: Props) {
             {t('set_bonuses_title')}
           </p>
           <div className="space-y-2">
+            {/* Only the highest reached tier is active — Dofus 3 set bonuses
+                aren't cumulative across tiers (engine/stats.ts already computes
+                stats this way), so a 3/3 set should show 3pc as Active and 2pc
+                as merely reached/superseded, not both Active at once. */}
             {tiers.map(({ pieces, effects }) => {
-              const active = pieces <= equippedCount
+              const activeTierPieces = [...tiers].reverse().find(tier => tier.pieces <= equippedCount)?.pieces
+              const active = pieces === activeTierPieces
               const isNext = !active && pieces === tiers.find(tier => tier.pieces > equippedCount)?.pieces
               return (
                 <div

@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.52',
+    date: '2026-10-07',
+    notes: [
+      'Fix: "Equip All" from the item catalog left the catalog open behind the closed set modal',
+      'Fix: set bonus tiers no longer all show "Active" at once — only the highest reached tier is',
+    ],
+  },
+  {
     version: '0.3.51',
     date: '2026-10-07',
     notes: [
