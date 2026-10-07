@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.46] — 2026-10-06
+- **Fix**: some items' special ability text showed raw unresolved markup instead of a clean description — e.g. boots showing `{{spell,31858,1::Clarividencia de Meriana}}` literally instead of just "Clarividencia de Meriana". Ankama's API embeds a clickable in-game link reference in that text (`{{category,id,grade::display name}}`), which our plain-text rendering has no way to resolve — now stripped down to just the display name at the data-normalization step. Affected 74 items in the catalog
+
 ## [0.3.45] — 2026-10-06
 - **Fix**: equipment/sets are finally back on Dofus **3.7.1.0** with real stats — `api.dofusdu.de` fixed the effects outage on their end (reported to them directly; fixed same day). Re-ran the normal `pnpm fetch-data` against the REST API, no code changes needed — confirmed byte-for-byte consistent with items whose stats were already known (Twiggy Sword, Age-Old Amulet). 4073/4095 items now carry real effects, 527/940 sets have bonuses
 

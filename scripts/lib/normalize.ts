@@ -149,6 +149,17 @@ function normalizeRawEffect(e: RawEffect): { stat: string; min: number; max: num
   return { stat: e.type?.name ?? '', min: e.int_minimum ?? 0, max: e.int_maximum ?? 0 }
 }
 
+// Some item "ability" text (the is_meta effect's `formatted` field) embeds
+// Ankama's rich-text reference markup verbatim, e.g.
+// "{{spell,31858,1::Clarividencia de Meriana}}" (a clickable in-game link to
+// a spell/effect popup) — our plain-text rendering has nowhere to resolve
+// that link, so just keep the display name after "::" and drop the rest.
+function cleanFormattedText(text: string): string {
+  return text
+    .replace(/\{\{[^{}]*?::([^{}]*)\}\}/g, '$1')
+    .replace(/\{\{([^{}]*)\}\}/g, '$1')
+}
+
 export function normalizeItem(raw: RawItem): AppItem {
   const abilityEffect = raw.effects?.find(e => e.type?.is_meta && e.formatted)
   const item: AppItem = {
@@ -165,7 +176,7 @@ export function normalizeItem(raw: RawItem): AppItem {
     image_url: raw.image_urls?.sd ?? raw.image_urls?.icon ?? null,
   }
   if (raw.description) item.description = raw.description
-  if (abilityEffect?.formatted) item.ability = abilityEffect.formatted
+  if (abilityEffect?.formatted) item.ability = cleanFormattedText(abilityEffect.formatted)
   if (raw.conditions) {
     const conds = flattenConditions(raw.conditions)
     if (conds.length > 0) item.conditions = conds
