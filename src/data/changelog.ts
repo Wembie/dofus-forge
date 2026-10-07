@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.49',
+    date: '2026-10-07',
+    notes: [
+      "Fix: rune value input couldn't be cleared to type a new number — Add is now disabled while empty/0",
+      'Change: "% Critical" moved to the Primary section in the rune panel',
+    ],
+  },
+  {
     version: '0.3.48',
     date: '2026-10-07',
     notes: [
