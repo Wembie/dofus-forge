@@ -1,4 +1,3 @@
-import './shims.ts'  // must stay first — see shims.ts for why
 import { Resvg } from '@cf-wasm/resvg/workerd'
 import cinzelBold from './fonts/Cinzel-Bold.ttf'
 import interRegular from './fonts/Inter-Regular.ttf'
