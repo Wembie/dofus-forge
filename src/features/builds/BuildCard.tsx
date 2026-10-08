@@ -24,6 +24,10 @@ export function BuildCard({ build }: { build: BuildRow }) {
   const prefix      = langPathPrefix(i18n.language)
   const [buildHover, setBuildHover] = useState(false)
 
+  const createdLabel = new Date(build.created_at).toLocaleDateString(i18n.language, {
+    year: 'numeric', month: 'short', day: 'numeric',
+  })
+
   return (
     <div
       className="flex flex-col gap-2 p-3 rounded-xl transition-shadow"
@@ -87,6 +91,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
           <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
           <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
           <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
+          <span className="ml-auto flex-shrink-0">{createdLabel}</span>
         </div>
       </Link>
     </div>
