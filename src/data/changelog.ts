@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.56',
+    date: '2026-10-08',
+    notes: [
+      "Fix: Compare panel's Build B field now also accepts a build's short link/id, not just the long encoded one",
+      'Feature: Compare panel can load Build B from your real saved builds, not just an old local-only list',
+    ],
+  },
+  {
     version: '0.3.55',
     date: '2026-10-08',
     notes: [
