@@ -14,6 +14,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: build-share image ignored Magesmithy rune bonuses — now included in AP/MP/HP/Range and characteristics',
       'Fix: build-share image showed stale/wrong icons for 6 characteristics — regenerated from the real app icons',
       'Fix: build-share image cut off the equipment list past 11 items — now shows all equipped slots in 2 columns',
+      'Fix: the Discord release-notes CI step crashed on its first run because the changelog body\'s backticks got interpreted as shell command substitution — now passed through a file, never shell-interpolated',
     ],
   },
   {

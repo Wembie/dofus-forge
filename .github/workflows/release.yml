@@ -37,7 +37,7 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         id: notes
         run: |
-          NOTES=$(python3 - <<'PYEOF'
+          python3 - <<'PYEOF' > release_notes.txt
           import sys
           content = open('docs/CHANGELOG.md', encoding='utf-8').read()
           ver = '${{ steps.ver.outputs.num }}'
@@ -52,10 +52,9 @@ jobs:
               end = len(content)
           print(content[start:end].strip())
           PYEOF
-          )
           echo "body<<EOF" >> $GITHUB_OUTPUT
-          echo "$NOTES"   >> $GITHUB_OUTPUT
-          echo "EOF"      >> $GITHUB_OUTPUT
+          cat release_notes.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
@@ -76,15 +75,23 @@ jobs:
         if: steps.tag_check.outputs.exists == 'false'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RELEASE_TITLE: "🔨 Dofus Forge ${{ steps.ver.outputs.tag }}"
+          RELEASE_URL: "https://github.com/${{ github.repository }}/releases/tag/${{ steps.ver.outputs.tag }}"
         run: |
           if [ -z "$DISCORD_WEBHOOK_URL" ]; then
             echo "No DISCORD_WEBHOOK_URL secret set — skipping Discord notification."
             exit 0
           fi
+          # release_notes.txt (from the previous step) is read via --rawfile,
+          # never interpolated into this script as text — the changelog body
+          # is arbitrary markdown and can contain backticks, quotes, etc.;
+          # splicing it into a shell string via a workflow template expression
+          # let bash interpret those as command substitution and broke the
+          # whole script (e.g. a backtick-wrapped path ran as a command).
           jq -n \
-            --arg title "🔨 Dofus Forge ${{ steps.ver.outputs.tag }}" \
-            --arg desc  "${{ steps.notes.outputs.body }}" \
-            --arg url   "https://github.com/${{ github.repository }}/releases/tag/${{ steps.ver.outputs.tag }}" \
+            --arg title "$RELEASE_TITLE" \
+            --rawfile desc release_notes.txt \
+            --arg url "$RELEASE_URL" \
             '{embeds: [{title: $title, description: $desc, url: $url, color: 13148498}]}' \
             > payload.json
           curl -sf -H "Content-Type: application/json" -d @payload.json "$DISCORD_WEBHOOK_URL"
