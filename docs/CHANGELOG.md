@@ -6,7 +6,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ---
 
 ## [0.3.57] — 2026-10-08
-- **Change**: added a Discord link to the site footer
+- **Change**: added a Discord link to the site footer, on its own line below the credits row
 
 ## [0.3.56] — 2026-10-08
 - **Fix**: pasting a published build's short link (`/build/<id>`) into the Compare panel's "Build B" field silently failed — only the long `?b=` encoded link worked. Both formats (and a bare build id) now work

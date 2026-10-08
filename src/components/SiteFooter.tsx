@@ -23,10 +23,10 @@ export function SiteFooter() {
         <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_server')}: </span>Tal Kasha</span>
         <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_creator')}: </span>Juan / Wembie</span>
         <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_ingame')}: </span>Raik-Luck</span>
-        <span>
-          <span style={{ color: 'var(--ink-muted)' }}>{t('credits_community')}: </span>
-          <a href="https://discord.gg/dhZMmDjrBH" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
-        </span>
+      </p>
+      <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+        <span style={{ color: 'var(--ink-muted)' }}>{t('credits_community')}: </span>
+        <a href="https://discord.gg/dhZMmDjrBH" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
       </p>
     </footer>
   )
