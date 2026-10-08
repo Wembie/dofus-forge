@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.61',
+    date: '2026-10-08',
+    notes: [
+      'Fix: a build\'s shared image could stay stale after an edit since Discord/WhatsApp cache previews by image URL — now versioned with ?v=<updated_at> so it changes automatically',
+    ],
+  },
+  {
     version: '0.3.60',
     date: '2026-10-08',
     notes: [

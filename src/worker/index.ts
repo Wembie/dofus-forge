@@ -96,7 +96,12 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
 
   const langPrefix = lang === 'en' ? '' : `/${lang}`
   const canonicalUrl = `${origin}${langPrefix}/build/${id}`
-  const imageUrl = `${origin}/og/${lang}/${id}.png`
+  // ?v=<updated_at> busts both our own edge cache and link-preview caches
+  // (Discord, WhatsApp, ...) whenever the build changes — those services
+  // cache by exact image URL, so without this a stale image can stick
+  // around well past our own Cache-Control window after an edit.
+  const imageVersion = Date.parse(build.updated_at) || Date.now()
+  const imageUrl = `${origin}/og/${lang}/${id}.png?v=${imageVersion}`
 
   return new HTMLRewriter()
     .on('title', { element(el) { el.setInnerContent(title) } })

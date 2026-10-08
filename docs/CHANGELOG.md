@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.61] — 2026-10-08
+- **Fix**: after a build was edited, its shared image could keep showing the old stats for up to a day — Discord, WhatsApp, etc. cache link previews by the exact image URL, and ours never changed between edits. The image URL now carries `?v=<updated_at>`, so it changes automatically whenever the build changes, busting both our own edge cache and any link-preview cache
+
 ## [0.3.60] — 2026-10-08
 - **Fix**: the build-share image showed wildly wrong stats (e.g. 8 AP instead of 12, 995 Vitality instead of 4,395) for any build viewed through a non-English locale (`/es/build/...`, `/fr/...`, `/pt/...`). The Worker fed `computeStats()` the localized equipment/sets JSON directly, but the stat engine's `STAT_MAP` only recognizes English effect names (`Vitality`, `Strength`, ...) — localized names like `vitalidad`/`fuerza` matched nothing, so every item's bonus silently vanished and only base characteristic points showed. The client has always avoided this (`store/dataStore.ts` loads English data for the engine and only overlays translated names for display); the Worker now does the same — stats always computed from English data, requested locale only relabels item names
 
