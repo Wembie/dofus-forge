@@ -1,9 +1,11 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
+import { useAuthStore } from '@/store/authStore.ts'
 import { listBuilds } from '@/features/share/savedBuilds.ts'
+import { fetchMyBuilds, fetchBuildById, type MyBuildRow } from '@/features/builds/api.ts'
 import { decodeBuild, encodeBuild, encodeSnapshot } from '@/features/share/codec.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { SLOT_CONFIGS, slotImageIcon } from '@/features/equipment/slotConfig.ts'
@@ -144,6 +146,19 @@ export function ComparePanel() {
   const [urlInput, setUrlInput]         = useState('')
   const [urlError, setUrlError]         = useState(false)
   const [copied, setCopied]             = useState(false)
+  const [myBuilds, setMyBuilds]         = useState<MyBuildRow[] | null>(null)
+
+  const session = useAuthStore(s => s.session)
+
+  // Fetched once on mount (not gated behind opening the "Change" modal) — the
+  // very first pick, before Build B is ever loaded, happens in the compact
+  // empty-state below, which needs this list just as much as the modal does.
+  useEffect(() => {
+    if (!session) return
+    let cancelled = false
+    fetchMyBuilds(session.user.id).then(({ data }) => { if (!cancelled) setMyBuilds(data) })
+    return () => { cancelled = true }
+  }, [session])
 
   const classAInfo = useMemo(() => CLASS_DATA.find(c => c.id === classA), [classA])
   const classBInfo = useMemo(() => CLASS_DATA.find(c => c.id === classB), [classB])
@@ -160,9 +175,27 @@ export function ComparePanel() {
     setUrlInput('')
   }
 
-  const handleLoadUrl = () => {
+  const handleLoadUrl = async () => {
     setUrlError(false)
     const raw = urlInput.trim()
+    if (!raw) return
+
+    // Short published-build link (dofusforge.com/.../build/<uuid>, or just
+    // the bare uuid) — doesn't carry the snapshot inline like a ?b= link
+    // does, so it needs an actual fetch to resolve.
+    const uuidMatch = raw.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)
+    if (uuidMatch) {
+      const { data } = await fetchBuildById(uuidMatch[0])
+      if (data) {
+        loadBuild(data.snapshot, data.name, equipment, sets)
+        setUrlInput('')
+        setShowSelector(false)
+        return
+      }
+      setUrlError(true)
+      return
+    }
+
     let encoded = raw
     try {
       const url = new URL(raw)
@@ -440,6 +473,32 @@ export function ComparePanel() {
               <p className="text-[10px] w-full" style={{ color: 'var(--negative)' }}>
                 {t('compare_url_invalid')}
               </p>
+            )}
+            {/* My Builds (real Supabase builds, not the legacy local list below) */}
+            {myBuilds && myBuilds.length > 0 && (
+              <div className="w-full mt-1">
+                <p className="text-[9px] mb-1 uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}>
+                  {t('compare_or_my_builds')}
+                </p>
+                <div className="flex flex-col gap-1">
+                  {myBuilds.slice(0, 4).map(b => (
+                    <button
+                      key={b.id}
+                      onClick={() => { loadBuild(b.snapshot, b.name, equipment, sets); setShowSelector(false) }}
+                      className="w-full text-left px-2 py-1 rounded text-[10px] truncate transition-colors"
+                      style={{
+                        background: 'var(--surface-void)',
+                        border:     '1px solid var(--metal-edge)',
+                        color:      'var(--ink-muted)',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--gold) 35%, transparent)')}
+                      onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
+                    >
+                      {b.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
             {/* Saved builds list */}
             {saved.length > 0 && (
@@ -727,13 +786,29 @@ export function ComparePanel() {
                 </p>
               )}
             </div>
-            {/* Saved builds */}
-            {saved.length === 0 ? (
+            {/* My Builds (real Supabase builds) + legacy local saves */}
+            {(!myBuilds || myBuilds.length === 0) && saved.length === 0 ? (
               <p className="p-4 text-center text-[11px]" style={{ color: 'var(--ink-faint)' }}>
                 {t('no_saved_builds')}
               </p>
             ) : (
               <ul className="max-h-52 overflow-y-auto">
+                {myBuilds?.map(b => (
+                  <li key={b.id} style={{ borderTop: '1px solid var(--metal-edge)' }}>
+                    <button
+                      onClick={() => { loadBuild(b.snapshot, b.name, equipment, sets); setShowSelector(false) }}
+                      className="w-full text-left px-4 py-2 text-[11px] flex items-center justify-between gap-2 transition-colors"
+                      style={{ color: 'var(--ink)' }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-void)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = '')}
+                    >
+                      <span className="truncate">{b.name}</span>
+                      <span className="text-[10px] flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
+                        {t('level_short', { level: b.level })}
+                      </span>
+                    </button>
+                  </li>
+                ))}
                 {saved.map(b => (
                   <li key={b.id} style={{ borderTop: '1px solid var(--metal-edge)' }}>
                     <button

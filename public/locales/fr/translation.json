@@ -318,6 +318,7 @@
   "compare_share": "Partager la comparaison",
   "compare_empty_b": "Charger un build pour comparer",
   "compare_or_saved": "Ou depuis les builds sauvegardés:",
+  "compare_or_my_builds": "Ou depuis mes builds :",
   "compare_section_core": "Stats Clés",
   "compare_section_chars": "Caractéristiques",
   "compare_section_mods": "Modificateurs %",
