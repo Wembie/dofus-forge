@@ -73,13 +73,13 @@ export async function toDataUri(assets: Fetcher, origin: string, url: string): P
   }
 }
 
-// These three have no PNG counterpart in the app's own stats icon set
-// (only used client-side as .webp) — converted once for this OG renderer
-// (resvg can't decode WebP) and kept in their own folder, separate from
-// the app's real icon set, since they only exist for this purpose.
-const OG_ONLY_ICONS = new Set(['ap', 'mp', 'range'])
-
+// resvg can't decode WebP, but the app's real stat icons (ap, mp, range,
+// and the 6 characteristics) are shipped as .webp — public/data/stats/*.png
+// only exists for a few unrelated effect icons (strength_damage, dofus,
+// pull, ...), not these, so blindly requesting "<name>.png" from there once
+// silently served a handful of stale/mismatched leftover PNGs. Every icon
+// this OG renderer needs is instead pre-converted once from the real .webp
+// source into its own folder, kept separate from the app's real icon set.
 export function statIconDataUri(assets: Fetcher, origin: string, name: string): Promise<string | undefined> {
-  const path = OG_ONLY_ICONS.has(name) ? `/data/stats-og/${name}.png` : `/data/stats/${name}.png`
-  return toDataUri(assets, origin, path)
+  return toDataUri(assets, origin, `/data/stats-og/${name}.png`)
 }

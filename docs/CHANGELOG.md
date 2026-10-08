@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.59] — 2026-10-08
+- **Fix**: the dynamic build-share image (`/og/<lang>/<id>.png`, shown when a build link is pasted in Discord/WhatsApp) ignored Magesmithy rune bonuses entirely — AP/MP/HP/Range and characteristics only reflected base equipment, not any forgemagie added on top. The Worker's compact build snapshot type was missing the `r` (rune) field the main app already encodes; now decoded and fed into the same stat engine the planner uses
+- **Fix**: the Discord release-notes workflow (added in 0.3.58) crashed on its first real run — the changelog body contains backticks and other markdown, and splicing it straight into the `run:` shell script via a template expression let bash treat those backticks as command substitution, breaking the whole script. The changelog text is now written to a file and read with `jq --rawfile`, never passed through shell interpolation
+- **Fix**: six characteristic icons (Vitality, Wisdom, Strength, Intelligence, Chance, Agility) in that same image showed stale/wrong icons — a leftover batch of incorrectly-converted PNGs in `public/data/stats/` that don't match the real `.webp` icons the app actually uses. Removed those stale files and regenerated correct ones (converted straight from the real `.webp` source) in `public/data/stats-og/`, which the Worker now always reads from for every stat icon
+- **Fix**: the equipment list in that image was hard-capped at 11 rows in a single column, silently cutting off builds with more items (dofus 5/6, pets, mounts, etc. would vanish past that line). Rebuilt as a 2-column layout with no cap — all equipped slots now show
+
 ## [0.3.58] — 2026-10-08
 - **Fix**: GitHub Releases now post a real Discord embed (version + full changelog body) via a repo webhook, instead of Discord's own `/github` webhook integration which only showed a bare one-line "new release published" message
 - **Fix**: `og-preview.png` (the social-share image for the root site, shown when the home link is pasted in Discord/WhatsApp/etc.) still showed the old `wembie.github.io/dofus-forge` URL and stale item/set counts (4,356 items · 247 sets) baked into the image; now shows `dofusforge.com` and the real current counts (4,095 items · 940 sets)

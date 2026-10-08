@@ -7,6 +7,7 @@ export type BuildSnapshot = {
   a: number[]
   s: number
   e: (number | null)[]
+  r?: Record<string, Record<string, number>>  // runes: slot -> stat -> value
 }
 
 export type BuildMeta = {
