@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.60',
+    date: '2026-10-08',
+    notes: [
+      'Fix: build-share image showed wrong stats for builds viewed in a non-English locale — localized item data was fed into the stat engine, which only recognizes English stat names; now always computes from English data like the planner does',
+    ],
+  },
+  {
     version: '0.3.59',
     date: '2026-10-08',
     notes: [
