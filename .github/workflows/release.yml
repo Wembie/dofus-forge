@@ -66,3 +66,25 @@ jobs:
           body:       ${{ steps.notes.outputs.body }}
           draft:      false
           prerelease: false
+
+      # Discord's own GitHub webhook integration (the one using the /github
+      # URL suffix) only shows a bare one-line "new release published"
+      # message for release events — no changelog content, regardless of
+      # what's in the release body above. Posting our own embed instead
+      # gives full control over what shows up.
+      - name: Post release notes to Discord
+        if: steps.tag_check.outputs.exists == 'false'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "No DISCORD_WEBHOOK_URL secret set — skipping Discord notification."
+            exit 0
+          fi
+          jq -n \
+            --arg title "🔨 Dofus Forge ${{ steps.ver.outputs.tag }}" \
+            --arg desc  "${{ steps.notes.outputs.body }}" \
+            --arg url   "https://github.com/${{ github.repository }}/releases/tag/${{ steps.ver.outputs.tag }}" \
+            '{embeds: [{title: $title, description: $desc, url: $url, color: 13148498}]}' \
+            > payload.json
+          curl -sf -H "Content-Type: application/json" -d @payload.json "$DISCORD_WEBHOOK_URL"
