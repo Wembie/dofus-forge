@@ -18,6 +18,7 @@ export type BuildMeta = {
   visibility: 'private' | 'unlisted' | 'public'
   snapshot: BuildSnapshot
   profiles: { username: string } | null
+  updated_at: string
 }
 
 /** Direct PostgREST call (not the supabase-js SDK — this Worker is a
@@ -28,7 +29,7 @@ export type BuildMeta = {
 export async function fetchBuildMeta(env: { SUPABASE_URL: string; SUPABASE_ANON_KEY: string }, id: string): Promise<BuildMeta | null> {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return null
 
-  const url = `${env.SUPABASE_URL}/rest/v1/builds?id=eq.${id}&select=name,class_slug,level,gender,visibility,snapshot,profiles!builds_user_id_fkey(username)`
+  const url = `${env.SUPABASE_URL}/rest/v1/builds?id=eq.${id}&select=name,class_slug,level,gender,visibility,snapshot,updated_at,profiles!builds_user_id_fkey(username)`
   const res = await fetch(url, {
     headers: {
       apikey: env.SUPABASE_ANON_KEY,
