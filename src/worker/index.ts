@@ -30,14 +30,7 @@ function interpolate(template: string, vars: Record<string, string | number>): s
 async function renderOgImage(env: Env, origin: string, lang: Lang, id: string): Promise<Response> {
   const build = await fetchBuildMeta(env, id)
   if (!build) {
-    // TEMP debug: show exactly what Supabase returned instead of silently
-    // falling back, so we can see why fetchBuildMeta came back null here.
-    const diagUrl = `${env.SUPABASE_URL}/rest/v1/builds?id=eq.${id}&select=name,visibility`
-    const diagRes = await fetch(diagUrl, {
-      headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` },
-    })
-    const diagBody = await diagRes.text()
-    return new Response(`DEBUG build=null id=${id} keyLen=${env.SUPABASE_ANON_KEY?.length ?? 0} diagStatus=${diagRes.status} diagBody=${diagBody}`, { status: 500 })
+    return new Response('Not found', { status: 404 })
   }
 
   const [equipment, sets, classNames, translation] = await Promise.all([
@@ -99,6 +92,14 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
     .transform(assetResponse)
 }
 
+function withSecurityHeaders(response: Response): Response {
+  const headers = new Headers(response.headers)
+  headers.set('X-Content-Type-Options', 'nosniff')
+  headers.set('X-Frame-Options', 'SAMEORIGIN')
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
@@ -113,10 +114,10 @@ export default {
       try {
         const response = await renderOgImage(env, url.origin, lang as Lang, id)
         if (response.status === 200) await cache.put(request, response.clone())
-        return response
+        return withSecurityHeaders(response)
       } catch (e) {
-        // TEMP debug: surface the real error instead of silently falling back.
-        return new Response(`DEBUG: ${e instanceof Error ? e.stack : String(e)}`, { status: 500 })
+        console.error('OG image render failed', e)
+        return new Response('Internal error', { status: 500 })
       }
     }
 
@@ -126,12 +127,12 @@ export default {
       const [, langSeg, id] = buildMatch
       const lang = (LANGS.includes(langSeg as Lang) ? langSeg : 'en') as Lang
       try {
-        return await rewriteBuildMeta(env, url.origin, lang, id, assetResponse)
+        return withSecurityHeaders(await rewriteBuildMeta(env, url.origin, lang, id, assetResponse))
       } catch {
-        return assetResponse
+        return withSecurityHeaders(assetResponse)
       }
     }
 
-    return env.ASSETS.fetch(request)
+    return withSecurityHeaders(await env.ASSETS.fetch(request))
   },
 }

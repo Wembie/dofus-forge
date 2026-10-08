@@ -26,7 +26,7 @@ export function SiteFooter() {
       </p>
       <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
         <span style={{ color: 'var(--ink-muted)' }}>{t('credits_community')}: </span>
-        <a href="https://discord.gg/dhZMmDjrBH" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
+        <a href="https://discord.gg/Rv8q4C8C5j" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
       </p>
     </footer>
   )

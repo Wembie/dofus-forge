@@ -2,7 +2,7 @@
 
 > **Dofus 3 build planner** — plan your equipment, optimize your stats, and share builds with your guild.
 
-**🔗 Live:** https://wembie.github.io/dofus-forge/
+**🔗 Live:** https://dofusforge.com
 
 ---
 
