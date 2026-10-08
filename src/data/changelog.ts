@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.57',
+    date: '2026-10-08',
+    notes: [
+      'Change: added a Discord link to the site footer, on its own line below the credits row',
+    ],
+  },
+  {
     version: '0.3.56',
     date: '2026-10-08',
     notes: [
