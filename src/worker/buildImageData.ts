@@ -1,6 +1,6 @@
 import { computeStats } from '../engine/stats.ts'
 import { CHARACTERISTICS } from '../engine/types.ts'
-import type { AllocatedCharacteristics, DofusClass, ScrolledCharacteristics, StatBlock } from '../engine/types.ts'
+import type { AllocatedCharacteristics, DofusClass, ItemEffect, ScrolledCharacteristics, StatBlock } from '../engine/types.ts'
 import type { BuildMeta } from './supabase.ts'
 import type { Lang, WorkerAppItem, WorkerAppSet } from './data.ts'
 import type { OgBadge, OgCharRow, OgItemRow } from './ogImage.ts'
@@ -32,11 +32,19 @@ function decodeSnapshot(build: BuildMeta) {
   const equipped = Object.fromEntries(
     ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null),
   ) as Partial<Record<string, number>>
-  return { allocated, scrolled, equipped }
+
+  const runeEffects: ItemEffect[] = []
+  for (const runeMap of Object.values(snap.r ?? {})) {
+    for (const [stat, value] of Object.entries(runeMap)) {
+      if (value > 0) runeEffects.push({ stat, min: value, max: value })
+    }
+  }
+
+  return { allocated, scrolled, equipped, runeEffects }
 }
 
 function computeBuildStats(build: BuildMeta, equipment: WorkerAppItem[], sets: WorkerAppSet[]): { stats: StatBlock | null; equippedItems: WorkerAppItem[] } {
-  const { allocated, scrolled, equipped } = decodeSnapshot(build)
+  const { allocated, scrolled, equipped, runeEffects } = decodeSnapshot(build)
   const equipMap = new Map(equipment.map(it => [it.ankama_id, it]))
   const equippedItems = ALL_SLOTS
     .map(slot => {
@@ -50,7 +58,7 @@ function computeBuildStats(build: BuildMeta, equipment: WorkerAppItem[], sets: W
   if (!dofusClass) return { stats: null, equippedItems }
 
   const items = equippedItems.map(it => ({ ankama_id: it.ankama_id, effects: it.effects, set_id: it.set_id, slot: it.slot }))
-  const stats = computeStats({ class: dofusClass, level: build.level, allocated, scrolled, items, sets })
+  const stats = computeStats({ class: dofusClass, level: build.level, allocated, scrolled, items, sets, runeEffects })
   return { stats, equippedItems }
 }
 

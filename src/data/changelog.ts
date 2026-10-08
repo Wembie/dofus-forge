@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.59',
+    date: '2026-10-08',
+    notes: [
+      'Fix: build-share image ignored Magesmithy rune bonuses — now included in AP/MP/HP/Range and characteristics',
+      'Fix: build-share image showed stale/wrong icons for 6 characteristics — regenerated from the real app icons',
+      'Fix: build-share image cut off the equipment list past 11 items — now shows all equipped slots in 2 columns',
+    ],
+  },
+  {
     version: '0.3.58',
     date: '2026-10-08',
     notes: [

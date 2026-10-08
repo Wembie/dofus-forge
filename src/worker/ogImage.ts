@@ -77,16 +77,18 @@ function buildTree(data: OgBuildData) {
     el('div', { style: { color: C.gold, fontSize: 12, fontFamily: 'Cinzel', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3, marginBottom: 12, display: 'flex' } }, 'Equipment'),
     ...(data.items.length === 0
       ? [el('div', { style: { color: C.dim, fontSize: 13, display: 'flex' } }, 'No items equipped')]
-      : data.items.slice(0, 11).map(it => el('div', {
+      : [el('div', { style: { display: 'flex', flexWrap: 'wrap' } }, data.items.map(it => el('div', {
           key: it.label,
-          style: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 },
+          style: { display: 'flex', alignItems: 'center', gap: 6, width: '50%', marginBottom: 8, paddingRight: 8, overflow: 'hidden' },
         }, [
           it.iconUri
-            ? el('img', { src: it.iconUri, width: 26, height: 26, style: { borderRadius: 4, flexShrink: 0 } })
-            : el('div', { style: { width: 26, height: 26, flexShrink: 0 } }),
-          el('span', { style: { color: C.muted, fontSize: 12, width: 62, flexShrink: 0, display: 'flex' } }, it.label),
-          el('span', { style: { color: C.text, fontSize: 13, display: 'flex' } }, it.name),
-        ]))),
+            ? el('img', { src: it.iconUri, width: 20, height: 20, style: { borderRadius: 4, flexShrink: 0 } })
+            : el('div', { style: { width: 20, height: 20, flexShrink: 0 } }),
+          el('div', { style: { display: 'flex', flexDirection: 'column', overflow: 'hidden', flex: 1 } }, [
+            el('span', { style: { color: C.dim, fontSize: 9, textTransform: 'uppercase', letterSpacing: 0.5, display: 'flex' } }, it.label),
+            el('span', { style: { color: C.text, fontSize: 12, display: 'flex', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }, it.name),
+          ]),
+        ])))]),
   ])
 
   const charsCol = el('div', { style: { flex: 1, padding: '20px 28px', display: 'flex', flexDirection: 'column' } }, [

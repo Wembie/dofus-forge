@@ -9,6 +9,10 @@ dist/
 .env
 .env.local
 .env.*.local
+.dev.vars
+
+# wrangler local dev
+.wrangler/
 
 # editor
 .vscode/*
