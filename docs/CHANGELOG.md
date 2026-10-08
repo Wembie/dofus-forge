@@ -5,16 +5,14 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.3.59] — 2026-10-08
-- **Security**: removed a debug fallback in the Worker's OG-image route that leaked a private build's name (and the Supabase response body) in a plaintext 500 response when a build was private — now returns a plain 404
-- **Security**: the same route's error handler no longer returns the raw stack trace to the client on failure — it's logged server-side and a generic 500 is returned
-- **Security**: added `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` headers to every Worker response
-- **Change**: updated the Discord invite link in the site footer
-
 ## [0.3.58] — 2026-10-08
 - **Fix**: GitHub Releases now post a real Discord embed (version + full changelog body) via a repo webhook, instead of Discord's own `/github` webhook integration which only showed a bare one-line "new release published" message
 - **Fix**: `og-preview.png` (the social-share image for the root site, shown when the home link is pasted in Discord/WhatsApp/etc.) still showed the old `wembie.github.io/dofus-forge` URL and stale item/set counts (4,356 items · 247 sets) baked into the image; now shows `dofusforge.com` and the real current counts (4,095 items · 940 sets)
 - **Perf**: converted that image from an uncompressed 489KB PNG to an optimized JPEG (`og-preview.jpg`, ~64KB, same visual quality) — updated `og:image`/`twitter:image`/schema.org meta tags in `index.html` accordingly
+- **Security**: removed a debug fallback in the Worker's OG-image route that leaked a private build's name (and the Supabase response body) in a plaintext 500 response when a build was private — now returns a plain 404
+- **Security**: the same route's error handler no longer returns the raw stack trace to the client on failure — it's logged server-side and a generic 500 is returned
+- **Security**: added `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` headers to every Worker response
+- **Change**: updated the Discord invite link in the site footer
 
 ## [0.3.57] — 2026-10-08
 - **Change**: added a Discord link to the site footer, on its own line below the credits row

@@ -8,22 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.59',
-    date: '2026-10-08',
-    notes: [
-      'Security: removed a debug fallback that could leak a private build\'s name in the OG-image route',
-      'Security: error responses no longer expose raw stack traces',
-      'Security: added X-Content-Type-Options, X-Frame-Options, and Referrer-Policy headers',
-      'Change: updated the Discord invite link in the footer',
-    ],
-  },
-  {
     version: '0.3.58',
     date: '2026-10-08',
     notes: [
       'Fix: GitHub Releases now post a real Discord embed (version + changelog) instead of Discord\'s bare one-line webhook message',
       'Fix: social-share image (og-preview) showed the old wembie.github.io URL and stale item/set counts — now shows dofusforge.com and real counts (4,095 items · 940 sets)',
       'Perf: social-share image converted from 489KB PNG to ~64KB JPEG, same quality',
+      'Security: removed a debug fallback that could leak a private build\'s name in the OG-image route',
+      'Security: error responses no longer expose raw stack traces',
+      'Security: added X-Content-Type-Options, X-Frame-Options, and Referrer-Policy headers',
+      'Change: updated the Discord invite link in the footer',
     ],
   },
   {
