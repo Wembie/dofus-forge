@@ -33,12 +33,32 @@ async function renderOgImage(env: Env, origin: string, lang: Lang, id: string): 
     return new Response('Not found', { status: 404 })
   }
 
-  const [equipment, sets, classNames, translation] = await Promise.all([
-    getEquipment(env.ASSETS, origin, lang),
-    getSets(env.ASSETS, origin, lang),
+  // Stats must be computed from the English equipment/sets data, same as the
+  // client (store/dataStore.ts): STAT_MAP's keys are English effect names, so
+  // feeding it a localized item's `effects` (e.g. "vitalidad" instead of
+  // "Vitality") makes every gear bonus silently fall into unknownStats and
+  // the image shows only base characteristic points, nowhere near the real
+  // totals. The requested `lang` only overlays item *names* for display.
+  const [equipmentEn, setsEn, classNames, translation] = await Promise.all([
+    getEquipment(env.ASSETS, origin, 'en'),
+    getSets(env.ASSETS, origin, 'en'),
     getClassNames(env.ASSETS, origin),
     getTranslation(env.ASSETS, origin, lang),
   ])
+
+  let equipment = equipmentEn
+  let sets = setsEn
+  if (lang !== 'en') {
+    const [equipmentLang, setsLang] = await Promise.all([
+      getEquipment(env.ASSETS, origin, lang),
+      getSets(env.ASSETS, origin, lang),
+    ])
+    const nameBySlotId = new Map(equipmentLang.map(it => [it.ankama_id, it.name]))
+    const setNameById = new Map(setsLang.map(s => [s.ankama_id, s.name]))
+    equipment = equipmentEn.map(it => ({ ...it, name: nameBySlotId.get(it.ankama_id) ?? it.name }))
+    sets = setsEn.map(s => ({ ...s, name: setNameById.get(s.ankama_id) ?? s.name }))
+  }
+
   const classLabel = classNames[build.class_slug]?.[lang] ?? build.class_slug
 
   const data = await buildOgImageData(env.ASSETS, origin, build, equipment, sets, classLabel, translation)

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.60] — 2026-10-08
+- **Fix**: the build-share image showed wildly wrong stats (e.g. 8 AP instead of 12, 995 Vitality instead of 4,395) for any build viewed through a non-English locale (`/es/build/...`, `/fr/...`, `/pt/...`). The Worker fed `computeStats()` the localized equipment/sets JSON directly, but the stat engine's `STAT_MAP` only recognizes English effect names (`Vitality`, `Strength`, ...) — localized names like `vitalidad`/`fuerza` matched nothing, so every item's bonus silently vanished and only base characteristic points showed. The client has always avoided this (`store/dataStore.ts` loads English data for the engine and only overlays translated names for display); the Worker now does the same — stats always computed from English data, requested locale only relabels item names
+
 ## [0.3.59] — 2026-10-08
 - **Fix**: the dynamic build-share image (`/og/<lang>/<id>.png`, shown when a build link is pasted in Discord/WhatsApp) ignored Magesmithy rune bonuses entirely — AP/MP/HP/Range and characteristics only reflected base equipment, not any forgemagie added on top. The Worker's compact build snapshot type was missing the `r` (rune) field the main app already encodes; now decoded and fed into the same stat engine the planner uses
 - **Fix**: the Discord release-notes workflow (added in 0.3.58) crashed on its first real run — the changelog body contains backticks and other markdown, and splicing it straight into the `run:` shell script via a template expression let bash treat those backticks as command substitution, breaking the whole script. The changelog text is now written to a file and read with `jq --rawfile`, never passed through shell interpolation
