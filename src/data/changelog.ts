@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.55',
+    date: '2026-10-08',
+    notes: [
+      'Feature: added Cloudflare Turnstile captcha to sign-up and sign-in to block bots',
+    ],
+  },
+  {
     version: '0.3.54',
     date: '2026-10-07',
     notes: [

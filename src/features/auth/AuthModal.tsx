@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useAuthStore } from '@/store/authStore.ts'
+import { Turnstile } from '@/components/Turnstile.tsx'
 
 type Mode = 'signin' | 'signup'
 
@@ -18,9 +19,11 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   const [busy, setBusy]         = useState(false)
   const [error, setError]       = useState<string | null>(null)
   const [signedUp, setSignedUp] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const [turnstileKey, setTurnstileKey] = useState(0)
 
   function reset() {
-    setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false); setSignedUp(false)
+    setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false); setSignedUp(false); setCaptchaToken(null); setTurnstileKey(k => k + 1)
   }
 
   function close() {
@@ -30,14 +33,20 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
+    if (!captchaToken) return
     setError(null)
     setBusy(true)
     const { error: err } = mode === 'signin'
-      ? await signIn(email, password)
-      : await signUp(email, password, username.trim().toLowerCase())
+      ? await signIn(email, password, captchaToken)
+      : await signUp(email, password, username.trim().toLowerCase(), captchaToken)
     setBusy(false)
     if (err) {
       setError(err === 'invalid_username' ? t('auth_username_invalid') : err === 'username_taken' ? t('auth_username_taken') : err)
+      // Turnstile tokens are single-use — force a fresh challenge (remount
+      // the widget) before the next attempt instead of silently retrying
+      // with a now-spent token.
+      setCaptchaToken(null)
+      setTurnstileKey(k => k + 1)
       return
     }
     if (mode === 'signup') { setSignedUp(true); return }
@@ -173,7 +182,11 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                 </p>
               )}
 
-              <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center mt-1">
+              <div className="flex justify-center">
+                <Turnstile key={turnstileKey} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken(null)} />
+              </div>
+
+              <Button type="submit" variant="primary" size="md" disabled={busy || !captchaToken} className="w-full justify-center mt-1">
                 {busy ? t('auth_loading') : t(mode === 'signin' ? 'auth_signin_btn' : 'auth_signup_btn')}
               </Button>
             </form>

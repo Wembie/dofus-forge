@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.55] — 2026-10-08
+- **Feature**: added Cloudflare Turnstile captcha to sign-up and sign-in, protecting those endpoints from bots — the challenge must pass before the form can submit, and the token is single-use (a fresh one is required after a failed attempt)
+
 ## [0.3.54] — 2026-10-07
 - **Change**: the build detail page now shows its creation date next to the owner/like/view row, matching the build card
 - **Change**: comments now show a date + time next to the username — a date alone couldn't tell two same-day comments apart

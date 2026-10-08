@@ -26,8 +26,8 @@ type AuthState = {
   initialized: boolean
 
   init:           () => void
-  signUp:         (email: string, password: string, username: string) => Promise<{ error: string | null }>
-  signIn:         (email: string, password: string) => Promise<{ error: string | null }>
+  signUp:         (email: string, password: string, username: string, captchaToken: string) => Promise<{ error: string | null }>
+  signIn:         (email: string, password: string, captchaToken: string) => Promise<{ error: string | null }>
   signOut:        () => Promise<void>
   updateUsername: (username: string) => Promise<{ error: string | null }>
   updateProfile:  (edits: ProfileEdits) => Promise<{ error: string | null }>
@@ -92,7 +92,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     })
   },
 
-  signUp: async (email, password, username) => {
+  signUp: async (email, password, username, captchaToken) => {
     if (!USERNAME_RE.test(username)) return { error: 'invalid_username' }
 
     const supabase = await getSupabase()
@@ -108,14 +108,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const redirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
     const { error } = await supabase.auth.signUp({
       email, password,
-      options: { emailRedirectTo: redirectTo, data: { username } },
+      options: { emailRedirectTo: redirectTo, data: { username }, captchaToken },
     })
     return { error: error?.message ?? null }
   },
 
-  signIn: async (email, password) => {
+  signIn: async (email, password, captchaToken) => {
     const supabase = await getSupabase()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken } })
     return { error: error?.message ?? null }
   },
 
