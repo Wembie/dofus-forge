@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.53] — 2026-10-07
+- **Change**: build cards in Explore and My Builds now show the creation date
+
 ## [0.3.52] — 2026-10-07
 - **Fix**: "Equip All" from a set link inside the item catalog closed the set modal but left the catalog open behind it, instead of returning to the main planner
 - **Fix**: the set bonus detail showed every reached tier as "Active" at once (e.g. both 2pc and 3pc on a fully-equipped 3-item set) — Dofus 3 set bonuses aren't cumulative across tiers (only the highest one applies, same as the actual stat calculation), so only the highest reached tier is marked Active now
