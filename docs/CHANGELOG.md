@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.54] — 2026-10-07
+- **Change**: the build detail page now shows its creation date next to the owner/like/view row, matching the build card
+- **Change**: comments now show a date + time next to the username — a date alone couldn't tell two same-day comments apart
+
 ## [0.3.53] — 2026-10-07
 - **Change**: build cards in Explore and My Builds now show the creation date
 

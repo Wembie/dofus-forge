@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar } from 'lucide-react'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -260,6 +260,10 @@ export function BuildDetailPage() {
                 {ownerLabel}
               </span>
             )}
+            <span className="flex items-center gap-1.5">
+              <Calendar size={13} />
+              {new Date(build.created_at).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' })}
+            </span>
             <button
               onClick={handleToggleLike}
               disabled={!session}
@@ -401,18 +405,28 @@ export function BuildDetailPage() {
                   : <div className="flex items-center justify-center w-[22px] h-[22px] rounded-full flex-shrink-0" style={{ background: 'var(--surface-panel)' }}><User size={11} style={{ color: 'var(--ink-faint)' }} /></div>
                 }
                 <div className="min-w-0">
-                  {c.profiles?.username ? (
-                    <Link
-                      to={`/${langPathPrefix(i18n.language)}u/${c.profiles.username}`}
-                      className="text-[11px] font-semibold text-ink hover:text-gold hover:underline transition-colors"
-                    >
-                      {c.profiles.username}
-                    </Link>
-                  ) : (
-                    <p className="text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>
-                      {c.profiles?.username}
-                    </p>
-                  )}
+                  <div className="flex items-baseline gap-1.5 flex-wrap">
+                    {c.profiles?.username ? (
+                      <Link
+                        to={`/${langPathPrefix(i18n.language)}u/${c.profiles.username}`}
+                        className="text-[11px] font-semibold text-ink hover:text-gold hover:underline transition-colors"
+                      >
+                        {c.profiles.username}
+                      </Link>
+                    ) : (
+                      <p className="text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>
+                        {c.profiles?.username}
+                      </p>
+                    )}
+                    {/* Date + time (not just date) — comments can happen
+                        several times in the same day, a date alone wouldn't
+                        tell two same-day replies apart. */}
+                    <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+                      {new Date(c.created_at).toLocaleString(i18n.language, {
+                        year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+                      })}
+                    </span>
+                  </div>
                   <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>
                 </div>
               </li>
