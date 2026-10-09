@@ -2,8 +2,11 @@ name: Update Game Data
 
 on:
   schedule:
-    # Every Monday at 04:00 UTC
-    - cron: '0 4 * * 1'
+    # Every hour — fetch-data.ts checks the lightweight /meta/version endpoint
+    # first and exits immediately if the game version hasn't changed, so this
+    # stays cheap; it only does the full item/set/spell/image fetch once Dofus
+    # actually ships an update, instead of waiting up to a week to notice.
+    - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
       force:
