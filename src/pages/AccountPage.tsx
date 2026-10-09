@@ -50,7 +50,12 @@ export function AccountPage() {
     setUsername(profile?.username ?? '')
     setDisplayName(profile?.display_name ?? '')
     setBio(profile?.bio ?? '')
-    setAvatarPreview(profile?.avatar_url ?? '')
+    // Sanitize where the value enters state, not just at the <img src> render
+    // site — isSafeImageUrl() already guarded the render, but a static
+    // analyzer can't see that a boolean check on the same variable guards
+    // the sink; storing only the already-safe value closes that gap too.
+    const safeProfileAvatar = profile?.avatar_url ?? ''
+    setAvatarPreview(isSafeImageUrl(safeProfileAvatar) ? safeProfileAvatar : '')
   }, [profile])
 
   useEffect(() => {
@@ -66,7 +71,9 @@ export function AccountPage() {
     if (!isAcceptedAvatarType(file.type)) { setError(t('auth_avatar_type_invalid')); return }
     if (file.size > AVATAR_MAX_BYTES) { setError(t('auth_avatar_too_large')); return }
 
-    setAvatarPreview(URL.createObjectURL(file))
+    const blobUrl = URL.createObjectURL(file)
+    if (!blobUrl.startsWith('blob:')) { setError(t('auth_username_error')); return }
+    setAvatarPreview(blobUrl)
     setUploadingAvatar(true)
     const { url, error: err } = await uploadAvatar(file)
     setUploadingAvatar(false)

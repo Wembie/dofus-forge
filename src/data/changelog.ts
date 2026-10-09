@@ -15,6 +15,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Feature: change password from the new Account page',
       'Feature: show/hide toggle on every password field',
       'Change: "Edit Profile" is now its own page (/account) instead of a popup',
+      'Security: avatar preview on the Account page now sanitized where it enters state, not just at render',
     ],
   },
   {

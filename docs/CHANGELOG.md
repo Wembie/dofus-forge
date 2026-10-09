@@ -10,6 +10,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Feature**: change password while signed in, from the new Account page's Security section
 - **Feature**: password fields across the app (sign in/up, forgot/reset, change password) now have a show/hide eye toggle
 - **Change**: "Edit Profile" is no longer a small popup — it's now its own page (`/account`), with a bigger premium layout (hero card with avatar/stats, sectioned profile + security panels) instead of a cramped modal
+- **Security**: hardened the Account page's avatar preview — `avatar_url` is now sanitized (restricted to http/https) at the point it enters component state, not only at the `<img src>` render site, closing a CodeQL `js/xss-through-dom` finding by construction instead of relying on a render-time check the analyzer couldn't verify
 
 ## [0.3.62] — 2026-10-09
 - **Fix**: the Level input (class picker, both the compact header and the initial "no class selected" screen) couldn't be cleared to type a new number — deleting the digit set the store to 0, which the store immediately clamps back to 1, so the input re-rendered as "1" before the next keystroke landed, making e.g. "45" impossible to type over "1". Buffers the typed value locally while focused and only commits (re-clamped to 1–200) on blur/Enter, same fix as the earlier rune-value inputs
