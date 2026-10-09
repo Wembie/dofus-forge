@@ -375,6 +375,32 @@ export async function fetchIsFollowing(followerId: string, followingId: string) 
   return { following: !!data, error: error?.message ?? null }
 }
 
+export type FollowProfile = { id: string; username: string; display_name: string | null; avatar_url: string | null }
+
+/** Accounts that follow `userId` — the "followers" list behind that count. */
+export async function fetchFollowers(userId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('follows')
+    .select('profiles!follows_follower_id_fkey(id, username, display_name, avatar_url)')
+    .eq('following_id', userId)
+  const rows = ((data ?? []) as unknown as { profiles: FollowProfile | null }[])
+    .map(r => r.profiles).filter((p): p is FollowProfile => p != null)
+  return { data: rows, error: error?.message ?? null }
+}
+
+/** Accounts `userId` follows — the "following" list behind that count. */
+export async function fetchFollowing(userId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('follows')
+    .select('profiles!follows_following_id_fkey(id, username, display_name, avatar_url)')
+    .eq('follower_id', userId)
+  const rows = ((data ?? []) as unknown as { profiles: FollowProfile | null }[])
+    .map(r => r.profiles).filter((p): p is FollowProfile => p != null)
+  return { data: rows, error: error?.message ?? null }
+}
+
 export async function followUser(followerId: string, followingId: string) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('follows').insert({ follower_id: followerId, following_id: followingId })

@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { User, FileText, LogOut, Camera, Lock } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { User, FileText, LogOut, Camera, Lock, Calendar } from 'lucide-react'
 import { Frame, SectionHeader, Button, PasswordInput } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useAuthStore, isSafeImageUrl, isAcceptedAvatarType, AVATAR_ACCEPT, AVATAR_MAX_BYTES } from '@/store/authStore.ts'
+import { FollowListModal } from '@/features/builds/FollowListModal.tsx'
 
 // Flip once the `avatars` Storage bucket + RLS policies (schema.sql) are
 // actually created in the Supabase project — until then upload would just
@@ -17,7 +20,11 @@ const AVATAR_UPLOAD_ENABLED = false
  * the site's "premium" treatment (SectionHeader's gold rule, Frame panels). */
 export function AccountPage() {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  const prefix = langPathPrefix(i18n.language)
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'account', { noindex: true })
+
+  const [followModal, setFollowModal] = useState<'followers' | 'following' | null>(null)
 
   const session         = useAuthStore(s => s.session)
   const profile         = useAuthStore(s => s.profile)
@@ -163,16 +170,33 @@ export function AccountPage() {
               </button>
 
               <div className="min-w-0 flex-1">
-                <h1 className="font-display font-bold text-lg truncate" style={{ color: 'var(--gold)' }}>
-                  {profile?.display_name || profile?.username || ''}
-                </h1>
+                {/* Username is the real identity everywhere on the site (build/comment
+                    attribution, UserProfilePage) — display_name is flavor text under it,
+                    never primary. Links to the public profile (/u/:username). */}
+                <Link to={`/${prefix}u/${profile?.username}`} className="hover:underline">
+                  <h1 className="font-display font-bold text-lg truncate" style={{ color: 'var(--gold)' }}>
+                    {profile?.username || ''}
+                  </h1>
+                </Link>
                 {profile?.display_name && (
-                  <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>@{profile.username}</p>
+                  <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{profile.display_name}</p>
+                )}
+                {session?.user.created_at && (
+                  <p className="flex items-center gap-1 text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>
+                    <Calendar size={11} />
+                    {t('profile_joined', { date: new Date(session.user.created_at).toLocaleDateString(i18n.language) })}
+                  </p>
                 )}
                 <div className="flex gap-4 text-[11px] mt-2" style={{ color: 'var(--ink-faint)' }}>
-                  <span><strong style={{ color: 'var(--ink)' }}>{profile?.builds_count ?? 0}</strong> {t('auth_stat_builds')}</span>
-                  <span><strong style={{ color: 'var(--ink)' }}>{profile?.followers_count ?? 0}</strong> {t('auth_stat_followers')}</span>
-                  <span><strong style={{ color: 'var(--ink)' }}>{profile?.following_count ?? 0}</strong> {t('auth_stat_following')}</span>
+                  <button type="button" onClick={() => navigate(`/${prefix}my-builds`)} className="hover:underline">
+                    <strong style={{ color: 'var(--ink)' }}>{profile?.builds_count ?? 0}</strong> {t('auth_stat_builds')}
+                  </button>
+                  <button type="button" onClick={() => setFollowModal('followers')} className="hover:underline">
+                    <strong style={{ color: 'var(--ink)' }}>{profile?.followers_count ?? 0}</strong> {t('auth_stat_followers')}
+                  </button>
+                  <button type="button" onClick={() => setFollowModal('following')} className="hover:underline">
+                    <strong style={{ color: 'var(--ink)' }}>{profile?.following_count ?? 0}</strong> {t('auth_stat_following')}
+                  </button>
                 </div>
                 {uploadingAvatar && <p className="text-[10px] mt-1.5" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>}
               </div>
@@ -324,6 +348,10 @@ export function AccountPage() {
       </main>
 
       <SiteFooter />
+
+      {followModal && profile && (
+        <FollowListModal userId={profile.id} type={followModal} onClose={() => setFollowModal(null)} />
+      )}
     </div>
   )
 }

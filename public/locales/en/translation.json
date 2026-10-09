@@ -517,6 +517,8 @@
   "auth_password_hide": "Hide password",
   "account_section_profile": "Profile",
   "account_section_security": "Security",
+  "account_no_followers": "No followers yet",
+  "account_no_following": "Not following anyone yet",
   "back_to_builder": "Back to planner",
   "explore_open": "Explore",
   "explore_title": "Explore builds",

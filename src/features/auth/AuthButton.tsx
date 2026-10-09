@@ -74,12 +74,6 @@ export function AuthButton() {
           className="absolute right-0 top-full mt-1 rounded-lg overflow-hidden z-50 min-w-[160px]"
           style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame)' }}
         >
-          <div className="px-3 py-2" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
-            <p className="text-[11px] font-semibold truncate" style={{ color: 'var(--ink)' }}>{label}</p>
-            {realName && (
-              <p className="text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>{realName}</p>
-            )}
-          </div>
           <button
             onClick={() => { setShowMenu(false); navigate(`/${langPathPrefix(i18n.language)}account`) }}
             className="w-full flex items-center gap-2 px-3 py-2 text-[11px] text-left transition-colors hover:bg-surface-raised"
