@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CLASS_DATA, ELEMENT_HEX } from './classData.ts'
 import { useClassName, resolveClassName } from './useClassName.ts'
@@ -22,6 +22,41 @@ export function ClassPicker() {
   const lang       = i18n.language.slice(0, 2)
 
   const [picking, setPicking] = useState(false)
+
+  // Level input: a plain controlled `value={level}` snaps back to the clamped
+  // number on every keystroke (clearing the field to type "20" briefly hits
+  // Number('') = 0 -> clamped to 1, so the input re-renders as "1" before you
+  // can type the next digit, making "20" impossible to type over "1"). Buffer
+  // in local text state while focused instead, only committing (and
+  // re-clamping to 1–200) on blur/Enter — same fix as the rune value inputs.
+  const [levelDraft, setLevelDraft] = useState(String(level))
+  const levelFocused = useRef(false)
+  useEffect(() => {
+    if (!levelFocused.current) setLevelDraft(String(level))
+  }, [level])
+  const levelInputProps = {
+    type: 'text' as const,
+    inputMode: 'numeric' as const,
+    value: levelDraft,
+    onFocus: () => { levelFocused.current = true },
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      const v = e.target.value
+      if (/^\d{0,3}$/.test(v)) setLevelDraft(v)
+    },
+    onBlur: () => {
+      levelFocused.current = false
+      const n = parseInt(levelDraft, 10)
+      if (Number.isFinite(n)) {
+        setLevel(n)
+        setLevelDraft(String(Math.max(1, Math.min(200, n))))
+      } else {
+        setLevelDraft(String(level))
+      }
+    },
+    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') e.currentTarget.blur()
+    },
+  }
 
   const classInfo     = selected ? CLASS_DATA.find(c => c.id === selected) : null
   const selectedName  = useClassName(selected)
@@ -146,10 +181,7 @@ export function ClassPicker() {
               aria-label={t('level_decrease')}
             >−</button>
             <input
-              type="number"
-              min={1} max={200}
-              value={level}
-              onChange={e => setLevel(Number(e.target.value))}
+              {...levelInputProps}
               className="text-center text-sm focus:outline-none transition-colors flex-1 min-w-0"
               style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)', borderRadius: 4, padding: '3px 4px' }}
               aria-label={t('level')}
@@ -298,8 +330,7 @@ export function ClassPicker() {
             <div className="flex items-center gap-2">
               <button onClick={() => setLevel(level - 1)} disabled={level <= 1} style={btnStyle} className="disabled:opacity-30" aria-label={t('level_decrease')}>−</button>
               <input
-                type="number" min={1} max={200} value={level}
-                onChange={e => setLevel(Number(e.target.value))}
+                {...levelInputProps}
                 className="flex-1 text-center rounded text-sm py-1 focus:outline-none transition-colors"
                 style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
                 aria-label={t('level')}

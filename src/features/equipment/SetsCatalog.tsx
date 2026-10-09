@@ -273,6 +273,10 @@ export function SetsCatalog({ onClose }: Props) {
       const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
       addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
     }
+    // Equipping a whole set from a card click means "I'm done browsing" —
+    // same as SetDetailModal's own "Equip All" button, drop the user back
+    // on the planner instead of leaving the catalog open behind the result.
+    onClose()
   }
 
   return (
@@ -417,7 +421,15 @@ export function SetsCatalog({ onClose }: Props) {
 
       {openSet && (
         <Suspense fallback={null}>
-          <SetDetailModal set={openSet} onClose={() => setOpenSet(null)} />
+          <SetDetailModal
+            set={openSet}
+            onClose={() => setOpenSet(null)}
+            // Same cascade as ItemCatalog: "Equip All" inside the detail
+            // view should drop the user back on the planner, not leave this
+            // catalog open behind it. Closing via X/Escape (just browsing)
+            // only closes the detail view as usual.
+            onEquipAll={onClose}
+          />
         </Suspense>
       )}
     </>
