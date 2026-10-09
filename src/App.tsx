@@ -16,6 +16,7 @@ const AboutPage       = lazy(() => import('./pages/AboutPage.tsx').then(m => ({ 
 const HowToUsePage    = lazy(() => import('./pages/HowToUsePage.tsx').then(m => ({ default: m.HowToUsePage })))
 const ClassGuidePage  = lazy(() => import('./pages/ClassGuidePage.tsx').then(m => ({ default: m.ClassGuidePage })))
 const UserProfilePage = lazy(() => import('./pages/UserProfilePage.tsx').then(m => ({ default: m.UserProfilePage })))
+const AccountPage     = lazy(() => import('./pages/AccountPage.tsx').then(m => ({ default: m.AccountPage })))
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -68,6 +69,7 @@ const LANG_SUB_ROUTES = (
     <Route path="how-to-use" element={<Suspense fallback={null}><HowToUsePage /></Suspense>} />
     <Route path="classes/:classId" element={<Suspense fallback={null}><ClassGuidePage /></Suspense>} />
     <Route path="u/:username" element={<Suspense fallback={null}><UserProfilePage /></Suspense>} />
+    <Route path="account" element={<Suspense fallback={null}><AccountPage /></Suspense>} />
   </>
 )
 

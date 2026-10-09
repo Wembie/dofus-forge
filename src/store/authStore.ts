@@ -24,14 +24,22 @@ type AuthState = {
   profile:     Profile | null
   loading:     boolean   // true until the initial session check resolves
   initialized: boolean
+  // True from the moment Supabase reports a PASSWORD_RECOVERY auth event
+  // (user followed the email link) until updatePassword() succeeds — lets
+  // the UI force the "set a new password" modal open regardless of what
+  // page the recovery link landed on.
+  passwordRecovery: boolean
 
-  init:           () => void
-  signUp:         (email: string, password: string, username: string, captchaToken: string) => Promise<{ error: string | null }>
-  signIn:         (email: string, password: string, captchaToken: string) => Promise<{ error: string | null }>
-  signOut:        () => Promise<void>
-  updateUsername: (username: string) => Promise<{ error: string | null }>
-  updateProfile:  (edits: ProfileEdits) => Promise<{ error: string | null }>
-  uploadAvatar:   (file: File) => Promise<{ url: string | null; error: string | null }>
+  init:                 () => void
+  signUp:               (email: string, password: string, username: string, captchaToken: string) => Promise<{ error: string | null }>
+  signIn:               (email: string, password: string, captchaToken: string) => Promise<{ error: string | null }>
+  signOut:              () => Promise<void>
+  updateUsername:       (username: string) => Promise<{ error: string | null }>
+  updateProfile:        (edits: ProfileEdits) => Promise<{ error: string | null }>
+  uploadAvatar:         (file: File) => Promise<{ url: string | null; error: string | null }>
+  requestPasswordReset: (email: string, captchaToken: string) => Promise<{ error: string | null }>
+  updatePassword:       (newPassword: string) => Promise<{ error: string | null }>
+  clearPasswordRecovery: () => void
 }
 
 const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
@@ -75,6 +83,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   profile:     null,
   loading:     true,
   initialized: false,
+  passwordRecovery: false,
 
   init: () => {
     if (get().initialized) return
@@ -85,9 +94,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const profile = session ? await fetchProfile(session.user.id) : null
       set({ session, profile, loading: false })
 
-      supabase.auth.onAuthStateChange(async (_event, newSession) => {
+      supabase.auth.onAuthStateChange(async (event, newSession) => {
         const newProfile = newSession ? await fetchProfile(newSession.user.id) : null
-        set({ session: newSession, profile: newProfile, loading: false })
+        set({
+          session: newSession, profile: newProfile, loading: false,
+          ...(event === 'PASSWORD_RECOVERY' ? { passwordRecovery: true } : {}),
+        })
       })
     })
   },
@@ -171,4 +183,29 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const { data } = supabase.storage.from('avatars').getPublicUrl(path)
     return { url: `${data.publicUrl}?t=${Date.now()}`, error: null }
   },
+
+  requestPasswordReset: async (email, captchaToken) => {
+    const supabase = await getSupabase()
+    // Lands back on the app root — onAuthStateChange there picks up the
+    // PASSWORD_RECOVERY event from the link's token and flips
+    // passwordRecovery, which is what actually opens the "set a new
+    // password" modal; this redirect just needs to be a page that mounts
+    // the auth store at all (every page does).
+    const redirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo, captchaToken })
+    // Supabase intentionally returns no error for "email not found" (so a
+    // sign-in form can't be used to enumerate registered emails) — only
+    // real failures (rate limit, captcha) surface here.
+    return { error: error?.message ?? null }
+  },
+
+  updatePassword: async (newPassword) => {
+    const supabase = await getSupabase()
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    if (error) return { error: error.message }
+    set({ passwordRecovery: false })
+    return { error: null }
+  },
+
+  clearPasswordRecovery: () => set({ passwordRecovery: false }),
 }))

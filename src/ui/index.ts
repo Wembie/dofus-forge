@@ -12,6 +12,7 @@ export { Tabs }           from './Tabs'
 export { Modal }          from './Modal'
 export { ElementGem }     from './ElementGem'
 export { StatFilter }     from './StatFilter'
+export { PasswordInput }  from './PasswordInput'
 
 export type { FrameProps }       from './Frame'
 export type { ButtonProps, ButtonVariant, ButtonSize } from './Button'

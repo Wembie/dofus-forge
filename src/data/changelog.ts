@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.63',
+    date: '2026-10-09',
+    notes: [
+      'Feature: forgot-password flow — reset link by email, then set a new password',
+      'Feature: change password from the new Account page',
+      'Feature: show/hide toggle on every password field',
+      'Change: "Edit Profile" is now its own page (/account) instead of a popup',
+      'Security: avatar preview on the Account page now sanitized where it enters state, not just at render',
+    ],
+  },
+  {
     version: '0.3.62',
     date: '2026-10-09',
     notes: [

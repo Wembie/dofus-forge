@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { User, LogOut, Pencil } from 'lucide-react'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 import { AuthModal } from './AuthModal.tsx'
-import { ProfileModal } from './ProfileModal.tsx'
+import { ResetPasswordModal } from './ResetPasswordModal.tsx'
 
 export function AuthButton() {
-  const { t }      = useTranslation()
+  const { t, i18n } = useTranslation()
+  const navigate   = useNavigate()
   const session    = useAuthStore(s => s.session)
   const profile    = useAuthStore(s => s.profile)
   const loading    = useAuthStore(s => s.loading)
@@ -14,7 +17,6 @@ export function AuthButton() {
 
   const [showAuth, setShowAuth]       = useState(false)
   const [showMenu, setShowMenu]       = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export function AuthButton() {
           <span className="hidden lg:inline">{t('auth_signin_btn')}</span>
         </button>
         <AuthModal open={showAuth} onClose={() => setShowAuth(false)} />
+        <ResetPasswordModal />
       </>
     )
   }
@@ -78,7 +81,7 @@ export function AuthButton() {
             )}
           </div>
           <button
-            onClick={() => { setShowMenu(false); setShowProfile(true) }}
+            onClick={() => { setShowMenu(false); navigate(`/${langPathPrefix(i18n.language)}account`) }}
             className="w-full flex items-center gap-2 px-3 py-2 text-[11px] text-left transition-colors hover:bg-surface-raised"
             style={{ color: 'var(--ink-muted)' }}
           >
@@ -96,7 +99,7 @@ export function AuthButton() {
         </div>
       )}
 
-      <ProfileModal open={showProfile} onClose={() => setShowProfile(false)} />
+      <ResetPasswordModal />
     </div>
   )
 }

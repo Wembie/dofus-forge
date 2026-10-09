@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
-import { Modal, Button } from '@/ui'
+import { Modal, Button, PasswordInput } from '@/ui'
 import { useAuthStore } from '@/store/authStore.ts'
 import { Turnstile } from '@/components/Turnstile.tsx'
 
-type Mode = 'signin' | 'signup'
+type Mode = 'signin' | 'signup' | 'forgot'
 
 export function AuthModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { t }      = useTranslation()
-  const signIn     = useAuthStore(s => s.signIn)
-  const signUp     = useAuthStore(s => s.signUp)
+  const { t }                 = useTranslation()
+  const signIn                = useAuthStore(s => s.signIn)
+  const signUp                = useAuthStore(s => s.signUp)
+  const requestPasswordReset  = useAuthStore(s => s.requestPasswordReset)
 
   const [mode, setMode]         = useState<Mode>('signin')
   const [email, setEmail]       = useState('')
@@ -19,11 +20,15 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   const [busy, setBusy]         = useState(false)
   const [error, setError]       = useState<string | null>(null)
   const [signedUp, setSignedUp] = useState(false)
+  const [resetSent, setResetSent] = useState(false)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [turnstileKey, setTurnstileKey] = useState(0)
 
   function reset() {
-    setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false); setSignedUp(false); setCaptchaToken(null); setTurnstileKey(k => k + 1)
+    setMode('signin')
+    setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false)
+    setSignedUp(false); setResetSent(false)
+    setCaptchaToken(null); setTurnstileKey(k => k + 1)
   }
 
   function close() {
@@ -31,11 +36,32 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
     onClose()
   }
 
+  function switchMode(next: Mode) {
+    setMode(next)
+    setError(null)
+    setCaptchaToken(null)
+    setTurnstileKey(k => k + 1)
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!captchaToken) return
     setError(null)
     setBusy(true)
+
+    if (mode === 'forgot') {
+      const { error: err } = await requestPasswordReset(email, captchaToken)
+      setBusy(false)
+      if (err) {
+        setError(err)
+        setCaptchaToken(null)
+        setTurnstileKey(k => k + 1)
+        return
+      }
+      setResetSent(true)
+      return
+    }
+
     const { error: err } = mode === 'signin'
       ? await signIn(email, password, captchaToken)
       : await signUp(email, password, username.trim().toLowerCase(), captchaToken)
@@ -78,17 +104,22 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
           <Swords size={20} style={{ color: 'var(--gold)' }} />
         </div>
         <h2 className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
-          {t(signedUp ? 'auth_check_email_title' : mode === 'signin' ? 'auth_signin_title' : 'auth_signup_title')}
+          {t(
+            signedUp || resetSent ? 'auth_check_email_title'
+            : mode === 'signin' ? 'auth_signin_title'
+            : mode === 'signup' ? 'auth_signup_title'
+            : 'auth_forgot_title',
+          )}
         </h2>
-        {!signedUp && (
+        {!signedUp && !resetSent && (
           <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
-            {t(mode === 'signin' ? 'auth_signin_subtitle' : 'auth_signup_subtitle')}
+            {t(mode === 'signin' ? 'auth_signin_subtitle' : mode === 'signup' ? 'auth_signup_subtitle' : 'auth_forgot_subtitle')}
           </p>
         )}
       </div>
 
       <div className="p-6">
-        {signedUp ? (
+        {signedUp || resetSent ? (
           <div className="text-center space-y-4 py-1">
             <div className="flex justify-center">
               <div
@@ -98,7 +129,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                 <MailCheck size={26} style={{ color: 'var(--gold)' }} />
               </div>
             </div>
-            <p className="text-sm" style={{ color: 'var(--ink)' }}>{t('auth_check_email')}</p>
+            <p className="text-sm" style={{ color: 'var(--ink)' }}>{t(resetSent ? 'auth_reset_sent' : 'auth_check_email')}</p>
             <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('auth_check_spam')}</p>
             <Button variant="secondary" size="sm" onClick={close} className="w-full justify-center">
               {t('modal_close')}
@@ -152,26 +183,33 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                   <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_username_hint')}</p>
                 </div>
               )}
-              <div>
-                <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                  {t('auth_password')}
-                </label>
-                <div className="relative">
-                  <Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-                  <input
-                    type="password"
+              {mode !== 'forgot' && (
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-[10px] uppercase tracking-wider" style={{ color: 'var(--ink-faint)' }}>
+                      {t('auth_password')}
+                    </label>
+                    {mode === 'signin' && (
+                      <button
+                        type="button"
+                        onClick={() => switchMode('forgot')}
+                        className="text-[10px] underline underline-offset-2"
+                        style={{ color: 'var(--ink-faint)' }}
+                      >
+                        {t('auth_forgot_password')}
+                      </button>
+                    )}
+                  </div>
+                  <PasswordInput
+                    leftIcon={<Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />}
                     required
                     minLength={6}
                     autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
-                    style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
-                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
                   />
                 </div>
-              </div>
+              )}
 
               {error && (
                 <p
@@ -187,7 +225,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
               </div>
 
               <Button type="submit" variant="primary" size="md" disabled={busy || !captchaToken} className="w-full justify-center mt-1">
-                {busy ? t('auth_loading') : t(mode === 'signin' ? 'auth_signin_btn' : 'auth_signup_btn')}
+                {busy ? t('auth_loading') : t(mode === 'signin' ? 'auth_signin_btn' : mode === 'signup' ? 'auth_signup_btn' : 'auth_forgot_btn')}
               </Button>
             </form>
 
@@ -195,17 +233,30 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
               <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
             </div>
 
-            <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
-              {mode === 'signin' ? t('auth_no_account') : t('auth_has_account')}{' '}
-              <button
-                type="button"
-                onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(null) }}
-                className="font-semibold underline underline-offset-2"
-                style={{ color: 'var(--gold)' }}
-              >
-                {t(mode === 'signin' ? 'auth_signup_btn' : 'auth_signin_btn')}
-              </button>
-            </p>
+            {mode === 'forgot' ? (
+              <p className="text-[11px] text-center">
+                <button
+                  type="button"
+                  onClick={() => switchMode('signin')}
+                  className="font-semibold underline underline-offset-2"
+                  style={{ color: 'var(--gold)' }}
+                >
+                  {t('auth_back_to_signin')}
+                </button>
+              </p>
+            ) : (
+              <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
+                {mode === 'signin' ? t('auth_no_account') : t('auth_has_account')}{' '}
+                <button
+                  type="button"
+                  onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
+                  className="font-semibold underline underline-offset-2"
+                  style={{ color: 'var(--gold)' }}
+                >
+                  {t(mode === 'signin' ? 'auth_signup_btn' : 'auth_signin_btn')}
+                </button>
+              </p>
+            )}
           </>
         )}
       </div>
