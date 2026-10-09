@@ -8,17 +8,11 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.63',
-    date: '2026-10-09',
-    notes: [
-      'Fix: equipping a set from the Sets catalog (card click or "Equip All" in the detail view) left the catalog open instead of returning to the planner',
-    ],
-  },
-  {
     version: '0.3.62',
     date: '2026-10-09',
     notes: [
       'Fix: the Level input couldn\'t be cleared to type a new number — same fix as the earlier rune-value inputs, buffers locally while focused and commits on blur',
+      'Fix: equipping a set from the Sets catalog (card click or "Equip All" in the detail view) left the catalog open instead of returning to the planner',
     ],
   },
   {

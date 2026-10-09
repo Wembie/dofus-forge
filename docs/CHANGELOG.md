@@ -5,11 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.3.63] — 2026-10-09
-- **Fix**: in the Sets catalog, clicking a set card to auto-equip it, or clicking "Equip All" inside a set's detail view (opened via the 👁 icon), left the Sets catalog modal open behind the result instead of returning to the planner — `SetDetailModal` already supported cascading its close up to a parent (used by the item catalog), but `SetsCatalog.tsx` never wired it up
-
 ## [0.3.62] — 2026-10-09
 - **Fix**: the Level input (class picker, both the compact header and the initial "no class selected" screen) couldn't be cleared to type a new number — deleting the digit set the store to 0, which the store immediately clamps back to 1, so the input re-rendered as "1" before the next keystroke landed, making e.g. "45" impossible to type over "1". Buffers the typed value locally while focused and only commits (re-clamped to 1–200) on blur/Enter, same fix as the earlier rune-value inputs
+- **Fix**: in the Sets catalog, clicking a set card to auto-equip it, or clicking "Equip All" inside a set's detail view (opened via the 👁 icon), left the Sets catalog modal open behind the result instead of returning to the planner — `SetDetailModal` already supported cascading its close up to a parent (used by the item catalog), but `SetsCatalog.tsx` never wired it up
 
 ## [0.3.61] — 2026-10-08
 - **Fix**: after a build was edited, its shared image could keep showing the old stats for up to a day — Discord, WhatsApp, etc. cache link previews by the exact image URL, and ours never changed between edits. The image URL now carries `?v=<updated_at>`, so it changes automatically whenever the build changes, busting both our own edge cache and any link-preview cache
