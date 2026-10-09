@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.62',
+    date: '2026-10-09',
+    notes: [
+      'Fix: the Level input couldn\'t be cleared to type a new number — same fix as the earlier rune-value inputs, buffers locally while focused and commits on blur',
+    ],
+  },
+  {
     version: '0.3.61',
     date: '2026-10-08',
     notes: [
