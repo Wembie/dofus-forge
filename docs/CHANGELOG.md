@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.63] — 2026-10-09
+- **Feature**: forgot-password flow — a "Forgot your password?" link on sign-in sends a reset email (Supabase `resetPasswordForEmail`, Turnstile-protected), and following that link opens a dedicated "set a new password" modal automatically
+- **Feature**: change password while signed in, from the new Account page's Security section
+- **Feature**: password fields across the app (sign in/up, forgot/reset, change password) now have a show/hide eye toggle
+- **Change**: "Edit Profile" is no longer a small popup — it's now its own page (`/account`), with a bigger premium layout (hero card with avatar/stats, sectioned profile + security panels) instead of a cramped modal
+
 ## [0.3.62] — 2026-10-09
 - **Fix**: the Level input (class picker, both the compact header and the initial "no class selected" screen) couldn't be cleared to type a new number — deleting the digit set the store to 0, which the store immediately clamps back to 1, so the input re-rendered as "1" before the next keystroke landed, making e.g. "45" impossible to type over "1". Buffers the typed value locally while focused and only commits (re-clamped to 1–200) on blur/Enter, same fix as the earlier rune-value inputs
 - **Fix**: in the Sets catalog, clicking a set card to auto-equip it, or clicking "Equip All" inside a set's detail view (opened via the 👁 icon), left the Sets catalog modal open behind the result instead of returning to the planner — `SetDetailModal` already supported cascading its close up to a parent (used by the item catalog), but `SetsCatalog.tsx` never wired it up

@@ -76,6 +76,13 @@ const MY_BUILDS_META = {
   pt: { title: 'Minhas Builds — Dofus Forge', description: 'Gerencie suas builds salvas de Dofus 3 — entre para visualizar, editar, publicar ou compartilhar.' },
 }
 
+const ACCOUNT_META = {
+  en: { title: 'Account Settings — Dofus Forge', description: 'Manage your Dofus Forge profile, password and account settings.' },
+  es: { title: 'Mi cuenta — Dofus Forge', description: 'Gestioná tu perfil, contraseña y configuración de cuenta en Dofus Forge.' },
+  fr: { title: 'Mon compte — Dofus Forge', description: 'Gérez votre profil, mot de passe et paramètres de compte sur Dofus Forge.' },
+  pt: { title: 'Minha conta — Dofus Forge', description: 'Gerencie seu perfil, senha e configurações de conta no Dofus Forge.' },
+}
+
 const ABOUT_META = {
   en: { title: 'About Dofus Forge', description: 'Dofus Forge is a free, fan-made build planner for Dofus 3. Learn why it exists, where its data comes from, and who makes it.' },
   es: { title: 'Acerca de Dofus Forge', description: 'Dofus Forge es un planificador de builds gratuito y hecho por fans para Dofus 3. Enterate por qué existe, de dónde salen los datos y quién lo hace.' },
@@ -195,6 +202,7 @@ generateRoute('explore', EXPLORE_META)
 generateRoute('about', ABOUT_META)
 generateRoute('how-to-use', HOWTO_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex
+generateRoute('account', ACCOUNT_META, { noindex: true }) // private/auth-gated — same treatment as my-builds
 generateRoute('classes/cra', CRA_META)
 
 // Fetched at runtime (no-store) so the running app can detect a newer
