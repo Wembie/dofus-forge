@@ -138,6 +138,7 @@ export function AccountPage() {
                 style={{ boxShadow: '0 0 0 2px color-mix(in srgb, var(--gold) 35%, transparent), 0 0 24px color-mix(in srgb, var(--gold) 18%, transparent)' }}
               >
                 {avatarPreview.startsWith('blob:') || isSafeImageUrl(avatarPreview)
+                  // codeql[js/xss-through-dom] -- avatarPreview is restricted to http(s)/blob: before this branch (see the profile-sync effect and onAvatarChange above); <img src> sets a DOM attribute/URL fetch, it never parses the value as HTML.
                   ? <img src={avatarPreview} alt="" width={80} height={80} className="w-20 h-20 rounded-full object-cover" />
                   : (
                     <div
