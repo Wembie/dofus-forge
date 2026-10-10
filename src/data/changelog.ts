@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.65',
+    date: '2026-10-09',
+    notes: [
+      'Rewrite: the build optimizer now exhaustively tries every set and every pair of sets (not a sample), then polishes the best candidates against the real stat engine — the old search could never "see" set bonuses while deciding which items to keep',
+      'Fix: a few Game Master/QA-only items with absurd stats could be equipped by the optimizer — the obtainable-item filter only matched a French marker, not the English one actually in the data',
+      'Fix: the "Exo AP/MP/Range" checkboxes did nothing — now apply a real 12/6/6 hard floor',
+      'Feature: stats can be prioritized (0-5) independently of any hard minimum, instead of every active stat forcing an all-or-nothing requirement',
+      'Feature: 5 results instead of 3, picked to be genuinely different builds',
+    ],
+  },
+  {
     version: '0.3.64',
     date: '2026-10-09',
     notes: [
