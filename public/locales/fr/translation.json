@@ -701,5 +701,9 @@
   "optimizer_locked_title": "Sélectionne ta classe pour débloquer la Forge",
   "optimizer_locked_hint": "La Forge a besoin de ta classe et de ton niveau pour calculer des combinaisons valides. Choisis (ou confirme) ta classe ci-dessous pour continuer.",
   "optimizer_forgemagie": "Forgemagie",
-  "optimizer_forgemagie_hint": "Tu cherches plus d'Invocations ou une autre stat de combat ? Règle-la en minimum dans le groupe « Combat » plus bas."
+  "optimizer_forgemagie_hint": "Tu cherches plus d'Invocations ou une autre stat de combat ? Règle-la en minimum dans le groupe « Combat » plus bas.",
+  "optimizer_assume_scrolled": "Supposer tout parcheminé",
+  "optimizer_assume_scrolled_hint": "Calcule comme si chaque caractéristique avait déjà son parchemin, quel que soit l'état actuel de ta fiche.",
+  "optimizer_has_subscription": "J'ai un abonnement Dofus actif",
+  "optimizer_has_subscription_hint": "Certains objets (dont certains trophées) nécessitent un abonnement actif en jeu. Décoché par défaut pour ne jamais te recommander un objet que tu ne peux pas équiper."
 }

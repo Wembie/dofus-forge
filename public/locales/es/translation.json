@@ -701,5 +701,9 @@
   "optimizer_locked_title": "Selecciona tu clase para desbloquear la Forjadora",
   "optimizer_locked_hint": "La Forjadora necesita tu clase y nivel para calcular combinaciones válidas. Elegí (o confirmá) tu clase abajo para continuar.",
   "optimizer_forgemagie": "Forgemagia",
-  "optimizer_forgemagie_hint": "¿Buscás más Invocaciones u otra estadística de combate? Configurala como mínimo en el grupo \"Combate\" más abajo."
+  "optimizer_forgemagie_hint": "¿Buscás más Invocaciones u otra estadística de combate? Configurala como mínimo en el grupo \"Combate\" más abajo.",
+  "optimizer_assume_scrolled": "Asumir todo pergaminado",
+  "optimizer_assume_scrolled_hint": "Calcula como si cada característica ya tuviera su pergamino aplicado, sin importar cómo esté tu hoja de personaje ahora mismo.",
+  "optimizer_has_subscription": "Tengo cuenta Premium de Dofus",
+  "optimizer_has_subscription_hint": "Algunos ítems (incluyendo ciertos trofeos) requieren una suscripción activa en el juego. Desmarcado por defecto para no recomendarte algo que no podés equipar."
 }
