@@ -7,7 +7,7 @@ import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 
 type Props = {
   result:  BuildResult
-  rank:    1 | 2 | 3
+  rank:    number
   items:   AppItem[]
   stats:   StatConfig[]
   onLoad:  (equipped: Partial<Record<SlotId, number>>) => void
@@ -45,7 +45,7 @@ export function BuildResultCard({ result, rank, items, stats, onLoad }: Props) {
         className="flex items-center gap-2 px-3 py-2"
         style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-stone)' }}
       >
-        <span className="text-base leading-none">{MEDALS[rank]}</span>
+        <span className="text-base leading-none">{MEDALS[rank] ?? `#${rank}`}</span>
         <span className="text-[12px] font-bold font-display tracking-wider" style={{ color: 'var(--gold)' }}>
           {t('optimizer_rank', { n: rank })}
         </span>

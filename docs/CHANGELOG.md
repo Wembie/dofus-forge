@@ -5,6 +5,14 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.65] — 2026-10-09
+- **Rewrite**: the build optimizer ("la forjadora") was rebuilt from scratch — the old beam search scored items one at a time, so it could never "see" the value of a set bonus (which only appears once specific pieces are equipped together) until it had already discarded the pieces that would've made it possible. The new engine: (1) tries every single set, AND every pair of sets, explicitly — not sampled, all of them — filling every other slot with the best item for it and scoring the whole thing with the real stat engine; (2) then polishes the best candidates with coordinate-ascent hill-climbing (re-trying every item in every slot against the real computed stats) to catch the other thing a simple fill can't see: hard stat caps, where a second "+1 AP" item can be worthless once AP is already maxed elsewhere, depending on the rest of the build
+- **Fix**: a handful of Game Master/QA-only items with absurd stats (one ring grants +300 to every characteristic) were reachable by the optimizer because the old obtainable-item filter only matched the French "(MJ)" marker, never the English "(GM)"/"(Gms Only)" ones actually present in the data it uses
+- **Fix**: the "Exo AP/MP/Range" checkboxes were captured by the UI and sent to the solver but never actually used by it — toggling them did nothing. Now they apply the real 12 AP / 6 MP / 6 Range floor as a hard requirement
+- **Feature**: stats can now be prioritized (0–5, independent of any hard minimum) instead of every configured stat silently becoming an all-or-nothing requirement — previously there was no way to say "maximize this" without also forcing a minimum floor on it
+- **Feature**: results go from 3 to 5, picked to differ from each other by several equipment slots so they're genuinely different builds, not near-duplicates
+- Added an automated test suite for the optimizer (`src/engine/__tests__/optimizer.test.ts`, 19 tests) — including a deterministic regression test proving it assembles a weaker-individually set over stronger standalone items when that set's bonus makes it the better pick, plus invariant checks (no duplicate rings/dofus, locked slots respected, level cap respected, banned items never appear) run against the real item catalog
+
 ## [0.3.64] — 2026-10-09
 - **Change**: the account menu dropdown no longer repeats your username/display name at the top — just "Edit Profile" and "Sign Out"
 - **Feature**: on the Account page, your username now links to your public profile, a "member since" date shows under it, the builds count links to My Builds, and the followers/following counts open a popup listing those accounts

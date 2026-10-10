@@ -88,15 +88,20 @@ function persistConfig(config: OptimizerConfig) {
 }
 
 // ── Stat Card ─────────────────────────────────────────────────────────────────
-function StatCard({ meta, cfg, onChange }: {
-  meta:     OptimizerStatMeta
-  cfg:      StatConfig
-  onChange: (minVal: number) => void
+function StatCard({ meta, cfg, onChange, onWeightChange }: {
+  meta:           OptimizerStatMeta
+  cfg:            StatConfig
+  onChange:       (minVal: number) => void
+  onWeightChange: (weight: number) => void
 }) {
   const { t } = useTranslation()
   const [raw, setRaw] = useState(cfg.minVal > 0 ? String(cfg.minVal) : '')
   const inputRef = useRef<HTMLInputElement>(null)
-  const isActive = cfg.minVal > 0
+  // "Active" (drawn in color) whenever the optimizer cares about this stat at
+  // all — a hard minimum, a priority weight, or both; these are independent:
+  // weight says how hard to maximize it, minVal is an optional hard floor on
+  // top (e.g. "AP, priority 8" vs "AP must be at least 12").
+  const isActive = cfg.minVal > 0 || cfg.weight > 0
 
   const descKey = `${meta.tKey}_desc`
 
@@ -172,6 +177,30 @@ function StatCard({ meta, cfg, onChange }: {
           onClick={e => e.stopPropagation()}
         />
       </div>
+      <div className="flex items-center gap-1" onClick={e => e.stopPropagation()} title={t('optimizer_priority_hint')}>
+        <span className="text-[8px] uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
+          {t('optimizer_priority')}
+        </span>
+        <div className="flex gap-0.5">
+          {[2, 4, 6, 8, 10].map(level => {
+            const filled = cfg.weight >= level
+            return (
+              <button
+                key={level}
+                type="button"
+                onClick={() => onWeightChange(cfg.weight === level ? 0 : level)}
+                className="rounded-full flex-shrink-0 transition-colors"
+                style={{
+                  width: 7, height: 7,
+                  background: filled ? meta.color : 'var(--surface-panel)',
+                  border: `1px solid ${filled ? meta.color : 'var(--metal-edge)'}`,
+                }}
+                aria-label={t('optimizer_priority_level', { n: level / 2 })}
+              />
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }
@@ -222,11 +251,24 @@ export function OptimizerModal({ open, onClose }: Props) {
     }
     setConfig(c => ({
       ...c,
+      // A hard minimum implies "I care about this stat" even before its
+      // priority dots are touched, so it defaults weight to a middle value —
+      // but weight stays independently editable afterward (priority and
+      // minimum are two different knobs: "maximize this" vs "never go below
+      // this"), and clearing the minimum doesn't reset a weight the user set.
       stats: c.stats.map(s => s.stat === statKey
-        ? { ...s, minVal, weight: minVal > 0 ? 5 : 0 }
+        ? { ...s, minVal, weight: minVal > 0 && s.weight === 0 ? 6 : s.weight }
         : s
       ),
     }))
+  }
+
+  function updateStatWeight(statKey: OptimizerStatKey, weight: number) {
+    if (weight > 0) {
+      const group = STAT_GROUPS.find(g => g.statKeys.includes(statKey))
+      if (group) setExpandedGroups(s => new Set([...s, group.key]))
+    }
+    setConfig(c => ({ ...c, stats: c.stats.map(s => s.stat === statKey ? { ...s, weight } : s) }))
   }
 
   function clearAllStats() {
@@ -402,7 +444,7 @@ export function OptimizerModal({ open, onClose }: Props) {
               <BuildResultCard
                 key={i}
                 result={result}
-                rank={(i + 1) as 1 | 2 | 3}
+                rank={i + 1}
                 items={equipment ?? []}
                 stats={config.stats}
                 onLoad={loadBuild}
@@ -599,6 +641,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                           meta={meta}
                           cfg={cfg}
                           onChange={minVal => updateStatMin(sk, minVal)}
+                          onWeightChange={weight => updateStatWeight(sk, weight)}
                         />
                       )
                     })}
