@@ -310,4 +310,23 @@ describe('runOptimizer — real game data', () => {
 
     expect(results).toEqual([])
   }, 30000)
+
+  // Regression test for a real reported bug: hill-climbing (phase 3, the
+  // only phase that goes beyond "single best item per slot") used to be
+  // skipped ENTIRELY whenever phases 1-2 (set/pair search) ran long enough
+  // to hit the shared time budget — an all-or-nothing gate, not a gradual
+  // cutoff. A cold Worker with no JIT warm-up on a slower machine could hit
+  // that easily, silently capping results well below what's achievable
+  // (confirmed: ~1370 Strength instead of ~1660+ with the gate re-enabled in
+  // testing). Phases 1-2 now get only a fraction of the total time budget,
+  // guaranteeing phase 3 always gets to run. This pins the user-reported
+  // symptom directly: asking for 1500 Strength should actually be reachable.
+  it('reaches a high hard-constraint target that requires hill-climbing polish to satisfy', () => {
+    const config = withWeight(baseConfig(), 'strength', 6, 1500)
+    const results = runOptimizer(config, realEquipment, realSets, baseBuild(), noopProgress, freshCancel())
+
+    expect(results.length).toBeGreaterThan(0)
+    expect(results[0].meetsRequired).toBe(true)
+    expect(statsNum(results[0], 'strength')).toBeGreaterThanOrEqual(1500)
+  }, 30000)
 })

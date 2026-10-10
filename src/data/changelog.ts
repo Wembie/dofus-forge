@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.66',
+    date: '2026-10-10',
+    notes: [
+      'Fix: the optimizer could silently cap results below what\'s achievable — its polish phase was skipped entirely whenever set search ran long, now it always runs',
+    ],
+  },
+  {
     version: '0.3.65',
     date: '2026-10-09',
     notes: [

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.66] — 2026-10-10
+- **Fix**: the optimizer could silently cap results well below what's achievable (e.g. a high Strength target reported unreachable when it wasn't) — the coordinate-ascent polish phase, the only phase that goes beyond "single best item per slot", was skipped entirely whenever the earlier set-search phase ran long enough to hit the time budget. That phase now always gets to run, with the set-search phase getting only a portion of the total time budget so there's always time left for it
+
 ## [0.3.65] — 2026-10-09
 - **Rewrite**: the build optimizer ("la forjadora") was rebuilt from scratch — the old beam search scored items one at a time, so it could never "see" the value of a set bonus (which only appears once specific pieces are equipped together) until it had already discarded the pieces that would've made it possible. The new engine: (1) tries every single set, AND every pair of sets, explicitly — not sampled, all of them — filling every other slot with the best item for it and scoring the whole thing with the real stat engine; (2) then polishes the best candidates with coordinate-ascent hill-climbing (re-trying every item in every slot against the real computed stats) to catch the other thing a simple fill can't see: hard stat caps, where a second "+1 AP" item can be worthless once AP is already maxed elsewhere, depending on the rest of the build
 - **Fix**: a handful of Game Master/QA-only items with absurd stats (one ring grants +300 to every characteristic) were reachable by the optimizer because the old obtainable-item filter only matched the French "(MJ)" marker, never the English "(GM)"/"(Gms Only)" ones actually present in the data it uses
