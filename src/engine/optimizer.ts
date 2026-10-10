@@ -46,12 +46,28 @@ const WEAPON_ATK_STAT_NAMES = new Set([
 ])
 
 // Items the public API carries that were never meant to be worn by a real
-// character — Game Master / QA-only items with wildly inflated stats (seen:
-// a level-1 ring granting +300 to every characteristic) or outright test
-// fixtures. None of these have a dedicated "obtainable" flag in the data, so
-// this matches the actual naming patterns found in the English item list —
-// "(MJ)" is the equivalent French marker some other locales use.
+// character — Game Master / QA-only items with wildly inflated stats (one
+// ring grants +300 to every characteristic) or outright test fixtures. None
+// of these have a dedicated "obtainable" flag in the data, so this matches
+// naming patterns found in the English item list.
 const NON_OBTAINABLE_NAME_RE = /\((?:MJ|GM|Gms?\s*Only)\)|\bGms?\s*Only\b|^Hide Effect Test$/i
+
+// Name-matching alone is NOT locale-proof: dataStore.ts keeps every item's
+// `effects` English for the engine but overlays a translated `name` for
+// display, and the GM/test marker does not survive that translation
+// consistently — e.g. ankama_id 9031 ("Gore Master's Ring (Gms Only)" in
+// English, the exact +300-to-everything item this filter exists for) carries
+// NO marker at all in Spanish/French/Portuguese ("Anillote del Maestro
+// Jambo"/"Annobusé de Maître Jarbo"/"Anel do Mestre Jorgo"), and 34569 ("Hide
+// Effect Test") only matches that literal English text. ankama_id is stable
+// across locales, so these are banned by id — the authoritative check —
+// with the name regex above kept only as a secondary net for anything not
+// yet manually identified.
+const NON_OBTAINABLE_IDS = new Set([6894, 6895, 7913, 9031, 34569])
+
+function isObtainable(item: AppItem): boolean {
+  return !NON_OBTAINABLE_IDS.has(item.ankama_id) && !NON_OBTAINABLE_NAME_RE.test(item.name)
+}
 
 const HILL_CLIMB_POOL      = 150   // candidates tried per slot during polish — generous, not a hard correctness cut
 const HILL_CLIMB_SEEDS     = 24    // how many phase-1 results get polished
@@ -76,7 +92,7 @@ const DOFUS_SLOT_IDS = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus
 const COMPANION_TYPES = new Set(['Pet', 'Petsmount', 'Dragoturkey', 'Seemyool', 'Rhineetle'])
 
 function filterItemsForSlot(items: AppItem[], slot: SlotId, maxLevel: number): AppItem[] {
-  const leveled = items.filter(it => it.level <= maxLevel && !NON_OBTAINABLE_NAME_RE.test(it.name))
+  const leveled = items.filter(it => it.level <= maxLevel && isObtainable(it))
   if (slot === 'ring1' || slot === 'ring2') return leveled.filter(it => it.slot === 'ring')
   if (DOFUS_SLOT_IDS.includes(slot))        return leveled.filter(it => it.slot === 'dofus')
   if (slot === 'companion')                 return leveled.filter(it => it.slot === 'pet' || (it.slot === 'other' && COMPANION_TYPES.has(it.type)))
@@ -118,10 +134,9 @@ function compareOp(actual: number, operator: string, value: number): boolean {
 }
 
 type ConditionContext = {
-  statsNums:       Record<string, number>
-  characterLevel:  number
+  statsNums:        Record<string, number>
+  characterLevel:   number
   maxSetPieceCount: number  // most pieces the build has equipped from any single set
-  hasSubscription: boolean
 }
 
 // Equip conditions (e.g. "Strength > 100") were never validated anywhere in
@@ -133,10 +148,10 @@ type ConditionContext = {
 // - "Be level {0} or higher" is a templated character-level gate (not an
 //   item-level one — that's already covered by maxLevel), so it compares
 //   against the build's chosen level directly.
-// - "Be subscribed" gates on having an active Dofus subscription, which this
-//   app has no way to verify — handled by excluding such items from the
-//   search entirely unless the user opts in (see hasSubscription below), but
-//   checked again here too as a second line of defense.
+// - "Be subscribed" gates on having an active Dofus subscription — this is a
+//   theorycrafting tool, not a literal "can I equip this right now" check, so
+//   subscription status is deliberately not modeled at all and this always
+//   passes, same as any other condition this app doesn't track.
 // - "Set bonus" is the condition actual Trophy items carry ("Obstructor",
 //   "Deserter", etc.) — Trophies are explicitly incompatible with having a
 //   multi-piece set bonus active anywhere in the build, so this compares
@@ -149,7 +164,7 @@ function meetsItemConditions(item: AppItem, ctx: ConditionContext): boolean {
   return item.conditions.every(c => {
     if (c.stat === 'Be level {0} or higher') return compareOp(ctx.characterLevel, c.operator, c.value)
     if (c.stat === 'Set bonus')               return compareOp(ctx.maxSetPieceCount, c.operator, c.value)
-    if (c.stat === 'Be subscribed')           return ctx.hasSubscription
+    if (c.stat === 'Be subscribed')           return true
     const key = (STAT_MAP as Readonly<Record<string, string | undefined>>)[c.stat]
     if (!key) return true
     return compareOp(ctx.statsNums[key] ?? 0, c.operator, c.value)
@@ -159,6 +174,33 @@ function meetsItemConditions(item: AppItem, ctx: ConditionContext): boolean {
 // Rough per-item score used only to rank/seed candidate pools (which items a
 // slot even gets to try) — never the actual fitness (that's always real
 // computeStats(), see evaluate() below), so it doesn't need to be exact.
+
+// Power (Potencia) amplifies every element of damage it's paired with — it's
+// close to never a bad pick for a damage build — but scoring it purely by
+// whether the user happened to put a priority dot on "Power" specifically
+// (as opposed to on the elemental damage it actually boosts) systematically
+// undervalues it relative to its real impact. Rather than invent an exact,
+// unverified damage formula, Power rides along with whichever elemental
+// damage stat the user weighted highest, as long as it has no explicit
+// weight/minimum of its own to respect instead.
+const DAMAGE_SYNERGY_STATS: OptimizerStatKey[] = [
+  'damage', 'fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage',
+]
+
+function effectiveWeight(statKey: OptimizerStatKey, stats: OptimizerConfig['stats'], fallback: number): number {
+  const cfg = stats.find(c => c.stat === statKey)
+  if (cfg && (cfg.weight > 0 || cfg.minVal > 0)) return cfg.weight > 0 ? cfg.weight : 5
+  if (statKey === 'power') {
+    let maxDamageWeight = 0
+    for (const dmgKey of DAMAGE_SYNERGY_STATS) {
+      const dmgCfg = stats.find(c => c.stat === dmgKey)
+      if (dmgCfg && dmgCfg.weight > maxDamageWeight) maxDamageWeight = dmgCfg.weight
+    }
+    if (maxDamageWeight > 0) return maxDamageWeight
+  }
+  return fallback
+}
+
 function itemPartialScore(item: AppItem, stats: OptimizerConfig['stats']): number {
   let s = item.level * 0.1
   for (const eff of item.effects) {
@@ -166,9 +208,7 @@ function itemPartialScore(item: AppItem, stats: OptimizerConfig['stats']): numbe
     if (item.slot === 'weapon' && WEAPON_ATK_STAT_NAMES.has(eff.stat)) continue
     const key = (STAT_MAP as Readonly<Record<string, string | undefined>>)[eff.stat] as OptimizerStatKey | undefined
     if (!key) continue
-    const cfg = stats.find(c => c.stat === key)
-    const weight = cfg && (cfg.weight > 0 || cfg.minVal > 0) ? (cfg.weight > 0 ? cfg.weight : 5) : 0.3
-    s += effectValue(eff) * weight
+    s += effectValue(eff) * effectiveWeight(key, stats, 0.3)
   }
   return s
 }
@@ -187,7 +227,7 @@ export function runOptimizer(
   onProgress: (p: OptimizerProgress) => void,
   cancelRef:  { cancelled: boolean },
 ): BuildResult[] {
-  const { stats, maxLevel, lockedSlots, exo, hasSubscription, assumeFullyScrolled } = config
+  const { stats, maxLevel, lockedSlots, exo, assumeFullyScrolled } = config
   const startTime = Date.now()
 
   // Lets the user ask "what if every characteristic were scrolled" without
@@ -203,16 +243,24 @@ export function runOptimizer(
     if (lockedSlots.has(slot) && base.equipped[slot] != null) lockedEquipped[slot] = base.equipped[slot]
   }
 
-  // Items that require an active Dofus subscription ("Be subscribed") can't
-  // be verified by this app, so they're dropped from the candidate pool
-  // entirely unless the user confirms they have one — stripping them here,
-  // before pools/sets are built, means both the per-slot filter and the
-  // set-item mapping below automatically never see them.
-  const usableItems = hasSubscription
-    ? items
-    : items.filter(it => !it.conditions?.some(c => c.stat === 'Be subscribed'))
+  // Forged rune ("forgemagie") bonuses live per-slot, independent of an
+  // item's catalog base stats (RuneModal.tsx) — only meaningful for LOCKED
+  // slots, since those are the only items guaranteed to stay exactly as they
+  // are; a slot still being searched gets a brand-new item that hasn't had
+  // any rune applied to it yet, so there's nothing real to carry over for it.
+  // This was previously dropped entirely, so a build with forged runes on
+  // kept gear was silently undercounted by however much those runes added.
+  const lockedRuneEffects: ItemEffect[] = []
+  for (const slot of ALL_SLOTS) {
+    if (!lockedSlots.has(slot)) continue
+    const runeMap = base.runes?.[slot]
+    if (!runeMap) continue
+    for (const [stat, value] of Object.entries(runeMap)) {
+      if (value > 0) lockedRuneEffects.push({ stat, min: value, max: value })
+    }
+  }
 
-  const itemMap = new Map(usableItems.map(it => [it.ankama_id, it]))
+  const itemMap = new Map(items.map(it => [it.ankama_id, it]))
   const setData: SetData[] = sets.map(s => ({
     ankama_id: s.ankama_id,
     items:     s.items,
@@ -264,7 +312,7 @@ export function runOptimizer(
 
   function meetsAllConditions(equipped: Partial<Record<SlotId, number>>, statsNums: Record<string, number>): boolean {
     const ctx: ConditionContext = {
-      statsNums, hasSubscription,
+      statsNums,
       characterLevel:   base.level,
       maxSetPieceCount: maxSetPieceCount(equipped),
     }
@@ -281,13 +329,14 @@ export function runOptimizer(
     const equipped = fullEquipped(ind)
     const computedStats = computeStats({
       class: base.selectedClass, level: base.level, allocated: base.allocated, scrolled,
-      items: buildEquippedItems(equipped), sets: setData,
+      items: buildEquippedItems(equipped), sets: setData, runeEffects: lockedRuneEffects,
     })
     const statsNums = computedStats as unknown as Record<string, number>
 
     let score = 0
     for (const cfg of stats) {
-      if (cfg.weight > 0 || cfg.minVal > 0) score += (statsNums[cfg.stat] ?? 0) * (cfg.weight > 0 ? cfg.weight : 5)
+      const weight = effectiveWeight(cfg.stat, stats, 0)
+      if (weight > 0) score += (statsNums[cfg.stat] ?? 0) * weight
     }
     // A build whose items' own equip conditions aren't met is not just
     // suboptimal, it's not actually assemblable in-game — tracked separately
@@ -336,7 +385,7 @@ export function runOptimizer(
   // "the single best item for this slot" lookups during greedy fill. ──────
   const pools = new Map<SlotId, AppItem[]>()
   for (const slot of slotsToOptimize) {
-    const filtered = filterItemsForSlot(usableItems, slot, maxLevel)
+    const filtered = filterItemsForSlot(items, slot, maxLevel)
     const ranked = [...filtered].sort((a, b) => itemPartialScore(b, stats) - itemPartialScore(a, stats))
     pools.set(slot, ranked)
   }
@@ -395,7 +444,7 @@ export function runOptimizer(
       if (Date.now() - startTime > SET_SEARCH_DEADLINE_MS) break
     }
 
-    const setItems = set.items.map(id => itemMap.get(id)).filter((it): it is AppItem => it != null && it.level <= maxLevel && !NON_OBTAINABLE_NAME_RE.test(it.name))
+    const setItems = set.items.map(id => itemMap.get(id)).filter((it): it is AppItem => it != null && it.level <= maxLevel && isObtainable(it))
     if (setItems.length < 2) continue
 
     const { assigned, used } = applySet(setItems, openSlotsSet, {})

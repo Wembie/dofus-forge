@@ -11,6 +11,7 @@ import type { OptimizerStatMeta } from './statList.ts'
 import { BuildResultCard } from './BuildResultCard.tsx'
 import { OPTIMIZER_STATS } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { CHARACTERISTICS } from '@/engine/types.ts'
 
 type Phase = 'locked' | 'config' | 'running' | 'done'
 
@@ -59,7 +60,6 @@ function makeDefaultConfig(): OptimizerConfig {
     maxLevel:            200,
     lockedSlots:         new Set(),
     assumeFullyScrolled: false,
-    hasSubscription:     false,
   }
 }
 
@@ -247,6 +247,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const allocated     = useBuildStore(s => s.allocated)
   const scrolled      = useBuildStore(s => s.scrolled)
   const equipped      = useBuildStore(s => s.equipped)
+  const runes         = useBuildStore(s => s.runes)
   const setEquipped   = useBuildStore(s => s.setEquipped)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
@@ -349,7 +350,7 @@ export function OptimizerModal({ open, onClose }: Props) {
       config: { ...config, lockedSlots: [...config.lockedSlots] },
       items:  equipment,
       sets,
-      base:   { selectedClass, level, allocated, scrolled, equipped },
+      base:   { selectedClass, level, allocated, scrolled, equipped, runes },
     })
 
     setPhase('running')
@@ -523,6 +524,32 @@ export function OptimizerModal({ open, onClose }: Props) {
           </p>
         )}
 
+        {/* ── Base build summary — confirms level/points/scrolls are already
+             pulled in automatically from the sheet, nothing to configure here ── */}
+        <div
+          className="rounded-lg px-2.5 py-2 flex flex-wrap items-center gap-x-3 gap-y-1"
+          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+        >
+          <span className="text-[9px] uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
+            {t('optimizer_base_summary', { level })}
+          </span>
+          {CHARACTERISTICS.map(c => {
+            const meta = META_MAP.get(c)
+            if (!meta) return null
+            const value = allocated[c]
+            const isScrolled = scrolled[c]
+            if (value === 0 && !isScrolled) return null
+            return (
+              <span key={c} className="flex items-center gap-0.5" title={t(meta.tKey)}>
+                <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain" />
+                <span className="text-[10px] font-mono font-semibold" style={{ color: meta.color }}>
+                  {value}{isScrolled && <span title={t('optimizer_scrolled_hint')}>🧪</span>}
+                </span>
+              </span>
+            )
+          })}
+        </div>
+
         {/* ── Top config bar ── */}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <div className="flex items-center gap-1.5">
@@ -609,16 +636,6 @@ export function OptimizerModal({ open, onClose }: Props) {
             />
             <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>
               {t('optimizer_assume_scrolled')}
-            </span>
-          </label>
-          <label className="flex items-center gap-1.5 cursor-pointer select-none" title={t('optimizer_has_subscription_hint')}>
-            <input
-              type="checkbox"
-              checked={config.hasSubscription}
-              onChange={e => setConfig(c => ({ ...c, hasSubscription: e.target.checked }))}
-            />
-            <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>
-              {t('optimizer_has_subscription')}
             </span>
           </label>
         </div>
