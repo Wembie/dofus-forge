@@ -190,6 +190,36 @@ describe('runOptimizer — correctness invariants (synthetic)', () => {
   })
 })
 
+// ── Equip conditions ─────────────────────────────────────────────────────────
+// Items can carry conditions (e.g. "Strength > 100") that gate whether the
+// character can actually wear them. These were never validated anywhere in
+// the app — the optimizer could recommend an item the build doesn't qualify
+// for. BELT_GATED has a far stronger Strength roll than BELT_PLAIN but its
+// own Intelligence condition can never be met by this build (0 allocated
+// Intelligence, no other Intelligence source), so a legal build must prefer
+// BELT_PLAIN even though it scores lower in isolation.
+const BELT_GATED: AppItem = {
+  ankama_id: 301, name: 'Gated Belt', level: 50, type: 'Belt', slot: 'belt',
+  effects: [makeEffect('Strength', 500)], set_id: null, image_url: null,
+  conditions: [{ stat: 'Intelligence', operator: '>', value: 1000 }],
+}
+const BELT_PLAIN: AppItem = {
+  ankama_id: 302, name: 'Plain Belt', level: 50, type: 'Belt', slot: 'belt',
+  effects: [makeEffect('Strength', 50)], set_id: null, image_url: null,
+}
+
+describe('runOptimizer — equip conditions', () => {
+  it('rejects an item whose own equip condition the build cannot meet', () => {
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['belt']) }), 'strength', 10)
+    const results = runOptimizer(config, [BELT_GATED, BELT_PLAIN], [], baseBuild(), noopProgress, freshCancel())
+
+    expect(results.length).toBeGreaterThan(0)
+    const best = results[0]
+    expect(best.meetsRequired).toBe(true)
+    expect(best.equipped.belt).toBe(BELT_PLAIN.ankama_id)
+  })
+})
+
 // ── Real game data ───────────────────────────────────────────────────────────
 // These exercise the actual catalog (public/data/en/*.json) — the same data
 // the app ships — so they validate real-world scale and genuinely obtainable

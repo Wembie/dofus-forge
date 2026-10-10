@@ -697,5 +697,9 @@
   "settings_sidebar_side": "Characteristics side",
   "settings_sidebar_side_hint": "Which side the class/characteristics/stats sidebar sits on in the planner (desktop)",
   "sidebar_side_left": "Left",
-  "sidebar_side_right": "Right"
+  "sidebar_side_right": "Right",
+  "optimizer_locked_title": "Select your class to unlock the Forge",
+  "optimizer_locked_hint": "The Forge needs your class and level to calculate valid combinations. Pick (or confirm) your class below to continue.",
+  "optimizer_forgemagie": "Forgemagic",
+  "optimizer_forgemagie_hint": "Looking for more Summons or another combat stat? Set it as a minimum in the \"Combat\" group below."
 }

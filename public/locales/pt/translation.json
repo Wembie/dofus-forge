@@ -697,5 +697,9 @@
   "settings_sidebar_side": "Lado das características",
   "settings_sidebar_side_hint": "De que lado fica a barra de classe/características/stats no planejador (tela grande)",
   "sidebar_side_left": "Esquerda",
-  "sidebar_side_right": "Direita"
+  "sidebar_side_right": "Direita",
+  "optimizer_locked_title": "Selecione sua classe para desbloquear a Forja",
+  "optimizer_locked_hint": "A Forja precisa da sua classe e nível para calcular combinações válidas. Escolha (ou confirme) sua classe abaixo para continuar.",
+  "optimizer_forgemagie": "Forjamagia",
+  "optimizer_forgemagie_hint": "Procura mais Invocações ou outro status de combate? Defina um mínimo no grupo \"Combate\" mais abaixo."
 }

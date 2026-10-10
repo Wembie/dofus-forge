@@ -104,6 +104,32 @@ function effectValue(eff: ItemEffect): number {
   return (eff.max !== 0 && eff.max > eff.min) ? eff.max : eff.min
 }
 
+// Equip conditions (e.g. "Strength > 100") were never validated anywhere in
+// the app — the optimizer could (and did) recommend items the build doesn't
+// actually qualify to wear. Evaluated against the build's OWN final computed
+// characteristics: in practice conditions only ever gate on totals that more
+// gear can only help reach (negative-stat items are the rare exception, and
+// even then this still matches what the game would actually allow). A
+// condition on a stat this app doesn't track (e.g. alignment) is left
+// unvalidated rather than wrongly rejecting the build.
+function meetsItemConditions(item: AppItem, statsNums: Record<string, number>): boolean {
+  if (!item.conditions || item.conditions.length === 0) return true
+  return item.conditions.every(c => {
+    const key = (STAT_MAP as Readonly<Record<string, string | undefined>>)[c.stat]
+    if (!key) return true
+    const actual = statsNums[key] ?? 0
+    switch (c.operator) {
+      case '>':  return actual > c.value
+      case '>=': return actual >= c.value
+      case '<':  return actual < c.value
+      case '<=': return actual <= c.value
+      case '=':
+      case '==': return actual === c.value
+      default:   return true
+    }
+  })
+}
+
 // Rough per-item score used only to rank/seed candidate pools (which items a
 // slot even gets to try) — never the actual fitness (that's always real
 // computeStats(), see evaluate() below), so it doesn't need to be exact.
@@ -177,6 +203,16 @@ export function runOptimizer(
     return out
   }
 
+  function meetsAllConditions(equipped: Partial<Record<SlotId, number>>, statsNums: Record<string, number>): boolean {
+    for (const slot of ALL_SLOTS) {
+      const id = equipped[slot]
+      if (id == null) continue
+      const it = itemMap.get(id)
+      if (it && !meetsItemConditions(it, statsNums)) return false
+    }
+    return true
+  }
+
   function evaluate(ind: Individual): BuildResult {
     const equipped = fullEquipped(ind)
     const computedStats = computeStats({
@@ -189,7 +225,13 @@ export function runOptimizer(
     for (const cfg of stats) {
       if (cfg.weight > 0 || cfg.minVal > 0) score += (statsNums[cfg.stat] ?? 0) * (cfg.weight > 0 ? cfg.weight : 5)
     }
+    // A build whose items' own equip conditions aren't met is not just
+    // suboptimal, it's not actually assemblable in-game — treated as a hard
+    // constraint failure exactly like an unmet user-requested minimum, so it
+    // never outranks a legal build (but is still kept around for the
+    // diversity fallback below, same as any other unmet hard constraint).
     const meetsRequired = hardConstraints.every(c => (statsNums[c.stat] ?? 0) >= c.minVal)
+      && meetsAllConditions(equipped, statsNums)
 
     return { equipped, stats: computedStats, score, meetsRequired }
   }

@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.67',
+    date: '2026-10-10',
+    notes: [
+      'Fix: the optimizer never validated items\' own equip conditions (e.g. "Strength > 100") — it could recommend gear the character doesn\'t actually qualify to wear. Now treated as a hard constraint, same as an unmet stat minimum',
+      'Feature: the Forge now requires a class first — opening it with none selected shows a locked gate with the class picker embedded, auto-advancing once chosen',
+      'Change: the Exo AP/MP/Range checkboxes moved into their own labeled "Forgemagic" section, with a hint pointing to the Combat stat group for Summons and similar stats',
+    ],
+  },
+  {
     version: '0.3.66',
     date: '2026-10-10',
     notes: [
