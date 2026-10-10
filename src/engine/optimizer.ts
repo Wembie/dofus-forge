@@ -55,7 +55,19 @@ const NON_OBTAINABLE_NAME_RE = /\((?:MJ|GM|Gms?\s*Only)\)|\bGms?\s*Only\b|^Hide 
 const HILL_CLIMB_POOL      = 150   // candidates tried per slot during polish — generous, not a hard correctness cut
 const HILL_CLIMB_SEEDS     = 24    // how many phase-1 results get polished
 const HILL_CLIMB_MAX_SWEEPS = 5
-const TIME_BUDGET_MS       = 12000 // hard safety cap regardless of how far through the search we are
+const TIME_BUDGET_MS       = 15000 // hard safety cap regardless of how far through the search we are
+// Phases 1-2 (set/pair search) get only a FRACTION of the total budget, not
+// all of it — a cold Worker with no JIT warm-up on a slower machine can run
+// those phases noticeably slower than a warm Node benchmark, and if they ate
+// the whole budget, phase 3 (coordinate-ascent polish) used to be skipped
+// entirely via an all-or-nothing gate. Hill-climbing is the ONLY phase that
+// goes beyond "single best item per slot" when optimizing for one or two
+// dominant stats, so skipping it outright (not just shortening it) is what
+// actually caused results to plateau well below an achievable stat total —
+// confirmed by reproducing it with an artificially small budget. Reserving
+// this slice means phase 3 always gets to run at least a little, regardless
+// of how long phases 1-2 took.
+const SET_SEARCH_DEADLINE_MS = TIME_BUDGET_MS * 0.7
 const RESULT_COUNT         = 5
 const DIVERSITY_MIN_DIFF   = 3     // prefer returned builds to differ by at least this many slots
 
@@ -252,7 +264,7 @@ export function runOptimizer(
     setWorkDone++
     if (setWorkDone % 40 === 0) {
       onProgress({ phase: 'prefilter', slotIndex: setWorkDone, totalSlots: totalSetWork, percent: Math.round((setWorkDone / totalSetWork) * 25) })
-      if (Date.now() - startTime > TIME_BUDGET_MS) break
+      if (Date.now() - startTime > SET_SEARCH_DEADLINE_MS) break
     }
 
     const setItems = set.items.map(id => itemMap.get(id)).filter((it): it is AppItem => it != null && it.level <= maxLevel && !NON_OBTAINABLE_NAME_RE.test(it.name))
@@ -274,7 +286,6 @@ export function runOptimizer(
   setEntries.sort((a, b) => b.standaloneScore - a.standaloneScore)
   const totalPairs = (setEntries.length * (setEntries.length - 1)) / 2
   let pairsDone = 0
-  let timedOut = false
 
   outer:
   for (let i = 0; i < setEntries.length; i++) {
@@ -283,7 +294,7 @@ export function runOptimizer(
       if (pairsDone % 2000 === 0) {
         if (cancelRef.cancelled) return []
         onProgress({ phase: 'search', slotIndex: pairsDone, totalSlots: totalPairs, percent: 25 + Math.round((pairsDone / totalPairs) * 55) })
-        if (Date.now() - startTime > TIME_BUDGET_MS) { timedOut = true; break outer }
+        if (Date.now() - startTime > SET_SEARCH_DEADLINE_MS) break outer
       }
 
       const a = setEntries[i], b = setEntries[j]
@@ -307,7 +318,14 @@ export function runOptimizer(
   // elsewhere, so the right pick for a slot depends on the rest of the
   // build — a plain greedy fill (scoring each item in isolation) can't see
   // that, but re-trying every option against the real computed stats can.
-  if (!timedOut) {
+  // Always attempted, even if phases 1-2 ran all the way to their deadline —
+  // this used to be skipped outright whenever that happened (an all-or-
+  // nothing gate), which meant a slow machine got literally zero benefit
+  // from the one phase that actually improves on "single best item per
+  // slot" for single/few-stat objectives. It has its own per-seed time
+  // check against the full TIME_BUDGET_MS below, so it naturally does less
+  // (but never nothing) when little time is left.
+  {
     const seeds = [...hallOfFame.values()].sort((a, b) => rank(b) - rank(a)).slice(0, HILL_CLIMB_SEEDS)
     const hillPool = new Map<SlotId, AppItem[]>()
     for (const slot of slotsToOptimize) hillPool.set(slot, (pools.get(slot) ?? []).slice(0, HILL_CLIMB_POOL))
