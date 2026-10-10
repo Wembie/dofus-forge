@@ -1,5 +1,5 @@
 import type { StatBlock } from '@/engine/types.ts'
-import type { SlotId } from '@/store/buildStore.ts'
+import type { SlotId, RuneMap } from '@/store/buildStore.ts'
 import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
 
 export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
@@ -22,7 +22,6 @@ export type OptimizerConfig = {
   maxLevel:            number
   lockedSlots:         Set<SlotId>
   assumeFullyScrolled: boolean  // ignore the sheet's current rune/scroll state and assume every characteristic is scrolled
-  hasSubscription:     boolean  // include items gated behind an active Dofus subscription ("Be subscribed" condition)
 }
 
 export type OptimizerBuildBase = {
@@ -31,6 +30,7 @@ export type OptimizerBuildBase = {
   allocated:     AllocatedCharacteristics
   scrolled:      ScrolledCharacteristics
   equipped:      Partial<Record<SlotId, number>>
+  runes:         Partial<Record<SlotId, RuneMap>>
 }
 
 export type BuildResult = {

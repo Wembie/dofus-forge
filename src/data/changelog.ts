@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.69',
+    date: '2026-10-10',
+    notes: [
+      'Fix (major): a GM test item (+300 to every characteristic) leaked through the "non-obtainable" filter for every non-English player, because the filter matched English marker text and the translated item name drops that marker entirely in Spanish/French/Portuguese. Now matched by ankama_id (locale-proof) — two more items with the same leak are caught too',
+      "Fix: forged rune (forgemagie) bonuses on kept/locked gear were never included in the optimizer's calculations — now included for locked slots",
+      'Fix: Power (Potencia) now rides along with whichever elemental damage stat has the highest priority, instead of only counting when "Power" itself was explicitly weighted',
+      'Change: removed the "I have a Dofus subscription" checkbox — subscription-gated items are no longer excluded at all',
+      'Feature: the optimizer now shows a summary of the build it\'s calculating from (level, allocated points, scrolled characteristics)',
+    ],
+  },
+  {
     version: '0.3.68',
     date: '2026-10-10',
     notes: [

@@ -704,6 +704,6 @@
   "optimizer_forgemagie_hint": "Looking for more Summons or another combat stat? Set it as a minimum in the \"Combat\" group below.",
   "optimizer_assume_scrolled": "Assume fully scrolled",
   "optimizer_assume_scrolled_hint": "Calculates as if every characteristic already had its scroll applied, regardless of your sheet's current rune state.",
-  "optimizer_has_subscription": "I have an active Dofus subscription",
-  "optimizer_has_subscription_hint": "Some items (including certain trophies) require an active in-game subscription. Unchecked by default so you're never recommended something you can't equip."
+  "optimizer_base_summary": "Base (Lv.{{level}}):",
+  "optimizer_scrolled_hint": "Scrolled"
 }

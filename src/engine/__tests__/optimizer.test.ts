@@ -25,7 +25,6 @@ function baseConfig(overrides: Partial<OptimizerConfig> = {}): OptimizerConfig {
     maxLevel: 200,
     lockedSlots: new Set<SlotId>(),
     assumeFullyScrolled: false,
-    hasSubscription: false,
     ...overrides,
   }
 }
@@ -41,6 +40,7 @@ function baseBuild(overrides: Partial<OptimizerBuildBase> = {}): OptimizerBuildB
     allocated:     ZERO_ALLOC,
     scrolled:      NO_SCROLLS,
     equipped:      {},
+    runes:         {},
     ...overrides,
   }
 }
@@ -222,11 +222,12 @@ describe('runOptimizer — equip conditions', () => {
   })
 
   // Real data has items whose condition "stat" isn't a characteristic at all:
-  // "Be subscribed" (needs an active Dofus subscription this app can't
-  // verify), "Be level {0} or higher" (the character's own level, not item
-  // level — already covered separately by maxLevel), and "Set bonus" (the
-  // condition real Trophy items carry — incompatible with having 2+ pieces
-  // of any one set equipped elsewhere in the build).
+  // "Be subscribed" (needs an active Dofus subscription — deliberately not
+  // modeled at all, since this is a theorycrafting tool, not a literal
+  // "can I equip this right now" check), "Be level {0} or higher" (the
+  // character's own level, not item level — already covered separately by
+  // maxLevel), and "Set bonus" (the condition real Trophy items carry —
+  // incompatible with having 2+ pieces of any one set equipped elsewhere).
   const SUB_ITEM: AppItem = {
     ankama_id: 310, name: 'Subscriber Amulet', level: 50, type: 'Amulet', slot: 'amulet',
     effects: [makeEffect('Strength', 999)], set_id: null, image_url: null,
@@ -237,13 +238,10 @@ describe('runOptimizer — equip conditions', () => {
     effects: [makeEffect('Strength', 10)], set_id: null, image_url: null,
   }
 
-  it('never equips a subscription-gated item unless the user confirms they have one', () => {
+  it('does not exclude a subscription-gated item — subscription status is not modeled', () => {
     const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'strength', 10)
     const results = runOptimizer(config, [SUB_ITEM, FREE_ITEM], [], baseBuild(), noopProgress, freshCancel())
-    expect(results[0].equipped.amulet).toBe(FREE_ITEM.ankama_id)
-
-    const withSub = runOptimizer({ ...config, hasSubscription: true }, [SUB_ITEM, FREE_ITEM], [], baseBuild(), noopProgress, freshCancel())
-    expect(withSub[0].equipped.amulet).toBe(SUB_ITEM.ankama_id)
+    expect(results[0].equipped.amulet).toBe(SUB_ITEM.ankama_id)
   })
 
   const LEVEL_GATED_ITEM: AppItem = {
@@ -295,6 +293,84 @@ describe('runOptimizer — equip conditions', () => {
   })
 })
 
+// ── Forged runes ("forgemagie") on locked slots ─────────────────────────────
+// RuneModal lets the player assign custom rune bonuses per equipped slot,
+// independent of that item's catalog base stats. These were never passed to
+// the optimizer at all, so a build with forged runes on kept (locked) gear
+// was silently undercounted by however much those runes added.
+// ── Power/Potencia synergy ───────────────────────────────────────────────────
+// Power amplifies every element of damage it's paired with, so an item
+// trading some requested elemental damage for a large Power bonus can be the
+// real winner even though it looks worse on the one stat the user weighted —
+// but only if Power actually gets credited for that. FD_PLAIN wins on raw
+// fireDamage alone; FD_WITH_POWER wins once Power rides along with whichever
+// damage stat is weighted highest.
+describe('runOptimizer — Power rides along with weighted elemental damage', () => {
+  const FD_PLAIN: AppItem = {
+    ankama_id: 340, name: 'Plain Fire Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Fire damage', 50)], set_id: null, image_url: null,
+  }
+  const FD_WITH_POWER: AppItem = {
+    ankama_id: 341, name: 'Power Fire Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Fire damage', 30), makeEffect('Power', 70)], set_id: null, image_url: null,
+  }
+
+  it('prefers the lower-raw-damage item once its Power contribution is counted', () => {
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'fireDamage', 10)
+    const results = runOptimizer(config, [FD_PLAIN, FD_WITH_POWER], [], baseBuild(), noopProgress, freshCancel())
+    expect(results[0].equipped.amulet).toBe(FD_WITH_POWER.ankama_id)
+  })
+
+  it('respects an explicit low Power weight instead of overriding it with the synergy value', () => {
+    // Power given its own (low) explicit weight must use THAT, not silently
+    // get upgraded to match fireDamage's much higher one.
+    let config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'fireDamage', 10)
+    config = withWeight(config, 'power', 1)
+    const results = runOptimizer(config, [FD_PLAIN, FD_WITH_POWER], [], baseBuild(), noopProgress, freshCancel())
+    // 50*10=500 (plain) vs 30*10 + 70*1=370 (with power, explicit low weight) — plain wins.
+    expect(results[0].equipped.amulet).toBe(FD_PLAIN.ankama_id)
+  })
+})
+
+describe('runOptimizer — forged runes on locked slots', () => {
+  const RUNED_AMULET: AppItem = {
+    ankama_id: 330, name: 'Runed Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Vitality', 50)], set_id: null, image_url: null,
+  }
+  const LOOSE_HAT_FOR_RUNE_TEST: AppItem = {
+    ankama_id: 331, name: 'Plain Hat', level: 50, type: 'Hat', slot: 'hat',
+    effects: [makeEffect('Vitality', 20)], set_id: null, image_url: null,
+  }
+
+  it('includes a locked slot\'s forged rune bonus in the computed stats', () => {
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['hat']) }), 'vitality', 10)
+    const build = baseBuild({
+      equipped: { amulet: RUNED_AMULET.ankama_id },
+      runes:    { amulet: { Vitality: 500 } },
+    })
+    const results = runOptimizer(config, [RUNED_AMULET, LOOSE_HAT_FOR_RUNE_TEST], [], build, noopProgress, freshCancel())
+    // 50 (amulet base) + 500 (forged rune) + 20 (hat) = 570
+    expect(statsNum(results[0], 'vitality')).toBe(570)
+  })
+
+  it('does not carry a rune over to a slot that gets re-optimized to a different item', () => {
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'vitality', 10)
+    const build = baseBuild({
+      equipped: { amulet: RUNED_AMULET.ankama_id },
+      runes:    { amulet: { Vitality: 500 } },
+    })
+    const BETTER_AMULET: AppItem = {
+      ankama_id: 332, name: 'Better Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+      effects: [makeEffect('Vitality', 200)], set_id: null, image_url: null,
+    }
+    const results = runOptimizer(config, [RUNED_AMULET, BETTER_AMULET], [], build, noopProgress, freshCancel())
+    // amulet is NOT locked here, so the rune (tied to the old amulet) must not
+    // apply once the search replaces it — only 200 from the new amulet.
+    expect(results[0].equipped.amulet).toBe(BETTER_AMULET.ankama_id)
+    expect(statsNum(results[0], 'vitality')).toBe(200)
+  })
+})
+
 // ── Real game data ───────────────────────────────────────────────────────────
 // These exercise the actual catalog (public/data/en/*.json) — the same data
 // the app ships — so they validate real-world scale and genuinely obtainable
@@ -328,6 +404,26 @@ describe('runOptimizer — real game data', () => {
       }
     }
   }, 30000)
+
+  // dataStore.ts overlays a TRANSLATED name onto every item for non-English
+  // locales while keeping effects/ids English — the GM/test marker these IDs
+  // are normally caught by does not survive that translation (e.g. id 9031
+  // has no marker at all in Spanish: "Anillote del Maestro Jambo"). The
+  // exclusion has to work by ankama_id, not by matching English text, or
+  // every non-English user sees these items leak straight through.
+  it('still excludes a banned item even when its (locale-translated) name carries no marker', () => {
+    const DISGUISED_JAMBO: AppItem = {
+      ankama_id: 9031, name: 'Anillote del Maestro Jambo', level: 1, type: 'Ring', slot: 'ring',
+      effects: [makeEffect('Strength', 300), makeEffect('Vitality', 300)], set_id: null, image_url: null,
+    }
+    const PLAIN_RING: AppItem = {
+      ankama_id: 900, name: 'Anillo común', level: 50, type: 'Ring', slot: 'ring',
+      effects: [makeEffect('Strength', 20)], set_id: null, image_url: null,
+    }
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['ring1']) }), 'strength', 10)
+    const results = runOptimizer(config, [DISGUISED_JAMBO, PLAIN_RING], [], baseBuild(), noopProgress, freshCancel())
+    expect(results[0].equipped.ring1).toBe(PLAIN_RING.ankama_id)
+  })
 
   it('respects maxLevel — no equipped item ever exceeds it', () => {
     const itemMap = new Map(realEquipment.map(it => [it.ankama_id, it]))

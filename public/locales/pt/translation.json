@@ -704,6 +704,6 @@
   "optimizer_forgemagie_hint": "Procura mais Invocações ou outro status de combate? Defina um mínimo no grupo \"Combate\" mais abaixo.",
   "optimizer_assume_scrolled": "Assumir tudo pergaminhado",
   "optimizer_assume_scrolled_hint": "Calcula como se cada característica já tivesse seu pergaminho aplicado, independente do estado atual da sua ficha.",
-  "optimizer_has_subscription": "Tenho assinatura Premium do Dofus",
-  "optimizer_has_subscription_hint": "Alguns itens (incluindo certos troféus) exigem assinatura ativa no jogo. Desmarcado por padrão para nunca recomendar algo que você não pode equipar."
+  "optimizer_base_summary": "Base (Nv.{{level}}):",
+  "optimizer_scrolled_hint": "Pergaminhado"
 }
