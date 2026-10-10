@@ -1,7 +1,8 @@
 import { computeStats } from './stats.ts'
 import { STAT_MAP, WEAPON_ATTACK_IDS } from './statMap.ts'
 import { CHARACTERISTICS } from './types.ts'
-import type { EquippedItem, SetData, ItemEffect, ScrolledCharacteristics } from './types.ts'
+import { pointCost, statBudget } from './characteristics.ts'
+import type { EquippedItem, SetData, ItemEffect, ScrolledCharacteristics, AllocatedCharacteristics, Characteristic } from './types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { OptimizerConfig, OptimizerBuildBase, BuildResult, OptimizerProgress, OptimizerStatKey } from '@/features/optimizer/types.ts'
 import { ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
@@ -201,6 +202,52 @@ function effectiveWeight(statKey: OptimizerStatKey, stats: OptimizerConfig['stat
   return fallback
 }
 
+// The Forge was only ever choosing equipment, leaving characteristic point
+// allocation exactly as it already sat on the sheet — meaning a fresh/zeroed
+// build got evaluated (and recommended) with zero points spent anywhere,
+// understating what's actually achievable. Point cost is non-decreasing per
+// characteristic (flat for Vitality, x3 for Wisdom, a rising per-100 bracket
+// for the four elemental ones — see characteristics.ts) and every
+// characteristic's contribution to score is linear and uncapped (score =
+// weight × value, and gear's own contribution is additive and independent of
+// how points are spent), so this is a classic separable concave resource
+// allocation problem: greedily buying whichever single next point offers the
+// best weight-per-cost right now, repeated until the budget runs out, is
+// provably optimal — no need to search allocations against gear jointly.
+// If no characteristic is actually weighted, the existing allocation is left
+// untouched rather than zeroed, so a build the player already invested in
+// isn't silently wiped just because they didn't ask the Forge to think about
+// characteristics this run.
+function optimalAllocation(
+  level: number,
+  stats: OptimizerConfig['stats'],
+  current: AllocatedCharacteristics,
+): AllocatedCharacteristics {
+  const anyWeighted = CHARACTERISTICS.some(c => effectiveWeight(c, stats, 0) > 0)
+  if (!anyWeighted) return current
+
+  const budget = statBudget(level)
+  const allocated: AllocatedCharacteristics = { vitality: 0, wisdom: 0, strength: 0, intelligence: 0, chance: 0, agility: 0 }
+  let spent = 0
+
+  while (true) {
+    let bestChar: Characteristic | null = null
+    let bestRatio = 0
+    for (const c of CHARACTERISTICS) {
+      const weight = effectiveWeight(c, stats, 0)
+      if (weight <= 0) continue
+      const nextCost = pointCost(c, allocated[c] + 1) - pointCost(c, allocated[c])
+      if (nextCost <= 0 || spent + nextCost > budget) continue
+      const ratio = weight / nextCost
+      if (ratio > bestRatio) { bestRatio = ratio; bestChar = c }
+    }
+    if (!bestChar) break
+    spent += pointCost(bestChar, allocated[bestChar] + 1) - pointCost(bestChar, allocated[bestChar])
+    allocated[bestChar] += 1
+  }
+  return allocated
+}
+
 function itemPartialScore(item: AppItem, stats: OptimizerConfig['stats']): number {
   let s = item.level * 0.1
   for (const eff of item.effects) {
@@ -236,6 +283,11 @@ export function runOptimizer(
   const scrolled: ScrolledCharacteristics = assumeFullyScrolled
     ? Object.fromEntries(CHARACTERISTICS.map(c => [c, true])) as ScrolledCharacteristics
     : base.scrolled
+
+  // Always recomputed — the Forge picks the equipment, it should also decide
+  // how to spend characteristic points rather than silently leaving zeroed
+  // or stale points sitting on the sheet unaccounted for.
+  const allocated = optimalAllocation(base.level, stats, base.allocated)
 
   const slotsToOptimize = ALL_SLOTS.filter(s => !lockedSlots.has(s))
   const lockedEquipped: Partial<Record<SlotId, number>> = {}
@@ -328,7 +380,7 @@ export function runOptimizer(
   function evaluate(ind: Individual): BuildResult {
     const equipped = fullEquipped(ind)
     const computedStats = computeStats({
-      class: base.selectedClass, level: base.level, allocated: base.allocated, scrolled,
+      class: base.selectedClass, level: base.level, allocated, scrolled,
       items: buildEquippedItems(equipped), sets: setData, runeEffects: lockedRuneEffects,
     })
     const statsNums = computedStats as unknown as Record<string, number>
@@ -345,7 +397,7 @@ export function runOptimizer(
     const conditionsOk  = meetsAllConditions(equipped, statsNums)
     const meetsRequired = hardConstraints.every(c => (statsNums[c.stat] ?? 0) >= c.minVal) && conditionsOk
 
-    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk }
+    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk, allocated }
   }
 
   // Ranking score used to choose between tied/near builds, to sort the hall

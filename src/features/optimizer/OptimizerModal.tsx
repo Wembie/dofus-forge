@@ -249,6 +249,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const equipped      = useBuildStore(s => s.equipped)
   const runes         = useBuildStore(s => s.runes)
   const setEquipped   = useBuildStore(s => s.setEquipped)
+  const setAllocated  = useBuildStore(s => s.setAllocated)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
 
@@ -364,8 +365,9 @@ export function OptimizerModal({ open, onClose }: Props) {
     setProgress(null)
   }
 
-  function loadBuild(eq: Partial<Record<SlotId, number>>) {
-    setEquipped(eq)
+  function loadBuild(result: BuildResult) {
+    setEquipped(result.equipped)
+    setAllocated(result.allocated)
     handleClose()
   }
 
@@ -471,7 +473,7 @@ export function OptimizerModal({ open, onClose }: Props) {
 
           {results.length > 0 && (
             <button
-              onClick={() => loadBuild(results[0].equipped)}
+              onClick={() => loadBuild(results[0])}
               className="w-full py-2.5 rounded-xl font-bold text-[13px] transition-colors"
               style={{
                 background: 'color-mix(in srgb, var(--gold) 20%, transparent)',

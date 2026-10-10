@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
+import { ALL_SLOTS } from '@/store/buildStore.ts'
 import type { BuildResult, StatConfig } from './types.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { OPTIMIZER_STATS } from './statList.ts'
@@ -10,7 +10,7 @@ type Props = {
   rank:    number
   items:   AppItem[]
   stats:   StatConfig[]
-  onLoad:  (equipped: Partial<Record<SlotId, number>>) => void
+  onLoad:  (result: BuildResult) => void
 }
 
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
@@ -137,7 +137,7 @@ export function BuildResultCard({ result, rank, items, stats, onLoad }: Props) {
           <span />
         )}
         <button
-          onClick={() => onLoad(result.equipped)}
+          onClick={() => onLoad(result)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold flex-shrink-0 transition-colors"
           style={{
             background:  'color-mix(in srgb, var(--ap) 15%, transparent)',

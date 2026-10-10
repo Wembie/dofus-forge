@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.70',
+    date: '2026-10-10',
+    notes: [
+      'Feature: the optimizer now also decides characteristic point allocation, not just equipment — previously a fresh build with zero points got evaluated with zero points spent anywhere. Uses a provably optimal greedy algorithm against each characteristic\'s real cost curve; leaves existing points untouched if none are prioritized',
+      'Confirmed via real-catalog diffing that the 5 returned results are genuinely different builds (4-12 slots differing between most pairs), even for very demanding requests',
+    ],
+  },
+  {
     version: '0.3.69',
     date: '2026-10-10',
     notes: [

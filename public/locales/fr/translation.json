@@ -704,6 +704,6 @@
   "optimizer_forgemagie_hint": "Tu cherches plus d'Invocations ou une autre stat de combat ? Règle-la en minimum dans le groupe « Combat » plus bas.",
   "optimizer_assume_scrolled": "Supposer tout parcheminé",
   "optimizer_assume_scrolled_hint": "Calcule comme si chaque caractéristique avait déjà son parchemin, quel que soit l'état actuel de ta fiche.",
-  "optimizer_base_summary": "Base (Niv.{{level}}) :",
+  "optimizer_base_summary": "Niv.{{level}} — répartis :",
   "optimizer_scrolled_hint": "Parcheminé"
 }

@@ -704,6 +704,6 @@
   "optimizer_forgemagie_hint": "¿Buscás más Invocaciones u otra estadística de combate? Configurala como mínimo en el grupo \"Combate\" más abajo.",
   "optimizer_assume_scrolled": "Asumir todo pergaminado",
   "optimizer_assume_scrolled_hint": "Calcula como si cada característica ya tuviera su pergamino aplicado, sin importar cómo esté tu hoja de personaje ahora mismo.",
-  "optimizer_base_summary": "Base (Nv.{{level}}):",
+  "optimizer_base_summary": "Nv.{{level}} — repartidos:",
   "optimizer_scrolled_hint": "Pergaminado"
 }
