@@ -6,6 +6,7 @@ pub mod stats;
 pub mod types;
 
 use optimizer_types::{BuildResult, CatalogItem, CatalogSet, OptimizerBuildBase, OptimizerConfig};
+use serde::Serialize;
 use wasm_bindgen::prelude::*;
 
 /// Call once at Worker startup — makes a Rust panic show a real message and
@@ -30,5 +31,15 @@ pub fn run_optimizer_wasm(config: JsValue, items: JsValue, sets: JsValue, base: 
 
     let results: Vec<BuildResult> = optimizer::run_optimizer(config, items, sets, base);
 
-    serde_wasm_bindgen::to_value(&results).map_err(|e| JsValue::from_str(&format!("bad results: {e}")))
+    // serde_wasm_bindgen's default serializer turns a Rust HashMap into a JS
+    // Map, not a plain object — but BuildResult.equipped is read everywhere
+    // on the JS side as a plain object (`result.equipped[slot]`, matching
+    // the TS engine's `Partial<Record<SlotId, number>>`). json_compatible()
+    // serializes maps as plain objects instead, matching what every caller
+    // already expects (confirmed in a real browser: without this, computed
+    // stats were correct — proving items WERE being equipped internally —
+    // but every result showed zero equipped items, because `equipped[slot]`
+    // on a real Map is always undefined).
+    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+    results.serialize(&serializer).map_err(|e| JsValue::from_str(&format!("bad results: {e}")))
 }

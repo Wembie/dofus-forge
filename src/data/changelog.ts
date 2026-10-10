@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.71',
+    date: '2026-10-10',
+    notes: [
+      'Feature: the Rust/WASM optimizer engine is now live — the Forge tries it first, falling back to the TypeScript engine automatically if WASM fails for any reason. Works in every locale. Also searches exhaustive triples of sets, finding legal builds the old engine could not reach',
+      'No build-pipeline changes: the compiled WASM ships as a static asset, same as the existing game data JSON',
+    ],
+  },
+  {
     version: '0.3.70',
     date: '2026-10-10',
     notes: [
