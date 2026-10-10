@@ -78,15 +78,22 @@ pub struct SetData {
     pub bonuses: HashMap<String, Vec<ItemEffect>>,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct BuildInput {
+// Never deserialized/serialized at the WASM boundary — always built
+// internally by the optimizer's evaluate() — so this only needs Debug/Clone,
+// avoiding any need for serde's borrowed-data support.
+#[derive(Debug, Clone)]
+pub struct BuildInput<'a> {
     pub level: i64,
     pub allocated: AllocatedCharacteristics,
     pub scrolled: ScrolledCharacteristics,
     pub items: Vec<EquippedItem>,
-    pub sets: Vec<SetData>,
-    #[serde(default)]
+    /// Borrowed, not owned: compute_stats() is called extremely often inside
+    /// the optimizer's search loop (hundreds of thousands of times during
+    /// hill-climbing), and the full set catalog can be hundreds of entries —
+    /// deep-cloning it on every call was the single biggest performance bug
+    /// found when first benchmarking this port against the TS original
+    /// (Rust came out SLOWER, entirely from this).
+    pub sets: &'a [SetData],
     pub rune_effects: Vec<ItemEffect>,
 }
 

@@ -123,6 +123,11 @@ fn compute_set_bonuses(items: &[EquippedItem], sets: &[SetData]) -> Vec<ItemEffe
         }
     }
 
+    // A build has at most a couple of distinct sets, so a plain linear scan
+    // for each is cheaper here than building a lookup index on every call
+    // would be (this runs once per evaluate() — hundreds of thousands of
+    // times per search) — the TS original does the same linear find() for
+    // the same reason.
     let mut bonus_effects = Vec::new();
     for (set_id, count) in equipped_by_set {
         let Some(set_data) = sets.iter().find(|s| s.ankama_id == set_id) else { continue };
@@ -142,8 +147,88 @@ fn compute_set_bonuses(items: &[EquippedItem], sets: &[SetData]) -> Vec<ItemEffe
     bonus_effects
 }
 
+/// Reads a StatBlock field by its OptimizerStatKey name — the exact camelCase
+/// identifier the TS side uses for the same field (StatBlock's own field
+/// names, since `OptimizerStatKey = keyof StatBlock` there). Used wherever a
+/// stat key arrives as a dynamic string (optimizer config, equip conditions)
+/// rather than a known field access. An unrecognized key returns 0, matching
+/// the TS side's `statsNums[key] ?? 0` fallback.
+pub fn get_stat(block: &StatBlock, key: &str) -> i64 {
+    match key {
+        "ap" => block.ap,
+        "mp" => block.mp,
+        "range" => block.range,
+        "vitality" => block.vitality,
+        "wisdom" => block.wisdom,
+        "strength" => block.strength,
+        "intelligence" => block.intelligence,
+        "chance" => block.chance,
+        "agility" => block.agility,
+        "maxHp" => block.max_hp,
+        "power" => block.power,
+        "damage" => block.damage,
+        "neutralDamage" => block.neutral_damage,
+        "earthDamage" => block.earth_damage,
+        "fireDamage" => block.fire_damage,
+        "waterDamage" => block.water_damage,
+        "airDamage" => block.air_damage,
+        "neutralSteal" => block.neutral_steal,
+        "earthSteal" => block.earth_steal,
+        "fireSteal" => block.fire_steal,
+        "waterSteal" => block.water_steal,
+        "airSteal" => block.air_steal,
+        "bestElemSteal" => block.best_elem_steal,
+        "bestElemDamage" => block.best_elem_damage,
+        "neutralResFixed" => block.neutral_res_fixed,
+        "earthResFixed" => block.earth_res_fixed,
+        "fireResFixed" => block.fire_res_fixed,
+        "waterResFixed" => block.water_res_fixed,
+        "airResFixed" => block.air_res_fixed,
+        "neutralResPercent" => block.neutral_res_percent,
+        "earthResPercent" => block.earth_res_percent,
+        "fireResPercent" => block.fire_res_percent,
+        "waterResPercent" => block.water_res_percent,
+        "airResPercent" => block.air_res_percent,
+        "apRaw" => block.ap_raw,
+        "mpRaw" => block.mp_raw,
+        "rangeRaw" => block.range_raw,
+        "neutralResPercentRaw" => block.neutral_res_percent_raw,
+        "earthResPercentRaw" => block.earth_res_percent_raw,
+        "fireResPercentRaw" => block.fire_res_percent_raw,
+        "waterResPercentRaw" => block.water_res_percent_raw,
+        "airResPercentRaw" => block.air_res_percent_raw,
+        "critChance" => block.crit_chance,
+        "critDamage" => block.crit_damage,
+        "critResistance" => block.crit_resistance,
+        "meleeDamagePercent" => block.melee_damage_percent,
+        "rangedDamagePercent" => block.ranged_damage_percent,
+        "spellDamagePercent" => block.spell_damage_percent,
+        "weaponDamagePercent" => block.weapon_damage_percent,
+        "meleeResistPercent" => block.melee_resist_percent,
+        "rangedResistPercent" => block.ranged_resist_percent,
+        "trapDamage" => block.trap_damage,
+        "trapPower" => block.trap_power,
+        "pushbackDamage" => block.pushback_damage,
+        "pushbackResist" => block.pushback_resist,
+        "reflectedDamage" => block.reflected_damage,
+        "heals" => block.heals,
+        "initiative" => block.initiative,
+        "lock" => block.lock,
+        "dodge" => block.dodge,
+        "prospecting" => block.prospecting,
+        "summons" => block.summons,
+        "pods" => block.pods,
+        "apReduction" => block.ap_reduction,
+        "mpReduction" => block.mp_reduction,
+        "apParry" => block.ap_parry,
+        "mpParry" => block.mp_parry,
+        "mpSteal" => block.mp_steal,
+        _ => 0,
+    }
+}
+
 /// Compute the full aggregated StatBlock for a build. Pure function.
-pub fn compute_stats(input: &BuildInput) -> StatBlock {
+pub fn compute_stats(input: &BuildInput<'_>) -> StatBlock {
     let mut block = empty_stat_block();
 
     // 1. Base AP/MP/Pods (+ level-100 AP bonus)
@@ -245,6 +330,7 @@ pub fn compute_stats(input: &BuildInput) -> StatBlock {
 // these pin numeric parity with the TypeScript engine, which this Rust port
 // must match exactly since both compute the same real game stats.
 #[cfg(test)]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::types::{AllocatedCharacteristics, ScrolledCharacteristics};
@@ -265,13 +351,13 @@ mod tests {
             agility: true,
         }
     }
-    fn empty_build(level: i64, allocated: AllocatedCharacteristics, scrolled: ScrolledCharacteristics) -> BuildInput {
+    fn empty_build<'a>(level: i64, allocated: AllocatedCharacteristics, scrolled: ScrolledCharacteristics, sets: &'a [SetData]) -> BuildInput<'a> {
         BuildInput {
             level,
             allocated,
             scrolled,
             items: vec![],
-            sets: vec![],
+            sets,
             rune_effects: vec![],
         }
     }
@@ -284,22 +370,22 @@ mod tests {
 
     #[test]
     fn empty_build_base_ap_mp() {
-        let s = compute_stats(&empty_build(1, zero_alloc(), no_scrolls()));
+        let s = compute_stats(&empty_build(1, zero_alloc(), no_scrolls(), &[]));
         assert_eq!(s.ap, 6);
         assert_eq!(s.mp, 3);
     }
 
     #[test]
     fn hp_at_level_1_and_200() {
-        let s1 = compute_stats(&empty_build(1, zero_alloc(), no_scrolls()));
+        let s1 = compute_stats(&empty_build(1, zero_alloc(), no_scrolls(), &[]));
         assert_eq!(s1.max_hp, 55);
-        let s200 = compute_stats(&empty_build(200, zero_alloc(), no_scrolls()));
+        let s200 = compute_stats(&empty_build(200, zero_alloc(), no_scrolls(), &[]));
         assert_eq!(s200.max_hp, 1050); // 55 + 199*5
     }
 
     #[test]
     fn points_budget_and_spent_at_level_1() {
-        let s = compute_stats(&empty_build(1, zero_alloc(), no_scrolls()));
+        let s = compute_stats(&empty_build(1, zero_alloc(), no_scrolls(), &[]));
         assert_eq!(s.points_budget, 0);
         assert_eq!(s.points_spent, 0);
     }
@@ -307,14 +393,14 @@ mod tests {
     #[test]
     fn allocated_strength_reflects_in_block() {
         let alloc = AllocatedCharacteristics { strength: 100, ..zero_alloc() };
-        let s = compute_stats(&empty_build(1, alloc, no_scrolls()));
+        let s = compute_stats(&empty_build(1, alloc, no_scrolls(), &[]));
         assert_eq!(s.strength, 100);
         assert_eq!(s.points_spent, 100); // first bracket: 100pts
     }
 
     #[test]
     fn scroll_adds_bonus_to_each_stat() {
-        let s = compute_stats(&empty_build(1, zero_alloc(), all_scrolls()));
+        let s = compute_stats(&empty_build(1, zero_alloc(), all_scrolls(), &[]));
         assert_eq!(s.vitality, SCROLL_BONUS);
         assert_eq!(s.wisdom, SCROLL_BONUS);
         assert_eq!(s.strength, SCROLL_BONUS);
@@ -326,7 +412,7 @@ mod tests {
     #[test]
     fn hp_includes_allocated_vitality() {
         let alloc = AllocatedCharacteristics { vitality: 50, ..zero_alloc() };
-        let s = compute_stats(&empty_build(1, alloc, no_scrolls()));
+        let s = compute_stats(&empty_build(1, alloc, no_scrolls(), &[]));
         assert_eq!(s.max_hp, 55 + 50);
     }
 
@@ -349,9 +435,9 @@ mod tests {
 
     #[test]
     fn two_piece_gobball_applies_2pc_bonus_once() {
-        let mut b = empty_build(1, zero_alloc(), no_scrolls());
+        let sets = vec![gobball_set()];
+        let mut b = empty_build(1, zero_alloc(), no_scrolls(), &sets);
         b.items = vec![gobball_hat(), gobball_amulet()];
-        b.sets = vec![gobball_set()];
         let s = compute_stats(&b);
         assert_eq!(s.strength, 20 + 8 + 5); // 33
         assert_eq!(s.intelligence, 20 + 5); // 25
@@ -360,9 +446,9 @@ mod tests {
 
     #[test]
     fn three_piece_gobball_only_3pc_tier_applies() {
-        let mut b = empty_build(1, zero_alloc(), no_scrolls());
+        let sets = vec![gobball_set()];
+        let mut b = empty_build(1, zero_alloc(), no_scrolls(), &sets);
         b.items = vec![gobball_hat(), gobball_amulet(), gobball_belt()];
-        b.sets = vec![gobball_set()];
         let s = compute_stats(&b);
         assert_eq!(s.strength, 20 + 8 + 10); // 38, not +5+10
         assert_eq!(s.intelligence, 20 + 10); // 30
@@ -371,9 +457,9 @@ mod tests {
 
     #[test]
     fn one_item_from_set_no_bonus() {
-        let mut b = empty_build(1, zero_alloc(), no_scrolls());
+        let sets = vec![gobball_set()];
+        let mut b = empty_build(1, zero_alloc(), no_scrolls(), &sets);
         b.items = vec![gobball_hat()];
-        b.sets = vec![gobball_set()];
         let s = compute_stats(&b);
         assert_eq!(s.strength, 20);
         assert_eq!(s.vitality, 0);
@@ -381,14 +467,14 @@ mod tests {
 
     #[test]
     fn eight_piece_gobball_only_8pc_tier_applies() {
-        let full_set: Vec<EquippedItem> = gobball_set()
+        let sets = vec![gobball_set()];
+        let full_set: Vec<EquippedItem> = sets[0]
             .items
             .iter()
             .map(|id| item(*id, Some(1), "ring", vec![]))
             .collect();
-        let mut b = empty_build(1, zero_alloc(), no_scrolls());
+        let mut b = empty_build(1, zero_alloc(), no_scrolls(), &sets);
         b.items = full_set;
-        b.sets = vec![gobball_set()];
         let s = compute_stats(&b);
         assert_eq!(s.ap, 6 + 1); // base + set bonus
         assert_eq!(s.strength, 50); // 8pc tier only, not 2pc+3pc+8pc stacked
