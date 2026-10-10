@@ -39,6 +39,7 @@ export type BuildResult = {
   score:         number
   meetsRequired: boolean
   conditionsOk:  boolean
+  allocated:     AllocatedCharacteristics
 }
 
 export type OptimizerProgress = {

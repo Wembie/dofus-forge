@@ -704,6 +704,6 @@
   "optimizer_forgemagie_hint": "Looking for more Summons or another combat stat? Set it as a minimum in the \"Combat\" group below.",
   "optimizer_assume_scrolled": "Assume fully scrolled",
   "optimizer_assume_scrolled_hint": "Calculates as if every characteristic already had its scroll applied, regardless of your sheet's current rune state.",
-  "optimizer_base_summary": "Base (Lv.{{level}}):",
+  "optimizer_base_summary": "Lv.{{level}} — allocated:",
   "optimizer_scrolled_hint": "Scrolled"
 }

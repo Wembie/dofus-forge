@@ -87,6 +87,7 @@ export interface BuildState {
   setForjamagoName:    (slot: SlotId, name: string) => void
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
   setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
+  setAllocated:        (allocated: AllocatedCharacteristics) => void
   applySnapshot:       (snap: BuildSnapshot) => void
   setLinkedBuildId:    (id: string | null) => void
   reset:         () => void
@@ -301,7 +302,8 @@ export const useBuildStore = create<BuildState>((set) => {
       update({ runes: { ...s.runes, [slot]: {} } }, s)
     ),
 
-    setEquipped: (eq) => set(s => update({ equipped: eq }, s)),
+    setEquipped:  (eq)        => set(s => update({ equipped: eq }, s)),
+    setAllocated: (allocated) => set(s => update({ allocated }, s)),
 
     setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),

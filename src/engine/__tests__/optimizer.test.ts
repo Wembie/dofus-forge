@@ -6,6 +6,7 @@ import { ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { OptimizerConfig, OptimizerBuildBase, OptimizerStatKey, BuildResult } from '@/features/optimizer/types.ts'
 import type { AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
+import { pointCost, statBudget, maxPointsForBudget } from '@/engine/characteristics.ts'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -86,7 +87,10 @@ function lockedExcept(open: SlotId[]): Set<SlotId> {
 describe('runOptimizer — synthetic set-vs-loose-items regression', () => {
   it('assembles the full weaker-individually set over stronger standalone items', () => {
     const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['hat', 'cape', 'amulet']) }), 'vitality', 10)
-    const results = runOptimizer(config, SYNTHETIC_ITEMS, SYNTHETIC_SETS, baseBuild(), noopProgress, freshCancel())
+    // level: 1 -> zero point budget, so the new auto-allocation feature
+    // (correctly) doesn't add extra Vitality on top and muddy this test,
+    // which is specifically about set-bonus assembly through gear, not points.
+    const results = runOptimizer(config, SYNTHETIC_ITEMS, SYNTHETIC_SETS, baseBuild({ level: 1 }), noopProgress, freshCancel())
 
     expect(results.length).toBeGreaterThan(0)
     const best = results[0]
@@ -104,7 +108,7 @@ describe('runOptimizer — synthetic set-vs-loose-items regression', () => {
       baseConfig({ lockedSlots: lockedExcept(['hat', 'cape']) }),
       'vitality', 10,
     )
-    const build = baseBuild({ equipped: { amulet: 203 } })
+    const build = baseBuild({ level: 1, equipped: { amulet: 203 } })
     const results = runOptimizer(config, SYNTHETIC_ITEMS, SYNTHETIC_SETS, build, noopProgress, freshCancel())
 
     const best = results[0]
@@ -332,6 +336,50 @@ describe('runOptimizer — Power rides along with weighted elemental damage', ()
   })
 })
 
+// ── Characteristic point allocation ──────────────────────────────────────────
+// The Forge only ever chose equipment, leaving characteristic points exactly
+// as they sat on the sheet — a fresh/zeroed build got evaluated with zero
+// points spent anywhere. runOptimizer now always recomputes an allocation via
+// a greedy weight-per-cost algorithm (provably optimal here since every
+// characteristic's cost curve is non-decreasing and its score contribution is
+// linear and uncapped) and returns it on every BuildResult.
+describe('runOptimizer — characteristic point allocation', () => {
+  it('spends every point on the single weighted characteristic, matching the closed-form max', () => {
+    const config = withWeight(baseConfig(), 'strength', 10)
+    const build = baseBuild({ level: 100 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    const expected = maxPointsForBudget('strength', statBudget(100))
+    expect(results[0].allocated.strength).toBe(expected)
+    expect(results[0].allocated.vitality).toBe(0)
+  })
+
+  it('never spends more than the level budget allows', () => {
+    const config = withWeight(withWeight(baseConfig(), 'vitality', 10), 'wisdom', 3)
+    const build = baseBuild({ level: 150 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    const spent = (['vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility'] as const)
+      .reduce((sum, c) => sum + pointCost(c, results[0].allocated[c]), 0)
+    expect(spent).toBeLessThanOrEqual(statBudget(150))
+  })
+
+  it('prefers the cheaper characteristic (Vitality, 1pt/pt) over a pricier one (Wisdom, 3pt/pt) at equal weight', () => {
+    let config = withWeight(baseConfig(), 'vitality', 5)
+    config = withWeight(config, 'wisdom', 5)
+    const build = baseBuild({ level: 100 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    // Equal weight, Vitality costs 1/pt vs Wisdom's 3/pt — greedy must exhaust
+    // Vitality's ratio advantage before ever touching Wisdom.
+    expect(results[0].allocated.vitality).toBeGreaterThan(results[0].allocated.wisdom)
+  })
+
+  it('leaves the existing allocation untouched when no characteristic is weighted at all', () => {
+    const config = withWeight(baseConfig(), 'ap', 10)  // AP isn't a characteristic — can't be bought with points
+    const build = baseBuild({ level: 100, allocated: { vitality: 50, wisdom: 0, strength: 20, intelligence: 0, chance: 0, agility: 0 } })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    expect(results[0].allocated).toEqual(build.allocated)
+  })
+})
+
 describe('runOptimizer — forged runes on locked slots', () => {
   const RUNED_AMULET: AppItem = {
     ankama_id: 330, name: 'Runed Amulet', level: 50, type: 'Amulet', slot: 'amulet',
@@ -344,7 +392,9 @@ describe('runOptimizer — forged runes on locked slots', () => {
 
   it('includes a locked slot\'s forged rune bonus in the computed stats', () => {
     const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['hat']) }), 'vitality', 10)
+    // level: 1 keeps the point budget at zero so this stays a pure rune test.
     const build = baseBuild({
+      level:    1,
       equipped: { amulet: RUNED_AMULET.ankama_id },
       runes:    { amulet: { Vitality: 500 } },
     })
@@ -356,6 +406,7 @@ describe('runOptimizer — forged runes on locked slots', () => {
   it('does not carry a rune over to a slot that gets re-optimized to a different item', () => {
     const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'vitality', 10)
     const build = baseBuild({
+      level:    1,
       equipped: { amulet: RUNED_AMULET.ankama_id },
       runes:    { amulet: { Vitality: 500 } },
     })
