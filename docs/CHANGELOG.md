@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.67] — 2026-10-10
+- **Fix**: the optimizer never validated items' own equip conditions (e.g. "Strength > 100") against the build — it could recommend an item the character doesn't actually qualify to wear. A build whose equipped items fail their own conditions is now treated as a hard-constraint failure, same as an unmet user-requested stat minimum, so it never outranks a legal build
+- **Feature**: the Forge now requires a class before showing the stat configuration screen — opening it with no class selected shows a gold "locked" gate with the character picker embedded directly, auto-advancing the moment a class is chosen
+- **Change**: the "Exo AP/MP/Range" checkboxes moved out of the generic top bar into their own clearly-labeled "Forgemagic" section, with a hint pointing to the Combat stat group for Summons and other combat stats that don't have a single universal hard cap like AP/MP/Range do
+
 ## [0.3.66] — 2026-10-10
 - **Fix**: the optimizer could silently cap results well below what's achievable (e.g. a high Strength target reported unreachable when it wasn't) — the coordinate-ascent polish phase, the only phase that goes beyond "single best item per slot", was skipped entirely whenever the earlier set-search phase ran long enough to hit the time budget. That phase now always gets to run, with the set-search phase getting only a portion of the total time budget so there's always time left for it
 

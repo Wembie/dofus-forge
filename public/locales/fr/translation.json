@@ -697,5 +697,9 @@
   "settings_sidebar_side": "Côté des caractéristiques",
   "settings_sidebar_side_hint": "Le côté où se trouve la barre classe/caractéristiques/stats dans le planificateur (grand écran)",
   "sidebar_side_left": "Gauche",
-  "sidebar_side_right": "Droite"
+  "sidebar_side_right": "Droite",
+  "optimizer_locked_title": "Sélectionne ta classe pour débloquer la Forge",
+  "optimizer_locked_hint": "La Forge a besoin de ta classe et de ton niveau pour calculer des combinaisons valides. Choisis (ou confirme) ta classe ci-dessous pour continuer.",
+  "optimizer_forgemagie": "Forgemagie",
+  "optimizer_forgemagie_hint": "Tu cherches plus d'Invocations ou une autre stat de combat ? Règle-la en minimum dans le groupe « Combat » plus bas."
 }

@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Lock } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
+import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import type { OptimizerConfig, BuildResult, OptimizerProgress, StatConfig } from './types.ts'
 import type { OptimizerStatKey } from './types.ts'
 import type { OptimizerStatMeta } from './statList.ts'
@@ -11,7 +12,7 @@ import { BuildResultCard } from './BuildResultCard.tsx'
 import { OPTIMIZER_STATS } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 
-type Phase = 'config' | 'running' | 'done'
+type Phase = 'locked' | 'config' | 'running' | 'done'
 
 const SLOT_LABEL_KEY: Record<SlotId, string> = {
   hat:       'slot_hat',
@@ -211,7 +212,9 @@ type Props = { open: boolean; onClose: () => void }
 export function OptimizerModal({ open, onClose }: Props) {
   const { t } = useTranslation()
 
-  const [phase,          setPhase]          = useState<Phase>('config')
+  const selectedClass = useBuildStore(s => s.selectedClass)
+
+  const [phase,          setPhase]          = useState<Phase>(() => selectedClass ? 'config' : 'locked')
   const [config,         setConfig]         = useState<OptimizerConfig>(loadSavedConfig)
   const [progress,       setProgress]       = useState<OptimizerProgress | null>(null)
   const [results,        setResults]        = useState<BuildResult[]>([])
@@ -229,7 +232,14 @@ export function OptimizerModal({ open, onClose }: Props) {
 
   useEffect(() => { persistConfig(config) }, [config])
 
-  const selectedClass = useBuildStore(s => s.selectedClass)
+  // Re-lock on every fresh open if the class got cleared since; auto-advance
+  // the moment a class is picked from the embedded ClassPicker below so the
+  // gate never has to be dismissed manually.
+  useEffect(() => {
+    if (open && !selectedClass) setPhase('locked')
+    else if (open && selectedClass) setPhase(p => p === 'locked' ? 'config' : p)
+  }, [open, selectedClass])
+
   const level         = useBuildStore(s => s.level)
   const allocated     = useBuildStore(s => s.allocated)
   const scrolled      = useBuildStore(s => s.scrolled)
@@ -355,6 +365,40 @@ export function OptimizerModal({ open, onClose }: Props) {
 
   const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
   const progressPct = progress?.percent ?? 0
+
+  // ── Locked (no class selected yet) ───────────────────────────────────────
+  if (phase === 'locked') {
+    return (
+      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
+        <div className="p-4 space-y-4">
+          <div
+            className="flex flex-col items-center gap-2 text-center py-5 rounded-xl"
+            style={{
+              background: 'color-mix(in srgb, var(--gold) 6%, var(--surface-void))',
+              border:     '1px solid color-mix(in srgb, var(--gold) 35%, var(--metal-edge))',
+            }}
+          >
+            <div
+              className="w-11 h-11 rounded-full flex items-center justify-center"
+              style={{
+                background: 'color-mix(in srgb, var(--gold) 18%, transparent)',
+                border:     '1px solid color-mix(in srgb, var(--gold) 55%, transparent)',
+              }}
+            >
+              <Lock size={18} style={{ color: 'var(--gold)' }} />
+            </div>
+            <p className="text-[13px] font-bold tracking-wide" style={{ color: 'var(--gold)' }}>
+              {t('optimizer_locked_title')}
+            </p>
+            <p className="text-[11px] max-w-sm" style={{ color: 'var(--ink-faint)' }}>
+              {t('optimizer_locked_hint')}
+            </p>
+          </div>
+          <ClassPicker />
+        </div>
+      </Modal>
+    )
+  }
 
   // ── Running ───────────────────────────────────────────────────────────────
   if (phase === 'running') {
@@ -496,22 +540,6 @@ export function OptimizerModal({ open, onClose }: Props) {
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_exo')}:</span>
-            {(['ap', 'mp', 'range'] as const).map(k => (
-              <label key={k} className="flex items-center gap-1 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={config.exo[k]}
-                  onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
-                />
-                <span className="font-semibold text-[10px]" style={{ color: 'var(--ink-muted)' }}>
-                  {t(`optimizer_exo_${k}`)}
-                </span>
-              </label>
-            ))}
-          </div>
-
           <button
             onClick={() => setShowSlots(s => !s)}
             className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]"
@@ -537,6 +565,33 @@ export function OptimizerModal({ open, onClose }: Props) {
           >
             {t('optimizer_clear_stats')}
           </button>
+        </div>
+
+        {/* ── Forgemagia (EXO) ── */}
+        <div
+          className="rounded-lg p-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5"
+          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+        >
+          <span className="text-[10px] font-bold tracking-widest uppercase flex-shrink-0" style={{ color: 'var(--gold)' }}>
+            🔨 {t('optimizer_forgemagie')}
+          </span>
+          <div className="flex items-center gap-3">
+            {(['ap', 'mp', 'range'] as const).map(k => (
+              <label key={k} className="flex items-center gap-1 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={config.exo[k]}
+                  onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
+                />
+                <span className="font-semibold text-[10px]" style={{ color: 'var(--ink-muted)' }}>
+                  {t(`optimizer_exo_${k}`)}
+                </span>
+              </label>
+            ))}
+          </div>
+          <span className="text-[9px] italic" style={{ color: 'var(--ink-faint)' }}>
+            {t('optimizer_forgemagie_hint')}
+          </span>
         </div>
 
         {/* ── Slots panel ── */}
