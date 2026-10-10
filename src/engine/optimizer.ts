@@ -1,6 +1,7 @@
 import { computeStats } from './stats.ts'
 import { STAT_MAP, WEAPON_ATTACK_IDS } from './statMap.ts'
-import type { EquippedItem, SetData, ItemEffect } from './types.ts'
+import { CHARACTERISTICS } from './types.ts'
+import type { EquippedItem, SetData, ItemEffect, ScrolledCharacteristics } from './types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { OptimizerConfig, OptimizerBuildBase, BuildResult, OptimizerProgress, OptimizerStatKey } from '@/features/optimizer/types.ts'
 import { ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
@@ -104,29 +105,54 @@ function effectValue(eff: ItemEffect): number {
   return (eff.max !== 0 && eff.max > eff.min) ? eff.max : eff.min
 }
 
+function compareOp(actual: number, operator: string, value: number): boolean {
+  switch (operator) {
+    case '>':  return actual > value
+    case '>=': return actual >= value
+    case '<':  return actual < value
+    case '<=': return actual <= value
+    case '=':
+    case '==': return actual === value
+    default:   return true
+  }
+}
+
+type ConditionContext = {
+  statsNums:       Record<string, number>
+  characterLevel:  number
+  maxSetPieceCount: number  // most pieces the build has equipped from any single set
+  hasSubscription: boolean
+}
+
 // Equip conditions (e.g. "Strength > 100") were never validated anywhere in
 // the app — the optimizer could (and did) recommend items the build doesn't
-// actually qualify to wear. Evaluated against the build's OWN final computed
-// characteristics: in practice conditions only ever gate on totals that more
-// gear can only help reach (negative-stat items are the rare exception, and
-// even then this still matches what the game would actually allow). A
-// condition on a stat this app doesn't track (e.g. alignment) is left
-// unvalidated rather than wrongly rejecting the build.
-function meetsItemConditions(item: AppItem, statsNums: Record<string, number>): boolean {
+// actually qualify to wear. Most gate on a characteristic (evaluated against
+// the build's OWN final computed totals — in practice more gear can only
+// help reach them). A few condition "stats" in the real data aren't
+// characteristics at all and need special handling:
+// - "Be level {0} or higher" is a templated character-level gate (not an
+//   item-level one — that's already covered by maxLevel), so it compares
+//   against the build's chosen level directly.
+// - "Be subscribed" gates on having an active Dofus subscription, which this
+//   app has no way to verify — handled by excluding such items from the
+//   search entirely unless the user opts in (see hasSubscription below), but
+//   checked again here too as a second line of defense.
+// - "Set bonus" is the condition actual Trophy items carry ("Obstructor",
+//   "Deserter", etc.) — Trophies are explicitly incompatible with having a
+//   multi-piece set bonus active anywhere in the build, so this compares
+//   against the largest number of equipped pieces sharing a single set.
+// A condition on something this app still doesn't track at all (e.g.
+// alignment, Kamas) is left unvalidated rather than wrongly rejecting the
+// build.
+function meetsItemConditions(item: AppItem, ctx: ConditionContext): boolean {
   if (!item.conditions || item.conditions.length === 0) return true
   return item.conditions.every(c => {
+    if (c.stat === 'Be level {0} or higher') return compareOp(ctx.characterLevel, c.operator, c.value)
+    if (c.stat === 'Set bonus')               return compareOp(ctx.maxSetPieceCount, c.operator, c.value)
+    if (c.stat === 'Be subscribed')           return ctx.hasSubscription
     const key = (STAT_MAP as Readonly<Record<string, string | undefined>>)[c.stat]
     if (!key) return true
-    const actual = statsNums[key] ?? 0
-    switch (c.operator) {
-      case '>':  return actual > c.value
-      case '>=': return actual >= c.value
-      case '<':  return actual < c.value
-      case '<=': return actual <= c.value
-      case '=':
-      case '==': return actual === c.value
-      default:   return true
-    }
+    return compareOp(ctx.statsNums[key] ?? 0, c.operator, c.value)
   })
 }
 
@@ -161,8 +187,15 @@ export function runOptimizer(
   onProgress: (p: OptimizerProgress) => void,
   cancelRef:  { cancelled: boolean },
 ): BuildResult[] {
-  const { stats, maxLevel, lockedSlots, exo } = config
+  const { stats, maxLevel, lockedSlots, exo, hasSubscription, assumeFullyScrolled } = config
   const startTime = Date.now()
+
+  // Lets the user ask "what if every characteristic were scrolled" without
+  // first going to set that up on the sheet itself — overrides the sheet's
+  // current rune state for this run only, it isn't written back anywhere.
+  const scrolled: ScrolledCharacteristics = assumeFullyScrolled
+    ? Object.fromEntries(CHARACTERISTICS.map(c => [c, true])) as ScrolledCharacteristics
+    : base.scrolled
 
   const slotsToOptimize = ALL_SLOTS.filter(s => !lockedSlots.has(s))
   const lockedEquipped: Partial<Record<SlotId, number>> = {}
@@ -170,7 +203,16 @@ export function runOptimizer(
     if (lockedSlots.has(slot) && base.equipped[slot] != null) lockedEquipped[slot] = base.equipped[slot]
   }
 
-  const itemMap = new Map(items.map(it => [it.ankama_id, it]))
+  // Items that require an active Dofus subscription ("Be subscribed") can't
+  // be verified by this app, so they're dropped from the candidate pool
+  // entirely unless the user confirms they have one — stripping them here,
+  // before pools/sets are built, means both the per-slot filter and the
+  // set-item mapping below automatically never see them.
+  const usableItems = hasSubscription
+    ? items
+    : items.filter(it => !it.conditions?.some(c => c.stat === 'Be subscribed'))
+
+  const itemMap = new Map(usableItems.map(it => [it.ankama_id, it]))
   const setData: SetData[] = sets.map(s => ({
     ankama_id: s.ankama_id,
     items:     s.items,
@@ -203,12 +245,34 @@ export function runOptimizer(
     return out
   }
 
-  function meetsAllConditions(equipped: Partial<Record<SlotId, number>>, statsNums: Record<string, number>): boolean {
+  // Most pieces this build has equipped from any single set — the gate real
+  // Trophy items carry ("Set bonus" < 2): Trophies are explicitly
+  // incompatible with having a multi-piece set bonus active anywhere else in
+  // the build.
+  function maxSetPieceCount(equipped: Partial<Record<SlotId, number>>): number {
+    const counts = new Map<number, number>()
     for (const slot of ALL_SLOTS) {
       const id = equipped[slot]
       if (id == null) continue
       const it = itemMap.get(id)
-      if (it && !meetsItemConditions(it, statsNums)) return false
+      if (it && it.set_id != null) counts.set(it.set_id, (counts.get(it.set_id) ?? 0) + 1)
+    }
+    let max = 0
+    for (const c of counts.values()) if (c > max) max = c
+    return max
+  }
+
+  function meetsAllConditions(equipped: Partial<Record<SlotId, number>>, statsNums: Record<string, number>): boolean {
+    const ctx: ConditionContext = {
+      statsNums, hasSubscription,
+      characterLevel:   base.level,
+      maxSetPieceCount: maxSetPieceCount(equipped),
+    }
+    for (const slot of ALL_SLOTS) {
+      const id = equipped[slot]
+      if (id == null) continue
+      const it = itemMap.get(id)
+      if (it && !meetsItemConditions(it, ctx)) return false
     }
     return true
   }
@@ -216,7 +280,7 @@ export function runOptimizer(
   function evaluate(ind: Individual): BuildResult {
     const equipped = fullEquipped(ind)
     const computedStats = computeStats({
-      class: base.selectedClass, level: base.level, allocated: base.allocated, scrolled: base.scrolled,
+      class: base.selectedClass, level: base.level, allocated: base.allocated, scrolled,
       items: buildEquippedItems(equipped), sets: setData,
     })
     const statsNums = computedStats as unknown as Record<string, number>
@@ -226,19 +290,41 @@ export function runOptimizer(
       if (cfg.weight > 0 || cfg.minVal > 0) score += (statsNums[cfg.stat] ?? 0) * (cfg.weight > 0 ? cfg.weight : 5)
     }
     // A build whose items' own equip conditions aren't met is not just
-    // suboptimal, it's not actually assemblable in-game — treated as a hard
-    // constraint failure exactly like an unmet user-requested minimum, so it
-    // never outranks a legal build (but is still kept around for the
-    // diversity fallback below, same as any other unmet hard constraint).
-    const meetsRequired = hardConstraints.every(c => (statsNums[c.stat] ?? 0) >= c.minVal)
-      && meetsAllConditions(equipped, statsNums)
+    // suboptimal, it's not actually assemblable in-game — tracked separately
+    // from the user's requested minimums so rank() (below) can treat it as an
+    // absolute disqualifier regardless of how close the stats are.
+    const conditionsOk  = meetsAllConditions(equipped, statsNums)
+    const meetsRequired = hardConstraints.every(c => (statsNums[c.stat] ?? 0) >= c.minVal) && conditionsOk
 
-    return { equipped, stats: computedStats, score, meetsRequired }
+    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk }
   }
 
-  // Ranking score used ONLY to choose between tied/near builds and to sort
-  // the hall of fame — constraint satisfaction always wins first.
-  function rank(r: BuildResult): number { return (r.meetsRequired ? 1e12 : 0) + r.score }
+  // Ranking score used to choose between tied/near builds, to sort the hall
+  // of fame, AND to drive hill-climbing's slot-by-slot comparisons. This used
+  // to be all-or-nothing (meetsRequired ? +1e12 : +0), which gave the search
+  // zero gradient toward satisfying hard constraints whenever no candidate
+  // fully met every one of them yet — the EXO AP/MP/Range floors in
+  // particular carry no `weight` in `stats`, so raw score never rewarded
+  // moving toward them, and hill-climbing had no reason to ever try (this was
+  // the real cause behind results looking "stuck" on the same picks
+  // regardless of target: increasing AP/MP/Range never improved `score`, and
+  // the +1e12 bonus never kicked in unless EVERYTHING lined up at once).
+  // Replaced with a continuous 0..1 satisfaction ratio — the average of each
+  // hard constraint's fulfillment, each capped at 1 — so a build that's 90%
+  // of the way to every floor always outranks one at 60%, giving the search
+  // an actual gradient to climb instead of only ever falling off a cliff.
+  // Equip-condition failures stay an absolute disqualifier (an illegal build
+  // can't be "partially" worn), never competing with score at all.
+  function constraintSatisfaction(statsNums: Record<string, number>): number {
+    if (hardConstraints.length === 0) return 1
+    let sum = 0
+    for (const c of hardConstraints) sum += c.minVal > 0 ? Math.min(1, (statsNums[c.stat] ?? 0) / c.minVal) : 1
+    return sum / hardConstraints.length
+  }
+  function rank(r: BuildResult): number {
+    if (!r.conditionsOk) return r.score - 1e15
+    return constraintSatisfaction(r.stats as unknown as Record<string, number>) * 1e12 + r.score
+  }
 
   if (slotsToOptimize.length === 0) {
     onProgress({ phase: 'evaluating', slotIndex: 1, totalSlots: 1, percent: 100 })
@@ -250,7 +336,7 @@ export function runOptimizer(
   // "the single best item for this slot" lookups during greedy fill. ──────
   const pools = new Map<SlotId, AppItem[]>()
   for (const slot of slotsToOptimize) {
-    const filtered = filterItemsForSlot(items, slot, maxLevel)
+    const filtered = filterItemsForSlot(usableItems, slot, maxLevel)
     const ranked = [...filtered].sort((a, b) => itemPartialScore(b, stats) - itemPartialScore(a, stats))
     pools.set(slot, ranked)
   }

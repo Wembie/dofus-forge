@@ -17,10 +17,12 @@ export type ExoConfig = {
 }
 
 export type OptimizerConfig = {
-  stats:       StatConfig[]
-  exo:         ExoConfig
-  maxLevel:    number
-  lockedSlots: Set<SlotId>
+  stats:               StatConfig[]
+  exo:                 ExoConfig
+  maxLevel:            number
+  lockedSlots:         Set<SlotId>
+  assumeFullyScrolled: boolean  // ignore the sheet's current rune/scroll state and assume every characteristic is scrolled
+  hasSubscription:     boolean  // include items gated behind an active Dofus subscription ("Be subscribed" condition)
 }
 
 export type OptimizerBuildBase = {
@@ -36,6 +38,7 @@ export type BuildResult = {
   stats:         StatBlock
   score:         number
   meetsRequired: boolean
+  conditionsOk:  boolean
 }
 
 export type OptimizerProgress = {

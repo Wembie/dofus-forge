@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.68',
+    date: '2026-10-10',
+    notes: [
+      'Fix: the optimizer could look stuck on the same picks regardless of target — hard constraints (including Exo AP/MP/Range) only gave an all-or-nothing ranking bonus with no gradient toward feasibility. Replaced with a continuous satisfaction measure so the search can actually climb toward requirements instead of only falling off a cliff',
+      'Fix: equip conditions beyond simple stat checks were ignored — character-level gates, subscription-only items (now excluded by default, opt-in checkbox added), and Trophy "no active set bonus" conditions are now all validated',
+      'Feature: "Assume fully scrolled" checkbox for the optimizer',
+      'Fix: clearing a stat\'s minimum now also resets its priority weight instead of leaving the card active with no visible reason',
+    ],
+  },
+  {
     version: '0.3.67',
     date: '2026-10-10',
     notes: [

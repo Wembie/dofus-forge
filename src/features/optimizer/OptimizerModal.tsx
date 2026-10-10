@@ -54,10 +54,12 @@ const STORAGE_KEY = 'dofus-forge:optimizer-config'
 
 function makeDefaultConfig(): OptimizerConfig {
   return {
-    stats:       OPTIMIZER_STATS.map(s => ({ stat: s.key, weight: 0, minVal: 0 })),
-    exo:         { ap: false, mp: false, range: false },
-    maxLevel:    200,
-    lockedSlots: new Set(),
+    stats:               OPTIMIZER_STATS.map(s => ({ stat: s.key, weight: 0, minVal: 0 })),
+    exo:                 { ap: false, mp: false, range: false },
+    maxLevel:            200,
+    lockedSlots:         new Set(),
+    assumeFullyScrolled: false,
+    hasSubscription:     false,
   }
 }
 
@@ -67,6 +69,7 @@ function loadSavedConfig(): OptimizerConfig {
     if (!raw) return makeDefaultConfig()
     const parsed = JSON.parse(raw)
     return {
+      ...makeDefaultConfig(),
       ...parsed,
       lockedSlots: new Set<SlotId>(parsed.lockedSlots ?? []),
       stats: OPTIMIZER_STATS.map(s => {
@@ -261,13 +264,15 @@ export function OptimizerModal({ open, onClose }: Props) {
     }
     setConfig(c => ({
       ...c,
-      // A hard minimum implies "I care about this stat" even before its
-      // priority dots are touched, so it defaults weight to a middle value —
-      // but weight stays independently editable afterward (priority and
+      // Setting a hard minimum implies "I care about this stat" even before
+      // its priority dots are touched, so it defaults weight to a middle
+      // value (but stays independently editable afterward — priority and
       // minimum are two different knobs: "maximize this" vs "never go below
-      // this"), and clearing the minimum doesn't reset a weight the user set.
+      // this"). Clearing the minimum back to empty, though, means "I don't
+      // want this stat anymore" — leaving a stale weight behind would show
+      // the card as still active with no way to tell why, so it resets too.
       stats: c.stats.map(s => s.stat === statKey
-        ? { ...s, minVal, weight: minVal > 0 && s.weight === 0 ? 6 : s.weight }
+        ? { ...s, minVal, weight: minVal > 0 ? (s.weight === 0 ? 6 : s.weight) : 0 }
         : s
       ),
     }))
@@ -592,6 +597,30 @@ export function OptimizerModal({ open, onClose }: Props) {
           <span className="text-[9px] italic" style={{ color: 'var(--ink-faint)' }}>
             {t('optimizer_forgemagie_hint')}
           </span>
+        </div>
+
+        {/* ── Other build assumptions ── */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+          <label className="flex items-center gap-1.5 cursor-pointer select-none" title={t('optimizer_assume_scrolled_hint')}>
+            <input
+              type="checkbox"
+              checked={config.assumeFullyScrolled}
+              onChange={e => setConfig(c => ({ ...c, assumeFullyScrolled: e.target.checked }))}
+            />
+            <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>
+              {t('optimizer_assume_scrolled')}
+            </span>
+          </label>
+          <label className="flex items-center gap-1.5 cursor-pointer select-none" title={t('optimizer_has_subscription_hint')}>
+            <input
+              type="checkbox"
+              checked={config.hasSubscription}
+              onChange={e => setConfig(c => ({ ...c, hasSubscription: e.target.checked }))}
+            />
+            <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>
+              {t('optimizer_has_subscription')}
+            </span>
+          </label>
         </div>
 
         {/* ── Slots panel ── */}

@@ -24,6 +24,8 @@ function baseConfig(overrides: Partial<OptimizerConfig> = {}): OptimizerConfig {
     exo: { ap: false, mp: false, range: false },
     maxLevel: 200,
     lockedSlots: new Set<SlotId>(),
+    assumeFullyScrolled: false,
+    hasSubscription: false,
     ...overrides,
   }
 }
@@ -217,6 +219,79 @@ describe('runOptimizer — equip conditions', () => {
     const best = results[0]
     expect(best.meetsRequired).toBe(true)
     expect(best.equipped.belt).toBe(BELT_PLAIN.ankama_id)
+  })
+
+  // Real data has items whose condition "stat" isn't a characteristic at all:
+  // "Be subscribed" (needs an active Dofus subscription this app can't
+  // verify), "Be level {0} or higher" (the character's own level, not item
+  // level — already covered separately by maxLevel), and "Set bonus" (the
+  // condition real Trophy items carry — incompatible with having 2+ pieces
+  // of any one set equipped elsewhere in the build).
+  const SUB_ITEM: AppItem = {
+    ankama_id: 310, name: 'Subscriber Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Strength', 999)], set_id: null, image_url: null,
+    conditions: [{ stat: 'Be subscribed', operator: '=', value: 1 }],
+  }
+  const FREE_ITEM: AppItem = {
+    ankama_id: 311, name: 'Free Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Strength', 10)], set_id: null, image_url: null,
+  }
+
+  it('never equips a subscription-gated item unless the user confirms they have one', () => {
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'strength', 10)
+    const results = runOptimizer(config, [SUB_ITEM, FREE_ITEM], [], baseBuild(), noopProgress, freshCancel())
+    expect(results[0].equipped.amulet).toBe(FREE_ITEM.ankama_id)
+
+    const withSub = runOptimizer({ ...config, hasSubscription: true }, [SUB_ITEM, FREE_ITEM], [], baseBuild(), noopProgress, freshCancel())
+    expect(withSub[0].equipped.amulet).toBe(SUB_ITEM.ankama_id)
+  })
+
+  const LEVEL_GATED_ITEM: AppItem = {
+    ankama_id: 312, name: 'Veteran Amulet', level: 1, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Strength', 999)], set_id: null, image_url: null,
+    conditions: [{ stat: 'Be level {0} or higher', operator: '>=', value: 100 }],
+  }
+  const BASIC_AMULET: AppItem = {
+    ankama_id: 313, name: 'Basic Amulet', level: 1, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Strength', 10)], set_id: null, image_url: null,
+  }
+
+  it('rejects a character-level-gated item when the build is below that level', () => {
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'strength', 10)
+    const lowLevel = runOptimizer(config, [LEVEL_GATED_ITEM, BASIC_AMULET], [], baseBuild({ level: 50 }), noopProgress, freshCancel())
+    expect(lowLevel[0].equipped.amulet).toBe(BASIC_AMULET.ankama_id)
+
+    const highLevel = runOptimizer(config, [LEVEL_GATED_ITEM, BASIC_AMULET], [], baseBuild({ level: 150 }), noopProgress, freshCancel())
+    expect(highLevel[0].equipped.amulet).toBe(LEVEL_GATED_ITEM.ankama_id)
+  })
+
+  const TROPHY: AppItem = {
+    ankama_id: 320, name: 'Minor Obstructor', level: 50, type: 'Trophy', slot: 'amulet',
+    effects: [makeEffect('Strength', 500)], set_id: null, image_url: null,
+    conditions: [{ stat: 'Set bonus', operator: '<', value: 2 }],
+  }
+  const PLAIN_AMULET: AppItem = {
+    ankama_id: 321, name: 'Plain Amulet', level: 50, type: 'Amulet', slot: 'amulet',
+    effects: [makeEffect('Strength', 10)], set_id: null, image_url: null,
+  }
+  const TROPHY_SET_HAT:  AppItem = { ankama_id: 322, name: 'TSet Hat',  level: 50, type: 'Hat',  slot: 'hat',  effects: [makeEffect('Strength', 20)], set_id: 9, image_url: null }
+  const TROPHY_SET_CAPE: AppItem = { ankama_id: 323, name: 'TSet Cape', level: 50, type: 'Cloak', slot: 'cape', effects: [makeEffect('Strength', 20)], set_id: 9, image_url: null }
+  const TROPHY_SETS: AppSet[] = [{ ankama_id: 9, name: 'Trophy-blocking Set', items: [322, 323], bonuses: { 2: [makeEffect('Strength', 1000)] } }]
+
+  it('rejects a Trophy ("Set bonus" condition) once 2+ pieces of any set are equipped elsewhere', () => {
+    // Hat/cape locked into the 2pc set (so its bonus is definitely active);
+    // amulet left open between the Trophy and a plain alternative. The Trophy
+    // scores far higher raw Strength, but is illegal once that 2pc bonus is
+    // active, so a legal build must fall back to the plain amulet.
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet']) }), 'strength', 10)
+    const results = runOptimizer(
+      config,
+      [TROPHY, PLAIN_AMULET, TROPHY_SET_HAT, TROPHY_SET_CAPE],
+      TROPHY_SETS,
+      baseBuild({ equipped: { hat: 322, cape: 323 } }),
+      noopProgress, freshCancel(),
+    )
+    expect(results[0].equipped.amulet).toBe(PLAIN_AMULET.ankama_id)
   })
 })
 
