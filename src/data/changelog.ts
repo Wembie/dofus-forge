@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.64',
+    date: '2026-10-09',
+    notes: [
+      'Change: account menu no longer repeats your name — just Edit Profile and Sign Out',
+      'Feature: Account page username links to your public profile, shows member-since date, builds/followers/following are clickable',
+    ],
+  },
+  {
     version: '0.3.63',
     date: '2026-10-09',
     notes: [

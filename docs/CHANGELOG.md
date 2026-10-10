@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.64] — 2026-10-09
+- **Change**: the account menu dropdown no longer repeats your username/display name at the top — just "Edit Profile" and "Sign Out"
+- **Feature**: on the Account page, your username now links to your public profile, a "member since" date shows under it, the builds count links to My Builds, and the followers/following counts open a popup listing those accounts
+- **Fix**: `profiles.builds_count` had drifted out of sync with actual build rows for accounts created before the count-sync trigger existed — needs a one-time manual SQL fix (see below), not something the app code could correct on its own
+
 ## [0.3.63] — 2026-10-09
 - **Feature**: forgot-password flow — a "Forgot your password?" link on sign-in sends a reset email (Supabase `resetPasswordForEmail`, Turnstile-protected), and following that link opens a dedicated "set a new password" modal automatically
 - **Feature**: change password while signed in, from the new Account page's Security section
