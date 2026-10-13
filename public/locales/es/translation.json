@@ -705,5 +705,12 @@
   "optimizer_assume_scrolled": "Asumir todo pergaminado",
   "optimizer_assume_scrolled_hint": "Calcula como si cada característica ya tuviera su pergamino aplicado, sin importar cómo esté tu hoja de personaje ahora mismo.",
   "optimizer_base_summary": "Nv.{{level}} — repartidos:",
-  "optimizer_scrolled_hint": "Pergaminado"
+  "optimizer_scrolled_hint": "Pergaminado",
+  "explore_stat_users": "{{count}} forjadores registrados",
+  "explore_stat_public_builds": "{{count}} builds públicas",
+  "explore_stat_builds": "{{count}} builds creadas en total",
+  "explore_stat_likes": "{{count}} likes dados",
+  "explore_stat_views": "{{count}} vistas totales",
+  "explore_stat_week": "{{count}} builds esta semana",
+  "explore_stat_catalog": "{{items}} items y {{sets}} sets catalogados"
 }

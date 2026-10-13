@@ -705,5 +705,12 @@
   "optimizer_assume_scrolled": "Assume fully scrolled",
   "optimizer_assume_scrolled_hint": "Calculates as if every characteristic already had its scroll applied, regardless of your sheet's current rune state.",
   "optimizer_base_summary": "Lv.{{level}} — allocated:",
-  "optimizer_scrolled_hint": "Scrolled"
+  "optimizer_scrolled_hint": "Scrolled",
+  "explore_stat_users": "{{count}} forgers registered",
+  "explore_stat_public_builds": "{{count}} public builds",
+  "explore_stat_builds": "{{count}} builds created in total",
+  "explore_stat_likes": "{{count}} likes given",
+  "explore_stat_views": "{{count}} total views",
+  "explore_stat_week": "{{count}} builds this week",
+  "explore_stat_catalog": "{{items}} items & {{sets}} sets catalogued"
 }

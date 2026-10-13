@@ -705,5 +705,12 @@
   "optimizer_assume_scrolled": "Supposer tout parcheminé",
   "optimizer_assume_scrolled_hint": "Calcule comme si chaque caractéristique avait déjà son parchemin, quel que soit l'état actuel de ta fiche.",
   "optimizer_base_summary": "Niv.{{level}} — répartis :",
-  "optimizer_scrolled_hint": "Parcheminé"
+  "optimizer_scrolled_hint": "Parcheminé",
+  "explore_stat_users": "{{count}} forgerons inscrits",
+  "explore_stat_public_builds": "{{count}} builds publiques",
+  "explore_stat_builds": "{{count}} builds créées au total",
+  "explore_stat_likes": "{{count}} likes donnés",
+  "explore_stat_views": "{{count}} vues au total",
+  "explore_stat_week": "{{count}} builds cette semaine",
+  "explore_stat_catalog": "{{items}} objets et {{sets}} panoplies catalogués"
 }

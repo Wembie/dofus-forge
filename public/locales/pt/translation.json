@@ -705,5 +705,12 @@
   "optimizer_assume_scrolled": "Assumir tudo pergaminhado",
   "optimizer_assume_scrolled_hint": "Calcula como se cada característica já tivesse seu pergaminho aplicado, independente do estado atual da sua ficha.",
   "optimizer_base_summary": "Nv.{{level}} — distribuídos:",
-  "optimizer_scrolled_hint": "Pergaminhado"
+  "optimizer_scrolled_hint": "Pergaminhado",
+  "explore_stat_users": "{{count}} forjadores registrados",
+  "explore_stat_public_builds": "{{count}} builds públicas",
+  "explore_stat_builds": "{{count}} builds criadas no total",
+  "explore_stat_likes": "{{count}} likes dados",
+  "explore_stat_views": "{{count}} visualizações totais",
+  "explore_stat_week": "{{count}} builds esta semana",
+  "explore_stat_catalog": "{{items}} itens e {{sets}} sets catalogados"
 }

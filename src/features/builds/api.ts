@@ -424,3 +424,31 @@ export async function fetchTotalBuildsCount() {
   const { data, error } = await supabase.rpc('get_total_builds_count')
   return { count: typeof data === 'number' ? data : Number(data ?? 0), error: error?.message ?? null }
 }
+
+export type CommunityStats = {
+  usersCount:        number
+  buildsCount:       number
+  publicBuildsCount: number
+  likesCount:        number
+  viewsCount:        number
+  buildsThisWeek:    number
+}
+
+/**
+ * Headline numbers for the Explore stats bar — one RPC round trip
+ * (get_community_stats) instead of six separate count queries.
+ */
+export async function fetchCommunityStats() {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase.rpc('get_community_stats')
+  const row = (Array.isArray(data) ? data[0] : data) as Record<string, number> | null
+  const stats: CommunityStats = {
+    usersCount:        Number(row?.users_count ?? 0),
+    buildsCount:       Number(row?.builds_count ?? 0),
+    publicBuildsCount: Number(row?.public_builds_count ?? 0),
+    likesCount:        Number(row?.likes_count ?? 0),
+    viewsCount:        Number(row?.views_count ?? 0),
+    buildsThisWeek:    Number(row?.builds_this_week ?? 0),
+  }
+  return { data: stats, error: error?.message ?? null }
+}
