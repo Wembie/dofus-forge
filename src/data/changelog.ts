@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.72',
+    date: '2026-10-12',
+    notes: [
+      'Feature: Explore now shows a community stats bar — registered forgers, public builds, total builds created, and total likes given',
+    ],
+  },
+  {
     version: '0.3.71',
     date: '2026-10-10',
     notes: [

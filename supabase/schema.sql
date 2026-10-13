@@ -737,6 +737,24 @@ $$;
 grant execute on function get_total_builds_count() to anon, authenticated;
 
 
+-- ── Stats de comunidad para la barra de Explorar: usuarios, builds, builds
+-- públicas, en un solo round trip. profiles ya es público (RLS "for select
+-- using (true)"), pero builds' RLS solo deja ver las públicas + las propias
+-- del caller, así que el conteo total sigue necesitando security definer
+-- (misma razón que get_total_builds_count arriba). Solo devuelve números,
+-- nunca contenido de filas, así que saltarse RLS acá no filtra nada.
+create function get_community_stats()
+returns table(users_count bigint, builds_count bigint, public_builds_count bigint, likes_count bigint)
+language sql security definer stable as $$
+  select
+    (select count(*) from profiles),
+    (select count(*) from builds),
+    (select count(*) from builds where visibility = 'public'),
+    (select count(*) from build_likes);
+$$;
+grant execute on function get_community_stats() to anon, authenticated;
+
+
 -- ── View deduplicado (RPC llamada desde la app) ──────────────────────
 create function record_view(p_build_id uuid, p_user_id uuid, p_ip_hash text)
 returns void language plpgsql security definer as $$

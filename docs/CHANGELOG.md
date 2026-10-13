@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.72] — 2026-10-12
+- **Feature**: Explore now shows a community stats bar — registered forgers, public builds, total builds created, and total likes given — via a new single-round-trip `get_community_stats()` RPC (needs to be run once in the Supabase SQL Editor, see `supabase/schema.sql`)
+
 ## [0.3.71] — 2026-10-10
 - **Feature**: the Rust/WASM optimizer engine (`rust-optimizer/`) is now live — the Forge tries it first and only falls back to the original TypeScript engine if WASM fails to load or run for any reason (older browser, blocked asset, a bug). Works identically in every locale (the engine always operates on English item data regardless of UI language, same as the TS engine always did). The Rust engine additionally searches exhaustive triples of sets (not just pairs), confirmed on the real catalog to find legal builds the TS-only engine cannot reach
 - No build-pipeline changes: the compiled `.wasm` ships as a plain static asset (`public/wasm/`), the same way the existing JSON game data already does — nothing new required in CI or the Cloudflare deploy

@@ -1,15 +1,47 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Star, Heart, Clock, Eye, Search } from 'lucide-react'
+import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
-import { fetchPublicBuilds, type BuildRow, type ExploreSort } from '@/features/builds/api.ts'
+import { fetchPublicBuilds, fetchCommunityStats, type BuildRow, type ExploreSort, type CommunityStats } from '@/features/builds/api.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+
+const STAT_ITEMS: { key: keyof CommunityStats; labelKey: string; Icon: typeof Users }[] = [
+  { key: 'usersCount',        labelKey: 'explore_stat_users',        Icon: Users },
+  { key: 'publicBuildsCount', labelKey: 'explore_stat_public_builds', Icon: Globe },
+  { key: 'buildsCount',       labelKey: 'explore_stat_builds',        Icon: Hammer },
+  { key: 'likesCount',        labelKey: 'explore_stat_likes',         Icon: Heart },
+]
+
+function CommunityStatsBar() {
+  const { t } = useTranslation()
+  const [stats, setStats] = useState<CommunityStats | null>(null)
+  useEffect(() => {
+    let cancelled = false
+    fetchCommunityStats().then(({ data, error }) => { if (!cancelled && !error) setStats(data) })
+    return () => { cancelled = true }
+  }, [])
+  if (!stats) return null
+  return (
+    <div className="flex flex-wrap gap-2">
+      {STAT_ITEMS.map(({ key, labelKey, Icon }) => (
+        <span
+          key={key}
+          className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
+          style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)' }}
+        >
+          <Icon size={12} />
+          {t(labelKey, { count: stats[key] })}
+        </span>
+      ))}
+    </div>
+  )
+}
 
 const SORT_ITEMS: TabItem[] = [
   { id: 'rating', label: 'sort_rating', Icon: Star },
@@ -73,6 +105,9 @@ export function ExplorePage() {
         <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
           {t('explore_title')}
         </h1>
+
+        <CommunityStatsBar />
+
         <div className="flex flex-wrap items-center gap-3 justify-between">
           <Tabs items={sortLabels} active={sort} onChange={id => setSort(id as ExploreSort)} variant="segment" />
 
