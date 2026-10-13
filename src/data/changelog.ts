@@ -8,18 +8,12 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.3.76',
-    date: '2026-10-13',
-    notes: [
-      'Fix: targeting two different hard-minimum characteristics at once (e.g. Strength and Vitality together) could leave both unmet — the point allocator now reserves what each one needs first, before spending the rest as before',
-    ],
-  },
-  {
     version: '0.3.75',
     date: '2026-10-13',
     notes: [
       'Fix: loading a recommended build now applies its scrolled state and clears stale forged runes on changed slots',
       "Fix: targeting HP alone now invests characteristic points in Vitality too, not just items",
+      'Fix: targeting two different hard-minimum characteristics at once (e.g. Strength and Vitality together) could leave both unmet — the point allocator now reserves what each one needs first, before spending the rest as before',
       'Feature: the search is meaningfully deeper by default, now finding fully-satisfying combinations for tight multi-requirement requests; very demanding ones can take a few minutes',
       'Feature: redesigned loading screen with rotating status messages and an elapsed-time counter',
     ],
