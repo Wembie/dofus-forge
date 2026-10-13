@@ -97,6 +97,20 @@ const HOWTO_META = {
   pt: { title: 'Como usar o Dofus Forge', description: 'Um guia passo a passo para montar uma build de Dofus 3 — escolher classe, equipar itens, ler stats e bônus de conjunto, runas de forjamagia, o otimizador, e compartilhar sua build.' },
 }
 
+const PRIVACY_META = {
+  en: { title: 'Privacy Policy — Dofus Forge', description: 'How Dofus Forge collects, uses, and protects your data, including cookies and Google AdSense advertising.' },
+  es: { title: 'Política de Privacidad — Dofus Forge', description: 'Cómo Dofus Forge recopila, usa y protege tus datos, incluyendo cookies y la publicidad de Google AdSense.' },
+  fr: { title: 'Politique de confidentialité — Dofus Forge', description: 'Comment Dofus Forge collecte, utilise et protège vos données, y compris les cookies et la publicité Google AdSense.' },
+  pt: { title: 'Política de Privacidade — Dofus Forge', description: 'Como o Dofus Forge coleta, usa e protege seus dados, incluindo cookies e a publicidade do Google AdSense.' },
+}
+
+const TERMS_META = {
+  en: { title: 'Terms of Service — Dofus Forge', description: 'The terms that govern your use of Dofus Forge, including accounts, user content, and acceptable use.' },
+  es: { title: 'Términos de Servicio — Dofus Forge', description: 'Los términos que rigen el uso de Dofus Forge, incluyendo cuentas, contenido de usuarios y uso aceptable.' },
+  fr: { title: "Conditions d'utilisation — Dofus Forge", description: "Les conditions qui régissent votre utilisation de Dofus Forge, y compris les comptes, le contenu utilisateur et l'utilisation acceptable." },
+  pt: { title: 'Termos de Serviço — Dofus Forge', description: 'Os termos que regem o uso do Dofus Forge, incluindo contas, conteúdo de usuários e uso aceitável.' },
+}
+
 // Pilot for /classes/:id (ClassGuidePage) — only Cra for now, see
 // AboutPage's CLASS_GUIDE_PILOT. Names from public/data/class-names.json.
 const CRA_META = {
@@ -201,6 +215,8 @@ generateRoute('', ROOT_META)
 generateRoute('explore', EXPLORE_META)
 generateRoute('about', ABOUT_META)
 generateRoute('how-to-use', HOWTO_META)
+generateRoute('privacy', PRIVACY_META)
+generateRoute('terms', TERMS_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex
 generateRoute('account', ACCOUNT_META, { noindex: true }) // private/auth-gated — same treatment as my-builds
 generateRoute('classes/cra', CRA_META)

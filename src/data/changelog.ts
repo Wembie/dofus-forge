@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.73',
+    date: '2026-10-13',
+    notes: [
+      'Feature: new Privacy Policy and Terms of Service pages, in all 4 languages',
+      'Added ads.txt, Report link on comments, and footer contact/legal links — AdSense policy compliance fixes',
+    ],
+  },
+  {
     version: '0.3.72',
     date: '2026-10-12',
     notes: [

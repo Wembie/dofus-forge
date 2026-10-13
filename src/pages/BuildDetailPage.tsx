@@ -428,6 +428,13 @@ export function BuildDetailPage() {
                     </span>
                   </div>
                   <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>
+                  <a
+                    href={`mailto:contact@dofusforge.com?subject=${encodeURIComponent(`Report comment ${c.id}`)}&body=${encodeURIComponent(`Build: ${window.location.href}\nComment ID: ${c.id}\n\nReason: `)}`}
+                    className="text-[10px] hover:text-gold hover:underline transition-colors"
+                    style={{ color: 'var(--ink-faint)' }}
+                  >
+                    {t('comment_report')}
+                  </a>
                 </div>
               </li>
             ))}

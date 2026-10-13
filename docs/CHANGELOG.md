@@ -5,6 +5,13 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.73] — 2026-10-13
+- **Feature**: new `/privacy` and `/terms` pages (all 4 locales, statically pre-rendered + sitemap entries), covering data collection, cookies, Google AdSense advertising, GDPR/CCPA rights, user content, and acceptable use
+- `public/ads.txt` added (was missing while the AdSense script was already live)
+- Footer now links Privacy Policy, Terms of Service, and a contact email
+- Build comments now have a "Report" link (mailto with the comment pre-identified) — basic abuse-reporting path for public user-generated content
+- AdSense compliance self-audit: addresses the policy-center rejection by adding the legal pages, ads.txt, and a reporting path that were missing; consent for personalized ads in EEA/UK is handled via AdSense's own Privacy & Messaging feature (account-side, no code change)
+
 ## [0.3.72] — 2026-10-12
 - **Feature**: Explore now shows a community stats bar — registered forgers, public builds, total builds created, total views, builds created this week, and total likes given — via a new single-round-trip `get_community_stats()` RPC (needs to be run once in the Supabase SQL Editor, see `supabase/schema.sql`)
 - Also shows catalog size (total items & sets catalogued) — read directly from already-loaded game data, no extra query
