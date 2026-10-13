@@ -88,4 +88,5 @@ pub struct BuildResult {
     pub meets_required: bool,
     pub conditions_ok: bool,
     pub allocated: AllocatedCharacteristics,
+    pub scrolled: ScrolledCharacteristics,
 }

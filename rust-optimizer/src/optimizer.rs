@@ -11,7 +11,7 @@
 // condition validation, the continuous constraint-satisfaction rank(), Power
 // synergy, and characteristic point allocation - is a direct, verified port.
 
-use crate::characteristics::{point_cost, stat_budget};
+use crate::characteristics::{point_cost, stat_budget, SCROLL_BONUS};
 use crate::optimizer_types::{BuildResult, CatalogItem, CatalogSet, ExoConfig, OptimizerBuildBase, OptimizerConfig, StatConfig};
 use crate::stat_map::{stat_key, weapon_attack_ids};
 use crate::stats::{compute_stats, get_stat};
@@ -176,13 +176,40 @@ fn effective_weight(stat_key_name: &str, stats: &[StatConfig], fallback: f64) ->
             return max_damage_weight as f64;
         }
     }
+    // Max HP is driven directly by the Vitality characteristic — same
+    // relationship Power has with elemental damage above. See
+    // optimizer.ts's matching comment: without this, optimal_allocation()
+    // never spends a single point on Vitality for an HP-only target, since
+    // it only invests in characteristics that have their OWN weight.
+    if stat_key_name == "vitality" {
+        if let Some(cfg) = stats.iter().find(|c| c.stat == "maxHp") {
+            if cfg.weight > 0 {
+                return cfg.weight as f64;
+            }
+            if cfg.min_val > 0 {
+                return 5.0;
+            }
+        }
+    }
     fallback
 }
 
 // See optimizer.ts's optimalAllocation comment: a greedy weight-per-cost
 // algorithm, provably optimal here since every characteristic's point cost is
 // non-decreasing and its score contribution is linear and uncapped.
-fn optimal_allocation(level: i64, stats: &[StatConfig], current: &AllocatedCharacteristics) -> AllocatedCharacteristics {
+fn get_scrolled(s: &ScrolledCharacteristics, c: &str) -> bool {
+    match c {
+        "vitality" => s.vitality,
+        "wisdom" => s.wisdom,
+        "strength" => s.strength,
+        "intelligence" => s.intelligence,
+        "chance" => s.chance,
+        "agility" => s.agility,
+        _ => false,
+    }
+}
+
+fn optimal_allocation(level: i64, stats: &[StatConfig], scrolled: &ScrolledCharacteristics, current: &AllocatedCharacteristics) -> AllocatedCharacteristics {
     let any_weighted = CHARACTERISTICS.iter().any(|c| effective_weight(c, stats, 0.0) > 0.0);
     if !any_weighted {
         return current.clone();
@@ -191,6 +218,47 @@ fn optimal_allocation(level: i64, stats: &[StatConfig], current: &AllocatedChara
     let budget = stat_budget(level);
     let mut allocated = AllocatedCharacteristics::default();
     let mut spent = 0i64;
+
+    // Reserve points for any characteristic with its OWN hard minVal first,
+    // cheapest-to-satisfy before pricier ones, so two simultaneous hard
+    // floors on DIFFERENT characteristics (e.g. Strength >= 1500 AND
+    // Vitality >= 395, the latter maybe inherited from an "HP >= X" target
+    // via effective_weight's synergy branch) don't get shortchanged by the
+    // plain greedy loop below, which only ever maximizes total weighted
+    // score and has no notion of "cross this specific threshold first" -
+    // it can leave BOTH thresholds unmet even when a different split would
+    // have satisfied both, simply because continuing to spend on whichever
+    // has the best weight/cost ratio right now doesn't care that it's
+    // already crossed its own target. This pre-pass is a conservative
+    // worst case (assumes zero help from items, which aren't known yet at
+    // allocation time) - it only ever reserves the MINIMUM needed to reach
+    // the floor from points + scroll bonus alone; the greedy loop still
+    // freely spends any leftover budget exactly as before. A target that
+    // doesn't fit the whole budget on its own is simply skipped here (left
+    // to the greedy loop to do its best), never forced past what's left.
+    let mut required: Vec<(&str, i64)> = CHARACTERISTICS
+        .iter()
+        .filter_map(|&c| {
+            let min_val = stats.iter().find(|s| s.stat == c).map(|s| s.min_val).unwrap_or(0);
+            if min_val <= 0 {
+                return None;
+            }
+            let scroll_bonus = if get_scrolled(scrolled, c) { SCROLL_BONUS } else { 0 };
+            let needed_points = (min_val - scroll_bonus).max(0);
+            if needed_points <= 0 {
+                return None;
+            }
+            Some((c, needed_points))
+        })
+        .collect();
+    required.sort_by_key(|&(c, needed_points)| point_cost(c, needed_points));
+    for (c, needed_points) in required {
+        let cost_to_reach = point_cost(c, needed_points);
+        if cost_to_reach <= budget - spent {
+            spent += cost_to_reach;
+            set_characteristic(&mut allocated, c, needed_points);
+        }
+    }
 
     loop {
         let mut best_char: Option<&str> = None;
@@ -268,7 +336,7 @@ fn equipped_fingerprint(eq: &HashMap<String, i64>) -> String {
 
 type Individual = HashMap<String, i64>;
 
-const HILL_CLIMB_POOL: usize = 150;
+const HILL_CLIMB_POOL: usize = 250;
 // Raised from the TS original's 24: adding the triples phase means more
 // genuinely-good candidates compete for seed slots before polish, and a
 // fixed small seed count can let a few of them crowd out a seed that
@@ -277,8 +345,8 @@ const HILL_CLIMB_POOL: usize = 150;
 // the pairs-only TS engine, because the specific pair-derived seed TS
 // polishes into its 70800-score build never made the cut here). The much
 // larger time budget (see TIME_BUDGET_MS) makes room for this.
-const HILL_CLIMB_SEEDS: usize = 60;
-const HILL_CLIMB_MAX_SWEEPS: usize = 5;
+const HILL_CLIMB_SEEDS: usize = 200;
+const HILL_CLIMB_MAX_SWEEPS: usize = 10;
 // The user explicitly prioritized always finding the best result over how
 // long it takes — this runs inside a Worker, so it never blocks the UI
 // thread regardless of duration. 60s (vs the TS engine's 15s) gives phases
@@ -286,7 +354,7 @@ const HILL_CLIMB_MAX_SWEEPS: usize = 5;
 // room before any deadline forces an early stop. A longer-running Worker
 // call without progress feedback is a real UX gap to revisit once this is
 // wired into the app — noted, not solved here.
-const TIME_BUDGET_MS: f64 = 60000.0;
+const TIME_BUDGET_MS: f64 = 240000.0;
 const SET_SEARCH_DEADLINE_MS: f64 = TIME_BUDGET_MS * 0.7;
 const RESULT_COUNT: usize = 5;
 const DIVERSITY_MIN_DIFF: usize = 3;
@@ -415,6 +483,7 @@ impl<'a> Ctx<'a> {
             meets_required,
             conditions_ok,
             allocated: self.allocated.clone(),
+            scrolled: self.scrolled.clone(),
         }
     }
 
@@ -596,7 +665,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         base.scrolled.clone()
     };
 
-    let allocated = optimal_allocation(base.level, &config.stats, &base.allocated);
+    let allocated = optimal_allocation(base.level, &config.stats, &scrolled, &base.allocated);
 
     let locked_slots: HashSet<String> = config.locked_slots.iter().cloned().collect();
     let slots_to_optimize: Vec<String> = ALL_SLOTS.iter().filter(|s| !locked_slots.contains(**s)).map(|s| s.to_string()).collect();
@@ -764,7 +833,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
     // exactly what phase 1 ranks by. K=60 keeps the search (60 choose 3 =
     // 34,220 combinations) a small fraction of phase 2's cost while
     // extending the exact-coverage guarantee from "<=2 sets" to "<=3 sets".
-    const TOP_K_FOR_TRIPLES: usize = 60;
+    const TOP_K_FOR_TRIPLES: usize = 150;
     let triple_n = n.min(TOP_K_FOR_TRIPLES);
     let mut triples_done: u64 = 0;
     'triples: for i in 0..triple_n {
@@ -804,7 +873,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
     // device or a huge catalog this phase may run zero iterations and that's
     // fine — phases 1/2/2.5 and hill-climbing below never depend on it
     // having run, they just don't get its coverage that call.
-    const TOP_K_FOR_QUADS: usize = 40;
+    const TOP_K_FOR_QUADS: usize = 100;
     let quad_n = n.min(TOP_K_FOR_QUADS);
     let mut quads_done: u64 = 0;
     'quads: for i in 0..quad_n {
@@ -867,6 +936,25 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
             hill_pool.insert(slot.clone(), p);
         }
 
+        // Stall detection: if the best rank found hasn't improved in a
+        // long stretch of seeds, stop — further seeds are very unlikely to
+        // do better (seeds are processed best-initial-rank-first, so a long
+        // plateau this deep means the remaining, worse-starting seeds are
+        // exploring an already-exhausted neighborhood). Unconditional (not
+        // gated on reaching full feasibility): an ambitious request that
+        // never becomes fully feasible still plateaus just as concretely as
+        // an easy one that's solved instantly, and without this it burned
+        // through the entire (now much larger) seed/time budget for every
+        // such request, turning a typical demanding-but-not-fully-reachable
+        // combo into a multi-minute wait for zero actual benefit. The limit
+        // is generous (not the first sign of a stall) specifically because
+        // genuinely hard-but-solvable combos were observed, during the
+        // investigation that led to raising HILL_CLIMB_SEEDS in the first
+        // place, to sometimes only turn the corner after 100+ seeds.
+        let mut best_rank = f64::NEG_INFINITY;
+        let mut seeds_since_improvement: usize = 0;
+        const STALL_LIMIT: usize = 25;
+
         for seed in &seeds {
             if now_ms() - start_time > TIME_BUDGET_MS {
                 break;
@@ -925,6 +1013,17 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
                 if !improved {
                     break;
                 }
+            }
+
+            let r = ctx.rank(&current_result);
+            if r > best_rank + 1e-9 {
+                best_rank = r;
+                seeds_since_improvement = 0;
+            } else {
+                seeds_since_improvement += 1;
+            }
+            if seeds_since_improvement >= STALL_LIMIT {
+                break;
             }
         }
     }
@@ -1109,6 +1208,32 @@ mod tests {
     }
 
     #[test]
+    fn satisfies_two_simultaneous_characteristic_minimums_instead_of_averaging_between_them() {
+        // Level 200 budget (995) exactly equals point_cost("strength", 300)
+        // [100*1 + 100*2 + 100*3 = 600] + point_cost("vitality", 395) [395,
+        // 1pt/pt] = 995 - a deliberately tight fit. At equal weight,
+        // Vitality's ratio (weight/1, constant at every point) ties
+        // Strength's ratio for strength's first 100 points and then beats
+        // it outright once strength enters its pricier brackets — the OLD
+        // plain greedy, with no notion of "this characteristic has its own
+        // floor to clear first", would keep buying the better-ratio
+        // characteristic (Vitality) well past what Strength needed,
+        // leaving Strength's 1500 target (or here, 300) unmet even though
+        // the exact budget to satisfy BOTH simultaneously exists. The
+        // reservation pre-pass in optimal_allocation must claim each
+        // floor's minimum first before the greedy loop spends what's left.
+        let mut config = base_config(vec![stat_cfg("strength", 6, 300), stat_cfg("vitality", 6, 395)]);
+        config.assume_fully_scrolled = false;
+        let build = base_build(200, HashMap::new(), HashMap::new());
+        let results = run_optimizer(config, vec![], vec![], build);
+        let best = &results[0];
+        assert!(best.allocated.strength >= 300, "expected Strength >= 300, got {}", best.allocated.strength);
+        assert!(best.allocated.vitality >= 395, "expected Vitality >= 395, got {}", best.allocated.vitality);
+        let spent = point_cost("strength", best.allocated.strength) + point_cost("vitality", best.allocated.vitality);
+        assert!(spent <= stat_budget(200), "allocation spent {spent}, over the {} budget", stat_budget(200));
+    }
+
+    #[test]
     fn finds_a_combination_of_three_different_sets_that_beats_any_pair() {
         // Three distinct 2-piece sets, each individually weak (+10/piece,
         // +200 for its own 2pc bonus) but additive across different slots —
@@ -1223,6 +1348,38 @@ mod tests {
         let best = &results[0];
         assert!(best.conditions_ok, "expected the returned best build to be legal (no equip-condition violations)");
         assert_eq!(get_stat(&best.stats, "vitality"), 2070, "expected the set-alone legal optimum (2070), not the illegal trophy+set combo (3020) or the weaker trophy-alone legal option (1000)");
+    }
+
+    #[test]
+    fn uses_only_part_of_a_set_when_the_rest_of_its_pieces_lose_to_loose_alternatives() {
+        // A 4-piece set whose bonus already maxes out at 2 pieces (only a "2"
+        // tier is defined, so 3 or 4 pieces grant the SAME bonus, not more —
+        // a real, common Dofus pattern). hat/cape have no better alternative
+        // (the set pieces are forced there), but amulet/belt each have a
+        // vastly better loose alternative. The true optimum uses the set
+        // ONLY for hat/cape (to get the 2pc bonus) and loose items for
+        // amulet/belt: 5+5+5000+5000+2000 = 12010. apply_set (phase 1) only
+        // ever tries "every piece that fits" (4-of-4: 5+5+5+5+2000 = 2020,
+        // since the tier stays capped at the 2pc value), never a deliberate
+        // partial subset — and single-slot hill-climbing can't discover it
+        // either: swapping just ONE of hat/cape to the set (starting from
+        // the all-loose baseline) looks like a pure loss in isolation, since
+        // the bonus only kicks in once BOTH are swapped together.
+        let set_hat    = item(40, "hat",    Some(1), vec![effect("Vitality", 5, 0)]);
+        let set_cape   = item(41, "cape",   Some(1), vec![effect("Vitality", 5, 0)]);
+        let set_amulet = item(42, "amulet", Some(1), vec![effect("Vitality", 5, 0)]);
+        let set_belt   = item(43, "belt",   Some(1), vec![effect("Vitality", 5, 0)]);
+        let loose_amulet = item(142, "amulet", None, vec![effect("Vitality", 5000, 0)]);
+        let loose_belt   = item(143, "belt",   None, vec![effect("Vitality", 5000, 0)]);
+        let set = CatalogSet { ankama_id: 1, items: vec![40, 41, 42, 43], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 2000, 0)])]) };
+
+        let mut config = base_config(vec![stat_cfg("vitality", 10, 0)]);
+        config.locked_slots = lock_all_except(&["hat", "cape", "amulet", "belt"]);
+        let build = base_build(1, HashMap::new(), HashMap::new());
+
+        let results = run_optimizer(config, vec![set_hat, set_cape, set_amulet, set_belt, loose_amulet, loose_belt], vec![set], build);
+        let best = &results[0];
+        assert_eq!(get_stat(&best.stats, "vitality"), 12010, "expected the partial-set optimum (hat+cape for the 2pc bonus, loose amulet+belt) — got {}, suggesting the search only tried the full 4-piece set (2020) or no set at all (10020)", get_stat(&best.stats, "vitality"));
     }
 
     #[test]

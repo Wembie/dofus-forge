@@ -233,6 +233,13 @@ body {
 .dofus-aura {
   animation: dofus-pulse 3.2s var(--ease-inout) infinite;
 }
+@keyframes optimizer-indeterminate {
+  0%   { left: -40%; }
+  100% { left: 100%; }
+}
+.optimizer-indeterminate-bar {
+  animation: optimizer-indeterminate 1.4s var(--ease-inout) infinite;
+}
 @keyframes dummy-hit {
   0%   { transform: translateX(0) rotate(0); }
   20%  { transform: translateX(-3px) rotate(-3deg); }

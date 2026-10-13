@@ -757,5 +757,10 @@
   "terms_s8_title": "Changes, Termination & Governing Law",
   "terms_s8_body": "We may update these Terms, suspend the service, or close accounts that violate them, at any time. These Terms are governed by the laws applicable to your place of residence, to the extent permitted by law.",
   "terms_contact": "Questions about these Terms? Email us at contact@dofusforge.com.",
-  "comment_report": "Report"
+  "comment_report": "Report",
+  "optimizer_tip_1": "Scanning the full equipment catalog...",
+  "optimizer_tip_2": "Trying combinations of sets...",
+  "optimizer_tip_3": "Polishing the build item by item...",
+  "optimizer_tip_4": "Chasing the best possible combination...",
+  "optimizer_running_long_note": "Demanding requests can take a few minutes — the search keeps trying harder combinations, it's not stuck."
 }

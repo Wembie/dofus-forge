@@ -1,7 +1,7 @@
 import { computeStats } from './stats.ts'
 import { STAT_MAP, WEAPON_ATTACK_IDS } from './statMap.ts'
 import { CHARACTERISTICS } from './types.ts'
-import { pointCost, statBudget } from './characteristics.ts'
+import { pointCost, statBudget, SCROLL_BONUS } from './characteristics.ts'
 import type { EquippedItem, SetData, ItemEffect, ScrolledCharacteristics, AllocatedCharacteristics, Characteristic } from './types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { OptimizerConfig, OptimizerBuildBase, BuildResult, OptimizerProgress, OptimizerStatKey } from '@/features/optimizer/types.ts'
@@ -199,6 +199,22 @@ function effectiveWeight(statKey: OptimizerStatKey, stats: OptimizerConfig['stat
     }
     if (maxDamageWeight > 0) return maxDamageWeight
   }
+  // Max HP is driven directly by the Vitality characteristic (plus a small
+  // flat/item component), same relationship Power has with elemental
+  // damage above — a user targeting "HP >= 5000" almost always means
+  // "invest in Vitality to get there", not "find HP only on items while
+  // characteristic points go untouched". Without this, optimalAllocation()
+  // (which only spends points on characteristics that have their OWN
+  // weight) never puts a single point into Vitality for an HP-only target,
+  // forcing the entire HP requirement onto item budget alone — found while
+  // investigating a user report that a demanding HP+other-stats combo
+  // stayed unreachable even with a much deeper search; it wasn't a search
+  // depth problem, Vitality was never being invested in at all.
+  if (statKey === 'vitality') {
+    const hpCfg = stats.find(c => c.stat === 'maxHp')
+    if (hpCfg && hpCfg.weight > 0) return hpCfg.weight
+    if (hpCfg && hpCfg.minVal > 0) return 5
+  }
   return fallback
 }
 
@@ -221,6 +237,7 @@ function effectiveWeight(statKey: OptimizerStatKey, stats: OptimizerConfig['stat
 function optimalAllocation(
   level: number,
   stats: OptimizerConfig['stats'],
+  scrolled: ScrolledCharacteristics,
   current: AllocatedCharacteristics,
 ): AllocatedCharacteristics {
   const anyWeighted = CHARACTERISTICS.some(c => effectiveWeight(c, stats, 0) > 0)
@@ -229,6 +246,38 @@ function optimalAllocation(
   const budget = statBudget(level)
   const allocated: AllocatedCharacteristics = { vitality: 0, wisdom: 0, strength: 0, intelligence: 0, chance: 0, agility: 0 }
   let spent = 0
+
+  // Reserve points for any characteristic with its OWN hard minVal first,
+  // cheapest-to-satisfy before pricier ones — see optimizer.rs's matching
+  // comment. The plain greedy loop below only maximizes total weighted
+  // score and has no notion of "cross this specific threshold first", so
+  // two simultaneous hard floors on different characteristics (e.g.
+  // Strength >= 1500 AND Vitality >= 395, the latter possibly inherited
+  // from an "HP >= X" target via effectiveWeight's synergy branch) could
+  // both end up unmet even when a different split satisfies both — found
+  // via a user report describing exactly this ("300 a fuerza y 395 a
+  // vida", i.e. splitting a fixed budget across two targets, not just
+  // pouring everything into whichever has the best ratio). This is a
+  // conservative worst case (assumes zero help from items, unknown at
+  // allocation time); a target too big for the whole budget is simply
+  // skipped here and left to the greedy loop to do its best with.
+  const required = CHARACTERISTICS
+    .map(c => {
+      const minVal = stats.find(s => s.stat === c)?.minVal ?? 0
+      if (minVal <= 0) return null
+      const scrollBonus = scrolled[c] ? SCROLL_BONUS : 0
+      const neededPoints = Math.max(0, minVal - scrollBonus)
+      return neededPoints > 0 ? { c, neededPoints } : null
+    })
+    .filter((r): r is { c: Characteristic; neededPoints: number } => r != null)
+    .sort((a, b) => pointCost(a.c, a.neededPoints) - pointCost(b.c, b.neededPoints))
+  for (const { c, neededPoints } of required) {
+    const costToReach = pointCost(c, neededPoints)
+    if (costToReach <= budget - spent) {
+      spent += costToReach
+      allocated[c] = neededPoints
+    }
+  }
 
   while (true) {
     let bestChar: Characteristic | null = null
@@ -287,7 +336,7 @@ export function runOptimizer(
   // Always recomputed — the Forge picks the equipment, it should also decide
   // how to spend characteristic points rather than silently leaving zeroed
   // or stale points sitting on the sheet unaccounted for.
-  const allocated = optimalAllocation(base.level, stats, base.allocated)
+  const allocated = optimalAllocation(base.level, stats, scrolled, base.allocated)
 
   const slotsToOptimize = ALL_SLOTS.filter(s => !lockedSlots.has(s))
   const lockedEquipped: Partial<Record<SlotId, number>> = {}
@@ -397,7 +446,7 @@ export function runOptimizer(
     const conditionsOk  = meetsAllConditions(equipped, statsNums)
     const meetsRequired = hardConstraints.every(c => (statsNums[c.stat] ?? 0) >= c.minVal) && conditionsOk
 
-    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk, allocated }
+    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk, allocated, scrolled }
   }
 
   // Ranking score used to choose between tied/near builds, to sort the hall

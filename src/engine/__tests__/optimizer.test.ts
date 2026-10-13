@@ -392,6 +392,29 @@ describe('runOptimizer — characteristic point allocation', () => {
     expect(results[0].allocated.vitality).toBe(0)
   })
 
+  it('satisfies two simultaneous characteristic minimums instead of averaging between them', () => {
+    // Level 200 budget (995) exactly equals pointCost('strength', 300)
+    // [100*1 + 100*2 + 100*3 = 600] + pointCost('vitality', 395) [395,
+    // 1pt/pt] = 995 — a deliberately tight fit. At equal weight, Vitality's
+    // ratio (weight/1, constant at every point) ties Strength's ratio for
+    // Strength's first 100 points and then beats it outright once Strength
+    // enters its pricier brackets — the OLD plain greedy, with no notion of
+    // "this characteristic has its own floor to clear first", kept buying
+    // the better-ratio characteristic (Vitality) well past what Strength
+    // needed, leaving Strength's target unmet even though the exact budget
+    // to satisfy BOTH simultaneously exists (confirmed: without the
+    // reservation pre-pass in optimalAllocation, Strength ends up at 0).
+    let config = withWeight(baseConfig(), 'strength', 6, 300)
+    config = withWeight(config, 'vitality', 6, 395)
+    const build = baseBuild({ level: 200 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    const best = results[0]
+    expect(best.allocated.strength).toBeGreaterThanOrEqual(300)
+    expect(best.allocated.vitality).toBeGreaterThanOrEqual(395)
+    const spent = pointCost('strength', best.allocated.strength) + pointCost('vitality', best.allocated.vitality)
+    expect(spent).toBeLessThanOrEqual(statBudget(200))
+  })
+
   it('never spends more than the level budget allows', () => {
     const config = withWeight(withWeight(baseConfig(), 'vitality', 10), 'wisdom', 3)
     const build = baseBuild({ level: 150 })
@@ -416,6 +439,37 @@ describe('runOptimizer — characteristic point allocation', () => {
     const build = baseBuild({ level: 100, allocated: { vitality: 50, wisdom: 0, strength: 20, intelligence: 0, chance: 0, agility: 0 } })
     const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
     expect(results[0].allocated).toEqual(build.allocated)
+  })
+
+  // Found via a user report that a demanding HP+other-stats target stayed
+  // unreachable even with a much deeper search — turned out the search
+  // depth was never the problem: weighting "HP >= X" alone (without also
+  // weighting Vitality directly) spent ZERO characteristic points on
+  // Vitality, since optimalAllocation only invests in characteristics that
+  // have their OWN weight, and the whole HP target was left to items alone.
+  // Same relationship Power already has with elemental damage (M100) — HP
+  // is driven directly by Vitality, so a maxHp-only weight should ride
+  // along onto Vitality the same way.
+  it('spends characteristic points on Vitality when only maxHp (not Vitality itself) is weighted', () => {
+    const config = withWeight(baseConfig(), 'maxHp', 10)
+    const build = baseBuild({ level: 100 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    expect(results[0].allocated.vitality).toBeGreaterThan(0)
+  })
+
+  it('respects an explicit low Vitality weight instead of overriding it with the maxHp synergy value', () => {
+    // maxHp=10 alone would give Vitality an inherited effective weight of
+    // 10 (ratio 10/1=10/pt, since Vitality costs 1pt/pt) — enough to beat
+    // Wisdom's 5/3≈1.67/pt easily. Pinning Vitality's OWN weight to 1
+    // instead (ratio 1/1=1/pt) must lose that comparison to Wisdom's
+    // 1.67/pt, proving the explicit weight is what's actually used, not
+    // silently replaced by the synergy fallback.
+    let config = withWeight(baseConfig(), 'maxHp', 10)
+    config = withWeight(config, 'vitality', 1)
+    config = withWeight(config, 'wisdom', 5)
+    const build = baseBuild({ level: 100 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    expect(results[0].allocated.wisdom).toBeGreaterThan(results[0].allocated.vitality)
   })
 })
 

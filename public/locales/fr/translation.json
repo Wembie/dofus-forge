@@ -757,5 +757,10 @@
   "terms_s8_title": "Modifications, résiliation et loi applicable",
   "terms_s8_body": "Nous pouvons mettre à jour ces Conditions, suspendre le service ou fermer des comptes qui les enfreignent, à tout moment. Ces Conditions sont régies par les lois applicables à votre lieu de résidence, dans la mesure permise par la loi.",
   "terms_contact": "Des questions sur ces Conditions ? Écrivez-nous à contact@dofusforge.com.",
-  "comment_report": "Signaler"
+  "comment_report": "Signaler",
+  "optimizer_tip_1": "Analyse du catalogue d'équipement complet...",
+  "optimizer_tip_2": "Essai de combinaisons de panoplies...",
+  "optimizer_tip_3": "Peaufinage du build objet par objet...",
+  "optimizer_tip_4": "Recherche de la meilleure combinaison possible...",
+  "optimizer_running_long_note": "Les demandes exigeantes peuvent prendre plusieurs minutes — la recherche continue, ce n'est pas bloqué."
 }
