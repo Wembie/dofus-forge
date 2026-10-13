@@ -14,6 +14,8 @@ const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m 
 const MyBuildsPage    = lazy(() => import('./pages/MyBuildsPage.tsx').then(m => ({ default: m.MyBuildsPage })))
 const AboutPage       = lazy(() => import('./pages/AboutPage.tsx').then(m => ({ default: m.AboutPage })))
 const HowToUsePage    = lazy(() => import('./pages/HowToUsePage.tsx').then(m => ({ default: m.HowToUsePage })))
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage.tsx').then(m => ({ default: m.PrivacyPolicyPage })))
+const TermsPage       = lazy(() => import('./pages/TermsPage.tsx').then(m => ({ default: m.TermsPage })))
 const ClassGuidePage  = lazy(() => import('./pages/ClassGuidePage.tsx').then(m => ({ default: m.ClassGuidePage })))
 const UserProfilePage = lazy(() => import('./pages/UserProfilePage.tsx').then(m => ({ default: m.UserProfilePage })))
 const AccountPage     = lazy(() => import('./pages/AccountPage.tsx').then(m => ({ default: m.AccountPage })))
@@ -67,6 +69,8 @@ const LANG_SUB_ROUTES = (
     <Route path="my-builds" element={<Suspense fallback={null}><MyBuildsPage /></Suspense>} />
     <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
     <Route path="how-to-use" element={<Suspense fallback={null}><HowToUsePage /></Suspense>} />
+    <Route path="privacy" element={<Suspense fallback={null}><PrivacyPolicyPage /></Suspense>} />
+    <Route path="terms" element={<Suspense fallback={null}><TermsPage /></Suspense>} />
     <Route path="classes/:classId" element={<Suspense fallback={null}><ClassGuidePage /></Suspense>} />
     <Route path="u/:username" element={<Suspense fallback={null}><UserProfilePage /></Suspense>} />
     <Route path="account" element={<Suspense fallback={null}><AccountPage /></Suspense>} />
