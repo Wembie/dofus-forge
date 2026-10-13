@@ -72165,7 +72165,7 @@
   },
   {
     "ankama_id": 34624,
-    "name": "[!] Malédiction de Médoroziam",
+    "name": "Medoroziams Fluch",
     "level": 1,
     "type": "Emote-Schriftrolle",
     "slot": "other",
@@ -72185,7 +72185,7 @@
     ],
     "set_id": null,
     "image_url": "https://api.dofusdu.de/dofus3/v1/img/item/25285-128.png",
-    "description": "[!] Ce parchemin vous permet d'apprendre l'attitude Malédiction de Médoroziam."
+    "description": "Mit dieser Schriftrolle könnt ihr das Emote „Medoroziams Fluch“ erlernen."
   },
   {
     "ankama_id": 34704,
