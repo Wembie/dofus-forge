@@ -1,32 +1,49 @@
 import { useTranslation } from 'react-i18next'
-import { ALL_SLOTS } from '@/store/buildStore.ts'
+import { ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import type { BuildResult, StatConfig } from './types.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { OPTIMIZER_STATS } from './statList.ts'
-import { statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { statIconUrl, signatureRuneUrl } from '@/features/equipment/statDisplay.ts'
 
 type Props = {
-  result:  BuildResult
-  rank:    number
-  items:   AppItem[]
-  stats:   StatConfig[]
-  onLoad:  (result: BuildResult) => void
+  result:      BuildResult
+  rank:        number
+  items:       AppItem[]
+  stats:       StatConfig[]
+  runes:       Partial<Record<SlotId, RuneMap>>
+  lockedSlots: Set<SlotId>
+  onLoad:      (result: BuildResult) => void
 }
 
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 
-export function BuildResultCard({ result, rank, items, stats, onLoad }: Props) {
+export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots, onLoad }: Props) {
   const { t } = useTranslation()
 
-  const itemMap      = new Map(items.map(it => [it.ankama_id, it]))
+  const itemMap = new Map(items.map(it => [it.ankama_id, it]))
   const equippedList = ALL_SLOTS
-    .map(slot => itemMap.get(result.equipped[slot] ?? -1))
-    .filter((it): it is AppItem => it != null)
+    .map(slot => ({ slot, item: itemMap.get(result.equipped[slot] ?? -1) }))
+    .filter((e): e is { slot: SlotId; item: AppItem } => e.item != null)
 
-  const topStats = stats
-    .filter(s => s.minVal > 0 || s.weight > 0)
-    .sort((a, b) => (b.minVal - a.minVal) || (b.weight - a.weight))
-    .slice(0, 6)
+  // Only a LOCKED slot's runes actually carry into the computed stats (the
+  // optimizer never forges a brand-new item it just picked — see
+  // optimizer.ts's lockedRuneEffects comment) — so this only ever flags
+  // "yes" for gear the player already had forged runes on and kept, never
+  // for anything the Forge itself chose.
+  function hasForgedRune(slot: SlotId): boolean {
+    if (!lockedSlots.has(slot)) return false
+    return Object.values(runes[slot] ?? {}).some(v => v > 0)
+  }
+
+  // Every stat the user marked as a hard requirement (minVal > 0) must
+  // always be shown — this used to be lumped in with priority-only stats
+  // and capped at 6 total, so a build with 7+ required stats silently
+  // dropped some of them from the card with no indication anything was
+  // missing. Priority-only stats (weight > 0, no minVal) are secondary
+  // context and still capped, but never at the cost of hiding a requirement.
+  const requiredStats = stats.filter(s => s.minVal > 0).sort((a, b) => b.minVal - a.minVal)
+  const priorityOnlyStats = stats.filter(s => s.minVal <= 0 && s.weight > 0).sort((a, b) => b.weight - a.weight)
+  const topStats = [...requiredStats, ...priorityOnlyStats].slice(0, Math.max(6, requiredStats.length))
   const statsNums = result.stats as unknown as Record<string, number>
   const hasRequired = stats.some(s => s.minVal > 0)
 
@@ -69,13 +86,13 @@ export function BuildResultCard({ result, rank, items, stats, onLoad }: Props) {
 
       {/* Item images */}
       <div className="px-3 py-2 flex flex-wrap gap-1.5">
-        {equippedList.map((item, idx) => (
-          <div key={idx} title={`${item.name} (Nv. ${item.level})`}>
+        {equippedList.map(({ slot, item }) => (
+          <div key={slot} className="relative" title={hasForgedRune(slot) ? `${item.name} (Nv. ${item.level}) — ${t('magesmithy_title')}` : `${item.name} (Nv. ${item.level})`}>
             <div
               className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
               style={{
                 background: 'var(--surface-panel)',
-                border:     '1px solid var(--metal-edge)',
+                border:     hasForgedRune(slot) ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
               }}
             >
               {item.image_url
@@ -83,6 +100,14 @@ export function BuildResultCard({ result, rank, items, stats, onLoad }: Props) {
                 : <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>?</span>
               }
             </div>
+            {hasForgedRune(slot) && (
+              <div
+                className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+                style={{ background: 'color-mix(in srgb, var(--ap) 20%, var(--surface-void))', border: '1px solid var(--ap)' }}
+              >
+                <img src={signatureRuneUrl()} alt="" width={9} height={9} className="object-contain" />
+              </div>
+            )}
           </div>
         ))}
         {equippedList.length === 0 && (

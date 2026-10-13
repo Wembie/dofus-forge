@@ -5,6 +5,13 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.74] — 2026-10-13
+- **Fix**: the Rust/WASM engine could return an equip-condition-violating build as its "best" result — found on the real catalog, a request kept getting a build that equipped two "Miracle Man" Trophies (incompatible with any active set bonus) alongside a real multi-piece set, which the game disallows. Hill-climbing alone couldn't always escape this; added a dedicated repair phase that tries both legal alternatives (drop the Trophy, or drop the set) and keeps the better one. Mirrored in the TypeScript fallback engine
+- **Feature**: the Rust engine now also searches exhaustive combinations of 4 different sets at once (not just up to 3), using the same bounded top-K technique as the existing triples phase
+- **Fix**: the optimizer result card only ever showed up to 6 stats, silently dropping any hard requirement past the 6th if more than 6 were set as mandatory. Now every required stat is always shown
+- **Feature**: the result card now shows a small badge on any equipped item that still carries forged runes (forgemagie) from a locked/kept slot
+- Confirmed via a real-catalog benchmark that priority weights are correctly respected — weighting different stats produces genuinely different equipment (15-16 of 17 slots differ) and correctly maximizes the weighted stat
+
 ## [0.3.73] — 2026-10-13
 - **Feature**: new `/privacy` and `/terms` pages (all 4 locales, statically pre-rendered + sitemap entries), covering data collection, cookies, Google AdSense advertising, GDPR/CCPA rights, user content, and acceptable use
 - `public/ads.txt` added (was missing while the AdSense script was already live)

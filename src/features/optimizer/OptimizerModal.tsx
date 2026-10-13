@@ -499,6 +499,8 @@ export function OptimizerModal({ open, onClose }: Props) {
                 rank={i + 1}
                 items={equipment ?? []}
                 stats={config.stats}
+                runes={runes}
+                lockedSlots={config.lockedSlots}
                 onLoad={loadBuild}
               />
             ))
