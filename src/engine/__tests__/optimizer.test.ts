@@ -295,6 +295,45 @@ describe('runOptimizer — equip conditions', () => {
     )
     expect(results[0].equipped.amulet).toBe(PLAIN_AMULET.ankama_id)
   })
+
+  // Unlike the test above (hat/cape pre-LOCKED, only the trophy slot is a
+  // real choice), here the trophy's slot AND the set's slots are ALL open —
+  // the search itself has to discover not to combine them. Every phase
+  // ranks each slot by raw score alone and would naturally equip the Trophy
+  // (huge standalone Strength) AND the set (huge standalone Strength) in the
+  // same build, which the game disallows. A single-slot hill-climb swap
+  // can't always escape this (dropping one piece of a 2+-piece set can still
+  // leave it at exactly the forbidden threshold), so this is a direct
+  // regression test for repairTrophySetConflict, found for real against the
+  // full game catalog (the "Miracle Man" Trophy vs. a real multi-piece set).
+  const BIG_TROPHY: AppItem = {
+    ankama_id: 330, name: 'Big Trophy', level: 50, type: 'Trophy', slot: 'amulet',
+    effects: [makeEffect('Strength', 1000)], set_id: null, image_url: null,
+    conditions: [{ stat: 'Set bonus', operator: '<', value: 2 }],
+  }
+  const LOOSE_AMULET_WEAK: AppItem = { ankama_id: 331, name: 'Loose Amulet', level: 50, type: 'Amulet', slot: 'amulet', effects: [makeEffect('Strength', 50)], set_id: null, image_url: null }
+  const BIG_SET_HAT:  AppItem = { ankama_id: 332, name: 'Big Set Hat',  level: 50, type: 'Hat',  slot: 'hat',  effects: [makeEffect('Strength', 10)], set_id: 10, image_url: null }
+  const BIG_SET_CAPE: AppItem = { ankama_id: 333, name: 'Big Set Cape', level: 50, type: 'Cloak', slot: 'cape', effects: [makeEffect('Strength', 10)], set_id: 10, image_url: null }
+  const LOOSE_HAT_WEAK:  AppItem = { ankama_id: 334, name: 'Loose Hat',  level: 50, type: 'Hat',  slot: 'hat',  effects: [makeEffect('Strength', 0)], set_id: null, image_url: null }
+  const LOOSE_CAPE_WEAK: AppItem = { ankama_id: 335, name: 'Loose Cape', level: 50, type: 'Cloak', slot: 'cape', effects: [makeEffect('Strength', 0)], set_id: null, image_url: null }
+  const BIG_SETS: AppSet[] = [{ ankama_id: 10, name: 'Big Set', items: [332, 333], bonuses: { 2: [makeEffect('Strength', 2000)] } }]
+
+  it('escapes a Trophy-vs-set-bonus conflict to find the true legal optimum, not the illegal combo', () => {
+    // Legal options: Trophy alone (1000 + 0 + 0 = 1000) or set alone
+    // (50 + 10 + 10 + 2000 = 2070). Illegal: Trophy + set (1000+10+10+2000 =
+    // 3020) scores highest raw but must never be returned.
+    const config = withWeight(baseConfig({ lockedSlots: lockedExcept(['amulet', 'hat', 'cape']) }), 'strength', 10)
+    const results = runOptimizer(
+      config,
+      [BIG_TROPHY, LOOSE_AMULET_WEAK, BIG_SET_HAT, BIG_SET_CAPE, LOOSE_HAT_WEAK, LOOSE_CAPE_WEAK],
+      BIG_SETS,
+      baseBuild({ level: 1 }), // level 1 -> zero point budget, isolates this from auto-allocation
+      noopProgress, freshCancel(),
+    )
+    const best = results[0]
+    expect(best.conditionsOk).toBe(true)
+    expect(statsNum(best, 'strength')).toBe(2070)
+  })
 })
 
 // ── Forged runes ("forgemagie") on locked slots ─────────────────────────────

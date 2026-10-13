@@ -477,6 +477,95 @@ fn apply_set(set_items: &[&CatalogItem], available_slots: &HashSet<String>, clai
     (assigned, used)
 }
 
+// A Trophy's "Set bonus" condition and an active multi-piece set bonus are
+// mutually exclusive by game rule — the only STRUCTURAL equip condition this
+// app models (every other condition is a simple numeric stat check on the
+// build's own totals; see meets_item_conditions's "Set bonus" branch). Every
+// earlier phase (0 through 2.75) and hill-climbing pick each slot's item by
+// score alone, blind to this interaction, so when a strong Trophy and a
+// strong set are each independently the best-scoring pick for their slots,
+// the search converges on equipping both — which the game disallows.
+// Single-slot hill-climbing often can't escape this on its own: dropping ONE
+// piece of a 3+-piece set still leaves the Trophy's condition unmet (piece
+// count still >= 2), so no single swap improves rank() and the search gets
+// stuck on the illegal combination, never discovering that dropping a
+// SECOND piece would have worked. Rather than build a generic multi-step
+// escape mechanism for this one structural case, repair it directly: there
+// are only ever two ways out — drop the Trophy/Trophies, or drop the
+// conflicting set — so try both explicitly and let normal ranking pick
+// whichever (if either) is actually better. Returns only slots that are
+// part of `candidate` (i.e. not locked by the user) — a conflict entirely
+// within locked slots is the user's own call and is left untouched, same as
+// today.
+fn repair_trophy_set_conflict<'a>(
+    ctx: &Ctx<'a>,
+    pools: &HashMap<String, Vec<&'a CatalogItem>>,
+    candidate: &Individual,
+) -> Vec<Individual> {
+    let equipped = ctx.full_equipped(candidate);
+    let mut out = Vec::new();
+
+    let is_set_bonus_trophy = |it: &CatalogItem| -> bool {
+        it.conditions.as_ref().is_some_and(|cs| cs.iter().any(|c| c.stat == "Set bonus"))
+    };
+
+    // Variant A: drop every unlocked Trophy carrying a "Set bonus" condition,
+    // refill those slots with the best alternative that doesn't carry the
+    // same condition (so the repair can't just reintroduce the conflict).
+    let trophy_slots: Vec<String> = candidate
+        .keys()
+        .filter(|slot| equipped.get(*slot).and_then(|id| ctx.item_map.get(id)).is_some_and(|it| is_set_bonus_trophy(it)))
+        .cloned()
+        .collect();
+    if !trophy_slots.is_empty() {
+        let mut repaired = candidate.clone();
+        for slot in &trophy_slots {
+            repaired.remove(slot);
+        }
+        for slot in &trophy_slots {
+            if let Some(pool) = pools.get(slot) {
+                let cur = ctx.full_equipped(&repaired);
+                if let Some(pick) = pool.iter().find(|it| !is_set_bonus_trophy(it) && can_equip(&cur, slot, it.ankama_id)) {
+                    repaired.insert(slot.clone(), pick.ankama_id);
+                }
+            }
+        }
+        out.push(repaired);
+    }
+
+    // Variant B: find the set_id with the most unlocked equipped pieces (the
+    // one actually breaking the Trophy's condition) and drop every one of
+    // ITS slots, refilling with the best non-set alternative — keeps the
+    // Trophy, sacrifices the set bonus instead.
+    let mut counts: HashMap<i64, Vec<String>> = HashMap::new();
+    for slot in candidate.keys() {
+        if let Some(it) = equipped.get(slot).and_then(|id| ctx.item_map.get(id)) {
+            if let Some(set_id) = it.set_id {
+                counts.entry(set_id).or_default().push(slot.clone());
+            }
+        }
+    }
+    if let Some((_, offending_slots)) = counts.into_iter().max_by_key(|(_, slots)| slots.len()) {
+        if offending_slots.len() >= 2 {
+            let mut repaired = candidate.clone();
+            for slot in &offending_slots {
+                repaired.remove(slot);
+            }
+            for slot in &offending_slots {
+                if let Some(pool) = pools.get(slot) {
+                    let cur = ctx.full_equipped(&repaired);
+                    if let Some(pick) = pool.iter().find(|it| it.set_id.is_none() && can_equip(&cur, slot, it.ankama_id)) {
+                        repaired.insert(slot.clone(), pick.ankama_id);
+                    }
+                }
+            }
+            out.push(repaired);
+        }
+    }
+
+    out
+}
+
 fn slot_diff(a: &HashMap<String, i64>, b: &HashMap<String, i64>) -> usize {
     ALL_SLOTS.iter().filter(|s| a.get(**s).copied().unwrap_or(0) != b.get(**s).copied().unwrap_or(0)).count()
 }
@@ -705,6 +794,64 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         }
     }
 
+    // Phase 2.75: every QUADRUPLE of sets among the top-K standalone
+    // performers — same bounded/pruned-exhaustive principle as phase 2.5,
+    // one tier deeper. A smaller K than triples' (40 vs 60) keeps the
+    // combination count comparable (40 choose 4 = 91,390 vs 60 choose 3 =
+    // 34,220) despite the extra dimension, since each combo also costs more
+    // to apply (4 set-placements instead of 3). Still deadline-gated against
+    // the SAME SET_SEARCH_DEADLINE_MS as every earlier phase: on a slow
+    // device or a huge catalog this phase may run zero iterations and that's
+    // fine — phases 1/2/2.5 and hill-climbing below never depend on it
+    // having run, they just don't get its coverage that call.
+    const TOP_K_FOR_QUADS: usize = 40;
+    let quad_n = n.min(TOP_K_FOR_QUADS);
+    let mut quads_done: u64 = 0;
+    'quads: for i in 0..quad_n {
+        for j in (i + 1)..quad_n {
+            for k in (j + 1)..quad_n {
+                for l in (k + 1)..quad_n {
+                    quads_done += 1;
+                    if quads_done % 2000 == 0 && now_ms() - start_time > SET_SEARCH_DEADLINE_MS {
+                        break 'quads;
+                    }
+                    let (assigned_a, used_a) = apply_set(&set_entries[i].set_items, &open_slots_set, &Individual::new());
+                    let (assigned_b, used_b) = apply_set(&set_entries[j].set_items, &open_slots_set, &assigned_a);
+                    let mut combined = assigned_a;
+                    for (slot, id) in &assigned_b {
+                        combined.insert(slot.clone(), *id);
+                    }
+                    let (assigned_c, used_c) = apply_set(&set_entries[k].set_items, &open_slots_set, &combined);
+                    if used_c.is_empty() {
+                        continue; // c got nothing — phase 2.5 already covers "just a+b" (as a triple with an empty third)
+                    }
+                    for (slot, id) in &assigned_c {
+                        combined.insert(slot.clone(), *id);
+                    }
+                    let (assigned_d, used_d) = apply_set(&set_entries[l].set_items, &open_slots_set, &combined);
+                    if used_d.is_empty() {
+                        continue; // d got nothing once a+b+c's slots were taken — phase 2.5 already covers "just a+b+c"
+                    }
+                    for (slot, id) in &assigned_d {
+                        combined.insert(slot.clone(), *id);
+                    }
+                    let used_slots: HashSet<String> = used_a
+                        .union(&used_b)
+                        .cloned()
+                        .collect::<HashSet<_>>()
+                        .union(&used_c)
+                        .cloned()
+                        .collect::<HashSet<_>>()
+                        .union(&used_d)
+                        .cloned()
+                        .collect();
+                    let remaining: Vec<String> = slots_to_optimize.iter().filter(|s| !used_slots.contains(*s)).cloned().collect();
+                    remember(ctx.evaluate(&greedy_fill_remaining(&pools, &combined, &remaining)), &mut hall_of_fame);
+                }
+            }
+        }
+    }
+
     // Phase 3: coordinate-ascent polish - always runs, no all-or-nothing gate
     // (the exact M97 fix).
     {
@@ -778,6 +925,31 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
                 if !improved {
                     break;
                 }
+            }
+        }
+    }
+
+    // Phase 4: Trophy/set-bonus conflict repair (see repair_trophy_set_conflict's
+    // comment for why this needs special-casing instead of relying on
+    // hill-climbing alone). Only tried against the top illegal candidates by
+    // raw score — repairing every illegal candidate ever evaluated would be
+    // wasted work, and a conflict worth escaping only ever shows up among
+    // the highest-scoring ones anyway (that's exactly why the search wanted
+    // to combine the Trophy and the set in the first place).
+    {
+        let mut illegal: Vec<&BuildResult> = hall_of_fame.values().filter(|r| !r.conditions_ok).collect();
+        illegal.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+        illegal.truncate(20);
+        let illegal: Vec<BuildResult> = illegal.into_iter().cloned().collect();
+        for r in &illegal {
+            let candidate: Individual = r
+                .equipped
+                .iter()
+                .filter(|(slot, _)| !ctx.locked_equipped.contains_key(*slot))
+                .map(|(slot, id)| (slot.clone(), *id))
+                .collect();
+            for repaired in repair_trophy_set_conflict(&ctx, &pools, &candidate) {
+                remember(ctx.evaluate(&repaired), &mut hall_of_fame);
             }
         }
     }
@@ -968,6 +1140,89 @@ mod tests {
         for id in [10, 11, 20, 21, 30, 31] {
             assert!(best.equipped.values().any(|&v| v == id), "expected item {id} to be equipped");
         }
+    }
+
+    #[test]
+    fn finds_a_combination_of_four_different_sets_that_beats_any_triple() {
+        // Four distinct 2-piece sets, each individually weak (+10/piece,
+        // +200 for its own 2pc bonus) but additive across different slots —
+        // combining all four (8 items x 10 + 4 bonuses x 200 = 880) beats
+        // using the best three and filling the 2 leftover slots with loose
+        // pieces from the fourth set (6 items x 10 + 3 bonuses x 200 + 2
+        // loose items x 10 = 680). Only phase 2.75 (quadruples) can discover
+        // 880, since it requires four DIFFERENT sets active simultaneously.
+        let set_a = CatalogSet { ankama_id: 1, items: vec![10, 11], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 200, 0)])]) };
+        let set_b = CatalogSet { ankama_id: 2, items: vec![20, 21], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 200, 0)])]) };
+        let set_c = CatalogSet { ankama_id: 3, items: vec![30, 31], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 200, 0)])]) };
+        let set_d = CatalogSet { ankama_id: 4, items: vec![40, 41], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 200, 0)])]) };
+
+        let items = vec![
+            item(10, "hat", Some(1), vec![effect("Vitality", 10, 0)]),
+            item(11, "cape", Some(1), vec![effect("Vitality", 10, 0)]),
+            item(20, "amulet", Some(2), vec![effect("Vitality", 10, 0)]),
+            item(21, "ring1", Some(2), vec![effect("Vitality", 10, 0)]),
+            item(30, "ring2", Some(3), vec![effect("Vitality", 10, 0)]),
+            item(31, "belt", Some(3), vec![effect("Vitality", 10, 0)]),
+            item(40, "boots", Some(4), vec![effect("Vitality", 10, 0)]),
+            item(41, "weapon", Some(4), vec![effect("Vitality", 10, 0)]),
+        ];
+
+        let mut config = base_config(vec![stat_cfg("vitality", 10, 0)]);
+        config.locked_slots = lock_all_except(&["hat", "cape", "amulet", "ring1", "ring2", "belt", "boots", "weapon"]);
+        let build = base_build(1, HashMap::new(), HashMap::new());
+
+        let results = run_optimizer(config, items, vec![set_a, set_b, set_c, set_d], build);
+        let best = &results[0];
+        assert_eq!(get_stat(&best.stats, "vitality"), 880);
+        for id in [10, 11, 20, 21, 30, 31, 40, 41] {
+            assert!(best.equipped.values().any(|&v| v == id), "expected item {id} to be equipped");
+        }
+    }
+
+    #[test]
+    fn escapes_a_trophy_vs_set_bonus_conflict_to_find_the_true_legal_optimum() {
+        // A Trophy ("Set bonus" < 2 condition) that looks amazing alone
+        // (+1000 Vitality) vs. a 2pc set that also looks amazing (+10/piece,
+        // +2000 for the 2pc bonus). Equipping both together is illegal (the
+        // set bonus trips the Trophy's condition) but every phase ranks each
+        // slot by raw score alone and would naturally pick the Trophy for
+        // dofus1 AND the set for hat/cape, landing on the illegal 3020
+        // (1000 + 10 + 10 + 2000) combo. The only two LEGAL alternatives are
+        // trophy-alone (1000 + 0 + 0 = 1000, using zero-value loose hat/cape)
+        // or set-alone (50 + 10 + 10 + 2000 = 2070, using a weak loose dofus
+        // instead of the Trophy) — repair_trophy_set_conflict must discover
+        // the second, better one, since hill-climbing's single-slot swaps
+        // alone can get stuck on the illegal combo (removing only one of the
+        // two set pieces still leaves the piece count at 1, which already
+        // satisfies "< 2" in this 2pc case — so this specific fixture is
+        // actually escapable by hill-climbing too; the repair phase is what
+        // GUARANTEES it even for 3+-piece sets where hill-climbing alone
+        // cannot, see the module comment above repair_trophy_set_conflict).
+        let trophy = CatalogItem {
+            ankama_id: 900,
+            name: "Trophy".to_string(),
+            level: 50,
+            item_type: "Trophy".to_string(),
+            slot: "dofus".to_string(),
+            effects: vec![effect("Vitality", 1000, 0)],
+            conditions: Some(vec![CatalogCondition { stat: "Set bonus".to_string(), operator: "<".to_string(), value: 2 }]),
+            set_id: None,
+        };
+        let loose_dofus = item(901, "dofus", None, vec![effect("Vitality", 50, 0)]);
+        let hat_piece = item(10, "hat", Some(1), vec![effect("Vitality", 10, 0)]);
+        let cape_piece = item(11, "cape", Some(1), vec![effect("Vitality", 10, 0)]);
+        let loose_hat = item(20, "hat", None, vec![effect("Vitality", 0, 0)]);
+        let loose_cape = item(21, "cape", None, vec![effect("Vitality", 0, 0)]);
+        let set = CatalogSet { ankama_id: 1, items: vec![10, 11], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 2000, 0)])]) };
+
+        let mut config = base_config(vec![stat_cfg("vitality", 10, 0)]);
+        config.locked_slots = lock_all_except(&["dofus1", "hat", "cape"]);
+        let build = base_build(1, HashMap::new(), HashMap::new());
+
+        let results = run_optimizer(config, vec![trophy, loose_dofus, hat_piece, cape_piece, loose_hat, loose_cape], vec![set], build);
+        let best = &results[0];
+        assert!(best.conditions_ok, "expected the returned best build to be legal (no equip-condition violations)");
+        assert_eq!(get_stat(&best.stats, "vitality"), 2070, "expected the set-alone legal optimum (2070), not the illegal trophy+set combo (3020) or the weaker trophy-alone legal option (1000)");
     }
 
     #[test]

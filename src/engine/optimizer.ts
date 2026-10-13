@@ -596,6 +596,97 @@ export function runOptimizer(
     }
   }
 
+  // ── Phase 3.5: Trophy/set-bonus conflict repair ─────────────────────────
+  // A Trophy's "Set bonus" condition and an active multi-piece set bonus are
+  // mutually exclusive by game rule — the only STRUCTURAL equip condition
+  // this app models (every other condition is a plain numeric stat check;
+  // see meetsItemConditions's "Set bonus" branch). Every phase above picks
+  // each slot's item by raw score alone, blind to this interaction, so when
+  // a strong Trophy and a strong set are each independently the best pick
+  // for their own slots, the search converges on equipping both together —
+  // which the game disallows. Single-slot hill-climbing often can't escape
+  // this on its own: dropping ONE piece of a 3+-piece set can still leave
+  // the Trophy's condition unmet (piece count still >= 2), so no single swap
+  // improves rank() and the search gets stuck on the illegal combination,
+  // never discovering that dropping a SECOND piece would have worked.
+  // Found for real on the full game catalog: a demanding multi-stat request
+  // kept returning a build equipping both "Miracle Man" Trophies alongside
+  // a real multi-piece set, scoring higher on raw points than any build that
+  // actually respects the game's rule — meetsRequired/conditionsOk correctly
+  // flagged it as illegal, but nothing routed the search toward the true
+  // legal optimum instead. Rather than build a generic multi-step escape
+  // mechanism for this one structural case, repair it directly: there are
+  // only ever two ways out — drop the Trophy/Trophies, or drop the
+  // conflicting set — try both explicitly and let normal ranking pick
+  // whichever (if either) is actually better.
+  function repairTrophySetConflict(candidate: Individual): Individual[] {
+    const equipped = fullEquipped(candidate)
+    const out: Individual[] = []
+    const isSetBonusTrophy = (it: AppItem) => (it.conditions ?? []).some(c => c.stat === 'Set bonus')
+
+    // Variant A: drop every unlocked Trophy carrying a "Set bonus" condition,
+    // refill those slots with the best alternative that doesn't carry the
+    // same condition (so the repair can't just reintroduce the conflict).
+    const trophySlots = (Object.keys(candidate) as SlotId[]).filter(slot => {
+      const id = equipped[slot]
+      const it = id != null ? itemMap.get(id) : undefined
+      return it != null && isSetBonusTrophy(it)
+    })
+    if (trophySlots.length > 0) {
+      const repaired: Individual = { ...candidate }
+      for (const slot of trophySlots) delete repaired[slot]
+      for (const slot of trophySlots) {
+        const pool = pools.get(slot) ?? []
+        const cur = fullEquipped(repaired)
+        const pick = pool.find(it => !isSetBonusTrophy(it) && canEquip(cur, slot, it.ankama_id))
+        if (pick) repaired[slot] = pick.ankama_id
+      }
+      out.push(repaired)
+    }
+
+    // Variant B: find the set_id with the most unlocked equipped pieces (the
+    // one actually breaking the Trophy's condition) and drop every one of
+    // ITS slots, refilling with the best non-set alternative — keeps the
+    // Trophy, sacrifices the set bonus instead.
+    const counts = new Map<number, SlotId[]>()
+    for (const slot of Object.keys(candidate) as SlotId[]) {
+      const id = equipped[slot]
+      const it = id != null ? itemMap.get(id) : undefined
+      if (it?.set_id != null) {
+        const arr = counts.get(it.set_id) ?? []
+        arr.push(slot)
+        counts.set(it.set_id, arr)
+      }
+    }
+    let offendingSlots: SlotId[] = []
+    for (const slots of counts.values()) if (slots.length > offendingSlots.length) offendingSlots = slots
+    if (offendingSlots.length >= 2) {
+      const repaired: Individual = { ...candidate }
+      for (const slot of offendingSlots) delete repaired[slot]
+      for (const slot of offendingSlots) {
+        const pool = pools.get(slot) ?? []
+        const cur = fullEquipped(repaired)
+        const pick = pool.find(it => it.set_id == null && canEquip(cur, slot, it.ankama_id))
+        if (pick) repaired[slot] = pick.ankama_id
+      }
+      out.push(repaired)
+    }
+
+    return out
+  }
+
+  {
+    const illegal = [...hallOfFame.values()].filter(r => !r.conditionsOk).sort((a, b) => b.score - a.score).slice(0, 20)
+    for (const r of illegal) {
+      const candidate: Individual = {}
+      for (const slot of slotsToOptimize) {
+        const id = r.equipped[slot]
+        if (id != null) candidate[slot] = id
+      }
+      for (const repaired of repairTrophySetConflict(candidate)) remember(evaluate(repaired))
+    }
+  }
+
   onProgress({ phase: 'evaluating', slotIndex: 1, totalSlots: 1, percent: 98 })
 
   // ── Pick diverse top results from everything ever evaluated ────────────

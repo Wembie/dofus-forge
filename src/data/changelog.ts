@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.74',
+    date: '2026-10-13',
+    notes: [
+      'Fix: the Rust/WASM engine could return an illegal build (a Trophy conflicting with an active set bonus) as its best result — fixed with a dedicated repair phase, mirrored in the TypeScript fallback',
+      'Feature: the Rust engine now also searches exhaustive combinations of 4 different sets at once, not just up to 3',
+      'Fix: the result card only showed up to 6 stats, silently hiding required stats past the 6th — now all required stats always show',
+      'Feature: the result card shows a badge on items that carry forged runes from a locked slot',
+    ],
+  },
+  {
     version: '0.3.73',
     date: '2026-10-13',
     notes: [
