@@ -199,6 +199,22 @@ function effectiveWeight(statKey: OptimizerStatKey, stats: OptimizerConfig['stat
     }
     if (maxDamageWeight > 0) return maxDamageWeight
   }
+  // Max HP is driven directly by the Vitality characteristic (plus a small
+  // flat/item component), same relationship Power has with elemental
+  // damage above — a user targeting "HP >= 5000" almost always means
+  // "invest in Vitality to get there", not "find HP only on items while
+  // characteristic points go untouched". Without this, optimalAllocation()
+  // (which only spends points on characteristics that have their OWN
+  // weight) never puts a single point into Vitality for an HP-only target,
+  // forcing the entire HP requirement onto item budget alone — found while
+  // investigating a user report that a demanding HP+other-stats combo
+  // stayed unreachable even with a much deeper search; it wasn't a search
+  // depth problem, Vitality was never being invested in at all.
+  if (statKey === 'vitality') {
+    const hpCfg = stats.find(c => c.stat === 'maxHp')
+    if (hpCfg && hpCfg.weight > 0) return hpCfg.weight
+    if (hpCfg && hpCfg.minVal > 0) return 5
+  }
   return fallback
 }
 
@@ -397,7 +413,7 @@ export function runOptimizer(
     const conditionsOk  = meetsAllConditions(equipped, statsNums)
     const meetsRequired = hardConstraints.every(c => (statsNums[c.stat] ?? 0) >= c.minVal) && conditionsOk
 
-    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk, allocated }
+    return { equipped, stats: computedStats, score, meetsRequired, conditionsOk, allocated, scrolled }
   }
 
   // Ranking score used to choose between tied/near builds, to sort the hall

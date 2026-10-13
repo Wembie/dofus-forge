@@ -757,5 +757,10 @@
   "terms_s8_title": "Cambios, finalización y ley aplicable",
   "terms_s8_body": "Podemos actualizar estos Términos, suspender el servicio o cerrar cuentas que los violen, en cualquier momento. Estos Términos se rigen por las leyes aplicables en tu lugar de residencia, en la medida permitida por la ley.",
   "terms_contact": "¿Preguntas sobre estos Términos? Escribinos a contact@dofusforge.com.",
-  "comment_report": "Reportar"
+  "comment_report": "Reportar",
+  "optimizer_tip_1": "Escaneando el catálogo completo de equipo...",
+  "optimizer_tip_2": "Probando combinaciones de sets...",
+  "optimizer_tip_3": "Puliendo la build item por item...",
+  "optimizer_tip_4": "Buscando la mejor combinación posible...",
+  "optimizer_running_long_note": "Los pedidos exigentes pueden tardar varios minutos — sigue buscando combinaciones mejores, no está trabado."
 }

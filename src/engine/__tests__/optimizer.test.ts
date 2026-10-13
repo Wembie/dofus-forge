@@ -417,6 +417,37 @@ describe('runOptimizer — characteristic point allocation', () => {
     const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
     expect(results[0].allocated).toEqual(build.allocated)
   })
+
+  // Found via a user report that a demanding HP+other-stats target stayed
+  // unreachable even with a much deeper search — turned out the search
+  // depth was never the problem: weighting "HP >= X" alone (without also
+  // weighting Vitality directly) spent ZERO characteristic points on
+  // Vitality, since optimalAllocation only invests in characteristics that
+  // have their OWN weight, and the whole HP target was left to items alone.
+  // Same relationship Power already has with elemental damage (M100) — HP
+  // is driven directly by Vitality, so a maxHp-only weight should ride
+  // along onto Vitality the same way.
+  it('spends characteristic points on Vitality when only maxHp (not Vitality itself) is weighted', () => {
+    const config = withWeight(baseConfig(), 'maxHp', 10)
+    const build = baseBuild({ level: 100 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    expect(results[0].allocated.vitality).toBeGreaterThan(0)
+  })
+
+  it('respects an explicit low Vitality weight instead of overriding it with the maxHp synergy value', () => {
+    // maxHp=10 alone would give Vitality an inherited effective weight of
+    // 10 (ratio 10/1=10/pt, since Vitality costs 1pt/pt) — enough to beat
+    // Wisdom's 5/3≈1.67/pt easily. Pinning Vitality's OWN weight to 1
+    // instead (ratio 1/1=1/pt) must lose that comparison to Wisdom's
+    // 1.67/pt, proving the explicit weight is what's actually used, not
+    // silently replaced by the synergy fallback.
+    let config = withWeight(baseConfig(), 'maxHp', 10)
+    config = withWeight(config, 'vitality', 1)
+    config = withWeight(config, 'wisdom', 5)
+    const build = baseBuild({ level: 100 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    expect(results[0].allocated.wisdom).toBeGreaterThan(results[0].allocated.vitality)
+  })
 })
 
 describe('runOptimizer — forged runes on locked slots', () => {

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, Lock } from 'lucide-react'
+import { ChevronDown, Lock, Hammer } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -50,6 +50,17 @@ const STAT_GROUPS: StatGroupDef[] = [
 ]
 
 const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
+
+// Rotating flavor text for the running phase - the WASM engine runs as one
+// synchronous call with no real incremental progress to report (see
+// optimizer.worker.ts), so without this the modal showed a bare spinner
+// with zero sign of life for however long the search takes (now
+// potentially a couple of minutes for very demanding requests, since the
+// search got meaningfully deeper). Cycling through these, keyed off the
+// same elapsedSeconds tick already driving the seconds counter, costs no
+// extra timer and at least conveys "still working", even without a real
+// percentage.
+const RUNNING_TIP_KEYS = ['optimizer_tip_1', 'optimizer_tip_2', 'optimizer_tip_3', 'optimizer_tip_4'] as const
 
 const STORAGE_KEY = 'dofus-forge:optimizer-config'
 
@@ -220,6 +231,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const [phase,          setPhase]          = useState<Phase>(() => selectedClass ? 'config' : 'locked')
   const [config,         setConfig]         = useState<OptimizerConfig>(loadSavedConfig)
   const [progress,       setProgress]       = useState<OptimizerProgress | null>(null)
+  const [elapsedSeconds, setElapsedSeconds] = useState(0)
   const [results,        setResults]        = useState<BuildResult[]>([])
   const [error,          setError]          = useState<string | null>(null)
   const [showSlots,      setShowSlots]      = useState(false)
@@ -234,6 +246,19 @@ export function OptimizerModal({ open, onClose }: Props) {
   const workerRef = useRef<Worker | null>(null)
 
   useEffect(() => { persistConfig(config) }, [config])
+
+  // The WASM engine's deeper search (added after a report that very
+  // demanding multi-requirement combos weren't being fully satisfied) can
+  // now genuinely take a couple of minutes on a hard request - WASM runs as
+  // one synchronous call with no incremental progress (see
+  // optimizer.worker.ts), so without this a long wait looked identical to a
+  // frozen/crashed tab. A plain ticking counter is enough to signal "still
+  // working", independent of whether real progress events ever arrive.
+  useEffect(() => {
+    if (phase !== 'running') { setElapsedSeconds(0); return }
+    const id = setInterval(() => setElapsedSeconds(s => s + 1), 1000)
+    return () => clearInterval(id)
+  }, [phase])
 
   // Re-lock on every fresh open if the class got cleared since; auto-advance
   // the moment a class is picked from the embedded ClassPicker below so the
@@ -250,6 +275,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   const runes         = useBuildStore(s => s.runes)
   const setEquipped   = useBuildStore(s => s.setEquipped)
   const setAllocated  = useBuildStore(s => s.setAllocated)
+  const setScrolled   = useBuildStore(s => s.setScrolled)
+  const clearAllRunes = useBuildStore(s => s.clearAllRunes)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
 
@@ -368,6 +395,20 @@ export function OptimizerModal({ open, onClose }: Props) {
   function loadBuild(result: BuildResult) {
     setEquipped(result.equipped)
     setAllocated(result.allocated)
+    // The optimizer only ever credits LOCKED slots' existing scrolls/runes
+    // in what it computed (see runOptimizer's lockedRuneEffects comment) —
+    // loading used to leave the sheet's real `scrolled` state and any
+    // stale per-slot runes untouched, so the loaded build silently stopped
+    // matching the numbers the Forge just promised: "Assume fully scrolled"
+    // never actually got applied, and a newly-chosen item for a slot that
+    // used to carry forged runes inherited those old runes even though
+    // they were never counted for it. Apply the scrolled state the search
+    // actually used, and clear runes on every slot that wasn't locked
+    // (locked slots keep theirs — same item, same runes, untouched).
+    setScrolled(result.scrolled)
+    for (const slot of ALL_SLOTS) {
+      if (!config.lockedSlots.has(slot)) clearAllRunes(slot)
+    }
     handleClose()
   }
 
@@ -410,33 +451,43 @@ export function OptimizerModal({ open, onClose }: Props) {
 
   // ── Running ───────────────────────────────────────────────────────────────
   if (phase === 'running') {
+    const tipKey = RUNNING_TIP_KEYS[Math.floor(elapsedSeconds / 4) % RUNNING_TIP_KEYS.length]
     return (
       <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
         <div className="p-10 flex flex-col items-center gap-4 text-center">
           <div
-            className="w-10 h-10 rounded-full border-[3px] animate-spin"
-            style={{ borderColor: 'var(--gold)', borderTopColor: 'transparent' }}
-          />
-          <p className="text-[13px] font-semibold" style={{ color: 'var(--ink)' }}>{t('optimizer_running')}</p>
-          {progress && (
-            <>
-              <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-                {t('optimizer_running_slots')}
-                {progress.phase === 'search' && (
-                  <> — {t('optimizer_search_progress', { current: progress.slotIndex, total: progress.totalSlots })}</>
-                )}
-              </p>
+            className="dofus-aura w-16 h-16 rounded-full flex items-center justify-center"
+            style={{ background: 'color-mix(in srgb, var(--gold) 10%, var(--surface-stone))', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)' }}
+          >
+            <Hammer size={26} className="animate-bounce" style={{ color: 'var(--gold)' }} />
+          </div>
+          <p className="text-[13px] font-semibold" style={{ color: 'var(--ink)' }}>
+            {t('optimizer_running')} {elapsedSeconds > 0 && `(${elapsedSeconds}s)`}
+          </p>
+          <p key={tipKey} className="text-[11px]" style={{ color: 'var(--ink-faint)', animation: 'col-rise 420ms var(--ease-out) both' }}>
+            {t(tipKey)}
+          </p>
+          <div
+            className="w-full max-w-xs rounded-full overflow-hidden relative"
+            style={{ height: 6, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+          >
+            {progress ? (
               <div
-                className="w-full max-w-xs rounded-full overflow-hidden"
-                style={{ height: 6, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-              >
-                <div
-                  className="h-full transition-all duration-300 ease-out rounded-full"
-                  style={{ width: `${progressPct}%`, background: 'linear-gradient(90deg, var(--gold-deep), var(--gold))' }}
-                />
-              </div>
-              <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{progressPct}%</span>
-            </>
+                className="h-full transition-all duration-300 ease-out rounded-full"
+                style={{ width: `${progressPct}%`, background: 'linear-gradient(90deg, var(--gold-deep), var(--gold))' }}
+              />
+            ) : (
+              <div
+                className="h-full rounded-full absolute optimizer-indeterminate-bar"
+                style={{ width: '40%', background: 'linear-gradient(90deg, var(--gold-deep), var(--gold))' }}
+              />
+            )}
+          </div>
+          {progress && (
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{progressPct}%</span>
+          )}
+          {elapsedSeconds > 20 && (
+            <p className="text-[10px]" style={{ color: 'var(--gold)' }}>{t('optimizer_running_long_note')}</p>
           )}
           <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_running_note')}</p>
           <button

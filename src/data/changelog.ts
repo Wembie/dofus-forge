@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.75',
+    date: '2026-10-13',
+    notes: [
+      'Fix: loading a recommended build now applies its scrolled state and clears stale forged runes on changed slots',
+      "Fix: targeting HP alone now invests characteristic points in Vitality too, not just items",
+      'Feature: the search is meaningfully deeper by default, now finding fully-satisfying combinations for tight multi-requirement requests; very demanding ones can take a few minutes',
+      'Feature: redesigned loading screen with rotating status messages and an elapsed-time counter',
+    ],
+  },
+  {
     version: '0.3.74',
     date: '2026-10-13',
     notes: [

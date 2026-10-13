@@ -88,6 +88,7 @@ export interface BuildState {
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
   setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
   setAllocated:        (allocated: AllocatedCharacteristics) => void
+  setScrolled:         (scrolled: ScrolledCharacteristics) => void
   applySnapshot:       (snap: BuildSnapshot) => void
   setLinkedBuildId:    (id: string | null) => void
   reset:         () => void
@@ -304,6 +305,7 @@ export const useBuildStore = create<BuildState>((set) => {
 
     setEquipped:  (eq)        => set(s => update({ equipped: eq }, s)),
     setAllocated: (allocated) => set(s => update({ allocated }, s)),
+    setScrolled:  (scrolled)  => set(s => update({ scrolled }, s)),
 
     setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),

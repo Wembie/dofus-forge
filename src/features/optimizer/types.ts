@@ -40,6 +40,7 @@ export type BuildResult = {
   meetsRequired: boolean
   conditionsOk:  boolean
   allocated:     AllocatedCharacteristics
+  scrolled:      ScrolledCharacteristics
 }
 
 export type OptimizerProgress = {

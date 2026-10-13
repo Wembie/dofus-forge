@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.75] — 2026-10-13
+- **Fix**: loading a recommended build from the Forge didn't apply its "assume fully scrolled" state or clear stale forged runes on slots it changed — the loaded build's actual sheet silently stopped matching the numbers the Forge had just promised. Both are now applied on load
+- **Fix**: targeting "HP >= X" alone (without also weighting Vitality directly) never spent a single characteristic point on Vitality, since the allocator only invests in characteristics that have their own weight — found while investigating a demanding multi-requirement combo that stayed unreachable even with a much deeper search; it wasn't a search-depth problem, Vitality was never being invested in at all. Vitality now rides along with a maxHp-only weight, the same relationship Power already has with elemental damage
+- **Feature**: the Rust engine's search is meaningfully deeper by default (more hill-climbing seeds, larger candidate pools, more sweeps, deeper top-K for the triples/quads phases, a much larger time ceiling) — demonstrably finds fully-satisfying combinations for tight multi-requirement requests that the previous defaults could not reach at all. A stall-detector stops the search early once further seeds stop improving, so simple requests still resolve quickly; very demanding ones can now take up to a few minutes, by design — correctness over speed, per explicit priority
+- **Feature**: the optimizer's loading screen now shows a forge-themed animated icon, rotating status messages, an elapsed-seconds counter, and (past 20 seconds) a note explaining that demanding requests take longer by design — replaces a bare spinner that gave zero sign of life during a long WASM run
+
 ## [0.3.74] — 2026-10-13
 - **Fix**: the Rust/WASM engine could return an equip-condition-violating build as its "best" result — found on the real catalog, a request kept getting a build that equipped two "Miracle Man" Trophies (incompatible with any active set bonus) alongside a real multi-piece set, which the game disallows. Hill-climbing alone couldn't always escape this; added a dedicated repair phase that tries both legal alternatives (drop the Trophy, or drop the set) and keeps the better one. Mirrored in the TypeScript fallback engine
 - **Feature**: the Rust engine now also searches exhaustive combinations of 4 different sets at once (not just up to 3), using the same bounded top-K technique as the existing triples phase

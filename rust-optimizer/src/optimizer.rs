@@ -176,6 +176,21 @@ fn effective_weight(stat_key_name: &str, stats: &[StatConfig], fallback: f64) ->
             return max_damage_weight as f64;
         }
     }
+    // Max HP is driven directly by the Vitality characteristic — same
+    // relationship Power has with elemental damage above. See
+    // optimizer.ts's matching comment: without this, optimal_allocation()
+    // never spends a single point on Vitality for an HP-only target, since
+    // it only invests in characteristics that have their OWN weight.
+    if stat_key_name == "vitality" {
+        if let Some(cfg) = stats.iter().find(|c| c.stat == "maxHp") {
+            if cfg.weight > 0 {
+                return cfg.weight as f64;
+            }
+            if cfg.min_val > 0 {
+                return 5.0;
+            }
+        }
+    }
     fallback
 }
 
@@ -268,7 +283,7 @@ fn equipped_fingerprint(eq: &HashMap<String, i64>) -> String {
 
 type Individual = HashMap<String, i64>;
 
-const HILL_CLIMB_POOL: usize = 150;
+const HILL_CLIMB_POOL: usize = 250;
 // Raised from the TS original's 24: adding the triples phase means more
 // genuinely-good candidates compete for seed slots before polish, and a
 // fixed small seed count can let a few of them crowd out a seed that
@@ -277,8 +292,8 @@ const HILL_CLIMB_POOL: usize = 150;
 // the pairs-only TS engine, because the specific pair-derived seed TS
 // polishes into its 70800-score build never made the cut here). The much
 // larger time budget (see TIME_BUDGET_MS) makes room for this.
-const HILL_CLIMB_SEEDS: usize = 60;
-const HILL_CLIMB_MAX_SWEEPS: usize = 5;
+const HILL_CLIMB_SEEDS: usize = 200;
+const HILL_CLIMB_MAX_SWEEPS: usize = 10;
 // The user explicitly prioritized always finding the best result over how
 // long it takes — this runs inside a Worker, so it never blocks the UI
 // thread regardless of duration. 60s (vs the TS engine's 15s) gives phases
@@ -286,7 +301,7 @@ const HILL_CLIMB_MAX_SWEEPS: usize = 5;
 // room before any deadline forces an early stop. A longer-running Worker
 // call without progress feedback is a real UX gap to revisit once this is
 // wired into the app — noted, not solved here.
-const TIME_BUDGET_MS: f64 = 60000.0;
+const TIME_BUDGET_MS: f64 = 240000.0;
 const SET_SEARCH_DEADLINE_MS: f64 = TIME_BUDGET_MS * 0.7;
 const RESULT_COUNT: usize = 5;
 const DIVERSITY_MIN_DIFF: usize = 3;
@@ -415,6 +430,7 @@ impl<'a> Ctx<'a> {
             meets_required,
             conditions_ok,
             allocated: self.allocated.clone(),
+            scrolled: self.scrolled.clone(),
         }
     }
 
@@ -764,7 +780,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
     // exactly what phase 1 ranks by. K=60 keeps the search (60 choose 3 =
     // 34,220 combinations) a small fraction of phase 2's cost while
     // extending the exact-coverage guarantee from "<=2 sets" to "<=3 sets".
-    const TOP_K_FOR_TRIPLES: usize = 60;
+    const TOP_K_FOR_TRIPLES: usize = 150;
     let triple_n = n.min(TOP_K_FOR_TRIPLES);
     let mut triples_done: u64 = 0;
     'triples: for i in 0..triple_n {
@@ -804,7 +820,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
     // device or a huge catalog this phase may run zero iterations and that's
     // fine — phases 1/2/2.5 and hill-climbing below never depend on it
     // having run, they just don't get its coverage that call.
-    const TOP_K_FOR_QUADS: usize = 40;
+    const TOP_K_FOR_QUADS: usize = 100;
     let quad_n = n.min(TOP_K_FOR_QUADS);
     let mut quads_done: u64 = 0;
     'quads: for i in 0..quad_n {
@@ -867,6 +883,25 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
             hill_pool.insert(slot.clone(), p);
         }
 
+        // Stall detection: if the best rank found hasn't improved in a
+        // long stretch of seeds, stop — further seeds are very unlikely to
+        // do better (seeds are processed best-initial-rank-first, so a long
+        // plateau this deep means the remaining, worse-starting seeds are
+        // exploring an already-exhausted neighborhood). Unconditional (not
+        // gated on reaching full feasibility): an ambitious request that
+        // never becomes fully feasible still plateaus just as concretely as
+        // an easy one that's solved instantly, and without this it burned
+        // through the entire (now much larger) seed/time budget for every
+        // such request, turning a typical demanding-but-not-fully-reachable
+        // combo into a multi-minute wait for zero actual benefit. The limit
+        // is generous (not the first sign of a stall) specifically because
+        // genuinely hard-but-solvable combos were observed, during the
+        // investigation that led to raising HILL_CLIMB_SEEDS in the first
+        // place, to sometimes only turn the corner after 100+ seeds.
+        let mut best_rank = f64::NEG_INFINITY;
+        let mut seeds_since_improvement: usize = 0;
+        const STALL_LIMIT: usize = 25;
+
         for seed in &seeds {
             if now_ms() - start_time > TIME_BUDGET_MS {
                 break;
@@ -925,6 +960,17 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
                 if !improved {
                     break;
                 }
+            }
+
+            let r = ctx.rank(&current_result);
+            if r > best_rank + 1e-9 {
+                best_rank = r;
+                seeds_since_improvement = 0;
+            } else {
+                seeds_since_improvement += 1;
+            }
+            if seeds_since_improvement >= STALL_LIMIT {
+                break;
             }
         }
     }
