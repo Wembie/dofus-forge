@@ -738,19 +738,29 @@ grant execute on function get_total_builds_count() to anon, authenticated;
 
 
 -- ── Stats de comunidad para la barra de Explorar: usuarios, builds, builds
--- públicas, en un solo round trip. profiles ya es público (RLS "for select
--- using (true)"), pero builds' RLS solo deja ver las públicas + las propias
--- del caller, así que el conteo total sigue necesitando security definer
+-- públicas, vistas totales, builds de esta semana, likes, en un solo round
+-- trip. profiles ya es público (RLS "for select using (true)"), pero builds'
+-- RLS solo deja ver las públicas + las propias del caller, así que el
+-- conteo total y la suma de vistas siguen necesitando security definer
 -- (misma razón que get_total_builds_count arriba). Solo devuelve números,
 -- nunca contenido de filas, así que saltarse RLS acá no filtra nada.
 create function get_community_stats()
-returns table(users_count bigint, builds_count bigint, public_builds_count bigint, likes_count bigint)
+returns table(
+  users_count         bigint,
+  builds_count        bigint,
+  public_builds_count bigint,
+  likes_count         bigint,
+  views_count         bigint,
+  builds_this_week    bigint
+)
 language sql security definer stable as $$
   select
     (select count(*) from profiles),
     (select count(*) from builds),
     (select count(*) from builds where visibility = 'public'),
-    (select count(*) from build_likes);
+    (select count(*) from build_likes),
+    (select coalesce(sum(view_count), 0) from builds),
+    (select count(*) from builds where created_at >= now() - interval '7 days');
 $$;
 grant execute on function get_community_stats() to anon, authenticated;
 

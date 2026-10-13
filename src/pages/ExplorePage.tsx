@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe } from 'lucide-react'
+import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -9,36 +9,53 @@ import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { fetchPublicBuilds, fetchCommunityStats, type BuildRow, type ExploreSort, type CommunityStats } from '@/features/builds/api.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
+import { useDataStore } from '@/store/dataStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 
 const STAT_ITEMS: { key: keyof CommunityStats; labelKey: string; Icon: typeof Users }[] = [
   { key: 'usersCount',        labelKey: 'explore_stat_users',        Icon: Users },
   { key: 'publicBuildsCount', labelKey: 'explore_stat_public_builds', Icon: Globe },
   { key: 'buildsCount',       labelKey: 'explore_stat_builds',        Icon: Hammer },
+  { key: 'viewsCount',        labelKey: 'explore_stat_views',         Icon: Eye },
+  { key: 'buildsThisWeek',    labelKey: 'explore_stat_week',          Icon: Flame },
   { key: 'likesCount',        labelKey: 'explore_stat_likes',         Icon: Heart },
 ]
+
+function StatChip({ children, Icon }: { children: React.ReactNode; Icon: typeof Users }) {
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
+      style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)' }}
+    >
+      <Icon size={12} />
+      {children}
+    </span>
+  )
+}
 
 function CommunityStatsBar() {
   const { t } = useTranslation()
   const [stats, setStats] = useState<CommunityStats | null>(null)
+  // Catalog size costs no query at all — Explore already loads game data
+  // via useLoadGameData() for the build cards' equipment icons.
+  const itemCount = useDataStore(s => s.index?.length ?? 0)
+  const setCount  = useDataStore(s => s.sets?.length ?? 0)
+
   useEffect(() => {
     let cancelled = false
     fetchCommunityStats().then(({ data, error }) => { if (!cancelled && !error) setStats(data) })
     return () => { cancelled = true }
   }, [])
+
   if (!stats) return null
   return (
     <div className="flex flex-wrap gap-2">
       {STAT_ITEMS.map(({ key, labelKey, Icon }) => (
-        <span
-          key={key}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
-          style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)' }}
-        >
-          <Icon size={12} />
-          {t(labelKey, { count: stats[key] })}
-        </span>
+        <StatChip key={key} Icon={Icon}>{t(labelKey, { count: stats[key] })}</StatChip>
       ))}
+      {itemCount > 0 && setCount > 0 && (
+        <StatChip Icon={Layers}>{t('explore_stat_catalog', { items: itemCount, sets: setCount })}</StatChip>
+      )}
     </div>
   )
 }

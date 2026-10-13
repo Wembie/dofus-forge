@@ -11,7 +11,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.72',
     date: '2026-10-12',
     notes: [
-      'Feature: Explore now shows a community stats bar — registered forgers, public builds, total builds created, and total likes given',
+      'Feature: Explore now shows a community stats bar — registered forgers, public builds, total builds created, total views, builds created this week, and total likes given',
+      'Also shows catalog size (total items & sets catalogued), read directly from already-loaded game data',
     ],
   },
   {
