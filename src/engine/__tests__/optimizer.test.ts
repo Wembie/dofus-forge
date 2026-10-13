@@ -392,6 +392,29 @@ describe('runOptimizer — characteristic point allocation', () => {
     expect(results[0].allocated.vitality).toBe(0)
   })
 
+  it('satisfies two simultaneous characteristic minimums instead of averaging between them', () => {
+    // Level 200 budget (995) exactly equals pointCost('strength', 300)
+    // [100*1 + 100*2 + 100*3 = 600] + pointCost('vitality', 395) [395,
+    // 1pt/pt] = 995 — a deliberately tight fit. At equal weight, Vitality's
+    // ratio (weight/1, constant at every point) ties Strength's ratio for
+    // Strength's first 100 points and then beats it outright once Strength
+    // enters its pricier brackets — the OLD plain greedy, with no notion of
+    // "this characteristic has its own floor to clear first", kept buying
+    // the better-ratio characteristic (Vitality) well past what Strength
+    // needed, leaving Strength's target unmet even though the exact budget
+    // to satisfy BOTH simultaneously exists (confirmed: without the
+    // reservation pre-pass in optimalAllocation, Strength ends up at 0).
+    let config = withWeight(baseConfig(), 'strength', 6, 300)
+    config = withWeight(config, 'vitality', 6, 395)
+    const build = baseBuild({ level: 200 })
+    const results = runOptimizer(config, [], [], build, noopProgress, freshCancel())
+    const best = results[0]
+    expect(best.allocated.strength).toBeGreaterThanOrEqual(300)
+    expect(best.allocated.vitality).toBeGreaterThanOrEqual(395)
+    const spent = pointCost('strength', best.allocated.strength) + pointCost('vitality', best.allocated.vitality)
+    expect(spent).toBeLessThanOrEqual(statBudget(200))
+  })
+
   it('never spends more than the level budget allows', () => {
     const config = withWeight(withWeight(baseConfig(), 'vitality', 10), 'wisdom', 3)
     const build = baseBuild({ level: 150 })

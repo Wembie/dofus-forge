@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.76] — 2026-10-13
+- **Fix**: targeting two different hard-minimum characteristics at once (e.g. Strength >= X AND Vitality >= Y) could leave BOTH unmet, since the point allocator only maximized total weighted score and had no notion of "cross this specific threshold first" — it could pour the entire point budget into whichever characteristic had the better cost ratio, even past what it needed, starving the other. The allocator now reserves the minimum points needed for each characteristic's own hard minimum first (cheapest to satisfy first), before spending whatever's left the same way as before. Confirmed with a direct before/after test: the exact same request went from "one characteristic at 0" to "both satisfied"
+
 ## [0.3.75] — 2026-10-13
 - **Fix**: loading a recommended build from the Forge didn't apply its "assume fully scrolled" state or clear stale forged runes on slots it changed — the loaded build's actual sheet silently stopped matching the numbers the Forge had just promised. Both are now applied on load
 - **Fix**: targeting "HP >= X" alone (without also weighting Vitality directly) never spent a single characteristic point on Vitality, since the allocator only invests in characteristics that have their own weight — found while investigating a demanding multi-requirement combo that stayed unreachable even with a much deeper search; it wasn't a search-depth problem, Vitality was never being invested in at all. Vitality now rides along with a maxHp-only weight, the same relationship Power already has with elemental damage

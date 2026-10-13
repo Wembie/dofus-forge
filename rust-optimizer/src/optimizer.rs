@@ -11,7 +11,7 @@
 // condition validation, the continuous constraint-satisfaction rank(), Power
 // synergy, and characteristic point allocation - is a direct, verified port.
 
-use crate::characteristics::{point_cost, stat_budget};
+use crate::characteristics::{point_cost, stat_budget, SCROLL_BONUS};
 use crate::optimizer_types::{BuildResult, CatalogItem, CatalogSet, ExoConfig, OptimizerBuildBase, OptimizerConfig, StatConfig};
 use crate::stat_map::{stat_key, weapon_attack_ids};
 use crate::stats::{compute_stats, get_stat};
@@ -197,7 +197,19 @@ fn effective_weight(stat_key_name: &str, stats: &[StatConfig], fallback: f64) ->
 // See optimizer.ts's optimalAllocation comment: a greedy weight-per-cost
 // algorithm, provably optimal here since every characteristic's point cost is
 // non-decreasing and its score contribution is linear and uncapped.
-fn optimal_allocation(level: i64, stats: &[StatConfig], current: &AllocatedCharacteristics) -> AllocatedCharacteristics {
+fn get_scrolled(s: &ScrolledCharacteristics, c: &str) -> bool {
+    match c {
+        "vitality" => s.vitality,
+        "wisdom" => s.wisdom,
+        "strength" => s.strength,
+        "intelligence" => s.intelligence,
+        "chance" => s.chance,
+        "agility" => s.agility,
+        _ => false,
+    }
+}
+
+fn optimal_allocation(level: i64, stats: &[StatConfig], scrolled: &ScrolledCharacteristics, current: &AllocatedCharacteristics) -> AllocatedCharacteristics {
     let any_weighted = CHARACTERISTICS.iter().any(|c| effective_weight(c, stats, 0.0) > 0.0);
     if !any_weighted {
         return current.clone();
@@ -206,6 +218,47 @@ fn optimal_allocation(level: i64, stats: &[StatConfig], current: &AllocatedChara
     let budget = stat_budget(level);
     let mut allocated = AllocatedCharacteristics::default();
     let mut spent = 0i64;
+
+    // Reserve points for any characteristic with its OWN hard minVal first,
+    // cheapest-to-satisfy before pricier ones, so two simultaneous hard
+    // floors on DIFFERENT characteristics (e.g. Strength >= 1500 AND
+    // Vitality >= 395, the latter maybe inherited from an "HP >= X" target
+    // via effective_weight's synergy branch) don't get shortchanged by the
+    // plain greedy loop below, which only ever maximizes total weighted
+    // score and has no notion of "cross this specific threshold first" -
+    // it can leave BOTH thresholds unmet even when a different split would
+    // have satisfied both, simply because continuing to spend on whichever
+    // has the best weight/cost ratio right now doesn't care that it's
+    // already crossed its own target. This pre-pass is a conservative
+    // worst case (assumes zero help from items, which aren't known yet at
+    // allocation time) - it only ever reserves the MINIMUM needed to reach
+    // the floor from points + scroll bonus alone; the greedy loop still
+    // freely spends any leftover budget exactly as before. A target that
+    // doesn't fit the whole budget on its own is simply skipped here (left
+    // to the greedy loop to do its best), never forced past what's left.
+    let mut required: Vec<(&str, i64)> = CHARACTERISTICS
+        .iter()
+        .filter_map(|&c| {
+            let min_val = stats.iter().find(|s| s.stat == c).map(|s| s.min_val).unwrap_or(0);
+            if min_val <= 0 {
+                return None;
+            }
+            let scroll_bonus = if get_scrolled(scrolled, c) { SCROLL_BONUS } else { 0 };
+            let needed_points = (min_val - scroll_bonus).max(0);
+            if needed_points <= 0 {
+                return None;
+            }
+            Some((c, needed_points))
+        })
+        .collect();
+    required.sort_by_key(|&(c, needed_points)| point_cost(c, needed_points));
+    for (c, needed_points) in required {
+        let cost_to_reach = point_cost(c, needed_points);
+        if cost_to_reach <= budget - spent {
+            spent += cost_to_reach;
+            set_characteristic(&mut allocated, c, needed_points);
+        }
+    }
 
     loop {
         let mut best_char: Option<&str> = None;
@@ -612,7 +665,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         base.scrolled.clone()
     };
 
-    let allocated = optimal_allocation(base.level, &config.stats, &base.allocated);
+    let allocated = optimal_allocation(base.level, &config.stats, &scrolled, &base.allocated);
 
     let locked_slots: HashSet<String> = config.locked_slots.iter().cloned().collect();
     let slots_to_optimize: Vec<String> = ALL_SLOTS.iter().filter(|s| !locked_slots.contains(**s)).map(|s| s.to_string()).collect();
@@ -1152,6 +1205,32 @@ mod tests {
         assert_eq!(results[0].allocated.vitality, 0);
         let spent = point_cost("strength", results[0].allocated.strength);
         assert!(spent <= stat_budget(100));
+    }
+
+    #[test]
+    fn satisfies_two_simultaneous_characteristic_minimums_instead_of_averaging_between_them() {
+        // Level 200 budget (995) exactly equals point_cost("strength", 300)
+        // [100*1 + 100*2 + 100*3 = 600] + point_cost("vitality", 395) [395,
+        // 1pt/pt] = 995 - a deliberately tight fit. At equal weight,
+        // Vitality's ratio (weight/1, constant at every point) ties
+        // Strength's ratio for strength's first 100 points and then beats
+        // it outright once strength enters its pricier brackets — the OLD
+        // plain greedy, with no notion of "this characteristic has its own
+        // floor to clear first", would keep buying the better-ratio
+        // characteristic (Vitality) well past what Strength needed,
+        // leaving Strength's 1500 target (or here, 300) unmet even though
+        // the exact budget to satisfy BOTH simultaneously exists. The
+        // reservation pre-pass in optimal_allocation must claim each
+        // floor's minimum first before the greedy loop spends what's left.
+        let mut config = base_config(vec![stat_cfg("strength", 6, 300), stat_cfg("vitality", 6, 395)]);
+        config.assume_fully_scrolled = false;
+        let build = base_build(200, HashMap::new(), HashMap::new());
+        let results = run_optimizer(config, vec![], vec![], build);
+        let best = &results[0];
+        assert!(best.allocated.strength >= 300, "expected Strength >= 300, got {}", best.allocated.strength);
+        assert!(best.allocated.vitality >= 395, "expected Vitality >= 395, got {}", best.allocated.vitality);
+        let spent = point_cost("strength", best.allocated.strength) + point_cost("vitality", best.allocated.vitality);
+        assert!(spent <= stat_budget(200), "allocation spent {spent}, over the {} budget", stat_budget(200));
     }
 
     #[test]
