@@ -1226,6 +1226,38 @@ mod tests {
     }
 
     #[test]
+    fn uses_only_part_of_a_set_when_the_rest_of_its_pieces_lose_to_loose_alternatives() {
+        // A 4-piece set whose bonus already maxes out at 2 pieces (only a "2"
+        // tier is defined, so 3 or 4 pieces grant the SAME bonus, not more —
+        // a real, common Dofus pattern). hat/cape have no better alternative
+        // (the set pieces are forced there), but amulet/belt each have a
+        // vastly better loose alternative. The true optimum uses the set
+        // ONLY for hat/cape (to get the 2pc bonus) and loose items for
+        // amulet/belt: 5+5+5000+5000+2000 = 12010. apply_set (phase 1) only
+        // ever tries "every piece that fits" (4-of-4: 5+5+5+5+2000 = 2020,
+        // since the tier stays capped at the 2pc value), never a deliberate
+        // partial subset — and single-slot hill-climbing can't discover it
+        // either: swapping just ONE of hat/cape to the set (starting from
+        // the all-loose baseline) looks like a pure loss in isolation, since
+        // the bonus only kicks in once BOTH are swapped together.
+        let set_hat    = item(40, "hat",    Some(1), vec![effect("Vitality", 5, 0)]);
+        let set_cape   = item(41, "cape",   Some(1), vec![effect("Vitality", 5, 0)]);
+        let set_amulet = item(42, "amulet", Some(1), vec![effect("Vitality", 5, 0)]);
+        let set_belt   = item(43, "belt",   Some(1), vec![effect("Vitality", 5, 0)]);
+        let loose_amulet = item(142, "amulet", None, vec![effect("Vitality", 5000, 0)]);
+        let loose_belt   = item(143, "belt",   None, vec![effect("Vitality", 5000, 0)]);
+        let set = CatalogSet { ankama_id: 1, items: vec![40, 41, 42, 43], bonuses: HashMap::from([("2".to_string(), vec![effect("Vitality", 2000, 0)])]) };
+
+        let mut config = base_config(vec![stat_cfg("vitality", 10, 0)]);
+        config.locked_slots = lock_all_except(&["hat", "cape", "amulet", "belt"]);
+        let build = base_build(1, HashMap::new(), HashMap::new());
+
+        let results = run_optimizer(config, vec![set_hat, set_cape, set_amulet, set_belt, loose_amulet, loose_belt], vec![set], build);
+        let best = &results[0];
+        assert_eq!(get_stat(&best.stats, "vitality"), 12010, "expected the partial-set optimum (hat+cape for the 2pc bonus, loose amulet+belt) — got {}, suggesting the search only tried the full 4-piece set (2020) or no set at all (10020)", get_stat(&best.stats, "vitality"));
+    }
+
+    #[test]
     fn never_duplicates_an_item_across_the_two_ring_slots() {
         let ring_a = item(500, "ring", None, vec![effect("Strength", 100, 0)]);
         let ring_b = item(501, "ring", None, vec![effect("Strength", 90, 0)]);
