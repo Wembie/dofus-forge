@@ -1,16 +1,16 @@
 import { useTranslation } from 'react-i18next'
 import { Ban } from 'lucide-react'
 import { ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
-import type { BuildResult, StatConfig } from './types.ts'
+import type { BuildResult, ForgeRequirement } from './types.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { OPTIMIZER_STATS, POWER_BOOSTED } from './statList.ts'
-import { statIconUrl, signatureRuneUrl } from '@/features/equipment/statDisplay.ts'
+import { statIconUrl, signatureRuneUrl, runeIconUrl } from '@/features/equipment/statDisplay.ts'
 
 type Props = {
   result:      BuildResult
   rank:        number
   items:       AppItem[]
-  stats:       StatConfig[]
+  requirements: ForgeRequirement[]
   runes:       Partial<Record<SlotId, RuneMap>>
   lockedSlots: Set<SlotId>
   onLoad:      (result: BuildResult) => void
@@ -21,7 +21,7 @@ type Props = {
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 const EXO_ICON = { ap: 'ap', mp: 'mp', range: 'range' } as const
 
-export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots, onLoad, onBan, bannedItems = [] }: Props) {
+export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, bannedItems = [] }: Props) {
   const { t } = useTranslation()
 
   const itemMap = new Map(items.map(it => [it.ankama_id, it]))
@@ -35,9 +35,9 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
     return Object.values(runes[slot] ?? {}).some(v => v > 0)
   }
 
-  // Goals always show; weight-only stats fill the rest up to 6.
-  const goalStats = stats.filter(s => s.goal > 0).sort((a, b) => b.weight - a.weight)
-  const weightOnly = stats.filter(s => s.goal <= 0 && s.weight > 0).sort((a, b) => b.weight - a.weight)
+  // Minimums always show; importance-only stats fill the rest up to 6.
+  const goalStats = requirements.filter(r => r.minimum > 0).sort((a, b) => b.importance - a.importance)
+  const weightOnly = requirements.filter(r => r.minimum <= 0 && r.importance > 0).sort((a, b) => b.importance - a.importance)
   const shownStats = [...goalStats, ...weightOnly].slice(0, Math.max(6, goalStats.length))
   const statsNums = result.stats as unknown as Record<string, number>
   const hasGoals = goalStats.length > 0
@@ -75,8 +75,12 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
             {result.meetsRequired ? '✓' : `${result.requirementsMet}/${result.requirementsTotal}`}
           </span>
         )}
-        <span className="ml-auto text-[10px] font-mono" style={{ color: result.score < 0 ? 'var(--negative)' : 'var(--ink-faint)' }}>
-          {t('optimizer_score')}: {Math.round(result.score).toLocaleString()}
+        <span
+          className="ml-auto text-[10px] font-mono"
+          style={{ color: result.score < 0 ? 'var(--negative)' : 'var(--ink-faint)' }}
+          title={t('optimizer_quality_hint')}
+        >
+          {t('optimizer_quality')}: {Math.round(result.score).toLocaleString()}
         </span>
       </div>
 
@@ -84,18 +88,19 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
       <div className="px-3 py-2 flex flex-wrap gap-1.5">
         {equippedList.map(({ slot, item }) => {
           const exo = result.exo[slot]
+          const rune = result.runes[slot]
           const forged = hasForgedRune(slot)
           return (
             <div
               key={slot}
               className="relative group"
-              title={`${item.name} (Nv. ${item.level})${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}`}
+              title={`${item.name} (Nv. ${item.level})${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: rune.stat })}` : ''}`}
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
                 style={{
                   background: 'var(--surface-panel)',
-                  border:     forged || exo ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
+                  border:     forged || exo || rune ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
                 }}
               >
                 {item.image_url
@@ -117,6 +122,14 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
                   style={{ background: 'color-mix(in srgb, var(--ap) 20%, var(--surface-void))', border: '1px solid var(--ap)' }}
                 >
                   <img src={statIconUrl(EXO_ICON[exo])} alt="" width={9} height={9} className="object-contain" />
+                </div>
+              )}
+              {rune && (
+                <div
+                  className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+                  style={{ background: 'color-mix(in srgb, var(--gold) 20%, var(--surface-void))', border: '1px solid var(--gold)' }}
+                >
+                  <img src={runeIconUrl(rune.stat) ?? signatureRuneUrl()} alt="" width={9} height={9} className="object-contain" />
                 </div>
               )}
               {onBan && !lockedSlots.has(slot) && !bannedItems.includes(item.ankama_id) && (
@@ -147,7 +160,7 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
             if (!meta) return null
             const own = statsNums[cfg.stat] ?? 0
             const val = POWER_BOOSTED.has(cfg.stat) ? own + result.stats.power : own
-            const meetsGoal = cfg.goal <= 0 || val >= cfg.goal
+            const meetsGoal = cfg.minimum <= 0 || val >= cfg.minimum
             return (
               <div
                 key={cfg.stat}
@@ -158,8 +171,8 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
                 <span className="text-[12px] font-mono font-bold" style={{ color: meetsGoal ? meta.color : 'var(--negative)' }}>
                   {val}
                 </span>
-                {cfg.goal > 0 && (
-                  <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>/{cfg.goal}</span>
+                {cfg.minimum > 0 && (
+                  <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>/{cfg.minimum}</span>
                 )}
               </div>
             )

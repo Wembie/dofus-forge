@@ -73,42 +73,16 @@ export const OPTIMIZER_STATS: OptimizerStatMeta[] = [
   { key: 'pods',             icon: 'pods',                 color: 'var(--gold)',     tKey: 'stat_pods' },
 ]
 
-type ConditionDefaults = { goal: number; weight: number; max?: number }
-
-// Starting point when a stat is first activated, tuned so one unit of each
-// stat is weighed roughly by its real value (1 AP ≈ 100 Strength).
-const CONDITION_DEFAULTS: Partial<Record<OptimizerStatKey, ConditionDefaults>> = {
-  ap:                 { goal: 12,   weight: 500, max: 12 },
-  mp:                 { goal: 6,    weight: 500, max: 6 },
-  range:              { goal: 6,    weight: 250, max: 6 },
-  summons:            { goal: 6,    weight: 125, max: 6 },
-  maxHp:              { goal: 5000, weight: 1 },
-  vitality:           { goal: 4000, weight: 1 },
-  wisdom:             { goal: 300,  weight: 15 },
-  strength:           { goal: 1000, weight: 5 },
-  intelligence:       { goal: 1000, weight: 5 },
-  chance:             { goal: 1000, weight: 5 },
-  agility:            { goal: 1000, weight: 5 },
-  power:              { goal: 0,    weight: 5 },
-  damage:             { goal: 0,    weight: 25 },
-  critChance:         { goal: 75,   weight: 50, max: 100 },
-  critDamage:         { goal: 150,  weight: 25 },
-  critResistance:     { goal: 100,  weight: 10 },
-  initiative:         { goal: 2000, weight: 1 },
-  lock:               { goal: 70,   weight: 20 },
-  dodge:              { goal: 70,   weight: 20 },
-  apReduction:        { goal: 80,   weight: 35 },
-  mpReduction:        { goal: 80,   weight: 35 },
-  apParry:            { goal: 80,   weight: 20 },
-  mpParry:            { goal: 80,   weight: 20 },
-  prospecting:        { goal: 200,  weight: 3 },
-  pods:               { goal: 2000, weight: 1 },
-  heals:              { goal: 50,   weight: 10 },
-  pushbackDamage:     { goal: 100,  weight: 10 },
-  meleeDamagePercent:  { goal: 10, weight: 75 },
-  rangedDamagePercent: { goal: 10, weight: 75 },
-  spellDamagePercent:  { goal: 10, weight: 75 },
-  weaponDamagePercent: { goal: 10, weight: 75 },
+// What one point of each stat is worth to the Forge, so importance levels
+// mean the same thing across stats (1 AP ≈ 100 Strength).
+const UNIT_VALUE: Partial<Record<OptimizerStatKey, number>> = {
+  ap: 500, mp: 500, range: 250, summons: 125,
+  maxHp: 1, vitality: 1, wisdom: 15,
+  strength: 5, intelligence: 5, chance: 5, agility: 5, power: 5, damage: 25,
+  critChance: 50, critDamage: 25, critResistance: 10,
+  initiative: 1, lock: 20, dodge: 20, apReduction: 35, mpReduction: 35, apParry: 20, mpParry: 20,
+  prospecting: 3, pods: 1, heals: 10, pushbackDamage: 10,
+  meleeDamagePercent: 75, rangedDamagePercent: 75, spellDamagePercent: 75, weaponDamagePercent: 75,
 }
 
 const ELEMENTAL_DAMAGE = new Set<OptimizerStatKey>(['fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage'])
@@ -116,13 +90,30 @@ const STEALS = new Set<OptimizerStatKey>(['fireSteal', 'earthSteal', 'waterSteal
 const RES_FIXED = new Set<OptimizerStatKey>(['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed'])
 const RES_PCT = new Set<OptimizerStatKey>(['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent'])
 
-// Power also counts toward these goals (it boosts damage the same way).
+// Power also counts toward these minimums (it boosts damage the same way).
 export const POWER_BOOSTED = new Set<OptimizerStatKey>(['strength', 'intelligence', 'chance', 'agility'])
 
-export function conditionDefaults(key: OptimizerStatKey): ConditionDefaults {
-  if (ELEMENTAL_DAMAGE.has(key)) return { goal: 150, weight: 25 }
-  if (STEALS.has(key))           return { goal: 0,   weight: 10 }
-  if (RES_FIXED.has(key))        return { goal: 100, weight: 10 }
-  if (RES_PCT.has(key))          return { goal: 20,  weight: 30, max: 50 }
-  return CONDITION_DEFAULTS[key] ?? { goal: 0, weight: 10 }
+export function unitValue(key: OptimizerStatKey): number {
+  if (ELEMENTAL_DAMAGE.has(key)) return 25
+  if (STEALS.has(key))           return 10
+  if (RES_FIXED.has(key))        return 10
+  if (RES_PCT.has(key))          return 30
+  return UNIT_VALUE[key] ?? 10
+}
+
+// Game caps worth pre-filling as a soft cap when a stat is first activated.
+export function suggestedCap(key: OptimizerStatKey): number | null {
+  if (key === 'ap') return 12
+  if (key === 'mp' || key === 'range' || key === 'summons') return 6
+  if (RES_PCT.has(key)) return 50
+  if (key === 'critChance') return 100
+  return null
+}
+
+export const IMPORTANCE_LEVELS = [1, 2, 3, 4, 5] as const
+export const DEFAULT_IMPORTANCE = 3
+const IMPORTANCE_FACTOR = [0, 0.25, 0.5, 1, 2, 4]
+
+export function requirementWeight(key: OptimizerStatKey, importance: number): number {
+  return Math.round(unitValue(key) * IMPORTANCE_FACTOR[Math.max(0, Math.min(5, importance))] * 4)
 }

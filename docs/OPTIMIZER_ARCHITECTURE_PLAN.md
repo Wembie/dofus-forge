@@ -1,6 +1,6 @@
 # Plan — La Forjadora: motor único en Rust, búsqueda validada, progreso en vivo
 
-> **Actualización M111 (2026-10-14):** el motor descrito abajo (fases de sets + GA memético en `optimizer.rs`) fue reemplazado por `rust-optimizer/src/solver.rs`: GA por islas con estado entre pasos (`WasmSolver.step`), objetivo por niveles Objetivo/Peso/Máx, puntos y exos decididos por build, y varios Workers en paralelo. Ver ROADMAP M111. El resto de este documento queda como historia.
+> **Actualización M111 (2026-10-14):** el motor descrito abajo (fases de sets + GA memético en `optimizer.rs`) fue reemplazado por `rust-optimizer/src/forge.rs`: GA por islas con estado entre pasos (`WasmForge.step`), objetivo por niveles Objetivo/Peso/Máx, puntos y exos decididos por build, y varios Workers en paralelo; M112 sumó runas de transcendencia, condiciones de equipo en el reparto de puntos y templado final. Ver ROADMAP M111–M112. El resto de este documento queda como historia.
 
 
 **Estado: secciones 3.2, 5 y la pregunta 4 (algoritmo genético) implementadas; solo la sección 4 (arnés de validación sistemática) sigue pendiente.**

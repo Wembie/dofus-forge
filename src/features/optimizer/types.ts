@@ -4,15 +4,15 @@ import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } fr
 
 export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
 
-// One solver condition: reach `goal` (each missing unit costs `weight`), then
-// keep earning `weight` per unit up to `max`. A soft max just stops counting
-// past it; an absolute max rejects builds that go over it.
-export type StatConfig = {
-  stat:     OptimizerStatKey
-  goal:     number
-  weight:   number
-  max:      number | null
-  absolute: boolean
+// What the player asks La Forjadora for, per stat: a minimum to reach, how
+// much the stat matters (0–5), and an optional cap — strict caps reject any
+// piece that goes over, soft ones just stop counting past it.
+export type ForgeRequirement = {
+  stat:       OptimizerStatKey
+  minimum:    number
+  importance: number
+  cap:        number | null
+  strictCap:  boolean
 }
 
 export type ExoConfig = {
@@ -23,15 +23,17 @@ export type ExoConfig = {
   maxCount:   number
 }
 
+export type ForgeIntensity = 'quick' | 'standard' | 'master'
+
 export type OptimizerConfig = {
-  stats:               StatConfig[]
+  stats:               ForgeRequirement[]
   exo:                 ExoConfig
+  transcendence:       boolean
   maxLevel:            number
   lockedSlots:         Set<SlotId>
   assumeFullyScrolled: boolean
   bannedItems:         number[]
-  threads:             number
-  maxGenerations:      number
+  intensity:           ForgeIntensity
 }
 
 export type OptimizerBuildBase = {
@@ -44,6 +46,7 @@ export type OptimizerBuildBase = {
 }
 
 export type ExoKind = 'ap' | 'mp' | 'range'
+export type RuneChoice = { stat: string; value: number }
 
 export type BuildResult = {
   equipped:          Partial<Record<SlotId, number>>
@@ -54,12 +57,13 @@ export type BuildResult = {
   allocated:         AllocatedCharacteristics
   scrolled:          ScrolledCharacteristics
   exo:               Partial<Record<SlotId, ExoKind>>
+  runes:             Partial<Record<SlotId, RuneChoice>>
   requirementsMet:   number
   requirementsTotal: number
 }
 
-// Posted by each solver Worker after every step (a batch of generations).
-export type SolverReport = {
+// Posted by each forge Worker after every step.
+export type ForgeReport = {
   generation: number
   bestScore:  number
   results:    BuildResult[]

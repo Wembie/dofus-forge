@@ -1,20 +1,19 @@
-// Island-model evolutionary stuff solver, stepped one generation at a time.
+// La Forjadora's engine: an island-model evolutionary search over item
+// combinations, advanced a batch of generations at a time.
 //
-// Design:
-// - Every build is scored by a tiered objective: structurally illegal builds
-//   sit far below everything, then builds breaking an item condition or an
-//   absolute max, then builds with unmet goals (score = -Σ weight·deficit,
-//   always negative), and finally builds meeting every goal (score =
-//   Σ weight·surplus, always >= 0). A soft max just stops counting past it.
-// - Characteristic points and exo runes are not part of the genome: they are
-//   re-decided for every evaluated build (greedy by marginal gain), so the
-//   search only explores item combinations.
-// - The search state lives across calls. `step()` advances whole
-//   generations for a bounded time and returns, so the Worker driving it can
-//   pause, resume and receive messages between steps.
+// - Every build gets a tiered score: structurally illegal builds sit below
+//   everything, then builds breaking an item condition or an absolute max,
+//   then builds with unmet goals (score = -Σ weight·deficit, always
+//   negative), and finally builds meeting every goal (score = Σ
+//   weight·surplus, always >= 0). A soft max just stops counting past it.
+// - Characteristic points, exo runes and transcendence runes are not part of
+//   the genome: they are re-decided for every evaluated build (greedy by
+//   marginal gain), so the search only explores item combinations.
+// - `temper()` finishes a run with a slot-by-slot local search over the best
+//   builds found, which the evolutionary search alone converges to slowly.
 
 use crate::characteristics::{point_cost, stat_budget, SCROLL_BONUS};
-use crate::optimizer_types::{BuildResult, CatalogItem, CatalogSet, OptimizerBuildBase, OptimizerConfig};
+use crate::optimizer_types::{BuildResult, CatalogItem, CatalogSet, OptimizerBuildBase, OptimizerConfig, RuneChoice};
 use crate::stat_map::stat_key;
 use crate::stats::{base_hp, compute_stats, get_stat, raw_effects_block, BASE_AP, BASE_MP, BASE_PODS};
 use crate::types::{floor_div, AllocatedCharacteristics, BuildInput, EquippedItem, ItemEffect, ScrolledCharacteristics, SetData, StatBlock};
@@ -29,11 +28,11 @@ const NSLOT: usize = ALL_SLOTS.len();
 const RING1: usize = 3;
 const RING2: usize = 4;
 const DOFUS_FIRST: usize = 11;
-// Slots forgemagie can touch (and so can carry an exo rune).
+// Slots forgemagie can touch: each can carry one exo or transcendence rune.
 const FORGEABLE: [usize; 9] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 // Dense stat layout: same keys get_stat() understands, so a dense vector
-// converts to/from a StatBlock losslessly for every stat the solver scores.
+// converts to/from a StatBlock losslessly for every stat the Forge scores.
 const FIELDS: [&str; 60] = [
     "ap", "mp", "range", "vitality", "wisdom", "strength", "intelligence", "chance", "agility", "maxHp",
     "power", "damage", "neutralDamage", "earthDamage", "fireDamage", "waterDamage", "airDamage",
@@ -56,6 +55,7 @@ const RANGE: usize = 2;
 const VIT: usize = 3;
 const WIS: usize = 4;
 const STR: usize = 5;
+const CHA: usize = 7;
 const AGI: usize = 8;
 const MAXHP: usize = 9;
 const POWER: usize = 10;
@@ -76,20 +76,137 @@ const MP_PARRY: usize = 58;
 // Characteristic order for allocation: matches AllocatedCharacteristics.
 const CHARS: [&str; 6] = ["vitality", "wisdom", "strength", "intelligence", "chance", "agility"];
 
+// Official forgemagie weight per stat point: how "heavy" a line is.
+fn fm_weight(i: usize) -> f64 {
+    match FIELDS[i] {
+        "ap" => 100.0,
+        "mp" => 90.0,
+        "range" => 51.0,
+        "summons" => 30.0,
+        "vitality" => 0.2,
+        "wisdom" => 3.0,
+        "strength" | "intelligence" | "chance" | "agility" => 1.0,
+        "power" => 2.0,
+        "damage" => 20.0,
+        "neutralDamage" | "earthDamage" | "fireDamage" | "waterDamage" | "airDamage" => 5.0,
+        "critChance" | "heals" => 10.0,
+        "critDamage" | "pushbackDamage" | "trapDamage" => 5.0,
+        "critResistance" | "pushbackResist" => 2.0,
+        "neutralResFixed" | "earthResFixed" | "fireResFixed" | "waterResFixed" | "airResFixed" => 2.0,
+        "neutralResPercent" | "earthResPercent" | "fireResPercent" | "waterResPercent" | "airResPercent" => 6.0,
+        "meleeDamagePercent" | "rangedDamagePercent" | "spellDamagePercent" | "weaponDamagePercent" => 15.0,
+        "meleeResistPercent" | "rangedResistPercent" => 15.0,
+        "lock" | "dodge" | "prospecting" => if FIELDS[i] == "prospecting" { 3.0 } else { 4.0 },
+        "apReduction" | "mpReduction" | "apParry" | "mpParry" => 7.0,
+        "initiative" => 0.1,
+        "pods" => 0.25,
+        _ => 1.0,
+    }
+}
+
+// Official transcendence runes (Tra / Pa / Ra ranks): stat, bonus per rank.
+// A rank only takes on an item whose existing line on that stat weighs at
+// most RANK_WEIGHT_LIMIT of it.
+const TRANSCENDENCE: [(&str, [i64; 3]); 31] = [
+    ("vitality", [50, 75, 100]),
+    ("strength", [10, 15, 20]),
+    ("intelligence", [10, 15, 20]),
+    ("chance", [10, 15, 20]),
+    ("agility", [10, 15, 20]),
+    ("power", [6, 9, 12]),
+    ("earthDamage", [2, 4, 6]),
+    ("fireDamage", [2, 4, 6]),
+    ("waterDamage", [2, 4, 6]),
+    ("airDamage", [2, 4, 6]),
+    ("neutralDamage", [2, 4, 6]),
+    ("critChance", [1, 2, 0]),
+    ("critDamage", [6, 8, 0]),
+    ("critResistance", [9, 12, 0]),
+    ("pushbackDamage", [6, 8, 0]),
+    ("pushbackResist", [9, 12, 0]),
+    ("heals", [4, 7, 10]),
+    ("initiative", [100, 150, 200]),
+    ("pods", [100, 200, 400]),
+    ("lock", [4, 6, 8]),
+    ("dodge", [4, 6, 8]),
+    ("apReduction", [2, 3, 4]),
+    ("mpReduction", [2, 3, 4]),
+    ("apParry", [2, 4, 6]),
+    ("mpParry", [2, 4, 6]),
+    ("earthResPercent", [2, 0, 0]),
+    ("fireResPercent", [2, 0, 0]),
+    ("waterResPercent", [2, 0, 0]),
+    ("airResPercent", [2, 0, 0]),
+    ("neutralResPercent", [2, 0, 0]),
+    ("meleeDamagePercent", [1, 0, 0]),
+];
+const MORE_TRANSCENDENCE: [(&str, [i64; 3]); 5] = [
+    ("rangedDamagePercent", [1, 0, 0]),
+    ("spellDamagePercent", [1, 0, 0]),
+    ("weaponDamagePercent", [1, 0, 0]),
+    ("meleeResistPercent", [1, 0, 0]),
+    ("rangedResistPercent", [1, 0, 0]),
+];
+const RANK_WEIGHT_LIMIT: [f64; 3] = [60.0, 40.0, 20.0];
+
+// Sheet rune names (RuneModal's stat keys) for each runeable dense stat.
+fn rune_stat_name(i: usize) -> &'static str {
+    match FIELDS[i] {
+        "vitality" => "Vitality",
+        "strength" => "Strength",
+        "intelligence" => "Intelligence",
+        "chance" => "Chance",
+        "agility" => "Agility",
+        "power" => "Power",
+        "earthDamage" => "Earth Damage",
+        "fireDamage" => "Fire Damage",
+        "waterDamage" => "Water Damage",
+        "airDamage" => "Air Damage",
+        "neutralDamage" => "Neutral Damage",
+        "critChance" => "% Critical",
+        "critDamage" => "Critical Damage",
+        "critResistance" => "Critical Resistance",
+        "pushbackDamage" => "Pushback Damage",
+        "pushbackResist" => "Pushback Resistance",
+        "heals" => "Heal",
+        "initiative" => "Initiative",
+        "pods" => "Pod",
+        "lock" => "Lock",
+        "dodge" => "Dodge",
+        "apReduction" => "AP Reduction",
+        "mpReduction" => "MP Reduction",
+        "apParry" => "AP Parry",
+        "mpParry" => "MP Parry",
+        "earthResPercent" => "% Earth Resistance",
+        "fireResPercent" => "% Fire Resistance",
+        "waterResPercent" => "% Water Resistance",
+        "airResPercent" => "% Air Resistance",
+        "neutralResPercent" => "% Neutral Resistance",
+        "meleeDamagePercent" => "% Melee Damage",
+        "rangedDamagePercent" => "% Ranged Damage",
+        "spellDamagePercent" => "% Spell Damage",
+        "weaponDamagePercent" => "% Weapon Damage",
+        "meleeResistPercent" => "% Melee Resistance",
+        "rangedResistPercent" => "% Ranged Resistance",
+        _ => "",
+    }
+}
+
 const TIER_ILLEGAL: f64 = -2e9;
 const TIER_CONDITION: f64 = -1e9;
 const NO_MAX: i64 = i64::MAX / 4;
+const CONDITION_WEIGHT: f64 = 1e4;
 
-// Search shape per Worker. Several Workers run side by side as extra islands.
-const ISLANDS: usize = 8;
-const ISLAND_SIZE: usize = 256;
+// Search shape. A run splits TOTAL_ISLANDS across its Workers.
+pub const TOTAL_ISLANDS: usize = 96;
+const ISLAND_SIZE: usize = 512;
 const ELITE_FRACTION: f64 = 0.18;
 const IMMIGRANT_FRACTION: f64 = 0.01;
 const TOURNAMENT_K: usize = 9;
 const SET_MUTATION_RATE: f64 = 0.40;
 const SECOND_SET_RATE: f64 = 0.20;
 const STAGNATION_RESET: u32 = 95;
-const MIGRATION_EVERY: u64 = 41;
+pub const MIGRATION_EVERY: u64 = 41;
 const MIGRATION_FRACTION: f64 = 0.03;
 pub const HALL_SIZE: usize = 10;
 
@@ -202,6 +319,8 @@ struct Item {
     set: Option<usize>,
     conds: Vec<Cond>,
     prysmaradite: bool,
+    // Best transcendence rune per scored stat this item may take.
+    runes: Vec<(usize, i64)>,
 }
 
 #[derive(Clone)]
@@ -214,6 +333,19 @@ struct Target {
     // Strength/Intelligence/Chance/Agility goals also count Power, which
     // boosts damage exactly like the characteristic does.
     add_power: bool,
+}
+
+// Does raw stat `i` move the effective value of target `t`?
+fn feeds(i: usize, t: &Target) -> bool {
+    i == t.idx
+        || (t.add_power && i == POWER)
+        || ((ELEM_DMG_FIRST..=ELEM_DMG_LAST).contains(&t.idx) && i == DAMAGE)
+        || (t.idx == MAXHP && i == VIT)
+        || (t.idx == INITIATIVE && (STR..=AGI).contains(&i))
+        || ((t.idx == DODGE || t.idx == LOCK) && i == AGI)
+        || ((AP_REDUCTION..=MP_PARRY).contains(&t.idx) && i == WIS)
+        || (t.idx == PODS && i == STR)
+        || (t.idx == PROSPECTING && i == CHA)
 }
 
 #[derive(Clone, Copy)]
@@ -232,7 +364,8 @@ struct Island {
 struct Eval {
     score: f64,
     alloc: [i64; 6],
-    exo: [u8; NSLOT], // 0 none, 1 ap, 2 mp, 3 range
+    exo: [u8; NSLOT],                   // 0 none, 1 ap, 2 mp, 3 range
+    rune: [Option<(usize, i64)>; NSLOT], // transcendence rune per slot
     conditions_ok: bool,
     meets_required: bool,
     requirements_met: usize,
@@ -240,24 +373,24 @@ struct Eval {
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-pub struct StepReport {
+pub struct ForgeReport {
     pub generation: u64,
     pub best_score: f64,
     pub results: Vec<BuildResult>,
 }
 
-pub struct Solver {
+pub struct Forge {
     items: Vec<Item>,
     catalog: Vec<CatalogItem>,
     set_data: Vec<SetData>,
-    set_bonus: Vec<Vec<Vec60>>, // [set][piece count] -> best reached tier
+    set_bonus: Vec<Vec<Vec60>>,               // [set][piece count] -> best reached tier
     set_members: Vec<Vec<(i32, Vec<usize>)>>, // [set] -> (item, free slots holding it in their pool)
     pools: Vec<Vec<i32>>,
     free_slots: Vec<usize>,
     fixed: [i32; NSLOT],
     base_pre: Vec60,
     targets: Vec<Target>,
-    char_targets: [Vec<usize>; 6],
+    stat_targets: Vec<Vec<usize>>, // [dense stat] -> targets it feeds
     level: i64,
     scrolled: ScrolledCharacteristics,
     locked_runes: Vec<ItemEffect>,
@@ -273,8 +406,8 @@ pub struct Solver {
     inject_turn: usize,
 }
 
-impl Solver {
-    pub fn new(config: OptimizerConfig, catalog: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase, seed: u64) -> Solver {
+impl Forge {
+    pub fn new(config: OptimizerConfig, catalog: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase, seed: u64) -> Forge {
         let scrolled = if config.assume_fully_scrolled {
             ScrolledCharacteristics { vitality: true, wisdom: true, strength: true, intelligence: true, chance: true, agility: true }
         } else {
@@ -299,23 +432,7 @@ impl Solver {
                 })
             })
             .collect();
-
-        let mut char_targets: [Vec<usize>; 6] = Default::default();
-        for (ti, t) in targets.iter().enumerate() {
-            for (c, list) in char_targets.iter_mut().enumerate() {
-                let ch = VIT + c;
-                let affected = t.idx == ch
-                    || (ch == VIT && t.idx == MAXHP)
-                    || (ch >= STR && t.idx == INITIATIVE)
-                    || (ch == AGI && (t.idx == DODGE || t.idx == LOCK))
-                    || (ch == WIS && (AP_REDUCTION..=MP_PARRY).contains(&t.idx))
-                    || (ch == STR && t.idx == PODS)
-                    || (ch == VIT + 4 && t.idx == PROSPECTING);
-                if affected {
-                    list.push(ti);
-                }
-            }
-        }
+        let stat_targets: Vec<Vec<usize>> = (0..NF).map(|i| targets.iter().enumerate().filter(|(_, t)| feeds(i, t)).map(|(ti, _)| ti).collect()).collect();
 
         // Sets
         let set_index: HashMap<i64, usize> = sets.iter().enumerate().map(|(i, s)| (s.ankama_id, i)).collect();
@@ -334,6 +451,13 @@ impl Solver {
             })
             .collect();
         let set_data: Vec<SetData> = sets.iter().map(|s| SetData { ankama_id: s.ankama_id, items: s.items.clone(), bonuses: s.bonuses.clone() }).collect();
+
+        let rune_table: Vec<(usize, [i64; 3])> = TRANSCENDENCE
+            .iter()
+            .chain(MORE_TRANSCENDENCE.iter())
+            .filter_map(|(name, values)| FIELDS.iter().position(|f| f == name).map(|i| (i, *values)))
+            .filter(|(i, _)| !stat_targets[*i].is_empty() && config.transcendence)
+            .collect();
 
         // Items
         let items: Vec<Item> = catalog
@@ -366,12 +490,26 @@ impl Solver {
                             .collect()
                     })
                     .unwrap_or_default();
+                let vec = dense(&raw_effects_block(&it.effects, it.slot == "weapon"));
+                let forgeable = ["hat", "cape", "amulet", "ring", "belt", "boots", "weapon", "shield"].contains(&it.slot.as_str());
+                let runes = if forgeable {
+                    rune_table
+                        .iter()
+                        .filter_map(|(i, values)| {
+                            let line_weight = vec[*i] as f64 * fm_weight(*i);
+                            (0..3).rev().find(|&r| values[r] > 0 && line_weight <= RANK_WEIGHT_LIMIT[r]).map(|r| (*i, values[r]))
+                        })
+                        .collect()
+                } else {
+                    Vec::new()
+                };
                 Item {
                     ankama_id: it.ankama_id,
-                    vec: dense(&raw_effects_block(&it.effects, it.slot == "weapon")),
+                    vec,
                     set: it.set_id.and_then(|id| set_index.get(&id).copied()),
                     conds,
                     prysmaradite: it.item_type == "Prysmaradite",
+                    runes,
                 }
             })
             .collect();
@@ -412,7 +550,8 @@ impl Solver {
             }
         }
 
-        let mut solver = Solver {
+        let island_count = config.islands.clamp(1, TOTAL_ISLANDS);
+        let mut forge = Forge {
             items,
             catalog,
             set_data,
@@ -423,7 +562,7 @@ impl Solver {
             fixed,
             base_pre,
             targets,
-            char_targets,
+            stat_targets,
             level: base.level,
             scrolled,
             locked_runes,
@@ -439,35 +578,38 @@ impl Solver {
             inject_turn: 0,
         };
 
-        // Pools: only items that can move at least one scored stat (directly
-        // or through their set's bonuses) are worth a gene.
+        // Pools: only items that can move at least one scored stat (directly,
+        // through their set's bonuses, or by hosting a useful rune) earn a gene.
         let banned_ids: HashSet<i64> = config.banned_items.iter().copied().collect();
         let banned_types: HashSet<&str> = config.banned_types.iter().map(|s| s.as_str()).collect();
         let floor = level_floor(base.level);
-        let relevant_set: Vec<bool> = solver.set_bonus.iter().map(|tiers| tiers.iter().any(|v| solver.useful(v))).collect();
-        for &s in &solver.free_slots.clone() {
+        let relevant_set: Vec<bool> = forge.set_bonus.iter().map(|tiers| tiers.iter().any(|v| forge.useful(v))).collect();
+        let exo_wanted = forge.exo_max > 0 && (forge.exo_ap || forge.exo_mp || forge.exo_range);
+        for &s in &forge.free_slots.clone() {
             let exempt = s >= DOFUS_FIRST || ALL_SLOTS[s] == "companion" || ALL_SLOTS[s] == "sidekick";
-            let pool: Vec<i32> = solver
+            let rune_host = FORGEABLE.contains(&s) && (exo_wanted && (!forge.exo_only_ring || s == RING1 || s == RING2));
+            let pool: Vec<i32> = forge
                 .catalog
                 .iter()
                 .enumerate()
                 .filter(|(i, it)| {
+                    let item = &forge.items[*i];
                     fits_slot(it, s)
                         && it.level <= config.max_level
                         && (exempt || it.level >= floor)
                         && obtainable(it)
                         && !banned_ids.contains(&it.ankama_id)
                         && !banned_types.contains(it.item_type.as_str())
-                        && (solver.useful(&solver.items[*i].vec) || solver.items[*i].set.is_some_and(|st| relevant_set[st]))
+                        && (forge.useful(&item.vec) || item.set.is_some_and(|st| relevant_set[st]) || !item.runes.is_empty() || rune_host)
                 })
                 .map(|(i, _)| i as i32)
                 .collect();
-            solver.pools[s] = pool;
+            forge.pools[s] = pool;
         }
-        for &s in &solver.free_slots {
-            for &i in &solver.pools[s] {
-                if let Some(st) = solver.items[i as usize].set {
-                    let members = &mut solver.set_members[st];
+        for &s in &forge.free_slots {
+            for &i in &forge.pools[s] {
+                if let Some(st) = forge.items[i as usize].set {
+                    let members = &mut forge.set_members[st];
                     match members.iter_mut().find(|(id, _)| *id == i) {
                         Some((_, slots)) => slots.push(s),
                         None => members.push((i, vec![s])),
@@ -476,41 +618,20 @@ impl Solver {
             }
         }
 
-        for _ in 0..ISLANDS {
-            let pop: Vec<Individual> = (0..ISLAND_SIZE).map(|_| solver.random_individual()).collect();
+        for _ in 0..island_count {
+            let pop: Vec<Individual> = (0..ISLAND_SIZE).map(|_| forge.random_individual()).collect();
             let mut island = Island { pop, best: f64::NEG_INFINITY, stagnant: 0 };
             island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
             island.best = island.pop[0].score;
-            solver.islands.push(island);
+            forge.islands.push(island);
         }
-        solver.update_hall();
-        solver
+        forge.update_hall();
+        forge
     }
 
     // Does this raw stat vector add anything a weighted target cares about?
     fn useful(&self, v: &Vec60) -> bool {
-        self.targets.iter().any(|t| {
-            if t.weight <= 0.0 {
-                return false;
-            }
-            let mut gain = v[t.idx];
-            if t.add_power {
-                gain += v[POWER];
-            }
-            if (ELEM_DMG_FIRST..=ELEM_DMG_LAST).contains(&t.idx) {
-                gain += v[DAMAGE];
-            }
-            gain += match t.idx {
-                MAXHP => v[VIT],
-                INITIATIVE => v[STR] + v[STR + 1] + v[STR + 2] + v[AGI],
-                DODGE | LOCK => v[AGI],
-                i if (AP_REDUCTION..=MP_PARRY).contains(&i) => v[WIS],
-                PODS => v[STR],
-                PROSPECTING => v[STR + 2],
-                _ => 0,
-            };
-            gain > 0
-        })
+        (0..NF).any(|i| v[i] > 0 && self.stat_targets[i].iter().any(|&t| self.targets[t].weight > 0.0))
     }
 
     fn valid(&self, g: &[i32; NSLOT]) -> bool {
@@ -609,8 +730,8 @@ impl Solver {
         v
     }
 
-    // Allocation-time value of one target: deficits dominate, then surplus.
-    fn alloc_value(t: &Target, e: i64) -> f64 {
+    // Greedy-time value of one target: deficits dominate, then surplus.
+    fn greedy_value(t: &Target, e: i64) -> f64 {
         if t.absolute && e > t.max {
             return -1e12 * (e - t.max) as f64;
         }
@@ -619,19 +740,30 @@ impl Solver {
         t.weight * (ec as f64 - deficit * 1000.0)
     }
 
-    fn allocate(&self, pre: &Vec60) -> [i64; 6] {
+    fn chars_of(pre: &Vec60, alloc: &[i64; 6]) -> [i64; 6] {
+        let mut ch = [0i64; 6];
+        for c in 0..6 {
+            ch[c] = pre[VIT + c] + alloc[c];
+        }
+        ch
+    }
+
+    // Spends the point budget greedily by marginal gain per point, in chunks
+    // of up to 5. `extra` are equip conditions of the build's own items
+    // ("Agility > 300"): points go to them first, since an unmet condition
+    // invalidates the whole build.
+    fn allocate(&self, pre: &Vec60, extra: &[Target]) -> [i64; 6] {
         let budget = stat_budget(self.level);
         let mut spent = 0i64;
         let mut alloc = [0i64; 6];
-        let mut ch = [0i64; 6];
-        for c in 0..6 {
-            ch[c] = pre[VIT + c];
-        }
+        let mut ch = Self::chars_of(pre, &alloc);
         loop {
             let mut best: Option<(usize, i64, i64)> = None;
             let mut best_ratio = 0.0f64;
             for c in 0..6 {
-                if self.char_targets[c].is_empty() {
+                let related = &self.stat_targets[VIT + c];
+                let has_extra = extra.iter().any(|t| t.idx == VIT + c);
+                if related.is_empty() && !has_extra {
                     continue;
                 }
                 let a = alloc[c];
@@ -641,15 +773,30 @@ impl Solver {
                 if spent + k * unit > budget {
                     k = (budget - spent) / unit;
                 }
+                // Stop a chunk exactly where a direct goal is reached.
+                let nearest = related
+                    .iter()
+                    .map(|&ti| &self.targets[ti])
+                    .chain(extra.iter())
+                    .filter(|t| t.idx == VIT + c)
+                    .map(|t| t.goal - self.effective(pre, &ch, t))
+                    .filter(|d| *d > 0)
+                    .min();
+                if let Some(d) = nearest {
+                    k = k.min(d);
+                }
                 if k <= 0 {
                     continue;
                 }
-                let mut gain = 0.0;
                 let mut ch2 = ch;
                 ch2[c] += k;
-                for &ti in &self.char_targets[c] {
+                let mut gain = 0.0;
+                for &ti in related {
                     let t = &self.targets[ti];
-                    gain += Self::alloc_value(t, self.effective(pre, &ch2, t)) - Self::alloc_value(t, self.effective(pre, &ch, t));
+                    gain += Self::greedy_value(t, self.effective(pre, &ch2, t)) - Self::greedy_value(t, self.effective(pre, &ch, t));
+                }
+                for t in extra.iter().filter(|t| t.idx == VIT + c) {
+                    gain += Self::greedy_value(t, ch2[c]) - Self::greedy_value(t, ch[c]);
                 }
                 let ratio = gain / (k * unit) as f64;
                 if ratio > best_ratio {
@@ -663,6 +810,23 @@ impl Solver {
             spent += cost;
         }
         alloc
+    }
+
+    // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`.
+    fn stat_gain(&self, pre: &Vec60, ch: &[i64; 6], i: usize, amount: i64) -> f64 {
+        let mut pre2 = *pre;
+        pre2[i] += amount;
+        let mut ch2 = *ch;
+        if (VIT..=AGI).contains(&i) {
+            ch2[i - VIT] += amount;
+        }
+        self.stat_targets[i]
+            .iter()
+            .map(|&ti| {
+                let t = &self.targets[ti];
+                Self::greedy_value(t, self.effective(&pre2, &ch2, t)) - Self::greedy_value(t, self.effective(pre, ch, t))
+            })
+            .sum()
     }
 
     fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
@@ -690,7 +854,9 @@ impl Solver {
             pre[i] += pre[DAMAGE];
         }
 
+        // Exo runes first: +1 AP/MP/Range only where it closes a goal.
         let mut exo = [0u8; NSLOT];
+        let mut used = [false; NSLOT];
         if self.exo_max > 0 {
             let mut hosts: Vec<usize> = FORGEABLE
                 .iter()
@@ -707,16 +873,62 @@ impl Solver {
                 if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal {
                     pre[stat] += 1;
                     exo[hosts[next]] = kind;
+                    used[hosts[next]] = true;
                     next += 1;
                 }
             }
         }
 
-        let alloc = self.allocate(&pre);
-        let mut ch = [0i64; 6];
-        for c in 0..6 {
-            ch[c] = pre[VIT + c] + alloc[c];
+        // Characteristic thresholds the equipped items themselves demand.
+        let mut extra: Vec<Target> = Vec::new();
+        for &item in g.iter() {
+            if item < 0 {
+                continue;
+            }
+            for c in &self.items[item as usize].conds {
+                if let CondKind::Stat(i) = c.kind {
+                    if (VIT..=AGI).contains(&i) && (c.op == b'>' || c.op == b'g') {
+                        let goal = c.value + if c.op == b'>' { 1 } else { 0 };
+                        extra.push(Target { idx: i, goal, weight: CONDITION_WEIGHT, max: goal, absolute: false, add_power: false });
+                    }
+                }
+            }
         }
+
+        // Transcendence runes: one per free forgeable item, each placed
+        // where it gains the most, re-deciding points around them.
+        let mut rune = [None; NSLOT];
+        let mut alloc = self.allocate(&pre, &extra);
+        if FORGEABLE.iter().any(|&s| g[s] >= 0 && self.fixed[s] < 0 && !self.items[g[s] as usize].runes.is_empty()) {
+            let mut ch = Self::chars_of(&pre, &alloc);
+            loop {
+                let mut best: Option<(usize, usize, i64)> = None;
+                let mut best_gain = 0.0f64;
+                for &s in &FORGEABLE {
+                    if g[s] < 0 || self.fixed[s] >= 0 || used[s] {
+                        continue;
+                    }
+                    for &(i, v) in &self.items[g[s] as usize].runes {
+                        let gain = self.stat_gain(&pre, &ch, i, v);
+                        if gain > best_gain {
+                            best_gain = gain;
+                            best = Some((s, i, v));
+                        }
+                    }
+                }
+                let Some((s, i, v)) = best else { break };
+                pre[i] += v;
+                if (VIT..=AGI).contains(&i) {
+                    ch[i - VIT] += v;
+                }
+                rune[s] = Some((i, v));
+                used[s] = true;
+            }
+            if rune.iter().any(|r| r.is_some()) {
+                alloc = self.allocate(&pre, &extra);
+            }
+        }
+        let ch = Self::chars_of(&pre, &alloc);
 
         let mut violation = 0.0f64;
         let mut conditions_ok = true;
@@ -771,6 +983,7 @@ impl Solver {
             score,
             alloc,
             exo,
+            rune,
             conditions_ok: conditions_ok && legal,
             meets_required: legal && violation == 0.0 && deficit == 0.0,
             requirements_met: met,
@@ -905,10 +1118,17 @@ impl Solver {
         }
     }
 
+    fn migration_size() -> usize {
+        ((ISLAND_SIZE as f64) * MIGRATION_FRACTION).ceil() as usize
+    }
+
     fn migrate(&mut self) {
-        let k = ((ISLAND_SIZE as f64) * MIGRATION_FRACTION).ceil() as usize;
-        let emigrants: Vec<Vec<Individual>> = self.islands.iter().map(|isl| isl.pop[..k].to_vec()).collect();
+        let k = Self::migration_size();
         let count = self.islands.len();
+        if count < 2 {
+            return;
+        }
+        let emigrants: Vec<Vec<Individual>> = self.islands.iter().map(|isl| isl.pop[..k].to_vec()).collect();
         for (from, group) in emigrants.into_iter().enumerate() {
             let to = &mut self.islands[(from + 1) % count];
             let len = to.pop.len();
@@ -933,10 +1153,17 @@ impl Solver {
                 }
             }
         }
+        self.merge_into_hall(pool);
+    }
+
+    fn merge_into_hall(&mut self, mut pool: Vec<Individual>) {
+        pool.extend(self.hall.iter().copied());
         pool.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
         let mut hall: Vec<Individual> = Vec::with_capacity(HALL_SIZE);
+        // Equal quality means the builds only differ in filler items that
+        // add nothing to the order: not a real alternative.
         for ind in pool {
-            if hall.iter().all(|h| h.hash != ind.hash) {
+            if hall.iter().all(|h| h.hash != ind.hash && (h.score - ind.score).abs() > 1e-6) {
                 hall.push(ind);
             }
             if hall.len() >= HALL_SIZE {
@@ -966,9 +1193,7 @@ impl Solver {
         self.hall.first().map(|h| h.score).unwrap_or(f64::NEG_INFINITY)
     }
 
-    /// Seeds a build found elsewhere (another Worker's island) into the
-    /// next island in turn, replacing its worst individual.
-    pub fn inject(&mut self, equipped: &HashMap<String, i64>) {
+    fn genes_from(&self, equipped: &HashMap<String, i64>) -> Option<[i32; NSLOT]> {
         let mut g = self.fixed;
         for &s in &self.free_slots {
             if let Some(id) = equipped.get(ALL_SLOTS[s]) {
@@ -977,38 +1202,115 @@ impl Solver {
                 }
             }
         }
-        if !self.valid(&g) || self.islands.is_empty() {
+        self.valid(&g).then_some(g)
+    }
+
+    /// This Forge's best build plus the top of its last island, for ring
+    /// migration to the next Worker.
+    pub fn emigrants(&self) -> Vec<HashMap<String, i64>> {
+        let Some(last) = self.islands.last() else { return Vec::new() };
+        self.hall
+            .iter()
+            .take(1)
+            .chain(last.pop.iter().take(Self::migration_size()))
+            .map(|ind| self.equipped_map(&ind.genes))
+            .collect()
+    }
+
+    /// Builds from another Worker replace the worst of the first island
+    /// (several) or of the next island in turn (one).
+    pub fn inject(&mut self, builds: &[HashMap<String, i64>]) {
+        if self.islands.is_empty() {
             return;
         }
-        let ind = self.make(g);
-        let turn = self.inject_turn % self.islands.len();
+        let incoming: Vec<Individual> = builds.iter().filter_map(|b| self.genes_from(b)).map(|g| self.make(g)).collect();
+        if incoming.is_empty() {
+            return;
+        }
+        let target = if incoming.len() > 1 { 0 } else { self.inject_turn % self.islands.len() };
         self.inject_turn += 1;
-        let island = &mut self.islands[turn];
-        let last = island.pop.len() - 1;
-        island.pop[last] = ind;
+        let island = &mut self.islands[target];
+        let len = island.pop.len();
+        for (j, ind) in incoming.iter().enumerate().take(len) {
+            island.pop[len - 1 - j] = *ind;
+        }
         island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+        self.merge_into_hall(incoming);
+    }
+
+    /// Final tempering: slot-by-slot steepest ascent over the full pools,
+    /// starting from each build in the hall, until `budget_ms` runs out.
+    pub fn temper(&mut self, budget_ms: f64, now: &dyn Fn() -> f64) {
+        let start = now();
+        let starts: Vec<Individual> = self.hall.clone();
+        let mut found: Vec<Individual> = Vec::new();
+        'builds: for ind in starts {
+            let mut current = ind;
+            loop {
+                let mut improved = false;
+                for k in 0..self.free_slots.len() {
+                    if now() - start > budget_ms {
+                        found.push(current);
+                        break 'builds;
+                    }
+                    let s = self.free_slots[k];
+                    let mut best = current;
+                    let options: Vec<i32> = std::iter::once(-1).chain(self.pools[s].iter().copied()).collect();
+                    for item in options {
+                        if item == current.genes[s] {
+                            continue;
+                        }
+                        let mut g = current.genes;
+                        g[s] = item;
+                        if !self.valid(&g) {
+                            continue;
+                        }
+                        let cand = self.make(g);
+                        if cand.score > best.score + 1e-9 {
+                            best = cand;
+                        }
+                    }
+                    if best.hash != current.hash {
+                        current = best;
+                        improved = true;
+                    }
+                }
+                if !improved {
+                    break;
+                }
+            }
+            found.push(current);
+        }
+        self.merge_into_hall(found);
     }
 
     pub fn results(&self) -> Vec<BuildResult> {
         self.hall.iter().map(|ind| self.to_result(&ind.genes)).collect()
     }
 
-    pub fn report(&self) -> StepReport {
-        StepReport { generation: self.generation, best_score: self.best_score(), results: self.results() }
+    pub fn report(&self) -> ForgeReport {
+        ForgeReport { generation: self.generation, best_score: self.best_score(), results: self.results() }
+    }
+
+    fn equipped_map(&self, g: &[i32; NSLOT]) -> HashMap<String, i64> {
+        g.iter()
+            .enumerate()
+            .filter(|(_, &item)| item >= 0)
+            .map(|(s, &item)| (ALL_SLOTS[s].to_string(), self.items[item as usize].ankama_id))
+            .collect()
     }
 
     fn to_result(&self, g: &[i32; NSLOT]) -> BuildResult {
         let ev = self.evaluate(g);
-        let mut equipped = HashMap::new();
         let mut items = Vec::new();
         let mut exo = HashMap::new();
+        let mut runes = HashMap::new();
         let mut rune_effects = self.locked_runes.clone();
         for (s, &item) in g.iter().enumerate() {
             if item < 0 {
                 continue;
             }
             let it = &self.catalog[item as usize];
-            equipped.insert(ALL_SLOTS[s].to_string(), it.ankama_id);
             items.push(EquippedItem { ankama_id: it.ankama_id, effects: it.effects.clone(), set_id: it.set_id, slot: it.slot.clone() });
             let kind = match ev.exo[s] {
                 1 => Some(("ap", "AP")),
@@ -1019,6 +1321,11 @@ impl Solver {
             if let Some((key, stat)) = kind {
                 exo.insert(ALL_SLOTS[s].to_string(), key.to_string());
                 rune_effects.push(ItemEffect { stat: stat.to_string(), min: 1, max: 1, effect_id: None });
+            }
+            if let Some((i, v)) = ev.rune[s] {
+                let stat = rune_stat_name(i).to_string();
+                rune_effects.push(ItemEffect { stat: stat.clone(), min: v, max: v, effect_id: None });
+                runes.insert(ALL_SLOTS[s].to_string(), RuneChoice { stat, value: v });
             }
         }
         let allocated = AllocatedCharacteristics {
@@ -1038,7 +1345,7 @@ impl Solver {
             rune_effects,
         });
         BuildResult {
-            equipped,
+            equipped: self.equipped_map(g),
             stats,
             score: ev.score,
             meets_required: ev.meets_required,
@@ -1046,15 +1353,41 @@ impl Solver {
             allocated,
             scrolled: self.scrolled.clone(),
             exo,
+            runes,
             requirements_met: ev.requirements_met,
             requirements_total: self.targets.iter().filter(|t| t.goal > 0).count(),
         }
     }
 
-    #[cfg(test)]
-    fn target_value(&self, r: &BuildResult, stat: &str) -> i64 {
-        let t = self.targets.iter().find(|t| FIELDS[t.idx] == stat).unwrap();
-        get_stat(&r.stats, stat) + if t.add_power { r.stats.power } else { 0 }
+    /// Recomputes every goal from the reported StatBlock (the slow, exact
+    /// compute_stats path) and checks it agrees with what the fast dense
+    /// evaluation claimed. Used by tests and the real-catalog validation.
+    pub fn verify(&self, r: &BuildResult) -> Result<(), String> {
+        for t in &self.targets {
+            let mut v = get_stat(&r.stats, FIELDS[t.idx]);
+            if t.add_power {
+                v += r.stats.power;
+            }
+            let ec = v.min(t.max);
+            if r.meets_required && t.goal > 0 && ec < t.goal {
+                return Err(format!("{} claimed met but is {} < {}", FIELDS[t.idx], ec, t.goal));
+            }
+            if t.absolute && v > t.max && r.meets_required {
+                return Err(format!("{} over absolute max {} > {}", FIELDS[t.idx], v, t.max));
+            }
+        }
+        let spent = r.stats.points_spent;
+        if spent > r.stats.points_budget {
+            return Err(format!("points overspent {} > {}", spent, r.stats.points_budget));
+        }
+        if r.stats.ap > 12 || r.stats.mp > 6 || r.stats.range > 6 {
+            return Err("game caps exceeded".into());
+        }
+        let forgeable_runes = r.exo.len() + r.runes.len();
+        if forgeable_runes > 9 || r.exo.keys().any(|s| r.runes.contains_key(s)) {
+            return Err("more than one rune on an item".into());
+        }
+        Ok(())
     }
 }
 
@@ -1081,16 +1414,25 @@ mod tests {
             assume_fully_scrolled: false,
             banned_items: vec![],
             banned_types: vec![],
+            transcendence: false,
+            islands: 4,
         }
     }
     fn base(level: i64) -> OptimizerBuildBase {
         OptimizerBuildBase { level, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() }
     }
-    fn run(s: &mut Solver, gens: usize) -> Vec<BuildResult> {
+    fn run(f: &mut Forge, gens: usize) -> Vec<BuildResult> {
         for _ in 0..gens {
-            s.run_generation();
+            f.run_generation();
         }
-        s.results()
+        let results = f.results();
+        for r in &results {
+            f.verify(r).unwrap();
+        }
+        results
+    }
+    fn target_value(r: &BuildResult, stat: &str) -> i64 {
+        get_stat(&r.stats, stat) + if ["strength", "intelligence", "chance", "agility"].contains(&stat) { r.stats.power } else { 0 }
     }
 
     #[test]
@@ -1104,27 +1446,33 @@ mod tests {
         bonuses.insert("2".to_string(), vec![effect("Power", 40), effect("MP", 4)]);
         let sets = vec![CatalogSet { ankama_id: 9, items: vec![1, 2], bonuses }];
         let stats: Vec<StatConfig> = FIELDS.iter().map(|f| cond(f, 0, 1)).collect();
-        let s = Solver::new(config(stats, &["hat", "cape", "ring1"]), items, sets, base(150), 1);
+        let mut cfg = config(stats, &["hat", "cape", "ring1"]);
+        cfg.transcendence = true;
+        let f = Forge::new(cfg, items, sets, base(150), 1);
         let mut g = [-1i32; NSLOT];
         g[0] = 0;
         g[1] = 1;
         g[RING1] = 2;
-        let r = s.to_result(&g);
-        let ev = s.evaluate(&g);
-        let mut pre = s.base_pre;
+        let r = f.to_result(&g);
+        let ev = f.evaluate(&g);
+        assert!(ev.rune.iter().any(|r| r.is_some()), "runes should be placed");
+        let mut pre = f.base_pre;
         for &i in &[0usize, 1, 2] {
-            add_into(&mut pre, &s.items[i].vec);
+            add_into(&mut pre, &f.items[i].vec);
         }
-        add_into(&mut pre, &s.set_bonus[0][2]);
+        add_into(&mut pre, &f.set_bonus[0][2]);
         for i in ELEM_DMG_FIRST..=ELEM_DMG_LAST {
             pre[i] += pre[DAMAGE];
         }
-        let mut ch = [0i64; 6];
-        for c in 0..6 {
-            ch[c] = pre[VIT + c] + ev.alloc[c];
+        for (s, slot_rune) in ev.rune.iter().enumerate() {
+            if let Some((i, v)) = slot_rune {
+                assert!(g[s] >= 0);
+                pre[*i] += v;
+            }
         }
+        let ch = Forge::chars_of(&pre, &ev.alloc);
         for (i, key) in FIELDS.iter().enumerate() {
-            assert_eq!(s.final_value(&pre, &ch, i), get_stat(&r.stats, key), "{key}");
+            assert_eq!(f.final_value(&pre, &ch, i), get_stat(&r.stats, key), "{key}");
         }
     }
 
@@ -1141,16 +1489,16 @@ mod tests {
         let mut bonuses = HashMap::new();
         bonuses.insert("3".to_string(), vec![effect("Vitality", 1000)]);
         let sets = vec![CatalogSet { ankama_id: 1, items: vec![101, 102, 103], bonuses }];
-        let mut s = Solver::new(config(vec![cond("vitality", 0, 1)], &["hat", "cape", "amulet"]), items, sets, base(1), 7);
-        let best = &run(&mut s, 30)[0];
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat", "cape", "amulet"]), items, sets, base(1), 7);
+        let best = &run(&mut f, 30)[0];
         assert_eq!(get_stat(&best.stats, "vitality"), 1150);
     }
 
     #[test]
     fn unmet_goals_score_negative_and_met_goals_score_surplus() {
         let items = vec![item(1, "hat", None, vec![effect("Strength", 40)]), item(2, "hat", None, vec![effect("Strength", 120)])];
-        let mut s = Solver::new(config(vec![cond("strength", 100, 2)], &["hat"]), items, vec![], base(1), 3);
-        let results = run(&mut s, 10);
+        let mut f = Forge::new(config(vec![cond("strength", 100, 2)], &["hat"]), items, vec![], base(1), 3);
+        let results = run(&mut f, 10);
         assert_eq!(results[0].equipped.get("hat"), Some(&2));
         assert_eq!(results[0].score, 40.0);
         assert!(results[0].meets_required);
@@ -1167,14 +1515,14 @@ mod tests {
         ];
         let mut soft = cond("strength", 0, 1);
         soft.max = Some(150);
-        let mut s = Solver::new(config(vec![soft, cond("wisdom", 0, 1)], &["hat"]), items.clone(), vec![], base(1), 5);
-        assert_eq!(run(&mut s, 10)[0].equipped.get("hat"), Some(&2));
+        let mut f = Forge::new(config(vec![soft, cond("wisdom", 0, 1)], &["hat"]), items.clone(), vec![], base(1), 5);
+        assert_eq!(run(&mut f, 10)[0].equipped.get("hat"), Some(&2));
 
         let mut hard = cond("strength", 0, 10);
         hard.max = Some(200);
         hard.absolute = true;
-        let mut s = Solver::new(config(vec![hard], &["hat"]), items, vec![], base(1), 5);
-        let r = run(&mut s, 10);
+        let mut f = Forge::new(config(vec![hard], &["hat"]), items, vec![], base(1), 5);
+        let r = run(&mut f, 10);
         assert_eq!(r[0].equipped.get("hat"), Some(&2));
         let over = r.iter().find(|x| x.equipped.get("hat") == Some(&1)).unwrap();
         assert!(over.score <= TIER_CONDITION);
@@ -1183,24 +1531,36 @@ mod tests {
     #[test]
     fn power_counts_toward_characteristic_goals() {
         let items = vec![item(1, "hat", None, vec![effect("Power", 80)]), item(2, "hat", None, vec![effect("Strength", 60)])];
-        let mut s = Solver::new(config(vec![cond("strength", 70, 1)], &["hat"]), items, vec![], base(1), 2);
-        let r = &run(&mut s, 10)[0];
+        let mut f = Forge::new(config(vec![cond("strength", 70, 1)], &["hat"]), items, vec![], base(1), 2);
+        let r = &run(&mut f, 10)[0];
         assert_eq!(r.equipped.get("hat"), Some(&1));
         assert!(r.meets_required);
-        assert_eq!(s.target_value(r, "strength"), 80);
+        assert_eq!(target_value(r, "strength"), 80);
     }
 
     #[test]
     fn allocates_points_to_close_a_goal_first() {
         let mut hat = item(1, "hat", None, vec![effect("Strength", 50)]);
         hat.level = 190;
-        let items = vec![hat];
-        let mut s = Solver::new(config(vec![cond("strength", 150, 1), cond("vitality", 0, 1)], &["hat"]), items, vec![], base(200), 4);
-        let r = &run(&mut s, 3)[0];
+        let mut f = Forge::new(config(vec![cond("strength", 150, 1), cond("vitality", 0, 1)], &["hat"]), vec![hat], vec![], base(200), 4);
+        let r = &run(&mut f, 3)[0];
         assert_eq!(r.allocated.strength, 100);
         assert!(r.meets_required);
-        // 995 budget - 100 strength points spent at cost 1 = 895 for vitality.
         assert_eq!(r.allocated.vitality, 895);
+    }
+
+    #[test]
+    fn spends_points_to_meet_an_items_own_condition() {
+        let mut gated = item(1, "hat", None, vec![effect("Vitality", 400)]);
+        gated.level = 190;
+        gated.conditions = Some(vec![CatalogCondition { stat: "Agility".to_string(), operator: ">".to_string(), value: 150 }]);
+        let mut plain = item(2, "hat", None, vec![effect("Vitality", 100)]);
+        plain.level = 190;
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), vec![gated, plain], vec![], base(200), 8);
+        let r = &run(&mut f, 5)[0];
+        assert_eq!(r.equipped.get("hat"), Some(&1));
+        assert!(r.conditions_ok);
+        assert_eq!(r.allocated.agility, 151);
     }
 
     #[test]
@@ -1209,11 +1569,45 @@ mod tests {
         items.iter_mut().for_each(|it| it.level = 190);
         let mut cfg = config(vec![cond("ap", 12, 100)], &["ring1", "hat"]);
         cfg.exo = ExoConfig { ap: true, mp: false, range: false, only_on_ring: true, max_count: 1 };
-        let mut s = Solver::new(cfg, items, vec![], base(200), 9);
-        let r = &run(&mut s, 5)[0];
+        let mut f = Forge::new(cfg, items, vec![], base(200), 9);
+        let r = &run(&mut f, 5)[0];
         assert_eq!(get_stat(&r.stats, "ap"), 12);
         assert_eq!(r.exo.get("ring1").map(|s| s.as_str()), Some("ap"));
         assert!(r.meets_required);
+    }
+
+    #[test]
+    fn transcendence_rune_rank_follows_the_existing_line() {
+        // 10 earth damage weighs 50 (> Ra 20, > Pa 40, <= Tra 60): only the
+        // smallest rank fits. A bare item takes the biggest one.
+        let mut heavy = item(1, "hat", None, vec![effect("Earth Damage", 10)]);
+        let mut bare = item(2, "cape", None, vec![effect("Vitality", 1)]);
+        heavy.level = 190;
+        bare.level = 190;
+        let mut cfg = config(vec![cond("earthDamage", 0, 10)], &["hat", "cape"]);
+        cfg.transcendence = true;
+        let mut f = Forge::new(cfg, vec![heavy, bare], vec![], base(200), 11);
+        let r = &run(&mut f, 5)[0];
+        assert_eq!(r.runes.get("hat").map(|x| x.value), Some(2));
+        assert_eq!(r.runes.get("cape").map(|x| x.value), Some(6));
+        assert_eq!(get_stat(&r.stats, "earthDamage"), 18);
+    }
+
+    #[test]
+    fn runes_close_a_resistance_goal_items_cannot() {
+        let mut items: Vec<CatalogItem> = ["hat", "cape", "amulet", "belt", "boots"]
+            .iter()
+            .enumerate()
+            .map(|(i, s)| item(i as i64 + 1, s, None, vec![effect("% Fire Resistance", 6)]))
+            .collect();
+        items.iter_mut().for_each(|it| it.level = 190);
+        let mut cfg = config(vec![cond("fireResPercent", 40, 30)], &["hat", "cape", "amulet", "belt", "boots"]);
+        cfg.transcendence = true;
+        let mut f = Forge::new(cfg, items, vec![], base(200), 12);
+        let r = &run(&mut f, 5)[0];
+        assert_eq!(get_stat(&r.stats, "fireResPercent"), 40);
+        assert!(r.meets_required);
+        assert_eq!(r.runes.len(), 5);
     }
 
     #[test]
@@ -1221,8 +1615,8 @@ mod tests {
         let mut gated = item(1, "hat", None, vec![effect("Vitality", 500)]);
         gated.conditions = Some(vec![CatalogCondition { stat: "% Critical".to_string(), operator: ">".to_string(), value: 20 }]);
         let items = vec![gated, item(2, "hat", None, vec![effect("Vitality", 100)])];
-        let mut s = Solver::new(config(vec![cond("vitality", 0, 1)], &["hat"]), items, vec![], base(1), 6);
-        let r = &run(&mut s, 5)[0];
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), items, vec![], base(1), 6);
+        let r = &run(&mut f, 5)[0];
         assert_eq!(r.equipped.get("hat"), Some(&2));
     }
 
@@ -1231,8 +1625,8 @@ mod tests {
         let items = vec![item(1, "hat", None, vec![effect("Vitality", 500)]), item(2, "hat", None, vec![effect("Vitality", 100)])];
         let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat"]);
         cfg.banned_items = vec![1];
-        let mut s = Solver::new(cfg, items, vec![], base(1), 6);
-        assert!(run(&mut s, 5).iter().all(|r| r.equipped.get("hat") != Some(&1)));
+        let mut f = Forge::new(cfg, items, vec![], base(1), 6);
+        assert!(run(&mut f, 5).iter().all(|r| r.equipped.get("hat") != Some(&1)));
     }
 
     #[test]
@@ -1243,18 +1637,40 @@ mod tests {
         let mut runes = HashMap::new();
         runes.insert("Vitality".to_string(), 30);
         b.runes.insert("hat".to_string(), runes);
-        let mut s = Solver::new(config(vec![cond("vitality", 0, 1)], &["cape"]), items, vec![], b, 6);
-        let r = &run(&mut s, 5)[0];
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["cape"]), items, vec![], b, 6);
+        let r = &run(&mut f, 5)[0];
         assert_eq!(r.equipped.get("hat"), Some(&1));
         assert_eq!(get_stat(&r.stats, "vitality"), 60);
+        assert!(r.runes.get("hat").is_none());
+    }
+
+    #[test]
+    fn temper_finds_the_best_single_slot_swaps() {
+        let items: Vec<CatalogItem> = (0..60).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i)])).collect();
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat", "cape"]), items, vec![], base(1), 13);
+        f.temper(5000.0, &|| 0.0);
+        let r = &f.results()[0];
+        assert_eq!(r.equipped.get("hat"), Some(&58));
+        assert_eq!(r.equipped.get("cape"), Some(&59));
+    }
+
+    #[test]
+    fn migrants_carry_over_between_forges() {
+        let items: Vec<CatalogItem> = (0..40).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i)])).collect();
+        let cfg = || config(vec![cond("vitality", 0, 1)], &["hat", "cape"]);
+        let mut a = Forge::new(cfg(), items.clone(), vec![], base(1), 1);
+        a.temper(5000.0, &|| 0.0);
+        let mut b = Forge::new(cfg(), items, vec![], base(1), 2);
+        b.inject(&a.emigrants());
+        assert_eq!(b.best_score(), a.best_score());
     }
 
     #[test]
     fn same_seed_same_search() {
         let items: Vec<CatalogItem> = (0..40).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i * 7 % 23), effect("Wisdom", i * 5 % 17)])).collect();
         let cfg = || config(vec![cond("vitality", 0, 1), cond("wisdom", 0, 3)], &["hat", "cape"]);
-        let mut a = Solver::new(cfg(), items.clone(), vec![], base(1), 42);
-        let mut b = Solver::new(cfg(), items, vec![], base(1), 42);
+        let mut a = Forge::new(cfg(), items.clone(), vec![], base(1), 42);
+        let mut b = Forge::new(cfg(), items, vec![], base(1), 42);
         assert_eq!(run(&mut a, 20)[0].equipped, run(&mut b, 20)[0].equipped);
     }
 }

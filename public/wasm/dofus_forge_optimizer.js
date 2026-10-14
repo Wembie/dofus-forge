@@ -1,25 +1,35 @@
 /* @ts-self-types="./dofus_forge_optimizer.d.ts" */
 
 /**
- * Stateful solver handle owned by one Worker. The Worker calls `step()` in a
- * setTimeout loop so it can pause, resume, or accept migrants between steps.
+ * One Worker's share of a forging run. The Worker calls `step()` from a
+ * setTimeout loop, so it can stop, exchange migrants or temper between steps.
  */
-export class WasmSolver {
+export class WasmForge {
     __destroy_into_raw() {
         const ptr = this.__wbg_ptr;
         this.__wbg_ptr = 0;
-        WasmSolverFinalization.unregister(this);
+        WasmForgeFinalization.unregister(this);
         return ptr;
     }
     free() {
         const ptr = this.__destroy_into_raw();
-        wasm.__wbg_wasmsolver_free(ptr, 0);
+        wasm.__wbg_wasmforge_free(ptr, 0);
     }
     /**
-     * @param {any} equipped
+     * @returns {any}
      */
-    inject(equipped) {
-        wasm.wasmsolver_inject(this.__wbg_ptr, equipped);
+    emigrants() {
+        const ret = wasm.wasmforge_emigrants(this.__wbg_ptr);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return takeFromExternrefTable0(ret[0]);
+    }
+    /**
+     * @param {any} builds
+     */
+    inject(builds) {
+        wasm.wasmforge_inject(this.__wbg_ptr, builds);
     }
     /**
      * @param {any} config
@@ -29,31 +39,41 @@ export class WasmSolver {
      * @param {number} seed
      */
     constructor(config, items, sets, base, seed) {
-        const ret = wasm.wasmsolver_new(config, items, sets, base, seed);
+        const ret = wasm.wasmforge_new(config, items, sets, base, seed);
         if (ret[2]) {
             throw takeFromExternrefTable0(ret[1]);
         }
         this.__wbg_ptr = ret[0];
-        WasmSolverFinalization.register(this, this.__wbg_ptr, this);
+        WasmForgeFinalization.register(this, this.__wbg_ptr, this);
         return this;
     }
     /**
-     * Runs whole generations until `budget_ms` has elapsed (at least one,
-     * at most `max_generations` in total), then reports the current top
-     * builds.
+     * Runs whole generations until `budget_ms` has elapsed (at least one),
+     * then reports the best builds so far.
      * @param {number} budget_ms
-     * @param {number} max_generations
      * @returns {any}
      */
-    step(budget_ms, max_generations) {
-        const ret = wasm.wasmsolver_step(this.__wbg_ptr, budget_ms, max_generations);
+    step(budget_ms) {
+        const ret = wasm.wasmforge_step(this.__wbg_ptr, budget_ms);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return takeFromExternrefTable0(ret[0]);
+    }
+    /**
+     * Final local polish of the best builds, then the final report.
+     * @param {number} budget_ms
+     * @returns {any}
+     */
+    temper(budget_ms) {
+        const ret = wasm.wasmforge_temper(this.__wbg_ptr, budget_ms);
         if (ret[2]) {
             throw takeFromExternrefTable0(ret[1]);
         }
         return takeFromExternrefTable0(ret[0]);
     }
 }
-if (Symbol.dispose) WasmSolver.prototype[Symbol.dispose] = WasmSolver.prototype.free;
+if (Symbol.dispose) WasmForge.prototype[Symbol.dispose] = WasmForge.prototype.free;
 
 /**
  * Call once at Worker startup — makes a Rust panic show a real message and
@@ -320,9 +340,9 @@ function __wbg_get_imports() {
     };
 }
 
-const WasmSolverFinalization = (typeof FinalizationRegistry === 'undefined')
+const WasmForgeFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
-    : new FinalizationRegistry(ptr => wasm.__wbg_wasmsolver_free(ptr, 1));
+    : new FinalizationRegistry(ptr => wasm.__wbg_wasmforge_free(ptr, 1));
 
 function addToExternrefTable0(obj) {
     const idx = wasm.__externref_table_alloc();

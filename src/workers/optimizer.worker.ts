@@ -1,38 +1,41 @@
 /// <reference lib="webworker" />
-import type { OptimizerConfig, OptimizerBuildBase, SolverReport } from '@/features/optimizer/types.ts'
+import type { OptimizerBuildBase, ForgeReport } from '@/features/optimizer/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 
-// One solver island group per Worker. The Rust side keeps the whole search
-// state between calls; this Worker only drives it in short steps through a
-// setTimeout loop, which is what lets 'stop' and 'inject' messages land
-// between generations instead of waiting for a whole blocking search.
-type WireConfig = Omit<OptimizerConfig, 'lockedSlots'> & { lockedSlots: SlotId[] }
+// One share of a forging run. The Rust side keeps the whole search state
+// between calls; this Worker drives it in short steps from a setTimeout loop
+// so 'finish' and migrant messages land between generations.
+type Equipped = Partial<Record<SlotId, number>>
 
 type IncomingMessage =
-  | { type: 'init'; config: WireConfig; items: AppItem[]; sets: AppSet[]; base: OptimizerBuildBase; seed: number }
-  | { type: 'start' }
-  | { type: 'stop' }
-  | { type: 'inject'; equipped: Partial<Record<SlotId, number>> }
+  | { type: 'init'; config: unknown; items: AppItem[]; sets: AppSet[]; base: OptimizerBuildBase; seed: number }
+  | { type: 'run' }
+  | { type: 'finish'; temperMs: number }
+  | { type: 'inject'; builds: Equipped[] }
 
-type WasmSolver = {
-  step:   (budgetMs: number, maxGenerations: number) => SolverReport
-  inject: (equipped: unknown) => void
-  free:   () => void
+type WasmForge = {
+  step:      (budgetMs: number) => ForgeReport
+  temper:    (budgetMs: number) => ForgeReport
+  emigrants: () => Equipped[]
+  inject:    (builds: unknown) => void
+  free:      () => void
 }
 
 type WasmModule = {
   default:         (init?: { module_or_path: string }) => Promise<unknown>
   init_panic_hook: () => void
-  WasmSolver:      new (config: unknown, items: unknown, sets: unknown, base: unknown, seed: number) => WasmSolver
+  WasmForge:       new (config: unknown, items: unknown, sets: unknown, base: unknown, seed: number) => WasmForge
 }
 
-const STEP_BUDGET_MS = 120
+const STEP_BUDGET_MS = 150
+// Must match MIGRATION_EVERY in rust-optimizer/src/forge.rs.
+const MIGRATION_EVERY = 41
 
 let wasmModule: WasmModule | null | undefined // undefined = not attempted yet, null = failed
-let solver: WasmSolver | null = null
-let maxGenerations = 2500
+let forge: WasmForge | null = null
 let running = false
+let lastMigration = 0
 
 async function loadWasm(): Promise<WasmModule | null> {
   if (wasmModule !== undefined) return wasmModule
@@ -49,20 +52,25 @@ async function loadWasm(): Promise<WasmModule | null> {
   return wasmModule
 }
 
+function fail(err: unknown) {
+  console.error('[optimizer.worker] forge failed:', err)
+  running = false
+  self.postMessage({ type: 'error', message: 'wasm-run-failed' })
+}
+
 function loop() {
-  if (!running || !solver) return
+  if (!running || !forge) return
   try {
-    const report = solver.step(STEP_BUDGET_MS, maxGenerations)
-    self.postMessage({ type: 'report', report })
-    if (report.generation >= maxGenerations) {
-      running = false
-      self.postMessage({ type: 'paused', reachedLimit: true })
-      return
+    const report = forge.step(STEP_BUDGET_MS)
+    const wave = Math.floor(report.generation / MIGRATION_EVERY)
+    let emigrants: Equipped[] | undefined
+    if (wave > lastMigration) {
+      lastMigration = wave
+      emigrants = forge.emigrants()
     }
+    self.postMessage({ type: 'report', report, emigrants })
   } catch (err) {
-    console.error('[optimizer.worker] WASM step failed:', err)
-    running = false
-    self.postMessage({ type: 'error', message: 'wasm-run-failed' })
+    fail(err)
     return
   }
   setTimeout(loop, 0)
@@ -75,36 +83,39 @@ self.onmessage = (e: MessageEvent) => {
 async function handleMessage(msg: IncomingMessage) {
   if (msg.type === 'init') {
     running = false
+    lastMigration = 0
     const wasm = await loadWasm()
     if (!wasm) {
       self.postMessage({ type: 'error', message: 'wasm-unavailable' })
       return
     }
     try {
-      solver?.free()
-      solver = new wasm.WasmSolver(msg.config, msg.items, msg.sets, msg.base, msg.seed)
-      maxGenerations = msg.config.maxGenerations
+      forge?.free()
+      forge = new wasm.WasmForge(msg.config, msg.items, msg.sets, msg.base, msg.seed)
       self.postMessage({ type: 'ready' })
     } catch (err) {
-      console.error('[optimizer.worker] WASM init failed:', err)
-      solver = null
-      self.postMessage({ type: 'error', message: 'wasm-run-failed' })
+      forge = null
+      fail(err)
     }
     return
   }
-  if (msg.type === 'start') {
-    if (!solver || running) return
+  if (msg.type === 'run') {
+    if (!forge || running) return
     running = true
     loop()
     return
   }
-  if (msg.type === 'stop') {
-    if (!running) return
+  if (msg.type === 'finish') {
     running = false
-    self.postMessage({ type: 'paused', reachedLimit: false })
+    if (!forge) return
+    try {
+      self.postMessage({ type: 'tempered', report: forge.temper(msg.temperMs) })
+    } catch (err) {
+      fail(err)
+    }
     return
   }
   if (msg.type === 'inject') {
-    solver?.inject(msg.equipped)
+    forge?.inject(msg.builds)
   }
 }

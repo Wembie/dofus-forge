@@ -2,20 +2,24 @@
 /* eslint-disable */
 
 /**
- * Stateful solver handle owned by one Worker. The Worker calls `step()` in a
- * setTimeout loop so it can pause, resume, or accept migrants between steps.
+ * One Worker's share of a forging run. The Worker calls `step()` from a
+ * setTimeout loop, so it can stop, exchange migrants or temper between steps.
  */
-export class WasmSolver {
+export class WasmForge {
     free(): void;
     [Symbol.dispose](): void;
-    inject(equipped: any): void;
+    emigrants(): any;
+    inject(builds: any): void;
     constructor(config: any, items: any, sets: any, base: any, seed: number);
     /**
-     * Runs whole generations until `budget_ms` has elapsed (at least one,
-     * at most `max_generations` in total), then reports the current top
-     * builds.
+     * Runs whole generations until `budget_ms` has elapsed (at least one),
+     * then reports the best builds so far.
      */
-    step(budget_ms: number, max_generations: number): any;
+    step(budget_ms: number): any;
+    /**
+     * Final local polish of the best builds, then the final report.
+     */
+    temper(budget_ms: number): any;
 }
 
 /**
@@ -29,11 +33,13 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
-    readonly __wbg_wasmsolver_free: (a: number, b: number) => void;
+    readonly __wbg_wasmforge_free: (a: number, b: number) => void;
     readonly init_panic_hook: () => void;
-    readonly wasmsolver_inject: (a: number, b: any) => void;
-    readonly wasmsolver_new: (a: any, b: any, c: any, d: any, e: number) => [number, number, number];
-    readonly wasmsolver_step: (a: number, b: number, c: number) => [number, number, number];
+    readonly wasmforge_emigrants: (a: number) => [number, number, number];
+    readonly wasmforge_inject: (a: number, b: any) => void;
+    readonly wasmforge_new: (a: any, b: any, c: any, d: any, e: number) => [number, number, number];
+    readonly wasmforge_step: (a: number, b: number) => [number, number, number];
+    readonly wasmforge_temper: (a: number, b: number) => [number, number, number];
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_exn_store: (a: number) => void;
