@@ -38,7 +38,7 @@ pub struct CatalogSet {
     pub bonuses: HashMap<String, Vec<ItemEffect>>,
 }
 
-/// One solver condition: reach `goal` (deficits cost `weight` per missing
+/// One Forge requirement: reach `goal` (deficits cost `weight` per missing
 /// unit), keep earning `weight` per unit above it up to `max`. A soft max
 /// just stops counting past it; an `absolute` max rejects any build that
 /// exceeds it.
@@ -53,7 +53,7 @@ pub struct StatConfig {
     pub absolute: bool,
 }
 
-/// Exo forgemagie the solver may add on its own (one +1 AP/MP/Range per
+/// Exo forgemagie the Forge may add on its own (one +1 AP/MP/Range per
 /// item, only where it closes a goal deficit).
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -79,6 +79,27 @@ pub struct OptimizerConfig {
     pub banned_items: Vec<i64>,
     #[serde(default)]
     pub banned_types: Vec<String>,
+    /// Let the Forge add official transcendence runes to the items it picks.
+    #[serde(default = "default_true")]
+    pub transcendence: bool,
+    /// Islands this Forge runs (a run splits its islands across Workers).
+    #[serde(default = "default_islands")]
+    pub islands: usize,
+}
+
+fn default_true() -> bool {
+    true
+}
+
+fn default_islands() -> usize {
+    8
+}
+
+/// A transcendence rune the Forge chose for one item.
+#[derive(Debug, Clone, Serialize)]
+pub struct RuneChoice {
+    pub stat: String,
+    pub value: i64,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -105,8 +126,10 @@ pub struct BuildResult {
     pub conditions_ok: bool,
     pub allocated: AllocatedCharacteristics,
     pub scrolled: ScrolledCharacteristics,
-    /// slot -> "ap" | "mp" | "range": exo runes the solver chose to forge.
+    /// slot -> "ap" | "mp" | "range": exo runes the Forge chose to add.
     pub exo: HashMap<String, String>,
+    /// slot -> transcendence rune the Forge chose for that item.
+    pub runes: HashMap<String, RuneChoice>,
     pub requirements_met: usize,
     pub requirements_total: usize,
 }

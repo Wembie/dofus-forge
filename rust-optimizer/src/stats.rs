@@ -115,7 +115,7 @@ fn apply_effects(block: &mut StatBlock, effects: &[ItemEffect]) {
 
 /// Raw summed effects only — no base values, derived stats or caps — so
 /// several of these can be added together linearly before compute_stats'
-/// non-linear steps run once on the total (the solver's dense fast path).
+/// non-linear steps run once on the total (the Forge's dense fast path).
 pub(crate) fn raw_effects_block(effects: &[ItemEffect], is_weapon: bool) -> StatBlock {
     let mut block = StatBlock::default();
     if is_weapon {

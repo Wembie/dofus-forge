@@ -8,12 +8,24 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.78',
+    date: '2026-10-14',
+    notes: [
+      'Feature: La Forjadora adds official transcendence runes (Tra / Pa / Ra) to the items it picks, one per forgeable item, sized by the line the item already has; loading a piece applies them',
+      'Feature: characteristic points now also cover the chosen items\' own equip conditions (e.g. "Agility > 300")',
+      'Feature: new forging flow — place an order (minimum, importance ◆ 1–5, soft or strict cap), pick Quick / Standard / Master, light the forge; it cools and tempers the result on its own, with a live checklist of minimums',
+      'Improvement: wider and deeper search with ring migration between Workers and a final tempering pass over the best pieces',
+      'Fix: alternatives that only differed in filler items are no longer listed separately',
+      'Validated on the real catalog: 12 of 12 test runs meet every minimum, including the 11-requirement case',
+    ],
+  },
+  {
     version: '0.3.77',
     date: '2026-10-14',
     notes: [
-      'Architecture: La Forjadora runs on a new island-model solver that keeps its state between steps; several Workers (threads 1–8) search in parallel and share their best build',
+      'Architecture: La Forjadora runs on a new island-model engine that keeps its state between steps; several Workers (threads 1–8) search in parallel and share their best build',
       'Feature: conditions are now Goal / Weight / Max per stat — negative score while any goal is missing, weighted surplus once all are met; soft or absolute max; Power counts toward characteristic goals',
-      'Feature: the solver distributes characteristic points for every build and adds exo AP/MP/Range runes only where they close a goal; loading a build applies both',
+      'Feature: La Forjadora distributes characteristic points for every build and adds exo AP/MP/Range runes only where they close a goal; loading a build applies both',
       'Feature: real Start / Pause / Resume / Restart with a generation counter, score delta, score sparkline and the top 10 builds as alternatives; configurable threads and generation limit',
       'Feature: ban items from a result card; the ban list is editable under Advanced',
       'Fix: stopping the search early now really interrupts it (the old engine could not read the stop message until it had finished)',
