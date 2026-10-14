@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.76',
+    date: '2026-10-14',
+    notes: [
+      'Fix: flat Damage now amplifies whichever elemental damage stat is prioritized, same as Power already did',
+      'Architecture: the optimizer now runs exclusively on the Rust/WASM engine, no more silent TypeScript fallback',
+      'Architecture: replaced the bounded-exhaustive search with a genetic/memetic search engine (an evolving population of builds, refined each generation by the existing hill-climbing) — fixes very similar results across different priority weights, confirmed on the real catalog: builds now differ on 16-17 of 17 slots and strongly maximize whichever stat is weighted',
+      'Fix: "Exo AP/MP/Range" now actually credits the assumed forged bonus (a flat +1, only when a ring is equipped) instead of only raising the required minimum — closer to what the feature already described',
+      'Footer now includes a short disclaimer: Dofus Forge is not affiliated with Ankama Games',
+    ],
+  },
+  {
     version: '0.3.75',
     date: '2026-10-13',
     notes: [

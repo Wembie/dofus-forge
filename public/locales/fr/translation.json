@@ -762,5 +762,7 @@
   "optimizer_tip_2": "Essai de combinaisons de panoplies...",
   "optimizer_tip_3": "Peaufinage du build objet par objet...",
   "optimizer_tip_4": "Recherche de la meilleure combinaison possible...",
-  "optimizer_running_long_note": "Les demandes exigeantes peuvent prendre plusieurs minutes — la recherche continue, ce n'est pas bloqué."
+  "optimizer_running_long_note": "Les demandes exigeantes peuvent prendre plusieurs minutes — la recherche continue, ce n'est pas bloqué.",
+  "optimizer_wasm_unavailable": "Le moteur du Forgeron n'a pas pu se charger ou s'exécuter dans votre navigateur. Essayez de recharger la page, ou de mettre à jour votre navigateur.",
+  "legal_ankama_disclaimer": "Dofus Forge n'est pas affilié à Ankama Games. DOFUS et Ankama sont des marques déposées d'Ankama Games."
 }
