@@ -4,16 +4,23 @@ import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } fr
 
 export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
 
+// One solver condition: reach `goal` (each missing unit costs `weight`), then
+// keep earning `weight` per unit up to `max`. A soft max just stops counting
+// past it; an absolute max rejects builds that go over it.
 export type StatConfig = {
-  stat:   OptimizerStatKey
-  weight: number   // 1–10 priority
-  minVal: number   // 0 = no hard constraint
+  stat:     OptimizerStatKey
+  goal:     number
+  weight:   number
+  max:      number | null
+  absolute: boolean
 }
 
 export type ExoConfig = {
-  ap:    boolean
-  mp:    boolean
-  range: boolean
+  ap:         boolean
+  mp:         boolean
+  range:      boolean
+  onlyOnRing: boolean
+  maxCount:   number
 }
 
 export type OptimizerConfig = {
@@ -21,7 +28,10 @@ export type OptimizerConfig = {
   exo:                 ExoConfig
   maxLevel:            number
   lockedSlots:         Set<SlotId>
-  assumeFullyScrolled: boolean  // ignore the sheet's current rune/scroll state and assume every characteristic is scrolled
+  assumeFullyScrolled: boolean
+  bannedItems:         number[]
+  threads:             number
+  maxGenerations:      number
 }
 
 export type OptimizerBuildBase = {
@@ -33,24 +43,24 @@ export type OptimizerBuildBase = {
   runes:         Partial<Record<SlotId, RuneMap>>
 }
 
-export type BuildResult = {
-  equipped:      Partial<Record<SlotId, number>>
-  stats:         StatBlock
-  score:         number
-  meetsRequired: boolean
-  conditionsOk:  boolean
-  allocated:     AllocatedCharacteristics
-  scrolled:      ScrolledCharacteristics
-}
+export type ExoKind = 'ap' | 'mp' | 'range'
 
-// Sent periodically while the Rust engine searches (see
-// rust-optimizer/src/optimizer.rs's ProgressUpdate) — `best` is a full
-// BuildResult so the running-phase UI can render an actual live preview of
-// the current best candidate (via BuildResultCard) instead of just a number.
-export type OptimizerProgress = {
-  generation:        number
-  elapsedMs:         number
+export type BuildResult = {
+  equipped:          Partial<Record<SlotId, number>>
+  stats:             StatBlock
+  score:             number
+  meetsRequired:     boolean
+  conditionsOk:      boolean
+  allocated:         AllocatedCharacteristics
+  scrolled:          ScrolledCharacteristics
+  exo:               Partial<Record<SlotId, ExoKind>>
   requirementsMet:   number
   requirementsTotal: number
-  best:              BuildResult
+}
+
+// Posted by each solver Worker after every step (a batch of generations).
+export type SolverReport = {
+  generation: number
+  bestScore:  number
+  results:    BuildResult[]
 }

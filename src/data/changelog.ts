@@ -8,6 +8,20 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.77',
+    date: '2026-10-14',
+    notes: [
+      'Architecture: La Forjadora runs on a new island-model solver that keeps its state between steps; several Workers (threads 1–8) search in parallel and share their best build',
+      'Feature: conditions are now Goal / Weight / Max per stat — negative score while any goal is missing, weighted surplus once all are met; soft or absolute max; Power counts toward characteristic goals',
+      'Feature: the solver distributes characteristic points for every build and adds exo AP/MP/Range runes only where they close a goal; loading a build applies both',
+      'Feature: real Start / Pause / Resume / Restart with a generation counter, score delta, score sparkline and the top 10 builds as alternatives; configurable threads and generation limit',
+      'Feature: ban items from a result card; the ban list is editable under Advanced',
+      'Fix: stopping the search early now really interrupts it (the old engine could not read the stop message until it had finished)',
+      'Fix: item conditions on multi-word stats such as "% Critical" were always read as 0',
+      'Real-catalog benchmark: the 11-requirement case reaches 10 of 11 in under a second (previous engine: 8 of 11 in 70–90 s)',
+    ],
+  },
+  {
     version: '0.3.76',
     date: '2026-10-14',
     notes: [

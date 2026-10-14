@@ -14,11 +14,11 @@ const WEAPON_ATTACK_STAT_NAMES: [&str; 5] = [
     "Neutral damage",
 ];
 
-const BASE_AP: i64 = 6;
-const BASE_MP: i64 = 3;
-const BASE_PODS: i64 = 1000;
+pub(crate) const BASE_AP: i64 = 6;
+pub(crate) const BASE_MP: i64 = 3;
+pub(crate) const BASE_PODS: i64 = 1000;
 
-fn base_hp(level: i64) -> i64 {
+pub(crate) fn base_hp(level: i64) -> i64 {
     55 + (level - 1) * 5
 }
 
@@ -111,6 +111,28 @@ fn apply_effects(block: &mut StatBlock, effects: &[ItemEffect]) {
     for e in effects {
         apply_effect(block, e);
     }
+}
+
+/// Raw summed effects only — no base values, derived stats or caps — so
+/// several of these can be added together linearly before compute_stats'
+/// non-linear steps run once on the total (the solver's dense fast path).
+pub(crate) fn raw_effects_block(effects: &[ItemEffect], is_weapon: bool) -> StatBlock {
+    let mut block = StatBlock::default();
+    if is_weapon {
+        let attack_ids = weapon_attack_ids();
+        for e in effects {
+            let is_attack = match e.effect_id {
+                Some(id) => attack_ids.contains(&id),
+                None => WEAPON_ATTACK_STAT_NAMES.contains(&e.stat.as_str()),
+            };
+            if !is_attack {
+                apply_effect(&mut block, e);
+            }
+        }
+    } else {
+        apply_effects(&mut block, effects);
+    }
+    block
 }
 
 /// Active set bonuses for the given equipped items — only the highest

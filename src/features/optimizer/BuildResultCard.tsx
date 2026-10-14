@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next'
+import { Ban } from 'lucide-react'
 import { ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import type { BuildResult, StatConfig } from './types.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { OPTIMIZER_STATS } from './statList.ts'
+import { OPTIMIZER_STATS, POWER_BOOSTED } from './statList.ts'
 import { statIconUrl, signatureRuneUrl } from '@/features/equipment/statDisplay.ts'
 
 type Props = {
@@ -13,11 +14,14 @@ type Props = {
   runes:       Partial<Record<SlotId, RuneMap>>
   lockedSlots: Set<SlotId>
   onLoad:      (result: BuildResult) => void
+  onBan?:      (itemId: number) => void
+  bannedItems?: number[]
 }
 
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
+const EXO_ICON = { ap: 'ap', mp: 'mp', range: 'range' } as const
 
-export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots, onLoad }: Props) {
+export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots, onLoad, onBan, bannedItems = [] }: Props) {
   const { t } = useTranslation()
 
   const itemMap = new Map(items.map(it => [it.ankama_id, it]))
@@ -25,34 +29,26 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
     .map(slot => ({ slot, item: itemMap.get(result.equipped[slot] ?? -1) }))
     .filter((e): e is { slot: SlotId; item: AppItem } => e.item != null)
 
-  // Only a LOCKED slot's runes actually carry into the computed stats (the
-  // optimizer never forges a brand-new item it just picked — see
-  // optimizer.ts's lockedRuneEffects comment) — so this only ever flags
-  // "yes" for gear the player already had forged runes on and kept, never
-  // for anything the Forge itself chose.
+  // Only a LOCKED slot keeps the player's own forged runes in the result.
   function hasForgedRune(slot: SlotId): boolean {
     if (!lockedSlots.has(slot)) return false
     return Object.values(runes[slot] ?? {}).some(v => v > 0)
   }
 
-  // Every stat the user marked as a hard requirement (minVal > 0) must
-  // always be shown — this used to be lumped in with priority-only stats
-  // and capped at 6 total, so a build with 7+ required stats silently
-  // dropped some of them from the card with no indication anything was
-  // missing. Priority-only stats (weight > 0, no minVal) are secondary
-  // context and still capped, but never at the cost of hiding a requirement.
-  const requiredStats = stats.filter(s => s.minVal > 0).sort((a, b) => b.minVal - a.minVal)
-  const priorityOnlyStats = stats.filter(s => s.minVal <= 0 && s.weight > 0).sort((a, b) => b.weight - a.weight)
-  const topStats = [...requiredStats, ...priorityOnlyStats].slice(0, Math.max(6, requiredStats.length))
+  // Goals always show; weight-only stats fill the rest up to 6.
+  const goalStats = stats.filter(s => s.goal > 0).sort((a, b) => b.weight - a.weight)
+  const weightOnly = stats.filter(s => s.goal <= 0 && s.weight > 0).sort((a, b) => b.weight - a.weight)
+  const shownStats = [...goalStats, ...weightOnly].slice(0, Math.max(6, goalStats.length))
   const statsNums = result.stats as unknown as Record<string, number>
-  const hasRequired = stats.some(s => s.minVal > 0)
+  const hasGoals = goalStats.length > 0
+  const pointsLeft = result.stats.pointsBudget - result.stats.pointsSpent
 
   return (
     <div
       className="rounded-xl overflow-hidden"
       style={{
         background: 'var(--surface-void)',
-        border:     `1px solid ${result.meetsRequired || !hasRequired
+        border:     `1px solid ${result.meetsRequired || !hasGoals
           ? 'var(--metal-edge-strong)'
           : 'color-mix(in srgb, var(--negative) 45%, var(--metal-edge))'}`,
       }}
@@ -66,7 +62,7 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
         <span className="text-[12px] font-bold font-display tracking-wider" style={{ color: 'var(--gold)' }}>
           {t('optimizer_rank', { n: rank })}
         </span>
-        {hasRequired && (
+        {hasGoals && (
           <span
             className="text-[10px] px-1.5 py-0.5 rounded font-semibold ml-1"
             style={{
@@ -76,69 +72,94 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
               color: result.meetsRequired ? 'var(--positive, #5cb85c)' : 'var(--negative)',
             }}
           >
-            {result.meetsRequired ? '✓' : '⚠'}
+            {result.meetsRequired ? '✓' : `${result.requirementsMet}/${result.requirementsTotal}`}
           </span>
         )}
-        <span className="ml-auto text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-          {t('optimizer_score')}: {Math.round(result.score)}
+        <span className="ml-auto text-[10px] font-mono" style={{ color: result.score < 0 ? 'var(--negative)' : 'var(--ink-faint)' }}>
+          {t('optimizer_score')}: {Math.round(result.score).toLocaleString()}
         </span>
       </div>
 
       {/* Item images */}
       <div className="px-3 py-2 flex flex-wrap gap-1.5">
-        {equippedList.map(({ slot, item }) => (
-          <div key={slot} className="relative" title={hasForgedRune(slot) ? `${item.name} (Nv. ${item.level}) — ${t('magesmithy_title')}` : `${item.name} (Nv. ${item.level})`}>
+        {equippedList.map(({ slot, item }) => {
+          const exo = result.exo[slot]
+          const forged = hasForgedRune(slot)
+          return (
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
-              style={{
-                background: 'var(--surface-panel)',
-                border:     hasForgedRune(slot) ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
-              }}
+              key={slot}
+              className="relative group"
+              title={`${item.name} (Nv. ${item.level})${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}`}
             >
-              {item.image_url
-                ? <img src={item.image_url} alt={item.name} width={32} height={32} className="object-contain" />
-                : <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>?</span>
-              }
-            </div>
-            {hasForgedRune(slot) && (
               <div
-                className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
-                style={{ background: 'color-mix(in srgb, var(--ap) 20%, var(--surface-void))', border: '1px solid var(--ap)' }}
+                className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
+                style={{
+                  background: 'var(--surface-panel)',
+                  border:     forged || exo ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
+                }}
               >
-                <img src={signatureRuneUrl()} alt="" width={9} height={9} className="object-contain" />
+                {item.image_url
+                  ? <img src={item.image_url} alt={item.name} width={32} height={32} className="object-contain" />
+                  : <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>?</span>
+                }
               </div>
-            )}
-          </div>
-        ))}
+              {forged && (
+                <div
+                  className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+                  style={{ background: 'color-mix(in srgb, var(--ap) 20%, var(--surface-void))', border: '1px solid var(--ap)' }}
+                >
+                  <img src={signatureRuneUrl()} alt="" width={9} height={9} className="object-contain" />
+                </div>
+              )}
+              {exo && (
+                <div
+                  className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+                  style={{ background: 'color-mix(in srgb, var(--ap) 20%, var(--surface-void))', border: '1px solid var(--ap)' }}
+                >
+                  <img src={statIconUrl(EXO_ICON[exo])} alt="" width={9} height={9} className="object-contain" />
+                </div>
+              )}
+              {onBan && !lockedSlots.has(slot) && !bannedItems.includes(item.ankama_id) && (
+                <button
+                  type="button"
+                  onClick={() => onBan(item.ankama_id)}
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full items-center justify-center hidden group-hover:flex"
+                  style={{ background: 'var(--surface-void)', border: '1px solid var(--negative)' }}
+                  title={t('optimizer_ban_item')}
+                  aria-label={t('optimizer_ban_item')}
+                >
+                  <Ban size={9} style={{ color: 'var(--negative)' }} />
+                </button>
+              )}
+            </div>
+          )
+        })}
         {equippedList.length === 0 && (
           <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>—</span>
         )}
       </div>
 
       {/* Key stats grid */}
-      {topStats.length > 0 && (
-        <div
-          className="px-3 pb-3 grid gap-x-3 gap-y-1.5"
-          style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
-        >
-          {topStats.map(cfg => {
+      {shownStats.length > 0 && (
+        <div className="px-3 pb-3 grid gap-x-3 gap-y-1.5 grid-cols-2 sm:grid-cols-3">
+          {shownStats.map(cfg => {
             const meta = OPTIMIZER_STATS.find(s => s.key === cfg.stat)
             if (!meta) return null
-            const val = statsNums[cfg.stat] ?? 0
-            const meetsMin = cfg.minVal <= 0 || val >= cfg.minVal
+            const own = statsNums[cfg.stat] ?? 0
+            const val = POWER_BOOSTED.has(cfg.stat) ? own + result.stats.power : own
+            const meetsGoal = cfg.goal <= 0 || val >= cfg.goal
             return (
-              <div key={cfg.stat} className="flex items-center gap-1.5">
+              <div
+                key={cfg.stat}
+                className="flex items-center gap-1.5"
+                title={POWER_BOOSTED.has(cfg.stat) ? t('optimizer_power_included', { own, power: result.stats.power }) : t(meta.tKey)}
+              >
                 <img src={statIconUrl(meta.icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
-                <span
-                  className="text-[12px] font-mono font-bold"
-                  style={{ color: meetsMin ? meta.color : 'var(--negative)' }}
-                >
+                <span className="text-[12px] font-mono font-bold" style={{ color: meetsGoal ? meta.color : 'var(--negative)' }}>
                   {val}
                 </span>
-                {cfg.minVal > 0 && (
-                  <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>
-                    /{cfg.minVal}
-                  </span>
+                {cfg.goal > 0 && (
+                  <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>/{cfg.goal}</span>
                 )}
               </div>
             )
@@ -151,16 +172,16 @@ export function BuildResultCard({ result, rank, items, stats, runes, lockedSlots
         className="flex items-center justify-between gap-2 px-3 py-2"
         style={{ borderTop: '1px solid var(--metal-edge)' }}
       >
-        {hasRequired ? (
-          <span
-            className="text-[10px]"
-            style={{ color: result.meetsRequired ? 'var(--positive, #5cb85c)' : 'var(--negative)' }}
-          >
-            {result.meetsRequired ? t('optimizer_meets_required') : '⚠ ' + t('optimizer_missing_required')}
-          </span>
-        ) : (
-          <span />
-        )}
+        <div className="flex flex-col gap-0.5">
+          {hasGoals && (
+            <span className="text-[10px]" style={{ color: result.meetsRequired ? 'var(--positive, #5cb85c)' : 'var(--negative)' }}>
+              {result.meetsRequired ? t('optimizer_meets_required') : '⚠ ' + t('optimizer_missing_required')}
+            </span>
+          )}
+          {pointsLeft > 0 && (
+            <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_points_left', { n: pointsLeft })}</span>
+          )}
+        </div>
         <button
           onClick={() => onLoad(result)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold flex-shrink-0 transition-colors"
