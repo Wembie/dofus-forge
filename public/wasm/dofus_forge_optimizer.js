@@ -12,17 +12,21 @@ export function init_panic_hook() {
 /**
  * The optimizer's WASM entry point. Takes the same `config`/`items`/`sets`/
  * `base` shapes the TS worker already builds for `runOptimizer()` (see
- * src/workers/optimizer.worker.ts) as plain JS values, and returns the same
- * `BuildResult[]` shape back — a drop-in replacement for the TS engine at
- * this one call site, nothing else about the worker's protocol changes.
+ * src/workers/optimizer.worker.ts) as plain JS values, plus a JS callback
+ * invoked periodically during the search (see `optimizer::ProgressUpdate`'s
+ * doc comment) — returning `false` from it stops the search early and
+ * still returns a fully-polished result, not a raw mid-search snapshot.
+ * Returns the same `BuildResult[]` shape as before — the callback is new,
+ * nothing else about the worker's protocol changes.
  * @param {any} config
  * @param {any} items
  * @param {any} sets
  * @param {any} base
+ * @param {Function} on_progress
  * @returns {any}
  */
-export function run_optimizer_wasm(config, items, sets, base) {
-    const ret = wasm.run_optimizer_wasm(config, items, sets, base);
+export function run_optimizer_wasm(config, items, sets, base, on_progress) {
+    const ret = wasm.run_optimizer_wasm(config, items, sets, base, on_progress);
     if (ret[2]) {
         throw takeFromExternrefTable0(ret[1]);
     }
@@ -114,6 +118,10 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_41e9ee4f547fc59a: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
+        __wbg_call_187d372bd5fdd4aa: function() { return handleError(function (arg0, arg1, arg2) {
+            const ret = arg0.call(arg1, arg2);
+            return ret;
+        }, arguments); },
         __wbg_call_6137034ef55c9d0f: function() { return handleError(function (arg0, arg1) {
             const ret = arg0.call(arg1);
             return ret;
@@ -262,6 +270,11 @@ function __wbg_get_imports() {
         __wbindgen_generic_0000000000000003: function(arg0, arg1) {
             // Cast intrinsic for `Ref(String) -> Externref`.
             const ret = getStringFromWasm0(arg0, arg1);
+            return ret;
+        },
+        __wbindgen_generic_0000000000000004: function(arg0) {
+            // Cast intrinsic for `U64 -> Externref`.
+            const ret = BigInt.asUintN(64, arg0);
             return ret;
         },
         __wbindgen_init_externref_table: function() {

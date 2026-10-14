@@ -351,6 +351,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     const freeSlots = ALL_SLOTS.filter(s => !config.lockedSlots.has(s))
     if (freeSlots.length === 0) { setError(t('optimizer_no_slots')); return }
     setError(null)
+    setProgress(null)
 
     const worker = new Worker(
       new URL('../../workers/optimizer.worker.ts', import.meta.url),
@@ -365,9 +366,6 @@ export function OptimizerModal({ open, onClose }: Props) {
       } else if (type === 'done') {
         setResults(e.data.results as BuildResult[])
         setPhase('done')
-        worker.terminate()
-        workerRef.current = null
-      } else if (type === 'cancelled') {
         worker.terminate()
         workerRef.current = null
       } else if (type === 'error') {
@@ -418,7 +416,19 @@ export function OptimizerModal({ open, onClose }: Props) {
   }
 
   const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
-  const progressPct = progress?.percent ?? 0
+  const progressPct = progress && progress.requirementsTotal > 0
+    ? Math.round((progress.requirementsMet / progress.requirementsTotal) * 100)
+    : 0
+
+  // "Use this result now": asks the Worker to stop the search at the next
+  // opportunity (the WASM callback checks this on its next periodic call,
+  // see optimizer.worker.ts) WITHOUT killing the Worker — the search still
+  // runs its guaranteed final polish and returns a fully legal result
+  // through the normal 'done' path, so this reaches the exact same results
+  // screen a completed search would, just earlier.
+  function useResultSoFar() {
+    workerRef.current?.postMessage({ type: 'cancel' })
+  }
 
   // ── Locked (no class selected yet) ───────────────────────────────────────
   if (phase === 'locked') {
@@ -459,7 +469,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     const tipKey = RUNNING_TIP_KEYS[Math.floor(elapsedSeconds / 4) % RUNNING_TIP_KEYS.length]
     return (
       <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
-        <div className="p-10 flex flex-col items-center gap-4 text-center">
+        <div className="p-6 sm:p-10 flex flex-col items-center gap-4 text-center">
           <div
             className="dofus-aura w-16 h-16 rounded-full flex items-center justify-center"
             style={{ background: 'color-mix(in srgb, var(--gold) 10%, var(--surface-stone))', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)' }}
@@ -476,7 +486,7 @@ export function OptimizerModal({ open, onClose }: Props) {
             className="w-full max-w-xs rounded-full overflow-hidden relative"
             style={{ height: 6, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
           >
-            {progress ? (
+            {progress && progress.requirementsTotal > 0 ? (
               <div
                 className="h-full transition-all duration-300 ease-out rounded-full"
                 style={{ width: `${progressPct}%`, background: 'linear-gradient(90deg, var(--gold-deep), var(--gold))' }}
@@ -488,20 +498,51 @@ export function OptimizerModal({ open, onClose }: Props) {
               />
             )}
           </div>
-          {progress && (
-            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{progressPct}%</span>
+          {progress && progress.requirementsTotal > 0 && (
+            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
+              {t('optimizer_requirements_met', { met: progress.requirementsMet, total: progress.requirementsTotal })}
+            </span>
           )}
           {elapsedSeconds > 20 && (
             <p className="text-[10px]" style={{ color: 'var(--gold)' }}>{t('optimizer_running_long_note')}</p>
           )}
           <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_running_note')}</p>
-          <button
-            onClick={cancelOptimizer}
-            className="mt-2 px-3 py-1.5 rounded-lg text-[11px] border"
-            style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-          >
-            {t('optimizer_cancel')}
-          </button>
+
+          {progress && (
+            <div className="w-full max-w-sm text-left" style={{ animation: 'col-rise 300ms var(--ease-out) both' }}>
+              <p className="text-[10px] font-semibold uppercase tracking-wide mb-1.5 text-center" style={{ color: 'var(--ink-faint)' }}>
+                {t('optimizer_live_preview')}
+              </p>
+              <BuildResultCard
+                result={progress.best}
+                rank={1}
+                items={equipment ?? []}
+                stats={config.stats}
+                runes={runes}
+                lockedSlots={config.lockedSlots}
+                onLoad={useResultSoFar}
+              />
+            </div>
+          )}
+
+          <div className="flex items-center gap-2 mt-1">
+            {progress && (
+              <button
+                onClick={useResultSoFar}
+                className="px-3 py-1.5 rounded-lg text-[11px] font-semibold"
+                style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
+              >
+                {t('optimizer_use_now')}
+              </button>
+            )}
+            <button
+              onClick={cancelOptimizer}
+              className="px-3 py-1.5 rounded-lg text-[11px] border"
+              style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
+            >
+              {t('optimizer_cancel')}
+            </button>
+          </div>
         </div>
       </Modal>
     )

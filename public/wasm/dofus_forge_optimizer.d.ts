@@ -11,18 +11,21 @@ export function init_panic_hook(): void;
 /**
  * The optimizer's WASM entry point. Takes the same `config`/`items`/`sets`/
  * `base` shapes the TS worker already builds for `runOptimizer()` (see
- * src/workers/optimizer.worker.ts) as plain JS values, and returns the same
- * `BuildResult[]` shape back — a drop-in replacement for the TS engine at
- * this one call site, nothing else about the worker's protocol changes.
+ * src/workers/optimizer.worker.ts) as plain JS values, plus a JS callback
+ * invoked periodically during the search (see `optimizer::ProgressUpdate`'s
+ * doc comment) — returning `false` from it stops the search early and
+ * still returns a fully-polished result, not a raw mid-search snapshot.
+ * Returns the same `BuildResult[]` shape as before — the callback is new,
+ * nothing else about the worker's protocol changes.
  */
-export function run_optimizer_wasm(config: any, items: any, sets: any, base: any): any;
+export function run_optimizer_wasm(config: any, items: any, sets: any, base: any, on_progress: Function): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly init_panic_hook: () => void;
-    readonly run_optimizer_wasm: (a: any, b: any, c: any, d: any) => [number, number, number];
+    readonly run_optimizer_wasm: (a: any, b: any, c: any, d: any, e: any) => [number, number, number];
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_exn_store: (a: number) => void;

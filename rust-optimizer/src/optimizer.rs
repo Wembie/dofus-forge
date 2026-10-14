@@ -16,7 +16,27 @@ use crate::optimizer_types::{BuildResult, CatalogItem, CatalogSet, ExoConfig, Op
 use crate::stat_map::{stat_key, weapon_attack_ids};
 use crate::stats::{compute_stats, get_stat};
 use crate::types::{AllocatedCharacteristics, BuildInput, EquippedItem, ItemEffect, ScrolledCharacteristics, SetData, CHARACTERISTICS};
+use serde::Serialize;
 use std::collections::{HashMap, HashSet};
+
+// Reported periodically during the search (see run_optimizer_with_progress)
+// so the UI can show something more honest than a bare spinner for a
+// search that can genuinely take minutes: how many of the user's hard
+// requirements the current best candidate meets, and the candidate itself
+// (so the UI can render a live-updating preview of the actual build, not
+// just a number). `best` is a full BuildResult - no separate lightweight
+// shape - specifically so the frontend can reuse BuildResultCard verbatim
+// instead of building a second, parallel rendering path for "build in
+// progress" vs "final build".
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct ProgressUpdate {
+    pub generation: u64,
+    pub elapsed_ms: f64,
+    pub requirements_met: usize,
+    pub requirements_total: usize,
+    pub best: BuildResult,
+}
 
 pub const ALL_SLOTS: [&str; 17] = [
     "hat", "cape", "amulet", "ring1", "ring2", "belt", "boots", "weapon", "shield", "companion",
@@ -554,15 +574,40 @@ impl<'a> Ctx<'a> {
     // continuous 0..1 satisfaction ratio instead of an all-or-nothing bonus,
     // so hill-climbing has a real gradient toward feasibility. Equip
     // condition failures stay an absolute disqualifier.
+    // A pure average of per-constraint ratios (the original M99 design)
+    // treats "11 constraints each 90% of the way there" as basically
+    // indistinguishable from "10 fully met, 1 completely unmet" — both sum
+    // to roughly the same total, so the search gets no specific signal that
+    // CROSSING one more threshold outright is what actually matters, versus
+    // padding margin on ones already met. Confirmed to matter in practice,
+    // not just in theory: on a demanding real 11-requirement case, the
+    // search kept finding builds that nudged several already-satisfied
+    // stats further while leaving others flatly unmet, rather than
+    // converging on fewer-but-fully-met requirements. The flat +1 bonus
+    // per FULLY met constraint (on top of its own 0..1 ratio) makes
+    // "satisfied count" the dominant signal — a build with one more
+    // constraint fully crossed always outranks one with none, regardless
+    // of how much margin the unsatisfied ones have — while the continuous
+    // ratio still gives hill-climbing/mutation a gradient toward whichever
+    // unmet constraint is closest, instead of an all-or-nothing cliff.
     fn constraint_satisfaction(&self, stats_block: &crate::types::StatBlock) -> f64 {
         if self.hard_constraints.is_empty() {
             return 1.0;
         }
         let mut sum = 0.0f64;
         for (stat, min_val) in &self.hard_constraints {
-            sum += if *min_val > 0 { (get_stat(stats_block, stat) as f64 / *min_val as f64).min(1.0) } else { 1.0 };
+            if *min_val <= 0 {
+                sum += 2.0;
+                continue;
+            }
+            let actual = get_stat(stats_block, stat) as f64;
+            let min_val = *min_val as f64;
+            sum += (actual / min_val).min(1.0);
+            if actual >= min_val {
+                sum += 1.0;
+            }
         }
-        sum / self.hard_constraints.len() as f64
+        sum / (self.hard_constraints.len() as f64 * 2.0)
     }
 
     fn rank(&self, r: &BuildResult) -> f64 {
@@ -570,6 +615,14 @@ impl<'a> Ctx<'a> {
             return r.score - 1e15;
         }
         self.constraint_satisfaction(&r.stats) * 1e12 + r.score
+    }
+
+    // How many hard requirements the given stats fully satisfy - the plain
+    // number progress updates report, since "constraint_satisfaction's
+    // fractional score" isn't something a user reads at a glance the way
+    // "8 of 11" is.
+    fn requirements_met_count(&self, stats_block: &crate::types::StatBlock) -> usize {
+        self.hard_constraints.iter().filter(|(stat, min_val)| get_stat(stats_block, stat) >= *min_val).count()
     }
 }
 
@@ -969,6 +1022,21 @@ fn local_search(ctx: &Ctx, pool: &HashMap<String, Vec<&CatalogItem>>, slots: &[S
 }
 
 pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase) -> Vec<BuildResult> {
+    run_optimizer_inner(config, items, sets, base, &|_| true)
+}
+
+// Same search, but calls `on_progress` periodically (throttled to roughly
+// twice a second - see `report_progress` below) with the best candidate
+// found so far. Returning `false` stops the search early and falls through
+// to the SAME guaranteed final polish + legality repair + diverse-pick
+// steps a normal run goes through - an early stop via "use this result
+// now" gets a properly finished build, not whatever a mid-generation
+// individual happened to look like.
+pub fn run_optimizer_with_progress(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase, on_progress: &dyn Fn(ProgressUpdate) -> bool) -> Vec<BuildResult> {
+    run_optimizer_inner(config, items, sets, base, on_progress)
+}
+
+fn run_optimizer_inner(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase, on_progress: &dyn Fn(ProgressUpdate) -> bool) -> Vec<BuildResult> {
     let start_time = now_ms();
 
     let scrolled = if config.assume_fully_scrolled {
@@ -1066,8 +1134,36 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         }
     };
 
+    // Defined this early (not just around the GA loop further down) because
+    // phases 0/1/2/2.5 below can themselves take a real amount of wall-clock
+    // time on the full catalog (bounded by SET_SEARCH_DEADLINE_MS, currently
+    // up to ~84s) — without reporting progress during them too, a demanding
+    // request could sit on the old silent spinner for that whole stretch
+    // before the GA loop (and its own progress calls) ever got a chance to
+    // run, which is exactly the "feels frozen" problem this whole mechanism
+    // exists to fix. Throttled to roughly twice a second; `force` bypasses
+    // the throttle for the very first report after each phase, so the UI
+    // gets *something* almost immediately instead of waiting a full 500ms.
+    let mut last_progress_ms = f64::NEG_INFINITY;
+    let mut report_progress = |hof: &std::collections::BTreeMap<String, BuildResult>, gen: u64, force: bool| -> bool {
+        let elapsed = now_ms() - start_time;
+        if !force && elapsed - last_progress_ms < 500.0 {
+            return true;
+        }
+        let Some(best) = hof.values().max_by(|a, b| ctx.rank(a).partial_cmp(&ctx.rank(b)).unwrap()) else { return true };
+        last_progress_ms = elapsed;
+        on_progress(ProgressUpdate {
+            generation: gen,
+            elapsed_ms: elapsed,
+            requirements_met: ctx.requirements_met_count(&best.stats),
+            requirements_total: ctx.hard_constraints.len(),
+            best: best.clone(),
+        })
+    };
+
     // Phase 0: pure "best item per slot, no sets" baseline.
     remember(ctx.evaluate(&greedy_fill_remaining(&pools, &Individual::new(), &slots_to_optimize)), &mut hall_of_fame);
+    report_progress(&hall_of_fame, 0, true);
 
     // Phase 1: every single set, standalone.
     struct SetEntry<'a> {
@@ -1078,7 +1174,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
     let open_slots_set: HashSet<String> = slots_to_optimize.iter().cloned().collect();
 
     for set in &sets {
-        if now_ms() - start_time > SET_SEARCH_DEADLINE_MS {
+        if now_ms() - start_time > SET_SEARCH_DEADLINE_MS || !report_progress(&hall_of_fame, 0, false) {
             break;
         }
         let set_items: Vec<&CatalogItem> = set
@@ -1132,7 +1228,9 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
     'pairs: for i in 0..n {
         for j in (i + 1)..n {
             pairs_done += 1;
-            if pairs_done % 2000 == 0 && now_ms() - start_time > SET_SEARCH_DEADLINE_MS {
+            if pairs_done % 200 == 0
+                && (now_ms() - start_time > SET_SEARCH_DEADLINE_MS || !report_progress(&hall_of_fame, 0, false))
+            {
                 break 'pairs;
             }
             let (assigned_a, used_a) = apply_set(&set_entries[i].set_items, &open_slots_set, &Individual::new());
@@ -1161,7 +1259,9 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         for j in (i + 1)..triple_n {
             for k in (j + 1)..triple_n {
                 triples_done += 1;
-                if triples_done % 2000 == 0 && now_ms() - start_time > SET_SEARCH_DEADLINE_MS {
+                if triples_done % 200 == 0
+                    && (now_ms() - start_time > SET_SEARCH_DEADLINE_MS || !report_progress(&hall_of_fame, 0, false))
+                {
                     break 'triples;
                 }
                 let (assigned_a, used_a) = apply_set(&set_entries[i].set_items, &open_slots_set, &Individual::new());
@@ -1295,6 +1395,11 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
 
     let mut best_rank_ever = evaluated.first().map(|(_, r)| ctx.rank(r)).unwrap_or(f64::NEG_INFINITY);
     let mut generations_since_improvement: usize = 0;
+    let mut generation: u64 = 0;
+
+    if !report_progress(&hall_of_fame, 0, true) {
+        generations_since_improvement = STALL_LIMIT_GENERATIONS; // fall through to the same wrap-up every normal stop goes through
+    }
 
     loop {
         if now_ms() - start_time > TIME_BUDGET_MS {
@@ -1303,6 +1408,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         if generations_since_improvement >= STALL_LIMIT_GENERATIONS {
             break;
         }
+        generation += 1;
 
         let mut next_gen: Vec<(Individual, BuildResult)> = Vec::with_capacity(POP_SIZE);
         for (i, (ind, result)) in evaluated.iter().take(ELITE_COUNT).enumerate() {
@@ -1320,7 +1426,18 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         }
 
         let mut immigrants_added = 0usize;
+        let mut stop_requested = false;
         while next_gen.len() < POP_SIZE {
+            // Checked mid-generation (not just once per full generation) so
+            // an explicit "use this result now" from the UI doesn't have to
+            // wait for the rest of a population (up to POP_SIZE strong) to
+            // finish breeding first — confirmed in a real browser that a
+            // single generation can itself take several real seconds, which
+            // otherwise meant "stop" wasn't actually responsive during it.
+            if next_gen.len() % 50 == 0 && !report_progress(&hall_of_fame, generation, false) {
+                stop_requested = true;
+                break;
+            }
             if immigrants_added < RANDOM_IMMIGRANTS_PER_GEN {
                 immigrants_added += 1;
                 let ind = random_individual(&pools, &slots_to_optimize, &mut rng);
@@ -1409,6 +1526,10 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         } else {
             generations_since_improvement += 1;
         }
+
+        if stop_requested || !report_progress(&hall_of_fame, generation, false) {
+            break;
+        }
     }
 
     // Guaranteed final polish: whatever the population converged to, give
@@ -1444,7 +1565,14 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         }
 
         for start in &polish_starts {
-            if now_ms() - start_time > FINAL_POLISH_DEADLINE_MS {
+            // Checked BEFORE each candidate (not mid-candidate — a single
+            // local_search call isn't interrupted partway) so an explicit
+            // "use this result now" stops picking up new candidates right
+            // away instead of grinding through the rest of this batch
+            // first — confirmed in a real browser to otherwise add ~20
+            // extra seconds after the user already asked to stop, which
+            // defeats the entire point of that button.
+            if now_ms() - start_time > FINAL_POLISH_DEADLINE_MS || !report_progress(&hall_of_fame, generation, false) {
                 break;
             }
             let polished = local_search(&ctx, &hill_pool, &slots_to_optimize, start, HILL_CLIMB_MAX_SWEEPS);
@@ -1865,5 +1993,41 @@ mod tests {
         let best = &results[0];
         assert_eq!(get_stat(&best.stats, "ap"), 11, "expected no Exo bonus without an equipped ring, got {}", get_stat(&best.stats, "ap"));
         assert!(!best.meets_required);
+    }
+
+    #[test]
+    fn progress_callback_fires_and_reports_a_real_candidate() {
+        let ring_a = item(500, "ring", None, vec![effect("Strength", 100, 0)]);
+        let ring_b = item(501, "ring", None, vec![effect("Strength", 90, 0)]);
+        let mut config = base_config(vec![stat_cfg("strength", 10, 0)]);
+        config.locked_slots = lock_all_except(&["ring1", "ring2"]);
+        let build = base_build(1, HashMap::new(), HashMap::new());
+
+        let calls = std::cell::Cell::new(0i32);
+        let best_strength_seen = std::cell::Cell::new(0i64);
+        let results = run_optimizer_with_progress(config, vec![ring_a, ring_b], vec![], build, &|update| {
+            calls.set(calls.get() + 1);
+            best_strength_seen.set(get_stat(&update.best.stats, "strength"));
+            true
+        });
+        assert!(calls.get() >= 1, "expected the progress callback to fire at least once");
+        assert!(best_strength_seen.get() > 0, "expected the reported candidate to actually have equipped something");
+        assert!(!results.is_empty());
+    }
+
+    #[test]
+    fn progress_callback_returning_false_stops_the_search_early_but_still_returns_results() {
+        let ring_a = item(500, "ring", None, vec![effect("Strength", 100, 0)]);
+        let ring_b = item(501, "ring", None, vec![effect("Strength", 90, 0)]);
+        let mut config = base_config(vec![stat_cfg("strength", 10, 0)]);
+        config.locked_slots = lock_all_except(&["ring1", "ring2"]);
+        let build = base_build(1, HashMap::new(), HashMap::new());
+
+        // Stop on the very first call - the search should still fall through
+        // to the guaranteed final polish and return a fully legal, usable
+        // result, not an empty or half-finished one.
+        let results = run_optimizer_with_progress(config, vec![ring_a, ring_b], vec![], build, &|_| false);
+        assert!(!results.is_empty());
+        assert!(results[0].conditions_ok);
     }
 }
