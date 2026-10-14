@@ -233,13 +233,80 @@ body {
 .dofus-aura {
   animation: dofus-pulse 3.2s var(--ease-inout) infinite;
 }
-@keyframes optimizer-indeterminate {
-  0%   { left: -40%; }
-  100% { left: 100%; }
+/* ── La Forjadora ─────────────────────────────────────────────────────── */
+@keyframes forge-hammer {
+  0%, 45% { transform: rotate(-38deg); }
+  62%     { transform: rotate(6deg); }
+  70%     { transform: rotate(0deg); }
+  100%    { transform: rotate(-38deg); }
 }
-.optimizer-indeterminate-bar {
-  animation: optimizer-indeterminate 1.4s var(--ease-inout) infinite;
+.forge-hammer {
+  transform-origin: 85% 85%;
+  animation: forge-hammer 1.1s cubic-bezier(.55, 0, .35, 1) infinite;
 }
+@keyframes forge-spark {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(.2); opacity: 0; }
+}
+.forge-spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--gold-bright);
+  box-shadow: 0 0 6px 1px color-mix(in srgb, var(--fire) 70%, transparent);
+  animation: forge-spark var(--life, .7s) cubic-bezier(.2, .7, .4, 1) forwards;
+  pointer-events: none;
+}
+@keyframes forge-ember {
+  0%, 100% { opacity: calc(.35 + var(--heat, 1) * .4); transform: scale(1); }
+  50%      { opacity: calc(.5 + var(--heat, 1) * .5); transform: scale(1.08); }
+}
+.forge-ember {
+  animation: forge-ember 1.8s var(--ease-inout) infinite;
+}
+@keyframes forge-flicker {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.forge-heat-fill {
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--fire), var(--gold-bright), var(--gold-deep));
+  background-size: 200% 100%;
+  animation: forge-flicker 2.4s linear infinite;
+}
+@keyframes forge-pop {
+  0%   { transform: scale(.5); opacity: 0; }
+  60%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.forge-pop { animation: forge-pop 420ms var(--ease-out) both; }
+@keyframes forge-flash {
+  0%   { color: var(--gold-bright); text-shadow: 0 0 14px var(--gold); transform: scale(1.12); }
+  100% { text-shadow: none; transform: scale(1); }
+}
+.forge-flash { animation: forge-flash 700ms var(--ease-out); }
+@keyframes forge-log-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+.forge-log-in { animation: forge-log-in 320ms var(--ease-out) both; }
+@keyframes forge-shine {
+  0%   { transform: translateX(-130%) skewX(-18deg); }
+  100% { transform: translateX(260%) skewX(-18deg); }
+}
+.forge-shine {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold-bright) 22%, transparent), transparent);
+  animation: forge-shine 2.8s var(--ease-inout) 400ms infinite;
+  pointer-events: none;
+}
+@keyframes forge-bellows {
+  0%, 100% { transform: scaleY(1); }
+  40%      { transform: scaleY(.72); }
+}
+.forge-bellows-pump { animation: forge-bellows 600ms var(--ease-inout); transform-origin: bottom; }
 @keyframes dummy-hit {
   0%   { transform: translateX(0) rotate(0); }
   20%  { transform: translateX(-3px) rotate(-3deg); }

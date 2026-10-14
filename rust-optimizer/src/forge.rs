@@ -208,6 +208,8 @@ const SECOND_SET_RATE: f64 = 0.20;
 const STAGNATION_RESET: u32 = 95;
 pub const MIGRATION_EVERY: u64 = 41;
 const MIGRATION_FRACTION: f64 = 0.03;
+// Candidates per slot for the tempering passes (best standalone value first).
+const SHORT_POOL: usize = 60;
 pub const HALL_SIZE: usize = 10;
 
 fn obtainable(item: &CatalogItem) -> bool {
@@ -375,6 +377,8 @@ struct Eval {
 #[serde(rename_all = "camelCase")]
 pub struct ForgeReport {
     pub generation: u64,
+    /// Pieces evaluated so far ("hammer strikes").
+    pub evaluations: u64,
     pub best_score: f64,
     pub results: Vec<BuildResult>,
 }
@@ -386,6 +390,7 @@ pub struct Forge {
     set_bonus: Vec<Vec<Vec60>>,               // [set][piece count] -> best reached tier
     set_members: Vec<Vec<(i32, Vec<usize>)>>, // [set] -> (item, free slots holding it in their pool)
     pools: Vec<Vec<i32>>,
+    short_pools: Vec<Vec<i32>>,
     free_slots: Vec<usize>,
     fixed: [i32; NSLOT],
     base_pre: Vec60,
@@ -404,6 +409,7 @@ pub struct Forge {
     generation: u64,
     rng: Rng,
     inject_turn: usize,
+    evaluations: std::cell::Cell<u64>,
 }
 
 impl Forge {
@@ -558,6 +564,7 @@ impl Forge {
             set_bonus,
             set_members: vec![Vec::new(); sets.len()],
             pools: vec![Vec::new(); NSLOT],
+            short_pools: vec![Vec::new(); NSLOT],
             free_slots,
             fixed,
             base_pre,
@@ -576,6 +583,7 @@ impl Forge {
             generation: 0,
             rng: Rng(seed ^ 0xD1B5_4A32_D192_ED03),
             inject_turn: 0,
+            evaluations: std::cell::Cell::new(0),
         };
 
         // Pools: only items that can move at least one scored stat (directly,
@@ -618,6 +626,14 @@ impl Forge {
             }
         }
 
+        let values: Vec<f64> = (0..forge.items.len()).map(|i| forge.standalone_value(i, &relevant_set)).collect();
+        for &s in &forge.free_slots {
+            let mut short = forge.pools[s].clone();
+            short.sort_by(|a, b| values[*b as usize].partial_cmp(&values[*a as usize]).unwrap());
+            short.truncate(SHORT_POOL);
+            forge.short_pools[s] = short;
+        }
+
         for _ in 0..island_count {
             let pop: Vec<Individual> = (0..ISLAND_SIZE).map(|_| forge.random_individual()).collect();
             let mut island = Island { pop, best: f64::NEG_INFINITY, stagnant: 0 };
@@ -627,6 +643,20 @@ impl Forge {
         }
         forge.update_hall();
         forge
+    }
+
+    // Rough worth of an item on its own (stats, best rune, set potential),
+    // only used to order the tempering candidates.
+    fn standalone_value(&self, i: usize, relevant_set: &[bool]) -> f64 {
+        let item = &self.items[i];
+        let gain = |stat: usize, amount: i64| -> f64 { self.stat_targets[stat].iter().map(|&t| self.targets[t].weight * amount as f64).sum() };
+        let own: f64 = (0..NF).filter(|&j| item.vec[j] > 0).map(|j| gain(j, item.vec[j])).sum();
+        let rune = item.runes.iter().map(|&(j, v)| gain(j, v)).fold(0.0, f64::max);
+        let set = item.set.filter(|&st| relevant_set[st]).map(|st| {
+            let top = self.set_bonus[st].last().copied().unwrap_or([0; NF]);
+            (0..NF).filter(|&j| top[j] > 0).map(|j| gain(j, top[j])).sum::<f64>() / self.set_members[st].len().max(1) as f64
+        });
+        own + rune + set.unwrap_or(0.0)
     }
 
     // Does this raw stat vector add anything a weighted target cares about?
@@ -685,6 +715,7 @@ impl Forge {
     }
 
     fn make(&self, genes: [i32; NSLOT]) -> Individual {
+        self.evaluations.set(self.evaluations.get() + 1);
         let score = self.evaluate(&genes).score;
         Individual { genes, score, hash: self.hash(&genes) }
     }
@@ -1238,49 +1269,111 @@ impl Forge {
         self.merge_into_hall(incoming);
     }
 
-    /// Final tempering: slot-by-slot steepest ascent over the full pools,
-    /// starting from each build in the hall, until `budget_ms` runs out.
-    pub fn temper(&mut self, budget_ms: f64, now: &dyn Fn() -> f64) {
-        let start = now();
-        let starts: Vec<Individual> = self.hall.clone();
-        let mut found: Vec<Individual> = Vec::new();
-        'builds: for ind in starts {
-            let mut current = ind;
-            loop {
-                let mut improved = false;
-                for k in 0..self.free_slots.len() {
-                    if now() - start > budget_ms {
-                        found.push(current);
-                        break 'builds;
+    /// Bellows: re-melts every island but the first with fresh material and
+    /// seeds the first with the best pieces so far, so the search leaves the
+    /// region it got stuck in without losing what it already found.
+    pub fn stoke(&mut self) {
+        for i in 1..self.islands.len() {
+            let n = self.islands[i].pop.len();
+            let mut fresh: Vec<Individual> = (0..n).map(|_| self.random_individual()).collect();
+            fresh.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+            let island = &mut self.islands[i];
+            island.best = fresh[0].score;
+            island.pop = fresh;
+            island.stagnant = 0;
+        }
+        let hall = self.hall.clone();
+        self.settle_into_population(&hall);
+        if let Some(first) = self.islands.first_mut() {
+            first.stagnant = 0;
+        }
+    }
+
+    // Replaces the worst of the first island with these pieces.
+    fn settle_into_population(&mut self, pieces: &[Individual]) {
+        let Some(island) = self.islands.first_mut() else { return };
+        let len = island.pop.len();
+        for (j, ind) in pieces.iter().enumerate().take(len / 4) {
+            island.pop[len - 1 - j] = *ind;
+        }
+        island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+    }
+
+    // Single-slot steepest ascent until no swap helps or time runs out.
+    fn ascend(&self, mut current: Individual, full: bool, deadline: f64, now: &dyn Fn() -> f64) -> Individual {
+        loop {
+            let mut improved = false;
+            for &s in &self.free_slots {
+                if now() > deadline {
+                    return current;
+                }
+                let pool = if full { &self.pools[s] } else { &self.short_pools[s] };
+                let mut best = current;
+                for &item in std::iter::once(&-1).chain(pool.iter()) {
+                    if item == current.genes[s] {
+                        continue;
                     }
-                    let s = self.free_slots[k];
-                    let mut best = current;
-                    let options: Vec<i32> = std::iter::once(-1).chain(self.pools[s].iter().copied()).collect();
-                    for item in options {
-                        if item == current.genes[s] {
-                            continue;
-                        }
-                        let mut g = current.genes;
-                        g[s] = item;
-                        if !self.valid(&g) {
-                            continue;
-                        }
-                        let cand = self.make(g);
-                        if cand.score > best.score + 1e-9 {
-                            best = cand;
-                        }
+                    let mut g = current.genes;
+                    g[s] = item;
+                    if !self.valid(&g) {
+                        continue;
                     }
-                    if best.hash != current.hash {
-                        current = best;
-                        improved = true;
+                    let cand = self.make(g);
+                    if cand.score > best.score + 1e-9 {
+                        best = cand;
                     }
                 }
-                if !improved {
-                    break;
+                if best.hash != current.hash {
+                    current = best;
+                    improved = true;
                 }
             }
-            found.push(current);
+            if !improved {
+                return current;
+            }
         }
+    }
+
+    /// Tempering: polishes every piece in the hall slot by slot, then spends
+    /// the rest of `budget_ms` kicking the best piece (a few random slots or
+    /// a set drop) and re-polishing it, which escapes the local optima a
+    /// single-slot polish cannot. Results also go back into the population.
+    pub fn temper(&mut self, budget_ms: f64, now: &dyn Fn() -> f64) {
+        let deadline = now() + budget_ms;
+        let mut found: Vec<Individual> = Vec::new();
+        let starts = self.hall.clone();
+        for (k, ind) in starts.iter().enumerate() {
+            if now() > deadline {
+                break;
+            }
+            found.push(self.ascend(*ind, k < 2, deadline, now));
+        }
+        let mut best = found.iter().chain(self.hall.iter()).copied().max_by(|a, b| a.score.partial_cmp(&b.score).unwrap());
+        while let Some(current) = best {
+            if now() > deadline || self.free_slots.is_empty() {
+                break;
+            }
+            let mut g = current.genes;
+            if self.rng.chance(0.3) {
+                self.inject_set(&mut g);
+            } else {
+                for _ in 0..2 + self.rng.below(2) {
+                    self.point_mutation(&mut g);
+                }
+            }
+            if !self.valid(&g) {
+                continue;
+            }
+            let kicked = self.make(g);
+            let cand = self.ascend(kicked, false, deadline, now);
+            found.push(cand);
+            if cand.score > current.score + 1e-9 {
+                best = Some(cand);
+            }
+        }
+        found.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+        found.truncate(HALL_SIZE * 2);
+        self.settle_into_population(&found);
         self.merge_into_hall(found);
     }
 
@@ -1289,7 +1382,7 @@ impl Forge {
     }
 
     pub fn report(&self) -> ForgeReport {
-        ForgeReport { generation: self.generation, best_score: self.best_score(), results: self.results() }
+        ForgeReport { generation: self.generation, evaluations: self.evaluations.get(), best_score: self.best_score(), results: self.results() }
     }
 
     fn equipped_map(&self, g: &[i32; NSLOT]) -> HashMap<String, i64> {
@@ -1430,6 +1523,14 @@ mod tests {
             f.verify(r).unwrap();
         }
         results
+    }
+    // Fake clock that advances 1 ms per reading, so time budgets end.
+    fn ticking() -> impl Fn() -> f64 {
+        let tick = std::cell::Cell::new(0.0);
+        move || {
+            tick.set(tick.get() + 1.0);
+            tick.get()
+        }
     }
     fn target_value(r: &BuildResult, stat: &str) -> i64 {
         get_stat(&r.stats, stat) + if ["strength", "intelligence", "chance", "agility"].contains(&stat) { r.stats.power } else { 0 }
@@ -1648,10 +1749,53 @@ mod tests {
     fn temper_finds_the_best_single_slot_swaps() {
         let items: Vec<CatalogItem> = (0..60).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i)])).collect();
         let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat", "cape"]), items, vec![], base(1), 13);
-        f.temper(5000.0, &|| 0.0);
+        f.temper(5000.0, &ticking());
         let r = &f.results()[0];
         assert_eq!(r.equipped.get("hat"), Some(&58));
         assert_eq!(r.equipped.get("cape"), Some(&59));
+    }
+
+    #[test]
+    fn stoking_never_loses_the_best_piece() {
+        let items: Vec<CatalogItem> = (0..60).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i)])).collect();
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat", "cape"]), items, vec![], base(1), 21);
+        run(&mut f, 10);
+        let before = f.best_score();
+        f.stoke();
+        assert!(f.best_score() >= before);
+        f.run_generation();
+        assert!(f.best_score() >= before);
+        assert!(f.report().evaluations > 0);
+    }
+
+    #[test]
+    fn tempering_escapes_a_two_slot_trap() {
+        // A 2-piece set beats the loose pair only when both pieces are worn,
+        // so no single-slot swap from the loose pair reaches it.
+        let mut items = vec![
+            item(1, "hat", Some(5), vec![effect("Vitality", 10)]),
+            item(2, "cape", Some(5), vec![effect("Vitality", 10)]),
+            item(3, "hat", None, vec![effect("Vitality", 60)]),
+            item(4, "cape", None, vec![effect("Vitality", 60)]),
+        ];
+        items.iter_mut().for_each(|it| it.level = 1);
+        let mut bonuses = HashMap::new();
+        bonuses.insert("2".to_string(), vec![effect("Vitality", 500)]);
+        let sets = vec![CatalogSet { ankama_id: 5, items: vec![1, 2], bonuses }];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.islands = 1;
+        let mut f = Forge::new(cfg, items, sets, base(1), 4);
+        let mut g = f.fixed;
+        g[0] = 2;
+        g[1] = 3;
+        f.hall = vec![f.make(g)];
+        let tick = std::cell::Cell::new(0.0);
+        let now = || {
+            tick.set(tick.get() + 1.0);
+            tick.get()
+        };
+        f.temper(5000.0, &now);
+        assert_eq!(get_stat(&f.results()[0].stats, "vitality"), 520);
     }
 
     #[test]
@@ -1659,7 +1803,7 @@ mod tests {
         let items: Vec<CatalogItem> = (0..40).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i)])).collect();
         let cfg = || config(vec![cond("vitality", 0, 1)], &["hat", "cape"]);
         let mut a = Forge::new(cfg(), items.clone(), vec![], base(1), 1);
-        a.temper(5000.0, &|| 0.0);
+        a.temper(5000.0, &ticking());
         let mut b = Forge::new(cfg(), items, vec![], base(1), 2);
         b.inject(&a.emigrants());
         assert_eq!(b.best_score(), a.best_score());

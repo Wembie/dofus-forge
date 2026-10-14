@@ -61,6 +61,12 @@ export class WasmForge {
         return takeFromExternrefTable0(ret[0]);
     }
     /**
+     * Bellows: fresh material for every island but the best one.
+     */
+    stoke() {
+        wasm.wasmforge_stoke(this.__wbg_ptr);
+    }
+    /**
      * Final local polish of the best builds, then the final report.
      * @param {number} budget_ms
      * @returns {any}

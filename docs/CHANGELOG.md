@@ -5,6 +5,15 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.79] — 2026-10-14
+- **Feature**: exact leys are back. Each stat in the order has a minimum (≥), a ley ⚖ (the exact value of each point: missing points cost it, surplus earns it) and a soft or strict cap (≤). The ◆ shortcuts now just fill the ley with ¼×–4× the stat's usual value, and a warning shows when a minimum has ley 0 (it would not be chased). Saved orders from every earlier format migrate
+- **Feature**: the Smith's scale shows what one point of each stat is worth next to the others ("1 AP ≈ 500 HP"), so leys read as exchange rates
+- **Feature**: Eternal forge: it never goes out on its own and keeps searching until you temper it. New bellows button ("Stoke the fire") melts fresh metal into the stalled islands without losing the best piece
+- **Feature**: Reforge relights the forge from the current pieces, so the result never gets worse; "From scratch" starts clean
+- **Improvement**: much more consistent results. The forge no longer cools while minimums are missing, polishes pieces during the whole run (a short tempering pass every 30 generations that feeds back into the population), and the final tempering kicks 2–3 slots or a whole set and re-polishes, escaping traps a single-slot polish cannot. On the 11-requirement case the spread between runs went from 26% to 1.4%
+- **UI**: animated forge scene (anvil, striking hammer, ember that follows the heat, sparks on every strike and a shower on each better piece), flickering heat bar, smith's log with live events (better piece, minimum met, rune set in, fire stoked), hammer-strike counter, quality flash, masterpiece ribbon with a shine sweep and staggered reveal of the other pieces. Transcendence rune names are now translated
+- Validated on the real catalog: 6 seeds of the 11-requirement order all meet 11/11 (5 of 6 reach the same best quality); chained reforging never got worse; every result re-checked against the full stat engine
+
 ## [0.3.78] — 2026-10-14
 - **Feature**: La Forjadora now adds official transcendence runes (Tra / Pa / Ra, values from the game data) to the items it picks, one rune per forgeable item. The rank depends on how heavy the item's existing line on that stat already is. Runes are chosen per piece where they help most, alongside the exo AP/MP/Range runes, and loading a piece applies them to the sheet
 - **Feature**: characteristic points now also cover the equip conditions of the chosen items (e.g. "Agility > 300"), so gated items are no longer dropped just because no stat in the order asked for that characteristic

@@ -110,10 +110,32 @@ export function suggestedCap(key: OptimizerStatKey): number | null {
   return null
 }
 
-export const IMPORTANCE_LEVELS = [1, 2, 3, 4, 5] as const
-export const DEFAULT_IMPORTANCE = 3
-const IMPORTANCE_FACTOR = [0, 0.25, 0.5, 1, 2, 4]
+// Quick presets for the ley: ¼×, ½×, 1×, 2× and 4× the stat's unit value.
+export const LEY_PRESETS = [0.25, 0.5, 1, 2, 4] as const
 
-export function requirementWeight(key: OptimizerStatKey, importance: number): number {
-  return Math.round(unitValue(key) * IMPORTANCE_FACTOR[Math.max(0, Math.min(5, importance))] * 4)
+export function leyPreset(key: OptimizerStatKey, level: number): number {
+  return Math.max(1, Math.round(unitValue(key) * LEY_PRESETS[level]))
+}
+
+// Which preset a ley matches (within 15%), or -1 for a custom value.
+export function matchingPreset(key: OptimizerStatKey, weight: number): number {
+  return LEY_PRESETS.findIndex((_, i) => Math.abs(leyPreset(key, i) - weight) <= leyPreset(key, i) * 0.15)
+}
+
+// Sheet rune names (as the Forge reports them) back to stat keys, for labels.
+const RUNE_STAT_KEY: Record<string, OptimizerStatKey> = {
+  'Vitality': 'vitality', 'Strength': 'strength', 'Intelligence': 'intelligence', 'Chance': 'chance', 'Agility': 'agility',
+  'Power': 'power', 'Earth Damage': 'earthDamage', 'Fire Damage': 'fireDamage', 'Water Damage': 'waterDamage',
+  'Air Damage': 'airDamage', 'Neutral Damage': 'neutralDamage', '% Critical': 'critChance', 'Critical Damage': 'critDamage',
+  'Critical Resistance': 'critResistance', 'Pushback Damage': 'pushbackDamage', 'Heal': 'heals', 'Initiative': 'initiative',
+  'Pod': 'pods', 'Lock': 'lock', 'Dodge': 'dodge', 'AP Reduction': 'apReduction', 'MP Reduction': 'mpReduction',
+  'AP Parry': 'apParry', 'MP Parry': 'mpParry', '% Earth Resistance': 'earthResPercent', '% Fire Resistance': 'fireResPercent',
+  '% Water Resistance': 'waterResPercent', '% Air Resistance': 'airResPercent', '% Neutral Resistance': 'neutralResPercent',
+  '% Melee Damage': 'meleeDamagePercent', '% Ranged Damage': 'rangedDamagePercent', '% Spell Damage': 'spellDamagePercent',
+  '% Weapon Damage': 'weaponDamagePercent',
+}
+
+export function runeStatLabelKey(runeStat: string): string | null {
+  const key = RUNE_STAT_KEY[runeStat]
+  return key ? OPTIMIZER_STATS.find(m => m.key === key)?.tKey ?? null : null
 }

@@ -7,6 +7,7 @@ export const wasmforge_emigrants: (a: number) => [number, number, number];
 export const wasmforge_inject: (a: number, b: any) => void;
 export const wasmforge_new: (a: any, b: any, c: any, d: any, e: number) => [number, number, number];
 export const wasmforge_step: (a: number, b: number) => [number, number, number];
+export const wasmforge_stoke: (a: number) => void;
 export const wasmforge_temper: (a: number, b: number) => [number, number, number];
 export const __wbindgen_malloc: (a: number, b: number) => number;
 export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, Lock, Unlock, X, Flame, Hammer, Anvil, RotateCcw, Settings2 } from 'lucide-react'
+import { ChevronDown, Lock, Unlock, X, Flame, Anvil, RotateCcw, Settings2, Wind, AlertTriangle, Infinity as InfinityIcon } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -8,11 +8,13 @@ import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import type { OptimizerConfig, BuildResult, ForgeReport, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
 import type { OptimizerStatMeta } from './statList.ts'
 import { BuildResultCard } from './BuildResultCard.tsx'
-import { OPTIMIZER_STATS, POWER_BOOSTED, IMPORTANCE_LEVELS, DEFAULT_IMPORTANCE, requirementWeight, suggestedCap } from './statList.ts'
+import { ForgeScene, HeatGauge, ForgeLog, LeyScale, type LogEntry } from './ForgeParts.tsx'
+import { OPTIMIZER_STATS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 
 type Phase = 'locked' | 'order' | 'forging' | 'forged'
+type Equipped = Partial<Record<SlotId, number>>
 
 const SLOT_LABEL_KEY: Record<SlotId, string> = {
   hat:       'slot_hat',
@@ -53,17 +55,23 @@ const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
 const STORAGE_KEY = 'dofus-forge:optimizer-config'
 const TOTAL_ISLANDS = 96
 const HW = Math.max(1, globalThis.navigator?.hardwareConcurrency || 4)
+const BELLOWS_COOLDOWN_MS = 4000
+const LOG_SIZE = 7
 
 // How long and how wide the Forge searches. `stall` = generations without a
-// better piece before it starts tempering; `capSec` = hard time limit.
+// better piece before it starts tempering; `capSec` = hard time limit
+// (Infinity: only the player tempers).
 const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(2, HW),                              stall: 60,  capSec: 30,  temperMs: 1500 },
-  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 150, capSec: 120, temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                              stall: 400, capSec: 420, temperMs: 6000 },
+  quick:    { threads: Math.min(2, HW),                              stall: 60,       capSec: 30,       temperMs: 1500 },
+  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 150,      capSec: 120,      temperMs: 3000 },
+  master:   { threads: Math.min(8, HW),                              stall: 400,      capSec: 420,      temperMs: 6000 },
+  eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, capSec: Infinity, temperMs: 6000 },
 }
+// Visual heat scale for the eternal forge, which never cools on its own.
+const ETERNAL_HEAT_SCALE = 300
 
-const emptyReq = (stat: OptimizerStatKey): ForgeRequirement => ({ stat, minimum: 0, importance: 0, cap: null, strictCap: false })
-const isActive = (r: ForgeRequirement) => r.minimum > 0 || r.importance > 0
+const emptyReq = (stat: OptimizerStatKey): ForgeRequirement => ({ stat, minimum: 0, weight: 0, cap: null, strictCap: false })
+const isActive = (r: ForgeRequirement) => r.minimum > 0 || r.weight > 0
 
 function makeDefaultConfig(): OptimizerConfig {
   return {
@@ -78,23 +86,26 @@ function makeDefaultConfig(): OptimizerConfig {
   }
 }
 
-// Earlier saves stored { minVal, weight 1–10 } or { goal, weight, max, absolute }.
+// Earlier saves: { minVal, weight 1–10 }, { goal, weight, max, absolute } or
+// { minimum, importance 0–5, cap, strictCap }.
 function migrateReq(stat: OptimizerStatKey, saved: Record<string, unknown> | undefined): ForgeRequirement {
   if (!saved) return emptyReq(stat)
   const num = (k: string) => (typeof saved[k] === 'number' ? saved[k] as number : 0)
+  const cap = typeof saved.cap === 'number' ? saved.cap : typeof saved.max === 'number' ? saved.max : null
+  const strictCap = saved.strictCap === true || saved.absolute === true
+  if (typeof saved.minimum === 'number' && typeof saved.weight === 'number') {
+    return { stat, minimum: num('minimum'), weight: num('weight'), cap, strictCap }
+  }
   if (typeof saved.importance === 'number') {
-    return { stat, minimum: num('minimum'), importance: num('importance'), cap: typeof saved.cap === 'number' ? saved.cap : null, strictCap: saved.strictCap === true }
+    const level = num('importance')
+    return { stat, minimum: num('minimum'), weight: level > 0 ? leyPreset(stat, level - 1) : 0, cap, strictCap }
   }
-  const minimum = Math.max(num('goal'), num('minVal'))
-  const weight = num('weight')
-  if (minimum <= 0 && weight <= 0) return emptyReq(stat)
-  return {
-    stat,
-    minimum,
-    importance: DEFAULT_IMPORTANCE,
-    cap:        typeof saved.max === 'number' ? saved.max : null,
-    strictCap:  saved.absolute === true,
+  if (typeof saved.goal === 'number') {
+    return { stat, minimum: num('goal'), weight: num('weight'), cap, strictCap }
   }
+  const minimum = num('minVal')
+  if (minimum <= 0 && num('weight') <= 0) return emptyReq(stat)
+  return { stat, minimum, weight: unitValue(stat), cap, strictCap }
 }
 
 function loadSavedConfig(): OptimizerConfig {
@@ -131,7 +142,7 @@ function toWireConfig(config: OptimizerConfig, islands: number) {
     stats: config.stats.filter(isActive).map(r => ({
       stat:     r.stat,
       goal:     r.minimum,
-      weight:   requirementWeight(r.stat, r.importance > 0 ? r.importance : DEFAULT_IMPORTANCE),
+      weight:   r.weight,
       max:      r.cap,
       absolute: r.strictCap && r.cap != null,
     })),
@@ -171,19 +182,27 @@ function targetValue(result: BuildResult, stat: OptimizerStatKey): number {
   return POWER_BOOSTED.has(stat) ? own + result.stats.power : own
 }
 
+function formatCount(n: number): string {
+  if (n >= 1e9) return `${(n / 1e9).toFixed(1)}B`
+  if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`
+  if (n >= 1e3) return `${(n / 1e3).toFixed(1)}k`
+  return String(n)
+}
+
 const fieldStyle = (active: boolean, color: string): CSSProperties => ({
   background: active ? `color-mix(in srgb, ${color} 10%, var(--surface-panel))` : 'var(--surface-panel)',
   border:     `1px solid ${active ? `color-mix(in srgb, ${color} 30%, var(--metal-edge))` : 'var(--metal-edge)'}`,
   color:      active ? color : 'var(--ink-muted)',
 })
 
-function NumberField({ value, placeholder, onCommit, color, active, title }: {
+function NumberField({ value, placeholder, onCommit, color, active, title, max = 100000 }: {
   value:       number | null
   placeholder: string
   onCommit:    (v: number | null) => void
   color:       string
   active:      boolean
   title:       string
+  max?:        number
 }) {
   const [raw, setRaw] = useState(value == null || value === 0 ? '' : String(value))
   useEffect(() => { setRaw(value == null || value === 0 ? '' : String(value)) }, [value])
@@ -199,10 +218,10 @@ function NumberField({ value, placeholder, onCommit, color, active, title }: {
       onChange={e => setRaw(e.target.value.replace(/[^0-9]/g, ''))}
       onBlur={() => {
         const n = parseInt(raw, 10)
-        onCommit(isNaN(n) ? null : Math.min(100000, n))
+        onCommit(isNaN(n) ? null : Math.min(max, n))
       }}
       onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-      className="w-full min-w-0 text-[11px] font-mono text-right rounded px-1 py-0.5 outline-none"
+      className="w-full min-w-0 text-[11px] font-mono text-right rounded px-1 py-0.5 outline-none transition-colors"
       style={fieldStyle(active, color)}
     />
   )
@@ -216,18 +235,21 @@ function RequirementCard({ meta, req, onChange }: {
 }) {
   const { t } = useTranslation()
   const active = isActive(req)
+  const preset = matchingPreset(meta.key, req.weight)
+  const unpursued = req.minimum > 0 && req.weight === 0
 
   function activate() {
-    if (!active) onChange({ ...req, importance: DEFAULT_IMPORTANCE, cap: suggestedCap(meta.key) })
+    if (!active) onChange({ ...req, weight: leyPreset(meta.key, 2), cap: suggestedCap(meta.key) })
   }
 
   return (
     <div
-      className="relative rounded-lg p-2 flex flex-col gap-1"
+      className="relative rounded-lg p-2 flex flex-col gap-1 transition-all duration-200"
       style={{
         cursor:     active ? 'default' : 'pointer',
         background: active ? `color-mix(in srgb, ${meta.color} 8%, var(--surface-stone))` : 'var(--surface-stone)',
         border:     `1px solid ${active ? `color-mix(in srgb, ${meta.color} 50%, var(--metal-edge))` : 'var(--metal-edge)'}`,
+        boxShadow:  active ? `0 0 14px -6px ${meta.color}` : 'none',
       }}
       onClick={activate}
       title={active ? t(`${meta.tKey}_desc`) : t('optimizer_activate_hint')}
@@ -237,11 +259,16 @@ function RequirementCard({ meta, req, onChange }: {
         <span className="text-[10px] font-semibold truncate leading-tight flex-1" style={{ color: active ? meta.color : 'var(--ink-faint)' }}>
           {t(meta.tKey)}
         </span>
+        {unpursued && (
+          <span title={t('optimizer_unpursued_hint')}>
+            <AlertTriangle size={10} style={{ color: 'var(--gold)' }} />
+          </span>
+        )}
         {active && (
           <button
             type="button"
             onClick={e => { e.stopPropagation(); onChange(emptyReq(meta.key)) }}
-            className="flex-shrink-0 opacity-50 hover:opacity-100"
+            className="flex-shrink-0 opacity-50 hover:opacity-100 transition-opacity"
             title={t('optimizer_clear_condition')}
             aria-label={t('optimizer_clear_condition')}
           >
@@ -250,17 +277,10 @@ function RequirementCard({ meta, req, onChange }: {
         )}
       </div>
       {active && (
-        <>
+        <div className="forge-log-in flex flex-col gap-1">
           <div className="flex items-center gap-1">
             <span className="text-[9px] w-3 text-center flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>≥</span>
-            <NumberField
-              value={req.minimum}
-              placeholder="—"
-              title={t('optimizer_minimum_hint')}
-              color={meta.color}
-              active
-              onCommit={v => onChange({ ...req, minimum: v ?? 0 })}
-            />
+            <NumberField value={req.minimum} placeholder="—" title={t('optimizer_minimum_hint')} color={meta.color} active onCommit={v => onChange({ ...req, minimum: v ?? 0 })} />
             <span className="text-[9px] w-3 text-center flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>≤</span>
             <NumberField
               value={req.cap}
@@ -281,55 +301,30 @@ function RequirementCard({ meta, req, onChange }: {
               {req.strictCap ? <Lock size={9} style={{ color: 'var(--negative)' }} /> : <Unlock size={9} style={{ color: 'var(--ink-faint)' }} />}
             </button>
           </div>
-          <div className="flex items-center gap-1" onClick={e => e.stopPropagation()} title={t('optimizer_importance_hint')}>
-            <span className="text-[8px] uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_importance')}</span>
-            <div className="flex gap-0.5">
-              {IMPORTANCE_LEVELS.map(level => {
-                const filled = req.importance >= level
+          <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
+            <span className="text-[8px] uppercase tracking-wide flex-shrink-0 w-6" style={{ color: 'var(--ink-faint)' }} title={t('optimizer_ley_hint')}>{t('optimizer_ley')}</span>
+            <div className="w-14 flex-shrink-0">
+              <NumberField value={req.weight} placeholder="0" title={t('optimizer_ley_hint')} color={meta.color} active max={10000} onCommit={v => onChange({ ...req, weight: v ?? 0 })} />
+            </div>
+            <div className="flex gap-0.5 ml-auto" role="group" aria-label={t('optimizer_ley_presets')}>
+              {LEY_PRESETS.map((_, level) => {
+                const on = preset >= level && preset !== -1
                 return (
                   <button
                     key={level}
                     type="button"
-                    onClick={() => onChange({ ...req, importance: req.importance === level ? level - 1 : level })}
-                    className="rounded-sm flex-shrink-0 transition-colors"
-                    style={{ width: 8, height: 8, transform: 'rotate(45deg)', background: filled ? meta.color : 'var(--surface-panel)', border: `1px solid ${filled ? meta.color : 'var(--metal-edge)'}` }}
-                    aria-label={t('optimizer_importance_level', { n: level })}
+                    onClick={() => onChange({ ...req, weight: leyPreset(meta.key, level) })}
+                    className="flex-shrink-0 transition-transform hover:scale-125"
+                    style={{ width: 8, height: 8, transform: 'rotate(45deg)', borderRadius: 2, background: on ? meta.color : 'var(--surface-panel)', border: `1px solid ${on ? meta.color : 'var(--metal-edge)'}` }}
+                    title={t('optimizer_ley_preset', { n: level + 1, value: leyPreset(meta.key, level) })}
+                    aria-label={t('optimizer_ley_preset', { n: level + 1, value: leyPreset(meta.key, level) })}
                   />
                 )
               })}
             </div>
           </div>
-        </>
+        </div>
       )}
-    </div>
-  )
-}
-
-// ── Forge heat ────────────────────────────────────────────────────────────────
-function ForgeHeat({ heat, stageKey }: { heat: number; stageKey: string }) {
-  const { t } = useTranslation()
-  const pct = Math.round(Math.max(0.04, Math.min(1, heat)) * 100)
-  return (
-    <div className="w-full max-w-md flex flex-col gap-1.5">
-      <div className="flex items-center gap-2">
-        <Flame size={16} style={{ color: heat > 0.5 ? 'var(--fire)' : 'var(--gold)' }} className={heat > 0.2 ? 'animate-pulse' : ''} />
-        <span className="text-[12px] font-semibold" style={{ color: 'var(--ink)' }}>{t(stageKey)}</span>
-      </div>
-      <div
-        className="h-2 rounded-full overflow-hidden"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-        role="progressbar"
-        aria-valuenow={pct}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={t('optimizer_heat')}
-      >
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${pct}%`, background: 'linear-gradient(90deg, var(--gold-deep), var(--gold), var(--fire))' }}
-        />
-      </div>
-      <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_heat_hint')}</span>
     </div>
   )
 }
@@ -347,7 +342,7 @@ function RequirementChecklist({ reqs, result }: { reqs: ForgeRequirement[]; resu
         const ok = value >= r.minimum
         return (
           <div key={r.stat} className="flex items-center gap-1.5 text-[10px]">
-            <span style={{ color: ok ? 'var(--positive, #5cb85c)' : 'var(--negative)' }}>{ok ? '✓' : '✗'}</span>
+            <span key={String(ok)} className="forge-pop inline-block" style={{ color: ok ? 'var(--positive, #5cb85c)' : 'var(--negative)' }}>{ok ? '✓' : '✗'}</span>
             <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain" />
             <span className="truncate" style={{ color: 'var(--ink-muted)' }}>{t(meta.tKey)}</span>
             <span className="ml-auto font-mono" style={{ color: ok ? meta.color : 'var(--negative)' }}>
@@ -374,9 +369,13 @@ export function OptimizerModal({ open, onClose }: Props) {
   const [heat,           setHeat]           = useState(1)
   const [tempering,      setTempering]      = useState(false)
   const [elapsed,        setElapsed]        = useState(0)
+  const [strikes,        setStrikes]        = useState(0)
+  const [burst,          setBurst]          = useState(0)
+  const [log,            setLog]            = useState<LogEntry[]>([])
+  const [bellowsReady,   setBellowsReady]   = useState(true)
   const [error,          setError]          = useState<string | null>(null)
   const [showSlots,      setShowSlots]      = useState(false)
-  const [showAdvanced,   setShowAdvanced]   = useState(false)
+  const [showBans,       setShowBans]       = useState(false)
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => {
     const cfg = loadSavedConfig()
     const activeKeys = new Set(cfg.stats.filter(isActive).map(s => s.stat))
@@ -387,9 +386,12 @@ export function OptimizerModal({ open, onClose }: Props) {
   const reportsRef   = useRef<(ForgeReport | null)[]>([])
   const temperedRef  = useRef(0)
   const bestRef      = useRef({ score: -Infinity, generation: 0 })
+  const prevBestRef  = useRef<BuildResult | null>(null)
+  const generationRef = useRef(0)
   const startRef     = useRef(0)
   const finishingRef = useRef(false)
   const presetRef    = useRef(INTENSITY.standard)
+  const logIdRef     = useRef(0)
 
   useEffect(() => { persistConfig(config) }, [config])
   useEffect(() => () => terminateWorkers(), [])
@@ -436,6 +438,10 @@ export function OptimizerModal({ open, onClose }: Props) {
     onClose()
   }
 
+  function addLog(text: string, tone: LogEntry['tone']) {
+    setLog(l => [{ id: logIdRef.current++, text, tone }, ...l].slice(0, LOG_SIZE))
+  }
+
   function updateReq(next: ForgeRequirement) {
     if (isActive(next)) {
       const group = STAT_GROUPS.find(g => g.statKeys.includes(next.stat))
@@ -466,33 +472,68 @@ export function OptimizerModal({ open, onClose }: Props) {
     setConfig(c => c.bannedItems.includes(id) ? c : { ...c, bannedItems: [...c.bannedItems, id] })
   }
 
-  function onReport(index: number, report: ForgeReport, emigrants?: Partial<Record<SlotId, number>>[]) {
+  // Narrates what changed between the previous best piece and the new one.
+  function narrate(next: BuildResult) {
+    const prev = prevBestRef.current
+    prevBestRef.current = next
+    if (!prev) {
+      addLog(t('optimizer_log_first', { q: Math.round(next.score).toLocaleString() }), 'gold')
+      return
+    }
+    addLog(t('optimizer_log_better', { q: Math.round(next.score).toLocaleString(), d: Math.round(next.score - prev.score).toLocaleString() }), 'gold')
+    for (const r of config.stats.filter(x => x.minimum > 0)) {
+      const before = targetValue(prev, r.stat) >= r.minimum
+      const now = targetValue(next, r.stat) >= r.minimum
+      const meta = META_MAP.get(r.stat)
+      if (!before && now && meta) addLog(t('optimizer_log_minimum', { stat: t(meta.tKey), value: targetValue(next, r.stat) }), 'good')
+    }
+    let runesLogged = 0
+    for (const [slot, rune] of Object.entries(next.runes) as [SlotId, { stat: string; value: number }][]) {
+      const old = prev.runes[slot]
+      if (runesLogged < 2 && (!old || old.stat !== rune.stat)) {
+        const labelKey = runeStatLabelKey(rune.stat)
+        addLog(t('optimizer_log_rune', { value: rune.value, stat: labelKey ? t(labelKey) : rune.stat, slot: t(SLOT_LABEL_KEY[slot]) }), 'muted')
+        runesLogged++
+      }
+    }
+    if (next.meetsRequired && !prev.meetsRequired) addLog(t('optimizer_log_all_met'), 'good')
+  }
+
+  function onReport(index: number, report: ForgeReport, emigrants?: Equipped[]) {
     reportsRef.current[index] = report
     const ranked = mergeResults(reportsRef.current)
     setResults(ranked.map(r => r.result))
     const generation = Math.max(...reportsRef.current.map(r => r?.generation ?? 0))
+    generationRef.current = generation
+    setStrikes(reportsRef.current.reduce((sum, r) => sum + (r?.evaluations ?? 0), 0))
 
     // Each new overall best is shared with every other Worker.
     const top = ranked[0]
     if (top && top.result.score > bestRef.current.score + 1e-9) {
       bestRef.current = { score: top.result.score, generation }
       workersRef.current.forEach((w, i) => { if (i !== top.worker) w.postMessage({ type: 'inject', builds: [top.result.equipped] }) })
+      setBurst(b => b + 1)
+      narrate(top.result)
     }
     // Ring migration: each Worker's emigrants go to the next one.
     if (emigrants?.length && workersRef.current.length > 1) {
       workersRef.current[(index + 1) % workersRef.current.length].postMessage({ type: 'inject', builds: emigrants })
     }
 
+    const preset = presetRef.current
     const stall = generation - bestRef.current.generation
-    const nextHeat = 1 - stall / presetRef.current.stall
-    setHeat(nextHeat)
-    if (nextHeat <= 0) finishForging()
+    const eternal = !Number.isFinite(preset.stall)
+    setHeat(1 - stall / (eternal ? ETERNAL_HEAT_SCALE : preset.stall))
+    // The forge never cools off while minimums are still missing.
+    const missing = top ? !top.result.meetsRequired : true
+    if (!eternal && !missing && stall >= preset.stall) finishForging()
   }
 
   function finishForging() {
     if (finishingRef.current || workersRef.current.length === 0) return
     finishingRef.current = true
     setTempering(true)
+    addLog(t('optimizer_log_tempering'), 'fire')
     temperedRef.current = 0
     workersRef.current.forEach(w => w.postMessage({ type: 'finish', temperMs: presetRef.current.temperMs }))
   }
@@ -507,7 +548,18 @@ export function OptimizerModal({ open, onClose }: Props) {
     setPhase('forged')
   }
 
-  function lightForge() {
+  function stoke() {
+    if (!bellowsReady || finishingRef.current) return
+    workersRef.current.forEach(w => w.postMessage({ type: 'stoke' }))
+    bestRef.current = { ...bestRef.current, generation: generationRef.current }
+    setHeat(1)
+    setBurst(b => b + 1)
+    addLog(t('optimizer_log_stoked'), 'fire')
+    setBellowsReady(false)
+    setTimeout(() => setBellowsReady(true), BELLOWS_COOLDOWN_MS)
+  }
+
+  function lightForge(seedBuilds: Equipped[] = []) {
     if (!selectedClass) { setError(t('optimizer_no_class')); return }
     if (!equipment || !sets) return
     if (!config.stats.some(isActive)) { setError(t('optimizer_no_stats')); return }
@@ -522,18 +574,24 @@ export function OptimizerModal({ open, onClose }: Props) {
     const base = { selectedClass, level, allocated, scrolled, equipped, runes }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
+    prevBestRef.current = null
+    generationRef.current = 0
     finishingRef.current = false
     startRef.current = performance.now()
     setResults([])
     setHeat(1)
     setElapsed(0)
+    setStrikes(0)
+    setBurst(0)
     setTempering(false)
+    setLog([])
+    addLog(t(seedBuilds.length ? 'optimizer_log_relit' : 'optimizer_log_lit'), 'fire')
     let ready = 0
 
     for (let i = 0; i < count; i++) {
       const worker = new Worker(new URL('../../workers/optimizer.worker.ts', import.meta.url), { type: 'module' })
       worker.onmessage = (e: MessageEvent) => {
-        const msg = e.data as { type: string; report?: ForgeReport; emigrants?: Partial<Record<SlotId, number>>[] }
+        const msg = e.data as { type: string; report?: ForgeReport; emigrants?: Equipped[] }
         if (msg.type === 'ready') {
           ready++
           if (ready === count) workersRef.current.forEach(w => w.postMessage({ type: 'run' }))
@@ -548,7 +606,7 @@ export function OptimizerModal({ open, onClose }: Props) {
         }
       }
       const seed = crypto.getRandomValues(new Uint32Array(1))[0]
-      worker.postMessage({ type: 'init', config: wire, items: equipment, sets, base, seed })
+      worker.postMessage({ type: 'init', config: wire, items: equipment, sets, base, seed, seedBuilds })
       workersRef.current.push(worker)
     }
     setPhase('forging')
@@ -607,6 +665,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   // ── Forging ───────────────────────────────────────────────────────────────
   if (phase === 'forging') {
     const best = results[0]
+    const eternal = config.intensity === 'eternal'
     const stageKey = tempering
       ? 'optimizer_stage_tempering'
       : !best ? 'optimizer_stage_lighting'
@@ -616,19 +675,30 @@ export function OptimizerModal({ open, onClose }: Props) {
 
     return (
       <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
-        <div className="p-5 flex flex-col items-center gap-4 text-[11px]">
+        <div className="p-5 flex flex-col items-center gap-3 text-[11px]">
           <div
-            className="dofus-aura w-14 h-14 rounded-full flex items-center justify-center"
-            style={{ background: 'color-mix(in srgb, var(--gold) 10%, var(--surface-stone))', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)' }}
+            className="w-full rounded-xl flex flex-col items-center gap-2 pt-3 pb-4 px-4"
+            style={{
+              background: `radial-gradient(ellipse at 50% 85%, color-mix(in srgb, var(--fire) ${Math.round(Math.max(0.1, tempering ? 0.15 : heat) * 18)}%, var(--surface-void)) 0%, var(--surface-void) 70%)`,
+              border:     '1px solid color-mix(in srgb, var(--gold) 25%, var(--metal-edge))',
+            }}
           >
-            <Hammer size={24} className={tempering ? '' : 'animate-bounce'} style={{ color: 'var(--gold)' }} />
+            <ForgeScene heat={tempering ? 0.2 : Math.max(0.1, heat)} burst={burst} tempering={tempering} />
+            <HeatGauge heat={tempering ? 0 : heat} label={t(stageKey)} eternal={eternal} />
+            <div className="flex items-center gap-4 text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
+              <span>⏱ {t('optimizer_elapsed', { s: elapsed })}</span>
+              <span title={t('optimizer_strikes_hint')}>🔨 {t('optimizer_strikes', { n: formatCount(strikes) })}</span>
+              {best && (
+                <span key={Math.round(best.score)} className="forge-flash inline-block" style={{ color: best.score < 0 ? 'var(--negative)' : 'var(--gold)' }} title={t('optimizer_quality_hint')}>
+                  ✦ {t('optimizer_quality')} {Math.round(best.score).toLocaleString()}
+                </span>
+              )}
+            </div>
           </div>
-          <ForgeHeat heat={tempering ? 0 : heat} stageKey={stageKey} />
-          <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-            {t('optimizer_elapsed', { s: elapsed })}
-          </span>
 
           {best && <RequirementChecklist reqs={activeReqs} result={best} />}
+
+          <ForgeLog entries={log} />
 
           {best && (
             <div className="w-full text-left">
@@ -647,18 +717,27 @@ export function OptimizerModal({ open, onClose }: Props) {
             </div>
           )}
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={stoke}
+              disabled={!bellowsReady || tempering || !best}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-[11px] transition-all disabled:opacity-40 hover:brightness-125"
+              style={{ color: 'var(--fire)', border: '1px solid color-mix(in srgb, var(--fire) 45%, transparent)', background: 'color-mix(in srgb, var(--fire) 10%, transparent)' }}
+              title={t('optimizer_bellows_hint')}
+            >
+              <Wind size={12} className={bellowsReady ? '' : 'forge-bellows-pump'} /> {t('optimizer_bellows')}
+            </button>
             <button
               onClick={finishForging}
               disabled={!best || tempering}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-[11px] disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-[11px] transition-all disabled:opacity-40 hover:brightness-125"
               style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
             >
               <Anvil size={12} /> {t('optimizer_temper_now')}
             </button>
             <button
               onClick={extinguish}
-              className="px-3 py-1.5 rounded-lg text-[11px] border"
+              className="px-3 py-1.5 rounded-lg text-[11px] border transition-colors hover:text-[var(--ink)]"
               style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
             >
               {t('optimizer_extinguish')}
@@ -675,21 +754,29 @@ export function OptimizerModal({ open, onClose }: Props) {
     return (
       <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
         <div className="p-4 space-y-3 text-[11px]">
-          <div className="flex items-center justify-between gap-2">
-            <p className="text-[12px] font-bold font-display tracking-wider" style={{ color: 'var(--gold)' }}>
-              {t('optimizer_forged_title')}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-[12px] font-bold font-display tracking-wider forge-log-in" style={{ color: 'var(--gold)' }}>
+              ✦ {t('optimizer_forged_title')}
             </p>
             <div className="flex items-center gap-1.5">
               <button
-                onClick={lightForge}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border"
+                onClick={() => lightForge(results.map(r => r.equipped))}
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border transition-colors hover:text-[var(--gold)]"
+                style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)' }}
+                title={t('optimizer_reforge_hint')}
+              >
+                <Flame size={11} /> {t('optimizer_reforge')}
+              </button>
+              <button
+                onClick={() => lightForge()}
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border transition-colors hover:text-[var(--gold)]"
                 style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)' }}
               >
                 <RotateCcw size={11} /> {t('optimizer_forge_again')}
               </button>
               <button
                 onClick={() => setPhase('order')}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border"
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border transition-colors hover:text-[var(--gold)]"
                 style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)' }}
               >
                 <Settings2 size={11} /> {t('optimizer_adjust_order')}
@@ -706,27 +793,11 @@ export function OptimizerModal({ open, onClose }: Props) {
                   {t('optimizer_unmet_advice', { met: masterpiece.requirementsMet, total: masterpiece.requirementsTotal })}
                 </p>
               )}
-              <BuildResultCard
-                result={masterpiece}
-                rank={1}
-                items={equipment ?? []}
-                requirements={config.stats}
-                runes={runes}
-                lockedSlots={config.lockedSlots}
-                onLoad={loadBuild}
-                onBan={banItem}
-                bannedItems={config.bannedItems}
-              />
-              {others.length > 0 && (
-                <p className="text-[10px] font-semibold uppercase tracking-wide pt-1" style={{ color: 'var(--ink-faint)' }}>
-                  {t('optimizer_other_pieces')}
-                </p>
-              )}
-              {others.slice(0, 4).map((r, i) => (
+              <div className="relative overflow-hidden rounded-xl" style={{ animation: 'col-rise 480ms var(--ease-out) both', boxShadow: masterpiece.meetsRequired ? '0 0 24px -8px var(--gold)' : 'none' }}>
+                {masterpiece.meetsRequired && <span className="forge-shine" />}
                 <BuildResultCard
-                  key={fingerprint(r)}
-                  result={r}
-                  rank={i + 2}
+                  result={masterpiece}
+                  rank={1}
                   items={equipment ?? []}
                   requirements={config.stats}
                   runes={runes}
@@ -734,7 +805,28 @@ export function OptimizerModal({ open, onClose }: Props) {
                   onLoad={loadBuild}
                   onBan={banItem}
                   bannedItems={config.bannedItems}
+                  ribbon={{ label: masterpiece.meetsRequired ? t('optimizer_masterpiece') : t('optimizer_best_piece'), gold: masterpiece.meetsRequired }}
                 />
+              </div>
+              {others.length > 0 && (
+                <p className="text-[10px] font-semibold uppercase tracking-wide pt-1" style={{ color: 'var(--ink-faint)' }}>
+                  {t('optimizer_other_pieces')}
+                </p>
+              )}
+              {others.slice(0, 4).map((r, i) => (
+                <div key={fingerprint(r)} style={{ animation: `col-rise 420ms var(--ease-out) ${120 + i * 90}ms both` }}>
+                  <BuildResultCard
+                    result={r}
+                    rank={i + 2}
+                    items={equipment ?? []}
+                    requirements={config.stats}
+                    runes={runes}
+                    lockedSlots={config.lockedSlots}
+                    onLoad={loadBuild}
+                    onBan={banItem}
+                    bannedItems={config.bannedItems}
+                  />
+                </div>
               ))}
             </>
           )}
@@ -749,7 +841,7 @@ export function OptimizerModal({ open, onClose }: Props) {
       <div className="p-4 space-y-3 text-[11px]">
 
         {error && (
-          <p className="px-3 py-2 rounded-lg" style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 30%, transparent)' }}>
+          <p className="px-3 py-2 rounded-lg forge-log-in" style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 30%, transparent)' }}>
             {error}
           </p>
         )}
@@ -757,13 +849,8 @@ export function OptimizerModal({ open, onClose }: Props) {
         <p className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_order_help')}</p>
 
         {/* Base build summary */}
-        <div
-          className="rounded-lg px-2.5 py-2 flex flex-wrap items-center gap-x-3 gap-y-1"
-          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-        >
-          <span className="text-[9px] uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
-            {t('optimizer_base_summary', { level })}
-          </span>
+        <div className="rounded-lg px-2.5 py-2 flex flex-wrap items-center gap-x-3 gap-y-1" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+          <span className="text-[9px] uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_base_summary', { level })}</span>
           {CHARACTERISTICS.map(c => {
             const meta = META_MAP.get(c)
             if (!meta || !scrolled[c]) return null
@@ -786,18 +873,19 @@ export function OptimizerModal({ open, onClose }: Props) {
                 role="radio"
                 aria-checked={config.intensity === k}
                 onClick={() => setConfig(c => ({ ...c, intensity: k }))}
-                className="px-2.5 py-1 text-[10px] font-semibold"
+                className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold transition-colors"
                 title={t(`optimizer_intensity_${k}_hint`)}
                 style={{
-                  color:      config.intensity === k ? 'var(--surface-void)' : 'var(--ink-muted)',
-                  background: config.intensity === k ? 'var(--gold)' : 'var(--surface-stone)',
+                  color:      config.intensity === k ? 'var(--surface-void)' : k === 'eternal' ? 'var(--fire)' : 'var(--ink-muted)',
+                  background: config.intensity === k ? (k === 'eternal' ? 'var(--fire)' : 'var(--gold)') : 'var(--surface-stone)',
                 }}
               >
+                {k === 'eternal' && <InfinityIcon size={11} />}
                 {t(`optimizer_intensity_${k}`)}
               </button>
             ))}
           </div>
-          <span className="text-[9px] italic" style={{ color: 'var(--ink-faint)' }}>{t(`optimizer_intensity_${config.intensity}_hint`)}</span>
+          <span key={config.intensity} className="text-[9px] italic forge-log-in" style={{ color: 'var(--ink-faint)' }}>{t(`optimizer_intensity_${config.intensity}_hint`)}</span>
         </div>
 
         {/* Top config bar */}
@@ -814,22 +902,14 @@ export function OptimizerModal({ open, onClose }: Props) {
               style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
             />
           </label>
-          <button
-            onClick={() => setShowSlots(s => !s)}
-            className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]"
-            style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-          >
+          <button onClick={() => setShowSlots(s => !s)} className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
             {t('optimizer_slots')}:
             <span className="font-mono font-bold" style={{ color: 'var(--gold)' }}>{activeSlots}</span>
             <ChevronDown size={10} style={{ transform: showSlots ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
           </button>
-          <button
-            onClick={() => setShowAdvanced(s => !s)}
-            className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]"
-            style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-          >
+          <button onClick={() => setShowBans(s => !s)} className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
             {t('optimizer_banned_items')}: <span className="font-mono font-bold" style={{ color: 'var(--gold)' }}>{config.bannedItems.length}</span>
-            <ChevronDown size={10} style={{ transform: showAdvanced ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
+            <ChevronDown size={10} style={{ transform: showBans ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
           </button>
           <label className="flex items-center gap-1.5 cursor-pointer select-none" title={t('optimizer_assume_scrolled_hint')}>
             <input type="checkbox" checked={config.assumeFullyScrolled} onChange={e => setConfig(c => ({ ...c, assumeFullyScrolled: e.target.checked }))} />
@@ -880,11 +960,9 @@ export function OptimizerModal({ open, onClose }: Props) {
         </div>
 
         {/* Banned items */}
-        {showAdvanced && (
-          <div className="rounded-lg p-3 flex flex-wrap items-center gap-1" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-            {config.bannedItems.length === 0 && (
-              <span className="text-[10px] italic" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_banned_empty')}</span>
-            )}
+        {showBans && (
+          <div className="rounded-lg p-3 flex flex-wrap items-center gap-1 forge-log-in" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+            {config.bannedItems.length === 0 && <span className="text-[10px] italic" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_banned_empty')}</span>}
             {config.bannedItems.map(id => (
               <button
                 key={id}
@@ -901,7 +979,7 @@ export function OptimizerModal({ open, onClose }: Props) {
 
         {/* Slots panel */}
         {showSlots && (
-          <div className="rounded-lg p-3 space-y-2" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+          <div className="rounded-lg p-3 space-y-2 forge-log-in" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>{t('optimizer_slots')}</span>
               <div className="flex gap-1.5">
@@ -925,6 +1003,8 @@ export function OptimizerModal({ open, onClose }: Props) {
           </div>
         )}
 
+        <LeyScale reqs={activeReqs} />
+
         {/* Stat groups */}
         <div className="space-y-2">
           {STAT_GROUPS.map(group => {
@@ -936,14 +1016,14 @@ export function OptimizerModal({ open, onClose }: Props) {
                   <span className="text-[10px] font-bold tracking-widest uppercase flex-shrink-0" style={{ color: 'var(--gold)' }}>{t(group.tKey)}</span>
                   <span className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
                   {activeCount > 0 && (
-                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold flex-shrink-0" style={{ background: 'color-mix(in srgb, var(--gold) 15%, transparent)', color: 'var(--gold)' }}>
+                    <span key={activeCount} className="forge-pop text-[9px] font-mono px-1.5 py-0.5 rounded font-bold flex-shrink-0" style={{ background: 'color-mix(in srgb, var(--gold) 15%, transparent)', color: 'var(--gold)' }}>
                       {activeCount}
                     </span>
                   )}
                   <ChevronDown size={11} style={{ color: 'var(--ink-faint)', transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
                 </button>
                 {isExpanded && (
-                  <div className="grid gap-1.5 mt-1 grid-cols-2 sm:grid-cols-4">
+                  <div className="grid gap-1.5 mt-1 grid-cols-2 sm:grid-cols-4 forge-log-in">
                     {group.statKeys.map(sk => {
                       const meta = META_MAP.get(sk)
                       const req = config.stats.find(s => s.stat === sk)
@@ -963,11 +1043,16 @@ export function OptimizerModal({ open, onClose }: Props) {
             {t('optimizer_cancel')}
           </button>
           <button
-            onClick={lightForge}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-[12px]"
-            style={{ background: 'color-mix(in srgb, var(--gold) 20%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 50%, transparent)', color: 'var(--gold)' }}
+            onClick={() => lightForge()}
+            className="group flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-[12px] transition-all hover:brightness-125"
+            style={{
+              background: config.intensity === 'eternal' ? 'color-mix(in srgb, var(--fire) 22%, transparent)' : 'color-mix(in srgb, var(--gold) 20%, transparent)',
+              border:     `1px solid color-mix(in srgb, ${config.intensity === 'eternal' ? 'var(--fire)' : 'var(--gold)'} 50%, transparent)`,
+              color:      config.intensity === 'eternal' ? 'var(--fire)' : 'var(--gold)',
+              boxShadow:  '0 0 18px -8px var(--fire)',
+            }}
           >
-            <Flame size={13} /> {t('optimizer_light_forge')}
+            <Flame size={13} className="transition-transform group-hover:scale-125" /> {t('optimizer_light_forge')}
           </button>
         </div>
       </div>
