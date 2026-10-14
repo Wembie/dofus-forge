@@ -1,36 +1,67 @@
 /* @ts-self-types="./dofus_forge_optimizer.d.ts" */
 
 /**
+ * Stateful solver handle owned by one Worker. The Worker calls `step()` in a
+ * setTimeout loop so it can pause, resume, or accept migrants between steps.
+ */
+export class WasmSolver {
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        WasmSolverFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_wasmsolver_free(ptr, 0);
+    }
+    /**
+     * @param {any} equipped
+     */
+    inject(equipped) {
+        wasm.wasmsolver_inject(this.__wbg_ptr, equipped);
+    }
+    /**
+     * @param {any} config
+     * @param {any} items
+     * @param {any} sets
+     * @param {any} base
+     * @param {number} seed
+     */
+    constructor(config, items, sets, base, seed) {
+        const ret = wasm.wasmsolver_new(config, items, sets, base, seed);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        this.__wbg_ptr = ret[0];
+        WasmSolverFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+    /**
+     * Runs whole generations until `budget_ms` has elapsed (at least one,
+     * at most `max_generations` in total), then reports the current top
+     * builds.
+     * @param {number} budget_ms
+     * @param {number} max_generations
+     * @returns {any}
+     */
+    step(budget_ms, max_generations) {
+        const ret = wasm.wasmsolver_step(this.__wbg_ptr, budget_ms, max_generations);
+        if (ret[2]) {
+            throw takeFromExternrefTable0(ret[1]);
+        }
+        return takeFromExternrefTable0(ret[0]);
+    }
+}
+if (Symbol.dispose) WasmSolver.prototype[Symbol.dispose] = WasmSolver.prototype.free;
+
+/**
  * Call once at Worker startup — makes a Rust panic show a real message and
  * stack trace in the browser console instead of an opaque "unreachable"
  * trap, which is otherwise all WASM panics surface as.
  */
 export function init_panic_hook() {
     wasm.init_panic_hook();
-}
-
-/**
- * The optimizer's WASM entry point. Takes the same `config`/`items`/`sets`/
- * `base` shapes the TS worker already builds for `runOptimizer()` (see
- * src/workers/optimizer.worker.ts) as plain JS values, plus a JS callback
- * invoked periodically during the search (see `optimizer::ProgressUpdate`'s
- * doc comment) — returning `false` from it stops the search early and
- * still returns a fully-polished result, not a raw mid-search snapshot.
- * Returns the same `BuildResult[]` shape as before — the callback is new,
- * nothing else about the worker's protocol changes.
- * @param {any} config
- * @param {any} items
- * @param {any} sets
- * @param {any} base
- * @param {Function} on_progress
- * @returns {any}
- */
-export function run_optimizer_wasm(config, items, sets, base, on_progress) {
-    const ret = wasm.run_optimizer_wasm(config, items, sets, base, on_progress);
-    if (ret[2]) {
-        throw takeFromExternrefTable0(ret[1]);
-    }
-    return takeFromExternrefTable0(ret[0]);
 }
 function __wbg_get_imports() {
     const import0 = {
@@ -118,10 +149,6 @@ function __wbg_get_imports() {
         __wbg___wbindgen_throw_41e9ee4f547fc59a: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_call_187d372bd5fdd4aa: function() { return handleError(function (arg0, arg1, arg2) {
-            const ret = arg0.call(arg1, arg2);
-            return ret;
-        }, arguments); },
         __wbg_call_6137034ef55c9d0f: function() { return handleError(function (arg0, arg1) {
             const ret = arg0.call(arg1);
             return ret;
@@ -292,6 +319,10 @@ function __wbg_get_imports() {
         "./dofus_forge_optimizer_bg.js": import0,
     };
 }
+
+const WasmSolverFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_wasmsolver_free(ptr, 1));
 
 function addToExternrefTable0(obj) {
     const idx = wasm.__externref_table_alloc();

@@ -38,19 +38,31 @@ pub struct CatalogSet {
     pub bonuses: HashMap<String, Vec<ItemEffect>>,
 }
 
+/// One solver condition: reach `goal` (deficits cost `weight` per missing
+/// unit), keep earning `weight` per unit above it up to `max`. A soft max
+/// just stops counting past it; an `absolute` max rejects any build that
+/// exceeds it.
 #[derive(Debug, Clone, Deserialize)]
 pub struct StatConfig {
     pub stat: String,
+    pub goal: i64,
     pub weight: i64,
-    #[serde(rename = "minVal")]
-    pub min_val: i64,
+    #[serde(default)]
+    pub max: Option<i64>,
+    #[serde(default)]
+    pub absolute: bool,
 }
 
+/// Exo forgemagie the solver may add on its own (one +1 AP/MP/Range per
+/// item, only where it closes a goal deficit).
 #[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ExoConfig {
     pub ap: bool,
     pub mp: bool,
     pub range: bool,
+    pub only_on_ring: bool,
+    pub max_count: i64,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -63,6 +75,10 @@ pub struct OptimizerConfig {
     /// `Set<SlotId>` into `[...lockedSlots]` before postMessage), not a set.
     pub locked_slots: Vec<String>,
     pub assume_fully_scrolled: bool,
+    #[serde(default)]
+    pub banned_items: Vec<i64>,
+    #[serde(default)]
+    pub banned_types: Vec<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -89,4 +105,8 @@ pub struct BuildResult {
     pub conditions_ok: bool,
     pub allocated: AllocatedCharacteristics,
     pub scrolled: ScrolledCharacteristics,
+    /// slot -> "ap" | "mp" | "range": exo runes the solver chose to forge.
+    pub exo: HashMap<String, String>,
+    pub requirements_met: usize,
+    pub requirements_total: usize,
 }

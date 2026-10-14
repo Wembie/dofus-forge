@@ -5,6 +5,16 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.77] — 2026-10-14
+- **Architecture**: La Forjadora runs on a new island-model solver that keeps its state between steps instead of one blocking call. Each Worker evolves 8 islands of 256 builds (18% elitism, size-9 tournaments, set-injection or single-slot mutation, duplicate replacement, island reset after 95 stagnant generations, ring migration every 41). Several Workers ("threads", 1–8) run in parallel and share their best build. The old memetic engine and its seeding phases were removed
+- **Feature**: conditions are now Goal / Weight / Max per stat. While any goal is missing the score is negative (missing amount × weight); once all are met the solver maximizes the weighted surplus, up to each stat's max. A max can be soft (stops counting) or absolute (rejects the build). Power counts toward Strength/Intelligence/Chance/Agility goals. Activating a stat fills suggested values
+- **Feature**: the solver distributes characteristic points for every build (greedy by marginal gain, including derived stats like HP, initiative, dodge/lock, parry/reduction, pods, prospecting) and adds exo AP/MP/Range runes (+1, one per item, rings only by default, 0–3 max) only where they close a goal. Loading a build applies its points and exo runes
+- **Feature**: real Start / Pause / Resume / Restart with a live generation counter, best score with delta, a score-history sparkline and the top 10 distinct builds as selectable alternatives. Configurable thread count and generation limit (100–10000, default 2500). Changing settings restarts the search
+- **Feature**: ban items straight from a result card (they are excluded from the next search); the ban list is editable under "Advanced"
+- **Fix**: "Use this result now" could not actually interrupt the old engine: its search was one synchronous WASM call, so the Worker never processed the stop message until the search had finished. Pausing now takes effect between steps (~120 ms)
+- **Fix**: item conditions on multi-word stats (e.g. "% Critical") were always read as 0 because the snake_case key was looked up in a camelCase table
+- Benchmarked on the real catalog: the 11-requirement case reaches 10 of 11 in under a second of single-thread search (previous engine: 8 of 11 in 70–90 s); a 7-requirement earth build meets all 7 in 0.6 s
+
 ## [0.3.76] — 2026-10-14
 - **Fix**: flat "Damage" (generic, not tied to an element) never got credit for amplifying whichever elemental damage stat was prioritized — the same relationship Power already had (fixed in M100), just never extended to the other universal damage stat. Found via a user report
 - **Architecture**: removed the TypeScript fallback engine from the live optimizer path. The Worker now runs exclusively on the Rust/WASM engine; if it fails to load or run, a clear error is shown instead of silently falling back to a slower, less capable, separately-maintained engine that could drift out of sync (which happened more than once this session). The TS engine was later deleted outright once the Rust engine's search strategy diverged enough to make it a misleading "reference"

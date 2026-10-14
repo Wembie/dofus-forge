@@ -2,30 +2,38 @@
 /* eslint-disable */
 
 /**
+ * Stateful solver handle owned by one Worker. The Worker calls `step()` in a
+ * setTimeout loop so it can pause, resume, or accept migrants between steps.
+ */
+export class WasmSolver {
+    free(): void;
+    [Symbol.dispose](): void;
+    inject(equipped: any): void;
+    constructor(config: any, items: any, sets: any, base: any, seed: number);
+    /**
+     * Runs whole generations until `budget_ms` has elapsed (at least one,
+     * at most `max_generations` in total), then reports the current top
+     * builds.
+     */
+    step(budget_ms: number, max_generations: number): any;
+}
+
+/**
  * Call once at Worker startup — makes a Rust panic show a real message and
  * stack trace in the browser console instead of an opaque "unreachable"
  * trap, which is otherwise all WASM panics surface as.
  */
 export function init_panic_hook(): void;
 
-/**
- * The optimizer's WASM entry point. Takes the same `config`/`items`/`sets`/
- * `base` shapes the TS worker already builds for `runOptimizer()` (see
- * src/workers/optimizer.worker.ts) as plain JS values, plus a JS callback
- * invoked periodically during the search (see `optimizer::ProgressUpdate`'s
- * doc comment) — returning `false` from it stops the search early and
- * still returns a fully-polished result, not a raw mid-search snapshot.
- * Returns the same `BuildResult[]` shape as before — the callback is new,
- * nothing else about the worker's protocol changes.
- */
-export function run_optimizer_wasm(config: any, items: any, sets: any, base: any, on_progress: Function): any;
-
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
+    readonly __wbg_wasmsolver_free: (a: number, b: number) => void;
     readonly init_panic_hook: () => void;
-    readonly run_optimizer_wasm: (a: any, b: any, c: any, d: any, e: any) => [number, number, number];
+    readonly wasmsolver_inject: (a: number, b: any) => void;
+    readonly wasmsolver_new: (a: any, b: any, c: any, d: any, e: number) => [number, number, number];
+    readonly wasmsolver_step: (a: number, b: number, c: number) => [number, number, number];
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_exn_store: (a: number) => void;

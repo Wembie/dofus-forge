@@ -1,0 +1,1260 @@
+// Island-model evolutionary stuff solver, stepped one generation at a time.
+//
+// Design:
+// - Every build is scored by a tiered objective: structurally illegal builds
+//   sit far below everything, then builds breaking an item condition or an
+//   absolute max, then builds with unmet goals (score = -Σ weight·deficit,
+//   always negative), and finally builds meeting every goal (score =
+//   Σ weight·surplus, always >= 0). A soft max just stops counting past it.
+// - Characteristic points and exo runes are not part of the genome: they are
+//   re-decided for every evaluated build (greedy by marginal gain), so the
+//   search only explores item combinations.
+// - The search state lives across calls. `step()` advances whole
+//   generations for a bounded time and returns, so the Worker driving it can
+//   pause, resume and receive messages between steps.
+
+use crate::characteristics::{point_cost, stat_budget, SCROLL_BONUS};
+use crate::optimizer_types::{BuildResult, CatalogItem, CatalogSet, OptimizerBuildBase, OptimizerConfig};
+use crate::stat_map::stat_key;
+use crate::stats::{base_hp, compute_stats, get_stat, raw_effects_block, BASE_AP, BASE_MP, BASE_PODS};
+use crate::types::{floor_div, AllocatedCharacteristics, BuildInput, EquippedItem, ItemEffect, ScrolledCharacteristics, SetData, StatBlock};
+use serde::Serialize;
+use std::collections::{HashMap, HashSet};
+
+pub const ALL_SLOTS: [&str; 17] = [
+    "hat", "cape", "amulet", "ring1", "ring2", "belt", "boots", "weapon", "shield", "companion",
+    "sidekick", "dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6",
+];
+const NSLOT: usize = ALL_SLOTS.len();
+const RING1: usize = 3;
+const RING2: usize = 4;
+const DOFUS_FIRST: usize = 11;
+// Slots forgemagie can touch (and so can carry an exo rune).
+const FORGEABLE: [usize; 9] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+// Dense stat layout: same keys get_stat() understands, so a dense vector
+// converts to/from a StatBlock losslessly for every stat the solver scores.
+const FIELDS: [&str; 60] = [
+    "ap", "mp", "range", "vitality", "wisdom", "strength", "intelligence", "chance", "agility", "maxHp",
+    "power", "damage", "neutralDamage", "earthDamage", "fireDamage", "waterDamage", "airDamage",
+    "neutralSteal", "earthSteal", "fireSteal", "waterSteal", "airSteal", "bestElemSteal", "bestElemDamage",
+    "neutralResFixed", "earthResFixed", "fireResFixed", "waterResFixed", "airResFixed",
+    "neutralResPercent", "earthResPercent", "fireResPercent", "waterResPercent", "airResPercent",
+    "critChance", "critDamage", "critResistance",
+    "meleeDamagePercent", "rangedDamagePercent", "spellDamagePercent", "weaponDamagePercent",
+    "meleeResistPercent", "rangedResistPercent",
+    "trapDamage", "trapPower", "pushbackDamage", "pushbackResist", "reflectedDamage",
+    "heals", "initiative", "lock", "dodge", "prospecting", "summons", "pods",
+    "apReduction", "mpReduction", "apParry", "mpParry", "mpSteal",
+];
+const NF: usize = FIELDS.len();
+type Vec60 = [i64; NF];
+
+const AP: usize = 0;
+const MP: usize = 1;
+const RANGE: usize = 2;
+const VIT: usize = 3;
+const WIS: usize = 4;
+const STR: usize = 5;
+const AGI: usize = 8;
+const MAXHP: usize = 9;
+const POWER: usize = 10;
+const DAMAGE: usize = 11;
+const ELEM_DMG_FIRST: usize = 12;
+const ELEM_DMG_LAST: usize = 16;
+const RES_PCT_FIRST: usize = 29;
+const RES_PCT_LAST: usize = 33;
+const INITIATIVE: usize = 49;
+const LOCK: usize = 50;
+const DODGE: usize = 51;
+const PROSPECTING: usize = 52;
+const SUMMONS: usize = 53;
+const PODS: usize = 54;
+const AP_REDUCTION: usize = 55;
+const MP_PARRY: usize = 58;
+
+// Characteristic order for allocation: matches AllocatedCharacteristics.
+const CHARS: [&str; 6] = ["vitality", "wisdom", "strength", "intelligence", "chance", "agility"];
+
+const TIER_ILLEGAL: f64 = -2e9;
+const TIER_CONDITION: f64 = -1e9;
+const NO_MAX: i64 = i64::MAX / 4;
+
+// Search shape per Worker. Several Workers run side by side as extra islands.
+const ISLANDS: usize = 8;
+const ISLAND_SIZE: usize = 256;
+const ELITE_FRACTION: f64 = 0.18;
+const IMMIGRANT_FRACTION: f64 = 0.01;
+const TOURNAMENT_K: usize = 9;
+const SET_MUTATION_RATE: f64 = 0.40;
+const SECOND_SET_RATE: f64 = 0.20;
+const STAGNATION_RESET: u32 = 95;
+const MIGRATION_EVERY: u64 = 41;
+const MIGRATION_FRACTION: f64 = 0.03;
+pub const HALL_SIZE: usize = 10;
+
+fn obtainable(item: &CatalogItem) -> bool {
+    if [6894, 6895, 7913, 9031, 34569].contains(&item.ankama_id) {
+        return false;
+    }
+    let lower = item.name.to_lowercase();
+    !(lower.contains("(mj)") || lower.contains("(gm)") || lower.contains("gms only") || lower.contains("gm only") || lower == "hide effect test")
+}
+
+fn is_companion(item: &CatalogItem) -> bool {
+    item.slot == "pet" || (item.slot == "other" && ["Pet", "Petsmount", "Dragoturkey", "Seemyool", "Rhineetle"].contains(&item.item_type.as_str()))
+}
+
+fn fits_slot(item: &CatalogItem, slot: usize) -> bool {
+    match ALL_SLOTS[slot] {
+        "ring1" | "ring2" => item.slot == "ring",
+        "companion" => is_companion(item),
+        "sidekick" => item.slot == "other" && item.item_type == "Sidekick",
+        s if s.starts_with("dofus") => item.slot == "dofus",
+        s => item.slot == s,
+    }
+}
+
+// Low-level items are never worth a slot at high character levels; skipping
+// them keeps pools small (Dofus, trophies and companions are exempt since
+// many of the best ones are low level).
+fn level_floor(char_level: i64) -> i64 {
+    if char_level >= 180 {
+        60
+    } else if char_level >= 150 {
+        40
+    } else if char_level > 99 {
+        20
+    } else {
+        0
+    }
+}
+
+fn dense(block: &StatBlock) -> Vec60 {
+    let mut v = [0i64; NF];
+    for (i, key) in FIELDS.iter().enumerate() {
+        v[i] = get_stat(block, key);
+    }
+    v
+}
+
+fn add_into(acc: &mut Vec60, v: &Vec60) {
+    for i in 0..NF {
+        acc[i] += v[i];
+    }
+}
+
+fn splitmix(mut z: u64) -> u64 {
+    z = z.wrapping_add(0x9E37_79B9_7F4A_7C15);
+    z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
+    z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
+    z ^ (z >> 31)
+}
+
+struct Rng(u64);
+impl Rng {
+    fn next_u64(&mut self) -> u64 {
+        self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
+        splitmix(self.0)
+    }
+    fn f64(&mut self) -> f64 {
+        (self.next_u64() >> 11) as f64 * (1.0 / 9_007_199_254_740_992.0)
+    }
+    fn below(&mut self, n: usize) -> usize {
+        if n == 0 {
+            0
+        } else {
+            (self.next_u64() % n as u64) as usize
+        }
+    }
+    fn chance(&mut self, p: f64) -> bool {
+        self.f64() < p
+    }
+}
+
+#[derive(Clone, Copy)]
+enum CondKind {
+    Level,
+    SetPieces,
+    Stat(usize),
+}
+
+#[derive(Clone)]
+struct Cond {
+    kind: CondKind,
+    op: u8, // b'>', b'<', b'g' (>=), b'l' (<=), b'='
+    value: i64,
+}
+
+fn compare(actual: i64, op: u8, value: i64) -> bool {
+    match op {
+        b'>' => actual > value,
+        b'<' => actual < value,
+        b'g' => actual >= value,
+        b'l' => actual <= value,
+        _ => actual == value,
+    }
+}
+
+struct Item {
+    ankama_id: i64,
+    vec: Vec60,
+    set: Option<usize>,
+    conds: Vec<Cond>,
+    prysmaradite: bool,
+}
+
+#[derive(Clone)]
+struct Target {
+    idx: usize,
+    goal: i64,
+    weight: f64,
+    max: i64,
+    absolute: bool,
+    // Strength/Intelligence/Chance/Agility goals also count Power, which
+    // boosts damage exactly like the characteristic does.
+    add_power: bool,
+}
+
+#[derive(Clone, Copy)]
+struct Individual {
+    genes: [i32; NSLOT],
+    score: f64,
+    hash: u64,
+}
+
+struct Island {
+    pop: Vec<Individual>,
+    best: f64,
+    stagnant: u32,
+}
+
+struct Eval {
+    score: f64,
+    alloc: [i64; 6],
+    exo: [u8; NSLOT], // 0 none, 1 ap, 2 mp, 3 range
+    conditions_ok: bool,
+    meets_required: bool,
+    requirements_met: usize,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StepReport {
+    pub generation: u64,
+    pub best_score: f64,
+    pub results: Vec<BuildResult>,
+}
+
+pub struct Solver {
+    items: Vec<Item>,
+    catalog: Vec<CatalogItem>,
+    set_data: Vec<SetData>,
+    set_bonus: Vec<Vec<Vec60>>, // [set][piece count] -> best reached tier
+    set_members: Vec<Vec<(i32, Vec<usize>)>>, // [set] -> (item, free slots holding it in their pool)
+    pools: Vec<Vec<i32>>,
+    free_slots: Vec<usize>,
+    fixed: [i32; NSLOT],
+    base_pre: Vec60,
+    targets: Vec<Target>,
+    char_targets: [Vec<usize>; 6],
+    level: i64,
+    scrolled: ScrolledCharacteristics,
+    locked_runes: Vec<ItemEffect>,
+    exo_ap: bool,
+    exo_mp: bool,
+    exo_range: bool,
+    exo_only_ring: bool,
+    exo_max: usize,
+    islands: Vec<Island>,
+    hall: Vec<Individual>,
+    generation: u64,
+    rng: Rng,
+    inject_turn: usize,
+}
+
+impl Solver {
+    pub fn new(config: OptimizerConfig, catalog: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase, seed: u64) -> Solver {
+        let scrolled = if config.assume_fully_scrolled {
+            ScrolledCharacteristics { vitality: true, wisdom: true, strength: true, intelligence: true, chance: true, agility: true }
+        } else {
+            base.scrolled.clone()
+        };
+
+        let targets: Vec<Target> = config
+            .stats
+            .iter()
+            .filter(|c| c.weight > 0 || c.goal > 0 || (c.absolute && c.max.is_some()))
+            .filter_map(|c| {
+                let idx = FIELDS.iter().position(|f| *f == c.stat)?;
+                let goal = c.goal.max(0);
+                let max = c.max.map(|m| m.max(goal)).unwrap_or(NO_MAX);
+                Some(Target {
+                    idx,
+                    goal,
+                    weight: c.weight.max(0) as f64,
+                    max,
+                    absolute: c.absolute && c.max.is_some(),
+                    add_power: (STR..=AGI).contains(&idx),
+                })
+            })
+            .collect();
+
+        let mut char_targets: [Vec<usize>; 6] = Default::default();
+        for (ti, t) in targets.iter().enumerate() {
+            for (c, list) in char_targets.iter_mut().enumerate() {
+                let ch = VIT + c;
+                let affected = t.idx == ch
+                    || (ch == VIT && t.idx == MAXHP)
+                    || (ch >= STR && t.idx == INITIATIVE)
+                    || (ch == AGI && (t.idx == DODGE || t.idx == LOCK))
+                    || (ch == WIS && (AP_REDUCTION..=MP_PARRY).contains(&t.idx))
+                    || (ch == STR && t.idx == PODS)
+                    || (ch == VIT + 4 && t.idx == PROSPECTING);
+                if affected {
+                    list.push(ti);
+                }
+            }
+        }
+
+        // Sets
+        let set_index: HashMap<i64, usize> = sets.iter().enumerate().map(|(i, s)| (s.ankama_id, i)).collect();
+        let set_bonus: Vec<Vec<Vec60>> = sets
+            .iter()
+            .map(|s| {
+                let mut tiers: Vec<(i64, Vec60)> = s
+                    .bonuses
+                    .iter()
+                    .filter_map(|(k, effs)| k.parse::<i64>().ok().map(|n| (n, dense(&raw_effects_block(effs, false)))))
+                    .collect();
+                tiers.sort_by_key(|(n, _)| *n);
+                (0..=NSLOT as i64)
+                    .map(|count| tiers.iter().filter(|(n, _)| *n <= count).last().map(|(_, v)| *v).unwrap_or([0; NF]))
+                    .collect()
+            })
+            .collect();
+        let set_data: Vec<SetData> = sets.iter().map(|s| SetData { ankama_id: s.ankama_id, items: s.items.clone(), bonuses: s.bonuses.clone() }).collect();
+
+        // Items
+        let items: Vec<Item> = catalog
+            .iter()
+            .map(|it| {
+                let conds = it
+                    .conditions
+                    .as_ref()
+                    .map(|cs| {
+                        cs.iter()
+                            .filter_map(|c| {
+                                let kind = match c.stat.as_str() {
+                                    "Be level {0} or higher" => CondKind::Level,
+                                    "Set bonus" => CondKind::SetPieces,
+                                    s => {
+                                        stat_key(s)?;
+                                        let probe = raw_effects_block(&[ItemEffect { stat: s.to_string(), min: 1, max: 1, effect_id: None }], false);
+                                        CondKind::Stat(dense(&probe).iter().position(|v| *v == 1)?)
+                                    }
+                                };
+                                let op = match c.operator.as_str() {
+                                    ">" => b'>',
+                                    "<" => b'<',
+                                    ">=" => b'g',
+                                    "<=" => b'l',
+                                    _ => b'=',
+                                };
+                                Some(Cond { kind, op, value: c.value })
+                            })
+                            .collect()
+                    })
+                    .unwrap_or_default();
+                Item {
+                    ankama_id: it.ankama_id,
+                    vec: dense(&raw_effects_block(&it.effects, it.slot == "weapon")),
+                    set: it.set_id.and_then(|id| set_index.get(&id).copied()),
+                    conds,
+                    prysmaradite: it.item_type == "Prysmaradite",
+                }
+            })
+            .collect();
+        let by_ankama: HashMap<i64, i32> = items.iter().enumerate().map(|(i, it)| (it.ankama_id, i as i32)).collect();
+
+        let locked: HashSet<&str> = config.locked_slots.iter().map(|s| s.as_str()).collect();
+        let mut fixed = [-1i32; NSLOT];
+        let mut free_slots = Vec::new();
+        let mut locked_runes = Vec::new();
+        for (s, name) in ALL_SLOTS.iter().enumerate() {
+            if locked.contains(name) {
+                if let Some(id) = base.equipped.get(*name) {
+                    fixed[s] = by_ankama.get(id).copied().unwrap_or(-1);
+                }
+                if let Some(runes) = base.runes.get(*name) {
+                    for (stat, value) in runes {
+                        if *value > 0 {
+                            locked_runes.push(ItemEffect { stat: stat.clone(), min: *value, max: *value, effect_id: None });
+                        }
+                    }
+                }
+            } else {
+                free_slots.push(s);
+            }
+        }
+
+        let mut base_pre = [0i64; NF];
+        base_pre[AP] = BASE_AP + if base.level >= 100 { 1 } else { 0 };
+        base_pre[MP] = BASE_MP;
+        base_pre[PODS] = BASE_PODS;
+        base_pre[PROSPECTING] = 100;
+        base_pre[SUMMONS] = 1;
+        add_into(&mut base_pre, &dense(&raw_effects_block(&locked_runes, false)));
+        let scroll_flags = [scrolled.vitality, scrolled.wisdom, scrolled.strength, scrolled.intelligence, scrolled.chance, scrolled.agility];
+        for (c, on) in scroll_flags.iter().enumerate() {
+            if *on {
+                base_pre[VIT + c] += SCROLL_BONUS;
+            }
+        }
+
+        let mut solver = Solver {
+            items,
+            catalog,
+            set_data,
+            set_bonus,
+            set_members: vec![Vec::new(); sets.len()],
+            pools: vec![Vec::new(); NSLOT],
+            free_slots,
+            fixed,
+            base_pre,
+            targets,
+            char_targets,
+            level: base.level,
+            scrolled,
+            locked_runes,
+            exo_ap: config.exo.ap,
+            exo_mp: config.exo.mp,
+            exo_range: config.exo.range,
+            exo_only_ring: config.exo.only_on_ring,
+            exo_max: config.exo.max_count.clamp(0, 3) as usize,
+            islands: Vec::new(),
+            hall: Vec::new(),
+            generation: 0,
+            rng: Rng(seed ^ 0xD1B5_4A32_D192_ED03),
+            inject_turn: 0,
+        };
+
+        // Pools: only items that can move at least one scored stat (directly
+        // or through their set's bonuses) are worth a gene.
+        let banned_ids: HashSet<i64> = config.banned_items.iter().copied().collect();
+        let banned_types: HashSet<&str> = config.banned_types.iter().map(|s| s.as_str()).collect();
+        let floor = level_floor(base.level);
+        let relevant_set: Vec<bool> = solver.set_bonus.iter().map(|tiers| tiers.iter().any(|v| solver.useful(v))).collect();
+        for &s in &solver.free_slots.clone() {
+            let exempt = s >= DOFUS_FIRST || ALL_SLOTS[s] == "companion" || ALL_SLOTS[s] == "sidekick";
+            let pool: Vec<i32> = solver
+                .catalog
+                .iter()
+                .enumerate()
+                .filter(|(i, it)| {
+                    fits_slot(it, s)
+                        && it.level <= config.max_level
+                        && (exempt || it.level >= floor)
+                        && obtainable(it)
+                        && !banned_ids.contains(&it.ankama_id)
+                        && !banned_types.contains(it.item_type.as_str())
+                        && (solver.useful(&solver.items[*i].vec) || solver.items[*i].set.is_some_and(|st| relevant_set[st]))
+                })
+                .map(|(i, _)| i as i32)
+                .collect();
+            solver.pools[s] = pool;
+        }
+        for &s in &solver.free_slots {
+            for &i in &solver.pools[s] {
+                if let Some(st) = solver.items[i as usize].set {
+                    let members = &mut solver.set_members[st];
+                    match members.iter_mut().find(|(id, _)| *id == i) {
+                        Some((_, slots)) => slots.push(s),
+                        None => members.push((i, vec![s])),
+                    }
+                }
+            }
+        }
+
+        for _ in 0..ISLANDS {
+            let pop: Vec<Individual> = (0..ISLAND_SIZE).map(|_| solver.random_individual()).collect();
+            let mut island = Island { pop, best: f64::NEG_INFINITY, stagnant: 0 };
+            island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+            island.best = island.pop[0].score;
+            solver.islands.push(island);
+        }
+        solver.update_hall();
+        solver
+    }
+
+    // Does this raw stat vector add anything a weighted target cares about?
+    fn useful(&self, v: &Vec60) -> bool {
+        self.targets.iter().any(|t| {
+            if t.weight <= 0.0 {
+                return false;
+            }
+            let mut gain = v[t.idx];
+            if t.add_power {
+                gain += v[POWER];
+            }
+            if (ELEM_DMG_FIRST..=ELEM_DMG_LAST).contains(&t.idx) {
+                gain += v[DAMAGE];
+            }
+            gain += match t.idx {
+                MAXHP => v[VIT],
+                INITIATIVE => v[STR] + v[STR + 1] + v[STR + 2] + v[AGI],
+                DODGE | LOCK => v[AGI],
+                i if (AP_REDUCTION..=MP_PARRY).contains(&i) => v[WIS],
+                PODS => v[STR],
+                PROSPECTING => v[STR + 2],
+                _ => 0,
+            };
+            gain > 0
+        })
+    }
+
+    fn valid(&self, g: &[i32; NSLOT]) -> bool {
+        if g[RING1] >= 0 && g[RING1] == g[RING2] && self.items[g[RING1] as usize].set.is_some() {
+            return false;
+        }
+        let mut prysma = 0;
+        for a in DOFUS_FIRST..NSLOT {
+            if g[a] < 0 {
+                continue;
+            }
+            if self.items[g[a] as usize].prysmaradite {
+                prysma += 1;
+            }
+            for b in (a + 1)..NSLOT {
+                if g[a] == g[b] {
+                    return false;
+                }
+            }
+        }
+        prysma <= 1
+    }
+
+    fn try_place(&self, g: &mut [i32; NSLOT], slot: usize, item: i32) -> bool {
+        let old = g[slot];
+        g[slot] = item;
+        if self.valid(g) {
+            true
+        } else {
+            g[slot] = old;
+            false
+        }
+    }
+
+    fn random_individual(&mut self) -> Individual {
+        let mut g = self.fixed;
+        for k in 0..self.free_slots.len() {
+            let s = self.free_slots[k];
+            let n = self.pools[s].len();
+            if n == 0 {
+                continue;
+            }
+            for _ in 0..3 {
+                let pick = self.pools[s][self.rng.below(n)];
+                if self.try_place(&mut g, s, pick) {
+                    break;
+                }
+            }
+        }
+        self.make(g)
+    }
+
+    fn make(&self, genes: [i32; NSLOT]) -> Individual {
+        let score = self.evaluate(&genes).score;
+        Individual { genes, score, hash: self.hash(&genes) }
+    }
+
+    // Order-insensitive for the interchangeable ring and Dofus slots, so the
+    // same build in a different arrangement counts as a duplicate.
+    fn hash(&self, g: &[i32; NSLOT]) -> u64 {
+        let mut h = 0u64;
+        for (s, &item) in g.iter().enumerate() {
+            let group = match s {
+                RING1 | RING2 => 100,
+                s if s >= DOFUS_FIRST => 200,
+                s => s as u64,
+            };
+            h = h.wrapping_add(splitmix(((item as i64 + 1) as u64) << 8 | group));
+        }
+        h
+    }
+
+    // Final value of stat `i` once characteristic totals `ch` are known —
+    // the same derivations and caps compute_stats applies.
+    fn final_value(&self, pre: &Vec60, ch: &[i64; 6], i: usize) -> i64 {
+        match i {
+            AP => pre[AP].min(12),
+            MP | RANGE | SUMMONS => pre[i].min(6),
+            VIT..=AGI => ch[i - VIT],
+            MAXHP => pre[MAXHP] + base_hp(self.level) + ch[0],
+            INITIATIVE => pre[i] + ch[2] + ch[3] + ch[4] + ch[5],
+            DODGE | LOCK => pre[i] + floor_div(ch[5], 10),
+            PODS => pre[i] + ch[2] * 5,
+            PROSPECTING => pre[i] + floor_div(ch[4], 10),
+            i if (AP_REDUCTION..=MP_PARRY).contains(&i) => pre[i] + floor_div(ch[1], 10),
+            i if (RES_PCT_FIRST..=RES_PCT_LAST).contains(&i) => pre[i].min(50),
+            i => pre[i],
+        }
+    }
+
+    fn effective(&self, pre: &Vec60, ch: &[i64; 6], t: &Target) -> i64 {
+        let mut v = self.final_value(pre, ch, t.idx);
+        if t.add_power {
+            v += pre[POWER];
+        }
+        v
+    }
+
+    // Allocation-time value of one target: deficits dominate, then surplus.
+    fn alloc_value(t: &Target, e: i64) -> f64 {
+        if t.absolute && e > t.max {
+            return -1e12 * (e - t.max) as f64;
+        }
+        let ec = e.min(t.max);
+        let deficit = (t.goal - ec).max(0) as f64;
+        t.weight * (ec as f64 - deficit * 1000.0)
+    }
+
+    fn allocate(&self, pre: &Vec60) -> [i64; 6] {
+        let budget = stat_budget(self.level);
+        let mut spent = 0i64;
+        let mut alloc = [0i64; 6];
+        let mut ch = [0i64; 6];
+        for c in 0..6 {
+            ch[c] = pre[VIT + c];
+        }
+        loop {
+            let mut best: Option<(usize, i64, i64)> = None;
+            let mut best_ratio = 0.0f64;
+            for c in 0..6 {
+                if self.char_targets[c].is_empty() {
+                    continue;
+                }
+                let a = alloc[c];
+                let unit = point_cost(CHARS[c], a + 1) - point_cost(CHARS[c], a);
+                let to_bracket = if c >= 2 && a < 300 { 100 - a % 100 } else { 5 };
+                let mut k = to_bracket.min(5);
+                if spent + k * unit > budget {
+                    k = (budget - spent) / unit;
+                }
+                if k <= 0 {
+                    continue;
+                }
+                let mut gain = 0.0;
+                let mut ch2 = ch;
+                ch2[c] += k;
+                for &ti in &self.char_targets[c] {
+                    let t = &self.targets[ti];
+                    gain += Self::alloc_value(t, self.effective(pre, &ch2, t)) - Self::alloc_value(t, self.effective(pre, &ch, t));
+                }
+                let ratio = gain / (k * unit) as f64;
+                if ratio > best_ratio {
+                    best_ratio = ratio;
+                    best = Some((c, k, k * unit));
+                }
+            }
+            let Some((c, k, cost)) = best else { break };
+            alloc[c] += k;
+            ch[c] += k;
+            spent += cost;
+        }
+        alloc
+    }
+
+    fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
+        let mut pre = self.base_pre;
+        let mut set_counts: Vec<(usize, usize)> = Vec::new();
+        for &item in g.iter() {
+            if item < 0 {
+                continue;
+            }
+            let it = &self.items[item as usize];
+            add_into(&mut pre, &it.vec);
+            if let Some(st) = it.set {
+                match set_counts.iter_mut().find(|(s, _)| *s == st) {
+                    Some((_, n)) => *n += 1,
+                    None => set_counts.push((st, 1)),
+                }
+            }
+        }
+        let mut max_pieces = 0usize;
+        for &(st, n) in &set_counts {
+            add_into(&mut pre, &self.set_bonus[st][n]);
+            max_pieces = max_pieces.max(n);
+        }
+        for i in ELEM_DMG_FIRST..=ELEM_DMG_LAST {
+            pre[i] += pre[DAMAGE];
+        }
+
+        let mut exo = [0u8; NSLOT];
+        if self.exo_max > 0 {
+            let mut hosts: Vec<usize> = FORGEABLE
+                .iter()
+                .copied()
+                .filter(|&s| g[s] >= 0 && self.fixed[s] < 0 && (!self.exo_only_ring || s == RING1 || s == RING2))
+                .collect();
+            hosts.truncate(self.exo_max);
+            let mut next = 0;
+            for (kind, stat, allowed) in [(1u8, AP, self.exo_ap), (2, MP, self.exo_mp), (3, RANGE, self.exo_range)] {
+                if !allowed || next >= hosts.len() {
+                    continue;
+                }
+                let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
+                if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal {
+                    pre[stat] += 1;
+                    exo[hosts[next]] = kind;
+                    next += 1;
+                }
+            }
+        }
+
+        let alloc = self.allocate(&pre);
+        let mut ch = [0i64; 6];
+        for c in 0..6 {
+            ch[c] = pre[VIT + c] + alloc[c];
+        }
+
+        let mut violation = 0.0f64;
+        let mut conditions_ok = true;
+        for &item in g.iter() {
+            if item < 0 {
+                continue;
+            }
+            for c in &self.items[item as usize].conds {
+                let actual = match c.kind {
+                    CondKind::Level => self.level,
+                    CondKind::SetPieces => max_pieces as i64,
+                    CondKind::Stat(i) => self.final_value(&pre, &ch, i),
+                };
+                if !compare(actual, c.op, c.value) {
+                    conditions_ok = false;
+                    violation += 1000.0 + (actual - c.value).abs() as f64;
+                }
+            }
+        }
+
+        let mut deficit = 0.0f64;
+        let mut surplus = 0.0f64;
+        let mut met = 0usize;
+        for t in &self.targets {
+            let e = self.effective(&pre, &ch, t);
+            if t.absolute && e > t.max {
+                violation += (e - t.max) as f64 * if t.weight > 0.0 { t.weight } else { 100.0 };
+            }
+            let ec = e.min(t.max);
+            if t.goal > 0 && ec >= t.goal {
+                met += 1;
+            }
+            let d = (t.goal - ec) as f64 * t.weight;
+            if d > 0.0 {
+                deficit += d;
+            } else {
+                surplus -= d;
+            }
+        }
+
+        let legal = self.valid(g);
+        let score = if !legal {
+            TIER_ILLEGAL
+        } else if violation > 0.0 {
+            TIER_CONDITION - violation.min(9e8)
+        } else if deficit > 0.0 {
+            -deficit
+        } else {
+            surplus
+        };
+        Eval {
+            score,
+            alloc,
+            exo,
+            conditions_ok: conditions_ok && legal,
+            meets_required: legal && violation == 0.0 && deficit == 0.0,
+            requirements_met: met,
+        }
+    }
+
+    fn tournament(&mut self, island: usize) -> Individual {
+        let pop = &self.islands[island].pop;
+        let mut best = self.rng.below(pop.len());
+        for _ in 1..TOURNAMENT_K {
+            let i = self.rng.below(pop.len());
+            if pop[i].score > pop[best].score {
+                best = i;
+            }
+        }
+        self.islands[island].pop[best]
+    }
+
+    // Drops 2–4 pieces of one set into free slots in a single move: a lone
+    // per-slot change almost never assembles a set bonus by chance.
+    fn inject_set(&mut self, g: &mut [i32; NSLOT]) -> bool {
+        let candidates: Vec<usize> = self.free_slots.iter().copied().filter(|&s| !self.pools[s].is_empty()).collect();
+        if candidates.is_empty() {
+            return false;
+        }
+        let slot = candidates[self.rng.below(candidates.len())];
+        let pool_len = self.pools[slot].len();
+        let mut chosen_set = None;
+        for _ in 0..5 {
+            let item = self.pools[slot][self.rng.below(pool_len)];
+            if let Some(st) = self.items[item as usize].set {
+                chosen_set = Some(st);
+                break;
+            }
+        }
+        let Some(st) = chosen_set else { return false };
+        let mut members = self.set_members[st].clone();
+        if members.len() < 2 {
+            return false;
+        }
+        for i in (1..members.len()).rev() {
+            let j = self.rng.below(i + 1);
+            members.swap(i, j);
+        }
+        let want = 2 + self.rng.below(3);
+        let mut placed = 0;
+        let mut used: Vec<usize> = Vec::new();
+        for (item, slots) in members {
+            if placed >= want {
+                break;
+            }
+            let open: Vec<usize> = slots.into_iter().filter(|s| !used.contains(s)).collect();
+            if open.is_empty() {
+                continue;
+            }
+            let s = open[self.rng.below(open.len())];
+            if self.try_place(g, s, item) {
+                used.push(s);
+                placed += 1;
+            }
+        }
+        placed >= 2
+    }
+
+    fn point_mutation(&mut self, g: &mut [i32; NSLOT]) {
+        let candidates: Vec<usize> = self.free_slots.iter().copied().filter(|&s| !self.pools[s].is_empty()).collect();
+        if candidates.is_empty() {
+            return;
+        }
+        let s = candidates[self.rng.below(candidates.len())];
+        let n = self.pools[s].len();
+        for _ in 0..3 {
+            let pick = self.pools[s][self.rng.below(n)];
+            if self.try_place(g, s, pick) {
+                return;
+            }
+        }
+        g[s] = -1;
+    }
+
+    fn evolve_island(&mut self, i: usize) {
+        let n = self.islands[i].pop.len();
+        let elite = ((n as f64) * ELITE_FRACTION).ceil() as usize;
+        let immigrants = ((n as f64) * IMMIGRANT_FRACTION).ceil() as usize;
+        let mut next: Vec<Individual> = self.islands[i].pop[..elite].to_vec();
+        for _ in 0..immigrants {
+            next.push(self.random_individual());
+        }
+        while next.len() < n {
+            let mut g = self.tournament(i).genes;
+            let injected = self.rng.chance(SET_MUTATION_RATE) && {
+                let ok = self.inject_set(&mut g);
+                if ok && self.rng.chance(SECOND_SET_RATE) {
+                    self.inject_set(&mut g);
+                }
+                ok
+            };
+            if !injected {
+                self.point_mutation(&mut g);
+            }
+            next.push(self.make(g));
+        }
+
+        // Duplicates waste the island's diversity: keep the best copy of each
+        // build and replace the rest with fresh random ones.
+        next.sort_by(|a, b| a.hash.cmp(&b.hash).then(b.score.partial_cmp(&a.score).unwrap()));
+        let mut kept_hash = None;
+        for k in 0..next.len() {
+            if kept_hash == Some(next[k].hash) {
+                next[k] = self.random_individual();
+            } else {
+                kept_hash = Some(next[k].hash);
+            }
+        }
+        next.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+
+        let island = &mut self.islands[i];
+        island.pop = next;
+        if island.pop[0].score > island.best + 1e-9 {
+            island.best = island.pop[0].score;
+            island.stagnant = 0;
+        } else {
+            island.stagnant += 1;
+        }
+        if island.stagnant >= STAGNATION_RESET {
+            let fresh: Vec<Individual> = (0..n).map(|_| self.random_individual()).collect();
+            let island = &mut self.islands[i];
+            island.pop = fresh;
+            island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+            island.best = island.pop[0].score;
+            island.stagnant = 0;
+        }
+    }
+
+    fn migrate(&mut self) {
+        let k = ((ISLAND_SIZE as f64) * MIGRATION_FRACTION).ceil() as usize;
+        let emigrants: Vec<Vec<Individual>> = self.islands.iter().map(|isl| isl.pop[..k].to_vec()).collect();
+        let count = self.islands.len();
+        for (from, group) in emigrants.into_iter().enumerate() {
+            let to = &mut self.islands[(from + 1) % count];
+            let len = to.pop.len();
+            for (j, ind) in group.into_iter().enumerate() {
+                to.pop[len - 1 - j] = ind;
+            }
+            to.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+        }
+    }
+
+    fn update_hall(&mut self) {
+        let mut pool: Vec<Individual> = self.hall.clone();
+        for isl in &self.islands {
+            let mut seen: Vec<u64> = Vec::with_capacity(HALL_SIZE);
+            for ind in &isl.pop {
+                if !seen.contains(&ind.hash) {
+                    seen.push(ind.hash);
+                    pool.push(*ind);
+                    if seen.len() >= HALL_SIZE {
+                        break;
+                    }
+                }
+            }
+        }
+        pool.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+        let mut hall: Vec<Individual> = Vec::with_capacity(HALL_SIZE);
+        for ind in pool {
+            if hall.iter().all(|h| h.hash != ind.hash) {
+                hall.push(ind);
+            }
+            if hall.len() >= HALL_SIZE {
+                break;
+            }
+        }
+        self.hall = hall;
+    }
+
+    /// Runs one generation on every island.
+    pub fn run_generation(&mut self) {
+        self.generation += 1;
+        for i in 0..self.islands.len() {
+            self.evolve_island(i);
+        }
+        if self.generation % MIGRATION_EVERY == 0 {
+            self.migrate();
+        }
+        self.update_hall();
+    }
+
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub fn best_score(&self) -> f64 {
+        self.hall.first().map(|h| h.score).unwrap_or(f64::NEG_INFINITY)
+    }
+
+    /// Seeds a build found elsewhere (another Worker's island) into the
+    /// next island in turn, replacing its worst individual.
+    pub fn inject(&mut self, equipped: &HashMap<String, i64>) {
+        let mut g = self.fixed;
+        for &s in &self.free_slots {
+            if let Some(id) = equipped.get(ALL_SLOTS[s]) {
+                if let Some(i) = self.pools[s].iter().copied().find(|&i| self.items[i as usize].ankama_id == *id) {
+                    g[s] = i;
+                }
+            }
+        }
+        if !self.valid(&g) || self.islands.is_empty() {
+            return;
+        }
+        let ind = self.make(g);
+        let turn = self.inject_turn % self.islands.len();
+        self.inject_turn += 1;
+        let island = &mut self.islands[turn];
+        let last = island.pop.len() - 1;
+        island.pop[last] = ind;
+        island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+    }
+
+    pub fn results(&self) -> Vec<BuildResult> {
+        self.hall.iter().map(|ind| self.to_result(&ind.genes)).collect()
+    }
+
+    pub fn report(&self) -> StepReport {
+        StepReport { generation: self.generation, best_score: self.best_score(), results: self.results() }
+    }
+
+    fn to_result(&self, g: &[i32; NSLOT]) -> BuildResult {
+        let ev = self.evaluate(g);
+        let mut equipped = HashMap::new();
+        let mut items = Vec::new();
+        let mut exo = HashMap::new();
+        let mut rune_effects = self.locked_runes.clone();
+        for (s, &item) in g.iter().enumerate() {
+            if item < 0 {
+                continue;
+            }
+            let it = &self.catalog[item as usize];
+            equipped.insert(ALL_SLOTS[s].to_string(), it.ankama_id);
+            items.push(EquippedItem { ankama_id: it.ankama_id, effects: it.effects.clone(), set_id: it.set_id, slot: it.slot.clone() });
+            let kind = match ev.exo[s] {
+                1 => Some(("ap", "AP")),
+                2 => Some(("mp", "MP")),
+                3 => Some(("range", "Range")),
+                _ => None,
+            };
+            if let Some((key, stat)) = kind {
+                exo.insert(ALL_SLOTS[s].to_string(), key.to_string());
+                rune_effects.push(ItemEffect { stat: stat.to_string(), min: 1, max: 1, effect_id: None });
+            }
+        }
+        let allocated = AllocatedCharacteristics {
+            vitality: ev.alloc[0],
+            wisdom: ev.alloc[1],
+            strength: ev.alloc[2],
+            intelligence: ev.alloc[3],
+            chance: ev.alloc[4],
+            agility: ev.alloc[5],
+        };
+        let stats = compute_stats(&BuildInput {
+            level: self.level,
+            allocated: allocated.clone(),
+            scrolled: self.scrolled.clone(),
+            items,
+            sets: &self.set_data,
+            rune_effects,
+        });
+        BuildResult {
+            equipped,
+            stats,
+            score: ev.score,
+            meets_required: ev.meets_required,
+            conditions_ok: ev.conditions_ok,
+            allocated,
+            scrolled: self.scrolled.clone(),
+            exo,
+            requirements_met: ev.requirements_met,
+            requirements_total: self.targets.iter().filter(|t| t.goal > 0).count(),
+        }
+    }
+
+    #[cfg(test)]
+    fn target_value(&self, r: &BuildResult, stat: &str) -> i64 {
+        let t = self.targets.iter().find(|t| FIELDS[t.idx] == stat).unwrap();
+        get_stat(&r.stats, stat) + if t.add_power { r.stats.power } else { 0 }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::optimizer_types::{CatalogCondition, ExoConfig, StatConfig};
+
+    fn effect(stat: &str, v: i64) -> ItemEffect {
+        ItemEffect { stat: stat.to_string(), min: v, max: 0, effect_id: None }
+    }
+    fn item(id: i64, slot: &str, set_id: Option<i64>, effects: Vec<ItemEffect>) -> CatalogItem {
+        CatalogItem { ankama_id: id, name: format!("Item {id}"), level: 50, item_type: "Misc".to_string(), slot: slot.to_string(), effects, conditions: None, set_id }
+    }
+    fn cond(stat: &str, goal: i64, weight: i64) -> StatConfig {
+        StatConfig { stat: stat.to_string(), goal, weight, max: None, absolute: false }
+    }
+    fn config(stats: Vec<StatConfig>, open: &[&str]) -> OptimizerConfig {
+        OptimizerConfig {
+            stats,
+            exo: ExoConfig { ap: false, mp: false, range: false, only_on_ring: true, max_count: 0 },
+            max_level: 200,
+            locked_slots: ALL_SLOTS.iter().filter(|s| !open.contains(s)).map(|s| s.to_string()).collect(),
+            assume_fully_scrolled: false,
+            banned_items: vec![],
+            banned_types: vec![],
+        }
+    }
+    fn base(level: i64) -> OptimizerBuildBase {
+        OptimizerBuildBase { level, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() }
+    }
+    fn run(s: &mut Solver, gens: usize) -> Vec<BuildResult> {
+        for _ in 0..gens {
+            s.run_generation();
+        }
+        s.results()
+    }
+
+    #[test]
+    fn dense_evaluation_matches_compute_stats() {
+        let items = vec![
+            item(1, "hat", Some(9), vec![effect("Agility", 87), effect("Wisdom", 33), effect("Damage", 7), effect("% Fire Resistance", 30)]),
+            item(2, "cape", Some(9), vec![effect("Strength", 45), effect("Chance", 61), effect("AP", 1), effect("Vitality", 300)]),
+            item(3, "ring", None, vec![effect("Intelligence", 70), effect("% Fire Resistance", 30), effect("Range", 7)]),
+        ];
+        let mut bonuses = HashMap::new();
+        bonuses.insert("2".to_string(), vec![effect("Power", 40), effect("MP", 4)]);
+        let sets = vec![CatalogSet { ankama_id: 9, items: vec![1, 2], bonuses }];
+        let stats: Vec<StatConfig> = FIELDS.iter().map(|f| cond(f, 0, 1)).collect();
+        let s = Solver::new(config(stats, &["hat", "cape", "ring1"]), items, sets, base(150), 1);
+        let mut g = [-1i32; NSLOT];
+        g[0] = 0;
+        g[1] = 1;
+        g[RING1] = 2;
+        let r = s.to_result(&g);
+        let ev = s.evaluate(&g);
+        let mut pre = s.base_pre;
+        for &i in &[0usize, 1, 2] {
+            add_into(&mut pre, &s.items[i].vec);
+        }
+        add_into(&mut pre, &s.set_bonus[0][2]);
+        for i in ELEM_DMG_FIRST..=ELEM_DMG_LAST {
+            pre[i] += pre[DAMAGE];
+        }
+        let mut ch = [0i64; 6];
+        for c in 0..6 {
+            ch[c] = pre[VIT + c] + ev.alloc[c];
+        }
+        for (i, key) in FIELDS.iter().enumerate() {
+            assert_eq!(s.final_value(&pre, &ch, i), get_stat(&r.stats, key), "{key}");
+        }
+    }
+
+    #[test]
+    fn assembles_a_set_whose_bonus_beats_stronger_loose_items() {
+        let items = vec![
+            item(101, "hat", Some(1), vec![effect("Vitality", 50)]),
+            item(102, "cape", Some(1), vec![effect("Vitality", 50)]),
+            item(103, "amulet", Some(1), vec![effect("Vitality", 50)]),
+            item(201, "hat", None, vec![effect("Vitality", 200)]),
+            item(202, "cape", None, vec![effect("Vitality", 200)]),
+            item(203, "amulet", None, vec![effect("Vitality", 200)]),
+        ];
+        let mut bonuses = HashMap::new();
+        bonuses.insert("3".to_string(), vec![effect("Vitality", 1000)]);
+        let sets = vec![CatalogSet { ankama_id: 1, items: vec![101, 102, 103], bonuses }];
+        let mut s = Solver::new(config(vec![cond("vitality", 0, 1)], &["hat", "cape", "amulet"]), items, sets, base(1), 7);
+        let best = &run(&mut s, 30)[0];
+        assert_eq!(get_stat(&best.stats, "vitality"), 1150);
+    }
+
+    #[test]
+    fn unmet_goals_score_negative_and_met_goals_score_surplus() {
+        let items = vec![item(1, "hat", None, vec![effect("Strength", 40)]), item(2, "hat", None, vec![effect("Strength", 120)])];
+        let mut s = Solver::new(config(vec![cond("strength", 100, 2)], &["hat"]), items, vec![], base(1), 3);
+        let results = run(&mut s, 10);
+        assert_eq!(results[0].equipped.get("hat"), Some(&2));
+        assert_eq!(results[0].score, 40.0);
+        assert!(results[0].meets_required);
+        let low = results.iter().find(|r| r.equipped.get("hat") == Some(&1)).unwrap();
+        assert_eq!(low.score, -120.0);
+        assert!(!low.meets_required);
+    }
+
+    #[test]
+    fn soft_max_stops_counting_and_absolute_max_rejects() {
+        let items = vec![
+            item(1, "hat", None, vec![effect("Strength", 300), effect("Wisdom", 10)]),
+            item(2, "hat", None, vec![effect("Strength", 150), effect("Wisdom", 40)]),
+        ];
+        let mut soft = cond("strength", 0, 1);
+        soft.max = Some(150);
+        let mut s = Solver::new(config(vec![soft, cond("wisdom", 0, 1)], &["hat"]), items.clone(), vec![], base(1), 5);
+        assert_eq!(run(&mut s, 10)[0].equipped.get("hat"), Some(&2));
+
+        let mut hard = cond("strength", 0, 10);
+        hard.max = Some(200);
+        hard.absolute = true;
+        let mut s = Solver::new(config(vec![hard], &["hat"]), items, vec![], base(1), 5);
+        let r = run(&mut s, 10);
+        assert_eq!(r[0].equipped.get("hat"), Some(&2));
+        let over = r.iter().find(|x| x.equipped.get("hat") == Some(&1)).unwrap();
+        assert!(over.score <= TIER_CONDITION);
+    }
+
+    #[test]
+    fn power_counts_toward_characteristic_goals() {
+        let items = vec![item(1, "hat", None, vec![effect("Power", 80)]), item(2, "hat", None, vec![effect("Strength", 60)])];
+        let mut s = Solver::new(config(vec![cond("strength", 70, 1)], &["hat"]), items, vec![], base(1), 2);
+        let r = &run(&mut s, 10)[0];
+        assert_eq!(r.equipped.get("hat"), Some(&1));
+        assert!(r.meets_required);
+        assert_eq!(s.target_value(r, "strength"), 80);
+    }
+
+    #[test]
+    fn allocates_points_to_close_a_goal_first() {
+        let mut hat = item(1, "hat", None, vec![effect("Strength", 50)]);
+        hat.level = 190;
+        let items = vec![hat];
+        let mut s = Solver::new(config(vec![cond("strength", 150, 1), cond("vitality", 0, 1)], &["hat"]), items, vec![], base(200), 4);
+        let r = &run(&mut s, 3)[0];
+        assert_eq!(r.allocated.strength, 100);
+        assert!(r.meets_required);
+        // 995 budget - 100 strength points spent at cost 1 = 895 for vitality.
+        assert_eq!(r.allocated.vitality, 895);
+    }
+
+    #[test]
+    fn exo_closes_an_ap_deficit_on_a_ring_only() {
+        let mut items = vec![item(1, "ring", None, vec![effect("AP", 1)]), item(2, "hat", None, vec![effect("AP", 3)])];
+        items.iter_mut().for_each(|it| it.level = 190);
+        let mut cfg = config(vec![cond("ap", 12, 100)], &["ring1", "hat"]);
+        cfg.exo = ExoConfig { ap: true, mp: false, range: false, only_on_ring: true, max_count: 1 };
+        let mut s = Solver::new(cfg, items, vec![], base(200), 9);
+        let r = &run(&mut s, 5)[0];
+        assert_eq!(get_stat(&r.stats, "ap"), 12);
+        assert_eq!(r.exo.get("ring1").map(|s| s.as_str()), Some("ap"));
+        assert!(r.meets_required);
+    }
+
+    #[test]
+    fn respects_item_conditions_with_multiword_stats() {
+        let mut gated = item(1, "hat", None, vec![effect("Vitality", 500)]);
+        gated.conditions = Some(vec![CatalogCondition { stat: "% Critical".to_string(), operator: ">".to_string(), value: 20 }]);
+        let items = vec![gated, item(2, "hat", None, vec![effect("Vitality", 100)])];
+        let mut s = Solver::new(config(vec![cond("vitality", 0, 1)], &["hat"]), items, vec![], base(1), 6);
+        let r = &run(&mut s, 5)[0];
+        assert_eq!(r.equipped.get("hat"), Some(&2));
+    }
+
+    #[test]
+    fn banned_items_never_appear() {
+        let items = vec![item(1, "hat", None, vec![effect("Vitality", 500)]), item(2, "hat", None, vec![effect("Vitality", 100)])];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat"]);
+        cfg.banned_items = vec![1];
+        let mut s = Solver::new(cfg, items, vec![], base(1), 6);
+        assert!(run(&mut s, 5).iter().all(|r| r.equipped.get("hat") != Some(&1)));
+    }
+
+    #[test]
+    fn locked_slot_keeps_its_item_and_runes() {
+        let items = vec![item(1, "hat", None, vec![effect("Vitality", 10)]), item(2, "cape", None, vec![effect("Vitality", 20)])];
+        let mut b = base(1);
+        b.equipped.insert("hat".to_string(), 1);
+        let mut runes = HashMap::new();
+        runes.insert("Vitality".to_string(), 30);
+        b.runes.insert("hat".to_string(), runes);
+        let mut s = Solver::new(config(vec![cond("vitality", 0, 1)], &["cape"]), items, vec![], b, 6);
+        let r = &run(&mut s, 5)[0];
+        assert_eq!(r.equipped.get("hat"), Some(&1));
+        assert_eq!(get_stat(&r.stats, "vitality"), 60);
+    }
+
+    #[test]
+    fn same_seed_same_search() {
+        let items: Vec<CatalogItem> = (0..40).map(|i| item(i, if i % 2 == 0 { "hat" } else { "cape" }, None, vec![effect("Vitality", i * 7 % 23), effect("Wisdom", i * 5 % 17)])).collect();
+        let cfg = || config(vec![cond("vitality", 0, 1), cond("wisdom", 0, 3)], &["hat", "cape"]);
+        let mut a = Solver::new(cfg(), items.clone(), vec![], base(1), 42);
+        let mut b = Solver::new(cfg(), items, vec![], base(1), 42);
+        assert_eq!(run(&mut a, 20)[0].equipped, run(&mut b, 20)[0].equipped);
+    }
+}
