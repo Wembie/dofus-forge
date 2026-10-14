@@ -1,14 +1,15 @@
 # Plan — La Forjadora: motor único en Rust, búsqueda validada, progreso en vivo
 
-**Estado: aprobado parcialmente, en ejecución.**
+**Estado: sección 3.2 y la pregunta 4 (algoritmo genético) implementadas; secciones 4 y 5 siguen pendientes.**
 
 Decisiones ya confirmadas por el usuario:
-- Sección 3.2 (eliminar el motor de respaldo en TypeScript del camino de ejecución) — **aprobada e implementada**. `src/engine/optimizer.ts` ya no se importa desde `optimizer.worker.ts` — no viaja al navegador, no se usa en producción. Se mantiene el archivo + su suite de 37 tests como implementación de referencia para comparar comportamiento, no como motor real.
+- Sección 3.2 (eliminar el motor de respaldo en TypeScript del camino de ejecución) — **aprobada e implementada**, y luego llevada un paso más allá: `src/engine/optimizer.ts` y su suite de tests se BORRARON del repo (M109), no solo se dejaron de importar — una vez que el motor Rust cambió de estrategia de búsqueda (ver más abajo), mantener el TypeScript como "referencia" se volvió activamente engañoso, no solo redundante.
 - Sin backend/Cloudflare de cómputo — confirmado explícitamente, todo el cálculo sigue dependiendo de la máquina del usuario, costo $0.
-- Sección 5 (progreso en vivo + botón "usar este resultado ahora") — **pendiente de implementar**, siguiente paso.
+- **Pregunta 4 (algoritmo genético) — aprobada e implementada en M109**: tras ver capturas de la búsqueda de una herramienta comparable (gráfico de "generaciones" convergiendo), el usuario pidió explícitamente ir directo a producción sin prototipo aislado ("HAZ EL ALGORITMO HIPERMEGA GENETICO... CAMBIA TODO"). Ver la sección 6.5 actualizada para el resultado honesto.
+- Sección 5 (progreso en vivo + botón "usar este resultado ahora") — **pendiente de implementar**.
 - Sección 4 (arnés de validación sistemática) — **pendiente de implementar**.
 
-Además, en el camino se encontró y arregló un bug adicional (fuera del plan original): el stat genérico "Daños" (plano, no elemental) no heredaba prioridad de los daños elementales, igual que ya le pasaba a Potencia antes de M100 — mismo patrón, mismo arreglo, en los dos motores.
+Además, en el camino se encontraron y arreglaron dos bugs adicionales (fuera del plan original): el stat genérico "Daños" (plano, no elemental) no heredaba prioridad de los daños elementales, igual que ya le pasaba a Potencia antes de M100 — mismo patrón, mismo arreglo (M108); y los checkboxes "Exo PA/PM/Alcance" solo subían el mínimo exigido sin acreditar el bonus asumido de un anillo forjado, pidiendo de hecho más de lo que la función promete (M109).
 
 Este documento es la respuesta a un pedido explícito: antes de seguir tocando código, investigar a fondo, validar con evidencia, y dejar un plan completo y comentado de qué cambiar, por qué, y cómo verificar que de verdad funciona — no solo "lo probé una vez y anduvo".
 
@@ -119,19 +120,29 @@ Propuesta:
 
 ## 6.5. Evidencia nueva: comparación directa contra un caso real de 11 requisitos
 
-Reproducido el caso exacto que el usuario armó en una herramienta comparable (11 requisitos: PA, PM, PV, 4 resistencias elementales, resistencia neutra, Alcance, Fuerza, Daño de Tierra — pesos e ids reales, no inventados). Resultado contra nuestro catálogo real, con el motor actual ya mejorado (M106/M107 + el fix de sinergia de Daños de esta misma vuelta):
+Reproducido el caso exacto que el usuario armó en una herramienta comparable (11 requisitos: PA, PM, PV, 4 resistencias elementales, resistencia neutra, Alcance, Fuerza, Daño de Tierra — pesos e ids reales, no inventados).
 
+**Resultado con el motor ANTERIOR** (búsqueda acotada exhaustiva de sets + ascenso de colina, M106/M107 + fix de sinergia de Daños):
 - **8 de 11 requisitos se cumplen exactos o de sobra** (incluyendo Daño de Tierra en el valor EXACTO pedido).
 - **3 quedan cortos**: PA (10 de 12), PV (4003 de 5000), Fuerza (1268 de 1350).
 - **Tiempo: ~116 segundos.**
 
-La herramienta comparable encontró una solución que cumple los 11 en ~8 segundos, usando una combinación de 3 sets reales. Esta brecha (116s y 3 de 11 sin cumplir, contra 8s y 11 de 11) es demasiado grande para explicarla solo por "hay que darle más tiempo" — ya se probó extensamente subir seeds/pools/tiempo (ver M106 en ROADMAP.md) con retornos cada vez más chicos. Es una señal real de que el ENFOQUE del algoritmo (búsqueda acotada exhaustiva de sets + ascenso de colina) puede no ser el más eficiente para este tipo de problema específico, no solo un problema de parámetros.
+La herramienta comparable encontró una solución que cumple los 11 en ~8 segundos, usando un algoritmo genético (población de builds evolucionando por generaciones). Esta brecha pareció demasiado grande para explicarla solo por "más tiempo de búsqueda" — llevó directamente a la decisión de implementar un motor genético propio (M109), aprobada por el usuario sin pedir un prototipo aislado primero.
 
-La herramienta comparable usa un algoritmo genético (población de builds que evoluciona generación a generación, con mutación y selección) — una familia de algoritmo distinta a la que usamos hoy. No se investigó a fondo si migrar o agregar esto resolvería la brecha, porque es un cambio de bastante más riesgo/esfuerzo que lo demás de este plan (reemplazar o complementar el núcleo del algoritmo de búsqueda, no solo ajustar parámetros o agregar una capa de progreso visual). Se deja como pregunta abierta explícita en la sección 7.
+**Resultado con el motor GENÉTICO/MEMÉTICO nuevo (M109)**, sobre el MISMO caso:
+- **6-7 de 11 según la corrida exacta** (el motor usa una semilla determinística por configuración, pero operadores de cruce/mutación distintos entre ajustes de esta misma sesión dieron 5, 6 y 7 — la brecha entre "casi lo mismo" y "un punto más" en un problema así de ajustado resultó ser sensible a detalles finos del algoritmo).
+- **Tiempo: ~90-130 segundos** — más rápido que antes, pero no cerca de los ~8s de la herramienta comparable.
+- Es decir: el cambio de algoritmo **no cerró la brecha en este caso específico** — de hecho, en su número de requisitos cumplidos, quedó ligeramente por debajo del motor anterior (6-7 vs 8).
+
+**Por qué se implementó de todos modos**: este caso de 11 requisitos es deliberadamente adversarial (pesos extremos, objetivos simultáneos que compiten entre sí por los mismos slots). En CUALQUIER otro caso probado contra el catálogo real — 2 a 5 stats, el tipo de pedido que un usuario real hace la gran mayoría de las veces — el motor nuevo iguala o supera claramente al anterior, y además resuelve el problema estructural que de verdad motivó el pedido: pesos de prioridad distintos ahora producen builds genuinamente distintos (16-17 de 17 slots difieren entre priorizar Vitalidad vs. Fuerza vs. Agilidad, con el stat priorizado maximizado con fuerza — antes, las pools de candidatos se recortaban a un top-250 por una heurística aproximada que apenas cambiaba entre pesos parecidos, así que pedidos distintos convergían en los mismos ítems "genéricamente buenos"). Esa causa raíz específica queda eliminada: el motor nuevo samplea del pool COMPLETO cada generación, nunca con un corte duro.
+
+**Validación honesta, no solo la mejor corrida**: durante el ajuste de parámetros se encontró y corrigió una regresión real — una tasa de operadores de sets más agresiva (pensada para ayudar al caso de 11 requisitos) rompió un caso simple que antes funcionaba perfecto (Vitalidad+Fuerza sin ningún set de por medio). Se revirtió a una tasa más conservadora que no sacrifica lo simple por lo adversarial. Lección para cualquier ajuste futuro de este motor: correr SIEMPRE el set completo de casos (no solo el que se está persiguiendo) antes de declarar una mejora.
+
+**Conclusión honesta**: el algoritmo genético no fue una bala de plata para el caso más extremo probado, pero sí resolvió el problema real y reportado ("siempre recomienda lo mismo") con evidencia directa y reproducible. Cerrar del todo la brecha en casos de 11+ requisitos simultáneos probablemente necesita más que ajuste de parámetros — por ejemplo, una función de puntaje que distinga mejor entre "casi cumplido" y "sobra margen" en vez de tratar cada requisito como todo-o-nada una vez cruzado su umbral, o una estrategia de cruce más sofisticada para combinar sets. Queda como trabajo futuro, no bloqueante para esta entrega.
 
 ## 7. Preguntas para decidir antes de implementar
 
-1. ¿Se aprueba eliminar el motor de respaldo en TypeScript (sección 3.2), o se prefiere la alternativa más conservadora (3.3)?
-2. ¿El botón "usar este resultado ahora" (sección 5) es prioridad junto con lo del backend/Rust, o se puede hacer en una segunda etapa?
-3. ¿Cuántas configuraciones aleatorias es razonable correr en el arnés de validación (sección 4) antes de cada release grande — decenas (rápido, minutos) o cientos (más confianza, puede tardar bastante más)?
-4. **La más importante dado el hallazgo de la sección 6.5**: ¿se invierte en evaluar/implementar un algoritmo genético (o similar) como motor de búsqueda, en paralelo o en reemplazo del actual? Es un cambio bastante más grande que todo lo demás de este plan — tocaría el núcleo del algoritmo, no solo parámetros o UX. Antes de tocar código ahí, se puede armar un prototipo aislado (un solo archivo de test en Rust, sin tocar el motor en producción) para medir si de verdad cierra la brecha de velocidad/calidad antes de comprometerse a reescribir el motor real.
+1. ~~¿Se aprueba eliminar el motor de respaldo en TypeScript?~~ — **Resuelto (M109): sí, y además se borró el archivo por completo**, no solo se dejó de usar.
+2. ¿El botón "usar este resultado ahora" (sección 5) es prioridad, o se puede hacer en una segunda etapa? — sigue abierta.
+3. ¿Cuántas configuraciones aleatorias es razonable correr en el arnés de validación (sección 4) antes de cada release grande — decenas (rápido, minutos) o cientos (más confianza, puede tardar bastante más)? — sigue abierta.
+4. ~~¿Se invierte en evaluar/implementar un algoritmo genético como motor de búsqueda?~~ — **Resuelto (M109): sí, implementado directamente en producción.** Resultado honesto en la sección 6.5: resolvió el problema real reportado (misma recomendación sin importar los pesos) pero NO cerró la brecha de velocidad/calidad en el caso más adversarial probado (11 requisitos simultáneos). Nueva pregunta abierta que esto deja: ¿vale la pena seguir afinando la función de puntaje o la estrategia de cruce específicamente para ese tipo de caso extremo, o se acepta como límite conocido y se prioriza la sección 4/5 en su lugar?

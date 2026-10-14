@@ -84,8 +84,8 @@ fn real_catalog_stays_within_time_budget_with_quads_phase() {
 
     assert!(!results.is_empty(), "expected at least one result");
     assert!(results[0].conditions_ok, "best result equips an item whose own equip conditions aren't met — see the diagnostic above");
-    // The worker's own 60s TIME_BUDGET_MS is the hard ceiling hill-climbing
+    // The worker's own 240s TIME_BUDGET_MS is the hard ceiling the search
     // respects; allow generous slack above it for test-machine variance
     // before calling this a real regression.
-    assert!(elapsed.as_secs_f64() < 90.0, "optimizer took {:.1}s, over budget", elapsed.as_secs_f64());
+    assert!(elapsed.as_secs_f64() < 260.0, "optimizer took {:.1}s, over budget", elapsed.as_secs_f64());
 }

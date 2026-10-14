@@ -363,26 +363,36 @@ fn equipped_fingerprint(eq: &HashMap<String, i64>) -> String {
 
 type Individual = HashMap<String, i64>;
 
+// Candidate-pool size for the guaranteed final hill-climb polish (see
+// local_search and the "Guaranteed final polish" block in run_optimizer).
+// Tried uncapped (every legal item per slot, up to ~770 for weapons) on the
+// reasoning that a specific high-value item could live outside any
+// heuristic-ranked top-N — measured WORSE on the hardest known benchmark
+// than this cap, most likely because polishing each candidate against a
+// 2-3x bigger pool left less of the time budget for the NUMBER of diverse
+// candidates polished, which empirically mattered more (see
+// FINAL_POLISH_COUNT). Kept separate from the GA's per-generation
+// LIGHT_POLISH_POOL so this one-time final pass can still afford more
+// candidates per slot than something that runs every generation.
 const HILL_CLIMB_POOL: usize = 250;
-// Raised from the TS original's 24: adding the triples phase means more
-// genuinely-good candidates compete for seed slots before polish, and a
-// fixed small seed count can let a few of them crowd out a seed that
-// would have polished into something better than any of them (confirmed:
-// with triples added, the old 24 silently produced a WORSE top result than
-// the pairs-only TS engine, because the specific pair-derived seed TS
-// polishes into its 70800-score build never made the cut here). The much
-// larger time budget (see TIME_BUDGET_MS) makes room for this.
-const HILL_CLIMB_SEEDS: usize = 200;
 const HILL_CLIMB_MAX_SWEEPS: usize = 10;
 // The user explicitly prioritized always finding the best result over how
 // long it takes — this runs inside a Worker, so it never blocks the UI
-// thread regardless of duration. 60s (vs the TS engine's 15s) gives phases
-// 1/2/2.5 (set/pair/triple search) and phase 3 (hill-climbing) much more
-// room before any deadline forces an early stop. A longer-running Worker
-// call without progress feedback is a real UX gap to revisit once this is
-// wired into the app — noted, not solved here.
+// thread regardless of duration. Phases 1/2/2.5 (every set standalone, then
+// bounded pairs/triples — see the comment above the pairs loop for why
+// those two came back as GA seeding) share this slice; the rest is left
+// for the genetic/memetic search, which is where most search depth is
+// spent now.
 const TIME_BUDGET_MS: f64 = 240000.0;
-const SET_SEARCH_DEADLINE_MS: f64 = TIME_BUDGET_MS * 0.7;
+const SET_SEARCH_DEADLINE_MS: f64 = TIME_BUDGET_MS * 0.35;
+// The generation loop stops at TIME_BUDGET_MS, but the guaranteed final
+// polish (see that block below) runs AFTER that check and wasn't bounded
+// itself — measured taking the real total past 240s on a real-catalog
+// case (confirmed: 334s wall-clock for a call that should have capped at
+// 240). This gives that one-time pass its own fixed allowance on top,
+// so the real worst-case total stays a known, bounded number instead of
+// open-ended.
+const FINAL_POLISH_DEADLINE_MS: f64 = TIME_BUDGET_MS + 60000.0;
 const RESULT_COUNT: usize = 5;
 const DIVERSITY_MIN_DIFF: usize = 3;
 
@@ -410,6 +420,7 @@ struct Ctx<'a> {
     allocated: AllocatedCharacteristics,
     scrolled: ScrolledCharacteristics,
     base_level: i64,
+    exo: ExoConfig,
 }
 
 impl<'a> Ctx<'a> {
@@ -466,7 +477,7 @@ impl<'a> Ctx<'a> {
 
     fn evaluate(&self, ind: &Individual) -> BuildResult {
         let equipped = self.full_equipped(ind);
-        let computed_stats = compute_stats(&BuildInput {
+        let mut computed_stats = compute_stats(&BuildInput {
             level: self.base_level,
             allocated: self.allocated.clone(),
             scrolled: self.scrolled.clone(),
@@ -474,6 +485,31 @@ impl<'a> Ctx<'a> {
             sets: &self.set_data,
             rune_effects: self.locked_rune_effects.clone(),
         });
+
+        // The Exo AP/MP/Range checkboxes mean "assume the respective Exo
+        // rune gets forged on" — in real Dofus, forgemagie can only put an
+        // Exo PA/PM/PO bonus on a RING, never another slot. Modeled as a
+        // flat +1 to whichever ring is equipped, re-applying the same
+        // official cap compute_stats already enforces, rather than as a
+        // bare numeric floor the search had to satisfy purely from items'
+        // OWN natural effects — which was quietly asking for more than the
+        // feature's own description ("include items with +1 AP exo-maged")
+        // promised, and made the floor harder to reach than it should be.
+        // No bonus without an equipped ring — nothing to forge it onto.
+        if equipped.contains_key("ring1") || equipped.contains_key("ring2") {
+            if self.exo.ap {
+                computed_stats.ap_raw += 1;
+                computed_stats.ap = computed_stats.ap_raw.min(12);
+            }
+            if self.exo.mp {
+                computed_stats.mp_raw += 1;
+                computed_stats.mp = computed_stats.mp_raw.min(6);
+            }
+            if self.exo.range {
+                computed_stats.range_raw += 1;
+                computed_stats.range = computed_stats.range_raw.min(6);
+            }
+        }
 
         let mut score = 0.0f64;
         let mut power_row_present = false;
@@ -683,6 +719,255 @@ fn item_map_get<'a>(items: &'a [CatalogItem], id: i64) -> Option<&'a CatalogItem
     items.iter().find(|it| it.ankama_id == id)
 }
 
+// ---------------------------------------------------------------------
+// Genetic/memetic search engine — replaces the old bounded pair/triple/
+// quadruple set enumeration and its fixed hill-climb seed list. That
+// approach needed a fixed K (how many sets to combine) chosen ahead of
+// time, was provably blind to anything needing K+1 sets simultaneously,
+// and always ranked every slot's candidates with the same rough heuristic
+// (item_partial_score) before truncating hill-climbing to its top
+// HILL_CLIMB_POOL — so an item outside that heuristic's top-N was NEVER
+// considered, no matter how well it might score in a specific build. Two
+// concrete symptoms traced back to this: results plateauing short of
+// tight numeric targets the fixed-K enumeration just couldn't reach, and
+// very different weight configurations converging on the same handful of
+// "generically good" items, because the heuristic used to build every
+// candidate pool barely changes between similar-but-distinct weight
+// vectors. A population that recombines (crossover) and perturbs
+// (mutation) whole builds, polished every generation by the exact same
+// exhaustive-neighbor hill-climb used before (a "memetic algorithm"),
+// draws from the FULL legal pool for every slot every generation instead
+// of a heuristic-truncated prefix of it, and adapts to whatever THIS
+// request's weights actually reward instead of re-deriving the same
+// generically-strong pool every time.
+// ---------------------------------------------------------------------
+
+// Minimal dependency-free PRNG (SplitMix64). Pulling in the `rand` crate
+// would also pull in getrandom, which needs its "js" feature just to have
+// any entropy source at all under wasm32 (no OS RNG inside a browser or
+// worker) — not worth the dependency for search randomness with no
+// security requirement. Seeded deterministically from the request itself
+// (seed_from_config) so the exact same input always searches the exact
+// same way — the same reproducibility guarantee the old deterministic
+// phases had, without forcing every DIFFERENT request down the same path.
+struct Rng(u64);
+impl Rng {
+    fn new(seed: u64) -> Self {
+        Rng(seed ^ 0x9E37_79B9_7F4A_7C15)
+    }
+    fn next_u64(&mut self) -> u64 {
+        self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
+        let mut z = self.0;
+        z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
+        z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
+        z ^ (z >> 31)
+    }
+    fn next_f64(&mut self) -> f64 {
+        (self.next_u64() >> 11) as f64 * (1.0 / 9_007_199_254_740_992.0)
+    }
+    fn below(&mut self, n: usize) -> usize {
+        if n == 0 {
+            0
+        } else {
+            (self.next_u64() % n as u64) as usize
+        }
+    }
+    fn chance(&mut self, p: f64) -> bool {
+        self.next_f64() < p
+    }
+}
+
+fn seed_from_config(config: &OptimizerConfig, base: &OptimizerBuildBase) -> u64 {
+    use std::hash::{Hash, Hasher};
+    let mut hasher = std::collections::hash_map::DefaultHasher::new();
+    for s in &config.stats {
+        s.stat.hash(&mut hasher);
+        s.weight.hash(&mut hasher);
+        s.min_val.hash(&mut hasher);
+    }
+    config.max_level.hash(&mut hasher);
+    base.level.hash(&mut hasher);
+    let mut locked: Vec<&String> = config.locked_slots.iter().collect();
+    locked.sort();
+    for s in locked {
+        s.hash(&mut hasher);
+    }
+    hasher.finish()
+}
+
+// Rank-biased random index into anything already sorted descending by
+// quality: squaring a uniform [0,1) draw skews it toward 0, so lower
+// indices (better-ranked) are more likely to be picked without ever making
+// a higher index IMPOSSIBLE to draw — the structural difference from the
+// old approach's hard HILL_CLIMB_POOL truncation, which made anything past
+// a fixed cutoff unreachable no matter how many times you asked.
+fn weighted_index(n: usize, rng: &mut Rng) -> usize {
+    if n == 0 {
+        return 0;
+    }
+    let skew = rng.next_f64() * rng.next_f64();
+    ((skew * n as f64) as usize).min(n - 1)
+}
+
+fn weighted_pick<'a>(pool: &[&'a CatalogItem], rng: &mut Rng) -> Option<&'a CatalogItem> {
+    if pool.is_empty() {
+        return None;
+    }
+    Some(pool[weighted_index(pool.len(), rng)])
+}
+
+// A fresh, independently-random build: every unlocked slot drawn from its
+// own full legal pool via weighted_pick. Used both to fill out generation
+// 0 and as "random immigrants" injected into every later generation (see
+// RANDOM_IMMIGRANTS_PER_GEN) — a standard GA technique for countering
+// premature convergence, where the whole population drifts into the same
+// neighborhood and stalls there long before the time budget is used up.
+fn random_individual(pools: &HashMap<String, Vec<&CatalogItem>>, slots: &[String], rng: &mut Rng) -> Individual {
+    let mut ind = Individual::new();
+    for slot in slots {
+        if let Some(pool) = pools.get(slot) {
+            if let Some(item) = weighted_pick(pool, rng) {
+                if can_equip(&ind, slot, item.ankama_id) {
+                    ind.insert(slot.clone(), item.ankama_id);
+                }
+            }
+        }
+    }
+    fix_duplicate_constraints(&mut ind, pools, rng);
+    ind
+}
+
+fn tournament_select<'p>(pop: &'p [(Individual, BuildResult)], k: usize, ctx: &Ctx, rng: &mut Rng) -> &'p Individual {
+    let mut best_idx = rng.below(pop.len());
+    for _ in 1..k {
+        let i = rng.below(pop.len());
+        if ctx.rank(&pop[i].1) > ctx.rank(&pop[best_idx].1) {
+            best_idx = i;
+        }
+    }
+    &pop[best_idx].0
+}
+
+fn redraw_slot(ind: &mut Individual, pools: &HashMap<String, Vec<&CatalogItem>>, slot: &str, rng: &mut Rng) {
+    let Some(pool) = pools.get(slot) else { return };
+    for _ in 0..8 {
+        if let Some(item) = weighted_pick(pool, rng) {
+            if can_equip(ind, slot, item.ankama_id) {
+                ind.insert(slot.to_string(), item.ankama_id);
+                return;
+            }
+        }
+    }
+    ind.remove(slot);
+}
+
+// Crossover and per-slot mutation each draw a slot independently, so a
+// child can end up with the same item in both ring slots, or the same
+// dofus item in more than one dofus slot — illegal, and never caught by
+// either operator in isolation since neither looks at sibling slots.
+// Swept once per child, cheap next to a full evaluate().
+fn fix_duplicate_constraints(ind: &mut Individual, pools: &HashMap<String, Vec<&CatalogItem>>, rng: &mut Rng) {
+    if let (Some(&a), Some(&b)) = (ind.get("ring1"), ind.get("ring2")) {
+        if a == b {
+            redraw_slot(ind, pools, "ring2", rng);
+        }
+    }
+    for i in 0..DOFUS_SLOT_IDS.len() {
+        for j in (i + 1)..DOFUS_SLOT_IDS.len() {
+            let (si, sj) = (DOFUS_SLOT_IDS[i], DOFUS_SLOT_IDS[j]);
+            if let (Some(&a), Some(&b)) = (ind.get(si), ind.get(sj)) {
+                if a == b {
+                    redraw_slot(ind, pools, sj, rng);
+                }
+            }
+        }
+    }
+}
+
+// Clears whichever slots this set's own pieces could occupy, then assigns
+// the set into those now-free slots — an atomic "replace with this whole
+// set" macro-mutation. Deliberately different from the crossover
+// transplant in the main loop below (which only fills GAPS, preserving
+// whatever the receiving parent already had): per-slot mutation can only
+// drift toward a multi-piece set one slot at a time by sheer accident,
+// since the bonus needs every piece present at once to pay off. This lets
+// the search try "what if this whole set instead" directly, every
+// generation, the same way a human theorycrafter would.
+fn inject_set(child: &mut Individual, set_items: &[&CatalogItem], open_slots: &HashSet<String>) {
+    let mut potential: HashSet<String> = HashSet::new();
+    for item in set_items {
+        for s in candidate_slots_for(item) {
+            if open_slots.contains(s) {
+                potential.insert(s.to_string());
+            }
+        }
+    }
+    let base: Individual = child.iter().filter(|(s, _)| !potential.contains(*s)).map(|(s, &v)| (s.clone(), v)).collect();
+    let (assigned, _) = apply_set(set_items, open_slots, &base);
+    for s in &potential {
+        child.remove(s);
+    }
+    for (slot, id) in assigned {
+        child.insert(slot, id);
+    }
+}
+
+// One pass of per-slot steepest-ascent: for each slot, try every candidate
+// in `pool` and keep whichever single swap improves rank() the most,
+// repeating sweeps until one makes no improvement or max_sweeps is hit.
+// Lifted verbatim from the old phase 3 seed-polishing loop so it can serve
+// both as the GA's per-generation local-search step and as the guaranteed
+// final polish pass — the exact same exhaustive-neighbor hill-climb this
+// engine has used and had validated since M96.
+fn local_search(ctx: &Ctx, pool: &HashMap<String, Vec<&CatalogItem>>, slots: &[String], start: &Individual, max_sweeps: usize) -> BuildResult {
+    let mut current = start.clone();
+    let mut current_result = ctx.evaluate(&current);
+    for _sweep in 0..max_sweeps {
+        let mut improved = false;
+        for slot in slots {
+            let original_id = current.get(slot).copied();
+            let mut best_for_slot = current_result.clone();
+            let mut best_id = original_id;
+            if let Some(candidates) = pool.get(slot) {
+                for item in candidates {
+                    if Some(item.ankama_id) == original_id {
+                        continue;
+                    }
+                    current.insert(slot.clone(), item.ankama_id);
+                    if can_equip(&current, slot, item.ankama_id) {
+                        let trial_result = ctx.evaluate(&current);
+                        if ctx.rank(&trial_result) > ctx.rank(&best_for_slot) {
+                            best_for_slot = trial_result;
+                            best_id = Some(item.ankama_id);
+                        }
+                    }
+                }
+                match original_id {
+                    Some(id) => {
+                        current.insert(slot.clone(), id);
+                    }
+                    None => {
+                        current.remove(slot);
+                    }
+                }
+            }
+            if best_id != original_id {
+                if let Some(id) = best_id {
+                    current.insert(slot.clone(), id);
+                } else {
+                    current.remove(slot);
+                }
+                current_result = best_for_slot;
+                improved = true;
+            }
+        }
+        if !improved {
+            break;
+        }
+    }
+    current_result
+}
+
 pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec<CatalogSet>, base: OptimizerBuildBase) -> Vec<BuildResult> {
     let start_time = now_ms();
 
@@ -750,6 +1035,7 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         allocated,
         scrolled,
         base_level: base.level,
+        exo: config.exo.clone(),
     };
 
     if slots_to_optimize.is_empty() {
@@ -815,15 +1101,39 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
         set_entries.push(SetEntry { set_items, standalone_score });
     }
 
-    // Phase 2: every PAIR of sets - full O(n^2), not sampled.
     set_entries.sort_by(|a, b| b.standalone_score.partial_cmp(&a.standalone_score).unwrap());
+
+    // Phase 2/2.5: bounded-exhaustive pairs (full O(n^2)) and triples (top-K
+    // standalone performers only) of sets, reinstated specifically as GA
+    // SEEDS rather than as the terminal search they used to be. Empirically
+    // necessary, not theoretical: three different rounds of GA-only tuning
+    // (bigger population, random immigrants, rank-biased set operators, far
+    // more diverse final-polish starts) never matched what this bounded
+    // enumeration alone used to find on a demanding real 11-requirement
+    // case — per-slot crossover and the set-injection macro-mutation can
+    // still take many generations to land on the SPECIFIC 2-3-set
+    // combination a tight multi-stat request needs, while brute-forcing
+    // that small a space directly is cheap and exact. Capped to the top-K
+    // standalone sets for triples (same reasoning as the old phase 2.5):
+    // full triples over hundreds of sets is combinatorially unreasonable,
+    // but restricting to the sets already ranked well on their own misses
+    // essentially nothing in practice. The GA then takes these as a
+    // starting population instead of the final answer — crossover and
+    // mutation can still extend a strong pair/triple with a 4th set or
+    // refine it further, which is exactly the kind of incremental
+    // improvement GA is suited for once it has a genuinely good seed.
+    struct MultiSetSeed {
+        individual: Individual,
+        rank: f64,
+    }
+    let mut multi_set_seeds: Vec<MultiSetSeed> = Vec::new();
     let n = set_entries.len();
     let mut pairs_done: u64 = 0;
-    'outer: for i in 0..n {
+    'pairs: for i in 0..n {
         for j in (i + 1)..n {
             pairs_done += 1;
             if pairs_done % 2000 == 0 && now_ms() - start_time > SET_SEARCH_DEADLINE_MS {
-                break 'outer;
+                break 'pairs;
             }
             let (assigned_a, used_a) = apply_set(&set_entries[i].set_items, &open_slots_set, &Individual::new());
             let (assigned_b, used_b) = apply_set(&set_entries[j].set_items, &open_slots_set, &assigned_a);
@@ -836,30 +1146,14 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
             }
             let used_slots: HashSet<String> = used_a.union(&used_b).cloned().collect();
             let remaining: Vec<String> = slots_to_optimize.iter().filter(|s| !used_slots.contains(*s)).cloned().collect();
-            remember(ctx.evaluate(&greedy_fill_remaining(&pools, &combined, &remaining)), &mut hall_of_fame);
+            let filled = greedy_fill_remaining(&pools, &combined, &remaining);
+            let result = ctx.evaluate(&filled);
+            let r = ctx.rank(&result);
+            remember(result, &mut hall_of_fame);
+            multi_set_seeds.push(MultiSetSeed { individual: filled, rank: r });
         }
     }
 
-    // Phase 2.5: every TRIPLE of sets among the top-K standalone performers.
-    // Full triples over the ENTIRE catalog (hundreds of sets) is genuinely
-    // intractable — hundreds-choose-3 is in the hundreds of millions, no
-    // amount of raw speed fixes that, in Rust or anywhere else (this is a
-    // combinatorial fact, not an implementation detail: finding the true
-    // global optimum over a space this size, with non-linear set-bonus
-    // interactions, is an NP-hard combinatorial optimization problem — no
-    // algorithm guarantees an exact answer for it in anything near
-    // interactive time at this scale). The standard, principled answer to
-    // "the full space is too big" is bounded/pruned exhaustive search: take
-    // the sets already ranked by how good they are on their own (phase 1),
-    // restrict the exhaustive triple search to the top K of those, and
-    // search that reduced space completely. This is provably exact WITHIN
-    // the pruned subspace, and in practice captures real optima: Dofus
-    // itemization doesn't have "sleeper" sets that are mediocre alone or in
-    // pairs but suddenly essential only in triples — the sets worth
-    // combining are the ones already scoring well standalone, which is
-    // exactly what phase 1 ranks by. K=60 keeps the search (60 choose 3 =
-    // 34,220 combinations) a small fraction of phase 2's cost while
-    // extending the exact-coverage guarantee from "<=2 sets" to "<=3 sets".
     const TOP_K_FOR_TRIPLES: usize = 150;
     let triple_n = n.min(TOP_K_FOR_TRIPLES);
     let mut triples_done: u64 = 0;
@@ -878,180 +1172,283 @@ pub fn run_optimizer(config: OptimizerConfig, items: Vec<CatalogItem>, sets: Vec
                 }
                 let (assigned_c, used_c) = apply_set(&set_entries[k].set_items, &open_slots_set, &combined);
                 if used_c.is_empty() {
-                    continue; // c got nothing once a+b's slots were taken — phase 2 already covers "just a+b"
+                    continue; // c got nothing once a+b's slots were taken — the pairs loop above already covers "just a+b"
                 }
                 for (slot, id) in &assigned_c {
                     combined.insert(slot.clone(), *id);
                 }
                 let used_slots: HashSet<String> = used_a.union(&used_b).cloned().collect::<HashSet<_>>().union(&used_c).cloned().collect();
                 let remaining: Vec<String> = slots_to_optimize.iter().filter(|s| !used_slots.contains(*s)).cloned().collect();
-                remember(ctx.evaluate(&greedy_fill_remaining(&pools, &combined, &remaining)), &mut hall_of_fame);
+                let filled = greedy_fill_remaining(&pools, &combined, &remaining);
+                let result = ctx.evaluate(&filled);
+                let r = ctx.rank(&result);
+                remember(result, &mut hall_of_fame);
+                multi_set_seeds.push(MultiSetSeed { individual: filled, rank: r });
             }
         }
     }
+    multi_set_seeds.sort_by(|a, b| b.rank.partial_cmp(&a.rank).unwrap());
 
-    // Phase 2.75: every QUADRUPLE of sets among the top-K standalone
-    // performers — same bounded/pruned-exhaustive principle as phase 2.5,
-    // one tier deeper. A smaller K than triples' (40 vs 60) keeps the
-    // combination count comparable (40 choose 4 = 91,390 vs 60 choose 3 =
-    // 34,220) despite the extra dimension, since each combo also costs more
-    // to apply (4 set-placements instead of 3). Still deadline-gated against
-    // the SAME SET_SEARCH_DEADLINE_MS as every earlier phase: on a slow
-    // device or a huge catalog this phase may run zero iterations and that's
-    // fine — phases 1/2/2.5 and hill-climbing below never depend on it
-    // having run, they just don't get its coverage that call.
-    const TOP_K_FOR_QUADS: usize = 100;
-    let quad_n = n.min(TOP_K_FOR_QUADS);
-    let mut quads_done: u64 = 0;
-    'quads: for i in 0..quad_n {
-        for j in (i + 1)..quad_n {
-            for k in (j + 1)..quad_n {
-                for l in (k + 1)..quad_n {
-                    quads_done += 1;
-                    if quads_done % 2000 == 0 && now_ms() - start_time > SET_SEARCH_DEADLINE_MS {
-                        break 'quads;
+    // ---- Population-based memetic search --------------------------------
+    // Seed generation 0 from what phases 0/1 already found (the pure-greedy
+    // baseline, plus every individual set's best standalone assembly, just
+    // ranked above) and fill the rest with weighted-random individuals for
+    // raw exploration coverage. Crossover recombines whatever is currently
+    // working for THIS weight vector; the two set-aware operators (set
+    // crossover transplant and set-injection mutation) give the search a
+    // direct way to assemble or combine multi-piece set bonuses instead of
+    // relying on per-slot mutation to stumble onto a whole set by chance,
+    // which for a 4-6 piece set is astronomically unlikely on its own.
+    const POP_SIZE: usize = 300;
+    const ELITE_COUNT: usize = 15;
+    const ELITE_POLISH_COUNT: usize = 4;
+    const LIGHT_POLISH_SWEEPS: usize = 1;
+    const LIGHT_POLISH_POOL: usize = 120;
+    // Low on purpose: a high tournament size turns into strong selection
+    // pressure, which converges fast but burns through population
+    // diversity just as fast — confirmed empirically (see the first-pass
+    // benchmark in this change's commit message) to stall out in under 10
+    // real seconds on the hardest known case, regressing below what the
+    // old, much slower exhaustive search used to find. A gentler K=3
+    // leaves more of the budget's many available generations actually
+    // exploring instead of re-converging on the same few individuals.
+    const TOURNAMENT_K: usize = 3;
+    const MUTATION_GENE_RATE: f64 = 0.15;
+    // Tried higher (0.1 / 0.4) while chasing a demanding set-heavy
+    // benchmark — measured a real regression on cases that need NO
+    // particular set at all (pure stat-stacking via loose items): with 40%
+    // of crossovers forcibly transplanting a set, good loose-item
+    // individuals kept getting disrupted by irrelevant set pieces before
+    // they could converge. Back to a lower rate that still gives sets a
+    // real chance to combine without dominating every breeding event.
+    const SET_INJECT_RATE: f64 = 0.06;
+    const SET_CROSSOVER_RATE: f64 = 0.3;
+    // How many of each generation's non-elite slots are a brand new random
+    // build instead of a crossover child — "random immigrants", a standard
+    // counter to premature convergence: without a steady trickle of
+    // genuinely fresh genetic material, the whole population can drift
+    // into the same neighborhood and stall there (generations_since_improvement
+    // hits STALL_LIMIT_GENERATIONS) long before the time budget is used up.
+    const RANDOM_IMMIGRANTS_PER_GEN: usize = 24;
+    // Raised sharply after the same first-pass benchmark: with POP_SIZE
+    // this size and evaluate() this cheap, even several hundred
+    // generations finish in well under the 240s ceiling, so a low stall
+    // limit was cutting hard cases off at a small fraction of the real
+    // available search depth for no speed benefit that actually mattered.
+    // Unconditional (not gated on reaching full feasibility), same
+    // reasoning as the old per-seed STALL_LIMIT: an ambitious,
+    // never-fully-feasible request still plateaus just as concretely as
+    // an easy one solved instantly, and both should stop once they do.
+    const STALL_LIMIT_GENERATIONS: usize = 400;
+    // Raised from an initial 8 after empirical proof it mattered: polishing
+    // only the final generation's top 8 landed on the EXACT same answer
+    // regardless of population size or generation count, because selection
+    // pressure had already clustered them into one neighborhood — single-
+    // slot steepest-ascent only ever escapes the one basin it starts in, so
+    // a handful of near-identical starting points can only ever rediscover
+    // the same basin. Pulling diverse starts from the WHOLE run's history
+    // (hall_of_fame, every individual ever evaluated) instead of just the
+    // final population, and polishing many more of them, is what actually
+    // buys extra chances to land in a better one.
+    const FINAL_POLISH_COUNT: usize = 40;
+
+    let mut rng = Rng::new(seed_from_config(&config, &base));
+
+    let mut light_polish_pool: HashMap<String, Vec<&CatalogItem>> = HashMap::new();
+    for slot in &slots_to_optimize {
+        let mut p = pools.get(slot).cloned().unwrap_or_default();
+        p.truncate(LIGHT_POLISH_POOL);
+        light_polish_pool.insert(slot.clone(), p);
+    }
+
+    let mut population: Vec<Individual> = Vec::with_capacity(POP_SIZE);
+    population.push(greedy_fill_remaining(&pools, &Individual::new(), &slots_to_optimize));
+    // Best pairs/triples first — these are already the most promising
+    // combined starting points for THIS weight vector, so they get first
+    // claim on the population's seeded (non-random) share.
+    for seed in multi_set_seeds.iter().take(POP_SIZE / 10) {
+        population.push(seed.individual.clone());
+    }
+    for entry in set_entries.iter().take(POP_SIZE / 5) {
+        let (assigned, used) = apply_set(&entry.set_items, &open_slots_set, &Individual::new());
+        if used.len() < 2 {
+            continue;
+        }
+        let remaining: Vec<String> = slots_to_optimize.iter().filter(|s| !used.contains(*s)).cloned().collect();
+        population.push(greedy_fill_remaining(&pools, &assigned, &remaining));
+    }
+    while population.len() < POP_SIZE {
+        population.push(random_individual(&pools, &slots_to_optimize, &mut rng));
+    }
+
+    let mut evaluated: Vec<(Individual, BuildResult)> = population
+        .into_iter()
+        .map(|ind| {
+            let r = ctx.evaluate(&ind);
+            (ind, r)
+        })
+        .collect();
+    for (_, r) in &evaluated {
+        remember(r.clone(), &mut hall_of_fame);
+    }
+    evaluated.sort_by(|a, b| ctx.rank(&b.1).partial_cmp(&ctx.rank(&a.1)).unwrap());
+
+    let mut best_rank_ever = evaluated.first().map(|(_, r)| ctx.rank(r)).unwrap_or(f64::NEG_INFINITY);
+    let mut generations_since_improvement: usize = 0;
+
+    loop {
+        if now_ms() - start_time > TIME_BUDGET_MS {
+            break;
+        }
+        if generations_since_improvement >= STALL_LIMIT_GENERATIONS {
+            break;
+        }
+
+        let mut next_gen: Vec<(Individual, BuildResult)> = Vec::with_capacity(POP_SIZE);
+        for (i, (ind, result)) in evaluated.iter().take(ELITE_COUNT).enumerate() {
+            if i < ELITE_POLISH_COUNT {
+                let polished_result = local_search(&ctx, &light_polish_pool, &slots_to_optimize, ind, LIGHT_POLISH_SWEEPS);
+                let polished_ind: Individual = slots_to_optimize
+                    .iter()
+                    .filter_map(|s| polished_result.equipped.get(s).map(|&id| (s.clone(), id)))
+                    .collect();
+                remember(polished_result.clone(), &mut hall_of_fame);
+                next_gen.push((polished_ind, polished_result));
+            } else {
+                next_gen.push((ind.clone(), result.clone()));
+            }
+        }
+
+        let mut immigrants_added = 0usize;
+        while next_gen.len() < POP_SIZE {
+            if immigrants_added < RANDOM_IMMIGRANTS_PER_GEN {
+                immigrants_added += 1;
+                let ind = random_individual(&pools, &slots_to_optimize, &mut rng);
+                let result = ctx.evaluate(&ind);
+                remember(result.clone(), &mut hall_of_fame);
+                next_gen.push((ind, result));
+                continue;
+            }
+
+            let parent_a = tournament_select(&evaluated, TOURNAMENT_K, &ctx, &mut rng).clone();
+            let parent_b = tournament_select(&evaluated, TOURNAMENT_K, &ctx, &mut rng).clone();
+
+            let mut child = if !set_entries.is_empty() && rng.chance(SET_CROSSOVER_RATE) {
+                // Set-block transplant: start from parent A, layer one of
+                // parent B's candidate sets into whatever slots parent A
+                // left free — lets a child inherit two different parents'
+                // sets in one move instead of needing many generations of
+                // lucky per-slot crossover to assemble the same thing.
+                let mut child = parent_a.clone();
+                // Rank-biased, not uniform: set_entries is sorted best-
+                // standalone-score-first for THIS weight vector, and a
+                // uniform pick among (often) hundreds of mostly-irrelevant
+                // sets was diluting crossover's one real advantage —
+                // actually combining the handful of sets that matter here.
+                let idx = weighted_index(set_entries.len(), &mut rng);
+                let (assigned, _) = apply_set(&set_entries[idx].set_items, &open_slots_set, &child);
+                for (slot, id) in assigned {
+                    child.insert(slot, id);
+                }
+                child
+            } else {
+                // Uniform crossover: each slot independently from one
+                // parent or the other.
+                let mut child = Individual::new();
+                for slot in &slots_to_optimize {
+                    let src = if rng.chance(0.5) { &parent_a } else { &parent_b };
+                    if let Some(&id) = src.get(slot) {
+                        child.insert(slot.clone(), id);
                     }
-                    let (assigned_a, used_a) = apply_set(&set_entries[i].set_items, &open_slots_set, &Individual::new());
-                    let (assigned_b, used_b) = apply_set(&set_entries[j].set_items, &open_slots_set, &assigned_a);
-                    let mut combined = assigned_a;
-                    for (slot, id) in &assigned_b {
-                        combined.insert(slot.clone(), *id);
+                }
+                child
+            };
+
+            for slot in &slots_to_optimize {
+                if rng.chance(MUTATION_GENE_RATE) {
+                    if let Some(pool) = pools.get(slot) {
+                        if let Some(item) = weighted_pick(pool, &mut rng) {
+                            child.insert(slot.clone(), item.ankama_id);
+                        }
                     }
-                    let (assigned_c, used_c) = apply_set(&set_entries[k].set_items, &open_slots_set, &combined);
-                    if used_c.is_empty() {
-                        continue; // c got nothing — phase 2.5 already covers "just a+b" (as a triple with an empty third)
-                    }
-                    for (slot, id) in &assigned_c {
-                        combined.insert(slot.clone(), *id);
-                    }
-                    let (assigned_d, used_d) = apply_set(&set_entries[l].set_items, &open_slots_set, &combined);
-                    if used_d.is_empty() {
-                        continue; // d got nothing once a+b+c's slots were taken — phase 2.5 already covers "just a+b+c"
-                    }
-                    for (slot, id) in &assigned_d {
-                        combined.insert(slot.clone(), *id);
-                    }
-                    let used_slots: HashSet<String> = used_a
-                        .union(&used_b)
-                        .cloned()
-                        .collect::<HashSet<_>>()
-                        .union(&used_c)
-                        .cloned()
-                        .collect::<HashSet<_>>()
-                        .union(&used_d)
-                        .cloned()
-                        .collect();
-                    let remaining: Vec<String> = slots_to_optimize.iter().filter(|s| !used_slots.contains(*s)).cloned().collect();
-                    remember(ctx.evaluate(&greedy_fill_remaining(&pools, &combined, &remaining)), &mut hall_of_fame);
                 }
             }
+            if !set_entries.is_empty() && rng.chance(SET_INJECT_RATE) {
+                let idx = weighted_index(set_entries.len(), &mut rng);
+                inject_set(&mut child, &set_entries[idx].set_items, &open_slots_set);
+            }
+
+            fix_duplicate_constraints(&mut child, &pools, &mut rng);
+
+            let mut result = ctx.evaluate(&child);
+            if !result.conditions_ok {
+                // Same Trophy/set repair used in the final safety pass
+                // below — cheap (at most two extra evaluations) and keeps
+                // an illegal combination from quietly winning a tournament
+                // just because its raw score looks good before legality
+                // is checked.
+                for repaired in repair_trophy_set_conflict(&ctx, &pools, &child) {
+                    let repaired_result = ctx.evaluate(&repaired);
+                    if ctx.rank(&repaired_result) > ctx.rank(&result) {
+                        child = repaired;
+                        result = repaired_result;
+                    }
+                }
+            }
+            remember(result.clone(), &mut hall_of_fame);
+            next_gen.push((child, result));
+        }
+
+        evaluated = next_gen;
+        evaluated.sort_by(|a, b| ctx.rank(&b.1).partial_cmp(&ctx.rank(&a.1)).unwrap());
+
+        let gen_best_rank = ctx.rank(&evaluated[0].1);
+        if gen_best_rank > best_rank_ever + 1e-9 {
+            best_rank_ever = gen_best_rank;
+            generations_since_improvement = 0;
+        } else {
+            generations_since_improvement += 1;
         }
     }
 
-    // Phase 3: coordinate-ascent polish - always runs, no all-or-nothing gate
-    // (the exact M97 fix).
+    // Guaranteed final polish: whatever the population converged to, give
+    // the current best candidates one full exhaustive-neighbor hill-climb
+    // pass (the same pool size and sweep count the old engine always used
+    // on every seed) before returning. The per-generation polish above is
+    // deliberately light (small pool, one sweep) to keep many generations
+    // affordable; this closes the gap for whatever survived to the end.
     {
-        let mut seeds: Vec<&BuildResult> = hall_of_fame.values().collect();
-        seeds.sort_by(|a, b| ctx.rank(b).partial_cmp(&ctx.rank(a)).unwrap());
-        seeds.truncate(HILL_CLIMB_SEEDS);
-        let seeds: Vec<BuildResult> = seeds.into_iter().cloned().collect();
-
         let mut hill_pool: HashMap<String, Vec<&CatalogItem>> = HashMap::new();
         for slot in &slots_to_optimize {
             let mut p = pools.get(slot).cloned().unwrap_or_default();
             p.truncate(HILL_CLIMB_POOL);
             hill_pool.insert(slot.clone(), p);
         }
-
-        // Stall detection: if the best rank found hasn't improved in a
-        // long stretch of seeds, stop — further seeds are very unlikely to
-        // do better (seeds are processed best-initial-rank-first, so a long
-        // plateau this deep means the remaining, worse-starting seeds are
-        // exploring an already-exhausted neighborhood). Unconditional (not
-        // gated on reaching full feasibility): an ambitious request that
-        // never becomes fully feasible still plateaus just as concretely as
-        // an easy one that's solved instantly, and without this it burned
-        // through the entire (now much larger) seed/time budget for every
-        // such request, turning a typical demanding-but-not-fully-reachable
-        // combo into a multi-minute wait for zero actual benefit. The limit
-        // is generous (not the first sign of a stall) specifically because
-        // genuinely hard-but-solvable combos were observed, during the
-        // investigation that led to raising HILL_CLIMB_SEEDS in the first
-        // place, to sometimes only turn the corner after 100+ seeds.
-        let mut best_rank = f64::NEG_INFINITY;
-        let mut seeds_since_improvement: usize = 0;
-        const STALL_LIMIT: usize = 25;
-
-        for seed in &seeds {
-            if now_ms() - start_time > TIME_BUDGET_MS {
+        // Diverse starting points drawn from EVERY individual ever
+        // evaluated this run (hall_of_fame), not just whatever the final
+        // generation's population happened to converge to — see the
+        // comment on FINAL_POLISH_COUNT above for why that distinction is
+        // the one that actually matters here.
+        let mut by_rank: Vec<&BuildResult> = hall_of_fame.values().collect();
+        by_rank.sort_by(|a, b| ctx.rank(b).partial_cmp(&ctx.rank(a)).unwrap());
+        let mut polish_starts: Vec<Individual> = Vec::new();
+        for r in &by_rank {
+            let candidate: Individual = slots_to_optimize.iter().filter_map(|s| r.equipped.get(s).map(|&id| (s.clone(), id))).collect();
+            let diverse_enough = polish_starts.iter().all(|p| slot_diff(&ctx.full_equipped(p), &ctx.full_equipped(&candidate)) >= 2);
+            if diverse_enough {
+                polish_starts.push(candidate);
+            }
+            if polish_starts.len() >= FINAL_POLISH_COUNT {
                 break;
             }
-            let mut current = Individual::new();
-            for slot in &slots_to_optimize {
-                if let Some(&id) = seed.equipped.get(slot) {
-                    current.insert(slot.clone(), id);
-                }
-            }
-            let mut current_result = ctx.evaluate(&current);
+        }
 
-            for _sweep in 0..HILL_CLIMB_MAX_SWEEPS {
-                let mut improved = false;
-                for slot in &slots_to_optimize {
-                    // Mutates `current` in place for each trial instead of
-                    // cloning the whole map per candidate (up to 150
-                    // candidates * 17 slots * 5 sweeps * 24 seeds — this was
-                    // the single biggest remaining cost once the sets-clone
-                    // bug was fixed) — tested, then reverted, before moving
-                    // on to the next candidate; the real pick is applied
-                    // once, after every candidate for this slot was tried.
-                    let original_id = current.get(slot).copied();
-                    let mut best_for_slot = current_result.clone();
-                    let mut best_id = original_id;
-                    if let Some(candidates) = hill_pool.get(slot) {
-                        for item in candidates {
-                            if Some(item.ankama_id) == original_id {
-                                continue;
-                            }
-                            current.insert(slot.clone(), item.ankama_id);
-                            if can_equip(&current, slot, item.ankama_id) {
-                                let trial_result = ctx.evaluate(&current);
-                                if ctx.rank(&trial_result) > ctx.rank(&best_for_slot) {
-                                    best_for_slot = trial_result;
-                                    best_id = Some(item.ankama_id);
-                                }
-                            }
-                        }
-                        match original_id {
-                            Some(id) => { current.insert(slot.clone(), id); }
-                            None => { current.remove(slot); }
-                        }
-                    }
-                    if best_id != original_id {
-                        if let Some(id) = best_id {
-                            current.insert(slot.clone(), id);
-                        } else {
-                            current.remove(slot);
-                        }
-                        current_result = best_for_slot;
-                        improved = true;
-                    }
-                }
-                remember(current_result.clone(), &mut hall_of_fame);
-                if !improved {
-                    break;
-                }
-            }
-
-            let r = ctx.rank(&current_result);
-            if r > best_rank + 1e-9 {
-                best_rank = r;
-                seeds_since_improvement = 0;
-            } else {
-                seeds_since_improvement += 1;
-            }
-            if seeds_since_improvement >= STALL_LIMIT {
+        for start in &polish_starts {
+            if now_ms() - start_time > FINAL_POLISH_DEADLINE_MS {
                 break;
             }
+            let polished = local_search(&ctx, &hill_pool, &slots_to_optimize, start, HILL_CLIMB_MAX_SWEEPS);
+            remember(polished, &mut hall_of_fame);
         }
     }
 
@@ -1426,5 +1823,47 @@ mod tests {
                 assert_ne!(a, b);
             }
         }
+    }
+
+    #[test]
+    fn exo_ap_assumes_a_forged_ring_supplies_the_final_point() {
+        // Base AP at level 200 is 7 (6 + the level-100 bonus); +4 from the
+        // amulet below reaches 11 — exactly one short of the Exo AP floor
+        // (12, the official cap). Checking "Exo AP" should supply that
+        // last point by assuming whichever ring gets equipped carries a
+        // forged Exo PA rune — the only slot real Dofus forgemagie allows
+        // it on — rather than demanding the full 12 come from items' own
+        // natural effects alone, which is more than the feature promises
+        // ("include items with +1 AP exo-maged").
+        let amulet = item(700, "amulet", None, vec![effect("AP", 4, 0)]);
+        let plain_ring = item(701, "ring", None, vec![effect("Strength", 10, 0)]);
+
+        let mut config = base_config(vec![stat_cfg("ap", 0, 0)]);
+        config.exo = ExoConfig { ap: true, mp: false, range: false };
+        config.locked_slots = lock_all_except(&["amulet", "ring1"]);
+        let build = base_build(200, HashMap::new(), HashMap::new());
+
+        let results = run_optimizer(config, vec![amulet, plain_ring], vec![], build);
+        let best = &results[0];
+        assert_eq!(get_stat(&best.stats, "ap"), 12, "expected Exo AP to supply the missing point once a ring is equipped, got {}", get_stat(&best.stats, "ap"));
+        assert!(best.meets_required);
+    }
+
+    #[test]
+    fn exo_ap_grants_nothing_without_a_ring_to_forge_it_onto() {
+        // Same 11-raw-AP setup as above, but with BOTH ring slots locked
+        // empty — nowhere to assume a forged Exo PA rune, so AP should
+        // stay at the natural 11, short of the floor.
+        let amulet = item(700, "amulet", None, vec![effect("AP", 4, 0)]);
+
+        let mut config = base_config(vec![stat_cfg("ap", 0, 0)]);
+        config.exo = ExoConfig { ap: true, mp: false, range: false };
+        config.locked_slots = lock_all_except(&["amulet"]);
+        let build = base_build(200, HashMap::new(), HashMap::new());
+
+        let results = run_optimizer(config, vec![amulet], vec![], build);
+        let best = &results[0];
+        assert_eq!(get_stat(&best.stats, "ap"), 11, "expected no Exo bonus without an equipped ring, got {}", get_stat(&best.stats, "ap"));
+        assert!(!best.meets_required);
     }
 }

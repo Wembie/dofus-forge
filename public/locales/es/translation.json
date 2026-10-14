@@ -763,5 +763,6 @@
   "optimizer_tip_3": "Puliendo la build item por item...",
   "optimizer_tip_4": "Buscando la mejor combinación posible...",
   "optimizer_running_long_note": "Los pedidos exigentes pueden tardar varios minutos — sigue buscando combinaciones mejores, no está trabado.",
-  "optimizer_wasm_unavailable": "El motor de La Forjadora no pudo cargar o ejecutarse en tu navegador. Probá recargar la página, o actualizar tu navegador."
+  "optimizer_wasm_unavailable": "El motor de La Forjadora no pudo cargar o ejecutarse en tu navegador. Probá recargar la página, o actualizar tu navegador.",
+  "legal_ankama_disclaimer": "Dofus Forge no está afiliado a Ankama Games. DOFUS y Ankama son marcas registradas de Ankama Games."
 }

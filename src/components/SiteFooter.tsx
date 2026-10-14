@@ -33,6 +33,7 @@ export function SiteFooter() {
         <Link to={`/${prefix}terms`} className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_terms')}</Link>
         <a href="mailto:contact@dofusforge.com" className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_contact')}</a>
       </nav>
+      <p className="text-[10px] max-w-xl mx-auto" style={{ color: 'var(--ink-faint)' }}>{t('legal_ankama_disclaimer')}</p>
     </footer>
   )
 }
