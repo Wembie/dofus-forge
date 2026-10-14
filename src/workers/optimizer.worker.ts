@@ -9,7 +9,8 @@ import type { SlotId } from '@/store/buildStore.ts'
 type Equipped = Partial<Record<SlotId, number>>
 
 type IncomingMessage =
-  | { type: 'init'; config: unknown; items: AppItem[]; sets: AppSet[]; base: OptimizerBuildBase; seed: number }
+  | { type: 'init'; config: unknown; items: AppItem[]; sets: AppSet[]; base: OptimizerBuildBase; seed: number; seedBuilds?: Equipped[] }
+  | { type: 'stoke' }
   | { type: 'run' }
   | { type: 'finish'; temperMs: number }
   | { type: 'inject'; builds: Equipped[] }
@@ -17,6 +18,7 @@ type IncomingMessage =
 type WasmForge = {
   step:      (budgetMs: number) => ForgeReport
   temper:    (budgetMs: number) => ForgeReport
+  stoke:     () => void
   emigrants: () => Equipped[]
   inject:    (builds: unknown) => void
   free:      () => void
@@ -31,11 +33,16 @@ type WasmModule = {
 const STEP_BUDGET_MS = 150
 // Must match MIGRATION_EVERY in rust-optimizer/src/forge.rs.
 const MIGRATION_EVERY = 41
+// A short tempering pass every this many generations feeds polished pieces
+// back into the population while the forge keeps running.
+const HAMMER_EVERY = 30
+const HAMMER_MS = 250
 
 let wasmModule: WasmModule | null | undefined // undefined = not attempted yet, null = failed
 let forge: WasmForge | null = null
 let running = false
 let lastMigration = 0
+let lastHammer = 0
 
 async function loadWasm(): Promise<WasmModule | null> {
   if (wasmModule !== undefined) return wasmModule
@@ -61,7 +68,11 @@ function fail(err: unknown) {
 function loop() {
   if (!running || !forge) return
   try {
-    const report = forge.step(STEP_BUDGET_MS)
+    let report = forge.step(STEP_BUDGET_MS)
+    if (report.generation - lastHammer >= HAMMER_EVERY) {
+      lastHammer = report.generation
+      report = forge.temper(HAMMER_MS)
+    }
     const wave = Math.floor(report.generation / MIGRATION_EVERY)
     let emigrants: Equipped[] | undefined
     if (wave > lastMigration) {
@@ -84,6 +95,7 @@ async function handleMessage(msg: IncomingMessage) {
   if (msg.type === 'init') {
     running = false
     lastMigration = 0
+    lastHammer = 0
     const wasm = await loadWasm()
     if (!wasm) {
       self.postMessage({ type: 'error', message: 'wasm-unavailable' })
@@ -92,6 +104,7 @@ async function handleMessage(msg: IncomingMessage) {
     try {
       forge?.free()
       forge = new wasm.WasmForge(msg.config, msg.items, msg.sets, msg.base, msg.seed)
+      if (msg.seedBuilds?.length) forge.inject(msg.seedBuilds)
       self.postMessage({ type: 'ready' })
     } catch (err) {
       forge = null
@@ -113,6 +126,10 @@ async function handleMessage(msg: IncomingMessage) {
     } catch (err) {
       fail(err)
     }
+    return
+  }
+  if (msg.type === 'stoke') {
+    forge?.stoke()
     return
   }
   if (msg.type === 'inject') {

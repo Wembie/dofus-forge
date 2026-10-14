@@ -3,7 +3,7 @@ import { Ban } from 'lucide-react'
 import { ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import type { BuildResult, ForgeRequirement } from './types.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { OPTIMIZER_STATS, POWER_BOOSTED } from './statList.ts'
+import { OPTIMIZER_STATS, POWER_BOOSTED, runeStatLabelKey } from './statList.ts'
 import { statIconUrl, signatureRuneUrl, runeIconUrl } from '@/features/equipment/statDisplay.ts'
 
 type Props = {
@@ -15,14 +15,16 @@ type Props = {
   lockedSlots: Set<SlotId>
   onLoad:      (result: BuildResult) => void
   onBan?:      (itemId: number) => void
+  ribbon?:     { label: string; gold: boolean }
   bannedItems?: number[]
 }
 
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 const EXO_ICON = { ap: 'ap', mp: 'mp', range: 'range' } as const
 
-export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, bannedItems = [] }: Props) {
+export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, bannedItems = [], ribbon }: Props) {
   const { t } = useTranslation()
+  const runeLabel = (stat: string) => { const k = runeStatLabelKey(stat); return k ? t(k) : stat }
 
   const itemMap = new Map(items.map(it => [it.ankama_id, it]))
   const equippedList = ALL_SLOTS
@@ -35,9 +37,9 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
     return Object.values(runes[slot] ?? {}).some(v => v > 0)
   }
 
-  // Minimums always show; importance-only stats fill the rest up to 6.
-  const goalStats = requirements.filter(r => r.minimum > 0).sort((a, b) => b.importance - a.importance)
-  const weightOnly = requirements.filter(r => r.minimum <= 0 && r.importance > 0).sort((a, b) => b.importance - a.importance)
+  // Minimums always show; ley-only stats fill the rest up to 6.
+  const goalStats = requirements.filter(r => r.minimum > 0).sort((a, b) => b.weight - a.weight)
+  const weightOnly = requirements.filter(r => r.minimum <= 0 && r.weight > 0).sort((a, b) => b.weight - a.weight)
   const shownStats = [...goalStats, ...weightOnly].slice(0, Math.max(6, goalStats.length))
   const statsNums = result.stats as unknown as Record<string, number>
   const hasGoals = goalStats.length > 0
@@ -75,6 +77,14 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
             {result.meetsRequired ? '✓' : `${result.requirementsMet}/${result.requirementsTotal}`}
           </span>
         )}
+        {ribbon && (
+          <span
+            className="forge-pop text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ml-1"
+            style={{ color: 'var(--surface-void)', background: ribbon.gold ? 'var(--gold)' : 'var(--ink-faint)', boxShadow: ribbon.gold ? '0 0 10px -2px var(--gold)' : 'none' }}
+          >
+            {ribbon.label}
+          </span>
+        )}
         <span
           className="ml-auto text-[10px] font-mono"
           style={{ color: result.score < 0 ? 'var(--negative)' : 'var(--ink-faint)' }}
@@ -94,7 +104,7 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
             <div
               key={slot}
               className="relative group"
-              title={`${item.name} (Nv. ${item.level})${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: rune.stat })}` : ''}`}
+              title={`${item.name} (Nv. ${item.level})${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: runeLabel(rune.stat) })}` : ''}`}
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"

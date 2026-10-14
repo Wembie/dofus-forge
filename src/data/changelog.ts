@@ -8,6 +8,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.79',
+    date: '2026-10-14',
+    notes: [
+      'Feature: exact leys are back — minimum (≥), ley ⚖ (exact value per point) and soft or strict cap (≤) per stat; ◆ shortcuts fill the ley, and a warning shows when a minimum has ley 0',
+      'Feature: the Smith\'s scale shows what each stat is worth next to the others ("1 AP ≈ 500 HP")',
+      'Feature: Eternal forge that never goes out on its own, and a bellows button to stoke a stalled forge without losing the best piece',
+      'Feature: Reforge starts from the current pieces, so the result never gets worse',
+      'Improvement: far more consistent results — no cooling while minimums are missing, polishing during the whole run and a deeper final tempering (spread between runs on the hardest test: 26% → 1.4%)',
+      'UI: animated forge (hammer, ember, sparks), smith\'s log with live events, hammer-strike counter, masterpiece ribbon with shine and staggered reveal',
+    ],
+  },
+  {
     version: '0.3.78',
     date: '2026-10-14',
     notes: [

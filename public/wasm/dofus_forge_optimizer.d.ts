@@ -17,6 +17,10 @@ export class WasmForge {
      */
     step(budget_ms: number): any;
     /**
+     * Bellows: fresh material for every island but the best one.
+     */
+    stoke(): void;
+    /**
      * Final local polish of the best builds, then the final report.
      */
     temper(budget_ms: number): any;
@@ -39,6 +43,7 @@ export interface InitOutput {
     readonly wasmforge_inject: (a: number, b: any) => void;
     readonly wasmforge_new: (a: any, b: any, c: any, d: any, e: number) => [number, number, number];
     readonly wasmforge_step: (a: number, b: number) => [number, number, number];
+    readonly wasmforge_stoke: (a: number) => void;
     readonly wasmforge_temper: (a: number, b: number) => [number, number, number];
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;

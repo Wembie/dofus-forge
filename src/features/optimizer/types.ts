@@ -4,15 +4,16 @@ import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } fr
 
 export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
 
-// What the player asks La Forjadora for, per stat: a minimum to reach, how
-// much the stat matters (0–5), and an optional cap — strict caps reject any
-// piece that goes over, soft ones just stop counting past it.
+// What the player asks La Forjadora for, per stat: a minimum to reach, its
+// "ley" (exact value of each point: missing points cost it, surplus earns
+// it) and an optional cap — strict caps reject any piece that goes over,
+// soft ones just stop counting past it.
 export type ForgeRequirement = {
-  stat:       OptimizerStatKey
-  minimum:    number
-  importance: number
-  cap:        number | null
-  strictCap:  boolean
+  stat:      OptimizerStatKey
+  minimum:   number
+  weight:    number
+  cap:       number | null
+  strictCap: boolean
 }
 
 export type ExoConfig = {
@@ -23,7 +24,7 @@ export type ExoConfig = {
   maxCount:   number
 }
 
-export type ForgeIntensity = 'quick' | 'standard' | 'master'
+export type ForgeIntensity = 'quick' | 'standard' | 'master' | 'eternal'
 
 export type OptimizerConfig = {
   stats:               ForgeRequirement[]
@@ -64,7 +65,8 @@ export type BuildResult = {
 
 // Posted by each forge Worker after every step.
 export type ForgeReport = {
-  generation: number
+  generation:  number
+  evaluations: number
   bestScore:  number
   results:    BuildResult[]
 }

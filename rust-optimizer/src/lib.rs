@@ -62,6 +62,11 @@ impl WasmForge {
         to_js(&self.inner.report())
     }
 
+    /// Bellows: fresh material for every island but the best one.
+    pub fn stoke(&mut self) {
+        self.inner.stoke();
+    }
+
     pub fn emigrants(&self) -> Result<JsValue, JsValue> {
         to_js(&self.inner.emigrants())
     }
