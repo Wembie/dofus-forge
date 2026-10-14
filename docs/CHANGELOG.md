@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.76] — 2026-10-14
+- **Fix**: flat "Damage" (generic, not tied to an element) never got credit for amplifying whichever elemental damage stat was prioritized — the same relationship Power already had (fixed in M100), just never extended to the other universal damage stat. Found via a user report
+- **Architecture**: removed the TypeScript fallback engine from the live optimizer path. The Worker now runs exclusively on the Rust/WASM engine; if it fails to load or run, a clear error is shown instead of silently falling back to a slower, less capable, separately-maintained engine that could drift out of sync (which happened more than once this session). The TS engine stays in the repo as a tested reference implementation, but ships zero bytes to users
+- Benchmarked against a real-world 11-requirement case: the engine now satisfies 8 of 11 simultaneously (including an exact hit on a damage target, helped by the fix above) — see `docs/OPTIMIZER_ARCHITECTURE_PLAN.md` for the full comparison and what's still open
+
 ## [0.3.75] — 2026-10-13
 - **Fix**: loading a recommended build from the Forge didn't apply its "assume fully scrolled" state or clear stale forged runes on slots it changed — the loaded build's actual sheet silently stopped matching the numbers the Forge had just promised. Both are now applied on load
 - **Fix**: targeting "HP >= X" alone (without also weighting Vitality directly) never spent a single characteristic point on Vitality, since the allocator only invests in characteristics that have their own weight — found while investigating a demanding multi-requirement combo that stayed unreachable even with a much deeper search; it wasn't a search-depth problem, Vitality was never being invested in at all. Vitality now rides along with a maxHp-only weight, the same relationship Power already has with elemental damage

@@ -1,6 +1,14 @@
 # Plan — La Forjadora: motor único en Rust, búsqueda validada, progreso en vivo
 
-**Estado: BORRADOR, pendiente de aprobación. No implementar nada de esto hasta que se confirme explícitamente qué partes ejecutar.**
+**Estado: aprobado parcialmente, en ejecución.**
+
+Decisiones ya confirmadas por el usuario:
+- Sección 3.2 (eliminar el motor de respaldo en TypeScript del camino de ejecución) — **aprobada e implementada**. `src/engine/optimizer.ts` ya no se importa desde `optimizer.worker.ts` — no viaja al navegador, no se usa en producción. Se mantiene el archivo + su suite de 37 tests como implementación de referencia para comparar comportamiento, no como motor real.
+- Sin backend/Cloudflare de cómputo — confirmado explícitamente, todo el cálculo sigue dependiendo de la máquina del usuario, costo $0.
+- Sección 5 (progreso en vivo + botón "usar este resultado ahora") — **pendiente de implementar**, siguiente paso.
+- Sección 4 (arnés de validación sistemática) — **pendiente de implementar**.
+
+Además, en el camino se encontró y arregló un bug adicional (fuera del plan original): el stat genérico "Daños" (plano, no elemental) no heredaba prioridad de los daños elementales, igual que ya le pasaba a Potencia antes de M100 — mismo patrón, mismo arreglo, en los dos motores.
 
 Este documento es la respuesta a un pedido explícito: antes de seguir tocando código, investigar a fondo, validar con evidencia, y dejar un plan completo y comentado de qué cambiar, por qué, y cómo verificar que de verdad funciona — no solo "lo probé una vez y anduvo".
 
@@ -109,8 +117,21 @@ Propuesta:
 
 ---
 
+## 6.5. Evidencia nueva: comparación directa contra un caso real de 11 requisitos
+
+Reproducido el caso exacto que el usuario armó en una herramienta comparable (11 requisitos: PA, PM, PV, 4 resistencias elementales, resistencia neutra, Alcance, Fuerza, Daño de Tierra — pesos e ids reales, no inventados). Resultado contra nuestro catálogo real, con el motor actual ya mejorado (M106/M107 + el fix de sinergia de Daños de esta misma vuelta):
+
+- **8 de 11 requisitos se cumplen exactos o de sobra** (incluyendo Daño de Tierra en el valor EXACTO pedido).
+- **3 quedan cortos**: PA (10 de 12), PV (4003 de 5000), Fuerza (1268 de 1350).
+- **Tiempo: ~116 segundos.**
+
+La herramienta comparable encontró una solución que cumple los 11 en ~8 segundos, usando una combinación de 3 sets reales. Esta brecha (116s y 3 de 11 sin cumplir, contra 8s y 11 de 11) es demasiado grande para explicarla solo por "hay que darle más tiempo" — ya se probó extensamente subir seeds/pools/tiempo (ver M106 en ROADMAP.md) con retornos cada vez más chicos. Es una señal real de que el ENFOQUE del algoritmo (búsqueda acotada exhaustiva de sets + ascenso de colina) puede no ser el más eficiente para este tipo de problema específico, no solo un problema de parámetros.
+
+La herramienta comparable usa un algoritmo genético (población de builds que evoluciona generación a generación, con mutación y selección) — una familia de algoritmo distinta a la que usamos hoy. No se investigó a fondo si migrar o agregar esto resolvería la brecha, porque es un cambio de bastante más riesgo/esfuerzo que lo demás de este plan (reemplazar o complementar el núcleo del algoritmo de búsqueda, no solo ajustar parámetros o agregar una capa de progreso visual). Se deja como pregunta abierta explícita en la sección 7.
+
 ## 7. Preguntas para decidir antes de implementar
 
 1. ¿Se aprueba eliminar el motor de respaldo en TypeScript (sección 3.2), o se prefiere la alternativa más conservadora (3.3)?
 2. ¿El botón "usar este resultado ahora" (sección 5) es prioridad junto con lo del backend/Rust, o se puede hacer en una segunda etapa?
 3. ¿Cuántas configuraciones aleatorias es razonable correr en el arnés de validación (sección 4) antes de cada release grande — decenas (rápido, minutos) o cientos (más confianza, puede tardar bastante más)?
+4. **La más importante dado el hallazgo de la sección 6.5**: ¿se invierte en evaluar/implementar un algoritmo genético (o similar) como motor de búsqueda, en paralelo o en reemplazo del actual? Es un cambio bastante más grande que todo lo demás de este plan — tocaría el núcleo del algoritmo, no solo parámetros o UX. Antes de tocar código ahí, se puede armar un prototipo aislado (un solo archivo de test en Rust, sin tocar el motor en producción) para medir si de verdad cierra la brecha de velocidad/calidad antes de comprometerse a reescribir el motor real.

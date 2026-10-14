@@ -762,5 +762,6 @@
   "optimizer_tip_2": "Trying combinations of sets...",
   "optimizer_tip_3": "Polishing the build item by item...",
   "optimizer_tip_4": "Chasing the best possible combination...",
-  "optimizer_running_long_note": "Demanding requests can take a few minutes — the search keeps trying harder combinations, it's not stuck."
+  "optimizer_running_long_note": "Demanding requests can take a few minutes — the search keeps trying harder combinations, it's not stuck.",
+  "optimizer_wasm_unavailable": "The Forger's engine couldn't load or run in your browser. Try reloading the page, or updating your browser."
 }

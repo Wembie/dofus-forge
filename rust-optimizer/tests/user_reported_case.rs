@@ -95,6 +95,40 @@ fn relaxation_d_hp_and_strength_only() {
 
 #[test]
 #[ignore]
+fn relaxation_e_roxxsolver_real_11_conditions() {
+    // Exact case the user reproduced on a competitor (roxxsolver): PA=12,
+    // PM=6, Vitality=5000 (direct, weight 1), 4 elemental resist%=40
+    // (weight 30 each), neutral resist%=20 (weight 30), Range(AL)=6
+    // (weight 250), Strength=1350 (weight 5), Earth Damage=180 (weight 25).
+    // The competitor found a legal 3-set combination satisfying all 11 in
+    // ~8 seconds; our own Forge, on the same request, landed short on
+    // Strength (~940-1068 of 1350) across several returned builds.
+    let results = run_case(vec![
+        StatConfig { stat: "ap".into(), weight: 500, min_val: 12 },
+        StatConfig { stat: "mp".into(), weight: 500, min_val: 6 },
+        StatConfig { stat: "maxHp".into(), weight: 1, min_val: 5000 },
+        StatConfig { stat: "fireResPercent".into(), weight: 30, min_val: 40 },
+        StatConfig { stat: "earthResPercent".into(), weight: 30, min_val: 40 },
+        StatConfig { stat: "waterResPercent".into(), weight: 30, min_val: 40 },
+        StatConfig { stat: "airResPercent".into(), weight: 30, min_val: 40 },
+        StatConfig { stat: "neutralResPercent".into(), weight: 30, min_val: 20 },
+        StatConfig { stat: "range".into(), weight: 250, min_val: 6 },
+        StatConfig { stat: "strength".into(), weight: 5, min_val: 1350 },
+        StatConfig { stat: "earthDamage".into(), weight: 25, min_val: 180 },
+    ]);
+    let best = &results[0];
+    println!(
+        "E (roxxsolver 11-cond): meets_required={} ap={} mp={} hp={} vit={} fireRes={} earthRes={} waterRes={} airRes={} neutralRes={} range={} str={} earthDmg={}",
+        best.meets_required,
+        get_stat(&best.stats, "ap"), get_stat(&best.stats, "mp"), get_stat(&best.stats, "maxHp"), get_stat(&best.stats, "vitality"),
+        get_stat(&best.stats, "fireResPercent"), get_stat(&best.stats, "earthResPercent"),
+        get_stat(&best.stats, "waterResPercent"), get_stat(&best.stats, "airResPercent"), get_stat(&best.stats, "neutralResPercent"),
+        get_stat(&best.stats, "range"), get_stat(&best.stats, "strength"), get_stat(&best.stats, "earthDamage"),
+    );
+}
+
+#[test]
+#[ignore]
 fn user_case_ap12_mp6_range6_hp5000_str1500_earthdmg200_resists40() {
     let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
     let sets: Vec<CatalogSet> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/sets.json").unwrap()).unwrap();

@@ -762,5 +762,6 @@
   "optimizer_tip_2": "Testando combinações de conjuntos...",
   "optimizer_tip_3": "Polindo a build item por item...",
   "optimizer_tip_4": "Buscando a melhor combinação possível...",
-  "optimizer_running_long_note": "Pedidos exigentes podem levar alguns minutos — a busca continua tentando combinações melhores, não travou."
+  "optimizer_running_long_note": "Pedidos exigentes podem levar alguns minutos — a busca continua tentando combinações melhores, não travou.",
+  "optimizer_wasm_unavailable": "O motor do Forjador não conseguiu carregar ou executar no seu navegador. Tente recarregar a página, ou atualizar seu navegador."
 }

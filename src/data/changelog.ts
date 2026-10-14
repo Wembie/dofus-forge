@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.76',
+    date: '2026-10-14',
+    notes: [
+      'Fix: flat Damage now amplifies whichever elemental damage stat is prioritized, same as Power already did',
+      'Architecture: the optimizer now runs exclusively on the Rust/WASM engine, no more silent TypeScript fallback',
+    ],
+  },
+  {
     version: '0.3.75',
     date: '2026-10-13',
     notes: [

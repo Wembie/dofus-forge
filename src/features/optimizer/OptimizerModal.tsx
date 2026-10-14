@@ -370,6 +370,11 @@ export function OptimizerModal({ open, onClose }: Props) {
       } else if (type === 'cancelled') {
         worker.terminate()
         workerRef.current = null
+      } else if (type === 'error') {
+        setError(t('optimizer_wasm_unavailable'))
+        setPhase('config')
+        worker.terminate()
+        workerRef.current = null
       }
     }
 

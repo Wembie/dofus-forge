@@ -1,6 +1,5 @@
 /// <reference lib="webworker" />
-import { runOptimizer } from '@/engine/optimizer.ts'
-import type { OptimizerConfig, OptimizerBuildBase, OptimizerProgress, BuildResult } from '@/features/optimizer/types.ts'
+import type { OptimizerConfig, OptimizerBuildBase, BuildResult } from '@/features/optimizer/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 
@@ -16,16 +15,20 @@ type IncomingMessage =
       base:   OptimizerBuildBase
     }
 
-// The Rust/WASM engine (rust-optimizer/) is the same search algorithm as
-// engine/optimizer.ts, ported for an exhaustive triples-of-sets phase the TS
-// version doesn't have time budget for — a plain static asset
-// (public/wasm/), not part of the Vite build graph, so a plain runtime
-// import by URL rather than a module specifier. Loaded lazily (only once,
-// the first 'run') and only ever tried once per Worker lifetime: if it
-// fails to load or run for any reason (older browser, blocked asset, a bug),
-// every run for the rest of this Worker's life falls back to the
-// already-shipped, already-correct TS engine instead of retrying and
-// failing the same way again.
+// The Rust/WASM engine (rust-optimizer/) is the ONLY optimizer engine this
+// app runs — a plain static asset (public/wasm/), not part of the Vite
+// build graph, so a plain runtime import by URL rather than a module
+// specifier. Loaded lazily (only once, the first 'run') and cached for the
+// Worker's lifetime. There is deliberately no TypeScript fallback anymore:
+// src/engine/optimizer.ts (the original, slower, less capable TS port) is
+// kept in the repo purely as a tested reference implementation for
+// cross-checking the Rust port's behavior in development — it is never
+// imported here and ships zero bytes to users, since an unreferenced module
+// isn't part of the bundle. A WASM load/run failure is a real, surfaced
+// error instead of a silent drop to a weaker, duplicate-maintenance-tax
+// engine that could quietly drift out of sync (exactly what happened
+// across several bugs found and fixed only in one of the two engines
+// before this change).
 type WasmModule = {
   run_optimizer_wasm: (config: unknown, items: unknown, sets: unknown, base: unknown) => BuildResult[]
   init_panic_hook: () => void
@@ -41,7 +44,7 @@ async function loadWasm(): Promise<WasmModule | null> {
     mod.init_panic_hook()
     wasmModule = mod
   } catch (err) {
-    console.warn('[optimizer.worker] WASM engine unavailable, falling back to TypeScript engine:', err)
+    console.error('[optimizer.worker] WASM engine failed to load:', err)
     wasmModule = null
   }
   return wasmModule
@@ -62,44 +65,25 @@ async function handleMessage(e: MessageEvent) {
   if (msg.type === 'run') {
     cancelRef = { cancelled: false }
 
-    const { config: rawConfig, items = [], sets = [], base } = msg
-    const wireConfig = rawConfig // already { ...config, lockedSlots: string[] } — the exact wire shape both engines expect
+    const { config: wireConfig, items = [], sets = [], base } = msg
 
     const wasm = await loadWasm()
-    if (wasm) {
-      // No incremental progress from the single synchronous WASM call (see
-      // rust-optimizer/src/optimizer.rs's module comment) — the modal's
-      // spinner-only fallback when `progress` stays null already covers
-      // this without any UI change.
-      try {
-        const results = wasm.run_optimizer_wasm(wireConfig, items, sets, base)
-        if (!cancelRef.cancelled) self.postMessage({ type: 'done', results })
-        else self.postMessage({ type: 'cancelled' })
-        return
-      } catch (err) {
-        console.warn('[optimizer.worker] WASM run failed, falling back to TypeScript engine:', err)
-        wasmModule = null
-      }
+    if (!wasm) {
+      self.postMessage({ type: 'error', message: 'wasm-unavailable' })
+      return
     }
 
-    const config: OptimizerConfig = {
-      ...rawConfig,
-      lockedSlots: new Set(rawConfig.lockedSlots),
-    }
-
-    const results = runOptimizer(
-      config,
-      items,
-      sets,
-      base!,
-      (progress: OptimizerProgress) => self.postMessage({ type: 'progress', ...progress }),
-      cancelRef,
-    )
-
-    if (!cancelRef.cancelled) {
-      self.postMessage({ type: 'done', results })
-    } else {
-      self.postMessage({ type: 'cancelled' })
+    // No incremental progress from the single synchronous WASM call (see
+    // rust-optimizer/src/optimizer.rs's module comment) — the modal's
+    // spinner-only display when `progress` stays null already covers this
+    // without any UI change.
+    try {
+      const results = wasm.run_optimizer_wasm(wireConfig, items, sets, base)
+      if (!cancelRef.cancelled) self.postMessage({ type: 'done', results })
+      else self.postMessage({ type: 'cancelled' })
+    } catch (err) {
+      console.error('[optimizer.worker] WASM run failed:', err)
+      self.postMessage({ type: 'error', message: 'wasm-run-failed' })
     }
   }
 }

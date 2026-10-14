@@ -154,6 +154,13 @@ const DAMAGE_SYNERGY_STATS: [&str; 7] = [
     "damage", "fireDamage", "earthDamage", "waterDamage", "airDamage", "neutralDamage", "bestElemDamage",
 ];
 
+// Same set as DAMAGE_SYNERGY_STATS minus "damage" itself - used as the
+// synergy SOURCE for "damage"'s own branch below, so it can't inherit from
+// itself.
+const ELEMENTAL_DAMAGE_STATS: [&str; 6] = [
+    "fireDamage", "earthDamage", "waterDamage", "airDamage", "neutralDamage", "bestElemDamage",
+];
+
 // See optimizer.ts's effectiveWeight comment: Power rides along with
 // whichever elemental damage stat has the highest explicit weight, unless
 // Power has its own weight/minimum to respect instead.
@@ -174,6 +181,26 @@ fn effective_weight(stat_key_name: &str, stats: &[StatConfig], fallback: f64) ->
         }
         if max_damage_weight > 0 {
             return max_damage_weight as f64;
+        }
+    }
+    // Flat "Damage" (generic, not tied to an element) adds to every
+    // elemental damage type the same universal way Power does — found via a
+    // user report after Power's synergy fix (M100) only covered Power,
+    // never extended to the OTHER universal damage stat. Without this,
+    // prioritizing e.g. Earth Damage never valued a flat-Damage item over
+    // an equally-costed non-damage item, even though flat Damage helps
+    // Earth Damage output exactly as much as Power does.
+    if stat_key_name == "damage" {
+        let mut max_elem_weight = 0i64;
+        for dmg_key in ELEMENTAL_DAMAGE_STATS {
+            if let Some(cfg) = stats.iter().find(|c| c.stat == dmg_key) {
+                if cfg.weight > max_elem_weight {
+                    max_elem_weight = cfg.weight;
+                }
+            }
+        }
+        if max_elem_weight > 0 {
+            return max_elem_weight as f64;
         }
     }
     // Max HP is driven directly by the Vitality characteristic — same
