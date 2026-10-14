@@ -43,9 +43,14 @@ export type BuildResult = {
   scrolled:      ScrolledCharacteristics
 }
 
+// Sent periodically while the Rust engine searches (see
+// rust-optimizer/src/optimizer.rs's ProgressUpdate) — `best` is a full
+// BuildResult so the running-phase UI can render an actual live preview of
+// the current best candidate (via BuildResultCard) instead of just a number.
 export type OptimizerProgress = {
-  phase:      'prefilter' | 'search' | 'evaluating'
-  slotIndex:  number
-  totalSlots: number
-  percent:    number
+  generation:        number
+  elapsedMs:         number
+  requirementsMet:   number
+  requirementsTotal: number
+  best:              BuildResult
 }

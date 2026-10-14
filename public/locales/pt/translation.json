@@ -764,5 +764,8 @@
   "optimizer_tip_4": "Buscando a melhor combinação possível...",
   "optimizer_running_long_note": "Pedidos exigentes podem levar alguns minutos — a busca continua tentando combinações melhores, não travou.",
   "optimizer_wasm_unavailable": "O motor do Forjador não conseguiu carregar ou executar no seu navegador. Tente recarregar a página, ou atualizar seu navegador.",
-  "legal_ankama_disclaimer": "Dofus Forge não é afiliado à Ankama Games. DOFUS e Ankama são marcas registradas da Ankama Games."
+  "legal_ankama_disclaimer": "Dofus Forge não é afiliado à Ankama Games. DOFUS e Ankama são marcas registradas da Ankama Games.",
+  "optimizer_requirements_met": "{{met}} de {{total}} requisitos cumpridos até agora",
+  "optimizer_live_preview": "Melhor build encontrado até agora",
+  "optimizer_use_now": "Usar este resultado agora"
 }

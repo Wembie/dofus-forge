@@ -2,7 +2,7 @@
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
 export const init_panic_hook: () => void;
-export const run_optimizer_wasm: (a: any, b: any, c: any, d: any) => [number, number, number];
+export const run_optimizer_wasm: (a: any, b: any, c: any, d: any, e: any) => [number, number, number];
 export const __wbindgen_malloc: (a: number, b: number) => number;
 export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
 export const __wbindgen_exn_store: (a: number) => void;

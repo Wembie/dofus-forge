@@ -1,5 +1,5 @@
 /// <reference lib="webworker" />
-import type { OptimizerConfig, OptimizerBuildBase, BuildResult } from '@/features/optimizer/types.ts'
+import type { OptimizerConfig, OptimizerBuildBase, OptimizerProgress, BuildResult } from '@/features/optimizer/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 
@@ -30,7 +30,7 @@ type IncomingMessage =
 // across several bugs found and fixed only in one of the two engines
 // before this change).
 type WasmModule = {
-  run_optimizer_wasm: (config: unknown, items: unknown, sets: unknown, base: unknown) => BuildResult[]
+  run_optimizer_wasm: (config: unknown, items: unknown, sets: unknown, base: unknown, onProgress: (update: OptimizerProgress) => boolean) => BuildResult[]
   init_panic_hook: () => void
 }
 let wasmModule: WasmModule | null | undefined // undefined = not attempted yet, null = failed
@@ -73,14 +73,22 @@ async function handleMessage(e: MessageEvent) {
       return
     }
 
-    // No incremental progress from the single synchronous WASM call (see
-    // rust-optimizer/src/optimizer.rs's module comment) — the modal's
-    // spinner-only display when `progress` stays null already covers this
-    // without any UI change.
+    // Called periodically DURING the synchronous WASM call (a real callback
+    // across the Rust/JS boundary, not a message-passing round-trip, since
+    // the whole search runs on this one blocking call) — forwards progress
+    // to the main thread and doubles as the only way to interrupt an
+    // in-progress search: returning false tells Rust to stop right there
+    // and finish up with whatever it has (the guaranteed final polish still
+    // runs), rather than the old all-or-nothing "wait for the full budget
+    // or get nothing" cancel.
+    const onProgress = (update: OptimizerProgress): boolean => {
+      self.postMessage({ type: 'progress', ...update })
+      return !cancelRef.cancelled
+    }
+
     try {
-      const results = wasm.run_optimizer_wasm(wireConfig, items, sets, base)
-      if (!cancelRef.cancelled) self.postMessage({ type: 'done', results })
-      else self.postMessage({ type: 'cancelled' })
+      const results = wasm.run_optimizer_wasm(wireConfig, items, sets, base, onProgress)
+      self.postMessage({ type: 'done', results })
     } catch (err) {
       console.error('[optimizer.worker] WASM run failed:', err)
       self.postMessage({ type: 'error', message: 'wasm-run-failed' })
