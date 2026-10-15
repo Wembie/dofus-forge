@@ -822,5 +822,6 @@
   "optimizer_reforge": "Reforjar",
   "optimizer_reforge_hint": "Vuelve a encender la fragua partiendo de estas piezas: el resultado nunca empeora.",
   "optimizer_masterpiece": "Obra maestra",
-  "optimizer_best_piece": "Mejor pieza"
+  "optimizer_best_piece": "Mejor pieza",
+  "nav_new_badge": "Nuevo"
 }

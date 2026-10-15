@@ -822,5 +822,6 @@
   "optimizer_reforge": "Reforjar",
   "optimizer_reforge_hint": "Reacende a forja partindo destas peças: o resultado nunca piora.",
   "optimizer_masterpiece": "Obra-prima",
-  "optimizer_best_piece": "Melhor peça"
+  "optimizer_best_piece": "Melhor peça",
+  "nav_new_badge": "Novo"
 }

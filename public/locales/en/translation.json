@@ -822,5 +822,6 @@
   "optimizer_reforge": "Reforge",
   "optimizer_reforge_hint": "Relights the forge starting from these pieces: the result never gets worse.",
   "optimizer_masterpiece": "Masterpiece",
-  "optimizer_best_piece": "Best piece"
+  "optimizer_best_piece": "Best piece",
+  "nav_new_badge": "New"
 }

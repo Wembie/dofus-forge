@@ -822,5 +822,6 @@
   "optimizer_reforge": "Reforger",
   "optimizer_reforge_hint": "Rallume la forge à partir de ces pièces : le résultat ne peut pas empirer.",
   "optimizer_masterpiece": "Chef-d’œuvre",
-  "optimizer_best_piece": "Meilleure pièce"
+  "optimizer_best_piece": "Meilleure pièce",
+  "nav_new_badge": "Nouveau"
 }

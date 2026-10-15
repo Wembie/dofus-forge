@@ -16,6 +16,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Improvement: smarter set handling (ranking by real gain per slot, starting "alloys" of 2–4 top sets), pruning of items beaten on every stat, and targeted repairs when a minimum is a few points short',
       'Feature: a Prysmaradite always goes in the first Dofus slot',
       'i18n: the tool name and the per-point value word are now consistent in every language',
+      'UI: "New" badge on The Forger button; Explore and My Builds moved to the left, next to the version',
     ],
   },
   {

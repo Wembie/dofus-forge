@@ -221,6 +221,29 @@ function BuilderContent() {
             <span style={{ color: 'color-mix(in srgb, var(--gold) 55%, var(--ink-faint))' }}>Dofus {DOFUS_GAME_VERSION}</span>
           </button>
 
+          {/* Explore + My builds, next to the version — hidden on mobile */}
+          <div className="hidden lg:flex items-center gap-1.5">
+            <button
+              onClick={() => navToLangPath('explore')}
+              title={t('explore_open')}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+            >
+              <Compass size={13} />
+              <span className="hidden lg:inline">{t('explore_open')}</span>
+            </button>
+            {/* My builds */}
+            <button
+              onClick={() => navToLangPath('my-builds')}
+              title={t('my_builds')}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+            >
+              <FolderOpen size={13} />
+              <span className="hidden lg:inline">{t('my_builds')}</span>
+            </button>
+          </div>
+
           {/* Status indicators */}
           {loading && (
             <span className="text-[11px] font-mono animate-pulse hidden lg:inline" style={{ color: 'var(--ink-faint)' }} role="status" aria-live="polite">
@@ -273,6 +296,12 @@ function BuilderContent() {
             >
               <Wand2 size={13} />
               <span className="hidden lg:inline">{t('optimizer_open')}</span>
+              <span
+                className="text-[8px] font-bold uppercase tracking-widest px-1.5 py-px rounded-full animate-pulse"
+                style={{ color: 'var(--surface-void)', background: 'var(--gold)', boxShadow: '0 0 8px -1px var(--gold)' }}
+              >
+                {t('nav_new_badge')}
+              </span>
             </button>
             {/* Sets catalog — hidden on mobile */}
             <button
@@ -287,26 +316,6 @@ function BuilderContent() {
             >
               <Layers size={13} />
               <span className="hidden lg:inline">{t('sets_catalog_open')}</span>
-            </button>
-            {/* Explore public builds — hidden on mobile */}
-            <button
-              onClick={() => navToLangPath('explore')}
-              title={t('explore_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-            >
-              <Compass size={13} />
-              <span className="hidden lg:inline">{t('explore_open')}</span>
-            </button>
-            {/* My builds — hidden on mobile */}
-            <button
-              onClick={() => navToLangPath('my-builds')}
-              title={t('my_builds')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-            >
-              <FolderOpen size={13} />
-              <span className="hidden lg:inline">{t('my_builds')}</span>
             </button>
             {/* Publish current build — hidden on mobile */}
             <button

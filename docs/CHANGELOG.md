@@ -11,6 +11,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Improvement**: sets are ranked by what they add over the best loose items of the same slots (a 3-piece set that beats loose items per slot no longer ranks below 8-piece sets); set drops favour the top of that ranking; the forge starts with every combination of 2–4 top sets ("alloys") and restarts stalled islands from them; candidates another item beats on every scored stat are pruned; a targeted repair puts an item strong in a missing stat into the piece when a minimum is only a few points short
 - **Feature**: a Prysmaradite always goes in the first Dofus slot
 - **i18n**: the tool's name is now consistent in every language (La Forjadora / The Forger / La Forgeuse / A Forjadora) and the per-point value uses each language's metallurgy word (Ley / Purity / Aloi / Lei)
+- **UI**: The Forger's header button carries a "New" badge, and Explore / My Builds moved to the left, next to the version
 - Validated: the user's best build reproduces exactly (same items, points and exos); 12 realistic orders still meet every minimum, now with identical results across seeds; 31 Rust unit tests
 
 ## [0.3.79] — 2026-10-14
