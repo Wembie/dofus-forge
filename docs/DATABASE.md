@@ -1572,8 +1572,8 @@ El trigger `protect_profile_system_fields` verifica que la sesión sea `service_
 
 ### Migración manual — registro de La Forjadora (2026-10-15)
 
-Correr una vez en el SQL Editor de Supabase (la base ya existente no se
-recrea desde `schema.sql`):
+Correr en el SQL Editor de Supabase (la base ya existente no se recrea
+desde `schema.sql`). Es idempotente: se puede correr más de una vez.
 
 ```sql
 begin;
@@ -1583,7 +1583,7 @@ begin;
 -- un resumen para estadísticas (intensidad, runas, cuántos mínimos, si se
 -- cumplieron, duración). RLS sin políticas: nadie lee ni escribe la tabla
 -- directo, solo a través de las funciones security definer de abajo.
-create table forge_runs (
+create table if not exists forge_runs (
   id            bigint generated always as identity primary key,
   created_at    timestamptz not null default now(),
   user_id       uuid,
@@ -1594,9 +1594,9 @@ create table forge_runs (
   seconds       integer not null check (seconds between 0 and 86400)
 );
 alter table forge_runs enable row level security;
-create index forge_runs_created_at_idx on forge_runs (created_at);
+create index if not exists forge_runs_created_at_idx on forge_runs (created_at);
 
-create function record_forge_run(p_intensity text, p_transcendence boolean, p_requirements int, p_all_met boolean, p_seconds int)
+create or replace function record_forge_run(p_intensity text, p_transcendence boolean, p_requirements int, p_all_met boolean, p_seconds int)
 returns void language plpgsql security definer set search_path = public as $$
 begin
   -- Antispam simple: con sesión, como mucho una forja cada 10 s por usuario.
@@ -1610,7 +1610,8 @@ begin
 end; $$;
 grant execute on function record_forge_run(text, boolean, int, boolean, int) to anon, authenticated;
 
-drop function get_community_stats();
+-- Cambia el tipo de retorno (columna nueva): "or replace" no alcanza, hay que recrearla.
+drop function if exists get_community_stats();
 create function get_community_stats()
 returns table(
   users_count         bigint,
