@@ -829,5 +829,6 @@
   "optimizer_surplus_total": "{{n}} purity",
   "optimizer_surplus_hint": "What the piece has beyond each minimum and what it is worth in purity. That is your margin: raise those minimums or ask for more stats.",
   "optimizer_surplus_row": "{{value}} (minimum {{min}})",
-  "optimizer_surplus_capped": "at cap"
+  "optimizer_surplus_capped": "at cap",
+  "explore_stat_forge_runs": "{{count}} pieces forged with The Forger"
 }

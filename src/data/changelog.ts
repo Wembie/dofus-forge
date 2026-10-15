@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.83',
+    date: '2026-10-15',
+    notes: [
+      'Feature: Explore now shows how many pieces have been forged with The Forger',
+    ],
+  },
+  {
     version: '0.3.82',
     date: '2026-10-14',
     notes: [
