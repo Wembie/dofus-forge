@@ -2,7 +2,7 @@
 // catalog and validates every result against the exact compute_stats path.
 // Run: cargo test --release --test real_catalog_bench -- --ignored --nocapture --test-threads 1
 use dofus_forge_optimizer::forge::Forge;
-use dofus_forge_optimizer::optimizer_types::{CatalogItem, CatalogSet, ExoConfig, OptimizerBuildBase, OptimizerConfig, StatConfig};
+use dofus_forge_optimizer::optimizer_types::{BuildResult, CatalogItem, CatalogSet, ExoConfig, OptimizerBuildBase, OptimizerConfig, StatConfig};
 use dofus_forge_optimizer::stats::get_stat;
 use std::collections::HashMap;
 use std::time::Instant;
@@ -356,9 +356,10 @@ fn hit_rate_parallel_like_browser() {
     let workers: usize = std::env::var("FORGE_WORKERS").ok().and_then(|v| v.parse().ok()).unwrap_or(4);
     let secs: f64 = std::env::var("FORGE_SECS").ok().and_then(|v| v.parse().ok()).unwrap_or(60.0);
     let runs: u64 = std::env::var("FORGE_SEEDS").ok().and_then(|v| v.parse().ok()).unwrap_or(8);
-    let target = screenshot_forge(1, false, 1).assess(&user_optimum()).0.unwrap().score;
-    let islands = 96usize.div_ceil(workers);
-    println!("workers {workers} x {islands} islands, {secs}s");
+    let runes = std::env::var("FORGE_RUNES").map(|v| v == "1").unwrap_or(false);
+    let target = screenshot_forge(1, runes, 1).assess(&user_optimum()).0.unwrap().score;
+    let islands: usize = std::env::var("FORGE_ISLANDS_PER_WORKER").ok().and_then(|v| v.parse().ok()).unwrap_or(96usize.div_ceil(workers));
+    println!("workers {workers} x {islands} islands, {secs}s, runes {runes}, target {target}");
     let mut hits = 0;
     for seed in 1..=runs {
         let barrier = Arc::new(Barrier::new(workers));
@@ -369,7 +370,7 @@ fn hit_rate_parallel_like_browser() {
             for w in 0..workers {
                 let (barrier, mailbox, found) = (barrier.clone(), mailbox.clone(), found.clone());
                 scope.spawn(move || {
-                    let mut f = screenshot_forge(seed * 100 + w as u64, false, islands);
+                    let mut f = screenshot_forge(seed * 100 + w as u64, runes, islands);
                     let now = || start.elapsed().as_secs_f64() * 1000.0;
                     let mut round = 0u64;
                     loop {
@@ -412,3 +413,47 @@ fn hit_rate_parallel_like_browser() {
 }
 
 // earth and multi with the browser's Standard stop rule (>= 60 s, 400 stall).
+
+#[test]
+#[ignore]
+fn assess_user_optimum_with_runes_and_throughput() {
+    for runes in [false, true] {
+        let mut f = screenshot_forge(1, runes, 24);
+        let (r, _) = f.assess(&user_optimum());
+        let r = r.unwrap();
+        println!("runes {runes}: optimum items score {} met {}/{} runes {:?}", r.score, r.requirements_met, r.requirements_total, r.runes.iter().map(|(s, x)| format!("{s}:{}+{}", x.stat, x.value)).collect::<Vec<_>>());
+        let start = Instant::now();
+        let before = f.report().evaluations;
+        for _ in 0..20 { f.run_generation(); }
+        let evals = f.report().evaluations - before;
+        println!("runes {runes}: {:.0} evaluations/s single thread", evals as f64 / start.elapsed().as_secs_f64());
+    }
+}
+
+#[test]
+#[ignore]
+fn diff_runes_basins() {
+    let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
+    let names: HashMap<i64, String> = items.iter().map(|i| (i.ankama_id, i.name.clone())).collect();
+    let mut found: Vec<BuildResult> = Vec::new();
+    for seed in 1..=12u64 {
+        let mut f = screenshot_forge(seed, true, 24);
+        let clock = Instant::now();
+        let now = || clock.elapsed().as_secs_f64() * 1000.0;
+        while clock.elapsed().as_secs_f64() < 15.0 {
+            f.run_generation();
+            if f.generation() % 30 == 0 { f.temper(250.0, &now); }
+        }
+        let r = f.results()[0].clone();
+        println!("seed {seed}: {}", r.score);
+        if found.iter().all(|x| (x.score - r.score).abs() > 1e-6) { found.push(r); }
+        if found.iter().any(|x| x.score > 1600.0) && found.iter().any(|x| x.score < 1600.0) { break; }
+    }
+    found.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+    for r in &found {
+        let mut slots: Vec<String> = r.equipped.iter().map(|(s, id)| format!("{s}={}{}", names[id], r.runes.get(s).map(|x| format!(" [{}+{}]", x.stat, x.value)).unwrap_or_default())).collect();
+        slots.sort();
+        println!("== {} alloc {:?} exo {:?}", r.score, r.allocated, r.exo);
+        for x in slots { println!("   {x}"); }
+    }
+}

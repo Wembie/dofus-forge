@@ -209,6 +209,11 @@ const SECOND_SET_RATE: f64 = 0.20;
 // 50 generations finds the best basin more often than 95 (more independent
 // attempts) or 30 (attempts too short to converge).
 const STAGNATION_RESET: u32 = 50;
+// Generations an island may idle on the current overall best before it is
+// sent elsewhere.
+const REDISCOVERY_RESET: u32 = 12;
+// Top-ranked sets tried whole on the best piece during tempering.
+const SET_SWAP_SETS: usize = 30;
 pub const MIGRATION_EVERY: u64 = 41;
 const MIGRATION_FRACTION: f64 = 0.03;
 // Candidates per slot for the tempering passes (best standalone value first).
@@ -221,6 +226,34 @@ const ALLOY_SETS: usize = 30;
 const ALLOY_QUADS: usize = 12;
 const ALLOY_SEEDS_PER_ISLAND: usize = 24;
 const ALLOY_POOL: usize = 256;
+// Evaluation cache entries per Forge (~16 MB).
+const CACHE_SIZE: usize = 400_000;
+
+// The cache keys are already well-mixed 64-bit hashes: no need to hash
+// them again.
+#[derive(Default, Clone, Copy)]
+struct IdentityBuild;
+#[derive(Default)]
+struct IdentityHasher(u64);
+impl std::hash::Hasher for IdentityHasher {
+    fn finish(&self) -> u64 {
+        self.0
+    }
+    fn write(&mut self, bytes: &[u8]) {
+        for b in bytes {
+            self.0 = (self.0 << 8) | *b as u64;
+        }
+    }
+    fn write_u64(&mut self, v: u64) {
+        self.0 = v;
+    }
+}
+impl std::hash::BuildHasher for IdentityBuild {
+    type Hasher = IdentityHasher;
+    fn build_hasher(&self) -> IdentityHasher {
+        IdentityHasher(0)
+    }
+}
 pub const HALL_SIZE: usize = 10;
 
 fn obtainable(item: &CatalogItem) -> bool {
@@ -425,9 +458,12 @@ pub struct Forge {
     rng: Rng,
     inject_turn: usize,
     evaluations: std::cell::Cell<u64>,
+    cache: std::cell::RefCell<HashMap<u64, f64, IdentityBuild>>,
     settle_tempered: bool,
     stagnation_reset: u32,
     set_rank_bias: f64,
+    swap_cursor: usize,
+    alloy_cursor: usize,
 }
 
 impl Forge {
@@ -605,9 +641,12 @@ impl Forge {
             rng: Rng(seed ^ 0xD1B5_4A32_D192_ED03),
             inject_turn: 0,
             evaluations: std::cell::Cell::new(0),
+            cache: std::cell::RefCell::new(HashMap::with_capacity_and_hasher(1 << 16, IdentityBuild)),
             settle_tempered: false,
             stagnation_reset: STAGNATION_RESET,
             set_rank_bias: 0.7,
+            swap_cursor: 0,
+            alloy_cursor: 0,
         };
 
         // Pools: only items that can move at least one scored stat (directly,
@@ -731,6 +770,47 @@ impl Forge {
                 }
             }
         }
+    }
+
+    // Ways to wear set `st` on `base`: members that fit several slots (rings,
+    // Dofus) try each of them, so the set can replace whichever ring or Dofus
+    // is worth replacing, not just the first one (at most 8 variants).
+    fn set_placements(&self, base: &[i32; NSLOT], st: usize) -> Vec<[i32; NSLOT]> {
+        let mut variants: Vec<[i32; NSLOT]> = vec![*base];
+        let mut claimed: Vec<Vec<usize>> = vec![Vec::new()];
+        for (item, slots) in &self.set_members[st] {
+            let mut next: Vec<[i32; NSLOT]> = Vec::new();
+            let mut next_claimed: Vec<Vec<usize>> = Vec::new();
+            for (g, used) in variants.iter().zip(claimed.iter()) {
+                let mut placed = false;
+                for &s in slots {
+                    if used.contains(&s) {
+                        continue;
+                    }
+                    let mut g2 = *g;
+                    if self.try_place(&mut g2, s, *item) {
+                        let mut u = used.clone();
+                        u.push(s);
+                        next.push(g2);
+                        next_claimed.push(u);
+                        placed = true;
+                        if next.len() >= 8 {
+                            break;
+                        }
+                    }
+                }
+                if !placed {
+                    next.push(*g);
+                    next_claimed.push(used.clone());
+                }
+                if next.len() >= 8 {
+                    break;
+                }
+            }
+            variants = next;
+            claimed = next_claimed;
+        }
+        variants.into_iter().filter(|g| g != base && self.valid(g)).collect()
     }
 
     // Fills every slot not yet claimed with its best-valued item that fits.
@@ -980,7 +1060,22 @@ impl Forge {
 
     fn make(&self, genes: [i32; NSLOT]) -> Individual {
         self.evaluations.set(self.evaluations.get() + 1);
-        let score = self.evaluate(&genes).score;
+        // Same genes always score the same: the search keeps revisiting
+        // builds (mutations, polish neighbourhoods), so remember them.
+        let key = genes.iter().fold(0x51_7C_C1_B7_27_22_0A_95u64, |h, &x| splitmix(h ^ (x as i64 as u64)));
+        let cached = self.cache.borrow().get(&key).copied();
+        let score = match cached {
+            Some(score) => score,
+            None => {
+                let score = self.evaluate(&genes).score;
+                let mut cache = self.cache.borrow_mut();
+                if cache.len() >= CACHE_SIZE {
+                    cache.clear();
+                }
+                cache.insert(key, score);
+                score
+            }
+        };
         Individual { genes, score, hash: self.hash(&genes) }
     }
 
@@ -1043,10 +1138,13 @@ impl Forge {
         ch
     }
 
-    // Spends the point budget greedily by marginal gain per point, in chunks
-    // of up to 5. `extra` are equip conditions of the build's own items
-    // ("Agility > 300"): points go to them first, since an unmet condition
-    // invalidates the whole build.
+    // Spends the point budget greedily by marginal gain per point. Within a
+    // step the gain per point is constant, so each step jumps straight to the
+    // next boundary where it could change (cost bracket, a goal or cap of a
+    // stat this characteristic feeds, the next 10-point step of a derived
+    // stat) instead of crawling 5 points at a time. `extra` are equip
+    // conditions of the build's own items ("Agility > 300"): points go to
+    // them first, since an unmet condition invalidates the whole build.
     fn allocate(&self, pre: &Vec60, extra: &[Target]) -> [i64; 6] {
         let budget = stat_budget(self.level);
         let mut spent = 0i64;
@@ -1063,22 +1161,26 @@ impl Forge {
                 }
                 let a = alloc[c];
                 let unit = point_cost(CHARS[c], a + 1) - point_cost(CHARS[c], a);
-                let to_bracket = if c >= 2 && a < 300 { 100 - a % 100 } else { 5 };
-                let mut k = to_bracket.min(5);
-                if spent + k * unit > budget {
-                    k = (budget - spent) / unit;
-                }
-                // Stop a chunk exactly where a direct goal is reached.
-                let nearest = related
-                    .iter()
-                    .map(|&ti| &self.targets[ti])
-                    .chain(extra.iter())
-                    .filter(|t| t.idx == VIT + c)
-                    .map(|t| t.goal - self.effective(pre, &ch, t))
-                    .filter(|d| *d > 0)
-                    .min();
-                if let Some(d) = nearest {
-                    k = k.min(d);
+                let mut k = if c >= 2 && a < 300 { 100 - a % 100 } else { i64::MAX / 4 };
+                k = k.min((budget - spent) / unit);
+                for t in related.iter().map(|&ti| &self.targets[ti]).chain(extra.iter().filter(|t| t.idx == VIT + c)) {
+                    let e = self.effective(pre, &ch, t);
+                    let per_point = match t.idx {
+                        i if i == VIT + c => 1,
+                        MAXHP | INITIATIVE => 1,
+                        PODS => 5,
+                        _ => 0, // a floor(x / 10) stat
+                    };
+                    if per_point == 0 {
+                        k = k.min(10 - ch[c].rem_euclid(10));
+                        continue;
+                    }
+                    if e < t.goal {
+                        k = k.min((t.goal - e + per_point - 1) / per_point);
+                    }
+                    if t.max < NO_MAX && e < t.max {
+                        k = k.min((t.max - e + per_point - 1) / per_point);
+                    }
                 }
                 if k <= 0 {
                     continue;
@@ -1107,21 +1209,22 @@ impl Forge {
         alloc
     }
 
-    // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`.
-    fn stat_gain(&self, pre: &Vec60, ch: &[i64; 6], i: usize, amount: i64) -> f64 {
-        let mut pre2 = *pre;
-        pre2[i] += amount;
-        let mut ch2 = *ch;
-        if (VIT..=AGI).contains(&i) {
-            ch2[i - VIT] += amount;
+    // Gain of adding `amount` to raw stat `i`, at characteristic totals `ch`
+    // (applied in place and reverted: no copy of the stat vector).
+    fn stat_gain(&self, pre: &mut Vec60, ch: &mut [i64; 6], i: usize, amount: i64) -> f64 {
+        let targets = &self.stat_targets[i];
+        let before: f64 = targets.iter().map(|&ti| Self::greedy_value(&self.targets[ti], self.effective(pre, ch, &self.targets[ti]))).sum();
+        let is_char = (VIT..=AGI).contains(&i);
+        pre[i] += amount;
+        if is_char {
+            ch[i - VIT] += amount;
         }
-        self.stat_targets[i]
-            .iter()
-            .map(|&ti| {
-                let t = &self.targets[ti];
-                Self::greedy_value(t, self.effective(&pre2, &ch2, t)) - Self::greedy_value(t, self.effective(pre, ch, t))
-            })
-            .sum()
+        let after: f64 = targets.iter().map(|&ti| Self::greedy_value(&self.targets[ti], self.effective(pre, ch, &self.targets[ti]))).sum();
+        pre[i] -= amount;
+        if is_char {
+            ch[i - VIT] -= amount;
+        }
+        after - before
     }
 
     fn evaluate(&self, g: &[i32; NSLOT]) -> Eval {
@@ -1196,15 +1299,26 @@ impl Forge {
         let mut alloc = self.allocate(&pre, &extra);
         if FORGEABLE.iter().any(|&s| g[s] >= 0 && self.fixed[s] < 0 && !self.items[g[s] as usize].runes.is_empty()) {
             let mut ch = Self::chars_of(&pre, &alloc);
+            // A rune's gain depends only on (stat, value), not on which item
+            // carries it: compute each distinct one once per round.
+            let mut memo: Vec<((usize, i64), f64)> = Vec::with_capacity(32);
             loop {
                 let mut best: Option<(usize, usize, i64)> = None;
                 let mut best_gain = 0.0f64;
+                memo.clear();
                 for &s in &FORGEABLE {
                     if g[s] < 0 || self.fixed[s] >= 0 || used[s] {
                         continue;
                     }
                     for &(i, v) in &self.items[g[s] as usize].runes {
-                        let gain = self.stat_gain(&pre, &ch, i, v);
+                        let gain = match memo.iter().find(|(k, _)| *k == (i, v)) {
+                            Some((_, gain)) => *gain,
+                            None => {
+                                let gain = self.stat_gain(&mut pre, &mut ch, i, v);
+                                memo.push(((i, v), gain));
+                                gain
+                            }
+                        };
                         if gain > best_gain {
                             best_gain = gain;
                             best = Some((s, i, v));
@@ -1413,7 +1527,13 @@ impl Forge {
         } else {
             island.stagnant += 1;
         }
-        if island.stagnant >= self.stagnation_reset {
+        // An island sitting on the best piece found so far (already safe in
+        // the hall, and polished by the hammer) only burns generations: send
+        // it to explore another basin much sooner.
+        let global_best = self.hall.first().map(|h| h.score).unwrap_or(f64::NEG_INFINITY);
+        let island = &mut self.islands[i];
+        let on_global_best = island.pop[0].score >= global_best - 1e-9;
+        if island.stagnant >= self.stagnation_reset || (on_global_best && island.stagnant >= REDISCOVERY_RESET) {
             // A stalled island restarts somewhere new: half fresh random
             // builds, half mutated alloys (promising set combinations), so
             // each restart is a real new attempt at a different basin.
@@ -1653,7 +1773,48 @@ impl Forge {
             }
             found.push(self.ascend(*ind, k < 2, deadline, now));
         }
+        // Multi-start: polish the next alloys (top set families) to their own
+        // local optimum, so hundreds of set families get a real, polished
+        // attempt over the run instead of depending on random moves.
+        let alloy_deadline = now() + (deadline - now()) * 0.5;
+        while self.alloy_cursor < self.alloy_pool.len() && now() < alloy_deadline {
+            let g = self.alloy_pool[self.alloy_cursor];
+            self.alloy_cursor += 1;
+            let polished = self.ascend(self.make(g), false, deadline, now);
+            found.push(polished);
+        }
         let mut best = found.iter().chain(self.hall.iter()).copied().max_by(|a, b| a.score.partial_cmp(&b.score).unwrap());
+        // Set swaps: wear each top-ranked set whole on the best piece and
+        // re-polish. Crossing from one family of sets to another needs
+        // several slots to change at once, which random kicks rarely hit;
+        // trying every top set systematically does. A cursor spreads the
+        // work across short hammer passes.
+        let swap_sets = self.set_rank.len().min(SET_SWAP_SETS);
+        let mut tried = 0;
+        while let Some(current) = best {
+            if tried >= swap_sets || now() > deadline {
+                break;
+            }
+            let st = self.set_rank[(self.swap_cursor + tried) % swap_sets];
+            tried += 1;
+            let mut improved_to = None;
+            for g in self.set_placements(&current.genes, st) {
+                if now() > deadline {
+                    break;
+                }
+                let cand = self.ascend(self.make(g), false, deadline, now);
+                found.push(cand);
+                if cand.score > improved_to.map(|c: Individual| c.score).unwrap_or(current.score) + 1e-9 {
+                    improved_to = Some(cand);
+                }
+            }
+            if let Some(cand) = improved_to {
+                best = Some(cand);
+            }
+        }
+        if swap_sets > 0 {
+            self.swap_cursor = (self.swap_cursor + tried) % swap_sets;
+        }
         while let Some(current) = best {
             if now() > deadline || self.free_slots.is_empty() {
                 break;

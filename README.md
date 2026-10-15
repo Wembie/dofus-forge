@@ -12,11 +12,14 @@
 - **Item catalog** — search and filter by name, level, element, set, and stat; hover tooltips with full item details
 - **Set bonuses** — live tier tracking, next-bonus preview, equip-all button, item hover preview
 - **Stat engine** — full Dofus 3 formulas: characteristic costs, set bonuses, caps (AP 12 / MP 6 / Range 6 / Res 50%), overcap indicators
-- **Magesmithy runes** — add rune bonuses per slot, elemental weapon transform, craftsman signature
-- **Optimizer** — find the best item combination for any stat profile with exo support (AP/MP/Range)
+- **Magesmithy runes** — add rune bonuses per slot, elemental weapon transform, craftsman signature, transcendence runes
+- **La Forjadora (optimizer)** — an island-model evolutionary search (Rust → WASM, runs entirely in your browser) finds the best item combination for any stat profile, with exo (AP/MP/Range) and transcendence support. Shows live progress during the search (requirements met, a live preview of the current best build) with a "use this result now" option to stop early
 - **Spell viewer** — class spell cards with grades, cast conditions, and variants
+- **Class spell guides** — public, SEO-indexed per-class pages listing every spell at max level
 - **Build sharing** — shareable URL snapshot + exportable image card
 - **Compare mode** — side-by-side stat comparison between two builds
+- **Explore** — browse builds the community has published, with aggregate stats
+- **My Builds / Account** — save builds to your account and manage them from one place
 - **i18n** — Spanish, English, French, Portuguese
 - **Dark / Light theme**
 
@@ -30,6 +33,7 @@
 | State | Zustand |
 | Styling | TailwindCSS + CSS custom properties |
 | Stat engine | Pure TypeScript, zero React — unit tested with Vitest |
+| Optimizer engine | Rust compiled to WASM (`rust-optimizer/`), run in a Web Worker — no backend, no server cost |
 | Data | Static JSON pre-generated from [DofusDude API](https://api.dofusdu.de), split by language |
 | Deploy | GitHub Actions → `dist/` |
 
@@ -43,6 +47,14 @@ pnpm install
 pnpm dev        # → http://localhost:5173/dofus-forge/
 pnpm build      # production build → dist/
 pnpm test       # vitest suite
+```
+
+The compiled optimizer engine ships pre-built under `public/wasm/`, so the steps above are enough to run and build the app as-is. Only rebuild it if you're changing the optimizer itself:
+
+```bash
+# Prerequisites: Rust + wasm-pack (cargo install wasm-pack)
+wasm-pack build rust-optimizer --target web --release --out-dir ../public/wasm
+cd rust-optimizer && cargo test --release   # unit tests
 ```
 
 ---
