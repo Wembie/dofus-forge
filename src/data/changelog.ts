@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.81',
+    date: '2026-10-14',
+    notes: [
+      'Fix: The Forger now tempers itself once the piece stops improving noticeably — with transcendence runes it used to run to its 3-minute limit chasing +1/+2 rune swaps (same order: 180 s → ~34 s)',
+      'Feature: order surplus — each piece shows how far it goes past every minimum and what that surplus is worth in purity',
+      'Feature: the Eternal forge tells you when the piece looks finished',
+      'UI: the header no longer wraps on narrower desktop screens',
+    ],
+  },
+  {
     version: '0.3.80',
     date: '2026-10-14',
     notes: [

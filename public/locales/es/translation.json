@@ -767,9 +767,9 @@
   "optimizer_intensity_quick": "Rápida",
   "optimizer_intensity_standard": "Estándar",
   "optimizer_intensity_master": "Maestra",
-  "optimizer_intensity_quick_hint": "Entre 15 y 45 s, pocos hilos. Ideal para probar ideas.",
-  "optimizer_intensity_standard_hint": "Entre 1 y 3 min con la mitad de tu CPU. Recomendada.",
-  "optimizer_intensity_master_hint": "Entre 2½ y 8 min con toda tu CPU, para encargos muy exigentes.",
+  "optimizer_intensity_quick_hint": "Entre 10 y 45 s, pocos hilos. Ideal para probar ideas.",
+  "optimizer_intensity_standard_hint": "Entre 30 s y 3 min con la mitad de tu CPU; se templa sola cuando la pieza deja de mejorar. Recomendada.",
+  "optimizer_intensity_master_hint": "Entre 1½ y 8 min con toda tu CPU, para encargos muy exigentes.",
   "optimizer_transcendence": "Runas de transcendencia",
   "optimizer_transcendence_hint": "Agrega una runa de transcendencia oficial (Tra/Pa/Ra) por ítem forjable, según la línea que ya trae el ítem.",
   "optimizer_light_forge": "Encender la fragua",
@@ -823,5 +823,11 @@
   "optimizer_reforge_hint": "Vuelve a encender la fragua partiendo de estas piezas: el resultado nunca empeora.",
   "optimizer_masterpiece": "Obra maestra",
   "optimizer_best_piece": "Mejor pieza",
-  "nav_new_badge": "Nuevo"
+  "nav_new_badge": "Nuevo",
+  "optimizer_plateau_hint": "La pieza parece terminada: hace rato que no mejora de forma notable. Podés templarla ya o avivar el fuego para buscar en otra parte.",
+  "optimizer_surplus_title": "Sobrante del encargo",
+  "optimizer_surplus_total": "{{n}} de Ley",
+  "optimizer_surplus_hint": "Lo que la pieza tiene de más sobre cada mínimo y cuánto vale en Ley. Es tu margen: podés subir esos mínimos o pedir más stats.",
+  "optimizer_surplus_row": "{{value}} (mínimo {{min}})",
+  "optimizer_surplus_capped": "en el tope"
 }

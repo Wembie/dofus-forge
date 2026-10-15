@@ -767,9 +767,9 @@
   "optimizer_intensity_quick": "Quick",
   "optimizer_intensity_standard": "Standard",
   "optimizer_intensity_master": "Master",
-  "optimizer_intensity_quick_hint": "15 to 45 s, few threads. Good for trying ideas.",
-  "optimizer_intensity_standard_hint": "1 to 3 min using half your CPU. Recommended.",
-  "optimizer_intensity_master_hint": "2½ to 8 min using your whole CPU, for very demanding orders.",
+  "optimizer_intensity_quick_hint": "10 to 45 s, few threads. Good for trying ideas.",
+  "optimizer_intensity_standard_hint": "30 s to 3 min using half your CPU; tempers itself once the piece stops improving. Recommended.",
+  "optimizer_intensity_master_hint": "1½ to 8 min using your whole CPU, for very demanding orders.",
   "optimizer_transcendence": "Transcendence runes",
   "optimizer_transcendence_hint": "Adds one official transcendence rune (Tra/Pa/Ra) per forgeable item, sized by the line the item already has.",
   "optimizer_light_forge": "Light the forge",
@@ -823,5 +823,11 @@
   "optimizer_reforge_hint": "Relights the forge starting from these pieces: the result never gets worse.",
   "optimizer_masterpiece": "Masterpiece",
   "optimizer_best_piece": "Best piece",
-  "nav_new_badge": "New"
+  "nav_new_badge": "New",
+  "optimizer_plateau_hint": "The piece looks finished: it has not improved noticeably for a while. Temper it now, or stoke the fire to search elsewhere.",
+  "optimizer_surplus_title": "Order surplus",
+  "optimizer_surplus_total": "{{n}} purity",
+  "optimizer_surplus_hint": "What the piece has beyond each minimum and what it is worth in purity. That is your margin: raise those minimums or ask for more stats.",
+  "optimizer_surplus_row": "{{value}} (minimum {{min}})",
+  "optimizer_surplus_capped": "at cap"
 }

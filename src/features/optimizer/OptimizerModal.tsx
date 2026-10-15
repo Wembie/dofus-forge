@@ -60,15 +60,19 @@ const LOG_SIZE = 7
 
 // How long and how wide the Forge searches. It tempers on its own only once
 // `minSec` has passed, every minimum is met and `stall` generations went by
-// without a better piece; `capSec` is the hard limit (Infinity: only the
-// player tempers). A short minimum time used to stop strong orders inside a
-// decent-but-not-best basin before the islands found the best one.
+// without a significant gain (see PLATEAU_GAIN); `capSec` is the hard limit
+// (Infinity: only the player tempers).
 const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(2, HW),                              stall: 150,      minSec: 15,  capSec: 45,       temperMs: 1500 },
-  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 400,      minSec: 60,  capSec: 180,      temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                              stall: 800,      minSec: 150, capSec: 480,      temperMs: 6000 },
-  eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, minSec: 0,   capSec: Infinity, temperMs: 6000 },
+  quick:    { threads: Math.min(2, HW),                              stall: 120,      minSec: 10, capSec: 45,       temperMs: 1500 },
+  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 300,      minSec: 30, capSec: 180,      temperMs: 3000 },
+  master:   { threads: Math.min(8, HW),                              stall: 600,      minSec: 90, capSec: 480,      temperMs: 6000 },
+  eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, minSec: 0,  capSec: Infinity, temperMs: 6000 },
 }
+// Only a gain of at least this share of the quality (or 1 point) keeps the
+// forge hot. With transcendence runes the hammer keeps finding +1/+2 rune
+// swaps for a long time; those still show, but no longer stop the forge
+// from settling once the piece is essentially done.
+const PLATEAU_GAIN = 0.002
 // Visual heat scale for the eternal forge, which never cools on its own.
 const ETERNAL_HEAT_SCALE = 300
 
@@ -357,6 +361,51 @@ function RequirementChecklist({ reqs, result }: { reqs: ForgeRequirement[]; resu
   )
 }
 
+// What the piece has beyond each minimum and what that is worth in ley, so
+// the player knows how much room is left to ask for more.
+function SurplusPanel({ reqs, result }: { reqs: ForgeRequirement[]; result: BuildResult }) {
+  const { t } = useTranslation()
+  const rows = reqs
+    .filter(r => r.weight > 0)
+    .map(r => {
+      const raw = targetValue(result, r.stat)
+      const counted = r.cap != null ? Math.min(raw, r.cap) : raw
+      const extra = counted - r.minimum
+      return { r, raw, extra, worth: extra * r.weight, capped: r.cap != null && raw >= r.cap }
+    })
+    .filter(x => x.extra > 0)
+    .sort((a, b) => b.worth - a.worth)
+  if (rows.length === 0) return null
+  const total = rows.reduce((sum, x) => sum + x.worth, 0)
+  return (
+    <div className="rounded-lg p-3 space-y-1.5 forge-log-in" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', animationDelay: '200ms' }}>
+      <div className="flex items-baseline justify-between gap-2">
+        <p className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>⚖ {t('optimizer_surplus_title')}</p>
+        <span className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>{t('optimizer_surplus_total', { n: Math.round(total).toLocaleString() })}</span>
+      </div>
+      <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_surplus_hint')}</p>
+      <div className="grid gap-x-4 gap-y-1 grid-cols-1 sm:grid-cols-2">
+        {rows.map(({ r, raw, extra, worth, capped }) => {
+          const meta = META_MAP.get(r.stat)
+          if (!meta) return null
+          return (
+            <div key={r.stat} className="flex items-center gap-1.5 text-[10px]">
+              <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
+              <span className="truncate flex-1" style={{ color: 'var(--ink-muted)' }}>{t(meta.tKey)}</span>
+              <span className="font-mono" style={{ color: meta.color }} title={t('optimizer_surplus_row', { value: raw, min: r.minimum })}>
+                +{extra}{capped && <span style={{ color: 'var(--ink-faint)' }}> ({t('optimizer_surplus_capped')})</span>}
+              </span>
+              <span className="font-mono w-16 text-right" style={{ color: 'var(--ink-faint)' }} title={t('optimizer_ley_hint')}>
+                ⚖ {Math.round(worth).toLocaleString()}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 // ── Main modal ────────────────────────────────────────────────────────────────
 type Props = { open: boolean; onClose: () => void }
 
@@ -375,6 +424,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const [burst,          setBurst]          = useState(0)
   const [log,            setLog]            = useState<LogEntry[]>([])
   const [bellowsReady,   setBellowsReady]   = useState(true)
+  const [settled,        setSettled]        = useState(false)
   const [error,          setError]          = useState<string | null>(null)
   const [showSlots,      setShowSlots]      = useState(false)
   const [showBans,       setShowBans]       = useState(false)
@@ -388,6 +438,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const reportsRef   = useRef<(ForgeReport | null)[]>([])
   const temperedRef  = useRef(0)
   const bestRef      = useRef({ score: -Infinity, generation: 0 })
+  const plateauRef   = useRef({ score: -Infinity, generation: 0 })
   const prevBestRef  = useRef<BuildResult | null>(null)
   const generationRef = useRef(0)
   const startRef     = useRef(0)
@@ -517,6 +568,11 @@ export function OptimizerModal({ open, onClose }: Props) {
       bestRef.current = { score: top.result.score, generation }
       setBurst(b => b + 1)
       narrate(top.result)
+      const last = plateauRef.current.score
+      const significant = !Number.isFinite(last)
+        || (last < 0 && top.result.score >= 0)
+        || top.result.score - last >= Math.max(1, Math.abs(last) * PLATEAU_GAIN)
+      if (significant) plateauRef.current = { score: top.result.score, generation }
     }
     // Ring migration: each Worker's emigrants go to the next one.
     if (emigrants?.length && workersRef.current.length > 1) {
@@ -524,12 +580,13 @@ export function OptimizerModal({ open, onClose }: Props) {
     }
 
     const preset = presetRef.current
-    const stall = generation - bestRef.current.generation
+    const stall = generation - plateauRef.current.generation
     const eternal = !Number.isFinite(preset.stall)
     setHeat(1 - stall / (eternal ? ETERNAL_HEAT_SCALE : preset.stall))
     // The forge never cools off while minimums are still missing, nor
     // before its minimum time.
     const missing = top ? !top.result.meetsRequired : true
+    setSettled(eternal && !missing && stall >= ETERNAL_HEAT_SCALE)
     const seconds = (performance.now() - startRef.current) / 1000
     if (!eternal && !missing && stall >= preset.stall && seconds >= preset.minSec) finishForging()
   }
@@ -557,6 +614,8 @@ export function OptimizerModal({ open, onClose }: Props) {
     if (!bellowsReady || finishingRef.current) return
     workersRef.current.forEach(w => w.postMessage({ type: 'stoke' }))
     bestRef.current = { ...bestRef.current, generation: generationRef.current }
+    plateauRef.current = { ...plateauRef.current, generation: generationRef.current }
+    setSettled(false)
     setHeat(1)
     setBurst(b => b + 1)
     addLog(t('optimizer_log_stoked'), 'fire')
@@ -579,6 +638,8 @@ export function OptimizerModal({ open, onClose }: Props) {
     const base = { selectedClass, level, allocated, scrolled, equipped, runes }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
+    plateauRef.current = { score: -Infinity, generation: 0 }
+    setSettled(false)
     prevBestRef.current = null
     generationRef.current = 0
     finishingRef.current = false
@@ -701,6 +762,12 @@ export function OptimizerModal({ open, onClose }: Props) {
             </div>
           </div>
 
+          {settled && !tempering && (
+            <p className="w-full px-3 py-2 rounded-lg text-[10px] text-center forge-log-in" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 30%, transparent)' }}>
+              ✦ {t('optimizer_plateau_hint')}
+            </p>
+          )}
+
           {best && <RequirementChecklist reqs={activeReqs} result={best} />}
 
           <ForgeLog entries={log} />
@@ -813,6 +880,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                   ribbon={{ label: masterpiece.meetsRequired ? t('optimizer_masterpiece') : t('optimizer_best_piece'), gold: masterpiece.meetsRequired }}
                 />
               </div>
+              <SurplusPanel reqs={activeReqs} result={masterpiece} />
               {others.length > 0 && (
                 <p className="text-[10px] font-semibold uppercase tracking-wide pt-1" style={{ color: 'var(--ink-faint)' }}>
                   {t('optimizer_other_pieces')}

@@ -767,9 +767,9 @@
   "optimizer_intensity_quick": "Rápida",
   "optimizer_intensity_standard": "Padrão",
   "optimizer_intensity_master": "Mestra",
-  "optimizer_intensity_quick_hint": "De 15 a 45 s, poucas threads. Bom para testar ideias.",
-  "optimizer_intensity_standard_hint": "De 1 a 3 min usando metade da sua CPU. Recomendada.",
-  "optimizer_intensity_master_hint": "De 2½ a 8 min usando toda a sua CPU, para encomendas muito exigentes.",
+  "optimizer_intensity_quick_hint": "De 10 a 45 s, poucas threads. Bom para testar ideias.",
+  "optimizer_intensity_standard_hint": "De 30 s a 3 min usando metade da sua CPU; tempera sozinha quando a peça para de melhorar. Recomendada.",
+  "optimizer_intensity_master_hint": "De 1½ a 8 min usando toda a sua CPU, para encomendas muito exigentes.",
   "optimizer_transcendence": "Runas de transcendência",
   "optimizer_transcendence_hint": "Adiciona uma runa de transcendência oficial (Tra/Pa/Ra) por item forjável, conforme a linha que o item já tem.",
   "optimizer_light_forge": "Acender a forja",
@@ -823,5 +823,11 @@
   "optimizer_reforge_hint": "Reacende a forja partindo destas peças: o resultado nunca piora.",
   "optimizer_masterpiece": "Obra-prima",
   "optimizer_best_piece": "Melhor peça",
-  "nav_new_badge": "Novo"
+  "nav_new_badge": "Novo",
+  "optimizer_plateau_hint": "A peça parece pronta: faz tempo que não melhora de forma notável. Tempere agora ou atice o fogo para buscar em outro lugar.",
+  "optimizer_surplus_title": "Sobra da encomenda",
+  "optimizer_surplus_total": "{{n}} de Lei",
+  "optimizer_surplus_hint": "O que a peça tem a mais sobre cada mínimo e quanto vale em Lei. É a sua margem: suba esses mínimos ou peça mais atributos.",
+  "optimizer_surplus_row": "{{value}} (mínimo {{min}})",
+  "optimizer_surplus_capped": "no teto"
 }

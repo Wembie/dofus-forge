@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.81] — 2026-10-14
+- **Fix**: with transcendence runes, The Forger kept running to its 3-minute limit even after finding the best piece: the hammer kept finding +1/+2 rune swaps and every one of them reset the "no improvement" counter. Only a gain of at least 0.2% of the quality now keeps the forge hot (small gains still show). The same 11-minimum order with runes now tempers itself in ~34 s instead of 180 s. Minimum forging times are shorter too (Quick 10 s, Standard 30 s, Master 1½ min)
+- **Feature**: order surplus. Each piece shows how far it goes past every minimum (+10 Strength, +53 HP…), and the forged screen lists that surplus with what it is worth in purity, so you know how much room is left to raise minimums or ask for more stats
+- **Feature**: in the Eternal forge, a notice says when the piece looks finished (no notable gain for a while), so you can temper it or stoke the fire
+- **UI**: the header no longer wraps on narrower desktop screens: the "New" badge floats over The Forger's corner, buttons never break their label, and Explore / My Builds show only their icon below 1440 px
+
 ## [0.3.80] — 2026-10-14
 - **Fix**: The Forger often settled into a decent build and never reached the best one on demanding orders (e.g. 11 minimums without transcendence runes, where the best piece mixes four partial sets). Two causes: every island got pulled into the first good "basin" found (new bests were shared instantly between Workers and tempered pieces were written back into the population), and stalled islands restarted too late. Now Workers only trade pieces through the slow ring migration, tempered pieces stay in the ranking, and stalled islands restart after 50 generations. On a real user order, the known best build is now found 8/8 times with 8 threads (most in 2–6 s) and 7/8 with 4 threads in 60 s, up from 3/8
 - **Fix**: the forge no longer tempers itself too early: Quick, Standard and Master now have a minimum forging time (15 s / 60 s / 2½ min) on top of the minimums-met and no-improvement checks

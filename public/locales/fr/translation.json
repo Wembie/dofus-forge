@@ -767,9 +767,9 @@
   "optimizer_intensity_quick": "Rapide",
   "optimizer_intensity_standard": "Standard",
   "optimizer_intensity_master": "Maître",
-  "optimizer_intensity_quick_hint": "De 15 à 45 s, peu de threads. Idéal pour tester des idées.",
-  "optimizer_intensity_standard_hint": "De 1 à 3 min avec la moitié de votre CPU. Recommandée.",
-  "optimizer_intensity_master_hint": "De 2½ à 8 min avec tout votre CPU, pour les commandes très exigeantes.",
+  "optimizer_intensity_quick_hint": "De 10 à 45 s, peu de threads. Idéal pour tester des idées.",
+  "optimizer_intensity_standard_hint": "De 30 s à 3 min avec la moitié de votre CPU ; se trempe seule quand la pièce ne s’améliore plus. Recommandée.",
+  "optimizer_intensity_master_hint": "De 1½ à 8 min avec tout votre CPU, pour les commandes très exigeantes.",
   "optimizer_transcendence": "Runes de transcendance",
   "optimizer_transcendence_hint": "Ajoute une rune de transcendance officielle (Tra/Pa/Ra) par objet forgeable, selon la ligne déjà présente sur l’objet.",
   "optimizer_light_forge": "Allumer la forge",
@@ -823,5 +823,11 @@
   "optimizer_reforge_hint": "Rallume la forge à partir de ces pièces : le résultat ne peut pas empirer.",
   "optimizer_masterpiece": "Chef-d’œuvre",
   "optimizer_best_piece": "Meilleure pièce",
-  "nav_new_badge": "Nouveau"
+  "nav_new_badge": "Nouveau",
+  "optimizer_plateau_hint": "La pièce semble terminée : elle ne s’améliore plus vraiment depuis un moment. Trempez-la maintenant, ou attisez le feu pour chercher ailleurs.",
+  "optimizer_surplus_title": "Surplus de la commande",
+  "optimizer_surplus_total": "{{n}} d’aloi",
+  "optimizer_surplus_hint": "Ce que la pièce a en plus de chaque minimum et ce que cela vaut en aloi. C’est votre marge : relevez ces minimums ou demandez plus de stats.",
+  "optimizer_surplus_row": "{{value}} (minimum {{min}})",
+  "optimizer_surplus_capped": "au plafond"
 }
