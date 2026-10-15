@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.88',
+    date: '2026-10-15',
+    notes: [
+      'Change: the second magesmithy tab is now Transcendence and only offers transcendence runes; AP / MP / Range are back in the normal Runes grid',
+    ],
+  },
+  {
     version: '0.3.87',
     date: '2026-10-15',
     notes: [

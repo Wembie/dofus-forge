@@ -1,10 +1,9 @@
 import type { ItemEffect } from './types.ts'
 
-// An item takes one exotic effect: an exo AP / MP / Range or a single
-// transcendence rune. It lives in the slot's rune map under this prefix, so
-// builds saved and shared before exotics existed keep working unchanged.
+// An item takes one transcendence rune, on top of its normal runes. It lives
+// in the slot's rune map under this prefix, so builds saved and shared
+// before keep working unchanged.
 export const EXOTIC_PREFIX = 'exo:'
-export const EXO_STATS = ['AP', 'MP', 'Range'] as const
 
 export type RuneMapLike = Record<string, number> | undefined
 
@@ -12,28 +11,22 @@ export const isExoticKey = (key: string) => key.startsWith(EXOTIC_PREFIX)
 export const runeStat = (key: string) => (isExoticKey(key) ? key.slice(EXOTIC_PREFIX.length) : key)
 export const exoticKey = (stat: string) => EXOTIC_PREFIX + stat
 
-// Before exotics, an exo was added as a plain AP / MP / Range rune.
-const isLegacyExo = (key: string) => (EXO_STATS as readonly string[]).includes(key)
+export type Exotic = { key: string; stat: string; value: number }
 
-export type Exotic = { key: string; stat: string; value: number; isExo: boolean }
-
-/** The slot's exotic effect, if any. */
+/** The slot's transcendence rune, if any. */
 export function exoticOf(runes: RuneMapLike): Exotic | null {
   for (const [key, value] of Object.entries(runes ?? {})) {
-    if (value > 0 && (isExoticKey(key) || isLegacyExo(key))) {
-      const stat = runeStat(key)
-      return { key, stat, value, isExo: isLegacyExo(stat) }
-    }
+    if (value > 0 && isExoticKey(key)) return { key, stat: runeStat(key), value }
   }
   return null
 }
 
-/** Rune map without its exotic effect: replacing an exotic drops these keys. */
+/** Rune map without its transcendence rune. */
 export function withoutExotic(runes: RuneMapLike): Record<string, number> {
-  return Object.fromEntries(Object.entries(runes ?? {}).filter(([k]) => !isExoticKey(k) && !isLegacyExo(k)))
+  return Object.fromEntries(Object.entries(runes ?? {}).filter(([k]) => !isExoticKey(k)))
 }
 
-/** Plain stat → value: an exotic and a normal rune on one stat add up. */
+/** Plain stat → value: a transcendence and a normal rune on one stat add up. */
 export function flattenRunes(runes: RuneMapLike): Record<string, number> {
   const out: Record<string, number> = {}
   for (const [key, value] of Object.entries(runes ?? {})) {

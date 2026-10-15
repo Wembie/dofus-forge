@@ -487,6 +487,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const setAllocated  = useBuildStore(s => s.setAllocated)
   const setScrolled   = useBuildStore(s => s.setScrolled)
   const clearAllRunes = useBuildStore(s => s.clearAllRunes)
+  const setRune       = useBuildStore(s => s.setRune)
   const setExotic     = useBuildStore(s => s.setExotic)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
@@ -716,7 +717,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     }
     const exoStat = { ap: 'AP', mp: 'MP', range: 'Range' } as const
     for (const [slot, kind] of Object.entries(result.exo) as [SlotId, keyof typeof exoStat][]) {
-      setExotic(slot, exoStat[kind], 1)
+      setRune(slot, exoStat[kind], 1)
     }
     for (const [slot, rune] of Object.entries(result.runes) as [SlotId, { stat: string; value: number }][]) {
       setExotic(slot, rune.stat, rune.value)

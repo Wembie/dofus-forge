@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.88] — 2026-10-15
+- **Change**: the second magesmithy tab is now **Transcendence** and only offers transcendence runes (one per item, on top of its normal runes). AP / MP / Range are back in the normal **Runes** grid with Summons and every other stat
+- **Change**: pieces from The Forger load their exos as normal AP / MP / Range runes again; their transcendence runes go to the Transcendence tab
+
 ## [0.3.87] — 2026-10-15
 - **Feature**: the magesmithy window now has two tabs, **Runes** (normal runes, as before) and **Exotic**. An item takes one exotic effect: an exo +1 AP / MP / Range or one transcendence rune. Both tabs combine freely: normal runes plus the item's exotic
 - **Feature**: transcendence runes follow the official rank rule: picking a characteristic applies the highest rank the item takes (based on the forgemagie weight of the item's own line), ranks that don't fit are shown disabled with the reason, and picking another exotic replaces the current one

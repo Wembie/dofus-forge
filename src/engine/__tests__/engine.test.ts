@@ -299,17 +299,17 @@ describe('computeStats — item effects', () => {
 
 // ── Exotic effects (exo / transcendence rune) ────────────────────────────────
 
-describe('exotic runes', () => {
-  it('stores one exotic per item and adds it to the stat like a normal rune', () => {
+describe('transcendence runes', () => {
+  it('stores one per item and adds it to the stat like a normal rune', () => {
     const runes = { Strength: 30, 'exo:Strength': 20 }
-    expect(exoticOf(runes)).toEqual({ key: 'exo:Strength', stat: 'Strength', value: 20, isExo: false })
+    expect(exoticOf(runes)).toEqual({ key: 'exo:Strength', stat: 'Strength', value: 20 })
     expect(flattenRunes(runes)).toEqual({ Strength: 50 })
     expect(runeEffectsFrom([runes, undefined])).toEqual([{ stat: 'Strength', min: 50, max: 50 }])
   })
 
-  it('treats an AP / MP / Range rune saved before exotics as the exo', () => {
-    expect(exoticOf({ Vitality: 100, AP: 1 })).toEqual({ key: 'AP', stat: 'AP', value: 1, isExo: true })
-    expect(withoutExotic({ Vitality: 100, AP: 1, 'exo:Power': 12 })).toEqual({ Vitality: 100 })
+  it('leaves normal runes (AP / MP / Range included) out of the transcendence slot', () => {
+    expect(exoticOf({ Vitality: 100, AP: 1 })).toBeNull()
+    expect(withoutExotic({ Vitality: 100, AP: 1, 'exo:Power': 12 })).toEqual({ Vitality: 100, AP: 1 })
   })
 
   it('allows a transcendence rank only up to the weight of the item\'s own line', () => {
