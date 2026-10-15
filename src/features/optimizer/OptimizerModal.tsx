@@ -8,7 +8,7 @@ import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import type { OptimizerConfig, BuildResult, ForgeReport, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
 import type { OptimizerStatMeta } from './statList.ts'
 import { BuildResultCard } from './BuildResultCard.tsx'
-import { recordForgeRun } from '@/features/builds/api.ts'
+import { startForgeRun, finishForgeRun } from '@/features/builds/api.ts'
 import { ForgeScene, HeatGauge, ForgeLog, LeyScale, type LogEntry } from './ForgeParts.tsx'
 import { OPTIMIZER_STATS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
@@ -448,6 +448,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const prevBestRef  = useRef<BuildResult | null>(null)
   const generationRef = useRef(0)
   const startRef     = useRef(0)
+  const runRef       = useRef<Promise<number | null> | null>(null)
   const finishingRef = useRef(false)
   const presetRef    = useRef(INTENSITY.standard)
   const logIdRef     = useRef(0)
@@ -615,13 +616,9 @@ export function OptimizerModal({ open, onClose }: Props) {
     terminateWorkers()
     setTempering(false)
     setPhase('forged')
-    // Usage stats only (shown on Explore); never blocks the forge.
-    void recordForgeRun({
-      intensity:     config.intensity,
-      transcendence: config.transcendence,
-      requirements:  config.stats.filter(r => r.minimum > 0).length,
-      allMet:        forged[0]?.meetsRequired ?? false,
-      seconds:       (performance.now() - startRef.current) / 1000,
+    void finishForgeRun(runRef.current, {
+      allMet:  forged[0]?.meetsRequired ?? false,
+      seconds: (performance.now() - startRef.current) / 1000,
     })
   }
 
@@ -659,6 +656,12 @@ export function OptimizerModal({ open, onClose }: Props) {
     generationRef.current = 0
     finishingRef.current = false
     startRef.current = performance.now()
+    // Usage stats only (shown on Explore); never blocks the forge.
+    runRef.current = startForgeRun({
+      intensity:     config.intensity,
+      transcendence: config.transcendence,
+      requirements:  config.stats.filter(r => r.minimum > 0).length,
+    })
     setResults([])
     setHeat(1)
     setElapsed(0)

@@ -830,7 +830,8 @@
   "optimizer_surplus_hint": "Ce que la pièce a en plus de chaque minimum et ce que cela vaut en aloi. C’est votre marge : relevez ces minimums ou demandez plus de stats.",
   "optimizer_surplus_row": "{{value}} (minimum {{min}})",
   "optimizer_surplus_capped": "au plafond",
-  "explore_stat_forge_runs": "{{count}} pièces forgées avec La Forgeuse",
+  "explore_stat_forge_runs": "{{count}} utilisations de La Forgeuse",
   "dmg_breakdown_own": "Normal : {{value}}",
-  "dmg_breakdown_bonus": "+{{value}} de Dégâts"
+  "dmg_breakdown_bonus": "+{{value}} de Dégâts",
+  "explore_stat_forge_finished": "{{count}} pièces forgées avec La Forgeuse"
 }

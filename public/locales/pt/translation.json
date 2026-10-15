@@ -830,7 +830,8 @@
   "optimizer_surplus_hint": "O que a peça tem a mais sobre cada mínimo e quanto vale em Lei. É a sua margem: suba esses mínimos ou peça mais atributos.",
   "optimizer_surplus_row": "{{value}} (mínimo {{min}})",
   "optimizer_surplus_capped": "no teto",
-  "explore_stat_forge_runs": "{{count}} peças forjadas pela Forjadora",
+  "explore_stat_forge_runs": "{{count}} usos da Forjadora",
   "dmg_breakdown_own": "Normal: {{value}}",
-  "dmg_breakdown_bonus": "+{{value}} de Dano"
+  "dmg_breakdown_bonus": "+{{value}} de Dano",
+  "explore_stat_forge_finished": "{{count}} peças forjadas pela Forjadora"
 }

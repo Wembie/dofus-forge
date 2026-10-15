@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.86] — 2026-10-15
+- **Fix**: La Forjadora usage counter only counted forges that reached "Pieces forged"; forges put out halfway or still running were never counted. Every lit forge is now logged as a use when it starts and marked finished on the same row when it ends, and Explore shows both numbers: uses of The Forger and pieces forged. Needs the updated one-time migration in `docs/DATABASE.md` (idempotent; rows logged by the previous version count as finished forges)
+
 ## [0.3.85] — 2026-10-15
 - **Fix**: the new DMG tooltip's wrapper broke the column's right-alignment (Tooltip's own wrapper doesn't stretch to fill the grid cell the way a plain value did) — the DMG numbers no longer lined up under their header. Fixed by keeping the actual grid cell a plain full-width element and letting the tooltip sit inside it
 - **Fix**: AP/MP/Range badges could silently disappear or show no warning when a weapon/item penalty pushed them negative (Range's badge was only ever shown when > 0). Now shown whenever non-zero, in red when negative, in the character sheet, the export card and the shared build image alike

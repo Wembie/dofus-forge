@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.86',
+    date: '2026-10-15',
+    notes: [
+      'Fix: Explore now counts every use of The Forger (each time the forge is lit), not only finished forges, and shows pieces forged separately',
+    ],
+  },
+  {
     version: '0.3.85',
     date: '2026-10-15',
     notes: [

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Wand2 } from 'lucide-react'
+import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -19,7 +19,8 @@ const STAT_ITEMS: { key: keyof CommunityStats; labelKey: string; Icon: typeof Us
   { key: 'viewsCount',        labelKey: 'explore_stat_views',         Icon: Eye },
   { key: 'buildsThisWeek',    labelKey: 'explore_stat_week',          Icon: Flame },
   { key: 'likesCount',        labelKey: 'explore_stat_likes',         Icon: Heart },
-  { key: 'forgeRunsCount',    labelKey: 'explore_stat_forge_runs',    Icon: Wand2 },
+  { key: 'forgeRunsCount',     labelKey: 'explore_stat_forge_runs',     Icon: Anvil },
+  { key: 'forgeFinishedCount', labelKey: 'explore_stat_forge_finished', Icon: Sparkles },
 ]
 
 function StatChip({ children, Icon }: { children: React.ReactNode; Icon: typeof Users }) {
