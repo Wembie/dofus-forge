@@ -767,9 +767,9 @@
   "optimizer_intensity_quick": "Rápida",
   "optimizer_intensity_standard": "Estándar",
   "optimizer_intensity_master": "Maestra",
-  "optimizer_intensity_quick_hint": "Hasta ~30 s, pocos hilos. Ideal para probar ideas.",
-  "optimizer_intensity_standard_hint": "Hasta ~2 min con la mitad de tu CPU. Recomendada.",
-  "optimizer_intensity_master_hint": "Hasta ~7 min con toda tu CPU, para encargos muy exigentes.",
+  "optimizer_intensity_quick_hint": "Entre 15 y 45 s, pocos hilos. Ideal para probar ideas.",
+  "optimizer_intensity_standard_hint": "Entre 1 y 3 min con la mitad de tu CPU. Recomendada.",
+  "optimizer_intensity_master_hint": "Entre 2½ y 8 min con toda tu CPU, para encargos muy exigentes.",
   "optimizer_transcendence": "Runas de transcendencia",
   "optimizer_transcendence_hint": "Agrega una runa de transcendencia oficial (Tra/Pa/Ra) por ítem forjable, según la línea que ya trae el ítem.",
   "optimizer_light_forge": "Encender la fragua",
@@ -822,5 +822,6 @@
   "optimizer_reforge": "Reforjar",
   "optimizer_reforge_hint": "Vuelve a encender la fragua partiendo de estas piezas: el resultado nunca empeora.",
   "optimizer_masterpiece": "Obra maestra",
-  "optimizer_best_piece": "Mejor pieza"
+  "optimizer_best_piece": "Mejor pieza",
+  "nav_new_badge": "Nuevo"
 }

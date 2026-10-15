@@ -58,14 +58,16 @@ const HW = Math.max(1, globalThis.navigator?.hardwareConcurrency || 4)
 const BELLOWS_COOLDOWN_MS = 4000
 const LOG_SIZE = 7
 
-// How long and how wide the Forge searches. `stall` = generations without a
-// better piece before it starts tempering; `capSec` = hard time limit
-// (Infinity: only the player tempers).
-const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(2, HW),                              stall: 60,       capSec: 30,       temperMs: 1500 },
-  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 150,      capSec: 120,      temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                              stall: 400,      capSec: 420,      temperMs: 6000 },
-  eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, capSec: Infinity, temperMs: 6000 },
+// How long and how wide the Forge searches. It tempers on its own only once
+// `minSec` has passed, every minimum is met and `stall` generations went by
+// without a better piece; `capSec` is the hard limit (Infinity: only the
+// player tempers). A short minimum time used to stop strong orders inside a
+// decent-but-not-best basin before the islands found the best one.
+const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec: number; capSec: number; temperMs: number }> = {
+  quick:    { threads: Math.min(2, HW),                              stall: 150,      minSec: 15,  capSec: 45,       temperMs: 1500 },
+  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 400,      minSec: 60,  capSec: 180,      temperMs: 3000 },
+  master:   { threads: Math.min(8, HW),                              stall: 800,      minSec: 150, capSec: 480,      temperMs: 6000 },
+  eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, minSec: 0,   capSec: Infinity, temperMs: 6000 },
 }
 // Visual heat scale for the eternal forge, which never cools on its own.
 const ETERNAL_HEAT_SCALE = 300
@@ -507,11 +509,12 @@ export function OptimizerModal({ open, onClose }: Props) {
     generationRef.current = generation
     setStrikes(reportsRef.current.reduce((sum, r) => sum + (r?.evaluations ?? 0), 0))
 
-    // Each new overall best is shared with every other Worker.
+    // Workers deliberately do not share each new best right away: that
+    // pulled every island into the first good basin found. They only trade
+    // pieces through the slow ring migration below.
     const top = ranked[0]
     if (top && top.result.score > bestRef.current.score + 1e-9) {
       bestRef.current = { score: top.result.score, generation }
-      workersRef.current.forEach((w, i) => { if (i !== top.worker) w.postMessage({ type: 'inject', builds: [top.result.equipped] }) })
       setBurst(b => b + 1)
       narrate(top.result)
     }
@@ -524,9 +527,11 @@ export function OptimizerModal({ open, onClose }: Props) {
     const stall = generation - bestRef.current.generation
     const eternal = !Number.isFinite(preset.stall)
     setHeat(1 - stall / (eternal ? ETERNAL_HEAT_SCALE : preset.stall))
-    // The forge never cools off while minimums are still missing.
+    // The forge never cools off while minimums are still missing, nor
+    // before its minimum time.
     const missing = top ? !top.result.meetsRequired : true
-    if (!eternal && !missing && stall >= preset.stall) finishForging()
+    const seconds = (performance.now() - startRef.current) / 1000
+    if (!eternal && !missing && stall >= preset.stall && seconds >= preset.minSec) finishForging()
   }
 
   function finishForging() {
