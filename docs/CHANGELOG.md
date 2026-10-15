@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.84] — 2026-10-15
+- **Feature**: hovering the DMG number in the Elements section now shows a tooltip breaking it down into the element's own value and how much comes from the flat "Damage" stat (which adds equally to every element)
+
 ## [0.3.83] — 2026-10-15
 - **Feature**: every finished La Forjadora run is logged (no IP, no order details: intensity, runes on/off, number of minimums, whether all were met, duration; user only if signed in) and Explore shows how many pieces have been forged. Needs the one-time SQL migration in `docs/DATABASE.md` ("Migración manual — registro de La Forjadora")
 

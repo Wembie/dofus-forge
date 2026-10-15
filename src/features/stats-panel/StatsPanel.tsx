@@ -4,6 +4,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import type { BuildState } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, STAT_META } from '../equipment/statDisplay.ts'
+import { Tooltip } from '@/ui/Tooltip.tsx'
 
 function icon(name: string, size = 16) {
   return (
@@ -148,18 +149,22 @@ function ResPctCell({ value, raw }: { value: number; raw: number }) {
 // ── Combined element table (damage + resistance) ──────────────────────────────
 
 type ElemRow = {
-  resIcon:   string   // resistance icon — identifies the element AND shows res visually
-  color:     string
-  dmg:       number
-  resFixed:  number
-  resPct:    number   // capped value (shown in cell)
-  resPctRaw: number   // pre-cap raw value (for overcap badge)
+  resIcon:      string   // resistance icon — identifies the element AND shows res visually
+  color:        string
+  dmg:          number
+  resFixed:     number
+  resPct:       number   // capped value (shown in cell)
+  resPctRaw:    number   // pre-cap raw value (for overcap badge)
+  damageBonus?: number   // portion of `dmg` coming from the flat "Damage" stat (applies to every element alike)
 }
 
 const ELEM_COLS = '20px 1fr 1fr 1fr'
 
-function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw }: ElemRow) {
+function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw, damageBonus }: ElemRow) {
+  const { t } = useTranslation()
   const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
+  const ownDmg = dmg - (damageBonus ?? 0)
+  const dmgCell = <ValCell value={dmg} color={color} />
   return (
     <div
       className="grid items-center rounded-md"
@@ -173,7 +178,16 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw }: Elem
       }}
     >
       <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
-      <ValCell value={dmg}           color={color} />
+      {damageBonus ? (
+        <Tooltip content={(
+          <div className="space-y-0.5">
+            <div>{t('dmg_breakdown_own', { value: ownDmg })}</div>
+            <div style={{ color: 'var(--gold)' }}>{t('dmg_breakdown_bonus', { value: damageBonus })}</div>
+          </div>
+        )}>
+          <div className="cursor-help">{dmgCell}</div>
+        </Tooltip>
+      ) : dmgCell}
       <ValCell value={resFixed}      color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
       <ResPctCell value={resPct} raw={resPctRaw} />
     </div>
@@ -183,12 +197,16 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw }: Elem
 function ElementSection({ s }: { s: StatBlock }) {
   const { t } = useTranslation()
 
+  // `s.damage` (the flat, non-elemental "Damage" stat) is folded into every
+  // element's total identically (see stats.ts's 3.6 step) — shown here as a
+  // tooltip breakdown so a player can tell how much of a given element's
+  // number is from its own gear vs. that shared bonus.
   const rows: ElemRow[] = [
-    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, resPctRaw: s.neutralResPercentRaw },
-    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   resPctRaw: s.earthResPercentRaw   },
-    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    resPctRaw: s.fireResPercentRaw    },
-    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   resPctRaw: s.waterResPercentRaw   },
-    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     resPctRaw: s.airResPercentRaw     },
+    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, resPctRaw: s.neutralResPercentRaw, damageBonus: s.damage },
+    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   resPctRaw: s.earthResPercentRaw,   damageBonus: s.damage },
+    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    resPctRaw: s.fireResPercentRaw,    damageBonus: s.damage },
+    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   resPctRaw: s.waterResPercentRaw,   damageBonus: s.damage },
+    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     resPctRaw: s.airResPercentRaw,     damageBonus: s.damage },
   ]
 
   const extras: ElemRow[] = [

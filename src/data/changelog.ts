@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.84',
+    date: '2026-10-15',
+    notes: [
+      'Feature: hovering the DMG number in Elements now shows a tooltip breaking down the element\'s own value vs. the flat "Damage" bonus shared across all elements',
+    ],
+  },
+  {
     version: '0.3.83',
     date: '2026-10-15',
     notes: [
