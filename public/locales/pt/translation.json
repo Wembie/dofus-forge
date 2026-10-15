@@ -833,5 +833,18 @@
   "explore_stat_forge_runs": "{{count}} usos da Forjadora",
   "dmg_breakdown_own": "Normal: {{value}}",
   "dmg_breakdown_bonus": "+{{value}} de Dano",
-  "explore_stat_forge_finished": "{{count}} peças forjadas pela Forjadora"
+  "explore_stat_forge_finished": "{{count}} peças forjadas pela Forjadora",
+  "rune_tab_normal": "Runas",
+  "rune_tab_exotic": "Exótico",
+  "rune_exotic_slot": "Efeito exótico",
+  "rune_exotic_empty": "Vazio. Cada item aceita só um: um exo PA / PM / Alcance ou uma runa de transcendência.",
+  "rune_exotic_remove": "Remover",
+  "rune_exotic_exo_title": "Exo +1",
+  "rune_exotic_kind_exo": "Exo",
+  "rune_exotic_tag": "Exótico",
+  "rune_rank": "Nível {{rank}}",
+  "rune_exotic_tr_hint": "Toque numa característica: aplica-se o nível mais alto que este item aceita. Escolher outra substitui a atual.",
+  "rune_line_weight": "Linha do item: peso {{weight}}",
+  "rune_rank_blocked": "A linha do item pesa {{weight}}; este nível só cabe até {{limit}}",
+  "rune_rank_none": "o item já tem demais para qualquer nível"
 }

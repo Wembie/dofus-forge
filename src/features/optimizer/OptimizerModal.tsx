@@ -13,6 +13,7 @@ import { ForgeScene, HeatGauge, ForgeLog, LeyScale, type LogEntry } from './Forg
 import { OPTIMIZER_STATS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
+import { flattenRunes } from '@/engine/runes.ts'
 
 type Phase = 'locked' | 'order' | 'forging' | 'forged'
 type Equipped = Partial<Record<SlotId, number>>
@@ -485,8 +486,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   const setEquipped   = useBuildStore(s => s.setEquipped)
   const setAllocated  = useBuildStore(s => s.setAllocated)
   const setScrolled   = useBuildStore(s => s.setScrolled)
-  const setRune       = useBuildStore(s => s.setRune)
   const clearAllRunes = useBuildStore(s => s.clearAllRunes)
+  const setExotic     = useBuildStore(s => s.setExotic)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
 
@@ -652,7 +653,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     presetRef.current = preset
     const count = preset.threads
     const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)))
-    const base = { selectedClass, level, allocated, scrolled, equipped, runes }
+    const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
     plateauRef.current = { score: -Infinity, generation: 0 }
@@ -715,10 +716,10 @@ export function OptimizerModal({ open, onClose }: Props) {
     }
     const exoStat = { ap: 'AP', mp: 'MP', range: 'Range' } as const
     for (const [slot, kind] of Object.entries(result.exo) as [SlotId, keyof typeof exoStat][]) {
-      setRune(slot, exoStat[kind], 1)
+      setExotic(slot, exoStat[kind], 1)
     }
     for (const [slot, rune] of Object.entries(result.runes) as [SlotId, { stat: string; value: number }][]) {
-      setRune(slot, rune.stat, rune.value)
+      setExotic(slot, rune.stat, rune.value)
     }
     handleClose()
   }

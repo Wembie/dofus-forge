@@ -4,6 +4,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import type { BuildState } from '@/store/buildStore.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, STAT_META } from '../equipment/statDisplay.ts'
+import { runeStat } from '@/engine/runes.ts'
 import { Tooltip } from '@/ui/Tooltip.tsx'
 
 function icon(name: string, size = 16) {
@@ -345,8 +346,8 @@ function MagesmithySummary({ runes }: { runes: BuildState['runes'] }) {
     const acc: Record<string, number> = {}
     for (const slotRunes of Object.values(runes)) {
       if (!slotRunes) continue
-      for (const [stat, value] of Object.entries(slotRunes)) {
-        if (value > 0) acc[stat] = (acc[stat] ?? 0) + value
+      for (const [key, value] of Object.entries(slotRunes)) {
+        if (value > 0) acc[runeStat(key)] = (acc[runeStat(key)] ?? 0) + value
       }
     }
     return Object.entries(acc).sort((a, b) => b[1] - a[1])

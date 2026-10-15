@@ -1,9 +1,10 @@
 import { create } from 'zustand'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import { DOFUS_CLASSES } from '@/engine/types.ts'
-import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics, ItemEffect } from '@/engine/types.ts'
+import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
 import { ALL_SLOTS, type BuildSnapshot, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import { computeStats } from '@/engine/stats.ts'
+import { runeEffectsFrom } from '@/engine/runes.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
@@ -34,13 +35,7 @@ function snapshotToStats(snap: BuildSnapshot, equipment: AppItem[], sets: AppSet
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
 
-  const runeEffects: ItemEffect[] = []
-  for (const runeMap of Object.values(runes)) {
-    if (!runeMap) continue
-    for (const [stat, value] of Object.entries(runeMap)) {
-      if (value > 0) runeEffects.push({ stat, min: value, max: value })
-    }
-  }
+  const runeEffects = runeEffectsFrom(Object.values(runes))
 
   return computeStats({
     class:     snap.c as DofusClass,

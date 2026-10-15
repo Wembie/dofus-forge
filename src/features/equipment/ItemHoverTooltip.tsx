@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
+import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
 // Full item tooltip — portal, fixed position so it escapes any
 // overflow-y:auto ancestor (modals, scrollable card grids, etc).
@@ -18,7 +19,7 @@ export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
   forjamagoName?: string
 }) {
   const { t } = useTranslation()
-  const activeRunes = Object.entries(runes ?? {}).filter(([, v]) => v > 0)
+  const activeRunes = Object.entries(runes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
 
   const TW     = 288
   const left   = window.innerWidth - anchor.right - 12 >= TW
@@ -137,8 +138,8 @@ export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
             </p>
             <div className="space-y-0.5">
               {activeRunes.map(([stat, val]) => {
-                const meta = STAT_META[stat]
-                const rUrl = runeIconUrl(stat)
+                const meta = STAT_META[runeStat(stat)]
+                const rUrl = runeIconUrl(runeStat(stat))
                 return (
                   <div key={stat} className="flex items-center gap-1.5">
                     {rUrl
@@ -148,7 +149,12 @@ export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
                       : <span className="w-3 flex-shrink-0" />
                     }
                     <span className="text-[11px] font-bold tabular-nums flex-shrink-0" style={{ color: 'var(--ap)' }}>+{val}</span>
-                    <span className="text-[11px]" style={{ color: 'var(--water)' }}>{meta ? t(meta.tKey) : stat}</span>
+                    <span className="text-[11px]" style={{ color: 'var(--water)' }}>{meta ? t(meta.tKey) : runeStat(stat)}</span>
+                    {isExoticKey(stat) && (
+                          <span className="text-[8px] font-bold uppercase tracking-wider rounded px-1" style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)' }}>
+                            {t('rune_exotic_tag')}
+                          </span>
+                        )}
                   </div>
                 )
               })}
