@@ -358,7 +358,7 @@ fn hit_rate_parallel_like_browser() {
     let runs: u64 = std::env::var("FORGE_SEEDS").ok().and_then(|v| v.parse().ok()).unwrap_or(8);
     let runes = std::env::var("FORGE_RUNES").map(|v| v == "1").unwrap_or(false);
     let target = screenshot_forge(1, runes, 1).assess(&user_optimum()).0.unwrap().score;
-    let islands = 96usize.div_ceil(workers);
+    let islands: usize = std::env::var("FORGE_ISLANDS_PER_WORKER").ok().and_then(|v| v.parse().ok()).unwrap_or(96usize.div_ceil(workers));
     println!("workers {workers} x {islands} islands, {secs}s, runes {runes}, target {target}");
     let mut hits = 0;
     for seed in 1..=runs {

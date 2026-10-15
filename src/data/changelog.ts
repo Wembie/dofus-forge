@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.83',
+    date: '2026-10-14',
+    notes: [
+      'Fix: the default forge now finds the best piece every time in validation — each thread keeps 24 islands and Standard / Quick use at least 4 threads (8/8 with runes in about 6 s, 8/8 without in about 2 s)',
+    ],
+  },
+  {
     version: '0.3.82',
     date: '2026-10-14',
     notes: [

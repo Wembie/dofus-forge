@@ -53,7 +53,12 @@ const STAT_GROUPS: StatGroupDef[] = [
 const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
 
 const STORAGE_KEY = 'dofus-forge:optimizer-config'
-const TOTAL_ISLANDS = 96
+// Measured on real multi-basin orders: every Worker keeps at least 24
+// islands (fewer per Worker let one basin take them all over), and a run
+// keeps at least 96 islands overall. 2 Workers x 24 found the best piece
+// 3/8 times with runes; 4 x 24 and 8 x 24 found it 8/8.
+const ISLANDS_PER_WORKER = 24
+const MIN_TOTAL_ISLANDS = 96
 const HW = Math.max(1, globalThis.navigator?.hardwareConcurrency || 4)
 const BELLOWS_COOLDOWN_MS = 4000
 const LOG_SIZE = 7
@@ -63,10 +68,10 @@ const LOG_SIZE = 7
 // without a significant gain (see PLATEAU_GAIN); `capSec` is the hard limit
 // (Infinity: only the player tempers).
 const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(2, HW),                              stall: 120,      minSec: 15,  capSec: 45,       temperMs: 1500 },
-  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 300,      minSec: 45,  capSec: 180,      temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                              stall: 600,      minSec: 120, capSec: 480,      temperMs: 6000 },
-  eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, minSec: 0,  capSec: Infinity, temperMs: 6000 },
+  quick:    { threads: Math.min(4, HW),                                  stall: 120,      minSec: 15,  capSec: 45,       temperMs: 1500 },
+  standard: { threads: Math.min(HW, 8, Math.max(4, Math.floor(HW / 2))), stall: 300,      minSec: 45,  capSec: 180,      temperMs: 3000 },
+  master:   { threads: Math.min(8, HW),                                  stall: 600,      minSec: 120, capSec: 480,      temperMs: 6000 },
+  eternal:  { threads: Math.min(8, HW),                                  stall: Infinity, minSec: 0,   capSec: Infinity, temperMs: 6000 },
 }
 // Only a gain of at least this share of the quality (or 1 point) keeps the
 // forge hot. With transcendence runes the hammer keeps finding +1/+2 rune
@@ -634,7 +639,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     const preset = INTENSITY[config.intensity]
     presetRef.current = preset
     const count = preset.threads
-    const wire = toWireConfig(config, Math.ceil(TOTAL_ISLANDS / count))
+    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)))
     const base = { selectedClass, level, allocated, scrolled, equipped, runes }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
