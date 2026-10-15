@@ -5,8 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.3.82] — 2026-10-14
+## [0.3.83] — 2026-10-15
 - **Feature**: every finished La Forjadora run is logged (no IP, no order details: intensity, runes on/off, number of minimums, whether all were met, duration; user only if signed in) and Explore shows how many pieces have been forged. Needs the one-time SQL migration in `docs/DATABASE.md` ("Migración manual — registro de La Forjadora")
+
+## [0.3.82] — 2026-10-14
 - **Fix**: on computers with many cores the default forge split its 96 islands across 8 threads (12 each), which let one basin take a thread over and missed the best piece about 1 time in 8. Every thread now keeps 24 islands (more threads = more independent islands), and Standard / Quick always use at least 4 threads when the CPU has them. Measured on a real 11-minimum order: 8 threads × 24 islands found the best piece 8/8 with transcendence runes (about 6 s) and 8/8 without (about 2 s); two real browser runs both returned the best quality
 - **Fix**: The Forger reached the best piece only some of the time on orders that need a specific mix of partial sets, and with transcendence runes it was ~7× slower per thread than it needed to be. On a real 11-minimum order with runes (best quality 1,671, the same another solver reports), a browser-like run now finds it 15 of 16 times within 40 s (up from 5–7 of 8), and two real browser runs both returned 1,671 in ~48 s
 - **Performance**: piece evaluation is 2.8–3.4× faster (characteristic points jump straight to the next boundary instead of 5-point steps, rune choices no longer copy the stat vector and compute each rune's gain once per round, and already-scored builds are cached)
