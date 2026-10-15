@@ -9,6 +9,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Feature**: the magesmithy window now has two tabs, **Runes** (normal runes, as before) and **Exotic**. An item takes one exotic effect: an exo +1 AP / MP / Range or one transcendence rune. Both tabs combine freely: normal runes plus the item's exotic
 - **Feature**: transcendence runes follow the official rank rule: picking a characteristic applies the highest rank the item takes (based on the forgemagie weight of the item's own line), ranks that don't fit are shown disabled with the reason, and picking another exotic replaces the current one
 - **UI**: the exotic shows first and in gold in the active runes, item tooltips, and the slot's rune badges; exotics count toward the stats and the magesmithy summary like any rune
+- **UI**: transcendence runes use their own official art (silver Tra runes) in the Exotic tab, active runes, tooltips and slot badges; a rune whose art isn't in yet falls back to the normal rune icon
 - **Change**: AP / MP / Range moved from the normal rune grid to the Exotic tab (they only exist as exos). AP / MP / Range runes in builds saved before still count and are treated as the item's exo
 - **Change**: pieces from The Forger now load their exos and transcendence runes as the item's exotic
 

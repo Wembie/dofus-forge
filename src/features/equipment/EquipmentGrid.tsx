@@ -19,7 +19,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
@@ -338,7 +338,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             }}
           >
             {active.slice(0, 3).map(([stat]) => {
-              const url = runeIconUrl(runeStat(stat))
+              const url = runeKeyIconUrl(stat)
               return url ? (
                 <div
                   key={stat}
@@ -350,7 +350,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                     padding:    1,
                   }}
                 >
-                  <img src={url} alt="" width={13} height={13} className="object-contain block" />
+                  <img src={url} onError={runeIconFallback(stat)} alt="" width={13} height={13} className="object-contain block" />
                 </div>
               ) : null
             })}
@@ -549,13 +549,13 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                 <div className="space-y-0.5">
                   {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a))).map(([stat, val]) => {
                     const meta = STAT_META[runeStat(stat)]
-                    const rUrl = runeIconUrl(runeStat(stat))
+                    const rUrl = runeKeyIconUrl(stat)
                     return (
                       <div key={stat} className="flex items-center gap-1.5">
                         {rUrl
-                          ? <img src={rUrl} alt="" width={16} height={16}
+                          ? <img src={rUrl} onError={runeIconFallback(stat)} alt="" width={16} height={16}
                               className="object-contain flex-shrink-0"
-                              style={{ filter: 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }}
+                              style={{ filter: isExoticKey(stat) ? 'none' : 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }}
                             />
                           : meta?.icon
                           ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}

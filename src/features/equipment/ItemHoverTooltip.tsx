@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
@@ -139,11 +139,11 @@ export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
             <div className="space-y-0.5">
               {activeRunes.map(([stat, val]) => {
                 const meta = STAT_META[runeStat(stat)]
-                const rUrl = runeIconUrl(runeStat(stat))
+                const rUrl = runeKeyIconUrl(stat)
                 return (
                   <div key={stat} className="flex items-center gap-1.5">
                     {rUrl
-                      ? <img src={rUrl} alt="" width={16} height={16} className="object-contain flex-shrink-0" style={{ filter: 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }} />
+                      ? <img src={rUrl} onError={runeIconFallback(stat)} alt="" width={16} height={16} className="object-contain flex-shrink-0" style={{ filter: isExoticKey(stat) ? 'none' : 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }} />
                       : meta?.icon
                       ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" style={{ filter: 'saturate(0.3) hue-rotate(200deg) brightness(1.4)' }} />
                       : <span className="w-3 flex-shrink-0" />

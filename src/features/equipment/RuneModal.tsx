@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { STAT_META, statIconUrl, runeIconUrl } from './statDisplay.ts'
+import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, transcendenceIconUrl } from './statDisplay.ts'
 import { EXO_STATS, exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
 import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
 
@@ -58,11 +58,11 @@ function quickValuesFor(stat: string): number[] {
 
 const exoticFirst = ([a]: [string, number], [b]: [string, number]) => Number(isExoticKey(b)) - Number(isExoticKey(a))
 
-function RuneIcon({ stat, size, color, dim }: { stat: string; size: number; color: string; dim?: boolean }) {
+function RuneIcon({ stat, size, color, dim, transcendence }: { stat: string; size: number; color: string; dim?: boolean; transcendence?: boolean }) {
   const meta = STAT_META[stat]
-  const rUrl = runeIconUrl(stat)
+  const rUrl = (transcendence && transcendenceIconUrl(stat)) || runeIconUrl(stat)
   const filter = dim ? 'brightness(0.65) saturate(0.5)' : `drop-shadow(0 0 5px color-mix(in srgb, ${color} 60%, transparent)) brightness(1.15)`
-  if (rUrl) return <img src={rUrl} alt="" width={size} height={size} className="object-contain flex-shrink-0" style={{ filter }} />
+  if (rUrl) return <img src={rUrl} onError={runeIconFallback(stat)} alt="" width={size} height={size} className="object-contain flex-shrink-0" style={{ filter }} />
   if (meta?.icon) return <img src={statIconUrl(meta.icon)} alt="" width={Math.round(size * 0.65)} height={Math.round(size * 0.65)} className="object-contain flex-shrink-0" style={{ filter }} />
   return null
 }
@@ -248,7 +248,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 }}
               >
                 {exotic
-                  ? <RuneIcon stat={exotic.stat} size={30} color={exoticColor} />
+                  ? <RuneIcon stat={exotic.stat} size={30} color={exoticColor} transcendence={!exotic.isExo} />
                   : <span className="text-lg" style={{ color: 'var(--ink-faint)', opacity: 0.5 }}>◆</span>}
               </div>
               <div className="flex-1 min-w-0">
@@ -554,9 +554,9 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     >
                       {isExo && <span className="text-[10px] pl-0.5" style={{ color: 'var(--gold)' }}>◆</span>}
                       {(() => {
-                        const rUrl = runeIconUrl(stat)
+                        const rUrl = runeKeyIconUrl(key)
                         if (rUrl) return (
-                          <img src={rUrl} alt="" width={20} height={20}
+                          <img src={rUrl} onError={runeIconFallback(key)} alt="" width={20} height={20}
                             className="object-contain flex-shrink-0"
                             style={{ filter: `drop-shadow(0 0 4px color-mix(in srgb, ${clr} 53%, transparent))` }}
                           />
@@ -656,7 +656,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                           boxShadow:   applied ? '0 0 10px color-mix(in srgb, var(--gold) 30%, transparent)' : 'none',
                         }}
                       >
-                        <RuneIcon stat={stat} size={24} color={clr} dim={!applied && !focused} />
+                        <RuneIcon stat={stat} size={24} color={clr} dim={!applied && !focused} transcendence />
                         <span className="text-[8px] font-mono font-bold leading-none mt-0.5" style={{ color: applied ? clr : 'var(--ink-faint)' }}>
                           {best ? `+${best.value}` : '—'}
                         </span>
