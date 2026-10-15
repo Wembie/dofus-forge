@@ -830,7 +830,8 @@
   "optimizer_surplus_hint": "Lo que la pieza tiene de más sobre cada mínimo y cuánto vale en Ley. Es tu margen: podés subir esos mínimos o pedir más stats.",
   "optimizer_surplus_row": "{{value}} (mínimo {{min}})",
   "optimizer_surplus_capped": "en el tope",
-  "explore_stat_forge_runs": "{{count}} piezas forjadas en La Forjadora",
+  "explore_stat_forge_runs": "{{count}} usos de La Forjadora",
   "dmg_breakdown_own": "Normal: {{value}}",
-  "dmg_breakdown_bonus": "+{{value}} de Daño"
+  "dmg_breakdown_bonus": "+{{value}} de Daño",
+  "explore_stat_forge_finished": "{{count}} piezas forjadas en La Forjadora"
 }

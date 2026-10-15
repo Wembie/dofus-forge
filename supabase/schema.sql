@@ -737,12 +737,14 @@ $$;
 grant execute on function get_total_builds_count() to anon, authenticated;
 
 
--- ── La Forjadora: registro de forjas terminadas ─────────────────────
--- Una fila por forja que llegó a "Piezas forjadas" (las apagadas a mitad no
--- cuentan). Sin IP ni datos del encargo: solo el usuario si tenía sesión y
--- un resumen para estadísticas (intensidad, runas, cuántos mínimos, si se
--- cumplieron, duración). RLS sin políticas: nadie lee ni escribe la tabla
--- directo, solo a través de las funciones security definer de abajo.
+-- ── La Forjadora: registro de usos ──────────────────────────────────
+-- Una fila por cada vez que se enciende la forja (start_forge_run). Si llega
+-- a "Piezas forjadas", la misma fila se marca terminada (finish_forge_run);
+-- las apagadas a mitad quedan con finished = false. Sin IP ni datos del
+-- encargo: solo el usuario si tenía sesión y un resumen para estadísticas
+-- (intensidad, runas, cuántos mínimos, si se cumplieron, duración). RLS sin
+-- políticas: nadie lee ni escribe la tabla directo, solo a través de las
+-- funciones security definer de abajo.
 create table forge_runs (
   id            bigint generated always as identity primary key,
   created_at    timestamptz not null default now(),
@@ -750,25 +752,42 @@ create table forge_runs (
   intensity     text not null check (intensity in ('quick', 'standard', 'master', 'eternal')),
   transcendence boolean not null,
   requirements  smallint not null check (requirements between 0 and 100),
-  all_met       boolean not null,
-  seconds       integer not null check (seconds between 0 and 86400)
+  finished      boolean not null default false,
+  all_met       boolean,
+  seconds       integer check (seconds between 0 and 86400)
 );
 alter table forge_runs enable row level security;
 create index forge_runs_created_at_idx on forge_runs (created_at);
+create index forge_runs_user_idx on forge_runs (user_id, created_at);
 
-create function record_forge_run(p_intensity text, p_transcendence boolean, p_requirements int, p_all_met boolean, p_seconds int)
+create function start_forge_run(p_intensity text, p_transcendence boolean, p_requirements int)
+returns bigint language plpgsql security definer set search_path = public as $$
+declare v_id bigint;
+begin
+  -- Antispam simple: con sesión, como mucho un encendido cada 3 s por usuario.
+  if auth.uid() is not null and exists (
+    select 1 from forge_runs where user_id = auth.uid() and created_at > now() - interval '3 seconds'
+  ) then
+    return null;
+  end if;
+  insert into forge_runs (user_id, intensity, transcendence, requirements)
+  values (auth.uid(), p_intensity, p_transcendence, least(greatest(p_requirements, 0), 100))
+  returning id into v_id;
+  return v_id;
+end; $$;
+grant execute on function start_forge_run(text, boolean, int) to anon, authenticated;
+
+create function finish_forge_run(p_id bigint, p_all_met boolean, p_seconds int)
 returns void language plpgsql security definer set search_path = public as $$
 begin
-  -- Antispam simple: con sesión, como mucho una forja cada 10 s por usuario.
-  if auth.uid() is not null and exists (
-    select 1 from forge_runs where user_id = auth.uid() and created_at > now() - interval '10 seconds'
-  ) then
-    return;
-  end if;
-  insert into forge_runs (user_id, intensity, transcendence, requirements, all_met, seconds)
-  values (auth.uid(), p_intensity, p_transcendence, least(greatest(p_requirements, 0), 100), p_all_met, least(greatest(p_seconds, 0), 86400));
+  -- Solo la misma sesión que la encendió, una sola vez y dentro del día.
+  update forge_runs
+     set finished = true, all_met = p_all_met, seconds = least(greatest(p_seconds, 0), 86400)
+   where id = p_id and not finished
+     and user_id is not distinct from auth.uid()
+     and created_at > now() - interval '1 day';
 end; $$;
-grant execute on function record_forge_run(text, boolean, int, boolean, int) to anon, authenticated;
+grant execute on function finish_forge_run(bigint, boolean, int) to anon, authenticated;
 
 
 -- ── Stats de comunidad para la barra de Explorar: usuarios, builds, builds
@@ -780,13 +799,14 @@ grant execute on function record_forge_run(text, boolean, int, boolean, int) to 
 -- nunca contenido de filas, así que saltarse RLS acá no filtra nada.
 create function get_community_stats()
 returns table(
-  users_count         bigint,
-  builds_count        bigint,
-  public_builds_count bigint,
-  likes_count         bigint,
-  views_count         bigint,
-  builds_this_week    bigint,
-  forge_runs_count    bigint
+  users_count          bigint,
+  builds_count         bigint,
+  public_builds_count  bigint,
+  likes_count          bigint,
+  views_count          bigint,
+  builds_this_week     bigint,
+  forge_runs_count     bigint,
+  forge_finished_count bigint
 )
 language sql security definer stable as $$
   select
@@ -796,7 +816,8 @@ language sql security definer stable as $$
     (select count(*) from build_likes),
     (select coalesce(sum(view_count), 0) from builds),
     (select count(*) from builds where created_at >= now() - interval '7 days'),
-    (select count(*) from forge_runs);
+    (select count(*) from forge_runs),
+    (select count(*) from forge_runs where finished);
 $$;
 grant execute on function get_community_stats() to anon, authenticated;
 
