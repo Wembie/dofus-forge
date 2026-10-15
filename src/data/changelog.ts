@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.85',
+    date: '2026-10-15',
+    notes: [
+      'Fix: the new DMG tooltip broke the DMG column\'s alignment — fixed',
+      'Fix: AP/MP/Range no longer disappear or go unflagged when a penalty pushes them negative — shown in red whenever non-zero',
+    ],
+  },
+  {
     version: '0.3.84',
     date: '2026-10-15',
     notes: [

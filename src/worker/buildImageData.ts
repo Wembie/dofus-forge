@@ -90,10 +90,13 @@ export async function buildOgImageData(
 
   const badgeDefs = stats
     ? [
-        { icon: 'ap', label: 'AP', value: stats.ap, color: '#f5c518' },
-        { icon: 'mp', label: 'MP', value: stats.mp, color: '#6ab04c' },
+        { icon: 'ap', label: 'AP', value: stats.ap, color: stats.ap < 0 ? '#e05252' : '#f5c518' },
+        { icon: 'mp', label: 'MP', value: stats.mp, color: stats.mp < 0 ? '#e05252' : '#6ab04c' },
         { icon: 'vitality', label: 'HP', value: stats.maxHp, color: '#e05252' },
-        ...(stats.range > 0 ? [{ icon: 'range', label: 'Range', value: stats.range, color: '#2a8fd4' }] : []),
+        // A weapon/item penalty can push Range below 0 — used to only show
+        // the badge when > 0, silently hiding a real penalty instead of
+        // warning about it.
+        ...(stats.range !== 0 ? [{ icon: 'range', label: 'Range', value: stats.range, color: stats.range < 0 ? '#e05252' : '#2a8fd4' }] : []),
       ]
     : []
   const badges: OgBadge[] = await Promise.all(
