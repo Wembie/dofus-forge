@@ -835,16 +835,14 @@
   "dmg_breakdown_bonus": "+{{value}} de Daño",
   "explore_stat_forge_finished": "{{count}} piezas forjadas en La Forjadora",
   "rune_tab_normal": "Runas",
-  "rune_tab_exotic": "Exótico",
-  "rune_exotic_slot": "Efecto exótico",
-  "rune_exotic_empty": "Vacío. Cada objeto admite uno solo: un exo PA / PM / Alcance o una runa de transcendencia.",
-  "rune_exotic_remove": "Quitar",
-  "rune_exotic_exo_title": "Exo +1",
-  "rune_exotic_kind_exo": "Exo",
-  "rune_exotic_tag": "Exótico",
   "rune_rank": "Rango {{rank}}",
-  "rune_exotic_tr_hint": "Toca una característica: se aplica el rango más alto que admite este objeto. Elegir otra reemplaza la actual.",
   "rune_line_weight": "Línea del objeto: peso {{weight}}",
   "rune_rank_blocked": "La línea del objeto pesa {{weight}}; este rango solo entra hasta {{limit}}",
-  "rune_rank_none": "el objeto ya tiene demasiado para cualquier rango"
+  "rune_rank_none": "el objeto ya tiene demasiado para cualquier rango",
+  "rune_tab_transcendence": "Transcendencia",
+  "rune_tr_slot": "Runa de transcendencia",
+  "rune_tr_empty": "Vacía. Cada objeto admite una sola runa de transcendencia, además de sus runas normales.",
+  "rune_tr_remove": "Quitar",
+  "rune_tr_tag": "Trasc.",
+  "rune_tr_hint": "Toca una característica: se aplica el rango más alto que admite este objeto. Elegir otra reemplaza la actual."
 }

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, transcendenceIconUrl } from './statDisplay.ts'
-import { EXO_STATS, exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
+import { exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
 import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
 
 type RuneSection = { labelKey: string; stats: string[] }
@@ -11,7 +11,7 @@ type RuneSection = { labelKey: string; stats: string[] }
 const RUNE_SECTIONS: RuneSection[] = [
   {
     labelKey: 'rune_section_primary',
-    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'Summons', '% Critical'],
+    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range', 'Summons', '% Critical'],
   },
   {
     labelKey: 'rune_section_damage',
@@ -51,8 +51,11 @@ const PCT_RUNES = new Set([
   '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
   '% Melee Resistance', '% Ranged Resistance', '% Critical',
 ])
+const UNIT_RUNES = new Set(['AP', 'MP', 'Range'])
+
 function quickValuesFor(stat: string): number[] {
-  if (PCT_RUNES.has(stat)) return [1, 2, 3, 4, 5]
+  if (PCT_RUNES.has(stat))  return [1, 2, 3, 4, 5]
+  if (UNIT_RUNES.has(stat)) return [1]
   return [1, 5, 10, 25, 50, 100]
 }
 
@@ -105,11 +108,11 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const forgeable = FORGEABLE_SLOTS.has(slotId)
   const exotic    = exoticOf(runes)
   const [mode, setMode]       = useState<'normal' | 'exotic'>('normal')
-  const [trFocus, setTrFocus] = useState<string | null>(exotic && !exotic.isExo ? exotic.stat : null)
+  const [trFocus, setTrFocus] = useState<string | null>(exotic ? exotic.stat : null)
 
   const runeEntries   = Object.entries(runes).filter(([, v]) => v > 0).sort(exoticFirst)
   const normalCount   = runeEntries.filter(([k]) => k !== exotic?.key).length
-  const exoticRank    = exotic && !exotic.isExo ? rankOptions(item, exotic.stat).find(o => o.value === exotic.value)?.rank : undefined
+  const exoticRank    = exotic ? rankOptions(item, exotic.stat).find(o => o.value === exotic.value)?.rank : undefined
   const exoticColor   = exotic ? STAT_META[exotic.stat]?.color ?? 'var(--gold)' : 'var(--gold)'
   const focusOptions  = trFocus ? rankOptions(item, trFocus) : []
   const selMeta     = STAT_META[selected]
@@ -216,7 +219,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     }}
                   >
                     <span>{m === 'exotic' ? '◆' : '✦'}</span>
-                    {t(m === 'exotic' ? 'rune_tab_exotic' : 'rune_tab_normal')}
+                    {t(m === 'exotic' ? 'rune_tab_transcendence' : 'rune_tab_normal')}
                     <span className="text-[9px] font-mono rounded px-1" style={{ background: 'var(--surface-raised)', color: active ? clr : 'var(--ink-faint)' }}>{count}</span>
                   </button>
                 )
@@ -248,20 +251,20 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 }}
               >
                 {exotic
-                  ? <RuneIcon stat={exotic.stat} size={30} color={exoticColor} transcendence={!exotic.isExo} />
+                  ? <RuneIcon stat={exotic.stat} size={30} color={exoticColor} transcendence />
                   : <span className="text-lg" style={{ color: 'var(--ink-faint)', opacity: 0.5 }}>◆</span>}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold)' }}>{t('rune_exotic_slot')}</p>
+                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold)' }}>{t('rune_tr_slot')}</p>
                 {exotic ? (
                   <p className="text-sm font-bold truncate" style={{ color: exoticColor }}>
                     +{exotic.value} {statLabel(exotic.stat)}
                     <span className="text-[10px] font-normal ml-1.5" style={{ color: 'var(--ink-faint)' }}>
-                      · {exotic.isExo ? t('rune_exotic_kind_exo') : exoticRank ? t('rune_rank', { rank: exoticRank }) : t('optimizer_transcendence')}
+                      · {exoticRank ? t('rune_rank', { rank: exoticRank }) : t('optimizer_transcendence')}
                     </span>
                   </p>
                 ) : (
-                  <p className="text-[11px] leading-snug" style={{ color: 'var(--ink-faint)' }}>{t('rune_exotic_empty')}</p>
+                  <p className="text-[11px] leading-snug" style={{ color: 'var(--ink-faint)' }}>{t('rune_tr_empty')}</p>
                 )}
               </div>
               {exotic && (
@@ -274,7 +277,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     color:      'var(--negative)',
                   }}
                 >
-                  {t('rune_exotic_remove')}
+                  {t('rune_tr_remove')}
                 </button>
               )}
             </div>
@@ -539,7 +542,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               <div className="flex flex-wrap gap-2">
                 {runeEntries.map(([key, val]) => {
                   const stat  = runeStat(key)
-                  const isExo = key === exotic?.key
+                  const isTr = key === exotic?.key
                   const meta  = STAT_META[stat]
                   const clr   = meta?.color ?? 'var(--gold)'
                   return (
@@ -548,11 +551,11 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                       className="flex items-center gap-1.5 rounded-full pl-1 pr-1 py-0.5 transition-all"
                       style={{
                         background: `color-mix(in srgb, ${clr} 9%, transparent)`,
-                        border:     isExo ? '1px solid color-mix(in srgb, var(--gold) 70%, transparent)' : `1px solid color-mix(in srgb, ${clr} 27%, transparent)`,
-                        boxShadow:  isExo ? '0 0 8px color-mix(in srgb, var(--gold) 22%, transparent)' : 'none',
+                        border:     isTr ? '1px solid color-mix(in srgb, var(--gold) 70%, transparent)' : `1px solid color-mix(in srgb, ${clr} 27%, transparent)`,
+                        boxShadow:  isTr ? '0 0 8px color-mix(in srgb, var(--gold) 22%, transparent)' : 'none',
                       }}
                     >
-                      {isExo && <span className="text-[10px] pl-0.5" style={{ color: 'var(--gold)' }}>◆</span>}
+                      {isTr && <span className="text-[10px] pl-0.5" style={{ color: 'var(--gold)' }}>◆</span>}
                       {(() => {
                         const rUrl = runeKeyIconUrl(key)
                         if (rUrl) return (
@@ -597,42 +600,10 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           </div>
 
           {mode === 'exotic' ? (
-            <div className="px-4 pb-4 space-y-4">
-              {/* Exo +1 */}
-              <div>
-                <div className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-1 px-0.5" style={{ color: 'var(--ink-faint)' }}>
-                  {t('rune_exotic_exo_title')}
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {EXO_STATS.map(stat => {
-                    const active = exotic?.stat === stat && exotic.isExo
-                    const clr    = STAT_META[stat]?.color ?? 'var(--gold)'
-                    return (
-                      <button
-                        key={stat}
-                        onClick={() => (active ? clearExotic(slotId) : setExotic(slotId, stat, 1))}
-                        aria-pressed={active}
-                        className="flex flex-col items-center gap-1 rounded-xl py-2.5 transition-all"
-                        style={{
-                          background: active ? `color-mix(in srgb, ${clr} 15%, transparent)` : 'var(--surface-void)',
-                          border:     active ? '1.5px solid var(--gold)' : '1px solid var(--metal-edge)',
-                          boxShadow:  active ? '0 0 12px color-mix(in srgb, var(--gold) 28%, transparent)' : 'none',
-                        }}
-                      >
-                        <RuneIcon stat={stat} size={30} color={clr} dim={!active} />
-                        <span className="text-[11px] font-bold" style={{ color: active ? clr : 'var(--ink-muted)' }}>+1 {statLabel(stat)}</span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
+            <div className="px-4 pb-4">
               {/* Transcendence runes */}
               <div>
-                <div className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-1 px-0.5" style={{ color: 'var(--ink-faint)' }}>
-                  {t('optimizer_transcendence')}
-                </div>
-                <p className="text-[10px] italic mb-2 px-0.5" style={{ color: 'var(--ink-faint)' }}>{t('rune_exotic_tr_hint')}</p>
+                <p className="text-[10px] italic mb-2 px-0.5" style={{ color: 'var(--ink-faint)' }}>{t('rune_tr_hint')}</p>
                 <div
                   className="grid gap-1.5 p-2 rounded-xl"
                   style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
@@ -640,7 +611,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   {TRANSCENDENCE.map(({ stat }) => {
                     const clr     = STAT_META[stat]?.color ?? 'var(--gold)'
                     const best    = bestRank(item, stat)
-                    const applied = exotic?.stat === stat && !exotic.isExo
+                    const applied = exotic?.stat === stat
                     const focused = trFocus === stat
                     return (
                       <button
@@ -678,7 +649,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     <div className="grid gap-1.5" style={{ gridTemplateColumns: `repeat(${focusOptions.length}, minmax(0, 1fr))` }}>
                       {focusOptions.map(o => {
                         const clr    = STAT_META[trFocus]?.color ?? 'var(--gold)'
-                        const active = exotic?.stat === trFocus && !exotic.isExo && exotic.value === o.value
+                        const active = exotic?.stat === trFocus && exotic.value === o.value
                         return (
                           <button
                             key={o.rank}

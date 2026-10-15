@@ -11,10 +11,9 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.87',
     date: '2026-10-15',
     notes: [
-      'Feature: magesmithy now has a Runes tab and an Exotic tab — each item takes one exotic: an exo +1 AP / MP / Range or a transcendence rune, combined freely with normal runes',
+      'Feature: magesmithy now has a Runes tab and a Transcendence tab — each item takes one transcendence rune on top of its normal runes',
       'Feature: transcendence runes apply the highest rank the item takes; ranks that do not fit are shown disabled with the reason',
-      'UI: exotics show in gold in tooltips, slot badges and the active runes list',
-      'UI: transcendence runes now use their own official rune art',
+      'UI: transcendence runes use their own official art and show in gold in tooltips, slot badges and the active runes list',
     ],
   },
   {

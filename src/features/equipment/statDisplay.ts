@@ -1,5 +1,5 @@
 import type { SyntheticEvent } from 'react'
-import { EXO_STATS, isExoticKey, runeStat } from '@/engine/runes.ts'
+import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -183,13 +183,13 @@ export function runeIconUrl(stat: string): string | null {
   return file ? `${BASE}data/runes/${file}` : null
 }
 
-/** Transcendence rune art (data/runes/trans/Tra_*), for any stat but the exo ones. */
+/** Transcendence rune art (data/runes/trans/Tra_*). */
 export function transcendenceIconUrl(stat: string): string | null {
   const file = RUNE_ICON[stat]
-  return file && !(EXO_STATS as readonly string[]).includes(stat) ? `${BASE}data/runes/trans/Tra_${file}` : null
+  return file ? `${BASE}data/runes/trans/Tra_${file}` : null
 }
 
-/** Art for a stored rune key: an exotic transcendence rune gets its Tra_ icon. */
+/** Art for a stored rune key: a transcendence rune gets its Tra_ icon. */
 export function runeKeyIconUrl(key: string): string | null {
   const stat = runeStat(key)
   return (isExoticKey(key) && transcendenceIconUrl(stat)) || runeIconUrl(stat)

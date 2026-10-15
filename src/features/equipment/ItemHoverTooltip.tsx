@@ -152,7 +152,7 @@ export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
                     <span className="text-[11px]" style={{ color: 'var(--water)' }}>{meta ? t(meta.tKey) : runeStat(stat)}</span>
                     {isExoticKey(stat) && (
                           <span className="text-[8px] font-bold uppercase tracking-wider rounded px-1" style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)' }}>
-                            {t('rune_exotic_tag')}
+                            {t('rune_tr_tag')}
                           </span>
                         )}
                   </div>

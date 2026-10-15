@@ -6,12 +6,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 ---
 
 ## [0.3.87] — 2026-10-15
-- **Feature**: the magesmithy window now has two tabs, **Runes** (normal runes, as before) and **Exotic**. An item takes one exotic effect: an exo +1 AP / MP / Range or one transcendence rune. Both tabs combine freely: normal runes plus the item's exotic
-- **Feature**: transcendence runes follow the official rank rule: picking a characteristic applies the highest rank the item takes (based on the forgemagie weight of the item's own line), ranks that don't fit are shown disabled with the reason, and picking another exotic replaces the current one
-- **UI**: the exotic shows first and in gold in the active runes, item tooltips, and the slot's rune badges; exotics count toward the stats and the magesmithy summary like any rune
-- **UI**: transcendence runes use their own official art (silver Tra runes) in the Exotic tab, active runes, tooltips and slot badges; a rune whose art isn't in yet falls back to the normal rune icon
-- **Change**: AP / MP / Range moved from the normal rune grid to the Exotic tab (they only exist as exos). AP / MP / Range runes in builds saved before still count and are treated as the item's exo
-- **Change**: pieces from The Forger now load their exos and transcendence runes as the item's exotic
+- **Feature**: the magesmithy window now has two tabs, **Runes** (normal runes, as before, AP / MP / Range / Summons included) and **Transcendence**. Each item takes a single transcendence rune on top of its normal runes
+- **Feature**: transcendence runes follow the official rank rule: picking a characteristic applies the highest rank the item takes (based on the forgemagie weight of the item's own line), ranks that don't fit are shown disabled with the reason, and picking another one replaces the current one
+- **UI**: transcendence runes use their own official art (silver Tra runes) and show first and in gold in the active runes, item tooltips and the slot's rune badges; they count toward the stats and the magesmithy summary like any rune
+- **Change**: pieces from The Forger now load their transcendence runes into the item's transcendence slot (exos still load as normal AP / MP / Range runes)
 
 ## [0.3.86] — 2026-10-15
 - **Fix**: La Forjadora usage counter only counted forges that reached "Pieces forged"; forges put out halfway or still running were never counted. Every lit forge is now logged as a use when it starts and marked finished on the same row when it ends, and Explore shows both numbers: uses of The Forger and pieces forged. Needs the updated one-time migration in `docs/DATABASE.md` (idempotent; rows logged by the previous version count as finished forges)
