@@ -5,10 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.85] — 2026-10-15
+- **Fix**: the new DMG tooltip's wrapper broke the column's right-alignment (Tooltip's own wrapper doesn't stretch to fill the grid cell the way a plain value did) — the DMG numbers no longer lined up under their header. Fixed by keeping the actual grid cell a plain full-width element and letting the tooltip sit inside it
+- **Fix**: AP/MP/Range badges could silently disappear or show no warning when a weapon/item penalty pushed them negative (Range's badge was only ever shown when > 0). Now shown whenever non-zero, in red when negative, in the character sheet, the export card and the shared build image alike
+
 ## [0.3.84] — 2026-10-15
 - **Feature**: hovering the DMG number in the Elements section now shows a tooltip breaking it down into the element's own value and how much comes from the flat "Damage" stat (which adds equally to every element)
-- **Fix**: that tooltip's wrapper broke the column's right-alignment (Tooltip's own wrapper doesn't stretch to fill the grid cell the way a plain value did) — the DMG numbers no longer line up under their header. Fixed by keeping the actual grid cell a plain full-width element and letting the tooltip sit inside it
-- **Fix**: AP/MP/Range badges could silently disappear or show no warning when a weapon/item penalty pushed them negative (Range's badge was only ever shown when > 0). Now shown whenever non-zero, in red when negative, in the character sheet, the export card and the shared build image alike
 
 ## [0.3.83] — 2026-10-15
 - **Feature**: every finished La Forjadora run is logged (no IP, no order details: intensity, runes on/off, number of minimums, whether all were met, duration; user only if signed in) and Explore shows how many pieces have been forged. Needs the one-time SQL migration in `docs/DATABASE.md` ("Migración manual — registro de La Forjadora")
