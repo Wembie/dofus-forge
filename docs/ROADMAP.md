@@ -150,6 +150,7 @@ Marcar con `[x]` cuando se complete.
 ## Pendientes 🔧
 
 - [ ] **M116 — Forjadora: modo daño (hechizos vs objetivo)** — maximizar daño esperado (o daño/PA) de hechizos de clase y arma contra las resistencias de un objetivo (presets Poutch / PvP), una vez cumplidos los objetivos
+- [ ] **M125 — Builder: pasivas de legendarios, Dofus, Prysmaraditas y compañeros** — hoy 148 objetos traen su pasiva solo como texto (`ability`: 22 Dofus, 25 Prysmaraditas, 52 compañeros, ~50 legendarios entre armas, escudos y equipo) y no suman nada. Plan: (1) tabla estructurada por `ankama_id` con el efecto de cada pasiva (stat, valor, acumulaciones, condición: "al ser atacado", "al golpe crítico", "por enemigo en contacto"…); (2) en el builder, panel "Pasivas activas" con un toggle o un contador de acumulaciones por pasiva (p. ej. Dofus Turquesa 0–10 × 1% daños finales), y los bonos se suman a las stats como un estado de combate aparte, sin mezclarse con las stats base; (3) mostrarlo en el tooltip del objeto y en la vista/compartir del build. Base para M114 (que La Forjadora los tenga en cuenta).
 - [ ] **M114 — Forjadora: pasivos de ítems y de mascota** — bonos de Dofus/legendarios al equiparlos y elección de pasivo de mascota
 - [ ] **M115 — Forjadora: prohibir tipos de ítem y legendarios** — p. ej. "sin palas / forzar arco", toggle de legendarios
 ### Forjamagia
