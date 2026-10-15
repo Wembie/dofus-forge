@@ -460,7 +460,7 @@ fn diff_runes_basins() {
 
 // Second user report: same 11 minimums plus neutral damage 180, all leys at
 // the default (3/5); the user's order also weights wisdom, intelligence,
-// water and fire damage. Compares the other solver's build with ours.
+// water and fire damage. Compares a reference build the user shared with ours.
 fn case2_order(extra_stats: bool) -> Vec<StatConfig> {
     let mut v = vec![
         c("ap", 12, 500, Some(12)), c("mp", 6, 500, Some(6)), c("range", 6, 250, Some(6)),
@@ -499,12 +499,12 @@ fn compare_case2_builds() {
     let ours = equip(&[("hat", 34327), ("cape", 14168), ("amulet", 34329), ("ring1", 15190), ("ring2", 32234), ("belt", 19983), ("boots", 15191),
         ("weapon", 32235), ("shield", 32236), ("companion", 33044), ("dofus1", 21998), ("dofus2", 7754), ("dofus3", 694), ("dofus4", 7043), ("dofus5", 13777), ("dofus6", 7115)]);
     // The user's later run of the same order (Harebourg family, like the
-    // other solver's, with Shiny Pryssure).
+    // reference build, with Shiny Pryssure).
     let latest = equip(&[("hat", 34327), ("cape", 14168), ("amulet", 34329), ("ring1", 32234), ("ring2", 14077), ("belt", 19983), ("boots", 14078),
         ("weapon", 32235), ("shield", 32236), ("companion", 33035), ("dofus1", 21997), ("dofus2", 7115), ("dofus3", 29136), ("dofus4", 13777), ("dofus5", 7043), ("dofus6", 7754)]);
     for extra in [true, false] {
         let f = case2_forge(extra, 1, 1);
-        for (label, build) in [("other solver", &other), ("ours", &ours), ("latest", &latest)] {
+        for (label, build) in [("reference", &other), ("ours", &ours), ("latest", &latest)] {
             let (r, unreachable) = f.assess(build);
             let r = r.unwrap();
             println!("order extra={extra} {label}: score {:.0} met {}/{} alloc {:?} unreachable {:?}", r.score, r.requirements_met, r.requirements_total, r.allocated, unreachable);
