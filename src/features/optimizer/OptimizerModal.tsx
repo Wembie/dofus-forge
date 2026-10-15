@@ -85,14 +85,18 @@ const ETERNAL_HEAT_SCALE = 300
 const emptyReq = (stat: OptimizerStatKey): ForgeRequirement => ({ stat, minimum: 0, weight: 0, cap: null, strictCap: false })
 const isActive = (r: ForgeRequirement) => r.minimum > 0 || r.weight > 0
 
+// Bumped when a forgemagie/scroll default changes, so saves made under the
+// previous defaults pick up the new ones once.
+const DEFAULTS_REV = 2
+
 function makeDefaultConfig(): OptimizerConfig {
   return {
     stats:               OPTIMIZER_STATS.map(s => emptyReq(s.key)),
-    exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 2 },
+    exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 3 },
     transcendence:       true,
     maxLevel:            200,
     lockedSlots:         new Set(),
-    assumeFullyScrolled: false,
+    assumeFullyScrolled: true,
     bannedItems:         [],
     intensity:           'standard',
   }
@@ -127,12 +131,13 @@ function loadSavedConfig(): OptimizerConfig {
     if (!raw) return defaults
     const parsed = JSON.parse(raw)
     const savedStats = (parsed.stats ?? []) as Record<string, unknown>[]
+    const current = parsed.defaultsRev === DEFAULTS_REV
     return {
       ...defaults,
       maxLevel:            typeof parsed.maxLevel === 'number' ? parsed.maxLevel : defaults.maxLevel,
-      assumeFullyScrolled: parsed.assumeFullyScrolled === true,
+      assumeFullyScrolled: current && typeof parsed.assumeFullyScrolled === 'boolean' ? parsed.assumeFullyScrolled : defaults.assumeFullyScrolled,
       transcendence:       parsed.transcendence !== false,
-      exo:                 { ...defaults.exo, ...(typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
+      exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
       bannedItems:         Array.isArray(parsed.bannedItems) ? parsed.bannedItems : [],
       intensity:           parsed.intensity in INTENSITY ? parsed.intensity : defaults.intensity,
@@ -145,7 +150,7 @@ function loadSavedConfig(): OptimizerConfig {
 
 function persistConfig(config: OptimizerConfig) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...config, lockedSlots: [...config.lockedSlots] }))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...config, lockedSlots: [...config.lockedSlots], defaultsRev: DEFAULTS_REV }))
   } catch { /* quota errors ignored */ }
 }
 

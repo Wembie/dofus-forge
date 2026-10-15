@@ -7,6 +7,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ## [0.3.86] — 2026-10-15
 - **Fix**: La Forjadora usage counter only counted forges that reached "Pieces forged"; forges put out halfway or still running were never counted. Every lit forge is now logged as a use when it starts and marked finished on the same row when it ends, and Explore shows both numbers: uses of The Forger and pieces forged. Needs the updated one-time migration in `docs/DATABASE.md` (idempotent; rows logged by the previous version count as finished forges)
+- **Change**: The Forger now starts with "Assume fully scrolled" on and up to 3 exos (AP / MP / Range, still on the rings only, so at most 2 apply). Saved settings from earlier versions pick up these defaults once; after that, your own choice is kept
 
 ## [0.3.85] — 2026-10-15
 - **Fix**: the new DMG tooltip's wrapper broke the column's right-alignment (Tooltip's own wrapper doesn't stretch to fill the grid cell the way a plain value did) — the DMG numbers no longer lined up under their header. Fixed by keeping the actual grid cell a plain full-width element and letting the tooltip sit inside it
