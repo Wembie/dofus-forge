@@ -184,6 +184,9 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
                 {cfg.minimum > 0 && (
                   <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>/{cfg.minimum}</span>
                 )}
+                {cfg.minimum > 0 && val > cfg.minimum && (
+                  <span className="text-[9px] font-mono" style={{ color: 'var(--positive, #5cb85c)' }} title={t('optimizer_surplus_title')}>+{val - cfg.minimum}</span>
+                )}
               </div>
             )
           })}

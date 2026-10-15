@@ -226,21 +226,22 @@ function BuilderContent() {
             <button
               onClick={() => navToLangPath('explore')}
               title={t('explore_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
               style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
             >
               <Compass size={13} />
-              <span className="hidden lg:inline">{t('explore_open')}</span>
+              {/* Icon-only below 1440px, where the full header would not fit. */}
+              <span className="hidden min-[1440px]:inline">{t('explore_open')}</span>
             </button>
             {/* My builds */}
             <button
               onClick={() => navToLangPath('my-builds')}
               title={t('my_builds')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
               style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
             >
               <FolderOpen size={13} />
-              <span className="hidden lg:inline">{t('my_builds')}</span>
+              <span className="hidden min-[1440px]:inline">{t('my_builds')}</span>
             </button>
           </div>
 
@@ -287,17 +288,18 @@ function BuilderContent() {
             <button
               onClick={() => setShowOptimizer(true)}
               title={t('optimizer_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="relative hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
               style={{
                 background:  'transparent',
-                borderColor: 'var(--metal-edge)',
+                borderColor: 'color-mix(in srgb, var(--gold) 45%, var(--metal-edge))',
                 color:       'var(--ink-faint)',
               }}
             >
               <Wand2 size={13} />
               <span className="hidden lg:inline">{t('optimizer_open')}</span>
+              {/* Floats over the corner so it adds no width to a full header. */}
               <span
-                className="text-[8px] font-bold uppercase tracking-widest px-1.5 py-px rounded-full animate-pulse"
+                className="absolute -top-2 -right-2 text-[7px] leading-none font-bold uppercase tracking-wider px-1 py-0.5 rounded-full animate-pulse pointer-events-none"
                 style={{ color: 'var(--surface-void)', background: 'var(--gold)', boxShadow: '0 0 8px -1px var(--gold)' }}
               >
                 {t('nav_new_badge')}
@@ -307,7 +309,7 @@ function BuilderContent() {
             <button
               onClick={() => setShowSetsCatalog(true)}
               title={t('sets_catalog_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
               style={{
                 background:  'transparent',
                 borderColor: 'var(--metal-edge)',
@@ -322,7 +324,7 @@ function BuilderContent() {
               onClick={() => setShowPublish(true)}
               disabled={!hasClass}
               title={t('publish_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border disabled:opacity-30"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap disabled:opacity-30"
               style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
             >
               <UploadCloud size={13} />
@@ -332,7 +334,7 @@ function BuilderContent() {
             <button
               onClick={toggleCompare}
               title={t('compare_mode')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
               style={compareActive ? {
                 background:  'color-mix(in srgb, var(--gold) 12%, transparent)',
                 borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)',
