@@ -63,9 +63,9 @@ const LOG_SIZE = 7
 // without a significant gain (see PLATEAU_GAIN); `capSec` is the hard limit
 // (Infinity: only the player tempers).
 const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(2, HW),                              stall: 120,      minSec: 10, capSec: 45,       temperMs: 1500 },
-  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 300,      minSec: 30, capSec: 180,      temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                              stall: 600,      minSec: 90, capSec: 480,      temperMs: 6000 },
+  quick:    { threads: Math.min(2, HW),                              stall: 120,      minSec: 15,  capSec: 45,       temperMs: 1500 },
+  standard: { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: 300,      minSec: 45,  capSec: 180,      temperMs: 3000 },
+  master:   { threads: Math.min(8, HW),                              stall: 600,      minSec: 120, capSec: 480,      temperMs: 6000 },
   eternal:  { threads: Math.min(8, Math.max(1, Math.floor(HW / 2))), stall: Infinity, minSec: 0,  capSec: Infinity, temperMs: 6000 },
 }
 // Only a gain of at least this share of the quality (or 1 point) keeps the

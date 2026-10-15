@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.82',
+    date: '2026-10-14',
+    notes: [
+      'Fix: The Forger now reaches the best piece far more reliably on demanding orders — on a real 11-minimum order with runes it finds the best build 15 of 16 times within 40 s (was 5–7 of 8)',
+      'Performance: piece evaluation is about 3× faster',
+      'Improvement: the forge systematically polishes hundreds of set combinations and tries every top set on the best piece',
+      'Fix: Standard no longer tempers itself after only 30 s; minimum times are 15 s / 45 s / 2 min',
+    ],
+  },
+  {
     version: '0.3.81',
     date: '2026-10-14',
     notes: [
