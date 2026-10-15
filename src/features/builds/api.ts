@@ -432,6 +432,8 @@ export type CommunityStats = {
   likesCount:        number
   viewsCount:        number
   buildsThisWeek:    number
+  // null until the forge_runs migration has been run on the database.
+  forgeRunsCount:    number | null
 }
 
 /**
@@ -449,6 +451,35 @@ export async function fetchCommunityStats() {
     likesCount:        Number(row?.likes_count ?? 0),
     viewsCount:        Number(row?.views_count ?? 0),
     buildsThisWeek:    Number(row?.builds_this_week ?? 0),
+    forgeRunsCount:    row?.forge_runs_count == null ? null : Number(row.forge_runs_count),
   }
   return { data: stats, error: error?.message ?? null }
+}
+
+export type ForgeRunSummary = {
+  intensity:     'quick' | 'standard' | 'master' | 'eternal'
+  transcendence: boolean
+  requirements:  number
+  allMet:        boolean
+  seconds:       number
+}
+
+/**
+ * Logs one finished La Forjadora run (no order details, no IP). Fire and
+ * forget: a failure here (offline, migration not run yet) must never
+ * affect the forge itself.
+ */
+export async function recordForgeRun(run: ForgeRunSummary) {
+  try {
+    const supabase = await getSupabase()
+    await supabase.rpc('record_forge_run', {
+      p_intensity:     run.intensity,
+      p_transcendence: run.transcendence,
+      p_requirements:  run.requirements,
+      p_all_met:       run.allMet,
+      p_seconds:       Math.round(run.seconds),
+    })
+  } catch {
+    /* stats only */
+  }
 }

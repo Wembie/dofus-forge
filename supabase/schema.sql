@@ -737,6 +737,40 @@ $$;
 grant execute on function get_total_builds_count() to anon, authenticated;
 
 
+-- ── La Forjadora: registro de forjas terminadas ─────────────────────
+-- Una fila por forja que llegó a "Piezas forjadas" (las apagadas a mitad no
+-- cuentan). Sin IP ni datos del encargo: solo el usuario si tenía sesión y
+-- un resumen para estadísticas (intensidad, runas, cuántos mínimos, si se
+-- cumplieron, duración). RLS sin políticas: nadie lee ni escribe la tabla
+-- directo, solo a través de las funciones security definer de abajo.
+create table forge_runs (
+  id            bigint generated always as identity primary key,
+  created_at    timestamptz not null default now(),
+  user_id       uuid,
+  intensity     text not null check (intensity in ('quick', 'standard', 'master', 'eternal')),
+  transcendence boolean not null,
+  requirements  smallint not null check (requirements between 0 and 100),
+  all_met       boolean not null,
+  seconds       integer not null check (seconds between 0 and 86400)
+);
+alter table forge_runs enable row level security;
+create index forge_runs_created_at_idx on forge_runs (created_at);
+
+create function record_forge_run(p_intensity text, p_transcendence boolean, p_requirements int, p_all_met boolean, p_seconds int)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  -- Antispam simple: con sesión, como mucho una forja cada 10 s por usuario.
+  if auth.uid() is not null and exists (
+    select 1 from forge_runs where user_id = auth.uid() and created_at > now() - interval '10 seconds'
+  ) then
+    return;
+  end if;
+  insert into forge_runs (user_id, intensity, transcendence, requirements, all_met, seconds)
+  values (auth.uid(), p_intensity, p_transcendence, least(greatest(p_requirements, 0), 100), p_all_met, least(greatest(p_seconds, 0), 86400));
+end; $$;
+grant execute on function record_forge_run(text, boolean, int, boolean, int) to anon, authenticated;
+
+
 -- ── Stats de comunidad para la barra de Explorar: usuarios, builds, builds
 -- públicas, vistas totales, builds de esta semana, likes, en un solo round
 -- trip. profiles ya es público (RLS "for select using (true)"), pero builds'
@@ -751,7 +785,8 @@ returns table(
   public_builds_count bigint,
   likes_count         bigint,
   views_count         bigint,
-  builds_this_week    bigint
+  builds_this_week    bigint,
+  forge_runs_count    bigint
 )
 language sql security definer stable as $$
   select
@@ -760,7 +795,8 @@ language sql security definer stable as $$
     (select count(*) from builds where visibility = 'public'),
     (select count(*) from build_likes),
     (select coalesce(sum(view_count), 0) from builds),
-    (select count(*) from builds where created_at >= now() - interval '7 days');
+    (select count(*) from builds where created_at >= now() - interval '7 days'),
+    (select count(*) from forge_runs);
 $$;
 grant execute on function get_community_stats() to anon, authenticated;
 

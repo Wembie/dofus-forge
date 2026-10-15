@@ -829,5 +829,6 @@
   "optimizer_surplus_total": "{{n}} de Lei",
   "optimizer_surplus_hint": "O que a peça tem a mais sobre cada mínimo e quanto vale em Lei. É a sua margem: suba esses mínimos ou peça mais atributos.",
   "optimizer_surplus_row": "{{value}} (mínimo {{min}})",
-  "optimizer_surplus_capped": "no teto"
+  "optimizer_surplus_capped": "no teto",
+  "explore_stat_forge_runs": "{{count}} peças forjadas pela Forjadora"
 }

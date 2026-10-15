@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers } from 'lucide-react'
+import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Wand2 } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -19,6 +19,7 @@ const STAT_ITEMS: { key: keyof CommunityStats; labelKey: string; Icon: typeof Us
   { key: 'viewsCount',        labelKey: 'explore_stat_views',         Icon: Eye },
   { key: 'buildsThisWeek',    labelKey: 'explore_stat_week',          Icon: Flame },
   { key: 'likesCount',        labelKey: 'explore_stat_likes',         Icon: Heart },
+  { key: 'forgeRunsCount',    labelKey: 'explore_stat_forge_runs',    Icon: Wand2 },
 ]
 
 function StatChip({ children, Icon }: { children: React.ReactNode; Icon: typeof Users }) {
@@ -50,8 +51,8 @@ function CommunityStatsBar() {
   if (!stats) return null
   return (
     <div className="flex flex-wrap gap-2">
-      {STAT_ITEMS.map(({ key, labelKey, Icon }) => (
-        <StatChip key={key} Icon={Icon}>{t(labelKey, { count: stats[key] })}</StatChip>
+      {STAT_ITEMS.filter(({ key }) => stats[key] != null).map(({ key, labelKey, Icon }) => (
+        <StatChip key={key} Icon={Icon}>{t(labelKey, { count: stats[key] ?? 0 })}</StatChip>
       ))}
       {itemCount > 0 && setCount > 0 && (
         <StatChip Icon={Layers}>{t('explore_stat_catalog', { items: itemCount, sets: setCount })}</StatChip>
