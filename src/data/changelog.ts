@@ -8,10 +8,21 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.80',
+    date: '2026-10-14',
+    notes: [
+      'Fix: The Forger no longer settles into a decent build on demanding orders — Workers stop pulling each other into the first good result, stalled islands restart sooner, and on a real order the best build is now found 8/8 times with 8 threads (was 3/8)',
+      'Fix: Quick / Standard / Master now forge for a minimum time (15 s / 60 s / 2½ min) before tempering on their own',
+      'Improvement: smarter set handling (ranking by real gain per slot, starting "alloys" of 2–4 top sets), pruning of items beaten on every stat, and targeted repairs when a minimum is a few points short',
+      'Feature: a Prysmaradite always goes in the first Dofus slot',
+      'i18n: the tool name and the per-point value word are now consistent in every language',
+    ],
+  },
+  {
     version: '0.3.79',
     date: '2026-10-14',
     notes: [
-      'Feature: exact leys are back — minimum (≥), ley ⚖ (exact value per point) and soft or strict cap (≤) per stat; ◆ shortcuts fill the ley, and a warning shows when a minimum has ley 0',
+      'Feature: exact purity values are back — minimum (≥), purity ⚖ (exact value per point) and soft or strict cap (≤) per stat; ◆ shortcuts fill the purity, and a warning shows when a minimum has purity 0',
       'Feature: the Smith\'s scale shows what each stat is worth next to the others ("1 AP ≈ 500 HP")',
       'Feature: Eternal forge that never goes out on its own, and a bellows button to stoke a stalled forge without losing the best piece',
       'Feature: Reforge starts from the current pieces, so the result never gets worse',
@@ -23,7 +34,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.78',
     date: '2026-10-14',
     notes: [
-      'Feature: La Forjadora adds official transcendence runes (Tra / Pa / Ra) to the items it picks, one per forgeable item, sized by the line the item already has; loading a piece applies them',
+      'Feature: The Forger adds official transcendence runes (Tra / Pa / Ra) to the items it picks, one per forgeable item, sized by the line the item already has; loading a piece applies them',
       'Feature: characteristic points now also cover the chosen items\' own equip conditions (e.g. "Agility > 300")',
       'Feature: new forging flow — place an order (minimum, importance ◆ 1–5, soft or strict cap), pick Quick / Standard / Master, light the forge; it cools and tempers the result on its own, with a live checklist of minimums',
       'Improvement: wider and deeper search with ring migration between Workers and a final tempering pass over the best pieces',
@@ -35,9 +46,9 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.77',
     date: '2026-10-14',
     notes: [
-      'Architecture: La Forjadora runs on a new island-model engine that keeps its state between steps; several Workers (threads 1–8) search in parallel and share their best build',
+      'Architecture: The Forger runs on a new island-model engine that keeps its state between steps; several Workers (threads 1–8) search in parallel and share their best build',
       'Feature: conditions are now Goal / Weight / Max per stat — negative score while any goal is missing, weighted surplus once all are met; soft or absolute max; Power counts toward characteristic goals',
-      'Feature: La Forjadora distributes characteristic points for every build and adds exo AP/MP/Range runes only where they close a goal; loading a build applies both',
+      'Feature: The Forger distributes characteristic points for every build and adds exo AP/MP/Range runes only where they close a goal; loading a build applies both',
       'Feature: real Start / Pause / Resume / Restart with a generation counter, score delta, score sparkline and the top 10 builds as alternatives; configurable threads and generation limit',
       'Feature: ban items from a result card; the ban list is editable under Advanced',
       'Fix: stopping the search early now really interrupts it (the old engine could not read the stop message until it had finished)',
@@ -740,7 +751,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.2.133',
     date: '2026-09-11',
     notes: [
-      'Fix: header buttons (undo/redo, La Forjadora, Sets, Compare, version badge) showed at 640px wide while the 2-column desktop layout only kicked in at 1024px — between those widths the header looked fully desktop but Characteristics/Stats were hidden behind mobile tabs. Both now switch at the same width',
+      'Fix: header buttons (undo/redo, The Forger, Sets, Compare, version badge) showed at 640px wide while the 2-column desktop layout only kicked in at 1024px — between those widths the header looked fully desktop but Characteristics/Stats were hidden behind mobile tabs. Both now switch at the same width',
       'Feat: PvP simulator arena is now collapsed by default — click its header to reveal the resistance inputs and attack picker',
     ],
   },
@@ -1257,7 +1268,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.2.66',
     date: '2026-08-18',
     notes: [
-      'M42 — La Forjadora (Build Optimizer): header button opens the "La Forjadora" modal',
+      'M42 — The Forger (Build Optimizer): header button opens the "The Forger" modal',
       'Configure soft weights (sliders) to maximize any build stat',
       'Configure hard requirements (≥ minimum) — builds that don\'t meet them are dropped',
       'Exo AP/MP/Range checkboxes for future forged-item integration',
@@ -1265,7 +1276,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Beam search algorithm (width=50) with a greedy top-25-per-slot pre-filter',
       'Web Worker doesn\'t block the UI — real-time % progress bar',
       'Top-3 results with item images, key stats, and a "Load this build" button',
-      'Full i18n: ES (La Forjadora) / EN (The Forger) / FR (La Forgeuse) / PT (A Forjadora)',
+      'Full i18n: ES (The Forger) / EN (The Forger) / FR (La Forgeuse) / PT (A Forjadora)',
     ],
   },
   {

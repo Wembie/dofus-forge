@@ -5,9 +5,17 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.80] — 2026-10-14
+- **Fix**: The Forger often settled into a decent build and never reached the best one on demanding orders (e.g. 11 minimums without transcendence runes, where the best piece mixes four partial sets). Two causes: every island got pulled into the first good "basin" found (new bests were shared instantly between Workers and tempered pieces were written back into the population), and stalled islands restarted too late. Now Workers only trade pieces through the slow ring migration, tempered pieces stay in the ranking, and stalled islands restart after 50 generations. On a real user order, the known best build is now found 8/8 times with 8 threads (most in 2–6 s) and 7/8 with 4 threads in 60 s, up from 3/8
+- **Fix**: the forge no longer tempers itself too early: Quick, Standard and Master now have a minimum forging time (15 s / 60 s / 2½ min) on top of the minimums-met and no-improvement checks
+- **Improvement**: sets are ranked by what they add over the best loose items of the same slots (a 3-piece set that beats loose items per slot no longer ranks below 8-piece sets); set drops favour the top of that ranking; the forge starts with every combination of 2–4 top sets ("alloys") and restarts stalled islands from them; candidates another item beats on every scored stat are pruned; a targeted repair puts an item strong in a missing stat into the piece when a minimum is only a few points short
+- **Feature**: a Prysmaradite always goes in the first Dofus slot
+- **i18n**: the tool's name is now consistent in every language (La Forjadora / The Forger / La Forgeuse / A Forjadora) and the per-point value uses each language's metallurgy word (Ley / Purity / Aloi / Lei)
+- Validated: the user's best build reproduces exactly (same items, points and exos); 12 realistic orders still meet every minimum, now with identical results across seeds; 31 Rust unit tests
+
 ## [0.3.79] — 2026-10-14
-- **Feature**: exact leys are back. Each stat in the order has a minimum (≥), a ley ⚖ (the exact value of each point: missing points cost it, surplus earns it) and a soft or strict cap (≤). The ◆ shortcuts now just fill the ley with ¼×–4× the stat's usual value, and a warning shows when a minimum has ley 0 (it would not be chased). Saved orders from every earlier format migrate
-- **Feature**: the Smith's scale shows what one point of each stat is worth next to the others ("1 AP ≈ 500 HP"), so leys read as exchange rates
+- **Feature**: exact purity values are back. Each stat in the order has a minimum (≥), a purity ⚖ (the exact value of each point: missing points cost it, surplus earns it) and a soft or strict cap (≤). The ◆ shortcuts now just fill the purity with ¼×–4× the stat's usual value, and a warning shows when a minimum has purity 0 (it would not be chased). Saved orders from every earlier format migrate
+- **Feature**: the Smith's scale shows what one point of each stat is worth next to the others ("1 AP ≈ 500 HP"), so purity values read as exchange rates
 - **Feature**: Eternal forge: it never goes out on its own and keeps searching until you temper it. New bellows button ("Stoke the fire") melts fresh metal into the stalled islands without losing the best piece
 - **Feature**: Reforge relights the forge from the current pieces, so the result never gets worse; "From scratch" starts clean
 - **Improvement**: much more consistent results. The forge no longer cools while minimums are missing, polishes pieces during the whole run (a short tempering pass every 30 generations that feeds back into the population), and the final tempering kicks 2–3 slots or a whole set and re-polishes, escaping traps a single-slot polish cannot. On the 11-requirement case the spread between runs went from 26% to 1.4%
@@ -15,7 +23,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Validated on the real catalog: 6 seeds of the 11-requirement order all meet 11/11 (5 of 6 reach the same best quality); chained reforging never got worse; every result re-checked against the full stat engine
 
 ## [0.3.78] — 2026-10-14
-- **Feature**: La Forjadora now adds official transcendence runes (Tra / Pa / Ra, values from the game data) to the items it picks, one rune per forgeable item. The rank depends on how heavy the item's existing line on that stat already is. Runes are chosen per piece where they help most, alongside the exo AP/MP/Range runes, and loading a piece applies them to the sheet
+- **Feature**: The Forger now adds official transcendence runes (Tra / Pa / Ra, values from the game data) to the items it picks, one rune per forgeable item. The rank depends on how heavy the item's existing line on that stat already is. Runes are chosen per piece where they help most, alongside the exo AP/MP/Range runes, and loading a piece applies them to the sheet
 - **Feature**: characteristic points now also cover the equip conditions of the chosen items (e.g. "Agility > 300"), so gated items are no longer dropped just because no stat in the order asked for that characteristic
 - **Feature**: new forging flow. Place an order (minimum ≥, importance ◆ 1–5 and an optional soft or strict cap ≤ per stat), pick a forge intensity (Quick / Standard / Master), then light the forge. A heat bar cools while no better piece appears and the forge tempers the result on its own; a live checklist shows each minimum. You can temper early or put the forge out. Results come as forged pieces: a masterpiece plus distinct alternatives
 - **Improvement**: wider and deeper search: 96 islands of 512 pieces split across the Workers, ring migration between Workers, and a final tempering pass (slot-by-slot local search) over the best pieces
@@ -23,9 +31,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Validated on the real catalog: 6 realistic orders × 2 seeds, every result re-checked against the full stat engine. All 12 runs meet every minimum, including the 11-requirement case (previous version: 10 of 11)
 
 ## [0.3.77] — 2026-10-14
-- **Architecture**: La Forjadora runs on a new island-model engine that keeps its state between steps instead of one blocking call. Each Worker evolves 8 islands of 256 builds (18% elitism, size-9 tournaments, set-injection or single-slot mutation, duplicate replacement, island reset after 95 stagnant generations, ring migration every 41). Several Workers ("threads", 1–8) run in parallel and share their best build. The old memetic engine and its seeding phases were removed
-- **Feature**: conditions are now Goal / Weight / Max per stat. While any goal is missing the score is negative (missing amount × weight); once all are met La Forjadora maximizes the weighted surplus, up to each stat's max. A max can be soft (stops counting) or absolute (rejects the build). Power counts toward Strength/Intelligence/Chance/Agility goals. Activating a stat fills suggested values
-- **Feature**: La Forjadora distributes characteristic points for every build (greedy by marginal gain, including derived stats like HP, initiative, dodge/lock, parry/reduction, pods, prospecting) and adds exo AP/MP/Range runes (+1, one per item, rings only by default, 0–3 max) only where they close a goal. Loading a build applies its points and exo runes
+- **Architecture**: The Forger runs on a new island-model engine that keeps its state between steps instead of one blocking call. Each Worker evolves 8 islands of 256 builds (18% elitism, size-9 tournaments, set-injection or single-slot mutation, duplicate replacement, island reset after 95 stagnant generations, ring migration every 41). Several Workers ("threads", 1–8) run in parallel and share their best build. The old memetic engine and its seeding phases were removed
+- **Feature**: conditions are now Goal / Weight / Max per stat. While any goal is missing the score is negative (missing amount × weight); once all are met The Forger maximizes the weighted surplus, up to each stat's max. A max can be soft (stops counting) or absolute (rejects the build). Power counts toward Strength/Intelligence/Chance/Agility goals. Activating a stat fills suggested values
+- **Feature**: The Forger distributes characteristic points for every build (greedy by marginal gain, including derived stats like HP, initiative, dodge/lock, parry/reduction, pods, prospecting) and adds exo AP/MP/Range runes (+1, one per item, rings only by default, 0–3 max) only where they close a goal. Loading a build applies its points and exo runes
 - **Feature**: real Start / Pause / Resume / Restart with a live generation counter, best score with delta, a score-history sparkline and the top 10 distinct builds as selectable alternatives. Configurable thread count and generation limit (100–10000, default 2500). Changing settings restarts the search
 - **Feature**: ban items straight from a result card (they are excluded from the next search); the ban list is editable under "Advanced"
 - **Fix**: "Use this result now" could not actually interrupt the old engine: its search was one synchronous WASM call, so the Worker never processed the stop message until the search had finished. Pausing now takes effect between steps (~120 ms)
@@ -435,7 +443,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Polish: `PvpArena`'s attack picker dumped every damage-dealing spell (class normal + variant + common) into one flat, horizontally-scrolling row with no labels. Grouped it into `PickerGroup`/`AttackIcon` sections matching the main spell list's own categories (`spell_col_normal`, `spell_col_variant`, `common_spells`, plus a weapon group using `weapon_attack`), each wrapping via `flex-wrap` instead of `overflow-x-auto` so nothing hides off-screen on narrow widths. Added `pvp_arena_resist_label`/`pvp_arena_attack_label` section headers above the resistance grid and the target+picker block for clearer visual separation
 
 ## [0.2.133] — 2026-09-11
-- Fix: `BuilderPage.tsx`'s header controls (undo/redo, La Forjadora, Sets catalog, Compare, version badge, dividers) switched from hidden to visible at Tailwind's `sm` breakpoint (640px), but the main content only switches from the single-tab mobile layout to the 2-column desktop grid at `lg` (1024px). Between 640–1023px wide the header looked fully desktop (all buttons with labels) while Characteristics/Stats were hidden behind the mobile bottom tabs — reported as "characteristics panel missing". Changed all of those header elements from `sm:` to `lg:` so both switch at the same width
+- Fix: `BuilderPage.tsx`'s header controls (undo/redo, The Forger, Sets catalog, Compare, version badge, dividers) switched from hidden to visible at Tailwind's `sm` breakpoint (640px), but the main content only switches from the single-tab mobile layout to the 2-column desktop grid at `lg` (1024px). Between 640–1023px wide the header looked fully desktop (all buttons with labels) while Characteristics/Stats were hidden behind the mobile bottom tabs — reported as "characteristics panel missing". Changed all of those header elements from `sm:` to `lg:` so both switch at the same width
 - Feat: `PvpArena` (the PvP simulator section in Spells) is now collapsed by default — its header is a toggle; resistance inputs and the attack picker only render once expanded
 
 ## [0.2.132] — 2026-09-11
@@ -703,7 +711,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Fix: rune badge repositioned outside slot to the right — was at `left: px-3` (overlapping slot); now `left: px+2` (clearly outside, visible beside the slot)
 
 ## [0.2.66] — 2026-08-18
-- M42 — La Forjadora (Build Optimizer): header button opens the modal
+- M42 — The Forger (Build Optimizer): header button opens the modal
 - Configure soft weights (sliders 1–10) to maximize any build stat
 - Configure hard requirements (≥ minimum) — builds that don't meet them are dropped from the top 3
 - Exo AP/MP/Range checkboxes (groundwork for future forged-item integration)
@@ -711,7 +719,7 @@ This closes out the "big scope" items from the premium-redesign request (particl
 - Beam search algorithm (width=50) with a greedy top-25-per-slot pre-filter
 - Web Worker: computation doesn't block the UI — real-time % progress bar
 - Top-3 results: item images, key stats, "Load this build" button
-- i18n: ES / EN / FR / PT with a localized name (La Forjadora / The Forger / La Forgeuse / A Forjadora)
+- i18n: ES / EN / FR / PT with a localized name (The Forger / The Forger / La Forgeuse / A Forjadora)
 
 ## [0.2.65] — 2026-08-18
 - WeaponCard: transformation potion icon (Wildfire/Earthquake/Tsunami/Hurricane) now appears in the bottom-right corner of the weapon image when a transform is active

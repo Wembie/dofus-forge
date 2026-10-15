@@ -205,11 +205,22 @@ const IMMIGRANT_FRACTION: f64 = 0.01;
 const TOURNAMENT_K: usize = 9;
 const SET_MUTATION_RATE: f64 = 0.40;
 const SECOND_SET_RATE: f64 = 0.20;
-const STAGNATION_RESET: u32 = 95;
+// Measured on a real multi-basin order: restarting a stalled island after
+// 50 generations finds the best basin more often than 95 (more independent
+// attempts) or 30 (attempts too short to converge).
+const STAGNATION_RESET: u32 = 50;
 pub const MIGRATION_EVERY: u64 = 41;
 const MIGRATION_FRACTION: f64 = 0.03;
 // Candidates per slot for the tempering passes (best standalone value first).
 const SHORT_POOL: usize = 60;
+// Items kept per (requested stat, slot) for targeted repairs.
+const STAT_POOL: usize = 15;
+// Alloy seeding: every combination of 1–3 sets among the top ALLOY_SETS
+// (and of 4 among the top ALLOY_QUADS), greedily completed with loose items.
+const ALLOY_SETS: usize = 30;
+const ALLOY_QUADS: usize = 12;
+const ALLOY_SEEDS_PER_ISLAND: usize = 24;
+const ALLOY_POOL: usize = 256;
 pub const HALL_SIZE: usize = 10;
 
 fn obtainable(item: &CatalogItem) -> bool {
@@ -371,6 +382,7 @@ struct Eval {
     conditions_ok: bool,
     meets_required: bool,
     requirements_met: usize,
+    unmet: u64, // bit per target (first 64) whose minimum is still missing
 }
 
 #[derive(Serialize)]
@@ -389,8 +401,11 @@ pub struct Forge {
     set_data: Vec<SetData>,
     set_bonus: Vec<Vec<Vec60>>,               // [set][piece count] -> best reached tier
     set_members: Vec<Vec<(i32, Vec<usize>)>>, // [set] -> (item, free slots holding it in their pool)
+    set_rank: Vec<usize>,                     // useful sets, most valuable for this order first
+    alloy_pool: Vec<[i32; NSLOT]>,            // best set combinations, restart points for stalled islands
     pools: Vec<Vec<i32>>,
     short_pools: Vec<Vec<i32>>,
+    stat_pools: Vec<Vec<Vec<i32>>>, // [target][slot] -> items strongest in that stat
     free_slots: Vec<usize>,
     fixed: [i32; NSLOT],
     base_pre: Vec60,
@@ -410,6 +425,9 @@ pub struct Forge {
     rng: Rng,
     inject_turn: usize,
     evaluations: std::cell::Cell<u64>,
+    settle_tempered: bool,
+    stagnation_reset: u32,
+    set_rank_bias: f64,
 }
 
 impl Forge {
@@ -563,8 +581,11 @@ impl Forge {
             set_data,
             set_bonus,
             set_members: vec![Vec::new(); sets.len()],
+            set_rank: Vec::new(),
+            alloy_pool: Vec::new(),
             pools: vec![Vec::new(); NSLOT],
             short_pools: vec![Vec::new(); NSLOT],
+            stat_pools: Vec::new(),
             free_slots,
             fixed,
             base_pre,
@@ -584,6 +605,9 @@ impl Forge {
             rng: Rng(seed ^ 0xD1B5_4A32_D192_ED03),
             inject_turn: 0,
             evaluations: std::cell::Cell::new(0),
+            settle_tempered: false,
+            stagnation_reset: STAGNATION_RESET,
+            set_rank_bias: 0.7,
         };
 
         // Pools: only items that can move at least one scored stat (directly,
@@ -614,6 +638,9 @@ impl Forge {
                 .collect();
             forge.pools[s] = pool;
         }
+        if config.prune {
+            forge.prune_dominated();
+        }
         for &s in &forge.free_slots {
             for &i in &forge.pools[s] {
                 if let Some(st) = forge.items[i as usize].set {
@@ -633,6 +660,54 @@ impl Forge {
             short.truncate(SHORT_POOL);
             forge.short_pools[s] = short;
         }
+        // Items strongest in each requested stat, so a piece one or two
+        // points short of a minimum can be fixed by a targeted swap even when
+        // those items rank low on overall value.
+        forge.stat_pools = (0..forge.targets.len())
+            .map(|ti| {
+                (0..NSLOT)
+                    .map(|s| {
+                        if !forge.free_slots.contains(&s) {
+                            return Vec::new();
+                        }
+                        let mut scored: Vec<(i64, i32)> = forge.pools[s]
+                            .iter()
+                            .map(|&i| (forge.stat_contribution(i as usize, ti), i))
+                            .filter(|(c, _)| *c > 0)
+                            .collect();
+                        scored.sort_by(|a, b| b.0.cmp(&a.0));
+                        scored.into_iter().take(STAT_POOL).map(|(_, i)| i).collect()
+                    })
+                    .collect()
+            })
+            .collect();
+        for &s in &forge.free_slots.clone() {
+            let mut extra: Vec<i32> = forge.stat_pools.iter().flat_map(|per_slot| per_slot[s].iter().copied()).collect();
+            extra.retain(|i| !forge.short_pools[s].contains(i));
+            extra.sort_unstable();
+            extra.dedup();
+            forge.short_pools[s].extend(extra);
+        }
+
+        // Sets ranked by what they bring to this order: their members' own
+        // value plus the bonus they reach with every member worn.
+        // Baseline: the best loose (set-less) item value each slot could hold.
+        let baseline: Vec<f64> = (0..NSLOT)
+            .map(|s| forge.pools[s].iter().filter(|&&i| forge.items[i as usize].set.is_none()).map(|&i| values[i as usize]).fold(0.0, f64::max))
+            .collect();
+        let mut ranked: Vec<(f64, usize)> = (0..forge.set_members.len())
+            .filter(|&st| forge.set_members[st].len() >= 2)
+            .map(|st| {
+                // Gain over loose items in the same slots, plus the full bonus.
+                let members: f64 = forge.set_members[st].iter().map(|(i, slots)| values[*i as usize] - baseline[slots[0]]).sum();
+                let full = forge.set_bonus[st][forge.set_members[st].len().min(NSLOT)];
+                let bonus: f64 = (0..NF).filter(|&j| full[j] > 0).map(|j| forge.stat_targets[j].iter().map(|&t| forge.targets[t].weight * full[j] as f64).sum::<f64>()).sum();
+                (members + bonus, st)
+            })
+            .filter(|(v, _)| *v > -1e12)
+            .collect();
+        ranked.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+        forge.set_rank = ranked.into_iter().map(|(_, st)| st).collect();
 
         for _ in 0..island_count {
             let pop: Vec<Individual> = (0..ISLAND_SIZE).map(|_| forge.random_individual()).collect();
@@ -641,8 +716,166 @@ impl Forge {
             island.best = island.pop[0].score;
             forge.islands.push(island);
         }
+        forge.seed_alloys();
         forge.update_hall();
         forge
+    }
+
+    // Wears every member of set `st` it can, each in its first free slot.
+    fn place_whole_set(&self, g: &mut [i32; NSLOT], used: &mut [bool; NSLOT], st: usize) {
+        for (item, slots) in &self.set_members[st] {
+            for &s in slots {
+                if !used[s] && self.try_place(g, s, *item) {
+                    used[s] = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Fills every slot not yet claimed with its best-valued item that fits.
+    fn greedy_fill(&self, g: &mut [i32; NSLOT], used: &[bool; NSLOT]) {
+        for &s in &self.free_slots {
+            if used[s] {
+                continue;
+            }
+            g[s] = -1;
+            // Items with equip conditions are left to the search itself: a
+            // blind greedy pick of them mostly breaks the alloy.
+            for &item in self.short_pools[s].iter().take(SHORT_POOL) {
+                if self.items[item as usize].conds.is_empty() && self.try_place(g, s, item) {
+                    break;
+                }
+            }
+        }
+    }
+
+    fn alloy(&self, combo: &[usize]) -> Individual {
+        let mut g = self.fixed;
+        let mut used = [false; NSLOT];
+        for &st in combo {
+            self.place_whole_set(&mut g, &mut used, st);
+        }
+        self.greedy_fill(&mut g, &used);
+        self.make(g)
+    }
+
+    // Seeds every island with the best set combinations ("alloys"): a strong
+    // piece usually mixes 2–4 partial sets, which random set drops only hit
+    // by luck.
+    fn seed_alloys(&mut self) {
+        let top: Vec<usize> = self.set_rank.iter().copied().take(ALLOY_SETS).collect();
+        let mut alloys: Vec<Individual> = vec![self.alloy(&[])];
+        for a in 0..top.len() {
+            alloys.push(self.alloy(&[top[a]]));
+            for b in (a + 1)..top.len() {
+                alloys.push(self.alloy(&[top[a], top[b]]));
+                for c in (b + 1)..top.len() {
+                    alloys.push(self.alloy(&[top[a], top[b], top[c]]));
+                    if c < ALLOY_QUADS {
+                        for d in (c + 1)..top.len().min(ALLOY_QUADS) {
+                            alloys.push(self.alloy(&[top[a], top[b], top[c], top[d]]));
+                        }
+                    }
+                }
+            }
+        }
+        alloys.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+        let mut kept: Vec<Individual> = Vec::new();
+        for ind in alloys {
+            if kept.iter().all(|k| k.hash != ind.hash) {
+                kept.push(ind);
+            }
+            if kept.len() >= ALLOY_POOL.max(ALLOY_SEEDS_PER_ISLAND * self.islands.len().max(1)) {
+                break;
+            }
+        }
+        self.alloy_pool = kept.iter().take(ALLOY_POOL).map(|ind| ind.genes).collect();
+        kept.truncate(ALLOY_SEEDS_PER_ISLAND * self.islands.len().max(1));
+        let count = self.islands.len();
+        for (k, ind) in kept.into_iter().enumerate() {
+            let island = &mut self.islands[k % count];
+            let len = island.pop.len();
+            island.pop[len - 1 - k / count] = ind;
+        }
+        for island in &mut self.islands {
+            island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
+            island.best = island.pop[0].score;
+        }
+    }
+
+    // Drops items another candidate of the same slot beats or ties on every
+    // stat the order scores (including the transcendence rune each could
+    // take). Ring and Dofus slots need 2 / 6 distinct dominators, since that
+    // many can be worn at once. Set items, items with equip conditions and
+    // Prysmaradites are never dropped. Fewer, stronger candidates per slot
+    // let the search spend its strikes where they matter.
+    fn prune_dominated(&mut self) {
+        let dims: Vec<usize> = (0..NF).filter(|&j| !self.stat_targets[j].is_empty()).collect();
+        // More is not always better on a stat with a strict cap: require
+        // equality there instead of "at least".
+        let exact: Vec<bool> = (0..NF).map(|j| self.stat_targets[j].iter().any(|&t| self.targets[t].absolute)).collect();
+        let rune_of = |i: usize, j: usize| -> i64 { self.items[i].runes.iter().find(|(d, _)| *d == j).map(|(_, v)| *v).unwrap_or(0) };
+        let protected = |i: usize| -> bool {
+            let it = &self.items[i];
+            it.set.is_some() || !it.conds.is_empty() || it.prysmaradite
+        };
+        let dominates = |b: usize, a: usize| -> bool {
+            if protected(b) {
+                return false;
+            }
+            let (vb, va) = (&self.items[b].vec, &self.items[a].vec);
+            let mut strictly = false;
+            for &j in &dims {
+                if exact[j] {
+                    if vb[j] != va[j] {
+                        return false;
+                    }
+                    continue;
+                }
+                if vb[j] < va[j] {
+                    return false;
+                }
+                if vb[j] > va[j] {
+                    strictly = true;
+                }
+            }
+            // Whatever rune `a` could take, `b` must still match it.
+            for &(j, v) in &self.items[a].runes {
+                if !exact[j] && vb[j] + rune_of(b, j) < va[j] + v {
+                    return false;
+                }
+            }
+            strictly || b < a
+        };
+        let mut pruned: Vec<Vec<i32>> = vec![Vec::new(); NSLOT];
+        for &s in &self.free_slots {
+            let need = if s == RING1 || s == RING2 { 2 } else if s >= DOFUS_FIRST { NSLOT - DOFUS_FIRST } else { 1 };
+            let pool = &self.pools[s];
+            pruned[s] = pool
+                .iter()
+                .copied()
+                .filter(|&a| {
+                    let a = a as usize;
+                    if protected(a) {
+                        return true;
+                    }
+                    let mut dominators = 0;
+                    for &b in pool {
+                        if b as usize != a && dominates(b as usize, a) {
+                            dominators += 1;
+                            if dominators >= need {
+                                return false;
+                            }
+                        }
+                    }
+                    true
+                })
+                .collect();
+        }
+        for &s in &self.free_slots.clone() {
+            self.pools[s] = std::mem::take(&mut pruned[s]);
+        }
     }
 
     // Rough worth of an item on its own (stats, best rune, set potential),
@@ -657,6 +890,37 @@ impl Forge {
             (0..NF).filter(|&j| top[j] > 0).map(|j| gain(j, top[j])).sum::<f64>() / self.set_members[st].len().max(1) as f64
         });
         own + rune + set.unwrap_or(0.0)
+    }
+
+    // How much one item (with its best rune) raises target `ti` on its own.
+    fn stat_contribution(&self, i: usize, ti: usize) -> i64 {
+        let item = &self.items[i];
+        let t = &self.targets[ti];
+        let own: i64 = (0..NF).filter(|&j| item.vec[j] > 0 && feeds(j, t)).map(|j| item.vec[j]).sum();
+        let rune = item.runes.iter().filter(|(j, _)| feeds(*j, t)).map(|(_, v)| *v).max().unwrap_or(0);
+        own + rune
+    }
+
+    // Puts an item strong in one of the missing stats into some free slot.
+    fn targeted_kick(&mut self, g: &mut [i32; NSLOT], unmet: u64) -> bool {
+        let missing: Vec<usize> = (0..self.targets.len().min(64)).filter(|ti| unmet & (1 << ti) != 0).collect();
+        if missing.is_empty() {
+            return false;
+        }
+        let ti = missing[self.rng.below(missing.len())];
+        let slots: Vec<usize> = self.free_slots.iter().copied().filter(|&s| !self.stat_pools[ti][s].is_empty()).collect();
+        if slots.is_empty() {
+            return false;
+        }
+        for _ in 0..4 {
+            let s = slots[self.rng.below(slots.len())];
+            let pool = &self.stat_pools[ti][s];
+            let item = pool[self.rng.below(pool.len())];
+            if item != g[s] && self.try_place(g, s, item) {
+                return true;
+            }
+        }
+        false
     }
 
     // Does this raw stat vector add anything a weighted target cares about?
@@ -983,7 +1247,8 @@ impl Forge {
         let mut deficit = 0.0f64;
         let mut surplus = 0.0f64;
         let mut met = 0usize;
-        for t in &self.targets {
+        let mut unmet = 0u64;
+        for (ti, t) in self.targets.iter().enumerate() {
             let e = self.effective(&pre, &ch, t);
             if t.absolute && e > t.max {
                 violation += (e - t.max) as f64 * if t.weight > 0.0 { t.weight } else { 100.0 };
@@ -991,6 +1256,8 @@ impl Forge {
             let ec = e.min(t.max);
             if t.goal > 0 && ec >= t.goal {
                 met += 1;
+            } else if t.goal > 0 && ti < 64 {
+                unmet |= 1 << ti;
             }
             let d = (t.goal - ec) as f64 * t.weight;
             if d > 0.0 {
@@ -1018,6 +1285,7 @@ impl Forge {
             conditions_ok: conditions_ok && legal,
             meets_required: legal && violation == 0.0 && deficit == 0.0,
             requirements_met: met,
+            unmet,
         }
     }
 
@@ -1040,14 +1308,20 @@ impl Forge {
         if candidates.is_empty() {
             return false;
         }
-        let slot = candidates[self.rng.below(candidates.len())];
-        let pool_len = self.pools[slot].len();
         let mut chosen_set = None;
-        for _ in 0..5 {
-            let item = self.pools[slot][self.rng.below(pool_len)];
-            if let Some(st) = self.items[item as usize].set {
-                chosen_set = Some(st);
-                break;
+        // Mostly sets that matter for this order (rank-biased), sometimes any.
+        if !self.set_rank.is_empty() && self.rng.chance(self.set_rank_bias) {
+            let skew = self.rng.f64() * self.rng.f64();
+            chosen_set = Some(self.set_rank[((skew * self.set_rank.len() as f64) as usize).min(self.set_rank.len() - 1)]);
+        } else {
+            let slot = candidates[self.rng.below(candidates.len())];
+            let pool_len = self.pools[slot].len();
+            for _ in 0..5 {
+                let item = self.pools[slot][self.rng.below(pool_len)];
+                if let Some(st) = self.items[item as usize].set {
+                    chosen_set = Some(st);
+                    break;
+                }
             }
         }
         let Some(st) = chosen_set else { return false };
@@ -1139,8 +1413,24 @@ impl Forge {
         } else {
             island.stagnant += 1;
         }
-        if island.stagnant >= STAGNATION_RESET {
-            let fresh: Vec<Individual> = (0..n).map(|_| self.random_individual()).collect();
+        if island.stagnant >= self.stagnation_reset {
+            // A stalled island restarts somewhere new: half fresh random
+            // builds, half mutated alloys (promising set combinations), so
+            // each restart is a real new attempt at a different basin.
+            let fresh: Vec<Individual> = (0..n)
+                .map(|k| {
+                    if k % 2 == 1 && !self.alloy_pool.is_empty() {
+                        let mut g = self.alloy_pool[self.rng.below(self.alloy_pool.len())];
+                        for _ in 0..self.rng.below(3) {
+                            self.point_mutation(&mut g);
+                        }
+                        if self.valid(&g) {
+                            return self.make(g);
+                        }
+                    }
+                    self.random_individual()
+                })
+                .collect();
             let island = &mut self.islands[i];
             island.pop = fresh;
             island.pop.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
@@ -1214,6 +1504,21 @@ impl Forge {
             self.migrate();
         }
         self.update_hall();
+    }
+
+    /// Whether tempered pieces are written back into the population.
+    pub fn set_settle_tempered(&mut self, on: bool) {
+        self.settle_tempered = on;
+    }
+
+    /// Generations without improvement before an island restarts.
+    pub fn set_stagnation_reset(&mut self, gens: u32) {
+        self.stagnation_reset = gens.max(1);
+    }
+
+    /// Share of set drops that pick from the order's top-ranked sets.
+    pub fn set_set_rank_bias(&mut self, p: f64) {
+        self.set_rank_bias = p.clamp(0.0, 1.0);
     }
 
     pub fn generation(&self) -> u64 {
@@ -1354,7 +1659,12 @@ impl Forge {
                 break;
             }
             let mut g = current.genes;
-            if self.rng.chance(0.3) {
+            let unmet = self.evaluate(&g).unmet;
+            if unmet != 0 && self.rng.chance(0.6) && self.targeted_kick(&mut g, unmet) {
+                if self.rng.chance(0.5) {
+                    self.point_mutation(&mut g);
+                }
+            } else if self.rng.chance(0.3) {
                 self.inject_set(&mut g);
             } else {
                 for _ in 0..2 + self.rng.below(2) {
@@ -1373,8 +1683,32 @@ impl Forge {
         }
         found.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
         found.truncate(HALL_SIZE * 2);
-        self.settle_into_population(&found);
+        if self.settle_tempered {
+            self.settle_into_population(&found);
+        }
         self.merge_into_hall(found);
+    }
+
+    /// Scores a given build exactly as the search would (points, exos and
+    /// runes re-decided), and lists the items the search could never pick
+    /// because they are missing from that slot's candidate pool.
+    pub fn assess(&self, equipped: &HashMap<String, i64>) -> (Option<BuildResult>, Vec<String>) {
+        let mut g = self.fixed;
+        let mut unreachable = Vec::new();
+        for &s in &self.free_slots {
+            let Some(id) = equipped.get(ALL_SLOTS[s]) else { continue };
+            match self.items.iter().position(|it| it.ankama_id == *id) {
+                Some(i) => {
+                    if !self.pools[s].contains(&(i as i32)) {
+                        unreachable.push(format!("{}: {} ({})", ALL_SLOTS[s], self.catalog[i].name, id));
+                    }
+                    g[s] = i as i32;
+                }
+                None => unreachable.push(format!("{}: unknown id {}", ALL_SLOTS[s], id)),
+            }
+        }
+        let result = self.valid(&g).then(|| self.to_result(&g));
+        (result, unreachable)
     }
 
     pub fn results(&self) -> Vec<BuildResult> {
@@ -1385,7 +1719,23 @@ impl Forge {
         ForgeReport { generation: self.generation, evaluations: self.evaluations.get(), best_score: self.best_score(), results: self.results() }
     }
 
+    // Dofus slots are interchangeable; a Prysmaradite always goes in the
+    // first one (unless either slot is locked).
+    fn arrange(&self, g: &[i32; NSLOT]) -> [i32; NSLOT] {
+        let mut out = *g;
+        if self.fixed[DOFUS_FIRST] >= 0 {
+            return out;
+        }
+        if let Some(s) = (DOFUS_FIRST + 1..NSLOT).find(|&s| out[s] >= 0 && self.fixed[s] < 0 && self.items[out[s] as usize].prysmaradite) {
+            if out[DOFUS_FIRST] < 0 || !self.items[out[DOFUS_FIRST] as usize].prysmaradite {
+                out.swap(DOFUS_FIRST, s);
+            }
+        }
+        out
+    }
+
     fn equipped_map(&self, g: &[i32; NSLOT]) -> HashMap<String, i64> {
+        let g = &self.arrange(g);
         g.iter()
             .enumerate()
             .filter(|(_, &item)| item >= 0)
@@ -1394,6 +1744,7 @@ impl Forge {
     }
 
     fn to_result(&self, g: &[i32; NSLOT]) -> BuildResult {
+        let g = &self.arrange(g);
         let ev = self.evaluate(g);
         let mut items = Vec::new();
         let mut exo = HashMap::new();
@@ -1509,6 +1860,7 @@ mod tests {
             banned_types: vec![],
             transcendence: false,
             islands: 4,
+            prune: true,
         }
     }
     fn base(level: i64) -> OptimizerBuildBase {
@@ -1597,8 +1949,9 @@ mod tests {
 
     #[test]
     fn unmet_goals_score_negative_and_met_goals_score_surplus() {
-        let items = vec![item(1, "hat", None, vec![effect("Strength", 40)]), item(2, "hat", None, vec![effect("Strength", 120)])];
-        let mut f = Forge::new(config(vec![cond("strength", 100, 2)], &["hat"]), items, vec![], base(1), 3);
+        // Item 1 keeps a point of Chance so it is not dominated (pruned).
+        let items = vec![item(1, "hat", None, vec![effect("Strength", 40), effect("Chance", 1)]), item(2, "hat", None, vec![effect("Strength", 120)])];
+        let mut f = Forge::new(config(vec![cond("strength", 100, 2), cond("chance", 0, 1)], &["hat"]), items, vec![], base(1), 3);
         let results = run(&mut f, 10);
         assert_eq!(results[0].equipped.get("hat"), Some(&2));
         assert_eq!(results[0].score, 40.0);
@@ -1796,6 +2149,121 @@ mod tests {
         };
         f.temper(5000.0, &now);
         assert_eq!(get_stat(&f.results()[0].stats, "vitality"), 520);
+    }
+
+    #[test]
+    fn targeted_kick_closes_a_small_gap() {
+        // The only fire-resistance hat is weak overall, so value-ranked
+        // tempering never tries it; the targeted kick does.
+        let mut items: Vec<CatalogItem> = (0..80).map(|i| item(i, "hat", None, vec![effect("Vitality", 100 + i)])).collect();
+        items.push(item(500, "hat", None, vec![effect("% Fire Resistance", 5), effect("Vitality", 1)]));
+        items.push(item(501, "cape", None, vec![effect("% Fire Resistance", 5)]));
+        items.iter_mut().for_each(|it| it.level = 1);
+        let mut cfg = config(vec![cond("fireResPercent", 10, 30), cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.islands = 1;
+        let mut f = Forge::new(cfg, items, vec![], base(1), 31);
+        assert!(f.short_pools[0].contains(&80), "stat pool merged into short pool");
+        let mut g = f.fixed;
+        g[0] = 79;
+        g[1] = 81;
+        f.hall = vec![f.make(g)];
+        f.temper(4000.0, &ticking());
+        let r = &f.results()[0];
+        assert!(r.meets_required);
+        assert_eq!(r.equipped.get("hat"), Some(&500));
+    }
+
+    #[test]
+    #[ignore]
+    fn diagnose_user_order() {
+        let items: Vec<CatalogItem> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/equipment.json").unwrap()).unwrap();
+        let sets: Vec<CatalogSet> = serde_json::from_str(&std::fs::read_to_string("../public/data/en/sets.json").unwrap()).unwrap();
+        let set_names: HashMap<i64, String> = serde_json::from_str::<Vec<serde_json::Value>>(&std::fs::read_to_string("../public/data/en/sets.json").unwrap())
+            .unwrap()
+            .iter()
+            .map(|v| (v["ankama_id"].as_i64().unwrap(), v["name"].as_str().unwrap_or("").to_string()))
+            .collect();
+        let stats = vec![
+            StatConfig { stat: "ap".into(), goal: 12, weight: 500, max: Some(12), absolute: false },
+            StatConfig { stat: "mp".into(), goal: 6, weight: 500, max: Some(6), absolute: false },
+            StatConfig { stat: "range".into(), goal: 6, weight: 250, max: Some(6), absolute: false },
+            StatConfig { stat: "maxHp".into(), goal: 5000, weight: 1, max: None, absolute: false },
+            StatConfig { stat: "strength".into(), goal: 1350, weight: 5, max: None, absolute: false },
+            StatConfig { stat: "earthDamage".into(), goal: 180, weight: 25, max: None, absolute: false },
+            StatConfig { stat: "fireResPercent".into(), goal: 40, weight: 30, max: Some(50), absolute: false },
+            StatConfig { stat: "earthResPercent".into(), goal: 40, weight: 30, max: Some(50), absolute: false },
+            StatConfig { stat: "waterResPercent".into(), goal: 40, weight: 30, max: Some(50), absolute: false },
+            StatConfig { stat: "airResPercent".into(), goal: 40, weight: 30, max: Some(50), absolute: false },
+            StatConfig { stat: "neutralResPercent".into(), goal: 20, weight: 30, max: Some(50), absolute: false },
+        ];
+        let mut cfg = config(stats, &ALL_SLOTS);
+        cfg.exo = ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 };
+        cfg.assume_fully_scrolled = true;
+        cfg.islands = 1;
+        let f = Forge::new(cfg, items, sets, base(200), 1);
+        let pool_sizes: Vec<String> = f.free_slots.iter().map(|&s| format!("{}:{}", ALL_SLOTS[s], f.pools[s].len())).collect();
+        println!("pool sizes {}", pool_sizes.join(" "));
+        let wanted = ["Erotegg Set", "Count Harebourg Set", "Eternal Gardens Sanctuary Set", "Rhineetle Set"];
+        let mut wanted_idx = Vec::new();
+        for (rank, &st) in f.set_rank.iter().enumerate() {
+            let name = &set_names[&f.set_data[st].ankama_id];
+            if wanted.contains(&name.as_str()) {
+                println!("set rank {rank}: {name}");
+                wanted_idx.push(st);
+            }
+        }
+        println!("ranked sets: {}", f.set_rank.len());
+        let alloy = f.alloy(&wanted_idx[..wanted_idx.len().min(3)]);
+        println!("alloy of top-3 wanted sets: score {}", alloy.score);
+        let polished = f.ascend(alloy, true, f64::INFINITY, &ticking());
+        println!("alloy polished (full pools): score {}", polished.score);
+        let ids = [34327, 14168, 34329, 14077, 32234, 19983, 14078, 32235, 32236, 33035, 0, 7043, 7115, 7754, 21996, 694, 29136];
+        let optimum: HashMap<String, i64> = ALL_SLOTS.iter().zip(ids).filter(|(_, id)| *id != 0).map(|(s, id)| (s.to_string(), id)).collect();
+        let (r, _) = f.assess(&optimum);
+        println!("optimum score {}", r.unwrap().score);
+        let mut g = f.fixed;
+        for &s in &f.free_slots {
+            if let Some(id) = optimum.get(ALL_SLOTS[s]) {
+                g[s] = f.items.iter().position(|it| it.ankama_id == *id).unwrap() as i32;
+            }
+        }
+        let polished_opt = f.ascend(f.make(g), true, f64::INFINITY, &ticking());
+        println!("optimum after full polish: score {}", polished_opt.score);
+    }
+
+    #[test]
+    fn dominated_items_leave_the_pool_but_set_items_stay() {
+        let mut items = vec![
+            item(1, "hat", None, vec![effect("Vitality", 100), effect("Strength", 50)]),
+            item(2, "hat", None, vec![effect("Vitality", 80), effect("Strength", 50)]),
+            item(3, "hat", Some(9), vec![effect("Vitality", 10)]),
+            item(4, "ring", None, vec![effect("Vitality", 100)]),
+            item(5, "ring", None, vec![effect("Vitality", 90)]),
+            item(6, "ring", None, vec![effect("Vitality", 80)]),
+        ];
+        items.iter_mut().for_each(|it| it.level = 1);
+        let mut bonuses = HashMap::new();
+        bonuses.insert("2".to_string(), vec![effect("Vitality", 1)]);
+        let sets = vec![CatalogSet { ankama_id: 9, items: vec![3], bonuses }];
+        let f = Forge::new(config(vec![cond("vitality", 0, 1), cond("strength", 0, 1)], &["hat", "ring1", "ring2"]), items, sets, base(1), 3);
+        let ids = |s: usize| -> Vec<i64> { f.pools[s].iter().map(|&i| f.items[i as usize].ankama_id).collect() };
+        assert_eq!(ids(0), vec![1, 3]);
+        assert_eq!(ids(RING1), vec![4, 5]);
+    }
+
+    #[test]
+    fn a_prysmaradite_always_sits_in_the_first_dofus_slot() {
+        let mut prysma = item(7, "dofus", None, vec![effect("Vitality", 300)]);
+        prysma.item_type = "Prysmaradite".to_string();
+        let items = vec![item(1, "dofus", None, vec![effect("Vitality", 200)]), item(2, "dofus", None, vec![effect("Vitality", 100)]), prysma];
+        let f = Forge::new(config(vec![cond("vitality", 0, 1)], &["dofus1", "dofus2", "dofus3"]), items, vec![], base(1), 2);
+        let mut g = f.fixed;
+        g[DOFUS_FIRST] = 0;
+        g[DOFUS_FIRST + 1] = 1;
+        g[DOFUS_FIRST + 2] = 2;
+        let r = f.to_result(&g);
+        assert_eq!(r.equipped.get("dofus1"), Some(&7));
+        assert_eq!(get_stat(&r.stats, "vitality"), 600);
     }
 
     #[test]

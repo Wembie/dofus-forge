@@ -85,6 +85,9 @@ pub struct OptimizerConfig {
     /// Islands this Forge runs (a run splits its islands across Workers).
     #[serde(default = "default_islands")]
     pub islands: usize,
+    /// Drop candidates another item of the same slot beats on every scored stat.
+    #[serde(default = "default_true")]
+    pub prune: bool,
 }
 
 fn default_true() -> bool {
