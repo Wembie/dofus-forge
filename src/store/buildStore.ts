@@ -1,9 +1,10 @@
 import { create } from 'zustand'
-import type { DofusClass, Characteristic, AllocatedCharacteristics, ScrolledCharacteristics, ItemEffect } from '@/engine/types.ts'
+import type { DofusClass, Characteristic, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
+import { runeEffectsFrom, withoutExotic, exoticKey } from '@/engine/runes.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
 export type RuneMap = Record<string, number>
@@ -84,6 +85,9 @@ export interface BuildState {
   setRune:             (slot: SlotId, stat: string, value: number) => void
   clearRune:           (slot: SlotId, stat: string) => void
   clearAllRunes:       (slot: SlotId) => void
+  /** Sets the slot's single exotic effect (exo or transcendence rune), replacing any other. */
+  setExotic:           (slot: SlotId, stat: string, value: number) => void
+  clearExotic:         (slot: SlotId) => void
   setForjamagoName:    (slot: SlotId, name: string) => void
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
   setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
@@ -132,13 +136,7 @@ export function recompute(
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
 
-  const runeEffects: ItemEffect[] = []
-  for (const runeMap of Object.values(runes)) {
-    if (!runeMap) continue
-    for (const [stat, value] of Object.entries(runeMap)) {
-      if (value > 0) runeEffects.push({ stat, min: value, max: value })
-    }
-  }
+  const runeEffects = runeEffectsFrom(Object.values(runes))
 
   return computeStats({ class: selectedClass, level, allocated, scrolled, items, sets, runeEffects })
 }
@@ -301,6 +299,14 @@ export const useBuildStore = create<BuildState>((set) => {
 
     clearAllRunes: (slot) => set(s =>
       update({ runes: { ...s.runes, [slot]: {} } }, s)
+    ),
+
+    setExotic: (slot, stat, value) => set(s =>
+      update({ runes: { ...s.runes, [slot]: { ...withoutExotic(s.runes[slot]), [exoticKey(stat)]: value } } }, s)
+    ),
+
+    clearExotic: (slot) => set(s =>
+      update({ runes: { ...s.runes, [slot]: withoutExotic(s.runes[slot]) } }, s)
     ),
 
     setEquipped:  (eq)        => set(s => update({ equipped: eq }, s)),

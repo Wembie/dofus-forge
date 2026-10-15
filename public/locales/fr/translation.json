@@ -833,5 +833,18 @@
   "explore_stat_forge_runs": "{{count}} utilisations de La Forgeuse",
   "dmg_breakdown_own": "Normal : {{value}}",
   "dmg_breakdown_bonus": "+{{value}} de Dégâts",
-  "explore_stat_forge_finished": "{{count}} pièces forgées avec La Forgeuse"
+  "explore_stat_forge_finished": "{{count}} pièces forgées avec La Forgeuse",
+  "rune_tab_normal": "Runes",
+  "rune_tab_exotic": "Exotique",
+  "rune_exotic_slot": "Effet exotique",
+  "rune_exotic_empty": "Vide. Chaque objet n'en accepte qu'un : un exo PA / PM / PO ou une rune de transcendance.",
+  "rune_exotic_remove": "Retirer",
+  "rune_exotic_exo_title": "Exo +1",
+  "rune_exotic_kind_exo": "Exo",
+  "rune_exotic_tag": "Exotique",
+  "rune_rank": "Rang {{rank}}",
+  "rune_exotic_tr_hint": "Touchez une caractéristique : le rang le plus élevé que l'objet accepte est appliqué. En choisir une autre remplace l'actuelle.",
+  "rune_line_weight": "Ligne de l'objet : poids {{weight}}",
+  "rune_rank_blocked": "La ligne de l'objet pèse {{weight}} ; ce rang n'entre que jusqu'à {{limit}}",
+  "rune_rank_none": "l'objet en a déjà trop pour tout rang"
 }

@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { computeStats } from '../stats.ts'
 import { pointCost, maxPointsForBudget, statBudget, SCROLL_BONUS } from '../characteristics.ts'
 import type { BuildInput, AllocatedCharacteristics, ScrolledCharacteristics } from '../types.ts'
+import { exoticOf, withoutExotic, flattenRunes, runeEffectsFrom } from '../runes.ts'
+import { rankOptions, bestRank } from '../../features/equipment/transcendence.ts'
+import type { AppItem } from '../../data/loaders.ts'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -291,5 +294,33 @@ describe('computeStats — item effects', () => {
       sets:  [],
     }))
     expect(s.unknownStats['Emote']).toBeUndefined()
+  })
+})
+
+// ── Exotic effects (exo / transcendence rune) ────────────────────────────────
+
+describe('exotic runes', () => {
+  it('stores one exotic per item and adds it to the stat like a normal rune', () => {
+    const runes = { Strength: 30, 'exo:Strength': 20 }
+    expect(exoticOf(runes)).toEqual({ key: 'exo:Strength', stat: 'Strength', value: 20, isExo: false })
+    expect(flattenRunes(runes)).toEqual({ Strength: 50 })
+    expect(runeEffectsFrom([runes, undefined])).toEqual([{ stat: 'Strength', min: 50, max: 50 }])
+  })
+
+  it('treats an AP / MP / Range rune saved before exotics as the exo', () => {
+    expect(exoticOf({ Vitality: 100, AP: 1 })).toEqual({ key: 'AP', stat: 'AP', value: 1, isExo: true })
+    expect(withoutExotic({ Vitality: 100, AP: 1, 'exo:Power': 12 })).toEqual({ Vitality: 100 })
+  })
+
+  it('allows a transcendence rank only up to the weight of the item\'s own line', () => {
+    const item = (effects: AppItem['effects']) => ({ slot: 'hat', effects }) as AppItem
+    // 10 Earth Damage weighs 50: only rank 1 (limit 60) fits.
+    expect(bestRank(item([{ stat: 'Earth Damage', min: 10, max: 10 }]), 'Earth Damage')?.value).toBe(2)
+    // Bare item: the biggest rank.
+    expect(bestRank(item([]), 'Strength')?.value).toBe(20)
+    // 70 Strength weighs 70: no rank fits.
+    expect(bestRank(item([{ stat: 'Strength', min: 60, max: 70 }]), 'Strength')).toBeNull()
+    // Ranks a rune doesn't have are left out.
+    expect(rankOptions(item([]), '% Critical').map(o => o.value)).toEqual([1, 2])
   })
 })

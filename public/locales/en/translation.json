@@ -833,5 +833,18 @@
   "explore_stat_forge_runs": "{{count}} uses of The Forger",
   "dmg_breakdown_own": "Normal: {{value}}",
   "dmg_breakdown_bonus": "+{{value}} from Damage",
-  "explore_stat_forge_finished": "{{count}} pieces forged with The Forger"
+  "explore_stat_forge_finished": "{{count}} pieces forged with The Forger",
+  "rune_tab_normal": "Runes",
+  "rune_tab_exotic": "Exotic",
+  "rune_exotic_slot": "Exotic effect",
+  "rune_exotic_empty": "Empty. Each item takes just one: an AP / MP / Range exo or a transcendence rune.",
+  "rune_exotic_remove": "Remove",
+  "rune_exotic_exo_title": "Exo +1",
+  "rune_exotic_kind_exo": "Exo",
+  "rune_exotic_tag": "Exotic",
+  "rune_rank": "Rank {{rank}}",
+  "rune_exotic_tr_hint": "Tap a characteristic: the highest rank this item takes is applied. Picking another replaces the current one.",
+  "rune_line_weight": "Item's own line: weight {{weight}}",
+  "rune_rank_blocked": "The item's line weighs {{weight}}; this rank only fits up to {{limit}}",
+  "rune_rank_none": "the item already has too much for any rank"
 }

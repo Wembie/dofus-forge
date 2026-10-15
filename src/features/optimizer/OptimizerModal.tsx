@@ -13,6 +13,7 @@ import { ForgeScene, HeatGauge, ForgeLog, LeyScale, type LogEntry } from './Forg
 import { OPTIMIZER_STATS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
+import { flattenRunes } from '@/engine/runes.ts'
 
 type Phase = 'locked' | 'order' | 'forging' | 'forged'
 type Equipped = Partial<Record<SlotId, number>>
@@ -85,14 +86,18 @@ const ETERNAL_HEAT_SCALE = 300
 const emptyReq = (stat: OptimizerStatKey): ForgeRequirement => ({ stat, minimum: 0, weight: 0, cap: null, strictCap: false })
 const isActive = (r: ForgeRequirement) => r.minimum > 0 || r.weight > 0
 
+// Bumped when a forgemagie/scroll default changes, so saves made under the
+// previous defaults pick up the new ones once.
+const DEFAULTS_REV = 2
+
 function makeDefaultConfig(): OptimizerConfig {
   return {
     stats:               OPTIMIZER_STATS.map(s => emptyReq(s.key)),
-    exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 2 },
+    exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 3 },
     transcendence:       true,
     maxLevel:            200,
     lockedSlots:         new Set(),
-    assumeFullyScrolled: false,
+    assumeFullyScrolled: true,
     bannedItems:         [],
     intensity:           'standard',
   }
@@ -127,12 +132,13 @@ function loadSavedConfig(): OptimizerConfig {
     if (!raw) return defaults
     const parsed = JSON.parse(raw)
     const savedStats = (parsed.stats ?? []) as Record<string, unknown>[]
+    const current = parsed.defaultsRev === DEFAULTS_REV
     return {
       ...defaults,
       maxLevel:            typeof parsed.maxLevel === 'number' ? parsed.maxLevel : defaults.maxLevel,
-      assumeFullyScrolled: parsed.assumeFullyScrolled === true,
+      assumeFullyScrolled: current && typeof parsed.assumeFullyScrolled === 'boolean' ? parsed.assumeFullyScrolled : defaults.assumeFullyScrolled,
       transcendence:       parsed.transcendence !== false,
-      exo:                 { ...defaults.exo, ...(typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
+      exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
       bannedItems:         Array.isArray(parsed.bannedItems) ? parsed.bannedItems : [],
       intensity:           parsed.intensity in INTENSITY ? parsed.intensity : defaults.intensity,
@@ -145,7 +151,7 @@ function loadSavedConfig(): OptimizerConfig {
 
 function persistConfig(config: OptimizerConfig) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...config, lockedSlots: [...config.lockedSlots] }))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...config, lockedSlots: [...config.lockedSlots], defaultsRev: DEFAULTS_REV }))
   } catch { /* quota errors ignored */ }
 }
 
@@ -480,8 +486,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   const setEquipped   = useBuildStore(s => s.setEquipped)
   const setAllocated  = useBuildStore(s => s.setAllocated)
   const setScrolled   = useBuildStore(s => s.setScrolled)
-  const setRune       = useBuildStore(s => s.setRune)
   const clearAllRunes = useBuildStore(s => s.clearAllRunes)
+  const setExotic     = useBuildStore(s => s.setExotic)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
 
@@ -647,7 +653,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     presetRef.current = preset
     const count = preset.threads
     const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)))
-    const base = { selectedClass, level, allocated, scrolled, equipped, runes }
+    const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
     plateauRef.current = { score: -Infinity, generation: 0 }
@@ -710,10 +716,10 @@ export function OptimizerModal({ open, onClose }: Props) {
     }
     const exoStat = { ap: 'AP', mp: 'MP', range: 'Range' } as const
     for (const [slot, kind] of Object.entries(result.exo) as [SlotId, keyof typeof exoStat][]) {
-      setRune(slot, exoStat[kind], 1)
+      setExotic(slot, exoStat[kind], 1)
     }
     for (const [slot, rune] of Object.entries(result.runes) as [SlotId, { stat: string; value: number }][]) {
-      setRune(slot, rune.stat, rune.value)
+      setExotic(slot, rune.stat, rune.value)
     }
     handleClose()
   }

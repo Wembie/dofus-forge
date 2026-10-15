@@ -1,6 +1,7 @@
 import { computeStats } from '../engine/stats.ts'
+import { runeEffectsFrom } from '../engine/runes.ts'
 import { CHARACTERISTICS } from '../engine/types.ts'
-import type { AllocatedCharacteristics, DofusClass, ItemEffect, ScrolledCharacteristics, StatBlock } from '../engine/types.ts'
+import type { AllocatedCharacteristics, DofusClass, ScrolledCharacteristics, StatBlock } from '../engine/types.ts'
 import type { BuildMeta } from './supabase.ts'
 import type { Lang, WorkerAppItem, WorkerAppSet } from './data.ts'
 import type { OgBadge, OgCharRow, OgItemRow } from './ogImage.ts'
@@ -33,12 +34,7 @@ function decodeSnapshot(build: BuildMeta) {
     ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null),
   ) as Partial<Record<string, number>>
 
-  const runeEffects: ItemEffect[] = []
-  for (const runeMap of Object.values(snap.r ?? {})) {
-    for (const [stat, value] of Object.entries(runeMap)) {
-      if (value > 0) runeEffects.push({ stat, min: value, max: value })
-    }
-  }
+  const runeEffects = runeEffectsFrom(Object.values(snap.r ?? {}))
 
   return { allocated, scrolled, equipped, runeEffects }
 }

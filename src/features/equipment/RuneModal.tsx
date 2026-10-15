@@ -2,14 +2,16 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { STAT_META, statIconUrl, runeIconUrl } from './statDisplay.ts'
+import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, transcendenceIconUrl } from './statDisplay.ts'
+import { EXO_STATS, exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
+import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
 
 type RuneSection = { labelKey: string; stats: string[] }
 
 const RUNE_SECTIONS: RuneSection[] = [
   {
     labelKey: 'rune_section_primary',
-    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range', 'Summons', '% Critical'],
+    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'Summons', '% Critical'],
   },
   {
     labelKey: 'rune_section_damage',
@@ -49,12 +51,20 @@ const PCT_RUNES = new Set([
   '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
   '% Melee Resistance', '% Ranged Resistance', '% Critical',
 ])
-const UNIT_RUNES = new Set(['AP', 'MP', 'Range'])
-
 function quickValuesFor(stat: string): number[] {
-  if (PCT_RUNES.has(stat))  return [1, 2, 3, 4, 5]
-  if (UNIT_RUNES.has(stat)) return [1]
+  if (PCT_RUNES.has(stat)) return [1, 2, 3, 4, 5]
   return [1, 5, 10, 25, 50, 100]
+}
+
+const exoticFirst = ([a]: [string, number], [b]: [string, number]) => Number(isExoticKey(b)) - Number(isExoticKey(a))
+
+function RuneIcon({ stat, size, color, dim, transcendence }: { stat: string; size: number; color: string; dim?: boolean; transcendence?: boolean }) {
+  const meta = STAT_META[stat]
+  const rUrl = (transcendence && transcendenceIconUrl(stat)) || runeIconUrl(stat)
+  const filter = dim ? 'brightness(0.65) saturate(0.5)' : `drop-shadow(0 0 5px color-mix(in srgb, ${color} 60%, transparent)) brightness(1.15)`
+  if (rUrl) return <img src={rUrl} onError={runeIconFallback(stat)} alt="" width={size} height={size} className="object-contain flex-shrink-0" style={{ filter }} />
+  if (meta?.icon) return <img src={statIconUrl(meta.icon)} alt="" width={Math.round(size * 0.65)} height={Math.round(size * 0.65)} className="object-contain flex-shrink-0" style={{ filter }} />
+  return null
 }
 
 type TransformElem = 'fire' | 'earth' | 'water' | 'air'
@@ -82,6 +92,8 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const setForjamagoName   = useBuildStore(s => s.setForjamagoName)
   const weaponTransform    = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
   const setWeaponTransform = useBuildStore(s => s.setWeaponTransform)
+  const setExotic          = useBuildStore(s => s.setExotic)
+  const clearExotic        = useBuildStore(s => s.clearExotic)
 
   const isWeaponSlot     = slotId === 'weapon'
   const hasNeutralDamage = isWeaponSlot && item.effects.some(e => e.stat === 'Neutral damage')
@@ -90,7 +102,16 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const [addValue, setAddValue] = useState<number | ''>(10)
   const addValueNum = addValue === '' ? 0 : addValue
 
-  const runeEntries = Object.entries(runes).filter(([, v]) => v > 0)
+  const forgeable = FORGEABLE_SLOTS.has(slotId)
+  const exotic    = exoticOf(runes)
+  const [mode, setMode]       = useState<'normal' | 'exotic'>('normal')
+  const [trFocus, setTrFocus] = useState<string | null>(exotic && !exotic.isExo ? exotic.stat : null)
+
+  const runeEntries   = Object.entries(runes).filter(([, v]) => v > 0).sort(exoticFirst)
+  const normalCount   = runeEntries.filter(([k]) => k !== exotic?.key).length
+  const exoticRank    = exotic && !exotic.isExo ? rankOptions(item, exotic.stat).find(o => o.value === exotic.value)?.rank : undefined
+  const exoticColor   = exotic ? STAT_META[exotic.stat]?.color ?? 'var(--gold)' : 'var(--gold)'
+  const focusOptions  = trFocus ? rankOptions(item, trFocus) : []
   const selMeta     = STAT_META[selected]
   const selColor    = selMeta?.color ?? 'var(--gold)'
   const quickVals   = quickValuesFor(selected)
@@ -105,6 +126,14 @@ export function RuneModal({ slotId, item, onClose }: Props) {
     if (addValueNum <= 0) return
     setRune(slotId, selected, (runes[selected] ?? 0) + addValueNum)
   }
+
+  function pickTranscendence(stat: string) {
+    setTrFocus(stat)
+    const best = bestRank(item, stat)
+    if (best) setExotic(slotId, stat, best.value)
+  }
+
+  const statLabel = (stat: string) => (STAT_META[stat] ? t(STAT_META[stat].tKey) : stat)
 
   return (
     <div
@@ -165,8 +194,95 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           >×</button>
         </div>
 
+        {/* ── Normal runes / exotic effect ───────────────────────────── */}
+        {forgeable && (
+          <div className="flex-shrink-0 px-4 pt-3 pb-2" style={{ background: 'var(--surface-panel)' }}>
+            <div className="grid grid-cols-2 gap-1 p-1 rounded-xl" role="tablist" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+              {(['normal', 'exotic'] as const).map(m => {
+                const active = mode === m
+                const clr    = m === 'exotic' ? 'var(--gold)' : 'var(--ap)'
+                const count  = m === 'exotic' ? (exotic ? '1/1' : '0/1') : String(normalCount)
+                return (
+                  <button
+                    key={m}
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setMode(m)}
+                    className="flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-[11px] font-bold transition-all"
+                    style={{
+                      background: active ? `color-mix(in srgb, ${clr} 14%, transparent)` : 'transparent',
+                      border:     active ? `1px solid color-mix(in srgb, ${clr} 50%, transparent)` : '1px solid transparent',
+                      color:      active ? clr : 'var(--ink-faint)',
+                    }}
+                  >
+                    <span>{m === 'exotic' ? '◆' : '✦'}</span>
+                    {t(m === 'exotic' ? 'rune_tab_exotic' : 'rune_tab_normal')}
+                    <span className="text-[9px] font-mono rounded px-1" style={{ background: 'var(--surface-raised)', color: active ? clr : 'var(--ink-faint)' }}>{count}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {mode === 'exotic' && (
+          <div
+            className="flex-shrink-0 px-4 py-3"
+            style={{
+              background:   `color-mix(in srgb, ${exoticColor} 6%, var(--surface-panel))`,
+              borderBottom: `1px solid color-mix(in srgb, ${exoticColor} 25%, var(--metal-edge))`,
+              transition:   'background 200ms, border-color 200ms',
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                key={exotic ? `${exotic.key}:${exotic.value}` : 'empty'}
+                className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 forge-pop"
+                style={exotic ? {
+                  background: `color-mix(in srgb, ${exoticColor} 12%, var(--surface-void))`,
+                  border:     '1.5px solid var(--gold)',
+                  boxShadow:  `0 0 14px color-mix(in srgb, var(--gold) 35%, transparent)`,
+                } : {
+                  background: 'var(--surface-void)',
+                  border:     '1.5px dashed var(--metal-edge)',
+                }}
+              >
+                {exotic
+                  ? <RuneIcon stat={exotic.stat} size={30} color={exoticColor} transcendence={!exotic.isExo} />
+                  : <span className="text-lg" style={{ color: 'var(--ink-faint)', opacity: 0.5 }}>◆</span>}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold)' }}>{t('rune_exotic_slot')}</p>
+                {exotic ? (
+                  <p className="text-sm font-bold truncate" style={{ color: exoticColor }}>
+                    +{exotic.value} {statLabel(exotic.stat)}
+                    <span className="text-[10px] font-normal ml-1.5" style={{ color: 'var(--ink-faint)' }}>
+                      · {exotic.isExo ? t('rune_exotic_kind_exo') : exoticRank ? t('rune_rank', { rank: exoticRank }) : t('optimizer_transcendence')}
+                    </span>
+                  </p>
+                ) : (
+                  <p className="text-[11px] leading-snug" style={{ color: 'var(--ink-faint)' }}>{t('rune_exotic_empty')}</p>
+                )}
+              </div>
+              {exotic && (
+                <button
+                  onClick={() => clearExotic(slotId)}
+                  className="flex-shrink-0 text-[10px] px-2 py-1 rounded transition-colors"
+                  style={{
+                    background: 'color-mix(in srgb, var(--negative) 10%, transparent)',
+                    border:     '1px solid color-mix(in srgb, var(--negative) 25%, transparent)',
+                    color:      'var(--negative)',
+                  }}
+                >
+                  {t('rune_exotic_remove')}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* ── Add controls — always visible, never needs scrolling ─────── */}
-        <div
+        {mode === 'normal' && <div
           className="flex-shrink-0 px-4 py-3 space-y-2"
           style={{
             background:   `color-mix(in srgb, ${selColor} 5%, var(--surface-panel))`,
@@ -286,12 +402,12 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               {t('rune_add_btn')}
             </button>
           </div>
-        </div>
+        </div>}
 
         {/* ── Scrollable body ──────────────────────────────────────────── */}
         <div className="overflow-y-auto flex-1">
           {/* Elemental weapon transform */}
-          {isWeaponSlot && (
+          {isWeaponSlot && mode === 'normal' && (
             <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
               <div className="flex items-center justify-between mb-2.5">
                 <span className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
@@ -421,22 +537,26 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
-                {runeEntries.map(([stat, val]) => {
-                  const meta = STAT_META[stat]
-                  const clr  = meta?.color ?? 'var(--gold)'
+                {runeEntries.map(([key, val]) => {
+                  const stat  = runeStat(key)
+                  const isExo = key === exotic?.key
+                  const meta  = STAT_META[stat]
+                  const clr   = meta?.color ?? 'var(--gold)'
                   return (
                     <div
-                      key={stat}
+                      key={key}
                       className="flex items-center gap-1.5 rounded-full pl-1 pr-1 py-0.5 transition-all"
                       style={{
                         background: `color-mix(in srgb, ${clr} 9%, transparent)`,
-                        border:     `1px solid color-mix(in srgb, ${clr} 27%, transparent)`,
+                        border:     isExo ? '1px solid color-mix(in srgb, var(--gold) 70%, transparent)' : `1px solid color-mix(in srgb, ${clr} 27%, transparent)`,
+                        boxShadow:  isExo ? '0 0 8px color-mix(in srgb, var(--gold) 22%, transparent)' : 'none',
                       }}
                     >
+                      {isExo && <span className="text-[10px] pl-0.5" style={{ color: 'var(--gold)' }}>◆</span>}
                       {(() => {
-                        const rUrl = runeIconUrl(stat)
+                        const rUrl = runeKeyIconUrl(key)
                         if (rUrl) return (
-                          <img src={rUrl} alt="" width={20} height={20}
+                          <img src={rUrl} onError={runeIconFallback(key)} alt="" width={20} height={20}
                             className="object-contain flex-shrink-0"
                             style={{ filter: `drop-shadow(0 0 4px color-mix(in srgb, ${clr} 53%, transparent))` }}
                           />
@@ -456,7 +576,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                         {meta ? t(meta.tKey) : stat}
                       </span>
                       <button
-                        onClick={() => clearRune(slotId, stat)}
+                        onClick={() => clearRune(slotId, key)}
                         className="w-4 h-4 rounded-full flex items-center justify-center text-[10px] leading-none transition-colors flex-shrink-0"
                         style={{ background: 'var(--surface-void)', color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)' }}
                         onMouseEnter={e => {
@@ -476,6 +596,119 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             )}
           </div>
 
+          {mode === 'exotic' ? (
+            <div className="px-4 pb-4 space-y-4">
+              {/* Exo +1 */}
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-1 px-0.5" style={{ color: 'var(--ink-faint)' }}>
+                  {t('rune_exotic_exo_title')}
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {EXO_STATS.map(stat => {
+                    const active = exotic?.stat === stat && exotic.isExo
+                    const clr    = STAT_META[stat]?.color ?? 'var(--gold)'
+                    return (
+                      <button
+                        key={stat}
+                        onClick={() => (active ? clearExotic(slotId) : setExotic(slotId, stat, 1))}
+                        aria-pressed={active}
+                        className="flex flex-col items-center gap-1 rounded-xl py-2.5 transition-all"
+                        style={{
+                          background: active ? `color-mix(in srgb, ${clr} 15%, transparent)` : 'var(--surface-void)',
+                          border:     active ? '1.5px solid var(--gold)' : '1px solid var(--metal-edge)',
+                          boxShadow:  active ? '0 0 12px color-mix(in srgb, var(--gold) 28%, transparent)' : 'none',
+                        }}
+                      >
+                        <RuneIcon stat={stat} size={30} color={clr} dim={!active} />
+                        <span className="text-[11px] font-bold" style={{ color: active ? clr : 'var(--ink-muted)' }}>+1 {statLabel(stat)}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Transcendence runes */}
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-1 px-0.5" style={{ color: 'var(--ink-faint)' }}>
+                  {t('optimizer_transcendence')}
+                </div>
+                <p className="text-[10px] italic mb-2 px-0.5" style={{ color: 'var(--ink-faint)' }}>{t('rune_exotic_tr_hint')}</p>
+                <div
+                  className="grid gap-1.5 p-2 rounded-xl"
+                  style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+                >
+                  {TRANSCENDENCE.map(({ stat }) => {
+                    const clr     = STAT_META[stat]?.color ?? 'var(--gold)'
+                    const best    = bestRank(item, stat)
+                    const applied = exotic?.stat === stat && !exotic.isExo
+                    const focused = trFocus === stat
+                    return (
+                      <button
+                        key={stat}
+                        onClick={() => pickTranscendence(stat)}
+                        title={best ? `${statLabel(stat)} +${best.value}` : `${statLabel(stat)} — ${t('rune_rank_none')}`}
+                        className="relative flex flex-col items-center justify-center rounded-lg transition-all"
+                        style={{
+                          aspectRatio: '1',
+                          opacity:     best ? 1 : 0.35,
+                          background:  applied ? `color-mix(in srgb, ${clr} 15%, transparent)` : focused ? `color-mix(in srgb, ${clr} 8%, transparent)` : 'var(--surface-void)',
+                          border:      applied ? '1.5px solid var(--gold)' : focused ? `1px solid color-mix(in srgb, ${clr} 60%, transparent)` : '1px solid var(--metal-edge)',
+                          boxShadow:   applied ? '0 0 10px color-mix(in srgb, var(--gold) 30%, transparent)' : 'none',
+                        }}
+                      >
+                        <RuneIcon stat={stat} size={24} color={clr} dim={!applied && !focused} transcendence />
+                        <span className="text-[8px] font-mono font-bold leading-none mt-0.5" style={{ color: applied ? clr : 'var(--ink-faint)' }}>
+                          {best ? `+${best.value}` : '—'}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {trFocus && focusOptions.length > 0 && (
+                  <div
+                    key={trFocus}
+                    className="mt-2 rounded-xl p-2.5 forge-log-in"
+                    style={{ background: 'var(--surface-void)', border: `1px solid color-mix(in srgb, ${STAT_META[trFocus]?.color ?? 'var(--gold)'} 30%, var(--metal-edge))` }}
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="text-[11px] font-bold" style={{ color: STAT_META[trFocus]?.color ?? 'var(--gold)' }}>{statLabel(trFocus)}</span>
+                      <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('rune_line_weight', { weight: lineWeight(item, trFocus) })}</span>
+                    </div>
+                    <div className="grid gap-1.5" style={{ gridTemplateColumns: `repeat(${focusOptions.length}, minmax(0, 1fr))` }}>
+                      {focusOptions.map(o => {
+                        const clr    = STAT_META[trFocus]?.color ?? 'var(--gold)'
+                        const active = exotic?.stat === trFocus && !exotic.isExo && exotic.value === o.value
+                        return (
+                          <button
+                            key={o.rank}
+                            disabled={!o.allowed}
+                            onClick={() => setExotic(slotId, trFocus, o.value)}
+                            title={o.allowed ? undefined : t('rune_rank_blocked', { weight: lineWeight(item, trFocus), limit: o.limit })}
+                            className="flex flex-col items-center py-1.5 rounded-lg transition-all disabled:cursor-not-allowed"
+                            style={{
+                              opacity:    o.allowed ? 1 : 0.35,
+                              background: active ? `color-mix(in srgb, ${clr} 16%, transparent)` : 'transparent',
+                              border:     active ? '1.5px solid var(--gold)' : '1px solid var(--metal-edge)',
+                              color:      active ? clr : 'var(--ink-muted)',
+                            }}
+                          >
+                            <span className="text-xs font-mono font-bold">+{o.value}</span>
+                            <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('rune_rank', { rank: o.rank })}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                    {!focusOptions.some(o => o.allowed) && (
+                      <p className="text-[10px] mt-2" style={{ color: 'var(--negative)' }}>
+                        {t('rune_rank_blocked', { weight: lineWeight(item, trFocus), limit: focusOptions[0].limit })}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (<>
           {/* Divider */}
           <div className="flex items-center gap-3 px-4 mt-1 mb-3">
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--metal-edge))' }} />
@@ -563,6 +796,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               </div>
             ))}
           </div>
+          </>)}
 
           {/* Forjamago signature */}
           <div className="px-4 pb-4" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 12 }}>

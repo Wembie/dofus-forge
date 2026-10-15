@@ -7,6 +7,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
+import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
 // Lazy: these only mount once the user opens them (catalog, runes, set
 // detail), so they don't need to be in the eager bundle — combined
@@ -18,7 +19,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl, runeIconUrl, signatureRuneUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
@@ -326,7 +327,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
       {/* Rune badge — top-right corner overlay, always visible when runes active */}
       {item && (runeCount ?? 0) > 0 && slotRunes && (() => {
-        const active = Object.entries(slotRunes).filter(([, v]) => v > 0)
+        const active = Object.entries(slotRunes).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
         return active.length > 0 ? (
           <div
             className="absolute pointer-events-none z-20 flex flex-col gap-0.5"
@@ -337,19 +338,19 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             }}
           >
             {active.slice(0, 3).map(([stat]) => {
-              const url = runeIconUrl(stat)
+              const url = runeKeyIconUrl(stat)
               return url ? (
                 <div
                   key={stat}
                   className="rounded flex items-center justify-center"
                   style={{
                     background: 'color-mix(in srgb, var(--surface-void) 85%, transparent)',
-                    border:     '1px solid color-mix(in srgb, var(--ap) 55%, transparent)',
-                    boxShadow:  '0 1px 4px rgba(0,0,0,0.7)',
+                    border:     isExoticKey(stat) ? '1px solid var(--gold)' : '1px solid color-mix(in srgb, var(--ap) 55%, transparent)',
+                    boxShadow:  isExoticKey(stat) ? '0 0 5px color-mix(in srgb, var(--gold) 60%, transparent), 0 1px 4px rgba(0,0,0,0.7)' : '0 1px 4px rgba(0,0,0,0.7)',
                     padding:    1,
                   }}
                 >
-                  <img src={url} alt="" width={13} height={13} className="object-contain block" />
+                  <img src={url} onError={runeIconFallback(stat)} alt="" width={13} height={13} className="object-contain block" />
                 </div>
               ) : null
             })}
@@ -546,15 +547,15 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                   <span style={{ color: 'var(--ap)' }}>✦</span> {t('magesmithy')}
                 </p>
                 <div className="space-y-0.5">
-                  {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).map(([stat, val]) => {
-                    const meta = STAT_META[stat]
-                    const rUrl = runeIconUrl(stat)
+                  {Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a))).map(([stat, val]) => {
+                    const meta = STAT_META[runeStat(stat)]
+                    const rUrl = runeKeyIconUrl(stat)
                     return (
                       <div key={stat} className="flex items-center gap-1.5">
                         {rUrl
-                          ? <img src={rUrl} alt="" width={16} height={16}
+                          ? <img src={rUrl} onError={runeIconFallback(stat)} alt="" width={16} height={16}
                               className="object-contain flex-shrink-0"
-                              style={{ filter: 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }}
+                              style={{ filter: isExoticKey(stat) ? 'none' : 'saturate(0.6) hue-rotate(200deg) brightness(1.2)' }}
                             />
                           : meta?.icon
                           ? <img src={statIconUrl(meta.icon)} alt="" width={12} height={12}
@@ -567,8 +568,13 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                           +{val}
                         </span>
                         <span className="text-[11px]" style={{ color: 'var(--water)' }}>
-                          {meta ? t(meta.tKey) : stat}
+                          {meta ? t(meta.tKey) : runeStat(stat)}
                         </span>
+                        {isExoticKey(stat) && (
+                          <span className="text-[8px] font-bold uppercase tracking-wider rounded px-1" style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)' }}>
+                            {t('rune_exotic_tag')}
+                          </span>
+                        )}
                       </div>
                     )
                   })}
