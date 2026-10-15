@@ -92,10 +92,13 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
   ].filter(c => c.value !== 0)
 
   const badges = [
-    { icon: 'ap',       label: t('badge_ap'),    value: stats.ap,    color: '#f5c518' },
-    { icon: 'mp',       label: t('badge_mp'),    value: stats.mp,    color: '#6ab04c' },
+    { icon: 'ap',       label: t('badge_ap'),    value: stats.ap,    color: stats.ap < 0 ? '#e05252' : '#f5c518' },
+    { icon: 'mp',       label: t('badge_mp'),    value: stats.mp,    color: stats.mp < 0 ? '#e05252' : '#6ab04c' },
     { icon: 'vitality', label: t('badge_hp'),    value: stats.maxHp, color: '#e05252' },
-    ...(stats.range > 0 ? [{ icon: 'range', label: t('badge_range'), value: stats.range, color: '#2a8fd4' }] : []),
+    // A weapon/item penalty can push Range below 0 — used to only show the
+    // badge when > 0, silently hiding a real penalty instead of warning
+    // about it.
+    ...(stats.range !== 0 ? [{ icon: 'range', label: t('badge_range'), value: stats.range, color: stats.range < 0 ? '#e05252' : '#2a8fd4' }] : []),
   ]
 
   return (

@@ -179,14 +179,21 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw, damage
     >
       <div className="flex items-center justify-center">{icon(resIcon, 18)}</div>
       {damageBonus ? (
-        <Tooltip content={(
-          <div className="space-y-0.5">
-            <div>{t('dmg_breakdown_own', { value: ownDmg })}</div>
-            <div style={{ color: 'var(--gold)' }}>{t('dmg_breakdown_bonus', { value: damageBonus })}</div>
-          </div>
-        )}>
-          <div className="cursor-help">{dmgCell}</div>
-        </Tooltip>
+        // Tooltip's own wrapper is `inline-flex`, which shrinks to its
+        // content instead of stretching to fill this grid column the way a
+        // plain <span> did — this outer div is the actual grid item, so it
+        // stretches as before, with flex+justify-end putting the (now
+        // content-sized) Tooltip back at the column's right edge.
+        <div className="w-full flex justify-end">
+          <Tooltip content={(
+            <div className="space-y-0.5">
+              <div>{t('dmg_breakdown_own', { value: ownDmg })}</div>
+              <div style={{ color: 'var(--gold)' }}>{t('dmg_breakdown_bonus', { value: damageBonus })}</div>
+            </div>
+          )}>
+            <div className="cursor-help">{dmgCell}</div>
+          </Tooltip>
+        </div>
       ) : dmgCell}
       <ValCell value={resFixed}      color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
       <ResPctCell value={resPct} raw={resPctRaw} />
@@ -383,11 +390,15 @@ export function StatsFromBlock({ s, runes }: { s: StatBlock; runes: BuildState['
   return (
     <div className="space-y-4">
       <div className="flex gap-1.5">
-        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    raw={s.apRaw}  color="var(--gold)"     cap={12} />
-        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color="var(--mp)"       cap={6}  />
+        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    raw={s.apRaw}  color={s.ap    < 0 ? 'var(--negative)' : 'var(--gold)'}  cap={12} />
+        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color={s.mp    < 0 ? 'var(--negative)' : 'var(--mp)'}    cap={6}  />
         <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)"          />
-        {s.range > 0 && (
-          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} raw={s.rangeRaw} color="var(--water)" cap={6} />
+        {/* A weapon/item penalty can push Range (or even AP/MP) below 0 — it
+            used to only render here when > 0, which silently hid a real
+            penalty instead of warning about it. Show it whenever it's
+            anything other than the neutral 0, in red when it's negative. */}
+        {s.range !== 0 && (
+          <TopBadge iconName="range"  label={t('badge_range')} value={s.range} raw={s.rangeRaw} color={s.range < 0 ? 'var(--negative)' : 'var(--water)'} cap={6} />
         )}
       </div>
 

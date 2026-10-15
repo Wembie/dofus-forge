@@ -12,6 +12,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-10-15',
     notes: [
       'Feature: hovering the DMG number in Elements now shows a tooltip breaking down the element\'s own value vs. the flat "Damage" bonus shared across all elements',
+      'Fix: that tooltip broke the DMG column\'s alignment — fixed',
+      'Fix: AP/MP/Range no longer disappear or go unflagged when a penalty pushes them negative — shown in red whenever non-zero',
     ],
   },
   {
