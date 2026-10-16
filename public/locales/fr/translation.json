@@ -849,11 +849,7 @@
   "character_motion_run": "Courir",
   "optimizer_group_damage": "Dommages",
   "optimizer_group_res": "Résistances",
-  "optimizer_sub_dmg_fixed": "Fixes et par élément",
-  "optimizer_sub_dmg_percent": "Pourcentage",
-  "optimizer_sub_dmg_other": "Critique, poussée, pièges et renvoi",
-  "optimizer_sub_dmg_steal": "Vol élémentaire",
-  "optimizer_sub_res_percent": "Pourcentage",
-  "optimizer_sub_res_fixed": "Fixes",
-  "optimizer_sub_res_other": "Critique et poussée"
+  "optimizer_sub_fixed": "Fixe",
+  "optimizer_sub_percent": "Pourcentage",
+  "optimizer_sub_steal": "Vol élémentaire"
 }

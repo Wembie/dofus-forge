@@ -162,15 +162,13 @@ export const STAT_GROUPS: StatGroupDef[] = [
     { statKeys: ['vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility', 'power'] },
   ]),
   group('damage', 'optimizer_group_damage', false, [
-    { tKey: 'optimizer_sub_dmg_fixed',   statKeys: ['damage', 'fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage'] },
-    { tKey: 'optimizer_sub_dmg_percent', statKeys: ['spellDamagePercent', 'weaponDamagePercent', 'meleeDamagePercent', 'rangedDamagePercent'] },
-    { tKey: 'optimizer_sub_dmg_other',   statKeys: ['critDamage', 'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage'] },
-    { tKey: 'optimizer_sub_dmg_steal',   statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
+    { tKey: 'optimizer_sub_fixed',   statKeys: ['damage', 'fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage', 'critDamage', 'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage'] },
+    { tKey: 'optimizer_sub_percent', statKeys: ['spellDamagePercent', 'weaponDamagePercent', 'meleeDamagePercent', 'rangedDamagePercent'] },
+    { tKey: 'optimizer_sub_steal',   statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
   ]),
   group('res', 'optimizer_group_res', false, [
-    { tKey: 'optimizer_sub_res_percent', statKeys: ['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent', 'meleeResistPercent', 'rangedResistPercent'] },
-    { tKey: 'optimizer_sub_res_fixed',   statKeys: ['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed'] },
-    { tKey: 'optimizer_sub_res_other',   statKeys: ['critResistance', 'pushbackResist'] },
+    { tKey: 'optimizer_sub_fixed',   statKeys: ['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed', 'critResistance', 'pushbackResist'] },
+    { tKey: 'optimizer_sub_percent', statKeys: ['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent', 'meleeResistPercent', 'rangedResistPercent'] },
   ]),
   group('combat', 'optimizer_group_combat', false, [
     { statKeys: ['initiative', 'heals', 'lock', 'dodge', 'apReduction', 'mpReduction', 'apParry', 'mpParry', 'mpSteal', 'prospecting', 'pods'] },

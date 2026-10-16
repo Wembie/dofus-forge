@@ -849,11 +849,7 @@
   "character_motion_run": "Run",
   "optimizer_group_damage": "Damage",
   "optimizer_group_res": "Resistances",
-  "optimizer_sub_dmg_fixed": "Flat and by element",
-  "optimizer_sub_dmg_percent": "Percent",
-  "optimizer_sub_dmg_other": "Critical, pushback, traps and reflect",
-  "optimizer_sub_dmg_steal": "Elemental steal",
-  "optimizer_sub_res_percent": "Percent",
-  "optimizer_sub_res_fixed": "Flat",
-  "optimizer_sub_res_other": "Critical and pushback"
+  "optimizer_sub_fixed": "Flat",
+  "optimizer_sub_percent": "Percent",
+  "optimizer_sub_steal": "Elemental steal"
 }

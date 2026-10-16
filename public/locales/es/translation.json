@@ -849,11 +849,7 @@
   "character_motion_run": "Correr",
   "optimizer_group_damage": "Daño",
   "optimizer_group_res": "Resistencias",
-  "optimizer_sub_dmg_fixed": "Fijo y por elemento",
-  "optimizer_sub_dmg_percent": "Porcentaje",
-  "optimizer_sub_dmg_other": "Crítico, empuje, trampas y reenvío",
-  "optimizer_sub_dmg_steal": "Robo elemental",
-  "optimizer_sub_res_percent": "Porcentaje",
-  "optimizer_sub_res_fixed": "Fijas",
-  "optimizer_sub_res_other": "Crítico y empuje"
+  "optimizer_sub_fixed": "Fijo",
+  "optimizer_sub_percent": "Porcentaje",
+  "optimizer_sub_steal": "Robo elemental"
 }
