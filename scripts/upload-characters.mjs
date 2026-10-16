@@ -8,7 +8,7 @@
 
 import { readdirSync, statSync, readFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
-import { spawnSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
 
 const ROOT = join(process.cwd(), 'char-assets')
 const config = readFileSync(join(process.cwd(), 'wrangler.jsonc'), 'utf8')
@@ -30,14 +30,29 @@ const files = walk(ROOT)
   .map(path => ({ path, key: relative(ROOT, path).split(sep).join('/') }))
   .filter(f => !only || only.has(f.key))
 
-let done = 0
-for (const { path, key } of files) {
+// Relative, slash-separated file paths: on Windows the command goes through
+// a shell, which would split an absolute path containing spaces.
+function upload({ path, key }) {
   const type = TYPES[key.split('.').pop()] ?? 'application/octet-stream'
-  const res = spawnSync('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', path, '--content-type', type, '--remote'],
-    { stdio: 'inherit', shell: process.platform === 'win32' })
-  if (res.status !== 0) {
-    console.error(`failed: ${key}`)
-    process.exit(1)
+  const file = relative(process.cwd(), path).split(sep).join('/')
+  return new Promise(done => {
+    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', file, '--content-type', type, '--remote'],
+      { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
+    child.on('close', code => done(code === 0))
+  })
+}
+
+const queue = [...files]
+const failed = []
+let done = 0
+await Promise.all(Array.from({ length: 4 }, async () => {
+  for (let f = queue.shift(); f; f = queue.shift()) {
+    if (await upload(f)) console.log(`[${++done}/${files.length}] ${f.key}`)
+    else failed.push(f.key)
   }
-  console.log(`[${++done}/${files.length}] ${key}`)
+}))
+if (failed.length) {
+  console.error(`failed (${failed.length}): ${failed.join(',')}`)
+  console.error('retry with: pnpm upload-characters --only <comma-separated keys>')
+  process.exit(1)
 }
