@@ -13,6 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Feature: animated character — Settings → Character switches the builder portrait between 2D and an animated character of your class and gender',
       'Feature: rotate the character through 8 facings and switch between standing, walking and running',
+      'Feature: on mobile the animated character shows above the equipment slots',
     ],
   },
   {

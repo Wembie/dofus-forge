@@ -8,6 +8,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ## [0.3.89] — 2026-10-16
 - **Feature**: animated character. Settings → **Character** switches the builder's center portrait between the 2D portrait and an animated character of your class and gender, with its default colors
 - **Feature**: rotate the character through its 8 facings and switch between standing, walking and running from the buttons under it
+- **Feature**: on mobile the animated character shows above the equipment slots
 - If the animated character can't load (no WebGL or assets unavailable), the builder falls back to the 2D portrait
 
 ## [0.3.88] — 2026-10-15

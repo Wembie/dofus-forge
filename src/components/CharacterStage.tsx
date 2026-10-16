@@ -26,7 +26,8 @@ const FACINGS: { file: number; mirror: boolean }[] = [
   { file: 5, mirror: true },
 ]
 
-const FRAME_BOX: [number, number, number, number] = [-75, -20, 150, 240]
+/** World box the canvas frames: body, hair and swinging arms, feet on the floor line. */
+const FRAME_BOX: [number, number, number, number] = [-64, -14, 128, 222]
 
 interface Props {
   breed: number
@@ -69,7 +70,8 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
     const tick = (now: number) => {
       const play = playRef.current
       if (play && play.anim.frames.length) {
-        const frame = Math.floor(((now - start) / 1000) * play.fps) % play.anim.frames.length
+        // rAF timestamps can predate `start`; clamp so the index never goes negative.
+        const frame = Math.floor((Math.max(0, now - start) / 1000) * play.fps) % play.anim.frames.length
         const version = versionRef.current
         if (!drawn || drawn.play !== play || drawn.frame !== frame || drawn.version !== version) {
           renderer.render(play.anim.frames[frame], play.nodes, { bounds: FRAME_BOX, mirror: play.mirror })
@@ -124,13 +126,13 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
   }
 
   return (
-    <div className="relative" style={{ width, height }}>
+    <div className="flex flex-col items-center gap-1" style={{ width }}>
       <canvas
         ref={canvasRef}
         style={{ width, height, opacity: ready ? 1 : 0, transition: 'opacity 200ms' }}
         aria-label={t('character_stage_label')}
       />
-      <div className="absolute left-0 right-0 bottom-0 flex justify-center gap-1">
+      <div className="flex justify-center gap-1">
         <button className={btn} style={btnStyle} title={t('character_rotate_left')} aria-label={t('character_rotate_left')}
           onClick={() => setFacing(f => (f + 7) % 8)}>
           <RotateCcw size={13} />

@@ -20,14 +20,17 @@ attribute vec2 aPos;
 attribute vec2 aUv;
 attribute vec4 aTint;
 attribute vec4 aColor;
+attribute vec4 aAdd;
 uniform vec4 uView;
 varying vec2 vUv;
 varying vec4 vTint;
 varying vec4 vColor;
+varying vec4 vAdd;
 void main() {
   vUv = aUv;
   vTint = aTint;
   vColor = aColor;
+  vAdd = aAdd;
   gl_Position = vec4(aPos * uView.xy + uView.zw, 0.0, 1.0);
 }`
 
@@ -37,6 +40,7 @@ uniform sampler2D uTex;
 varying vec2 vUv;
 varying vec4 vTint;
 varying vec4 vColor;
+varying vec4 vAdd;
 void main() {
   vec4 t = texture2D(uTex, vUv);
   if (t.a <= 0.0) discard;
@@ -46,11 +50,11 @@ void main() {
     vec3 hi = 1.0 - 2.0 * (1.0 - rgb) * (1.0 - vTint.rgb);
     rgb = mix(lo, hi, step(0.5, rgb));
   }
-  float a = t.a * vColor.a;
-  gl_FragColor = vec4(rgb * vColor.rgb * a, a);
+  float a = clamp(t.a * vColor.a + vAdd.a, 0.0, 1.0);
+  gl_FragColor = vec4(clamp(rgb * vColor.rgb + vAdd.rgb, 0.0, 1.0) * a, a);
 }`
 
-const STRIDE = 12
+const STRIDE = 16
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const s = gl.createShader(type)!
@@ -146,7 +150,8 @@ export class CharacterRenderer {
     }
   }
 
-  private emit(layer: number, chunk: Part['c'][number], m: Mat, tint: number, color: Instance['color']) {
+  private emit(layer: number, chunk: Part['c'][number], m: Mat, tint: number, inst: Instance) {
+    const { color, add } = inst
     const { skin } = this.layers[layer]
     const [first, count, firstIndex, indexCount] = chunk
     if (this.vCount + count > 65535) return
@@ -172,6 +177,10 @@ export class CharacterRenderer {
       v[o + 9] = color[1]
       v[o + 10] = color[2]
       v[o + 11] = color[3]
+      v[o + 12] = add[0]
+      v[o + 13] = add[1]
+      v[o + 14] = add[2]
+      v[o + 15] = add[3]
     }
     for (let k = 0; k < indexCount; k++) this.idx[this.iCount + k] = base + skin.indices[firstIndex + k]
     const last = this.batches[this.batches.length - 1]
@@ -181,7 +190,7 @@ export class CharacterRenderer {
     this.iCount += indexCount
   }
 
-  private drawPart(layer: number, part: Part, m: Mat, tint: number, color: Instance['color'], depth: number) {
+  private drawPart(layer: number, part: Part, m: Mat, tint: number, inst: Instance, depth: number) {
     if (depth > 12) return
     const d = part.d
     const stack: { end: number; m: Mat; tint: number }[] = [{ end: d.length, m, tint }]
@@ -196,7 +205,7 @@ export class CharacterRenderer {
       if (symbol === null) {
         // Chunk vertices are already baked into the part's own space.
         const c = part.c[chunk++]
-        if (c) this.emit(layer, c, m, top.tint, color)
+        if (c) this.emit(layer, c, m, top.tint, inst)
         i++
         continue
       }
@@ -212,7 +221,7 @@ export class CharacterRenderer {
         stack.push({ end: i + 1 + descendants, m: local, tint: t })
       } else {
         const found = this.find(symbol)
-        if (found) this.drawPart(found[0], found[1], local, t, color, depth + 1)
+        if (found) this.drawPart(found[0], found[1], local, t, inst, depth + 1)
       }
       i++
     }
@@ -243,7 +252,7 @@ export class CharacterRenderer {
       const found = this.find(name)
       if (!found) continue
       const m = inst.m
-      this.drawPart(found[0], found[1], [m[0], m[3], m[1], m[4], m[2], m[5]], 0, inst.color, 0)
+      this.drawPart(found[0], found[1], [m[0], m[3], m[1], m[4], m[2], m[5]], 0, inst, 0)
     }
     if (!this.batches.length) return
 
@@ -270,6 +279,7 @@ export class CharacterRenderer {
     attr('aUv', 2, 2)
     attr('aTint', 4, 4)
     attr('aColor', 4, 8)
+    attr('aAdd', 4, 12)
     gl.activeTexture(gl.TEXTURE0)
     gl.uniform1i(gl.getUniformLocation(this.program, 'uTex'), 0)
     for (const b of this.batches) {
