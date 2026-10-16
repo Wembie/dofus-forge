@@ -693,7 +693,7 @@ function MobileCharacter() {
   const stage         = useCharacterStage()
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
-  const pet           = useBuildStore(s => s.equipped.companion)
+  const companion     = useBuildStore(s => s.equipped.companion)
   const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
   if (!stage.show || !classInfo) return null
   return (
@@ -702,7 +702,7 @@ function MobileCharacter() {
         <CharacterStage
           breed={classInfo.breed}
           gender={gender}
-          pet={pet}
+          companion={companion}
           width={220}
           height={MOBILE_STAGE_HEIGHT}
           onError={stage.fail}
@@ -717,7 +717,7 @@ function CharacterCenter({ stageEnabled }: { stageEnabled: boolean }) {
   const { t }         = useTranslation()
   const stage         = useCharacterStage()
   const showStage     = stage.show && stageEnabled
-  const pet           = useBuildStore(s => s.equipped.companion)
+  const companion     = useBuildStore(s => s.equipped.companion)
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
   const level         = useBuildStore(s => s.level)
@@ -752,7 +752,7 @@ function CharacterCenter({ stageEnabled }: { stageEnabled: boolean }) {
             <CharacterStage
               breed={classInfo.breed}
               gender={gender}
-              pet={pet}
+              companion={companion}
               width={196}
               height={STAGE_HEIGHT}
               onError={stage.fail}

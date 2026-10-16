@@ -22,6 +22,9 @@ export type Looks = Record<string, { male?: Look; female?: Look }>
 /** pet item id → creature bone and look scale (percent) */
 export type Pets = Record<string, { bone: string; scale: number }>
 
+/** mount / petsmount item id → mount bone, palette, look scale (percent) */
+export type Mounts = Record<string, { bone: string; colors?: number[]; scale?: number }>
+
 export interface LoadedSkin {
   skin: Skin
   image: ImageBitmap
@@ -48,6 +51,8 @@ async function get(path: string): Promise<Response> {
 export const loadLooks = () => once('looks', async () => (await get('looks.json')).json() as Promise<Looks>)
 
 export const loadPets = () => once('pets', async () => (await get('pets.json')).json() as Promise<Pets>)
+
+export const loadMounts = () => once('mounts', async () => (await get('mounts.json')).json() as Promise<Mounts>)
 
 export const loadBone = (bone: string) =>
   once(`bone:${bone}`, async () => (await get(`bones/${bone}.json`)).json() as Promise<BoneDef>)

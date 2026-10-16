@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.92',
+    date: '2026-10-16',
+    notes: [
+      'Feature: equip a dragoturkey, seemyool, rhineetle or petsmount and the animated character rides it — walking, running and turning along',
+      'Change: pets walk at the spot the game reserves for them, and the view zooms to fit a pet or a mount',
+    ],
+  },
+  {
     version: '0.3.91',
     date: '2026-10-16',
     notes: [

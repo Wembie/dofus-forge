@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RotateCcw, RotateCw, Footprints } from 'lucide-react'
 import { CharacterRenderer, type Entity, type Layer } from '@/lib/character/renderer.ts'
-import { loadAnimation, loadBone, loadLooks, loadPets, loadSkin, type BoneDef } from '@/lib/character/assets.ts'
+import {
+  loadAnimation, loadBone, loadLooks, loadMounts, loadPets, loadSkin, type BoneDef,
+} from '@/lib/character/assets.ts'
 import type { Animation } from '@/lib/character/anim.ts'
 
 type Motion = 'idle' | 'walk' | 'run'
+type Box = [number, number, number, number]
 
 const MOTIONS: Record<Motion, { bone: string; anim: string; creature: string }> = {
   idle: { bone: '1-static',   anim: 'AnimStatiqueExplo0', creature: 'AnimStatique' },
@@ -26,11 +29,17 @@ const FACINGS: { file: number; mirror: boolean }[] = [
   { file: 5, mirror: true },
 ]
 
+/** Hook nodes a bone animates for what it carries. */
+const PET_HOOK = 'carried_1_0'
+const RIDER_HOOK = 'carried_2_0'
+/** The rider skeleton only sits; the mount does the moving. */
+const RIDER_BONE = '2'
+const RIDER_ANIM = 'AnimStatique'
+
 /** World box the canvas frames: body, hair and swinging arms, feet on the floor line. */
-const FRAME_BOX: [number, number, number, number] = [-64, -14, 128, 222]
-/** Wider box when a pet walks beside the character. */
-const FRAME_BOX_PET: [number, number, number, number] = [-88, -16, 176, 226]
-const PET_OFFSET = 52
+const FRAME_BOX: Box = [-64, -14, 128, 222]
+/** Breathing room around a measured scene, for the frames after the first. */
+const FIT_MARGIN = 0.14
 
 interface Figure {
   def: BoneDef
@@ -38,11 +47,15 @@ interface Figure {
   own?: Entity['own']
 }
 
+type Companion =
+  | { kind: 'pet'; figure: Figure; scale: number }
+  | { kind: 'mount'; figure: Figure; rider: Figure; colors?: number[]; scale: number }
+
 interface Props {
   breed: number
   gender: 'male' | 'female'
-  /** equipped pet item id */
-  pet?: number
+  /** item equipped in the companion slot: a pet walks beside, a petsmount is ridden */
+  companion?: number
   width: number
   height: number
   onError?: () => void
@@ -61,7 +74,21 @@ function frameIndex(figure: Figure, elapsed: number) {
   return Math.floor((elapsed / 1000) * figure.def.fps) % Math.max(1, figure.anim.frames.length)
 }
 
-export function CharacterStage({ breed, gender, pet, width, height, onError }: Props) {
+/**
+ * Frames a scene with a companion: its first frame, padded, kept symmetric
+ * around the character so turning doesn't shift it.
+ */
+function fitBox(measured: Box | null, mounted: boolean): Box {
+  if (!measured) return FRAME_BOX
+  const [mx, my, mw, mh] = measured
+  const half = Math.max(Math.abs(mx), Math.abs(mx + mw)) * (1 + FIT_MARGIN)
+  const bottom = Math.min(FRAME_BOX[1], my - mh * FIT_MARGIN / 2)
+  const top = mounted ? my + mh * (1 + FIT_MARGIN / 2) : Math.max(FRAME_BOX[1] + FRAME_BOX[3], my + mh)
+  const width = Math.max(FRAME_BOX[2], half * 2)
+  return [-width / 2, bottom, width, top - bottom]
+}
+
+export function CharacterStage({ breed, gender, companion, width, height, onError }: Props) {
   const { t } = useTranslation()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [facing, setFacing] = useState(1)
@@ -69,7 +96,7 @@ export function CharacterStage({ breed, gender, pet, width, height, onError }: P
   const [ready, setReady] = useState(false)
   const lookRef = useRef<{ skins: Layer[]; colors: number[] } | null>(null)
   const playerRef = useRef<Figure | null>(null)
-  const petRef = useRef<(Figure & { scale: number }) | null>(null)
+  const companionRef = useRef<Companion | null>(null)
   const versionRef = useRef(0)
   const onErrorRef = useRef(onError)
   onErrorRef.current = onError
@@ -92,6 +119,7 @@ export function CharacterStage({ breed, gender, pet, width, height, onError }: P
     }
     let raf = 0
     let drawn = ''
+    let fitted: { version: number; box: Box } | null = null
     const start = performance.now()
     const tick = (now: number) => {
       const look = lookRef.current
@@ -100,28 +128,31 @@ export function CharacterStage({ breed, gender, pet, width, height, onError }: P
         // rAF timestamps can predate `start`; clamp so the index never goes negative.
         const elapsed = Math.max(0, now - start)
         const { mirror } = FACINGS[facingRef.current]
-        const companion = petRef.current
-        const playerFrame = frameIndex(player, elapsed)
-        const petFrame = companion ? frameIndex(companion, elapsed) : -1
-        const key = `${versionRef.current}:${playerFrame}:${petFrame}`
+        const extra = companionRef.current
+        const lead = extra?.kind === 'mount' ? extra.figure : player
+        const leadFrame = frameIndex(lead, elapsed)
+        const extraFrame = extra ? frameIndex(extra.kind === 'mount' ? extra.rider : extra.figure, elapsed) : -1
+        const key = `${versionRef.current}:${leadFrame}:${extraFrame}`
         if (key !== drawn) {
           drawn = key
-          const entities: Entity[] = [{
-            frame: player.anim.frames[playerFrame] ?? [], nodes: player.def.nodes, skins: look.skins, own: player.own,
-            colors: look.colors, x: 0, y: 0, scale: 1, mirror,
-          }]
-          if (companion) {
-            // The pet trails behind the character, on the side it walks away from.
-            const away = facingRef.current >= 5 // facing away from the viewer: the pet is in front
-            const side = mirror ? 1 : -1
-            const petEntity: Entity = {
-              frame: companion.anim.frames[petFrame] ?? [], nodes: companion.def.nodes, skins: [], own: companion.own,
-              x: side * PET_OFFSET, y: away ? -6 : 10, scale: companion.scale, mirror,
+          const figureEntity = (f: Figure, frame: number, rest: Partial<Entity>): Entity => ({
+            frame: f.anim.frames[frame] ?? [], nodes: f.def.nodes, skins: [], own: f.own,
+            x: 0, y: 0, scale: 1, mirror, ...rest,
+          })
+          const scene = (lf: number, ef: number): Entity => {
+            if (extra?.kind === 'mount') {
+              const rider = figureEntity(extra.rider, ef, { skins: look.skins, colors: look.colors })
+              return figureEntity(extra.figure, lf, { colors: extra.colors, scale: extra.scale, hooks: { [RIDER_HOOK]: rider } })
             }
-            if (away) entities.push(petEntity)
-            else entities.unshift(petEntity)
+            const root = figureEntity(player, lf, { skins: look.skins, colors: look.colors })
+            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale }) }
+            return root
           }
-          renderer.render(entities, companion ? FRAME_BOX_PET : FRAME_BOX)
+          if (!extra) fitted = null
+          else if (fitted?.version !== versionRef.current) {
+            fitted = { version: versionRef.current, box: fitBox(renderer.measure([scene(0, 0)]), extra.kind === 'mount') }
+          }
+          renderer.render([scene(leadFrame, extraFrame)], fitted?.box ?? FRAME_BOX)
         }
       }
       raf = requestAnimationFrame(tick)
@@ -163,28 +194,40 @@ export function CharacterStage({ breed, gender, pet, width, height, onError }: P
 
   useEffect(() => {
     let cancelled = false
-    if (!pet) {
-      petRef.current = null
+    const clear = () => {
+      companionRef.current = null
       versionRef.current++
+    }
+    if (!companion) {
+      clear()
       return
     }
+    const file = FACINGS[facing].file
+    const anim = `${MOTIONS[motion].creature}_${file}`
     ;(async () => {
-      const entry = (await loadPets())[pet]
-      if (!entry) {
-        petRef.current = null
-        return
+      const [pets, mounts] = await Promise.all([loadPets(), loadMounts()])
+      const mount = mounts[companion]
+      const pet = pets[companion]
+      let next: Companion | null = null
+      if (mount) {
+        const [figure, rider] = await Promise.all([
+          loadFigure(mount.bone, anim),
+          loadFigure(RIDER_BONE, `${RIDER_ANIM}_${file}`),
+        ])
+        next = { kind: 'mount', figure, rider, colors: mount.colors, scale: (mount.scale ?? 100) / 100 }
+      } else if (pet) {
+        next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale / 100 }
       }
-      const figure = await loadFigure(entry.bone, `${MOTIONS[motion].creature}_${FACINGS[facing].file}`)
       if (cancelled) return
-      petRef.current = { ...figure, scale: entry.scale / 100 }
+      companionRef.current = next
       versionRef.current++
     })().catch(err => {
-      // A pet that fails to load just isn't shown; the character stays.
-      console.warn('pet unavailable', err)
-      if (!cancelled) petRef.current = null
+      // A companion that fails to load just isn't shown; the character stays.
+      console.warn('companion unavailable', err)
+      if (!cancelled) clear()
     })
     return () => { cancelled = true }
-  }, [pet, motion, facing])
+  }, [companion, motion, facing])
 
   const btn = 'flex items-center justify-center rounded-md border transition-colors hover:brightness-125'
   const btnStyle = {

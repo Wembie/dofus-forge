@@ -20,6 +20,12 @@ export interface Entity {
   own?: { layer: Layer; names: string[] }
   /** Palette slot N (1-based) tints every ColorGray_N part. */
   colors?: number[]
+  /**
+   * Entities carried at a hook node of this one (`carried_<slot>_0`: 1 = pet,
+   * 2 = rider). They are drawn where the hook sits in the draw order, offset
+   * by the hook's position; their own x/y add to it.
+   */
+  hooks?: Record<string, Entity>
   x: number
   y: number
   scale: number
@@ -238,13 +244,22 @@ export class CharacterRenderer {
     }
   }
 
-  private build(e: Entity) {
+  private build(e: Entity, ox = 0, oy = 0) {
     this.skins = e.skins
     this.palette = (e.colors ?? []).map(rgb)
     this.animated.clear()
     for (const inst of e.frame) if (inst.node !== 0xffff) this.animated.add(e.nodes[inst.node])
     const sx = e.mirror ? -e.scale : e.scale
     for (const inst of e.frame) {
+      const m = inst.m
+      const carried = inst.node !== 0xffff ? e.hooks?.[e.nodes[inst.node]] : undefined
+      if (carried) {
+        const state = [this.skins, this.palette, new Set(this.animated)] as const
+        this.build(carried, sx * m[2] + e.x + ox, e.scale * m[5] + e.y + oy)
+        ;[this.skins, this.palette] = state
+        this.animated = state[2]
+        continue
+      }
       let found: [Layer, Part] | null = null
       if (inst.graphic >= 0 && e.own) {
         const part = e.own.layer.skin.parts[e.own.names[inst.graphic]]
@@ -254,10 +269,27 @@ export class CharacterRenderer {
         if (name) found = this.find(name)
       }
       if (!found) continue
-      const m = inst.m
-      const root: Mat = [sx * m[0], e.scale * m[3], sx * m[1], e.scale * m[4], sx * m[2] + e.x, e.scale * m[5] + e.y]
+      const root: Mat = [sx * m[0], e.scale * m[3], sx * m[1], e.scale * m[4], sx * m[2] + e.x + ox, e.scale * m[5] + e.y + oy]
       this.drawPart(found[0], found[1], root, 0, inst, 0)
     }
+  }
+
+  /** World-space box [x, y, width, height] covering what `render` would draw, or null if nothing. */
+  measure(entities: Entity[]): [number, number, number, number] | null {
+    this.vCount = 0
+    this.iCount = 0
+    this.batches = []
+    for (const e of entities) this.build(e)
+    if (!this.vCount) return null
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity
+    for (let i = 0; i < this.vCount; i++) {
+      const x = this.verts[i * STRIDE], y = this.verts[i * STRIDE + 1]
+      if (x < x0) x0 = x
+      if (x > x1) x1 = x
+      if (y < y0) y0 = y
+      if (y > y1) y1 = y
+    }
+    return [x0, y0, x1 - x0, y1 - y0]
   }
 
   /**

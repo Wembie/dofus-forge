@@ -10,6 +10,7 @@ consumed by src/lib/character:
 
   <out>/looks.json              breed -> {male, female} body skin, head skin, colors
   <out>/pets.json               pet item id -> creature bone + scale
+  <out>/mounts.json             mount / petsmount item id -> mount bone, palette, scale
   <out>/bones/<id>.json         node names, own graphics, animation list (bounds, frame count)
   <out>/bones/<id>/<anim>.bin   raw animation timelines (format: src/lib/character/anim.ts)
   <out>/skins/<id>.bin          skin geometry (format: src/lib/character/skin.ts)
@@ -37,6 +38,40 @@ DEFAULT_CLIENT = os.path.join(os.environ.get('LOCALAPPDATA', ''), 'Ankama', 'Dof
 BONES = ['1-static', '1-movement']
 CREATURE_ANIMS = re.compile(r'^Anim(Statique|Marche|Course)_\d$')
 CREATURE_LOOK = re.compile(r'^\{(\d+)\|\|\|(\d+)\}$')
+MOUNT_LOOK = re.compile(r'^\{(\d+)\|\|([\d=,]*)\|(\d+)\}$')
+NEUTRAL_TINT = 0x808080  # overlay with mid gray leaves a part as authored
+RIDER_BONE = '2'
+
+# Petsmount item -> mount bone. The client has no such table (the server
+# builds the mounted look), so each one was matched by eye: every mount bone
+# rendered next to the item's official icon. Bones drawn untinted carry the
+# palette sampled from the icon.
+PETSMOUNTS = {
+    12541: {'bone': '1659'},   # Dragrillado
+    12963: {'bone': '1834'},   # Dekarbon
+    13182: {'bone': '1792', 'colors': [0x636319, 0x908c30]},  # Kramkram
+    13465: {'bone': '1990'},   # Sakequero
+    13603: {'bone': '2013'},   # Suskrofa
+    14827: {'bone': '2440'},   # Kwalteza
+    14833: {'bone': '2441'},   # Siroko
+    14838: {'bone': '2442'},   # Xaparon
+    14848: {'bone': '2443'},   # Kompost
+    14854: {'bone': '2444'},   # Hardo
+    15243: {'bone': '2710'},   # Perforror
+    18088: {'bone': '3629'},   # Mortielago
+    19044: {'bone': '4113'},   # Mortielago alabastrado
+    19286: {'bone': '4179'},   # Jalacastor
+    19291: {'bone': '4180'},   # Jalapolux
+    25292: {'bone': '6339'},   # Tae'Niak
+    29430: {'bone': '7850'},   # Kolifante mamuk
+    29431: {'bone': '7849'},   # Kolifante de Lejandro
+    29432: {'bone': '7848'},   # Kolifante de Kartago
+    29433: {'bone': '7847'},   # Kolifante zenusha
+    29434: {'bone': '7846'},   # Lagartiro
+    29435: {'bone': '7834'},   # Kobraviva
+    29456: {'bone': '7835'},   # Gavioto
+    31886: {'bone': '9527'},   # Montura del Venerable (its monster's look)
+}
 SKIN_MAGIC = b'DFSK'
 SKIN_VERSION = 1
 
@@ -179,6 +214,22 @@ def match_pets(client, item_type):
     return pets
 
 
+def ride_mounts(client):
+    """Mount items (dragoturkeys, seemyools, rhineetles…): the ride links the
+    item to the mount row, whose look string carries bone, palette and scale."""
+    looks = {r['id']: r['look'] for r in table_rows(client, 'mounts') if 'look' in r}
+    mounts = {}
+    for ride in table_rows(client, 'rides'):
+        match = MOUNT_LOOK.match(looks.get(ride.get('id'), '')) if 'linkedItemGid' in ride else None
+        if not match:
+            continue
+        bone, colors, scale = match.groups()
+        slots = dict(map(int, c.split('=')) for c in colors.split(',') if c)
+        palette = [slots.get(i, NEUTRAL_TINT) for i in range(1, max(slots, default=0) + 1)]
+        mounts[ride['linkedItemGid']] = {'bone': bone, 'colors': palette, 'scale': int(scale)}
+    return mounts
+
+
 def frame_count(data):
     return struct.unpack_from('<H', data, 0)[0]
 
@@ -291,6 +342,17 @@ def main():
     print(f'  {len(pets)} pets matched')
     with open(os.path.join(args.out, 'pets.json'), 'w') as f:
         json.dump(pets, f, separators=(',', ':'))
+
+    print('mounts')
+    export_bone(args.client, args.out, RIDER_BONE)
+    candidates = {**ride_mounts(args.client), **PETSMOUNTS}
+    exported = {}
+    for bone in sorted({m['bone'] for m in candidates.values()}, key=int):
+        exported[bone] = export_bone(args.client, args.out, bone, keep=CREATURE_ANIMS.match)
+    mounts = {k: v for k, v in candidates.items() if exported[v['bone']]}
+    print(f'  {len(mounts)} mounts and petsmounts')
+    with open(os.path.join(args.out, 'mounts.json'), 'w') as f:
+        json.dump(mounts, f, separators=(',', ':'))
 
 
 if __name__ == '__main__':
