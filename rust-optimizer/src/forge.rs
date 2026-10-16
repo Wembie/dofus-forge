@@ -2192,6 +2192,29 @@ mod tests {
     }
 
     #[test]
+    fn every_damage_and_resistance_stat_the_ui_offers_is_scored() {
+        let cases = [
+            ("pushbackDamage", "Pushback Damage"),
+            ("pushbackResist", "Pushback Resistance"),
+            ("trapDamage", "Trap Damage"),
+            ("trapPower", "Power (traps)"),
+            ("reflectedDamage", "reflected damage"),
+            ("meleeResistPercent", "% Melee Resistance"),
+            ("rangedResistPercent", "% Ranged Resistance"),
+            ("mpSteal", "Steals MP"),
+            ("summons", "Summons"),
+        ];
+        for (key, effect_name) in cases {
+            let mut items = vec![item(1, "hat", None, vec![effect(effect_name, 5)]), item(2, "hat", None, vec![effect("Vitality", 1)])];
+            items.iter_mut().for_each(|it| it.level = 190);
+            let mut f = Forge::new(config(vec![cond(key, 5, 10)], &["hat"]), items, vec![], base(200), 3);
+            let r = &run(&mut f, 3)[0];
+            assert!(r.meets_required, "{key} from \"{effect_name}\" was not reached: {} met {}/{} hat {:?}", get_stat(&r.stats, key), r.requirements_met, r.requirements_total, r.equipped.get("hat"));
+            assert_eq!(r.equipped.get("hat"), Some(&1), "{key}");
+        }
+    }
+
+    #[test]
     fn transcendence_rune_rank_follows_the_existing_line() {
         // 10 earth damage weighs 50 (> Ra 20, > Pa 40, <= Tra 60): only the
         // smallest rank fits. A bare item takes the biggest one.

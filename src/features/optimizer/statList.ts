@@ -70,6 +70,13 @@ export const OPTIMIZER_STATS: OptimizerStatMeta[] = [
   { key: 'apParry',          icon: 'ap_parry',             color: 'var(--water)',    tKey: 'stat_ap_parry' },
   { key: 'mpParry',          icon: 'mp_parry',             color: 'var(--water)',    tKey: 'stat_mp_parry' },
   { key: 'pushbackDamage',   icon: 'push_damage',          color: 'var(--earth)',    tKey: 'stat_push_damage' },
+  { key: 'trapDamage',       icon: 'trap_damage',          color: 'var(--earth)',    tKey: 'stat_trap_damage' },
+  { key: 'trapPower',        icon: 'trap_power',           color: 'var(--gold)',     tKey: 'stat_trap_power' },
+  { key: 'reflectedDamage',  icon: 'damage_reflect',       color: 'var(--neutral)',  tKey: 'stat_reflect_dmg' },
+  { key: 'pushbackResist',   icon: 'push_resistance',      color: 'var(--earth)',    tKey: 'stat_push_res' },
+  { key: 'meleeResistPercent',  icon: 'melee_resistance',  color: 'var(--earth)',    tKey: 'stat_melee_res' },
+  { key: 'rangedResistPercent', icon: 'ranged_resistance', color: 'var(--water)',    tKey: 'stat_ranged_res' },
+  { key: 'mpSteal',          icon: 'mp',                   color: 'var(--mp)',       tKey: 'stat_mp_steal' },
   { key: 'pods',             icon: 'pods',                 color: 'var(--gold)',     tKey: 'stat_pods' },
 ]
 
@@ -81,8 +88,10 @@ const UNIT_VALUE: Partial<Record<OptimizerStatKey, number>> = {
   strength: 5, intelligence: 5, chance: 5, agility: 5, power: 5, damage: 25,
   critChance: 50, critDamage: 25, critResistance: 10,
   initiative: 1, lock: 20, dodge: 20, apReduction: 35, mpReduction: 35, apParry: 20, mpParry: 20,
-  prospecting: 3, pods: 1, heals: 10, pushbackDamage: 10,
+  prospecting: 3, pods: 1, heals: 10, pushbackDamage: 10, pushbackResist: 10,
+  trapDamage: 10, trapPower: 3, reflectedDamage: 15, mpSteal: 35,
   meleeDamagePercent: 75, rangedDamagePercent: 75, spellDamagePercent: 75, weaponDamagePercent: 75,
+  meleeResistPercent: 50, rangedResistPercent: 50,
 }
 
 const ELEMENTAL_DAMAGE = new Set<OptimizerStatKey>(['fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage'])
@@ -132,8 +141,39 @@ const RUNE_STAT_KEY: Record<string, OptimizerStatKey> = {
   'AP Parry': 'apParry', 'MP Parry': 'mpParry', '% Earth Resistance': 'earthResPercent', '% Fire Resistance': 'fireResPercent',
   '% Water Resistance': 'waterResPercent', '% Air Resistance': 'airResPercent', '% Neutral Resistance': 'neutralResPercent',
   '% Melee Damage': 'meleeDamagePercent', '% Ranged Damage': 'rangedDamagePercent', '% Spell Damage': 'spellDamagePercent',
-  '% Weapon Damage': 'weaponDamagePercent',
+  '% Weapon Damage': 'weaponDamagePercent', 'Pushback Resistance': 'pushbackResist',
+  '% Melee Resistance': 'meleeResistPercent', '% Ranged Resistance': 'rangedResistPercent',
 }
+
+// How the order form lays the stats out: every OPTIMIZER_STATS key sits in
+// exactly one section (checked by a test). Damage and resistances each get
+// one group with sub-sections, so nothing hides under a vague heading.
+export type StatSection  = { tKey?: string; statKeys: OptimizerStatKey[] }
+export type StatGroupDef = { key: string; tKey: string; defaultOpen: boolean; sections: StatSection[]; statKeys: OptimizerStatKey[] }
+
+const group = (key: string, tKey: string, defaultOpen: boolean, sections: StatSection[]): StatGroupDef =>
+  ({ key, tKey, defaultOpen, sections, statKeys: sections.flatMap(s => s.statKeys) })
+
+export const STAT_GROUPS: StatGroupDef[] = [
+  group('core', 'optimizer_group_core', true, [
+    { statKeys: ['ap', 'mp', 'range', 'summons', 'critChance', 'maxHp'] },
+  ]),
+  group('chars', 'optimizer_group_chars', true, [
+    { statKeys: ['vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility', 'power'] },
+  ]),
+  group('damage', 'optimizer_group_damage', false, [
+    { tKey: 'optimizer_sub_fixed',   statKeys: ['damage', 'fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage', 'critDamage', 'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage'] },
+    { tKey: 'optimizer_sub_percent', statKeys: ['spellDamagePercent', 'weaponDamagePercent', 'meleeDamagePercent', 'rangedDamagePercent'] },
+    { tKey: 'optimizer_sub_steal',   statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
+  ]),
+  group('res', 'optimizer_group_res', false, [
+    { tKey: 'optimizer_sub_fixed',   statKeys: ['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed', 'critResistance', 'pushbackResist'] },
+    { tKey: 'optimizer_sub_percent', statKeys: ['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent', 'meleeResistPercent', 'rangedResistPercent'] },
+  ]),
+  group('combat', 'optimizer_group_combat', false, [
+    { statKeys: ['initiative', 'heals', 'lock', 'dodge', 'apReduction', 'mpReduction', 'apParry', 'mpParry', 'mpSteal', 'prospecting', 'pods'] },
+  ]),
+]
 
 export function runeStatLabelKey(runeStat: string): string | null {
   const key = RUNE_STAT_KEY[runeStat]

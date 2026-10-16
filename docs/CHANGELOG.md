@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.90] — 2026-10-16
+- **Fix**: The Forger's order form was missing stats the forge already knew how to reach: Trap Damage, Trap Power, Reflected Damage, Pushback Resistance, % Melee Resistance, % Ranged Resistance and MP Steal can now be ordered, and Pushback Damage no longer hides under "Combat"
+- **UI**: the order form is regrouped. Essentials now include Summons and Critical; all damage lives in one **Damage** group (flat: general, by element, critical, pushback, traps and reflect / percent / elemental steal) and all resistances in one **Resistances** group (flat: by element, critical and pushback / percent: by element, melee and ranged)
+- Checked by tests: every stat sits in exactly one section, the forge scores each one (Rust test per new stat from a real item effect) and every label exists in the four languages
+
 ## [0.3.89] — 2026-10-16
 - **Feature**: animated character. Settings → **Character** switches the builder's center portrait between the 2D portrait and an animated character of your class and gender, with its default colors
 - **Feature**: rotate the character through its 8 facings and switch between standing, walking and running from the buttons under it

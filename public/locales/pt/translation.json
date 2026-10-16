@@ -371,12 +371,6 @@
   "optimizer_no_stats": "Adicione pelo menos um stat para otimizar.",
   "optimizer_group_core": "Essenciais",
   "optimizer_group_chars": "Características",
-  "optimizer_group_elem_dmg": "Dano elemental",
-  "optimizer_group_elem_steal": "Roubo elemental",
-  "optimizer_group_crit": "Crítico",
-  "optimizer_group_dmg_pct": "% Dano",
-  "optimizer_group_res_fixed": "Resist. fixas",
-  "optimizer_group_res_pct": "% Resistências",
   "optimizer_group_combat": "Combate",
   "optimizer_clear_stats": "Limpar tudo",
   "optimizer_no_slots": "Todos os slots estão bloqueados. Ative pelo menos um para otimizar.",
@@ -852,5 +846,10 @@
   "character_rotate_right": "Girar para a direita",
   "character_motion_idle": "Parado",
   "character_motion_walk": "Andar",
-  "character_motion_run": "Correr"
+  "character_motion_run": "Correr",
+  "optimizer_group_damage": "Dano",
+  "optimizer_group_res": "Resistências",
+  "optimizer_sub_fixed": "Fixo",
+  "optimizer_sub_percent": "Porcentagem",
+  "optimizer_sub_steal": "Roubo elemental"
 }

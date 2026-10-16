@@ -371,12 +371,6 @@
   "optimizer_no_stats": "Ajoutez au moins un stat pour optimiser.",
   "optimizer_group_core": "Essentiels",
   "optimizer_group_chars": "Caractéristiques",
-  "optimizer_group_elem_dmg": "Dégâts élémentaires",
-  "optimizer_group_elem_steal": "Vol élémentaire",
-  "optimizer_group_crit": "Critique",
-  "optimizer_group_dmg_pct": "% Dégâts",
-  "optimizer_group_res_fixed": "Rés. fixes",
-  "optimizer_group_res_pct": "% Résistances",
   "optimizer_group_combat": "Combat",
   "optimizer_clear_stats": "Tout effacer",
   "optimizer_no_slots": "Tous les emplacements sont verrouillés. Activez-en au moins un pour optimiser.",
@@ -852,5 +846,10 @@
   "character_rotate_right": "Tourner à droite",
   "character_motion_idle": "Immobile",
   "character_motion_walk": "Marcher",
-  "character_motion_run": "Courir"
+  "character_motion_run": "Courir",
+  "optimizer_group_damage": "Dommages",
+  "optimizer_group_res": "Résistances",
+  "optimizer_sub_fixed": "Fixe",
+  "optimizer_sub_percent": "Pourcentage",
+  "optimizer_sub_steal": "Vol élémentaire"
 }

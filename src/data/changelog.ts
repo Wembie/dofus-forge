@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.90',
+    date: '2026-10-16',
+    notes: [
+      'Fix: The Forger can now be asked for Trap Damage, Trap Power, Reflected Damage, Pushback Resistance, % Melee / Ranged Resistance and MP Steal; Pushback Damage is easy to find',
+      'UI: order form regrouped — Summons and Critical in Essentials, one Damage group and one Resistances group with clear sub-sections',
+    ],
+  },
+  {
     version: '0.3.89',
     date: '2026-10-16',
     notes: [
