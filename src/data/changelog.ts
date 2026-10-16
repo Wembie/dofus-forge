@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.91',
+    date: '2026-10-16',
+    notes: [
+      'Feature: the animated character shows your equipped pet beside it, walking, running and turning along (67 pets for now; the rest and petsmounts are coming)',
+    ],
+  },
+  {
     version: '0.3.90',
     date: '2026-10-16',
     notes: [

@@ -2,7 +2,7 @@
  * Upload extracted character assets (char-assets/) to the R2 bucket the
  * worker serves under /char/*.
  *
- * Usage: pnpm upload-characters [--only skins/10.bin,looks.json]
+ * Usage: pnpm upload-characters [--only skins/10.bin,looks.json] [--since-minutes 90]
  * Requires `wrangler login` and the bucket from wrangler.jsonc.
  */
 
@@ -26,9 +26,12 @@ function walk(dir) {
 
 const onlyArg = process.argv.indexOf('--only')
 const only = onlyArg > 0 ? new Set(process.argv[onlyArg + 1].split(',')) : null
+const sinceArg = process.argv.indexOf('--since-minutes')
+const since = sinceArg > 0 ? Date.now() - Number(process.argv[sinceArg + 1]) * 60_000 : 0
 const files = walk(ROOT)
   .map(path => ({ path, key: relative(ROOT, path).split(sep).join('/') }))
   .filter(f => !only || only.has(f.key))
+  .filter(f => statSync(f.path).mtimeMs >= since)
 
 // Relative, slash-separated file paths: on Windows the command goes through
 // a shell, which would split an absolute path containing spaces.

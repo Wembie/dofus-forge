@@ -7,7 +7,9 @@
  *   u32 frameOffset[frameCount]
  *   frame: records until the next offset, listed in draw order
  *     u16 slot, u16 flags
- *     flags & 0x21 → i16 clipDepth, u16 node, u16, u16
+ *     flags & 0x21 → i16 graphic, u16 node, u16, u16
+ *       0x20: node indexes the bone's exposed node names (resolved by name in skins)
+ *       0x01: graphic indexes the bone's own graphics (0xffff / -1 = none)
  *     flags & 0x04 → u8 r, g, b, a multiplier (127 = 1.0)
  *     flags & 0x08 → u8 r, g, b, a offset (255 = 1.0)
  *     flags & 0x10 → f32 a, b, tx, c, d, ty
@@ -15,7 +17,10 @@
  */
 
 export interface Instance {
+  /** exposed node index, 0xffff when the slot shows a graphic instead */
   node: number
+  /** index into the bone's own graphics, -1 when none */
+  graphic: number
   /** x' = m[0]x + m[1]y + m[2], y' = m[3]x + m[4]y + m[5] */
   m: Float32Array
   /** RGBA multiplier */
@@ -64,10 +69,12 @@ export function decodeAnimation(buf: ArrayBuffer): Animation {
       q += 4
       const prev = slots.get(slot)
       let node = prev?.node ?? 0xffff
+      let graphic = prev?.graphic ?? -1
       let m = prev?.m ?? new Float32Array([1, 0, 0, 0, 1, 0])
       let color = prev?.color ?? WHITE
       let add = prev?.add ?? NONE
       if (flags & 0x21) {
+        graphic = view.getInt16(q, true)
         node = view.getUint16(q + 2, true)
         q += 8
       }
@@ -84,9 +91,9 @@ export function decodeAnimation(buf: ArrayBuffer): Animation {
         for (let k = 0; k < 6; k++) m[k] = view.getFloat32(q + k * 4, true)
         q += 24
       }
-      const inst: Instance = { node, m, color, add }
+      const inst: Instance = { node, graphic, m, color, add }
       slots.set(slot, inst)
-      if (node !== 0xffff) frame.push(inst)
+      if (node !== 0xffff || graphic >= 0) frame.push(inst)
     }
     frames.push(frame)
   }

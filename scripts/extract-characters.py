@@ -9,10 +9,13 @@ Reads the Unity bundles of an installed game client and writes compact assets
 consumed by src/lib/character:
 
   <out>/looks.json              breed -> {male, female} body skin, head skin, colors
-  <out>/bones/<id>.json         node names + animation list (bounds, frame count)
+  <out>/pets.json               pet item id -> creature bone + scale
+  <out>/bones/<id>.json         node names, own graphics, animation list (bounds, frame count)
   <out>/bones/<id>/<anim>.bin   raw animation timelines (format: src/lib/character/anim.ts)
   <out>/skins/<id>.bin          skin geometry (format: src/lib/character/skin.ts)
   <out>/skins/<id>.webp         skin texture atlas
+  <out>/skins/b<bone>.*         a bone's own graphics, drawn by timeline records that
+                                reference a graphic instead of a named node
 
 The output is uploaded to object storage; it is never committed.
 """
@@ -20,6 +23,7 @@ The output is uploaded to object storage; it is never committed.
 import argparse
 import json
 import os
+import re
 import struct
 import sys
 import warnings
@@ -31,6 +35,8 @@ warnings.filterwarnings('ignore')
 
 DEFAULT_CLIENT = os.path.join(os.environ.get('LOCALAPPDATA', ''), 'Ankama', 'Dofus-dofus3')
 BONES = ['1-static', '1-movement']
+CREATURE_ANIMS = re.compile(r'^Anim(Statique|Marche|Course)_\d$')
+CREATURE_LOOK = re.compile(r'^\{(\d+)\|\|\|(\d+)\}$')
 SKIN_MAGIC = b'DFSK'
 SKIN_VERSION = 1
 
@@ -127,27 +133,89 @@ def export_skin(client, out, skin_id):
     return True
 
 
+def read_i18n(client, lang):
+    """Client string table: u8, 2-byte tag, u32 count, (u32 id, u32 offset)[count], 7-bit-length UTF-8 strings."""
+    with open(os.path.join(content_dir(client), 'I18n', f'{lang}.bin'), 'rb') as f:
+        data = f.read()
+    count = struct.unpack_from('<I', data, 3)[0]
+    strings = {}
+    for k in range(count):
+        sid, p = struct.unpack_from('<II', data, 7 + k * 8)
+        length = shift = 0
+        while True:
+            b = data[p]
+            p += 1
+            length |= (b & 0x7f) << shift
+            shift += 7
+            if b < 0x80:
+                break
+        strings[sid] = data[p:p + length].decode('utf-8', 'replace')
+    return strings
+
+
+def match_pets(client, item_type):
+    """Pet items carry no usable look; match them by name to the creature (npc or
+    monster) that represents them in the world, which does have a bone."""
+    names = read_i18n(client, 'fr')
+    creatures = {}
+    for table, rank in (('monsters', 0), ('npcs', 1)):
+        for row in table_rows(client, table):
+            look = next((v for v in row.values() if isinstance(v, str) and CREATURE_LOOK.match(v)), None)
+            name = names.get(row.get('nameId'))
+            if not look or not name:
+                continue
+            bone, scale = map(int, CREATURE_LOOK.match(look).groups())
+            key = name.strip().lower()
+            candidate = (rank, row.get('id', 0), bone, scale)
+            if key not in creatures or candidate > creatures[key]:
+                creatures[key] = candidate
+    pets = {}
+    for item in table_rows(client, 'items'):
+        if item.get('typeId') != item_type:
+            continue
+        found = creatures.get((names.get(item['nameId']) or '').strip().lower())
+        if found:
+            pets[item['id']] = {'bone': str(found[2]), 'scale': found[3]}
+    return pets
+
+
 def frame_count(data):
     return struct.unpack_from('<H', data, 0)[0]
 
 
-def export_bone(client, out, bone):
+def export_bone(client, out, bone, keep=None):
     path = os.path.join(content_dir(client), 'Characters', 'Bones', f'bones_assets_bone_{bone}.bundle')
+    if not os.path.exists(path):
+        print(f'  missing bone {bone}', file=sys.stderr)
+        return False
     env = load(path)
     by_id = {obj.path_id: obj for obj in env.objects}
     definition = None
+    trees = {}
+    image = None
     for obj in env.objects:
         if obj.type.name == 'MonoBehaviour':
             t = obj.read_typetree()
+            trees[obj.path_id] = t
             if 'exposedNodeNames' in t:
                 definition = t
+        elif obj.type.name == 'Texture2D':
+            image = obj.read().image
     if definition is None:
         raise RuntimeError(f'bone {bone}: no definition')
+
+    own = trees.get(definition['boneAsset']['m_PathID'])
+    graphics = []
+    if own and own.get('m_keys') and image is not None:
+        write_skin(own, image, os.path.join(out, 'skins', f'b{bone}'))
+        graphics = [g['part']['name'] for g in definition['graphics']]
 
     anim_dir = os.path.join(out, 'bones', bone)
     os.makedirs(anim_dir, exist_ok=True)
     anims = {}
     for anim in definition['animations']:
+        if keep and not keep(anim['name']):
+            continue
         text = by_id[anim['data']['m_PathID']].read()
         data = text.m_Script
         if isinstance(data, str):
@@ -165,9 +233,11 @@ def export_bone(client, out, bone):
         json.dump({
             'fps': definition['defaultFrameRate'],
             'nodes': definition['exposedNodeNames'],
+            'graphics': graphics,
             'anims': anims,
         }, f, separators=(',', ':'))
-    print(f'  bone {bone}: {len(anims)} animations')
+    print(f'  bone {bone}: {len(anims)} animations, {len(graphics)} graphics')
+    return True
 
 
 def pick_default(rows, breed, gender):
@@ -211,6 +281,16 @@ def main():
 
     with open(os.path.join(args.out, 'looks.json'), 'w') as f:
         json.dump(looks, f, separators=(',', ':'))
+
+    print('pets')
+    pets = match_pets(args.client, 18)
+    exported = {}
+    for bone in sorted({p['bone'] for p in pets.values()}, key=int):
+        exported[bone] = export_bone(args.client, args.out, bone, keep=CREATURE_ANIMS.match)
+    pets = {k: v for k, v in pets.items() if exported[v['bone']]}
+    print(f'  {len(pets)} pets matched')
+    with open(os.path.join(args.out, 'pets.json'), 'w') as f:
+        json.dump(pets, f, separators=(',', ':'))
 
 
 if __name__ == '__main__':
