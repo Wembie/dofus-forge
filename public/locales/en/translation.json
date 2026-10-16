@@ -371,12 +371,6 @@
   "optimizer_no_stats": "Add at least one stat to optimize.",
   "optimizer_group_core": "Core",
   "optimizer_group_chars": "Characteristics",
-  "optimizer_group_elem_dmg": "Elemental Damage",
-  "optimizer_group_elem_steal": "Elemental Steal",
-  "optimizer_group_crit": "Critical",
-  "optimizer_group_dmg_pct": "% Damage",
-  "optimizer_group_res_fixed": "Fixed Resistances",
-  "optimizer_group_res_pct": "% Resistances",
   "optimizer_group_combat": "Combat",
   "optimizer_clear_stats": "Clear all",
   "optimizer_no_slots": "All slots are locked. Enable at least one slot to optimize.",
@@ -852,5 +846,14 @@
   "character_rotate_right": "Rotate right",
   "character_motion_idle": "Stand still",
   "character_motion_walk": "Walk",
-  "character_motion_run": "Run"
+  "character_motion_run": "Run",
+  "optimizer_group_damage": "Damage",
+  "optimizer_group_res": "Resistances",
+  "optimizer_sub_dmg_fixed": "Flat and by element",
+  "optimizer_sub_dmg_percent": "Percent",
+  "optimizer_sub_dmg_other": "Critical, pushback, traps and reflect",
+  "optimizer_sub_dmg_steal": "Elemental steal",
+  "optimizer_sub_res_percent": "Percent",
+  "optimizer_sub_res_fixed": "Flat",
+  "optimizer_sub_res_other": "Critical and pushback"
 }

@@ -5,6 +5,8 @@ import type { BuildInput, AllocatedCharacteristics, ScrolledCharacteristics } fr
 import { exoticOf, withoutExotic, flattenRunes, runeEffectsFrom } from '../runes.ts'
 import { rankOptions, bestRank } from '../../features/equipment/transcendence.ts'
 import type { AppItem } from '../../data/loaders.ts'
+import { OPTIMIZER_STATS, STAT_GROUPS } from '../../features/optimizer/statList.ts'
+import { readFileSync } from 'node:fs'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -322,5 +324,34 @@ describe('transcendence runes', () => {
     expect(bestRank(item([{ stat: 'Strength', min: 60, max: 70 }]), 'Strength')).toBeNull()
     // Ranks a rune doesn't have are left out.
     expect(rankOptions(item([]), '% Critical').map(o => o.value)).toEqual([1, 2])
+  })
+})
+
+// ── La Forjadora order form ──────────────────────────────────────────────────
+
+describe('forge order form', () => {
+  const keys = OPTIMIZER_STATS.map(m => m.key)
+
+  it('places every stat in exactly one section', () => {
+    const placed = STAT_GROUPS.flatMap(g => g.statKeys)
+    expect([...placed].sort()).toEqual([...keys].sort())
+    expect(new Set(placed).size).toBe(placed.length)
+  })
+
+  it('only offers stats the engine scores', () => {
+    const src = readFileSync(new URL('../../../rust-optimizer/src/forge.rs', import.meta.url), 'utf8')
+    const fields = src.slice(src.indexOf('const FIELDS'), src.indexOf('];', src.indexOf('const FIELDS')))
+    for (const k of keys) expect(fields, k).toContain(`"${k}"`)
+  })
+
+  it('has every label in all four languages', () => {
+    const tKeys = [
+      ...OPTIMIZER_STATS.map(m => m.tKey),
+      ...STAT_GROUPS.flatMap(g => [g.tKey, ...g.sections.flatMap(s => (s.tKey ? [s.tKey] : []))]),
+    ]
+    for (const lang of ['es', 'en', 'fr', 'pt']) {
+      const dict = JSON.parse(readFileSync(new URL(`../../../public/locales/${lang}/translation.json`, import.meta.url), 'utf8'))
+      for (const k of tKeys) expect(dict[k], `${lang}: ${k}`).toBeTruthy()
+    }
   })
 })

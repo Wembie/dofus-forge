@@ -10,7 +10,7 @@ import type { OptimizerStatMeta } from './statList.ts'
 import { BuildResultCard } from './BuildResultCard.tsx'
 import { startForgeRun, finishForgeRun } from '@/features/builds/api.ts'
 import { ForgeScene, HeatGauge, ForgeLog, LeyScale, type LogEntry } from './ForgeParts.tsx'
-import { OPTIMIZER_STATS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
+import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import { flattenRunes } from '@/engine/runes.ts'
@@ -37,20 +37,6 @@ const SLOT_LABEL_KEY: Record<SlotId, string> = {
   dofus5:    'slot_dofus5',
   dofus6:    'slot_dofus6',
 }
-
-type StatGroupDef = { key: string; tKey: string; defaultOpen: boolean; statKeys: OptimizerStatKey[] }
-
-const STAT_GROUPS: StatGroupDef[] = [
-  { key: 'core',       tKey: 'optimizer_group_core',       defaultOpen: true,  statKeys: ['ap', 'mp', 'range', 'maxHp'] },
-  { key: 'chars',      tKey: 'optimizer_group_chars',      defaultOpen: true,  statKeys: ['vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility', 'power', 'damage'] },
-  { key: 'elem_dmg',   tKey: 'optimizer_group_elem_dmg',   defaultOpen: false, statKeys: ['fireDamage', 'earthDamage', 'waterDamage', 'airDamage', 'neutralDamage', 'bestElemDamage'] },
-  { key: 'crit',       tKey: 'optimizer_group_crit',       defaultOpen: false, statKeys: ['critChance', 'critDamage', 'critResistance'] },
-  { key: 'dmg_pct',    tKey: 'optimizer_group_dmg_pct',    defaultOpen: false, statKeys: ['meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'weaponDamagePercent'] },
-  { key: 'elem_steal', tKey: 'optimizer_group_elem_steal', defaultOpen: false, statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
-  { key: 'res_fixed',  tKey: 'optimizer_group_res_fixed',  defaultOpen: false, statKeys: ['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed'] },
-  { key: 'res_pct',    tKey: 'optimizer_group_res_pct',    defaultOpen: false, statKeys: ['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent'] },
-  { key: 'combat',     tKey: 'optimizer_group_combat',     defaultOpen: false, statKeys: ['heals', 'initiative', 'lock', 'dodge', 'prospecting', 'summons', 'apReduction', 'mpReduction', 'apParry', 'mpParry', 'pushbackDamage', 'pods'] },
-]
 
 const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
 
@@ -1121,13 +1107,22 @@ export function OptimizerModal({ open, onClose }: Props) {
                   <ChevronDown size={11} style={{ color: 'var(--ink-faint)', transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
                 </button>
                 {isExpanded && (
-                  <div className="grid gap-1.5 mt-1 grid-cols-2 sm:grid-cols-4 forge-log-in">
-                    {group.statKeys.map(sk => {
-                      const meta = META_MAP.get(sk)
-                      const req = config.stats.find(s => s.stat === sk)
-                      if (!meta || !req) return null
-                      return <RequirementCard key={sk} meta={meta} req={req} onChange={updateReq} />
-                    })}
+                  <div className="space-y-2 mt-1 forge-log-in">
+                    {group.sections.map((section, i) => (
+                      <div key={section.tKey ?? i}>
+                        {section.tKey && (
+                          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] mb-1 px-0.5" style={{ color: 'var(--ink-faint)' }}>{t(section.tKey)}</p>
+                        )}
+                        <div className="grid gap-1.5 grid-cols-2 sm:grid-cols-4">
+                          {section.statKeys.map(sk => {
+                            const meta = META_MAP.get(sk)
+                            const req = config.stats.find(s => s.stat === sk)
+                            if (!meta || !req) return null
+                            return <RequirementCard key={sk} meta={meta} req={req} onChange={updateReq} />
+                          })}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
