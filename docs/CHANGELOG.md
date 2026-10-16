@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.91] — 2026-10-16
+- **Feature**: the animated character now shows your equipped pet beside it. The pet walks, runs and turns along with the character (67 pets for now; the rest and petsmounts are coming)
+- **Fix**: small effects that belong to the character's own animations (drawn from its skeleton rather than its body) now show up
+
 ## [0.3.90] — 2026-10-16
 - **Fix**: The Forger's order form was missing stats the forge already knew how to reach: Trap Damage, Trap Power, Reflected Damage, Pushback Resistance, % Melee Resistance, % Ranged Resistance and MP Steal can now be ordered, and Pushback Damage no longer hides under "Combat"
 - **UI**: the order form is regrouped. Essentials now include Summons and Critical; all damage lives in one **Damage** group (flat: general, by element, critical, pushback, traps and reflect / percent / elemental steal) and all resistances in one **Resistances** group (flat: by element, critical and pushback / percent: by element, melee and ranged)

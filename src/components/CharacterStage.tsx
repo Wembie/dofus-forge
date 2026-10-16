@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RotateCcw, RotateCw, Footprints } from 'lucide-react'
-import { CharacterRenderer } from '@/lib/character/renderer.ts'
-import { loadAnimation, loadBone, loadLooks, loadSkin } from '@/lib/character/assets.ts'
+import { CharacterRenderer, type Entity, type Layer } from '@/lib/character/renderer.ts'
+import { loadAnimation, loadBone, loadLooks, loadPets, loadSkin, type BoneDef } from '@/lib/character/assets.ts'
 import type { Animation } from '@/lib/character/anim.ts'
 
 type Motion = 'idle' | 'walk' | 'run'
 
-const MOTIONS: Record<Motion, { bone: string; anim: string }> = {
-  idle: { bone: '1-static',   anim: 'AnimStatiqueExplo0' },
-  walk: { bone: '1-movement', anim: 'AnimMarche' },
-  run:  { bone: '1-movement', anim: 'AnimCourse' },
+const MOTIONS: Record<Motion, { bone: string; anim: string; creature: string }> = {
+  idle: { bone: '1-static',   anim: 'AnimStatiqueExplo0', creature: 'AnimStatique' },
+  walk: { bone: '1-movement', anim: 'AnimMarche',         creature: 'AnimMarche' },
+  run:  { bone: '1-movement', anim: 'AnimCourse',         creature: 'AnimCourse' },
 }
 const NEXT_MOTION: Record<Motion, Motion> = { idle: 'walk', walk: 'run', run: 'idle' }
 
@@ -28,23 +28,48 @@ const FACINGS: { file: number; mirror: boolean }[] = [
 
 /** World box the canvas frames: body, hair and swinging arms, feet on the floor line. */
 const FRAME_BOX: [number, number, number, number] = [-64, -14, 128, 222]
+/** Wider box when a pet walks beside the character. */
+const FRAME_BOX_PET: [number, number, number, number] = [-88, -16, 176, 226]
+const PET_OFFSET = 52
+
+interface Figure {
+  def: BoneDef
+  anim: Animation
+  own?: Entity['own']
+}
 
 interface Props {
   breed: number
   gender: 'male' | 'female'
+  /** equipped pet item id */
+  pet?: number
   width: number
   height: number
   onError?: () => void
 }
 
-export function CharacterStage({ breed, gender, width, height, onError }: Props) {
+async function loadFigure(bone: string, anim: string): Promise<Figure> {
+  const def = await loadBone(bone)
+  const [animation, own] = await Promise.all([
+    loadAnimation(bone, anim),
+    def.graphics?.length ? loadSkin(`b${bone}`) : Promise.resolve(null),
+  ])
+  return { def, anim: animation, own: own && def.graphics ? { layer: own, names: def.graphics } : undefined }
+}
+
+function frameIndex(figure: Figure, elapsed: number) {
+  return Math.floor((elapsed / 1000) * figure.def.fps) % Math.max(1, figure.anim.frames.length)
+}
+
+export function CharacterStage({ breed, gender, pet, width, height, onError }: Props) {
   const { t } = useTranslation()
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const rendererRef = useRef<CharacterRenderer | null>(null)
   const [facing, setFacing] = useState(1)
   const [motion, setMotion] = useState<Motion>('idle')
   const [ready, setReady] = useState(false)
-  const playRef = useRef<{ anim: Animation; nodes: string[]; fps: number; mirror: boolean } | null>(null)
+  const lookRef = useRef<{ skins: Layer[]; colors: number[] } | null>(null)
+  const playerRef = useRef<Figure | null>(null)
+  const petRef = useRef<(Figure & { scale: number }) | null>(null)
   const versionRef = useRef(0)
   const onErrorRef = useRef(onError)
   onErrorRef.current = onError
@@ -52,6 +77,8 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
     console.warn('character stage unavailable', err)
     onErrorRef.current?.()
   }
+  const facingRef = useRef(facing)
+  facingRef.current = facing
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -63,19 +90,38 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
       fail(err)
       return
     }
-    rendererRef.current = renderer
     let raf = 0
-    let drawn: { play: unknown; frame: number; version: number } | null = null
+    let drawn = ''
     const start = performance.now()
     const tick = (now: number) => {
-      const play = playRef.current
-      if (play && play.anim.frames.length) {
+      const look = lookRef.current
+      const player = playerRef.current
+      if (look && player) {
         // rAF timestamps can predate `start`; clamp so the index never goes negative.
-        const frame = Math.floor((Math.max(0, now - start) / 1000) * play.fps) % play.anim.frames.length
-        const version = versionRef.current
-        if (!drawn || drawn.play !== play || drawn.frame !== frame || drawn.version !== version) {
-          renderer.render(play.anim.frames[frame], play.nodes, { bounds: FRAME_BOX, mirror: play.mirror })
-          drawn = { play, frame, version }
+        const elapsed = Math.max(0, now - start)
+        const { mirror } = FACINGS[facingRef.current]
+        const companion = petRef.current
+        const playerFrame = frameIndex(player, elapsed)
+        const petFrame = companion ? frameIndex(companion, elapsed) : -1
+        const key = `${versionRef.current}:${playerFrame}:${petFrame}`
+        if (key !== drawn) {
+          drawn = key
+          const entities: Entity[] = [{
+            frame: player.anim.frames[playerFrame] ?? [], nodes: player.def.nodes, skins: look.skins, own: player.own,
+            colors: look.colors, x: 0, y: 0, scale: 1, mirror,
+          }]
+          if (companion) {
+            // The pet trails behind the character, on the side it walks away from.
+            const away = facingRef.current >= 5 // facing away from the viewer: the pet is in front
+            const side = mirror ? 1 : -1
+            const petEntity: Entity = {
+              frame: companion.anim.frames[petFrame] ?? [], nodes: companion.def.nodes, skins: [], own: companion.own,
+              x: side * PET_OFFSET, y: away ? -6 : 10, scale: companion.scale, mirror,
+            }
+            if (away) entities.push(petEntity)
+            else entities.unshift(petEntity)
+          }
+          renderer.render(entities, companion ? FRAME_BOX_PET : FRAME_BOX)
         }
       }
       raf = requestAnimationFrame(tick)
@@ -84,7 +130,6 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
     return () => {
       cancelAnimationFrame(raf)
       renderer.dispose()
-      rendererRef.current = null
     }
   }, [])
 
@@ -96,9 +141,8 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
       const look = looks[breed]?.[gender]
       if (!look) throw new Error(`no look for breed ${breed}`)
       const [body, head] = await Promise.all([loadSkin(look.body), loadSkin(look.head)])
-      if (cancelled || !rendererRef.current) return
-      rendererRef.current.setLayers([head, body].map(s => ({ skin: s.skin, image: s.image })))
-      rendererRef.current.setPalette(look.colors)
+      if (cancelled) return
+      lookRef.current = { skins: [head, body], colors: look.colors }
       versionRef.current++
       setReady(true)
     })().catch(err => { if (!cancelled) fail(err) })
@@ -108,14 +152,39 @@ export function CharacterStage({ breed, gender, width, height, onError }: Props)
   useEffect(() => {
     let cancelled = false
     const { bone, anim } = MOTIONS[motion]
-    const { file, mirror } = FACINGS[facing]
     ;(async () => {
-      const def = await loadBone(bone)
-      const animation = await loadAnimation(bone, `${anim}_${file}`)
-      if (!cancelled) playRef.current = { anim: animation, nodes: def.nodes, fps: def.fps, mirror }
+      const figure = await loadFigure(bone, `${anim}_${FACINGS[facing].file}`)
+      if (cancelled) return
+      playerRef.current = figure
+      versionRef.current++
     })().catch(err => { if (!cancelled) fail(err) })
     return () => { cancelled = true }
   }, [motion, facing])
+
+  useEffect(() => {
+    let cancelled = false
+    if (!pet) {
+      petRef.current = null
+      versionRef.current++
+      return
+    }
+    ;(async () => {
+      const entry = (await loadPets())[pet]
+      if (!entry) {
+        petRef.current = null
+        return
+      }
+      const figure = await loadFigure(entry.bone, `${MOTIONS[motion].creature}_${FACINGS[facing].file}`)
+      if (cancelled) return
+      petRef.current = { ...figure, scale: entry.scale / 100 }
+      versionRef.current++
+    })().catch(err => {
+      // A pet that fails to load just isn't shown; the character stays.
+      console.warn('pet unavailable', err)
+      if (!cancelled) petRef.current = null
+    })
+    return () => { cancelled = true }
+  }, [pet, motion, facing])
 
   const btn = 'flex items-center justify-center rounded-md border transition-colors hover:brightness-125'
   const btnStyle = {

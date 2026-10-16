@@ -3,15 +3,26 @@ import type { Part, Skin } from './skin'
 
 /** a, b, c, d, tx, ty — x' = a·x + c·y + tx, y' = b·x + d·y + ty */
 type Mat = [number, number, number, number, number, number]
+type Rgb = [number, number, number]
 
 export interface Layer {
   skin: Skin
   image: TexImageSource
 }
 
-export interface View {
-  /** world-space box to fit: x, y (bottom), width, height */
-  bounds: [number, number, number, number]
+/** One animated figure in the scene: the character, a pet, a mount… */
+export interface Entity {
+  frame: Instance[]
+  nodes: string[]
+  /** Searched in order when resolving a node name to a part. */
+  skins: Layer[]
+  /** The bone's own graphics, for records that reference one by index. */
+  own?: { layer: Layer; names: string[] }
+  /** Palette slot N (1-based) tints every ColorGray_N part. */
+  colors?: number[]
+  x: number
+  y: number
+  scale: number
   mirror: boolean
 }
 
@@ -55,6 +66,7 @@ void main() {
 }`
 
 const STRIDE = 16
+const TINT_RE = /^ColorGray_(\d+)_/
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const s = gl.createShader(type)!
@@ -75,20 +87,24 @@ function mul(p: Mat, q: Mat): Mat {
   ]
 }
 
-const TINT_RE = /^ColorGray_(\d+)_/
+function rgb(c: number): Rgb {
+  return [((c >> 16) & 255) / 255, ((c >> 8) & 255) / 255, (c & 255) / 255]
+}
 
 export class CharacterRenderer {
   private gl: WebGLRenderingContext
   private program: WebGLProgram
   private buffer: WebGLBuffer
   private indexBuffer: WebGLBuffer
-  private layers: { skin: Skin; texture: WebGLTexture }[] = []
-  private palette: [number, number, number][] = []
+  private textures = new Map<Skin, WebGLTexture>()
   private verts = new Float32Array(STRIDE * 4096)
   private idx = new Uint16Array(8192)
   private vCount = 0
   private iCount = 0
-  private batches: { layer: number; start: number; count: number }[] = []
+  private batches: { texture: WebGLTexture; start: number; count: number }[] = []
+  // per-entity state while building a frame
+  private skins: Layer[] = []
+  private palette: Rgb[] = []
   private animated = new Set<string>()
 
   constructor(private canvas: HTMLCanvasElement) {
@@ -107,32 +123,26 @@ export class CharacterRenderer {
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
   }
 
-  /** Layers are searched in order when resolving a node name to a part. */
-  setLayers(layers: Layer[]) {
+  private texture({ skin, image }: Layer): WebGLTexture {
+    let texture = this.textures.get(skin)
+    if (texture) return texture
     const gl = this.gl
-    for (const l of this.layers) gl.deleteTexture(l.texture)
-    this.layers = layers.map(({ skin, image }) => {
-      const texture = gl.createTexture()!
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true)
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-      return { skin, texture }
-    })
+    texture = gl.createTexture()!
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    this.textures.set(skin, texture)
+    return texture
   }
 
-  /** Palette slot N (1-based) tints every ColorGray_N part. */
-  setPalette(colors: number[]) {
-    this.palette = colors.map(c => [((c >> 16) & 255) / 255, ((c >> 8) & 255) / 255, (c & 255) / 255])
-  }
-
-  private find(name: string): [number, Part] | null {
-    for (let i = 0; i < this.layers.length; i++) {
-      const part = this.layers[i].skin.parts[name]
-      if (part) return [i, part]
+  private find(name: string): [Layer, Part] | null {
+    for (const layer of this.skins) {
+      const part = layer.skin.parts[name]
+      if (part) return [layer, part]
     }
     return null
   }
@@ -150,9 +160,9 @@ export class CharacterRenderer {
     }
   }
 
-  private emit(layer: number, chunk: Part['c'][number], m: Mat, tint: number, inst: Instance) {
+  private emit(layer: Layer, chunk: Part['c'][number], m: Mat, tint: number, inst: Instance) {
+    const { skin } = layer
     const { color, add } = inst
-    const { skin } = this.layers[layer]
     const [first, count, firstIndex, indexCount] = chunk
     if (this.vCount + count > 65535) return
     this.grow(count, indexCount)
@@ -183,14 +193,15 @@ export class CharacterRenderer {
       v[o + 15] = add[3]
     }
     for (let k = 0; k < indexCount; k++) this.idx[this.iCount + k] = base + skin.indices[firstIndex + k]
+    const texture = this.texture(layer)
     const last = this.batches[this.batches.length - 1]
-    if (last && last.layer === layer && last.start + last.count === this.iCount) last.count += indexCount
-    else this.batches.push({ layer, start: this.iCount, count: indexCount })
+    if (last && last.texture === texture && last.start + last.count === this.iCount) last.count += indexCount
+    else this.batches.push({ texture, start: this.iCount, count: indexCount })
     this.vCount += count
     this.iCount += indexCount
   }
 
-  private drawPart(layer: number, part: Part, m: Mat, tint: number, inst: Instance, depth: number) {
+  private drawPart(layer: Layer, part: Part, m: Mat, tint: number, inst: Instance, depth: number) {
     if (depth > 12) return
     const d = part.d
     const stack: { end: number; m: Mat; tint: number }[] = [{ end: d.length, m, tint }]
@@ -227,7 +238,33 @@ export class CharacterRenderer {
     }
   }
 
-  render(frame: Instance[], nodes: string[], view: View) {
+  private build(e: Entity) {
+    this.skins = e.skins
+    this.palette = (e.colors ?? []).map(rgb)
+    this.animated.clear()
+    for (const inst of e.frame) if (inst.node !== 0xffff) this.animated.add(e.nodes[inst.node])
+    const sx = e.mirror ? -e.scale : e.scale
+    for (const inst of e.frame) {
+      let found: [Layer, Part] | null = null
+      if (inst.graphic >= 0 && e.own) {
+        const part = e.own.layer.skin.parts[e.own.names[inst.graphic]]
+        if (part) found = [e.own.layer, part]
+      } else if (inst.node !== 0xffff) {
+        const name = e.nodes[inst.node]
+        if (name) found = this.find(name)
+      }
+      if (!found) continue
+      const m = inst.m
+      const root: Mat = [sx * m[0], e.scale * m[3], sx * m[1], e.scale * m[4], sx * m[2] + e.x, e.scale * m[5] + e.y]
+      this.drawPart(found[0], found[1], root, 0, inst, 0)
+    }
+  }
+
+  /**
+   * Draws entities back to front.
+   * @param bounds world box to fit: x, y (bottom), width, height
+   */
+  render(entities: Entity[], bounds: [number, number, number, number]) {
     const gl = this.gl
     const dpr = window.devicePixelRatio || 1
     const w = Math.round(this.canvas.clientWidth * dpr)
@@ -244,28 +281,16 @@ export class CharacterRenderer {
     this.vCount = 0
     this.iCount = 0
     this.batches = []
-    this.animated.clear()
-    for (const inst of frame) this.animated.add(nodes[inst.node])
-    for (const inst of frame) {
-      const name = nodes[inst.node]
-      if (!name) continue
-      const found = this.find(name)
-      if (!found) continue
-      const m = inst.m
-      this.drawPart(found[0], found[1], [m[0], m[3], m[1], m[4], m[2], m[5]], 0, inst, 0)
-    }
+    for (const e of entities) this.build(e)
     if (!this.batches.length) return
 
-    const [bx, by, bw, bh] = view.bounds
+    const [bx, by, bw, bh] = bounds
     const scale = Math.min(w / bw, h / bh)
     const sx = (2 * scale) / w
     const sy = (2 * scale) / h
-    const cx = bx + bw / 2
-    const cy = by + bh / 2
 
     gl.useProgram(this.program)
-    gl.uniform4f(gl.getUniformLocation(this.program, 'uView'),
-      view.mirror ? -sx : sx, sy, (view.mirror ? sx : -sx) * cx, -sy * cy)
+    gl.uniform4f(gl.getUniformLocation(this.program, 'uView'), sx, sy, -sx * (bx + bw / 2), -sy * (by + bh / 2))
     gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer)
     gl.bufferData(gl.ARRAY_BUFFER, this.verts.subarray(0, this.vCount * STRIDE), gl.DYNAMIC_DRAW)
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer)
@@ -283,14 +308,15 @@ export class CharacterRenderer {
     gl.activeTexture(gl.TEXTURE0)
     gl.uniform1i(gl.getUniformLocation(this.program, 'uTex'), 0)
     for (const b of this.batches) {
-      gl.bindTexture(gl.TEXTURE_2D, this.layers[b.layer].texture)
+      gl.bindTexture(gl.TEXTURE_2D, b.texture)
       gl.drawElements(gl.TRIANGLES, b.count, gl.UNSIGNED_SHORT, b.start * 2)
     }
   }
 
   dispose() {
     const gl = this.gl
-    for (const l of this.layers) gl.deleteTexture(l.texture)
+    for (const t of this.textures.values()) gl.deleteTexture(t)
+    this.textures.clear()
     gl.deleteBuffer(this.buffer)
     gl.deleteBuffer(this.indexBuffer)
     gl.deleteProgram(this.program)

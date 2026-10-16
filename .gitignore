@@ -42,3 +42,4 @@ public/data/stats-browse/
 # extracted character assets (uploaded to object storage)
 char-assets/
 .venv-chars/
+__pycache__/
