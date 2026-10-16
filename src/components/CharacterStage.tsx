@@ -94,7 +94,7 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
   const [facing, setFacing] = useState(1)
   const [motion, setMotion] = useState<Motion>('idle')
   const [ready, setReady] = useState(false)
-  const lookRef = useRef<{ skins: Layer[]; colors: number[] } | null>(null)
+  const lookRef = useRef<{ skins: Layer[]; colors: number[]; scale: number } | null>(null)
   const playerRef = useRef<Figure | null>(null)
   const companionRef = useRef<Companion | null>(null)
   const versionRef = useRef(0)
@@ -142,10 +142,10 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
           const scene = (lf: number, ef: number): Entity => {
             if (extra?.kind === 'mount') {
               const rider = figureEntity(extra.rider, ef, { skins: look.skins, colors: look.colors })
-              return figureEntity(extra.figure, lf, { colors: extra.colors, scale: extra.scale, hooks: { [RIDER_HOOK]: rider } })
+              return figureEntity(extra.figure, lf, { colors: extra.colors, scale: extra.scale / look.scale, hooks: { [RIDER_HOOK]: rider } })
             }
             const root = figureEntity(player, lf, { skins: look.skins, colors: look.colors })
-            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale }) }
+            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale / look.scale }) }
             return root
           }
           if (!extra) fitted = null
@@ -173,7 +173,7 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
       if (!look) throw new Error(`no look for breed ${breed}`)
       const [body, head] = await Promise.all([loadSkin(look.body), loadSkin(look.head)])
       if (cancelled) return
-      lookRef.current = { skins: [head, body], colors: look.colors }
+      lookRef.current = { skins: [head, body], colors: look.colors, scale: look.scale ?? 100 }
       versionRef.current++
       setReady(true)
     })().catch(err => { if (!cancelled) fail(err) })
@@ -214,9 +214,9 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
           loadFigure(mount.bone, anim),
           loadFigure(RIDER_BONE, `${RIDER_ANIM}_${file}`),
         ])
-        next = { kind: 'mount', figure, rider, colors: mount.colors, scale: (mount.scale ?? 100) / 100 }
+        next = { kind: 'mount', figure, rider, colors: mount.colors, scale: mount.scale ?? 100 }
       } else if (pet) {
-        next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale / 100 }
+        next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale }
       }
       if (cancelled) return
       companionRef.current = next

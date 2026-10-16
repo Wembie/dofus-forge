@@ -8,7 +8,7 @@ Usage:
 Reads the Unity bundles of an installed game client and writes compact assets
 consumed by src/lib/character:
 
-  <out>/looks.json              breed -> {male, female} body skin, head skin, colors
+  <out>/looks.json              breed -> {male, female} body skin, head skin, colors, look scale
   <out>/pets.json               pet item id -> creature bone + scale
   <out>/mounts.json             mount / petsmount item id -> mount bone, palette, scale
   <out>/bones/<id>.json         node names, own graphics, animation list (bounds, frame count)
@@ -325,7 +325,11 @@ def main():
             body_skin, head_skin = int(body['skins']), int(head['skins'])
             if export_skin(args.client, args.out, body_skin) and export_skin(args.client, args.out, head_skin):
                 colors = breed['maleColors'] if gender == 0 else breed['femaleColors']
-                entry[key] = {'body': body_skin, 'head': head_skin, 'colors': colors}
+                # Look scales share one unit across characters, creatures and
+                # mounts, so a pet or mount is drawn at its scale / this one.
+                look = breed['maleLook'] if gender == 0 else breed['femaleLook']
+                scale = int(look.strip('{}').split('|')[3])
+                entry[key] = {'body': body_skin, 'head': head_skin, 'colors': colors, 'scale': scale}
         if entry:
             looks[breed['id']] = entry
             print(f'  breed {breed["id"]}: {", ".join(entry)}')

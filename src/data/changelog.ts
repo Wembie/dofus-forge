@@ -13,6 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Feature: equip a dragoturkey, seemyool, rhineetle or petsmount and the animated character rides it — walking, running and turning along',
       'Change: pets walk at the spot the game reserves for them, and the view zooms to fit a pet or a mount',
+      'Fix: pets and mounts are drawn at their real size next to each class',
     ],
   },
   {

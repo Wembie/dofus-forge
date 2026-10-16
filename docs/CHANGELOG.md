@@ -8,6 +8,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ## [0.3.92] — 2026-10-16
 - **Feature**: mounts in the animated character. Equip a dragoturkey, seemyool or rhineetle (253 of them, with their own colors) or a petsmount (23 of 25) and your character rides it, walking, running and turning with it
 - **Change**: pets now walk at the spot the game reserves for them next to the character, and the framing adapts to fit a pet or a mount
+- **Fix**: pets and mounts are drawn at their real size next to each class (they came out tiny, so the character looked like it was walking the mount rather than riding it)
 
 ## [0.3.91] — 2026-10-16
 - **Feature**: the animated character now shows your equipped pet beside it. The pet walks, runs and turns along with the character (67 pets for now; the rest and petsmounts are coming)

@@ -15,6 +15,8 @@ export interface Look {
   body: number
   head: number
   colors: number[]
+  /** look scale; pets and mounts are drawn at their own scale divided by this */
+  scale?: number
 }
 
 export type Looks = Record<string, { male?: Look; female?: Look }>
