@@ -844,5 +844,13 @@
   "rune_tr_empty": "Vacía. Cada objeto admite una sola runa de transcendencia, además de sus runas normales.",
   "rune_tr_remove": "Quitar",
   "rune_tr_tag": "Trasc.",
-  "rune_tr_hint": "Toca una característica: se aplica el rango más alto que admite este objeto. Elegir otra reemplaza la actual."
+  "rune_tr_hint": "Toca una característica: se aplica el rango más alto que admite este objeto. Elegir otra reemplaza la actual.",
+  "settings_character": "Personaje",
+  "settings_character_hint": "Retrato 2D o personaje animado 3D",
+  "character_stage_label": "Personaje animado",
+  "character_rotate_left": "Girar a la izquierda",
+  "character_rotate_right": "Girar a la derecha",
+  "character_motion_idle": "Quieto",
+  "character_motion_walk": "Caminar",
+  "character_motion_run": "Correr"
 }

@@ -844,5 +844,13 @@
   "rune_tr_empty": "Vazia. Cada item aceita uma única runa de transcendência, além das runas normais.",
   "rune_tr_remove": "Remover",
   "rune_tr_tag": "Transc.",
-  "rune_tr_hint": "Toque numa característica: aplica-se o nível mais alto que este item aceita. Escolher outra substitui a atual."
+  "rune_tr_hint": "Toque numa característica: aplica-se o nível mais alto que este item aceita. Escolher outra substitui a atual.",
+  "settings_character": "Personagem",
+  "settings_character_hint": "Retrato 2D ou personagem animado 3D",
+  "character_stage_label": "Personagem animado",
+  "character_rotate_left": "Girar para a esquerda",
+  "character_rotate_right": "Girar para a direita",
+  "character_motion_idle": "Parado",
+  "character_motion_walk": "Andar",
+  "character_motion_run": "Correr"
 }

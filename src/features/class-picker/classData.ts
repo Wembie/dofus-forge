@@ -8,40 +8,42 @@ export type ClassInfo = {
   id:        DofusClass
   name:      string
   element:   Element
+  breed:     number   // game breed id
   imageUrl:  string   // male portrait
   imageFUrl: string   // female portrait
 }
 
-function cls(id: DofusClass, name: string, element: Element): ClassInfo {
+function cls(id: DofusClass, name: string, element: Element, breed: number): ClassInfo {
   return {
     id,
     name,
     element,
+    breed,
     imageUrl:  `${BASE}data/classes/${id}.png`,
     imageFUrl: `${BASE}data/classes/${id}-f.png`,
   }
 }
 
 export const CLASS_DATA: ClassInfo[] = [
-  cls('cra',          'Cra',          'air'    ),
-  cls('ecaflip',      'Ecaflip',      'fire'   ),
-  cls('eniripsa',     'Eniripsa',     'water'  ),
-  cls('enutrof',      'Enutrof',      'fire'   ),
-  cls('eliotrope',    'Eliotrope',    'multi'  ),
-  cls('feca',         'Feca',         'earth'  ),
-  cls('foggernaut',   'Foggernaut',   'neutral'),
-  cls('forgelance',   'Forgelance',   'earth'  ),
-  cls('huppermage',   'Huppermage',   'multi'  ),
-  cls('iop',          'Iop',          'earth'  ),
-  cls('masqueraider', 'Masqueraider', 'earth'  ),
-  cls('osamodas',     'Osamodas',     'air'    ),
-  cls('ouginak',      'Ouginak',      'earth'  ),
-  cls('pandawa',      'Pandawa',      'water'  ),
-  cls('rogue',        'Rogue',        'fire'   ),
-  cls('sacrier',      'Sacrier',      'neutral'),
-  cls('sadida',       'Sadida',       'earth'  ),
-  cls('sram',         'Sram',         'air'    ),
-  cls('xelor',        'Xelor',        'air'    ),
+  cls('cra',          'Cra',          'air',     9),
+  cls('ecaflip',      'Ecaflip',      'fire',    6),
+  cls('eniripsa',     'Eniripsa',     'water',   7),
+  cls('enutrof',      'Enutrof',      'fire',    3),
+  cls('eliotrope',    'Eliotrope',    'multi',   16),
+  cls('feca',         'Feca',         'earth',   1),
+  cls('foggernaut',   'Foggernaut',   'neutral', 15),
+  cls('forgelance',   'Forgelance',   'earth',   20),
+  cls('huppermage',   'Huppermage',   'multi',   17),
+  cls('iop',          'Iop',          'earth',   8),
+  cls('masqueraider', 'Masqueraider', 'earth',   14),
+  cls('osamodas',     'Osamodas',     'air',     2),
+  cls('ouginak',      'Ouginak',      'earth',   18),
+  cls('pandawa',      'Pandawa',      'water',   12),
+  cls('rogue',        'Rogue',        'fire',    13),
+  cls('sacrier',      'Sacrier',      'neutral', 11),
+  cls('sadida',       'Sadida',       'earth',   10),
+  cls('sram',         'Sram',         'air',     4),
+  cls('xelor',        'Xelor',        'air',     5),
 ]
 
 export const ELEMENT_COLORS: Record<Element, string> = {
