@@ -13,7 +13,9 @@
     "lint": "eslint src --ext ts,tsx",
     "fetch-data": "tsx scripts/fetch-data.ts",
     "fetch-spells": "tsx scripts/fetch-spells.ts",
-    "fetch-images": "tsx scripts/fetch-images.ts"
+    "fetch-images": "tsx scripts/fetch-images.ts",
+    "extract-characters": "python scripts/extract-characters.py",
+    "upload-characters": "node scripts/upload-characters.mjs"
   },
   "dependencies": {
     "@cf-wasm/resvg": "^0.4.0",

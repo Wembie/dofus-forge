@@ -2,18 +2,45 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync, createReadStream } from 'fs'
+import type { Plugin } from 'vite'
 
 const appVersion  = readFileSync('./VERSION', 'utf-8').trim()
 const gameVersion = JSON.parse(readFileSync('./public/data/version.json', 'utf-8')).gameVersion as string
+const base        = process.env.CF_PAGES || process.env.CLOUDFLARE_DEPLOY ? '/' : '/dofus-forge/'
+
+// Dev only: serve locally extracted character assets (scripts/extract-characters.py)
+// from the same path the production worker serves them on.
+function characterAssets(): Plugin {
+  const root = resolve(__dirname, 'char-assets')
+  const prefix = `${base}char/`
+  const types: Record<string, string> = { json: 'application/json', webp: 'image/webp', bin: 'application/octet-stream' }
+  return {
+    name: 'character-assets',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = req.url?.split('?')[0] ?? ''
+        if (!url.startsWith(prefix)) return next()
+        const file = resolve(root, decodeURIComponent(url.slice(prefix.length)))
+        if (!file.startsWith(root) || !existsSync(file)) {
+          res.statusCode = 404
+          return res.end()
+        }
+        res.setHeader('Content-Type', types[file.split('.').pop() ?? ''] ?? 'application/octet-stream')
+        createReadStream(file).pipe(res)
+      })
+    },
+  }
+}
 
 export default defineConfig({
   define: {
     __APP_VERSION__:   JSON.stringify(appVersion),
     __DOFUS_VERSION__: JSON.stringify(gameVersion),
   },
-  plugins: [react()],
-  base: process.env.CF_PAGES || process.env.CLOUDFLARE_DEPLOY ? '/' : '/dofus-forge/',
+  plugins: [react(), characterAssets()],
+  base,
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),

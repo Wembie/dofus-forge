@@ -11,11 +11,14 @@ type Env = {
   ASSETS: Fetcher
   SUPABASE_URL: string
   SUPABASE_ANON_KEY: string
+  CHAR_ASSETS?: R2Bucket
 }
 
 const LANGS: Lang[] = ['en', 'es', 'fr', 'pt']
 const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})\/?$/i
 const OG_IMAGE_ROUTE = /^\/og\/(en|es|fr|pt)\/([0-9a-f-]{36})\.png$/i
+const CHAR_ROUTE = /^\/char\/((?:[\w-]+\/)*[\w.-]+\.(?:json|bin|webp))$/
+const CHAR_TYPES: Record<string, string> = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
 
 const FONTS: OgFont[] = [
   { name: 'Cinzel', data: cinzelBold, weight: 700, style: 'normal' },
@@ -117,6 +120,21 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
     .transform(assetResponse)
 }
 
+// Animated character assets (scripts/extract-characters.py) live in R2, not
+// in the static bundle: they are tens of megabytes and change only with game
+// updates.
+async function serveCharacterAsset(env: Env, key: string): Promise<Response> {
+  const object = await env.CHAR_ASSETS?.get(key)
+  if (!object) return new Response('Not found', { status: 404 })
+  return new Response(object.body, {
+    headers: {
+      'Content-Type': CHAR_TYPES[key.split('.').pop() ?? ''] ?? 'application/octet-stream',
+      'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
+      'ETag': object.httpEtag,
+    },
+  })
+}
+
 function withSecurityHeaders(response: Response): Response {
   const headers = new Headers(response.headers)
   headers.set('X-Content-Type-Options', 'nosniff')
@@ -128,6 +146,9 @@ function withSecurityHeaders(response: Response): Response {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
+
+    const charMatch = url.pathname.match(CHAR_ROUTE)
+    if (charMatch) return withSecurityHeaders(await serveCharacterAsset(env, charMatch[1]))
 
     const ogMatch = url.pathname.match(OG_IMAGE_ROUTE)
     if (ogMatch) {

@@ -844,5 +844,13 @@
   "rune_tr_empty": "Empty. Each item takes a single transcendence rune, on top of its normal runes.",
   "rune_tr_remove": "Remove",
   "rune_tr_tag": "Trans.",
-  "rune_tr_hint": "Tap a characteristic: the highest rank this item takes is applied. Picking another replaces the current one."
+  "rune_tr_hint": "Tap a characteristic: the highest rank this item takes is applied. Picking another replaces the current one.",
+  "settings_character": "Character",
+  "settings_character_hint": "2D portrait or animated 3D character",
+  "character_stage_label": "Animated character",
+  "character_rotate_left": "Rotate left",
+  "character_rotate_right": "Rotate right",
+  "character_motion_idle": "Stand still",
+  "character_motion_walk": "Walk",
+  "character_motion_run": "Run"
 }

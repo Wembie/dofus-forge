@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Languages, Moon, SunMedium, Volume2, VolumeX, MousePointer2, Sparkles, PanelLeft, PanelRight } from 'lucide-react'
+import { Languages, Moon, SunMedium, Volume2, VolumeX, MousePointer2, Sparkles, PanelLeft, PanelRight, PersonStanding } from 'lucide-react'
 import { Modal } from '@/ui'
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
 import { getCurrentTheme, toggleTheme, THEME_EVENT_NAME } from '@/ui/ThemeToggle.tsx'
@@ -8,6 +8,7 @@ import { isSoundEnabled, toggleSound, SOUND_EVENT_NAME } from '@/lib/sound.ts'
 import {
   isCursorEnabled, setCursorEnabled,
   isParticlesEnabled, setParticlesEnabled,
+  getCharacterMode, setCharacterMode, type CharacterMode,
   MOTION_SETTINGS_EVENT,
 } from '@/lib/motionSettings.ts'
 import { getSidebarSide, setSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
@@ -67,6 +68,29 @@ function SideToggle({ side, onChange }: { side: SidebarSide; onChange: (side: Si
   )
 }
 
+function ModeToggle({ mode, onChange }: { mode: CharacterMode; onChange: (mode: CharacterMode) => void }) {
+  return (
+    <div className="flex gap-1 flex-shrink-0">
+      {(['2d', '3d'] as const).map(id => (
+        <button
+          key={id}
+          onClick={() => onChange(id)}
+          aria-pressed={mode === id}
+          className="flex items-center justify-center rounded-md border transition-colors text-[11px] font-bold"
+          style={{
+            width: 34, height: 30,
+            background: mode === id ? 'color-mix(in srgb, var(--gold) 15%, transparent)' : 'var(--surface-void)',
+            borderColor: mode === id ? 'var(--gold-deep)' : 'var(--metal-edge)',
+            color: mode === id ? 'var(--gold)' : 'var(--ink-faint)',
+          }}
+        >
+          {id.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 function SettingRow({ Icon, title, hint, children }: { Icon: React.ElementType; title: string; hint?: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 py-3 border-b last:border-b-0" style={{ borderColor: 'var(--metal-edge)' }}>
@@ -91,12 +115,13 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
   const [sound, setSound]         = useState(isSoundEnabled)
   const [cursor, setCursor]       = useState(isCursorEnabled)
   const [particles, setParticles] = useState(isParticlesEnabled)
+  const [characterMode, setCharacterModeState] = useState(getCharacterMode)
   const [sidebarSide, setSidebarSideState] = useState(getSidebarSide)
 
   useEffect(() => {
     const syncTheme     = () => setTheme(getCurrentTheme())
     const syncSound     = () => setSound(isSoundEnabled())
-    const syncMotion    = () => { setCursor(isCursorEnabled()); setParticles(isParticlesEnabled()) }
+    const syncMotion    = () => { setCursor(isCursorEnabled()); setParticles(isParticlesEnabled()); setCharacterModeState(getCharacterMode()) }
     const syncLayout    = () => setSidebarSideState(getSidebarSide())
     window.addEventListener(THEME_EVENT_NAME, syncTheme)
     window.addEventListener(SOUND_EVENT_NAME, syncSound)
@@ -139,6 +164,10 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
 
         <SettingRow Icon={Sparkles} title={t('settings_particles')} hint={t('settings_particles_hint')}>
           <Switch on={particles} onToggle={() => setParticlesEnabled(!particles)} label={t('settings_particles')} />
+        </SettingRow>
+
+        <SettingRow Icon={PersonStanding} title={t('settings_character')} hint={t('settings_character_hint')}>
+          <ModeToggle mode={characterMode} onChange={setCharacterMode} />
         </SettingRow>
 
         <SettingRow

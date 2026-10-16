@@ -844,5 +844,13 @@
   "rune_tr_empty": "Vide. Chaque objet accepte une seule rune de transcendance, en plus de ses runes normales.",
   "rune_tr_remove": "Retirer",
   "rune_tr_tag": "Transc.",
-  "rune_tr_hint": "Touchez une caractéristique : le rang le plus élevé que l'objet accepte est appliqué. En choisir une autre remplace l'actuelle."
+  "rune_tr_hint": "Touchez une caractéristique : le rang le plus élevé que l'objet accepte est appliqué. En choisir une autre remplace l'actuelle.",
+  "settings_character": "Personnage",
+  "settings_character_hint": "Portrait 2D ou personnage animé 3D",
+  "character_stage_label": "Personnage animé",
+  "character_rotate_left": "Tourner à gauche",
+  "character_rotate_right": "Tourner à droite",
+  "character_motion_idle": "Immobile",
+  "character_motion_walk": "Marcher",
+  "character_motion_run": "Courir"
 }

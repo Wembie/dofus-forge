@@ -15,6 +15,7 @@ import { isExoticKey, runeStat } from '@/engine/runes.ts'
 const ItemCatalog    = lazy(() => import('./ItemCatalog.tsx').then(m => ({ default: m.ItemCatalog })))
 const RuneModal      = lazy(() => import('./RuneModal.tsx').then(m => ({ default: m.RuneModal })))
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
+const CharacterStage = lazy(() => import('@/components/CharacterStage.tsx').then(m => ({ default: m.CharacterStage })))
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { SlotId } from '@/store/buildStore.ts'
@@ -23,6 +24,7 @@ import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFa
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
+import { getCharacterMode, MOTION_SETTINGS_EVENT } from '@/lib/motionSettings.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -655,8 +657,20 @@ function elemVar(elem: string | null | undefined): string {
   return `var(--${elem})`
 }
 
+function useCharacterMode() {
+  const [mode, setMode] = useState(getCharacterMode)
+  useEffect(() => {
+    const sync = () => setMode(getCharacterMode())
+    window.addEventListener(MOTION_SETTINGS_EVENT, sync)
+    return () => window.removeEventListener(MOTION_SETTINGS_EVENT, sync)
+  }, [])
+  return mode
+}
+
 function CharacterCenter() {
   const { t }         = useTranslation()
+  const characterMode = useCharacterMode()
+  const [stageFailed, setStageFailed] = useState(false)
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
   const level         = useBuildStore(s => s.level)
@@ -713,7 +727,20 @@ function CharacterCenter() {
           />
         </svg>
 
-        {/* Class portrait */}
+        {classInfo && characterMode === '3d' && !stageFailed ? (
+          <div className="flex-shrink-0" style={{ position: 'relative', zIndex: 1 }}>
+            <Suspense fallback={<div style={{ width: 150, height: 220 }} />}>
+              <CharacterStage
+                breed={classInfo.breed}
+                gender={gender}
+                width={150}
+                height={220}
+                onError={() => setStageFailed(true)}
+              />
+            </Suspense>
+          </div>
+        ) : (
+        /* Class portrait */
         <div
           className="flex-shrink-0 overflow-hidden"
           style={{
@@ -740,6 +767,7 @@ function CharacterCenter() {
             </div>
           )}
         </div>
+        )}
 
         {/* Gem ring — on top of character viewer (zIndex 2 > viewer zIndex 1) */}
         {GEM_RING.map(({ element, dx, dy }) => (

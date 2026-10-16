@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.89',
+    date: '2026-10-16',
+    notes: [
+      'Feature: animated character — Settings → Character switches the builder portrait between 2D and an animated character of your class and gender',
+      'Feature: rotate the character through 8 facings and switch between standing, walking and running',
+    ],
+  },
+  {
     version: '0.3.88',
     date: '2026-10-15',
     notes: [

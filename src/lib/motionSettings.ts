@@ -1,5 +1,6 @@
 const CURSOR_LS_KEY     = 'dofus-forge-cursor'
 const PARTICLES_LS_KEY  = 'dofus-forge-particles'
+const CHARACTER_LS_KEY  = 'dofus-forge-character'
 export const MOTION_SETTINGS_EVENT = 'forge-motion-settings-change'
 
 export function isCursorEnabled(): boolean {
@@ -17,5 +18,16 @@ export function isParticlesEnabled(): boolean {
 
 export function setParticlesEnabled(on: boolean) {
   localStorage.setItem(PARTICLES_LS_KEY, on ? 'on' : 'off')
+  window.dispatchEvent(new Event(MOTION_SETTINGS_EVENT))
+}
+
+export type CharacterMode = '2d' | '3d'
+
+export function getCharacterMode(): CharacterMode {
+  return localStorage.getItem(CHARACTER_LS_KEY) === '3d' ? '3d' : '2d'
+}
+
+export function setCharacterMode(mode: CharacterMode) {
+  localStorage.setItem(CHARACTER_LS_KEY, mode)
   window.dispatchEvent(new Event(MOTION_SETTINGS_EVENT))
 }
