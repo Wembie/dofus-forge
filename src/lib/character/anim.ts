@@ -8,7 +8,8 @@
  *   frame: records until the next offset, listed in draw order
  *     u16 slot, u16 flags
  *     flags & 0x21 → i16 clipDepth, u16 node, u16, u16
- *     flags & 0x04 → u8 r, g, b, a   (127 = 1.0)
+ *     flags & 0x04 → u8 r, g, b, a multiplier (127 = 1.0)
+ *     flags & 0x08 → u8 r, g, b, a offset (255 = 1.0)
  *     flags & 0x10 → f32 a, b, tx, c, d, ty
  *   Fields a record omits keep the value its slot had in the previous frame.
  */
@@ -19,6 +20,8 @@ export interface Instance {
   m: Float32Array
   /** RGBA multiplier */
   color: [number, number, number, number]
+  /** RGBA offset added after the multiplier */
+  add: [number, number, number, number]
 }
 
 export interface Animation {
@@ -27,6 +30,7 @@ export interface Animation {
 }
 
 const WHITE: [number, number, number, number] = [1, 1, 1, 1]
+const NONE: [number, number, number, number] = [0, 0, 0, 0]
 
 export function decodeAnimation(buf: ArrayBuffer): Animation {
   const view = new DataView(buf)
@@ -62,6 +66,7 @@ export function decodeAnimation(buf: ArrayBuffer): Animation {
       let node = prev?.node ?? 0xffff
       let m = prev?.m ?? new Float32Array([1, 0, 0, 0, 1, 0])
       let color = prev?.color ?? WHITE
+      let add = prev?.add ?? NONE
       if (flags & 0x21) {
         node = view.getUint16(q + 2, true)
         q += 8
@@ -70,12 +75,16 @@ export function decodeAnimation(buf: ArrayBuffer): Animation {
         color = [view.getUint8(q) / 127, view.getUint8(q + 1) / 127, view.getUint8(q + 2) / 127, view.getUint8(q + 3) / 127]
         q += 4
       }
+      if (flags & 0x08) {
+        add = [view.getUint8(q) / 255, view.getUint8(q + 1) / 255, view.getUint8(q + 2) / 255, view.getUint8(q + 3) / 255]
+        q += 4
+      }
       if (flags & 0x10) {
         m = new Float32Array(6)
         for (let k = 0; k < 6; k++) m[k] = view.getFloat32(q + k * 4, true)
         q += 24
       }
-      const inst: Instance = { node, m, color }
+      const inst: Instance = { node, m, color, add }
       slots.set(slot, inst)
       if (node !== 0xffff) frame.push(inst)
     }

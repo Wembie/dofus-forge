@@ -657,6 +657,21 @@ function elemVar(elem: string | null | undefined): string {
   return `var(--${elem})`
 }
 
+const STAGE_HEIGHT        = 340
+const MOBILE_STAGE_HEIGHT = 240
+const DESKTOP_QUERY       = '(min-width: 1024px)' // Tailwind lg
+
+function useIsDesktop() {
+  const [match, setMatch] = useState(() => window.matchMedia(DESKTOP_QUERY).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_QUERY)
+    const sync = () => setMatch(mq.matches)
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+  return match
+}
+
 function useCharacterMode() {
   const [mode, setMode] = useState(getCharacterMode)
   useEffect(() => {
@@ -667,10 +682,39 @@ function useCharacterMode() {
   return mode
 }
 
-function CharacterCenter() {
+/** Animated character on/off; drops back to the 2D portrait once it fails to load. */
+function useCharacterStage() {
+  const mode = useCharacterMode()
+  const [failed, setFailed] = useState(false)
+  return { show: mode === '3d' && !failed, fail: () => setFailed(true) }
+}
+
+function MobileCharacter() {
+  const stage         = useCharacterStage()
+  const selectedClass = useBuildStore(s => s.selectedClass)
+  const gender        = useBuildStore(s => s.gender)
+  const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
+  if (!stage.show || !classInfo) return null
+  return (
+    <div className="flex justify-center">
+      <Suspense fallback={<div style={{ height: MOBILE_STAGE_HEIGHT + 28 }} />}>
+        <CharacterStage
+          breed={classInfo.breed}
+          gender={gender}
+          width={220}
+          height={MOBILE_STAGE_HEIGHT}
+          onError={stage.fail}
+        />
+      </Suspense>
+    </div>
+  )
+}
+
+// Only the visible layout mounts the stage, so a single WebGL context runs.
+function CharacterCenter({ stageEnabled }: { stageEnabled: boolean }) {
   const { t }         = useTranslation()
-  const characterMode = useCharacterMode()
-  const [stageFailed, setStageFailed] = useState(false)
+  const stage         = useCharacterStage()
+  const showStage     = stage.show && stageEnabled
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender        = useBuildStore(s => s.gender)
   const level         = useBuildStore(s => s.level)
@@ -698,7 +742,21 @@ function CharacterCenter() {
         background: `radial-gradient(ellipse at 50% 28%, color-mix(in srgb, ${primaryColor} 16%, transparent) 0%, transparent 58%), var(--surface-void)`,
       }}
     >
-      {/* Portrait + gem ring */}
+      {showStage && classInfo ? (
+        /* Animated character — fills the column, no gem ring over it */
+        <div className="flex justify-center mt-4" style={{ width: 196 }}>
+          <Suspense fallback={<div style={{ width: 196, height: STAGE_HEIGHT + 28 }} />}>
+            <CharacterStage
+              breed={classInfo.breed}
+              gender={gender}
+              width={196}
+              height={STAGE_HEIGHT}
+              onError={stage.fail}
+            />
+          </Suspense>
+        </div>
+      ) : (
+      /* Portrait + gem ring */
       <div
         className="relative flex items-center justify-center mt-6"
         style={{ width: 180, height: 250 }}
@@ -727,20 +785,7 @@ function CharacterCenter() {
           />
         </svg>
 
-        {classInfo && characterMode === '3d' && !stageFailed ? (
-          <div className="flex-shrink-0" style={{ position: 'relative', zIndex: 1 }}>
-            <Suspense fallback={<div style={{ width: 150, height: 220 }} />}>
-              <CharacterStage
-                breed={classInfo.breed}
-                gender={gender}
-                width={150}
-                height={220}
-                onError={() => setStageFailed(true)}
-              />
-            </Suspense>
-          </div>
-        ) : (
-        /* Class portrait */
+        {/* Class portrait */}
         <div
           className="flex-shrink-0 overflow-hidden"
           style={{
@@ -767,7 +812,6 @@ function CharacterCenter() {
             </div>
           )}
         </div>
-        )}
 
         {/* Gem ring — on top of character viewer (zIndex 2 > viewer zIndex 1) */}
         {GEM_RING.map(({ element, dx, dy }) => (
@@ -785,6 +829,7 @@ function CharacterCenter() {
           </div>
         ))}
       </div>
+      )}
 
       {/* Class name + level + separator */}
       <div className="flex flex-col items-center gap-1.5 mt-3">
@@ -835,6 +880,7 @@ function CharacterCenter() {
 // ── EquipmentGrid ─────────────────────────────────────────────────────────────
 export function EquipmentGrid() {
   const { t }       = useTranslation()
+  const isDesktop   = useIsDesktop()
   const equipped    = useBuildStore(s => s.equipped)
   const _sets       = useBuildStore(s => s._sets)
   const runes       = useBuildStore(s => s.runes)
@@ -931,7 +977,7 @@ export function EquipmentGrid() {
     )
   }
 
-  // Mobile slot groups (< lg): two rows of 5, no character center
+  // Mobile slot groups (< lg): two rows of 5, animated character above them when enabled
   const MOBILE_ROW1: SlotId[] = ['hat',    'amulet', 'ring1', 'weapon',    'shield'   ]
   const MOBILE_ROW2: SlotId[] = ['cape',   'ring2',  'belt',  'boots',     'companion']
 
@@ -952,6 +998,7 @@ export function EquipmentGrid() {
 
       {/* ── Mobile layout: flat grid, no character center (< lg) ── */}
       <div className="lg:hidden px-3 pt-4 pb-2 space-y-2">
+        {!isDesktop && <MobileCharacter />}
         {/* Row 1 */}
         <div className="grid grid-cols-5 gap-2">
           {MOBILE_ROW1.map(id => makeSlot(id, { small: true, size: 56 }))}
@@ -983,7 +1030,7 @@ export function EquipmentGrid() {
           </div>
 
           {/* Character center */}
-          <CharacterCenter />
+          <CharacterCenter stageEnabled={isDesktop} />
 
           {/* Right column — tooltip to the left */}
           <div className="flex flex-col gap-2">
