@@ -7,7 +7,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ## [0.3.93] — 2026-10-18
 - **Change**: the animated 3D character is enabled by default; a saved 2D or 3D preference is still respected
-- **Feature**: new releases can be announced automatically on X, with the first changelog note and a link to Dofus Forge
+- **Change**: the release workflow prepares a copy-ready English X post with the site link and hashtags; posts are published manually
 - **Change**: the footer now links to the Dofus Forge X account
 
 ## [0.3.92] — 2026-10-16
