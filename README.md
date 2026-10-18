@@ -72,6 +72,12 @@ Generated files land in `public/data/`. A weekly CI workflow (`update-data.yml`)
 
 ---
 
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for local setup, project conventions, and pull request checks.
+
+---
+
 ## 📄 License
 
 MIT — see [LICENSE](./LICENSE).
