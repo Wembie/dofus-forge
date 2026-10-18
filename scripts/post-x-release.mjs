@@ -64,6 +64,11 @@ const response = await fetch(endpoint, {
 })
 const payload = await response.json().catch(() => ({}))
 if (!response.ok) {
+  if (response.status === 403 && typeof payload?.type === 'string' && payload.type.endsWith('/oauth1-permissions')) {
+    throw new Error(
+      'X rejected the OAuth 1.0a app permissions. Set the app permission to Read and write in the X Developer Portal, regenerate the user Access Token and Access Token Secret, update X_ACCESS_TOKEN and X_ACCESS_TOKEN_SECRET in GitHub Actions, then rerun this job.',
+    )
+  }
   throw new Error(`X API returned HTTP ${response.status}: ${JSON.stringify(payload)}`)
 }
 
