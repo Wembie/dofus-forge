@@ -17,6 +17,8 @@ The release workflow reads these values as GitHub Actions secrets. Do not commit
 
 ## Fix a 403 permission error
 
-If X returns `oauth1-permissions`, the app or its user token is read-only. In the Developer Portal, change the OAuth 1.0a app permission to **Read and write**, save it, and generate a fresh Access Token and Access Token Secret. Replace `X_ACCESS_TOKEN` and `X_ACCESS_TOKEN_SECRET` in GitHub Actions; the consumer key and secret do not need to change.
+If X returns `oauth1-permissions`, the app or its user token lacks write permission. In the Developer Portal, change the OAuth 1.0a app permission to **Read, write, and direct messages**, save it, and generate a fresh Access Token and Access Token Secret. Replace `X_ACCESS_TOKEN` and `X_ACCESS_TOKEN_SECRET` in GitHub Actions; the consumer key and secret do not need to change.
 
 If the GitHub Release was already created by the failed run, merge this workflow update to `main`, then open **Actions → Create Release → Run workflow** and enable `post_x_release`. That sends the current `VERSION` announcement without creating the release again. Future failed attempts can use **Re-run failed jobs**.
+
+The workflow stores a hidden marker in the GitHub Release after X confirms the post. Re-runs check that marker and skip a release that this workflow already announced, preventing duplicate posts from retries.
