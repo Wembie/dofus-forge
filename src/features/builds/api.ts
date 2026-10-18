@@ -316,6 +316,23 @@ export async function fetchProfileByUsername(username: string) {
   return { data: data as PublicProfile, error: null }
 }
 
+export type MembershipTier = 'free' | 'apprentice' | 'artisan' | 'forger' | 'master'
+
+/**
+ * `memberships`' own RLS only lets a user read their own row (it holds
+ * billing fields like provider_customer_id, and RLS is row-level, not
+ * column-level) — so a public profile showing someone ELSE's tier goes
+ * through this RPC instead, which exposes only the tier via a security
+ * definer function (get_public_membership_tier). No row in `memberships`
+ * means free tier (docs/MEMBERSHIP_DESIGN.md §7): the table only ever holds
+ * accounts that actually subscribed, so that's the common case today.
+ */
+export async function fetchMembershipTier(userId: string): Promise<MembershipTier> {
+  const supabase = await getSupabase()
+  const { data } = await supabase.rpc('get_public_membership_tier', { p_user_id: userId })
+  return (data as MembershipTier | null) ?? 'free'
+}
+
 /**
  * Lightweight aggregate stats for a profile's public builds — count + total
  * likes received, WITHOUT ever pulling the full build rows (snapshot JSON

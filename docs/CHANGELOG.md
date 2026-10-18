@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.94] — 2026-10-18
+- **Fix**: item icons are now mirrored into Dofus Forge's own storage instead of hotlinking DofusDude's live CDN — a future outage there (like the one that broke every equipped-item image on the site) no longer takes the catalog down with it
+- **Change**: any item not yet mirrored still falls back to the live CDN automatically, and an hourly job keeps the mirror in sync with new items as the game updates
+- **Feature**: public profiles now show a tier badge (Aprendiz/Artesano/Forjador/Maestro) for the upcoming supporter membership — first database groundwork only, no checkout exists yet so nobody has a paid tier today
+
 ## [0.3.93] — 2026-10-18
 - **Change**: the animated 3D character is enabled by default; a saved 2D or 3D preference is still respected
 - **Change**: the release workflow prepares a copy-ready English X post with the site link and hashtags; posts are published manually

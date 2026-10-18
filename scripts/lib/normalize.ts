@@ -160,6 +160,15 @@ function cleanFormattedText(text: string): string {
     .replace(/\{\{([^{}]*)\}\}/g, '$1')
 }
 
+// Item icons are mirrored into our own R2 bucket (scripts/upload-items.mjs)
+// and served by the worker at /img/item/*, so the catalog doesn't depend on
+// DofusDude's live CDN uptime. The filename (e.g. "6007-128.png") is the
+// same for both, so we just rewrite the host.
+function selfHostedItemImageUrl(url: string | undefined): string | null {
+  const filename = url?.match(/\/([^/]+-(?:64|128)\.png)$/)?.[1]
+  return filename ? `/img/item/${filename}` : (url ?? null)
+}
+
 export function normalizeItem(raw: RawItem): AppItem {
   const abilityEffect = raw.effects?.find(e => e.type?.is_meta && e.formatted)
   const item: AppItem = {
@@ -173,7 +182,7 @@ export function normalizeItem(raw: RawItem): AppItem {
       effect_id: e.type?.id,
     })),
     set_id:    raw.parent_set?.id ?? null,
-    image_url: raw.image_urls?.sd ?? raw.image_urls?.icon ?? null,
+    image_url: selfHostedItemImageUrl(raw.image_urls?.sd ?? raw.image_urls?.icon),
   }
   if (raw.description) item.description = raw.description
   if (abilityEffect?.formatted) item.ability = cleanFormattedText(abilityEffect.formatted)

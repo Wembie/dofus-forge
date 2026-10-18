@@ -12,6 +12,7 @@ type Env = {
   SUPABASE_URL: string
   SUPABASE_ANON_KEY: string
   CHAR_ASSETS?: R2Bucket
+  ITEM_ASSETS?: R2Bucket
 }
 
 const LANGS: Lang[] = ['en', 'es', 'fr', 'pt']
@@ -19,6 +20,7 @@ const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})\/?$/i
 const OG_IMAGE_ROUTE = /^\/og\/(en|es|fr|pt)\/([0-9a-f-]{36})\.png$/i
 const CHAR_ROUTE = /^\/char\/((?:[\w-]+\/)*[\w.-]+\.(?:json|bin|webp))$/
 const CHAR_TYPES: Record<string, string> = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
+const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
 
 const FONTS: OgFont[] = [
   { name: 'Cinzel', data: cinzelBold, weight: 700, style: 'normal' },
@@ -135,6 +137,40 @@ async function serveCharacterAsset(env: Env, key: string): Promise<Response> {
   })
 }
 
+// Item icons (scripts/upload-items.mjs) mirror DofusDude's image CDN into R2
+// so the catalog doesn't depend on that third party's live uptime. A miss
+// (item added since the last manual sync) falls back to their live CDN so
+// the image still shows up instead of breaking.
+async function serveItemAsset(key: string, itemAssets: R2Bucket | undefined): Promise<Response> {
+  const object = await itemAssets?.get(key)
+  if (object) {
+    return new Response(object.body, {
+      headers: {
+        'Content-Type': 'image/png',
+        'Cache-Control': 'public, max-age=604800, immutable',
+        'ETag': object.httpEtag,
+      },
+    })
+  }
+
+  // A hung/slow dofusdu.de (it's been down before — this is exactly the
+  // outage this whole mirror exists to route around) must not hang this
+  // request too: without a timeout, a dead upstream resolves only after
+  // Cloudflare's own multi-second connect timeout instead of failing fast.
+  try {
+    const liveResponse = await fetch(`https://api.dofusdu.de/dofus3/v1/img/item/${key}`, { signal: AbortSignal.timeout(5000) })
+    if (!liveResponse.ok) return new Response('Not found', { status: liveResponse.status })
+    return new Response(liveResponse.body, {
+      headers: {
+        'Content-Type': liveResponse.headers.get('Content-Type') ?? 'image/png',
+        'Cache-Control': 'public, max-age=3600',
+      },
+    })
+  } catch {
+    return new Response('Not found', { status: 404 })
+  }
+}
+
 function withSecurityHeaders(response: Response): Response {
   const headers = new Headers(response.headers)
   headers.set('X-Content-Type-Options', 'nosniff')
@@ -149,6 +185,9 @@ export default {
 
     const charMatch = url.pathname.match(CHAR_ROUTE)
     if (charMatch) return withSecurityHeaders(await serveCharacterAsset(env, charMatch[1]))
+
+    const itemMatch = url.pathname.match(ITEM_IMAGE_ROUTE)
+    if (itemMatch) return withSecurityHeaders(await serveItemAsset(itemMatch[1], env.ITEM_ASSETS))
 
     const ogMatch = url.pathname.match(OG_IMAGE_ROUTE)
     if (ogMatch) {

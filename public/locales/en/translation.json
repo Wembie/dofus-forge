@@ -851,5 +851,9 @@
   "optimizer_group_res": "Resistances",
   "optimizer_sub_fixed": "Flat",
   "optimizer_sub_percent": "Percent",
-  "optimizer_sub_steal": "Elemental steal"
+  "optimizer_sub_steal": "Elemental steal",
+  "membership_tier_apprentice": "Apprentice",
+  "membership_tier_artisan": "Artisan",
+  "membership_tier_forger": "Forger",
+  "membership_tier_master": "Master"
 }

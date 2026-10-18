@@ -851,5 +851,9 @@
   "optimizer_group_res": "Résistances",
   "optimizer_sub_fixed": "Fixe",
   "optimizer_sub_percent": "Pourcentage",
-  "optimizer_sub_steal": "Vol élémentaire"
+  "optimizer_sub_steal": "Vol élémentaire",
+  "membership_tier_apprentice": "Apprenti",
+  "membership_tier_artisan": "Artisan",
+  "membership_tier_forger": "Forgeron",
+  "membership_tier_master": "Maître"
 }

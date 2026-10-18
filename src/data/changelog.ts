@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.94',
+    date: '2026-10-18',
+    notes: [
+      'Fix: item icons are now mirrored into Dofus Forge\'s own storage instead of hotlinking DofusDude\'s live CDN — a future outage there (like the one that broke every equipped-item image on the site) no longer takes the catalog down with it',
+      'Change: any item not yet mirrored still falls back to the live CDN automatically, and an hourly job keeps the mirror in sync with new items as the game updates',
+      'Feature: public profiles now show a tier badge (Aprendiz/Artesano/Forjador/Maestro) for the upcoming supporter membership — first database groundwork only, no checkout exists yet so nobody has a paid tier today',
+    ],
+  },
+  {
     version: '0.3.93',
     date: '2026-10-18',
     notes: [
