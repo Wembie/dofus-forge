@@ -27,6 +27,8 @@ export function SiteFooter() {
       <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
         <span style={{ color: 'var(--ink-muted)' }}>{t('credits_community')}: </span>
         <a href="https://discord.gg/Rv8q4C8C5j" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
+        <span aria-hidden="true"> · </span>
+        <a href="https://x.com/DofusForgeApp" target="_blank" rel="noopener noreferrer" aria-label="Dofus Forge on X" className="hover:text-gold transition-colors underline-offset-2 hover:underline">X</a>
       </p>
       <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>
         <Link to={`/${prefix}privacy`} className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_privacy')}</Link>

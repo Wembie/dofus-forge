@@ -24,7 +24,8 @@ export function setParticlesEnabled(on: boolean) {
 export type CharacterMode = '2d' | '3d'
 
 export function getCharacterMode(): CharacterMode {
-  return localStorage.getItem(CHARACTER_LS_KEY) === '3d' ? '3d' : '2d'
+  const saved = localStorage.getItem(CHARACTER_LS_KEY)
+  return saved === '2d' ? '2d' : '3d'
 }
 
 export function setCharacterMode(mode: CharacterMode) {

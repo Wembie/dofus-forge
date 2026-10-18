@@ -95,3 +95,12 @@ jobs:
             '{embeds: [{title: $title, description: $desc, url: $url, color: 13148498}]}' \
             > payload.json
           curl -sf -H "Content-Type: application/json" -d @payload.json "$DISCORD_WEBHOOK_URL"
+
+      - name: Post release announcement to X
+        if: steps.tag_check.outputs.exists == 'false'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: node scripts/post-x-release.mjs
