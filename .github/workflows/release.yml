@@ -5,6 +5,12 @@ on:
     branches: [main]
     paths:
       - VERSION   # only fires when a new version lands on main
+  workflow_dispatch:
+    inputs:
+      post_x_release:
+        description: 'Post the current VERSION announcement to X (use to retry an existing release)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write  # required to create tags and releases
@@ -34,7 +40,7 @@ jobs:
           fi
 
       - name: Extract changelog for this version
-        if: steps.tag_check.outputs.exists == 'false'
+        if: steps.tag_check.outputs.exists == 'false' || github.run_attempt > 1 || (github.event_name == 'workflow_dispatch' && inputs.post_x_release)
         id: notes
         run: |
           python3 - <<'PYEOF' > release_notes.txt
@@ -97,7 +103,8 @@ jobs:
           curl -sf -H "Content-Type: application/json" -d @payload.json "$DISCORD_WEBHOOK_URL"
 
       - name: Post release announcement to X
-        if: steps.tag_check.outputs.exists == 'false'
+        # Also allow a failed release job to retry X after the release tag exists.
+        if: steps.tag_check.outputs.exists == 'false' || github.run_attempt > 1 || (github.event_name == 'workflow_dispatch' && inputs.post_x_release)
         env:
           X_API_KEY: ${{ secrets.X_API_KEY }}
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
