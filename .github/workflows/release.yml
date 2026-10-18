@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write  # required to create tags and releases
 
+concurrency:
+  group: create-release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -110,4 +114,5 @@ jobs:
           X_API_SECRET: ${{ secrets.X_API_SECRET }}
           X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
           X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/post-x-release.mjs

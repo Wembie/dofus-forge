@@ -19,6 +19,31 @@ if (missing.length > 0) {
 
 const version = (await readFile('VERSION', 'utf8')).trim()
 const releaseNotes = await readFile('release_notes.txt', 'utf8')
+const githubToken = process.env.GITHUB_TOKEN
+const githubRepository = process.env.GITHUB_REPOSITORY
+if (!githubToken || !githubRepository) {
+  throw new Error('GITHUB_TOKEN and GITHUB_REPOSITORY are required to prevent duplicate release posts.')
+}
+
+const releaseTag = `v${version}`
+const releaseApiUrl = `https://api.github.com/repos/${githubRepository}/releases/tags/${encodeURIComponent(releaseTag)}`
+const marker = `<!-- dofusforge-x-release:${version} -->`
+const releaseResponse = await fetch(releaseApiUrl, {
+  headers: {
+    Accept: 'application/vnd.github+json',
+    Authorization: `Bearer ${githubToken}`,
+    'X-GitHub-Api-Version': '2022-11-28',
+  },
+})
+const release = await releaseResponse.json().catch(() => ({}))
+if (!releaseResponse.ok) {
+  throw new Error(`Could not check the GitHub Release before posting to X (HTTP ${releaseResponse.status}): ${JSON.stringify(release)}`)
+}
+if (typeof release.body === 'string' && release.body.includes(marker)) {
+  console.log(`Release v${version} was already posted to X; skipping duplicate.`)
+  process.exit(0)
+}
+
 const highlight = releaseNotes
   .split(/\r?\n/)
   .map(line => line.replace(/^\s*[-*]\s+/, '').trim())
@@ -73,3 +98,21 @@ if (!response.ok) {
 }
 
 console.log(`Posted release v${version} to X (post id ${payload.data?.id ?? 'unknown'}).`)
+
+const updatedBody = `${release.body ?? ''}${release.body ? '\n\n' : ''}${marker}`
+const updateResponse = await fetch(releaseApiUrl.replace(/\/tags\/[^/]+$/, `/${release.id}`), {
+  method: 'PATCH',
+  headers: {
+    Accept: 'application/vnd.github+json',
+    Authorization: `Bearer ${githubToken}`,
+    'Content-Type': 'application/json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  },
+  body: JSON.stringify({ body: updatedBody }),
+})
+const updatedRelease = await updateResponse.json().catch(() => ({}))
+if (!updateResponse.ok) {
+  throw new Error(
+    `X accepted post ${payload.data?.id ?? '(unknown id)'}, but GitHub could not save the duplicate-prevention marker (HTTP ${updateResponse.status}): ${JSON.stringify(updatedRelease)}`,
+  )
+}
