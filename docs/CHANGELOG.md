@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.93] — 2026-10-18
+- **Change**: the animated 3D character is enabled by default; a saved 2D or 3D preference is still respected
+- **Feature**: new releases can be announced automatically on X, with the first changelog note and a link to Dofus Forge
+- **Change**: the footer now links to the Dofus Forge X account
+
 ## [0.3.92] — 2026-10-16
 - **Feature**: mounts in the animated character. Equip a dragoturkey, seemyool or rhineetle (253 of them, with their own colors) or a petsmount (23 of 25) and your character rides it, walking, running and turning with it
 - **Change**: pets now walk at the spot the game reserves for them next to the character, and the framing adapts to fit a pet or a mount

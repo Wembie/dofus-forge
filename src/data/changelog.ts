@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.93',
+    date: '2026-10-18',
+    notes: [
+      'Change: the animated 3D character is enabled by default; a saved 2D or 3D preference is still respected',
+      'Feature: new releases can be announced automatically on X, with the first changelog note and a link to Dofus Forge',
+      'Change: the footer now links to the Dofus Forge X account',
+    ],
+  },
+  {
     version: '0.3.92',
     date: '2026-10-16',
     notes: [
