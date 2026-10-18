@@ -14,8 +14,10 @@
     "fetch-data": "tsx scripts/fetch-data.ts",
     "fetch-spells": "tsx scripts/fetch-spells.ts",
     "fetch-images": "tsx scripts/fetch-images.ts",
+    "sync-item-images": "tsx scripts/sync-item-images.ts",
     "extract-characters": "python scripts/extract-characters.py",
-    "upload-characters": "node scripts/upload-characters.mjs"
+    "upload-characters": "node scripts/upload-characters.mjs",
+    "upload-items": "node scripts/upload-items.mjs"
   },
   "dependencies": {
     "@cf-wasm/resvg": "^0.4.0",

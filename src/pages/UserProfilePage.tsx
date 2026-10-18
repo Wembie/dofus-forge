@@ -12,9 +12,21 @@ import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import {
   fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount,
-  fetchIsFollowing, followUser, unfollowUser,
-  type PublicProfile, type BuildRow,
+  fetchIsFollowing, followUser, unfollowUser, fetchMembershipTier,
+  type PublicProfile, type BuildRow, type MembershipTier,
 } from '@/features/builds/api.ts'
+
+// Ascending gold intensity by tier — same accent already used for anything
+// "special" on this page (hero border, username), so the ladder reads as
+// "more of the app's own premium color" instead of borrowing the elemental
+// damage hues (earth/fire/water/air), which already mean something else
+// everywhere in this app.
+const TIER_COLOR: Record<Exclude<MembershipTier, 'free'>, string> = {
+  apprentice: 'var(--gold-deep)',
+  artisan:    'var(--gold)',
+  forger:     'var(--gold-bright)',
+  master:     'var(--gold-bright)',
+}
 
 /**
  * Public profile page, routed by USERNAME, never the internal uuid
@@ -37,6 +49,7 @@ export function UserProfilePage() {
   const [profile, setProfile]   = useState<PublicProfile | null>(null)
   const [loading, setLoading]   = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [tier, setTier]         = useState<MembershipTier>('free')
 
   const [stats, setStats] = useState({ buildCount: 0, likeCount: 0 })
   const [commentCount, setCommentCount] = useState(0)
@@ -63,6 +76,7 @@ export function UserProfilePage() {
       setLoading(false)
       fetchUserPublicStats(data.id).then(s => { if (!cancelled) setStats(s) })
       fetchPublicCommentCount(data.id).then(c => { if (!cancelled) setCommentCount(c.count) })
+      fetchMembershipTier(data.id).then(t => { if (!cancelled) setTier(t) })
       if (session && session.user.id !== data.id) {
         fetchIsFollowing(session.user.id, data.id).then(r => { if (!cancelled) setIsFollowing(r.following) })
       }
@@ -156,7 +170,21 @@ export function UserProfilePage() {
               : <User size={32} style={{ color: 'var(--ink-faint)' }} />}
           </div>
           <div className="min-w-0 flex-1">
-            <h1 className="font-display text-2xl font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{name}</h1>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="font-display text-2xl font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{name}</h1>
+              {tier !== 'free' && (
+                <span
+                  className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
+                  style={{
+                    color: TIER_COLOR[tier],
+                    background: `color-mix(in srgb, ${TIER_COLOR[tier]} 16%, var(--surface-panel))`,
+                    border: `1px solid color-mix(in srgb, ${TIER_COLOR[tier]} 50%, transparent)`,
+                  }}
+                >
+                  {t(`membership_tier_${tier}`)}
+                </span>
+              )}
+            </div>
             {profile.display_name && (
               <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{profile.display_name}</p>
             )}

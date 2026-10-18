@@ -44,6 +44,12 @@ jobs:
           pnpm fetch-spells $ARGS
           pnpm fetch-images $ARGS
 
+      - name: Sync item icons to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm sync-item-images
+
       - name: Check for changes
         id: changes
         run: |

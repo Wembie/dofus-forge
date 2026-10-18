@@ -41,5 +41,7 @@ public/data/stats-browse/
 .claude/
 # extracted character assets (uploaded to object storage)
 char-assets/
+# extracted item icon assets (uploaded to object storage)
+item-assets/
 .venv-chars/
 __pycache__/

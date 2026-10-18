@@ -851,5 +851,9 @@
   "optimizer_group_res": "Resistencias",
   "optimizer_sub_fixed": "Fijo",
   "optimizer_sub_percent": "Porcentaje",
-  "optimizer_sub_steal": "Robo elemental"
+  "optimizer_sub_steal": "Robo elemental",
+  "membership_tier_apprentice": "Aprendiz",
+  "membership_tier_artisan": "Artesano",
+  "membership_tier_forger": "Forjador",
+  "membership_tier_master": "Maestro"
 }

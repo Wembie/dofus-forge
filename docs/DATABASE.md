@@ -1235,35 +1235,152 @@ end; $$;
 create trigger on_build after insert or delete on builds for each row execute procedure sync_builds_count();
 
 
--- ── Límite de builds por cuenta (50, regardless of visibility) ─────────
+-- ── Membresía / tiers (Fase 1 — Base segura, docs/MEMBERSHIP_DESIGN.md §7/§10) ──
+-- Dos tablas separadas a propósito: un aporte único (Aportador) no tiene
+-- estado, periodo ni intervalo, así que mezclarlo con la suscripción
+-- recurrente obligaría a rellenar campos que no le aplican. profiles.role
+-- no se toca: sigue siendo solo permisos, nunca plan de pago.
+--
+-- Sin fila en `memberships` = tier 'free' (no se crea una fila por usuario
+-- al registrarse; solo existe una vez que hay una suscripción real). El
+-- navegador nunca decide el tier: solo el backend, después de verificar al
+-- proveedor — por eso no hay policy de insert/update/delete para
+-- authenticated más abajo, solo lectura de la fila propia; escribir
+-- requiere la service_role key del webhook.
+create type membership_tier   as enum ('free', 'apprentice', 'artisan', 'forger', 'master');
+create type membership_status as enum ('active', 'past_due', 'canceled');
+
+create table memberships (
+  user_id                   uuid primary key references profiles(id) on delete cascade,
+  tier                      membership_tier   not null default 'free',
+  status                    membership_status not null default 'active',
+  provider                  text,
+  provider_customer_id      text,
+  provider_subscription_id  text,
+  -- 'month/1', 'month/3' o 'year/1' (§4 "Periodicidad y ahorro") — texto y no
+  -- enum porque todavía no hay proveedor elegido (§9) para fijar el formato final
+  billing_interval          text check (billing_interval in ('month/1', 'month/3', 'year/1')),
+  current_period_end        timestamptz,
+  cancel_at_period_end      boolean not null default false,
+  created_at                timestamptz not null default now(),
+  updated_at                timestamptz not null default now()
+);
+
+-- Ledger de periodos pagados (racha e hitos de §4 "Racha de apoyo" se
+-- calculan contando meses cubiertos aquí, no número de transacciones).
+-- unique(provider, provider_payment_id): el mismo evento de webhook
+-- reenviado no duplica el periodo.
+create table membership_periods (
+  id                   uuid primary key default gen_random_uuid(),
+  user_id              uuid not null references profiles(id) on delete cascade,
+  tier                 membership_tier not null,
+  billing_interval     text not null check (billing_interval in ('month/1', 'month/3', 'year/1')),
+  period_start         timestamptz not null,
+  period_end           timestamptz not null,
+  amount               numeric(10,2) not null check (amount >= 0),
+  currency             text not null,
+  provider             text not null,
+  provider_payment_id  text not null,
+  created_at           timestamptz not null default now(),
+  unique (provider, provider_payment_id)
+);
+
+-- Aportador (aporte único, §4/§7): sin estado, sin periodo, sin vencimiento.
+-- Tabla separada de memberships a propósito (ver comentario arriba).
+create table supporter_contributions (
+  id                   uuid primary key default gen_random_uuid(),
+  user_id              uuid not null references profiles(id) on delete cascade,
+  amount               numeric(10,2) not null check (amount >= 1),
+  currency             text not null,
+  provider             text not null,
+  provider_payment_id  text not null,
+  created_at           timestamptz not null default now(),
+  unique (provider, provider_payment_id)
+);
+
+alter table memberships              enable row level security;
+alter table membership_periods       enable row level security;
+alter table supporter_contributions  enable row level security;
+
+create index idx_membership_periods_user on membership_periods(user_id, period_start desc);
+create index idx_supporter_contributions_user on supporter_contributions(user_id);
+
+create policy "memberships read own" on memberships for select using (auth.uid() = user_id);
+create policy "membership_periods read own" on membership_periods for select using (auth.uid() = user_id);
+create policy "supporter_contributions read own" on supporter_contributions for select using (auth.uid() = user_id);
+
+-- These 3 tables are created after the blanket "grant ... to authenticated"
+-- near the top of this file, so that grant doesn't cover them (GRANT ON ALL
+-- TABLES only affects tables that already exist when it runs) — grant
+-- select explicitly instead of insert/update/delete too: the RLS policies
+-- above only cover select, so there's no write grant for authenticated to
+-- piggyback on even if a future policy mistake tried to allow it. Writes
+-- only ever happen via the webhook's service_role key, which Supabase
+-- grants full access to automatically at the platform level.
+grant select on memberships, membership_periods, supporter_contributions to authenticated;
+
+-- Entitlements centralizados (§7, §4 "Propuesta de niveles"): único lugar
+-- que conoce las cuotas por tier, para que UI y Supabase lean el mismo
+-- resultado. Cuotas sin validar todavía (§4: "son una hipótesis") —
+-- check_build_limit() abajo ya las usa igual, porque sin ninguna fila en
+-- memberships (nadie se suscribió todavía) todo resuelve a 'free' = 50,
+-- el mismo límite de hoy para toda cuenta existente.
+create function build_limit_for_tier(p_tier membership_tier) returns int
+language sql immutable as $$
+  select case p_tier
+    when 'artisan' then 100
+    when 'forger'  then 250
+    when 'master'  then 1000
+    else 50 -- free y apprentice
+  end;
+$$;
+
+create function featured_build_limit_for_tier(p_tier membership_tier) returns int
+language sql immutable as $$
+  select case p_tier
+    when 'artisan' then 2
+    when 'forger'  then 3
+    when 'master'  then 5
+    else 1 -- free y apprentice
+  end;
+$$;
+
+-- "memberships read own" above deliberately blocks reading anyone else's
+-- row (it holds billing fields like provider_customer_id, and RLS is
+-- row-level, not column-level, so there's no safe way to let other users'
+-- selects through at the table level). A public profile still needs to show
+-- someone else's tier badge, so expose only that one column through a
+-- security definer function — same shape as get_total_builds_count below.
+create function get_public_membership_tier(p_user_id uuid) returns membership_tier
+language sql security definer stable as $$
+  -- coalesce wraps the whole subquery, not the column: zero rows (no
+  -- membership) makes the inner select itself NULL, which bare
+  -- `coalesce(tier, 'free')` inside a 0-row query would never reach.
+  select coalesce((select tier from memberships where user_id = p_user_id), 'free');
+$$;
+grant execute on function get_public_membership_tier(uuid) to anon, authenticated;
+
+
+-- ── Límite de builds por cuenta (por tier, 50 para free/apprentice) ─────
 -- before insert (not after) so it blocks the row that would be the 51st —
 -- profiles.builds_count is already trigger-synced (sync_builds_count above)
 -- and counts every build regardless of visibility, so this is a single
--- indexed row read, no count(*) scan over builds needed.
+-- extra PK-indexed left join on top of the original indexed row read, no
+-- count(*) scan over builds needed. No memberships row = 'free' = 50, same
+-- as every account today.
 create function check_build_limit() returns trigger language plpgsql as $$
 begin
-  if (select builds_count from profiles where id = new.user_id) >= 50 then
+  if (
+    select p.builds_count >= build_limit_for_tier(coalesce(m.tier, 'free'))
+    from profiles p
+    left join memberships m on m.user_id = p.id
+    where p.id = new.user_id
+  ) then
     raise exception 'BUILD_LIMIT_REACHED';
   end if;
   return new;
 end; $$;
 create trigger before_build_insert before insert on builds for each row execute procedure check_build_limit();
-
-
--- ── Membresía / tiers (PLANTEADO, NO IMPLEMENTADO) ──────────────────────
--- Si el límite fijo de 50 builds/cuenta arriba termina siendo un problema
--- real para alguien, la idea es un tier pago que lo suba en vez de tocar
--- el límite global. Boceto de cómo encajaría, sin crear nada todavía:
---
---   create type membership_tier as enum ('free', 'plus');
---   alter table profiles add column membership_tier membership_tier not null default 'free';
---   -- check_build_limit() arriba pasaría a leer el tope según el tier:
---   --   case (select membership_tier from profiles where id = new.user_id)
---   --     when 'plus' then 200 else 50 end
---   -- en vez del 50 fijo que tiene hoy.
---
--- No crear el enum/columna ni tocar check_build_limit() hasta que haya
--- una necesidad real — ver nota en docs/ROADMAP.md.
 
 
 -- ── Total de builds del sitio (público+privado) para analytics públicas ─

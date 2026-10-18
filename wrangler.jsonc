@@ -12,7 +12,8 @@
     { "type": "Data", "globs": ["**/*.ttf"], "fallthrough": true }
   ],
   "r2_buckets": [
-    { "binding": "CHAR_ASSETS", "bucket_name": "dofus-forge-characters" }
+    { "binding": "CHAR_ASSETS", "bucket_name": "dofus-forge-characters" },
+    { "binding": "ITEM_ASSETS", "bucket_name": "dofus-forge-items" }
   ],
   "vars": {
     "SUPABASE_URL": "https://wkllwjxodqxhiptjaccj.supabase.co"
