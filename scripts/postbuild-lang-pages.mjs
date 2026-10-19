@@ -201,13 +201,17 @@ function langDir(lang, ...subpath) {
  * no-prefix URL).
  */
 function generateRoute(slug, metaByLang, { noindex = false } = {}) {
-  const suffix = slug ? `${slug}/` : ''
+  // No trailing slash: matches wrangler.jsonc's html_handling: "drop-trailing-slash"
+  // and src/seo/useSeoMeta.ts's normalizePath() — a baked-in canonical tag with
+  // a trailing slash would tell crawlers to prefer the URL form Cloudflare no
+  // longer serves directly (it 307s /explore/ -> /explore instead).
   for (const lang of LANGS) {
     if (lang === 'en' && slug === '') continue // dist/index.html is already correct from the Vite build
-    const html = patch(baseHtml, { lang, ...metaByLang[lang], canonicalPath: `${LANG_PATH[lang]}/${suffix}`, noindex })
+    const canonicalPath = slug ? `${LANG_PATH[lang]}/${slug}` : (LANG_PATH[lang] || '/')
+    const html = patch(baseHtml, { lang, ...metaByLang[lang], canonicalPath, noindex })
     write(langDir(lang, ...(slug ? [slug] : [])), html)
   }
-  const html = patch(baseHtml, { lang: 'en', ...metaByLang.en, canonicalPath: `/${suffix}`, noindex })
+  const html = patch(baseHtml, { lang: 'en', ...metaByLang.en, canonicalPath: slug ? `/${slug}` : '/', noindex })
   write(join(DIST, 'en', ...(slug ? [slug] : [])), html)
 }
 
