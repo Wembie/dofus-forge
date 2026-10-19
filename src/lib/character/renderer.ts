@@ -16,6 +16,8 @@ export interface Entity {
   nodes: string[]
   /** Searched in order when resolving a node name to a part. */
   skins: Layer[]
+  /** Equipment layers (also in `skins`): the only ones a hat slot is drawn from on its own. */
+  worn?: Layer[]
   /** The bone's own graphics, for records that reference one by index. */
   own?: { layer: Layer; names: string[] }
   /** Palette slot N (1-based) tints every ColorGray_N part. */
@@ -73,6 +75,13 @@ void main() {
 
 const STRIDE = 16
 const TINT_RE = /^ColorGray_(\d+)_/
+/**
+ * Hat slots: some timelines (the rider's) place them on their own, scaled for
+ * a worn hat. Classes whose head skin keeps its hood or hat in that slot
+ * (Sram, Xelor, Eliotrope…) must keep the copy embedded in the head instead,
+ * or the enlarged hood covers the face.
+ */
+const HAT_SLOT = /^Chapeau(B)?_/
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const s = gl.createShader(type)!
@@ -247,8 +256,12 @@ export class CharacterRenderer {
   private build(e: Entity, ox = 0, oy = 0) {
     this.skins = e.skins
     this.palette = (e.colors ?? []).map(rgb)
+    const standalone = (name: string) => !HAT_SLOT.test(name) || !!e.worn?.some(l => l.skin.parts[name])
     this.animated.clear()
-    for (const inst of e.frame) if (inst.node !== 0xffff) this.animated.add(e.nodes[inst.node])
+    for (const inst of e.frame) {
+      const name = inst.node !== 0xffff ? e.nodes[inst.node] : undefined
+      if (name && standalone(name)) this.animated.add(name)
+    }
     const sx = e.mirror ? -e.scale : e.scale
     for (const inst of e.frame) {
       const m = inst.m
@@ -266,7 +279,7 @@ export class CharacterRenderer {
         if (part) found = [e.own.layer, part]
       } else if (inst.node !== 0xffff) {
         const name = e.nodes[inst.node]
-        if (name) found = this.find(name)
+        if (name && standalone(name)) found = this.find(name)
       }
       if (!found) continue
       const root: Mat = [sx * m[0], e.scale * m[3], sx * m[1], e.scale * m[4], sx * m[2] + e.x + ox, e.scale * m[5] + e.y + oy]

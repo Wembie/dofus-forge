@@ -22,7 +22,7 @@ export interface Look {
 export type Looks = Record<string, { male?: Look; female?: Look }>
 
 /** pet item id → creature bone and look scale (percent) */
-export type Pets = Record<string, { bone: string; scale: number }>
+export type Pets = Record<string, { bone: string; scale: number; colors?: number[] }>
 
 /** mount / petsmount item id → mount bone, palette, look scale (percent) */
 export type Mounts = Record<string, { bone: string; colors?: number[]; scale?: number }>
