@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.97] — 2026-10-18
+- **Feature**: Dofus Forge can now be installed as a standalone app on supported desktop and mobile browsers
+- **UI**: app icons are now crisp, square, and fully opaque on desktop, Android, and iPhone, with no white or transparent corners
+- **Compatibility**: the web app manifest uses relative paths, so installation works on both the custom domain and GitHub Pages
+- The installed app still needs an internet connection; no offline cache is enabled
+
 ## [0.3.96] — 2026-10-18
 - **Feature**: private custom-rank studio for admins — create and archive ranks, preview approved badge icons/colors/styles, assign them by username with optional dates and private notes, and retain revocation history
 - **Feature**: active public custom ranks now appear beside membership badges on profiles; custom ranks stay separate from account roles and membership plans

@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.97',
+    date: '2026-10-18',
+    notes: [
+      'Feature: Dofus Forge can now be installed as a standalone app on supported desktop and mobile browsers',
+      'UI: crisp, full-bleed app icons for desktop, Android and iPhone, with no white or transparent corners',
+      'Compatibility: the web app manifest uses relative paths for both the custom domain and GitHub Pages',
+      'The installed app still needs an internet connection; no offline cache is enabled',
+    ],
+  },
+  {
     version: '0.3.96',
     date: '2026-10-18',
     notes: [
