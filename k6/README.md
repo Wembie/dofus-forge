@@ -38,9 +38,9 @@ The scripts read `BASE_URL` from the environment and reuse the same route mix fo
 The `Performance smoke` workflow has two sequential validation stages:
 
 1. On each PR to `dev` or `main`, it builds the app locally in CI and runs the smoke against Vite preview. This is the required first gate.
-2. After the PR is merged to `dev` and Cloudflare Workers Builds reports that the Worker deployment succeeded, manually run the workflow once from the `dev` branch. Its `workflow_dispatch` run checks the deployed dev Worker.
+2. On a PR from `dev` to `main`, after the local smoke passes, GitHub waits for Cloudflare's `Workers Builds: dofus-forge` check on that PR's exact head SHA. Only after that check succeeds does it run the smoke against the deployed dev Worker. Production (`main`) builds do not trigger this remote smoke.
 
-The manual Cloudflare stage uses this command locally if needed:
+The Cloudflare stage uses this command locally if needed:
 
 ```bash
 docker run --rm \
@@ -50,4 +50,4 @@ docker run --rm \
   grafana/k6:latest run /src/k6/smoke.js
 ```
 
-The dev smoke sends only seven concurrent page requests and must be run only after the Cloudflare deployment succeeds, so it checks the new Worker version rather than the previous deployment. Promote `dev` to `main` only after both stages pass. Do not run `normal-load.js` or `peak.js` against a deployed Worker without authorization and an agreed test window.
+The dev smoke sends only seven concurrent page requests and runs after the Cloudflare deployment succeeds, so it checks the new Worker version rather than the previous deployment. Promote `dev` to `main` only after both stages pass. Do not run `normal-load.js` or `peak.js` against a deployed Worker without authorization and an agreed test window.

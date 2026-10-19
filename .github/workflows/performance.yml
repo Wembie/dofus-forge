@@ -3,7 +3,6 @@ name: Performance smoke
 on:
   pull_request:
     branches: [main, dev]
-  workflow_dispatch:
 
 concurrency:
   group: performance-${{ github.event.pull_request.number || github.ref }}
@@ -11,6 +10,7 @@ concurrency:
 
 permissions:
   contents: read
+  checks: read
 
 jobs:
   local-smoke:
@@ -58,18 +58,49 @@ jobs:
         run: k6 run k6/smoke.js
 
   cloudflare-dev-smoke:
-    if: github.event_name == 'workflow_dispatch'
+    needs: local-smoke
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.ref == 'dev' &&
+      github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Require the dev branch
-        if: github.ref != 'refs/heads/dev'
+      - name: Wait for Cloudflare Workers Build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          echo "Run the Cloudflare smoke from dev, after its Worker deployment succeeds." >&2
+          set -euo pipefail
+
+          for attempt in {1..90}; do
+            check_runs=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/check-runs?per_page=100")
+            build=$(jq -c '[.check_runs[] | select(.name == "Workers Builds: dofus-forge")] | sort_by(.started_at) | last // empty' <<< "$check_runs")
+
+            if [[ -n "$build" ]]; then
+              status=$(jq -r '.status' <<< "$build")
+              conclusion=$(jq -r '.conclusion // empty' <<< "$build")
+
+              if [[ "$status" == "completed" ]]; then
+                if [[ "$conclusion" == "success" ]]; then
+                  echo "Cloudflare Workers Build succeeded for ${HEAD_SHA}."
+                  exit 0
+                fi
+
+                echo "::error::Cloudflare Workers Build finished with conclusion '${conclusion}' for ${HEAD_SHA}."
+                exit 1
+              fi
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Timed out waiting for Cloudflare Workers Build for ${HEAD_SHA}."
           exit 1
 
       - name: Set up k6
