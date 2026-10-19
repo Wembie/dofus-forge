@@ -1,0 +1,57 @@
+name: Performance
+
+on:
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: performance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build app for smoke test
+        run: pnpm build
+
+      - name: Start preview server
+        run: pnpm preview --host 0.0.0.0 --port 4173 &
+
+      - name: Wait for preview server
+        run: |
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:4173/dofus-forge/ >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Preview server did not start in time" >&2
+          exit 1
+
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run smoke load test
+        env:
+          BASE_URL: http://127.0.0.1:4173/dofus-forge
+        run: k6 run k6/smoke.js
