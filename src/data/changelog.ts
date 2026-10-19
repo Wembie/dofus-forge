@@ -8,6 +8,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.96',
+    date: '2026-10-18',
+    notes: [
+      'Feature: private custom-rank studio for admins — create and archive ranks, preview safe badge icons/colors/styles, assign by username with optional dates and private notes, and retain revocation history',
+      'Feature: active public custom ranks appear beside membership badges on profiles; custom ranks stay separate from account roles and membership plans',
+      'Feature: admins can set a saved-build quota for each custom rank; the database enforces it and keeps the higher limit from the rank or membership',
+      'UI: public profiles show a person’s bio under their name when they have one',
+      'Security: admin-only row policies and server-checked assignment RPCs protect rank management; the public profile lookup returns badge fields only',
+      'Database: apply supabase/migrations/20261018_custom_ranks.sql once before using the rank studio',
+    ],
+  },
+  {
     version: '0.3.95',
     date: '2026-10-18',
     notes: [

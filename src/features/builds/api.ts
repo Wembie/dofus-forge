@@ -290,6 +290,7 @@ export type PublicProfile = {
   id:               string
   username:         string
   display_name:     string | null
+  bio:              string | null
   avatar_url:       string | null
   created_at:       string
   followers_count:  number
@@ -309,7 +310,7 @@ export async function fetchProfileByUsername(username: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, display_name, avatar_url, created_at, followers_count, following_count')
+    .select('id, username, display_name, bio, avatar_url, created_at, followers_count, following_count')
     .eq('username', username)
     .maybeSingle()
   if (error || !data) return { data: null, error: error?.message ?? null }

@@ -284,6 +284,8 @@ La API del perfil público debería devolver únicamente datos derivados seguros
 
 Las cuotas y el número de builds destacadas deben calcularse desde funciones de entitlements del servidor, por ejemplo `build_limit_for_tier(tier)` y `featured_build_limit_for_tier(tier)`. Esos resultados deben ser la fuente de las validaciones de base de datos y de la UI.
 
+Si la cuenta también tiene un rango especial, los cupos de builds **no se suman**: el efectivo es el mayor entre membresía y rango (`max(membership_limit, active_rank_limit)`). Ejemplo: Artesano permite 100 builds y un rango con límite 200 deja un total de 200; Maestro permite 1.000, así que ese mismo rango no lo reduce. Al vencer o revocar el rango, se vuelve al cupo de la membresía; las builds existentes se conservan y no se pueden crear nuevas mientras la cuenta supere el nuevo límite. La implementación y sus ejemplos están en [CUSTOM_RANKS_DESIGN.md](CUSTOM_RANKS_DESIGN.md#reglas-para-combinar-beneficios).
+
 ### Aportador (aporte único) — tabla separada
 
 El aporte único no tiene estado, periodo ni renovación, así que no debería vivir en la misma tabla que la membresía recurrente — mezclar ambos obligaría a rellenar campos de suscripción (`status`, `current_period_end`, `billing_interval`...) que no aplican. Diseño conceptual, mucho más simple que el de membresía:

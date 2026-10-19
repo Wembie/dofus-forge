@@ -19,6 +19,7 @@ const TermsPage       = lazy(() => import('./pages/TermsPage.tsx').then(m => ({ 
 const ClassGuidePage  = lazy(() => import('./pages/ClassGuidePage.tsx').then(m => ({ default: m.ClassGuidePage })))
 const UserProfilePage = lazy(() => import('./pages/UserProfilePage.tsx').then(m => ({ default: m.UserProfilePage })))
 const AccountPage     = lazy(() => import('./pages/AccountPage.tsx').then(m => ({ default: m.AccountPage })))
+const AdminRanksPage  = lazy(() => import('./pages/AdminRanksPage.tsx').then(m => ({ default: m.AdminRanksPage })))
 
 const SUPPORTED_REDIRECT = ['es', 'fr', 'pt']
 
@@ -74,6 +75,7 @@ const LANG_SUB_ROUTES = (
     <Route path="classes/:classId" element={<Suspense fallback={null}><ClassGuidePage /></Suspense>} />
     <Route path="u/:username" element={<Suspense fallback={null}><UserProfilePage /></Suspense>} />
     <Route path="account" element={<Suspense fallback={null}><AccountPage /></Suspense>} />
+    <Route path="admin/ranks" element={<Suspense fallback={null}><AdminRanksPage /></Suspense>} />
   </>
 )
 

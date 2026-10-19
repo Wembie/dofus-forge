@@ -1,6 +1,6 @@
-# Rangos especiales personalizados — diseño futuro
+# Rangos especiales personalizados
 
-> Documento de diseño. Esta funcionalidad todavía no está implementada. Describe una forma futura de crear rangos especiales como **Owner** y **Diseñadora**, asignarlos manualmente y definir beneficios propios desde Dofus Forge.
+> Diseño implementado en la versión 0.3.96. La pantalla administrativa está en `/admin/ranks`; aplica una vez `supabase/migrations/20261018_custom_ranks.sql` en Supabase.
 
 ## 1. Objetivo
 
@@ -27,11 +27,11 @@ El rango **Owner** que aparece en el perfil es una insignia. El acceso administr
 
 ## 3. Experiencia administrativa
 
-### Pantalla futura
+### Pantalla administrativa implementada
 
-Crear una sección privada, por ejemplo **`/admin/rangos`**, accesible solo para cuentas con permiso `admin`.
+La sección privada **`/admin/ranks`** está disponible solo para cuentas con permiso `admin`.
 
-La pantalla debería permitir:
+La pantalla permite:
 
 1. Crear, editar, activar y archivar definiciones de rangos.
 2. Buscar una cuenta por nombre de usuario y asignarle un rango.
@@ -61,10 +61,8 @@ El administrador puede armar rangos con beneficios del catálogo que la aplicaci
 
 | Clave de beneficio | Ejemplo de valor | Efecto |
 | --- | --- | --- |
-| `build_limit` | `200` | Aumenta el máximo de builds guardadas |
-| `featured_build_limit` | `3` | Permite destacar más builds |
-| `profile_theme` | `designer` | Habilita una paleta de perfil disponible |
-| `profile_badge_style` | `founder_gold` | Cambia el estilo de la insignia |
+| `build_limit` | `200` | Aumenta el máximo de builds guardadas (de 1 a 100.000) |
+| `profile_badge_style` | `founder` | Cambia el acabado de la insignia (`standard`, `founder` o `creator`) |
 
 Los beneficios visuales se reflejan en la interfaz. Los beneficios que cambian límites o acceso a funciones también deben aplicarse en las validaciones del servidor y de la base de datos; ocultar o habilitar un botón en el frontend no es suficiente.
 
@@ -72,11 +70,22 @@ Un beneficio completamente nuevo requiere trabajo de desarrollo para agregar su 
 
 ### Reglas para combinar beneficios
 
-- Los rangos especiales no deben reducir beneficios que la persona ya obtiene por su membresía.
-- Para límites numéricos, aplicar el mayor valor válido entre membresía y asignación especial.
+- La membresía y el rango son independientes y pueden estar activos al mismo tiempo. La insignia de membresía y la del rango pueden mostrarse juntas.
+- Para el cupo de builds, usar `max(cupo_de_membresía, cupo_del_rango_activo)`. Los valores no se suman; si el rango no define `build_limit`, se usa solo la membresía.
+- El cupo representa el total de builds guardadas por la cuenta, sin importar si son públicas, privadas o no listadas.
 - Para permisos de funciones, activar el acceso si lo concede la membresía o el rango especial.
 - Para elementos visuales, usar el estilo especial asignado cuando corresponda.
-- La insignia especial puede mostrarse junto con la insignia de membresía; el diseño debe evitar que compitan visualmente.
+
+Ejemplos con los cupos actuales de membresía:
+
+| Membresía | Cupo del rango | Cupo efectivo |
+| --- | ---: | ---: |
+| Free (50) | Sin límite configurado | 50 |
+| Free (50) | 200 | 200 |
+| Artesano (100) | 200 | 200 |
+| Maestro (1.000) | 200 | 1.000 |
+
+Al vencer, revocar o archivar el rango, su beneficio deja de aplicar y el cupo se recalcula con la membresía vigente. Las builds ya guardadas no se eliminan; si la cuenta queda por encima del nuevo cupo, no podrá guardar builds nuevas hasta volver a estar por debajo del límite. Actualmente, cada cuenta puede tener un solo rango especial abierto a la vez.
 
 ## 5. Modelo de datos sugerido
 
@@ -107,7 +116,7 @@ El perfil público debe recibir solo la información necesaria para mostrar el r
 
 No debe exponer quién asignó el rango, la nota interna, datos de facturación ni fechas o decisiones administrativas privadas. La persona administradora decide si cada rango es visible; los detalles públicos de beneficios deben ser claros y no prometer capacidades que todavía no existan.
 
-La vista `/u/:username` ya carga el perfil y la insignia de membresía. Al implementar rangos especiales, puede consultar una función RPC pública que devuelva únicamente el rango activo y publicable, siguiendo el patrón de `get_public_membership_tier`.
+La vista `/u/:username` carga el perfil y consulta `get_public_custom_rank`, una función RPC pública que devuelve únicamente el rango activo y publicable, siguiendo el patrón de `get_public_membership_tier`.
 
 ## 7. Seguridad y autoridad
 
@@ -137,29 +146,27 @@ from public.profiles
 where username = 'wembie';
 ```
 
-El trigger `profile_system_fields_guard` evita que una actualización normal desde el navegador cambie `profiles.role`. El SQL Editor sirve para este alta inicial. Cuando exista `/admin/rangos`, las cuentas `admin` podrán administrar rangos especiales desde la app, pero eso no debe permitir que se asignen `admin` a sí mismas ni a otras cuentas desde el formulario de rangos.
+El trigger `profile_system_fields_guard` evita que una actualización normal desde el navegador cambie `profiles.role`. El SQL Editor sirve para este alta inicial. Las cuentas `admin` pueden administrar rangos especiales desde `/admin/ranks`, pero eso no debe permitir que se asignen `admin` a sí mismas ni a otras cuentas desde el formulario de rangos.
 
 ## 8. Estado actual del proyecto
 
-Esta propuesta todavía no está implementada. Actualmente:
+La pantalla administrativa, las insignias públicas y los límites de builds están implementados. Ejecuta la migración `supabase/migrations/20261018_custom_ranks.sql` en el SQL Editor de Supabase antes de usar el panel.
 
-- `profiles.role` contiene los permisos de cuenta (`user`, `moderator`, `admin`).
-- El permiso `admin` debe asignarse manualmente desde Supabase; hoy no hay una pantalla de administración de roles.
-- `memberships.tier` usa el enum fijo de membresías.
-- Los límites de builds y builds destacadas se derivan de funciones que reciben ese tier fijo.
-- El perfil público consulta la insignia de membresía, pero no rangos especiales.
-- No hay una pantalla administrativa para crear rangos personalizados ni asignarlos a personas.
+- `profiles.role` sigue controlando permisos de cuenta (`user`, `moderator`, `admin`) y se carga en el estado de la sesión.
+- La biblioteca permite crear, editar, ordenar, activar y archivar rangos; iconos y colores vienen de catálogos seguros de la app.
+- Los beneficios configurables son `profile_badge_style` (`standard`, `founder`, `creator`) y `build_limit` (de 1 a 100.000 builds guardadas).
+- La cuota se valida en el trigger de base de datos al crear cada build; para combinarla con la membresía se usa el valor más alto.
+- La asignación valida admin en el servidor, admite fecha de inicio y vencimiento opcional, conserva nota privada e historial de revocación.
+- El perfil público recibe el rango mediante `get_public_custom_rank`, que no devuelve notas internas ni datos de administración.
+- Membresías y rangos especiales siguen separados; un rango puede aumentar el cupo de builds, pero no cambia el estado de membresía ni los permisos de cuenta.
 
-Referencias actuales: `supabase/schema.sql`, `src/features/builds/api.ts` y `src/pages/UserProfilePage.tsx`.
+Referencias actuales: `supabase/migrations/20261018_custom_ranks.sql`, `supabase/schema.sql`, `src/features/ranks/` y `src/pages/AdminRanksPage.tsx`.
 
-## 9. Fases sugeridas para el futuro
+## 9. Próximos pasos opcionales
 
-1. **Definir** los nombres, iconos, colores y beneficios iniciales de Owner y Diseñadora.
-2. **Crear la migración** con las tablas de definiciones, beneficios y asignaciones, además de sus políticas RLS.
-3. **Resolver beneficios efectivos** de forma centralizada para que el perfil, las cuotas y las validaciones usen la misma fuente.
-4. **Crear el panel administrativo** para definir rangos y asignarlos con o sin vencimiento.
-5. **Mostrar la insignia** en `/u/:username` y en los lugares de la app donde aparezca el nombre del usuario.
-6. **Asignar Owner y Diseñadora** desde el panel y verificar que las insignias y beneficios se aplican correctamente.
+1. Ejecutar la migración de rangos en el proyecto Supabase.
+2. Crear desde el panel los rangos iniciales de Owner, Diseñadora y Colaborador.
+3. Agregar beneficios nuevos solo cuando la app también implemente su validación y efecto real.
 
 ## 10. Criterios de aceptación
 

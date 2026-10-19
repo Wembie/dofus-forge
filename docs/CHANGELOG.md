@@ -5,6 +5,14 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.96] — 2026-10-18
+- **Feature**: private custom-rank studio for admins — create and archive ranks, preview approved badge icons/colors/styles, assign them by username with optional dates and private notes, and retain revocation history
+- **Feature**: active public custom ranks now appear beside membership badges on profiles; custom ranks stay separate from account roles and membership plans
+- **Feature**: admins can configure a saved-build quota for each custom rank; the database enforces it and keeps the higher limit from the rank or membership
+- **UI**: public profiles now show a person’s bio beneath their name when they have one
+- **Security**: rank management uses admin-only row policies and server-checked assignment RPCs; the public profile lookup exposes badge fields only
+- **Database**: apply `supabase/migrations/20261018_custom_ranks.sql` once before using the rank studio
+
 ## [0.3.95] — 2026-10-18
 - **UI**: the footer now carries a Colombian signature with the flag, a 100% Colombian label, coffee and mountain icons, and a multicolored macaw; hovering the flag reveals a Colombian pride message
 
