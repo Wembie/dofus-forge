@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom'
 import { Sword } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -25,6 +25,7 @@ export function ClassGuidePage() {
   const { classId } = useParams<{ classId: string }>()
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
+  const homePath = `/${langPathRootSegment(i18n.language)}`
   const lang = i18n.language.slice(0, 2)
 
   useLoadGameData()
@@ -52,7 +53,7 @@ export function ClassGuidePage() {
     return (
       <div className="min-h-screen bg-forge-bg flex flex-col items-center justify-center gap-3 text-sm" style={{ color: 'var(--ink-faint)' }}>
         <p>{t('class_guide_not_found')}</p>
-        <Link to={`/${prefix}`} className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>{t('app_title')}</Link>
+        <Link to={homePath} className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>{t('app_title')}</Link>
       </div>
     )
   }

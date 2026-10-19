@@ -5,7 +5,7 @@
 <meta http-equiv="refresh" content="0;url=https://dofusforge.com">
 <title>Dofus Forge has moved</title>
 <script>
-  var path = window.location.pathname.replace(/^\/dofus-forge/, '') || '/';
+  var path = window.location.pathname.replace(/^\/dofus-forge/, '').replace(/\/+$/, '') || '/';
   window.location.replace('https://dofusforge.com' + path + window.location.search + window.location.hash);
 </script>
 </head>

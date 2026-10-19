@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Coffee, Mountain } from 'lucide-react'
 import { ColombianMark } from '@/components/ColombianMark.tsx'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 
 /** Shared across every page (planner, Explore, My Builds, build detail,
  * About, How to Use) — gives every page the same internal-linking surface
@@ -11,11 +11,12 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 export function SiteFooter() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
+  const homePath = `/${langPathRootSegment(i18n.language)}`
 
   return (
     <footer className="border-t border-forge-border mt-8 py-5 px-4 text-center space-y-3">
       <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] font-semibold text-ink-muted">
-        <Link to={`/${prefix}`} className="hover:text-gold transition-colors">{t('app_title')}</Link>
+        <Link to={homePath} className="hover:text-gold transition-colors">{t('app_title')}</Link>
         <Link to={`/${prefix}about`} className="hover:text-gold transition-colors">{t('nav_about')}</Link>
         <Link to={`/${prefix}how-to-use`} className="hover:text-gold transition-colors">{t('nav_how_to_use')}</Link>
         <Link to={`/${prefix}explore`} className="hover:text-gold transition-colors">{t('explore_open')}</Link>

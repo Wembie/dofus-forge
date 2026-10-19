@@ -4,7 +4,7 @@ import { ArrowRight, Award, BadgeCheck, ChevronRight, History, LockKeyhole, Shie
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { useAuthStore } from '@/store/authStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 
@@ -16,6 +16,7 @@ export function AdminDashboardPage() {
   const prefix = langPathPrefix(i18n.language)
   const pathLanguage = location.pathname.split('/')[1]
   const homePath = ['es', 'fr', 'pt'].includes(pathLanguage) ? `/${pathLanguage}` : '/'
+  const appHomePath = `/${langPathRootSegment(i18n.language)}`
 
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'admin', {
     title: `${t('admin_hub_title')} · Dofus Forge`,
@@ -36,7 +37,7 @@ export function AdminDashboardPage() {
         ) : (
           <>
             <nav aria-label={t('admin_hub_breadcrumb')} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-              <Link to={`/${prefix}`} className="hover:text-gold transition-colors">{t('app_title')}</Link>
+              <Link to={appHomePath} className="hover:text-gold transition-colors">{t('app_title')}</Link>
               <ChevronRight size={13} aria-hidden="true" />
               <span aria-current="page" style={{ color: 'var(--gold)' }}>{t('admin_nav')}</span>
             </nav>

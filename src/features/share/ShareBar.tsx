@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { langPathRootSegment } from '@/i18n/langPath.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild } from './codec.ts'
 import type { ExportData } from './ExportCard.tsx'
@@ -25,7 +26,7 @@ export function ShareBar() {
     if (!store.selectedClass) return ''
     const encoded  = encodeBuild(store)
     const lang     = i18n.language.slice(0, 2)
-    const langPath = lang === 'en' ? '' : `${lang}/`
+    const langPath = langPathRootSegment(lang)
     return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
   }, [i18n.language])
 

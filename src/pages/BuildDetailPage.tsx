@@ -11,7 +11,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
@@ -148,7 +148,7 @@ export function BuildDetailPage() {
     const snapshot = { ...build.snapshot, n: build.name || undefined }
     const encoded  = encodeSnapshot(snapshot)
     const lang     = i18n.language.slice(0, 2)
-    const langPath = lang === 'en' ? '' : `${lang}/`
+    const langPath = langPathRootSegment(lang)
     // Only carry the edit link if you actually own it — loading someone
     // else's build should let you publish your own copy, never silently
     // overwrite theirs.

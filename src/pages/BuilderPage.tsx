@@ -28,6 +28,7 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 import { getSidebarSide, LAYOUT_SETTINGS_EVENT } from '@/lib/layoutSettings.ts'
+import { langPathRootSegment } from '@/i18n/langPath.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -55,7 +56,7 @@ function BrandLink({ onReset }: { onReset: () => void }) {
   const brandHref   = useMemo(() => {
     const encoded  = encodeBuild(buildState)
     const lang     = i18n.language.slice(0, 2)
-    const langPath = lang === 'en' ? '' : `${lang}/`
+    const langPath = langPathRootSegment(lang)
     return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
   }, [buildState, i18n.language])
 

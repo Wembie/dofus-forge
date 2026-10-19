@@ -10,6 +10,7 @@ import { LangRoute } from './LangRoute.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import { useToastStore } from './store/toastStore.ts'
 import type { SeoLang } from './seo/useSeoMeta.ts'
+import { langPathRootSegment } from './i18n/langPath.ts'
 
 const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => ({ default: m.ExplorePage })))
 const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m => ({ default: m.BuildDetailPage })))
@@ -46,16 +47,13 @@ function RootRoute() {
     let stored: string | null = null
     try { stored = localStorage.getItem('dofus-forge-lang') } catch { /* private mode etc. */ }
     if (stored && SUPPORTED_REDIRECT.includes(stored)) {
+      const path = location.pathname.replace(/\/+$/, '')
       // Preserve the hash too — Supabase's auth confirmation links land here
       // with #access_token=... in it; dropping it (as this did before) meant
       // the session was silently lost on any redirect through this route.
-      // Preserve the sub-path too (location.pathname, e.g. /explore,
-      // /how-to-use) — this used to hardcode a trailing "/", silently
-      // bouncing any non-index English sub-route back to the bare language
-      // root instead of its equivalent page whenever a stored preference
-      // existed. Only visible once there were sub-routes worth deep-linking
-      // to directly (found while testing /about and /how-to-use).
-      return <Navigate to={`/${stored}${location.pathname}${location.search}${location.hash}`} replace />
+      // Preserve the sub-path and query, but normalize the root so language
+      // redirects use /es rather than the redirected /es/ variant.
+      return <Navigate to={`/${langPathRootSegment(stored)}${path}${location.search}${location.hash}`} replace />
     }
   }
   return <LangRoute lang="en"><Outlet /></LangRoute>

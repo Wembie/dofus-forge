@@ -5,7 +5,7 @@ import { User, Calendar, Heart, MessageSquare, Layers, UserPlus, UserCheck } fro
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Button } from '@/ui'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
@@ -43,7 +43,7 @@ const TIER_COLOR: Record<Exclude<MembershipTier, 'free'>, string> = {
 export function UserProfilePage() {
   const { username } = useParams<{ username: string }>()
   const { t, i18n } = useTranslation()
-  const prefix = langPathPrefix(i18n.language)
+  const homePath = `/${langPathRootSegment(i18n.language)}`
   const lang = i18n.language.slice(0, 2)
 
   useLoadGameData()
@@ -134,7 +134,7 @@ export function UserProfilePage() {
     return (
       <div className="min-h-screen bg-forge-bg flex flex-col items-center justify-center gap-3 text-sm" style={{ color: 'var(--ink-faint)' }}>
         <p>{t('profile_not_found')}</p>
-        <Link to={`/${prefix}`} className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>{t('app_title')}</Link>
+        <Link to={homePath} className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>{t('app_title')}</Link>
       </div>
     )
   }

@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { IconButton } from '@/ui'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
@@ -22,6 +22,7 @@ export function SiteHeader() {
   const navigate = useNavigate()
   const location = useLocation()
   const prefix = langPathPrefix(i18n.language)
+  const homePath = `/${langPathRootSegment(i18n.language)}`
   const isAdmin = useAuthStore(s => s.profile?.role === 'admin')
   const isExplore   = location.pathname.includes('/explore')
   const isMyBuilds  = location.pathname.includes('/my-builds')
@@ -39,7 +40,7 @@ export function SiteHeader() {
         boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
       }}
     >
-      <Link to={`/${prefix}`} className="flex items-center gap-2 flex-shrink-0" style={{ textDecoration: 'none' }}>
+      <Link to={homePath} className="flex items-center gap-2 flex-shrink-0" style={{ textDecoration: 'none' }}>
         <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
           <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
         </svg>
@@ -110,7 +111,7 @@ export function SiteHeader() {
 
       <CommandPalette
         commands={[
-          { key: 'home',       label: t('app_title'),      Icon: Home,       onRun: () => navigate(`/${prefix}`) },
+          { key: 'home',       label: t('app_title'),      Icon: Home,       onRun: () => navigate(homePath) },
           { key: 'explore',    label: t('explore_open'),   Icon: Compass,    onRun: () => navigate(`/${prefix}explore`) },
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
           { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   onRun: () => navigate(`/${prefix}how-to-use`) },

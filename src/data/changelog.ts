@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.105',
+    date: '2026-10-19',
+    notes: [
+      'Fix: internal home links, language redirects and shared builder URLs now use canonical no-trailing-slash paths, avoiding Cloudflare redirect round-trips',
+    ],
+  },
+  {
     version: '0.3.104',
     date: '2026-10-19',
     notes: [

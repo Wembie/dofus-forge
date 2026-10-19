@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { langPathRootSegment } from '@/i18n/langPath.ts'
 import { useShallow } from 'zustand/react/shallow'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -228,7 +229,7 @@ export function ComparePanel() {
     const encodedA  = encodeBuild(useBuildStore.getState())
     const encodedB  = snapshotB ? encodeSnapshot(snapshotB) : ''
     const lang      = i18n.language.slice(0, 2)
-    const langPath  = lang === 'en' ? '' : `${lang}/`
+    const langPath  = langPathRootSegment(lang)
     const base      = `${location.origin}${import.meta.env.BASE_URL}${langPath}`
     const url = encodedB
       ? `${base}?b=${encodedA}&c=${encodedB}`

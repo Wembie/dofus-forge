@@ -5,7 +5,7 @@ import { Sparkles, Database, Heart, Users, BookOpen, Layers, Wand2, Share2, Comp
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
@@ -37,6 +37,7 @@ const CLASS_GUIDE_PILOT = ['cra']
 export function AboutPage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
+  const homePath = `/${langPathRootSegment(i18n.language)}`
   const lang = i18n.language.slice(0, 2)
   usePageSeo(lang as SeoLang, 'about', {
     title: t('about_seo_title'),
@@ -138,7 +139,7 @@ export function AboutPage() {
                 // Pilot: only Cra has a standalone guide page (/classes/cra) for now
                 // — see docs/CHANGELOG.md. Every other class still deep-links
                 // straight into the planner until the guide format is validated.
-                to={CLASS_GUIDE_PILOT.includes(c.id) ? `/${prefix}classes/${c.id}` : `/${prefix}?class=${c.id}`}
+                to={CLASS_GUIDE_PILOT.includes(c.id) ? `/${prefix}classes/${c.id}` : `${homePath}?class=${c.id}`}
                 className="px-2 py-1 rounded text-xs border transition-colors"
                 style={CLASS_GUIDE_PILOT.includes(c.id)
                   ? { borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
