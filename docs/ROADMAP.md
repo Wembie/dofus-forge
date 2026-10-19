@@ -212,7 +212,7 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [x] ~~`src/engine/optimizer.ts` — `itemPartialScore()` reconstruía un `Map` en cada comparación~~ — ya no aplica: el optimizador TS se eliminó, La Forjadora corre en Rust/WASM (`rust-optimizer/src/forge.rs`)
 - [x] `src/features/builds/BuildEquipmentPreview.tsx:18` — reconstruye un `Map` del catálogo completo (~4300 ítems) en CADA render, sin `useMemo`; este componente se instancia por card en grids de Explore/MyBuilds (hasta 24+ a la vez)
 - [x] `src/lib/supabase.ts:9-26` — `clientPromise` queda cacheada aunque la promesa interna falle; si `getSupabase()` falla una vez, toda llamada futura repite el mismo rechazo (login/cloud roto hasta recargar la página entera). Fix: limpiar `clientPromise` en el catch
-- [ ] `src/ui/Modal.tsx:70-100` — hace focus trap y foco inicial al abrir, pero nunca guarda ni restaura el `document.activeElement` previo al cerrar — usuarios de teclado/lector de pantalla pierden su posición en la página tras cerrar cualquier modal
+- [x] `src/ui/Modal.tsx:70-100` — hace focus trap y foco inicial al abrir, pero nunca guarda ni restaura el `document.activeElement` previo al cerrar — usuarios de teclado/lector de pantalla pierden su posición en la página tras cerrar cualquier modal
 - [x] `src/features/optimizer/OptimizerModal.tsx` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio (cada tecla en mínimo/ley/tope de `RequirementCard`); debería debounce 300-500ms. (`StatWeightRow.tsx` ya no existe: lo reemplazó `RequirementCard`)
 
 **Bajo impacto / pulido:**
@@ -222,7 +222,7 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [ ] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
 - [ ] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
 - [ ] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
-- [ ] `HeaderMenuButton.tsx:57-59` — el ítem de menú activo se indica solo con color (dorado), sin `aria-current` — falla WCAG 1.4.1 (uso de color solo)
+- [x] `HeaderMenuButton.tsx:57-59` — el ítem de menú activo se indica solo con color (dorado), sin `aria-current` — falla WCAG 1.4.1 (uso de color solo)
 - [x] ~~`StatWeightRow.tsx:39-47` — botón de quitar stat sin `aria-label`~~ — ya no aplica: el componente se eliminó con el rediseño de La Forjadora (M111+)
 
 **Revisado y confirmado OK, sin acción necesaria:**
