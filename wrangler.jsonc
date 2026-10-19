@@ -6,6 +6,13 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application",
+    // Default is "auto-trailing-slash" (redirects /explore -> /explore/),
+    // which forces a 307 round-trip on every visit that arrives via a bare
+    // URL — the common case, since nobody types or shares a trailing slash.
+    // "drop-trailing-slash" serves /explore directly and instead redirects
+    // the other way (/explore/ -> /explore), matching the no-trailing-slash
+    // canonical convention in src/seo/useSeoMeta.ts and public/sitemap.xml.
+    "html_handling": "drop-trailing-slash",
     "binding": "ASSETS"
   },
   "rules": [

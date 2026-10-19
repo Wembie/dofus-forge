@@ -51,9 +51,15 @@ function upsertLink(rel: string, href: string, hreflang?: string) {
   el.setAttribute('href', href)
 }
 
+// No trailing slash: matches wrangler.jsonc's html_handling: "drop-trailing-slash".
+// Real visits almost always arrive via a bare, non-slash URL (nobody types or
+// shares a trailing slash) — canonicalizing to that form means most traffic
+// never pays the 307 redirect round-trip that the opposite convention forced
+// on every page load (observed live in Cloudflare's Web Vitals: 86ms P75 on
+// the redirect leg of TTLB).
 function normalizePath(path: string) {
   const trimmed = path.replace(/^\/+|\/+$/g, '')
-  return trimmed ? `/${trimmed}/` : '/'
+  return trimmed ? `/${trimmed}` : ''
 }
 
 /**

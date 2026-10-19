@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.103',
+    date: '2026-10-19',
+    notes: [
+      'Perf: pages now canonicalize to no-trailing-slash URLs (/explore instead of /explore/) across SEO tags, the sitemap, and Cloudflare\'s static asset serving — the previous convention forced a 307 redirect round-trip on any visit arriving via a bare URL (the common case), measured live at 86ms P75 in Cloudflare\'s Web Vitals',
+    ],
+  },
+  {
     version: '0.3.102',
     date: '2026-10-19',
     notes: [
