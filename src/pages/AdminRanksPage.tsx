@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
-  Archive, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert,
-  Crown, Eye, EyeOff, History, LockKeyhole, Plus, Search, ShieldCheck, Sparkles,
+  Archive, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert, Infinity as InfinityIcon,
+  Crown, Eye, EyeOff, History, LockKeyhole, Palette, Plus, Search, ShieldCheck, Sparkles,
   UserPlus, Users, X,
 } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
@@ -13,7 +13,7 @@ import { getSupabase } from '@/lib/supabase.ts'
 import { isSafeImageUrl, useAuthStore } from '@/store/authStore.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
-import { RANK_COLORS, RANK_ICONS, type CustomRankColor, type CustomRankIcon, type RankBadgeStyle } from '@/features/ranks/catalog.tsx'
+import { RANK_BADGE_STYLES, RANK_COLORS, RANK_ICONS, isRankColor, type CustomRankColor, type CustomRankIcon, type RankBadgeStyle } from '@/features/ranks/catalog.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
 
 type RankDefinition = {
@@ -53,6 +53,7 @@ type RankDraft = {
   sort_order: number
   badge_style: RankBadgeStyle
   build_limit_enabled: boolean
+  build_limit_unlimited: boolean
   build_limit: string
 }
 
@@ -61,7 +62,7 @@ const INPUT_STYLE = { background: 'var(--surface-void)', borderColor: 'var(--met
 const EMPTY_DRAFT: RankDraft = {
   slug: '', name: '', description: '', icon: 'sparkles', color: '#C9A24B',
   is_public: true, is_active: true, sort_order: 100, badge_style: 'standard',
-  build_limit_enabled: false, build_limit: '',
+  build_limit_enabled: false, build_limit_unlimited: false, build_limit: '',
 }
 
 const MAX_RANK_BUILD_LIMIT = 100_000
@@ -103,6 +104,7 @@ export function AdminRanksPage() {
   const [pageError, setPageError] = useState(false)
   const [notice, setNotice] = useState('')
   const [rankSearch, setRankSearch] = useState('')
+  const [iconSearch, setIconSearch] = useState('')
   const [assignmentSearch, setAssignmentSearch] = useState('')
   const [assignmentFilter, setAssignmentFilter] = useState<'all' | 'current' | 'history'>('all')
   const [rankModal, setRankModal] = useState(false)
@@ -211,7 +213,9 @@ export function AdminRanksPage() {
   const openRankModal = (rank?: RankDefinition) => {
     const badgeBenefit = rank && benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'profile_badge_style')
     const buildLimitBenefit = rank && benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'build_limit')
+    const buildLimitValue = buildLimitBenefit?.benefit_value
     setEditingRank(rank ?? null)
+    setIconSearch('')
     setDraft(rank ? {
       id: rank.id,
       slug: rank.slug,
@@ -224,7 +228,8 @@ export function AdminRanksPage() {
       sort_order: rank.sort_order,
       badge_style: (badgeBenefit?.benefit_value as RankBadgeStyle | undefined) ?? 'standard',
       build_limit_enabled: !!buildLimitBenefit,
-      build_limit: buildLimitBenefit?.benefit_value ?? '',
+      build_limit_unlimited: buildLimitValue === 'unlimited',
+      build_limit: buildLimitValue && buildLimitValue !== 'unlimited' ? buildLimitValue : '',
     } : { ...EMPTY_DRAFT })
     setSlugTouched(!!rank)
     setNotice('')
@@ -235,7 +240,11 @@ export function AdminRanksPage() {
     event.preventDefault()
     if (!session || !draft.slug || !draft.name.trim()) return
     const buildLimit = Number(draft.build_limit)
-    if (draft.build_limit_enabled && (!Number.isInteger(buildLimit) || buildLimit < 1 || buildLimit > MAX_RANK_BUILD_LIMIT)) {
+    if (!isRankColor(draft.color)) {
+      setNotice('admin_ranks_invalid_color')
+      return
+    }
+    if (draft.build_limit_enabled && !draft.build_limit_unlimited && (!Number.isInteger(buildLimit) || buildLimit < 1 || buildLimit > MAX_RANK_BUILD_LIMIT)) {
       setNotice('admin_ranks_build_limit_invalid')
       return
     }
@@ -273,7 +282,7 @@ export function AdminRanksPage() {
       ? await supabase.from('custom_rank_benefits').upsert({
         rank_id: saved.id,
         benefit_key: 'build_limit',
-        benefit_value: String(buildLimit),
+        benefit_value: draft.build_limit_unlimited ? 'unlimited' : String(buildLimit),
       }, { onConflict: 'rank_id,benefit_key' })
       : await supabase.from('custom_rank_benefits').delete().eq('rank_id', saved.id).eq('benefit_key', 'build_limit')
     if (benefitResult.error || buildLimitResult.error) {
@@ -340,6 +349,11 @@ export function AdminRanksPage() {
   }
 
   const rankNames = useMemo(() => Object.fromEntries(ranks.map(rank => [rank.id, rank.name])), [ranks])
+  const filteredRankIcons = useMemo(() => {
+    const query = iconSearch.trim().toLowerCase().replace(/[\s-]+/g, '_')
+    return (Object.keys(RANK_ICONS) as CustomRankIcon[]).filter(icon => icon.includes(query))
+  }, [iconSearch])
+  const PreviewIcon = RANK_ICONS[draft.icon]
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
@@ -448,16 +462,19 @@ export function AdminRanksPage() {
                   </Frame>
                 ) : (
                   <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
-                    {filteredRanks.map(rank => <RankCard
-                      key={rank.id}
-                      rank={rank}
-                      badgeStyle={(benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'profile_badge_style')?.benefit_value ?? 'standard') as RankBadgeStyle}
-                      buildLimit={Number(benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'build_limit')?.benefit_value) || null}
-                      assignmentCount={assignments.filter(row => row.rank_id === rank.id && assignmentState(row, now) === 'active').length}
-                      onEdit={() => openRankModal(rank)}
-                      onAssign={() => openAssignModal(rank)}
-                      t={t}
-                    />)}
+                    {filteredRanks.map(rank => {
+                      const buildLimitValue = benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'build_limit')?.benefit_value
+                      return <RankCard
+                        key={rank.id}
+                        rank={rank}
+                        badgeStyle={(benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'profile_badge_style')?.benefit_value ?? 'standard') as RankBadgeStyle}
+                        buildLimit={buildLimitValue === 'unlimited' ? 'unlimited' : Number(buildLimitValue) || null}
+                        assignmentCount={assignments.filter(row => row.rank_id === rank.id && assignmentState(row, now) === 'active').length}
+                        onEdit={() => openRankModal(rank)}
+                        onAssign={() => openAssignModal(rank)}
+                        t={t}
+                      />
+                    })}
                   </div>
                 )}
               </section>
@@ -521,69 +538,131 @@ export function AdminRanksPage() {
       </main>
       <SiteFooter />
 
-      <Modal open={rankModal} onClose={() => !savingRank && setRankModal(false)} size="2xl" title={t(editingRank ? 'admin_ranks_edit_title' : 'admin_ranks_create_title')}>
-        <form onSubmit={saveRank} className="space-y-4">
-          <div className="grid sm:grid-cols-[1fr_230px] gap-4">
-            <div className="space-y-3">
-              <div className="grid sm:grid-cols-2 gap-3">
-                <Field label={t('admin_ranks_name')}>
-                  <input className={INPUT} style={INPUT_STYLE} maxLength={40} required value={draft.name} onChange={event => setDraft(current => ({ ...current, name: event.target.value, ...(!slugTouched ? { slug: slugFromName(event.target.value) } : {}) }))} />
-                </Field>
-                <Field label={t('admin_ranks_slug')} hint={t(editingRank ? 'admin_ranks_slug_locked' : 'admin_ranks_slug_hint')}>
-                  <input className={INPUT} style={INPUT_STYLE} required pattern="[a-z0-9][a-z0-9_-]{1,39}" maxLength={40} value={draft.slug} readOnly={!!editingRank} onChange={event => { setSlugTouched(true); setDraft(current => ({ ...current, slug: slugFromName(event.target.value) })) }} />
-                </Field>
+      <Modal open={rankModal} onClose={() => !savingRank && setRankModal(false)} size="4xl" title={t(editingRank ? 'admin_ranks_edit_title' : 'admin_ranks_create_title')}>
+        <form onSubmit={saveRank} className="flex flex-col" style={{ height: 'min(calc(90vh - 4.25rem), 48rem)' }}>
+          <div className="min-h-0 flex-1 space-y-5 overflow-y-auto p-4 sm:p-5 lg:p-6">
+            <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-5 items-start">
+              <div className="min-w-0 space-y-5">
+                <Frame material="stone" padding="md" className="space-y-4">
+                  <SectionHeading number="01" title={t('admin_ranks_section_identity')} description={t('admin_ranks_section_identity_hint')} />
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <Field label={t('admin_ranks_name')}>
+                      <input className={INPUT} style={INPUT_STYLE} maxLength={40} required value={draft.name} onChange={event => setDraft(current => ({ ...current, name: event.target.value, ...(!slugTouched ? { slug: slugFromName(event.target.value) } : {}) }))} />
+                    </Field>
+                    <Field label={t('admin_ranks_slug')} hint={t(editingRank ? 'admin_ranks_slug_locked' : 'admin_ranks_slug_hint')}>
+                      <input className={INPUT} style={INPUT_STYLE} required pattern="[a-z0-9][a-z0-9_-]{1,39}" maxLength={40} value={draft.slug} readOnly={!!editingRank} onChange={event => { setSlugTouched(true); setDraft(current => ({ ...current, slug: slugFromName(event.target.value) })) }} />
+                    </Field>
+                  </div>
+                  <Field label={t('admin_ranks_description')} hint={t('admin_ranks_description_hint')}>
+                    <textarea className={`${INPUT} resize-y min-h-20`} style={INPUT_STYLE} maxLength={180} value={draft.description} onChange={event => setDraft(current => ({ ...current, description: event.target.value }))} />
+                  </Field>
+                </Frame>
+
+                <Frame material="stone" padding="md" className="space-y-5">
+                  <SectionHeading number="02" title={t('admin_ranks_section_appearance')} description={t('admin_ranks_section_appearance_hint')} />
+
+                  <section className="space-y-3" aria-labelledby="rank-color-label">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <FieldLabel><span id="rank-color-label">{t('admin_ranks_color')}</span></FieldLabel>
+                        <p className="mt-1 font-mono text-[10px] tracking-wider" style={{ color: 'var(--ink-faint)' }}>{draft.color.toUpperCase()}</p>
+                      </div>
+                      <label className="relative inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-xs font-semibold cursor-pointer transition-colors hover:border-gold/60" style={{ color: 'var(--ink)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+                        <Palette size={15} style={{ color: 'var(--gold)' }} /> {t('admin_ranks_color_picker')}
+                        <input type="color" aria-label={t('admin_ranks_color_picker')} value={draft.color.toLowerCase()} onChange={event => setDraft(current => ({ ...current, color: event.target.value.toUpperCase() }))} className="absolute inset-0 h-full w-full cursor-pointer opacity-0" />
+                      </label>
+                    </div>
+                    <div className="grid grid-cols-6 sm:grid-cols-10 md:grid-cols-12 gap-2" role="group" aria-label={t('admin_ranks_color')}>
+                      {RANK_COLORS.map(color => <button key={color} type="button" aria-label={color} aria-pressed={draft.color === color} onClick={() => setDraft(current => ({ ...current, color }))} className="h-8 w-8 justify-self-center rounded-full border-2 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ background: color, borderColor: draft.color === color ? 'var(--ink)' : 'transparent', boxShadow: draft.color === color ? `0 0 0 2px ${color}` : undefined }}>{draft.color === color && <Check size={13} color="#fff" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.8))' }} />}</button>)}
+                    </div>
+                  </section>
+
+                  <section className="space-y-3 border-t pt-5" style={{ borderColor: 'var(--metal-edge)' }} aria-labelledby="rank-icon-label">
+                    <div className="flex flex-wrap items-end justify-between gap-3">
+                      <div>
+                        <FieldLabel><span id="rank-icon-label">{t('admin_ranks_icon')}</span></FieldLabel>
+                        <p className="mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_icon_count', { count: Object.keys(RANK_ICONS).length })}</p>
+                      </div>
+                      <label className="relative block w-full sm:w-56">
+                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }} />
+                        <input value={iconSearch} onChange={event => setIconSearch(event.target.value)} placeholder={t('admin_ranks_icon_search')} className={`${INPUT} pl-9`} aria-label={t('admin_ranks_icon_search')} />
+                      </label>
+                    </div>
+                    <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 max-h-48 overflow-y-auto pr-1">
+                      {filteredRankIcons.map(key => {
+                        const Icon = RANK_ICONS[key]
+                        const label = key.replace(/_/g, ' ')
+                        return <button key={key} type="button" aria-label={t('admin_ranks_icon_option', { icon: label })} title={label} aria-pressed={draft.icon === key} onClick={() => setDraft(current => ({ ...current, icon: key }))} className="h-10 rounded-md border flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ color: draft.icon === key ? draft.color : 'var(--ink-faint)', borderColor: draft.icon === key ? draft.color : 'var(--metal-edge)', background: draft.icon === key ? `color-mix(in srgb, ${draft.color} 10%, var(--surface-void))` : 'var(--surface-void)' }}><Icon size={17} /></button>
+                      })}
+                    </div>
+                    {filteredRankIcons.length === 0 && <p className="rounded-md border border-dashed p-4 text-center text-xs" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)' }}>{t('admin_ranks_icon_no_results')}</p>}
+                  </section>
+
+                  <section className="space-y-3 border-t pt-5" style={{ borderColor: 'var(--metal-edge)' }} aria-labelledby="rank-finish-label">
+                    <div className="flex flex-wrap items-end justify-between gap-2">
+                      <div>
+                        <FieldLabel><span id="rank-finish-label">{t('admin_ranks_badge_style')}</span></FieldLabel>
+                        <p className="mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_style_gallery_hint')}</p>
+                      </div>
+                      <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, var(--surface-void))' }}>{t(`admin_ranks_style_${draft.badge_style}`)}</span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                      {RANK_BADGE_STYLES.map(style => (
+                        <button key={style} type="button" aria-label={t(`admin_ranks_style_${style}`)} aria-pressed={draft.badge_style === style} onClick={() => setDraft(current => ({ ...current, badge_style: style }))} className="relative flex min-h-[76px] min-w-0 flex-col items-center justify-center gap-2 rounded-lg border px-2 py-3 transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{
+                          borderColor: draft.badge_style === style ? 'var(--gold)' : 'var(--metal-edge)',
+                          background: draft.badge_style === style ? 'color-mix(in srgb, var(--gold) 8%, var(--surface-void))' : 'var(--surface-void)',
+                          boxShadow: draft.badge_style === style ? '0 0 0 1px color-mix(in srgb, var(--gold) 25%, transparent), 0 4px 12px rgba(0,0,0,.12)' : undefined,
+                        }}>
+                          {draft.badge_style === style && <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full" style={{ color: 'var(--surface-void)', background: 'var(--gold)' }}><Check size={10} /></span>}
+                          <CustomRankBadge rank={{ name: t('admin_ranks_style_preview'), description: '', icon: draft.icon, color: draft.color, badgeStyle: style }} />
+                          <span className="w-full truncate text-center text-[10px] font-medium leading-tight" style={{ color: draft.badge_style === style ? 'var(--gold)' : 'var(--ink-muted)' }}>{t(`admin_ranks_style_${style}`)}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                </Frame>
               </div>
-              <Field label={t('admin_ranks_description')} hint={t('admin_ranks_description_hint')}>
-                <textarea className={`${INPUT} resize-y min-h-16`} style={INPUT_STYLE} maxLength={180} value={draft.description} onChange={event => setDraft(current => ({ ...current, description: event.target.value }))} />
-              </Field>
-              <div>
-                <FieldLabel>{t('admin_ranks_icon')}</FieldLabel>
-                <div className="grid grid-cols-5 gap-1.5 mt-1.5">
-                  {(Object.keys(RANK_ICONS) as CustomRankIcon[]).map(key => {
-                    const Icon = RANK_ICONS[key]
-                    return <button key={key} type="button" aria-label={key} aria-pressed={draft.icon === key} onClick={() => setDraft(current => ({ ...current, icon: key }))} className="h-9 rounded-md border flex items-center justify-center transition-colors" style={{ color: draft.icon === key ? draft.color : 'var(--ink-faint)', borderColor: draft.icon === key ? draft.color : 'var(--metal-edge)', background: draft.icon === key ? `color-mix(in srgb, ${draft.color} 10%, var(--surface-void))` : 'var(--surface-void)' }}><Icon size={15} /></button>
-                  })}
-                </div>
-              </div>
-              <div>
-                <FieldLabel>{t('admin_ranks_color')}</FieldLabel>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {RANK_COLORS.map(color => <button key={color} type="button" aria-label={color} aria-pressed={draft.color === color} onClick={() => setDraft(current => ({ ...current, color }))} className="w-6 h-6 rounded-full border-2 flex items-center justify-center" style={{ background: color, borderColor: draft.color === color ? 'var(--ink)' : 'transparent', boxShadow: draft.color === color ? `0 0 0 2px ${color}` : undefined }}>{draft.color === color && <Check size={11} color="#171512" />}</button>)}
-                </div>
-              </div>
+
+              <aside className="space-y-4 lg:sticky lg:top-0">
+                <Frame material="stone" padding="md" className="space-y-4">
+                  <SectionHeading number="03" title={t('admin_ranks_preview')} description={t('admin_ranks_profile_preview')} />
+                  <div className="relative flex min-h-48 flex-col items-center justify-center gap-3 overflow-hidden rounded-lg p-5 text-center" style={{ background: `radial-gradient(ellipse at top, color-mix(in srgb, ${draft.color} 16%, transparent), transparent 72%), var(--surface-void)`, border: '1px solid var(--metal-edge)' }}>
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full border" style={{ color: draft.color, background: `color-mix(in srgb, ${draft.color} 12%, var(--surface-raised))`, borderColor: `color-mix(in srgb, ${draft.color} 40%, transparent)` }}><PreviewIcon size={20} /></span>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold" style={{ color: 'var(--ink)' }}>{draft.name || t('admin_ranks_name_placeholder')}</p>
+                      <p className="mt-0.5 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_profile_preview')}</p>
+                    </div>
+                    <CustomRankBadge rank={{ name: draft.name || t('admin_ranks_name_placeholder'), description: draft.description, icon: draft.icon, color: draft.color, badgeStyle: draft.badge_style }} />
+                    {draft.description && <p className="line-clamp-2 max-w-xs text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{draft.description}</p>}
+                  </div>
+                  <Field label={t('admin_ranks_order')} hint={t('admin_ranks_order_hint')}>
+                    <input type="number" min={0} max={999} className={INPUT} style={INPUT_STYLE} value={draft.sort_order} onChange={event => setDraft(current => ({ ...current, sort_order: Number(event.target.value) }))} />
+                  </Field>
+                </Frame>
+
+                <Frame material="stone" padding="md" className="space-y-3">
+                  <SectionHeading number="04" title={t('admin_ranks_section_benefits')} description={t('admin_ranks_section_benefits_hint')} />
+                  <ToggleRow icon={ShieldCheck} title={t('admin_ranks_build_limit_enabled')} description={t('admin_ranks_build_limit_hint')} checked={draft.build_limit_enabled} onChange={value => setDraft(current => ({ ...current, build_limit_enabled: value, build_limit: value ? current.build_limit || '100' : current.build_limit }))} />
+                  {draft.build_limit_enabled && <div className="space-y-3 rounded-lg border p-3" style={{ borderColor: 'var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-void) 60%, transparent)' }}>
+                    <ToggleRow icon={InfinityIcon} title={t('admin_ranks_build_limit_unlimited')} description={t('admin_ranks_build_limit_unlimited_hint')} checked={draft.build_limit_unlimited} onChange={value => setDraft(current => ({ ...current, build_limit_unlimited: value }))} />
+                    {!draft.build_limit_unlimited && <Field label={t('admin_ranks_build_limit')} hint={t('admin_ranks_build_limit_membership_hint')}>
+                      <input type="number" min={1} max={MAX_RANK_BUILD_LIMIT} step={1} required className={INPUT} style={INPUT_STYLE} value={draft.build_limit} onChange={event => setDraft(current => ({ ...current, build_limit: event.target.value }))} />
+                    </Field>}
+                  </div>}
+                </Frame>
+
+                <Frame material="stone" padding="md" className="space-y-3">
+                  <SectionHeading number="05" title={t('admin_ranks_section_visibility')} description={t('admin_ranks_section_visibility_hint')} />
+                  <ToggleRow icon={draft.is_public ? Eye : EyeOff} title={t('admin_ranks_public')} description={t('admin_ranks_public_hint')} checked={draft.is_public} onChange={value => setDraft(current => ({ ...current, is_public: value }))} />
+                  <ToggleRow icon={draft.is_active ? Check : Archive} title={t('admin_ranks_enabled')} description={t('admin_ranks_enabled_hint')} checked={draft.is_active} onChange={value => setDraft(current => ({ ...current, is_active: value }))} />
+                </Frame>
+              </aside>
             </div>
-            <div className="space-y-3">
-              <Frame material="stone" padding="sm" className="space-y-3">
-                <FieldLabel>{t('admin_ranks_preview')}</FieldLabel>
-                <div className="rounded-md px-3 py-4 flex flex-col items-center gap-3" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-                  <CustomRankBadge rank={{ name: draft.name || t('admin_ranks_name_placeholder'), description: draft.description, icon: draft.icon, color: draft.color, badgeStyle: draft.badge_style }} />
-                  <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_profile_preview')}</span>
-                </div>
-                <Field label={t('admin_ranks_badge_style')}>
-                  <select className={INPUT} style={INPUT_STYLE} value={draft.badge_style} onChange={event => setDraft(current => ({ ...current, badge_style: event.target.value as RankBadgeStyle }))}>
-                    <option value="standard">{t('admin_ranks_style_standard')}</option>
-                    <option value="founder">{t('admin_ranks_style_founder')}</option>
-                    <option value="creator">{t('admin_ranks_style_creator')}</option>
-                  </select>
-                </Field>
-                <Field label={t('admin_ranks_order')}>
-                  <input type="number" min={0} max={999} className={INPUT} style={INPUT_STYLE} value={draft.sort_order} onChange={event => setDraft(current => ({ ...current, sort_order: Number(event.target.value) }))} />
-                </Field>
-              </Frame>
-              <Frame material="stone" padding="sm" className="space-y-3">
-                <ToggleRow icon={ShieldCheck} title={t('admin_ranks_build_limit_enabled')} description={t('admin_ranks_build_limit_hint')} checked={draft.build_limit_enabled} onChange={value => setDraft(current => ({ ...current, build_limit_enabled: value, build_limit: value ? current.build_limit || '100' : current.build_limit }))} />
-                {draft.build_limit_enabled && <Field label={t('admin_ranks_build_limit')} hint={t('admin_ranks_build_limit_membership_hint')}>
-                  <input type="number" min={1} max={MAX_RANK_BUILD_LIMIT} step={1} required className={INPUT} style={INPUT_STYLE} value={draft.build_limit} onChange={event => setDraft(current => ({ ...current, build_limit: event.target.value }))} />
-                </Field>}
-              </Frame>
-              <ToggleRow icon={draft.is_public ? Eye : EyeOff} title={t('admin_ranks_public')} description={t('admin_ranks_public_hint')} checked={draft.is_public} onChange={value => setDraft(current => ({ ...current, is_public: value }))} />
-              <ToggleRow icon={draft.is_active ? Check : Archive} title={t('admin_ranks_enabled')} description={t('admin_ranks_enabled_hint')} checked={draft.is_active} onChange={value => setDraft(current => ({ ...current, is_active: value }))} />
-            </div>
+            {notice && <p role="alert" className="rounded-md border px-3 py-2 text-xs" style={{ color: 'var(--bad)', borderColor: 'color-mix(in srgb, var(--bad) 35%, transparent)', background: 'color-mix(in srgb, var(--bad) 8%, var(--surface-void))' }}>{t(notice)}</p>}
           </div>
-          {notice && <p className="text-[11px]" style={{ color: 'var(--bad)' }}>{t(notice)}</p>}
-          <div className="flex justify-end gap-2 border-t pt-3" style={{ borderColor: 'var(--metal-edge)' }}>
-            <Button type="button" variant="ghost" size="sm" onClick={() => setRankModal(false)}>{t('admin_ranks_cancel')}</Button>
-            <Button type="submit" variant="primary" size="sm" disabled={savingRank || !draft.name.trim() || !draft.slug}><Check size={13} />{savingRank ? t('admin_ranks_saving') : t('admin_ranks_save')}</Button>
+          <div className="flex shrink-0 justify-end gap-2 border-t px-4 py-3 sm:px-6" style={{ borderColor: 'var(--metal-edge)', background: 'var(--surface-panel)', boxShadow: '0 -8px 18px rgba(0,0,0,.12)' }}>
+            <Button type="button" variant="ghost" size="md" disabled={savingRank} onClick={() => setRankModal(false)}>{t('admin_ranks_cancel')}</Button>
+            <Button type="submit" variant="primary" size="md" disabled={savingRank || !draft.name.trim() || !draft.slug}><Check size={14} />{savingRank ? t('admin_ranks_saving') : t('admin_ranks_save')}</Button>
           </div>
         </form>
       </Modal>
@@ -652,7 +731,7 @@ function Metric({ icon: Icon, value, label, accent = 'var(--gold)' }: { icon: ty
 function RankCard({ rank, badgeStyle, buildLimit, assignmentCount, onEdit, onAssign, t }: {
   rank: RankDefinition
   badgeStyle: RankBadgeStyle
-  buildLimit: number | null
+  buildLimit: number | 'unlimited' | null
   assignmentCount: number
   onEdit: () => void
   onAssign: () => void
@@ -673,7 +752,7 @@ function RankCard({ rank, badgeStyle, buildLimit, assignmentCount, onEdit, onAss
       <div className="flex flex-wrap items-center gap-2 border-t pt-3" style={{ borderColor: 'var(--metal-edge)' }}>
         <CustomRankBadge rank={{ name: rank.name, description: rank.description, icon: rank.icon, color: rank.color, badgeStyle }} />
         <span className="flex items-center gap-1 text-[9px]" style={{ color: rank.is_public ? 'var(--air)' : 'var(--ink-faint)' }}>{rank.is_public ? <Eye size={11} /> : <EyeOff size={11} />}{t(rank.is_public ? 'admin_ranks_public' : 'admin_ranks_private')}</span>
-        {buildLimit && <span className="flex items-center gap-1 text-[9px]" style={{ color: 'var(--ink-faint)' }}><ShieldCheck size={11} />{buildLimit} {t('admin_ranks_builds')}</span>}
+        {buildLimit && <span className="flex items-center gap-1 text-[9px]" style={{ color: 'var(--ink-faint)' }}>{buildLimit === 'unlimited' ? <><InfinityIcon size={11} />{t('admin_ranks_unlimited')}</> : <><ShieldCheck size={11} />{buildLimit} {t('admin_ranks_builds')}</>}</span>}
         <span className="ml-auto flex items-center gap-1 text-[9px]" style={{ color: 'var(--ink-faint)' }}><Users size={11} />{assignmentCount}</span>
       </div>
     </div>
@@ -699,17 +778,27 @@ function SearchField({ value, onChange, placeholder, clearLabel }: { value: stri
 }
 
 function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
-  return <label className="block space-y-1"><FieldLabel>{label}</FieldLabel>{children}{hint && <span className="block text-[9px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{hint}</span>}</label>
+  return <label className="block space-y-1.5"><FieldLabel>{label}</FieldLabel>{children}{hint && <span className="block text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{hint}</span>}</label>
 }
 
 function FieldLabel({ children }: { children: ReactNode }) {
-  return <span className="block text-[10px] font-semibold" style={{ color: 'var(--ink-muted)' }}>{children}</span>
+  return <span className="block text-[11px] font-semibold" style={{ color: 'var(--ink-muted)' }}>{children}</span>
+}
+
+function SectionHeading({ number, title, description }: { number: string; title: string; description: string }) {
+  return <div className="flex items-start gap-3">
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-[10px] font-bold tabular-nums" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 9%, var(--surface-void))', borderColor: 'color-mix(in srgb, var(--gold) 28%, var(--metal-edge))' }}>{number}</span>
+    <div className="min-w-0 pt-0.5">
+      <h3 className="text-xs font-bold tracking-wide" style={{ color: 'var(--ink)' }}>{title}</h3>
+      <p className="mt-1 text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{description}</p>
+    </div>
+  </div>
 }
 
 function ToggleRow({ icon: Icon, title, description, checked, onChange }: { icon: typeof Eye; title: string; description: string; checked: boolean; onChange: (value: boolean) => void }) {
   return <label className="flex items-center gap-2.5 rounded-md border px-2.5 py-2 cursor-pointer" style={{ background: 'var(--surface-void)', borderColor: 'var(--metal-edge)' }}>
     <Icon size={14} style={{ color: checked ? 'var(--gold)' : 'var(--ink-faint)' }} />
-    <span className="min-w-0 flex-1"><span className="block text-[10px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</span><span className="block text-[9px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>{description}</span></span>
+    <span className="min-w-0 flex-1"><span className="block text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</span><span className="block text-[10px] mt-1 leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{description}</span></span>
     <input type="checkbox" checked={checked} onChange={event => onChange(event.target.checked)} className="accent-[var(--gold)]" />
   </label>
 }
