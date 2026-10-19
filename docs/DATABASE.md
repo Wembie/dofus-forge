@@ -18,7 +18,7 @@ El diseño original (2026-09-01) no se validó contra el código real del builde
 | 5 | `to_tsvector('spanish', ...)` en una app ES/EN/FR/PT hace stemming incorrecto sobre nombres/descripciones en inglés, francés o portugués | `'spanish'` | `'simple'` (sin stemming, agnóstico de idioma) |
 | 6 | Sección 6 (RLS) tenía un comentario `-- mismo patrón para build_characteristics, build_runes, build_snapshots, build_tags` en vez del SQL real — esas 4 tablas quedaban con RLS activado y **cero políticas** (nadie, ni el dueño, puede leer/escribir sin una policy) | comentario, sin SQL | 8 policies reales (read+write × 4 tablas) |
 
-**`supabase/schema.sql`** incluye el esquema completo y los rangos personalizados para bases nuevas. En una base existente, ejecuta `20261018_custom_ranks.sql` si aún no tienes los rangos y después `20261018130000_custom_rank_customization.sql` para activar la personalización ampliada y la cuota ilimitada.
+**`supabase/schema.sql`** incluye el esquema completo y los rangos personalizados para bases nuevas. En una base existente, ejecuta las migraciones pendientes en orden: `20261018_custom_ranks.sql`, `20261018130000_custom_rank_customization.sql`, `20261018140000_expand_custom_rank_catalog.sql` y `20261018150000_add_custom_rank_premium_finishes.sql`.
 
 ---
 
@@ -1848,9 +1848,9 @@ commit;
 
 ## 13. Custom ranks
 
-Custom ranks are separate from `profiles.role` and supporter membership. Apply `20261018_custom_ranks.sql` if the database does not have custom ranks yet, then apply `20261018130000_custom_rank_customization.sql`. The customization migration adds free-form hex colors, expanded icon and badge-finish catalogs, and an unlimited saved-build benefit enforced by the database trigger.
+Custom ranks are separate from `profiles.role` and supporter membership. Apply `20261018_custom_ranks.sql` if the database does not have custom ranks yet, then apply `20261018130000_custom_rank_customization.sql`, `20261018140000_expand_custom_rank_catalog.sql`, and `20261018150000_add_custom_rank_premium_finishes.sql`. The migrations add free-form hex colors, 140 rank icons, 76 badge finishes, and an unlimited saved-build benefit enforced by the database trigger.
 
-For an existing database that already has custom ranks, apply only `supabase/migrations/20261018130000_custom_rank_customization.sql`. For a fresh database, apply the complete schema and then the two migrations in order. Files: `supabase/migrations/20261018_custom_ranks.sql` and `supabase/migrations/20261018130000_custom_rank_customization.sql`.
+For an existing database that already has custom ranks, apply any missing migrations in order, ending with `supabase/migrations/20261018150000_add_custom_rank_premium_finishes.sql`. For a fresh database, `supabase/schema.sql` already contains the current catalog. Migration files: `supabase/migrations/20261018_custom_ranks.sql`, `supabase/migrations/20261018130000_custom_rank_customization.sql`, `supabase/migrations/20261018140000_expand_custom_rank_catalog.sql`, and `supabase/migrations/20261018150000_add_custom_rank_premium_finishes.sql`.
 
 ### SQL de implementación
 
@@ -1887,10 +1887,17 @@ create table if not exists public.custom_rank_benefits (
   primary key (rank_id, benefit_key),
   constraint custom_rank_benefits_catalog_check check (
     (benefit_key = 'profile_badge_style' and benefit_value in (
-      'standard', 'founder', 'creator', 'royal', 'neon', 'crystal',
-      'holographic', 'obsidian', 'minimal', 'arcane', 'vintage', 'champion',
-      'celestial', 'infernal', 'emerald', 'sapphire', 'ruby', 'bronze',
-      'silver', 'platinum', 'carbon', 'aurora', 'cosmic', 'toxic'
+      'standard', 'founder', 'creator', 'royal', 'neon', 'crystal', 'holographic',
+      'obsidian', 'minimal', 'arcane', 'vintage', 'champion', 'celestial', 'infernal',
+      'emerald', 'sapphire', 'ruby', 'bronze', 'silver', 'platinum', 'carbon', 'aurora',
+      'cosmic', 'toxic', 'gold_foil', 'royal_seal', 'blue_steel', 'copper', 'pearl',
+      'marble', 'enamel', 'runic', 'dragonfire', 'frost', 'storm', 'oceanic', 'forest',
+      'desert', 'sakura', 'twilight', 'bloodmoon', 'prismatic', 'glitch', 'matrix',
+      'velvet', 'champagne', 'coral', 'lavender', 'moss', 'ancient', 'relic', 'crimson',
+      'amethyst', 'opal', 'rose_gold', 'black_tie', 'obsidian_gold', 'sapphire_glass',
+      'ruby_facet', 'emerald_facet', 'ice_crystal', 'solar_flare', 'nebula', 'void',
+      'thunder', 'emberglow', 'soulfire', 'deep_space', 'royal_purple', 'monsoon',
+      'bamboo', 'leatherbound', 'silk', 'porcelain', 'steel_engraved', 'constellation'
     ))
     or (benefit_key = 'build_limit' and (
       benefit_value ~ '^[1-9][0-9]{0,4}$' or benefit_value = '100000' or benefit_value = 'unlimited'

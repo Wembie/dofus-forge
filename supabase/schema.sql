@@ -1055,14 +1055,25 @@ create table if not exists public.custom_rank_definitions (
   name         text not null check (char_length(btrim(name)) between 1 and 40),
   description  text not null default '' check (char_length(description) <= 180),
   icon         text not null check (icon in (
-    'anvil', 'award', 'axe', 'badge_check', 'badge_plus', 'bird', 'book_open',
-    'bug', 'castle', 'cat', 'circle_star', 'clover', 'code', 'compass', 'crown',
-    'dna', 'feather', 'flame', 'flame_kindling', 'flower', 'gamepad', 'gem',
-    'globe', 'hammer', 'handshake', 'headphones', 'heart', 'heart_handshake',
-    'heart_pulse', 'landmark', 'leaf', 'medal', 'moon', 'mountain', 'music',
-    'orbit', 'palette', 'piggy_bank', 'rabbit', 'rocket', 'scroll', 'shield',
-    'shield_check', 'sparkles', 'star', 'sun', 'sword', 'swords', 'target',
-    'trophy', 'users', 'wand', 'wrench', 'zap'
+    'alarm_clock', 'anvil', 'aperture', 'award', 'axe', 'badge', 'badge_alert',
+    'badge_cent', 'badge_check', 'badge_plus', 'bell', 'bird', 'blocks', 'book_marked',
+    'book_open', 'bot', 'briefcase', 'brush', 'bug', 'building', 'cable', 'camera',
+    'candy', 'castle', 'cat', 'chart', 'chess_king', 'circle_dollar', 'circle_gauge',
+    'circle_star', 'clapperboard', 'cloud_lightning', 'cloud_moon', 'cloud_sun',
+    'cloud_sun_rain', 'club', 'clover', 'code', 'coffee', 'cog', 'coins', 'command',
+    'compass', 'cpu', 'crosshair', 'crown', 'cylinder', 'dna', 'door', 'egg', 'eye',
+    'factory', 'feather', 'file_badge', 'fingerprint', 'flag', 'flame', 'flame_kindling',
+    'flask', 'flask_round', 'flower', 'footprints', 'gamepad', 'gem', 'ghost', 'gift',
+    'glasses', 'globe', 'graduation_cap', 'guitar', 'hammer', 'hand_coins', 'handshake',
+    'headphones', 'headset', 'heart', 'heart_handshake', 'heart_pulse', 'house',
+    'infinity', 'joystick', 'key', 'keyboard', 'landmark', 'lamp', 'lamp_desk', 'leaf',
+    'lightbulb', 'medal', 'microscope', 'moon', 'moon_star', 'mountain', 'mountain_snow',
+    'music', 'network', 'orbit', 'palette', 'panel_top', 'paw', 'piggy_bank', 'pickaxe',
+    'puzzle', 'rabbit', 'radio', 'rocket', 'satellite', 'scissors', 'scroll', 'shield',
+    'shield_check', 'shield_ellipsis', 'ship', 'shopping_bag', 'shovel', 'skull',
+    'snowflake', 'sparkle', 'sparkles', 'sprout', 'squirrel', 'star', 'sun', 'sword',
+    'swords', 'target', 'telescope', 'tent_tree', 'ticket', 'tree', 'trophy', 'turtle',
+    'umbrella', 'users', 'wand', 'waves', 'wind', 'wine', 'wrench', 'zap'
   )),
   color        text not null check (color ~ '^#[0-9A-Fa-f]{6}$'),
   is_public    boolean not null default true,
@@ -1081,10 +1092,17 @@ create table if not exists public.custom_rank_benefits (
   primary key (rank_id, benefit_key),
   constraint custom_rank_benefits_catalog_check check (
     (benefit_key = 'profile_badge_style' and benefit_value in (
-      'standard', 'founder', 'creator', 'royal', 'neon', 'crystal',
-      'holographic', 'obsidian', 'minimal', 'arcane', 'vintage', 'champion',
-      'celestial', 'infernal', 'emerald', 'sapphire', 'ruby', 'bronze',
-      'silver', 'platinum', 'carbon', 'aurora', 'cosmic', 'toxic'
+      'standard', 'founder', 'creator', 'royal', 'neon', 'crystal', 'holographic',
+      'obsidian', 'minimal', 'arcane', 'vintage', 'champion', 'celestial', 'infernal',
+      'emerald', 'sapphire', 'ruby', 'bronze', 'silver', 'platinum', 'carbon', 'aurora',
+      'cosmic', 'toxic', 'gold_foil', 'royal_seal', 'blue_steel', 'copper', 'pearl',
+      'marble', 'enamel', 'runic', 'dragonfire', 'frost', 'storm', 'oceanic', 'forest',
+      'desert', 'sakura', 'twilight', 'bloodmoon', 'prismatic', 'glitch', 'matrix',
+      'velvet', 'champagne', 'coral', 'lavender', 'moss', 'ancient', 'relic', 'crimson',
+      'amethyst', 'opal', 'rose_gold', 'black_tie', 'obsidian_gold', 'sapphire_glass',
+      'ruby_facet', 'emerald_facet', 'ice_crystal', 'solar_flare', 'nebula', 'void',
+      'thunder', 'emberglow', 'soulfire', 'deep_space', 'royal_purple', 'monsoon',
+      'bamboo', 'leatherbound', 'silk', 'porcelain', 'steel_engraved', 'constellation'
     ))
     or (benefit_key = 'build_limit' and (
       benefit_value ~ '^[1-9][0-9]{0,4}$' or benefit_value = '100000' or benefit_value = 'unlimited'

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
-  Archive, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert, Infinity as InfinityIcon,
+  Archive, ArrowUpRight, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert, Clock3, Infinity as InfinityIcon,
   Crown, Eye, EyeOff, History, LockKeyhole, Palette, Plus, Search, ShieldCheck, Sparkles,
   UserPlus, Users, X,
 } from 'lucide-react'
@@ -15,6 +15,7 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { RANK_BADGE_STYLES, RANK_COLORS, RANK_ICONS, isRankColor, type CustomRankColor, type CustomRankIcon, type RankBadgeStyle } from '@/features/ranks/catalog.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 
 type RankDefinition = {
   id: string
@@ -105,6 +106,7 @@ export function AdminRanksPage() {
   const [notice, setNotice] = useState('')
   const [rankSearch, setRankSearch] = useState('')
   const [iconSearch, setIconSearch] = useState('')
+  const [styleSearch, setStyleSearch] = useState('')
   const [assignmentSearch, setAssignmentSearch] = useState('')
   const [assignmentFilter, setAssignmentFilter] = useState<'all' | 'current' | 'history'>('all')
   const [rankModal, setRankModal] = useState(false)
@@ -216,6 +218,7 @@ export function AdminRanksPage() {
     const buildLimitValue = buildLimitBenefit?.benefit_value
     setEditingRank(rank ?? null)
     setIconSearch('')
+    setStyleSearch('')
     setDraft(rank ? {
       id: rank.id,
       slug: rank.slug,
@@ -348,11 +351,14 @@ export function AdminRanksPage() {
     await loadData()
   }
 
-  const rankNames = useMemo(() => Object.fromEntries(ranks.map(rank => [rank.id, rank.name])), [ranks])
   const filteredRankIcons = useMemo(() => {
     const query = iconSearch.trim().toLowerCase().replace(/[\s-]+/g, '_')
     return (Object.keys(RANK_ICONS) as CustomRankIcon[]).filter(icon => icon.includes(query))
   }, [iconSearch])
+  const filteredBadgeStyles = useMemo(() => {
+    const query = styleSearch.trim().toLocaleLowerCase(i18n.language)
+    return RANK_BADGE_STYLES.filter(style => !query || t(`admin_ranks_style_${style}`).toLocaleLowerCase(i18n.language).includes(query))
+  }, [i18n.language, styleSearch, t])
   const PreviewIcon = RANK_ICONS[draft.icon]
 
   return (
@@ -499,33 +505,55 @@ export function AdminRanksPage() {
                     <p className="text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_no_assignments_hint')}</p>
                   </Frame>
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {filteredAssignments.map(row => {
                       const state = assignmentState(row, now)
                       const user = users[row.user_id]
                       const rank = ranks.find(item => item.id === row.rank_id)
                       const active = state === 'active' || state === 'scheduled'
+                      const badgeStyle = (benefits.find(item => item.rank_id === row.rank_id && item.benefit_key === 'profile_badge_style')?.benefit_value ?? 'standard') as RankBadgeStyle
+                      const profilePath = user ? `/${langPathPrefix(i18n.language)}u/${encodeURIComponent(user.username)}` : null
                       return (
-                        <Frame key={row.id} material="panel" padding="sm" className="flex flex-col lg:flex-row lg:items-center gap-3">
-                          <div className="flex min-w-0 items-center gap-3 flex-1">
-                            <div className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold" style={{ color: rank?.color ?? 'var(--gold)', background: `color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 12%, var(--surface-void))`, border: '1px solid var(--metal-edge)' }}>
-                              {user?.username?.slice(0, 1).toUpperCase() ?? '?'}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <span className="text-xs font-bold truncate" style={{ color: 'var(--ink)' }}>{user?.username ?? t('admin_ranks_deleted_user')}</span>
-                                <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>·</span>
-                                <span className="text-xs" style={{ color: rank?.color ?? 'var(--gold)' }}>{rankNames[row.rank_id] ?? t('admin_ranks_archived_rank')}</span>
-                                <AssignmentState state={state} t={t} />
+                        <Frame key={row.id} material="panel" padding="none" className="group relative overflow-hidden transition duration-200 hover:-translate-y-px" style={{
+                          borderLeft: `3px solid ${rank?.color ?? 'var(--gold)'}`,
+                          background: `linear-gradient(105deg, color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 9%, var(--surface-panel)), var(--surface-panel) 48%)`,
+                          boxShadow: 'var(--inset-bevel), 0 3px 12px rgba(0,0,0,.12)',
+                        }}>
+                          <div className="flex flex-col gap-4 p-4 sm:p-5 lg:flex-row lg:items-center">
+                            <div className="flex min-w-0 flex-1 items-start gap-3.5">
+                              {profilePath && user ? (
+                                <Link to={profilePath} aria-label={`@${user.username}`} className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70" style={{ borderColor: `color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 54%, var(--metal-edge))`, background: `color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 14%, var(--surface-void))`, color: rank?.color ?? 'var(--gold)' }}>
+                                  {isSafeImageUrl(user.avatar_url) ? <img src={user.avatar_url!} alt="" className="h-full w-full object-cover" /> : <span className="text-xs font-bold">{user.username.slice(0, 1).toUpperCase()}</span>}
+                                </Link>
+                              ) : (
+                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold" style={{ borderColor: 'var(--metal-edge)', background: 'var(--surface-void)', color: 'var(--ink-faint)' }}>?</div>
+                              )}
+                              <div className="min-w-0 flex-1 pt-0.5">
+                                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
+                                  {profilePath && user ? (
+                                    <Link to={profilePath} className="inline-flex min-w-0 items-center gap-1 text-xs font-bold transition-colors hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ color: 'var(--ink)' }}>
+                                      <span className="truncate">{user.username}</span><ArrowUpRight size={12} className="shrink-0 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+                                    </Link>
+                                  ) : <span className="text-xs font-bold" style={{ color: 'var(--ink)' }}>{t('admin_ranks_deleted_user')}</span>}
+                                  {rank ? <CustomRankBadge rank={{ name: rank.name, description: rank.description, icon: rank.icon, color: rank.color, badgeStyle }} /> : <span className="text-[10px] font-medium" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_archived_rank')}</span>}
+                                  <AssignmentState state={state} t={t} />
+                                </div>
+                                <div className="mt-3 flex flex-wrap gap-2 text-[10px]">
+                                  <span className="flex max-w-full flex-wrap items-center gap-1.5 rounded-md border px-2 py-1.5" style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-void) 72%, transparent)' }}>
+                                    <CalendarClock size={12} style={{ color: 'var(--gold)' }} aria-hidden="true" />
+                                    <span className="font-semibold">{t('admin_ranks_starts')}:</span>
+                                    <time dateTime={row.starts_at}>{new Date(row.starts_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time>
+                                  </span>
+                                  <span className="flex max-w-full flex-wrap items-center gap-1.5 rounded-md border px-2 py-1.5" style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-void) 72%, transparent)' }}>
+                                    <Clock3 size={12} style={{ color: row.expires_at ? 'var(--ink-faint)' : 'var(--good)' }} aria-hidden="true" />
+                                    {row.expires_at ? <><span className="font-semibold">{t('admin_ranks_expires')}:</span><time dateTime={row.expires_at}>{new Date(row.expires_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time></> : <span className="font-semibold">{t('admin_ranks_permanent')}</span>}
+                                  </span>
+                                </div>
+                                {row.internal_note && <p className="mt-2 flex items-start gap-1.5 text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}><span className="shrink-0 font-semibold" style={{ color: 'var(--ink-muted)' }}>{t('admin_ranks_note_label')}:</span><span className="break-words">{row.internal_note}</span></p>}
                               </div>
-                              <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-                                <span>{t('admin_ranks_starts')}: {new Date(row.starts_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</span>
-                                <span>{row.expires_at ? `${t('admin_ranks_expires')}: ${new Date(row.expires_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}` : t('admin_ranks_permanent')}</span>
-                              </div>
-                              {row.internal_note && <p className="text-[10px] mt-1 truncate max-w-2xl" style={{ color: 'var(--ink-muted)' }}>{t('admin_ranks_note_label')}: {row.internal_note}</p>}
                             </div>
+                            {active && <Button variant="danger" size="sm" className="self-start lg:self-center" onClick={() => void revokeAssignment(row)}><Archive size={12} />{t('admin_ranks_revoke')}</Button>}
                           </div>
-                          {active && <Button variant="danger" size="sm" onClick={() => void revokeAssignment(row)}><Archive size={12} />{t('admin_ranks_revoke')}</Button>}
                         </Frame>
                       )
                     })}
@@ -559,7 +587,7 @@ export function AdminRanksPage() {
                 </Frame>
 
                 <Frame material="stone" padding="md" className="space-y-5">
-                  <SectionHeading number="02" title={t('admin_ranks_section_appearance')} description={t('admin_ranks_section_appearance_hint')} />
+                  <SectionHeading number="02" title={t('admin_ranks_section_appearance')} description={t('admin_ranks_section_appearance_hint', { count: RANK_BADGE_STYLES.length })} />
 
                   <section className="space-y-3" aria-labelledby="rank-color-label">
                     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -591,7 +619,7 @@ export function AdminRanksPage() {
                     <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 max-h-48 overflow-y-auto pr-1">
                       {filteredRankIcons.map(key => {
                         const Icon = RANK_ICONS[key]
-                        const label = key.replace(/_/g, ' ')
+                        const label = key.replace(/_/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase())
                         return <button key={key} type="button" aria-label={t('admin_ranks_icon_option', { icon: label })} title={label} aria-pressed={draft.icon === key} onClick={() => setDraft(current => ({ ...current, icon: key }))} className="h-10 rounded-md border flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ color: draft.icon === key ? draft.color : 'var(--ink-faint)', borderColor: draft.icon === key ? draft.color : 'var(--metal-edge)', background: draft.icon === key ? `color-mix(in srgb, ${draft.color} 10%, var(--surface-void))` : 'var(--surface-void)' }}><Icon size={17} /></button>
                       })}
                     </div>
@@ -602,12 +630,16 @@ export function AdminRanksPage() {
                     <div className="flex flex-wrap items-end justify-between gap-2">
                       <div>
                         <FieldLabel><span id="rank-finish-label">{t('admin_ranks_badge_style')}</span></FieldLabel>
-                        <p className="mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_style_gallery_hint')}</p>
+                        <p className="mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_style_gallery_hint', { count: RANK_BADGE_STYLES.length })}</p>
                       </div>
                       <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, var(--surface-void))' }}>{t(`admin_ranks_style_${draft.badge_style}`)}</span>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                      {RANK_BADGE_STYLES.map(style => (
+                    <label className="relative block w-full sm:max-w-sm">
+                      <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }} />
+                      <input value={styleSearch} onChange={event => setStyleSearch(event.target.value)} placeholder={t('admin_ranks_style_search')} className={`${INPUT} pl-9`} aria-label={t('admin_ranks_style_search')} />
+                    </label>
+                    <div className="grid max-h-[28rem] grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-3 md:grid-cols-4" role="group" aria-label={t('admin_ranks_badge_style')}>
+                      {filteredBadgeStyles.map(style => (
                         <button key={style} type="button" aria-label={t(`admin_ranks_style_${style}`)} aria-pressed={draft.badge_style === style} onClick={() => setDraft(current => ({ ...current, badge_style: style }))} className="relative flex min-h-[76px] min-w-0 flex-col items-center justify-center gap-2 rounded-lg border px-2 py-3 transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{
                           borderColor: draft.badge_style === style ? 'var(--gold)' : 'var(--metal-edge)',
                           background: draft.badge_style === style ? 'color-mix(in srgb, var(--gold) 8%, var(--surface-void))' : 'var(--surface-void)',
@@ -619,6 +651,7 @@ export function AdminRanksPage() {
                         </button>
                       ))}
                     </div>
+                    {filteredBadgeStyles.length === 0 && <p className="rounded-md border border-dashed p-4 text-center text-xs" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)' }}>{t('admin_ranks_style_no_results')}</p>}
                   </section>
                 </Frame>
               </div>
@@ -667,10 +700,10 @@ export function AdminRanksPage() {
         </form>
       </Modal>
 
-      <Modal open={!!assignRank} onClose={() => !savingAssignment && setAssignRank(null)} size="lg" title={t('admin_ranks_assign_title')}>
-        {assignRank && <form onSubmit={saveAssignment} className="space-y-4">
-          <Frame material="stone" padding="sm" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ color: assignRank.color, background: `color-mix(in srgb, ${assignRank.color} 13%, var(--surface-void))` }}>{(() => { const Icon = RANK_ICONS[assignRank.icon]; return <Icon size={18} /> })()}</div>
+      <Modal open={!!assignRank} onClose={() => !savingAssignment && setAssignRank(null)} size="xl" title={t('admin_ranks_assign_title')}>
+        {assignRank && <form onSubmit={saveAssignment} className="space-y-5 p-4 sm:p-5">
+          <Frame material="stone" padding="md" className="flex items-center gap-3.5">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg" style={{ color: assignRank.color, background: `color-mix(in srgb, ${assignRank.color} 13%, var(--surface-void))` }}>{(() => { const Icon = RANK_ICONS[assignRank.icon]; return <Icon size={18} /> })()}</div>
             <div><p className="text-xs font-bold" style={{ color: 'var(--ink)' }}>{assignRank.name}</p><p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_assign_rank_hint')}</p></div>
           </Frame>
           <Field label={t('admin_ranks_search_user')} hint={t('admin_ranks_search_user_hint')}>
@@ -690,15 +723,15 @@ export function AdminRanksPage() {
               </div>}
             </div>}
           </Field>
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t('admin_ranks_starts')}><input type="datetime-local" required className={INPUT} style={INPUT_STYLE} value={startsAt} onChange={event => setStartsAt(event.target.value)} /></Field>
             <Field label={t('admin_ranks_expires')} hint={t('admin_ranks_expiry_optional')}><input type="datetime-local" className={INPUT} style={INPUT_STYLE} value={expiresAt} min={startsAt} onChange={event => setExpiresAt(event.target.value)} /></Field>
           </div>
           <Field label={t('admin_ranks_internal_note')} hint={t('admin_ranks_internal_note_hint')}><textarea className={`${INPUT} min-h-20 resize-y`} style={INPUT_STYLE} maxLength={500} value={internalNote} onChange={event => setInternalNote(event.target.value)} /></Field>
-          {notice && <p className="text-[11px]" style={{ color: 'var(--bad)' }}>{t(notice)}</p>}
-          <div className="flex justify-end gap-2 border-t pt-3" style={{ borderColor: 'var(--metal-edge)' }}>
-            <Button type="button" variant="ghost" size="sm" onClick={() => setAssignRank(null)}>{t('admin_ranks_cancel')}</Button>
-            <Button type="submit" variant="primary" size="sm" disabled={savingAssignment || !selectedUser || !startsAt}><UserPlus size={13} />{savingAssignment ? t('admin_ranks_saving') : t('admin_ranks_confirm_assignment')}</Button>
+          {notice && <p role="alert" className="rounded-md border px-3 py-2 text-[11px]" style={{ color: 'var(--bad)', borderColor: 'color-mix(in srgb, var(--bad) 35%, transparent)', background: 'color-mix(in srgb, var(--bad) 8%, var(--surface-void))' }}>{t(notice)}</p>}
+          <div className="flex justify-end gap-2 border-t pt-4" style={{ borderColor: 'var(--metal-edge)' }}>
+            <Button type="button" variant="ghost" size="md" disabled={savingAssignment} onClick={() => setAssignRank(null)}>{t('admin_ranks_cancel')}</Button>
+            <Button type="submit" variant="primary" size="md" disabled={savingAssignment || !selectedUser || !startsAt}><UserPlus size={13} />{savingAssignment ? t('admin_ranks_saving') : t('admin_ranks_confirm_assignment')}</Button>
           </div>
         </form>}
       </Modal>
@@ -707,18 +740,13 @@ export function AdminRanksPage() {
 }
 
 function AccessRedirect({ to, message }: { to: string; message: string }) {
-  const navigate = useNavigate()
   const addToast = useToastStore(s => s.addToast)
-  const redirected = useRef(false)
 
   useEffect(() => {
-    if (redirected.current) return
-    redirected.current = true
     addToast(message, '🔒')
-    navigate(to, { replace: true })
-  }, [addToast, message, navigate, to])
+  }, [addToast, message])
 
-  return null
+  return <Navigate to={to} replace />
 }
 
 function Metric({ icon: Icon, value, label, accent = 'var(--gold)' }: { icon: typeof Award; value: number; label: string; accent?: string }) {
@@ -766,7 +794,7 @@ function RankCard({ rank, badgeStyle, buildLimit, assignmentCount, onEdit, onAss
 function AssignmentState({ state, t }: { state: string; t: (key: string) => string }) {
   const color = state === 'active' ? 'var(--good)' : state === 'scheduled' ? 'var(--air)' : 'var(--ink-faint)'
   const icon = state === 'scheduled' ? <CalendarClock size={10} /> : state === 'revoked' ? <Archive size={10} /> : null
-  return <span className="inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-semibold" style={{ color, background: `color-mix(in srgb, ${color} 10%, var(--surface-void))` }}>{icon}{t(`admin_ranks_status_${state}`)}</span>
+  return <span className="inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[9px] font-bold uppercase tracking-wide" style={{ color, borderColor: `color-mix(in srgb, ${color} 30%, var(--metal-edge))`, background: `color-mix(in srgb, ${color} 10%, var(--surface-void))` }}>{icon}{t(`admin_ranks_status_${state}`)}</span>
 }
 
 function SearchField({ value, onChange, placeholder, clearLabel }: { value: string; onChange: (value: string) => void; placeholder: string; clearLabel: string }) {
