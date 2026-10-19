@@ -1,4 +1,4 @@
-name: Performance
+name: Performance smoke
 
 on:
   pull_request:
@@ -13,7 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  smoke:
+  local-smoke:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -31,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build app for smoke test
+      - name: Build app for local smoke test
         run: pnpm build
 
       - name: Start preview server
@@ -51,7 +52,30 @@ jobs:
       - name: Set up k6
         uses: grafana/setup-k6-action@v1
 
-      - name: Run smoke load test
+      - name: Run local smoke test
         env:
           BASE_URL: http://127.0.0.1:4173/dofus-forge
+        run: k6 run k6/smoke.js
+
+  cloudflare-dev-smoke:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Require the dev branch
+        if: github.ref != 'refs/heads/dev'
+        run: |
+          echo "Run the Cloudflare smoke from dev, after its Worker deployment succeeds." >&2
+          exit 1
+
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Smoke-test the deployed dev Worker
+        env:
+          BASE_URL: https://dev-dofus-forge.juanes500.workers.dev
         run: k6 run k6/smoke.js
