@@ -34,6 +34,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build app for local smoke test
+        env:
+          VITE_SUPABASE_URL: https://dofus-forge-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-only-placeholder
         run: pnpm build
 
       - name: Start preview server
