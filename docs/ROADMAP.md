@@ -168,7 +168,7 @@ Marcar con `[x]` cuando se complete.
 - [ ] **M38 — Tabla comparativa de transforms** — en RuneModal/WeaponCard, mini-tabla con resultado de 4 pociones × 3 ratios simultáneamente
 
 ### Build / Share
-- [ ] **M19 — OG/meta preview card** — cuando se comparte la URL, generar preview card con clase, nivel y stats top (requiere cambio de hash-routing a query-param + Cloudflare Worker)
+- [x] ~~M19 — OG/meta preview card~~ — resuelto por M75: el Worker de Cloudflare (`src/worker/index.ts` + `ogImage.ts`) genera la imagen de vista previa y reescribe `og:image` para los builds publicados
 - [ ] **M39 — Exportar/importar build JSON** — alternativa al URL base64, archivo .json descargable/cargable
 
 ### UI / Polish
@@ -208,11 +208,11 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 **Medio impacto:**
 - [ ] `src/features/equipment/RuneModal.tsx:77` — `useBuildStore(s => s.runes[slotId] ?? {})` crea un objeto nuevo en cada llamada cuando no hay runas, rompiendo la comparación por referencia y re-renderizando en cada cambio del build mientras el modal está abierto — mismo tipo de problema que M65 arregló en otros 4 componentes. Fix: constante compartida `EMPTY_RUNES = {}` como fallback
 - [ ] `SetsCatalog.tsx` (`SetCard`, línea 30) — no está envuelto en `React.memo`, cada tecla de filtro re-renderiza todas las cards visibles desde cero
-- [ ] `src/engine/optimizer.ts:55-75,280,283` — `itemPartialScore()` reconstruye un `Map` desde cero en cada llamada, y se llama 2 veces por comparación dentro de un `.sort()`; corre en el Web Worker así que no bloquea la UI, pero enlentece el optimizador de forma innecesaria. Fix: construir el `Map` una vez afuera del sort
+- [x] ~~`src/engine/optimizer.ts` — `itemPartialScore()` reconstruía un `Map` en cada comparación~~ — ya no aplica: el optimizador TS se eliminó, La Forjadora corre en Rust/WASM (`rust-optimizer/src/forge.rs`)
 - [ ] `src/features/builds/BuildEquipmentPreview.tsx:18` — reconstruye un `Map` del catálogo completo (~4300 ítems) en CADA render, sin `useMemo`; este componente se instancia por card en grids de Explore/MyBuilds (hasta 24+ a la vez)
 - [ ] `src/lib/supabase.ts:9-26` — `clientPromise` queda cacheada aunque la promesa interna falle; si `getSupabase()` falla una vez, toda llamada futura repite el mismo rechazo (login/cloud roto hasta recargar la página entera). Fix: limpiar `clientPromise` en el catch
 - [ ] `src/ui/Modal.tsx:70-100` — hace focus trap y foco inicial al abrir, pero nunca guarda ni restaura el `document.activeElement` previo al cerrar — usuarios de teclado/lector de pantalla pierden su posición en la página tras cerrar cualquier modal
-- [ ] `src/features/optimizer/OptimizerModal.tsx:201` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio, incluyendo cada tick de los sliders de peso al arrastrar (`StatWeightRow.tsx:27-35`); debería debounce 300-500ms
+- [ ] `src/features/optimizer/OptimizerModal.tsx` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio (cada tecla en mínimo/ley/tope de `RequirementCard`); debería debounce 300-500ms. (`StatWeightRow.tsx` ya no existe: lo reemplazó `RequirementCard`)
 
 **Bajo impacto / pulido:**
 - [ ] `ComparePanel.tsx:129` — `useCompareStore()` sin selector al lado de selectores angostos de `useBuildStore` en las mismas líneas; mismo patrón que M65 ya arregló en otros lados, acá el store es chico así que es bajo impacto
@@ -222,7 +222,7 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [ ] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
 - [ ] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
 - [ ] `HeaderMenuButton.tsx:57-59` — el ítem de menú activo se indica solo con color (dorado), sin `aria-current` — falla WCAG 1.4.1 (uso de color solo)
-- [ ] `StatWeightRow.tsx:39-47` — botón de quitar stat es solo ícono sin `aria-label`, bypaseando el `IconButton` propio del proyecto que sí lo exige
+- [x] ~~`StatWeightRow.tsx:39-47` — botón de quitar stat sin `aria-label`~~ — ya no aplica: el componente se eliminó con el rediseño de La Forjadora (M111+)
 
 **Revisado y confirmado OK, sin acción necesaria:**
 - `src/data/loaders.ts` — el catálogo de equipo/sets/hechizos se fetchea en runtime vía `fetch()` con cache en memoria, no va bundleado en el JS
