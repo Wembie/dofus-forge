@@ -102,7 +102,7 @@ The repo includes a reusable k6 harness under `k6/`:
 
 ## CI integration
 
-A dedicated GitHub Actions workflow in `.github/workflows/performance.yml` runs the smoke suite against a local preview build, then exits non-zero if the configured thresholds fail. This keeps performance validation in the same PR pipeline as build, lint, and tests without requiring a full production-scale test environment for every change.
+A dedicated GitHub Actions workflow in `.github/workflows/performance.yml` runs the smoke suite against a local preview build, then exits non-zero if the configured thresholds fail. The remote Cloudflare preview smoke is temporarily disabled; the local smoke remains active. This keeps local performance validation in the PR pipeline without sending automated test traffic to Cloudflare previews.
 
 ## Summary
 

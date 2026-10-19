@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ElementType } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Menu } from 'lucide-react'
+import { Menu, Check } from 'lucide-react'
 import { IconButton } from '@/ui'
 
 export type HeaderMenuItem = {
@@ -51,6 +51,7 @@ export function HeaderMenuButton({ items, className }: { items: HeaderMenuItem[]
             <button
               key={item.key}
               role="menuitem"
+              aria-current={item.active ? 'page' : undefined}
               disabled={item.disabled}
               onClick={() => { item.onClick(); setOpen(false) }}
               className="flex items-center gap-2 px-2.5 py-2 rounded-md text-[12px] font-semibold text-left transition-colors disabled:opacity-30"
@@ -62,6 +63,7 @@ export function HeaderMenuButton({ items, className }: { items: HeaderMenuItem[]
             >
               <item.Icon size={14} />
               {item.label}
+              {item.active && <Check size={12} className="ml-auto" aria-hidden="true" />}
             </button>
           ))}
         </div>

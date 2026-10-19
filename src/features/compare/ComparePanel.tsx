@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -12,6 +13,7 @@ import { SLOT_CONFIGS, slotImageIcon } from '@/features/equipment/slotConfig.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { StatBlock } from '@/engine/types.ts'
+import type { AppItem, AppSet } from '@/data/loaders.ts'
 
 type CompareStatDef = {
   key: keyof StatBlock
@@ -125,10 +127,18 @@ function CoreStatsBadges({ stats }: { stats: StatBlock }) {
   )
 }
 
+// Stable fallbacks while game data loads: an inline `?? []` is a new array
+// on every store notification, so the selector would never settle.
+const NO_EQUIPMENT: AppItem[] = []
+const NO_SETS: AppSet[] = []
+
 export function ComparePanel() {
   const { t, i18n } = useTranslation()
 
-  const { nameB, statsB, equippedB, classB, levelB, genderB, snapshotB, loadBuild, clearB, toggle } = useCompareStore()
+  const { nameB, statsB, equippedB, classB, levelB, genderB, snapshotB, loadBuild, clearB, toggle } = useCompareStore(useShallow(s => ({
+    nameB: s.nameB, statsB: s.statsB, equippedB: s.equippedB, classB: s.classB, levelB: s.levelB, genderB: s.genderB,
+    snapshotB: s.snapshotB, loadBuild: s.loadBuild, clearB: s.clearB, toggle: s.toggle,
+  })))
   // No `s => s` subscription here on purpose — it would re-render this whole
   // panel (both sides' comparison tables) on every single build A mutation,
   // making the narrow selectors below pointless. handleShare below reads the
@@ -139,8 +149,8 @@ export function ComparePanel() {
   const levelA     = useBuildStore(s => s.level)
   const genderA    = useBuildStore(s => s.gender)
   const _equip     = useBuildStore(s => s._equipment)
-  const equipment  = useDataStore(s => s.equipment ?? [])
-  const sets       = useDataStore(s => s.sets ?? [])
+  const equipment  = useDataStore(s => s.equipment ?? NO_EQUIPMENT)
+  const sets       = useDataStore(s => s.sets ?? NO_SETS)
 
   const [showSelector, setShowSelector] = useState(false)
   const [urlInput, setUrlInput]         = useState('')

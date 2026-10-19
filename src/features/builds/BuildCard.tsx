@@ -56,7 +56,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
           onMouseLeave={e => { e.currentTarget.style.color = 'var(--ink-faint)'; e.currentTarget.style.background = 'transparent' }}
         >
           {isSafeImageUrl(owner.avatar_url)
-            ? <img src={owner.avatar_url} alt="" width={14} height={14} className="rounded-full object-cover" />
+            ? <img src={owner.avatar_url} alt="" width={14} height={14} loading="lazy" decoding="async" className="rounded-full object-cover" />
             : <User size={12} />
           }
           <span className="truncate">{ownerLabel}</span>
@@ -76,7 +76,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
       >
         <div className="flex items-center gap-2.5">
           {portrait && (
-            <img src={portrait} alt="" width={40} height={40} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
+            <img src={portrait} alt="" width={40} height={40} loading="lazy" decoding="async" className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
           )}
           <div className="min-w-0 flex-1">
             <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>

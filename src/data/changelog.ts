@@ -13,6 +13,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Fix: a failed load of the sign-in / cloud library no longer leaves the account button or any page stuck loading; the next request retries it',
       'Perf: the Sets catalog opens and filters much faster (loads sets as you scroll)',
+      'Perf: fewer needless re-renders in build cards, the rune window, Compare and The Forger',
+      'Accessibility: closing a dialog returns focus where you were; the active menu item is announced as current',
     ],
   },
   {

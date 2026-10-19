@@ -83,10 +83,8 @@ jobs:
 
   cloudflare-preview-smoke:
     needs: local-smoke
-    if: >-
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.head.ref == 'dev' &&
-      github.event.pull_request.base.ref == 'main'
+    # Temporarily paused; remove this condition to restore the Cloudflare check.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

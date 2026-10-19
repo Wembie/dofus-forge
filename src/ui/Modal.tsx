@@ -66,13 +66,18 @@ export function Modal({ open, onClose, title, size = 'md', className, children }
   const titleId  = title ? 'modal-title' : undefined
   const { shouldRender, isVisible } = useMountTransition(open, EXIT_MS)
 
-  // Initial focus — only when modal opens, not when onClose ref changes
+  // Initial focus — only when modal opens, not when onClose ref changes.
+  // The cleanup hands focus back to whatever opened the modal, so keyboard
+  // and screen-reader users keep their place in the page.
   useEffect(() => {
     if (!open) return
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const panel = panelRef.current
-    if (!panel) return
-    const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))
-    focusable[0]?.focus()
+    if (panel) {
+      const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))
+      focusable[0]?.focus()
+    }
+    return () => { if (opener?.isConnected) opener.focus({ preventScroll: true }) }
   }, [open])
 
   // ESC + Tab trap — reattaches when onClose changes but does NOT steal focus
