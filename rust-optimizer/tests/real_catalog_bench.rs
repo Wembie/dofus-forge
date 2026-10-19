@@ -60,7 +60,7 @@ fn forge_seeded(label: &str, stats: Vec<StatConfig>, seed: u64, transcendence: b
     while stall < stall_limit && start.elapsed().as_secs_f64() < cap_secs {
         f.run_generation();
         // Same periodic hammer pass the Worker runs.
-        if f.generation() % 30 == 0 {
+        if f.generation().is_multiple_of(30) {
             f.temper(250.0, &now);
         }
         if f.best_score() > best + 1e-9 {
@@ -216,7 +216,7 @@ fn forge_variant(label: &str, transcendence: bool, scrolled: bool, seed: u64, se
     let mut first_full: Option<f64> = None;
     while clock.elapsed().as_secs_f64() < secs {
         f.run_generation();
-        if f.generation() % 30 == 0 {
+        if f.generation().is_multiple_of(30) {
             f.temper(250.0, &now);
         }
         if first_full.is_none() && f.best_score() >= 0.0 {
@@ -300,7 +300,7 @@ fn hit_rate_on_user_optimum() {
         let mut reached_at = None;
         while clock.elapsed().as_secs_f64() < secs {
             f.run_generation();
-            if f.generation() % 30 == 0 {
+            if f.generation().is_multiple_of(30) {
                 f.temper(250.0, &now);
             }
             if reached_at.is_none() && f.best_score() >= target - 1e-6 {
@@ -329,7 +329,7 @@ fn diff_stuck_vs_optimum() {
         let now = || clock.elapsed().as_secs_f64() * 1000.0;
         while clock.elapsed().as_secs_f64() < 20.0 {
             f.run_generation();
-            if f.generation() % 30 == 0 {
+            if f.generation().is_multiple_of(30) {
                 f.temper(250.0, &now);
             }
         }
@@ -353,6 +353,8 @@ fn diff_stuck_vs_optimum() {
 #[ignore]
 fn hit_rate_parallel_like_browser() {
     use std::sync::{Arc, Barrier, Mutex};
+    type Mailbox = Arc<Mutex<Vec<Vec<HashMap<String, i64>>>>>;
+
     let workers: usize = std::env::var("FORGE_WORKERS").ok().and_then(|v| v.parse().ok()).unwrap_or(4);
     let secs: f64 = std::env::var("FORGE_SECS").ok().and_then(|v| v.parse().ok()).unwrap_or(60.0);
     let runs: u64 = std::env::var("FORGE_SEEDS").ok().and_then(|v| v.parse().ok()).unwrap_or(8);
@@ -363,7 +365,7 @@ fn hit_rate_parallel_like_browser() {
     let mut hits = 0;
     for seed in 1..=runs {
         let barrier = Arc::new(Barrier::new(workers));
-        let mailbox: Arc<Mutex<Vec<Vec<HashMap<String, i64>>>>> = Arc::new(Mutex::new(vec![Vec::new(); workers]));
+        let mailbox: Mailbox = Arc::new(Mutex::new(vec![Vec::new(); workers]));
         let found = Arc::new(Mutex::new((f64::NEG_INFINITY, None::<f64>)));
         let start = Instant::now();
         std::thread::scope(|scope| {
@@ -377,7 +379,7 @@ fn hit_rate_parallel_like_browser() {
                         round += 1;
                         while f.generation() < round * 41 {
                             f.run_generation();
-                            if f.generation() % 30 == 0 {
+                            if f.generation().is_multiple_of(30) {
                                 f.temper(250.0, &now);
                             }
                         }
@@ -442,7 +444,7 @@ fn diff_runes_basins() {
         let now = || clock.elapsed().as_secs_f64() * 1000.0;
         while clock.elapsed().as_secs_f64() < 15.0 {
             f.run_generation();
-            if f.generation() % 30 == 0 { f.temper(250.0, &now); }
+            if f.generation().is_multiple_of(30) { f.temper(250.0, &now); }
         }
         let r = f.results()[0].clone();
         println!("seed {seed}: {}", r.score);

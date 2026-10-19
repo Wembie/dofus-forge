@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.101] — 2026-10-19
+- **Performance**: added a reusable Grafana k6 baseline for smoke and browser checks, covering real public page journeys and configurable workload budgets
+- **CI**: new PR performance workflow builds the app, serves a preview, runs the k6 smoke suite, and fails on configured latency/error thresholds
+- **Documentation**: added the repository performance-testing guide and documented the architecture, risk areas, and capacity-discovery procedure
+
 ## [0.3.100] — 2026-10-18
 - **Customization**: expanded the custom-rank catalog to 140 icons and 76 badge finishes, all available in the admin editor and rendered on public profile badges
 - **Admin**: protected the custom-rank route with session/admin checks and localized denial feedback

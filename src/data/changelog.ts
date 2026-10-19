@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.101',
+    date: '2026-10-19',
+    notes: [
+      'Performance: a reusable Grafana k6 baseline now covers smoke and browser checks for the real public routes, with configurable workload budgets',
+      'CI: a dedicated PR performance workflow builds the app, serves a preview, runs the k6 smoke suite, and fails on latency/error thresholds',
+      'Documentation: the repository now includes a performance-testing guide describing architecture, risks, and capacity-discovery procedures',
+    ],
+  },
+  {
     version: '0.3.100',
     date: '2026-10-18',
     notes: [

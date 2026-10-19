@@ -1,0 +1,172 @@
+name: Performance smoke
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: performance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: read
+  issues: read
+
+jobs:
+  local-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build app for local smoke test
+        env:
+          VITE_SUPABASE_URL: https://dofus-forge-ci.invalid
+          VITE_SUPABASE_ANON_KEY: ci-only-placeholder
+        run: pnpm build
+
+      - name: Start preview server
+        run: pnpm preview --host 0.0.0.0 --port 4173 &
+
+      - name: Wait for preview server
+        run: |
+          for i in {1..60}; do
+            if curl -fsS http://127.0.0.1:4173/dofus-forge/ >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Preview server did not start in time" >&2
+          exit 1
+
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run local smoke test
+        env:
+          BASE_URL: http://127.0.0.1:4173/dofus-forge
+        run: k6 run k6/smoke.js
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run browser end-to-end tests
+        env:
+          CI: true
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4173/dofus-forge/
+        run: pnpm test:e2e
+
+      - name: Upload browser test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  cloudflare-preview-smoke:
+    needs: local-smoke
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.ref == 'dev' &&
+      github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Wait for Cloudflare Workers Build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          for attempt in {1..90}; do
+            check_runs=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/check-runs?per_page=100")
+            build=$(jq -c '[.check_runs[] | select(.name == "Workers Builds: dofus-forge")] | sort_by(.started_at) | last // empty' <<< "$check_runs")
+
+            if [[ -n "$build" ]]; then
+              status=$(jq -r '.status' <<< "$build")
+              conclusion=$(jq -r '.conclusion // empty' <<< "$build")
+
+              if [[ "$status" == "completed" ]]; then
+                if [[ "$conclusion" == "success" ]]; then
+                  echo "Cloudflare Workers Build succeeded for ${HEAD_SHA}."
+                  exit 0
+                fi
+
+                echo "::error::Cloudflare Workers Build finished with conclusion '${conclusion}' for ${HEAD_SHA}."
+                exit 1
+              fi
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Timed out waiting for Cloudflare Workers Build for ${HEAD_SHA}."
+          exit 1
+
+      - name: Find Cloudflare preview for this commit
+        id: preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          for attempt in {1..60}; do
+            comments=$(gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100")
+            preview_url=$(jq -r --arg sha "${HEAD_SHA:0:7}" '
+              [
+                .[][]
+                | select(.user.login == "cloudflare-workers-and-pages[bot]")
+                | .body
+                | split("</tr>")[]
+                | select(contains($sha))
+                | try capture("href=\"(?<url>https://[A-Za-z0-9.-]+-dofus-forge\\.[A-Za-z0-9.-]+\\.workers\\.dev)\"").url catch empty
+              ]
+              | map(select(length > 0))
+              | last // empty
+            ' <<< "$comments")
+
+            if [[ -n "$preview_url" ]]; then
+              echo "url=${preview_url}" >> "$GITHUB_OUTPUT"
+              echo "Found Cloudflare preview for ${HEAD_SHA}: ${preview_url}"
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Timed out waiting for Cloudflare's preview URL for ${HEAD_SHA} on PR #${PR_NUMBER}."
+          exit 1
+
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Smoke-test the Cloudflare preview for this commit
+        env:
+          BASE_URL: ${{ steps.preview.outputs.url }}
+        run: k6 run k6/smoke.js

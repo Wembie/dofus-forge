@@ -24,10 +24,23 @@ pnpm test
 For changes to the Rust optimizer, also run its Rust tests and rebuild the checked-in WASM artifact:
 
 ```bash
-cd rust-optimizer && cargo test --release
+cd rust-optimizer
+cargo clippy --locked --all-targets -- -D warnings
+cargo test --locked
 cd ..
-wasm-pack build rust-optimizer --target web --release --out-dir ../public/wasm
+wasm-pack build rust-optimizer --target web --release --out-dir ../public/wasm --no-pack --locked
+git diff --exit-code -- public/wasm
 ```
+
+Browser end-to-end tests run against the built app. Build it first, install Chromium once, then run the test:
+
+```bash
+pnpm build
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
+
+The test starts a local Vite preview server when needed and checks public routes plus a real optimizer run through the WASM worker.
 
 In the pull request description, summarize the change, note the checks you ran, and link any related issue. For UI changes, include a screenshot or short recording when it clarifies the result.
 
