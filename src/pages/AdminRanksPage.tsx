@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
-  Archive, Award, CalendarClock, Check, ChevronDown, CircleAlert,
+  Archive, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert,
   Crown, Eye, EyeOff, History, LockKeyhole, Plus, Search, ShieldCheck, Sparkles,
   UserPlus, Users, X,
 } from 'lucide-react'
@@ -89,6 +89,7 @@ export function AdminRanksPage() {
   const location = useLocation()
   const pathLanguage = location.pathname.split('/')[1]
   const homePath = ['es', 'fr', 'pt'].includes(pathLanguage) ? `/${pathLanguage}` : '/'
+  const adminPath = homePath === '/' ? '/admin' : `${homePath}/admin`
   const session = useAuthStore(s => s.session)
   const profile = useAuthStore(s => s.profile)
   const authLoading = useAuthStore(s => s.loading)
@@ -344,6 +345,13 @@ export function AdminRanksPage() {
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-8 sm:py-10 space-y-6">
+        <nav aria-label={t('admin_hub_breadcrumb')} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
+          <Link to={adminPath} className="hover:text-gold transition-colors inline-flex items-center gap-1.5">
+            <ShieldCheck size={12} /> {t('admin_nav')}
+          </Link>
+          <ChevronRight size={13} aria-hidden="true" />
+          <span aria-current="page" style={{ color: 'var(--gold)' }}>{t('admin_ranks_title')}</span>
+        </nav>
         <div className="relative overflow-hidden rounded-xl p-5 sm:p-7" style={{
           background: 'radial-gradient(ellipse at 88% 10%, color-mix(in srgb, var(--gold) 15%, transparent), transparent 36%), linear-gradient(135deg, var(--surface-panel), var(--surface-void))',
           border: '1px solid var(--metal-edge)', borderTop: '2px solid color-mix(in srgb, var(--gold) 65%, transparent)',

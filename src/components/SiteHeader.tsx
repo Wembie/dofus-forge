@@ -27,7 +27,7 @@ export function SiteHeader() {
   const isMyBuilds  = location.pathname.includes('/my-builds')
   const isAbout     = location.pathname.includes('/about')
   const isHowToUse  = location.pathname.includes('/how-to-use')
-  const isAdminRanks = location.pathname.includes('/admin/ranks')
+  const isAdminSection = /(?:^|\/)admin(?:\/|$)/.test(location.pathname)
   const [showSettings, setShowSettings] = useState(false)
 
   return (
@@ -78,14 +78,14 @@ export function SiteHeader() {
         </Link>
         {isAdmin && (
           <Link
-            to={`/${prefix}admin/ranks`}
+            to={`/${prefix}admin`}
             className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-            style={isAdminRanks
+            style={isAdminSection
               ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
               : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
           >
             <ShieldCheck size={13} />
-            {t('admin_ranks_nav')}
+            {t('admin_nav')}
           </Link>
         )}
       </nav>
@@ -101,7 +101,7 @@ export function SiteHeader() {
             { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, active: isMyBuilds,   onClick: () => navigate(`/${prefix}my-builds`) },
             { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   active: isHowToUse,   onClick: () => navigate(`/${prefix}how-to-use`) },
             { key: 'about',      label: t('nav_about'),      Icon: Info,       active: isAbout,      onClick: () => navigate(`/${prefix}about`) },
-            ...(isAdmin ? [{ key: 'admin-ranks', label: t('admin_ranks_nav'), Icon: ShieldCheck, active: isAdminRanks, onClick: () => navigate(`/${prefix}admin/ranks`) }] : []),
+            ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, active: isAdminSection, onClick: () => navigate(`/${prefix}admin`) }] : []),
           ]}
         />
         <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
@@ -115,7 +115,7 @@ export function SiteHeader() {
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
           { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   onRun: () => navigate(`/${prefix}how-to-use`) },
           { key: 'about',      label: t('nav_about'),      Icon: Info,       onRun: () => navigate(`/${prefix}about`) },
-          ...(isAdmin ? [{ key: 'admin-ranks', label: t('admin_ranks_nav'), Icon: ShieldCheck, onRun: () => navigate(`/${prefix}admin/ranks`) }] : []),
+          ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onRun: () => navigate(`/${prefix}admin`) }] : []),
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
