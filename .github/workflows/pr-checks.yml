@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [main, dev]
 
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -11,8 +15,11 @@ jobs:
   # ── Build, lint, type-check, tests ───────────────────────────────────
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - uses: pnpm/action-setup@v5
 
@@ -20,6 +27,20 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+
+      - name: Validate release version consistency
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+
+          const packageVersion = JSON.parse(readFileSync('package.json', 'utf8')).version;
+          const releaseVersion = readFileSync('VERSION', 'utf8').trim();
+
+          if (packageVersion !== releaseVersion) {
+            console.error(`Version mismatch: package.json=${packageVersion}, VERSION=${releaseVersion}`);
+            process.exit(1);
+          }
+          NODE
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -38,13 +59,17 @@ jobs:
   # ── Security ──────────────────────────────────────────────────────────
   security:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
-      security-events: write   # required for CodeQL SARIF upload
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0   # gitleaks needs full history to scan the PR's commit range
+          persist-credentials: false
+
+      - name: Check PR diff for whitespace errors and conflict markers
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}"
 
       # Fails fast, cheap, and specific to this repo: .env holds real
       # Supabase credentials locally and must never be committed.
@@ -84,10 +109,23 @@ jobs:
       - name: Dependency audit (high/critical)
         run: pnpm audit --audit-level=high --ignore-unfixable
 
-      - name: CodeQL init
-        uses: github/codeql-action/init@v3
+  codeql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
         with:
           languages: javascript-typescript
+          queries: security-extended
 
-      - name: CodeQL analyze
-        uses: github/codeql-action/analyze@v3
+      - name: Analyze with CodeQL
+        uses: github/codeql-action/analyze@v4

@@ -10,6 +10,9 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
+import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
+import { fetchPublicCustomRank } from '@/features/ranks/api.ts'
+import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
 import {
   fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount,
   fetchIsFollowing, followUser, unfollowUser, fetchMembershipTier,
@@ -50,6 +53,7 @@ export function UserProfilePage() {
   const [loading, setLoading]   = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [tier, setTier]         = useState<MembershipTier>('free')
+  const [customRank, setCustomRank] = useState<PublicCustomRank | null>(null)
 
   const [stats, setStats] = useState({ buildCount: 0, likeCount: 0 })
   const [commentCount, setCommentCount] = useState(0)
@@ -68,6 +72,7 @@ export function UserProfilePage() {
     let cancelled = false
     setLoading(true)
     setNotFound(false)
+    setCustomRank(null)
     fetchProfileByUsername(username).then(({ data }) => {
       if (cancelled) return
       if (!data) { setNotFound(true); setLoading(false); return }
@@ -77,6 +82,7 @@ export function UserProfilePage() {
       fetchUserPublicStats(data.id).then(s => { if (!cancelled) setStats(s) })
       fetchPublicCommentCount(data.id).then(c => { if (!cancelled) setCommentCount(c.count) })
       fetchMembershipTier(data.id).then(t => { if (!cancelled) setTier(t) })
+      fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
       if (session && session.user.id !== data.id) {
         fetchIsFollowing(session.user.id, data.id).then(r => { if (!cancelled) setIsFollowing(r.following) })
       }
@@ -184,9 +190,15 @@ export function UserProfilePage() {
                   {t(`membership_tier_${tier}`)}
                 </span>
               )}
+              {customRank && <CustomRankBadge rank={customRank} />}
             </div>
             {profile.display_name && (
               <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{profile.display_name}</p>
+            )}
+            {profile.bio?.trim() && (
+              <p className="mt-2 max-w-2xl text-xs leading-relaxed whitespace-pre-line break-words" style={{ color: 'var(--ink-muted)' }}>
+                {profile.bio.trim()}
+              </p>
             )}
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>
               <span className="flex items-center gap-1.5">

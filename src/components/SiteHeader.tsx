@@ -1,7 +1,7 @@
 import { Suspense, lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen } from 'lucide-react'
+import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { IconButton } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
@@ -9,6 +9,7 @@ import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { toggleSound } from '@/lib/sound.ts'
+import { useAuthStore } from '@/store/authStore.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 
@@ -21,10 +22,12 @@ export function SiteHeader() {
   const navigate = useNavigate()
   const location = useLocation()
   const prefix = langPathPrefix(i18n.language)
+  const isAdmin = useAuthStore(s => s.profile?.role === 'admin')
   const isExplore   = location.pathname.includes('/explore')
   const isMyBuilds  = location.pathname.includes('/my-builds')
   const isAbout     = location.pathname.includes('/about')
   const isHowToUse  = location.pathname.includes('/how-to-use')
+  const isAdminRanks = location.pathname.includes('/admin/ranks')
   const [showSettings, setShowSettings] = useState(false)
 
   return (
@@ -73,6 +76,18 @@ export function SiteHeader() {
           <FolderOpen size={13} />
           {t('my_builds')}
         </Link>
+        {isAdmin && (
+          <Link
+            to={`/${prefix}admin/ranks`}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+            style={isAdminRanks
+              ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+              : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+          >
+            <ShieldCheck size={13} />
+            {t('admin_ranks_nav')}
+          </Link>
+        )}
       </nav>
 
       <div className="ml-auto flex items-center gap-1.5">
@@ -86,6 +101,7 @@ export function SiteHeader() {
             { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, active: isMyBuilds,   onClick: () => navigate(`/${prefix}my-builds`) },
             { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   active: isHowToUse,   onClick: () => navigate(`/${prefix}how-to-use`) },
             { key: 'about',      label: t('nav_about'),      Icon: Info,       active: isAbout,      onClick: () => navigate(`/${prefix}about`) },
+            ...(isAdmin ? [{ key: 'admin-ranks', label: t('admin_ranks_nav'), Icon: ShieldCheck, active: isAdminRanks, onClick: () => navigate(`/${prefix}admin/ranks`) }] : []),
           ]}
         />
         <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
@@ -99,6 +115,7 @@ export function SiteHeader() {
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
           { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   onRun: () => navigate(`/${prefix}how-to-use`) },
           { key: 'about',      label: t('nav_about'),      Icon: Info,       onRun: () => navigate(`/${prefix}about`) },
+          ...(isAdmin ? [{ key: 'admin-ranks', label: t('admin_ranks_nav'), Icon: ShieldCheck, onRun: () => navigate(`/${prefix}admin/ranks`) }] : []),
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },

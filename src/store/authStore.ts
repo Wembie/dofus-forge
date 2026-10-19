@@ -5,6 +5,7 @@ import { getSupabase } from '@/lib/supabase.ts'
 export type Profile = {
   id:               string
   username:         string
+  role:             'user' | 'moderator' | 'admin'
   display_name:     string | null
   bio:              string | null
   avatar_url:       string | null
@@ -65,7 +66,7 @@ async function fetchProfile(userId: string): Promise<Profile | null> {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, username, display_name, bio, avatar_url, followers_count, following_count, builds_count')
+    .select('id, username, role, display_name, bio, avatar_url, followers_count, following_count, builds_count')
     .eq('id', userId)
     .single()
   if (error) {
