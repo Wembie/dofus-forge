@@ -29,6 +29,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Perf: the Sets catalog opens and filters much faster (loads sets as you scroll)',
       'Perf: fewer needless re-renders in build cards, the rune window, Compare and The Forger',
       'Accessibility: closing a dialog returns focus where you were; the active menu item is announced as current',
+      'Build: no public source maps in production; class icons served as WebP',
     ],
   },
   {

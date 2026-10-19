@@ -197,7 +197,7 @@ Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ve
 - [ ] **Chore — Eliminar tablas legacy sin usar** — `build_items`/`build_characteristics`/`build_runes` quedaron sin usar desde que todo vive en `builds.snapshot` (jsonb, que ya soporta buscar "builds con item X" vía containment query sin joins); dropear en vez de implementar, mantenerlas sincronizadas sería puro costo sin beneficio real
 - [ ] **Futuro — Membresía de apoyo voluntario** — modelo híbrido: Aportador (aporte único desde US$1, sin estado ni vencimiento) + escalera recurrente de 4 rangos desde US$3/mes (mensual, trimestral o anual; descuento trimestral y 2 meses gratis en el anual). Incluye Forja de perfil, insignia opcional, racha total y por rango, hitos cosméticos y más builds destacadas/guardadas. Las herramientas principales siguen gratis; rangos separados de roles, sin ventajas de juego ni boosts de Explore. Precios, cuotas y proveedor pendientes de validar. Diseño: [docs/MEMBERSHIP_DESIGN.md](MEMBERSHIP_DESIGN.md). **Fase 1 (schema) empezada**: tablas `memberships`/`membership_periods`/`supporter_contributions`, funciones de entitlements `build_limit_for_tier`/`featured_build_limit_for_tier` ya en `supabase/schema.sql`, y `check_build_limit()` ya las usa (sin fila en `memberships` = 'free' = 50, igual que hoy para toda cuenta existente) — todavía sin UI ni webhook: falta elegir proveedor y construir la página de apoyo.
 
-### Futuro — Perf & buenas prácticas (audit post-M65, sin implementar)
+### Perf & buenas prácticas (audit post-M65) — resuelto en M134 (0.3.104)
 Hallazgos concretos de una segunda pasada sobre el resto del código, mismo estilo del bug que arregló M65 (listas sin paginar, N+1 scans, subscripciones amplias). Cada uno con archivo:línea para arrancar directo cuando se decida hacerlo — no son prosa genérica.
 
 **Alto impacto:**
@@ -219,9 +219,9 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [x] `ComparePanel.tsx:129` — `useCompareStore()` sin selector al lado de selectores angostos de `useBuildStore` en las mismas líneas; mismo patrón que M65 ya arregló en otros lados, acá el store es chico así que es bajo impacto
 - [x] `ComparePanel.tsx:140-141` — `?? []` inline en el selector de `useDataStore` crea un array nuevo en cada notificación mientras carga
 - [x] `BuildCard.tsx:52,72` — avatar e ícono de clase sin `loading="lazy"`, a diferencia de `BuildEquipmentPreview.tsx:47` que sí lo tiene; se renderiza en grids de hasta 24 cards
-- [ ] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
-- [ ] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
-- [ ] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
+- [x] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
+- [x] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
+- [x] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
 - [x] `HeaderMenuButton.tsx:57-59` — el ítem de menú activo se indica solo con color (dorado), sin `aria-current` — falla WCAG 1.4.1 (uso de color solo)
 - [x] ~~`StatWeightRow.tsx:39-47` — botón de quitar stat sin `aria-label`~~ — ya no aplica: el componente se eliminó con el rediseño de La Forjadora (M111+)
 
