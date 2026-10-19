@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, Suspense, lazy } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback, memo, Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Eye } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -27,9 +27,11 @@ type EnrichedSet = {
   topBonus:   AppEffect[]
 }
 
-function SetCard({
+// Same render cost as ItemCatalog's cards: memoized with stable callbacks so
+// a keystroke in the search box doesn't re-render every visible card.
+const SetCard = memo(function SetCard({
   entry, equippedCount, onEquipAll, onViewDetail,
-}: { entry: EnrichedSet; equippedCount: number; onEquipAll: () => void; onViewDetail: () => void }) {
+}: { entry: EnrichedSet; equippedCount: number; onEquipAll: (entry: EnrichedSet) => void; onViewDetail: (set: AppSet) => void }) {
   const { t } = useTranslation()
   const { set, items, minLevel, maxLevel, topBonus } = entry
   const total = items.length
@@ -41,8 +43,8 @@ function SetCard({
       className="text-left relative rounded-xl overflow-hidden w-full group flex flex-col cursor-pointer"
       role="button"
       tabIndex={0}
-      onClick={onEquipAll}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEquipAll() } }}
+      onClick={() => onEquipAll(entry)}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEquipAll(entry) } }}
       style={{
         background: complete
           ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
@@ -89,7 +91,7 @@ function SetCard({
             {equippedCount}/{total}
           </span>
           <button
-            onClick={e => { e.stopPropagation(); onViewDetail() }}
+            onClick={e => { e.stopPropagation(); onViewDetail(set) }}
             title={t('view_set')}
             aria-label={t('view_set')}
             className="w-6 h-6 rounded flex items-center justify-center transition-colors text-ink-faint hover:text-gold"
@@ -159,7 +161,9 @@ function SetCard({
       {hovered && <ItemHoverTooltip item={hovered.item} anchor={hovered.rect} />}
     </div>
   )
-}
+})
+
+const PAGE_SIZE = 24
 
 export function SetsCatalog({ onClose }: Props) {
   const { t }         = useTranslation()
@@ -201,11 +205,12 @@ export function SetsCatalog({ onClose }: Props) {
 
   const enriched = useMemo<EnrichedSet[]>(() => {
     if (!equipment || !sets) return []
+    const byId = new Map(equipment.map(it => [it.ankama_id, it]))
     return sets
       .filter(s => s.items.length > 1)  // hide single-item "sets" (API quirk)
       .map(set => {
         const items = set.items
-          .map(id => equipment.find(it => it.ankama_id === id))
+          .map(id => byId.get(id))
           .filter((it): it is AppItem => it != null)
         if (items.length === 0) return null
         const levels   = items.map(it => it.level)
@@ -243,6 +248,44 @@ export function SetsCatalog({ onClose }: Props) {
     return sorted
   }, [enriched, search, minLevel, maxLevel, pieces, sort])
 
+  // Infinite scroll, as in ItemCatalog: ~930 sets match with no filter, and
+  // mounting every card (each with its item strip) in one commit froze the
+  // modal on open. Render PAGE_SIZE at a time as the sentinel nears view.
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [loadingMore,  setLoadingMore]  = useState(false)
+  const scrollRef   = useRef<HTMLDivElement>(null)
+  const sentinelRef = useRef<HTMLDivElement>(null)
+  const bumpingRef  = useRef(false)
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+    scrollRef.current?.scrollTo({ top: 0 })
+  }, [search, minLevel, maxLevel, pieces, sort])
+
+  const visibleSets = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount])
+  const hasMore = visibleCount < filtered.length
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current
+    const root     = scrollRef.current
+    if (!sentinel || !root || !hasMore) return
+    const observer = new IntersectionObserver(
+      entries => {
+        if (!entries[0].isIntersecting || bumpingRef.current) return
+        bumpingRef.current = true
+        setLoadingMore(true)
+        setTimeout(() => {
+          setVisibleCount(v => Math.min(v + PAGE_SIZE, filtered.length))
+          setLoadingMore(false)
+          bumpingRef.current = false
+        }, 150)
+      },
+      { root, rootMargin: '600px 0px' },
+    )
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [hasMore, filtered.length])
+
   const SORT_LABELS: Record<SortKey, string> = {
     'level-desc':  t('sort_level_desc'),
     'level-asc':   t('sort_level_asc'),
@@ -252,7 +295,7 @@ export function SetsCatalog({ onClose }: Props) {
 
   // Equip every not-yet-equipped item of a set in one atomic update — same
   // logic as SetDetailModal's handleEquipAll, kept in sync with it.
-  function handleEquipAll(entry: EnrichedSet) {
+  const handleEquipAll = useCallback((entry: EnrichedSet) => {
     const localEquipped = { ...equipped }
     const toEquip: { slot: SlotId; ankama_id: number }[] = []
     const equippedItems: { slot: SlotId; item: AppItem }[] = []
@@ -277,7 +320,7 @@ export function SetsCatalog({ onClose }: Props) {
     // same as SetDetailModal's own "Equip All" button, drop the user back
     // on the planner instead of leaving the catalog open behind the result.
     onClose()
-  }
+  }, [equipped, equippedIds, slotByApiSlot, equipMultiple, addToast, t, onClose])
 
   return (
     <>
@@ -385,26 +428,35 @@ export function SetsCatalog({ onClose }: Props) {
           </div>
 
           {/* Card grid */}
-          <div className="overflow-y-auto flex-1 p-4">
+          <div ref={scrollRef} className="overflow-y-auto flex-1 p-4">
             {filtered.length === 0 ? (
               <div className="flex items-center justify-center py-16">
                 <p className="text-forge-muted text-sm">{t('no_sets')}</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {filtered.map(entry => {
-                  const equippedCount = entry.items.filter(it => equippedIds.has(it.ankama_id)).length
-                  return (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {visibleSets.map(entry => (
                     <SetCard
                       key={entry.set.ankama_id}
                       entry={entry}
-                      equippedCount={equippedCount}
-                      onEquipAll={() => handleEquipAll(entry)}
-                      onViewDetail={() => setOpenSet(entry.set)}
+                      equippedCount={entry.items.filter(it => equippedIds.has(it.ankama_id)).length}
+                      onEquipAll={handleEquipAll}
+                      onViewDetail={setOpenSet}
                     />
-                  )
-                })}
-              </div>
+                  ))}
+                </div>
+                {hasMore && (
+                  <div ref={sentinelRef} className="flex items-center justify-center py-6">
+                    {loadingMore && (
+                      <div
+                        className="w-6 h-6 rounded-full border-[3px] animate-spin"
+                        style={{ borderColor: 'var(--gold)', borderTopColor: 'transparent' }}
+                      />
+                    )}
+                  </div>
+                )}
+              </>
             )}
           </div>
 
