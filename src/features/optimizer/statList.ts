@@ -47,17 +47,17 @@ export const OPTIMIZER_STATS: OptimizerStatMeta[] = [
   { key: 'spellDamagePercent',  icon: 'spell_damage',      color: 'var(--wisdom)',   tKey: 'stat_spell_dmg' },
   { key: 'weaponDamagePercent', icon: 'weapon_damage',     color: 'var(--gold)',     tKey: 'stat_weapon_dmg' },
   // Resistances (fixed)
-  { key: 'fireResFixed',     icon: 'fire_resistance',      color: 'var(--fire)',     tKey: 'stat_fire_res' },
-  { key: 'earthResFixed',    icon: 'earth_resistance',     color: 'var(--earth)',    tKey: 'stat_earth_res' },
-  { key: 'waterResFixed',    icon: 'water_resistance',     color: 'var(--water)',    tKey: 'stat_water_res' },
-  { key: 'airResFixed',      icon: 'air_resistance',       color: 'var(--air)',      tKey: 'stat_air_res' },
   { key: 'neutralResFixed',  icon: 'neutral_resistance',   color: 'var(--neutral)',  tKey: 'stat_neutral_res' },
+  { key: 'earthResFixed',    icon: 'earth_resistance',     color: 'var(--earth)',    tKey: 'stat_earth_res' },
+  { key: 'fireResFixed',     icon: 'fire_resistance',      color: 'var(--fire)',     tKey: 'stat_fire_res' },
+  { key: 'waterResFixed',    icon: 'water_resistance',     color: 'var(--water)',   tKey: 'stat_water_res' },
+  { key: 'airResFixed',      icon: 'air_resistance',       color: 'var(--air)',      tKey: 'stat_air_res' },
   // Resistances (%)
-  { key: 'fireResPercent',    icon: 'fire_resistance',     color: 'var(--fire)',     tKey: 'stat_pct_fire_res' },
-  { key: 'earthResPercent',   icon: 'earth_resistance',    color: 'var(--earth)',    tKey: 'stat_pct_earth_res' },
-  { key: 'waterResPercent',   icon: 'water_resistance',    color: 'var(--water)',    tKey: 'stat_pct_water_res' },
-  { key: 'airResPercent',     icon: 'air_resistance',      color: 'var(--air)',      tKey: 'stat_pct_air_res' },
   { key: 'neutralResPercent', icon: 'neutral_resistance',  color: 'var(--neutral)',  tKey: 'stat_pct_neutral_res' },
+  { key: 'earthResPercent',   icon: 'earth_resistance',    color: 'var(--earth)',    tKey: 'stat_pct_earth_res' },
+  { key: 'fireResPercent',    icon: 'fire_resistance',     color: 'var(--fire)',     tKey: 'stat_pct_fire_res' },
+  { key: 'waterResPercent',   icon: 'water_resistance',    color: 'var(--water)',   tKey: 'stat_pct_water_res' },
+  { key: 'airResPercent',     icon: 'air_resistance',      color: 'var(--air)',      tKey: 'stat_pct_air_res' },
   // Combat
   { key: 'heals',            icon: 'heals',                color: 'var(--vitality)', tKey: 'stat_heals' },
   { key: 'initiative',       icon: 'initiative',           color: 'var(--crit)',     tKey: 'stat_initiative' },
@@ -167,8 +167,8 @@ export const STAT_GROUPS: StatGroupDef[] = [
     { tKey: 'optimizer_sub_steal',   statKeys: ['fireSteal', 'earthSteal', 'waterSteal', 'airSteal', 'neutralSteal', 'bestElemSteal'] },
   ]),
   group('res', 'optimizer_group_res', false, [
-    { tKey: 'optimizer_sub_fixed',   statKeys: ['fireResFixed', 'earthResFixed', 'waterResFixed', 'airResFixed', 'neutralResFixed', 'critResistance', 'pushbackResist'] },
-    { tKey: 'optimizer_sub_percent', statKeys: ['fireResPercent', 'earthResPercent', 'waterResPercent', 'airResPercent', 'neutralResPercent', 'meleeResistPercent', 'rangedResistPercent'] },
+    { tKey: 'optimizer_sub_fixed',   statKeys: ['neutralResFixed', 'earthResFixed', 'fireResFixed', 'waterResFixed', 'airResFixed', 'critResistance', 'pushbackResist'] },
+    { tKey: 'optimizer_sub_percent', statKeys: ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent', 'meleeResistPercent', 'rangedResistPercent'] },
   ]),
   group('combat', 'optimizer_group_combat', false, [
     { statKeys: ['initiative', 'heals', 'lock', 'dodge', 'apReduction', 'mpReduction', 'apParry', 'mpParry', 'mpSteal', 'prospecting', 'pods'] },

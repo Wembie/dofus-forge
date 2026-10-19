@@ -338,6 +338,24 @@ describe('forge order form', () => {
     expect(new Set(placed).size).toBe(placed.length)
   })
 
+  it('orders fixed and percent elemental resistances Neutral, Earth, Fire, Water, Air', () => {
+    const resistanceGroup = STAT_GROUPS.find(g => g.key === 'res')
+    expect(resistanceGroup?.sections[0].statKeys.slice(0, 5)).toEqual([
+      'neutralResFixed',
+      'earthResFixed',
+      'fireResFixed',
+      'waterResFixed',
+      'airResFixed',
+    ])
+    expect(resistanceGroup?.sections[1].statKeys.slice(0, 5)).toEqual([
+      'neutralResPercent',
+      'earthResPercent',
+      'fireResPercent',
+      'waterResPercent',
+      'airResPercent',
+    ])
+  })
+
   it('only offers stats the engine scores', () => {
     const src = readFileSync(new URL('../../../rust-optimizer/src/forge.rs', import.meta.url), 'utf8')
     const fields = src.slice(src.indexOf('const FIELDS'), src.indexOf('];', src.indexOf('const FIELDS')))
