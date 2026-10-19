@@ -48,7 +48,7 @@ interface Figure {
 }
 
 type Companion =
-  | { kind: 'pet'; figure: Figure; scale: number }
+  | { kind: 'pet'; figure: Figure; scale: number; colors?: number[] }
   | { kind: 'mount'; figure: Figure; rider: Figure; colors?: number[]; scale: number }
 
 interface Props {
@@ -145,7 +145,7 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
               return figureEntity(extra.figure, lf, { colors: extra.colors, scale: extra.scale / look.scale, hooks: { [RIDER_HOOK]: rider } })
             }
             const root = figureEntity(player, lf, { skins: look.skins, colors: look.colors })
-            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale / look.scale }) }
+            if (extra?.kind === 'pet') root.hooks = { [PET_HOOK]: figureEntity(extra.figure, ef, { scale: extra.scale / look.scale, colors: extra.colors }) }
             return root
           }
           if (!extra) fitted = null
@@ -216,7 +216,7 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
         ])
         next = { kind: 'mount', figure, rider, colors: mount.colors, scale: mount.scale ?? 100 }
       } else if (pet) {
-        next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale }
+        next = { kind: 'pet', figure: await loadFigure(pet.bone, anim), scale: pet.scale, colors: pet.colors }
       }
       if (cancelled) return
       companionRef.current = next

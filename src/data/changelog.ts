@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.102',
+    date: '2026-10-19',
+    notes: [
+      'Fix: Srams, Xelors and Eliotropes riding a mount no longer hide their face under an oversized hood or hat',
+      'Fix: the Snailmate pet shows its real colors',
+    ],
+  },
+  {
     version: '0.3.101',
     date: '2026-10-19',
     notes: [

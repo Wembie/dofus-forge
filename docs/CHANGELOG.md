@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.102] — 2026-10-19
+- **Fix**: Srams, Xelors and Eliotropes riding a mount kept their face hidden under an oversized hood or hat; the class's own hood now stays as it is
+- **Fix**: the Snailmate pet shows its real colors instead of a gray shell
+
 ## [0.3.101] — 2026-10-19
 - **Performance**: added a reusable Grafana k6 baseline for smoke and browser checks, covering real public page journeys and configurable workload budgets
 - **CI**: new PR performance workflow builds the app, serves a preview, runs the k6 smoke suite, and fails on configured latency/error thresholds

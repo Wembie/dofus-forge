@@ -9,7 +9,7 @@ Reads the Unity bundles of an installed game client and writes compact assets
 consumed by src/lib/character:
 
   <out>/looks.json              breed -> {male, female} body skin, head skin, colors, look scale
-  <out>/pets.json               pet item id -> creature bone + scale
+  <out>/pets.json               pet item id -> creature bone, scale (+ palette when needed)
   <out>/mounts.json             mount / petsmount item id -> mount bone, palette, scale
   <out>/bones/<id>.json         node names, own graphics, animation list (bounds, frame count)
   <out>/bones/<id>/<anim>.bin   raw animation timelines (format: src/lib/character/anim.ts)
@@ -41,6 +41,12 @@ CREATURE_LOOK = re.compile(r'^\{(\d+)\|\|\|(\d+)\}$')
 MOUNT_LOOK = re.compile(r'^\{(\d+)\|\|([\d=,]*)\|(\d+)\}$')
 NEUTRAL_TINT = 0x808080  # overlay with mid gray leaves a part as authored
 RIDER_BONE = '2'
+
+# Creatures whose bone has tinted parts but whose look carries no palette:
+# colors sampled from the item icon (slot N -> index N-1, gray = untouched).
+PET_COLORS = {
+    13673: [0x808080, 0x808080, 0xd7a24c, 0x978f3e],  # Snailmate
+}
 
 # Petsmount item -> mount bone. The client has no such table (the server
 # builds the mounted look), so each one was matched by eye: every mount bone
@@ -211,6 +217,8 @@ def match_pets(client, item_type):
         found = creatures.get((names.get(item['nameId']) or '').strip().lower())
         if found:
             pets[item['id']] = {'bone': str(found[2]), 'scale': found[3]}
+            if item['id'] in PET_COLORS:
+                pets[item['id']]['colors'] = PET_COLORS[item['id']]
     return pets
 
 
