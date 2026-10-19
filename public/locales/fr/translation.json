@@ -1076,5 +1076,7 @@
   "admin_ranks_status_active": "En cours",
   "admin_ranks_status_scheduled": "Programmé",
   "admin_ranks_status_expired": "Expiré",
-  "admin_ranks_status_revoked": "Révoqué"
+  "admin_ranks_status_revoked": "Révoqué",
+  "rune_search": "Rechercher des runes…",
+  "rune_search_empty": "Aucune rune ne correspond à votre recherche"
 }

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.108',
+    date: '2026-10-19',
+    notes: [
+      'Feature: search box in the rune picker (Magesmithy) to find a stat by name instead of scrolling through all 51 — hides empty sections and shows a no-results message when nothing matches',
+    ],
+  },
+  {
     version: '0.3.107',
     date: '2026-10-19',
     notes: [

@@ -1076,5 +1076,7 @@
   "admin_ranks_status_active": "Active",
   "admin_ranks_status_scheduled": "Scheduled",
   "admin_ranks_status_expired": "Expired",
-  "admin_ranks_status_revoked": "Revoked"
+  "admin_ranks_status_revoked": "Revoked",
+  "rune_search": "Search runes…",
+  "rune_search_empty": "No runes match your search"
 }
