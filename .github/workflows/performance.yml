@@ -142,9 +142,9 @@ jobs:
                 | .body
                 | split("</tr>")[]
                 | select(contains($sha))
-                | capture("href=\"(?<url>https://[^\"]+-dofus-forge\\.workers\\.dev)\"")
-                | .url
+                | try capture("href=\"(?<url>https://[A-Za-z0-9.-]+-dofus-forge\\.[A-Za-z0-9.-]+\\.workers\\.dev)\"").url catch empty
               ]
+              | map(select(length > 0))
               | last // empty
             ' <<< "$comments")
 
