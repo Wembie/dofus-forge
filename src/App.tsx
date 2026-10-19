@@ -1,5 +1,6 @@
-import { useEffect, lazy, Suspense } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { BuilderPage } from './pages/BuilderPage.tsx'
 import { Toaster } from './components/Toaster.tsx'
 import { MagicCursor } from './components/MagicCursor.tsx'
@@ -7,6 +8,7 @@ import { ParticleField } from './components/ParticleField.tsx'
 import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { LangRoute } from './LangRoute.tsx'
 import { useAuthStore } from './store/authStore.ts'
+import { useToastStore } from './store/toastStore.ts'
 import type { SeoLang } from './seo/useSeoMeta.ts'
 
 const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => ({ default: m.ExplorePage })))
@@ -63,6 +65,47 @@ function LangLayout({ lang }: { lang: SeoLang }) {
   return <LangRoute lang={lang}><Outlet /></LangRoute>
 }
 
+function AdminRanksRoute() {
+  const { t } = useTranslation()
+  const location = useLocation()
+  const authLoading = useAuthStore(s => s.loading)
+  const session = useAuthStore(s => s.session)
+  const isAdmin = useAuthStore(s => s.profile?.role === 'admin')
+  const addToast = useToastStore(s => s.addToast)
+  const pathLanguage = location.pathname.split('/')[1]
+  const homePath = ['es', 'fr', 'pt'].includes(pathLanguage) ? `/${pathLanguage}` : '/'
+  const denied = !authLoading && (!session || !isAdmin)
+  const denialMessage = session ? t('admin_ranks_denied_body') : t('admin_ranks_signin_title')
+  const notifiedEntry = useRef<string | null>(null)
+  const denialEntryKey = `${location.key}:${denialMessage}`
+
+  useEffect(() => {
+    if (!denied) {
+      notifiedEntry.current = null
+      return
+    }
+    if (notifiedEntry.current === denialEntryKey) return
+    notifiedEntry.current = denialEntryKey
+    addToast(denialMessage, '🔒')
+  }, [addToast, denied, denialEntryKey, denialMessage])
+
+  if (authLoading) return <AdminRanksLoading label={t('admin_ranks_loading')} />
+  if (denied) return <Navigate to={homePath} replace />
+
+  return <Suspense fallback={<AdminRanksLoading label={t('admin_ranks_loading')} />}><AdminRanksPage /></Suspense>
+}
+
+function AdminRanksLoading({ label }: { label: string }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-forge-bg px-4 text-forge-text" role="status" aria-live="polite">
+      <div className="flex items-center gap-3 rounded-lg border px-4 py-3 text-xs" style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)', background: 'var(--surface-panel)' }}>
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-transparent" style={{ borderTopColor: 'var(--gold)' }} aria-hidden="true" />
+        {label}
+      </div>
+    </div>
+  )
+}
+
 const LANG_SUB_ROUTES = (
   <>
     <Route index element={<BuilderPage />} />
@@ -77,7 +120,7 @@ const LANG_SUB_ROUTES = (
     <Route path="u/:username" element={<Suspense fallback={null}><UserProfilePage /></Suspense>} />
     <Route path="account" element={<Suspense fallback={null}><AccountPage /></Suspense>} />
     <Route path="admin" element={<Suspense fallback={null}><AdminDashboardPage /></Suspense>} />
-    <Route path="admin/ranks" element={<Suspense fallback={null}><AdminRanksPage /></Suspense>} />
+    <Route path="admin/ranks" element={<AdminRanksRoute />} />
   </>
 )
 

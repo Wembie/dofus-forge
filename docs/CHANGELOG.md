@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.100] — 2026-10-18
+- **Customization**: expanded the custom-rank catalog to 140 icons and 76 badge finishes, all available in the admin editor and rendered on public profile badges
+- **Admin**: protected the custom-rank route with session/admin checks and localized denial feedback
+- **Database**: added ordered migrations for the expanded icon and badge-finish catalogs; updated the canonical schema and database guide
+
 ## [0.3.99] — 2026-10-18
 - **Customization**: custom ranks now support any hex color, 54 icons, 24 badge finishes, and an unlimited saved-build quota
 - **UI**: redesigned the rank editor with spacious sections, a responsive layout, live profile preview, clearer choices, and always-visible save actions
@@ -1329,5 +1334,3 @@ This closes out the "big scope" items from the premium-redesign request (particl
 ## [0.1.0] — 2026-08-05
 - M0 — initial scaffold: Vite 6 + React 18 + TypeScript, TailwindCSS with forge color palette, Zustand/i18next/react-router, GitHub Actions CI (deploy + weekly data update), ETL skeleton
 - App version injected from VERSION file via Vite define
-
-

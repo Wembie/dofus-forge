@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.100',
+    date: '2026-10-18',
+    notes: [
+      'Customization: the custom-rank catalog now offers 140 icons and 76 badge finishes in the admin editor, with all finishes rendered on public profile badges',
+      'Admin: the custom-rank route checks the session and admin role, and gives localized feedback before redirecting unauthorized visitors',
+      'Database: ordered migrations expand the icon and badge-finish catalogs; the canonical schema and database guide are updated',
+    ],
+  },
+  {
     version: '0.3.99',
     date: '2026-10-18',
     notes: [
