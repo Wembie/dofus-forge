@@ -5,6 +5,10 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import { readFileSync, existsSync, createReadStream } from 'fs'
 import type { Plugin } from 'vite'
+import { visualizer } from 'rollup-plugin-visualizer'
+
+// `ANALYZE=1 pnpm build` writes dist/stats.html (bundle treemap, gzip sizes).
+const analyze = process.env.ANALYZE === '1'
 
 const appVersion  = readFileSync('./VERSION', 'utf-8').trim()
 const gameVersion = JSON.parse(readFileSync('./public/data/version.json', 'utf-8')).gameVersion as string
@@ -40,7 +44,11 @@ export default defineConfig({
     __APP_VERSION__:   JSON.stringify(appVersion),
     __DOFUS_VERSION__: JSON.stringify(gameVersion),
   },
-  plugins: [react(), characterAssets()],
+  plugins: [
+    react(),
+    characterAssets(),
+    ...(analyze ? [visualizer({ filename: 'dist/stats.html', gzipSize: true, brotliSize: true }) as Plugin] : []),
+  ],
   base,
   resolve: {
     alias: {
@@ -49,7 +57,9 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    // dist/ is deployed as-is, so source maps here would be public. Nothing
+    // consumes them in production; `SOURCEMAP=1 pnpm build` when debugging.
+    sourcemap: process.env.SOURCEMAP === '1',
   },
   test: {
     globals: true,
