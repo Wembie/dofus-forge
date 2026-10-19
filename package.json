@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.3.106",
+  "version": "0.3.107",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
@@ -51,6 +51,7 @@
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.12.0",
     "postcss": "^8.5.1",
+    "rollup-plugin-visualizer": "5.14.0",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",

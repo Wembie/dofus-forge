@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.107] — 2026-10-19
+- **Feature**: 53 more pets now walk beside the animated character (120 of 122), including Bow Wow, Bow Meow, Wabbit, Quaquack, Nomoon and the newer ones, each matched to its real model and colors
+- **Feature**: the Tortikoli petsmount can be ridden, so every mount and petsmount now carries the character
+- **Fix**: pets whose model only has an idle pose (e.g. Bow Meow) no longer disappear when the character walks or runs
+
 ## [0.3.106] — 2026-10-19
 - **Fix**: when an open tab requests a JavaScript chunk removed by a newer deploy, it now reloads once instead of getting stuck on a blank screen; missing `/assets/` files return 404 rather than the SPA HTML fallback
 
@@ -16,6 +21,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Perf**: the Sets catalog opens and filters much faster: it shows sets 24 at a time and loads more as you scroll (it used to mount all ~930 at once), looks items up in an index instead of scanning the whole catalog for every set piece, and cards no longer re-render on every keystroke
 - **Perf**: fewer needless re-renders and lookups: build cards in Explore / My Builds build their item index once instead of on every render, the rune window and Compare panel no longer re-render on unrelated build changes, The Forger saves your order at most every 400 ms instead of on every keystroke, and build card avatars / class icons load lazily
 - **Accessibility**: closing any dialog returns keyboard focus to the button that opened it, and the active header menu item is announced as the current page (not only shown in gold)
+- **Build**: production no longer publishes the full source maps of the app (`SOURCEMAP=1 pnpm build` still produces them for debugging), `ANALYZE=1 pnpm build` writes a bundle size report to `dist/stats.html`, and the class portraits load as WebP (60% lighter)
 
 ## [0.3.103] — 2026-10-19
 - **Perf**: pages now canonicalize to no-trailing-slash URLs (`/explore` instead of `/explore/`) across SEO tags, the sitemap, and Cloudflare's static asset serving (`html_handling: "drop-trailing-slash"`) — the previous convention forced a 307 redirect round-trip on any visit arriving via a bare URL (the common case, since nobody types or shares a trailing slash), measured live at 86ms P75 in Cloudflare's Web Vitals

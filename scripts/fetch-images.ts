@@ -6,6 +6,10 @@
  * Downloads and extracts:
  *   statistics_images_48.tar.gz  -> public/data/stats/{char}.png (6 characteristic icons)
  *   class_head_images_64.tar.gz  -> public/data/classes/{slug}.png (19 class portraits)
+ *
+ * The app UI loads the .webp copies of the class portraits (the PNGs stay
+ * for the share-image Worker and ExportCard): after re-running this, also
+ * regenerate public/data/classes/*.webp from the new PNGs.
  */
 
 import { mkdirSync, writeFileSync, readFileSync, existsSync, renameSync } from 'node:fs'

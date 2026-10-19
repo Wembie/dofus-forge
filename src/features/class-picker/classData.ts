@@ -19,8 +19,8 @@ function cls(id: DofusClass, name: string, element: Element, breed: number): Cla
     name,
     element,
     breed,
-    imageUrl:  `${BASE}data/classes/${id}.png`,
-    imageFUrl: `${BASE}data/classes/${id}-f.png`,
+    imageUrl:  `${BASE}data/classes/${id}.webp`,
+    imageFUrl: `${BASE}data/classes/${id}-f.webp`,
   }
 }
 

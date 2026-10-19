@@ -7,6 +7,7 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **M135 — Personaje animado: resto de mascotas y Tortikoli** (0.3.107) — 53 de las 55 mascotas sin PNJ/monstruo homónimo emparejadas a ojo (`PET_BONES` en el extractor): huella de color del atlas de los 8 480 esqueletos del cliente para preseleccionar 12–48 candidatos por ícono, láminas ícono-contra-candidatos y, al final, cada elección re-renderizada sola (las láminas con muchos canvas WebGL pueden mezclar contenidos). Kraxiste y Bulbeskeje llevan paleta sacada del ícono (`PET_COLORS`). Tortikoli → esqueleto 6338 (junto al Tae'Niak 6339, con anclaje de jinete). Sin modelo en el cliente: **Minikornio** (sus esqueletos 3955–3958 son marcadores de un vértice) y **Microsmoglob** (no hay esfera verde equivalente). `CharacterStage` cae a otra orientación o a la pose quieta cuando la criatura no trae esa animación; el renderer también resuelve por nombre los sprites propios del esqueleto. `upload-characters` ignora carpetas `_` (material local). Total: 120/122 mascotas, 277 monturas y mascoturas.
 - [x] **M134 — Auditoría de robustez, rendimiento y accesibilidad** (0.3.104) — se resolvieron los hallazgos de "Perf & buenas prácticas" (ver esa sección, marcados ✓).
 - [x] **M133 — Performance baseline con k6 y CI** (0.3.101) — se añadió una suite reutilizable de Grafana k6 para smoke y navegación real del navegador, con umbrales configurables de tasa de error y latencia; el workflow de PR sirve la app compilada y falla si el rendimiento cae por debajo del presupuesto definido.
 - [x] **M132 — Rangos personalizados: catálogo ampliado y acceso de admin protegido** (0.3.100) — la biblioteca ofrece 140 iconos y 76 acabados de insignia, todos disponibles en el editor y renderizados en perfiles públicos; la ruta de administración comprueba sesión y rol antes de mostrar la herramienta, con mensajes de acceso denegado traducidos; el esquema y las migraciones mantienen sincronizadas las opciones permitidas.
@@ -158,7 +159,6 @@ Marcar con `[x]` cuando se complete.
 ## Pendientes 🔧
 
 - [ ] **M116 — Forjadora: modo daño (hechizos vs objetivo)** — maximizar daño esperado (o daño/PA) de hechizos de clase y arma contra las resistencias de un objetivo (presets Poutch / PvP), una vez cumplidos los objetivos
-- [ ] **M131 — Personaje animado: resto de mascotas** — las 55 mascotas sin PNJ/monstruo con el mismo nombre, emparejadas a ojo por tandas.
 - [ ] **M128 — Personaje animado: apariencia de sombrero, capa y escudo** — el cliente no trae qué skin corresponde a cada sombrero/capa/escudo normal (lo decide el servidor). Se resolverá junto con la sección de apariencias; el renderer ya admite capas extra (se buscan antes que cabeza/cuerpo).
 - [ ] **M125 — Builder: pasivas de legendarios, Dofus, Prysmaraditas y compañeros** — hoy 148 objetos traen su pasiva solo como texto (`ability`: 22 Dofus, 25 Prysmaraditas, 52 compañeros, ~50 legendarios entre armas, escudos y equipo) y no suman nada. Plan: (1) tabla estructurada por `ankama_id` con el efecto de cada pasiva (stat, valor, acumulaciones, condición: "al ser atacado", "al golpe crítico", "por enemigo en contacto"…); (2) en el builder, panel "Pasivas activas" con un toggle o un contador de acumulaciones por pasiva (p. ej. Dofus Turquesa 0–10 × 1% daños finales), y los bonos se suman a las stats como un estado de combate aparte, sin mezclarse con las stats base; (3) mostrarlo en el tooltip del objeto y en la vista/compartir del build. Base para M114 (que La Forjadora los tenga en cuenta).
 - [ ] **M114 — Forjadora: pasivos de ítems y de mascota** — bonos de Dofus/legendarios al equiparlos y elección de pasivo de mascota
@@ -197,7 +197,7 @@ Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ve
 - [ ] **Chore — Eliminar tablas legacy sin usar** — `build_items`/`build_characteristics`/`build_runes` quedaron sin usar desde que todo vive en `builds.snapshot` (jsonb, que ya soporta buscar "builds con item X" vía containment query sin joins); dropear en vez de implementar, mantenerlas sincronizadas sería puro costo sin beneficio real
 - [ ] **Futuro — Membresía de apoyo voluntario** — modelo híbrido: Aportador (aporte único desde US$1, sin estado ni vencimiento) + escalera recurrente de 4 rangos desde US$3/mes (mensual, trimestral o anual; descuento trimestral y 2 meses gratis en el anual). Incluye Forja de perfil, insignia opcional, racha total y por rango, hitos cosméticos y más builds destacadas/guardadas. Las herramientas principales siguen gratis; rangos separados de roles, sin ventajas de juego ni boosts de Explore. Precios, cuotas y proveedor pendientes de validar. Diseño: [docs/MEMBERSHIP_DESIGN.md](MEMBERSHIP_DESIGN.md). **Fase 1 (schema) empezada**: tablas `memberships`/`membership_periods`/`supporter_contributions`, funciones de entitlements `build_limit_for_tier`/`featured_build_limit_for_tier` ya en `supabase/schema.sql`, y `check_build_limit()` ya las usa (sin fila en `memberships` = 'free' = 50, igual que hoy para toda cuenta existente) — todavía sin UI ni webhook: falta elegir proveedor y construir la página de apoyo.
 
-### Futuro — Perf & buenas prácticas (audit post-M65, sin implementar)
+### Perf & buenas prácticas (audit post-M65) — resuelto en M134 (0.3.104)
 Hallazgos concretos de una segunda pasada sobre el resto del código, mismo estilo del bug que arregló M65 (listas sin paginar, N+1 scans, subscripciones amplias). Cada uno con archivo:línea para arrancar directo cuando se decida hacerlo — no son prosa genérica.
 
 **Alto impacto:**
@@ -219,9 +219,9 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [x] `ComparePanel.tsx:129` — `useCompareStore()` sin selector al lado de selectores angostos de `useBuildStore` en las mismas líneas; mismo patrón que M65 ya arregló en otros lados, acá el store es chico así que es bajo impacto
 - [x] `ComparePanel.tsx:140-141` — `?? []` inline en el selector de `useDataStore` crea un array nuevo en cada notificación mientras carga
 - [x] `BuildCard.tsx:52,72` — avatar e ícono de clase sin `loading="lazy"`, a diferencia de `BuildEquipmentPreview.tsx:47` que sí lo tiene; se renderiza en grids de hasta 24 cards
-- [ ] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
-- [ ] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
-- [ ] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
+- [x] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
+- [x] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
+- [x] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original
 - [x] `HeaderMenuButton.tsx:57-59` — el ítem de menú activo se indica solo con color (dorado), sin `aria-current` — falla WCAG 1.4.1 (uso de color solo)
 - [x] ~~`StatWeightRow.tsx:39-47` — botón de quitar stat sin `aria-label`~~ — ya no aplica: el componente se eliminó con el rediseño de La Forjadora (M111+)
 

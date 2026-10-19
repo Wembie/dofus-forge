@@ -17,8 +17,9 @@ if (!BUCKET) throw new Error('no r2 bucket in wrangler.jsonc')
 
 const TYPES = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
 
+// `_`-prefixed entries are local scratch (matching sheets, icons), never published.
 function walk(dir) {
-  return readdirSync(dir).flatMap(name => {
+  return readdirSync(dir).filter(name => !name.startsWith('_')).flatMap(name => {
     const path = join(dir, name)
     return statSync(path).isDirectory() ? walk(path) : [path]
   })
