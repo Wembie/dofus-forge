@@ -6,7 +6,8 @@ import {
 
 /** Public profile data is returned by a narrow RPC; internal assignment data never reaches this query. */
 export async function fetchPublicCustomRank(userId: string): Promise<PublicCustomRank | null> {
-  const supabase = await getSupabase()
+  const supabase = await getSupabase().catch(() => null)
+  if (!supabase) return null
   const { data, error } = await supabase.rpc('get_public_custom_rank', { p_user_id: userId })
   if (error || !Array.isArray(data) || !data[0]) return null
 

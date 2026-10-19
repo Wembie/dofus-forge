@@ -7,6 +7,7 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **M134 — Auditoría de robustez, rendimiento y accesibilidad** (0.3.104) — se resolvieron los hallazgos de "Perf & buenas prácticas" (ver esa sección, marcados ✓).
 - [x] **M133 — Performance baseline con k6 y CI** (0.3.101) — se añadió una suite reutilizable de Grafana k6 para smoke y navegación real del navegador, con umbrales configurables de tasa de error y latencia; el workflow de PR sirve la app compilada y falla si el rendimiento cae por debajo del presupuesto definido.
 - [x] **M132 — Rangos personalizados: catálogo ampliado y acceso de admin protegido** (0.3.100) — la biblioteca ofrece 140 iconos y 76 acabados de insignia, todos disponibles en el editor y renderizados en perfiles públicos; la ruta de administración comprueba sesión y rol antes de mostrar la herramienta, con mensajes de acceso denegado traducidos; el esquema y las migraciones mantienen sincronizadas las opciones permitidas.
 - [x] **M131 — Personaje 3D predeterminado + anuncios de release en X** (0.3.93) — el 3D queda activo si no hay una preferencia guardada y se conservan las elecciones 2D/3D; el footer enlaza a @DofusForgeApp; GitHub Actions anuncia cada release con la primera nota del changelog. Requiere las cuatro credenciales OAuth 1.0a como Actions secrets (ver `docs/X_POSTING.md`).
@@ -202,15 +203,15 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 **Alto impacto:**
 - [ ] `SetsCatalog.tsx:391` — misma clase de bug que M65 pero sin arreglar: el modal de sets monta TODOS los sets que matchean (hasta ~931) sin paginar/virtualizar. Aplicar el mismo patrón de infinite scroll de `ItemCatalog.tsx`
 - [ ] `SetsCatalog.tsx:202-222` (`enriched` useMemo) — por cada ítem de cada set hace `equipment.find(it => it.ankama_id === id)`, un scan lineal del catálogo completo (~4300 ítems); con ~931 sets × varios ítems esto es del orden de decenas de millones de comparaciones en cada apertura del modal. Arreglo: un `Map<id, AppItem>` construido una sola vez (mismo patrón WeakMap que ya se usó en `ItemCatalog`)
-- [ ] `src/features/builds/api.ts` — ~30 funciones exportadas (`fetchPublicBuilds`, `publishBuild`, `rateBuild`, etc.) llaman a Supabase sin `try/catch`; una excepción real (offline, DNS, cliente mal configurado) queda como unhandled promise rejection y deja el loading spinner de la UI colgado para siempre (ej. ExplorePage, PublishModal)
-- [ ] `src/store/authStore.ts:83-92` (`init()`) — la promesa de `getSupabase().then(...)` no tiene `.catch()`; si falla el import dinámico de supabase-js o `getSession()`, `loading` queda en `true` para siempre (AuthButton girando sin parar)
+- [x] `src/features/builds/api.ts` — ~30 funciones exportadas (`fetchPublicBuilds`, `publishBuild`, `rateBuild`, etc.) llaman a Supabase sin `try/catch`; una excepción real (offline, DNS, cliente mal configurado) queda como unhandled promise rejection y deja el loading spinner de la UI colgado para siempre (ej. ExplorePage, PublishModal)
+- [x] `src/store/authStore.ts:83-92` (`init()`) — la promesa de `getSupabase().then(...)` no tiene `.catch()`; si falla el import dinámico de supabase-js o `getSession()`, `loading` queda en `true` para siempre (AuthButton girando sin parar)
 
 **Medio impacto:**
 - [ ] `src/features/equipment/RuneModal.tsx:77` — `useBuildStore(s => s.runes[slotId] ?? {})` crea un objeto nuevo en cada llamada cuando no hay runas, rompiendo la comparación por referencia y re-renderizando en cada cambio del build mientras el modal está abierto — mismo tipo de problema que M65 arregló en otros 4 componentes. Fix: constante compartida `EMPTY_RUNES = {}` como fallback
 - [ ] `SetsCatalog.tsx` (`SetCard`, línea 30) — no está envuelto en `React.memo`, cada tecla de filtro re-renderiza todas las cards visibles desde cero
 - [x] ~~`src/engine/optimizer.ts` — `itemPartialScore()` reconstruía un `Map` en cada comparación~~ — ya no aplica: el optimizador TS se eliminó, La Forjadora corre en Rust/WASM (`rust-optimizer/src/forge.rs`)
 - [ ] `src/features/builds/BuildEquipmentPreview.tsx:18` — reconstruye un `Map` del catálogo completo (~4300 ítems) en CADA render, sin `useMemo`; este componente se instancia por card en grids de Explore/MyBuilds (hasta 24+ a la vez)
-- [ ] `src/lib/supabase.ts:9-26` — `clientPromise` queda cacheada aunque la promesa interna falle; si `getSupabase()` falla una vez, toda llamada futura repite el mismo rechazo (login/cloud roto hasta recargar la página entera). Fix: limpiar `clientPromise` en el catch
+- [x] `src/lib/supabase.ts:9-26` — `clientPromise` queda cacheada aunque la promesa interna falle; si `getSupabase()` falla una vez, toda llamada futura repite el mismo rechazo (login/cloud roto hasta recargar la página entera). Fix: limpiar `clientPromise` en el catch
 - [ ] `src/ui/Modal.tsx:70-100` — hace focus trap y foco inicial al abrir, pero nunca guarda ni restaura el `document.activeElement` previo al cerrar — usuarios de teclado/lector de pantalla pierden su posición en la página tras cerrar cualquier modal
 - [ ] `src/features/optimizer/OptimizerModal.tsx` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio (cada tecla en mínimo/ley/tope de `RequirementCard`); debería debounce 300-500ms. (`StatWeightRow.tsx` ya no existe: lo reemplazó `RequirementCard`)
 

@@ -102,6 +102,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           ...(event === 'PASSWORD_RECOVERY' ? { passwordRecovery: true } : {}),
         })
       })
+    }).catch(() => {
+      // Signed-out fallback so the auth button stops spinning; a later
+      // init() call (next mount) can try again.
+      set({ session: null, profile: null, loading: false, initialized: false })
     })
   },
 
