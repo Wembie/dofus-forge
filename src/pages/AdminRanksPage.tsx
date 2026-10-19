@@ -709,4 +709,3 @@ function ToggleRow({ icon: Icon, title, description, checked, onChange }: { icon
 function LoadingRows({ label }: { label: string }) {
   return <Frame material="panel" className="px-6 py-12 text-center text-xs" style={{ color: 'var(--ink-faint)' }}>{label}</Frame>
 }
-

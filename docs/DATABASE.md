@@ -1,8 +1,8 @@
 # Dofus Forge — Database Schema
 
 > **Motor:** PostgreSQL (Supabase)  
-> **Última revisión:** 2026-10-18 — incluye los rangos personalizados y sus cuotas  
-> **Estado:** Esquema actual; las migraciones incrementales están indicadas por función  
+> **Última revisión:** 2026-10-18 — incluye los rangos personalizados y sus cuotas
+> **Estado:** Esquema actual; las migraciones incrementales están indicadas por función
 > **Repo:** público — este archivo no contiene credenciales, URLs de conexión ni API keys
 
 ### Cambios de la revisión 2026-09-30
