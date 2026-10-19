@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.109] — 2026-10-19
+- **Fix**: the animated character's hair, skin and clothes now have the same colors as in the game; they came out duller and darker (a Feca's red-brown hair looked plain brown)
+- **Fix**: Snailmate, Snickermite, Bulbutting and Karmeleon colors recalibrated to match their icons
+
 ## [0.3.108] — 2026-10-19
 - **Feature**: search box in the rune picker (Magesmithy) to find a stat by name instead of scrolling through all 51 — hides empty sections and shows a no-results message when nothing matches
 

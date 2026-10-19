@@ -65,9 +65,8 @@ void main() {
   if (t.a <= 0.0) discard;
   vec3 rgb = t.rgb / t.a;
   if (vTint.a > 0.5) {
-    vec3 lo = 2.0 * rgb * vTint.rgb;
-    vec3 hi = 1.0 - 2.0 * (1.0 - rgb) * (1.0 - vTint.rgb);
-    rgb = mix(lo, hi, step(0.5, rgb));
+    // Gray parts are shading at half intensity: 50% gray = the palette color.
+    rgb = min(2.0 * rgb * vTint.rgb, 1.0);
   }
   float a = clamp(t.a * vColor.a + vAdd.a, 0.0, 1.0);
   gl_FragColor = vec4(clamp(rgb * vColor.rgb + vAdd.rgb, 0.0, 1.0) * a, a);
