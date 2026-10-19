@@ -2,13 +2,14 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useDataStore } from '@/store/dataStore.ts'
+import { useAuthStore } from '@/store/authStore.ts'
 import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
 import { EquipmentGrid } from '@/features/equipment/EquipmentGrid.tsx'
@@ -94,6 +95,7 @@ function BuilderContent() {
   const navigate       = useNavigate()
   const routerLocation = useLocation()  // basename-relative pathname, unlike window.location used below for brandHref's absolute URL
   const hasClass  = useBuildStore(s => s.selectedClass !== null)
+  const isAdmin   = useAuthStore(s => s.profile?.role === 'admin')
   const setClass  = useBuildStore(s => s.setClass)
   const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
   const load      = useDataStore(s => s.load)
@@ -243,6 +245,17 @@ function BuilderContent() {
               <FolderOpen size={13} />
               <span className="hidden min-[1440px]:inline">{t('my_builds')}</span>
             </button>
+            {isAdmin && (
+              <button
+                onClick={() => navToLangPath('admin')}
+                title={t('admin_nav')}
+                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
+                style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+              >
+                <ShieldCheck size={13} />
+                <span className="hidden min-[1440px]:inline">{t('admin_nav')}</span>
+              </button>
+            )}
           </div>
 
           {/* Status indicators */}
@@ -364,6 +377,7 @@ function BuilderContent() {
                 { key: 'redo',       label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
                 { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onClick: () => navToLangPath('how-to-use') },
                 { key: 'about',      label: t('nav_about'),         Icon: Info,       onClick: () => navToLangPath('about') },
+                ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onClick: () => navToLangPath('admin') }] : []),
               ]}
             />
             <Suspense fallback={null}><AuthButton /></Suspense>
@@ -385,6 +399,7 @@ function BuilderContent() {
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
           { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onRun: () => navToLangPath('how-to-use') },
           { key: 'about',      label: t('nav_about'),         Icon: Info,       onRun: () => navToLangPath('about') },
+          ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onRun: () => navToLangPath('admin') }] : []),
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },

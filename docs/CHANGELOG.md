@@ -7,6 +7,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ## [0.3.98] — 2026-10-18
 - **UX**: equipped Dofus are marked in the catalog with a check and their slot number; selecting one again no longer moves it from its current slot
+- **Admin**: added a centralized admin workspace, moved the header entry to **Admin**, and organized Custom Ranks as a section within it
 
 ## [0.3.97] — 2026-10-18
 - **Feature**: Dofus Forge can now be installed as a standalone app on supported desktop and mobile browsers

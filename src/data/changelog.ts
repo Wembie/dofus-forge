@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.98',
+    date: '2026-10-18',
+    notes: [
+      'UX: equipped Dofus are marked in the catalog with a check and their slot number; selecting one again no longer moves it from its current slot',
+      'Admin: a centralized admin workspace brings tools together under one Admin entry, with Custom Ranks as its first section',
+    ],
+  },
+  {
     version: '0.3.97',
     date: '2026-10-18',
     notes: [
