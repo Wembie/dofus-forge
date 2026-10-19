@@ -39,6 +39,21 @@ export type BuildDetailRow = BuildRow
 // equipment icons, not just text, so they need it up front too.
 const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
 
+// Each function below reports failures as an `error` value. Supabase already
+// does that for failed requests, but getSupabase() itself can still reject
+// (supabase-js chunk failed to load: offline, stale deploy), and an awaited
+// rejection would leave the caller's loading state hanging. guard() turns it
+// into the same failure value the function returns for any other error.
+function guard<A extends unknown[], R>(fn: (...args: A) => Promise<R>, fallback: (error: string) => NoInfer<R>) {
+  return async (...args: A): Promise<R> => {
+    try {
+      return await fn(...args)
+    } catch (e) {
+      return fallback(e instanceof Error ? e.message : String(e))
+    }
+  }
+}
+
 const SORT_COLUMN: Record<ExploreSort, string> = {
   rating: 'avg_rating',
   likes:  'like_count',
@@ -46,7 +61,7 @@ const SORT_COLUMN: Record<ExploreSort, string> = {
   views:  'view_count',
 }
 
-export async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
+export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
   const supabase  = await getSupabase()
   const pageSize  = opts.pageSize ?? 24
   const from      = opts.page * pageSize
@@ -81,9 +96,9 @@ export async function fetchPublicBuilds(opts: { classSlug?: string | null; userI
   }
   const { data, error, count } = await query
   return { data: (data ?? []) as unknown as BuildRow[], error: error?.message ?? null, count: count ?? 0 }
-}
+}, error => ({ data: [] as BuildRow[], error, count: 0 }))
 
-export async function fetchBuildById(id: string) {
+export const fetchBuildById = guard(async function fetchBuildById(id: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
@@ -92,9 +107,9 @@ export async function fetchBuildById(id: string) {
     .single()
   if (error) return { data: null, error: error.message }
   return { data: data as unknown as BuildDetailRow, error: null }
-}
+}, error => ({ data: null, error }))
 
-export async function publishBuild(opts: {
+export const publishBuild = guard(async function publishBuild(opts: {
   name:        string
   visibility:  BuildVisibility
   classSlug:   string
@@ -126,9 +141,9 @@ export async function publishBuild(opts: {
     .single()
   if (error) return { data: null, error: error.message }
   return { data: data as { id: string; slug: string | null }, error: null }
-}
+}, error => ({ data: null, error }))
 
-export async function updateBuild(buildId: string, opts: {
+export const updateBuild = guard(async function updateBuild(buildId: string, opts: {
   name:        string
   visibility:  BuildVisibility
   classSlug:   string
@@ -151,12 +166,12 @@ export async function updateBuild(buildId: string, opts: {
     })
     .eq('id', buildId)
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
-export async function recordBuildView(buildId: string, userId: string | null) {
+export const recordBuildView = guard(async function recordBuildView(buildId: string, userId: string | null) {
   const supabase = await getSupabase()
   await supabase.rpc('record_view', { p_build_id: buildId, p_user_id: userId, p_ip_hash: null })
-}
+}, () => undefined)
 
 export type MyBuildRow = {
   id:            string
@@ -173,7 +188,7 @@ export type MyBuildRow = {
   snapshot:      BuildSnapshot
 }
 
-export async function fetchMyBuilds(userId: string) {
+export const fetchMyBuilds = guard(async function fetchMyBuilds(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
@@ -181,27 +196,27 @@ export async function fetchMyBuilds(userId: string) {
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
   return { data: (data ?? []) as unknown as MyBuildRow[], error: error?.message ?? null }
-}
+}, error => ({ data: [] as MyBuildRow[], error }))
 
-export async function deleteBuild(buildId: string) {
+export const deleteBuild = guard(async function deleteBuild(buildId: string) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('builds').delete().eq('id', buildId)
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
-export async function updateBuildVisibility(buildId: string, visibility: BuildVisibility) {
+export const updateBuildVisibility = guard(async function updateBuildVisibility(buildId: string, visibility: BuildVisibility) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('builds').update({ visibility }).eq('id', buildId)
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
-export async function fetchMyLike(buildId: string, userId: string) {
+export const fetchMyLike = guard(async function fetchMyLike(buildId: string, userId: string) {
   const supabase = await getSupabase()
   const { data } = await supabase.from('build_likes').select('user_id').eq('build_id', buildId).eq('user_id', userId).maybeSingle()
   return Boolean(data)
-}
+}, () => false)
 
-export async function toggleBuildLike(buildId: string, userId: string, currentlyLiked: boolean) {
+export const toggleBuildLike = guard(async function toggleBuildLike(buildId: string, userId: string, currentlyLiked: boolean) {
   const supabase = await getSupabase()
   if (currentlyLiked) {
     const { error } = await supabase.from('build_likes').delete().eq('build_id', buildId).eq('user_id', userId)
@@ -209,15 +224,15 @@ export async function toggleBuildLike(buildId: string, userId: string, currently
   }
   const { error } = await supabase.from('build_likes').insert({ build_id: buildId, user_id: userId })
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
-export async function fetchMyBookmark(buildId: string, userId: string) {
+export const fetchMyBookmark = guard(async function fetchMyBookmark(buildId: string, userId: string) {
   const supabase = await getSupabase()
   const { data } = await supabase.from('build_bookmarks').select('user_id').eq('build_id', buildId).eq('user_id', userId).maybeSingle()
   return Boolean(data)
-}
+}, () => false)
 
-export async function toggleBuildBookmark(buildId: string, userId: string, currentlyBookmarked: boolean) {
+export const toggleBuildBookmark = guard(async function toggleBuildBookmark(buildId: string, userId: string, currentlyBookmarked: boolean) {
   const supabase = await getSupabase()
   if (currentlyBookmarked) {
     const { error } = await supabase.from('build_bookmarks').delete().eq('build_id', buildId).eq('user_id', userId)
@@ -225,7 +240,7 @@ export async function toggleBuildBookmark(buildId: string, userId: string, curre
   }
   const { error } = await supabase.from('build_bookmarks').insert({ build_id: buildId, user_id: userId })
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
 /**
  * Builds the current user has bookmarked. `build_bookmarks` RLS is
@@ -235,29 +250,29 @@ export async function toggleBuildBookmark(buildId: string, userId: string, curre
  * Inner-joins to builds for the actual card data (same LIST_COLUMNS as
  * Explore/profile), ordered by when it was bookmarked, most recent first.
  */
-export async function fetchMyBookmarkedBuilds(userId: string) {
+export const fetchMyBookmarkedBuilds = guard(async function fetchMyBookmarkedBuilds(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('build_bookmarks')
     .select(`created_at, builds!inner(${LIST_COLUMNS})`)
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-  if (error) return { data: [], error: error.message }
+  if (error) return { data: [] as BuildRow[], error: error.message }
   const builds = (data ?? []).map(row => (row as unknown as { builds: BuildRow }).builds)
   return { data: builds, error: null }
-}
+}, error => ({ data: [] as BuildRow[], error }))
 
-export async function fetchMyRating(buildId: string, userId: string) {
+export const fetchMyRating = guard(async function fetchMyRating(buildId: string, userId: string) {
   const supabase = await getSupabase()
   const { data } = await supabase.from('build_ratings').select('rating').eq('build_id', buildId).eq('user_id', userId).maybeSingle()
   return data?.rating ?? null
-}
+}, () => null)
 
-export async function rateBuild(buildId: string, userId: string, rating: number) {
+export const rateBuild = guard(async function rateBuild(buildId: string, userId: string, rating: number) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('build_ratings').upsert({ build_id: buildId, user_id: userId, rating })
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
 export type CommentRow = {
   id:         string
@@ -267,7 +282,7 @@ export type CommentRow = {
   profiles:   BuildOwner | null
 }
 
-export async function fetchComments(buildId: string) {
+export const fetchComments = guard(async function fetchComments(buildId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('build_comments')
@@ -278,13 +293,13 @@ export async function fetchComments(buildId: string) {
     .is('deleted_at', null)
     .order('created_at', { ascending: true })
   return { data: (data ?? []) as unknown as CommentRow[], error: error?.message ?? null }
-}
+}, error => ({ data: [] as CommentRow[], error }))
 
-export async function postComment(buildId: string, userId: string, content: string) {
+export const postComment = guard(async function postComment(buildId: string, userId: string, content: string) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('build_comments').insert({ build_id: buildId, user_id: userId, content })
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
 export type PublicProfile = {
   id:               string
@@ -306,7 +321,7 @@ export type PublicProfile = {
  * reading them here is just two more columns off the same row, not a
  * separate count query.
  */
-export async function fetchProfileByUsername(username: string) {
+export const fetchProfileByUsername = guard(async function fetchProfileByUsername(username: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('profiles')
@@ -315,7 +330,7 @@ export async function fetchProfileByUsername(username: string) {
     .maybeSingle()
   if (error || !data) return { data: null, error: error?.message ?? null }
   return { data: data as PublicProfile, error: null }
-}
+}, error => ({ data: null, error }))
 
 export type MembershipTier = 'free' | 'apprentice' | 'artisan' | 'forger' | 'master'
 
@@ -328,11 +343,11 @@ export type MembershipTier = 'free' | 'apprentice' | 'artisan' | 'forger' | 'mas
  * means free tier (docs/MEMBERSHIP_DESIGN.md §7): the table only ever holds
  * accounts that actually subscribed, so that's the common case today.
  */
-export async function fetchMembershipTier(userId: string): Promise<MembershipTier> {
+export const fetchMembershipTier = guard(async function fetchMembershipTier(userId: string): Promise<MembershipTier> {
   const supabase = await getSupabase()
   const { data } = await supabase.rpc('get_public_membership_tier', { p_user_id: userId })
   return (data as MembershipTier | null) ?? 'free'
-}
+}, () => 'free' as const)
 
 /**
  * Lightweight aggregate stats for a profile's public builds — count + total
@@ -345,7 +360,7 @@ export async function fetchMembershipTier(userId: string): Promise<MembershipTie
  * and page size Explore already uses, so a profile with many public builds
  * doesn't pull them (and their snapshots) all at once.
  */
-export async function fetchUserPublicStats(userId: string) {
+export const fetchUserPublicStats = guard(async function fetchUserPublicStats(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
@@ -358,7 +373,7 @@ export async function fetchUserPublicStats(userId: string) {
     likeCount:  rows.reduce((sum, b) => sum + (b.like_count ?? 0), 0),
     error: error?.message ?? null,
   }
-}
+}, error => ({ buildCount: 0, likeCount: 0, error }))
 
 /**
  * Comments this user has posted, scoped to comments on PUBLIC builds only
@@ -366,7 +381,7 @@ export async function fetchUserPublicStats(userId: string) {
  * unlisted builds from the count — those shouldn't be inferable from a
  * public profile even as a bare number).
  */
-export async function fetchPublicCommentCount(userId: string) {
+export const fetchPublicCommentCount = guard(async function fetchPublicCommentCount(userId: string) {
   const supabase = await getSupabase()
   const { count, error } = await supabase
     .from('build_comments')
@@ -375,14 +390,14 @@ export async function fetchPublicCommentCount(userId: string) {
     .is('deleted_at', null)
     .eq('builds.visibility', 'public')
   return { count: count ?? 0, error: error?.message ?? null }
-}
+}, error => ({ count: 0, error }))
 
 /**
  * Does `followerId` already follow `followingId`? `.maybeSingle()` on the
  * (follower_id, following_id) primary key — a single indexed row lookup,
  * no count/scan needed.
  */
-export async function fetchIsFollowing(followerId: string, followingId: string) {
+export const fetchIsFollowing = guard(async function fetchIsFollowing(followerId: string, followingId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('follows')
@@ -391,12 +406,12 @@ export async function fetchIsFollowing(followerId: string, followingId: string) 
     .eq('following_id', followingId)
     .maybeSingle()
   return { following: !!data, error: error?.message ?? null }
-}
+}, error => ({ following: false, error }))
 
 export type FollowProfile = { id: string; username: string; display_name: string | null; avatar_url: string | null }
 
 /** Accounts that follow `userId` — the "followers" list behind that count. */
-export async function fetchFollowers(userId: string) {
+export const fetchFollowers = guard(async function fetchFollowers(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('follows')
@@ -405,10 +420,10 @@ export async function fetchFollowers(userId: string) {
   const rows = ((data ?? []) as unknown as { profiles: FollowProfile | null }[])
     .map(r => r.profiles).filter((p): p is FollowProfile => p != null)
   return { data: rows, error: error?.message ?? null }
-}
+}, error => ({ data: [] as FollowProfile[], error }))
 
 /** Accounts `userId` follows — the "following" list behind that count. */
-export async function fetchFollowing(userId: string) {
+export const fetchFollowing = guard(async function fetchFollowing(userId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('follows')
@@ -417,19 +432,19 @@ export async function fetchFollowing(userId: string) {
   const rows = ((data ?? []) as unknown as { profiles: FollowProfile | null }[])
     .map(r => r.profiles).filter((p): p is FollowProfile => p != null)
   return { data: rows, error: error?.message ?? null }
-}
+}, error => ({ data: [] as FollowProfile[], error }))
 
-export async function followUser(followerId: string, followingId: string) {
+export const followUser = guard(async function followUser(followerId: string, followingId: string) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('follows').insert({ follower_id: followerId, following_id: followingId })
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
-export async function unfollowUser(followerId: string, followingId: string) {
+export const unfollowUser = guard(async function unfollowUser(followerId: string, followingId: string) {
   const supabase = await getSupabase()
   const { error } = await supabase.from('follows').delete().eq('follower_id', followerId).eq('following_id', followingId)
   return { error: error?.message ?? null }
-}
+}, error => ({ error }))
 
 /**
  * Total builds on the site, public + private — a single security-definer
@@ -437,11 +452,11 @@ export async function unfollowUser(followerId: string, followingId: string) {
  * let this count public builds + the caller's own. Returns just a number,
  * never row content, so bypassing RLS here doesn't leak anything.
  */
-export async function fetchTotalBuildsCount() {
+export const fetchTotalBuildsCount = guard(async function fetchTotalBuildsCount() {
   const supabase = await getSupabase()
   const { data, error } = await supabase.rpc('get_total_builds_count')
   return { count: typeof data === 'number' ? data : Number(data ?? 0), error: error?.message ?? null }
-}
+}, error => ({ count: 0, error }))
 
 export type CommunityStats = {
   usersCount:        number
@@ -459,7 +474,7 @@ export type CommunityStats = {
  * Headline numbers for the Explore stats bar — one RPC round trip
  * (get_community_stats) instead of six separate count queries.
  */
-export async function fetchCommunityStats() {
+export const fetchCommunityStats = guard(async function fetchCommunityStats(): Promise<{ data: CommunityStats | null; error: string | null }> {
   const supabase = await getSupabase()
   const { data, error } = await supabase.rpc('get_community_stats')
   const row = (Array.isArray(data) ? data[0] : data) as Record<string, number> | null
@@ -474,7 +489,7 @@ export async function fetchCommunityStats() {
     forgeFinishedCount: row?.forge_finished_count == null ? null : Number(row.forge_finished_count),
   }
   return { data: stats, error: error?.message ?? null }
-}
+}, error => ({ data: null, error }))
 
 export type ForgeRunStart = {
   intensity:     'quick' | 'standard' | 'master' | 'eternal'

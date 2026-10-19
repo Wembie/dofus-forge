@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.104',
+    date: '2026-10-19',
+    notes: [
+      'Fix: a failed load of the sign-in / cloud library no longer leaves the account button or any page stuck loading; the next request retries it',
+    ],
+  },
+  {
     version: '0.3.103',
     date: '2026-10-19',
     notes: [

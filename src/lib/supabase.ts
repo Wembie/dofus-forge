@@ -20,6 +20,11 @@ export function getSupabase(): Promise<SupabaseClient> {
       }
       client = createClient(url ?? '', anonKey ?? '')
       return client
+    }).catch(err => {
+      // Don't cache the failure: the next call retries the import instead
+      // of replaying this rejection until a full page reload.
+      clientPromise = null
+      throw err
     })
   }
   return clientPromise

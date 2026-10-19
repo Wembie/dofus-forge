@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.104] — 2026-10-19
+- **Fix**: if the sign-in / cloud library failed to load once (offline, or a new deploy while the tab was open), every later request kept failing until a full page reload, the account button could spin forever, and Explore, profiles, publishing, likes, comments and follows could be left loading for good. Now the library is retried on the next request, the account button falls back to signed out, and every request reports a normal error instead
+
 ## [0.3.103] — 2026-10-19
 - **Perf**: pages now canonicalize to no-trailing-slash URLs (`/explore` instead of `/explore/`) across SEO tags, the sitemap, and Cloudflare's static asset serving (`html_handling: "drop-trailing-slash"`) — the previous convention forced a 307 redirect round-trip on any visit arriving via a bare URL (the common case, since nobody types or shares a trailing slash), measured live at 86ms P75 in Cloudflare's Web Vitals
 
