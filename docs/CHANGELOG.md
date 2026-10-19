@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.95] — 2026-10-18
+- **UI**: the footer now carries a Colombian signature with the flag, a 100% Colombian label, coffee and mountain icons, and a multicolored macaw; hovering the flag reveals a Colombian pride message
+
 ## [0.3.94] — 2026-10-18
 - **Fix**: item icons are now mirrored into Dofus Forge's own storage instead of hotlinking DofusDude's live CDN — a future outage there (like the one that broke every equipped-item image on the site) no longer takes the catalog down with it
 - **Change**: any item not yet mirrored still falls back to the live CDN automatically, and an hourly job keeps the mirror in sync with new items as the game updates
