@@ -5,6 +5,20 @@ import './i18n/index.ts'
 import './index.css'
 import { initTheme } from './ui/ThemeToggle.tsx'
 
+const preloadRecoveryKey = 'vite-preload-recovery'
+
+window.addEventListener('vite:preloadError', event => {
+  event.preventDefault()
+
+  if (sessionStorage.getItem(preloadRecoveryKey)) return
+  sessionStorage.setItem(preloadRecoveryKey, '1')
+  window.location.reload()
+})
+
+window.addEventListener('load', () => {
+  window.setTimeout(() => sessionStorage.removeItem(preloadRecoveryKey), 30_000)
+}, { once: true })
+
 initTheme()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

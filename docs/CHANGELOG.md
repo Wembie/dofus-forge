@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.106] — 2026-10-19
+- **Fix**: when an open tab requests a JavaScript chunk removed by a newer deploy, it now reloads once instead of getting stuck on a blank screen; missing `/assets/` files return 404 rather than the SPA HTML fallback
+
 ## [0.3.105] — 2026-10-19
 - **Fix**: internal home links, language redirects and shared builder URLs now use the canonical no-trailing-slash paths (`/es` and `/es?b=...`), avoiding Cloudflare redirect round-trips; the legacy GitHub Pages redirect also strips trailing slashes from deep links
 

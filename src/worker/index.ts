@@ -218,6 +218,10 @@ export default {
       }
     }
 
-    return withSecurityHeaders(await env.ASSETS.fetch(request))
+    const assetResponse = await env.ASSETS.fetch(request)
+    if (url.pathname.startsWith('/assets/') && assetResponse.headers.get('Content-Type')?.startsWith('text/html')) {
+      return withSecurityHeaders(new Response('Not found', { status: 404 }))
+    }
+    return withSecurityHeaders(assetResponse)
   },
 }

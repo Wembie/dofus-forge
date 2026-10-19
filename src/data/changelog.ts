@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.106',
+    date: '2026-10-19',
+    notes: [
+      'Fix: if an open tab requests a JavaScript chunk removed by a newer deploy, the app reloads once instead of staying blank; missing assets now return 404 rather than the SPA HTML fallback',
+    ],
+  },
+  {
     version: '0.3.105',
     date: '2026-10-19',
     notes: [
