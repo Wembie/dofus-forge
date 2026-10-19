@@ -67,7 +67,7 @@ interface Props {
  */
 function pickAnim(def: BoneDef, anim: string): string {
   if (def.anims[anim]) return anim
-  const [, motion, file] = /^(.*)_(\d)$/.exec(anim) ?? [, anim, '1']
+  const [, motion, file] = /^(.*)_(\d)$/.exec(anim) ?? [anim, anim, '1']
   const names = Object.keys(def.anims)
   const facing = (m: string) => [`${m}_${file}`, `${m}_1`, `${m}_5`, `${m}_0`].find(n => def.anims[n]) ?? names.find(n => n.startsWith(`${m}_`))
   return facing(motion) ?? facing('AnimStatique') ?? names[0] ?? anim
