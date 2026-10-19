@@ -17,6 +17,7 @@
   "search_items": "Search items…",
   "level_range": "Lv",
   "item_count": "{{count}} items",
+  "already_equipped": "Already equipped in Dofus {{slot}}",
   "no_items": "No items found",
   "more_effects": "+{{count}} more",
   "stats": "Stats",

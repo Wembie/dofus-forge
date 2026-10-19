@@ -17,6 +17,7 @@
   "search_items": "Buscar objetos…",
   "level_range": "Nv",
   "item_count": "{{count}} objetos",
+  "already_equipped": "Ya lo tienes equipado en Dofus {{slot}}",
   "no_items": "No se encontraron objetos",
   "more_effects": "+{{count}} más",
   "stats": "Estadísticas",

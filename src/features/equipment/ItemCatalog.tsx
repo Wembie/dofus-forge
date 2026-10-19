@@ -13,6 +13,7 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch } from '@/ui'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { playEquip } from '@/lib/sound.ts'
+import { Check } from 'lucide-react'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
@@ -142,6 +143,7 @@ type ItemCardProps = {
   slotId:      SlotId
   slotIcon:    string
   isEquipped:  boolean
+  equippedDofusSlot: number | null
   itemSet:     AppSet | undefined
   isFavItem:   boolean
   t:           ReturnType<typeof useTranslation>['t']
@@ -154,8 +156,10 @@ type ItemCardProps = {
 // star, or hovering it, doesn't re-render every other visible card — each
 // only re-renders when ITS OWN props actually change.
 const ItemCard = memo(function ItemCard({
-  item, slotId, slotIcon, isEquipped, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
+  item, slotId, slotIcon, isEquipped, equippedDofusSlot, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
 }: ItemCardProps) {
+  const isAlreadyEquipped = equippedDofusSlot !== null
+  const highlighted = isEquipped || isAlreadyEquipped
   const isWeapon = item.slot === 'weapon' || item.ap_cost != null
   const isAtk    = (e: AppItem['effects'][0]) => e.effect_id != null ? WEAPON_ATTACK_IDS.has(e.effect_id) : false
   const allFx    = item.effects.filter(e =>
@@ -167,13 +171,15 @@ const ItemCard = memo(function ItemCard({
 
   return (
     <button
-      onClick={() => onPick(item)}
-      className="text-left relative rounded-xl overflow-hidden w-full group"
+      onClick={() => { if (!isAlreadyEquipped) onPick(item) }}
+      aria-disabled={isAlreadyEquipped}
+      title={isAlreadyEquipped ? t('already_equipped', { slot: equippedDofusSlot }) : undefined}
+      className={`text-left relative rounded-xl overflow-hidden w-full group ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
       style={{
-        background: isEquipped
+        background: highlighted
           ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
           : 'var(--surface-void)',
-        border: isEquipped
+        border: highlighted
           ? '1px solid color-mix(in srgb, var(--gold) 45%, transparent)'
           : '1px solid var(--metal-edge)',
         transition: 'border-color 0.15s, background 0.15s',
@@ -185,12 +191,12 @@ const ItemCard = memo(function ItemCard({
       } as React.CSSProperties}
       onMouseEnter={e => {
         const el = e.currentTarget as HTMLButtonElement
-        if (isEquipped) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
+        if (highlighted) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
         else el.style.background = 'var(--surface-panel)'
       }}
       onMouseLeave={e => {
         const el = e.currentTarget as HTMLButtonElement
-        if (isEquipped) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
+        if (highlighted) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
         else el.style.background = 'var(--surface-void)'
       }}
     >
@@ -220,7 +226,7 @@ const ItemCard = memo(function ItemCard({
           <p
             className="font-semibold text-base leading-tight"
             style={{
-              color: isEquipped ? 'var(--gold)' : 'var(--ink)',
+              color: highlighted ? 'var(--gold)' : 'var(--ink)',
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
@@ -228,8 +234,21 @@ const ItemCard = memo(function ItemCard({
             } as React.CSSProperties}
           >
             {item.name}
-            {isEquipped && <span className="ml-1 text-[10px]" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
+            {isEquipped && !isAlreadyEquipped && <span className="ml-1 text-[10px]" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
           </p>
+          {isAlreadyEquipped && (
+            <span
+              className="inline-flex items-center gap-1 mt-1 px-1.5 py-0.5 rounded text-[10px] font-semibold"
+              style={{
+                color: 'var(--positive)',
+                background: 'color-mix(in srgb, var(--positive) 12%, transparent)',
+                border: '1px solid color-mix(in srgb, var(--positive) 30%, transparent)',
+              }}
+            >
+              <Check size={12} strokeWidth={2.5} aria-hidden="true" />
+              {t('already_equipped', { slot: equippedDofusSlot })}
+            </span>
+          )}
           <p className="text-[12px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
             Lv {item.level}
           </p>
@@ -364,6 +383,16 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const setsData   = useDataStore(s => s.sets)
   const equipItem   = useBuildStore(s => s.equipItem)
   const currentId   = useBuildStore(s => s.equipped[slotId])
+  const equipped    = useBuildStore(s => s.equipped)
+  const equippedDofusSlots = useMemo(() => {
+    const slots = new Map<number, number>()
+    for (const [equippedSlot, id] of Object.entries(equipped)) {
+      if (equippedSlot.startsWith('dofus') && id != null) {
+        slots.set(id, Number(equippedSlot.slice('dofus'.length)))
+      }
+    }
+    return slots
+  }, [equipped])
   const addToast    = useToastStore(s => s.addToast)
 
   const slotLabel = t(slotTKey(slotId))
@@ -662,6 +691,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                     slotId={slotId}
                     slotIcon={slot.icon}
                     isEquipped={item.ankama_id === currentId}
+                    equippedDofusSlot={slotId.startsWith('dofus') ? equippedDofusSlots.get(item.ankama_id) ?? null : null}
                     itemSet={item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined}
                     isFavItem={isFav(item.ankama_id)}
                     t={t}
