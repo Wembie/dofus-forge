@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.107',
+    date: '2026-10-19',
+    notes: [
+      'Feature: 53 more pets walk beside the animated character (120 of 122), each with its real model and colors',
+      'Feature: the Tortikoli petsmount can now be ridden',
+      'Fix: pets with only an idle pose no longer disappear when the character walks or runs',
+    ],
+  },
+  {
     version: '0.3.106',
     date: '2026-10-19',
     notes: [

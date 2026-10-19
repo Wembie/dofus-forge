@@ -254,7 +254,9 @@ export class CharacterRenderer {
   }
 
   private build(e: Entity, ox = 0, oy = 0) {
-    this.skins = e.skins
+    // A bone's own sprites can also be referenced by name (e.g. a creature
+    // drawn as a single "AnimStatique_0" composite), after any skin layer.
+    this.skins = e.own ? [...e.skins, e.own.layer] : e.skins
     this.palette = (e.colors ?? []).map(rgb)
     const standalone = (name: string) => !HAT_SLOT.test(name) || !!e.worn?.some(l => l.skin.parts[name])
     this.animated.clear()

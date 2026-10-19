@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.107] — 2026-10-19
+- **Feature**: 53 more pets now walk beside the animated character (120 of 122), including Bow Wow, Bow Meow, Wabbit, Quaquack, Nomoon and the newer ones, each matched to its real model and colors
+- **Feature**: the Tortikoli petsmount can be ridden, so every mount and petsmount now carries the character
+- **Fix**: pets whose model only has an idle pose (e.g. Bow Meow) no longer disappear when the character walks or runs
+
 ## [0.3.106] — 2026-10-19
 - **Fix**: when an open tab requests a JavaScript chunk removed by a newer deploy, it now reloads once instead of getting stuck on a blank screen; missing `/assets/` files return 404 rather than the SPA HTML fallback
 

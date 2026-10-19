@@ -61,10 +61,22 @@ interface Props {
   onError?: () => void
 }
 
+/**
+ * Creatures don't all ship every motion and facing (some pets only have one
+ * idle pose): fall back to the same motion in another facing, then to idle.
+ */
+function pickAnim(def: BoneDef, anim: string): string {
+  if (def.anims[anim]) return anim
+  const [, motion, file] = /^(.*)_(\d)$/.exec(anim) ?? [, anim, '1']
+  const names = Object.keys(def.anims)
+  const facing = (m: string) => [`${m}_${file}`, `${m}_1`, `${m}_5`, `${m}_0`].find(n => def.anims[n]) ?? names.find(n => n.startsWith(`${m}_`))
+  return facing(motion) ?? facing('AnimStatique') ?? names[0] ?? anim
+}
+
 async function loadFigure(bone: string, anim: string): Promise<Figure> {
   const def = await loadBone(bone)
   const [animation, own] = await Promise.all([
-    loadAnimation(bone, anim),
+    loadAnimation(bone, pickAnim(def, anim)),
     def.graphics?.length ? loadSkin(`b${bone}`) : Promise.resolve(null),
   ])
   return { def, anim: animation, own: own && def.graphics ? { layer: own, names: def.graphics } : undefined }

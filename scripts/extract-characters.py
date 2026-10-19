@@ -46,7 +46,28 @@ RIDER_BONE = '2'
 # colors sampled from the item icon (slot N -> index N-1, gray = untouched).
 PET_COLORS = {
     13673: [0x808080, 0x808080, 0xd7a24c, 0x978f3e],  # Snailmate
+    13661: [0x808080, 0x808080, 0x73b99c],            # Kraxiste
+    13667: [0x808080, 0x808080, 0x9dc6b6, 0xd33a2c],  # Bulbeskeje
 }
+
+# Pets with no npc/monster of the same name: matched by eye, every candidate
+# bone (shortlisted by atlas colors) rendered next to the item icon and each
+# final pick re-checked alone. Minikornio and Microsmoglob have no matching
+# bone in the client and stay unmatched.
+PET_BONES = {
+    1711: '242', 1728: '1998', 1748: '243', 6604: '244', 6716: '451',
+    6718: '201', 6894: '1998', 6895: '1998', 7524: '225', 7704: '249',
+    7707: '253', 7911: '263', 10106: '130', 10802: '197', 11011: '1200',
+    11013: '1203', 11014: '1204', 11104: '244', 11771: '1417', 11950: '1467',
+    11955: '1448', 11966: '1447', 11971: '1450', 12133: '1520', 12177: '1539',
+    13071: '1851', 13099: '1850', 13230: '1909', 13661: '2021', 13667: '2022',
+    13679: '608', 14545: '2320', 15110: '2626', 15249: '2709', 15254: '2708',
+    15469: '2791', 15978: '3017', 16116: '3119', 16122: '3120', 16269: '3312',
+    16276: '3162', 16295: '3158', 17023: '3214', 17028: '3215', 17379: '3364',
+    17700: '3500', 17795: '3531', 17833: '3550', 18626: '3943', 19531: '4556',
+    27431: '7002', 30957: '9143', 31862: '9640',
+}
+PET_SCALE = 80  # typical look scale of pet npcs (60-130)
 
 # Petsmount item -> mount bone. The client has no such table (the server
 # builds the mounted look), so each one was matched by eye: every mount bone
@@ -77,6 +98,7 @@ PETSMOUNTS = {
     29435: {'bone': '7834'},   # Kobraviva
     29456: {'bone': '7835'},   # Gavioto
     31886: {'bone': '9527'},   # Montura del Venerable (its monster's look)
+    25293: {'bone': '6338'},   # Tortikoli (next to Tae'Niak's bone)
 }
 SKIN_MAGIC = b'DFSK'
 SKIN_VERSION = 1
@@ -217,8 +239,10 @@ def match_pets(client, item_type):
         found = creatures.get((names.get(item['nameId']) or '').strip().lower())
         if found:
             pets[item['id']] = {'bone': str(found[2]), 'scale': found[3]}
-            if item['id'] in PET_COLORS:
-                pets[item['id']]['colors'] = PET_COLORS[item['id']]
+        elif item['id'] in PET_BONES:
+            pets[item['id']] = {'bone': PET_BONES[item['id']], 'scale': PET_SCALE}
+        if item['id'] in pets and item['id'] in PET_COLORS:
+            pets[item['id']]['colors'] = PET_COLORS[item['id']]
     return pets
 
 
