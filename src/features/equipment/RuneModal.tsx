@@ -5,6 +5,7 @@ import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, transcendenceIconUrl } from './statDisplay.ts'
 import { exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
 import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
+import { normalizeSearch } from '@/ui/normalize.ts'
 
 type RuneSection = { labelKey: string; stats: string[] }
 
@@ -113,6 +114,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const exotic    = exoticOf(runes)
   const [mode, setMode]       = useState<'normal' | 'exotic'>('normal')
   const [trFocus, setTrFocus] = useState<string | null>(exotic ? exotic.stat : null)
+  const [runeSearch, setRuneSearch] = useState('')
 
   const runeEntries   = Object.entries(runes).filter(([, v]) => v > 0).sort(exoticFirst)
   const normalCount   = runeEntries.filter(([k]) => k !== exotic?.key).length
@@ -693,9 +695,37 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             <div className="flex-1 h-px" style={{ background: 'linear-gradient(to left, transparent, var(--metal-edge))' }} />
           </div>
 
+          {/* Search by name — most players only ever use a handful of stats
+              and don't want to scroll all 51 to find them */}
+          <div className="px-4 mb-2.5">
+            <input
+              type="search"
+              value={runeSearch}
+              onChange={e => setRuneSearch(e.target.value)}
+              placeholder={t('rune_search')}
+              className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-ink-faint focus:outline-none transition-colors"
+              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
+              onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
+              onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
+            />
+          </div>
+
           {/* Rune grid — click to select */}
           <div className="px-4 space-y-2.5 pb-4">
-            {RUNE_SECTIONS.map(section => (
+            {(() => {
+              const query = normalizeSearch(runeSearch.trim())
+              const bySection = RUNE_SECTIONS.map(section => ({
+                section,
+                stats: query
+                  ? section.stats.filter(stat => normalizeSearch(t(STAT_META[stat]?.tKey ?? stat)).includes(query) || normalizeSearch(stat).includes(query))
+                  : section.stats,
+              }))
+              if (query && bySection.every(({ stats }) => stats.length === 0)) {
+                return <p className="text-xs text-center py-4" style={{ color: 'var(--ink-faint)' }}>{t('rune_search_empty')}</p>
+              }
+              return bySection.map(({ section, stats }) => {
+              if (stats.length === 0) return null
+              return (
               <div key={section.labelKey}>
                 <div
                   className="text-[9px] uppercase tracking-[0.12em] font-semibold mb-1 px-0.5"
@@ -707,7 +737,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   className="grid gap-1.5 p-2 rounded-xl"
                   style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(50px, 1fr))', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
                 >
-                  {section.stats.map(stat => {
+                  {stats.map(stat => {
                     const meta    = STAT_META[stat]
                     const clr     = meta?.color ?? 'var(--gold)'
                     const active  = stat === selected
@@ -769,7 +799,9 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                   })}
                 </div>
               </div>
-            ))}
+              )
+              })
+            })()}
           </div>
           </>)}
 

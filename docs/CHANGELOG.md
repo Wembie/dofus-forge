@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.108] — 2026-10-19
+- **Feature**: search box in the rune picker (Magesmithy) to find a stat by name instead of scrolling through all 51 — hides empty sections and shows a no-results message when nothing matches
+
 ## [0.3.107] — 2026-10-19
 - **Feature**: 53 more pets now walk beside the animated character (120 of 122), including Bow Wow, Bow Meow, Wabbit, Quaquack, Nomoon and the newer ones, each matched to its real model and colors
 - **Feature**: the Tortikoli petsmount can be ridden, so every mount and petsmount now carries the character

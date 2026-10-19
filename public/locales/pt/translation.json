@@ -1076,5 +1076,7 @@
   "admin_ranks_status_active": "Ativo",
   "admin_ranks_status_scheduled": "Agendado",
   "admin_ranks_status_expired": "Expirado",
-  "admin_ranks_status_revoked": "Revogado"
+  "admin_ranks_status_revoked": "Revogado",
+  "rune_search": "Buscar runas…",
+  "rune_search_empty": "Nenhuma runa corresponde à sua busca"
 }
