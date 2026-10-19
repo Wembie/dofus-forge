@@ -207,18 +207,18 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [x] `src/store/authStore.ts:83-92` (`init()`) — la promesa de `getSupabase().then(...)` no tiene `.catch()`; si falla el import dinámico de supabase-js o `getSession()`, `loading` queda en `true` para siempre (AuthButton girando sin parar)
 
 **Medio impacto:**
-- [ ] `src/features/equipment/RuneModal.tsx:77` — `useBuildStore(s => s.runes[slotId] ?? {})` crea un objeto nuevo en cada llamada cuando no hay runas, rompiendo la comparación por referencia y re-renderizando en cada cambio del build mientras el modal está abierto — mismo tipo de problema que M65 arregló en otros 4 componentes. Fix: constante compartida `EMPTY_RUNES = {}` como fallback
+- [x] `src/features/equipment/RuneModal.tsx:77` — `useBuildStore(s => s.runes[slotId] ?? {})` crea un objeto nuevo en cada llamada cuando no hay runas, rompiendo la comparación por referencia y re-renderizando en cada cambio del build mientras el modal está abierto — mismo tipo de problema que M65 arregló en otros 4 componentes. Fix: constante compartida `EMPTY_RUNES = {}` como fallback
 - [x] `SetsCatalog.tsx` (`SetCard`, línea 30) — no está envuelto en `React.memo`, cada tecla de filtro re-renderiza todas las cards visibles desde cero
 - [x] ~~`src/engine/optimizer.ts` — `itemPartialScore()` reconstruía un `Map` en cada comparación~~ — ya no aplica: el optimizador TS se eliminó, La Forjadora corre en Rust/WASM (`rust-optimizer/src/forge.rs`)
-- [ ] `src/features/builds/BuildEquipmentPreview.tsx:18` — reconstruye un `Map` del catálogo completo (~4300 ítems) en CADA render, sin `useMemo`; este componente se instancia por card en grids de Explore/MyBuilds (hasta 24+ a la vez)
+- [x] `src/features/builds/BuildEquipmentPreview.tsx:18` — reconstruye un `Map` del catálogo completo (~4300 ítems) en CADA render, sin `useMemo`; este componente se instancia por card en grids de Explore/MyBuilds (hasta 24+ a la vez)
 - [x] `src/lib/supabase.ts:9-26` — `clientPromise` queda cacheada aunque la promesa interna falle; si `getSupabase()` falla una vez, toda llamada futura repite el mismo rechazo (login/cloud roto hasta recargar la página entera). Fix: limpiar `clientPromise` en el catch
 - [ ] `src/ui/Modal.tsx:70-100` — hace focus trap y foco inicial al abrir, pero nunca guarda ni restaura el `document.activeElement` previo al cerrar — usuarios de teclado/lector de pantalla pierden su posición en la página tras cerrar cualquier modal
-- [ ] `src/features/optimizer/OptimizerModal.tsx` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio (cada tecla en mínimo/ley/tope de `RequirementCard`); debería debounce 300-500ms. (`StatWeightRow.tsx` ya no existe: lo reemplazó `RequirementCard`)
+- [x] `src/features/optimizer/OptimizerModal.tsx` — el `useEffect` que persiste el config a `localStorage` corre en CADA cambio (cada tecla en mínimo/ley/tope de `RequirementCard`); debería debounce 300-500ms. (`StatWeightRow.tsx` ya no existe: lo reemplazó `RequirementCard`)
 
 **Bajo impacto / pulido:**
-- [ ] `ComparePanel.tsx:129` — `useCompareStore()` sin selector al lado de selectores angostos de `useBuildStore` en las mismas líneas; mismo patrón que M65 ya arregló en otros lados, acá el store es chico así que es bajo impacto
-- [ ] `ComparePanel.tsx:140-141` — `?? []` inline en el selector de `useDataStore` crea un array nuevo en cada notificación mientras carga
-- [ ] `BuildCard.tsx:52,72` — avatar e ícono de clase sin `loading="lazy"`, a diferencia de `BuildEquipmentPreview.tsx:47` que sí lo tiene; se renderiza en grids de hasta 24 cards
+- [x] `ComparePanel.tsx:129` — `useCompareStore()` sin selector al lado de selectores angostos de `useBuildStore` en las mismas líneas; mismo patrón que M65 ya arregló en otros lados, acá el store es chico así que es bajo impacto
+- [x] `ComparePanel.tsx:140-141` — `?? []` inline en el selector de `useDataStore` crea un array nuevo en cada notificación mientras carga
+- [x] `BuildCard.tsx:52,72` — avatar e ícono de clase sin `loading="lazy"`, a diferencia de `BuildEquipmentPreview.tsx:47` que sí lo tiene; se renderiza en grids de hasta 24 cards
 - [ ] `public/data/classes/*.png` — ~40 PNGs de 6-8KB sin convertir a WebP pese a que las runas en el mismo árbol ya están en WebP
 - [ ] `vite.config.ts` — sin `rollup-plugin-visualizer` configurado, no hay forma de inspeccionar qué pesa dentro de los 2 chunks grandes (`index-*.js` ~227KB y ~415KB) sin agregarlo primero
 - [ ] `vite.config.ts:24` — `build.sourcemap: true` publica sourcemaps completos en el deploy de producción de GitHub Pages, exponiendo la estructura del código fuente original

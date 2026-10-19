@@ -3,6 +3,21 @@ import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
+// One index per catalog array, shared by every card in an Explore/My Builds
+// grid (24+ at once) instead of a fresh ~4300-entry Map per card per render.
+const indexCache = new WeakMap<AppItem[], Map<number, AppItem>>()
+const NO_ITEMS = new Map<number, AppItem>()
+
+function itemIndex(equipment: AppItem[] | null): Map<number, AppItem> {
+  if (!equipment) return NO_ITEMS
+  let index = indexCache.get(equipment)
+  if (!index) {
+    index = new Map(equipment.map(it => [it.ankama_id, it]))
+    indexCache.set(equipment, index)
+  }
+  return index
+}
+
 /** Read-only equipment grid — same slot set/order and visual treatment as
  * the real EquipmentGrid slot buttons (gradient, gold glow, inset shadow),
  * just without the click/drag handlers. Used to preview a build on the
@@ -15,7 +30,7 @@ export function BuildEquipmentPreview({ snapshot, equipment, size = 44, hideEmpt
    * entirely instead of showing a dashed placeholder for all 17. */
   hideEmpty?: boolean
 }) {
-  const map = new Map((equipment ?? []).map(it => [it.ankama_id, it]))
+  const map = itemIndex(equipment)
 
   return (
     <div className="flex flex-wrap gap-2">

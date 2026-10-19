@@ -445,7 +445,16 @@ export function OptimizerModal({ open, onClose }: Props) {
   const presetRef    = useRef(INTENSITY.standard)
   const logIdRef     = useRef(0)
 
-  useEffect(() => { persistConfig(config) }, [config])
+  // Debounced: every keystroke in a minimum / ley / cap field is a config
+  // change. The unmount flush keeps the last edit when the modal closes
+  // inside the debounce window.
+  const latestConfigRef = useRef(config)
+  latestConfigRef.current = config
+  useEffect(() => {
+    const id = setTimeout(() => persistConfig(config), 400)
+    return () => clearTimeout(id)
+  }, [config])
+  useEffect(() => () => persistConfig(latestConfigRef.current), [])
   useEffect(() => () => terminateWorkers(), [])
 
   useEffect(() => {

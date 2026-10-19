@@ -85,9 +85,13 @@ type Props = {
   onClose: () => void
 }
 
+// Shared fallback: a fresh `{}` per selector call would make zustand see a
+// new value on every store change and re-render the open modal each time.
+const EMPTY_RUNES: Record<string, number> = {}
+
 export function RuneModal({ slotId, item, onClose }: Props) {
   const { t } = useTranslation()
-  const runes              = useBuildStore(s => s.runes[slotId] ?? {})
+  const runes              = useBuildStore(s => s.runes[slotId] ?? EMPTY_RUNES)
   const setRune            = useBuildStore(s => s.setRune)
   const clearRune          = useBuildStore(s => s.clearRune)
   const clearAllRunes      = useBuildStore(s => s.clearAllRunes)
