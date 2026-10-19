@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.105] — 2026-10-19
+- **Fix**: internal home links, language redirects and shared builder URLs now use the canonical no-trailing-slash paths (`/es` and `/es?b=...`), avoiding Cloudflare redirect round-trips; the legacy GitHub Pages redirect also strips trailing slashes from deep links
+
 ## [0.3.104] — 2026-10-19
 - **Fix**: if the sign-in / cloud library failed to load once (offline, or a new deploy while the tab was open), every later request kept failing until a full page reload, the account button could spin forever, and Explore, profiles, publishing, likes, comments and follows could be left loading for good. Now the library is retried on the next request, the account button falls back to signed out, and every request reports a normal error instead
 - **Perf**: the Sets catalog opens and filters much faster: it shows sets 24 at a time and loads more as you scroll (it used to mount all ~930 at once), looks items up in an index instead of scanning the whole catalog for every set piece, and cards no longer re-render on every keystroke

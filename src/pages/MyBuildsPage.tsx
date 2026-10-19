@@ -9,7 +9,7 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.tsx'
@@ -64,7 +64,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
     const snapshot = { ...build.snapshot, n: build.name || undefined }
     const encoded  = encodeSnapshot(snapshot)
     const lang     = i18n.language.slice(0, 2)
-    const langPath = lang === 'en' ? '' : `${lang}/`
+    const langPath = langPathRootSegment(lang)
     // These are all your own builds (fetchMyBuilds) — republishing this one
     // should update it in place, not create a duplicate row.
     navigate(`/${langPath}?b=${encoded}&edit=${build.id}`)

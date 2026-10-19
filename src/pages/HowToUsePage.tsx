@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 
 const STEPS = [1, 2, 3, 4, 5, 6, 7, 8] as const
@@ -10,6 +10,7 @@ const STEPS = [1, 2, 3, 4, 5, 6, 7, 8] as const
 export function HowToUsePage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
+  const homePath = `/${langPathRootSegment(i18n.language)}`
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'how-to-use', {
     title: t('howto_seo_title'),
     description: t('howto_seo_description'),
@@ -59,7 +60,7 @@ export function HowToUsePage() {
 
         <div className="flex flex-wrap gap-3">
           <Link
-            to={`/${prefix}`}
+            to={homePath}
             className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
             style={{ borderColor: 'var(--metal-edge)', color: 'var(--gold)' }}
           >
