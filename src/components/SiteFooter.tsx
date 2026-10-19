@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { Coffee, Mountain } from 'lucide-react'
+import { ColombianMark } from '@/components/ColombianMark.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 
 /** Shared across every page (planner, Explore, My Builds, build detail,
@@ -19,6 +21,27 @@ export function SiteFooter() {
         <Link to={`/${prefix}explore`} className="hover:text-gold transition-colors">{t('explore_open')}</Link>
         <Link to={`/${prefix}my-builds`} className="hover:text-gold transition-colors">{t('my_builds')}</Link>
       </nav>
+      <div
+        role="img"
+        aria-label={t('colombia_badge')}
+        className="flex items-center justify-center gap-2"
+        style={{ color: 'var(--ink-faint)' }}
+      >
+        <ColombianMark />
+        <span className="text-[10px] font-medium tracking-wide" style={{ color: 'var(--ink-muted)' }}>
+          {t('colombia_badge')}
+        </span>
+        <Coffee size={13} aria-hidden="true" style={{ color: 'var(--gold)' }} />
+        <Mountain size={14} aria-hidden="true" style={{ color: 'var(--air)' }} />
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="flex-shrink-0">
+          <path d="m9 14-4 7m6-6-1 6m3-6 1 6" stroke="#003893" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M9 13c0-2.9 2-5 4.8-5 2.3 0 4.3 1.8 4.3 4.1 0 2.7-2.1 4.9-4.9 4.9-2.2 0-3.7-1.3-4.2-4Z" stroke="var(--air)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M10.3 11.9c1.4-1 3.4-1 4.9-.2" stroke="#003893" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="16.1" cy="5.5" r="3.1" stroke="#CE1126" strokeWidth="2" />
+          <path d="m19 5.6 2.8 1.2L19 8.3" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="16.3" cy="5.2" r=".4" fill="var(--ink)" />
+        </svg>
+      </div>
       <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: 'var(--ink-faint)' }}>
         <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_server')}: </span>Tal Kasha</span>
         <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_creator')}: </span>Juan / Wembie</span>

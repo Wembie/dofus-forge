@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.95',
+    date: '2026-10-18',
+    notes: [
+      'UI: the footer now carries a Colombian signature with the flag, a 100% Colombian label, coffee and mountain icons, and a multicolored macaw; hovering the flag reveals a Colombian pride message',
+    ],
+  },
+  {
     version: '0.3.94',
     date: '2026-10-18',
     notes: [
