@@ -23,10 +23,11 @@ pub(crate) fn base_hp(level: i64) -> i64 {
 }
 
 fn empty_stat_block() -> StatBlock {
-    let mut b = StatBlock::default();
-    b.prospecting = 100;
-    b.summons = 1;
-    b
+    StatBlock {
+        prospecting: 100,
+        summons: 1,
+        ..StatBlock::default()
+    }
 }
 
 fn add_to_stat(block: &mut StatBlock, key: &str, value: i64) {
@@ -160,7 +161,7 @@ fn compute_set_bonuses(items: &[EquippedItem], sets: &[SetData]) -> Vec<ItemEffe
             .filter_map(|(k, v)| k.parse::<i64>().ok().map(|pieces| (pieces, v)))
             .filter(|(pieces, _)| *pieces <= count)
             .collect();
-        tiers.sort_by(|a, b| b.0.cmp(&a.0));
+        tiers.sort_by_key(|a| std::cmp::Reverse(a.0));
 
         if let Some((_, effects)) = tiers.first() {
             bonus_effects.extend((*effects).iter().cloned());
@@ -278,7 +279,7 @@ pub fn compute_stats(input: &BuildInput<'_>) -> StatBlock {
     }
 
     // 3. Aggregate set bonuses
-    let set_bonuses = compute_set_bonuses(&input.items, &input.sets);
+    let set_bonuses = compute_set_bonuses(&input.items, input.sets);
     apply_effects(&mut block, &set_bonuses);
 
     // 3.5. Rune ("forgemagie") effects

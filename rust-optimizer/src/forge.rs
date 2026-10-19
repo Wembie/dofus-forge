@@ -506,7 +506,7 @@ impl Forge {
                     .collect();
                 tiers.sort_by_key(|(n, _)| *n);
                 (0..=NSLOT as i64)
-                    .map(|count| tiers.iter().filter(|(n, _)| *n <= count).last().map(|(_, v)| *v).unwrap_or([0; NF]))
+                    .map(|count| tiers.iter().rfind(|(n, _)| *n <= count).map(|(_, v)| *v).unwrap_or([0; NF]))
                     .collect()
             })
             .collect();
@@ -714,7 +714,7 @@ impl Forge {
                             .map(|&i| (forge.stat_contribution(i as usize, ti), i))
                             .filter(|(c, _)| *c > 0)
                             .collect();
-                        scored.sort_by(|a, b| b.0.cmp(&a.0));
+                        scored.sort_by_key(|a| std::cmp::Reverse(a.0));
                         scored.into_iter().take(STAT_POOL).map(|(_, i)| i).collect()
                     })
                     .collect()
@@ -1510,11 +1510,11 @@ impl Forge {
         // build and replace the rest with fresh random ones.
         next.sort_by(|a, b| a.hash.cmp(&b.hash).then(b.score.partial_cmp(&a.score).unwrap()));
         let mut kept_hash = None;
-        for k in 0..next.len() {
-            if kept_hash == Some(next[k].hash) {
-                next[k] = self.random_individual();
+        for individual in &mut next {
+            if kept_hash == Some(individual.hash) {
+                *individual = self.random_individual();
             } else {
-                kept_hash = Some(next[k].hash);
+                kept_hash = Some(individual.hash);
             }
         }
         next.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap());
@@ -1620,7 +1620,7 @@ impl Forge {
         for i in 0..self.islands.len() {
             self.evolve_island(i);
         }
-        if self.generation % MIGRATION_EVERY == 0 {
+        if self.generation.is_multiple_of(MIGRATION_EVERY) {
             self.migrate();
         }
         self.update_hall();
@@ -2279,7 +2279,7 @@ mod tests {
         let r = &run(&mut f, 5)[0];
         assert_eq!(r.equipped.get("hat"), Some(&1));
         assert_eq!(get_stat(&r.stats, "vitality"), 60);
-        assert!(r.runes.get("hat").is_none());
+        assert!(!r.runes.contains_key("hat"));
     }
 
     #[test]
