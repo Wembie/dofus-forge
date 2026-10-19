@@ -18,7 +18,7 @@ El diseño original (2026-09-01) no se validó contra el código real del builde
 | 5 | `to_tsvector('spanish', ...)` en una app ES/EN/FR/PT hace stemming incorrecto sobre nombres/descripciones en inglés, francés o portugués | `'spanish'` | `'simple'` (sin stemming, agnóstico de idioma) |
 | 6 | Sección 6 (RLS) tenía un comentario `-- mismo patrón para build_characteristics, build_runes, build_snapshots, build_tags` en vez del SQL real — esas 4 tablas quedaban con RLS activado y **cero políticas** (nadie, ni el dueño, puede leer/escribir sin una policy) | comentario, sin SQL | 8 policies reales (read+write × 4 tablas) |
 
-**`supabase/schema.sql`** incluye el esquema completo y los rangos personalizados para bases nuevas. En una base existente, ejecuta `supabase/migrations/20261018_custom_ranks.sql` desde el SQL Editor.
+**`supabase/schema.sql`** incluye el esquema completo y los rangos personalizados para bases nuevas. En una base existente, ejecuta `20261018_custom_ranks.sql` si aún no tienes los rangos y después `20261018130000_custom_rank_customization.sql` para activar la personalización ampliada y la cuota ilimitada.
 
 ---
 
@@ -1384,6 +1384,20 @@ begin
   where p.id = new.user_id
   for update;
 
+  if exists (
+    select 1
+    from public.custom_rank_assignments a
+    join public.custom_rank_definitions d on d.id = a.rank_id and d.is_active
+    join public.custom_rank_benefits b on b.rank_id = d.id
+      and b.benefit_key = 'build_limit' and b.benefit_value = 'unlimited'
+    where a.user_id = new.user_id
+      and a.starts_at <= now()
+      and (a.expires_at is null or a.expires_at > now())
+      and (a.revoked_at is null or a.revoked_at > now())
+  ) then
+    return new;
+  end if;
+
   select coalesce(p.builds_count, 0), greatest(
     public.build_limit_for_tier(coalesce(m.tier, 'free')),
     coalesce((
@@ -1834,9 +1848,9 @@ commit;
 
 ## 13. Custom ranks
 
-Custom ranks are separate from `profiles.role` and supporter membership. Apply `20261018_custom_ranks.sql` once. It creates admin-only definitions and assignment history, the implemented badge-style and saved-build quota benefits, the build-limit trigger, and a public RPC that returns only display fields.
+Custom ranks are separate from `profiles.role` and supporter membership. Apply `20261018_custom_ranks.sql` if the database does not have custom ranks yet, then apply `20261018130000_custom_rank_customization.sql`. The customization migration adds free-form hex colors, expanded icon and badge-finish catalogs, and an unlimited saved-build benefit enforced by the database trigger.
 
-For a fresh database, apply this migration after the complete schema. The standalone file is `supabase/migrations/20261018_custom_ranks.sql`.
+For an existing database that already has custom ranks, apply only `supabase/migrations/20261018130000_custom_rank_customization.sql`. For a fresh database, apply the complete schema and then the two migrations in order. Files: `supabase/migrations/20261018_custom_ranks.sql` and `supabase/migrations/20261018130000_custom_rank_customization.sql`.
 
 ### SQL de implementación
 
@@ -1846,8 +1860,17 @@ create table if not exists public.custom_rank_definitions (
   slug         text not null unique check (slug ~ '^[a-z0-9][a-z0-9_-]{1,39}$'),
   name         text not null check (char_length(btrim(name)) between 1 and 40),
   description  text not null default '' check (char_length(description) <= 180),
-  icon         text not null check (icon in ('crown', 'sparkles', 'palette', 'shield', 'heart', 'star', 'gem', 'handshake', 'flame', 'medal')),
-  color        text not null check (color in ('#C9A24B', '#D98A4A', '#8B7BB8', '#6FAF85', '#77A9C9', '#C56C72', '#B98B62', '#A6A6A6')),
+  icon         text not null check (icon in (
+    'anvil', 'award', 'axe', 'badge_check', 'badge_plus', 'bird', 'book_open',
+    'bug', 'castle', 'cat', 'circle_star', 'clover', 'code', 'compass', 'crown',
+    'dna', 'feather', 'flame', 'flame_kindling', 'flower', 'gamepad', 'gem',
+    'globe', 'hammer', 'handshake', 'headphones', 'heart', 'heart_handshake',
+    'heart_pulse', 'landmark', 'leaf', 'medal', 'moon', 'mountain', 'music',
+    'orbit', 'palette', 'piggy_bank', 'rabbit', 'rocket', 'scroll', 'shield',
+    'shield_check', 'sparkles', 'star', 'sun', 'sword', 'swords', 'target',
+    'trophy', 'users', 'wand', 'wrench', 'zap'
+  )),
+  color        text not null check (color ~ '^#[0-9A-Fa-f]{6}$'),
   is_public    boolean not null default true,
   is_active    boolean not null default true,
   sort_order   smallint not null default 100 check (sort_order between 0 and 999),
@@ -1863,8 +1886,15 @@ create table if not exists public.custom_rank_benefits (
   created_at    timestamptz not null default now(),
   primary key (rank_id, benefit_key),
   constraint custom_rank_benefits_catalog_check check (
-    (benefit_key = 'profile_badge_style' and benefit_value in ('standard', 'founder', 'creator'))
-    or (benefit_key = 'build_limit' and (benefit_value ~ '^[1-9][0-9]{0,4}$' or benefit_value = '100000'))
+    (benefit_key = 'profile_badge_style' and benefit_value in (
+      'standard', 'founder', 'creator', 'royal', 'neon', 'crystal',
+      'holographic', 'obsidian', 'minimal', 'arcane', 'vintage', 'champion',
+      'celestial', 'infernal', 'emerald', 'sapphire', 'ruby', 'bronze',
+      'silver', 'platinum', 'carbon', 'aurora', 'cosmic', 'toxic'
+    ))
+    or (benefit_key = 'build_limit' and (
+      benefit_value ~ '^[1-9][0-9]{0,4}$' or benefit_value = '100000' or benefit_value = 'unlimited'
+    ))
   )
 );
 

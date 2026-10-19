@@ -1,6 +1,6 @@
 # Rangos especiales personalizados
 
-> Diseño implementado en la versión 0.3.96. La pantalla administrativa está en `/admin/ranks`; aplica una vez `supabase/migrations/20261018_custom_ranks.sql` en Supabase.
+> Diseño implementado desde la versión 0.3.96 y ampliado en 0.3.99. La sección está dentro del espacio Admin; en bases existentes aplica `supabase/migrations/20261018_custom_ranks.sql` si aún no tienen los rangos, y después `supabase/migrations/20261018130000_custom_rank_customization.sql`.
 
 ## 1. Objetivo
 
@@ -47,13 +47,14 @@ La asignación puede hacerse desde el formulario de edición del rango o desde l
 - Identificador interno estable (`slug`), por ejemplo `owner` o `designer`.
 - Nombre visible y, si se desea, traducciones para los idiomas de la app.
 - Descripción breve del rango.
-- Icono elegido de una lista segura de iconos disponibles.
-- Color de insignia validado.
+- Icono elegido entre 54 opciones seguras.
+- Cualquier color hexadecimal RGB, elegible con selector de color o paleta.
+- Acabado de insignia elegido entre 24 estilos con vista previa.
 - Orden visual y estado activo/archivado.
 - Indicador de si se muestra públicamente.
 - Beneficios seleccionados del catálogo de beneficios implementados.
 
-No se debe aceptar HTML, SVG arbitrario, scripts ni URLs de iconos ingresadas libremente. Para la primera versión, el panel puede ofrecer solo iconos y colores aprobados por la app.
+No se debe aceptar HTML, SVG arbitrario, scripts ni URLs de iconos ingresadas libremente. Los iconos se eligen del catálogo seguro de la app; el color sí puede ser cualquier valor hexadecimal RGB válido.
 
 ## 4. Beneficios
 
@@ -61,8 +62,8 @@ El administrador puede armar rangos con beneficios del catálogo que la aplicaci
 
 | Clave de beneficio | Ejemplo de valor | Efecto |
 | --- | --- | --- |
-| `build_limit` | `200` | Aumenta el máximo de builds guardadas (de 1 a 100.000) |
-| `profile_badge_style` | `founder` | Cambia el acabado de la insignia (`standard`, `founder` o `creator`) |
+| `build_limit` | `200` o `unlimited` | Aumenta el máximo de builds guardadas hasta 100.000 o quita el límite mientras el rango esté vigente |
+| `profile_badge_style` | `founder` | Cambia el acabado de la insignia; hay 24 estilos disponibles |
 
 Los beneficios visuales se reflejan en la interfaz. Los beneficios que cambian límites o acceso a funciones también deben aplicarse en las validaciones del servidor y de la base de datos; ocultar o habilitar un botón en el frontend no es suficiente.
 
@@ -71,7 +72,7 @@ Un beneficio completamente nuevo requiere trabajo de desarrollo para agregar su 
 ### Reglas para combinar beneficios
 
 - La membresía y el rango son independientes y pueden estar activos al mismo tiempo. La insignia de membresía y la del rango pueden mostrarse juntas.
-- Para el cupo de builds, usar `max(cupo_de_membresía, cupo_del_rango_activo)`. Los valores no se suman; si el rango no define `build_limit`, se usa solo la membresía.
+- Para el cupo de builds finito, usar `max(cupo_de_membresía, cupo_del_rango_activo)`. Los valores no se suman; si el rango no define `build_limit`, se usa solo la membresía. Un rango con `unlimited` quita el límite mientras esté activo.
 - El cupo representa el total de builds guardadas por la cuenta, sin importar si son públicas, privadas o no listadas.
 - Para permisos de funciones, activar el acceso si lo concede la membresía o el rango especial.
 - Para elementos visuales, usar el estilo especial asignado cuando corresponda.
@@ -150,21 +151,21 @@ El trigger `profile_system_fields_guard` evita que una actualización normal des
 
 ## 8. Estado actual del proyecto
 
-La pantalla administrativa, las insignias públicas y los límites de builds están implementados. Ejecuta la migración `supabase/migrations/20261018_custom_ranks.sql` en el SQL Editor de Supabase antes de usar el panel.
+La pantalla administrativa, las insignias públicas y los límites de builds están implementados. En una base existente que ya tiene rangos, ejecuta `20261018130000_custom_rank_customization.sql` en el SQL Editor de Supabase. Si todavía no tiene rangos, aplica primero `20261018_custom_ranks.sql`.
 
 - `profiles.role` sigue controlando permisos de cuenta (`user`, `moderator`, `admin`) y se carga en el estado de la sesión.
-- La biblioteca permite crear, editar, ordenar, activar y archivar rangos; iconos y colores vienen de catálogos seguros de la app.
-- Los beneficios configurables son `profile_badge_style` (`standard`, `founder`, `creator`) y `build_limit` (de 1 a 100.000 builds guardadas).
-- La cuota se valida en el trigger de base de datos al crear cada build; para combinarla con la membresía se usa el valor más alto.
+- La biblioteca permite crear, editar, ordenar, activar y archivar rangos; ofrece 54 iconos seguros, 24 acabados y cualquier color hexadecimal RGB.
+- Los beneficios configurables son `profile_badge_style` y `build_limit` (de 1 a 100.000 builds guardadas o `unlimited`).
+- La cuota se valida en el trigger de base de datos al crear cada build; para combinarla con la membresía se usa el valor más alto, salvo `unlimited`, que no impone un tope.
 - La asignación valida admin en el servidor, admite fecha de inicio y vencimiento opcional, conserva nota privada e historial de revocación.
 - El perfil público recibe el rango mediante `get_public_custom_rank`, que no devuelve notas internas ni datos de administración.
 - Membresías y rangos especiales siguen separados; un rango puede aumentar el cupo de builds, pero no cambia el estado de membresía ni los permisos de cuenta.
 
-Referencias actuales: `supabase/migrations/20261018_custom_ranks.sql`, `supabase/schema.sql`, `src/features/ranks/` y `src/pages/AdminRanksPage.tsx`.
+Referencias actuales: `supabase/migrations/20261018_custom_ranks.sql`, `supabase/migrations/20261018130000_custom_rank_customization.sql`, `supabase/schema.sql`, `src/features/ranks/` y `src/pages/AdminRanksPage.tsx`.
 
 ## 9. Próximos pasos opcionales
 
-1. Ejecutar la migración de rangos en el proyecto Supabase.
+1. Ejecutar la migración de personalización en Supabase y, si la base aún no tiene rangos, aplicar antes la migración base.
 2. Crear desde el panel los rangos iniciales de Owner, Diseñadora y Colaborador.
 3. Agregar beneficios nuevos solo cuando la app también implemente su validación y efecto real.
 

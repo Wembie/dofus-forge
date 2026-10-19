@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.99',
+    date: '2026-10-18',
+    notes: [
+      'Customization: custom ranks support any hex color, 54 icons, 24 badge finishes, and an unlimited saved-build quota',
+      'UI: the rank editor now separates identity, appearance, preview, benefits and visibility in a responsive layout with clear spacing and persistent save actions',
+      'Database: the custom-rank extensions are consolidated into one migration after the original custom-ranks migration',
+    ],
+  },
+  {
     version: '0.3.98',
     date: '2026-10-18',
     notes: [

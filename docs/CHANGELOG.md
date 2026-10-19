@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.99] — 2026-10-18
+- **Customization**: custom ranks now support any hex color, 54 icons, 24 badge finishes, and an unlimited saved-build quota
+- **UI**: redesigned the rank editor with spacious sections, a responsive layout, live profile preview, clearer choices, and always-visible save actions
+- **Database**: consolidated the pending customization changes into `supabase/migrations/20261018130000_custom_rank_customization.sql`
+
 ## [0.3.98] — 2026-10-18
 - **UX**: equipped Dofus are marked in the catalog with a check and their slot number; selecting one again no longer moves it from its current slot
 - **Admin**: added a centralized admin workspace, moved the header entry to **Admin**, and organized Custom Ranks as a section within it
