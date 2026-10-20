@@ -349,6 +349,49 @@ export const moderateContent = guard(async function moderateContent(kind: 'build
   return { error: error?.message ?? null }
 }, error => ({ error }))
 
+// ── Notifications ────────────────────────────────────────────────────────
+
+export type NotificationType = 'build_liked' | 'build_commented' | 'build_rated' | 'build_forked' | 'comment_liked' | 'comment_replied' | 'new_follower'
+
+export type NotificationRow = {
+  id:         string
+  type:       NotificationType
+  read:       boolean
+  created_at: string
+  actor:      { username: string; avatar_url: string | null } | null
+  build:      { id: string; name: string } | null
+}
+
+export const fetchUnreadNotificationCount = guard(async function fetchUnreadNotificationCount(userId: string) {
+  const supabase = await getSupabase()
+  const { count } = await supabase
+    .from('notifications')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('read', false)
+  return count ?? 0
+}, () => 0)
+
+export const fetchNotifications = guard(async function fetchNotifications(userId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('notifications')
+    .select('id, type, read, created_at, actor:profiles!notifications_actor_id_fkey(username, avatar_url), build:builds(id, name)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(30)
+  return (data ?? []) as unknown as NotificationRow[]
+}, () => [] as NotificationRow[])
+
+/** Marks the given notifications (or all unread ones) as read. */
+export const markNotificationsRead = guard(async function markNotificationsRead(userId: string, ids?: string[]) {
+  const supabase = await getSupabase()
+  let query = supabase.from('notifications').update({ read: true }).eq('user_id', userId).eq('read', false)
+  if (ids) query = query.in('id', ids)
+  const { error } = await query
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
 export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
 
 /** Name + owner of a build (the original a remix points to). null when it

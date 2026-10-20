@@ -1170,5 +1170,17 @@
   "admin_reports_dismiss": "Descartar",
   "admin_reports_delete_confirm": "Apagar este build para sempre? Não dá para desfazer.",
   "admin_reports_error": "Não foi possível aplicar a ação.",
-  "admin_reports_comments_missing": "As denúncias de comentários aparecerão quando a migração \"comunidade\" de docs/DATABASE.md for executada."
+  "admin_reports_comments_missing": "As denúncias de comentários aparecerão quando a migração \"comunidade\" de docs/DATABASE.md for executada.",
+  "notif_title": "Notificações",
+  "notif_unread": "{{count}} não lidas",
+  "notif_mark_all": "Marcar tudo como lido",
+  "notif_empty": "Nenhuma notificação ainda.",
+  "notif_someone": "Alguém",
+  "notif_build_liked": "{{user}} curtiu seu build “{{build}}”",
+  "notif_build_commented": "{{user}} comentou no seu build “{{build}}”",
+  "notif_build_rated": "{{user}} avaliou seu build “{{build}}”",
+  "notif_build_forked": "{{user}} fez um remix do seu build: “{{build}}”",
+  "notif_comment_liked": "{{user}} curtiu seu comentário em “{{build}}”",
+  "notif_comment_replied": "{{user}} respondeu seu comentário em “{{build}}”",
+  "notif_new_follower": "{{user}} começou a seguir você"
 }

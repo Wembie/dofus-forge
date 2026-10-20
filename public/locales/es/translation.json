@@ -1170,5 +1170,17 @@
   "admin_reports_dismiss": "Descartar",
   "admin_reports_delete_confirm": "¿Borrar este build para siempre? No se puede deshacer.",
   "admin_reports_error": "No se pudo aplicar la acción.",
-  "admin_reports_comments_missing": "Los reportes de comentarios aparecerán cuando se corra la migración \"comunidad\" de docs/DATABASE.md."
+  "admin_reports_comments_missing": "Los reportes de comentarios aparecerán cuando se corra la migración \"comunidad\" de docs/DATABASE.md.",
+  "notif_title": "Notificaciones",
+  "notif_unread": "{{count}} sin leer",
+  "notif_mark_all": "Marcar todo como leído",
+  "notif_empty": "No tienes notificaciones todavía.",
+  "notif_someone": "Alguien",
+  "notif_build_liked": "A {{user}} le gustó tu build «{{build}}»",
+  "notif_build_commented": "{{user}} comentó en tu build «{{build}}»",
+  "notif_build_rated": "{{user}} puntuó tu build «{{build}}»",
+  "notif_build_forked": "{{user}} hizo un remix de tu build: «{{build}}»",
+  "notif_comment_liked": "A {{user}} le gustó tu comentario en «{{build}}»",
+  "notif_comment_replied": "{{user}} respondió tu comentario en «{{build}}»",
+  "notif_new_follower": "{{user}} empezó a seguirte"
 }

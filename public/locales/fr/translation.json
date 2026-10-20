@@ -1170,5 +1170,17 @@
   "admin_reports_dismiss": "Rejeter",
   "admin_reports_delete_confirm": "Supprimer ce build définitivement ? Action irréversible.",
   "admin_reports_error": "Impossible d'appliquer l'action.",
-  "admin_reports_comments_missing": "Les signalements de commentaires apparaîtront une fois la migration « communauté » de docs/DATABASE.md exécutée."
+  "admin_reports_comments_missing": "Les signalements de commentaires apparaîtront une fois la migration « communauté » de docs/DATABASE.md exécutée.",
+  "notif_title": "Notifications",
+  "notif_unread": "{{count}} non lues",
+  "notif_mark_all": "Tout marquer comme lu",
+  "notif_empty": "Aucune notification pour le moment.",
+  "notif_someone": "Quelqu'un",
+  "notif_build_liked": "{{user}} a aimé ton build « {{build}} »",
+  "notif_build_commented": "{{user}} a commenté ton build « {{build}} »",
+  "notif_build_rated": "{{user}} a noté ton build « {{build}} »",
+  "notif_build_forked": "{{user}} a remixé ton build : « {{build}} »",
+  "notif_comment_liked": "{{user}} a aimé ton commentaire sur « {{build}} »",
+  "notif_comment_replied": "{{user}} a répondu à ton commentaire sur « {{build}} »",
+  "notif_new_follower": "{{user}} s'est abonné à toi"
 }

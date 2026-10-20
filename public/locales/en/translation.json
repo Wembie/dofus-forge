@@ -1170,5 +1170,17 @@
   "admin_reports_dismiss": "Dismiss",
   "admin_reports_delete_confirm": "Delete this build for good? This cannot be undone.",
   "admin_reports_error": "Couldn't apply the action.",
-  "admin_reports_comments_missing": "Comment reports will show up once the \"community\" migration in docs/DATABASE.md is run."
+  "admin_reports_comments_missing": "Comment reports will show up once the \"community\" migration in docs/DATABASE.md is run.",
+  "notif_title": "Notifications",
+  "notif_unread": "{{count}} unread",
+  "notif_mark_all": "Mark all as read",
+  "notif_empty": "No notifications yet.",
+  "notif_someone": "Someone",
+  "notif_build_liked": "{{user}} liked your build “{{build}}”",
+  "notif_build_commented": "{{user}} commented on your build “{{build}}”",
+  "notif_build_rated": "{{user}} rated your build “{{build}}”",
+  "notif_build_forked": "{{user}} remixed your build: “{{build}}”",
+  "notif_comment_liked": "{{user}} liked your comment on “{{build}}”",
+  "notif_comment_replied": "{{user}} replied to your comment on “{{build}}”",
+  "notif_new_follower": "{{user}} started following you"
 }

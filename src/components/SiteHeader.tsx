@@ -12,6 +12,7 @@ import { toggleSound } from '@/lib/sound.ts'
 import { useAuthStore } from '@/store/authStore.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
+const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
 
 /** Same brand/nav/language/theme/auth controls as BuilderPage's header,
  * without the build-editing tools (undo/redo, optimizer, etc.) — used by
@@ -106,6 +107,7 @@ export function SiteHeader() {
           ]}
         />
         <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+        <Suspense fallback={null}><NotificationBell /></Suspense>
         <Suspense fallback={null}><AuthButton /></Suspense>
       </div>
 

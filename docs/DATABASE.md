@@ -2114,8 +2114,9 @@ grant execute on function public.admin_revoke_custom_rank(uuid) to authenticated
 ### Migración manual — comunidad: colecciones, notificaciones y reportes (0.3.109)
 
 Correr una vez en el SQL Editor de Supabase. Es idempotente: se puede correr
-más de una vez. Hasta que se corra, agregar builds a una colección falla con
-un aviso (el resto de la app funciona igual).
+más de una vez. Hasta que se corra: agregar builds a una colección falla con
+un aviso, los comentarios no se pueden reportar, las acciones de moderación no
+aplican y la campanita no recibe avisos. El resto de la app funciona igual.
 
 ```sql
 begin;
@@ -2173,6 +2174,79 @@ begin
 end; $$;
 revoke all on function moderate_content(text, uuid, text) from public;
 grant execute on function moderate_content(text, uuid, text) to authenticated;
+
+-- ── Notificaciones (M57) ─────────────────────────────────────────────
+-- Las crean triggers security definer (la RLS de notifications solo deja al
+-- dueño leer/escribir las suyas). Nunca se avisa de acciones propias, y el
+-- mismo aviso (tipo + autor + build/comentario) no se repite en 24 h, así
+-- dar y quitar like varias veces no llena la campanita.
+create or replace function push_notification(p_user uuid, p_type notification_type, p_actor uuid, p_build uuid, p_comment uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if p_user is null or p_actor is null or p_user = p_actor then return; end if;
+  if exists (
+    select 1 from notifications
+    where user_id = p_user and type = p_type and actor_id = p_actor
+      and build_id is not distinct from p_build and comment_id is not distinct from p_comment
+      and created_at > now() - interval '1 day'
+  ) then return; end if;
+  insert into notifications (user_id, type, actor_id, build_id, comment_id)
+  values (p_user, p_type, p_actor, p_build, p_comment);
+end; $$;
+revoke all on function push_notification(uuid, notification_type, uuid, uuid, uuid) from public;
+
+create or replace function notify_build_like() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification((select user_id from builds where id = NEW.build_id), 'build_liked', NEW.user_id, NEW.build_id, null);
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_like on build_likes;
+create trigger notify_on_build_like after insert on build_likes for each row execute procedure notify_build_like();
+
+create or replace function notify_build_comment() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification((select user_id from builds where id = NEW.build_id), 'build_commented', NEW.user_id, NEW.build_id, NEW.id);
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_comment on build_comments;
+create trigger notify_on_build_comment after insert on build_comments for each row execute procedure notify_build_comment();
+
+create or replace function notify_build_rating() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification((select user_id from builds where id = NEW.build_id), 'build_rated', NEW.user_id, NEW.build_id, null);
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_rating on build_ratings;
+create trigger notify_on_build_rating after insert on build_ratings for each row execute procedure notify_build_rating();
+
+-- Remix: avisa al autor del original, con link al remix (solo si no es privado)
+create or replace function notify_build_fork() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if NEW.fork_of is not null and NEW.visibility <> 'private' then
+    perform push_notification((select user_id from builds where id = NEW.fork_of), 'build_forked', NEW.user_id, NEW.id, null);
+  end if;
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_fork on builds;
+create trigger notify_on_build_fork after insert on builds for each row execute procedure notify_build_fork();
+
+create or replace function notify_comment_like() returns trigger language plpgsql security definer set search_path = public as $$
+declare c record;
+begin
+  select user_id, build_id into c from build_comments where id = NEW.comment_id;
+  perform push_notification(c.user_id, 'comment_liked', NEW.user_id, c.build_id, NEW.comment_id);
+  return null;
+end; $$;
+drop trigger if exists notify_on_comment_like on comment_likes;
+create trigger notify_on_comment_like after insert on comment_likes for each row execute procedure notify_comment_like();
+
+create or replace function notify_follow() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification(NEW.following_id, 'new_follower', NEW.follower_id, null, null);
+  return null;
+end; $$;
+drop trigger if exists notify_on_follow on follows;
+create trigger notify_on_follow after insert on follows for each row execute procedure notify_follow();
 
 commit;
 ```
