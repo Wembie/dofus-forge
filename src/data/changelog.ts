@@ -30,6 +30,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: Equip all puts both set rings in different slots; catalog marks rings and Prysmaradite already worn',
       'Fix: catalog stat filter, no-cap max level, Escape and infinite scroll',
       'Fix: switching language during loading keeps the right language and spells',
+      'Security: crafted share links can no longer inject special keys into build data',
     ],
   },
   {

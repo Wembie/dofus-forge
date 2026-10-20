@@ -2,8 +2,15 @@ import type { BuildSnapshot } from '../store/buildStore.ts'
 
 // Relative imports only: the Cloudflare Worker bundles this file too.
 
-/** Slots in a snapshot's `e` array (= ALL_SLOTS in buildStore.ts). */
-export const SNAPSHOT_SLOTS = 17
+/** Slot ids in the order of a snapshot's `e` array (= ALL_SLOTS in buildStore.ts). */
+export const SNAPSHOT_SLOT_IDS: readonly string[] = [
+  'hat', 'cape', 'amulet', 'ring1', 'ring2',
+  'belt', 'boots', 'weapon', 'shield', 'companion',
+  'sidekick',
+  'dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6',
+]
+export const SNAPSHOT_SLOTS = SNAPSHOT_SLOT_IDS.length
+const SLOT_ID_SET = new Set(SNAPSHOT_SLOT_IDS)
 const CHARACTERISTIC_COUNT = 6
 // Far above any real allocation (the level-200 budget is ~1000 points), low
 // enough that the point-cost loop stays instant on a crafted value.
@@ -15,6 +22,16 @@ function int(value: unknown, min: number, max: number, fallback: number): number
 }
 
 const isRecord = (v: unknown): v is Record<string, unknown> => v != null && typeof v === 'object' && !Array.isArray(v)
+
+// Per-slot maps keep only real slot ids (never `__proto__` or other junk keys)
+// and are built with Object.fromEntries, so no key from the input is assigned.
+function slotEntries<T>(raw: Record<string, unknown>, pick: (v: unknown) => T | null): Record<string, T> {
+  return Object.fromEntries(Object.entries(raw).flatMap(([slot, v]) => {
+    if (!SLOT_ID_SET.has(slot)) return []
+    const picked = pick(v)
+    return picked == null ? [] : [[slot, picked] as const]
+  }))
+}
 
 /**
  * Normalizes a snapshot from an untrusted source (share link, database row):
@@ -40,23 +57,19 @@ export function sanitizeSnapshot(raw: unknown): BuildSnapshot | null {
   if (typeof raw.n === 'string' && raw.n) snap.n = raw.n
   if (raw.g === 'm' || raw.g === 'f') snap.g = raw.g
   if (isRecord(raw.r)) {
-    const runes: Record<string, Record<string, number>> = {}
-    for (const [slot, map] of Object.entries(raw.r)) {
-      if (!isRecord(map)) continue
+    const runes = slotEntries(raw.r, map => {
+      if (!isRecord(map)) return null
       const clean = Object.fromEntries(Object.entries(map).filter(([, v]) => typeof v === 'number' && Number.isFinite(v) && v > 0)) as Record<string, number>
-      if (Object.keys(clean).length > 0) runes[slot] = clean
-    }
+      return Object.keys(clean).length > 0 ? clean : null
+    })
     if (Object.keys(runes).length > 0) snap.r = runes
   }
   if (isRecord(raw.fn)) {
-    const names = Object.fromEntries(Object.entries(raw.fn).filter(([, v]) => typeof v === 'string' && v)) as Record<string, string>
+    const names = slotEntries(raw.fn, v => (typeof v === 'string' && v ? v : null))
     if (Object.keys(names).length > 0) snap.fn = names
   }
   if (isRecord(raw.wt)) {
-    const transforms: Record<string, { el: string; r: number }> = {}
-    for (const [slot, v] of Object.entries(raw.wt)) {
-      if (isRecord(v) && typeof v.el === 'string' && typeof v.r === 'number') transforms[slot] = { el: v.el, r: v.r }
-    }
+    const transforms = slotEntries(raw.wt, v => (isRecord(v) && typeof v.el === 'string' && typeof v.r === 'number' ? { el: v.el, r: v.r } : null))
     if (Object.keys(transforms).length > 0) snap.wt = transforms
   }
   return snap

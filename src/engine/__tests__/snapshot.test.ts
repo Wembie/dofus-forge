@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { sanitizeSnapshot, SNAPSHOT_SLOTS } from '../snapshot.ts'
+import { sanitizeSnapshot, SNAPSHOT_SLOTS, SNAPSHOT_SLOT_IDS } from '../snapshot.ts'
+import { ALL_SLOTS } from '../../store/buildStore.ts'
 
 describe('sanitizeSnapshot', () => {
   it('rejects anything that is not a v1 snapshot', () => {
@@ -38,5 +39,19 @@ describe('sanitizeSnapshot', () => {
     expect(snap.r).toEqual({ hat: { Vitality: 50, 'exo:Strength': 20 } })
     expect(snap.fn).toEqual({ hat: 'Smith' })
     expect(snap.wt).toEqual({ weapon: { el: 'fire', r: 85 } })
+  })
+
+  it('keeps only real slot ids in per-slot maps (no __proto__ or junk keys)', () => {
+    const raw = JSON.parse('{"v":1,"r":{"__proto__":{"Vitality":1},"constructor":{"Vitality":1},"hat":{"Vitality":5}},"fn":{"__proto__":"x","toString":"y","cape":"Smith"},"wt":{"__proto__":{"el":"fire","r":1},"weapon":{"el":"fire","r":85}}}')
+    const snap = sanitizeSnapshot(raw)!
+    expect(Object.keys(snap.r!)).toEqual(['hat'])
+    expect(Object.keys(snap.fn!)).toEqual(['cape'])
+    expect(Object.keys(snap.wt!)).toEqual(['weapon'])
+    expect(Object.getPrototypeOf(snap.r)).toBe(Object.prototype)
+    expect(({} as Record<string, unknown>).Vitality).toBeUndefined()
+  })
+
+  it('slot ids match the store order', () => {
+    expect([...SNAPSHOT_SLOT_IDS]).toEqual(ALL_SLOTS)
   })
 })

@@ -24,6 +24,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Fix**: **Equip all** on a set with two rings puts them in both ring slots instead of the same one; the catalog marks a set ring or Prysmaradite that is already worn elsewhere
 - **Fix**: catalog stat filter no longer matches a weapon because of its attack lines; the "—" max level means no cap (it showed nothing), and min/max cannot cross; Escape closes only the top window; changing a filter while scrolling no longer grows the new list
 - **Fix**: switching language while the data or spells were still loading could show the old language or drop a class
+- **Security**: share links and stored builds only keep real slot names in their per-slot data (runes, craftsman names, weapon transforms), so a crafted link cannot inject special keys such as `__proto__`
 
 ## [0.3.112] — 2026-10-19
 - **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark
