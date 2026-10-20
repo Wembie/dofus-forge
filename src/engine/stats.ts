@@ -65,15 +65,18 @@ function applyEffects(block: StatBlock, effects: ItemEffect[]): void {
 function computeSetBonuses(items: BuildInput['items'], sets: BuildInput['sets']): ItemEffect[] {
   const bonusEffects: ItemEffect[] = []
 
-  // Count how many items from each set are equipped
-  const equippedBySet = new Map<number, number>()
+  // Distinct items per set: the game counts a set piece once, so the same set
+  // ring worn twice does not reach the next bonus tier.
+  const equippedBySet = new Map<number, Set<number>>()
   for (const item of items) {
     if (item.set_id !== null) {
-      equippedBySet.set(item.set_id, (equippedBySet.get(item.set_id) ?? 0) + 1)
+      if (!equippedBySet.has(item.set_id)) equippedBySet.set(item.set_id, new Set())
+      equippedBySet.get(item.set_id)!.add(item.ankama_id)
     }
   }
 
-  for (const [setId, count] of equippedBySet) {
+  for (const [setId, pieces] of equippedBySet) {
+    const count = pieces.size
     const setData = sets.find(s => s.ankama_id === setId)
     if (!setData) continue
 

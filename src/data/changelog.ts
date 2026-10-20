@@ -8,6 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.113',
+    date: '2026-10-20',
+    notes: [
+      'Fix: Redo works from the header buttons, and undo no longer unlinks a build from its published version',
+      'Fix: broken share links or stored builds no longer blank the page',
+      'Fix: one copy of a set ring and one Prysmaradite at a time; re-picking an item keeps its forgemagie',
+      'Fix: no stray unknown stats from spell-modifier lines; runes on empty slots and long emoji names handled',
+      'Fix: female builds get the female portrait in share previews',
+    ],
+  },
+  {
     version: '0.3.112',
     date: '2026-10-19',
     notes: [

@@ -4,7 +4,8 @@ import { CHARACTERISTICS } from '@/engine/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
-import { runeEffectsFrom, withoutExotic, exoticKey } from '@/engine/runes.ts'
+import { runeEffectsForSlots, withoutExotic, exoticKey } from '@/engine/runes.ts'
+import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
 export type RuneMap = Record<string, number>
@@ -81,6 +82,16 @@ export interface BuildState {
   equipItem:     (slot: SlotId, ankama_id: number) => void
   /** Equips several items in one atomic state update — one history entry, not one per item. */
   equipMultiple: (items: { slot: SlotId; ankama_id: number }[]) => void
+  /** Loads a La Forjadora result in ONE update (one undo step): gear, points,
+   * scrolls and forgemagie. Unlocked slots get fresh forgemagie (runes,
+   * craftsman name, weapon transform) plus the result's exo / transcendence. */
+  applyForgeResult: (result: {
+    equipped:  Partial<Record<SlotId, number>>
+    allocated: AllocatedCharacteristics
+    scrolled:  ScrolledCharacteristics
+    exo:       Partial<Record<SlotId, 'ap' | 'mp' | 'range'>>
+    runes:     Partial<Record<SlotId, { stat: string; value: number }>>
+  }, lockedSlots: ReadonlySet<SlotId>) => void
   unequipItem:   (slot: SlotId) => void
   swapSlots:     (slotA: SlotId, slotB: SlotId) => void
   setEquipment:  (equipment: AppItem[]) => void
@@ -140,9 +151,34 @@ export function recompute(
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
 
-  const runeEffects = runeEffectsFrom(Object.values(runes))
+  const runeEffects = runeEffectsForSlots(runes, slot => equipMap.has(equipped[slot as SlotId] ?? -1))
 
   return computeStats({ class: selectedClass, level, allocated, scrolled, items, sets, runeEffects })
+}
+
+const DOFUS_SLOTS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+
+/**
+ * Frees other slots that can't hold `id` alongside `slot`, as the game does:
+ * a Dofus is unique, the same set ring can't be worn twice, and only one
+ * Prysmaradite fits at a time. Mutates `eq`.
+ */
+function releaseConflicts(eq: Partial<Record<SlotId, number>>, slot: SlotId, id: number, equipment: AppItem[]) {
+  if (slot.startsWith('dofus')) {
+    for (const ds of DOFUS_SLOTS) if (ds !== slot && eq[ds] === id) delete eq[ds]
+  }
+  const item = equipment.find(it => it.ankama_id === id)
+  if (!item) return
+  if ((slot === 'ring1' || slot === 'ring2') && item.set_id != null) {
+    const other: SlotId = slot === 'ring1' ? 'ring2' : 'ring1'
+    if (eq[other] === id) delete eq[other]
+  }
+  if (item.type === 'Prysmaradite') {
+    for (const ds of DOFUS_SLOTS) {
+      if (ds === slot || eq[ds] == null) continue
+      if (equipment.find(it => it.ankama_id === eq[ds])?.type === 'Prysmaradite') delete eq[ds]
+    }
+  }
 }
 
 export const useBuildStore = create<BuildState>((set) => {
@@ -175,7 +211,9 @@ export const useBuildStore = create<BuildState>((set) => {
     _sets:             [],
 
     setClass:     (c)    => set(s => update({ selectedClass: c }, s)),
-    setBuildName: (name) => set(s => update({ buildName: name.slice(0, 60) }, s)),
+    // By code point: slicing UTF-16 could split an emoji and make the share
+    // link encoder throw on every later change.
+    setBuildName: (name) => set(s => update({ buildName: Array.from(name).slice(0, 60).join('') }, s)),
     setLevel:  (l) => set(s => update({ level: Math.max(1, Math.min(200, l)) }, s)),
     setGender: (g) => set(s => ({ ...s, gender: g })),
 
@@ -226,29 +264,47 @@ export const useBuildStore = create<BuildState>((set) => {
     }),
 
     equipItem: (slot, id) => set(s => {
+      // Re-picking the item already in the slot must not wipe its forgemagie.
+      if (s.equipped[slot] === id) return s
       const eq = { ...s.equipped }
-      if (slot.startsWith('dofus')) {
-        for (const ds of ['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'] as SlotId[]) {
-          if (ds !== slot && eq[ds] === id) delete eq[ds]
-        }
-      }
+      releaseConflicts(eq, slot, id, s._equipment)
       eq[slot] = id
       const runes             = { ...s.runes,            [slot]: {} }
       const forjamagoNames    = { ...s.forjamagoNames,   [slot]: '' }
       const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
       return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
     }),
+    applyForgeResult: (result, lockedSlots) => set(s => {
+      const runes            = { ...s.runes }
+      const forjamagoNames   = { ...s.forjamagoNames }
+      const weaponTransforms = { ...s.weaponTransforms }
+      const exoStat = { ap: 'AP', mp: 'MP', range: 'Range' } as const
+      for (const slot of ALL_SLOTS) {
+        if (lockedSlots.has(slot)) continue
+        const slotRunes: RuneMap = {}
+        const exo = result.exo[slot]
+        if (exo) slotRunes[exoStat[exo]] = 1
+        const rune = result.runes[slot]
+        if (rune) slotRunes[exoticKey(rune.stat)] = rune.value
+        runes[slot] = slotRunes
+        if (result.equipped[slot] !== s.equipped[slot]) {
+          forjamagoNames[slot]   = ''
+          weaponTransforms[slot] = null
+        }
+      }
+      return update({
+        equipped: result.equipped, allocated: result.allocated, scrolled: result.scrolled,
+        runes, forjamagoNames, weaponTransforms,
+      }, s)
+    }),
+
     equipMultiple: (items) => set(s => {
       const eq               = { ...s.equipped }
       const runes            = { ...s.runes }
       const forjamagoNames   = { ...s.forjamagoNames }
       const weaponTransforms = { ...s.weaponTransforms }
       for (const { slot, ankama_id } of items) {
-        if (slot.startsWith('dofus')) {
-          for (const ds of ['dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'] as SlotId[]) {
-            if (ds !== slot && eq[ds] === ankama_id) delete eq[ds]
-          }
-        }
+        releaseConflicts(eq, slot, ankama_id, s._equipment)
         eq[slot]               = ankama_id
         runes[slot]            = {}
         forjamagoNames[slot]   = ''
@@ -329,8 +385,9 @@ export const useBuildStore = create<BuildState>((set) => {
       update({ _sets: sets }, s)
     ),
 
-    applySnapshot: (snap) => set(s => {
-      if (snap.v !== 1) return s
+    applySnapshot: (input) => set(s => {
+      const snap = sanitizeSnapshot(input)
+      if (!snap) return s
       const selectedClass = (snap.c || null) as DofusClass | null
       const buildName     = snap.n ?? ''
       const level         = Math.max(1, Math.min(200, snap.l))

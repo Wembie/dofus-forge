@@ -19,6 +19,7 @@ export const WEAPON_ATTACK_IDS = new Set([
   248,  // best-element damage
   257,  // best-element steal
   261,  // Fire heals (weapon attack that heals via fire; ranges match attack damage ranges)
+  278,  // Neutral heals (weapon attack that heals; only on weapons, like 261)
   233,  // Steals MP per attack (stat='Steals MP', only on weapons — "Roba X PM" under weapon attacks in game)
   179,  // AP cost of weapon attack (how much AP the weapon spell costs; NOT a character stat)
         // Always negative, only on weapons. Distinct from eid=12 (real +/-AP character stat).
@@ -145,7 +146,7 @@ export const IGNORED_STATS = new Set([
   'Number of victims:', 'Add a temporary spell',
   'Advances by cell', 'Attracts by cell', 'Pushes back cell',
   ': + Damage', ': + Maximum Range', ': + base damage',
-  ': + cast(s) per target', ': + cast(s) per turn', ': +% Critical',
+  ': + cast(s) per target', ': + cast(s) per turn', ': + cast per target', ': + cast per turn', ': +% Critical',
   ': - AP', ': - Minimum Range', ': - cooldown',
   ': line of sight off', ': modifiable Range',
   ': occupied cell needed off', ': straight-line casting off',

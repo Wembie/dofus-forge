@@ -1,5 +1,6 @@
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import { ALL_SLOTS, type BuildSnapshot } from '@/store/buildStore.ts'
+import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { BuildState } from '@/store/buildStore.ts'
 
 const PREFIX = 'v1:'
@@ -61,9 +62,8 @@ export function decodeBuild(encoded: string): BuildSnapshot | null {
     const urlSafe = encoded.slice(PREFIX.length)
     const b64     = urlSafe.replace(/-/g, '+').replace(/_/g, '/')
     const json    = decodeURIComponent(escape(atob(b64)))
-    const snap    = JSON.parse(json) as BuildSnapshot
-    if (snap.v !== 1) return null  // unknown schema version — do not apply
-    return snap
+    // Untrusted input: unknown schema → null; malformed fields → safe defaults.
+    return sanitizeSnapshot(JSON.parse(json))
   } catch {
     return null
   }
