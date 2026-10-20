@@ -64,6 +64,19 @@ describe('supabase schema guards', () => {
     expect(policy.slice(0, 300)).toMatch(/visibility in \('public', 'unlisted'\) or b\.user_id = auth\.uid\(\)/)
   })
 
+  it('no policy on builds reads builds, and its SELECT policies have no subquery (42P17)', () => {
+    // Postgres raises "infinite recursion detected in policy for relation
+    // builds" when a builds policy reads builds and the policies applied to
+    // that read have a subquery of their own.
+    const latest = new Map<string, string>()
+    for (const m of schema.matchAll(/create policy "([^"]+)" on builds\b([\s\S]*?);/gi)) latest.set(m[1], m[2])
+    expect([...latest.keys()]).toEqual(expect.arrayContaining(['builds read', 'builds mod read', 'builds update']))
+    for (const [name, body] of latest) {
+      expect(body, name).not.toMatch(/\bfrom\s+builds\b/i)
+      if (/\bfor select\b/i.test(body)) expect(body.replace(/\bfor select\b/i, ''), name).not.toMatch(/\bselect\b/i)
+    }
+  })
+
   it('migrations are named with a sortable timestamp and are idempotent-looking', () => {
     for (const file of migrations) {
       expect(file).toMatch(/^\d{8,14}_[a-z0-9_]+\.sql$/)
