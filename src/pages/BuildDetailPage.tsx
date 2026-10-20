@@ -35,7 +35,7 @@ import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
   fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
-  fetchBuildSummary, fetchForks,
+  fetchBuildSummary, fetchForks, fetchMyCommentLikes, toggleCommentLike,
   buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
@@ -79,6 +79,7 @@ export function BuildDetailPage() {
   const [myRating, setMyRating]   = useState<number | null>(null)
 
   const [comments, setComments]         = useState<CommentRow[]>([])
+  const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
   // undefined = not loaded / not a remix, null = original no longer visible
   const [forkParent, setForkParent]     = useState<BuildSummary | null | undefined>(undefined)
   const [forks, setForks]               = useState<{ data: BuildRow[]; count: number }>({ data: [], count: 0 })
@@ -120,7 +121,20 @@ export function BuildDetailPage() {
     fetchMyLike(id, session.user.id).then(setLiked)
     fetchMyBookmark(id, session.user.id).then(setBookmarked)
     fetchMyRating(id, session.user.id).then(setMyRating)
+    fetchMyCommentLikes(id, session.user.id).then(setLikedComments)
   }, [id, session])
+
+  const handleToggleCommentLike = useCallback(async (commentId: string) => {
+    if (!session) return
+    const wasLiked = likedComments.has(commentId)
+    const apply = (liked: boolean) => {
+      setLikedComments(prev => { const next = new Set(prev); if (liked) next.add(commentId); else next.delete(commentId); return next })
+      setComments(prev => prev.map(c => c.id === commentId ? { ...c, like_count: c.like_count + (liked ? 1 : -1) } : c))
+    }
+    apply(!wasLiked)
+    const { error } = await toggleCommentLike(commentId, session.user.id, wasLiked)
+    if (error) apply(wasLiked)
+  }, [session, likedComments])
 
   const handleToggleLike = useCallback(async () => {
     if (!session || !id) return
@@ -508,13 +522,28 @@ export function BuildDetailPage() {
                     </span>
                   </div>
                   <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>
-                  <a
-                    href={`mailto:contact@dofusforge.com?subject=${encodeURIComponent(`Report comment ${c.id}`)}&body=${encodeURIComponent(`Build: ${window.location.href}\nComment ID: ${c.id}\n\nReason: `)}`}
-                    className="text-[10px] hover:text-gold hover:underline transition-colors"
-                    style={{ color: 'var(--ink-faint)' }}
-                  >
-                    {t('comment_report')}
-                  </a>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleCommentLike(c.id)}
+                      disabled={!session}
+                      aria-pressed={likedComments.has(c.id)}
+                      aria-label={t('comment_like')}
+                      title={session ? t('comment_like') : t('build_detail_signin_required')}
+                      className="flex items-center gap-1 text-[10px] disabled:cursor-not-allowed transition-colors"
+                      style={{ color: likedComments.has(c.id) ? 'var(--negative)' : 'var(--ink-faint)' }}
+                    >
+                      <Heart size={11} fill={likedComments.has(c.id) ? 'var(--negative)' : 'none'} />
+                      {c.like_count > 0 && c.like_count}
+                    </button>
+                    <a
+                      href={`mailto:contact@dofusforge.com?subject=${encodeURIComponent(`Report comment ${c.id}`)}&body=${encodeURIComponent(`Build: ${window.location.href}\nComment ID: ${c.id}\n\nReason: `)}`}
+                      className="text-[10px] hover:text-gold hover:underline transition-colors"
+                      style={{ color: 'var(--ink-faint)' }}
+                    >
+                      {t('comment_report')}
+                    </a>
+                  </div>
                 </div>
               </li>
             ))}

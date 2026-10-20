@@ -1111,5 +1111,6 @@
   "tag_category_general": "General",
   "publish_tags_label": "Etiquetas",
   "explore_tags_label": "Filtrar por etiqueta",
-  "explore_tag_all": "Todas"
+  "explore_tag_all": "Todas",
+  "comment_like": "Me gusta"
 }

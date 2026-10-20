@@ -350,6 +350,7 @@ export const rateBuild = guard(async function rateBuild(buildId: string, userId:
 
 export type CommentRow = {
   id:         string
+  like_count: number
   content:    string
   created_at: string
   user_id:    string
@@ -362,12 +363,32 @@ export const fetchComments = guard(async function fetchComments(buildId: string)
     .from('build_comments')
     // Explicit FK name — same PGRST201 ambiguity risk as LIST_COLUMNS above
     // (comment_likes joins build_comments to profiles as a second path).
-    .select('id, content, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
+    .select('id, content, like_count, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
     .eq('build_id', buildId)
     .is('deleted_at', null)
     .order('created_at', { ascending: true })
   return { data: (data ?? []) as unknown as CommentRow[], error: error?.message ?? null }
 }, error => ({ data: [] as CommentRow[], error }))
+
+/** Ids of this build's comments the user has liked (comment_likes RLS
+ * only exposes the user's own rows; the totals live in like_count). */
+export const fetchMyCommentLikes = guard(async function fetchMyCommentLikes(buildId: string, userId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('comment_likes')
+    .select('comment_id, build_comments!inner(build_id)')
+    .eq('user_id', userId)
+    .eq('build_comments.build_id', buildId)
+  return new Set(((data ?? []) as { comment_id: string }[]).map(r => r.comment_id))
+}, () => new Set<string>())
+
+export const toggleCommentLike = guard(async function toggleCommentLike(commentId: string, userId: string, currentlyLiked: boolean) {
+  const supabase = await getSupabase()
+  const { error } = currentlyLiked
+    ? await supabase.from('comment_likes').delete().eq('comment_id', commentId).eq('user_id', userId)
+    : await supabase.from('comment_likes').insert({ comment_id: commentId, user_id: userId })
+  return { error: error?.message ?? null }
+}, error => ({ error }))
 
 export const postComment = guard(async function postComment(buildId: string, userId: string, content: string) {
   const supabase = await getSupabase()

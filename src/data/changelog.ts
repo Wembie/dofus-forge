@@ -15,6 +15,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: Snailmate, Snickermite, Bulbutting and Karmeleon colors match their icons',
       'Feature: Remix someone else\'s public build — your copy stays linked to the original and credits its author; builds show their remixes',
       'Feature: tag your builds (up to 5) and filter Explore by tag',
+      'Feature: like comments on build pages',
     ],
   },
   {
