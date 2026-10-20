@@ -23,6 +23,9 @@ export const CHANGELOG: ChangelogEntry[] = [
       'New: notifications arrive in real time',
       'Fix: follower, following and build counts on profiles update again',
       'Fix: database hardening for counters, likes, comments and views',
+      'Fix: La Forjadora respects the character level and places exos without stealing rune slots',
+      'Fix: La Forjadora caps, ley 0 minimums and level field behave as expected',
+      'Fix: loading a La Forjadora result is a single undo step and never hangs',
     ],
   },
   {

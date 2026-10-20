@@ -87,8 +87,11 @@ function loop() {
   setTimeout(loop, 0)
 }
 
+// One message at a time: a 'finish' that lands while 'init' is still loading
+// the engine must wait for the forge, or it would never be answered.
+let pending: Promise<void> = Promise.resolve()
 self.onmessage = (e: MessageEvent) => {
-  void handleMessage(e.data as IncomingMessage)
+  pending = pending.then(() => handleMessage(e.data as IncomingMessage)).catch(fail)
 }
 
 async function handleMessage(msg: IncomingMessage) {

@@ -9,8 +9,9 @@ import type { OptimizerConfig, BuildResult, ForgeReport, ForgeRequirement, Forge
 import type { OptimizerStatMeta } from './statList.ts'
 import { BuildResultCard } from './BuildResultCard.tsx'
 import { startForgeRun, finishForgeRun } from '@/features/builds/api.ts'
-import { ForgeScene, HeatGauge, ForgeLog, LeyScale, type LogEntry } from './ForgeParts.tsx'
-import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, unitValue, runeStatLabelKey } from './statList.ts'
+import { ForgeScene, HeatGauge, ForgeLog, LeyScale, LevelField, type LogEntry } from './ForgeParts.tsx'
+import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, runeStatLabelKey } from './statList.ts'
+import { emptyReq, isActive, normalizeCap, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult } from './forgeConfig.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import { flattenRunes } from '@/engine/runes.ts'
@@ -40,7 +41,6 @@ const SLOT_LABEL_KEY: Record<SlotId, string> = {
 
 const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
 
-const STORAGE_KEY = 'dofus-forge:optimizer-config'
 // Measured on real multi-basin orders: every Worker keeps at least 24
 // islands (fewer per Worker let one basin take them all over), and a run
 // keeps at least 96 islands overall. 2 Workers x 24 found the best piece
@@ -68,98 +68,6 @@ const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec
 const PLATEAU_GAIN = 0.002
 // Visual heat scale for the eternal forge, which never cools on its own.
 const ETERNAL_HEAT_SCALE = 300
-
-const emptyReq = (stat: OptimizerStatKey): ForgeRequirement => ({ stat, minimum: 0, weight: 0, cap: null, strictCap: false })
-const isActive = (r: ForgeRequirement) => r.minimum > 0 || r.weight > 0
-
-// Bumped when a forgemagie/scroll default changes, so saves made under the
-// previous defaults pick up the new ones once.
-const DEFAULTS_REV = 2
-
-function makeDefaultConfig(): OptimizerConfig {
-  return {
-    stats:               OPTIMIZER_STATS.map(s => emptyReq(s.key)),
-    exo:                 { ap: true, mp: true, range: true, onlyOnRing: true, maxCount: 3 },
-    transcendence:       true,
-    maxLevel:            200,
-    lockedSlots:         new Set(),
-    assumeFullyScrolled: true,
-    bannedItems:         [],
-    intensity:           'standard',
-  }
-}
-
-// Earlier saves: { minVal, weight 1–10 }, { goal, weight, max, absolute } or
-// { minimum, importance 0–5, cap, strictCap }.
-function migrateReq(stat: OptimizerStatKey, saved: Record<string, unknown> | undefined): ForgeRequirement {
-  if (!saved) return emptyReq(stat)
-  const num = (k: string) => (typeof saved[k] === 'number' ? saved[k] as number : 0)
-  const cap = typeof saved.cap === 'number' ? saved.cap : typeof saved.max === 'number' ? saved.max : null
-  const strictCap = saved.strictCap === true || saved.absolute === true
-  if (typeof saved.minimum === 'number' && typeof saved.weight === 'number') {
-    return { stat, minimum: num('minimum'), weight: num('weight'), cap, strictCap }
-  }
-  if (typeof saved.importance === 'number') {
-    const level = num('importance')
-    return { stat, minimum: num('minimum'), weight: level > 0 ? leyPreset(stat, level - 1) : 0, cap, strictCap }
-  }
-  if (typeof saved.goal === 'number') {
-    return { stat, minimum: num('goal'), weight: num('weight'), cap, strictCap }
-  }
-  const minimum = num('minVal')
-  if (minimum <= 0 && num('weight') <= 0) return emptyReq(stat)
-  return { stat, minimum, weight: unitValue(stat), cap, strictCap }
-}
-
-function loadSavedConfig(): OptimizerConfig {
-  const defaults = makeDefaultConfig()
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return defaults
-    const parsed = JSON.parse(raw)
-    const savedStats = (parsed.stats ?? []) as Record<string, unknown>[]
-    const current = parsed.defaultsRev === DEFAULTS_REV
-    return {
-      ...defaults,
-      maxLevel:            typeof parsed.maxLevel === 'number' ? parsed.maxLevel : defaults.maxLevel,
-      assumeFullyScrolled: current && typeof parsed.assumeFullyScrolled === 'boolean' ? parsed.assumeFullyScrolled : defaults.assumeFullyScrolled,
-      transcendence:       parsed.transcendence !== false,
-      exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
-      lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
-      bannedItems:         Array.isArray(parsed.bannedItems) ? parsed.bannedItems : [],
-      intensity:           parsed.intensity in INTENSITY ? parsed.intensity : defaults.intensity,
-      stats:               OPTIMIZER_STATS.map(s => migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
-    }
-  } catch {
-    return defaults
-  }
-}
-
-function persistConfig(config: OptimizerConfig) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...config, lockedSlots: [...config.lockedSlots], defaultsRev: DEFAULTS_REV }))
-  } catch { /* quota errors ignored */ }
-}
-
-function toWireConfig(config: OptimizerConfig, islands: number) {
-  return {
-    stats: config.stats.filter(isActive).map(r => ({
-      stat:     r.stat,
-      goal:     r.minimum,
-      weight:   r.weight,
-      max:      r.cap,
-      absolute: r.strictCap && r.cap != null,
-    })),
-    exo:                 config.exo,
-    maxLevel:            config.maxLevel,
-    lockedSlots:         [...config.lockedSlots],
-    assumeFullyScrolled: config.assumeFullyScrolled,
-    bannedItems:         config.bannedItems,
-    bannedTypes:         [],
-    transcendence:       config.transcendence,
-    islands,
-  }
-}
 
 // Rings and Dofus slots are interchangeable, so they compare as sets.
 function fingerprint(r: BuildResult): string {
@@ -292,7 +200,7 @@ function RequirementCard({ meta, req, onChange }: {
               title={req.strictCap ? t('optimizer_cap_strict_hint') : t('optimizer_cap_soft_hint')}
               color={req.strictCap ? 'var(--negative)' : meta.color}
               active={req.cap != null}
-              onCommit={v => onChange({ ...req, cap: v })}
+              onCommit={v => onChange({ ...req, cap: normalizeCap(v) })}
             />
             <button
               type="button"
@@ -478,12 +386,6 @@ export function OptimizerModal({ open, onClose }: Props) {
   const scrolled      = useBuildStore(s => s.scrolled)
   const equipped      = useBuildStore(s => s.equipped)
   const runes         = useBuildStore(s => s.runes)
-  const setEquipped   = useBuildStore(s => s.setEquipped)
-  const setAllocated  = useBuildStore(s => s.setAllocated)
-  const setScrolled   = useBuildStore(s => s.setScrolled)
-  const clearAllRunes = useBuildStore(s => s.clearAllRunes)
-  const setRune       = useBuildStore(s => s.setRune)
-  const setExotic     = useBuildStore(s => s.setExotic)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
 
@@ -648,7 +550,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     const preset = INTENSITY[config.intensity]
     presetRef.current = preset
     const count = preset.threads
-    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)))
+    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level)
     const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
@@ -704,19 +606,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   }
 
   function loadBuild(result: BuildResult) {
-    setEquipped(result.equipped)
-    setAllocated(result.allocated)
-    setScrolled(result.scrolled)
-    for (const slot of ALL_SLOTS) {
-      if (!config.lockedSlots.has(slot)) clearAllRunes(slot)
-    }
-    const exoStat = { ap: 'AP', mp: 'MP', range: 'Range' } as const
-    for (const [slot, kind] of Object.entries(result.exo) as [SlotId, keyof typeof exoStat][]) {
-      setRune(slot, exoStat[kind], 1)
-    }
-    for (const [slot, rune] of Object.entries(result.runes) as [SlotId, { stat: string; value: number }][]) {
-      setExotic(slot, rune.stat, rune.value)
-    }
+    loadForgeResult(result, config.lockedSlots)
     handleClose()
   }
 
@@ -985,15 +875,7 @@ export function OptimizerModal({ open, onClose }: Props) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <label className="flex items-center gap-1.5">
             <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level')}:</span>
-            <input
-              type="number"
-              min={1}
-              max={200}
-              value={config.maxLevel}
-              onChange={e => setConfig(c => ({ ...c, maxLevel: Math.max(1, Math.min(200, Number(e.target.value) || 200)) }))}
-              className="w-14 text-right rounded px-1.5 py-0.5 outline-none font-mono text-[11px]"
-              style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-            />
+            <LevelField value={config.maxLevel} onCommit={v => setConfig(c => ({ ...c, maxLevel: v }))} />
           </label>
           <button onClick={() => setShowSlots(s => !s)} className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
             {t('optimizer_slots')}:

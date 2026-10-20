@@ -654,6 +654,8 @@ impl Forge {
         let banned_ids: HashSet<i64> = config.banned_items.iter().copied().collect();
         let banned_types: HashSet<&str> = config.banned_types.iter().map(|s| s.as_str()).collect();
         let floor = level_floor(base.level);
+        // The character cannot wear anything above its own level.
+        let max_level = config.max_level.min(base.level);
         let relevant_set: Vec<bool> = forge.set_bonus.iter().map(|tiers| tiers.iter().any(|v| forge.useful(v))).collect();
         let exo_wanted = forge.exo_max > 0 && (forge.exo_ap || forge.exo_mp || forge.exo_range);
         for &s in &forge.free_slots.clone() {
@@ -666,7 +668,7 @@ impl Forge {
                 .filter(|(i, it)| {
                     let item = &forge.items[*i];
                     fits_slot(it, s)
-                        && it.level <= config.max_level
+                        && it.level <= max_level
                         && (exempt || it.level >= floor)
                         && obtainable(it)
                         && !banned_ids.contains(&it.ankama_id)
@@ -1252,30 +1254,32 @@ impl Forge {
             pre[i] += pre[DAMAGE];
         }
 
-        // Exo runes first: +1 AP/MP/Range only where it closes a goal.
+        // Exo runes first: +1 AP/MP/Range only where it closes a goal. Which
+        // item hosts each one is decided after the transcendence runes, so an
+        // exo never takes the only item a valuable rune fits on.
         let mut exo = [0u8; NSLOT];
         let mut used = [false; NSLOT];
+        let mut hosts: Vec<usize> = Vec::new();
+        let mut exo_kinds: Vec<u8> = Vec::new();
         if self.exo_max > 0 {
-            let mut hosts: Vec<usize> = FORGEABLE
+            hosts = FORGEABLE
                 .iter()
                 .copied()
                 .filter(|&s| g[s] >= 0 && self.fixed[s] < 0 && (!self.exo_only_ring || s == RING1 || s == RING2))
                 .collect();
-            hosts.truncate(self.exo_max);
-            let mut next = 0;
+            let room = self.exo_max.min(hosts.len());
             for (kind, stat, allowed) in [(1u8, AP, self.exo_ap), (2, MP, self.exo_mp), (3, RANGE, self.exo_range)] {
-                if !allowed || next >= hosts.len() {
+                if !allowed || exo_kinds.len() >= room {
                     continue;
                 }
                 let goal = self.targets.iter().filter(|t| t.idx == stat).map(|t| t.goal).max().unwrap_or(0);
                 if pre[stat].min(if stat == AP { 12 } else { 6 }) < goal {
                     pre[stat] += 1;
-                    exo[hosts[next]] = kind;
-                    used[hosts[next]] = true;
-                    next += 1;
+                    exo_kinds.push(kind);
                 }
             }
         }
+        let mut free_hosts = hosts.len();
 
         // Characteristic thresholds the equipped items themselves demand.
         let mut extra: Vec<Target> = Vec::new();
@@ -1310,6 +1314,9 @@ impl Forge {
                     if g[s] < 0 || self.fixed[s] >= 0 || used[s] {
                         continue;
                     }
+                    if free_hosts <= exo_kinds.len() && hosts.contains(&s) {
+                        continue;
+                    }
                     for &(i, v) in &self.items[g[s] as usize].runes {
                         let gain = match memo.iter().find(|(k, _)| *k == (i, v)) {
                             Some((_, gain)) => *gain,
@@ -1332,10 +1339,16 @@ impl Forge {
                 }
                 rune[s] = Some((i, v));
                 used[s] = true;
+                if hosts.contains(&s) {
+                    free_hosts -= 1;
+                }
             }
             if rune.iter().any(|r| r.is_some()) {
                 alloc = self.allocate(&pre, &extra);
             }
+        }
+        for (&s, &kind) in hosts.iter().filter(|&&s| !used[s]).zip(&exo_kinds) {
+            exo[s] = kind;
         }
         let ch = Self::chars_of(&pre, &alloc);
 
@@ -1361,6 +1374,7 @@ impl Forge {
         let mut deficit = 0.0f64;
         let mut surplus = 0.0f64;
         let mut met = 0usize;
+        let mut goals = 0usize;
         let mut unmet = 0u64;
         for (ti, t) in self.targets.iter().enumerate() {
             let e = self.effective(&pre, &ch, t);
@@ -1368,6 +1382,7 @@ impl Forge {
                 violation += (e - t.max) as f64 * if t.weight > 0.0 { t.weight } else { 100.0 };
             }
             let ec = e.min(t.max);
+            goals += usize::from(t.goal > 0);
             if t.goal > 0 && ec >= t.goal {
                 met += 1;
             } else if t.goal > 0 && ti < 64 {
@@ -1397,7 +1412,9 @@ impl Forge {
             exo,
             rune,
             conditions_ok: conditions_ok && legal,
-            meets_required: legal && violation == 0.0 && deficit == 0.0,
+            // A minimum with ley 0 costs nothing when missed, but still counts
+            // as a requirement in the checklist.
+            meets_required: legal && violation == 0.0 && deficit == 0.0 && met == goals,
             requirements_met: met,
             unmet,
         }
@@ -2005,7 +2022,7 @@ mod tests {
         ItemEffect { stat: stat.to_string(), min: v, max: 0, effect_id: None }
     }
     fn item(id: i64, slot: &str, set_id: Option<i64>, effects: Vec<ItemEffect>) -> CatalogItem {
-        CatalogItem { ankama_id: id, name: format!("Item {id}"), level: 50, item_type: "Misc".to_string(), slot: slot.to_string(), effects, conditions: None, set_id }
+        CatalogItem { ankama_id: id, name: format!("Item {id}"), level: 1, item_type: "Misc".to_string(), slot: slot.to_string(), effects, conditions: None, set_id }
     }
     fn cond(stat: &str, goal: i64, weight: i64) -> StatConfig {
         StatConfig { stat: stat.to_string(), goal, weight, max: None, absolute: false }
@@ -2468,5 +2485,59 @@ mod tests {
         let mut a = Forge::new(cfg(), items.clone(), vec![], base(1), 42);
         let mut b = Forge::new(cfg(), items, vec![], base(1), 42);
         assert_eq!(run(&mut a, 20)[0].equipped, run(&mut b, 20)[0].equipped);
+    }
+
+    #[test]
+    fn never_offers_gear_above_the_character_level() {
+        let mut hat = item(1, "hat", None, vec![effect("Vitality", 100)]);
+        hat.level = 50;
+        let hat_slot = ALL_SLOTS.iter().position(|s| *s == "hat").unwrap();
+        let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), vec![hat.clone()], vec![], base(20), 1);
+        assert!(f.pools[hat_slot].is_empty());
+        assert!(run(&mut f, 3).iter().all(|r| r.equipped.get("hat").is_none()));
+        let f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), vec![hat], vec![], base(50), 1);
+        assert_eq!(f.pools[hat_slot].len(), 1);
+    }
+
+    #[test]
+    fn exo_leaves_the_only_rune_host_to_the_rune() {
+        // The hat takes a Vitality rune; the cape's Vitality 400 is too heavy
+        // for any rank, so the exo belongs on the cape.
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let cape = item(2, "cape", None, vec![effect("Vitality", 400)]);
+        let mut cfg = config(vec![cond("ap", BASE_AP + 1, 100), cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.transcendence = true;
+        cfg.exo = ExoConfig { ap: true, mp: false, range: false, only_on_ring: false, max_count: 1 };
+        let mut f = Forge::new(cfg, vec![hat, cape], vec![], base(1), 5);
+        let r = &run(&mut f, 5)[0];
+        assert_eq!(r.exo.get("cape").map(|s| s.as_str()), Some("ap"));
+        assert_eq!(r.runes.get("hat").map(|x| x.stat.as_str()), Some("Vitality"));
+        assert_eq!(get_stat(&r.stats, "ap"), BASE_AP + 1);
+        assert_eq!(get_stat(&r.stats, "vitality"), 500);
+        assert!(r.meets_required);
+    }
+
+    #[test]
+    fn a_missed_minimum_without_ley_still_counts_as_unmet() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 10), effect("Vitality", 5)]);
+        let mut f = Forge::new(config(vec![cond("strength", 100, 0), cond("vitality", 0, 1)], &["hat"]), vec![hat], vec![], base(1), 3);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!((r.requirements_met, r.requirements_total), (0, 1));
+        assert!(!r.meets_required);
+    }
+
+    #[test]
+    fn runes_leave_room_for_the_exo_they_counted_on() {
+        let hat = item(1, "hat", None, vec![effect("Strength", 1)]);
+        let cape = item(2, "cape", None, vec![effect("Strength", 1)]);
+        let mut cfg = config(vec![cond("ap", BASE_AP + 1, 100), cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.transcendence = true;
+        cfg.exo = ExoConfig { ap: true, mp: false, range: false, only_on_ring: false, max_count: 1 };
+        let mut f = Forge::new(cfg, vec![hat, cape], vec![], base(1), 5);
+        let r = &run(&mut f, 5)[0];
+        assert_eq!(r.exo.len(), 1);
+        assert_eq!(r.runes.len(), 1);
+        assert_eq!(get_stat(&r.stats, "ap"), BASE_AP + 1);
+        assert!(r.meets_required);
     }
 }

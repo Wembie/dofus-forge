@@ -4,6 +4,7 @@ import { Flame } from 'lucide-react'
 import type { ForgeRequirement } from './types.ts'
 import { OPTIMIZER_STATS } from './statList.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { clampLevel } from './forgeConfig.ts'
 
 const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
 
@@ -193,4 +194,27 @@ export function LeyScale({ reqs }: { reqs: ForgeRequirement[] }) {
 function formatRatio(n: number): string {
   if (n >= 10) return String(Math.round(n))
   return String(Math.round(n * 10) / 10)
+}
+
+// Keeps the raw text while typing; clamps to 1–200 on blur (empty = 200).
+export function LevelField({ value, onCommit }: { value: number; onCommit: (v: number) => void }) {
+  const [raw, setRaw] = useState(String(value))
+  useEffect(() => { setRaw(String(value)) }, [value])
+  return (
+    <input
+      type="text"
+      inputMode="numeric"
+      value={raw}
+      onChange={e => setRaw(e.target.value.replace(/[^0-9]/g, ''))}
+      onBlur={() => {
+        const n = parseInt(raw, 10)
+        const next = clampLevel(isNaN(n) ? null : n)
+        setRaw(String(next))
+        onCommit(next)
+      }}
+      onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+      className="w-14 text-right rounded px-1.5 py-0.5 outline-none font-mono text-[11px]"
+      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
+    />
+  )
 }

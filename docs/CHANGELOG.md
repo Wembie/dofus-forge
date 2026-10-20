@@ -18,6 +18,8 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **New**: notifications arrive in real time instead of on the next 60 s check
 - **Fix**: follower / following / build counts on profiles were stuck at 0 (the profile guard also blocked the counter triggers); counters are recomputed
 - **Fix**: database hardening — build owners can no longer edit likes, ratings, views or featured flags of their own builds through the API, likes / bookmarks / follows cannot be moved with an update, hidden comments and comments on private builds are no longer publicly readable, and views are counted only on visible builds
+- **Fix (La Forjadora)**: never offers gear above the character level; an exo no longer takes the only item a transcendence rune fits on; a missed minimum with ley 0 is shown as unmet; a cap of 0 means no cap and a strict cap alone counts as an active requirement
+- **Fix (La Forjadora)**: loading a result is one step (one undo entry) and clears the craftsman name and weapon transform of slots whose item changed; the max level field can be typed freely and clamps on blur; stopping the forge while the engine was still loading no longer hangs
 
 ## [0.3.112] — 2026-10-19
 - **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark
