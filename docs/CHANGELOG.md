@@ -11,6 +11,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Fix**: the same set ring can no longer be worn twice or count twice toward its set bonus, only one Prysmaradite fits at a time, and re-selecting the item already in a slot keeps its runes, transcendence rune, craftsman name and weapon transform
 - **Fix**: spell-modifier lines (": + cast per turn / per target") and weapon heal lines no longer leak into the stats as unknown values; runes left on an empty slot no longer add stats; a build name cut at 60 characters can no longer split an emoji and break link sharing
 - **Fix**: the share preview image showed the male portrait for female builds
+- **Fix**: editing a build you opened from someone else's profile no longer tries to overwrite their build — it is saved as your own remix; an update that changed no rows now reports an error instead of claiming success
+- **Fix**: a password-recovery link could land on the normal app instead of the new-password form, and a slow profile load could overwrite a newer session after signing out
+- **Fix**: the profile page showed **Follow** for someone you already follow after a page refresh
+- **Fix**: community lists no longer repeat or skip builds between pages when several have the same score
+- **New**: notifications arrive in real time instead of on the next 60 s check
 
 ## [0.3.112] — 2026-10-19
 - **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark

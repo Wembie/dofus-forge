@@ -90,18 +90,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (get().initialized) return
     set({ initialized: true })
 
-    getSupabase().then(async supabase => {
-      const { data: { session } } = await supabase.auth.getSession()
-      const profile = session ? await fetchProfile(session.user.id) : null
-      set({ session, profile, loading: false })
-
-      supabase.auth.onAuthStateChange(async (event, newSession) => {
-        const newProfile = newSession ? await fetchProfile(newSession.user.id) : null
-        set({
-          session: newSession, profile: newProfile, loading: false,
-          ...(event === 'PASSWORD_RECOVERY' ? { passwordRecovery: true } : {}),
-        })
+    getSupabase().then(supabase => {
+      // Every auth change bumps `seq`; a profile fetch that finishes after a
+      // newer change (e.g. a sign-out) is dropped instead of restoring a
+      // stale session.
+      let seq = 0
+      const apply = async (session: Session | null) => {
+        const mine = ++seq
+        const profile = session ? await fetchProfile(session.user.id) : null
+        if (mine === seq) set({ session, profile, loading: false })
+      }
+      // Subscribe before anything async: auth-js emits PASSWORD_RECOVERY
+      // right after it detects the reset link, so listening only after the
+      // session / profile round trips missed it (no "set new password" form).
+      supabase.auth.onAuthStateChange((event, newSession) => {
+        if (event === 'PASSWORD_RECOVERY') set({ passwordRecovery: true })
+        void apply(newSession)
       })
+      return supabase.auth.getSession().then(({ data: { session } }) => apply(session))
     }).catch(() => {
       // Signed-out fallback so the auth button stops spinning; a later
       // init() call (next mount) can try again.

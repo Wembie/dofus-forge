@@ -16,6 +16,11 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: one copy of a set ring and one Prysmaradite at a time; re-picking an item keeps its forgemagie',
       'Fix: no stray unknown stats from spell-modifier lines; runes on empty slots and long emoji names handled',
       'Fix: female builds get the female portrait in share previews',
+      'Fix: editing a build from another profile saves your own remix instead of failing to overwrite theirs',
+      'Fix: password recovery links always open the new-password form',
+      'Fix: Follow button shows the right state after a page refresh',
+      'Fix: community pages no longer repeat or skip builds',
+      'New: notifications arrive in real time',
     ],
   },
   {

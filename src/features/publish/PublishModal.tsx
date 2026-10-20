@@ -45,12 +45,18 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   useEffect(() => {
     if (!open || !linkedBuildId) return
     fetchBuildById(linkedBuildId).then(({ data }) => {
-      if (data) {
-        const ids = buildTags(data).map(tag => tag.id)
-        setName(data.name); setVisibility(data.visibility); setTagIds(ids); setSavedTagIds(ids)
+      if (!data) return
+      // A link carrying someone else's &edit=<id> (shared by its owner) must
+      // not "update" a build this user can't write to: publish it as a remix.
+      if (data.user_id !== session?.user.id) {
+        setLinkedBuildId(null)
+        setForkOf(data.visibility === 'public' ? data.id : null)
+        return
       }
+      const ids = buildTags(data).map(tag => tag.id)
+      setName(data.name); setVisibility(data.visibility); setTagIds(ids); setSavedTagIds(ids)
     })
-  }, [open, linkedBuildId])
+  }, [open, linkedBuildId, session, setLinkedBuildId, setForkOf])
 
   useEffect(() => {
     if (!open || linkedBuildId || !forkOf) { setForkParent(null); return }

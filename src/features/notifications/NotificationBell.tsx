@@ -5,13 +5,14 @@ import { Bell, Heart, MessageSquare, Star, GitFork, UserPlus } from 'lucide-reac
 import { useAuthStore } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import {
-  fetchUnreadNotificationCount, fetchNotifications, markNotificationsRead,
+  fetchUnreadNotificationCount, fetchNotifications, markNotificationsRead, subscribeToNotifications,
   type NotificationRow, type NotificationType,
 } from '@/features/builds/api.ts'
 
-// Polling instead of realtime: one cheap head/count query a minute while the
-// tab is visible, plus a refresh when the user comes back to it.
-const POLL_MS = 60_000
+// New notifications arrive live (Supabase Realtime). Polling stays as a
+// slower fallback for when the live connection drops, plus a refresh when
+// the user comes back to the tab.
+const POLL_MS = 120_000
 
 const TYPE_ICON: Record<NotificationType, typeof Heart> = {
   build_liked: Heart, build_commented: MessageSquare, build_rated: Star, build_forked: GitFork,
@@ -39,6 +40,17 @@ export function NotificationBell() {
   const refreshCount = useCallback(() => {
     if (!userId || document.visibilityState !== 'visible') return
     fetchUnreadNotificationCount(userId).then(setUnread)
+  }, [userId])
+
+  const openRef = useRef(false)
+  openRef.current = open
+
+  useEffect(() => {
+    if (!userId) return
+    return subscribeToNotifications(userId, () => {
+      setUnread(c => c + 1)
+      if (openRef.current) fetchNotifications(userId).then(setItems)
+    })
   }, [userId])
 
   useEffect(() => {
