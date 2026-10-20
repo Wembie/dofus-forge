@@ -15,6 +15,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: PvP arena resistances truncate like the game',
       'New: hover a spell or weapon damage value to see its full breakdown',
       'Fix: updating a published build works again',
+      'Fix: rating a build works again',
     ],
   },
   {

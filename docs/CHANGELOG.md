@@ -10,6 +10,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Fix (PvP arena)**: % resistance truncates like the game instead of rounding
 - **New**: hover any spell or weapon damage value to see how it is computed — base roll, × characteristic and Power (and Weapon Mastery), + fixed damage, + Critical Damage, × % Ranged / Melee, × % Spell / Weapon, and the total
 - **Fix**: updating a published build failed with "infinite recursion detected in policy for relation builds" (since 0.3.112); needs the `20261020120000_builds_update_recursion.sql` migration
+- **Fix**: rating a build failed with "permission denied" (since 0.3.113); needs the `20261020130000_ratings_upsert.sql` migration
 
 ## [0.3.113] — 2026-10-20
 - **Fix**: the header **Redo** button never worked (undoing was recorded as a new change and wiped the redo stack), and undo/redo unlinked the build from its published version, so the next Publish created a duplicate
