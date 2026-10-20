@@ -46,6 +46,17 @@ describe('supabase schema guards', () => {
     expect(schema).toMatch(/grant update \(rating\) on build_ratings to authenticated;/)
   })
 
+  it('the app upsert on build_ratings has UPDATE on every column it sets, keys locked by a trigger', () => {
+    // supabase-js upsert = INSERT … ON CONFLICT DO UPDATE SET <every column sent>.
+    const api = readFileSync(join(ROOT, 'src', 'features', 'builds', 'api.ts'), 'utf8')
+    const sent = api.match(/from\('build_ratings'\)\.upsert\(\{([^}]*)\}/)![1].split(',').map(c => c.split(':')[0].trim())
+    const grants = [...schema.matchAll(/grant update \(([^)]*)\) on build_ratings to authenticated;/g)]
+    const granted = grants.at(-1)![1].split(',').map(c => c.trim())
+    expect(granted).toEqual(expect.arrayContaining(sent))
+    expect(schema).toMatch(/create trigger before_rating_keys before update on build_ratings/)
+    expect(schema.slice(schema.lastIndexOf('function keep_rating_keys'))).toMatch(/NEW\.build_id is distinct from OLD\.build_id or NEW\.user_id is distinct from OLD\.user_id/)
+  })
+
   it('profile counters can be written by the counter triggers and the SQL editor (not frozen)', () => {
     const guard = schema.slice(schema.lastIndexOf('function protect_profile_system_fields'))
     const head = guard.slice(0, guard.indexOf('$$'))
