@@ -21,6 +21,8 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: Follow button shows the right state after a page refresh',
       'Fix: community pages no longer repeat or skip builds',
       'New: notifications arrive in real time',
+      'Fix: follower, following and build counts on profiles update again',
+      'Fix: database hardening for counters, likes, comments and views',
     ],
   },
   {
