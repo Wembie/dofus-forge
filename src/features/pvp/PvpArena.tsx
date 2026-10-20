@@ -6,7 +6,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { usePvpStore, type PvpElement } from '@/store/pvpStore.ts'
 import type { AppSpell } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { spellGrade, dedupEffects, rangePct } from '../spells/spellCalc.ts'
+import { spellGrade, dedupEffects, spellMods } from '../spells/spellCalc.ts'
 import { simulateSpellHit, simulateWeaponHit, type HitResult } from './simulate.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
 
@@ -153,8 +153,7 @@ export function PvpArena() {
     } else {
       const lvl = atk.spell.levels.find(l => l.grade === grade) ?? atk.spell.levels.at(-1)
       if (!lvl) return
-      const spellPct = stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
-      result = simulateSpellHit(lvl, stats, spellPct, resist)
+      result = simulateSpellHit(lvl, stats, spellMods(stats, lvl.minRange, lvl.maxRange), resist)
       effectiveCrit = lvl.critChance > 0 ? Math.min(100, lvl.critChance + stats.critChance) : 0
     }
 

@@ -6,8 +6,8 @@
 import type { AppSpellLevel } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
-import { calcEffects } from '../spells/spellDamage.ts'
-import { dedupEffects, rangePct } from '../spells/spellCalc.ts'
+import { calcEffects, type DamageMods } from '../spells/spellDamage.ts'
+import { dedupEffects, weaponMods } from '../spells/spellCalc.ts'
 import { weaponAttackEffects, weaponDamageRows } from '../spells/weaponRows.ts'
 import type { PvpElement, PvpResist } from '@/store/pvpStore.ts'
 import { applyResist } from './pvpMath.ts'
@@ -20,11 +20,11 @@ const DMG_KINDS = new Set(['damage', 'steal', 'poison'])
 export function simulateSpellHit(
   lvl:      AppSpellLevel,
   stats:    StatBlock,
-  spellPct: number,
+  mods:     DamageMods,
   resist:   Record<PvpElement, PvpResist>,
 ): HitResult {
   const effects = dedupEffects(lvl.effects).filter(e => DMG_KINDS.has(e.kind) && e.condition !== 'shield')
-  const calced  = calcEffects(effects, stats, spellPct)
+  const calced  = calcEffects(effects, stats, mods)
   let min = 0, max = 0
   for (const e of calced) {
     min += applyResist(e.calcMin, resist[e.element])
@@ -35,7 +35,7 @@ export function simulateSpellHit(
   const hasCrit      = critEffects.length > 0
   let critMin = min, critMax = max
   if (hasCrit) {
-    const calcedCrit = calcEffects(dedupEffects(critEffects), stats, spellPct, stats.critDamage)
+    const calcedCrit = calcEffects(dedupEffects(critEffects), stats, mods, stats.critDamage)
     critMin = 0; critMax = 0
     for (const e of calcedCrit) {
       critMin += applyResist(e.calcMin, resist[e.element])
@@ -59,9 +59,9 @@ export function simulateWeaponHit(
   const minR     = weapon.min_range ?? 0
   const maxR     = weapon.max_range ?? 0
   const critBon  = weapon.crit_bonus ?? 0
-  const weaponPct = stats.weaponDamagePercent + rangePct(minR, maxR, stats)
+  const mods     = weaponMods(stats, minR, maxR)
 
-  const rows = weaponDamageRows(weaponAttackEffects(weapon, weaponTransform), stats, critBon, weaponPct, weaponPct)
+  const rows = weaponDamageRows(weaponAttackEffects(weapon, weaponTransform), stats, critBon, mods, mods)
   let min = 0, max = 0, critMin = 0, critMax = 0
   for (const r of rows) {
     const elem = r.elem!

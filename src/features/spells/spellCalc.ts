@@ -3,6 +3,7 @@
 // dependency-free (no React) so both can import it without a cycle.
 import type { AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
+import type { DamageMods } from './spellDamage.ts'
 
 export function spellGrade(level: number): number {
   if (level >= 200) return 6
@@ -58,4 +59,14 @@ export function dedupEffects(effects: AppSpellEffect[]): AppSpellEffect[] {
     seen.add(key)
     return true
   })
+}
+
+/** % Spell Damage plus % Ranged / % Melee for a spell cast at this range. */
+export function spellMods(stats: StatBlock, minRange: number, maxRange: number): DamageMods {
+  return { kindPct: stats.spellDamagePercent, rangePct: rangePct(minRange, maxRange, stats) }
+}
+
+/** % Weapon Damage plus % Ranged / % Melee for a weapon with this range. */
+export function weaponMods(stats: StatBlock, minRange: number, maxRange: number): DamageMods {
+  return { kindPct: stats.weaponDamagePercent, rangePct: rangePct(minRange, maxRange, stats) }
 }

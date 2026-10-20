@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import type { AppItem } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { bestElement, weaponAttackEffects, weaponDamageRows } from '../weaponRows.ts'
-import { calcDamage } from '../spellDamage.ts'
+import { calcDamage, NO_MODS } from '../spellDamage.ts'
 import { simulateWeaponHit } from '../../pvp/simulate.ts'
 
 function stats(over: Partial<StatBlock> = {}): StatBlock {
@@ -50,7 +50,7 @@ const allFinite = (rows: ReturnType<typeof weaponDamageRows>) =>
 
 describe('weaponDamageRows', () => {
   it('Kaiser: one row per element line, no AP-cost row, no NaN', () => {
-    const rows = weaponDamageRows(weaponAttackEffects(KAISER, null), stats({ strength: 100 }), 6, 0, 0)
+    const rows = weaponDamageRows(weaponAttackEffects(KAISER, null), stats({ strength: 100 }), 6, NO_MODS, NO_MODS)
     expect(rows.map(r => r.elem)).toEqual(['neutral', 'water', 'air'])
     expect(allFinite(rows)).toBe(true)
     expect(rows[0].critHigh).toBe(calcDamage(11 + 6, 'neutral', stats({ strength: 100 })))
@@ -58,7 +58,7 @@ describe('weaponDamageRows', () => {
 
   it('Crocobur: best-element resolves to the highest characteristic', () => {
     const s = stats({ intelligence: 300, strength: 100 })
-    const rows = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), s, 14, 0, 0)
+    const rows = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), s, 14, NO_MODS, NO_MODS)
     expect(rows).toHaveLength(1)
     expect(rows[0]).toMatchObject({ elem: 'fire', best: true, steal: false })
     expect(rows[0].low).toBe(calcDamage(41, 'fire', s))
@@ -66,14 +66,24 @@ describe('weaponDamageRows', () => {
   })
 
   it('skips Steals MP / heals, keeps best-element steal as a steal row', () => {
-    const rows = weaponDamageRows(weaponAttackEffects(HALBAXE, null), stats({ agility: 50 }), 5, 0, 0)
+    const rows = weaponDamageRows(weaponAttackEffects(HALBAXE, null), stats({ agility: 50 }), 5, NO_MODS, NO_MODS)
     expect(rows.map(r => [r.elem, r.steal])).toEqual([['air', false], ['air', true]])
     expect(allFinite(rows)).toBe(true)
   })
 
   it('without stats, best-element rows show base values with no element', () => {
-    const rows = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), null, 14, 0, 0)
+    const rows = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), null, 14, NO_MODS, NO_MODS)
     expect(rows).toEqual([{ elem: null, best: true, steal: false, low: 41, high: 60, critLow: 41, critHigh: 60 }])
+  })
+
+  it('% Weapon Damage and % Melee multiply the hit, critical damage included', () => {
+    // Crocobur fire line 41–60, crit +14; 100 Intelligence, 10 Damage, 20 Critical Damage,
+    // 20% Weapon Damage and 10% Melee → (82 + 10) × 1.1 × 1.2 = 121, crit (148 + 30) × 1.32 = 234.
+    const s = stats({ intelligence: 100, damage: 10, critDamage: 20 })
+    const mods = { kindPct: 20, rangePct: 10 }
+    const [row] = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), s, 14, mods, mods)
+    expect(row.low).toBe(121)
+    expect(row.critHigh).toBe(Math.floor((148 + 30) * 1.32))
   })
 
   it('bestElement breaks ties in earth → fire → water → air order', () => {

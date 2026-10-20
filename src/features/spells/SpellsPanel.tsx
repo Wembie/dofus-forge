@@ -5,11 +5,11 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { calcEffects, type CalcedEffect } from './spellDamage.ts'
+import { calcEffects, NO_MODS, type CalcedEffect } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
-import { spellGrade, ELEM_COLOR, fmtRange, rangePct, dedupEffects } from './spellCalc.ts'
+import { spellGrade, ELEM_COLOR, fmtRange, dedupEffects, spellMods, weaponMods } from './spellCalc.ts'
 import { PvpArena } from '../pvp/PvpArena.tsx'
 
 // TODO icons needed (add file to public/data/stats/ then map here):
@@ -92,9 +92,10 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   const isMixed       = spell.element === 'mixed'
   const showCalc      = Boolean(stats)
 
-  const spellPct = stats && lvl
-    ? stats.spellDamagePercent + rangePct(lvl.minRange, lvl.maxRange, stats)
-    : 0
+  const mods = useMemo(
+    () => (stats && lvl ? spellMods(stats, lvl.minRange, lvl.maxRange) : NO_MODS),
+    [stats, lvl],
+  )
 
   // Self-charge buffs: spell_buff pointing to this spell itself (charge mechanic)
   const selfChargeBuffs = useMemo(() => {
@@ -110,16 +111,16 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       ? lvl.effects.filter(e => !(e.kind === 'spell_buff' && e.spellId === spell.id))
       : lvl.effects
     const effects = dedupEffects(raw)
-    if (stats && effects.length > 0) return calcEffects(effects, stats, spellPct)
+    if (stats && effects.length > 0) return calcEffects(effects, stats, mods)
     return effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-  }, [lvl, stats, spellPct, selfChargeBuffs, spell.id])
+  }, [lvl, stats, mods, selfChargeBuffs, spell.id])
 
   const critDisplayEffects = useMemo(() => {
     if (!lvl?.critEffects || lvl.critEffects.length === 0) return []
     const effects = dedupEffects(lvl.critEffects)
-    if (stats) return calcEffects(effects, stats, spellPct, stats.critDamage)
+    if (stats) return calcEffects(effects, stats, mods, stats.critDamage)
     return effects.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
-  }, [lvl, stats, spellPct])
+  }, [lvl, stats, mods])
 
   // Charge damage sets: one entry per charge level with pre-computed calced+crit effects
   const chargeSets = useMemo((): { label: number; calced: CalcedEffect[]; calcedCrit: CalcedEffect[] }[] => {
@@ -135,10 +136,10 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
       const baseFx     = lvl.effects.filter(e => !(e.kind === 'spell_buff' && e.spellId === spell.id))
       const chargedFx  = applyBonus(baseFx, bonus)
       const chargedCFx = applyBonus(lvl.critEffects ?? [], bonus)
-      const calced     = stats ? calcEffects(chargedFx, stats, spellPct) : chargedFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+      const calced     = stats ? calcEffects(chargedFx, stats, mods) : chargedFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
       // Same crit flat bonus (stats.critDamage) as the base (uncharged) crit row below —
       // missing this made every charge level's crit LOWER than the base crit hit.
-      const calcedCrit = stats ? calcEffects(chargedCFx, stats, spellPct, stats.critDamage) : chargedCFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
+      const calcedCrit = stats ? calcEffects(chargedCFx, stats, mods, stats.critDamage) : chargedCFx.map(e => ({ ...e, calcMin: e.min, calcMax: e.max }))
       return { calced, calcedCrit }
     }
 
@@ -158,7 +159,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
     const buff = selfChargeBuffs[0]
     const maxN = buff.turns && buff.turns > 0 ? Math.min(buff.turns, 3) : 3
     return Array.from({ length: maxN }, (_, i) => ({ label: i + 1, ...calcSet(buff.min * (i + 1)) }))
-  }, [lvl, selfChargeBuffs, stats, spellPct, spell.id])
+  }, [lvl, selfChargeBuffs, stats, mods, spell.id])
 
   const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal' || e.kind === 'poison'
 
@@ -722,15 +723,16 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
   const hasCrit = crit > 0 && stats != null
 
-  const baseWeaponPct = stats ? stats.weaponDamagePercent + rangePct(minR, maxR, stats) : 0
-  const normalPct     = baseWeaponPct + (dominioActive ? dominioNorm : 0)
-  const critWeaponPct = baseWeaponPct + (dominioActive ? dominioCrit : 0)
+  // Weapon Mastery adds power to this weapon's hits, not a % multiplier.
+  const baseMods   = stats ? weaponMods(stats, minR, maxR) : NO_MODS
+  const normalMods = { ...baseMods, power: dominioActive ? dominioNorm : 0 }
+  const critMods   = { ...baseMods, power: dominioActive ? dominioCrit : 0 }
 
 
   // effect_id 238: MP removed on hit (stat='MP', not elemental) — shown as its own row.
   // AP cost (179), heals (261) and "Steals MP" (233) never become damage rows.
   const mpEffects = attackEffects.filter(e => e.stat === 'MP')
-  const rows      = weaponDamageRows(attackEffects, stats, critBon, normalPct, critWeaponPct)
+  const rows      = weaponDamageRows(attackEffects, stats, critBon, normalMods, critMods)
     .map(r => ({ ...r, c: r.elem ? ELEM_COLOR[r.elem] : ELEM_COLOR.mixed }))
   const dmgRows   = rows.filter(r => !r.steal)
   const stealRows = rows.filter(r =>  r.steal)

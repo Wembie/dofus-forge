@@ -3,7 +3,7 @@
 import type { AppEffect, AppItem } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
-import { calcDamage } from './spellDamage.ts'
+import { calcDamage, type DamageMods } from './spellDamage.ts'
 import { WEAPON_ATTACK_STAT, IS_STEAL } from './spellCalc.ts'
 
 export type WeaponElem = (typeof WEAPON_ATTACK_STAT)[string]
@@ -58,8 +58,8 @@ export function weaponDamageRows(
   effects:  AppEffect[],
   stats:    StatBlock | null,
   critBon:  number,
-  normalPct: number,
-  critPct:  number,
+  normalMods: DamageMods,
+  critMods:   DamageMods,
 ): WeaponRow[] {
   return effects.filter(isDamageLine).map(e => {
     const best = BEST_ELEMENT_STATS.has(e.stat)
@@ -70,11 +70,11 @@ export function weaponDamageRows(
     }
     return {
       elem, best, steal: IS_STEAL(e.stat),
-      low:  calcDamage(e.min,   elem, stats, normalPct),
-      high: calcDamage(baseMax, elem, stats, normalPct),
+      low:  calcDamage(e.min,   elem, stats, normalMods),
+      high: calcDamage(baseMax, elem, stats, normalMods),
       // crit_bonus is an additional base damage amplified by the mastery formula (not flat)
-      critLow:  calcDamage(e.min   + critBon, elem, stats, critPct) + stats.critDamage,
-      critHigh: calcDamage(baseMax + critBon, elem, stats, critPct) + stats.critDamage,
+      critLow:  calcDamage(e.min   + critBon, elem, stats, critMods, stats.critDamage),
+      critHigh: calcDamage(baseMax + critBon, elem, stats, critMods, stats.critDamage),
     }
   })
 }
