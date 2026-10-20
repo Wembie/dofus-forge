@@ -89,63 +89,6 @@ alter table profiles
 
 
 -- ═══════════════════════════════════════════════════════════════
--- ITEMS EQUIPADOS
--- ═══════════════════════════════════════════════════════════════
-
-create table build_items (
-  build_id  uuid not null references builds(id) on delete cascade,
-  -- = ALL_SLOTS en buildStore.ts, exacto
-  slot      text not null check (slot in (
-    'hat','cape','amulet','ring1','ring2','belt','boots',
-    'weapon','shield','companion','sidekick',
-    'dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'
-  )),
-  item_id   int not null,
-  primary key (build_id, slot)
-);
-
-
--- ═══════════════════════════════════════════════════════════════
--- CARACTERÍSTICAS BASE
--- ═══════════════════════════════════════════════════════════════
-
-create table build_characteristics (
-  build_id      uuid primary key references builds(id) on delete cascade,
-  vitality      smallint not null default 0 check (vitality >= 0),
-  strength      smallint not null default 0 check (strength >= 0),
-  intelligence  smallint not null default 0 check (intelligence >= 0),
-  chance        smallint not null default 0 check (chance >= 0),
-  agility       smallint not null default 0 check (agility >= 0),
-  wisdom        smallint not null default 0 check (wisdom >= 0),
-  vit_scrolled  boolean not null default false,
-  str_scrolled  boolean not null default false,
-  int_scrolled  boolean not null default false,
-  cha_scrolled  boolean not null default false,
-  agi_scrolled  boolean not null default false,
-  wis_scrolled  boolean not null default false
-);
-
-
--- ═══════════════════════════════════════════════════════════════
--- RUNAS
--- ═══════════════════════════════════════════════════════════════
-
-create table build_runes (
-  build_id                uuid not null references builds(id) on delete cascade,
-  slot                    text not null,
-  runes                   jsonb not null default '{}',
-  forjamago_name          text,
-  -- WeaponTransform = {element, ratio} en buildStore.ts — element nunca es 'neutral'
-  weapon_transform        text check (weapon_transform in ('earth','fire','water','air')),
-  weapon_transform_ratio  smallint check (weapon_transform_ratio in (85, 68, 50)),
-  primary key (build_id, slot),
-  constraint weapon_transform_pair check (
-    (weapon_transform is null) = (weapon_transform_ratio is null)
-  )
-);
-
-
--- ═══════════════════════════════════════════════════════════════
 -- TAGS
 -- ═══════════════════════════════════════════════════════════════
 
@@ -374,7 +317,6 @@ create index idx_builds_slug             on builds(slug) where slug is not null;
 create index idx_builds_fork             on builds(fork_of) where fork_of is not null;
 
 -- ── Items ───────────────────────────────────────────────────────────
-create index idx_build_items_item on build_items(item_id);
 
 -- ── Social ──────────────────────────────────────────────────────────
 create index idx_build_views     on build_view_events(build_id, viewed_at desc);
@@ -394,9 +336,6 @@ create index idx_tags_category   on tags(category);
 
 alter table profiles          enable row level security;
 alter table builds            enable row level security;
-alter table build_items       enable row level security;
-alter table build_characteristics enable row level security;
-alter table build_runes       enable row level security;
 alter table build_snapshots   enable row level security;
 alter table build_likes       enable row level security;
 alter table build_ratings     enable row level security;
@@ -437,32 +376,7 @@ create policy "builds update" on builds for update
 create policy "builds delete" on builds for delete
   using (auth.uid() = user_id);
 
--- Build_items: read según visibilidad del build padre, write solo dueño
-create policy "build_items read" on build_items for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_items write" on build_items for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
--- Mismo patrón read/write que build_items para las demás tablas hijas de un build
-create policy "build_characteristics read" on build_characteristics for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_characteristics write" on build_characteristics for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
-create policy "build_runes read" on build_runes for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_runes write" on build_runes for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
+-- Tablas hijas de un build: read según visibilidad del build padre, write solo dueño
 create policy "build_snapshots read" on build_snapshots for select using (
   exists (select 1 from builds where id = build_id
     and (visibility in ('public','unlisted') or auth.uid() = user_id))

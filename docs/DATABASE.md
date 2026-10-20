@@ -74,15 +74,12 @@ Migración = cero código, solo conectar Cloudflare Pages al repo.
 
 `unlisted` es crítico para "compartir sin publicar". Un `is_public boolean` no lo permite.
 
-### Snapshot JSONB + tablas normalizadas
+### Snapshot JSONB
 
-Patrón híbrido:
-- `builds.snapshot` (JSONB) → carga completa de un build en 1 query sin JOINs
-- `build_items` (normalizado) → permite "¿qué builds usan el Gelano?"
-- `build_characteristics` (normalizado) → permite filtrar por stats base asignados
-- `build_runes` (JSONB por slot) → demasiado dinámico para columnas; cambia con cada parche
+- `builds.snapshot` (JSONB) → carga completa de un build en 1 query sin JOINs; es la única fuente del build (ítems, características, runas, transformaciones)
+- "¿Qué builds usan el Gelano?" se resuelve con una consulta de contención sobre el JSONB (`snapshot->'e' @> '[id]'`), sin tablas aparte
 
-Las tablas normalizadas y el snapshot se sincronizan en cada save desde la app.
+Las antiguas tablas normalizadas `build_items` / `build_characteristics` / `build_runes` nunca se llegaron a sincronizar desde la app y se eliminaron (0.3.109, ver la migración "comunidad").
 
 ### Contadores desnormalizados
 
@@ -144,33 +141,6 @@ erDiagram
         tsvector search_vector
     }
 
-    build_items {
-        uuid build_id PK-FK
-        text slot PK
-        int item_id
-    }
-
-    build_characteristics {
-        uuid build_id PK-FK
-        smallint vitality
-        smallint strength
-        smallint intelligence
-        smallint chance
-        smallint agility
-        smallint wisdom
-        boolean vit_scrolled
-        boolean str_scrolled
-    }
-
-    build_runes {
-        uuid build_id PK-FK
-        text slot PK
-        jsonb runes
-        text forjamago_name
-        text weapon_transform
-        smallint weapon_transform_ratio
-    }
-
     build_snapshots {
         uuid id PK
         uuid build_id FK
@@ -199,9 +169,6 @@ erDiagram
     profiles ||--o{ builds : "crea"
     profiles }o--o| builds : "pinea"
     builds   }o--o| builds : "fork de"
-    builds ||--o{ build_items : ""
-    builds ||--|| build_characteristics : ""
-    builds ||--o{ build_runes : ""
     builds ||--o{ build_snapshots : ""
     builds ||--o{ slug_redirects : ""
     builds ||--o{ build_tags : ""
@@ -341,9 +308,6 @@ auth.users (Supabase Auth)
         │                                                         │
         └──► builds ◄─────────────────────── fork_of (self-ref) ─┘
                │
-               ├── build_items          slot CHECK + item_id (estático)
-               ├── build_characteristics stats ≥ 0 CHECK, scrolls
-               ├── build_runes          JSONB, weapon_transform CHECK
                ├── build_tags ──────► tags (seeded)
                ├── build_snapshots     historial con label
                ├── slug_redirects      redirect 301 al renombrar
@@ -421,44 +385,6 @@ Entidad principal. Contiene metadatos + snapshot completo.
   "weaponTransforms": { "weapon": { "element": "fire", "ratio": 85 } }
 }
 ```
-
----
-
-### `build_items`
-Items equipados normalizados. Permite query "builds que usan item X".
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `build_id` | uuid PK,FK | |
-| `slot` | text PK | CHECK en enum de slots válidos |
-| `item_id` | int | ID del juego (datos estáticos, no FK) |
-
-**Slots válidos** (= `ALL_SLOTS` en `buildStore.ts`, exactos): `hat`, `cape`, `amulet`, `ring1`, `ring2`, `belt`, `boots`, `weapon`, `shield`, `companion`, `sidekick`, `dofus1`–`dofus6`
-
----
-
-### `build_characteristics`
-Stats base asignados. Permite filtrar builds por puntos invertidos.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `build_id` | uuid PK,FK | |
-| `vitality`..`wisdom` | smallint | CHECK >= 0 |
-| `vit_scrolled`..`wis_scrolled` | boolean | Si el stat está scrolleado |
-
----
-
-### `build_runes`
-Runas por slot. JSONB porque los nombres de stats cambian con parches.
-
-| Columna | Tipo | Notas |
-|---|---|---|
-| `build_id` | uuid PK,FK | |
-| `slot` | text PK | |
-| `runes` | jsonb | `{"Vitality": 100, "AP": 1}` |
-| `forjamago_name` | text | Nombre dado al forjamago |
-| `weapon_transform` | text | CHECK en `earth/fire/water/air` o NULL (`WeaponTransform.element` nunca es `'neutral'` — se transforma daño neutral HACIA un elemento) |
-| `weapon_transform_ratio` | smallint | CHECK en `85/68/50` (%) o NULL — junto con `weapon_transform`, ambos NULL o ambos con valor |
 
 ---
 
@@ -590,65 +516,6 @@ create table builds (
 alter table profiles
   add constraint fk_pinned_build
   foreign key (pinned_build_id) references builds(id) on delete set null;
-
-
--- ═══════════════════════════════════════════════════════════════
--- ITEMS EQUIPADOS
--- ═══════════════════════════════════════════════════════════════
-
-create table build_items (
-  build_id  uuid not null references builds(id) on delete cascade,
-  -- = ALL_SLOTS en buildStore.ts, exacto (antes tenía 'offhand'/'mount' que no
-  -- existen y le faltaban 'shield' y 'sidekick')
-  slot      text not null check (slot in (
-    'hat','cape','amulet','ring1','ring2','belt','boots',
-    'weapon','shield','companion','sidekick',
-    'dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'
-  )),
-  item_id   int not null,
-  primary key (build_id, slot)
-);
-
-
--- ═══════════════════════════════════════════════════════════════
--- CARACTERÍSTICAS BASE
--- ═══════════════════════════════════════════════════════════════
-
-create table build_characteristics (
-  build_id      uuid primary key references builds(id) on delete cascade,
-  vitality      smallint not null default 0 check (vitality >= 0),
-  strength      smallint not null default 0 check (strength >= 0),
-  intelligence  smallint not null default 0 check (intelligence >= 0),
-  chance        smallint not null default 0 check (chance >= 0),
-  agility       smallint not null default 0 check (agility >= 0),
-  wisdom        smallint not null default 0 check (wisdom >= 0),
-  vit_scrolled  boolean not null default false,
-  str_scrolled  boolean not null default false,
-  int_scrolled  boolean not null default false,
-  cha_scrolled  boolean not null default false,
-  agi_scrolled  boolean not null default false,
-  wis_scrolled  boolean not null default false
-);
-
-
--- ═══════════════════════════════════════════════════════════════
--- RUNAS
--- ═══════════════════════════════════════════════════════════════
-
-create table build_runes (
-  build_id                uuid not null references builds(id) on delete cascade,
-  slot                    text not null,
-  runes                   jsonb not null default '{}',
-  forjamago_name          text,
-  -- WeaponTransform = {element, ratio} en buildStore.ts — element nunca es 'neutral'
-  -- (se transforma daño neutral HACIA un elemento). ratio faltaba en el diseño original.
-  weapon_transform        text check (weapon_transform in ('earth','fire','water','air')),
-  weapon_transform_ratio  smallint check (weapon_transform_ratio in (85, 68, 50)),
-  primary key (build_id, slot),
-  constraint weapon_transform_pair check (
-    (weapon_transform is null) = (weapon_transform_ratio is null)
-  )
-);
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -898,7 +765,6 @@ create index idx_builds_fork             on builds(fork_of) where fork_of is not
 
 -- ── Items ───────────────────────────────────────────────────────────
 -- "¿Qué builds usan el Gelano?" → rápido
-create index idx_build_items_item on build_items(item_id);
 
 -- ── Social ──────────────────────────────────────────────────────────
 create index idx_build_views     on build_view_events(build_id, viewed_at desc);
@@ -920,9 +786,6 @@ create index idx_tags_category   on tags(category);
 -- Habilitar en todas las tablas
 alter table profiles          enable row level security;
 alter table builds            enable row level security;
-alter table build_items       enable row level security;
-alter table build_characteristics enable row level security;
-alter table build_runes       enable row level security;
 alter table build_snapshots   enable row level security;
 alter table build_likes       enable row level security;
 alter table build_ratings     enable row level security;
@@ -969,34 +832,7 @@ create policy "builds update" on builds for update
 create policy "builds delete" on builds for delete
   using (auth.uid() = user_id);
 
--- Build_items: read según visibilidad del build padre, write solo dueño
-create policy "build_items read" on build_items for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_items write" on build_items for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
--- Mismo patrón read/write que build_items para las demás tablas hijas de un build.
--- IMPORTANTE: sin estas, RLS activado + cero políticas = nadie (ni el dueño) puede
--- leer/escribir estas 4 tablas.
-create policy "build_characteristics read" on build_characteristics for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_characteristics write" on build_characteristics for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
-create policy "build_runes read" on build_runes for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_runes write" on build_runes for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
+-- Tablas hijas de un build: read según visibilidad del build padre, write solo dueño
 create policy "build_snapshots read" on build_snapshots for select using (
   exists (select 1 from builds where id = build_id
     and (visibility in ('public','unlisted') or auth.uid() = user_id))
@@ -1605,11 +1441,10 @@ where visibility = 'public'
   and search_vector @@ plainto_tsquery('simple', 'panda critico pvp')
 order by ts_rank(search_vector, plainto_tsquery('simple', 'panda critico pvp')) desc;
 
--- ¿Qué builds usan el Gelano (item_id=8023)?
+-- ¿Qué builds usan el Gelano (item_id=8023)? snapshot.e = ids por slot
 select b.id, b.name, b.slug, b.class_slug, b.avg_rating
 from builds b
-join build_items bi on bi.build_id = b.id
-where bi.item_id = 8023 and b.visibility = 'public'
+where b.snapshot->'e' @> '[8023]'::jsonb and b.visibility = 'public'
 order by b.avg_rating desc;
 
 -- Perfil de usuario: sus builds públicos
@@ -2247,6 +2082,15 @@ begin
 end; $$;
 drop trigger if exists notify_on_follow on follows;
 create trigger notify_on_follow after insert on follows for each row execute procedure notify_follow();
+
+-- Chore: tablas legacy sin uso (build_items / build_characteristics /
+-- build_runes). Todo el build vive en builds.snapshot (jsonb) desde hace
+-- mucho; nada en la app, el Worker ni las funciones SQL las lee o escribe.
+-- IRREVERSIBLE: borra las tablas y cualquier fila que tuvieran (al revisarlas
+-- estaban vacías). Si se quiere conservar algo, hacer un backup antes.
+drop table if exists build_runes;
+drop table if exists build_characteristics;
+drop table if exists build_items;
 
 commit;
 ```
