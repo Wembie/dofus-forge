@@ -1184,5 +1184,7 @@
   "notif_comment_replied": "{{user}} respondeu seu comentário em “{{build}}”",
   "notif_new_follower": "{{user}} começou a seguir você",
   "publish_update_open": "Atualizar",
-  "publish_update_hint": "Atualizar o build publicado com as mudanças"
+  "publish_update_hint": "Atualizar o build publicado com as mudanças",
+  "collection_private_build": "Só você vê",
+  "collection_private_build_hint": "Este build é privado: não aparece para quem visita esta coleção pública."
 }

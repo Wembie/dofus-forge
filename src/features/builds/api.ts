@@ -202,11 +202,14 @@ export type CollectionRow = {
   build_count: number
 }
 
-const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, collection_builds(count)'
+// Counts only the builds the viewer can actually see: in a public
+// collection, someone else's view drops the owner's private builds (builds
+// RLS), so a plain collection_builds(count) would overstate it.
+const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, visible:collection_builds(builds(id))'
 
 function toCollection(row: Record<string, unknown>): CollectionRow {
-  const counted = row.collection_builds as { count: number }[] | undefined
-  return { ...(row as Omit<CollectionRow, 'build_count'>), build_count: counted?.[0]?.count ?? 0 }
+  const { visible, ...rest } = row as Record<string, unknown> & { visible?: { builds: unknown }[] }
+  return { ...(rest as Omit<CollectionRow, 'build_count'>), build_count: (visible ?? []).filter(v => v.builds != null).length }
 }
 
 /** The user's collections (all of them for the owner, public ones for anyone else via RLS). */

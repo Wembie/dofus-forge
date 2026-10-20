@@ -162,6 +162,15 @@ export function CollectionPage() {
                 {collection.builds.map(b => (
                   <div key={b.id} className="relative">
                     <BuildCard build={b} />
+                    {isOwner && collection.is_public && b.visibility === 'private' && (
+                      <span
+                        className="absolute bottom-2 left-2 inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[9px] font-semibold pointer-events-none"
+                        style={{ color: 'var(--gold)', background: 'var(--surface-void)', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)' }}
+                        title={t('collection_private_build_hint')}
+                      >
+                        <Lock size={9} /> {t('collection_private_build')}
+                      </span>
+                    )}
                     {isOwner && (
                       <button
                         type="button"

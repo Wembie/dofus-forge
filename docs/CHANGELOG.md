@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.112] — 2026-10-19
+- **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark
+
 ## [0.3.111] — 2026-10-19
 - **UI**: when the build in the planner is already published (opened from My Builds or its page, or just published), the header button reads **Update** (gold, refresh icon) instead of *Publish*, in the mobile menu and command palette too
 
