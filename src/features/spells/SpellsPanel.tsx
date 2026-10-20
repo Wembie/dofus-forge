@@ -6,6 +6,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { calcEffects, NO_MODS, type CalcedEffect } from './spellDamage.ts'
+import { DamageHover } from './DamageHover.tsx'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
@@ -82,6 +83,9 @@ function buffIcon(text: string): string | null {
 }
 
 type ElemFilter = AppSpellElement | 'all'
+// Roll range before any bonus; a fixed value (max 0) is min..min, as in calcEffects.
+const rollOf = (e: { min: number; max: number }): [number, number] => [e.min, e.max > 0 ? e.max : e.min]
+
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
 function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; grade: number; stats: StatBlock | null; spellNameMap: Map<number, string> }) {
@@ -401,11 +405,15 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               className={`text-[13px] font-mono tabular-nums text-right${showCalc ? ' font-bold' : ''}`}
               style={{ color: showCalc ? c : 'var(--ink-muted)' }}
             >
-              {fmtRange(e.calcMin, e.calcMax)}
+              <DamageHover roll={rollOf(e)} elem={e.element} stats={stats} mods={mods} kind="spell">
+                {fmtRange(e.calcMin, e.calcMax)}
+              </DamageHover>
             </span>
             {showCritCol && (
               <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
-                {crit ? fmtRange(crit.calcMin, crit.calcMax) : '—'}
+                {crit
+                  ? <DamageHover roll={rollOf(crit)} elem={crit.element} stats={stats} mods={mods} extraFlat={stats?.critDamage ?? 0} kind="spell" crit>{fmtRange(crit.calcMin, crit.calcMax)}</DamageHover>
+                  : '—'}
               </span>
             )}
           </div>
@@ -447,11 +455,15 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
               <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
                 <span className="w-2 h-2 rounded-full flex-shrink-0 justify-self-center" style={{ background: c }} />
                 <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: showCalc ? c : 'var(--ink-muted)' }}>
-                  {fmtRange(e.calcMin, e.calcMax)}
+                  <DamageHover roll={rollOf(e)} elem={e.element} stats={stats} mods={mods} kind="spell">
+                    {fmtRange(e.calcMin, e.calcMax)}
+                  </DamageHover>
                 </span>
                 {showCritCol && (
                   <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
-                    {crit ? fmtRange(crit.calcMin, crit.calcMax) : '—'}
+                    {crit
+                      ? <DamageHover roll={rollOf(crit)} elem={crit.element} stats={stats} mods={mods} extraFlat={stats?.critDamage ?? 0} kind="spell" crit>{fmtRange(crit.calcMin, crit.calcMax)}</DamageHover>
+                      : '—'}
                   </span>
                 )}
               </div>
@@ -757,6 +769,22 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
       {fmtRange(min, max)}
     </span>
   )
+  const WeaponCells = ({ row, color }: { row: (typeof rows)[number]; color: string }) => (
+    <>
+      <span className="text-[11px] font-mono tabular-nums" style={{ color, fontWeight: stats ? 700 : 400 }}>
+        <DamageHover roll={[row.baseLow, row.baseHigh]} elem={row.elem} stats={stats} mods={normalMods} kind="weapon">
+          {fmtRange(row.low, row.high)}
+        </DamageHover>
+      </span>
+      {hasCrit && (
+        <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
+          <DamageHover roll={[row.baseLow + critBon, row.baseHigh + critBon]} elem={row.elem} stats={stats} mods={critMods} extraFlat={stats?.critDamage ?? 0} kind="weapon" crit>
+            {fmtRange(row.critLow, row.critHigh)}
+          </DamageHover>
+        </span>
+      )}
+    </>
+  )
 
   return (
     <div className="rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
@@ -880,14 +908,13 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           </div>
 
           {/* Damage rows */}
-          {dmgRows.map(({ c, elem, best, low, high, critLow, critHigh }, i) => (
+          {dmgRows.map((row, i) => (
             <div key={`d${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
-                <span className="text-[10px] font-medium" style={{ color: c }}>{best ? t('stat_best_elem_dmg') : t(`elem_${elem}`)}</span>
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: row.c }} />
+                <span className="text-[10px] font-medium" style={{ color: row.c }}>{row.best ? t('stat_best_elem_dmg') : t(`elem_${row.elem}`)}</span>
               </span>
-              <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
-              {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+              <WeaponCells row={row} color={row.c} />
             </div>
           ))}
 
@@ -904,15 +931,16 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           ))}
 
           {/* Steal rows */}
-          {stealRows.map(({ c, low, high, critLow, critHigh }, i) => (
+          {stealRows.map((row, i) => {
+            const { c, low, high, critLow, critHigh } = row
+            return (
             <div key={`s${i}`} className="space-y-0.5">
               <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
                   <span className="text-[10px] font-medium" style={{ color: c }}>{t('weapon_steal_label')}</span>
                 </span>
-                <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
-                {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}
+                <WeaponCells row={row} color={c} />
               </div>
               <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
                 <span className="pl-3 flex items-center">
@@ -928,7 +956,8 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
                 )}
               </div>
             </div>
-          ))}
+            )
+          })}
 
           {/* Total row */}
           {showTotal && (

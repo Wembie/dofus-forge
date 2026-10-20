@@ -14,6 +14,8 @@ export type WeaponRow = {
   elem:  WeaponElem | null  // null = best-element line without stats to resolve it
   best:  boolean
   steal: boolean
+  /** Weapon roll before any bonus (the crit roll adds the weapon's crit bonus). */
+  baseLow: number; baseHigh: number
   low: number; high: number; critLow: number; critHigh: number
 }
 
@@ -66,10 +68,10 @@ export function weaponDamageRows(
     const elem = best ? (stats ? bestElement(stats) : null) : WEAPON_ATTACK_STAT[e.stat]!
     const baseMax = e.max > 0 ? e.max : e.min
     if (!stats || !elem) {
-      return { elem, best, steal: IS_STEAL(e.stat), low: e.min, high: baseMax, critLow: e.min, critHigh: baseMax }
+      return { elem, best, steal: IS_STEAL(e.stat), baseLow: e.min, baseHigh: baseMax, low: e.min, high: baseMax, critLow: e.min, critHigh: baseMax }
     }
     return {
-      elem, best, steal: IS_STEAL(e.stat),
+      elem, best, steal: IS_STEAL(e.stat), baseLow: e.min, baseHigh: baseMax,
       low:  calcDamage(e.min,   elem, stats, normalMods),
       high: calcDamage(baseMax, elem, stats, normalMods),
       // crit_bonus is an additional base damage amplified by the mastery formula (not flat)

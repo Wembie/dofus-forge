@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import type { StatBlock } from '@/engine/types.ts'
 import type { AppSpellEffect } from '@/data/spellLoaders.ts'
-import { calcDamage, calcEffects, NO_MODS } from '../spellDamage.ts'
+import { calcDamage, calcEffects, damageBreakdown, NO_MODS } from '../spellDamage.ts'
 import { spellMods, weaponMods } from '../spellCalc.ts'
 
 function stats(over: Partial<StatBlock> = {}): StatBlock {
@@ -86,5 +86,30 @@ describe('spellMods / weaponMods', () => {
     expect(spellMods(s, 1, 6).rangePct).toBe(9)
     expect(weaponMods(s, 1, 1).rangePct).toBe(7)
     expect(weaponMods(s, 2, 8).rangePct).toBe(9)
+  })
+})
+
+describe('damageBreakdown', () => {
+  it('lists the steps of the formula', () => {
+    const s = stats({ intelligence: 820, power: 180, fireDamage: 104 })
+    expect(damageBreakdown(35, 'fire', s, { kindPct: 0, rangePct: 10 }, 174)).toEqual({
+      roll: 35, characteristic: 820, power: 180, extraPower: 0,
+      scaled: 385, fixed: 104, critDamage: 174, beforePct: 663, afterRange: 729, total: 729,
+    })
+  })
+
+  it('always ends on the same value calcDamage shows', () => {
+    const elems = ['earth', 'fire', 'water', 'air', 'neutral'] as const
+    for (let i = 0; i < 500; i++) {
+      const s = stats({
+        strength: (i * 37) % 1200, intelligence: (i * 53) % 1200, chance: (i * 71) % 1200, agility: (i * 89) % 1200,
+        power: (i * 13) % 400, damage: (i * 7) % 150 - 20, fireDamage: (i * 11) % 120,
+      })
+      const mods = { kindPct: (i * 3) % 60 - 10, rangePct: (i * 5) % 50 - 10, power: i % 4 === 0 ? 300 : 0 }
+      const elem = elems[i % elems.length]
+      const base = (i * 17) % 90
+      const crit = i % 3 === 0 ? (i * 19) % 200 : 0
+      expect(damageBreakdown(base, elem, s, mods, crit).total).toBe(calcDamage(base, elem, s, mods, crit))
+    }
   })
 })

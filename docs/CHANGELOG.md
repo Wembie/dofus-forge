@@ -8,6 +8,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ## [0.3.114] — 2026-10-20
 - **Fix (damage)**: spell and weapon damage now follow the game formula. % Spell / % Weapon Damage and % Ranged / % Melee Damage are separate multipliers applied after fixed damage (they used to be added to the characteristic, so +1% Spell Damage added about 0.5 damage instead of about 1% of the hit), and Critical Damage is multiplied by them too. Applies to the spell panel, the weapon card and the PvP arena
 - **Fix (PvP arena)**: % resistance truncates like the game instead of rounding
+- **New**: hover any spell or weapon damage value to see how it is computed — base roll, × characteristic and Power (and Weapon Mastery), + fixed damage, + Critical Damage, × % Ranged / Melee, × % Spell / Weapon, and the total
 
 ## [0.3.113] — 2026-10-20
 - **Fix**: the header **Redo** button never worked (undoing was recorded as a new change and wiped the redo stack), and undo/redo unlinked the build from its published version, so the next Publish created a duplicate

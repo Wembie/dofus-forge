@@ -73,7 +73,7 @@ describe('weaponDamageRows', () => {
 
   it('without stats, best-element rows show base values with no element', () => {
     const rows = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), null, 14, NO_MODS, NO_MODS)
-    expect(rows).toEqual([{ elem: null, best: true, steal: false, low: 41, high: 60, critLow: 41, critHigh: 60 }])
+    expect(rows).toEqual([{ elem: null, best: true, steal: false, baseLow: 41, baseHigh: 60, low: 41, high: 60, critLow: 41, critHigh: 60 }])
   })
 
   it('% Weapon Damage and % Melee multiply the hit, critical damage included', () => {
