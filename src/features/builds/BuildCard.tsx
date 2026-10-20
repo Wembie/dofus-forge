@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, MessageSquare } from 'lucide-react'
+import { Star, Heart, Eye, User, MessageSquare, Award } from 'lucide-react'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { isSafeImageUrl } from '@/store/authStore.ts'
@@ -80,7 +80,10 @@ export function BuildCard({ build }: { build: BuildRow }) {
             <img src={portrait} alt="" width={40} height={40} loading="lazy" decoding="async" className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
           )}
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
+            <p className="flex items-center gap-1 text-sm font-bold min-w-0" style={{ color: 'var(--gold)' }}>
+              {build.is_featured && <Award size={13} className="flex-shrink-0" aria-label={t('build_featured')}><title>{t('build_featured')}</title></Award>}
+              <span className="truncate">{build.name}</span>
+            </p>
             <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
           </div>
         </div>

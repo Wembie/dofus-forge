@@ -1193,5 +1193,12 @@
   "dmg_bd_base": "Daño base",
   "dmg_bd_fixed": "Daños fijos",
   "dmg_bd_total": "Total",
-  "dmg_bd_note": "Antes de las resistencias del objetivo"
+  "dmg_bd_note": "Antes de las resistencias del objetivo",
+  "build_featured": "Destacado",
+  "build_feature_on": "Destacar build",
+  "build_feature_off": "Quitar destacado",
+  "admin_reports_restore_build": "Restaurar build",
+  "admin_reports_restore_comment": "Restaurar comentario",
+  "admin_reports_restore_hint": "El build sigue privado: su dueño decide si lo vuelve a publicar.",
+  "collection_unlisted_build_hint": "Build no listado de otra persona: solo tú lo ves en esta colección."
 }

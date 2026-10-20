@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.115',
+    date: '2026-10-20',
+    notes: [
+      'Unlisted builds are link-only: the API can no longer list them',
+      'Collections show unlisted builds you added from their link, only to you',
+      'Moderators can restore hidden builds and comments; admins can feature builds',
+      'A remix published later notifies the original author',
+    ],
+  },
+  {
     version: '0.3.114',
     date: '2026-10-20',
     notes: [

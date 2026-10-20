@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Link, useLocation } from 'react-router-dom'
-import { Flag, EyeOff, Trash2, Check, X, MessageSquare, Layers } from 'lucide-react'
+import { Flag, EyeOff, Trash2, Check, X, MessageSquare, Layers, RotateCcw } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Button, Frame, Tabs } from '@/ui'
@@ -9,6 +9,7 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { fetchReports, setReportStatus, moderateContent, type ReportRow, type ReportStatus } from '@/features/builds/api.ts'
+import { targetOf, isRestorable, markRestored } from '@/features/moderation/restore.ts'
 
 const STATUS_TABS: { id: ReportStatus; Icon: typeof Flag }[] = [
   { id: 'pending',   Icon: Flag },
@@ -73,6 +74,19 @@ export function AdminReportsPage() {
     setBusy(null)
     if (failed) { setError(true); return }
     setReports(prev => prev?.filter(r => r.id !== report.id) ?? null)
+  }
+
+  // Undo a hide. The report keeps its status; every report on the same
+  // content shows it restored.
+  async function restore(report: ReportRow) {
+    const targetId = targetOf(report)
+    if (!targetId) return
+    setBusy(report.id)
+    setError(false)
+    const failed = (await moderateContent(report.kind, targetId, 'restore')).error != null
+    setBusy(null)
+    if (failed) { setError(true); return }
+    setReports(prev => (prev ? markRestored(prev, report.kind, targetId) : prev))
   }
 
   return (
@@ -149,6 +163,17 @@ export function AdminReportsPage() {
                             <X size={12} /> {t('admin_reports_dismiss')}
                           </Button>
                         </>
+                      )}
+                      {status !== 'pending' && isRestorable(r) && (
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          disabled={busy != null}
+                          onClick={() => restore(r)}
+                          title={r.kind === 'build' ? t('admin_reports_restore_hint') : undefined}
+                        >
+                          <RotateCcw size={12} /> {t(r.kind === 'build' ? 'admin_reports_restore_build' : 'admin_reports_restore_comment')}
+                        </Button>
                       )}
                     </div>
                   </Frame>

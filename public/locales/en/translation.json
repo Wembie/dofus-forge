@@ -1193,5 +1193,12 @@
   "dmg_bd_base": "Base damage",
   "dmg_bd_fixed": "Fixed damage",
   "dmg_bd_total": "Total",
-  "dmg_bd_note": "Before the target resistances"
+  "dmg_bd_note": "Before the target resistances",
+  "build_featured": "Featured",
+  "build_feature_on": "Feature this build",
+  "build_feature_off": "Remove from featured",
+  "admin_reports_restore_build": "Restore build",
+  "admin_reports_restore_comment": "Restore comment",
+  "admin_reports_restore_hint": "The build stays private: its owner decides whether to publish it again.",
+  "collection_unlisted_build_hint": "Someone else's unlisted build: only you see it in this collection."
 }
