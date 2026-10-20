@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
@@ -87,7 +87,8 @@ export function ExplorePage() {
   const [sort, setSort]           = useState<ExploreSort>('rating')
   const [classSlug, setClassSlug] = useState<string | null>(null)
   const [searchParams, setSearchParams] = useSearchParams()
-  const tags    = useTags()
+  const tagList = useTags()
+  const tags    = tagList ?? []
   const tagName = searchParams.get('tag')
   const tagId   = tags.find(tag => tag.name === tagName)?.id ?? null
   const selectTag = (name: string | null) => {
@@ -111,18 +112,24 @@ export function ExplorePage() {
     return () => clearTimeout(id)
   }, [search])
 
+  // Only the latest request may update the list: changing tag / class / sort
+  // quickly must not leave an older, slower result set on screen.
+  const requestRef = useRef(0)
   const load = useCallback(async (nextPage: number, reset: boolean) => {
+    const request = ++requestRef.current
     setLoading(true)
     setError(false)
     const { data, error: err, count } = await fetchPublicBuilds({ classSlug, tagId, sort, search: debouncedSearch, page: nextPage })
+    if (request !== requestRef.current) return
     setLoading(false)
     if (err) { setError(true); return }
     setTotal(count)
     setBuilds(prev => reset ? data : [...prev, ...data])
   }, [classSlug, tagId, sort, debouncedSearch])
 
-  // A ?tag= link waits for the tag catalog, so it doesn't first list everything.
-  const tagPending = tagName != null && tags.length === 0
+  // A ?tag= link waits for the tag catalog, so it doesn't first list
+  // everything; if the catalog fails to load it gives up and lists all.
+  const tagPending = tagName != null && tagList == null
 
   useEffect(() => {
     if (tagPending) return

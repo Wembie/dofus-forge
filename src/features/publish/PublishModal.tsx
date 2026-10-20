@@ -33,6 +33,9 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   const [name, setName]             = useState(() => useBuildStore.getState().buildName || '')
   const [visibility, setVisibility] = useState<BuildVisibility>('public')
   const [tagIds, setTagIds]         = useState<number[]>([])
+  // Tags as loaded from the published build; null until that prefill lands
+  // (or if it failed), so an early or offline Update never wipes them.
+  const [savedTagIds, setSavedTagIds] = useState<number[] | null>(null)
   const [busy, setBusy]             = useState(false)
   const [error, setError]           = useState<string | null>(null)
 
@@ -42,14 +45,17 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   useEffect(() => {
     if (!open || !linkedBuildId) return
     fetchBuildById(linkedBuildId).then(({ data }) => {
-      if (data) { setName(data.name); setVisibility(data.visibility); setTagIds(buildTags(data).map(tag => tag.id)) }
+      if (data) {
+        const ids = buildTags(data).map(tag => tag.id)
+        setName(data.name); setVisibility(data.visibility); setTagIds(ids); setSavedTagIds(ids)
+      }
     })
   }, [open, linkedBuildId])
 
   useEffect(() => {
     if (!open || linkedBuildId || !forkOf) { setForkParent(null); return }
-    fetchBuildSummary(forkOf).then(setForkParent)
-  }, [open, linkedBuildId, forkOf])
+    fetchBuildSummary(forkOf, session?.user.id ?? null).then(setForkParent)
+  }, [open, linkedBuildId, forkOf, session])
 
   function close() {
     setError(null)
@@ -78,7 +84,8 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
     if (linkedBuildId) {
       const { error: err } = await updateBuild(linkedBuildId, payload)
-      if (!err) await setBuildTags(linkedBuildId, tagIds)
+      const tagsChanged = savedTagIds != null && (savedTagIds.length !== tagIds.length || tagIds.some(id => !savedTagIds.includes(id)))
+      if (!err && tagsChanged) await setBuildTags(linkedBuildId, tagIds)
       setBusy(false)
       if (err) { setError(t('publish_error')); return }
       store.setBuildName(payload.name)
@@ -201,7 +208,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
           </p>
         )}
 
-        <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center">
+        <Button type="submit" variant="primary" size="md" disabled={busy || (linkedBuildId != null && savedTagIds == null)} className="w-full justify-center">
           {busy ? t('auth_loading') : t(linkedBuildId ? 'publish_submit_update' : 'publish_submit')}
         </Button>
       </form>

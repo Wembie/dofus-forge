@@ -1125,7 +1125,6 @@
   "collections_public": "Publique",
   "collections_private": "Privée",
   "collections_empty": "Tu n'as pas encore de collection. Crées-en une pour regrouper tes builds ou ceux des autres.",
-  "collections_builds_count": "{{count}} builds",
   "collections_save_error": "Impossible d'enregistrer. Réessaie.",
   "collection_not_found": "Collection introuvable (elle est peut-être privée ou supprimée).",
   "collection_by": "par {{author}}",
@@ -1184,5 +1183,9 @@
   "notif_comment_replied": "{{user}} a répondu à ton commentaire sur « {{build}} »",
   "notif_new_follower": "{{user}} s'est abonné à toi",
   "publish_update_open": "Mettre à jour",
-  "publish_update_hint": "Mettre à jour le build publié avec tes modifications"
+  "publish_update_hint": "Mettre à jour le build publié avec tes modifications",
+  "collection_private_build": "Visible par toi seul",
+  "collection_private_build_hint": "Ce build est privé : il n'apparaît pas pour les visiteurs de cette collection publique.",
+  "collections_builds_count_one": "{{count}} build",
+  "collections_builds_count_other": "{{count}} builds"
 }

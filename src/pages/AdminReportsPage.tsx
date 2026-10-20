@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Link, useLocation } from 'react-router-dom'
 import { Flag, EyeOff, Trash2, Check, X, MessageSquare, Layers } from 'lucide-react'
@@ -34,15 +34,19 @@ export function AdminReportsPage() {
   const [busy, setBusy]       = useState<string | null>(null)
   const [error, setError]     = useState(false)
 
-  const load = useCallback(() => {
+  // Switching tabs quickly must not let a slower, older response fill the
+  // current tab (its buttons would then act on the wrong reports).
+  useEffect(() => {
+    if (!canModerate) return
+    let cancelled = false
     setReports(null)
     fetchReports(status).then(({ data, commentsError }) => {
+      if (cancelled) return
       setReports(data)
       setCommentsMissing(commentsError != null)
     })
-  }, [status])
-
-  useEffect(() => { if (canModerate) load() }, [canModerate, load])
+    return () => { cancelled = true }
+  }, [canModerate, status])
 
   if (authLoading) return null
   if (!session || !canModerate) {
@@ -57,8 +61,10 @@ export function AdminReportsPage() {
     setError(false)
     let failed = false
     if (action === 'hide' || action === 'delete') {
+      // No target → nothing was hidden or deleted, so the report can't be
+      // marked as actioned (use Dismiss / Reviewed for content that's gone).
       const targetId = report.kind === 'build' ? report.build?.id : report.comment?.id
-      if (targetId) failed = (await moderateContent(report.kind, targetId, action)).error != null
+      failed = !targetId || (await moderateContent(report.kind, targetId, action)).error != null
     }
     if (!failed) {
       const next: ReportStatus = action === 'dismiss' ? 'dismissed' : action === 'reviewed' ? 'reviewed' : 'actioned'

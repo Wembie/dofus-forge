@@ -109,6 +109,16 @@ export function BuildDetailPage() {
     let cancelled = false
     setLoading(true)
     setNotFound(false)
+    // Build → build navigation (remix links) keeps this page mounted: drop
+    // everything from the previous build so nothing of it (history with
+    // Restore buttons, comments, remixes) shows under the new one.
+    setBuild(null)
+    setComments([])
+    setForks({ data: [], count: 0 })
+    setHistory([])
+    setForkParent(undefined)
+    setReportTarget(null)
+    setCollectOpen(false)
     fetchBuildById(id).then(({ data, error }) => {
       if (cancelled) return
       if (error || !data) { setNotFound(true); setLoading(false); return }
@@ -116,8 +126,7 @@ export function BuildDetailPage() {
       setLikeCount(data.like_count)
       setLoading(false)
       recordBuildView(id, session?.user.id ?? null)
-      setForkParent(undefined)
-      if (data.fork_of) fetchBuildSummary(data.fork_of).then(parent => { if (!cancelled) setForkParent(parent) })
+      if (data.fork_of) fetchBuildSummary(data.fork_of, session?.user.id ?? null).then(parent => { if (!cancelled) setForkParent(parent) })
     })
     fetchComments(id).then(({ data }) => { if (!cancelled) setComments(data) })
     fetchForks(id).then(({ data, count }) => { if (!cancelled) setForks({ data, count }) })
@@ -127,11 +136,17 @@ export function BuildDetailPage() {
   }, [id])
 
   useEffect(() => {
+    setLiked(false)
+    setBookmarked(false)
+    setMyRating(null)
+    setLikedComments(new Set())
     if (!id || !session) return
-    fetchMyLike(id, session.user.id).then(setLiked)
-    fetchMyBookmark(id, session.user.id).then(setBookmarked)
-    fetchMyRating(id, session.user.id).then(setMyRating)
-    fetchMyCommentLikes(id, session.user.id).then(setLikedComments)
+    let cancelled = false
+    fetchMyLike(id, session.user.id).then(v => { if (!cancelled) setLiked(v) })
+    fetchMyBookmark(id, session.user.id).then(v => { if (!cancelled) setBookmarked(v) })
+    fetchMyRating(id, session.user.id).then(v => { if (!cancelled) setMyRating(v) })
+    fetchMyCommentLikes(id, session.user.id).then(v => { if (!cancelled) setLikedComments(v) })
+    return () => { cancelled = true }
   }, [id, session])
 
   const handleToggleCommentLike = useCallback(async (commentId: string) => {
@@ -172,7 +187,7 @@ export function BuildDetailPage() {
   function openVersion(version: BuildVersion) {
     if (!build) return
     const lang = langPathRootSegment(i18n.language.slice(0, 2))
-    const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : `&fork=${build.id}`
+    const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : build.visibility === 'public' ? `&fork=${build.id}` : ''
     navigate(`/${lang}?b=${encodeSnapshot({ ...version.snapshot, n: version.label || build.name || undefined })}${linkParam}`)
   }
 
@@ -216,7 +231,7 @@ export function BuildDetailPage() {
     // Your own build: carry the edit link so publishing updates it. Someone
     // else's: a remix — publishing creates your copy, linked back via fork_of,
     // and never touches theirs.
-    const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : `&fork=${build.id}`
+    const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : build.visibility === 'public' ? `&fork=${build.id}` : ''
     navigate(`/${langPath}?b=${encoded}${linkParam}`)
   }
 
@@ -303,7 +318,7 @@ export function BuildDetailPage() {
               <h1 className="text-lg font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</h1>
               <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{resolvedClassLabel} · {t('level_short', { level: build.level })}</p>
             </div>
-            {session?.user.id === build.user_id ? (
+            {session?.user.id === build.user_id || build.visibility !== 'public' ? (
               <Button variant="primary" size="sm" onClick={handleLoadIntoPlanner} className="flex-shrink-0">
                 <UploadCloud size={13} />
                 {t('build_detail_load')}
@@ -379,15 +394,17 @@ export function BuildDetailPage() {
             >
               <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
-            <button
-              onClick={() => setCollectOpen(true)}
-              disabled={!session}
-              className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-gold transition-colors"
-              title={session ? t('collections_save') : t('build_detail_signin_required')}
-              aria-label={t('collections_save')}
-            >
-              <FolderPlus size={14} />
-            </button>
+            {(build.visibility === 'public' || session?.user.id === build.user_id) && (
+              <button
+                onClick={() => setCollectOpen(true)}
+                disabled={!session}
+                className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-gold transition-colors"
+                title={session ? t('collections_save') : t('build_detail_signin_required')}
+                aria-label={t('collections_save')}
+              >
+                <FolderPlus size={14} />
+              </button>
+            )}
             {session?.user.id !== build.user_id && (
               <button
                 onClick={() => setReportTarget({ kind: 'build', id: build.id })}

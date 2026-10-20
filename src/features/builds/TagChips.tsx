@@ -13,8 +13,9 @@ function tagColor(tag: Tag): string {
   return tag.category === 'playstyle' ? 'var(--gold)' : 'var(--ink-muted)'
 }
 
-export function useTags(): Tag[] {
-  const [tags, setTags] = useState<Tag[]>([])
+/** The tag catalog; null while it loads ([] if it failed or is empty). */
+export function useTags(): Tag[] | null {
+  const [tags, setTags] = useState<Tag[] | null>(null)
   useEffect(() => {
     let cancelled = false
     fetchTags().then(list => { if (!cancelled) setTags(list) })
@@ -50,7 +51,7 @@ export function TagChip({ tag, active, disabled, onClick, small }: {
 /** Tag selector for publishing, grouped by category, capped at MAX_BUILD_TAGS. */
 export function TagPicker({ selected, onChange }: { selected: number[]; onChange: (ids: number[]) => void }) {
   const { t } = useTranslation()
-  const tags  = useTags()
+  const tags  = useTags() ?? []
   const full  = selected.length >= MAX_BUILD_TAGS
   if (tags.length === 0) return null
 

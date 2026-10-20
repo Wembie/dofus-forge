@@ -246,7 +246,7 @@ export function MyBuildsPage() {
 
   useEffect(() => {
     if (tab !== 'collections' || collections != null || !session) return
-    fetchUserCollections(session.user.id).then(({ data }) => setCollections(data))
+    fetchUserCollections(session.user.id, false, session.user.id).then(({ data }) => setCollections(data))
   }, [tab, collections, session])
 
   const publicCount = builds.filter(b => b.visibility === 'public').length

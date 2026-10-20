@@ -85,7 +85,7 @@ export function UserProfilePage() {
       fetchPublicCommentCount(data.id).then(c => { if (!cancelled) setCommentCount(c.count) })
       fetchMembershipTier(data.id).then(t => { if (!cancelled) setTier(t) })
       fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
-      fetchUserCollections(data.id, true).then(({ data: list }) => { if (!cancelled) setCollections(list) })
+      fetchUserCollections(data.id, true, session?.user.id ?? null).then(({ data: list }) => { if (!cancelled) setCollections(list) })
       if (session && session.user.id !== data.id) {
         fetchIsFollowing(session.user.id, data.id).then(r => { if (!cancelled) setIsFollowing(r.following) })
       }

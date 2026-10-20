@@ -67,7 +67,7 @@ export function CollectionPicker({ open, onClose, userId, buildId }: { open: boo
     if (!open) return
     let cancelled = false
     setError(false)
-    Promise.all([fetchUserCollections(userId), fetchCollectionsWithBuild(userId, buildId)]).then(([{ data }, ids]) => {
+    Promise.all([fetchUserCollections(userId, false, userId), fetchCollectionsWithBuild(userId, buildId)]).then(([{ data }, ids]) => {
       if (cancelled) return
       setCollections(data)
       setInIds(ids)
