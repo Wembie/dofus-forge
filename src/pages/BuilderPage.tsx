@@ -345,9 +345,7 @@ function BuilderContent() {
               disabled={!hasClass}
               title={t(isPublished ? 'publish_update_hint' : 'publish_open')}
               className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap disabled:opacity-30"
-              style={isPublished
-                ? { background: 'color-mix(in srgb, var(--gold) 10%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
-                : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
             >
               <PublishIcon size={13} />
               <span className="hidden lg:inline">{publishLabel}</span>

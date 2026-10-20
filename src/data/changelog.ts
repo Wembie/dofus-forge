@@ -12,6 +12,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-10-19',
     notes: [
       'Fix: public collections no longer count private builds visitors cannot see; your private builds in them are marked "Only you see it"',
+      'UI: the Update button in the header now matches the other header buttons',
     ],
   },
   {
