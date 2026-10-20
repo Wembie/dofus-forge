@@ -26,6 +26,10 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: La Forjadora respects the character level and places exos without stealing rune slots',
       'Fix: La Forjadora caps, ley 0 minimums and level field behave as expected',
       'Fix: loading a La Forjadora result is a single undo step and never hangs',
+      'Fix: best-element weapons count in the PvP arena; no NaN damage on weapons with AP-cost lines',
+      'Fix: Equip all puts both set rings in different slots; catalog marks rings and Prysmaradite already worn',
+      'Fix: catalog stat filter, no-cap max level, Escape and infinite scroll',
+      'Fix: switching language during loading keeps the right language and spells',
     ],
   },
   {

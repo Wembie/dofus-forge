@@ -16,6 +16,11 @@ interface DataState {
   loadSpells:  (lang: string, classSlug: string) => Promise<void>
 }
 
+// Bumped by every load(): a response from an older request (e.g. the first
+// load still running when the user switches language) must not overwrite
+// the newer one.
+let loadSeq = 0
+
 export const useDataStore = create<DataState>((set, get) => ({
   lang:       'en',
   index:      null,
@@ -27,7 +32,8 @@ export const useDataStore = create<DataState>((set, get) => ({
   error:      null,
 
   load: async (lang) => {
-    if (get().loading) return
+    if (get().loading && get().lang === lang) return
+    const seq = ++loadSeq
     set({ loading: true, error: null, lang, spells: new Map() })
     try {
       // Load version first — use gameVersion as cache-buster so when game data
@@ -77,11 +83,12 @@ export const useDataStore = create<DataState>((set, get) => ({
         sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id) ?? s.name }))
       }
 
+      if (seq !== loadSeq) return
       set({ index, equipment, sets, classNames, loading: false })
       useBuildStore.getState().setEquipment(equipment)
       useBuildStore.getState().setSetsData(sets)
     } catch (e) {
-      set({ loading: false, error: String(e) })
+      if (seq === loadSeq) set({ loading: false, error: String(e) })
     }
   },
 
@@ -90,8 +97,8 @@ export const useDataStore = create<DataState>((set, get) => ({
     const current = get().spells
     if (current.has(classSlug) && current.has('common')) return
     try {
-      const next = new Map(current)
-      if (!next.has(classSlug)) {
+      const next = new Map<string, ClassSpells>()
+      if (!current.has(classSlug)) {
         const data = await fetchSpells('en', classSlug)
         if (lang !== 'en') {
           try {
@@ -114,7 +121,7 @@ export const useDataStore = create<DataState>((set, get) => ({
         }
         next.set(classSlug, data)
       }
-      if (!next.has('common')) {
+      if (!current.has('common')) {
         try {
           const commonData = await fetchSpells('en', 'common')
           if (lang !== 'en') {
@@ -139,7 +146,15 @@ export const useDataStore = create<DataState>((set, get) => ({
           next.set('common', commonData)
         } catch { /* common spells optional */ }
       }
-      set({ spells: next })
+      // A language switch while fetching resets `spells`; these results would
+      // put old-language names back. Merge into the live map so a class
+      // loaded concurrently isn't dropped either.
+      if (get().lang !== lang) return
+      set(s => {
+        const spells = new Map(s.spells)
+        for (const [k, v] of next) if (!spells.has(k)) spells.set(k, v)
+        return { spells }
+      })
     } catch {
       // spell files absent until ETL runs — fail silently
     }

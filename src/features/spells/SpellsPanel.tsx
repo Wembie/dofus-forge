@@ -5,11 +5,11 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { calcEffects, calcDamage, type CalcedEffect } from './spellDamage.ts'
+import { calcEffects, type CalcedEffect } from './spellDamage.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
-import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
-import { spellGrade, ELEM_COLOR, WEAPON_ATTACK_STAT, IS_STEAL, fmtRange, rangePct, dedupEffects } from './spellCalc.ts'
+import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
+import { spellGrade, ELEM_COLOR, fmtRange, rangePct, dedupEffects } from './spellCalc.ts'
 import { PvpArena } from '../pvp/PvpArena.tsx'
 
 // TODO icons needed (add file to public/data/stats/ then map here):
@@ -678,27 +678,10 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
   const hasNeutralDamage = weapon != null && weapon.effects.some(e => e.stat === 'Neutral damage')
 
-  const attackEffects = useMemo(() => {
-    if (!weapon) return []
-    // Use effect_id when available (same as tooltip) to exclude passive +AirDmg bonuses
-    // that share the same stat name as weapon attack effects (e.g. id=47 passive vs id=189 attack).
-    // Exclude effect_id 225 (Pushes back cell) — push isn't a numeric damage row.
-    const base = weapon.effects.filter(e =>
-      e.effect_id != null
-        ? WEAPON_ATTACK_IDS.has(e.effect_id) && e.effect_id !== 225
-        : Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat)
-    )
-    if (!weaponTransform || !hasNeutralDamage) return base
-    const elemStat = `${weaponTransform.element.charAt(0).toUpperCase()}${weaponTransform.element.slice(1)} damage`
-    const r = weaponTransform.ratio / 100
-    return base.map(e => {
-      if (e.stat !== 'Neutral damage') return e
-      // Dofus rounds transformed weapon damage DOWN, not up (see EquipmentGrid.tsx).
-      const newMin = Math.floor(e.min * r)
-      const newMax = e.max > 0 ? Math.floor(e.max * r) : newMin
-      return { ...e, stat: elemStat, min: newMin, max: newMax }
-    })
-  }, [weapon, weaponTransform, hasNeutralDamage])
+  const attackEffects = useMemo(
+    () => (weapon ? weaponAttackEffects(weapon, weaponTransform) : []),
+    [weapon, weaponTransform],
+  )
 
   if (!weapon) {
     return (
@@ -744,28 +727,14 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
   const critWeaponPct = baseWeaponPct + (dominioActive ? dominioCrit : 0)
 
 
-  // effect_id 238: MP removed on hit (stat='MP', not elemental, not "Steals MP" either —
-  // has no entry in WEAPON_ATTACK_STAT, so it must never reach computeRow/calcDamage
-  // (elem would be undefined there → NaN). Shown as its own row instead.
-  const mpEffects     = attackEffects.filter(e => e.stat === 'MP')
-  const dmgEffects   = attackEffects.filter(e => !IS_STEAL(e.stat) && e.stat !== 'MP')
-  const stealEffects = attackEffects.filter(e =>  IS_STEAL(e.stat))
-
-  function computeRow(e: typeof attackEffects[0]) {
-    const elem    = WEAPON_ATTACK_STAT[e.stat]!
-    const c       = ELEM_COLOR[elem]
-    const baseMax = e.max > 0 ? e.max : e.min
-    const low      = stats ? calcDamage(e.min,            elem, stats, normalPct)     : e.min
-    const high     = stats ? calcDamage(baseMax,           elem, stats, normalPct)     : baseMax
-    // crit_bonus is an additional base damage amplified by the mastery formula (not flat)
-    const critLow  = stats ? calcDamage(e.min   + critBon, elem, stats, critWeaponPct) + stats.critDamage : e.min
-    const critHigh = stats ? calcDamage(baseMax + critBon, elem, stats, critWeaponPct) + stats.critDamage : baseMax
-    return { elem, c, low, high, critLow, critHigh }
-  }
-
-  const dmgRows   = dmgEffects.map(computeRow)
-  const stealRows = stealEffects.map(computeRow)
-  const allRows   = [...dmgRows, ...stealRows]
+  // effect_id 238: MP removed on hit (stat='MP', not elemental) — shown as its own row.
+  // AP cost (179), heals (261) and "Steals MP" (233) never become damage rows.
+  const mpEffects = attackEffects.filter(e => e.stat === 'MP')
+  const rows      = weaponDamageRows(attackEffects, stats, critBon, normalPct, critWeaponPct)
+    .map(r => ({ ...r, c: r.elem ? ELEM_COLOR[r.elem] : ELEM_COLOR.mixed }))
+  const dmgRows   = rows.filter(r => !r.steal)
+  const stealRows = rows.filter(r =>  r.steal)
+  const allRows   = rows
 
   const totalNormMin = allRows.reduce((s, e) => s + e.low,      0)
   const totalNormMax = allRows.reduce((s, e) => s + e.high,     0)
@@ -909,11 +878,11 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
           </div>
 
           {/* Damage rows */}
-          {dmgRows.map(({ c, low, high, critLow, critHigh }, i) => (
+          {dmgRows.map(({ c, elem, best, low, high, critLow, critHigh }, i) => (
             <div key={`d${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
-                <span className="text-[10px] font-medium" style={{ color: c }}>{t(`elem_${dmgEffects[i].stat.split(' ')[0].toLowerCase()}`)}</span>
+                <span className="text-[10px] font-medium" style={{ color: c }}>{best ? t('stat_best_elem_dmg') : t(`elem_${elem}`)}</span>
               </span>
               <RangeCell min={low} max={high} color={c} bold={Boolean(stats)} />
               {hasCrit && <RangeCell min={critLow} max={critHigh} color="var(--crit)" bold />}

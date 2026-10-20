@@ -20,6 +20,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Fix**: database hardening — build owners can no longer edit likes, ratings, views or featured flags of their own builds through the API, likes / bookmarks / follows cannot be moved with an update, hidden comments and comments on private builds are no longer publicly readable, and views are counted only on visible builds
 - **Fix (La Forjadora)**: never offers gear above the character level; an exo no longer takes the only item a transcendence rune fits on; a missed minimum with ley 0 is shown as unmet; a cap of 0 means no cap and a strict cap alone counts as an active requirement
 - **Fix (La Forjadora)**: loading a result is one step (one undo entry) and clears the craftsman name and weapon transform of slots whose item changed; the max level field can be typed freely and clamps on blur; stopping the forge while the engine was still loading no longer hangs
+- **Fix**: weapons with best-element damage (e.g. Crocobur) now count it in the PvP arena, and weapons with an AP-cost or heal line no longer show NaN damage
+- **Fix**: **Equip all** on a set with two rings puts them in both ring slots instead of the same one; the catalog marks a set ring or Prysmaradite that is already worn elsewhere
+- **Fix**: catalog stat filter no longer matches a weapon because of its attack lines; the "—" max level means no cap (it showed nothing), and min/max cannot cross; Escape closes only the top window; changing a filter while scrolling no longer grows the new list
+- **Fix**: switching language while the data or spells were still loading could show the old language or drop a class
 
 ## [0.3.112] — 2026-10-19
 - **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark
