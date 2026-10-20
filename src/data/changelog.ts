@@ -14,6 +14,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Feature: collections — group builds (yours or others\') into folders, public ones show on your profile',
       'Feature: report builds and comments from a form; moderators review the queue and hide or delete content',
       'Feature: notification bell — likes, comments, ratings, remixes, comment likes and new followers',
+      'UI: the Publish button reads Update when the build is already published',
     ],
   },
   {

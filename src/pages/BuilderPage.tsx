@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
@@ -97,6 +97,11 @@ function BuilderContent() {
   const navigate       = useNavigate()
   const routerLocation = useLocation()  // basename-relative pathname, unlike window.location used below for brandHref's absolute URL
   const hasClass  = useBuildStore(s => s.selectedClass !== null)
+  // A build loaded from (or just published as) a cloud build re-publishes as
+  // an update of that same row, so the button says so.
+  const isPublished = useBuildStore(s => s.linkedBuildId !== null)
+  const publishLabel = t(isPublished ? 'publish_update_open' : 'publish_open')
+  const PublishIcon  = isPublished ? RefreshCw : UploadCloud
   const isAdmin   = useAuthStore(s => s.profile?.role === 'admin')
   const setClass  = useBuildStore(s => s.setClass)
   const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
@@ -338,12 +343,14 @@ function BuilderContent() {
             <button
               onClick={() => setShowPublish(true)}
               disabled={!hasClass}
-              title={t('publish_open')}
+              title={t(isPublished ? 'publish_update_hint' : 'publish_open')}
               className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap disabled:opacity-30"
-              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+              style={isPublished
+                ? { background: 'color-mix(in srgb, var(--gold) 10%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+                : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
             >
-              <UploadCloud size={13} />
-              <span className="hidden lg:inline">{t('publish_open')}</span>
+              <PublishIcon size={13} />
+              <span className="hidden lg:inline">{publishLabel}</span>
             </button>
             {/* Compare toggle — hidden on mobile */}
             <button
@@ -371,7 +378,7 @@ function BuilderContent() {
               items={[
                 { key: 'my-builds',  label: t('my_builds'),         Icon: FolderOpen, onClick: () => navToLangPath('my-builds') },
                 { key: 'explore',    label: t('explore_open'),      Icon: Compass,    onClick: () => navToLangPath('explore') },
-                { key: 'publish',    label: t('publish_open'),      Icon: UploadCloud, disabled: !hasClass, onClick: () => setShowPublish(true) },
+                { key: 'publish',    label: publishLabel,           Icon: PublishIcon, disabled: !hasClass, onClick: () => setShowPublish(true) },
                 { key: 'optimizer',  label: t('optimizer_open'),    Icon: Wand2,      onClick: () => setShowOptimizer(true) },
                 { key: 'sets',       label: t('sets_catalog_open'), Icon: Layers,     onClick: () => setShowSetsCatalog(true) },
                 { key: 'compare',    label: t('compare'),           Icon: BarChart2,  active: compareActive, onClick: toggleCompare },
@@ -393,7 +400,7 @@ function BuilderContent() {
         commands={[
           { key: 'my-builds', label: t('my_builds'),         Icon: FolderOpen,  onRun: () => navToLangPath('my-builds') },
           { key: 'explore',   label: t('explore_open'),      Icon: Compass,     onRun: () => navToLangPath('explore') },
-          { key: 'publish',   label: t('publish_open'),      Icon: UploadCloud, disabled: !hasClass, onRun: () => setShowPublish(true) },
+          { key: 'publish',   label: publishLabel,           Icon: PublishIcon, disabled: !hasClass, onRun: () => setShowPublish(true) },
           { key: 'optimizer', label: t('optimizer_open'),    Icon: Wand2,       onRun: () => setShowOptimizer(true) },
           { key: 'sets',      label: t('sets_catalog_open'), Icon: Layers,      onRun: () => setShowSetsCatalog(true) },
           { key: 'compare',   label: t('compare'),           Icon: BarChart2,   onRun: toggleCompare },
