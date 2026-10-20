@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.111] — 2026-10-19
+- **UI**: when the build in the planner is already published (opened from My Builds or its page, or just published), the header button reads **Update** (gold, refresh icon) instead of *Publish*, in the mobile menu and command palette too
+
 ## [0.3.110] — 2026-10-19
 - **Feature**: **collections**: folders to group builds, your own or other people's. Save any build to one or more collections from its page (folder icon), create them on the fly, and manage them from the new *Collections* tab in My Builds. Each collection has its own page (rename, add a description, make it public or private, remove builds), and public collections show on your profile. Needs the one-time community migration in `docs/DATABASE.md`
 - **Feature**: **real reports and moderation**. Builds (flag icon on their page) and comments ("Report") are now reported from a form with a reason and optional details, saved for the moderation team instead of opening an email. Moderators and admins get a **Reports & moderation** page (`/admin/reports`, also linked from the admin hub) with the queue by status: make a build private, delete it, hide a comment, mark as reviewed or dismiss. Comment reports and the moderation actions need the one-time community migration in `docs/DATABASE.md`

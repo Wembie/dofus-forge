@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.111',
+    date: '2026-10-19',
+    notes: [
+      'UI: the Publish button reads Update when the build is already published',
+    ],
+  },
+  {
     version: '0.3.110',
     date: '2026-10-19',
     notes: [

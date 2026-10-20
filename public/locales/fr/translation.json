@@ -1182,5 +1182,7 @@
   "notif_build_forked": "{{user}} a remixé ton build : « {{build}} »",
   "notif_comment_liked": "{{user}} a aimé ton commentaire sur « {{build}} »",
   "notif_comment_replied": "{{user}} a répondu à ton commentaire sur « {{build}} »",
-  "notif_new_follower": "{{user}} s'est abonné à toi"
+  "notif_new_follower": "{{user}} s'est abonné à toi",
+  "publish_update_open": "Mettre à jour",
+  "publish_update_hint": "Mettre à jour le build publié avec tes modifications"
 }
