@@ -79,7 +79,7 @@ Migración = cero código, solo conectar Cloudflare Pages al repo.
 - `builds.snapshot` (JSONB) → carga completa de un build en 1 query sin JOINs; es la única fuente del build (ítems, características, runas, transformaciones)
 - "¿Qué builds usan el Gelano?" se resuelve con una consulta de contención sobre el JSONB (`snapshot->'e' @> '[id]'`), sin tablas aparte
 
-Las antiguas tablas normalizadas `build_items` / `build_characteristics` / `build_runes` nunca se llegaron a sincronizar desde la app y se eliminaron (0.3.109, ver la migración "comunidad").
+Las antiguas tablas normalizadas `build_items` / `build_characteristics` / `build_runes` nunca se llegaron a sincronizar desde la app y se eliminaron (0.3.110, ver la migración "comunidad").
 
 ### Contadores desnormalizados
 
@@ -1946,7 +1946,7 @@ revoke all on function public.admin_revoke_custom_rank(uuid) from public;
 grant execute on function public.admin_revoke_custom_rank(uuid) to authenticated;
 ```
 
-### Migración manual — comunidad: colecciones, notificaciones y reportes (0.3.109)
+### Migración manual — comunidad: colecciones, notificaciones y reportes (0.3.110)
 
 Correr una vez en el SQL Editor de Supabase. Es idempotente: se puede correr
 más de una vez. Hasta que se corra: agregar builds a una colección falla con

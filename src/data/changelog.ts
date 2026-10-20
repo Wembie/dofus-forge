@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.110',
+    date: '2026-10-19',
+    notes: [
+      'Feature: collections — group builds (yours or others\') into folders, public ones show on your profile',
+      'Feature: report builds and comments from a form; moderators review the queue and hide or delete content',
+      'Feature: notification bell — likes, comments, ratings, remixes, comment likes and new followers',
+    ],
+  },
+  {
     version: '0.3.109',
     date: '2026-10-19',
     notes: [
@@ -17,9 +26,6 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Feature: tag your builds (up to 5) and filter Explore by tag',
       'Feature: like comments on build pages',
       'Feature: version history for published builds — open or restore any of the last 20 versions',
-      'Feature: collections — group builds (yours or others\') into folders, public ones show on your profile',
-      'Feature: report builds and comments from a form; moderators review the queue and hide or delete content',
-      'Feature: notification bell — likes, comments, ratings, remixes, comment likes and new followers',
     ],
   },
   {
