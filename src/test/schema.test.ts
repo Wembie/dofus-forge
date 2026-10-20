@@ -46,9 +46,16 @@ describe('supabase schema guards', () => {
     expect(schema).toMatch(/grant update \(rating\) on build_ratings to authenticated;/)
   })
 
-  it('profile counters can be written by the counter triggers (not frozen)', () => {
+  it('profile counters can be written by the counter triggers and the SQL editor (not frozen)', () => {
     const guard = schema.slice(schema.lastIndexOf('function protect_profile_system_fields'))
-    expect(guard).toMatch(/pg_trigger_depth\(\)\s*<=\s*1/)
+    const head = guard.slice(0, guard.indexOf('$$'))
+    const body = guard.slice(0, guard.indexOf('end;'))
+    expect(body).toMatch(/pg_trigger_depth\(\)\s*<=\s*1/)
+    // Only direct API writes are guarded; a session without a JWT (the SQL
+    // editor running the counter resync) must not be reverted.
+    expect(body).toMatch(/current_user in \('anon', 'authenticated'\)/)
+    // As security definer, current_user would be the owner and never match.
+    expect(head).not.toContain('security definer')
   })
 
   it('hidden comments and comments on private builds are not publicly readable', () => {

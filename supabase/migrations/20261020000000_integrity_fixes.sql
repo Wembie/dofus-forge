@@ -5,12 +5,14 @@ begin;
 -- 1. Profile counters (followers / following / builds) were frozen: the guard
 --    that stops users from editing their own counters also reverted the
 --    counter triggers, since inside a trigger the JWT role is still
---    'authenticated'. Writes coming from another trigger are now allowed.
+--    'authenticated'. It now only applies to direct API writes (roles anon /
+--    authenticated, not from another trigger); the counter triggers, the
+--    service role and the SQL editor (the resync below) pass. Security
+--    invoker on purpose, so current_user is the caller's role.
 create or replace function protect_profile_system_fields()
-returns trigger language plpgsql security definer set search_path = public as $$
+returns trigger language plpgsql set search_path = public as $$
 begin
-  if pg_trigger_depth() <= 1
-     and coalesce(nullif(current_setting('request.jwt.claims', true), '')::jsonb->>'role', '') <> 'service_role' then
+  if pg_trigger_depth() <= 1 and current_user in ('anon', 'authenticated') then
     NEW.role            := OLD.role;
     NEW.followers_count := OLD.followers_count;
     NEW.following_count := OLD.following_count;
