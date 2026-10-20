@@ -483,14 +483,36 @@ function stableJson(value: unknown): string {
   return JSON.stringify(value)
 }
 
-// Saves the build's current snapshot as a history version before it gets
-// overwritten. Best effort: a failure here never blocks the update itself.
-async function archiveCurrentVersion(buildId: string, next: BuildSnapshot) {
+type StoredVersion = { name: string; snapshot: unknown }
+
+// The build as stored before an update; null if it can't be read (history is
+// best effort and never blocks the update).
+async function readStoredVersion(buildId: string): Promise<StoredVersion | null> {
   try {
     const supabase = await getSupabase()
-    const { data: current } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
-    if (!current || stableJson(current.snapshot) === stableJson(next)) return
-    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: current.snapshot, label: current.name })
+    const { data } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
+    return (data as StoredVersion | null) ?? null
+  } catch {
+    return null
+  }
+}
+
+// Saves the version a successful update replaced. Runs only after the update
+// went through — archiving first left one copy per failed attempt — and skips
+// a version identical to the newest one already kept (double clicks, retries).
+async function archiveReplacedVersion(buildId: string, previous: StoredVersion | null, next: BuildSnapshot) {
+  try {
+    if (!previous || stableJson(previous.snapshot) === stableJson(next)) return
+    const supabase = await getSupabase()
+    const { data: newest } = await supabase
+      .from('build_snapshots')
+      .select('snapshot')
+      .eq('build_id', buildId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    if (newest && stableJson((newest as { snapshot: unknown }).snapshot) === stableJson(previous.snapshot)) return
+    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: previous.snapshot, label: previous.name })
     if (error) return
     const { data: stale } = await supabase
       .from('build_snapshots')
@@ -527,7 +549,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   gameVersion: string
   snapshot:    BuildSnapshot
 }) {
-  await archiveCurrentVersion(buildId, opts.snapshot)
+  const previous = await readStoredVersion(buildId)
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
@@ -546,6 +568,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   // RLS turns an update of someone else's (or a deleted) build into a silent
   // 0-row success; report it so the caller doesn't claim it saved.
   if (!data || data.length === 0) return { error: 'not_updated' }
+  await archiveReplacedVersion(buildId, previous, opts.snapshot)
   return { error: null }
 }, error => ({ error }))
 

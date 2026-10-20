@@ -132,6 +132,37 @@ describe('updateBuild version history', () => {
     expect(opArgs(del, 'in')).toEqual(['id', ['old1', 'old2']])
   })
 
+  it('archives only after the update went through (a failed attempt leaves no copy)', async () => {
+    mock.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    mock.calls.length = 0
+    await updateBuild('b1', opts(snap()))
+    const order = mock.calls.map(c => `${c.table}:${c.ops.some(([o]) => o === 'insert') ? 'insert' : c.ops.some(([o]) => o === 'update') ? 'update' : 'read'}`)
+    expect(order.indexOf('builds:update')).toBeLessThan(order.indexOf('build_snapshots:insert'))
+  })
+
+  it('does not archive when the update fails or touches no row', async () => {
+    const failing = createSupabaseMock()
+    failing.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    failing.on('builds', { error: { message: 'infinite recursion detected in policy', code: '42P17' } }, 'update')
+    supabaseState.get = async () => failing.client
+    await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: 'infinite recursion detected in policy' })
+    expect(failing.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+
+    const noRow = createSupabaseMock()
+    noRow.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    noRow.on('builds', { data: [] }, 'update')
+    supabaseState.get = async () => noRow.client
+    await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: 'not_updated' })
+    expect(noRow.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+  })
+
+  it('skips a version identical to the newest one already kept', async () => {
+    mock.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    mock.on('build_snapshots', { data: { snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    await updateBuild('b1', opts(snap()))
+    expect(mock.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+  })
+
   it('still updates the build if archiving fails', async () => {
     mock.on('builds', () => { throw new Error('history down') }, 'maybeSingle')
     const result = await updateBuild('b1', opts(snap()))

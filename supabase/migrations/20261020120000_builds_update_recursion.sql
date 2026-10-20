@@ -42,4 +42,14 @@ drop policy if exists "builds delete" on builds;
 create policy "builds delete" on builds for delete
   using ((select auth.uid()) = user_id);
 
+-- 3. Every failed update attempt archived a copy of the unchanged build in
+--    build_snapshots (the app archived before updating; fixed in the app).
+--    Drop those copies: keep the oldest of identical versions per build.
+delete from build_snapshots s
+using build_snapshots t
+where s.build_id = t.build_id
+  and s.snapshot = t.snapshot
+  and s.label is not distinct from t.label
+  and (s.created_at, s.id) > (t.created_at, t.id);
+
 commit;

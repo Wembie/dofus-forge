@@ -16,6 +16,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'New: hover a spell or weapon damage value to see its full breakdown',
       'Fix: updating a published build works again',
       'Fix: rating a build works again',
+      'Fix: version history no longer fills with copies from failed updates',
     ],
   },
   {

@@ -2367,6 +2367,8 @@ en el SQL Editor (idempotente):
   subconsulta.
 - `auth.uid()` e `is_moderator()` van envueltos en `(select …)` en las policies de
   `builds`: se evalúan una vez por consulta y no una vez por fila.
+- Borra las versiones duplicadas que dejó en el historial cada intento fallido de
+  actualizar (la app guardaba la versión antes de actualizar; ya corregido).
 
 ```sql
 -- 0.3.114 — updating a build failed with 42P17 "infinite recursion detected
@@ -2412,6 +2414,16 @@ create policy "builds update" on builds for update
 drop policy if exists "builds delete" on builds;
 create policy "builds delete" on builds for delete
   using ((select auth.uid()) = user_id);
+
+-- 3. Every failed update attempt archived a copy of the unchanged build in
+--    build_snapshots (the app archived before updating; fixed in the app).
+--    Drop those copies: keep the oldest of identical versions per build.
+delete from build_snapshots s
+using build_snapshots t
+where s.build_id = t.build_id
+  and s.snapshot = t.snapshot
+  and s.label is not distinct from t.label
+  and (s.created_at, s.id) > (t.created_at, t.id);
 
 commit;
 ```
