@@ -2494,7 +2494,7 @@ mod tests {
         let hat_slot = ALL_SLOTS.iter().position(|s| *s == "hat").unwrap();
         let mut f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), vec![hat.clone()], vec![], base(20), 1);
         assert!(f.pools[hat_slot].is_empty());
-        assert!(run(&mut f, 3).iter().all(|r| r.equipped.get("hat").is_none()));
+        assert!(run(&mut f, 3).iter().all(|r| !r.equipped.contains_key("hat")));
         let f = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), vec![hat], vec![], base(50), 1);
         assert_eq!(f.pools[hat_slot].len(), 1);
     }
