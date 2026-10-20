@@ -217,6 +217,54 @@ export const fetchForks = guard(async function fetchForks(buildId: string, limit
   return { data: (data ?? []) as unknown as BuildRow[], count: count ?? 0, error: error?.message ?? null }
 }, error => ({ data: [] as BuildRow[], count: 0, error }))
 
+/** Versions kept per build in build_snapshots; older ones are pruned. */
+export const HISTORY_LIMIT = 20
+
+// jsonb doesn't keep key order, so compare snapshots with sorted keys.
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`
+  if (value && typeof value === 'object') {
+    const obj = value as Record<string, unknown>
+    return `{${Object.keys(obj).sort().filter(k => obj[k] !== undefined).map(k => `${JSON.stringify(k)}:${stableJson(obj[k])}`).join(',')}}`
+  }
+  return JSON.stringify(value)
+}
+
+// Saves the build's current snapshot as a history version before it gets
+// overwritten. Best effort: a failure here never blocks the update itself.
+async function archiveCurrentVersion(buildId: string, next: BuildSnapshot) {
+  try {
+    const supabase = await getSupabase()
+    const { data: current } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
+    if (!current || stableJson(current.snapshot) === stableJson(next)) return
+    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: current.snapshot, label: current.name })
+    if (error) return
+    const { data: stale } = await supabase
+      .from('build_snapshots')
+      .select('id')
+      .eq('build_id', buildId)
+      .order('created_at', { ascending: false })
+      .range(HISTORY_LIMIT, HISTORY_LIMIT + 50)
+    if (stale && stale.length > 0) await supabase.from('build_snapshots').delete().in('id', stale.map(r => r.id))
+  } catch {
+    /* history only */
+  }
+}
+
+export type BuildVersion = { id: string; label: string | null; created_at: string; snapshot: BuildSnapshot }
+
+/** Previous versions of a build, newest first (readable wherever the build is). */
+export const fetchBuildHistory = guard(async function fetchBuildHistory(buildId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('build_snapshots')
+    .select('id, label, created_at, snapshot')
+    .eq('build_id', buildId)
+    .order('created_at', { ascending: false })
+    .limit(HISTORY_LIMIT)
+  return { data: (data ?? []) as BuildVersion[], error: error?.message ?? null }
+}, error => ({ data: [] as BuildVersion[], error }))
+
 export const updateBuild = guard(async function updateBuild(buildId: string, opts: {
   name:        string
   visibility:  BuildVisibility
@@ -226,6 +274,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   gameVersion: string
   snapshot:    BuildSnapshot
 }) {
+  await archiveCurrentVersion(buildId, opts.snapshot)
   const supabase = await getSupabase()
   const { error } = await supabase
     .from('builds')

@@ -1112,5 +1112,10 @@
   "publish_tags_label": "Tags",
   "explore_tags_label": "Filter by tag",
   "explore_tag_all": "All",
-  "comment_like": "Like"
+  "comment_like": "Like",
+  "build_history_title": "Previous versions ({{count}})",
+  "build_history_hint": "Every time the build is updated, the previous version is kept (the last 20).",
+  "build_history_open": "Open",
+  "build_history_restore": "Restore",
+  "build_history_restore_confirm": "Restore the build to this version? The current version will be kept in the history."
 }

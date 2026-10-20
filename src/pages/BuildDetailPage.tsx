@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw } from 'lucide-react'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -18,6 +18,7 @@ import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
 import { encodeSnapshot } from '@/features/share/codec.ts'
+import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics, type Characteristic } from '@/engine/types.ts'
 
 // Same mapping as CharacteristicsPanel.tsx's local CHAR_COLOR — kept as its
@@ -36,6 +37,7 @@ import {
   fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
   fetchBuildSummary, fetchForks, fetchMyCommentLikes, toggleCommentLike,
+  fetchBuildHistory, updateBuild, type BuildVersion,
   buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
@@ -80,6 +82,8 @@ export function BuildDetailPage() {
 
   const [comments, setComments]         = useState<CommentRow[]>([])
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
+  const [history, setHistory]           = useState<BuildVersion[]>([])
+  const [restoring, setRestoring]       = useState<string | null>(null)
   // undefined = not loaded / not a remix, null = original no longer visible
   const [forkParent, setForkParent]     = useState<BuildSummary | null | undefined>(undefined)
   const [forks, setForks]               = useState<{ data: BuildRow[]; count: number }>({ data: [], count: 0 })
@@ -112,6 +116,7 @@ export function BuildDetailPage() {
     })
     fetchComments(id).then(({ data }) => { if (!cancelled) setComments(data) })
     fetchForks(id).then(({ data, count }) => { if (!cancelled) setForks({ data, count }) })
+    fetchBuildHistory(id).then(({ data }) => { if (!cancelled) setHistory(data) })
     return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately only re-fetch on id change, not on every session refresh
   }, [id])
@@ -158,6 +163,37 @@ export function BuildDetailPage() {
     setMyRating(rating)
     await rateBuild(id, session.user.id, rating)
   }, [session, id])
+
+  function openVersion(version: BuildVersion) {
+    if (!build) return
+    const lang = langPathRootSegment(i18n.language.slice(0, 2))
+    const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : `&fork=${build.id}`
+    navigate(`/${lang}?b=${encodeSnapshot({ ...version.snapshot, n: version.label || build.name || undefined })}${linkParam}`)
+  }
+
+  // Restoring updates the build to that version; updateBuild archives the
+  // current one first, so a restore can itself be undone from the history.
+  async function restoreVersion(version: BuildVersion) {
+    if (!build || session?.user.id !== build.user_id) return
+    if (!window.confirm(t('build_history_restore_confirm'))) return
+    setRestoring(version.id)
+    const snap = version.snapshot
+    const { error } = await updateBuild(build.id, {
+      name:        build.name,
+      visibility:  build.visibility,
+      classSlug:   snap.c || build.class_slug,
+      gender:      snap.g === 'f' ? 'female' : 'male',
+      level:       snap.l || build.level,
+      gameVersion: DOFUS_GAME_VERSION,
+      snapshot:    snap,
+    })
+    if (!error) {
+      const [{ data: fresh }, { data: versions }] = await Promise.all([fetchBuildById(build.id), fetchBuildHistory(build.id)])
+      if (fresh) setBuild(fresh)
+      setHistory(versions)
+    }
+    setRestoring(null)
+  }
 
   function handleLoadIntoPlanner() {
     if (!build) return
@@ -460,6 +496,36 @@ export function BuildDetailPage() {
                   </li>
                 )
               })}
+            </ul>
+          </Frame>
+        )}
+
+        {history.length > 0 && (
+          <Frame padding="lg" className="space-y-3">
+            <h2 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>
+              <History size={13} /> {t('build_history_title', { count: history.length })}
+            </h2>
+            <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('build_history_hint')}</p>
+            <ul className="space-y-1.5">
+              {history.map(v => (
+                <li key={v.id} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5" style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>{v.label || build.name}</span>
+                    <span className="block text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+                      {new Date(v.created_at).toLocaleString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      {' · '}{t('level_short', { level: v.snapshot.l })}
+                    </span>
+                  </span>
+                  <Button variant="secondary" size="sm" onClick={() => openVersion(v)}>
+                    <UploadCloud size={12} /> {t('build_history_open')}
+                  </Button>
+                  {session?.user.id === build.user_id && (
+                    <Button variant="secondary" size="sm" onClick={() => restoreVersion(v)} disabled={restoring != null}>
+                      <RotateCcw size={12} /> {restoring === v.id ? t('auth_loading') : t('build_history_restore')}
+                    </Button>
+                  )}
+                </li>
+              ))}
             </ul>
           </Frame>
         )}

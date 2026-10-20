@@ -1112,5 +1112,10 @@
   "publish_tags_label": "Etiquetas",
   "explore_tags_label": "Filtrar por etiqueta",
   "explore_tag_all": "Todas",
-  "comment_like": "Me gusta"
+  "comment_like": "Me gusta",
+  "build_history_title": "Versiones anteriores ({{count}})",
+  "build_history_hint": "Cada vez que se actualiza el build se guarda la versión anterior (las últimas 20).",
+  "build_history_open": "Abrir",
+  "build_history_restore": "Restaurar",
+  "build_history_restore_confirm": "¿Restaurar el build a esta versión? La versión actual se guardará en el historial."
 }
