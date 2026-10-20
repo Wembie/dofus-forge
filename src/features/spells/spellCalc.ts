@@ -3,6 +3,7 @@
 // dependency-free (no React) so both can import it without a cycle.
 import type { AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
+import type { DamageMods } from './spellDamage.ts'
 
 export function spellGrade(level: number): number {
   if (level >= 200) return 6
@@ -40,10 +41,16 @@ export function fmtRange(min: number, max: number): string {
   return min === max ? String(min) : `${min}–${max}`
 }
 
+/** Which of % Melee / % Ranged Damage applies; null for a self-cast (range 0). */
+export function rangeKind(minRange: number, maxRange: number): 'melee' | 'ranged' | null {
+  if (maxRange === 0) return null
+  if (maxRange <= 1)  return 'melee'  // range 0-1 or 1-1 = melee weapon
+  return minRange === 0 ? 'melee' : 'ranged'
+}
+
 export function rangePct(minRange: number, maxRange: number, stats: StatBlock): number {
-  if (maxRange === 0) return 0
-  if (maxRange <= 1)  return stats.meleeDamagePercent  // range 0-1 or 1-1 = melee weapon
-  return minRange === 0 ? stats.meleeDamagePercent : stats.rangedDamagePercent
+  const kind = rangeKind(minRange, maxRange)
+  return kind === 'melee' ? stats.meleeDamagePercent : kind === 'ranged' ? stats.rangedDamagePercent : 0
 }
 
 // Keep first occurrence of each (element+kind+min+max) group.
@@ -58,4 +65,14 @@ export function dedupEffects(effects: AppSpellEffect[]): AppSpellEffect[] {
     seen.add(key)
     return true
   })
+}
+
+/** % Spell Damage plus % Ranged / % Melee for a spell cast at this range. */
+export function spellMods(stats: StatBlock, minRange: number, maxRange: number): DamageMods {
+  return { kindPct: stats.spellDamagePercent, rangePct: rangePct(minRange, maxRange, stats), range: rangeKind(minRange, maxRange) ?? undefined }
+}
+
+/** % Weapon Damage plus % Ranged / % Melee for a weapon with this range. */
+export function weaponMods(stats: StatBlock, minRange: number, maxRange: number): DamageMods {
+  return { kindPct: stats.weaponDamagePercent, rangePct: rangePct(minRange, maxRange, stats), range: rangeKind(minRange, maxRange) ?? undefined }
 }

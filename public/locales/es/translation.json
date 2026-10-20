@@ -1187,5 +1187,11 @@
   "collection_private_build": "Solo tú lo ves",
   "collection_private_build_hint": "Este build es privado: no aparece para quienes visitan esta colección pública.",
   "collections_builds_count_one": "{{count}} build",
-  "collections_builds_count_other": "{{count}} builds"
+  "collections_builds_count_other": "{{count}} builds",
+  "dmg_bd_title": "Cálculo del daño",
+  "dmg_bd_crit_title": "Cálculo del daño crítico",
+  "dmg_bd_base": "Daño base",
+  "dmg_bd_fixed": "Daños fijos",
+  "dmg_bd_total": "Total",
+  "dmg_bd_note": "Antes de las resistencias del objetivo"
 }

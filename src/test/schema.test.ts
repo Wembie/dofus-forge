@@ -64,6 +64,30 @@ describe('supabase schema guards', () => {
     expect(policy.slice(0, 300)).toMatch(/visibility in \('public', 'unlisted'\) or b\.user_id = auth\.uid\(\)/)
   })
 
+  it('no policy on builds reads builds, and its SELECT policies have no subquery (42P17)', () => {
+    // Postgres raises "infinite recursion detected in policy for relation
+    // builds" when a builds policy reads builds and the policies applied to
+    // that read have a subquery of their own.
+    const latest = new Map<string, string>()
+    for (const m of schema.matchAll(/create policy "([^"]+)" on builds\b([\s\S]*?);/gi)) latest.set(m[1], m[2])
+    expect([...latest.keys()]).toEqual(expect.arrayContaining(['builds read', 'builds mod read', 'builds update']))
+    for (const [name, body] of latest) {
+      expect(body, name).not.toMatch(/\bfrom\s+builds\b/i)
+      // (select auth.uid()) reads no table; a SELECT policy that reads one
+      // (EXISTS … FROM profiles) is what made the UPDATE policy recurse.
+      if (/\bfor select\b/i.test(body)) expect(body, name).not.toMatch(/\bfrom\b/i)
+    }
+  })
+
+  it('builds policies evaluate auth.uid() / is_moderator() once per query, not per row', () => {
+    const latest = new Map<string, string>()
+    for (const m of schema.matchAll(/create policy "([^"]+)" on builds\b([\s\S]*?);/gi)) latest.set(m[1], m[2])
+    for (const [name, body] of latest) {
+      const bare = body.replace(/\(select (auth\.uid|is_moderator)\(\)\)/g, '')
+      expect(bare, name).not.toMatch(/\b(auth\.uid|is_moderator)\(\)/)
+    }
+  })
+
   it('migrations are named with a sortable timestamp and are idempotent-looking', () => {
     for (const file of migrations) {
       expect(file).toMatch(/^\d{8,14}_[a-z0-9_]+\.sql$/)

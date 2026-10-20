@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.114',
+    date: '2026-10-20',
+    notes: [
+      'Fix: spell and weapon damage follow the game formula, with % spell, weapon, ranged and melee damage as separate multipliers',
+      'Fix: PvP arena resistances truncate like the game',
+      'New: hover a spell or weapon damage value to see its full breakdown',
+      'Fix: updating a published build works again',
+    ],
+  },
+  {
     version: '0.3.113',
     date: '2026-10-20',
     notes: [

@@ -1187,5 +1187,11 @@
   "collection_private_build": "Only you see it",
   "collection_private_build_hint": "This build is private: it doesn't show for people visiting this public collection.",
   "collections_builds_count_one": "{{count}} build",
-  "collections_builds_count_other": "{{count}} builds"
+  "collections_builds_count_other": "{{count}} builds",
+  "dmg_bd_title": "Damage breakdown",
+  "dmg_bd_crit_title": "Critical damage breakdown",
+  "dmg_bd_base": "Base damage",
+  "dmg_bd_fixed": "Fixed damage",
+  "dmg_bd_total": "Total",
+  "dmg_bd_note": "Before the target resistances"
 }
