@@ -5,12 +5,20 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.115] — 2026-10-20
+- **Unlisted builds are really link-only**: the API can no longer list them; a build is readable when opened by its link (or from your own bookmarks and collections). Share previews and comments of unlisted builds keep working
+- **Collections**: someone else's unlisted build you add from its link now shows in your collection (marked "only you see it"), never to visitors; the save-to-collection button also appears on unlisted builds
+- **Moderation**: moderators can restore a hidden build (it stays private until its owner publishes it again) or comment from the reports queue; admins can feature / unfeature a public build, shown with a badge
+- **Notifications**: a remix created private and published later now notifies the original author; notifications about a build you cannot list still open it
+- Needs the `20261021000000_unlisted_links_moderation.sql` migration
+
 ## [0.3.114] — 2026-10-20
 - **Fix (damage)**: spell and weapon damage now follow the game formula. % Spell / % Weapon Damage and % Ranged / % Melee Damage are separate multipliers applied after fixed damage (they used to be added to the characteristic, so +1% Spell Damage added about 0.5 damage instead of about 1% of the hit), and Critical Damage is multiplied by them too. Applies to the spell panel, the weapon card and the PvP arena
 - **Fix (PvP arena)**: % resistance truncates like the game instead of rounding
 - **New**: hover any spell or weapon damage value to see how it is computed — base roll, × characteristic and Power (and Weapon Mastery), + fixed damage, + Critical Damage, × % Ranged / Melee, × % Spell / Weapon, and the total
 - **Fix**: updating a published build failed with "infinite recursion detected in policy for relation builds" (since 0.3.112); needs the `20261020120000_builds_update_recursion.sql` migration
 - **Fix**: rating a build failed with "permission denied" (since 0.3.113); needs the `20261020130000_ratings_upsert.sql` migration
+- **Fix**: the version history saved a copy of the build on every failed update attempt; it now saves the previous version only after the update succeeds, skips a version identical to the newest one kept, and the migration removes the duplicates already saved
 
 ## [0.3.113] — 2026-10-20
 - **Fix**: the header **Redo** button never worked (undoing was recorded as a new change and wiped the redo stack), and undo/redo unlinked the build from its published version, so the next Publish created a duplicate

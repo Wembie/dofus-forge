@@ -99,6 +99,33 @@ describe('supabase schema guards', () => {
     }
   })
 
+  it('unlisted builds are readable only by link or from your own lists, never listable', () => {
+    const read = schema.slice(schema.lastIndexOf('create policy "builds read"'))
+    const body = read.slice(0, read.indexOf(';'))
+    expect(body).not.toMatch(/visibility in \('public',\s*'unlisted'\)/)
+    expect(body).toMatch(/visibility = 'unlisted' and \(id = \(select requested_build_id\(\)\) or in_my_lists\(id\)\)/)
+    expect(schema.slice(schema.lastIndexOf('create or replace function requested_build_id'))).toMatch(/x-build-id/)
+    // Rows that expose build ids to everyone would list unlisted builds again.
+    expect(schema.lastIndexOf('drop policy if exists "likes read"')).toBeGreaterThan(schema.lastIndexOf('create policy "likes read"'))
+    expect(schema.lastIndexOf('drop policy if exists "ratings read"')).toBeGreaterThan(schema.lastIndexOf('create policy "ratings read"'))
+    const col = schema.slice(schema.lastIndexOf('create policy "col_builds read"'))
+    expect(col.slice(0, col.indexOf(';'))).toMatch(/exists \(select 1 from builds where id = build_id\)/)
+  })
+
+  it('moderators can restore hidden content; only admins feature, and only public builds', () => {
+    const mod = schema.slice(schema.lastIndexOf('create or replace function moderate_content'))
+    expect(mod.slice(0, mod.indexOf('end; $$'))).toMatch(/p_action = 'restore'/)
+    const feat = schema.slice(schema.lastIndexOf('create or replace function set_build_featured'))
+    expect(feat).toMatch(/role = 'admin'/)
+    expect(feat).toMatch(/visibility = 'public' or not p_featured/)
+    expect(schema).toMatch(/revoke all on function set_build_featured\(uuid, boolean\) from public, anon;/)
+  })
+
+  it('a remix published later also notifies the original author', () => {
+    expect(schema.slice(schema.lastIndexOf('create trigger notify_on_build_fork'))).toMatch(/after insert or update of visibility on builds/)
+    expect(schema.slice(schema.lastIndexOf('create or replace function notify_build_fork'))).toMatch(/TG_OP = 'INSERT' or OLD\.visibility = 'private'/)
+  })
+
   it('migrations are named with a sortable timestamp and are idempotent-looking', () => {
     for (const file of migrations) {
       expect(file).toMatch(/^\d{8,14}_[a-z0-9_]+\.sql$/)

@@ -95,7 +95,7 @@ export function NotificationBell() {
     setOpen(false)
     const prefix = langPathPrefix(i18n.language)
     if (n.type === 'new_follower' && n.actor) navigate(`/${prefix}u/${n.actor.username}`)
-    else if (n.build) navigate(`/${prefix}build/${n.build.id}`)
+    else if (n.build_id) navigate(`/${prefix}build/${n.build_id}`)
   }
 
   return (

@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.115',
+    date: '2026-10-20',
+    notes: [
+      'Unlisted builds are link-only: the API can no longer list them',
+      'Collections show unlisted builds you added from their link, only to you',
+      'Moderators can restore hidden builds and comments; admins can feature builds',
+      'A remix published later notifies the original author',
+    ],
+  },
+  {
     version: '0.3.114',
     date: '2026-10-20',
     notes: [
@@ -16,6 +26,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'New: hover a spell or weapon damage value to see its full breakdown',
       'Fix: updating a published build works again',
       'Fix: rating a build works again',
+      'Fix: version history no longer fills with copies from failed updates',
     ],
   },
   {

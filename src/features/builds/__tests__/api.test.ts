@@ -7,6 +7,8 @@ vi.mock('@/lib/supabase.ts', () => ({ getSupabase: () => supabaseState.get() }))
 import {
   fetchPublicBuilds, fetchMyLike, fetchMembershipTier, fetchBuildSummary, fetchUserCollections,
   fetchCollection, updateBuild, setBuildTags, submitReport, MAX_BUILD_TAGS, subscribeToNotifications,
+  fetchBuildById, fetchComments, fetchBuildHistory, fetchNotifications, setBuildFeatured, moderateContent,
+  BUILD_LINK_HEADER,
 } from '../api.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
@@ -132,6 +134,37 @@ describe('updateBuild version history', () => {
     expect(opArgs(del, 'in')).toEqual(['id', ['old1', 'old2']])
   })
 
+  it('archives only after the update went through (a failed attempt leaves no copy)', async () => {
+    mock.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    mock.calls.length = 0
+    await updateBuild('b1', opts(snap()))
+    const order = mock.calls.map(c => `${c.table}:${c.ops.some(([o]) => o === 'insert') ? 'insert' : c.ops.some(([o]) => o === 'update') ? 'update' : 'read'}`)
+    expect(order.indexOf('builds:update')).toBeLessThan(order.indexOf('build_snapshots:insert'))
+  })
+
+  it('does not archive when the update fails or touches no row', async () => {
+    const failing = createSupabaseMock()
+    failing.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    failing.on('builds', { error: { message: 'infinite recursion detected in policy', code: '42P17' } }, 'update')
+    supabaseState.get = async () => failing.client
+    await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: 'infinite recursion detected in policy' })
+    expect(failing.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+
+    const noRow = createSupabaseMock()
+    noRow.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    noRow.on('builds', { data: [] }, 'update')
+    supabaseState.get = async () => noRow.client
+    await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: 'not_updated' })
+    expect(noRow.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+  })
+
+  it('skips a version identical to the newest one already kept', async () => {
+    mock.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    mock.on('build_snapshots', { data: { snapshot: snap({ l: 150 }) } }, 'maybeSingle')
+    await updateBuild('b1', opts(snap()))
+    expect(mock.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+  })
+
   it('still updates the build if archiving fails', async () => {
     mock.on('builds', () => { throw new Error('history down') }, 'maybeSingle')
     const result = await updateBuild('b1', opts(snap()))
@@ -212,5 +245,63 @@ describe('fetchPublicBuilds ordering', () => {
     await fetchPublicBuilds({ sort: 'views', page: 1 })
     const orders = mock.callsTo('builds')[0].ops.filter(([op]) => op === 'order').map(([, args]) => args[0])
     expect(orders).toEqual(['view_count', 'id'])
+  })
+})
+
+describe('unlisted builds: opened by link', () => {
+  const header = (table: string) => opArgs(mock.callsTo(table)[0], 'setHeader')
+
+  it('every query about one build names it in the link header', async () => {
+    mock.on('builds', { data: { id: 'b1', snapshot: snap() } })
+    await fetchBuildById('b1')
+    await fetchBuildSummary('b2', null)
+    await fetchComments('b3')
+    await fetchBuildHistory('b4')
+    expect(BUILD_LINK_HEADER).toBe('x-build-id')
+    expect(opArgs(mock.callsTo('builds')[0], 'setHeader')).toEqual(['x-build-id', 'b1'])
+    expect(opArgs(mock.callsTo('builds')[1], 'setHeader')).toEqual(['x-build-id', 'b2'])
+    expect(header('build_comments')).toEqual(['x-build-id', 'b3'])
+    expect(header('build_snapshots')).toEqual(['x-build-id', 'b4'])
+  })
+
+  it('a listing never sends it (the community list cannot reveal unlisted builds)', async () => {
+    await fetchPublicBuilds({ sort: 'recent', page: 0 })
+    expect(header('builds')).toBeUndefined()
+  })
+
+  it('notifications keep build_id, so an unreadable build can still be opened by id', async () => {
+    mock.on('notifications', { data: [] })
+    await fetchNotifications('u1')
+    expect(String(opArgs(mock.callsTo('notifications')[0], 'select')?.[0])).toMatch(/\bbuild_id\b/)
+  })
+})
+
+describe('collections: someone else\'s unlisted build', () => {
+  const entry = (id: string, visibility: string, user_id: string) => ({ position: 1, added_at: '', builds: { id, visibility, user_id, name: id, snapshot: snap() } })
+  const collection = { id: 'c1', user_id: 'owner', name: 'C', description: null, is_public: true, updated_at: '', profiles: null, visible: [], entries: [entry('u', 'unlisted', 'x')] }
+
+  it('shows it to the collection owner, who added it from its link', async () => {
+    mock.on('collections', { data: collection })
+    const { data } = await fetchCollection('c1', 'owner')
+    expect(data?.builds.map(b => b.id)).toEqual(['u'])
+  })
+
+  it('never shows it to visitors of the public collection', async () => {
+    mock.on('collections', { data: collection })
+    const { data } = await fetchCollection('c1', 'visitor')
+    expect(data?.builds).toEqual([])
+  })
+})
+
+describe('moderation RPCs', () => {
+  it('restore goes through moderate_content', async () => {
+    await moderateContent('build', 'b1', 'restore')
+    expect(mock.client.rpc).toHaveBeenCalledWith('moderate_content', { p_kind: 'build', p_target: 'b1', p_action: 'restore' })
+  })
+
+  it('featuring calls set_build_featured and reports a refusal', async () => {
+    mock.client.rpc.mockResolvedValueOnce({ data: null, error: { message: 'not_allowed' } } as never)
+    await expect(setBuildFeatured('b1', true)).resolves.toEqual({ error: 'not_allowed' })
+    expect(mock.client.rpc).toHaveBeenCalledWith('set_build_featured', { p_build: 'b1', p_featured: true })
   })
 })

@@ -1193,5 +1193,12 @@
   "dmg_bd_base": "Dégâts de base",
   "dmg_bd_fixed": "Dommages fixes",
   "dmg_bd_total": "Total",
-  "dmg_bd_note": "Avant les résistances de la cible"
+  "dmg_bd_note": "Avant les résistances de la cible",
+  "build_featured": "Mis en avant",
+  "build_feature_on": "Mettre ce build en avant",
+  "build_feature_off": "Retirer la mise en avant",
+  "admin_reports_restore_build": "Restaurer le build",
+  "admin_reports_restore_comment": "Restaurer le commentaire",
+  "admin_reports_restore_hint": "Le build reste privé : son auteur décide s'il le republie.",
+  "collection_unlisted_build_hint": "Build non répertorié d'une autre personne : vous seul le voyez dans cette collection."
 }

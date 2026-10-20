@@ -34,6 +34,9 @@ export async function fetchBuildMeta(env: { SUPABASE_URL: string; SUPABASE_ANON_
     headers: {
       apikey: env.SUPABASE_ANON_KEY,
       Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`,
+      // A preview is requested through the build's link, which is what
+      // makes an unlisted build readable (BUILD_LINK_HEADER in api.ts).
+      'x-build-id': id,
     },
   })
   if (!res.ok) return null

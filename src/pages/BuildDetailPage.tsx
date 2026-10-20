@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus, Flag } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus, Flag, Award } from 'lucide-react'
 import { CollectionPicker } from '@/features/collections/Collections.tsx'
 import { ReportModal } from '@/features/moderation/ReportModal.tsx'
 import type { ReportTarget } from '@/features/builds/api.ts'
@@ -40,7 +40,7 @@ import {
   fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
   fetchBuildSummary, fetchForks, fetchMyCommentLikes, toggleCommentLike,
-  fetchBuildHistory, updateBuild, type BuildVersion,
+  fetchBuildHistory, updateBuild, setBuildFeatured, type BuildVersion,
   buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
@@ -70,6 +70,8 @@ export function BuildDetailPage() {
   const navigate      = useNavigate()
   useLoadGameData()
   const session        = useAuthStore(s => s.session)
+  const isAdmin        = useAuthStore(s => s.profile?.role === 'admin')
+  const [featureBusy, setFeatureBusy] = useState(false)
   const equipmentData  = useDataStore(s => s.equipment)
   const setsData       = useDataStore(s => s.sets)
 
@@ -183,6 +185,15 @@ export function BuildDetailPage() {
     setMyRating(rating)
     await rateBuild(id, session.user.id, rating)
   }, [session, id])
+
+  const handleToggleFeatured = useCallback(async () => {
+    if (!build) return
+    const next = !build.is_featured
+    setFeatureBusy(true)
+    const { error } = await setBuildFeatured(build.id, next)
+    setFeatureBusy(false)
+    if (!error) setBuild(prev => (prev && prev.id === build.id ? { ...prev, is_featured: next } : prev))
+  }, [build])
 
   function openVersion(version: BuildVersion) {
     if (!build) return
@@ -315,7 +326,10 @@ export function BuildDetailPage() {
               <img src={portrait} alt="" width={56} height={56} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
             )}
             <div className="min-w-0 flex-1">
-              <h1 className="text-lg font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</h1>
+              <h1 className="flex items-center gap-1.5 text-lg font-bold min-w-0" style={{ color: 'var(--gold)' }}>
+                {build.is_featured && <Award size={17} className="flex-shrink-0" aria-label={t('build_featured')}><title>{t('build_featured')}</title></Award>}
+                <span className="truncate">{build.name}</span>
+              </h1>
               <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{resolvedClassLabel} · {t('level_short', { level: build.level })}</p>
             </div>
             {session?.user.id === build.user_id || build.visibility !== 'public' ? (
@@ -394,7 +408,7 @@ export function BuildDetailPage() {
             >
               <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
-            {(build.visibility === 'public' || session?.user.id === build.user_id) && (
+            {(build.visibility !== 'private' || session?.user.id === build.user_id) && (
               <button
                 onClick={() => setCollectOpen(true)}
                 disabled={!session}
@@ -414,6 +428,19 @@ export function BuildDetailPage() {
                 aria-label={t('report_build_title')}
               >
                 <Flag size={14} />
+              </button>
+            )}
+            {isAdmin && (build.visibility === 'public' || build.is_featured) && (
+              <button
+                onClick={handleToggleFeatured}
+                disabled={featureBusy}
+                className="flex items-center gap-1.5 disabled:opacity-50 hover:text-gold transition-colors"
+                style={{ color: build.is_featured ? 'var(--gold)' : 'var(--ink-faint)' }}
+                title={t(build.is_featured ? 'build_feature_off' : 'build_feature_on')}
+                aria-label={t(build.is_featured ? 'build_feature_off' : 'build_feature_on')}
+                aria-pressed={Boolean(build.is_featured)}
+              >
+                <Award size={14} />
               </button>
             )}
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>

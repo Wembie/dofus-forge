@@ -27,6 +27,7 @@ export type BuildRow = {
   rating_count:  number
   view_count:    number
   comment_count: number
+  is_featured?:  boolean
   created_at:    string
   user_id:       string
   fork_of:       string | null
@@ -50,7 +51,7 @@ export type BuildDetailRow = BuildRow
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
 // `snapshot` included even in the list query — Explore/My Builds cards show
 // equipment icons, not just text, so they need it up front too.
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
+const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
 
 // Each function below reports failures as an `error` value. Supabase already
 // does that for failed requests, but getSupabase() itself can still reject
@@ -126,12 +127,18 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
   return { data: safeRows((data ?? []) as unknown as BuildRow[]), error: error?.message ?? null, count: count ?? 0 }
 }, error => ({ data: [] as BuildRow[], error, count: 0 }))
 
+// An unlisted build is readable only by its link: every query about one
+// build sends its id here, so RLS can tell "opened from the link" from
+// "listed" (requested_build_id() in the 20261021000000 migration).
+export const BUILD_LINK_HEADER = 'x-build-id'
+
 export const fetchBuildById = guard(async function fetchBuildById(id: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
     .select(LIST_COLUMNS)
     .eq('id', id)
+    .setHeader(BUILD_LINK_HEADER, id)
     .single()
   if (error) return { data: null, error: error.message }
   return { data: safeRow(data as unknown as BuildDetailRow), error: null }
@@ -228,6 +235,9 @@ type BuildVisibilityRef = { visibility: BuildVisibility; user_id: string }
 // by RLS.
 function showsInCollection(b: BuildVisibilityRef, collectionOwner: string, viewerId: string | null): boolean {
   return b.visibility === 'public' || b.user_id === viewerId || b.user_id === collectionOwner
+    // Someone else's unlisted build, added from its link: only the
+    // collection owner sees it, never the visitors of a public collection.
+    || (b.visibility === 'unlisted' && viewerId === collectionOwner)
 }
 
 function toCollection(row: Record<string, unknown>, viewerId: string | null): CollectionRow {
@@ -334,7 +344,7 @@ export type ReportRow = {
   status:      ReportStatus
   created_at:  string
   reporter:    { username: string } | null
-  build:       { id: string; name: string; visibility: BuildVisibility } | null
+  build:       { id: string; name: string; visibility: BuildVisibility; moderation_hidden: boolean } | null
   comment:     { id: string; content: string; build_id: string; deleted_at: string | null } | null
 }
 
@@ -344,7 +354,7 @@ export const fetchReports = guard(async function fetchReports(status: ReportStat
   const [builds, comments] = await Promise.all([
     supabase
       .from('build_reports')
-      .select('id, reason, detail, status, created_at, reporter:profiles!build_reports_reporter_id_fkey(username), build:builds(id, name, visibility)')
+      .select('id, reason, detail, status, created_at, reporter:profiles!build_reports_reporter_id_fkey(username), build:builds(id, name, visibility, moderation_hidden)')
       .eq('status', status)
       .order('created_at', { ascending: false })
       .limit(100),
@@ -372,7 +382,14 @@ export const setReportStatus = guard(async function setReportStatus(report: Pick
 }, error => ({ error }))
 
 /** Hides (build → private, comment → soft-deleted) or deletes reported content. */
-export const moderateContent = guard(async function moderateContent(kind: 'build' | 'comment', targetId: string, action: 'hide' | 'delete') {
+/** Admins only (checked in the DB); only a public build can be featured. */
+export const setBuildFeatured = guard(async function setBuildFeatured(buildId: string, featured: boolean) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.rpc('set_build_featured', { p_build: buildId, p_featured: featured })
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+export const moderateContent = guard(async function moderateContent(kind: 'build' | 'comment', targetId: string, action: 'hide' | 'delete' | 'restore') {
   const supabase = await getSupabase()
   const { error } = await supabase.rpc('moderate_content', { p_kind: kind, p_target: targetId, p_action: action })
   return { error: error?.message ?? null }
@@ -389,6 +406,9 @@ export type NotificationRow = {
   created_at: string
   actor:      { username: string; avatar_url: string | null } | null
   build:      { id: string; name: string } | null
+  /** Kept even when `build` is null (e.g. an unlisted remix not in the
+   * reader's lists): opening it by id still works through its link. */
+  build_id:   string | null
 }
 
 export const fetchUnreadNotificationCount = guard(async function fetchUnreadNotificationCount(userId: string) {
@@ -405,7 +425,7 @@ export const fetchNotifications = guard(async function fetchNotifications(userId
   const supabase = await getSupabase()
   const { data } = await supabase
     .from('notifications')
-    .select('id, type, read, created_at, actor:profiles!notifications_actor_id_fkey(username, avatar_url), build:builds(id, name)')
+    .select('id, type, read, created_at, build_id, actor:profiles!notifications_actor_id_fkey(username, avatar_url), build:builds(id, name)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(30)
@@ -451,6 +471,7 @@ export const fetchBuildSummary = guard(async function fetchBuildSummary(id: stri
     .from('builds')
     .select('id, name, visibility, user_id, profiles!builds_user_id_fkey(username, display_name)')
     .eq('id', id)
+    .setHeader(BUILD_LINK_HEADER, id)
     .maybeSingle()
   const row = data as unknown as (BuildSummary & BuildVisibilityRef) | null
   if (!row || (row.visibility !== 'public' && row.user_id !== viewerId)) return null
@@ -483,14 +504,36 @@ function stableJson(value: unknown): string {
   return JSON.stringify(value)
 }
 
-// Saves the build's current snapshot as a history version before it gets
-// overwritten. Best effort: a failure here never blocks the update itself.
-async function archiveCurrentVersion(buildId: string, next: BuildSnapshot) {
+type StoredVersion = { name: string; snapshot: unknown }
+
+// The build as stored before an update; null if it can't be read (history is
+// best effort and never blocks the update).
+async function readStoredVersion(buildId: string): Promise<StoredVersion | null> {
   try {
     const supabase = await getSupabase()
-    const { data: current } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
-    if (!current || stableJson(current.snapshot) === stableJson(next)) return
-    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: current.snapshot, label: current.name })
+    const { data } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
+    return (data as StoredVersion | null) ?? null
+  } catch {
+    return null
+  }
+}
+
+// Saves the version a successful update replaced. Runs only after the update
+// went through — archiving first left one copy per failed attempt — and skips
+// a version identical to the newest one already kept (double clicks, retries).
+async function archiveReplacedVersion(buildId: string, previous: StoredVersion | null, next: BuildSnapshot) {
+  try {
+    if (!previous || stableJson(previous.snapshot) === stableJson(next)) return
+    const supabase = await getSupabase()
+    const { data: newest } = await supabase
+      .from('build_snapshots')
+      .select('snapshot')
+      .eq('build_id', buildId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    if (newest && stableJson((newest as { snapshot: unknown }).snapshot) === stableJson(previous.snapshot)) return
+    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: previous.snapshot, label: previous.name })
     if (error) return
     const { data: stale } = await supabase
       .from('build_snapshots')
@@ -513,6 +556,7 @@ export const fetchBuildHistory = guard(async function fetchBuildHistory(buildId:
     .from('build_snapshots')
     .select('id, label, created_at, snapshot')
     .eq('build_id', buildId)
+    .setHeader(BUILD_LINK_HEADER, buildId)
     .order('created_at', { ascending: false })
     .limit(HISTORY_LIMIT)
   return { data: safeRows((data ?? []) as BuildVersion[]), error: error?.message ?? null }
@@ -527,7 +571,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   gameVersion: string
   snapshot:    BuildSnapshot
 }) {
-  await archiveCurrentVersion(buildId, opts.snapshot)
+  const previous = await readStoredVersion(buildId)
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
@@ -546,6 +590,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   // RLS turns an update of someone else's (or a deleted) build into a silent
   // 0-row success; report it so the caller doesn't claim it saved.
   if (!data || data.length === 0) return { error: 'not_updated' }
+  await archiveReplacedVersion(buildId, previous, opts.snapshot)
   return { error: null }
 }, error => ({ error }))
 
@@ -673,6 +718,7 @@ export const fetchComments = guard(async function fetchComments(buildId: string)
     .select('id, content, like_count, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
     .eq('build_id', buildId)
     .is('deleted_at', null)
+    .setHeader(BUILD_LINK_HEADER, buildId)
     .order('created_at', { ascending: true })
   return { data: (data ?? []) as unknown as CommentRow[], error: error?.message ?? null }
 }, error => ({ data: [] as CommentRow[], error }))
