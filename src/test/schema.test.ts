@@ -73,7 +73,18 @@ describe('supabase schema guards', () => {
     expect([...latest.keys()]).toEqual(expect.arrayContaining(['builds read', 'builds mod read', 'builds update']))
     for (const [name, body] of latest) {
       expect(body, name).not.toMatch(/\bfrom\s+builds\b/i)
-      if (/\bfor select\b/i.test(body)) expect(body.replace(/\bfor select\b/i, ''), name).not.toMatch(/\bselect\b/i)
+      // (select auth.uid()) reads no table; a SELECT policy that reads one
+      // (EXISTS … FROM profiles) is what made the UPDATE policy recurse.
+      if (/\bfor select\b/i.test(body)) expect(body, name).not.toMatch(/\bfrom\b/i)
+    }
+  })
+
+  it('builds policies evaluate auth.uid() / is_moderator() once per query, not per row', () => {
+    const latest = new Map<string, string>()
+    for (const m of schema.matchAll(/create policy "([^"]+)" on builds\b([\s\S]*?);/gi)) latest.set(m[1], m[2])
+    for (const [name, body] of latest) {
+      const bare = body.replace(/\(select (auth\.uid|is_moderator)\(\)\)/g, '')
+      expect(bare, name).not.toMatch(/\b(auth\.uid|is_moderator)\(\)/)
     }
   })
 
