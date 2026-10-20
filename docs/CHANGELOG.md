@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.110] — 2026-10-19
+- **Feature**: **collections**: folders to group builds, your own or other people's. Save any build to one or more collections from its page (folder icon), create them on the fly, and manage them from the new *Collections* tab in My Builds. Each collection has its own page (rename, add a description, make it public or private, remove builds), and public collections show on your profile. Needs the one-time community migration in `docs/DATABASE.md`
+- **Feature**: **real reports and moderation**. Builds (flag icon on their page) and comments ("Report") are now reported from a form with a reason and optional details, saved for the moderation team instead of opening an email. Moderators and admins get a **Reports & moderation** page (`/admin/reports`, also linked from the admin hub) with the queue by status: make a build private, delete it, hide a comment, mark as reviewed or dismiss. Comment reports and the moderation actions need the one-time community migration in `docs/DATABASE.md`
+- **Feature**: **notifications**. A bell next to your account shows how many are unread and lists the latest: likes, comments and ratings on your builds, remixes of them, likes on your comments and new followers. Clicking one opens the build or profile; you can mark them all as read. It checks for new ones every minute while the tab is open. Needs the one-time community migration in `docs/DATABASE.md`
+
 ## [0.3.109] — 2026-10-19
 - **Fix**: the animated character's hair, skin and clothes now have the same colors as in the game; they came out duller and darker (a Feca's red-brown hair looked plain brown)
 - **Fix**: Snailmate, Snickermite, Bulbutting and Karmeleon colors recalibrated to match their icons

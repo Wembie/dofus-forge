@@ -1,7 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus, Flag } from 'lucide-react'
+import { CollectionPicker } from '@/features/collections/Collections.tsx'
+import { ReportModal } from '@/features/moderation/ReportModal.tsx'
+import type { ReportTarget } from '@/features/builds/api.ts'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -83,6 +86,8 @@ export function BuildDetailPage() {
   const [comments, setComments]         = useState<CommentRow[]>([])
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
   const [history, setHistory]           = useState<BuildVersion[]>([])
+  const [collectOpen, setCollectOpen]   = useState(false)
+  const [reportTarget, setReportTarget] = useState<ReportTarget | null>(null)
   const [restoring, setRestoring]       = useState<string | null>(null)
   // undefined = not loaded / not a remix, null = original no longer visible
   const [forkParent, setForkParent]     = useState<BuildSummary | null | undefined>(undefined)
@@ -374,6 +379,26 @@ export function BuildDetailPage() {
             >
               <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
+            <button
+              onClick={() => setCollectOpen(true)}
+              disabled={!session}
+              className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-gold transition-colors"
+              title={session ? t('collections_save') : t('build_detail_signin_required')}
+              aria-label={t('collections_save')}
+            >
+              <FolderPlus size={14} />
+            </button>
+            {session?.user.id !== build.user_id && (
+              <button
+                onClick={() => setReportTarget({ kind: 'build', id: build.id })}
+                disabled={!session}
+                className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-negative transition-colors"
+                title={session ? t('report_build_title') : t('build_detail_signin_required')}
+                aria-label={t('report_build_title')}
+              >
+                <Flag size={14} />
+              </button>
+            )}
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
             {forks.count > 0 && (
               <a href="#remixes" className="flex items-center gap-1.5 hover:text-gold transition-colors" title={t('build_detail_remixes', { count: forks.count })}>
@@ -500,6 +525,13 @@ export function BuildDetailPage() {
           </Frame>
         )}
 
+        {session && (
+          <>
+            <CollectionPicker open={collectOpen} onClose={() => setCollectOpen(false)} userId={session.user.id} buildId={build.id} />
+            <ReportModal target={reportTarget} reporterId={session.user.id} onClose={() => setReportTarget(null)} />
+          </>
+        )}
+
         {history.length > 0 && (
           <Frame padding="lg" className="space-y-3">
             <h2 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>
@@ -602,13 +634,18 @@ export function BuildDetailPage() {
                       <Heart size={11} fill={likedComments.has(c.id) ? 'var(--negative)' : 'none'} />
                       {c.like_count > 0 && c.like_count}
                     </button>
-                    <a
-                      href={`mailto:contact@dofusforge.com?subject=${encodeURIComponent(`Report comment ${c.id}`)}&body=${encodeURIComponent(`Build: ${window.location.href}\nComment ID: ${c.id}\n\nReason: `)}`}
-                      className="text-[10px] hover:text-gold hover:underline transition-colors"
-                      style={{ color: 'var(--ink-faint)' }}
-                    >
-                      {t('comment_report')}
-                    </a>
+                    {session?.user.id !== c.user_id && (
+                      <button
+                        type="button"
+                        onClick={() => setReportTarget({ kind: 'comment', id: c.id })}
+                        disabled={!session}
+                        title={session ? undefined : t('build_detail_signin_required')}
+                        className="text-[10px] hover:text-gold hover:underline transition-colors disabled:cursor-not-allowed disabled:no-underline"
+                        style={{ color: 'var(--ink-faint)' }}
+                      >
+                        {t('comment_report')}
+                      </button>
+                    )}
                   </div>
                 </div>
               </li>

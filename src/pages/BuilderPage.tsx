@@ -38,6 +38,7 @@ const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx')
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
 const AuthButton      = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
+const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
 const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
 const PublishModal    = lazy(() => import('@/features/publish/PublishModal.tsx').then(m => ({ default: m.PublishModal })))
 
@@ -381,6 +382,7 @@ function BuilderContent() {
                 ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onClick: () => navToLangPath('admin') }] : []),
               ]}
             />
+            <Suspense fallback={null}><NotificationBell /></Suspense>
             <Suspense fallback={null}><AuthButton /></Suspense>
             <ShareBar />
           </div>

@@ -89,63 +89,6 @@ alter table profiles
 
 
 -- ═══════════════════════════════════════════════════════════════
--- ITEMS EQUIPADOS
--- ═══════════════════════════════════════════════════════════════
-
-create table build_items (
-  build_id  uuid not null references builds(id) on delete cascade,
-  -- = ALL_SLOTS en buildStore.ts, exacto
-  slot      text not null check (slot in (
-    'hat','cape','amulet','ring1','ring2','belt','boots',
-    'weapon','shield','companion','sidekick',
-    'dofus1','dofus2','dofus3','dofus4','dofus5','dofus6'
-  )),
-  item_id   int not null,
-  primary key (build_id, slot)
-);
-
-
--- ═══════════════════════════════════════════════════════════════
--- CARACTERÍSTICAS BASE
--- ═══════════════════════════════════════════════════════════════
-
-create table build_characteristics (
-  build_id      uuid primary key references builds(id) on delete cascade,
-  vitality      smallint not null default 0 check (vitality >= 0),
-  strength      smallint not null default 0 check (strength >= 0),
-  intelligence  smallint not null default 0 check (intelligence >= 0),
-  chance        smallint not null default 0 check (chance >= 0),
-  agility       smallint not null default 0 check (agility >= 0),
-  wisdom        smallint not null default 0 check (wisdom >= 0),
-  vit_scrolled  boolean not null default false,
-  str_scrolled  boolean not null default false,
-  int_scrolled  boolean not null default false,
-  cha_scrolled  boolean not null default false,
-  agi_scrolled  boolean not null default false,
-  wis_scrolled  boolean not null default false
-);
-
-
--- ═══════════════════════════════════════════════════════════════
--- RUNAS
--- ═══════════════════════════════════════════════════════════════
-
-create table build_runes (
-  build_id                uuid not null references builds(id) on delete cascade,
-  slot                    text not null,
-  runes                   jsonb not null default '{}',
-  forjamago_name          text,
-  -- WeaponTransform = {element, ratio} en buildStore.ts — element nunca es 'neutral'
-  weapon_transform        text check (weapon_transform in ('earth','fire','water','air')),
-  weapon_transform_ratio  smallint check (weapon_transform_ratio in (85, 68, 50)),
-  primary key (build_id, slot),
-  constraint weapon_transform_pair check (
-    (weapon_transform is null) = (weapon_transform_ratio is null)
-  )
-);
-
-
--- ═══════════════════════════════════════════════════════════════
 -- TAGS
 -- ═══════════════════════════════════════════════════════════════
 
@@ -319,6 +262,20 @@ create table build_reports (
   unique (reporter_id, build_id)
 );
 
+-- Reportes de comentarios (M58): mismo modelo que build_reports
+create table comment_reports (
+  id           uuid primary key default gen_random_uuid(),
+  reporter_id  uuid not null references profiles(id) on delete cascade,
+  comment_id   uuid not null references build_comments(id) on delete cascade,
+  reason       report_reason not null,
+  detail       text check (detail is null or char_length(detail) <= 500),
+  status       report_status not null default 'pending',
+  reviewed_by  uuid references profiles(id),
+  reviewed_at  timestamptz,
+  created_at   timestamptz default now(),
+  unique (reporter_id, comment_id)
+);
+
 
 -- ═══════════════════════════════════════════════════════════════
 -- STORAGE: bucket de avatares
@@ -360,7 +317,6 @@ create index idx_builds_slug             on builds(slug) where slug is not null;
 create index idx_builds_fork             on builds(fork_of) where fork_of is not null;
 
 -- ── Items ───────────────────────────────────────────────────────────
-create index idx_build_items_item on build_items(item_id);
 
 -- ── Social ──────────────────────────────────────────────────────────
 create index idx_build_views     on build_view_events(build_id, viewed_at desc);
@@ -380,9 +336,6 @@ create index idx_tags_category   on tags(category);
 
 alter table profiles          enable row level security;
 alter table builds            enable row level security;
-alter table build_items       enable row level security;
-alter table build_characteristics enable row level security;
-alter table build_runes       enable row level security;
 alter table build_snapshots   enable row level security;
 alter table build_likes       enable row level security;
 alter table build_ratings     enable row level security;
@@ -398,6 +351,7 @@ alter table build_reports     enable row level security;
 alter table build_tags        enable row level security;
 alter table tags              enable row level security;
 alter table slug_redirects    enable row level security;
+alter table comment_reports   enable row level security;
 
 -- Profiles: lectura pública
 create policy "profiles public read" on profiles for select using (true);
@@ -422,32 +376,7 @@ create policy "builds update" on builds for update
 create policy "builds delete" on builds for delete
   using (auth.uid() = user_id);
 
--- Build_items: read según visibilidad del build padre, write solo dueño
-create policy "build_items read" on build_items for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_items write" on build_items for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
--- Mismo patrón read/write que build_items para las demás tablas hijas de un build
-create policy "build_characteristics read" on build_characteristics for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_characteristics write" on build_characteristics for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
-create policy "build_runes read" on build_runes for select using (
-  exists (select 1 from builds where id = build_id
-    and (visibility in ('public','unlisted') or auth.uid() = user_id))
-);
-create policy "build_runes write" on build_runes for all using (
-  exists (select 1 from builds where id = build_id and auth.uid() = user_id)
-);
-
+-- Tablas hijas de un build: read según visibilidad del build padre, write solo dueño
 create policy "build_snapshots read" on build_snapshots for select using (
   exists (select 1 from builds where id = build_id
     and (visibility in ('public','unlisted') or auth.uid() = user_id))
@@ -481,12 +410,22 @@ create policy "collections write" on collections    for all    using (auth.uid()
 create policy "col_builds read"  on collection_builds for select using (
   exists (select 1 from collections where id = collection_id and (is_public or auth.uid() = user_id))
 );
+-- Escritura: solo el dueño de la colección agrega/quita builds (M56)
+create policy "col_builds write" on collection_builds for all
+  using (exists (select 1 from collections where id = collection_id and auth.uid() = user_id))
+  with check (exists (select 1 from collections where id = collection_id and auth.uid() = user_id));
 -- Reports: insert para cualquier user autenticado; SELECT solo para moderadores/admins
 create policy "reports insert" on build_reports for insert
   with check (auth.uid() = reporter_id);
 create policy "reports admin read" on build_reports for select
   using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 create policy "reports admin update" on build_reports for update
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+create policy "creports insert" on comment_reports for insert
+  with check (auth.uid() = reporter_id);
+create policy "creports mod read" on comment_reports for select
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+create policy "creports mod update" on comment_reports for update
   using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 
 -- Tags: lectura pública; escritura solo moderadores/admins
@@ -1291,3 +1230,96 @@ revoke all on function public.admin_revoke_custom_rank(uuid) from public;
 grant execute on function public.admin_revoke_custom_rank(uuid) to authenticated;
 
 commit;
+
+-- ── Moderación (M58) ─────────────────────────────────────────────────
+create or replace function moderate_content(p_kind text, p_target uuid, p_action text)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')) then
+    raise exception 'not_allowed';
+  end if;
+  if p_kind = 'build' then
+    if p_action = 'hide' then
+      update builds set visibility = 'private' where id = p_target;
+    elsif p_action = 'delete' then
+      delete from builds where id = p_target;
+    end if;
+  elsif p_kind = 'comment' and p_action in ('hide', 'delete') then
+    update build_comments set deleted_at = now() where id = p_target and deleted_at is null;
+  end if;
+end; $$;
+revoke all on function moderate_content(text, uuid, text) from public;
+grant execute on function moderate_content(text, uuid, text) to authenticated;
+
+-- ── Notificaciones (M57) ─────────────────────────────────────────────
+-- Las crean triggers security definer (la RLS de notifications solo deja al
+-- dueño leer/escribir las suyas). Nunca se avisa de acciones propias, y el
+-- mismo aviso (tipo + autor + build/comentario) no se repite en 24 h, así
+-- dar y quitar like varias veces no llena la campanita.
+create or replace function push_notification(p_user uuid, p_type notification_type, p_actor uuid, p_build uuid, p_comment uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if p_user is null or p_actor is null or p_user = p_actor then return; end if;
+  if exists (
+    select 1 from notifications
+    where user_id = p_user and type = p_type and actor_id = p_actor
+      and build_id is not distinct from p_build and comment_id is not distinct from p_comment
+      and created_at > now() - interval '1 day'
+  ) then return; end if;
+  insert into notifications (user_id, type, actor_id, build_id, comment_id)
+  values (p_user, p_type, p_actor, p_build, p_comment);
+end; $$;
+revoke all on function push_notification(uuid, notification_type, uuid, uuid, uuid) from public;
+
+create or replace function notify_build_like() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification((select user_id from builds where id = NEW.build_id), 'build_liked', NEW.user_id, NEW.build_id, null);
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_like on build_likes;
+create trigger notify_on_build_like after insert on build_likes for each row execute procedure notify_build_like();
+
+create or replace function notify_build_comment() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification((select user_id from builds where id = NEW.build_id), 'build_commented', NEW.user_id, NEW.build_id, NEW.id);
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_comment on build_comments;
+create trigger notify_on_build_comment after insert on build_comments for each row execute procedure notify_build_comment();
+
+create or replace function notify_build_rating() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification((select user_id from builds where id = NEW.build_id), 'build_rated', NEW.user_id, NEW.build_id, null);
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_rating on build_ratings;
+create trigger notify_on_build_rating after insert on build_ratings for each row execute procedure notify_build_rating();
+
+-- Remix: avisa al autor del original, con link al remix (solo si no es privado)
+create or replace function notify_build_fork() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if NEW.fork_of is not null and NEW.visibility <> 'private' then
+    perform push_notification((select user_id from builds where id = NEW.fork_of), 'build_forked', NEW.user_id, NEW.id, null);
+  end if;
+  return null;
+end; $$;
+drop trigger if exists notify_on_build_fork on builds;
+create trigger notify_on_build_fork after insert on builds for each row execute procedure notify_build_fork();
+
+create or replace function notify_comment_like() returns trigger language plpgsql security definer set search_path = public as $$
+declare c record;
+begin
+  select user_id, build_id into c from build_comments where id = NEW.comment_id;
+  perform push_notification(c.user_id, 'comment_liked', NEW.user_id, c.build_id, NEW.comment_id);
+  return null;
+end; $$;
+drop trigger if exists notify_on_comment_like on comment_likes;
+create trigger notify_on_comment_like after insert on comment_likes for each row execute procedure notify_comment_like();
+
+create or replace function notify_follow() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform push_notification(NEW.following_id, 'new_follower', NEW.follower_id, null, null);
+  return null;
+end; $$;
+drop trigger if exists notify_on_follow on follows;
+create trigger notify_on_follow after insert on follows for each row execute procedure notify_follow();

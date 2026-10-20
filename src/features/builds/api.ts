@@ -190,6 +190,208 @@ export const setBuildTags = guard(async function setBuildTags(buildId: string, t
   return { error: error?.message ?? null }
 }, error => ({ error }))
 
+// ── Collections ──────────────────────────────────────────────────────────
+
+export type CollectionRow = {
+  id:          string
+  user_id:     string
+  name:        string
+  description: string | null
+  is_public:   boolean
+  updated_at:  string
+  build_count: number
+}
+
+const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, collection_builds(count)'
+
+function toCollection(row: Record<string, unknown>): CollectionRow {
+  const counted = row.collection_builds as { count: number }[] | undefined
+  return { ...(row as Omit<CollectionRow, 'build_count'>), build_count: counted?.[0]?.count ?? 0 }
+}
+
+/** The user's collections (all of them for the owner, public ones for anyone else via RLS). */
+export const fetchUserCollections = guard(async function fetchUserCollections(userId: string, publicOnly: boolean = false) {
+  const supabase = await getSupabase()
+  let query = supabase.from('collections').select(COLLECTION_COLUMNS).eq('user_id', userId).order('updated_at', { ascending: false })
+  if (publicOnly) query = query.eq('is_public', true)
+  const { data, error } = await query
+  return { data: (data ?? []).map(toCollection), error: error?.message ?? null }
+}, error => ({ data: [] as CollectionRow[], error }))
+
+export type CollectionDetail = CollectionRow & { profiles: Pick<BuildOwner, 'username' | 'display_name'> | null; builds: BuildRow[] }
+
+/** One collection with its owner and builds (builds the viewer can't see are dropped by RLS). */
+export const fetchCollection = guard(async function fetchCollection(id: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('collections')
+    .select(`${COLLECTION_COLUMNS}, profiles(username, display_name), entries:collection_builds(position, added_at, builds(${LIST_COLUMNS}))`)
+    .eq('id', id)
+    .maybeSingle()
+  if (error || !data) return { data: null, error: error?.message ?? null }
+  const row = data as unknown as Record<string, unknown> & { entries: { position: number; added_at: string; builds: BuildRow | null }[] }
+  const builds = [...row.entries]
+    .sort((a, b) => a.position - b.position || a.added_at.localeCompare(b.added_at))
+    .map(e => e.builds)
+    .filter((b): b is BuildRow => b != null)
+  return { data: { ...toCollection(row), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
+}, error => ({ data: null, error }))
+
+export const createCollection = guard(async function createCollection(userId: string, opts: { name: string; description?: string | null; isPublic: boolean }) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('collections')
+    .insert({ user_id: userId, name: opts.name, description: opts.description ?? null, is_public: opts.isPublic })
+    .select(COLLECTION_COLUMNS)
+    .single()
+  if (error || !data) return { data: null, error: error?.message ?? 'unknown' }
+  return { data: toCollection(data as Record<string, unknown>), error: null }
+}, error => ({ data: null, error }))
+
+export const updateCollection = guard(async function updateCollection(id: string, patch: { name?: string; description?: string | null; is_public?: boolean }) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('collections').update(patch).eq('id', id)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+export const deleteCollection = guard(async function deleteCollection(id: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('collections').delete().eq('id', id)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+/** Ids of the user's collections that already contain this build. */
+export const fetchCollectionsWithBuild = guard(async function fetchCollectionsWithBuild(userId: string, buildId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('collection_builds')
+    .select('collection_id, collections!inner(user_id)')
+    .eq('build_id', buildId)
+    .eq('collections.user_id', userId)
+  return new Set(((data ?? []) as { collection_id: string }[]).map(r => r.collection_id))
+}, () => new Set<string>())
+
+export const setBuildInCollection = guard(async function setBuildInCollection(collectionId: string, buildId: string, inCollection: boolean) {
+  const supabase = await getSupabase()
+  const { error } = inCollection
+    ? await supabase.from('collection_builds').upsert({ collection_id: collectionId, build_id: buildId }, { onConflict: 'collection_id,build_id', ignoreDuplicates: true })
+    : await supabase.from('collection_builds').delete().eq('collection_id', collectionId).eq('build_id', buildId)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+// ── Reports & moderation ─────────────────────────────────────────────────
+
+export type ReportReason = 'spam' | 'incorrect_data' | 'inappropriate' | 'other'
+export const REPORT_REASONS: ReportReason[] = ['spam', 'incorrect_data', 'inappropriate', 'other']
+export type ReportStatus = 'pending' | 'reviewed' | 'actioned' | 'dismissed'
+export type ReportTarget = { kind: 'build'; id: string } | { kind: 'comment'; id: string }
+
+/** Files a report. `duplicate` when this user already reported that target. */
+export const submitReport = guard(async function submitReport(reporterId: string, target: ReportTarget, reason: ReportReason, detail: string | null) {
+  const supabase = await getSupabase()
+  const row = { reporter_id: reporterId, reason, detail: detail?.trim() ? detail.trim().slice(0, 500) : null }
+  const { error } = target.kind === 'build'
+    ? await supabase.from('build_reports').insert({ ...row, build_id: target.id })
+    : await supabase.from('comment_reports').insert({ ...row, comment_id: target.id })
+  if (error?.code === '23505') return { error: 'duplicate' as const }
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+export type ReportRow = {
+  id:          string
+  kind:        'build' | 'comment'
+  reason:      ReportReason
+  detail:      string | null
+  status:      ReportStatus
+  created_at:  string
+  reporter:    { username: string } | null
+  build:       { id: string; name: string; visibility: BuildVisibility } | null
+  comment:     { id: string; content: string; build_id: string; deleted_at: string | null } | null
+}
+
+/** Moderation queue (moderators / admins only, enforced by RLS). */
+export const fetchReports = guard(async function fetchReports(status: ReportStatus) {
+  const supabase = await getSupabase()
+  const [builds, comments] = await Promise.all([
+    supabase
+      .from('build_reports')
+      .select('id, reason, detail, status, created_at, reporter:profiles!build_reports_reporter_id_fkey(username), build:builds(id, name, visibility)')
+      .eq('status', status)
+      .order('created_at', { ascending: false })
+      .limit(100),
+    supabase
+      .from('comment_reports')
+      .select('id, reason, detail, status, created_at, reporter:profiles!comment_reports_reporter_id_fkey(username), comment:build_comments(id, content, build_id, deleted_at)')
+      .eq('status', status)
+      .order('created_at', { ascending: false })
+      .limit(100),
+  ])
+  const rows: ReportRow[] = [
+    ...((builds.data ?? []) as unknown as Omit<ReportRow, 'kind' | 'comment'>[]).map(r => ({ ...r, kind: 'build' as const, comment: null })),
+    ...((comments.data ?? []) as unknown as Omit<ReportRow, 'kind' | 'build'>[]).map(r => ({ ...r, kind: 'comment' as const, build: null })),
+  ].sort((a, b) => b.created_at.localeCompare(a.created_at))
+  return { data: rows, error: builds.error?.message ?? null, commentsError: comments.error?.message ?? null }
+}, error => ({ data: [] as ReportRow[], error, commentsError: null as string | null }))
+
+export const setReportStatus = guard(async function setReportStatus(report: Pick<ReportRow, 'id' | 'kind'>, status: ReportStatus, reviewerId: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase
+    .from(report.kind === 'build' ? 'build_reports' : 'comment_reports')
+    .update({ status, reviewed_by: reviewerId, reviewed_at: new Date().toISOString() })
+    .eq('id', report.id)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+/** Hides (build → private, comment → soft-deleted) or deletes reported content. */
+export const moderateContent = guard(async function moderateContent(kind: 'build' | 'comment', targetId: string, action: 'hide' | 'delete') {
+  const supabase = await getSupabase()
+  const { error } = await supabase.rpc('moderate_content', { p_kind: kind, p_target: targetId, p_action: action })
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+// ── Notifications ────────────────────────────────────────────────────────
+
+export type NotificationType = 'build_liked' | 'build_commented' | 'build_rated' | 'build_forked' | 'comment_liked' | 'comment_replied' | 'new_follower'
+
+export type NotificationRow = {
+  id:         string
+  type:       NotificationType
+  read:       boolean
+  created_at: string
+  actor:      { username: string; avatar_url: string | null } | null
+  build:      { id: string; name: string } | null
+}
+
+export const fetchUnreadNotificationCount = guard(async function fetchUnreadNotificationCount(userId: string) {
+  const supabase = await getSupabase()
+  const { count } = await supabase
+    .from('notifications')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('read', false)
+  return count ?? 0
+}, () => 0)
+
+export const fetchNotifications = guard(async function fetchNotifications(userId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('notifications')
+    .select('id, type, read, created_at, actor:profiles!notifications_actor_id_fkey(username, avatar_url), build:builds(id, name)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(30)
+  return (data ?? []) as unknown as NotificationRow[]
+}, () => [] as NotificationRow[])
+
+/** Marks the given notifications (or all unread ones) as read. */
+export const markNotificationsRead = guard(async function markNotificationsRead(userId: string, ids?: string[]) {
+  const supabase = await getSupabase()
+  let query = supabase.from('notifications').update({ read: true }).eq('user_id', userId).eq('read', false)
+  if (ids) query = query.in('id', ids)
+  const { error } = await query
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
 export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
 
 /** Name + owner of a build (the original a remix points to). null when it

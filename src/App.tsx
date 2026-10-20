@@ -15,6 +15,8 @@ import { langPathRootSegment } from './i18n/langPath.ts'
 const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => ({ default: m.ExplorePage })))
 const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m => ({ default: m.BuildDetailPage })))
 const MyBuildsPage    = lazy(() => import('./pages/MyBuildsPage.tsx').then(m => ({ default: m.MyBuildsPage })))
+const CollectionPage  = lazy(() => import('./pages/CollectionPage.tsx').then(m => ({ default: m.CollectionPage })))
+const AdminReportsPage = lazy(() => import('./pages/AdminReportsPage.tsx').then(m => ({ default: m.AdminReportsPage })))
 const AboutPage       = lazy(() => import('./pages/AboutPage.tsx').then(m => ({ default: m.AboutPage })))
 const HowToUsePage    = lazy(() => import('./pages/HowToUsePage.tsx').then(m => ({ default: m.HowToUsePage })))
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage.tsx').then(m => ({ default: m.PrivacyPolicyPage })))
@@ -110,6 +112,7 @@ const LANG_SUB_ROUTES = (
     <Route path="explore" element={<Suspense fallback={null}><ExplorePage /></Suspense>} />
     <Route path="build/:id" element={<Suspense fallback={null}><BuildDetailPage /></Suspense>} />
     <Route path="my-builds" element={<Suspense fallback={null}><MyBuildsPage /></Suspense>} />
+    <Route path="c/:id" element={<Suspense fallback={null}><CollectionPage /></Suspense>} />
     <Route path="about" element={<Suspense fallback={null}><AboutPage /></Suspense>} />
     <Route path="how-to-use" element={<Suspense fallback={null}><HowToUsePage /></Suspense>} />
     <Route path="privacy" element={<Suspense fallback={null}><PrivacyPolicyPage /></Suspense>} />
@@ -119,6 +122,7 @@ const LANG_SUB_ROUTES = (
     <Route path="account" element={<Suspense fallback={null}><AccountPage /></Suspense>} />
     <Route path="admin" element={<Suspense fallback={null}><AdminDashboardPage /></Suspense>} />
     <Route path="admin/ranks" element={<AdminRanksRoute />} />
+    <Route path="admin/reports" element={<Suspense fallback={null}><AdminReportsPage /></Suspense>} />
   </>
 )
 

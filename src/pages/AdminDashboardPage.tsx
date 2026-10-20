@@ -1,6 +1,6 @@
 import { Navigate, Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, Award, BadgeCheck, ChevronRight, History, LockKeyhole, ShieldCheck, UserPlus } from 'lucide-react'
+import { ArrowRight, Award, BadgeCheck, ChevronRight, Flag, History, LockKeyhole, ShieldCheck, UserPlus } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
@@ -146,6 +146,23 @@ export function AdminDashboardPage() {
                     {t('admin_hub_open')} <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
+              </Link>
+
+              <Link
+                to={`/${prefix}admin/reports`}
+                className="group flex items-center gap-4 rounded-xl p-4 sm:p-5 transition-all duration-200 hover:-translate-y-0.5"
+                style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', boxShadow: 'var(--inset-bevel)', textDecoration: 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--gold) 52%, transparent)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--metal-edge)' }}
+              >
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 12%, var(--surface-void))', border: '1px solid color-mix(in srgb, var(--gold) 30%, transparent)' }}>
+                  <Flag size={22} strokeWidth={1.8} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display text-base sm:text-lg font-bold" style={{ color: 'var(--ink)' }}>{t('admin_reports_title')}</h3>
+                  <p className="mt-1 text-xs leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{t('admin_hub_reports_description')}</p>
+                </div>
+                <ArrowRight size={16} className="flex-shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: 'var(--ink-muted)' }} />
               </Link>
             </section>
 

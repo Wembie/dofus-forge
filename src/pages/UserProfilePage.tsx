@@ -10,11 +10,12 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
+import { CollectionGrid } from '@/features/collections/Collections.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
 import { fetchPublicCustomRank } from '@/features/ranks/api.ts'
 import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
 import {
-  fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount,
+  fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount, fetchUserCollections, type CollectionRow,
   fetchIsFollowing, followUser, unfollowUser, fetchMembershipTier,
   type PublicProfile, type BuildRow, type MembershipTier,
 } from '@/features/builds/api.ts'
@@ -63,6 +64,7 @@ export function UserProfilePage() {
   const isOwnProfile = session?.user.id === profile?.id
 
   const [builds, setBuilds]         = useState<BuildRow[]>([])
+  const [collections, setCollections] = useState<CollectionRow[]>([])
   const [page, setPage]             = useState(0)
   const [total, setTotal]           = useState(0)
   const [buildsLoading, setBuildsLoading] = useState(false)
@@ -83,6 +85,7 @@ export function UserProfilePage() {
       fetchPublicCommentCount(data.id).then(c => { if (!cancelled) setCommentCount(c.count) })
       fetchMembershipTier(data.id).then(t => { if (!cancelled) setTier(t) })
       fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
+      fetchUserCollections(data.id, true).then(({ data: list }) => { if (!cancelled) setCollections(list) })
       if (session && session.user.id !== data.id) {
         fetchIsFollowing(session.user.id, data.id).then(r => { if (!cancelled) setIsFollowing(r.following) })
       }
@@ -231,6 +234,15 @@ export function UserProfilePage() {
           <StatCard Icon={Heart}         value={stats.likeCount}  label={t('profile_likes_received')} />
           <StatCard Icon={MessageSquare} value={commentCount}     label={t('profile_comments_posted')} />
         </div>
+
+        {collections.length > 0 && (
+          <div className="space-y-3">
+            <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
+              {t('profile_collections_title', { username: name })}
+            </h2>
+            <CollectionGrid collections={collections} />
+          </div>
+        )}
 
         {/* Public builds — paginated, same fetchPublicBuilds/page size Explore uses */}
         <div className="space-y-4">
