@@ -16,6 +16,7 @@ const ExplorePage     = lazy(() => import('./pages/ExplorePage.tsx').then(m => (
 const BuildDetailPage = lazy(() => import('./pages/BuildDetailPage.tsx').then(m => ({ default: m.BuildDetailPage })))
 const MyBuildsPage    = lazy(() => import('./pages/MyBuildsPage.tsx').then(m => ({ default: m.MyBuildsPage })))
 const CollectionPage  = lazy(() => import('./pages/CollectionPage.tsx').then(m => ({ default: m.CollectionPage })))
+const AdminReportsPage = lazy(() => import('./pages/AdminReportsPage.tsx').then(m => ({ default: m.AdminReportsPage })))
 const AboutPage       = lazy(() => import('./pages/AboutPage.tsx').then(m => ({ default: m.AboutPage })))
 const HowToUsePage    = lazy(() => import('./pages/HowToUsePage.tsx').then(m => ({ default: m.HowToUsePage })))
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage.tsx').then(m => ({ default: m.PrivacyPolicyPage })))
@@ -121,6 +122,7 @@ const LANG_SUB_ROUTES = (
     <Route path="account" element={<Suspense fallback={null}><AccountPage /></Suspense>} />
     <Route path="admin" element={<Suspense fallback={null}><AdminDashboardPage /></Suspense>} />
     <Route path="admin/ranks" element={<AdminRanksRoute />} />
+    <Route path="admin/reports" element={<Suspense fallback={null}><AdminReportsPage /></Suspense>} />
   </>
 )
 

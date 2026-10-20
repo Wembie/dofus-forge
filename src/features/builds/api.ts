@@ -279,6 +279,76 @@ export const setBuildInCollection = guard(async function setBuildInCollection(co
   return { error: error?.message ?? null }
 }, error => ({ error }))
 
+// ── Reports & moderation ─────────────────────────────────────────────────
+
+export type ReportReason = 'spam' | 'incorrect_data' | 'inappropriate' | 'other'
+export const REPORT_REASONS: ReportReason[] = ['spam', 'incorrect_data', 'inappropriate', 'other']
+export type ReportStatus = 'pending' | 'reviewed' | 'actioned' | 'dismissed'
+export type ReportTarget = { kind: 'build'; id: string } | { kind: 'comment'; id: string }
+
+/** Files a report. `duplicate` when this user already reported that target. */
+export const submitReport = guard(async function submitReport(reporterId: string, target: ReportTarget, reason: ReportReason, detail: string | null) {
+  const supabase = await getSupabase()
+  const row = { reporter_id: reporterId, reason, detail: detail?.trim() ? detail.trim().slice(0, 500) : null }
+  const { error } = target.kind === 'build'
+    ? await supabase.from('build_reports').insert({ ...row, build_id: target.id })
+    : await supabase.from('comment_reports').insert({ ...row, comment_id: target.id })
+  if (error?.code === '23505') return { error: 'duplicate' as const }
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+export type ReportRow = {
+  id:          string
+  kind:        'build' | 'comment'
+  reason:      ReportReason
+  detail:      string | null
+  status:      ReportStatus
+  created_at:  string
+  reporter:    { username: string } | null
+  build:       { id: string; name: string; visibility: BuildVisibility } | null
+  comment:     { id: string; content: string; build_id: string; deleted_at: string | null } | null
+}
+
+/** Moderation queue (moderators / admins only, enforced by RLS). */
+export const fetchReports = guard(async function fetchReports(status: ReportStatus) {
+  const supabase = await getSupabase()
+  const [builds, comments] = await Promise.all([
+    supabase
+      .from('build_reports')
+      .select('id, reason, detail, status, created_at, reporter:profiles!build_reports_reporter_id_fkey(username), build:builds(id, name, visibility)')
+      .eq('status', status)
+      .order('created_at', { ascending: false })
+      .limit(100),
+    supabase
+      .from('comment_reports')
+      .select('id, reason, detail, status, created_at, reporter:profiles!comment_reports_reporter_id_fkey(username), comment:build_comments(id, content, build_id, deleted_at)')
+      .eq('status', status)
+      .order('created_at', { ascending: false })
+      .limit(100),
+  ])
+  const rows: ReportRow[] = [
+    ...((builds.data ?? []) as unknown as Omit<ReportRow, 'kind' | 'comment'>[]).map(r => ({ ...r, kind: 'build' as const, comment: null })),
+    ...((comments.data ?? []) as unknown as Omit<ReportRow, 'kind' | 'build'>[]).map(r => ({ ...r, kind: 'comment' as const, build: null })),
+  ].sort((a, b) => b.created_at.localeCompare(a.created_at))
+  return { data: rows, error: builds.error?.message ?? null, commentsError: comments.error?.message ?? null }
+}, error => ({ data: [] as ReportRow[], error, commentsError: null as string | null }))
+
+export const setReportStatus = guard(async function setReportStatus(report: Pick<ReportRow, 'id' | 'kind'>, status: ReportStatus, reviewerId: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase
+    .from(report.kind === 'build' ? 'build_reports' : 'comment_reports')
+    .update({ status, reviewed_by: reviewerId, reviewed_at: new Date().toISOString() })
+    .eq('id', report.id)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+/** Hides (build → private, comment → soft-deleted) or deletes reported content. */
+export const moderateContent = guard(async function moderateContent(kind: 'build' | 'comment', targetId: string, action: 'hide' | 'delete') {
+  const supabase = await getSupabase()
+  const { error } = await supabase.rpc('moderate_content', { p_kind: kind, p_target: targetId, p_action: action })
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
 export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
 
 /** Name + owner of a build (the original a remix points to). null when it

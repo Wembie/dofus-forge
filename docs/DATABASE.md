@@ -824,6 +824,20 @@ create table build_reports (
   created_at   timestamptz default now(),
   unique (reporter_id, build_id)
 );
+
+-- Reportes de comentarios (M58): mismo modelo que build_reports
+create table comment_reports (
+  id           uuid primary key default gen_random_uuid(),
+  reporter_id  uuid not null references profiles(id) on delete cascade,
+  comment_id   uuid not null references build_comments(id) on delete cascade,
+  reason       report_reason not null,
+  detail       text check (detail is null or char_length(detail) <= 500),
+  status       report_status not null default 'pending',
+  reviewed_by  uuid references profiles(id),
+  reviewed_at  timestamptz,
+  created_at   timestamptz default now(),
+  unique (reporter_id, comment_id)
+);
 ```
 
 ---
@@ -924,6 +938,7 @@ alter table build_reports     enable row level security;
 alter table build_tags        enable row level security;
 alter table tags              enable row level security;
 alter table slug_redirects    enable row level security;
+alter table comment_reports   enable row level security;
 
 -- Profiles: lectura pública
 create policy "profiles public read" on profiles for select using (true);
@@ -1025,6 +1040,12 @@ create policy "reports insert" on build_reports for insert
 create policy "reports admin read" on build_reports for select
   using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 create policy "reports admin update" on build_reports for update
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+create policy "creports insert" on comment_reports for insert
+  with check (auth.uid() = reporter_id);
+create policy "creports mod read" on comment_reports for select
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+create policy "creports mod update" on comment_reports for update
   using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 
 -- Tags: lectura pública; escritura solo moderadores/admins
@@ -2104,6 +2125,54 @@ drop policy if exists "col_builds write" on collection_builds;
 create policy "col_builds write" on collection_builds for all
   using (exists (select 1 from collections where id = collection_id and auth.uid() = user_id))
   with check (exists (select 1 from collections where id = collection_id and auth.uid() = user_id));
+
+-- M58: reportes de comentarios + acciones de moderación
+create table if not exists comment_reports (
+  id           uuid primary key default gen_random_uuid(),
+  reporter_id  uuid not null references profiles(id) on delete cascade,
+  comment_id   uuid not null references build_comments(id) on delete cascade,
+  reason       report_reason not null,
+  detail       text check (detail is null or char_length(detail) <= 500),
+  status       report_status not null default 'pending',
+  reviewed_by  uuid references profiles(id),
+  reviewed_at  timestamptz,
+  created_at   timestamptz default now(),
+  unique (reporter_id, comment_id)
+);
+alter table comment_reports enable row level security;
+create index if not exists idx_comment_reports_pending on comment_reports(status) where status = 'pending';
+grant select, insert, update on comment_reports to authenticated;
+
+drop policy if exists "creports insert" on comment_reports;
+create policy "creports insert" on comment_reports for insert
+  with check (auth.uid() = reporter_id);
+drop policy if exists "creports mod read" on comment_reports;
+create policy "creports mod read" on comment_reports for select
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+drop policy if exists "creports mod update" on comment_reports;
+create policy "creports mod update" on comment_reports for update
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+
+-- Ocultar / borrar contenido reportado. security definer: el moderador no es
+-- dueño del build/comentario, así que las políticas normales no lo dejarían.
+create or replace function moderate_content(p_kind text, p_target uuid, p_action text)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')) then
+    raise exception 'not_allowed';
+  end if;
+  if p_kind = 'build' then
+    if p_action = 'hide' then
+      update builds set visibility = 'private' where id = p_target;
+    elsif p_action = 'delete' then
+      delete from builds where id = p_target;
+    end if;
+  elsif p_kind = 'comment' and p_action in ('hide', 'delete') then
+    update build_comments set deleted_at = now() where id = p_target and deleted_at is null;
+  end if;
+end; $$;
+revoke all on function moderate_content(text, uuid, text) from public;
+grant execute on function moderate_content(text, uuid, text) to authenticated;
 
 commit;
 ```

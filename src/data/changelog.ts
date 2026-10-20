@@ -18,6 +18,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Feature: like comments on build pages',
       'Feature: version history for published builds — open or restore any of the last 20 versions',
       'Feature: collections — group builds (yours or others\') into folders, public ones show on your profile',
+      'Feature: report builds and comments from a form; moderators review the queue and hide or delete content',
     ],
   },
   {
