@@ -39,15 +39,16 @@ BONES = ['1-static', '1-movement']
 CREATURE_ANIMS = re.compile(r'^Anim(Statique|Marche|Course)_\d$')
 CREATURE_LOOK = re.compile(r'^\{(\d+)\|\|\|(\d+)\}$')
 MOUNT_LOOK = re.compile(r'^\{(\d+)\|\|([\d=,]*)\|(\d+)\}$')
-NEUTRAL_TINT = 0x808080  # overlay with mid gray leaves a part as authored
+NEUTRAL_TINT = 0x808080  # tint at 50% gray leaves a part as authored
 RIDER_BONE = '2'
 
 # Creatures whose bone has tinted parts but whose look carries no palette:
-# colors sampled from the item icon (slot N -> index N-1, gray = untouched).
+# colors fitted so the render matches the item icon (slot N -> index N-1;
+# a tinted part shows its palette color at 50% gray, 0x808080 = untouched).
 PET_COLORS = {
-    13673: [0x808080, 0x808080, 0xd7a24c, 0x978f3e],  # Snailmate
-    13661: [0x808080, 0x808080, 0x73b99c],            # Kraxiste
-    13667: [0x808080, 0x808080, 0x9dc6b6, 0xd33a2c],  # Bulbeskeje
+    13673: [0x808080, 0x808080, 0xb06a20, 0x5e582d],  # Snailmate
+    13661: [0x808080, 0x808080, 0x5a8f7a],            # Kraxiste
+    13667: [0x808080, 0x808080, 0x8fb4a6, 0xc0302a],  # Bulbeskeje
 }
 
 # Pets with no npc/monster of the same name: matched by eye, every candidate
@@ -76,7 +77,7 @@ PET_SCALE = 80  # typical look scale of pet npcs (60-130)
 PETSMOUNTS = {
     12541: {'bone': '1659'},   # Dragrillado
     12963: {'bone': '1834'},   # Dekarbon
-    13182: {'bone': '1792', 'colors': [0x636319, 0x908c30]},  # Kramkram
+    13182: {'bone': '1792', 'colors': [0x565615, 0x7d7828]},  # Kramkram
     13465: {'bone': '1990'},   # Sakequero
     13603: {'bone': '2013'},   # Suskrofa
     14827: {'bone': '2440'},   # Kwalteza

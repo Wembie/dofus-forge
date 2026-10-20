@@ -8,7 +8,8 @@ import { isSafeImageUrl } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { BuildEquipmentPreview } from './BuildEquipmentPreview.tsx'
-import type { BuildRow } from './api.ts'
+import { buildTags, type BuildRow } from './api.ts'
+import { TagChip } from './TagChips.tsx'
 
 export function BuildCard({ build }: { build: BuildRow }) {
   const { t, i18n } = useTranslation()
@@ -83,6 +84,12 @@ export function BuildCard({ build }: { build: BuildRow }) {
             <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
           </div>
         </div>
+
+        {buildTags(build).length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {buildTags(build).slice(0, 3).map(tag => <TagChip key={tag.id} tag={tag} small />)}
+          </div>
+        )}
 
         <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
 

@@ -47,6 +47,9 @@ export interface BuildState {
    * updates that same row instead of always inserting a new one. Cleared on
    * reset() or when loading someone else's build. */
   linkedBuildId: string | null
+  /** Public build this one was remixed from (someone else's, opened with
+   * Remix): recorded as builds.fork_of when it's published as a new build. */
+  forkOf:        string | null
   allocated:     AllocatedCharacteristics
   scrolled:      ScrolledCharacteristics
   /** Stores only ankama_id per slot — decoupled from data load state */
@@ -95,6 +98,7 @@ export interface BuildState {
   setScrolled:         (scrolled: ScrolledCharacteristics) => void
   applySnapshot:       (snap: BuildSnapshot) => void
   setLinkedBuildId:    (id: string | null) => void
+  setForkOf:           (id: string | null) => void
   reset:         () => void
 }
 
@@ -159,6 +163,7 @@ export const useBuildStore = create<BuildState>((set) => {
     level:            200,
     gender:           'male',
     linkedBuildId:    null,
+    forkOf:           null,
     allocated:        { ...ZERO_ALLOC },
     scrolled:         { ...NO_SCROLLS },
     equipped:          {},
@@ -357,10 +362,11 @@ export const useBuildStore = create<BuildState>((set) => {
       // Loading a snapshot (shared link, My Builds, someone else's build)
       // clears any previous cloud link — the caller re-sets it via
       // setLinkedBuildId() right after, only when it actually knows the id.
-      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
+      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
     }),
 
     setLinkedBuildId: (id) => set({ linkedBuildId: id }),
+    setForkOf:        (id) => set({ forkOf: id }),
 
     reset: () => set(s => ({
       selectedClass:    null,
@@ -368,6 +374,7 @@ export const useBuildStore = create<BuildState>((set) => {
       level:            200,
       gender:           'male',
       linkedBuildId:    null,
+    forkOf:           null,
       allocated:        { ...ZERO_ALLOC },
       scrolled:         { ...NO_SCROLLS },
       equipped:          {},

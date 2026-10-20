@@ -8,6 +8,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.109',
+    date: '2026-10-19',
+    notes: [
+      'Fix: the animated character now has the same hair, skin and clothes colors as in the game (they came out duller and darker)',
+      'Fix: Snailmate, Snickermite, Bulbutting and Karmeleon colors match their icons',
+      'Feature: Remix someone else\'s public build — your copy stays linked to the original and credits its author; builds show their remixes',
+      'Feature: tag your builds (up to 5) and filter Explore by tag',
+      'Feature: like comments on build pages',
+      'Feature: version history for published builds — open or restore any of the last 20 versions',
+    ],
+  },
+  {
     version: '0.3.108',
     date: '2026-10-19',
     notes: [

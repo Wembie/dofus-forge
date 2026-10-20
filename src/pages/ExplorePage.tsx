@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
@@ -8,6 +9,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { fetchPublicBuilds, fetchCommunityStats, type BuildRow, type ExploreSort, type CommunityStats } from '@/features/builds/api.ts'
+import { TagChip, useTags } from '@/features/builds/TagChips.tsx'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
@@ -84,6 +86,16 @@ export function ExplorePage() {
   })
   const [sort, setSort]           = useState<ExploreSort>('rating')
   const [classSlug, setClassSlug] = useState<string | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tags    = useTags()
+  const tagName = searchParams.get('tag')
+  const tagId   = tags.find(tag => tag.name === tagName)?.id ?? null
+  const selectTag = (name: string | null) => {
+    const next = new URLSearchParams(searchParams)
+    if (name) next.set('tag', name)
+    else next.delete('tag')
+    setSearchParams(next, { replace: true })
+  }
   const [search, setSearch]       = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
   const [builds, setBuilds]       = useState<BuildRow[]>([])
@@ -102,17 +114,21 @@ export function ExplorePage() {
   const load = useCallback(async (nextPage: number, reset: boolean) => {
     setLoading(true)
     setError(false)
-    const { data, error: err, count } = await fetchPublicBuilds({ classSlug, sort, search: debouncedSearch, page: nextPage })
+    const { data, error: err, count } = await fetchPublicBuilds({ classSlug, tagId, sort, search: debouncedSearch, page: nextPage })
     setLoading(false)
     if (err) { setError(true); return }
     setTotal(count)
     setBuilds(prev => reset ? data : [...prev, ...data])
-  }, [classSlug, sort, debouncedSearch])
+  }, [classSlug, tagId, sort, debouncedSearch])
+
+  // A ?tag= link waits for the tag catalog, so it doesn't first list everything.
+  const tagPending = tagName != null && tags.length === 0
 
   useEffect(() => {
+    if (tagPending) return
     setPage(0)
     load(0, true)
-  }, [load])
+  }, [load, tagPending])
 
   const sortLabels = SORT_ITEMS.map(item => ({ ...item, label: t(item.label) }))
 
@@ -154,6 +170,25 @@ export function ExplorePage() {
             ))}
           </select>
         </div>
+
+        {tags.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={t('explore_tags_label')}>
+            <button
+              type="button"
+              onClick={() => selectTag(null)}
+              aria-pressed={tagId == null}
+              className="text-[11px] font-semibold rounded-full px-2 py-0.5 transition-colors"
+              style={tagId == null
+                ? { color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 14%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 50%, transparent)' }
+                : { color: 'var(--ink-faint)', background: 'transparent', border: '1px solid var(--metal-edge)' }}
+            >
+              {t('explore_tag_all')}
+            </button>
+            {tags.map(tag => (
+              <TagChip key={tag.id} tag={tag} active={tag.id === tagId} onClick={() => selectTag(tag.id === tagId ? null : tag.name)} />
+            ))}
+          </div>
+        )}
 
         {error && (
           <p className="text-sm text-center py-10" style={{ color: 'var(--negative)' }}>{t('explore_error')}</p>

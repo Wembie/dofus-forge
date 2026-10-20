@@ -10,6 +10,9 @@ export type BuildOwner = {
   avatar_url:   string | null
 }
 
+export type TagCategory = 'playstyle' | 'element' | 'general'
+export type Tag = { id: number; name: string; category: TagCategory }
+
 export type BuildRow = {
   id:            string
   name:          string
@@ -25,9 +28,18 @@ export type BuildRow = {
   comment_count: number
   created_at:    string
   user_id:       string
+  fork_of:       string | null
   snapshot:      BuildSnapshot
   profiles:      BuildOwner | null
+  build_tags?:   { tags: Tag | null }[]
 }
+
+export function buildTags(build: Pick<BuildRow, 'build_tags'>): Tag[] {
+  return (build.build_tags ?? []).map(bt => bt.tags).filter((tag): tag is Tag => tag != null)
+}
+
+/** Most tags a build can carry: enough to describe it, few enough to scan. */
+export const MAX_BUILD_TAGS = 5
 
 export type BuildDetailRow = BuildRow
 
@@ -37,7 +49,7 @@ export type BuildDetailRow = BuildRow
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
 // `snapshot` included even in the list query — Explore/My Builds cards show
 // equipment icons, not just text, so they need it up front too.
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
+const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
 
 // Each function below reports failures as an `error` value. Supabase already
 // does that for failed requests, but getSupabase() itself can still reject
@@ -61,17 +73,20 @@ const SORT_COLUMN: Record<ExploreSort, string> = {
   views:  'view_count',
 }
 
-export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
+export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; tagId?: number | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
   const supabase  = await getSupabase()
   const pageSize  = opts.pageSize ?? 24
   const from      = opts.page * pageSize
   const to        = from + pageSize - 1
   let query = supabase
     .from('builds')
-    .select(LIST_COLUMNS, { count: 'exact' })
+    // A second, aliased !inner embed filters by tag without trimming the
+    // build_tags list each card displays.
+    .select(opts.tagId ? `${LIST_COLUMNS}, filter_tag:build_tags!inner(tag_id)` : LIST_COLUMNS, { count: 'exact' })
     .eq('visibility', 'public')
     .order(SORT_COLUMN[opts.sort], { ascending: false })
     .range(from, to)
+  if (opts.tagId) query = query.eq('filter_tag.tag_id', opts.tagId)
   if (opts.classSlug) query = query.eq('class_slug', opts.classSlug)
   if (opts.userId) query = query.eq('user_id', opts.userId)
   // `builds.search_vector` is a generated+indexed tsvector column (idx_builds_search,
@@ -117,6 +132,7 @@ export const publishBuild = guard(async function publishBuild(opts: {
   level:       number
   gameVersion: string
   snapshot:    BuildSnapshot
+  forkOf?:     string | null
 }) {
   const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
@@ -136,12 +152,118 @@ export const publishBuild = guard(async function publishBuild(opts: {
       level:        opts.level,
       visibility:   opts.visibility,
       snapshot:     opts.snapshot,
+      fork_of:      opts.forkOf ?? null,
     })
     .select('id, slug')
     .single()
   if (error) return { data: null, error: error.message }
   return { data: data as { id: string; slug: string | null }, error: null }
 }, error => ({ data: null, error }))
+
+let tagsPromise: Promise<Tag[]> | null = null
+
+/** The tag catalog (seeded, moderator-managed): fetched once per session. */
+export function fetchTags(): Promise<Tag[]> {
+  if (!tagsPromise) {
+    tagsPromise = getSupabase()
+      .then(supabase => supabase.from('tags').select('id, name, category').order('id'))
+      .then(({ data, error }) => {
+        if (error) throw error
+        return (data ?? []) as Tag[]
+      })
+      .catch(() => {
+        tagsPromise = null
+        return []
+      })
+  }
+  return tagsPromise
+}
+
+/** Replaces a build's tags (owner only, enforced by RLS on build_tags). */
+export const setBuildTags = guard(async function setBuildTags(buildId: string, tagIds: number[]) {
+  const supabase = await getSupabase()
+  const { error: delError } = await supabase.from('build_tags').delete().eq('build_id', buildId)
+  if (delError) return { error: delError.message }
+  if (tagIds.length === 0) return { error: null }
+  const rows = tagIds.slice(0, MAX_BUILD_TAGS).map(tag_id => ({ build_id: buildId, tag_id }))
+  const { error } = await supabase.from('build_tags').insert(rows)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
+
+/** Name + owner of a build (the original a remix points to). null when it
+ * was deleted or is private to someone else (RLS hides it). */
+export const fetchBuildSummary = guard(async function fetchBuildSummary(id: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('builds')
+    .select('id, name, profiles!builds_user_id_fkey(username, display_name)')
+    .eq('id', id)
+    .maybeSingle()
+  return (data as unknown as BuildSummary | null) ?? null
+}, () => null)
+
+/** Public remixes of a build, newest first, plus their total count. */
+export const fetchForks = guard(async function fetchForks(buildId: string, limit: number = 6) {
+  const supabase = await getSupabase()
+  const { data, error, count } = await supabase
+    .from('builds')
+    .select(LIST_COLUMNS, { count: 'exact' })
+    .eq('fork_of', buildId)
+    .eq('visibility', 'public')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  return { data: (data ?? []) as unknown as BuildRow[], count: count ?? 0, error: error?.message ?? null }
+}, error => ({ data: [] as BuildRow[], count: 0, error }))
+
+/** Versions kept per build in build_snapshots; older ones are pruned. */
+export const HISTORY_LIMIT = 20
+
+// jsonb doesn't keep key order, so compare snapshots with sorted keys.
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`
+  if (value && typeof value === 'object') {
+    const obj = value as Record<string, unknown>
+    return `{${Object.keys(obj).sort().filter(k => obj[k] !== undefined).map(k => `${JSON.stringify(k)}:${stableJson(obj[k])}`).join(',')}}`
+  }
+  return JSON.stringify(value)
+}
+
+// Saves the build's current snapshot as a history version before it gets
+// overwritten. Best effort: a failure here never blocks the update itself.
+async function archiveCurrentVersion(buildId: string, next: BuildSnapshot) {
+  try {
+    const supabase = await getSupabase()
+    const { data: current } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
+    if (!current || stableJson(current.snapshot) === stableJson(next)) return
+    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: current.snapshot, label: current.name })
+    if (error) return
+    const { data: stale } = await supabase
+      .from('build_snapshots')
+      .select('id')
+      .eq('build_id', buildId)
+      .order('created_at', { ascending: false })
+      .range(HISTORY_LIMIT, HISTORY_LIMIT + 50)
+    if (stale && stale.length > 0) await supabase.from('build_snapshots').delete().in('id', stale.map(r => r.id))
+  } catch {
+    /* history only */
+  }
+}
+
+export type BuildVersion = { id: string; label: string | null; created_at: string; snapshot: BuildSnapshot }
+
+/** Previous versions of a build, newest first (readable wherever the build is). */
+export const fetchBuildHistory = guard(async function fetchBuildHistory(buildId: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('build_snapshots')
+    .select('id, label, created_at, snapshot')
+    .eq('build_id', buildId)
+    .order('created_at', { ascending: false })
+    .limit(HISTORY_LIMIT)
+  return { data: (data ?? []) as BuildVersion[], error: error?.message ?? null }
+}, error => ({ data: [] as BuildVersion[], error }))
 
 export const updateBuild = guard(async function updateBuild(buildId: string, opts: {
   name:        string
@@ -152,6 +274,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   gameVersion: string
   snapshot:    BuildSnapshot
 }) {
+  await archiveCurrentVersion(buildId, opts.snapshot)
   const supabase = await getSupabase()
   const { error } = await supabase
     .from('builds')
@@ -276,6 +399,7 @@ export const rateBuild = guard(async function rateBuild(buildId: string, userId:
 
 export type CommentRow = {
   id:         string
+  like_count: number
   content:    string
   created_at: string
   user_id:    string
@@ -288,12 +412,32 @@ export const fetchComments = guard(async function fetchComments(buildId: string)
     .from('build_comments')
     // Explicit FK name — same PGRST201 ambiguity risk as LIST_COLUMNS above
     // (comment_likes joins build_comments to profiles as a second path).
-    .select('id, content, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
+    .select('id, content, like_count, created_at, user_id, profiles!build_comments_user_id_fkey(username, display_name, avatar_url)')
     .eq('build_id', buildId)
     .is('deleted_at', null)
     .order('created_at', { ascending: true })
   return { data: (data ?? []) as unknown as CommentRow[], error: error?.message ?? null }
 }, error => ({ data: [] as CommentRow[], error }))
+
+/** Ids of this build's comments the user has liked (comment_likes RLS
+ * only exposes the user's own rows; the totals live in like_count). */
+export const fetchMyCommentLikes = guard(async function fetchMyCommentLikes(buildId: string, userId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('comment_likes')
+    .select('comment_id, build_comments!inner(build_id)')
+    .eq('user_id', userId)
+    .eq('build_comments.build_id', buildId)
+  return new Set(((data ?? []) as { comment_id: string }[]).map(r => r.comment_id))
+}, () => new Set<string>())
+
+export const toggleCommentLike = guard(async function toggleCommentLike(commentId: string, userId: string, currentlyLiked: boolean) {
+  const supabase = await getSupabase()
+  const { error } = currentlyLiked
+    ? await supabase.from('comment_likes').delete().eq('comment_id', commentId).eq('user_id', userId)
+    : await supabase.from('comment_likes').insert({ comment_id: commentId, user_id: userId })
+  return { error: error?.message ?? null }
+}, error => ({ error }))
 
 export const postComment = guard(async function postComment(buildId: string, userId: string, content: string) {
   const supabase = await getSupabase()
