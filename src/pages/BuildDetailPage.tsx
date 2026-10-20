@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork } from 'lucide-react'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -35,7 +35,8 @@ import {
   fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
   fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
-  type BuildDetailRow, type CommentRow,
+  fetchBuildSummary, fetchForks,
+  type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
 
 function StarRating({ value, onRate, disabled }: { value: number; onRate: (n: number) => void; disabled: boolean }) {
@@ -76,6 +77,9 @@ export function BuildDetailPage() {
   const [myRating, setMyRating]   = useState<number | null>(null)
 
   const [comments, setComments]         = useState<CommentRow[]>([])
+  // undefined = not loaded / not a remix, null = original no longer visible
+  const [forkParent, setForkParent]     = useState<BuildSummary | null | undefined>(undefined)
+  const [forks, setForks]               = useState<{ data: BuildRow[]; count: number }>({ data: [], count: 0 })
   const [commentText, setCommentText]   = useState('')
   const [postingComment, setPostingComment] = useState(false)
 
@@ -100,8 +104,11 @@ export function BuildDetailPage() {
       setLikeCount(data.like_count)
       setLoading(false)
       recordBuildView(id, session?.user.id ?? null)
+      setForkParent(undefined)
+      if (data.fork_of) fetchBuildSummary(data.fork_of).then(parent => { if (!cancelled) setForkParent(parent) })
     })
     fetchComments(id).then(({ data }) => { if (!cancelled) setComments(data) })
+    fetchForks(id).then(({ data, count }) => { if (!cancelled) setForks({ data, count }) })
     return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deliberately only re-fetch on id change, not on every session refresh
   }, [id])
@@ -149,11 +156,11 @@ export function BuildDetailPage() {
     const encoded  = encodeSnapshot(snapshot)
     const lang     = i18n.language.slice(0, 2)
     const langPath = langPathRootSegment(lang)
-    // Only carry the edit link if you actually own it — loading someone
-    // else's build should let you publish your own copy, never silently
-    // overwrite theirs.
-    const editParam = session?.user.id === build.user_id ? `&edit=${build.id}` : ''
-    navigate(`/${langPath}?b=${encoded}${editParam}`)
+    // Your own build: carry the edit link so publishing updates it. Someone
+    // else's: a remix — publishing creates your copy, linked back via fork_of,
+    // and never touches theirs.
+    const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : `&fork=${build.id}`
+    navigate(`/${langPath}?b=${encoded}${linkParam}`)
   }
 
   async function handlePostComment(e: React.FormEvent) {
@@ -239,11 +246,33 @@ export function BuildDetailPage() {
               <h1 className="text-lg font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</h1>
               <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{resolvedClassLabel} · {t('level_short', { level: build.level })}</p>
             </div>
-            <Button variant="primary" size="sm" onClick={handleLoadIntoPlanner} className="flex-shrink-0">
-              <UploadCloud size={13} />
-              {t('build_detail_load')}
-            </Button>
+            {session?.user.id === build.user_id ? (
+              <Button variant="primary" size="sm" onClick={handleLoadIntoPlanner} className="flex-shrink-0">
+                <UploadCloud size={13} />
+                {t('build_detail_load')}
+              </Button>
+            ) : (
+              <Button variant="primary" size="sm" onClick={handleLoadIntoPlanner} className="flex-shrink-0" title={t('build_detail_remix_hint')}>
+                <GitFork size={13} />
+                {t('build_detail_remix')}
+              </Button>
+            )}
           </div>
+
+          {build.fork_of && forkParent !== undefined && (
+            <p className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-faint)' }}>
+              <GitFork size={12} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+              {forkParent ? (
+                <>
+                  {t('build_detail_remix_of')}
+                  <Link to={`/${langPathPrefix(i18n.language)}build/${forkParent.id}`} className="font-semibold text-ink hover:text-gold hover:underline transition-colors truncate">
+                    {forkParent.name}
+                  </Link>
+                  {forkParent.profiles?.username && <span>{t('build_detail_remix_by', { author: forkParent.profiles.username })}</span>}
+                </>
+              ) : t('build_detail_remix_unavailable')}
+            </p>
+          )}
 
           <div className="flex flex-wrap items-center gap-4 text-xs pt-1" style={{ color: 'var(--ink-faint)' }}>
             {owner?.username ? (
@@ -284,6 +313,11 @@ export function BuildDetailPage() {
               <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
+            {forks.count > 0 && (
+              <a href="#remixes" className="flex items-center gap-1.5 hover:text-gold transition-colors" title={t('build_detail_remixes', { count: forks.count })}>
+                <GitFork size={14} />{forks.count}
+              </a>
+            )}
             <span className="flex items-center gap-1.5"><Star size={14} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)} ({build.rating_count})</span>
           </div>
 
@@ -369,6 +403,40 @@ export function BuildDetailPage() {
             )}
           </div>
         </div>
+
+        {forks.count > 0 && (
+          <Frame padding="lg" className="space-y-3" id="remixes">
+            <h2 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>
+              <GitFork size={13} /> {t('build_detail_remixes', { count: forks.count })}
+            </h2>
+            <ul className="grid sm:grid-cols-2 gap-2">
+              {forks.data.map(f => {
+                const info = CLASS_DATA.find(c => c.id === f.class_slug)
+                const img  = info ? (f.gender === 'female' ? info.imageFUrl : info.imageUrl) : undefined
+                return (
+                  <li key={f.id}>
+                    <Link
+                      to={`/${langPathPrefix(i18n.language)}build/${f.id}`}
+                      className="flex items-center gap-2 rounded-lg px-2.5 py-2 transition-colors hover:brightness-125"
+                      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
+                    >
+                      {img && <img src={img} alt="" width={28} height={28} loading="lazy" className="rounded-md object-cover flex-shrink-0" />}
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>{f.name}</span>
+                        <span className="block text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>
+                          {f.profiles?.username ?? ''} · {t('level_short', { level: f.level })}
+                        </span>
+                      </span>
+                      <span className="flex items-center gap-1 text-[10px] flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
+                        <Heart size={11} />{f.like_count}
+                      </span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </Frame>
+        )}
 
         <Frame padding="lg" className="space-y-3">
           <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>

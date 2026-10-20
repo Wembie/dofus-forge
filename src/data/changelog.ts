@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.110',
+    date: '2026-10-19',
+    notes: [
+      'Feature: Remix someone else\'s public build — your copy stays linked to the original and credits its author; builds show their remixes',
+    ],
+  },
+  {
     version: '0.3.109',
     date: '2026-10-19',
     notes: [

@@ -25,6 +25,7 @@ export type BuildRow = {
   comment_count: number
   created_at:    string
   user_id:       string
+  fork_of:       string | null
   snapshot:      BuildSnapshot
   profiles:      BuildOwner | null
 }
@@ -37,7 +38,7 @@ export type BuildDetailRow = BuildRow
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
 // `snapshot` included even in the list query — Explore/My Builds cards show
 // equipment icons, not just text, so they need it up front too.
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
+const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
 
 // Each function below reports failures as an `error` value. Supabase already
 // does that for failed requests, but getSupabase() itself can still reject
@@ -117,6 +118,7 @@ export const publishBuild = guard(async function publishBuild(opts: {
   level:       number
   gameVersion: string
   snapshot:    BuildSnapshot
+  forkOf?:     string | null
 }) {
   const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
@@ -136,12 +138,40 @@ export const publishBuild = guard(async function publishBuild(opts: {
       level:        opts.level,
       visibility:   opts.visibility,
       snapshot:     opts.snapshot,
+      fork_of:      opts.forkOf ?? null,
     })
     .select('id, slug')
     .single()
   if (error) return { data: null, error: error.message }
   return { data: data as { id: string; slug: string | null }, error: null }
 }, error => ({ data: null, error }))
+
+export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
+
+/** Name + owner of a build (the original a remix points to). null when it
+ * was deleted or is private to someone else (RLS hides it). */
+export const fetchBuildSummary = guard(async function fetchBuildSummary(id: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('builds')
+    .select('id, name, profiles!builds_user_id_fkey(username, display_name)')
+    .eq('id', id)
+    .maybeSingle()
+  return (data as unknown as BuildSummary | null) ?? null
+}, () => null)
+
+/** Public remixes of a build, newest first, plus their total count. */
+export const fetchForks = guard(async function fetchForks(buildId: string, limit: number = 6) {
+  const supabase = await getSupabase()
+  const { data, error, count } = await supabase
+    .from('builds')
+    .select(LIST_COLUMNS, { count: 'exact' })
+    .eq('fork_of', buildId)
+    .eq('visibility', 'public')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  return { data: (data ?? []) as unknown as BuildRow[], count: count ?? 0, error: error?.message ?? null }
+}, error => ({ data: [] as BuildRow[], count: 0, error }))
 
 export const updateBuild = guard(async function updateBuild(buildId: string, opts: {
   name:        string

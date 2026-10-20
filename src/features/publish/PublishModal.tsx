@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Globe, Link2, Lock, Swords } from 'lucide-react'
+import { Globe, Link2, Lock, Swords, GitFork } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useAuthStore } from '@/store/authStore.ts'
 import { buildSnapshotFromState } from '@/features/share/codec.ts'
-import { publishBuild, updateBuild, fetchBuildById, type BuildVisibility } from '@/features/builds/api.ts'
+import { publishBuild, updateBuild, fetchBuildById, fetchBuildSummary, type BuildVisibility, type BuildSummary } from '@/features/builds/api.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 
 const VISIBILITY_OPTIONS: { id: BuildVisibility; Icon: typeof Globe }[] = [
@@ -25,6 +25,9 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   // re-render this modal on every change.
   const linkedBuildId = useBuildStore(s => s.linkedBuildId)
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
+  const forkOf        = useBuildStore(s => s.forkOf)
+  const setForkOf     = useBuildStore(s => s.setForkOf)
+  const [forkParent, setForkParent] = useState<BuildSummary | null>(null)
 
   const [name, setName]             = useState(() => useBuildStore.getState().buildName || '')
   const [visibility, setVisibility] = useState<BuildVisibility>('public')
@@ -40,6 +43,11 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       if (data) { setName(data.name); setVisibility(data.visibility) }
     })
   }, [open, linkedBuildId])
+
+  useEffect(() => {
+    if (!open || linkedBuildId || !forkOf) { setForkParent(null); return }
+    fetchBuildSummary(forkOf).then(setForkParent)
+  }, [open, linkedBuildId, forkOf])
 
   function close() {
     setError(null)
@@ -76,7 +84,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
       return
     }
 
-    const { data, error: err } = await publishBuild(payload)
+    const { data, error: err } = await publishBuild({ ...payload, forkOf })
     setBusy(false)
     if (err || !data) {
       setError(err?.includes('BUILD_LIMIT_REACHED') ? t('publish_limit_reached') : t('publish_error'))
@@ -85,6 +93,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
     store.setBuildName(payload.name)
     setLinkedBuildId(data.id)
+    setForkOf(null)
     close()
     navigate(`/${langPath}build/${data.id}`)
   }
@@ -109,6 +118,15 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
             style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)' }}
           >
             {t('publish_already_published_hint')}
+          </p>
+        )}
+        {!linkedBuildId && forkParent && (
+          <p
+            className="flex items-center gap-1.5 text-[11px] rounded-md px-2.5 py-1.5"
+            style={{ color: 'var(--ink-muted)', background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
+          >
+            <GitFork size={12} style={{ color: 'var(--gold)', flexShrink: 0 }} />
+            {t('publish_remix_hint', { name: forkParent.name, author: forkParent.profiles?.display_name || forkParent.profiles?.username || '?' })}
           </p>
         )}
 

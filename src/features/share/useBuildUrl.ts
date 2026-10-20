@@ -4,8 +4,8 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild, decodeBuild } from './codec.ts'
 
 /**
- * Syncs build state ↔ URL query params `b` (snapshot) and `edit` (linked
- * build id).
+ * Syncs build state ↔ URL query params `b` (snapshot), `edit` (linked
+ * build id) and `fork` (public build it was remixed from).
  *
  * - On mount: reads `?b=` from hash URL, restores build via applySnapshot.
  *   Restoration is delayed until equipment data is loaded. `?edit=` is
@@ -25,9 +25,11 @@ export function useBuildUrl() {
   const location        = useLocation()
   const applySnapshot   = useBuildStore(s => s.applySnapshot)
   const setLinkedBuildId = useBuildStore(s => s.setLinkedBuildId)
+  const setForkOf       = useBuildStore(s => s.setForkOf)
   const equipment       = useBuildStore(s => s._equipment)
   const pendingSnap     = useRef<ReturnType<typeof decodeBuild>>(null)
   const pendingEditId   = useRef<string | null>(null)
+  const pendingForkOf   = useRef<string | null>(null)
   const syncingRef      = useRef(false)  // prevents circular update
 
   // 1. Parse URL once on mount
@@ -35,6 +37,7 @@ export function useBuildUrl() {
     const params  = new URLSearchParams(location.search)
     const encoded = params.get('b')
     pendingEditId.current = params.get('edit')
+    pendingForkOf.current = params.get('fork')
     if (!encoded) return
     const snap = decodeBuild(encoded)
     if (!snap) return
@@ -48,10 +51,12 @@ export function useBuildUrl() {
     syncingRef.current = true
     applySnapshot(pendingSnap.current)
     if (pendingEditId.current) setLinkedBuildId(pendingEditId.current)
+    else if (pendingForkOf.current) setForkOf(pendingForkOf.current)
     pendingSnap.current = null
     pendingEditId.current = null
+    pendingForkOf.current = null
     syncingRef.current = false
-  }, [equipment, applySnapshot, setLinkedBuildId])
+  }, [equipment, applySnapshot, setLinkedBuildId, setForkOf])
 
   // 3. Push URL changes on every store mutation
   useEffect(() => {
@@ -61,10 +66,12 @@ export function useBuildUrl() {
       const params  = new URLSearchParams(location.search)
       const sameB   = params.get('b') === encoded
       const sameEdit = (params.get('edit') ?? null) === (state.linkedBuildId ?? null)
-      if (sameB && sameEdit) return
+      const sameFork = (params.get('fork') ?? null) === (state.forkOf ?? null)
+      if (sameB && sameEdit && sameFork) return
       const query = new URLSearchParams()
       query.set('b', encoded)
       if (state.linkedBuildId) query.set('edit', state.linkedBuildId)
+      else if (state.forkOf) query.set('fork', state.forkOf)
       // Preserve the current language path (/es, /fr, /pt) — hardcoding
       // '/' here would silently bounce the user back to English on
       // every build mutation.

@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.110] — 2026-10-19
+- **Feature**: **Remix** public builds. On someone else's build the main button is now *Remix*: it opens the build in the planner as your own copy, and when you publish it, it is saved as a remix of the original ("Remix of *Build* by *author*" with a link back). The original shows how many remixes it has and lists the latest public ones
+
 ## [0.3.109] — 2026-10-19
 - **Fix**: the animated character's hair, skin and clothes now have the same colors as in the game; they came out duller and darker (a Feca's red-brown hair looked plain brown)
 - **Fix**: Snailmate, Snickermite, Bulbutting and Karmeleon colors recalibrated to match their icons

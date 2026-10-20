@@ -1078,5 +1078,12 @@
   "admin_ranks_status_expired": "Expiré",
   "admin_ranks_status_revoked": "Révoqué",
   "rune_search": "Rechercher des runes…",
-  "rune_search_empty": "Aucune rune ne correspond à votre recherche"
+  "rune_search_empty": "Aucune rune ne correspond à votre recherche",
+  "build_detail_remix": "Remixer",
+  "build_detail_remix_hint": "Ouvre ce build dans le planificateur comme ta propre copie. Une fois publiée, elle reste liée à ce build et crédite son auteur comme base.",
+  "build_detail_remix_of": "Remix de",
+  "build_detail_remix_by": "par {{author}}",
+  "build_detail_remix_unavailable": "Remix d'un build qui n'est plus disponible",
+  "build_detail_remixes": "Remix ({{count}})",
+  "publish_remix_hint": "Il sera publié comme remix de « {{name}} » par {{author}}."
 }
