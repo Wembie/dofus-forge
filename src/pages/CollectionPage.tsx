@@ -39,13 +39,16 @@ export function CollectionPage() {
     if (!id) return
     let cancelled = false
     setLoading(true)
-    fetchCollection(id).then(({ data }) => {
+    setCollection(null)
+    setEditing(false)
+    setError(false)
+    fetchCollection(id, session?.user.id ?? null).then(({ data }) => {
       if (cancelled) return
       setCollection(data)
       setLoading(false)
     })
     return () => { cancelled = true }
-  }, [id])
+  }, [id, session])
 
   const isOwner = !!collection && session?.user.id === collection.user_id
   const prefix  = langPathPrefix(i18n.language)

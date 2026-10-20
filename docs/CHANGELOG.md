@@ -8,6 +8,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 ## [0.3.112] — 2026-10-19
 - **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark
 - **UI**: the header *Update* button no longer has the gold tint; it looks like the other header buttons (still with its refresh icon)
+- **Fix (security)**: signed-in users could call the notification function directly and send anyone fake notifications posing as anyone; it can now only be used by the database itself. Needs the 0.3.112 migration
+- **Fix (moderation)**: a build hidden by a moderator could be made public again by its owner and disappeared from the moderators' own view; hidden builds now stay private and moderators can still open them. Hiding a comment now also lowers the build's comment count. Needs the 0.3.112 migration
+- **Fix (privacy)**: Remix and Save to collection are only offered on public builds, and someone else's unlisted build no longer shows through a remix link or a public collection
+- **Fix**: updating a published build before its tags finished loading (or offline) erased its tags; the button now waits, and tags are only rewritten when you changed them
+- **Fix**: moving from one build page to another (e.g. via a remix link) briefly showed the previous build's comments, remixes and version history, with working Restore buttons; switching tabs or filters quickly in Explore and the moderation queue could leave older results on screen
+- **Fix**: an Explore link with ?tag= stayed loading forever if the tag list failed to load, and collections with one build said "1 builds"
 
 ## [0.3.111] — 2026-10-19
 - **UI**: when the build in the planner is already published (opened from My Builds or its page, or just published), the header button reads **Update** (gold, refresh icon) instead of *Publish*, in the mobile menu and command palette too

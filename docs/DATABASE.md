@@ -502,6 +502,7 @@ create table builds (
   avg_rating      numeric(3,2) not null default 0,
   rating_count    int not null default 0,
   fork_of         uuid references builds(id) on delete set null,
+  moderation_hidden boolean not null default false,  -- ocultado por moderación: el dueño no puede volver a publicarlo
   search_vector   tsvector generated always as (
     -- 'simple' (no stemming), no 'spanish': nombres/descripciones son texto libre del
     -- usuario en cualquiera de los 4 idiomas de la app (es/en/fr/pt) — un config de
@@ -817,6 +818,9 @@ create policy "profiles own write" on profiles for update
 create policy "builds read" on builds for select using (
   visibility in ('public', 'unlisted') or auth.uid() = user_id
 );
+-- Moderadores/admins leen cualquier build (para revisar reportes de builds ocultos)
+create policy "builds mod read" on builds for select
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
 -- SEGURIDAD: with check evita que el usuario se auto-feature (is_featured solo
 -- lo puede cambiar service role / admin desde backend).
 create policy "builds insert" on builds for insert
@@ -828,7 +832,13 @@ create policy "builds update" on builds for update
   -- of the one being updated, raising "more than one row returned by a
   -- subquery" — this is what broke rating a build (sync_rating_stats()'s
   -- UPDATE on builds runs as the calling user, so this WITH CHECK applies).
-  with check (auth.uid() = user_id and is_featured = (select b.is_featured from builds b where b.id = builds.id));
+  -- El dueño tampoco puede cambiar moderation_hidden ni volver público un build ocultado.
+  with check (
+    auth.uid() = user_id
+    and is_featured = (select b.is_featured from builds b where b.id = builds.id)
+    and moderation_hidden = (select b.moderation_hidden from builds b where b.id = builds.id)
+    and (not moderation_hidden or visibility = 'private')
+  );
 create policy "builds delete" on builds for delete
   using (auth.uid() = user_id);
 
@@ -2091,6 +2101,75 @@ create trigger notify_on_follow after insert on follows for each row execute pro
 drop table if exists build_runes;
 drop table if exists build_characteristics;
 drop table if exists build_items;
+
+commit;
+```
+
+### Migración manual — correcciones de seguridad y moderación (0.3.112)
+
+También en `supabase/migrations/20261019200000_social_security_fixes.sql`. Correr
+una vez en el SQL Editor (idempotente), después de la migración "comunidad":
+
+- `push_notification` deja de poder llamarse desde la API (solo la usan los triggers).
+- "Ocultar" de moderación marca `builds.moderation_hidden`: el dueño no puede
+  volver a hacerlo público y los moderadores lo siguen viendo.
+- Ocultar un comentario descuenta `builds.comment_count`.
+
+```sql
+begin;
+
+-- push_notification is only meant to be called from the notification
+-- triggers. Supabase grants EXECUTE on new functions to anon/authenticated
+-- directly, so revoking from public alone would let any signed-in user
+-- create notifications for anyone, impersonating any actor.
+revoke all on function push_notification(uuid, notification_type, uuid, uuid, uuid) from public, anon, authenticated;
+
+-- Moderation "hide" must stick: the owner can't make a hidden build public
+-- again, and moderators can still read it (to review further reports).
+alter table builds add column if not exists moderation_hidden boolean not null default false;
+
+drop policy if exists "builds mod read" on builds;
+create policy "builds mod read" on builds for select
+  using (exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')));
+
+drop policy if exists "builds update" on builds;
+create policy "builds update" on builds for update
+  using (auth.uid() = user_id)
+  -- Aliased subqueries on purpose (see schema.sql): the owner can't change
+  -- is_featured or moderation_hidden, nor un-private a hidden build.
+  with check (
+    auth.uid() = user_id
+    and is_featured = (select b.is_featured from builds b where b.id = builds.id)
+    and moderation_hidden = (select b.moderation_hidden from builds b where b.id = builds.id)
+    and (not moderation_hidden or visibility = 'private')
+  );
+
+-- Hide sets the flag; hiding a comment also lowers the build's comment_count
+-- (sync_comment_count only reacts to INSERT/DELETE, not to a soft delete).
+create or replace function moderate_content(p_kind text, p_target uuid, p_action text)
+returns void language plpgsql security definer set search_path = public as $$
+declare v_build uuid;
+begin
+  if not exists (select 1 from profiles where id = auth.uid() and role in ('moderator','admin')) then
+    raise exception 'not_allowed';
+  end if;
+  if p_kind = 'build' then
+    if p_action = 'hide' then
+      update builds set visibility = 'private', moderation_hidden = true where id = p_target;
+    elsif p_action = 'delete' then
+      delete from builds where id = p_target;
+    end if;
+  elsif p_kind = 'comment' and p_action in ('hide', 'delete') then
+    update build_comments set deleted_at = now()
+      where id = p_target and deleted_at is null
+      returning build_id into v_build;
+    if v_build is not null then
+      update builds set comment_count = greatest(comment_count - 1, 0) where id = v_build;
+    end if;
+  end if;
+end; $$;
+revoke all on function moderate_content(text, uuid, text) from public, anon;
+grant execute on function moderate_content(text, uuid, text) to authenticated;
 
 commit;
 ```

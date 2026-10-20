@@ -205,26 +205,38 @@ export type CollectionRow = {
 // Counts only the builds the viewer can actually see: in a public
 // collection, someone else's view drops the owner's private builds (builds
 // RLS), so a plain collection_builds(count) would overstate it.
-const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, visible:collection_builds(builds(id))'
+const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, visible:collection_builds(builds(id, visibility, user_id))'
 
-function toCollection(row: Record<string, unknown>): CollectionRow {
-  const { visible, ...rest } = row as Record<string, unknown> & { visible?: { builds: unknown }[] }
-  return { ...(rest as Omit<CollectionRow, 'build_count'>), build_count: (visible ?? []).filter(v => v.builds != null).length }
+type BuildVisibilityRef = { visibility: BuildVisibility; user_id: string }
+
+// Unlisted builds are "only with the link": a collection only shows someone
+// else's unlisted build to that build's owner or the collection's owner
+// (who added it), never to other visitors. Private ones are already hidden
+// by RLS.
+function showsInCollection(b: BuildVisibilityRef, collectionOwner: string, viewerId: string | null): boolean {
+  return b.visibility === 'public' || b.user_id === viewerId || b.user_id === collectionOwner
+}
+
+function toCollection(row: Record<string, unknown>, viewerId: string | null): CollectionRow {
+  const { visible, ...rest } = row as Record<string, unknown> & { visible?: { builds: BuildVisibilityRef | null }[] }
+  const owner = rest.user_id as string
+  const count = (visible ?? []).filter(v => v.builds != null && showsInCollection(v.builds, owner, viewerId)).length
+  return { ...(rest as Omit<CollectionRow, 'build_count'>), build_count: count }
 }
 
 /** The user's collections (all of them for the owner, public ones for anyone else via RLS). */
-export const fetchUserCollections = guard(async function fetchUserCollections(userId: string, publicOnly: boolean = false) {
+export const fetchUserCollections = guard(async function fetchUserCollections(userId: string, publicOnly: boolean = false, viewerId: string | null = null) {
   const supabase = await getSupabase()
   let query = supabase.from('collections').select(COLLECTION_COLUMNS).eq('user_id', userId).order('updated_at', { ascending: false })
   if (publicOnly) query = query.eq('is_public', true)
   const { data, error } = await query
-  return { data: (data ?? []).map(toCollection), error: error?.message ?? null }
+  return { data: (data ?? []).map(row => toCollection(row, viewerId)), error: error?.message ?? null }
 }, error => ({ data: [] as CollectionRow[], error }))
 
 export type CollectionDetail = CollectionRow & { profiles: Pick<BuildOwner, 'username' | 'display_name'> | null; builds: BuildRow[] }
 
 /** One collection with its owner and builds (builds the viewer can't see are dropped by RLS). */
-export const fetchCollection = guard(async function fetchCollection(id: string) {
+export const fetchCollection = guard(async function fetchCollection(id: string, viewerId: string | null) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('collections')
@@ -233,11 +245,12 @@ export const fetchCollection = guard(async function fetchCollection(id: string) 
     .maybeSingle()
   if (error || !data) return { data: null, error: error?.message ?? null }
   const row = data as unknown as Record<string, unknown> & { entries: { position: number; added_at: string; builds: BuildRow | null }[] }
+  const owner = row.user_id as string
   const builds = [...row.entries]
     .sort((a, b) => a.position - b.position || a.added_at.localeCompare(b.added_at))
     .map(e => e.builds)
-    .filter((b): b is BuildRow => b != null)
-  return { data: { ...toCollection(row), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
+    .filter((b): b is BuildRow => b != null && showsInCollection(b, owner, viewerId))
+  return { data: { ...toCollection(row, viewerId), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
 }, error => ({ data: null, error }))
 
 export const createCollection = guard(async function createCollection(userId: string, opts: { name: string; description?: string | null; isPublic: boolean }) {
@@ -248,7 +261,7 @@ export const createCollection = guard(async function createCollection(userId: st
     .select(COLLECTION_COLUMNS)
     .single()
   if (error || !data) return { data: null, error: error?.message ?? 'unknown' }
-  return { data: toCollection(data as Record<string, unknown>), error: null }
+  return { data: toCollection(data as Record<string, unknown>, userId), error: null }
 }, error => ({ data: null, error }))
 
 export const updateCollection = guard(async function updateCollection(id: string, patch: { name?: string; description?: string | null; is_public?: boolean }) {
@@ -398,15 +411,18 @@ export const markNotificationsRead = guard(async function markNotificationsRead(
 export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
 
 /** Name + owner of a build (the original a remix points to). null when it
- * was deleted or is private to someone else (RLS hides it). */
-export const fetchBuildSummary = guard(async function fetchBuildSummary(id: string) {
+ * was deleted, is private (RLS hides it) or is someone else's unlisted
+ * build, which must not become discoverable through a remix. */
+export const fetchBuildSummary = guard(async function fetchBuildSummary(id: string, viewerId: string | null) {
   const supabase = await getSupabase()
   const { data } = await supabase
     .from('builds')
-    .select('id, name, profiles!builds_user_id_fkey(username, display_name)')
+    .select('id, name, visibility, user_id, profiles!builds_user_id_fkey(username, display_name)')
     .eq('id', id)
     .maybeSingle()
-  return (data as unknown as BuildSummary | null) ?? null
+  const row = data as unknown as (BuildSummary & BuildVisibilityRef) | null
+  if (!row || (row.visibility !== 'public' && row.user_id !== viewerId)) return null
+  return { id: row.id, name: row.name, profiles: row.profiles } as BuildSummary
 }, () => null)
 
 /** Public remixes of a build, newest first, plus their total count. */

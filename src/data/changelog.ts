@@ -13,6 +13,12 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Fix: public collections no longer count private builds visitors cannot see; your private builds in them are marked "Only you see it"',
       'UI: the Update button in the header now matches the other header buttons',
+      'Fix: closed a hole that let signed-in users send fake notifications',
+      'Fix: builds hidden by moderators stay hidden, and moderators can still open them',
+      'Fix: Remix and collections only for public builds; unlisted builds stay unlisted',
+      'Fix: updating a build no longer risks erasing its tags',
+      'Fix: no leftover data from the previous build when moving between build pages; faster filter changes in Explore show the right results',
+      'Fix: Explore tag links no longer hang if tags fail to load; 1 build is no longer shown as 1 builds',
     ],
   },
   {

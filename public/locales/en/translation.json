@@ -1125,7 +1125,6 @@
   "collections_public": "Public",
   "collections_private": "Private",
   "collections_empty": "You don't have any collections yet. Create one to group your own builds or other people's.",
-  "collections_builds_count": "{{count}} builds",
   "collections_save_error": "Couldn't save. Please try again.",
   "collection_not_found": "Collection not found (it may be private or deleted).",
   "collection_by": "by {{author}}",
@@ -1186,5 +1185,7 @@
   "publish_update_open": "Update",
   "publish_update_hint": "Update the published build with your changes",
   "collection_private_build": "Only you see it",
-  "collection_private_build_hint": "This build is private: it doesn't show for people visiting this public collection."
+  "collection_private_build_hint": "This build is private: it doesn't show for people visiting this public collection.",
+  "collections_builds_count_one": "{{count}} build",
+  "collections_builds_count_other": "{{count}} builds"
 }
