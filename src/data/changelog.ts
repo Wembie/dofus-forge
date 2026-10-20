@@ -11,7 +11,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.112',
     date: '2026-10-19',
     notes: [
-      'Fix: public collections no longer count private builds visitors can't see; your private builds in them are marked "Only you see it"',
+      'Fix: public collections no longer count private builds visitors cannot see; your private builds in them are marked "Only you see it"',
     ],
   },
   {
