@@ -9,6 +9,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Fix**: the animated character's hair, skin and clothes now have the same colors as in the game; they came out duller and darker (a Feca's red-brown hair looked plain brown)
 - **Fix**: Snailmate, Snickermite, Bulbutting and Karmeleon colors recalibrated to match their icons
 - **Feature**: **Remix** public builds. On someone else's build the main button is now *Remix*: it opens the build in the planner as your own copy, and when you publish it, it is saved as a remix of the original ("Remix of *Build* by *author*" with a link back). The original shows how many remixes it has and lists the latest public ones
+- **Feature**: **tags** for builds. When publishing or updating a build you can pick up to 5 tags (playstyle: PvP, PvM, Kolossium, bosses…; element; general: budget, endgame, meta…). Build cards show the first 3, the build page shows all of them, and Explore has a tag filter (clicking a tag on a build opens Explore filtered by it)
 
 ## [0.3.108] — 2026-10-19
 - **Feature**: search box in the rune picker (Magesmithy) to find a stat by name instead of scrolling through all 51 — hides empty sections and shows a no-results message when nothing matches

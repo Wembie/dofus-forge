@@ -6,7 +6,8 @@ import { Modal, Button } from '@/ui'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useAuthStore } from '@/store/authStore.ts'
 import { buildSnapshotFromState } from '@/features/share/codec.ts'
-import { publishBuild, updateBuild, fetchBuildById, fetchBuildSummary, type BuildVisibility, type BuildSummary } from '@/features/builds/api.ts'
+import { publishBuild, updateBuild, fetchBuildById, fetchBuildSummary, setBuildTags, buildTags, MAX_BUILD_TAGS, type BuildVisibility, type BuildSummary } from '@/features/builds/api.ts'
+import { TagPicker } from '@/features/builds/TagChips.tsx'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 
 const VISIBILITY_OPTIONS: { id: BuildVisibility; Icon: typeof Globe }[] = [
@@ -31,6 +32,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
   const [name, setName]             = useState(() => useBuildStore.getState().buildName || '')
   const [visibility, setVisibility] = useState<BuildVisibility>('public')
+  const [tagIds, setTagIds]         = useState<number[]>([])
   const [busy, setBusy]             = useState(false)
   const [error, setError]           = useState<string | null>(null)
 
@@ -40,7 +42,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   useEffect(() => {
     if (!open || !linkedBuildId) return
     fetchBuildById(linkedBuildId).then(({ data }) => {
-      if (data) { setName(data.name); setVisibility(data.visibility) }
+      if (data) { setName(data.name); setVisibility(data.visibility); setTagIds(buildTags(data).map(tag => tag.id)) }
     })
   }, [open, linkedBuildId])
 
@@ -76,6 +78,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
 
     if (linkedBuildId) {
       const { error: err } = await updateBuild(linkedBuildId, payload)
+      if (!err) await setBuildTags(linkedBuildId, tagIds)
       setBusy(false)
       if (err) { setError(t('publish_error')); return }
       store.setBuildName(payload.name)
@@ -85,6 +88,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
     }
 
     const { data, error: err } = await publishBuild({ ...payload, forkOf })
+    if (data) await setBuildTags(data.id, tagIds)
     setBusy(false)
     if (err || !data) {
       setError(err?.includes('BUILD_LIMIT_REACHED') ? t('publish_limit_reached') : t('publish_error'))
@@ -178,6 +182,14 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
             ))}
           </div>
           <p className="text-[10px] mt-1.5" style={{ color: 'var(--ink-faint)' }}>{t(`publish_visibility_${visibility}_hint`)}</p>
+        </div>
+
+        <div>
+          <label className="flex items-baseline justify-between text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+            {t('publish_tags_label')}
+            <span className="normal-case tracking-normal font-mono">{tagIds.length}/{MAX_BUILD_TAGS}</span>
+          </label>
+          <TagPicker selected={tagIds} onChange={setTagIds} />
         </div>
 
         {error && (

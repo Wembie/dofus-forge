@@ -36,8 +36,10 @@ import {
   fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
   fetchBuildSummary, fetchForks,
+  buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
+import { TagChip } from '@/features/builds/TagChips.tsx'
 
 function StarRating({ value, onRate, disabled }: { value: number; onRate: (n: number) => void; disabled: boolean }) {
   return (
@@ -258,6 +260,16 @@ export function BuildDetailPage() {
               </Button>
             )}
           </div>
+
+          {buildTags(build).length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {buildTags(build).map(tag => (
+                <Link key={tag.id} to={`/${langPathPrefix(i18n.language)}explore?tag=${tag.name}`} className="hover:brightness-125 transition">
+                  <TagChip tag={tag} />
+                </Link>
+              ))}
+            </div>
+          )}
 
           {build.fork_of && forkParent !== undefined && (
             <p className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-faint)' }}>

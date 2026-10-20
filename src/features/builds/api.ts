@@ -10,6 +10,9 @@ export type BuildOwner = {
   avatar_url:   string | null
 }
 
+export type TagCategory = 'playstyle' | 'element' | 'general'
+export type Tag = { id: number; name: string; category: TagCategory }
+
 export type BuildRow = {
   id:            string
   name:          string
@@ -28,7 +31,15 @@ export type BuildRow = {
   fork_of:       string | null
   snapshot:      BuildSnapshot
   profiles:      BuildOwner | null
+  build_tags?:   { tags: Tag | null }[]
 }
+
+export function buildTags(build: Pick<BuildRow, 'build_tags'>): Tag[] {
+  return (build.build_tags ?? []).map(bt => bt.tags).filter((tag): tag is Tag => tag != null)
+}
+
+/** Most tags a build can carry: enough to describe it, few enough to scan. */
+export const MAX_BUILD_TAGS = 5
 
 export type BuildDetailRow = BuildRow
 
@@ -38,7 +49,7 @@ export type BuildDetailRow = BuildRow
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
 // `snapshot` included even in the list query — Explore/My Builds cards show
 // equipment icons, not just text, so they need it up front too.
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url)'
+const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
 
 // Each function below reports failures as an `error` value. Supabase already
 // does that for failed requests, but getSupabase() itself can still reject
@@ -62,17 +73,20 @@ const SORT_COLUMN: Record<ExploreSort, string> = {
   views:  'view_count',
 }
 
-export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
+export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { classSlug?: string | null; userId?: string | null; tagId?: number | null; search?: string | null; sort: ExploreSort; page: number; pageSize?: number }) {
   const supabase  = await getSupabase()
   const pageSize  = opts.pageSize ?? 24
   const from      = opts.page * pageSize
   const to        = from + pageSize - 1
   let query = supabase
     .from('builds')
-    .select(LIST_COLUMNS, { count: 'exact' })
+    // A second, aliased !inner embed filters by tag without trimming the
+    // build_tags list each card displays.
+    .select(opts.tagId ? `${LIST_COLUMNS}, filter_tag:build_tags!inner(tag_id)` : LIST_COLUMNS, { count: 'exact' })
     .eq('visibility', 'public')
     .order(SORT_COLUMN[opts.sort], { ascending: false })
     .range(from, to)
+  if (opts.tagId) query = query.eq('filter_tag.tag_id', opts.tagId)
   if (opts.classSlug) query = query.eq('class_slug', opts.classSlug)
   if (opts.userId) query = query.eq('user_id', opts.userId)
   // `builds.search_vector` is a generated+indexed tsvector column (idx_builds_search,
@@ -145,6 +159,36 @@ export const publishBuild = guard(async function publishBuild(opts: {
   if (error) return { data: null, error: error.message }
   return { data: data as { id: string; slug: string | null }, error: null }
 }, error => ({ data: null, error }))
+
+let tagsPromise: Promise<Tag[]> | null = null
+
+/** The tag catalog (seeded, moderator-managed): fetched once per session. */
+export function fetchTags(): Promise<Tag[]> {
+  if (!tagsPromise) {
+    tagsPromise = getSupabase()
+      .then(supabase => supabase.from('tags').select('id, name, category').order('id'))
+      .then(({ data, error }) => {
+        if (error) throw error
+        return (data ?? []) as Tag[]
+      })
+      .catch(() => {
+        tagsPromise = null
+        return []
+      })
+  }
+  return tagsPromise
+}
+
+/** Replaces a build's tags (owner only, enforced by RLS on build_tags). */
+export const setBuildTags = guard(async function setBuildTags(buildId: string, tagIds: number[]) {
+  const supabase = await getSupabase()
+  const { error: delError } = await supabase.from('build_tags').delete().eq('build_id', buildId)
+  if (delError) return { error: delError.message }
+  if (tagIds.length === 0) return { error: null }
+  const rows = tagIds.slice(0, MAX_BUILD_TAGS).map(tag_id => ({ build_id: buildId, tag_id }))
+  const { error } = await supabase.from('build_tags').insert(rows)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
 
 export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
 

@@ -7,6 +7,7 @@ Marcar con `[x]` cuando se complete.
 
 ## Completados ✅
 
+- [x] **M54 — Tags de builds** (0.3.109) — selector de hasta 5 tags al publicar/actualizar (`TagPicker`, agrupado por categoría; catálogo de 20 tags ya sembrado en `tags`), guardados en `build_tags` (`setBuildTags` reemplaza los del build; RLS de dueño ya existente). `LIST_COLUMNS` trae `build_tags(tags(...))`: las tarjetas muestran 3 chips y el detalle todos, con link a Explorar. Explorar filtra por tag con un embed `filter_tag:build_tags!inner(tag_id)` aparte (no recorta los tags que muestra cada tarjeta) y lee `?tag=<nombre>`. Nombres de tags y categorías traducidos en es/en/fr/pt. Sin migración.
 - [x] **M53 — Remixar builds públicos** (0.3.109) — en un build ajeno el botón principal pasa a ser **Remixar**: lo abre en el planificador como copia propia con `?fork=<id>` (nuevo `forkOf` en `buildStore`, sincronizado en la URL como `edit`), y al publicar se guarda `builds.fork_of` (columna e índice ya existentes). El build muestra "Remix de *X* de @autor" (o "un build que ya no está disponible" si se borró o es privado) y el original muestra su contador y los últimos remixes públicos (`fetchBuildSummary`, `fetchForks`). PublishModal avisa que se publicará como remix. Sin migración de base de datos.
 - [x] **M135 — Personaje animado: resto de mascotas y Tortikoli** (0.3.107) — 53 de las 55 mascotas sin PNJ/monstruo homónimo emparejadas a ojo (`PET_BONES` en el extractor): huella de color del atlas de los 8 480 esqueletos del cliente para preseleccionar 12–48 candidatos por ícono, láminas ícono-contra-candidatos y, al final, cada elección re-renderizada sola (las láminas con muchos canvas WebGL pueden mezclar contenidos). Kraxiste y Bulbeskeje llevan paleta sacada del ícono (`PET_COLORS`). Tortikoli → esqueleto 6338 (junto al Tae'Niak 6339, con anclaje de jinete). Sin modelo en el cliente: **Minikornio** (sus esqueletos 3955–3958 son marcadores de un vértice) y **Microsmoglob** (no hay esfera verde equivalente). `CharacterStage` cae a otra orientación o a la pose quieta cuando la criatura no trae esa animación; el renderer también resuelve por nombre los sprites propios del esqueleto. `upload-characters` ignora carpetas `_` (material local). Total: 120/122 mascotas, 277 monturas y mascoturas.
 - [x] **M134 — Auditoría de robustez, rendimiento y accesibilidad** (0.3.104) — se resolvieron los hallazgos de "Perf & buenas prácticas" (ver esa sección, marcados ✓).
@@ -187,7 +188,6 @@ Marcar con `[x]` cuando se complete.
 
 ### Social / Supabase — usar el resto de las tablas ya existentes
 Orden recomendado (impacto/esfuerzo, de mayor a menor). M50-M52 ya hechos — ver Completados.
-- [ ] **M54 — Tags de builds** — selector de tags al publicar (`tags`/`build_tags`), filtro por tag en Explore
 - [ ] **M55 — Likes en comentarios** — botón like por comentario en build detail, usa `comment_likes`
 - [ ] **M56 — Colecciones** — carpetas curadas de builds propias/ajenas, usa `collections`/`collection_builds`
 - [ ] **M57 — Notificaciones** — campanita con actividad (nuevo follower, like, comentario, rating recibido), usa `notifications` — el más pesado de infra (realtime o polling)
