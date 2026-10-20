@@ -3,11 +3,12 @@ import { useTranslation } from 'react-i18next'
 import { Eye } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
-import type { SlotId } from '@/store/buildStore.ts'
 import type { AppSet, AppItem, AppEffect } from '@/data/loaders.ts'
 import { SLOT_CONFIGS, slotImageIcon } from './slotConfig.ts'
 import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
+import { assignSetSlots } from './setSlots.ts'
+import { levelCap, changeLevelRange, NO_LEVEL_CAP } from './catalogFilters.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { normalizeSearch } from '@/ui'
 
@@ -180,23 +181,17 @@ export function SetsCatalog({ onClose }: Props) {
   const [sort, setSort]           = useState<SortKey>('level-desc')
   const [openSet, setOpenSet]     = useState<AppSet | null>(null)
 
+  function setLevelRange(which: 'min' | 'max', value: number) {
+    const next = changeLevelRange({ min: minLevel, max: maxLevel }, which, value)
+    setMinLevel(next.min)
+    setMaxLevel(next.max)
+  }
+
   useEffect(() => {
     const down = (e: KeyboardEvent) => { if (e.key === 'Escape' && !openSet) onClose() }
     window.addEventListener('keydown', down)
     return () => window.removeEventListener('keydown', down)
   }, [onClose, openSet])
-
-  const slotByApiSlot = useMemo(() => {
-    const map = new Map<string, SlotId[]>()
-    for (const sc of SLOT_CONFIGS) {
-      const apiSlots = Array.isArray(sc.apiSlot) ? sc.apiSlot : [sc.apiSlot]
-      for (const s of apiSlots) {
-        if (!map.has(s)) map.set(s, [])
-        map.get(s)!.push(sc.id)
-      }
-    }
-    return map
-  }, [])
 
   const equippedIds = useMemo(
     () => new Set(Object.values(equipped).filter((v): v is number => v != null)),
@@ -237,7 +232,7 @@ export function SetsCatalog({ onClose }: Props) {
       const lq = normalizeSearch(search)
       list = list.filter(e => normalizeSearch(e.set.name).includes(lq))
     }
-    list = list.filter(e => e.maxLevel >= minLevel && e.minLevel <= maxLevel)
+    list = list.filter(e => e.maxLevel >= minLevel && e.minLevel <= levelCap(maxLevel))
     if (pieces != null) list = list.filter(e => e.items.length === pieces)
 
     const sorted = [...list]
@@ -256,11 +251,18 @@ export function SetsCatalog({ onClose }: Props) {
   const scrollRef   = useRef<HTMLDivElement>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
   const bumpingRef  = useRef(false)
+  const bumpTimer   = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
+    // A page bump still pending from the old list would grow the fresh one.
+    clearTimeout(bumpTimer.current)
+    bumpingRef.current = false
+    setLoadingMore(false)
     setVisibleCount(PAGE_SIZE)
     scrollRef.current?.scrollTo({ top: 0 })
   }, [search, minLevel, maxLevel, pieces, sort])
+
+  useEffect(() => () => clearTimeout(bumpTimer.current), [])
 
   const visibleSets = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount])
   const hasMore = visibleCount < filtered.length
@@ -274,7 +276,7 @@ export function SetsCatalog({ onClose }: Props) {
         if (!entries[0].isIntersecting || bumpingRef.current) return
         bumpingRef.current = true
         setLoadingMore(true)
-        setTimeout(() => {
+        bumpTimer.current = setTimeout(() => {
           setVisibleCount(v => Math.min(v + PAGE_SIZE, filtered.length))
           setLoadingMore(false)
           bumpingRef.current = false
@@ -296,22 +298,9 @@ export function SetsCatalog({ onClose }: Props) {
   // Equip every not-yet-equipped item of a set in one atomic update — same
   // logic as SetDetailModal's handleEquipAll, kept in sync with it.
   const handleEquipAll = useCallback((entry: EnrichedSet) => {
-    const localEquipped = { ...equipped }
-    const toEquip: { slot: SlotId; ankama_id: number }[] = []
-    const equippedItems: { slot: SlotId; item: AppItem }[] = []
-
-    for (const item of entry.items) {
-      if (equippedIds.has(item.ankama_id)) continue
-      const slots  = slotByApiSlot.get(item.slot) ?? []
-      const target = slots.find(sid => localEquipped[sid] == null) ?? slots[0]
-      if (!target) continue
-      localEquipped[target] = item.ankama_id
-      toEquip.push({ slot: target, ankama_id: item.ankama_id })
-      equippedItems.push({ slot: target, item })
-    }
-
-    if (toEquip.length === 0) return
-    equipMultiple(toEquip)
+    const equippedItems = assignSetSlots(entry.items, equipped)
+    if (equippedItems.length === 0) return
+    equipMultiple(equippedItems.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
     for (const { slot, item } of equippedItems) {
       const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
       addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
@@ -320,7 +309,7 @@ export function SetsCatalog({ onClose }: Props) {
     // same as SetDetailModal's own "Equip All" button, drop the user back
     // on the planner instead of leaving the catalog open behind the result.
     onClose()
-  }, [equipped, equippedIds, slotByApiSlot, equipMultiple, addToast, t, onClose])
+  }, [equipped, equipMultiple, addToast, t, onClose])
 
   return (
     <>
@@ -407,7 +396,7 @@ export function SetsCatalog({ onClose }: Props) {
               <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
               <select
                 value={minLevel}
-                onChange={e => setMinLevel(Number(e.target.value))}
+                onChange={e => setLevelRange('min', Number(e.target.value))}
                 className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
                 style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
               >
@@ -416,11 +405,11 @@ export function SetsCatalog({ onClose }: Props) {
               <span className="text-ink-faint">–</span>
               <select
                 value={maxLevel}
-                onChange={e => setMaxLevel(Number(e.target.value))}
+                onChange={e => setLevelRange('max', Number(e.target.value))}
                 className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
                 style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
               >
-                {LEVELS.map(l => <option key={l} value={l}>{l === 0 ? '—' : l}</option>)}
+                {LEVELS.map(l => <option key={l} value={l}>{l === NO_LEVEL_CAP ? '—' : l}</option>)}
               </select>
             </div>
 

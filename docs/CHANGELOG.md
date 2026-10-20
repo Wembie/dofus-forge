@@ -5,6 +5,27 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.113] — 2026-10-20
+- **Fix**: the header **Redo** button never worked (undoing was recorded as a new change and wiped the redo stack), and undo/redo unlinked the build from its published version, so the next Publish created a duplicate
+- **Fix**: a broken or hand-crafted share link (or stored build) could blank the page; snapshots are now validated and repaired with safe defaults everywhere they are read
+- **Fix**: the same set ring can no longer be worn twice or count twice toward its set bonus, only one Prysmaradite fits at a time, and re-selecting the item already in a slot keeps its runes, transcendence rune, craftsman name and weapon transform
+- **Fix**: spell-modifier lines (": + cast per turn / per target") and weapon heal lines no longer leak into the stats as unknown values; runes left on an empty slot no longer add stats; a build name cut at 60 characters can no longer split an emoji and break link sharing
+- **Fix**: the share preview image showed the male portrait for female builds
+- **Fix**: editing a build you opened from someone else's profile no longer tries to overwrite their build — it is saved as your own remix; an update that changed no rows now reports an error instead of claiming success
+- **Fix**: a password-recovery link could land on the normal app instead of the new-password form, and a slow profile load could overwrite a newer session after signing out
+- **Fix**: the profile page showed **Follow** for someone you already follow after a page refresh
+- **Fix**: community lists no longer repeat or skip builds between pages when several have the same score
+- **New**: notifications arrive in real time instead of on the next 60 s check
+- **Fix**: follower / following / build counts on profiles were stuck at 0 (the profile guard also blocked the counter triggers); counters are recomputed
+- **Fix**: database hardening — build owners can no longer edit likes, ratings, views or featured flags of their own builds through the API, likes / bookmarks / follows cannot be moved with an update, hidden comments and comments on private builds are no longer publicly readable, and views are counted only on visible builds
+- **Fix (La Forjadora)**: never offers gear above the character level; an exo no longer takes the only item a transcendence rune fits on; a missed minimum with ley 0 is shown as unmet; a cap of 0 means no cap and a strict cap alone counts as an active requirement
+- **Fix (La Forjadora)**: loading a result is one step (one undo entry) and clears the craftsman name and weapon transform of slots whose item changed; the max level field can be typed freely and clamps on blur; stopping the forge while the engine was still loading no longer hangs
+- **Fix**: weapons with best-element damage (e.g. Crocobur) now count it in the PvP arena, and weapons with an AP-cost or heal line no longer show NaN damage
+- **Fix**: **Equip all** on a set with two rings puts them in both ring slots instead of the same one; the catalog marks a set ring or Prysmaradite that is already worn elsewhere
+- **Fix**: catalog stat filter no longer matches a weapon because of its attack lines; the "—" max level means no cap (it showed nothing), and min/max cannot cross; Escape closes only the top window; changing a filter while scrolling no longer grows the new list
+- **Fix**: switching language while the data or spells were still loading could show the old language or drop a class
+- **Security**: share links and stored builds only keep real slot names in their per-slot data (runes, craftsman names, weapon transforms), so a crafted link cannot inject special keys such as `__proto__`
+
 ## [0.3.112] — 2026-10-19
 - **Fix**: a public collection counted its owner's private builds, so visitors saw e.g. "3 builds" but only 2 cards (private builds were already hidden from them). Counts now only include the builds the viewer can see, and on your own public collection your private builds carry an "Only you see it" mark
 - **UI**: the header *Update* button no longer has the gold tint; it looks like the other header buttons (still with its refresh icon)

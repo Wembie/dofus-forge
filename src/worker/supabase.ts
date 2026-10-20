@@ -14,7 +14,7 @@ export type BuildMeta = {
   name: string
   class_slug: string
   level: number
-  gender: 'm' | 'f' | null
+  gender: 'male' | 'female' | null  // builds.gender column (check constraint)
   visibility: 'private' | 'unlisted' | 'public'
   snapshot: BuildSnapshot
   profiles: { username: string } | null

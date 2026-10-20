@@ -8,6 +8,32 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.113',
+    date: '2026-10-20',
+    notes: [
+      'Fix: Redo works from the header buttons, and undo no longer unlinks a build from its published version',
+      'Fix: broken share links or stored builds no longer blank the page',
+      'Fix: one copy of a set ring and one Prysmaradite at a time; re-picking an item keeps its forgemagie',
+      'Fix: no stray unknown stats from spell-modifier lines; runes on empty slots and long emoji names handled',
+      'Fix: female builds get the female portrait in share previews',
+      'Fix: editing a build from another profile saves your own remix instead of failing to overwrite theirs',
+      'Fix: password recovery links always open the new-password form',
+      'Fix: Follow button shows the right state after a page refresh',
+      'Fix: community pages no longer repeat or skip builds',
+      'New: notifications arrive in real time',
+      'Fix: follower, following and build counts on profiles update again',
+      'Fix: database hardening for counters, likes, comments and views',
+      'Fix: La Forjadora respects the character level and places exos without stealing rune slots',
+      'Fix: La Forjadora caps, ley 0 minimums and level field behave as expected',
+      'Fix: loading a La Forjadora result is a single undo step and never hangs',
+      'Fix: best-element weapons count in the PvP arena; no NaN damage on weapons with AP-cost lines',
+      'Fix: Equip all puts both set rings in different slots; catalog marks rings and Prysmaradite already worn',
+      'Fix: catalog stat filter, no-cap max level, Escape and infinite scroll',
+      'Fix: switching language during loading keeps the right language and spells',
+      'Security: crafted share links can no longer inject special keys into build data',
+    ],
+  },
+  {
     version: '0.3.112',
     date: '2026-10-19',
     notes: [

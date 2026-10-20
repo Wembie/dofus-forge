@@ -7,7 +7,8 @@ import type { SlotConfig } from './slotConfig.ts'
 import { slotImageIcon } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
-import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
+import { IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
+import { isAttackEffect, matchesStatFilter, levelCap, changeLevelRange, NO_LEVEL_CAP, catalogBlock } from './catalogFilters.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch } from '@/ui'
@@ -44,7 +45,7 @@ function getSlotIndex(equipment: AppItem[], slot: SlotConfig, slotId: SlotId): S
     if (it.set_id != null) setIds.add(it.set_id)
     types.add(it.type)
     for (const e of it.effects) {
-      if (isIgnored(e.stat)) continue
+      if (isIgnored(e.stat) || isAttackEffect(e)) continue
       const tKey = STAT_META[e.stat]?.tKey ?? e.stat
       if (!seenTKeys.has(tKey)) { seenTKeys.add(tKey); statKeys.push(e.stat) }
     }
@@ -143,7 +144,8 @@ type ItemCardProps = {
   slotId:      SlotId
   slotIcon:    string
   isEquipped:  boolean
-  equippedDofusSlot: number | null
+  /** Set when the item can't be picked here (already worn elsewhere, or rule conflict) — the badge text. */
+  blockedLabel: string | null
   itemSet:     AppSet | undefined
   isFavItem:   boolean
   t:           ReturnType<typeof useTranslation>['t']
@@ -156,12 +158,12 @@ type ItemCardProps = {
 // star, or hovering it, doesn't re-render every other visible card — each
 // only re-renders when ITS OWN props actually change.
 const ItemCard = memo(function ItemCard({
-  item, slotId, slotIcon, isEquipped, equippedDofusSlot, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
+  item, slotId, slotIcon, isEquipped, blockedLabel, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
 }: ItemCardProps) {
-  const isAlreadyEquipped = equippedDofusSlot !== null
+  const isAlreadyEquipped = blockedLabel !== null
   const highlighted = isEquipped || isAlreadyEquipped
   const isWeapon = item.slot === 'weapon' || item.ap_cost != null
-  const isAtk    = (e: AppItem['effects'][0]) => e.effect_id != null ? WEAPON_ATTACK_IDS.has(e.effect_id) : false
+  const isAtk    = isAttackEffect
   const allFx    = item.effects.filter(e =>
     !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id))
   )
@@ -173,7 +175,7 @@ const ItemCard = memo(function ItemCard({
     <button
       onClick={() => { if (!isAlreadyEquipped) onPick(item) }}
       aria-disabled={isAlreadyEquipped}
-      title={isAlreadyEquipped ? t('already_equipped', { slot: equippedDofusSlot }) : undefined}
+      title={blockedLabel ?? undefined}
       className={`text-left relative rounded-xl overflow-hidden w-full group ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
       style={{
         background: highlighted
@@ -246,7 +248,7 @@ const ItemCard = memo(function ItemCard({
               }}
             >
               <Check size={12} strokeWidth={2.5} aria-hidden="true" />
-              {t('already_equipped', { slot: equippedDofusSlot })}
+              {blockedLabel}
             </span>
           )}
           <p className="text-[12px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
@@ -384,15 +386,17 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const equipItem   = useBuildStore(s => s.equipItem)
   const currentId   = useBuildStore(s => s.equipped[slotId])
   const equipped    = useBuildStore(s => s.equipped)
-  const equippedDofusSlots = useMemo(() => {
-    const slots = new Map<number, number>()
-    for (const [equippedSlot, id] of Object.entries(equipped)) {
-      if (equippedSlot.startsWith('dofus') && id != null) {
-        slots.set(id, Number(equippedSlot.slice('dofus'.length)))
-      }
-    }
-    return slots
-  }, [equipped])
+  const equipmentById = useMemo(
+    () => new Map((equipment ?? []).map(it => [it.ankama_id, it])),
+    [equipment],
+  )
+  const blockedLabel = useCallback((item: AppItem): string | null => {
+    const block = catalogBlock(item, slotId, equipped, equipmentById)
+    if (!block) return null
+    if (block.kind === 'dofus') return t('already_equipped', { slot: Number(block.slot.slice('dofus'.length)) })
+    if (block.kind === 'ring')  return t(`slot_${block.slot}`)
+    return `${t('item_type_Prysmaradite')} · ${t(`slot_${block.slot}`)}`
+  }, [slotId, equipped, equipmentById, t])
   const addToast    = useToastStore(s => s.addToast)
 
   const slotLabel = t(slotTKey(slotId))
@@ -441,6 +445,12 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
   const [setModal,   setSetModal]   = useState<AppSet | null>(null)
 
+  function setLevelRange(which: 'min' | 'max', value: number) {
+    const next = changeLevelRange({ min: minLevel, max: maxLevel }, which, value)
+    setMinLevel(next.min)
+    setMaxLevel(next.max)
+  }
+
   const availableTypes = useMemo(
     () => slotIndex.types.length > 1 ? [...slotIndex.types].sort() : [],
     [slotIndex],
@@ -454,19 +464,9 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     const filtered = equipment.filter(it =>
       matchesSlot(it, slot) &&
       it.level >= minLevel &&
-      it.level <= maxLevel &&
+      it.level <= levelCap(maxLevel) &&
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
-      (statFilter.length === 0 || statFilter.every(s => {
-        const sTKey = STAT_META[s]?.tKey ?? s
-        return it.effects.some(e => {
-          if ((STAT_META[e.stat]?.tKey ?? e.stat) !== sTKey) return false
-          // Only match a real bonus, not a malus (e.g. a hat with -1 Range
-          // shouldn't show up when filtering by "Range") — same effective
-          // value formula the stat engine uses (stats.ts applyEffect).
-          const value = (e.max !== 0 && e.max > e.min) ? e.max : e.min
-          return value > 0
-        })
-      })) &&
+      matchesStatFilter(it, statFilter) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
       (nameSearch === '' || normalizeSearch(it.name).includes(nameSearch)) &&
       (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
@@ -487,12 +487,19 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const scrollRef   = useRef<HTMLDivElement>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
   const bumpingRef  = useRef(false)
+  const bumpTimer   = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   // Any filter/sort change produces a new `items` array — re-page from the
-  // top rather than keep scrolling further into a now-different list.
+  // top rather than keep scrolling further into a now-different list. A page
+  // bump still pending from the old list would grow the fresh one, so drop it.
   useEffect(() => {
+    clearTimeout(bumpTimer.current)
+    bumpingRef.current = false
+    setLoadingMore(false)
     setVisibleCount(PAGE_SIZE)
   }, [search, minLevel, maxLevel, sort, setFilter, statFilter, favsOnly, typeFilter])
+
+  useEffect(() => () => clearTimeout(bumpTimer.current), [])
 
   const visibleItems = useMemo(() => items.slice(0, visibleCount), [items, visibleCount])
   const hasMore = visibleCount < items.length
@@ -508,7 +515,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
         setLoadingMore(true)
         // Small delay so the "loading" spinner is actually perceivable —
         // the slice itself is instant, this is purely a feedback cue.
-        setTimeout(() => {
+        bumpTimer.current = setTimeout(() => {
           setVisibleCount(v => Math.min(v + PAGE_SIZE, items.length))
           setLoadingMore(false)
           bumpingRef.current = false
@@ -529,10 +536,11 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   }, [equipItem, slotId, onClose, onAfterEquip, addToast, t, slot.icon])
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    // The set modal on top handles its own Escape; only the topmost layer closes.
+    const down = (e: KeyboardEvent) => { if (e.key === 'Escape' && !setModal) onClose() }
     window.addEventListener('keydown', down)
     return () => window.removeEventListener('keydown', down)
-  }, [onClose])
+  }, [onClose, setModal])
 
   const SORT_LABELS: Record<SortKey, string> = { 'level-desc': t('sort_level_desc'), 'level-asc': t('sort_level_asc'), 'name-az': t('sort_name_az') }
 
@@ -657,7 +665,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
             <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
             <select
               value={minLevel}
-              onChange={e => setMinLevel(Number(e.target.value))}
+              onChange={e => setLevelRange('min', Number(e.target.value))}
               className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
               style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
@@ -666,11 +674,11 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
             <span className="text-ink-faint">–</span>
             <select
               value={maxLevel}
-              onChange={e => setMaxLevel(Number(e.target.value))}
+              onChange={e => setLevelRange('max', Number(e.target.value))}
               className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
               style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
             >
-              {LEVELS.map(l => <option key={l} value={l}>{l === 0 ? '—' : l}</option>)}
+              {LEVELS.map(l => <option key={l} value={l}>{l === NO_LEVEL_CAP ? '—' : l}</option>)}
             </select>
           </div>
         </div>
@@ -691,7 +699,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                     slotId={slotId}
                     slotIcon={slot.icon}
                     isEquipped={item.ankama_id === currentId}
-                    equippedDofusSlot={slotId.startsWith('dofus') ? equippedDofusSlots.get(item.ankama_id) ?? null : null}
+                    blockedLabel={blockedLabel(item)}
                     itemSet={item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined}
                     isFavItem={isFav(item.ankama_id)}
                     t={t}

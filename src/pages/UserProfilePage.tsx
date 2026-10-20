@@ -10,13 +10,14 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
+import { useIsFollowing } from '@/features/builds/useIsFollowing.ts'
 import { CollectionGrid } from '@/features/collections/Collections.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
 import { fetchPublicCustomRank } from '@/features/ranks/api.ts'
 import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
 import {
   fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount, fetchUserCollections, type CollectionRow,
-  fetchIsFollowing, followUser, unfollowUser, fetchMembershipTier,
+  followUser, unfollowUser, fetchMembershipTier,
   type PublicProfile, type BuildRow, type MembershipTier,
 } from '@/features/builds/api.ts'
 
@@ -59,7 +60,7 @@ export function UserProfilePage() {
   const [stats, setStats] = useState({ buildCount: 0, likeCount: 0 })
   const [commentCount, setCommentCount] = useState(0)
 
-  const [isFollowing, setIsFollowing] = useState(false)
+  const [isFollowing, setIsFollowing] = useIsFollowing(session?.user.id ?? null, profile?.id ?? null)
   const [followerCount, setFollowerCount] = useState(0)
   const isOwnProfile = session?.user.id === profile?.id
 
@@ -86,9 +87,6 @@ export function UserProfilePage() {
       fetchMembershipTier(data.id).then(t => { if (!cancelled) setTier(t) })
       fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
       fetchUserCollections(data.id, true, session?.user.id ?? null).then(({ data: list }) => { if (!cancelled) setCollections(list) })
-      if (session && session.user.id !== data.id) {
-        fetchIsFollowing(session.user.id, data.id).then(r => { if (!cancelled) setIsFollowing(r.following) })
-      }
     })
     return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- re-fetching on session change would race the optimistic toggle below; session is read fresh inside, just not a re-trigger

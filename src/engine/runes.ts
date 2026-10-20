@@ -35,6 +35,12 @@ export function flattenRunes(runes: RuneMapLike): Record<string, number> {
   return out
 }
 
+/** Rune effects of the slots that actually hold an item: runes left on an
+ * empty slot (item missing after a data update, crafted link) add nothing. */
+export function runeEffectsForSlots(runes: Record<string, RuneMapLike> | undefined, hasItem: (slot: string) => boolean): ItemEffect[] {
+  return runeEffectsFrom(Object.entries(runes ?? {}).filter(([slot]) => hasItem(slot)).map(([, map]) => map))
+}
+
 export function runeEffectsFrom(maps: Iterable<RuneMapLike>): ItemEffect[] {
   const effects: ItemEffect[] = []
   for (const map of maps) {

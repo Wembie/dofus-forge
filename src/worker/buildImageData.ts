@@ -1,5 +1,6 @@
 import { computeStats } from '../engine/stats.ts'
-import { runeEffectsFrom } from '../engine/runes.ts'
+import { runeEffectsForSlots } from '../engine/runes.ts'
+import { sanitizeSnapshot } from '../engine/snapshot.ts'
 import { CHARACTERISTICS } from '../engine/types.ts'
 import type { AllocatedCharacteristics, DofusClass, ScrolledCharacteristics, StatBlock } from '../engine/types.ts'
 import type { BuildMeta } from './supabase.ts'
@@ -23,7 +24,7 @@ const CHAR_COLOR: Record<string, string> = {
 }
 
 function decodeSnapshot(build: BuildMeta) {
-  const snap = build.snapshot
+  const snap = sanitizeSnapshot(build.snapshot) ?? sanitizeSnapshot({ v: 1 })!
   const allocated = Object.fromEntries(
     CHARACTERISTICS.map((c, i) => [c, snap.a[i] ?? 0]),
   ) as AllocatedCharacteristics
@@ -34,14 +35,13 @@ function decodeSnapshot(build: BuildMeta) {
     ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null),
   ) as Partial<Record<string, number>>
 
-  const runeEffects = runeEffectsFrom(Object.values(snap.r ?? {}))
-
-  return { allocated, scrolled, equipped, runeEffects }
+  return { allocated, scrolled, equipped, runes: snap.r }
 }
 
 function computeBuildStats(build: BuildMeta, equipment: WorkerAppItem[], sets: WorkerAppSet[]): { stats: StatBlock | null; equippedItems: WorkerAppItem[] } {
-  const { allocated, scrolled, equipped, runeEffects } = decodeSnapshot(build)
+  const { allocated, scrolled, equipped, runes } = decodeSnapshot(build)
   const equipMap = new Map(equipment.map(it => [it.ankama_id, it]))
+  const runeEffects = runeEffectsForSlots(runes, slot => equipMap.has(equipped[slot] ?? -1))
   const equippedItems = ALL_SLOTS
     .map(slot => {
       const id = equipped[slot]
@@ -112,7 +112,7 @@ export async function buildOgImageData(
     title: build.name || classLabel,
     classLabel,
     level: build.level,
-    gender: (build.gender === 'f' ? 'female' : 'male') as 'male' | 'female',
+    gender: build.gender === 'female' ? 'female' : 'male',
     ownerLabel: build.profiles?.username ? `by ${build.profiles.username}` : undefined,
     items: itemRows,
     badges,

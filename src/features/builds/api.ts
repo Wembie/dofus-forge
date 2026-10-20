@@ -1,5 +1,6 @@
 import { getSupabase } from '@/lib/supabase.ts'
 import type { BuildSnapshot, Gender } from '@/store/buildStore.ts'
+import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 
 export type BuildVisibility = 'private' | 'unlisted' | 'public'
 export type ExploreSort = 'rating' | 'likes' | 'recent' | 'views'
@@ -66,6 +67,15 @@ function guard<A extends unknown[], R>(fn: (...args: A) => Promise<R>, fallback:
   }
 }
 
+// A stored snapshot is user-written jsonb: normalize it before any page
+// reads snap.a / snap.e (a malformed one would otherwise crash the page for
+// every viewer).
+const EMPTY_SNAPSHOT = sanitizeSnapshot({ v: 1 })!
+function safeRow<T extends { snapshot: BuildSnapshot }>(row: T): T {
+  return { ...row, snapshot: sanitizeSnapshot(row.snapshot) ?? EMPTY_SNAPSHOT }
+}
+const safeRows = <T extends { snapshot: BuildSnapshot }>(rows: T[]): T[] => rows.map(safeRow)
+
 const SORT_COLUMN: Record<ExploreSort, string> = {
   rating: 'avg_rating',
   likes:  'like_count',
@@ -85,6 +95,9 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
     .select(opts.tagId ? `${LIST_COLUMNS}, filter_tag:build_tags!inner(tag_id)` : LIST_COLUMNS, { count: 'exact' })
     .eq('visibility', 'public')
     .order(SORT_COLUMN[opts.sort], { ascending: false })
+    // Tie-breaker: most builds share like/view/rating counts (often 0), and
+    // offset pages over an unstable order repeat or skip builds on "Load more".
+    .order('id', { ascending: true })
     .range(from, to)
   if (opts.tagId) query = query.eq('filter_tag.tag_id', opts.tagId)
   if (opts.classSlug) query = query.eq('class_slug', opts.classSlug)
@@ -110,7 +123,7 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
     if (tsQuery) query = query.textSearch('search_vector', tsQuery, { config: 'simple' })
   }
   const { data, error, count } = await query
-  return { data: (data ?? []) as unknown as BuildRow[], error: error?.message ?? null, count: count ?? 0 }
+  return { data: safeRows((data ?? []) as unknown as BuildRow[]), error: error?.message ?? null, count: count ?? 0 }
 }, error => ({ data: [] as BuildRow[], error, count: 0 }))
 
 export const fetchBuildById = guard(async function fetchBuildById(id: string) {
@@ -121,7 +134,7 @@ export const fetchBuildById = guard(async function fetchBuildById(id: string) {
     .eq('id', id)
     .single()
   if (error) return { data: null, error: error.message }
-  return { data: data as unknown as BuildDetailRow, error: null }
+  return { data: safeRow(data as unknown as BuildDetailRow), error: null }
 }, error => ({ data: null, error }))
 
 export const publishBuild = guard(async function publishBuild(opts: {
@@ -248,7 +261,7 @@ export const fetchCollection = guard(async function fetchCollection(id: string, 
   const owner = row.user_id as string
   const builds = [...row.entries]
     .sort((a, b) => a.position - b.position || a.added_at.localeCompare(b.added_at))
-    .map(e => e.builds)
+    .map(e => (e.builds ? safeRow(e.builds) : null))
     .filter((b): b is BuildRow => b != null && showsInCollection(b, owner, viewerId))
   return { data: { ...toCollection(row, viewerId), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
 }, error => ({ data: null, error }))
@@ -399,6 +412,25 @@ export const fetchNotifications = guard(async function fetchNotifications(userId
   return (data ?? []) as unknown as NotificationRow[]
 }, () => [] as NotificationRow[])
 
+/**
+ * Live feed of the user's new notifications (Supabase Realtime, filtered to
+ * their own rows and still gated by the notifications RLS). Returns an
+ * unsubscribe function; if realtime can't connect, polling still covers it.
+ */
+export function subscribeToNotifications(userId: string, onInsert: () => void): () => void {
+  let stopped = false
+  let cleanup = () => {}
+  getSupabase().then(supabase => {
+    if (stopped) return
+    const channel = supabase
+      .channel(`notifications:${userId}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${userId}` }, onInsert)
+      .subscribe()
+    cleanup = () => { void supabase.removeChannel(channel) }
+  }).catch(() => { /* polling fallback */ })
+  return () => { stopped = true; cleanup() }
+}
+
 /** Marks the given notifications (or all unread ones) as read. */
 export const markNotificationsRead = guard(async function markNotificationsRead(userId: string, ids?: string[]) {
   const supabase = await getSupabase()
@@ -435,7 +467,7 @@ export const fetchForks = guard(async function fetchForks(buildId: string, limit
     .eq('visibility', 'public')
     .order('created_at', { ascending: false })
     .limit(limit)
-  return { data: (data ?? []) as unknown as BuildRow[], count: count ?? 0, error: error?.message ?? null }
+  return { data: safeRows((data ?? []) as unknown as BuildRow[]), count: count ?? 0, error: error?.message ?? null }
 }, error => ({ data: [] as BuildRow[], count: 0, error }))
 
 /** Versions kept per build in build_snapshots; older ones are pruned. */
@@ -483,7 +515,7 @@ export const fetchBuildHistory = guard(async function fetchBuildHistory(buildId:
     .eq('build_id', buildId)
     .order('created_at', { ascending: false })
     .limit(HISTORY_LIMIT)
-  return { data: (data ?? []) as BuildVersion[], error: error?.message ?? null }
+  return { data: safeRows((data ?? []) as BuildVersion[]), error: error?.message ?? null }
 }, error => ({ data: [] as BuildVersion[], error }))
 
 export const updateBuild = guard(async function updateBuild(buildId: string, opts: {
@@ -497,7 +529,7 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
 }) {
   await archiveCurrentVersion(buildId, opts.snapshot)
   const supabase = await getSupabase()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('builds')
     .update({
       name:         opts.name,
@@ -509,7 +541,12 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
       snapshot:     opts.snapshot,
     })
     .eq('id', buildId)
-  return { error: error?.message ?? null }
+    .select('id')
+  if (error) return { error: error.message }
+  // RLS turns an update of someone else's (or a deleted) build into a silent
+  // 0-row success; report it so the caller doesn't claim it saved.
+  if (!data || data.length === 0) return { error: 'not_updated' }
+  return { error: null }
 }, error => ({ error }))
 
 export const recordBuildView = guard(async function recordBuildView(buildId: string, userId: string | null) {
@@ -539,7 +576,7 @@ export const fetchMyBuilds = guard(async function fetchMyBuilds(userId: string) 
     .select('id, name, class_slug, gender, level, visibility, like_count, view_count, avg_rating, comment_count, created_at, snapshot')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-  return { data: (data ?? []) as unknown as MyBuildRow[], error: error?.message ?? null }
+  return { data: safeRows((data ?? []) as unknown as MyBuildRow[]), error: error?.message ?? null }
 }, error => ({ data: [] as MyBuildRow[], error }))
 
 export const deleteBuild = guard(async function deleteBuild(buildId: string) {
@@ -602,7 +639,7 @@ export const fetchMyBookmarkedBuilds = guard(async function fetchMyBookmarkedBui
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
   if (error) return { data: [] as BuildRow[], error: error.message }
-  const builds = (data ?? []).map(row => (row as unknown as { builds: BuildRow }).builds)
+  const builds = safeRows((data ?? []).map(row => (row as unknown as { builds: BuildRow }).builds))
   return { data: builds, error: null }
 }, error => ({ data: [] as BuildRow[], error }))
 

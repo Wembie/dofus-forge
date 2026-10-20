@@ -6,9 +6,9 @@
 import type { AppSpellLevel } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
-import { calcEffects, calcDamage } from '../spells/spellDamage.ts'
-import { dedupEffects, rangePct, WEAPON_ATTACK_STAT } from '../spells/spellCalc.ts'
-import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
+import { calcEffects } from '../spells/spellDamage.ts'
+import { dedupEffects, rangePct } from '../spells/spellCalc.ts'
+import { weaponAttackEffects, weaponDamageRows } from '../spells/weaponRows.ts'
 import type { PvpElement, PvpResist } from '@/store/pvpStore.ts'
 import { applyResist } from './pvpMath.ts'
 
@@ -61,37 +61,14 @@ export function simulateWeaponHit(
   const critBon  = weapon.crit_bonus ?? 0
   const weaponPct = stats.weaponDamagePercent + rangePct(minR, maxR, stats)
 
-  const hasNeutralDamage = weapon.effects.some(e => e.stat === 'Neutral damage')
-  const base = weapon.effects.filter(e =>
-    e.effect_id != null
-      ? WEAPON_ATTACK_IDS.has(e.effect_id) && e.effect_id !== 225
-      : Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat),
-  )
-  const rows = weaponTransform && hasNeutralDamage
-    ? base.map(e => {
-        if (e.stat !== 'Neutral damage') return e
-        const elemStat = `${weaponTransform.element.charAt(0).toUpperCase()}${weaponTransform.element.slice(1)} damage`
-        const r = weaponTransform.ratio / 100
-        // Dofus rounds transformed weapon damage DOWN, not up (see EquipmentGrid.tsx).
-        const newMin = Math.floor(e.min * r)
-        const newMax = e.max > 0 ? Math.floor(e.max * r) : newMin
-        return { ...e, stat: elemStat, min: newMin, max: newMax }
-      })
-    : base
-
+  const rows = weaponDamageRows(weaponAttackEffects(weapon, weaponTransform), stats, critBon, weaponPct, weaponPct)
   let min = 0, max = 0, critMin = 0, critMax = 0
-  for (const e of rows) {
-    const elem = WEAPON_ATTACK_STAT[e.stat]
-    if (!elem) continue // e.g. effect_id 238 "MP removed on hit" — not elemental damage
-    const baseMax = e.max > 0 ? e.max : e.min
-    const low   = calcDamage(e.min, elem, stats, weaponPct)
-    const high  = calcDamage(baseMax, elem, stats, weaponPct)
-    const cLow  = calcDamage(e.min + critBon, elem, stats, weaponPct) + stats.critDamage
-    const cHigh = calcDamage(baseMax + critBon, elem, stats, weaponPct) + stats.critDamage
-    min     += applyResist(low,  resist[elem])
-    max     += applyResist(high, resist[elem])
-    critMin += applyResist(cLow,  resist[elem])
-    critMax += applyResist(cHigh, resist[elem])
+  for (const r of rows) {
+    const elem = r.elem!
+    min     += applyResist(r.low,      resist[elem])
+    max     += applyResist(r.high,     resist[elem])
+    critMin += applyResist(r.critLow,  resist[elem])
+    critMax += applyResist(r.critHigh, resist[elem])
   }
 
   const hasCrit = (weapon.crit_chance ?? 0) > 0

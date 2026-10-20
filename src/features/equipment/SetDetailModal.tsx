@@ -9,6 +9,7 @@ import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { Modal, Button } from '@/ui'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
+import { assignSetSlots } from './setSlots.ts'
 
 type Props = {
   set:     AppSet
@@ -97,22 +98,10 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
     // store update, so a single Undo only reverted the LAST item (e.g. one
     // ring of a two-ring set stayed equipped). One equipMultiple() call =
     // one history entry for the whole "Equip All" action.
-    const localEquipped = { ...equipped }
-    const toEquip: { slot: SlotId; ankama_id: number }[] = []
-    const equippedItems: { slot: SlotId; item: AppItem }[] = []
+    const equippedItems = assignSetSlots(setItems, equipped)
 
-    for (const item of setItems) {
-      if (isEquipped(item)) continue
-      const slots  = slotByApiSlot.get(item.slot) ?? []
-      const target = slots.find(sid => localEquipped[sid] == null) ?? slots[0]
-      if (!target) continue
-      localEquipped[target] = item.ankama_id
-      toEquip.push({ slot: target, ankama_id: item.ankama_id })
-      equippedItems.push({ slot: target, item })
-    }
-
-    if (toEquip.length > 0) {
-      equipMultiple(toEquip)
+    if (equippedItems.length > 0) {
+      equipMultiple(equippedItems.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
       for (const { slot, item } of equippedItems) {
         const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
         addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')

@@ -4,7 +4,8 @@ import { DOFUS_CLASSES } from '@/engine/types.ts'
 import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
 import { ALL_SLOTS, type BuildSnapshot, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import { computeStats } from '@/engine/stats.ts'
-import { runeEffectsFrom } from '@/engine/runes.ts'
+import { runeEffectsForSlots } from '@/engine/runes.ts'
+import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
 
@@ -35,7 +36,7 @@ function snapshotToStats(snap: BuildSnapshot, equipment: AppItem[], sets: AppSet
     })
     .filter((x): x is NonNullable<typeof x> => x !== null)
 
-  const runeEffects = runeEffectsFrom(Object.values(runes))
+  const runeEffects = runeEffectsForSlots(runes, slot => equipMap.has(equippedMap[slot as SlotId] ?? -1))
 
   return computeStats({
     class:     snap.c as DofusClass,
@@ -76,7 +77,9 @@ export const useCompareStore = create<CompareState>((set, get) => ({
 
   toggle: () => set(s => ({ active: !s.active })),
 
-  loadBuild: (snap, name, equipment, sets) => {
+  loadBuild: (input, name, equipment, sets) => {
+    const snap = sanitizeSnapshot(input)
+    if (!snap) return
     const statsB    = snapshotToStats(snap, equipment, sets)
     const equippedB = Object.fromEntries(
       ALL_SLOTS.map((slot, i) => [slot, snap.e[i] ?? undefined]).filter(([, v]) => v != null)

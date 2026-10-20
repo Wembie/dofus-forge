@@ -1,28 +1,14 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useBuildStore } from './buildStore.ts'
-import { useHistoryStore } from './historyStore.ts'
-import { encodeBuild } from '@/features/share/codec.ts'
-
-let lastEncoded = ''
+import { useHistoryStore, trackBuildChange } from './historyStore.ts'
 
 export function useHistory() {
-  const undo    = useHistoryStore(s => s.undo)
-  const redo    = useHistoryStore(s => s.redo)
-  const push    = useHistoryStore(s => s.push)
-  const skipRef = useRef(false)
+  const undo = useHistoryStore(s => s.undo)
+  const redo = useHistoryStore(s => s.redo)
 
-  // Subscribe to build state changes and push to history
-  useEffect(() => {
-    const unsub = useBuildStore.subscribe(state => {
-      if (skipRef.current) return
-      if (!state.selectedClass) return
-      const encoded = encodeBuild(state)
-      if (encoded === lastEncoded) return
-      lastEncoded = encoded
-      push(state)
-    })
-    return unsub
-  }, [push])
+  // Record build changes; undo/redo themselves are excluded inside the store,
+  // so the header buttons and the keyboard shortcuts behave the same.
+  useEffect(() => useBuildStore.subscribe(trackBuildChange), [])
 
   // Keyboard shortcuts: Ctrl+Z = undo, Ctrl+Shift+Z or Ctrl+Y = redo
   useEffect(() => {
@@ -33,14 +19,10 @@ export function useHistory() {
 
       if (e.key === 'z' && !e.shiftKey) {
         e.preventDefault()
-        skipRef.current = true
         undo()
-        skipRef.current = false
       } else if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
         e.preventDefault()
-        skipRef.current = true
         redo()
-        skipRef.current = false
       }
     }
     window.addEventListener('keydown', onKey)
