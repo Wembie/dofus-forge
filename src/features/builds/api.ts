@@ -190,6 +190,95 @@ export const setBuildTags = guard(async function setBuildTags(buildId: string, t
   return { error: error?.message ?? null }
 }, error => ({ error }))
 
+// ── Collections ──────────────────────────────────────────────────────────
+
+export type CollectionRow = {
+  id:          string
+  user_id:     string
+  name:        string
+  description: string | null
+  is_public:   boolean
+  updated_at:  string
+  build_count: number
+}
+
+const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, collection_builds(count)'
+
+function toCollection(row: Record<string, unknown>): CollectionRow {
+  const counted = row.collection_builds as { count: number }[] | undefined
+  return { ...(row as Omit<CollectionRow, 'build_count'>), build_count: counted?.[0]?.count ?? 0 }
+}
+
+/** The user's collections (all of them for the owner, public ones for anyone else via RLS). */
+export const fetchUserCollections = guard(async function fetchUserCollections(userId: string, publicOnly: boolean = false) {
+  const supabase = await getSupabase()
+  let query = supabase.from('collections').select(COLLECTION_COLUMNS).eq('user_id', userId).order('updated_at', { ascending: false })
+  if (publicOnly) query = query.eq('is_public', true)
+  const { data, error } = await query
+  return { data: (data ?? []).map(toCollection), error: error?.message ?? null }
+}, error => ({ data: [] as CollectionRow[], error }))
+
+export type CollectionDetail = CollectionRow & { profiles: Pick<BuildOwner, 'username' | 'display_name'> | null; builds: BuildRow[] }
+
+/** One collection with its owner and builds (builds the viewer can't see are dropped by RLS). */
+export const fetchCollection = guard(async function fetchCollection(id: string) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('collections')
+    .select(`${COLLECTION_COLUMNS}, profiles(username, display_name), entries:collection_builds(position, added_at, builds(${LIST_COLUMNS}))`)
+    .eq('id', id)
+    .maybeSingle()
+  if (error || !data) return { data: null, error: error?.message ?? null }
+  const row = data as unknown as Record<string, unknown> & { entries: { position: number; added_at: string; builds: BuildRow | null }[] }
+  const builds = [...row.entries]
+    .sort((a, b) => a.position - b.position || a.added_at.localeCompare(b.added_at))
+    .map(e => e.builds)
+    .filter((b): b is BuildRow => b != null)
+  return { data: { ...toCollection(row), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
+}, error => ({ data: null, error }))
+
+export const createCollection = guard(async function createCollection(userId: string, opts: { name: string; description?: string | null; isPublic: boolean }) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('collections')
+    .insert({ user_id: userId, name: opts.name, description: opts.description ?? null, is_public: opts.isPublic })
+    .select(COLLECTION_COLUMNS)
+    .single()
+  if (error || !data) return { data: null, error: error?.message ?? 'unknown' }
+  return { data: toCollection(data as Record<string, unknown>), error: null }
+}, error => ({ data: null, error }))
+
+export const updateCollection = guard(async function updateCollection(id: string, patch: { name?: string; description?: string | null; is_public?: boolean }) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('collections').update(patch).eq('id', id)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+export const deleteCollection = guard(async function deleteCollection(id: string) {
+  const supabase = await getSupabase()
+  const { error } = await supabase.from('collections').delete().eq('id', id)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
+/** Ids of the user's collections that already contain this build. */
+export const fetchCollectionsWithBuild = guard(async function fetchCollectionsWithBuild(userId: string, buildId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('collection_builds')
+    .select('collection_id, collections!inner(user_id)')
+    .eq('build_id', buildId)
+    .eq('collections.user_id', userId)
+  return new Set(((data ?? []) as { collection_id: string }[]).map(r => r.collection_id))
+}, () => new Set<string>())
+
+export const setBuildInCollection = guard(async function setBuildInCollection(collectionId: string, buildId: string, inCollection: boolean) {
+  const supabase = await getSupabase()
+  const { error } = inCollection
+    ? await supabase.from('collection_builds').upsert({ collection_id: collectionId, build_id: buildId }, { onConflict: 'collection_id,build_id', ignoreDuplicates: true })
+    : await supabase.from('collection_builds').delete().eq('collection_id', collectionId).eq('build_id', buildId)
+  return { error: error?.message ?? null }
+}, error => ({ error }))
+
 export type BuildSummary = { id: string; name: string; profiles: Pick<BuildOwner, 'username' | 'display_name'> | null }
 
 /** Name + owner of a build (the original a remix points to). null when it

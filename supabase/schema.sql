@@ -481,6 +481,10 @@ create policy "collections write" on collections    for all    using (auth.uid()
 create policy "col_builds read"  on collection_builds for select using (
   exists (select 1 from collections where id = collection_id and (is_public or auth.uid() = user_id))
 );
+-- Escritura: solo el dueño de la colección agrega/quita builds (M56)
+create policy "col_builds write" on collection_builds for all
+  using (exists (select 1 from collections where id = collection_id and auth.uid() = user_id))
+  with check (exists (select 1 from collections where id = collection_id and auth.uid() = user_id));
 -- Reports: insert para cualquier user autenticado; SELECT solo para moderadores/admins
 create policy "reports insert" on build_reports for insert
   with check (auth.uid() = reporter_id);

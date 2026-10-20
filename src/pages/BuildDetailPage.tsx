@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw } from 'lucide-react'
+import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus } from 'lucide-react'
+import { CollectionPicker } from '@/features/collections/Collections.tsx'
 import { Button, Frame } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -83,6 +84,7 @@ export function BuildDetailPage() {
   const [comments, setComments]         = useState<CommentRow[]>([])
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
   const [history, setHistory]           = useState<BuildVersion[]>([])
+  const [collectOpen, setCollectOpen]   = useState(false)
   const [restoring, setRestoring]       = useState<string | null>(null)
   // undefined = not loaded / not a remix, null = original no longer visible
   const [forkParent, setForkParent]     = useState<BuildSummary | null | undefined>(undefined)
@@ -374,6 +376,15 @@ export function BuildDetailPage() {
             >
               <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
+            <button
+              onClick={() => setCollectOpen(true)}
+              disabled={!session}
+              className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-gold transition-colors"
+              title={session ? t('collections_save') : t('build_detail_signin_required')}
+              aria-label={t('collections_save')}
+            >
+              <FolderPlus size={14} />
+            </button>
             <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
             {forks.count > 0 && (
               <a href="#remixes" className="flex items-center gap-1.5 hover:text-gold transition-colors" title={t('build_detail_remixes', { count: forks.count })}>
@@ -498,6 +509,10 @@ export function BuildDetailPage() {
               })}
             </ul>
           </Frame>
+        )}
+
+        {session && (
+          <CollectionPicker open={collectOpen} onClose={() => setCollectOpen(false)} userId={session.user.id} buildId={build.id} />
         )}
 
         {history.length > 0 && (

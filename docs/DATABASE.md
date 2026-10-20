@@ -1015,6 +1015,10 @@ create policy "collections write" on collections    for all    using (auth.uid()
 create policy "col_builds read"  on collection_builds for select using (
   exists (select 1 from collections where id = collection_id and (is_public or auth.uid() = user_id))
 );
+-- Escritura: solo el dueño de la colección agrega/quita builds (M56)
+create policy "col_builds write" on collection_builds for all
+  using (exists (select 1 from collections where id = collection_id and auth.uid() = user_id))
+  with check (exists (select 1 from collections where id = collection_id and auth.uid() = user_id));
 -- Reports: insert para cualquier user autenticado; SELECT solo para moderadores/admins
 create policy "reports insert" on build_reports for insert
   with check (auth.uid() = reporter_id);
@@ -2084,4 +2088,22 @@ end;
 $$;
 revoke all on function public.admin_revoke_custom_rank(uuid) from public;
 grant execute on function public.admin_revoke_custom_rank(uuid) to authenticated;
+```
+
+### Migración manual — comunidad: colecciones, notificaciones y reportes (0.3.109)
+
+Correr una vez en el SQL Editor de Supabase. Es idempotente: se puede correr
+más de una vez. Hasta que se corra, agregar builds a una colección falla con
+un aviso (el resto de la app funciona igual).
+
+```sql
+begin;
+
+-- M56: el dueño de una colección puede agregar/quitar builds
+drop policy if exists "col_builds write" on collection_builds;
+create policy "col_builds write" on collection_builds for all
+  using (exists (select 1 from collections where id = collection_id and auth.uid() = user_id))
+  with check (exists (select 1 from collections where id = collection_id and auth.uid() = user_id));
+
+commit;
 ```

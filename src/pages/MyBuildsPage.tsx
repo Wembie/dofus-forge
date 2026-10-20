@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud, Layers, Bookmark } from 'lucide-react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud, Layers, Bookmark, FolderOpen } from 'lucide-react'
 import { Frame, Tabs } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -16,9 +16,10 @@ import { BuildEquipmentPreview } from '@/features/builds/BuildEquipmentPreview.t
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { encodeSnapshot } from '@/features/share/codec.ts'
 import {
-  fetchMyBuilds, deleteBuild, updateBuildVisibility, fetchMyBookmarkedBuilds,
-  type MyBuildRow, type BuildVisibility, type BuildRow,
+  fetchMyBuilds, deleteBuild, updateBuildVisibility, fetchMyBookmarkedBuilds, fetchUserCollections,
+  type MyBuildRow, type BuildVisibility, type BuildRow, type CollectionRow,
 } from '@/features/builds/api.ts'
+import { CollectionGrid, NewCollectionForm } from '@/features/collections/Collections.tsx'
 
 const VISIBILITY_ORDER: BuildVisibility[] = ['private', 'unlisted', 'public']
 
@@ -200,11 +201,12 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
   )
 }
 
-type MyBuildsTab = 'mine' | 'bookmarked'
+type MyBuildsTab = 'mine' | 'bookmarked' | 'collections'
 
 const TAB_ITEMS: { id: MyBuildsTab; label: string; Icon: typeof Layers }[] = [
   { id: 'mine',       label: 'my_builds_tab_mine',       Icon: Layers },
   { id: 'bookmarked', label: 'my_builds_tab_bookmarked', Icon: Bookmark },
+  { id: 'collections', label: 'my_builds_tab_collections', Icon: FolderOpen },
 ]
 
 export function MyBuildsPage() {
@@ -212,7 +214,11 @@ export function MyBuildsPage() {
   useLoadGameData()
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'my-builds', { noindex: true })
   const session      = useAuthStore(s => s.session)
-  const [tab, setTab]         = useState<MyBuildsTab>('mine')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  const tab: MyBuildsTab = tabParam === 'bookmarked' || tabParam === 'collections' ? tabParam : 'mine'
+  const setTab = (next: MyBuildsTab) => setSearchParams(next === 'mine' ? {} : { tab: next }, { replace: true })
+  const [collections, setCollections] = useState<CollectionRow[] | null>(null)
   const [builds, setBuilds]   = useState<MyBuildRow[]>([])
   const [bookmarked, setBookmarked] = useState<BuildRow[]>([])
   const [loading, setLoading] = useState(true)
@@ -237,6 +243,11 @@ export function MyBuildsPage() {
       setBookmarksLoaded(true)
     })
   }, [tab, bookmarksLoaded, session])
+
+  useEffect(() => {
+    if (tab !== 'collections' || collections != null || !session) return
+    fetchUserCollections(session.user.id).then(({ data }) => setCollections(data))
+  }, [tab, collections, session])
 
   const publicCount = builds.filter(b => b.visibility === 'public').length
   const totalLikes  = builds.reduce((sum, b) => sum + b.like_count, 0)
@@ -275,7 +286,22 @@ export function MyBuildsPage() {
               variant="segment"
             />
 
-            {tab === 'mine' ? (
+            {tab === 'collections' ? (
+              <div className="space-y-4">
+                {session && (
+                  <Frame padding="md" className="max-w-md">
+                    <NewCollectionForm userId={session.user.id} onCreated={c => setCollections(prev => [c, ...(prev ?? [])])} />
+                  </Frame>
+                )}
+                {collections == null ? (
+                  <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
+                ) : collections.length === 0 ? (
+                  <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('collections_empty')}</p>
+                ) : (
+                  <CollectionGrid collections={collections} />
+                )}
+              </div>
+            ) : tab === 'mine' ? (
               <>
                 {loading && (
                   <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
