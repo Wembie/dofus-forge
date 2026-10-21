@@ -117,6 +117,8 @@ export type StatBlock = {
   weaponDamagePercent: number
   /** % final damage — only from combat passives (Dofus, legendaries…), never from gear stats. */
   finalDamagePercent:  number
+  /** % more damage the targets suffer (Thanatena, Scissors of Destiny) — its own multiplier, after final damage. */
+  targetVulnerabilityPercent: number
   meleeResistPercent:  number
   rangedResistPercent: number
 

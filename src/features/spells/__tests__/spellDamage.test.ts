@@ -96,7 +96,7 @@ describe('damageBreakdown', () => {
     const s = stats({ intelligence: 820, power: 180, fireDamage: 104 })
     expect(damageBreakdown(35, 'fire', s, { kindPct: 0, rangePct: 10 }, 174)).toEqual({
       roll: 35, characteristic: 820, power: 180, extraPower: 0,
-      scaled: 385, fixed: 104, critDamage: 174, beforePct: 663, afterRange: 729, afterKind: 729, finalPct: 0, total: 729,
+      scaled: 385, fixed: 104, critDamage: 174, beforePct: 663, afterRange: 729, afterKind: 729, finalPct: 0, afterFinal: 729, vulnerabilityPct: 0, total: 729,
     })
   })
 
@@ -141,5 +141,15 @@ describe('% final damage (combat passives)', () => {
   it('a negative final damage (Pryssure) lowers the hit, never below 0', () => {
     expect(calcDamage(100, 'earth', stats({ finalDamagePercent: -50 }))).toBe(50)
     expect(calcDamage(100, 'earth', stats({ finalDamagePercent: -150 }))).toBe(0)
+  })
+})
+
+describe('target vulnerability (Thanatena, Scissors of Destiny)', () => {
+  it('is its own multiplier after final damage, not added to it', () => {
+    // 1000 × 1.10 final × 1.06 vulnerability = 1166 (adding them would give 1160).
+    const s = stats({ finalDamagePercent: 10, targetVulnerabilityPercent: 6 })
+    expect(calcDamage(1000, 'earth', s)).toBe(1166)
+    const b = damageBreakdown(1000, 'earth', s)
+    expect([b.afterFinal, b.vulnerabilityPct, b.total]).toEqual([1100, 6, 1166])
   })
 })

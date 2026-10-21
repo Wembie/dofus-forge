@@ -72,3 +72,13 @@ describe('DamageHover with % final damage', () => {
     expect(tip).toMatch(/dmg_bd_total802/)
   })
 })
+
+describe('DamageHover with target vulnerability', () => {
+  it('shows it as the last step', () => {
+    const s = { ...stats, intelligence: 0, power: 0, fireDamage: 0, finalDamagePercent: 10, targetVulnerabilityPercent: 6 } as StatBlock
+    render(<DamageHover roll={[1000, 1000]} elem="fire" stats={s} mods={{ kindPct: 0, rangePct: 0 }} kind="spell">x</DamageHover>)
+    const tip = hover().textContent!
+    expect(tip).toContain('stat_final_dmg×1,11100')
+    expect(tip).toContain('stat_target_vulnerability×1,061166')
+  })
+})

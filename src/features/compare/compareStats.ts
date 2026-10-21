@@ -72,6 +72,7 @@ export const COMPARE_STATS: CompareStatDef[] = [
   { key: 'spellDamagePercent',  icon: 'spell_damage',      tKey: 'stat_spell_dmg',  color: 'var(--wisdom)',  suffix: '%', section: 'mods' },
   { key: 'weaponDamagePercent', icon: 'weapon_damage',     tKey: 'stat_weapon_dmg', color: 'var(--gold)',    suffix: '%', section: 'mods' },
   { key: 'finalDamagePercent',  icon: 'damage',            tKey: 'stat_final_dmg',  color: 'var(--gold)',    suffix: '%', section: 'mods' },
+  { key: 'targetVulnerabilityPercent', icon: 'damage',     tKey: 'stat_target_vulnerability', color: 'var(--negative)', suffix: '%', section: 'mods' },
   { key: 'meleeResistPercent',  icon: 'melee_resistance',  tKey: 'stat_melee_res',  color: 'var(--earth)',   suffix: '%', section: 'mods' },
   { key: 'rangedResistPercent', icon: 'ranged_resistance', tKey: 'stat_ranged_res', color: 'var(--water)',   suffix: '%', section: 'mods' },
 ]

@@ -34,7 +34,7 @@ const CHARACTERISTIC: Record<number, string> = {
 
 /** Effects whose `diceNum` is another spell to cast (the passive's real effects live there). */
 const CAST_ACTIONS = new Set([792, 1017, 1018, 1160, 2017, 2160, 2793])
-/** "x#1% damage sustained": on enemies, a hit of ours deals that much more. */
+/** "x#1% damage sustained": on enemies, our hits deal that much more (a separate multiplier in game). */
 const DAMAGE_SUSTAINED = 1163
 
 type Ref = Record<string, unknown>
@@ -121,7 +121,7 @@ export function extractEffects(
         let onTargets: true | undefined
         if (action === DAMAGE_SUSTAINED) {
           if (!reachesEnemies(mask) || dice <= 100) continue
-          stat = 'finalDamagePercent'
+          stat = 'targetVulnerabilityPercent'
           value = dice - 100
           onTargets = true
         } else {

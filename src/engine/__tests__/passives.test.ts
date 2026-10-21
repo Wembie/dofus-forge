@@ -122,9 +122,10 @@ describe('passive bonus', () => {
     expect(controlMax(ITEM_PASSIVES.get(23237)![0])).toBe(8)
   })
 
-  it('damage-suffered increases on targets count as final damage (Thanatena +4%, Scissors +6%)', () => {
-    expect(passiveBonus([32117], { '32117.1': 1 })).toEqual({ finalDamagePercent: 4 })
-    expect(passiveBonus([20354], { '20354.1': 1 })).toEqual({ finalDamagePercent: 6 })
+  it('damage the targets suffer is its own stat (Thanatena +4%, Scissors +6%), not final damage', () => {
+    expect(passiveBonus([32117], { '32117.1': 1 })).toEqual({ targetVulnerabilityPercent: 4 })
+    expect(passiveBonus([20354], { '20354.1': 1 })).toEqual({ targetVulnerabilityPercent: 6 })
+    expect(passiveBonus([32117], { '32117.0': 2 })).toEqual({ finalDamagePercent: 20 })
   })
 
   it('controlBonus is clamped to the control', () => {

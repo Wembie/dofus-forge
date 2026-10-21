@@ -45,7 +45,7 @@ describe('fetch-passives extractEffects', () => {
     expect(out.map(e => [e.stat, e.value, e.maxStack])).toEqual([
       ['finalDamagePercent', 1, 10],
       ['finalDamagePercent', -35, 10],
-      ['finalDamagePercent', 6, 10],
+      ['targetVulnerabilityPercent', 6, 10],
       ['resPercentAll', 3, 10],
     ])
   })

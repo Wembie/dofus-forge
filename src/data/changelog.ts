@@ -16,6 +16,8 @@ export const CHANGELOG: ChangelogEntry[] = [
       'New: % final damage, applied last in the damage formula',
       'Passive settings are saved with the build and shown on the build page',
       'Passive values come from the game data and update automatically with each game update',
+      'Stats sheet: a With passives switch shows combat stats and what each passive adds',
+      'Damage the targets suffer is its own multiplier after final damage, as in game',
     ],
   },
   {

@@ -1221,5 +1221,9 @@
   "passives_set_stacks": "{{n}} acumulaciones",
   "passives_turn": "Turno {{n}}",
   "passives_off": "No",
-  "passives_shared": "Compartido: {{used}}/{{max}} acumulaciones en total"
+  "passives_shared": "Compartido: {{used}}/{{max}} acumulaciones en total",
+  "stat_target_vulnerability": "% Daño recibido por el objetivo",
+  "stats_combat_toggle": "Con pasivas",
+  "stats_combat_hint": "Stats en combate: tu equipo más las pasivas activas. En combate los PA y PM pueden pasar del tope.",
+  "stats_from_passives": "Aporte de las pasivas de combate"
 }

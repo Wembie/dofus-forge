@@ -1221,5 +1221,9 @@
   "passives_set_stacks": "{{n}} stacks",
   "passives_turn": "Turn {{n}}",
   "passives_off": "Off",
-  "passives_shared": "Shared: {{used}}/{{max}} stacks in total"
+  "passives_shared": "Shared: {{used}}/{{max}} stacks in total",
+  "stat_target_vulnerability": "% Damage taken by the target",
+  "stats_combat_toggle": "With passives",
+  "stats_combat_hint": "Combat stats: your gear plus the active passives. In combat, AP and MP can go past the cap.",
+  "stats_from_passives": "From combat passives"
 }

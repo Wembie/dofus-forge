@@ -1221,5 +1221,9 @@
   "passives_set_stacks": "{{n}} cumuls",
   "passives_turn": "Tour {{n}}",
   "passives_off": "Non",
-  "passives_shared": "Partagé : {{used}}/{{max}} cumuls au total"
+  "passives_shared": "Partagé : {{used}}/{{max}} cumuls au total",
+  "stat_target_vulnerability": "% Dommages subis par la cible",
+  "stats_combat_toggle": "Avec passifs",
+  "stats_combat_hint": "Stats en combat : votre équipement plus les passifs actifs. En combat, les PA et PM peuvent dépasser le plafond.",
+  "stats_from_passives": "Apport des passifs de combat"
 }

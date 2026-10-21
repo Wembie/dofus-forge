@@ -1221,5 +1221,9 @@
   "passives_set_stacks": "{{n}} acúmulos",
   "passives_turn": "Turno {{n}}",
   "passives_off": "Não",
-  "passives_shared": "Compartilhado: {{used}}/{{max}} acúmulos no total"
+  "passives_shared": "Compartilhado: {{used}}/{{max}} acúmulos no total",
+  "stat_target_vulnerability": "% Dano sofrido pelo alvo",
+  "stats_combat_toggle": "Com passivas",
+  "stats_combat_hint": "Stats em combate: seu equipamento mais as passivas ativas. Em combate, PA e PM podem passar do limite.",
+  "stats_from_passives": "Vindo das passivas de combate"
 }

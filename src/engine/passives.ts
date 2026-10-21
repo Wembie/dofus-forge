@@ -18,7 +18,7 @@ import { PASSIVE_DATA, type GeneratedEffect } from '../data/passives.generated.t
 export type PassiveStat =
   | 'ap' | 'mp' | 'power' | 'damage' | 'critChance' | 'pushbackDamage' | 'dodge' | 'lock'
   | 'apReduction' | 'mpReduction' | 'apParry' | 'mpParry'
-  | 'meleeDamagePercent' | 'rangedDamagePercent' | 'spellDamagePercent' | 'finalDamagePercent'
+  | 'meleeDamagePercent' | 'rangedDamagePercent' | 'spellDamagePercent' | 'finalDamagePercent' | 'targetVulnerabilityPercent'
   | 'strength' | 'intelligence' | 'chance' | 'agility'
   | 'neutralResPercent' | 'earthResPercent' | 'fireResPercent' | 'waterResPercent' | 'airResPercent'
 
@@ -33,7 +33,7 @@ export type PassiveControl =
 const RES_KEYS = ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent'] as const
 const STATS = new Set<string>([
   'ap', 'mp', 'power', 'damage', 'critChance', 'pushbackDamage', 'dodge', 'lock', 'apReduction', 'mpReduction',
-  'apParry', 'mpParry', 'meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'finalDamagePercent',
+  'apParry', 'mpParry', 'meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'finalDamagePercent', 'targetVulnerabilityPercent',
   'strength', 'intelligence', 'chance', 'agility', ...RES_KEYS,
 ])
 
@@ -85,7 +85,7 @@ const LAYOUT: Record<number, Layout[]> = {
   31794: [{ stacks: 'finalDamagePercent' }],                                    // Dofzzbz: summon attacked
 
   // ── Legendary gear ──
-  20354: [{ stacks: 'lock', cap: 8 }, { options: [['finalDamagePercent']] }],   // Scissors of Destiny: enemies hit; adjacent enemies suffer more
+  20354: [{ stacks: 'lock', cap: 8 }, { options: [['targetVulnerabilityPercent']] }], // Scissors of Destiny: enemies hit; adjacent enemies suffer more
   20355: [{ stacks: 'ap#1' }],                                                  // Brumaire's Shiver: enemies finished off
   20356: [{ stacks: 'pushbackDamage', cap: 10 }],                               // Buhorado Feather: per critical hit
   20358: [{ options: [['finalDamagePercent']] }],                               // Death-Defying: above 50% health
@@ -100,7 +100,7 @@ const LAYOUT: Record<number, Layout[]> = {
   22444: [{ stacks: 'resPercentAll' }],                                         // Misery's Flail-Scale: reductions attempted
   32114: [{ stacks: 'finalDamagePercent' }],                                    // Oto Mustam: enemies alive
   32116: [{ stacks: 'pushbackDamage', cap: 16 }],                               // Menalt: per MP used, lasts 2 turns
-  32117: [{ stacks: 'finalDamagePercent#1', cap: 4 }, { options: [['finalDamagePercent#0']] }], // Thanatena: per kill; everyone suffers more
+  32117: [{ stacks: 'finalDamagePercent', cap: 4 }, { options: [['targetVulnerabilityPercent']] }], // Thanatena: per kill; everyone suffers more
   32119: [{ options: [['ap']] }],                                               // Henual: teleported / switched places
   32121: [{ stacks: 'mpReduction', shared: true }, { stacks: 'apReduction', shared: true }], // Meriana: Earth/Water, Fire/Air hits
   32163: [{ stacks: 'resPercentAll' }],                                         // Amayiro: enemies alive

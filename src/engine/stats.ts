@@ -33,7 +33,7 @@ function emptyStatBlock(): StatBlock {
     apRaw: 0, mpRaw: 0, rangeRaw: 0,
     neutralResPercentRaw: 0, earthResPercentRaw: 0, fireResPercentRaw: 0, waterResPercentRaw: 0, airResPercentRaw: 0,
     critChance: 0, critDamage: 0, critResistance: 0,
-    meleeDamagePercent: 0, rangedDamagePercent: 0, spellDamagePercent: 0, weaponDamagePercent: 0, finalDamagePercent: 0,
+    meleeDamagePercent: 0, rangedDamagePercent: 0, spellDamagePercent: 0, weaponDamagePercent: 0, finalDamagePercent: 0, targetVulnerabilityPercent: 0,
     meleeResistPercent: 0, rangedResistPercent: 0,
     trapDamage: 0, trapPower: 0, pushbackDamage: 0, pushbackResist: 0, reflectedDamage: 0,
     heals: 0, initiative: 0, lock: 0, dodge: 0, prospecting: 100, summons: 1, pods: 0,
