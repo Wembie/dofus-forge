@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.119] — 2026-10-21
+- **Fix**: crawlable pages (home, About, How to Use, Explore, Privacy, Terms, the Cra class guide — all 4 languages) now ship with their real rendered content baked into the static HTML, not just an empty `<div id="root">` shell. Any crawler that doesn't execute JavaScript was seeing 20 characters of visible text sitewide regardless of how much real content each page actually had — the root cause behind an AdSense "low value content" rejection. A build step now renders each page in a real headless browser and captures the live DOM into its static file; real visitors with JS still get the exact same interactive app, untouched
+
 ## [0.3.118] — 2026-10-20
 - **New: combat passives** — the passives of Dofus, Prysmaradites and legendary items now count. A new "Combat passives" panel in the planner lists the equipped ones: stacks (e.g. Turquoise 0–10 × 1% final damage), exclusive cases (Abyssal: +1 MP or +1 AP) and Prysmaradite turns, with the in-game text one click away and the combined bonus on top
 - Active passives feed spell and weapon damage, the hover breakdown and the PvP arena as a separate combat state; the stats sheet keeps showing gear stats. Passives with no stat effect (shields, heals, states) are listed as text
