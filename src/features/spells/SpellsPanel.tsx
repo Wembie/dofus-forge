@@ -7,6 +7,7 @@ import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoad
 import type { AppItem } from '@/data/loaders.ts'
 import { calcEffects, NO_MODS, type CalcedEffect } from './spellDamage.ts'
 import { DamageHover } from './DamageHover.tsx'
+import { useCombatStats } from '@/store/useCombatStats.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
@@ -988,7 +989,8 @@ export function SpellsPanel() {
   const { t }         = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
   const level         = useBuildStore(s => s.level)
-  const stats         = useBuildStore(s => s.stats)
+  // Damage uses the in-combat stats: gear plus the active item passives.
+  const stats         = useCombatStats()
   const equipped      = useBuildStore(s => s.equipped)
   const _equipment    = useBuildStore(s => s._equipment)
   const lang          = useDataStore(s => s.lang)

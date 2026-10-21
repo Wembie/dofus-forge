@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { useBuildStore, type BuildSnapshot } from '../buildStore.ts'
-import { encodeBuild } from '@/features/share/codec.ts'
+import { encodeBuild, decodeBuild } from '@/features/share/codec.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
 
@@ -128,5 +128,33 @@ describe('applyForgeResult', () => {
     store().setRune('hat', 'Vitality', 50)
     store().applyForgeResult(result, new Set(['hat']))
     expect(store().runes.hat).toEqual({ Vitality: 50 })
+  })
+})
+
+describe('combat passives', () => {
+  it('setPassive clamps to the control and 0 turns it off', () => {
+    store().setPassive('739.0', 42)
+    expect(store().passives).toEqual({ '739.0': 10 })
+    store().setPassive('739.0', 0)
+    expect(store().passives).toEqual({})
+    store().setPassive('not-a-control', 3)
+    expect(store().passives).toEqual({})
+  })
+
+  it('travels with the build: share link, applySnapshot, reset', () => {
+    store().setPassive('18043.0', 2)
+    const encoded = encodeBuild(store())
+    store().reset()
+    expect(store().passives).toEqual({})
+    const snap = decodeBuild(encoded)!
+    store().applySnapshot(snap)
+    expect(store().passives).toEqual({ '18043.0': 2 })
+  })
+
+  it('never changes the gear stats', () => {
+    store().equipItem('hat', HAT.ankama_id)
+    const before = store().stats
+    store().setPassive('739.0', 10)
+    expect(store().stats).toBe(before)
   })
 })

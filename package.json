@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.3.117",
+  "version": "0.3.118",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
@@ -14,6 +14,7 @@
     "lint": "eslint src --ext ts,tsx",
     "fetch-data": "tsx scripts/fetch-data.ts",
     "fetch-spells": "tsx scripts/fetch-spells.ts",
+    "fetch-passives": "tsx scripts/fetch-passives.ts",
     "fetch-images": "tsx scripts/fetch-images.ts",
     "sync-item-images": "tsx scripts/sync-item-images.ts",
     "extract-characters": "python scripts/extract-characters.py",

@@ -3,7 +3,7 @@ import { Eye } from 'lucide-react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
-import { useBuildStore } from '@/store/buildStore.ts'
+import { useBuildStore, ALL_SLOTS } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
@@ -25,6 +25,7 @@ import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
+import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -1037,6 +1038,7 @@ export function EquipmentGrid() {
       </div>
 
       <SetBonusesPanel />
+      <BuilderPassivesPanel />
 
       {openSlot && createPortal(
         <Suspense fallback={null}>
@@ -1072,6 +1074,28 @@ export function EquipmentGrid() {
           />
         </Suspense>
       )}
+    </div>
+  )
+}
+
+/** Combat passives of the equipped items, wired to the build store. */
+function BuilderPassivesPanel() {
+  const equipped   = useBuildStore(s => s.equipped)
+  const equipment  = useBuildStore(s => s._equipment)
+  const passives   = useBuildStore(s => s.passives)
+  const setPassive = useBuildStore(s => s.setPassive)
+  const items = useMemo(() => {
+    const byId = new Map(equipment.map(it => [it.ankama_id, it]))
+    return ALL_SLOTS.flatMap(slot => {
+      const item = equipped[slot] != null ? byId.get(equipped[slot]!) : undefined
+      return item ? [item] : []
+    })
+  }, [equipped, equipment])
+  // One store update, so turning everything off is a single undo step.
+  const reset = () => useBuildStore.setState({ passives: {} })
+  return (
+    <div className="px-3 pb-4">
+      <PassivesPanel items={items} state={passives} onChange={setPassive} onReset={reset} />
     </div>
   )
 }

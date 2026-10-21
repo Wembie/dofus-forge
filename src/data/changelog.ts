@@ -8,6 +8,21 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.118',
+    date: '2026-10-20',
+    notes: [
+      'New: combat passives of Dofus, Prysmaradites and legendary items, with stacks, cases and turns',
+      'Active passives count in spell and weapon damage and in the PvP arena',
+      'New: % final damage, applied last in the damage formula',
+      'Passive settings are saved with the build and shown on the build page',
+      'Passive values come from the game data and update automatically with each game update',
+      'Stats sheet: a With passives switch shows combat stats and what each passive adds',
+      'Damage the targets suffer is its own multiplier after final damage, as in game',
+      'Characteristics panel also shows passives (e.g. Dofusteuse +400 Strength) with the shared With passives switch',
+      'Show stats: Gear or In combat, a selector above characteristics and stats',
+    ],
+  },
+  {
     version: '0.3.117',
     date: '2026-10-20',
     notes: [

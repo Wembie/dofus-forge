@@ -6,6 +6,10 @@ import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, STAT_META } from '../equipment/statDisplay.ts'
 import { runeStat } from '@/engine/runes.ts'
 import { Tooltip } from '@/ui/Tooltip.tsx'
+import { useCombatStats } from '@/store/useCombatStats.ts'
+import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
+import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
+import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
 
 function icon(name: string, size = 16) {
   return (
@@ -18,6 +22,10 @@ function icon(name: string, size = 16) {
     />
   )
 }
+
+/** Combat value minus gear value; 0 when there is no gear baseline (gear view). */
+const diff = (s: StatBlock, base: StatBlock | undefined, key: keyof StatBlock) =>
+  base ? (s[key] as number) - (base[key] as number) : 0
 
 // ── Section with gold-accent line title ───────────────────────────────────────
 
@@ -51,9 +59,10 @@ type BadgeProps = {
   color:     string
   cap?:      number   // game cap threshold
   showPlus?: boolean  // prefix "+" (for bonus stats like Range)
+  delta?:    number   // added by combat passives (combat view)
 }
 
-function TopBadge({ iconName, label, value, raw, color, cap, showPlus }: BadgeProps) {
+function TopBadge({ iconName, label, value, raw, color, cap, showPlus, delta }: BadgeProps) {
   const numClass = value >= 10000
     ? 'text-base'
     : value >= 1000
@@ -110,6 +119,7 @@ function TopBadge({ iconName, label, value, raw, color, cap, showPlus }: BadgePr
       >
         {label}
       </span>
+      {delta ? <span className="relative z-10"><DeltaChip delta={delta} /></span> : null}
     </div>
   )
 }
@@ -157,15 +167,22 @@ type ElemRow = {
   resPct:       number   // capped value (shown in cell)
   resPctRaw:    number   // pre-cap raw value (for overcap badge)
   damageBonus?: number   // portion of `dmg` coming from the flat "Damage" stat (applies to every element alike)
+  dmgDelta?:    number   // added by combat passives (combat view)
+  resPctDelta?: number
 }
 
 const ELEM_COLS = '20px 1fr 1fr 1fr'
 
-function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw, damageBonus }: ElemRow) {
+function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw, damageBonus, dmgDelta, resPctDelta }: ElemRow) {
   const { t } = useTranslation()
   const hasData = dmg !== 0 || resFixed !== 0 || resPct !== 0
   const ownDmg = dmg - (damageBonus ?? 0)
-  const dmgCell = <ValCell value={dmg} color={color} />
+  const dmgCell = (
+    <span className="inline-flex items-center justify-end gap-1">
+      <DeltaChip delta={dmgDelta} />
+      <ValCell value={dmg} color={color} />
+    </span>
+  )
   return (
     <div
       className="grid items-center rounded-md"
@@ -197,12 +214,15 @@ function ElemTableRow({ resIcon, color, dmg, resFixed, resPct, resPctRaw, damage
         </div>
       ) : dmgCell}
       <ValCell value={resFixed}      color={resFixed > 0 ? 'var(--positive)' : 'var(--negative)'} />
-      <ResPctCell value={resPct} raw={resPctRaw} />
+      <span className="inline-flex items-center justify-end gap-1">
+        <DeltaChip delta={resPctDelta} suffix="%" />
+        <ResPctCell value={resPct} raw={resPctRaw} />
+      </span>
     </div>
   )
 }
 
-function ElementSection({ s }: { s: StatBlock }) {
+function ElementSection({ s, base }: { s: StatBlock; base?: StatBlock }) {
   const { t } = useTranslation()
 
   // `s.damage` (the flat, non-elemental "Damage" stat) is folded into every
@@ -210,16 +230,16 @@ function ElementSection({ s }: { s: StatBlock }) {
   // tooltip breakdown so a player can tell how much of a given element's
   // number is from its own gear vs. that shared bonus.
   const rows: ElemRow[] = [
-    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, resPctRaw: s.neutralResPercentRaw, damageBonus: s.damage },
-    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent,   resPctRaw: s.earthResPercentRaw,   damageBonus: s.damage },
-    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent,    resPctRaw: s.fireResPercentRaw,    damageBonus: s.damage },
-    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent,   resPctRaw: s.waterResPercentRaw,   damageBonus: s.damage },
-    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent,     resPctRaw: s.airResPercentRaw,     damageBonus: s.damage },
+    { resIcon: 'neutral_resistance', color: 'var(--neutral)', dmg: s.neutralDamage, resFixed: s.neutralResFixed, resPct: s.neutralResPercent, dmgDelta: diff(s, base, 'neutralDamage'), resPctDelta: diff(s, base, 'neutralResPercent'), resPctRaw: s.neutralResPercentRaw, damageBonus: s.damage },
+    { resIcon: 'earth_resistance',   color: 'var(--earth)',   dmg: s.earthDamage,   resFixed: s.earthResFixed,   resPct: s.earthResPercent, dmgDelta: diff(s, base, 'earthDamage'), resPctDelta: diff(s, base, 'earthResPercent'),   resPctRaw: s.earthResPercentRaw,   damageBonus: s.damage },
+    { resIcon: 'fire_resistance',    color: 'var(--fire)',    dmg: s.fireDamage,    resFixed: s.fireResFixed,    resPct: s.fireResPercent, dmgDelta: diff(s, base, 'fireDamage'), resPctDelta: diff(s, base, 'fireResPercent'),    resPctRaw: s.fireResPercentRaw,    damageBonus: s.damage },
+    { resIcon: 'water_resistance',   color: 'var(--water)',   dmg: s.waterDamage,   resFixed: s.waterResFixed,   resPct: s.waterResPercent, dmgDelta: diff(s, base, 'waterDamage'), resPctDelta: diff(s, base, 'waterResPercent'),   resPctRaw: s.waterResPercentRaw,   damageBonus: s.damage },
+    { resIcon: 'air_resistance',     color: 'var(--air)',     dmg: s.airDamage,     resFixed: s.airResFixed,     resPct: s.airResPercent, dmgDelta: diff(s, base, 'airDamage'), resPctDelta: diff(s, base, 'airResPercent'),     resPctRaw: s.airResPercentRaw,     damageBonus: s.damage },
   ]
 
   const extras: ElemRow[] = [
     { resIcon: 'crit_damage', color: 'var(--crit)',  dmg: s.critDamage,     resFixed: s.critResistance, resPct: 0, resPctRaw: 0 },
-    { resIcon: 'push_damage', color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0, resPctRaw: 0 },
+    { resIcon: 'push_damage', color: 'var(--earth)', dmg: s.pushbackDamage, resFixed: s.pushbackResist, resPct: 0, resPctRaw: 0, dmgDelta: diff(s, base, 'pushbackDamage') },
   ].filter(r => r.dmg !== 0 || r.resFixed !== 0)
 
   const hdr: React.CSSProperties = {
@@ -250,9 +270,9 @@ function ElementSection({ s }: { s: StatBlock }) {
 
 // ── Combat stats ──────────────────────────────────────────────────────────────
 
-type CombatStat = { iconName: string; label: string; value: number; color: string; suffix?: string; alwaysShow?: boolean }
+type CombatStat = { iconName: string; label: string; value: number; color: string; suffix?: string; alwaysShow?: boolean; delta?: number }
 
-function CombatStatRow({ iconName, label, value, color, suffix = '' }: CombatStat) {
+function CombatStatRow({ iconName, label, value, color, suffix = '', delta }: CombatStat) {
   return (
     <div className="flex items-center gap-2 px-2.5 py-1.5 rounded" style={{
       background:  `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
@@ -260,6 +280,7 @@ function CombatStatRow({ iconName, label, value, color, suffix = '' }: CombatSta
     }}>
       {icon(iconName, 14)}
       <span className="text-[11px] flex-1" style={{ color: 'var(--ink-muted)' }}>{label}</span>
+      <DeltaChip delta={delta} suffix={suffix} />
       <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>
         {value > 0 && suffix !== '%' ? '+' : ''}{value}{suffix}
       </span>
@@ -267,7 +288,7 @@ function CombatStatRow({ iconName, label, value, color, suffix = '' }: CombatSta
   )
 }
 
-function CombatGrid({ s }: { s: StatBlock }) {
+function CombatGrid({ s, base }: { s: StatBlock; base?: StatBlock }) {
   const { t } = useTranslation()
   const cells: CombatStat[] = [
     { iconName: 'initiative',   label: t('stat_initiative'),  value: s.initiative,  color: 'var(--gold)',    alwaysShow: true  },
@@ -285,6 +306,12 @@ function CombatGrid({ s }: { s: StatBlock }) {
     { iconName: 'mp_reduction', label: t('stat_mp_removal'),  value: s.mpReduction, color: 'var(--wisdom)'   },
   ]
 
+  const keyOf: Record<string, keyof StatBlock> = {
+    initiative: 'initiative', dodge: 'dodge', lock: 'lock', heals: 'heals', power: 'power', crit: 'critChance',
+    prospecting: 'prospecting', summons: 'summons', pods: 'pods', ap_parry: 'apParry', mp_parry: 'mpParry',
+    ap_reduction: 'apReduction', mp_reduction: 'mpReduction',
+  }
+  for (const c of cells) c.delta = diff(s, base, keyOf[c.iconName])
   const visible = cells.filter(c => c.alwaysShow || c.value !== 0)
   if (visible.length === 0) return null
 
@@ -301,16 +328,18 @@ function CombatGrid({ s }: { s: StatBlock }) {
 
 // ── % Damage modifiers ────────────────────────────────────────────────────────
 
-function DamageMods({ s }: { s: StatBlock }) {
+function DamageMods({ s, base }: { s: StatBlock; base?: StatBlock }) {
   const { t } = useTranslation()
-  type Mod = { iconName: string; label: string; value: number; color: string }
+  type Mod = { iconName: string; label: string; value: number; color: string; key: keyof StatBlock }
   const mods: Mod[] = [
-    { iconName: 'melee_damage',      label: t('stat_melee_dmg'),  value: s.meleeDamagePercent,  color: 'var(--earth)' },
-    { iconName: 'ranged_damage',     label: t('stat_ranged_dmg'), value: s.rangedDamagePercent, color: 'var(--water)' },
-    { iconName: 'spell_damage',      label: t('stat_spell_dmg'),  value: s.spellDamagePercent,  color: 'var(--wisdom)' },
-    { iconName: 'weapon_damage',     label: t('stat_weapon_dmg'), value: s.weaponDamagePercent, color: 'var(--gold)'  },
-    { iconName: 'melee_resistance',  label: t('stat_melee_res'),  value: s.meleeResistPercent,  color: 'var(--earth)' },
-    { iconName: 'ranged_resistance', label: t('stat_ranged_res'), value: s.rangedResistPercent, color: 'var(--water)' },
+    { iconName: 'melee_damage',      label: t('stat_melee_dmg'),  value: s.meleeDamagePercent,  color: 'var(--earth)', key: 'meleeDamagePercent' },
+    { iconName: 'ranged_damage',     label: t('stat_ranged_dmg'), value: s.rangedDamagePercent, color: 'var(--water)', key: 'rangedDamagePercent' },
+    { iconName: 'spell_damage',      label: t('stat_spell_dmg'),  value: s.spellDamagePercent,  color: 'var(--wisdom)', key: 'spellDamagePercent' },
+    { iconName: 'weapon_damage',     label: t('stat_weapon_dmg'), value: s.weaponDamagePercent, color: 'var(--gold)', key: 'weaponDamagePercent' },
+    { iconName: 'damage',            label: t('stat_final_dmg'),  value: s.finalDamagePercent ?? 0, color: 'var(--gold)', key: 'finalDamagePercent' },
+    { iconName: 'damage',            label: t('stat_target_vulnerability'), value: s.targetVulnerabilityPercent ?? 0, color: 'var(--negative)', key: 'targetVulnerabilityPercent' },
+    { iconName: 'melee_resistance',  label: t('stat_melee_res'),  value: s.meleeResistPercent,  color: 'var(--earth)', key: 'meleeResistPercent' },
+    { iconName: 'ranged_resistance', label: t('stat_ranged_res'), value: s.rangedResistPercent, color: 'var(--water)', key: 'rangedResistPercent' },
   ]
   const visible = mods.filter(m => m.value !== 0)
   if (visible.length === 0) return null
@@ -325,6 +354,7 @@ function DamageMods({ s }: { s: StatBlock }) {
           }}>
             {icon(m.iconName, 13)}
             <span className="text-[11px] flex-1" style={{ color: 'var(--ink-muted)' }}>{m.label}</span>
+            <DeltaChip delta={diff(s, base, m.key)} suffix="%" />
             <span className="font-mono font-bold text-xs tabular-nums" style={{ color: m.color }}>
               {m.value > 0 ? '+' : ''}{m.value}%
             </span>
@@ -384,15 +414,17 @@ function MagesmithySummary({ runes }: { runes: BuildState['runes'] }) {
 // ── Main component ────────────────────────────────────────────────────────────
 
 /** Pure — no store reads — reused as-is by BuildDetailPage (a read-only view
- * of someone else's build/stats) alongside the live StatsPanel below. */
-export function StatsFromBlock({ s, runes }: { s: StatBlock; runes: BuildState['runes'] }) {
+ * of someone else's build/stats) alongside the live StatsPanel below. With
+ * `base` (the gear stats), `s` is the combat view and each stat shows what
+ * the active passives add. */
+export function StatsFromBlock({ s, runes, base }: { s: StatBlock; runes: BuildState['runes']; base?: StatBlock }) {
   const { t } = useTranslation()
 
   return (
     <div className="space-y-4">
       <div className="flex gap-1.5">
-        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    raw={s.apRaw}  color={s.ap    < 0 ? 'var(--negative)' : 'var(--gold)'}  cap={12} />
-        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color={s.mp    < 0 ? 'var(--negative)' : 'var(--mp)'}    cap={6}  />
+        <TopBadge iconName="ap"       label={t('badge_ap')}    value={s.ap}    raw={s.apRaw}  color={s.ap    < 0 ? 'var(--negative)' : 'var(--gold)'}  cap={12} delta={diff(s, base, 'ap')} />
+        <TopBadge iconName="mp"       label={t('badge_mp')}    value={s.mp}    raw={s.mpRaw}  color={s.mp    < 0 ? 'var(--negative)' : 'var(--mp)'}    cap={6}  delta={diff(s, base, 'mp')} />
         <TopBadge iconName="vitality" label={t('badge_hp')}    value={s.maxHp} color="var(--vitality)"          />
         {/* A weapon/item penalty can push Range (or even AP/MP) below 0 — it
             used to only render here when > 0, which silently hid a real
@@ -403,10 +435,10 @@ export function StatsFromBlock({ s, runes }: { s: StatBlock; runes: BuildState['
         )}
       </div>
 
-      <ElementSection s={s} />
-      <CombatGrid s={s} />
+      <ElementSection s={s} base={base} />
+      <CombatGrid s={s} base={base} />
       <MagesmithySummary runes={runes} />
-      <DamageMods s={s} />
+      <DamageMods s={s} base={base} />
 
       {Object.keys(s.unknownStats).length > 0 && (
         <details>
@@ -438,6 +470,10 @@ export function StatsPanel() {
   const stats         = useBuildStore(s => s.stats)
   const selectedClass = useBuildStore(s => s.selectedClass)
   const runes         = useBuildStore(s => s.runes)
+  const combatStats   = useCombatStats()
+  const combatView    = useCombatView()
+  const hasPassives   = useHasPassives()
+  const combat        = combatView && hasPassives && combatStats != null
 
   if (!selectedClass) {
     return (
@@ -473,8 +509,9 @@ export function StatsPanel() {
           {t('stats')}
         </h2>
         <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
+        <CombatViewTag />
       </div>
-      <StatsFromBlock s={stats} runes={runes} />
+      <StatsFromBlock s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} />
     </div>
   )
 }

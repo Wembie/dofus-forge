@@ -18,6 +18,8 @@ import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
+import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
+import { hasPassive } from '@/engine/passives.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
 import { encodeSnapshot } from '@/features/share/codec.ts'
@@ -289,6 +291,13 @@ export function BuildDetailPage() {
     return computeActiveSets(equipped, equipmentData, setsData)
   }, [build, equipmentData, setsData])
 
+  // Equipped items with a combat passive, in slot order (read-only panel).
+  const passiveItems = useMemo(() => {
+    if (!build || !equipmentData) return []
+    const byId = new Map(equipmentData.map(it => [it.ankama_id, it]))
+    return build.snapshot.e.flatMap(id => (id != null && hasPassive(id) && byId.has(id) ? [byId.get(id)!] : []))
+  }, [build, equipmentData])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-forge-bg flex items-center justify-center text-sm" style={{ color: 'var(--ink-faint)' }}>
@@ -476,6 +485,12 @@ export function BuildDetailPage() {
             {activeSets.length > 0 && (
               <Frame padding="lg">
                 <ActiveSetsGrid activeSets={activeSets} />
+              </Frame>
+            )}
+
+            {passiveItems.length > 0 && (
+              <Frame padding="lg">
+                <PassivesPanel items={passiveItems} state={build.snapshot.p ?? {}} />
               </Frame>
             )}
           </div>

@@ -73,7 +73,13 @@ function BreakdownCard({ anchor, roll, elem, stats, mods, extraFlat, kind, crit 
     rows.push({ label: t(mods.range === 'melee' ? 'stat_melee_dmg' : 'stat_ranged_dmg'), factor: mult(100 + mods.rangePct), value: fmtRange(lo.afterRange, hi.afterRange) })
   }
   if (mods.kindPct !== 0) {
-    rows.push({ label: t(kind === 'spell' ? 'stat_spell_dmg' : 'stat_weapon_dmg'), factor: mult(100 + mods.kindPct), value: fmtRange(lo.total, hi.total) })
+    rows.push({ label: t(kind === 'spell' ? 'stat_spell_dmg' : 'stat_weapon_dmg'), factor: mult(100 + mods.kindPct), value: fmtRange(lo.afterKind, hi.afterKind) })
+  }
+  if (lo.finalPct !== 0) {
+    rows.push({ label: t('stat_final_dmg'), factor: mult(100 + lo.finalPct), value: fmtRange(lo.afterFinal, hi.afterFinal) })
+  }
+  if (lo.vulnerabilityPct !== 0) {
+    rows.push({ label: t('stat_target_vulnerability'), factor: mult(100 + lo.vulnerabilityPct), value: fmtRange(lo.total, hi.total) })
   }
 
   const left  = Math.max(8, Math.min(anchor.left + anchor.width / 2 - WIDTH / 2, window.innerWidth - WIDTH - 8))

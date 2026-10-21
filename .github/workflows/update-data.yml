@@ -44,6 +44,19 @@ jobs:
           pnpm fetch-spells $ARGS
           pnpm fetch-images $ARGS
 
+      # Item passives (Dofus, Prysmaradites, legendaries) from the game's
+      # passive spells: a rebalance reaches the app with no code change.
+      # Its own step, so a failure here never holds back the item/spell update
+      # (the app keeps the previous passives file).
+      - name: Generate item passives
+        continue-on-error: true
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            ARGS="--force"
+          fi
+          pnpm fetch-passives $ARGS
+
       - name: Sync item icons to R2
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -53,14 +66,14 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet public/data/ || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --quiet public/data/ src/data/passives.generated.ts || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit data update
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data/
+          git add public/data/ src/data/passives.generated.ts
           VERSION=$(node -e "console.log(require('./public/data/version.json').gameVersion)")
           git commit -m "chore(data): update game data to $VERSION"
           git push
