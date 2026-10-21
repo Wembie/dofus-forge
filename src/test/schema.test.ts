@@ -126,6 +126,29 @@ describe('supabase schema guards', () => {
     expect(schema.slice(schema.lastIndexOf('create or replace function notify_build_fork'))).toMatch(/TG_OP = 'INSERT' or OLD\.visibility = 'private'/)
   })
 
+  it('every table has explicit Data API grants (Supabase stops adding them from 2026-10-30)', () => {
+    // Without them a database rebuilt from this file answers "permission
+    // denied" through supabase-js. The grant must come right after the table.
+    const missing: string[] = []
+    for (const m of schema.matchAll(/create table (?:if not exists )?(?:public\.)?(\w+) \(([\s\S]*?)\n\);\n([^\n]*)/gi)) {
+      const [, table, , next] = m
+      if (!new RegExp(`^grant [^;]* on public\\.${table} to [^;]*service_role;`).test(next)) missing.push(table)
+    }
+    expect(missing).toEqual([])
+    expect(schema).toMatch(/grant usage, select on all sequences in schema public to anon, authenticated, service_role;/)
+  })
+
+  it('migrations that create a table also grant access to it', () => {
+    const missing: string[] = []
+    for (const file of migrations) {
+      const sql = readFileSync(join(ROOT, 'supabase', 'migrations', file), 'utf8')
+      for (const m of sql.matchAll(/create table (?:if not exists )?(?:public\.)?(\w+)/gi)) {
+        if (!new RegExp(`grant [^;]* on (?:table )?(?:public\\.)?[\\w., ]*\\b${m[1]}\\b[^;]* to [^;]*;`, 'i').test(sql)) missing.push(`${file}: ${m[1]}`)
+      }
+    }
+    expect(missing).toEqual([])
+  })
+
   it('migrations are named with a sortable timestamp and are idempotent-looking', () => {
     for (const file of migrations) {
       expect(file).toMatch(/^\d{8,14}_[a-z0-9_]+\.sql$/)

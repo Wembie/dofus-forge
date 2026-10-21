@@ -2592,3 +2592,20 @@ create trigger notify_on_build_fork after insert or update of visibility on buil
 
 commit;
 ```
+
+### Permisos de la Data API en tablas nuevas (desde 2026-10-30)
+
+Supabase deja de dar automáticamente acceso por la API (supabase-js / PostgREST) a las
+tablas nuevas de `public`. Las tablas que ya existen en producción no cambian.
+
+- Toda migración que cree una tabla debe dar sus permisos en el mismo archivo, p. ej.:
+
+  ```sql
+  grant select, insert, update, delete on public.mi_tabla to anon, authenticated, service_role;
+  ```
+
+  (o más restringido si la tabla lo pide; las políticas RLS siguen decidiendo las filas).
+- `supabase/schema.sql` ya lleva el permiso explícito tras cada `create table` (el mismo
+  acceso que daba el default, más estrecho en membresías y rangos personalizados) y los
+  permisos de secuencias, así que recrear la base desde ese archivo sigue funcionando.
+- `src/test/schema.test.ts` falla si una tabla del schema o de una migración no tiene permisos.
