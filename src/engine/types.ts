@@ -115,6 +115,8 @@ export type StatBlock = {
   rangedDamagePercent: number
   spellDamagePercent:  number
   weaponDamagePercent: number
+  /** % final damage — only from combat passives (Dofus, legendaries…), never from gear stats. */
+  finalDamagePercent:  number
   meleeResistPercent:  number
   rangedResistPercent: number
 

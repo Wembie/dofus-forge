@@ -61,3 +61,14 @@ describe('DamageHover', () => {
     expect(screen.getByText('1–2')).toBeTruthy()
   })
 })
+
+describe('DamageHover with % final damage', () => {
+  it('shows the final damage step only when a passive gives it', () => {
+    const s = { ...stats, finalDamagePercent: 10 } as StatBlock
+    const mods = { kindPct: 0, rangePct: 10, range: 'ranged' as const }
+    render(<DamageHover roll={[35, 35]} elem="fire" stats={s} mods={mods} extraFlat={174} kind="spell" crit>x</DamageHover>)
+    const tip = hover().textContent!
+    expect(tip).toContain('stat_final_dmg×1,1802')
+    expect(tip).toMatch(/dmg_bd_total802/)
+  })
+})

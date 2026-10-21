@@ -1,4 +1,5 @@
 import type { BuildSnapshot } from '../store/buildStore.ts'
+import { sanitizePassiveState } from './passives.ts'
 
 // Relative imports only: the Cloudflare Worker bundles this file too.
 
@@ -72,5 +73,7 @@ export function sanitizeSnapshot(raw: unknown): BuildSnapshot | null {
     const transforms = slotEntries(raw.wt, v => (isRecord(v) && typeof v.el === 'string' && typeof v.r === 'number' ? { el: v.el, r: v.r } : null))
     if (Object.keys(transforms).length > 0) snap.wt = transforms
   }
+  const passives = sanitizePassiveState(raw.p)
+  if (Object.keys(passives).length > 0) snap.p = passives
   return snap
 }

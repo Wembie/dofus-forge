@@ -55,3 +55,11 @@ describe('sanitizeSnapshot', () => {
     expect([...SNAPSHOT_SLOT_IDS]).toEqual(ALL_SLOTS)
   })
 })
+
+describe('sanitizeSnapshot: combat passives', () => {
+  it('keeps valid passive settings and drops unknown or out-of-range ones', () => {
+    const snap = sanitizeSnapshot({ v: 1, p: { '739.0': 50, '1.0': 2, '18043.0': 'x' } })!
+    expect(snap.p).toEqual({ '739.0': 10 })
+    expect(sanitizeSnapshot({ v: 1, p: { '1.0': 2 } })!.p).toBeUndefined()
+  })
+})

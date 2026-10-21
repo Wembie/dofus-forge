@@ -4,6 +4,7 @@ import { Sword } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { usePvpStore, type PvpElement } from '@/store/pvpStore.ts'
+import { useCombatStats } from '@/store/useCombatStats.ts'
 import type { AppSpell } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { spellGrade, dedupEffects, spellMods } from '../spells/spellCalc.ts'
@@ -88,7 +89,7 @@ export function PvpArena() {
   const { t }           = useTranslation()
   const selectedClass   = useBuildStore(s => s.selectedClass)
   const level           = useBuildStore(s => s.level)
-  const stats           = useBuildStore(s => s.stats)
+  const stats           = useCombatStats()
   const equipped        = useBuildStore(s => s.equipped)
   const _equipment      = useBuildStore(s => s._equipment)
   const weaponTransform = useBuildStore(s => s.weaponTransforms['weapon'] ?? null)

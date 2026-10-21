@@ -5,6 +5,12 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.118] — 2026-10-20
+- **New: combat passives** — the passives of Dofus, Prysmaradites and legendary items now count. A new "Combat passives" panel in the planner lists the equipped ones: stacks (e.g. Turquoise 0–10 × 1% final damage), exclusive cases (Abyssal: +1 MP or +1 AP) and Prysmaradite turns, with the in-game text one click away and the combined bonus on top
+- Active passives feed spell and weapon damage, the hover breakdown and the PvP arena as a separate combat state; the stats sheet keeps showing gear stats. Passives with no stat effect (shields, heals, states) are listed as text
+- New **% final damage** stat, applied last in the damage formula
+- Passive settings travel with the build: share links, saved and published builds, and a read-only panel on the build page
+
 ## [0.3.117] — 2026-10-20
 - **Fix (damage)**: the generic Damage stat from gear was counted twice in spell and weapon damage (base 10 with +10 Damage showed 30 instead of 20)
 

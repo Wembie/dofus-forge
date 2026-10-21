@@ -4,6 +4,7 @@ import { CHARACTERISTICS } from '@/engine/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
+import { sanitizePassiveState, type PassiveState } from '@/engine/passives.ts'
 import { runeEffectsForSlots, withoutExotic, exoticKey } from '@/engine/runes.ts'
 import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { StatBlock } from '@/engine/types.ts'
@@ -61,6 +62,9 @@ export interface BuildState {
   forjamagoNames: Partial<Record<SlotId, string>>
   /** Elemental weapon damage transformation per slot (weapon slot only) */
   weaponTransforms: Partial<Record<SlotId, WeaponTransform | null>>
+  /** Combat passives the player turned on (engine/passives.ts). Only the
+   * equipped items' passives count; the gear `stats` never include them. */
+  passives:      PassiveState
 
   stats: StatBlock | null
 
@@ -104,6 +108,8 @@ export interface BuildState {
   clearExotic:         (slot: SlotId) => void
   setForjamagoName:    (slot: SlotId, name: string) => void
   setWeaponTransform:  (slot: SlotId, transform: WeaponTransform | null) => void
+  /** Stacks or option (0 = off) of one passive control. */
+  setPassive:          (id: string, value: number) => void
   setEquipped:         (eq: Partial<Record<SlotId, number>>) => void
   setAllocated:        (allocated: AllocatedCharacteristics) => void
   setScrolled:         (scrolled: ScrolledCharacteristics) => void
@@ -125,6 +131,7 @@ export type BuildSnapshot = {
   r?: Record<string, Record<string, number>>  // runes: slot → stat → value (optional)
   fn?: Record<string, string>                 // forjamagoNames: slot → craftsman name (optional)
   wt?: Record<string, { el: string, r: number }>  // weaponTransforms: slot → { element, ratio }
+  p?:  Record<string, number>                     // combat passives: control id → stacks / option (engine/passives.ts)
 }
 
 /** Exported so read-only build views (build detail, previews) can compute a
@@ -206,6 +213,7 @@ export const useBuildStore = create<BuildState>((set) => {
     runes:             {},
     forjamagoNames:    {},
     weaponTransforms:  {},
+    passives:          {},
     stats:             null,
     _equipment:        [],
     _sets:             [],
@@ -376,6 +384,7 @@ export const useBuildStore = create<BuildState>((set) => {
 
     setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),
+    setPassive: (id, value) => set(s => ({ passives: sanitizePassiveState({ ...s.passives, [id]: value }) })),
 
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
@@ -419,7 +428,8 @@ export const useBuildStore = create<BuildState>((set) => {
       // Loading a snapshot (shared link, My Builds, someone else's build)
       // clears any previous cloud link — the caller re-sets it via
       // setLinkedBuildId() right after, only when it actually knows the id.
-      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms }, s)
+      const passives = sanitizePassiveState(snap.p)
+      return update({ selectedClass, buildName, level, gender, linkedBuildId: null, forkOf: null, allocated, scrolled, equipped, runes, forjamagoNames, weaponTransforms, passives }, s)
     }),
 
     setLinkedBuildId: (id) => set({ linkedBuildId: id }),
@@ -438,6 +448,7 @@ export const useBuildStore = create<BuildState>((set) => {
       runes:             {},
       forjamagoNames:    {},
       weaponTransforms:  {},
+      passives:          {},
       stats:             null,
       _equipment:       s._equipment,
       _sets:            s._sets,

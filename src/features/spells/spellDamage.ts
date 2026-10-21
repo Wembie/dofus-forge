@@ -38,6 +38,7 @@ export const NO_MODS: DamageMods = { kindPct: 0, rangePct: 0 }
  * Dofus damage formula:
  *   (Floor(base × (100 + characteristic + power) / 100) + fixed damage)
  *     × (100 + % ranged or melee) / 100 × (100 + % spell or weapon) / 100
+ *     × (100 + % final damage) / 100
  *
  * Fixed damage (Damage, elemental Damage, best-element Damage, plus Critical
  * Damage on a crit via `extraFlat`) is added before the % multipliers, so
@@ -59,6 +60,8 @@ export type DamageBreakdown = {
   critDamage:     number
   beforePct:      number
   afterRange:     number
+  afterKind:      number
+  finalPct:       number
   total:          number
 }
 
@@ -66,17 +69,21 @@ export function damageBreakdown(base: number, elem: ElemKey, stats: StatBlock, m
   const characteristic = mastery(elem, stats)
   const extraPower = mods.power ?? 0
   const fixed = flatBonus(elem, stats)
+  const finalPct = stats.finalDamagePercent ?? 0
   if (base <= 0) {
-    return { roll: base, characteristic, power: stats.power, extraPower, scaled: 0, fixed, critDamage: extraFlat, beforePct: 0, afterRange: 0, total: 0 }
+    return { roll: base, characteristic, power: stats.power, extraPower, scaled: 0, fixed, critDamage: extraFlat, beforePct: 0, afterRange: 0, afterKind: 0, finalPct, total: 0 }
   }
   const scaled = Math.floor(base * (100 + characteristic + stats.power + extraPower) / 100)
   const beforePct = scaled + fixed + extraFlat
   const range = Math.max(0, 100 + mods.rangePct)
   const kind  = Math.max(0, 100 + mods.kindPct)
+  const final = Math.max(0, 100 + finalPct)
   return {
     roll: base, characteristic, power: stats.power, extraPower, scaled, fixed, critDamage: extraFlat, beforePct,
     afterRange: Math.max(0, Math.floor(beforePct * range / 100)),
-    total:      Math.max(0, Math.floor(beforePct * range * kind / 10000)),
+    afterKind:  Math.max(0, Math.floor(beforePct * range * kind / 10000)),
+    finalPct,
+    total:      Math.max(0, Math.floor(beforePct * range * kind * final / 1000000)),
   }
 }
 

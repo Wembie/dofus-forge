@@ -96,7 +96,7 @@ describe('damageBreakdown', () => {
     const s = stats({ intelligence: 820, power: 180, fireDamage: 104 })
     expect(damageBreakdown(35, 'fire', s, { kindPct: 0, rangePct: 10 }, 174)).toEqual({
       roll: 35, characteristic: 820, power: 180, extraPower: 0,
-      scaled: 385, fixed: 104, critDamage: 174, beforePct: 663, afterRange: 729, total: 729,
+      scaled: 385, fixed: 104, critDamage: 174, beforePct: 663, afterRange: 729, afterKind: 729, finalPct: 0, total: 729,
     })
   })
 
@@ -126,5 +126,20 @@ describe('generic Damage from gear', () => {
     })
     expect(calcDamage(10, 'earth', s)).toBe(20)
     expect(calcDamage(10, 'fire', s)).toBe(20)
+  })
+})
+
+describe('% final damage (combat passives)', () => {
+  it('multiplies the whole hit last, after the % categories', () => {
+    // 663 × 1.10 ranged × 1.10 final = 802.23 → 802.
+    const s = stats({ intelligence: 820, power: 180, fireDamage: 104, finalDamagePercent: 10 })
+    expect(calcDamage(35, 'fire', s, { kindPct: 0, rangePct: 10 }, 174)).toBe(802)
+    const b = damageBreakdown(35, 'fire', s, { kindPct: 0, rangePct: 10 }, 174)
+    expect([b.afterRange, b.afterKind, b.finalPct, b.total]).toEqual([729, 729, 10, 802])
+  })
+
+  it('a negative final damage (Pryssure) lowers the hit, never below 0', () => {
+    expect(calcDamage(100, 'earth', stats({ finalDamagePercent: -50 }))).toBe(50)
+    expect(calcDamage(100, 'earth', stats({ finalDamagePercent: -150 }))).toBe(0)
   })
 })

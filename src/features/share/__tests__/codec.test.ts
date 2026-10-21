@@ -24,3 +24,10 @@ describe('share link codec', () => {
     expect(decodeBuild(encodeSnapshot({ v: 2 } as unknown as BuildSnapshot))).toBeNull()
   })
 })
+
+describe('share link: combat passives', () => {
+  it('round-trips the passive settings', () => {
+    const snap = { v: 1, c: 'iop', l: 200, a: [0, 0, 0, 0, 0, 0], s: 0, e: Array(17).fill(null), p: { '739.0': 7, '18043.0': 2 } } as BuildSnapshot
+    expect(decodeBuild(encodeSnapshot(snap))?.p).toEqual({ '739.0': 7, '18043.0': 2 })
+  })
+})
