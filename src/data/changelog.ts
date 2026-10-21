@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.119',
+    date: '2026-10-21',
+    notes: [
+      'Fix: crawlable pages (home, About, How to Use, Explore, Privacy, Terms, the Cra class guide — all 4 languages) now ship with their real rendered content baked into the static HTML instead of an empty root shell, fixing an AdSense "low value content" rejection — real visitors still get the exact same interactive app',
+    ],
+  },
+  {
     version: '0.3.118',
     date: '2026-10-20',
     notes: [

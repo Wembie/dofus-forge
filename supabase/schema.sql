@@ -7,6 +7,11 @@
 
 begin;
 
+-- Data API grants: Supabase stops granting them automatically to new tables
+-- in "public" (from 2026-10-30), so every create table below is followed by
+-- an explicit grant (the same access the old default gave, narrower where a
+-- table already had its own grants). RLS policies still decide which rows.
+
 -- ═══════════════════════════════════════════════════════════════
 -- ENUMS
 -- ═══════════════════════════════════════════════════════════════
@@ -42,6 +47,7 @@ create table profiles (
   updated_at       timestamptz default now(),
   constraint username_format check (username ~ '^[a-z0-9_-]{3,30}$')
 );
+grant select, insert, update, delete on public.profiles to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -82,6 +88,7 @@ create table builds (
   created_at      timestamptz default now(),
   updated_at      timestamptz default now()
 );
+grant select, insert, update, delete on public.builds to anon, authenticated, service_role;
 
 -- FK circular profiles ↔ builds
 alter table profiles
@@ -99,12 +106,14 @@ create table tags (
   category   text not null default 'general',
   created_by uuid references profiles(id) on delete set null
 );
+grant select, insert, update, delete on public.tags to anon, authenticated, service_role;
 
 create table build_tags (
   build_id  uuid references builds(id) on delete cascade,
   tag_id    int  references tags(id)   on delete cascade,
   primary key (build_id, tag_id)
 );
+grant select, insert, update, delete on public.build_tags to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -118,6 +127,7 @@ create table build_snapshots (
   label       text,
   created_at  timestamptz default now()
 );
+grant select, insert, update, delete on public.build_snapshots to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -129,6 +139,7 @@ create table slug_redirects (
   build_id   uuid not null references builds(id) on delete cascade,
   created_at timestamptz default now()
 );
+grant select, insert, update, delete on public.slug_redirects to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -141,6 +152,7 @@ create table build_likes (
   created_at timestamptz default now(),
   primary key (user_id, build_id)
 );
+grant select, insert, update, delete on public.build_likes to anon, authenticated, service_role;
 
 create table build_ratings (
   user_id    uuid references profiles(id) on delete cascade,
@@ -150,6 +162,7 @@ create table build_ratings (
   updated_at timestamptz default now(),
   primary key (user_id, build_id)
 );
+grant select, insert, update, delete on public.build_ratings to anon, authenticated, service_role;
 
 create table build_bookmarks (
   user_id    uuid references profiles(id) on delete cascade,
@@ -157,6 +170,7 @@ create table build_bookmarks (
   created_at timestamptz default now(),
   primary key (user_id, build_id)
 );
+grant select, insert, update, delete on public.build_bookmarks to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -169,6 +183,7 @@ create table build_view_events (
   ip_hash    text,
   viewed_at  timestamptz default now()
 );
+grant select, insert, update, delete on public.build_view_events to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -186,12 +201,14 @@ create table build_comments (
   updated_at  timestamptz default now(),
   deleted_at  timestamptz
 );
+grant select, insert, update, delete on public.build_comments to anon, authenticated, service_role;
 
 create table comment_likes (
   user_id    uuid references profiles(id) on delete cascade,
   comment_id uuid references build_comments(id) on delete cascade,
   primary key (user_id, comment_id)
 );
+grant select, insert, update, delete on public.comment_likes to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -205,6 +222,7 @@ create table follows (
   primary key (follower_id, following_id),
   check (follower_id != following_id)
 );
+grant select, insert, update, delete on public.follows to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -221,6 +239,7 @@ create table notifications (
   read        boolean not null default false,
   created_at  timestamptz default now()
 );
+grant select, insert, update, delete on public.notifications to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -236,6 +255,7 @@ create table collections (
   created_at  timestamptz default now(),
   updated_at  timestamptz default now()
 );
+grant select, insert, update, delete on public.collections to anon, authenticated, service_role;
 
 create table collection_builds (
   collection_id  uuid references collections(id) on delete cascade,
@@ -244,6 +264,7 @@ create table collection_builds (
   added_at       timestamptz default now(),
   primary key (collection_id, build_id)
 );
+grant select, insert, update, delete on public.collection_builds to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -262,6 +283,7 @@ create table build_reports (
   created_at   timestamptz default now(),
   unique (reporter_id, build_id)
 );
+grant select, insert, update, delete on public.build_reports to anon, authenticated, service_role;
 
 -- Reportes de comentarios (M58): mismo modelo que build_reports
 create table comment_reports (
@@ -276,6 +298,7 @@ create table comment_reports (
   created_at   timestamptz default now(),
   unique (reporter_id, comment_id)
 );
+grant select, insert, update, delete on public.comment_reports to anon, authenticated, service_role;
 
 
 -- ═══════════════════════════════════════════════════════════════
@@ -674,6 +697,7 @@ create table memberships (
   created_at                timestamptz not null default now(),
   updated_at                timestamptz not null default now()
 );
+grant all on public.memberships to service_role;
 
 -- Ledger de periodos pagados (racha e hitos de §4 "Racha de apoyo" se
 -- calculan contando meses cubiertos aquí, no número de transacciones).
@@ -693,6 +717,7 @@ create table membership_periods (
   created_at           timestamptz not null default now(),
   unique (provider, provider_payment_id)
 );
+grant all on public.membership_periods to service_role;
 
 -- Aportador (aporte único, §4/§7): sin estado, sin periodo, sin vencimiento.
 -- Tabla separada de memberships a propósito (ver comentario arriba).
@@ -706,6 +731,7 @@ create table supporter_contributions (
   created_at           timestamptz not null default now(),
   unique (provider, provider_payment_id)
 );
+grant all on public.supporter_contributions to service_role;
 
 alter table memberships              enable row level security;
 alter table membership_periods       enable row level security;
@@ -862,6 +888,7 @@ create table forge_runs (
   all_met       boolean,
   seconds       integer check (seconds between 0 and 86400)
 );
+grant select, insert, update, delete on public.forge_runs to anon, authenticated, service_role;
 alter table forge_runs enable row level security;
 create index forge_runs_created_at_idx on forge_runs (created_at);
 create index forge_runs_user_idx on forge_runs (user_id, created_at);
@@ -1032,6 +1059,7 @@ create table if not exists public.custom_rank_definitions (
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
 );
+grant all on public.custom_rank_definitions to service_role;
 
 create table if not exists public.custom_rank_benefits (
   rank_id       uuid not null references public.custom_rank_definitions(id) on delete cascade,
@@ -1058,6 +1086,7 @@ create table if not exists public.custom_rank_benefits (
     ))
   )
 );
+grant all on public.custom_rank_benefits to service_role;
 
 create table if not exists public.custom_rank_assignments (
   id            uuid primary key default gen_random_uuid(),
@@ -1072,6 +1101,7 @@ create table if not exists public.custom_rank_assignments (
   created_at    timestamptz not null default now(),
   check (expires_at is null or expires_at > starts_at)
 );
+grant all on public.custom_rank_assignments to service_role;
 
 create index if not exists custom_rank_definitions_active_order_idx
   on public.custom_rank_definitions (is_active, sort_order, name);
@@ -1679,3 +1709,7 @@ end; $$;
 drop trigger if exists notify_on_build_fork on builds;
 create trigger notify_on_build_fork after insert or update of visibility on builds
   for each row execute procedure notify_build_fork();
+
+-- Sequences of serial / identity columns (tags.id, forge_runs.id): the API
+-- roles need them for inserts, as the old default grants gave.
+grant usage, select on all sequences in schema public to anon, authenticated, service_role;
