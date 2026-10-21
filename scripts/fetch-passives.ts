@@ -4,7 +4,8 @@
  * Usage: pnpm fetch-passives [--force]
  *
  * An item's passive is a hidden spell: its "-special spell-" effect on
- * api.dofusdu.de reads `{{spell,ID,GRADE::Name}}`. That spell's levels (in
+ * api.dofusdu.de reads `{{spell,ID,GRADE::Name}}` (one request lists every
+ * item with its effects). That spell's levels (in
  * the game data release, same source as fetch-spells) hold the real
  * effects: characteristic, value, duration, max stacks, and casts of other
  * spells. This walks each passive spell, keeps the effects that change one
@@ -21,7 +22,10 @@ import { join } from 'node:path'
 const ROOT    = process.cwd()
 const OUT     = join(ROOT, 'src', 'data', 'passives.generated.ts')
 const FORCE   = process.argv.includes('--force')
-const API     = 'https://api.dofusdu.de/dofus3/v1/en/items/equipment'
+// Both the game version and the item list come from the API, never from
+// files on disk, so no file content ends up in a request URL.
+const META_URL  = 'https://api.dofusdu.de/dofus3/v1/meta/version'
+const ITEMS_URL = 'https://api.dofusdu.de/dofus3/v1/en/items/equipment/all'
 
 /** Game characteristic id → stat key used by src/engine/passives.ts. */
 const CHARACTERISTIC: Record<number, string> = {
@@ -57,12 +61,20 @@ export function checkedVersion(raw: unknown): string {
   return raw
 }
 
-/** Item ids from equipment.json, kept only when they are positive integers. */
-export function checkedItemIds(items: { ankama_id: unknown; ability?: unknown }[]): number[] {
-  return items
-    .filter(i => typeof i.ability === 'string' && i.ability.length > 0)
-    .map(i => i.ankama_id)
-    .filter((id): id is number => typeof id === 'number' && Number.isSafeInteger(id) && id > 0)
+type ApiItem = { ankama_id?: unknown; effects?: { formatted?: unknown; type?: { is_meta?: unknown } }[] }
+
+/** Item id → passive spell id, from the items' "-special spell-" meta effect. */
+export function passiveSpellRefs(items: ApiItem[]): { id: number; spell: number }[] {
+  const out: { id: number; spell: number }[] = []
+  for (const item of items) {
+    const id = item.ankama_id
+    if (typeof id !== 'number' || !Number.isSafeInteger(id) || id <= 0) continue
+    for (const e of item.effects ?? []) {
+      const m = e.type?.is_meta === true && typeof e.formatted === 'string' ? /\{\{spell,(\d+),(\d+)/.exec(e.formatted) : null
+      if (m) { out.push({ id, spell: Number(m[1]) }); break }
+    }
+  }
+  return out
 }
 
 function parseRefs(raw: unknown): Map<number, Ref> {
@@ -86,18 +98,6 @@ async function getJson(url: string, tries = 3): Promise<unknown> {
       await new Promise(r => setTimeout(r, 1000 * i))
     }
   }
-}
-
-async function mapLimit<T, R>(items: T[], limit: number, fn: (t: T) => Promise<R>): Promise<R[]> {
-  const out: R[] = new Array(items.length)
-  let next = 0
-  await Promise.all(Array.from({ length: limit }, async () => {
-    while (next < items.length) {
-      const i = next++
-      out[i] = await fn(items[i])
-    }
-  }))
-  return out
 }
 
 /** Target mask reaches the bearer: C (caster) or a (all allies, caster included). */
@@ -161,32 +161,23 @@ export function extractEffects(
 }
 
 async function main() {
-  const version = checkedVersion((JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'version.json'), 'utf8')) as { gameVersion?: unknown }).gameVersion)
+  const version = checkedVersion((await getJson(META_URL) as { version?: unknown }).version)
   if (!FORCE && existsSync(OUT) && readFileSync(OUT, 'utf8').includes(`gameVersion: '${version}'`)) {
     console.log(`Passives up to date (${version}). Pass --force to refresh.`)
     return
   }
   const base = `https://github.com/dofusdude/dofus3-main/releases/download/${encodeURIComponent(version)}`
   console.log(`Generating passives for ${version}…`)
-  const [spellsRaw, levelsRaw, effectsRaw, textsRaw] = await Promise.all(
-    ['spells.json', 'spell_levels.json', 'effects.json', 'en.json'].map(f => getJson(`${base}/${f}`)),
-  )
+  const [spellsRaw, levelsRaw, effectsRaw, textsRaw, itemsRaw] = await Promise.all([
+    ...['spells.json', 'spell_levels.json', 'effects.json', 'en.json'].map(f => getJson(`${base}/${f}`)),
+    getJson(ITEMS_URL),
+  ])
   const spells = parseRefs(spellsRaw), levels = parseRefs(levelsRaw), effects = parseRefs(effectsRaw)
   const texts = (textsRaw as { entries: Record<string, string> }).entries
-
-  const itemIds = checkedItemIds(JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'en', 'equipment.json'), 'utf8')) as { ankama_id: unknown; ability?: unknown }[])
-  const refs = await mapLimit(itemIds, 8, async id => {
-    const data = await getJson(`${API}/${encodeURIComponent(String(id))}`) as { effects?: { formatted?: string; type?: { is_meta?: boolean } }[] }
-    for (const e of data.effects ?? []) {
-      const m = e.type?.is_meta ? /\{\{spell,(\d+),(\d+)/.exec(e.formatted ?? '') : null
-      if (m) return { id, spell: Number(m[1]) }
-    }
-    return null
-  })
+  const refs = passiveSpellRefs((itemsRaw as { items?: ApiItem[] }).items ?? [])
 
   const result: Record<number, { spell: number; effects: GeneratedEffect[] }> = {}
   for (const ref of refs) {
-    if (!ref) continue
     result[ref.id] = { spell: ref.spell, effects: extractEffects(ref.spell, spells, levels, effects, texts) }
   }
   const ids = Object.keys(result).map(Number).sort((a, b) => a - b)

@@ -12,10 +12,20 @@ import { bonusParts } from './passiveLabels.ts'
 
 /**
  * Item text can carry game markup such as <sprite name="eau">. React renders
- * it as text (never HTML); this only tidies it: tags go, and any leftover
- * angle bracket (e.g. from nested or broken markup) is dropped too.
+ * it as text (never HTML); this only tidies it. A single pass over the
+ * characters drops everything between angle brackets — nested or broken
+ * markup included — and the brackets themselves, so none can remain.
  */
-export const plainText = (s: string) => s.replace(/<[^<>]*>/g, '').replace(/[<>]/g, '')
+export function plainText(s: string): string {
+  let out = ''
+  let depth = 0
+  for (const ch of s) {
+    if (ch === '<') depth++
+    else if (ch === '>') depth = Math.max(0, depth - 1)
+    else if (depth === 0) out += ch
+  }
+  return out
+}
 
 type Props = {
   /** Equipped items, in slot order; only those with a passive are shown. */

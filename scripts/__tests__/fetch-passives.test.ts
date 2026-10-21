@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extractEffects, checkedVersion, checkedItemIds } from '../fetch-passives.ts'
+import { extractEffects, checkedVersion, passiveSpellRefs } from '../fetch-passives.ts'
 
 type Ref = Record<string, unknown>
 const map = (rows: Ref[]) => new Map(rows.map(r => [Number(r.id), r]))
@@ -70,15 +70,17 @@ describe('fetch-passives input checks (values that end up in request URLs)', () 
     }
   })
 
-  it('keeps only positive integer ids of items that have an ability', () => {
-    expect(checkedItemIds([
-      { ankama_id: 739, ability: 'x' },
-      { ankama_id: 1, ability: '' },
-      { ankama_id: 2 },
-      { ankama_id: '3/../../x', ability: 'x' },
-      { ankama_id: -4, ability: 'x' },
-      { ankama_id: 5.5, ability: 'x' },
-      { ankama_id: 6, ability: 7 },
-    ])).toEqual([739])
+  it('reads each item\'s passive spell from its meta effect, skipping bad ids and non-passive effects', () => {
+    expect(passiveSpellRefs([
+      { ankama_id: 739, effects: [
+        { formatted: '10% Critical', type: { is_meta: false } },
+        { formatted: '{{spell,5952,1::Turquoise Blue}}: • …', type: { is_meta: true } },
+      ] },
+      { ankama_id: 1, effects: [{ formatted: 'Title: Gossip Pants', type: { is_meta: true } }] },
+      { ankama_id: 2, effects: [{ formatted: '{{spell,9,1::x}}', type: { is_meta: false } }] },
+      { ankama_id: '3', effects: [{ formatted: '{{spell,9,1::x}}', type: { is_meta: true } }] },
+      { ankama_id: -4, effects: [{ formatted: '{{spell,9,1::x}}', type: { is_meta: true } }] },
+      { ankama_id: 5 },
+    ])).toEqual([{ id: 739, spell: 5952 }])
   })
 })
