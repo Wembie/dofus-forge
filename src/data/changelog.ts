@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.120',
+    date: '2026-10-21',
+    notes: [
+      'Fix: the elemental transform (Forgemagie) couldn\'t be applied to weapons whose neutral attack is a steal line instead of a plain damage line — e.g. Pandamonium Wand (Neutral Steal) and 37 other weapons showed "cannot transform" despite genuinely dealing neutral damage. Now recognizes both forms and keeps the result as a steal line when transforming a steal-based weapon',
+    ],
+  },
+  {
     version: '0.3.119',
     date: '2026-10-21',
     notes: [

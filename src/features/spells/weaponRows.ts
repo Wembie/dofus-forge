@@ -39,15 +39,21 @@ export function weaponAttackEffects(
       ? WEAPON_ATTACK_IDS.has(e.effect_id) && e.effect_id !== 225
       : Object.prototype.hasOwnProperty.call(WEAPON_ATTACK_STAT, e.stat),
   )
-  if (!transform || !weapon.effects.some(e => e.stat === 'Neutral damage')) return base
-  const elemStat = `${transform.element.charAt(0).toUpperCase()}${transform.element.slice(1)} damage`
+  // A weapon's neutral attack can be a plain damage line or a steal line
+  // (e.g. Pandamonium Wand only has "Neutral steal") — WEAPON_ATTACK_STAT
+  // already classifies both as 'neutral'; checking just the literal
+  // 'Neutral damage' string missed every steal-only weapon.
+  if (!transform || !weapon.effects.some(e => WEAPON_ATTACK_STAT[e.stat] === 'neutral')) return base
+  const cap = `${transform.element.charAt(0).toUpperCase()}${transform.element.slice(1)}`
   const r = transform.ratio / 100
   return base.map(e => {
-    if (e.stat !== 'Neutral damage') return e
+    if (WEAPON_ATTACK_STAT[e.stat] !== 'neutral') return e
     // Dofus rounds transformed weapon damage DOWN, not up (see EquipmentGrid.tsx).
     const newMin = Math.floor(e.min * r)
     const newMax = e.max > 0 ? Math.floor(e.max * r) : newMin
-    return { ...e, stat: elemStat, min: newMin, max: newMax }
+    // Keep "damage" vs "steal" matching the source line, not hardcoded —
+    // transforming a steal line must stay a steal line.
+    return { ...e, stat: `${cap} ${IS_STEAL(e.stat) ? 'steal' : 'damage'}`, min: newMin, max: newMax }
   })
 }
 

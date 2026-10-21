@@ -6,6 +6,7 @@ import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, 
 import { exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
 import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
 import { normalizeSearch } from '@/ui/normalize.ts'
+import { WEAPON_ATTACK_STAT } from '@/features/spells/spellCalc.ts'
 
 type RuneSection = { labelKey: string; stats: string[] }
 
@@ -104,7 +105,11 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const clearExotic        = useBuildStore(s => s.clearExotic)
 
   const isWeaponSlot     = slotId === 'weapon'
-  const hasNeutralDamage = isWeaponSlot && item.effects.some(e => e.stat === 'Neutral damage')
+  // WEAPON_ATTACK_STAT['Neutral damage' | 'Neutral steal'] === 'neutral' — a
+  // weapon's neutral attack can come from either a plain damage line or a
+  // steal line (e.g. Pandamonium Wand only has "Neutral steal"); checking
+  // just the literal 'Neutral damage' string missed every steal-only weapon.
+  const hasNeutralDamage = isWeaponSlot && item.effects.some(e => WEAPON_ATTACK_STAT[e.stat] === 'neutral')
 
   const [selected, setSelected] = useState(ALL_RUNES[0])
   const [addValue, setAddValue] = useState<number | ''>(10)

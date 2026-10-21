@@ -2,8 +2,15 @@ import type { BuildInput, StatBlock, ItemEffect } from './types.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from './characteristics.ts'
 import { STAT_MAP, IGNORED_STATS, WEAPON_ATTACK_IDS } from './statMap.ts'
 
-// Fallback name-based filter for legacy JSON without effect_id.
-const WEAPON_ATTACK_STAT_NAMES = new Set(['Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage'])
+// Fallback name-based filter for legacy JSON without effect_id. Steal
+// variants included too — a weapon's elemental/neutral attack can be a
+// steal line instead of a plain damage line (e.g. Pandamonium Wand's only
+// attack effect is "Neutral steal"), and missing them here would let a
+// steal-only weapon's attack line leak into the passive stat totals below.
+const WEAPON_ATTACK_STAT_NAMES = new Set([
+  'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
+  'Earth steal', 'Fire steal', 'Water steal', 'Air steal', 'Neutral steal',
+])
 
 // Base AP/MP/Pods in Dofus 3.
 // TODO: Verify in Dofus 3. Assumption: 6 AP / 3 MP base for all classes.

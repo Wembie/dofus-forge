@@ -11,7 +11,7 @@ import { useCombatStats } from '@/store/useCombatStats.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
-import { spellGrade, ELEM_COLOR, fmtRange, dedupEffects, spellMods, weaponMods } from './spellCalc.ts'
+import { spellGrade, ELEM_COLOR, fmtRange, dedupEffects, spellMods, weaponMods, WEAPON_ATTACK_STAT } from './spellCalc.ts'
 import { PvpArena } from '../pvp/PvpArena.tsx'
 
 // TODO icons needed (add file to public/data/stats/ then map here):
@@ -690,7 +690,9 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
 
   const weaponTransform = useBuildStore(s => s.weaponTransforms['weapon'] ?? null)
 
-  const hasNeutralDamage = weapon != null && weapon.effects.some(e => e.stat === 'Neutral damage')
+  // See RuneModal.tsx's hasNeutralDamage for why this checks WEAPON_ATTACK_STAT
+  // instead of the literal 'Neutral damage' string (misses steal-only weapons).
+  const hasNeutralDamage = weapon != null && weapon.effects.some(e => WEAPON_ATTACK_STAT[e.stat] === 'neutral')
 
   const attackEffects = useMemo(
     () => (weapon ? weaponAttackEffects(weapon, weaponTransform) : []),
