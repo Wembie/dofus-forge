@@ -79,7 +79,7 @@ describe('weaponDamageRows', () => {
   it('% Weapon Damage and % Melee multiply the hit, critical damage included', () => {
     // Crocobur fire line 41–60, crit +14; 100 Intelligence, 10 Damage, 20 Critical Damage,
     // 20% Weapon Damage and 10% Melee → (82 + 10) × 1.1 × 1.2 = 121, crit (148 + 30) × 1.32 = 234.
-    const s = stats({ intelligence: 100, damage: 10, critDamage: 20 })
+    const s = stats({ intelligence: 100, damage: 10, fireDamage: 10, critDamage: 20 })
     const mods = { kindPct: 20, rangePct: 10 }
     const [row] = weaponDamageRows(weaponAttackEffects(CROCOBUR, null), s, 14, mods, mods)
     expect(row.low).toBe(121)
