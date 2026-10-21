@@ -15,6 +15,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Active passives count in spell and weapon damage and in the PvP arena',
       'New: % final damage, applied last in the damage formula',
       'Passive settings are saved with the build and shown on the build page',
+      'Passive values come from the game data and update automatically with each game update',
     ],
   },
   {

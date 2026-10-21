@@ -13,7 +13,7 @@ const item = (ankama_id: number, name: string, ability: string): AppItem =>
 const TURQUOISE = item(739, 'Turquoise Dofus', 'Turquoise Blue: • When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times).')
 const ABYSSAL   = item(18043, 'Abyssal Dofus', 'Descent to the Abysses: • 1 MP if no adjacent enemies. Otherwise, 1 AP.')
 const SURPRYZ   = item(22001, 'Surpryz', 'Surpryz: • 100% Critical on the first turn, 35% on the second turn and 15% on the third turn.')
-const THOUSAND  = item(20363, 'Thousand-League Boots', 'Thousand Leagues: • The bearer gains 2 MP on odd turns.')
+const SILVER    = item(20286, 'Sparkling Silver Dofus', 'Promise of Silver: • 20% final damage after falling below 20% health.')
 const EMERALD   = item(737, 'Emerald Dofus', 'Emerald Green: • shield per adjacent enemy.')
 const PLAIN_HAT = item(1, 'Plain Hat', '')
 
@@ -60,11 +60,11 @@ describe('PassivesPanel', () => {
 
   it('a single case is a switch', () => {
     const onChange = vi.fn()
-    render(<PassivesPanel items={[THOUSAND]} state={{}} onChange={onChange} />)
+    render(<PassivesPanel items={[SILVER]} state={{}} onChange={onChange} />)
     const sw = screen.getByRole('switch')
     expect(sw.getAttribute('aria-checked')).toBe('false')
     fireEvent.click(sw)
-    expect(onChange).toHaveBeenLastCalledWith('20363.0', 1)
+    expect(onChange).toHaveBeenLastCalledWith('20286.0', 1)
   })
 
   it('shows the combined bonus and offers to turn everything off', () => {

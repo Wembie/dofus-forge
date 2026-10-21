@@ -10,6 +10,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - Active passives feed spell and weapon damage, the hover breakdown and the PvP arena as a separate combat state; the stats sheet keeps showing gear stats. Passives with no stat effect (shields, heals, states) are listed as text
 - New **% final damage** stat, applied last in the damage formula
 - Passive settings travel with the build: share links, saved and published builds, and a read-only panel on the build page
+- Passive values and stack caps are read from the game's own data (each item's passive spell) and refresh automatically with every game update; checked against it, a few readings of the item text were corrected (Rykke Errel caps at −10%, Buhorado and Thanatena stack, Thousand-League Boots also have a −1 MP case)
 
 ## [0.3.117] — 2026-10-20
 - **Fix (damage)**: the generic Damage stat from gear was counted twice in spell and weapon damage (base 10 with +10 Damage showed 30 instead of 20)

@@ -3,9 +3,10 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { StatBlock } from '../types.ts'
 import {
-  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, hasPassive, controlMax, controlBonus, controlRoom, setControl,
-  passiveBonus, sanitizePassiveState, withPassives,
+  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, LAID_OUT_ITEMS, LAYOUT_MISMATCHES, hasPassive, controlMax, controlBonus,
+  controlRoom, setControl, passiveBonus, sanitizePassiveState, withPassives,
 } from '../passives.ts'
+import { PASSIVE_DATA } from '../../data/passives.generated.ts'
 
 type RawItem = { ankama_id: number; name: string; type: string; ability?: string }
 const ROOT = join(__dirname, '..', '..', '..')
@@ -34,23 +35,33 @@ describe('passives table vs the real item data', () => {
     }
   })
 
-  it('every value and stack cap in the table appears in the item text (no typos)', () => {
-    // Caps the game text does not give ("for each MP used", "for each enemy
-    // hit"): a safe bound, see passives.ts.
-    const ESTIMATED_MAX = new Set(['20354.0', '22023.0', '29136.0', '32116.0'])
-    const wrong: string[] = []
+  it('every passive item with stat effects in the game data has a hand layout that still fits', () => {
+    // An item listed here still works (one control per effect) — the test
+    // only asks for a nicer layout in passives.ts after a game update.
+    const unlaid = [...ITEM_PASSIVES.keys()].filter(id => !LAID_OUT_ITEMS.has(id)).map(id => `${id} ${byId.get(id)?.name}`)
+    expect(unlaid).toEqual([])
+    expect(LAYOUT_MISMATCHES).toEqual([])
+  })
+
+  it('stack caps are the game\'s; an estimate is only used where the game sets none', () => {
     for (const [id, controls] of ITEM_PASSIVES) {
-      const numbers = new Set((byId.get(id)!.ability!.match(/\d+/g) ?? []).map(Number))
       for (const c of controls) {
-        const bonuses = c.kind === 'stacks' ? [c.perStack] : c.options.map(o => o.bonus)
-        for (const bonus of bonuses) {
-          for (const [stat, v] of Object.entries(bonus)) if (!numbers.has(Math.abs(v as number))) wrong.push(`${c.id} ${stat}=${v}`)
-        }
-        if (c.kind === 'stacks' && !ESTIMATED_MAX.has(c.id) && !numbers.has(c.max)) wrong.push(`${c.id} max=${c.max}`)
-        if (c.kind === 'stacks' && c.shared && !numbers.has(c.shared)) wrong.push(`${c.id} shared=${c.shared}`)
+        if (c.kind !== 'stacks') continue
+        const stat = Object.keys(c.perStack)[0]
+        const value = Object.values(c.perStack)[0]
+        const source = PASSIVE_DATA[id].effects.find(e => (e.stat === stat || e.stat === 'resPercentAll') && e.value === value && (e.maxStack == null || e.maxStack === c.max))
+        expect(source, c.id).toBeTruthy()
+        if (source!.maxStack != null) expect(c.max, c.id).toBe(source!.maxStack)
       }
     }
-    expect(wrong).toEqual([])
+  })
+
+  it('values the game data gives that the item text leaves out are kept (Thousand-League −1 MP, Rykke −10% cap)', () => {
+    expect(ITEM_PASSIVES.get(20363)![0]).toMatchObject({ kind: 'choice', options: [{ bonus: { mp: 2 } }, { bonus: { mp: -1 } }] })
+    expect(controlMax(ITEM_PASSIVES.get(20361)![0])).toBe(10)
+    // Buhorado and Thanatena stack with no game cap (one per crit / kill).
+    expect(ITEM_PASSIVES.get(20356)![0].kind).toBe('stacks')
+    expect(ITEM_PASSIVES.get(32117)![0].kind).toBe('stacks')
   })
 
   it('no item is both modelled and text-only, and control ids are unique', () => {
