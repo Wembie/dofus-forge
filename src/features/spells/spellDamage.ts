@@ -13,8 +13,10 @@ function mastery(elem: ElemKey, stats: StatBlock): number {
   }
 }
 
+// computeStats already folds the generic Damage stat into every elemental
+// Damage total, so it must not be added again here (it was, doubling it).
 function flatBonus(elem: ElemKey, stats: StatBlock): number {
-  const base = stats.damage + stats.bestElemDamage
+  const base = stats.bestElemDamage
   switch (elem) {
     case 'earth':   return base + stats.earthDamage
     case 'fire':    return base + stats.fireDamage

@@ -3,6 +3,7 @@ import type { StatBlock } from '@/engine/types.ts'
 import type { AppSpellEffect } from '@/data/spellLoaders.ts'
 import { calcDamage, calcEffects, damageBreakdown, NO_MODS } from '../spellDamage.ts'
 import { spellMods, weaponMods } from '../spellCalc.ts'
+import { computeStats } from '@/engine/stats.ts'
 
 function stats(over: Partial<StatBlock> = {}): StatBlock {
   return {
@@ -18,7 +19,8 @@ describe('calcDamage — Dofus formula', () => {
   it('base hit: floor(roll × (100 + characteristic + power) / 100) + fixed damage', () => {
     // Critical Flamiche: 777 Intelligence + 100 Power, roll 12,
     // fixed 9 Damage + 78 Fire Damage + 41 Critical Damage → 117 + 128 = 245.
-    const s = stats({ intelligence: 777, power: 100, damage: 9, fireDamage: 78 })
+    // (computeStats folds the 9 generic Damage into fireDamage: 87.)
+    const s = stats({ intelligence: 777, power: 100, damage: 9, fireDamage: 87 })
     expect(calcDamage(12, 'fire', s, NO_MODS, 41)).toBe(245)
   })
 
@@ -34,7 +36,7 @@ describe('calcDamage — Dofus formula', () => {
   })
 
   it('+1% Spell Damage adds about 1% of the hit, not 1% of the base roll', () => {
-    const s = stats({ strength: 900, damage: 60, earthDamage: 40 })
+    const s = stats({ strength: 900, damage: 60, earthDamage: 100 })
     const before = calcDamage(50, 'earth', s, { kindPct: 0, rangePct: 0 })
     const after  = calcDamage(50, 'earth', s, { kindPct: 1, rangePct: 0 })
     expect(before).toBe(600)
@@ -111,5 +113,18 @@ describe('damageBreakdown', () => {
       const crit = i % 3 === 0 ? (i * 19) % 200 : 0
       expect(damageBreakdown(base, elem, s, mods, crit).total).toBe(calcDamage(base, elem, s, mods, crit))
     }
+  })
+})
+
+describe('generic Damage from gear', () => {
+  it('counts once (computeStats already adds it to every element)', () => {
+    const s = computeStats({
+      class: 'iop', level: 200, sets: [],
+      allocated: { vitality: 0, wisdom: 0, strength: 0, intelligence: 0, chance: 0, agility: 0 },
+      scrolled: { vitality: false, wisdom: false, strength: false, intelligence: false, chance: false, agility: false },
+      items: [{ ankama_id: 1, set_id: null, slot: 'hat', effects: [{ stat: 'Damage', min: 10, max: 10 }] }],
+    })
+    expect(calcDamage(10, 'earth', s)).toBe(20)
+    expect(calcDamage(10, 'fire', s)).toBe(20)
   })
 })
