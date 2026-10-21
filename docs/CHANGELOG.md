@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.116] — 2026-10-20
+- **New**: the build page shows the animated character of the build (class, gender and companion) when 3D is on, with the portrait as fallback
+
 ## [0.3.115] — 2026-10-20
 - **Unlisted builds are really link-only**: the API can no longer list them; a build is readable when opened by its link (or from your own bookmarks and collections). Share previews and comments of unlisted builds keep working
 - **Collections**: someone else's unlisted build you add from its link now shows in your collection (marked "only you see it"), never to visitors; the save-to-collection button also appears on unlisted builds

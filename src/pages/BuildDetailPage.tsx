@@ -469,6 +469,7 @@ export function BuildDetailPage() {
                 portrait={portrait}
                 classLabel={resolvedClassLabel}
                 level={build.level}
+                stage={classInfo ? { breed: classInfo.breed, gender: build.gender } : undefined}
               />
             </Frame>
 

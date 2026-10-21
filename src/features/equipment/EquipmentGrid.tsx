@@ -24,7 +24,7 @@ import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFa
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { ElementGem } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
-import { getCharacterMode, MOTION_SETTINGS_EVENT } from '@/lib/motionSettings.ts'
+import { useCharacterStage } from '@/components/useCharacterStage.ts'
 
 // ── SVG slot icons ──────────────────────────────────────────────────────────
 
@@ -670,23 +670,6 @@ function useIsDesktop() {
     return () => mq.removeEventListener('change', sync)
   }, [])
   return match
-}
-
-function useCharacterMode() {
-  const [mode, setMode] = useState(getCharacterMode)
-  useEffect(() => {
-    const sync = () => setMode(getCharacterMode())
-    window.addEventListener(MOTION_SETTINGS_EVENT, sync)
-    return () => window.removeEventListener(MOTION_SETTINGS_EVENT, sync)
-  }, [])
-  return mode
-}
-
-/** Animated character on/off; drops back to the 2D portrait once it fails to load. */
-function useCharacterStage() {
-  const mode = useCharacterMode()
-  const [failed, setFailed] = useState(false)
-  return { show: mode === '3d' && !failed, fail: () => setFailed(true) }
 }
 
 function MobileCharacter() {
