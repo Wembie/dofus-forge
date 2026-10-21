@@ -5,9 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.117] — 2026-10-20
+- **Fix (damage)**: the generic Damage stat from gear was counted twice in spell and weapon damage (base 10 with +10 Damage showed 30 instead of 20)
+
 ## [0.3.116] — 2026-10-20
 - **New**: the build page shows the animated character of the build (class, gender and companion) when 3D is on, with the portrait as fallback
-- **Fix (damage)**: the generic Damage stat from gear was counted twice in spell and weapon damage (base 10 with +10 Damage showed 30 instead of 20)
 
 ## [0.3.115] — 2026-10-20
 - **Unlisted builds are really link-only**: the API can no longer list them; a build is readable when opened by its link (or from your own bookmarks and collections). Share previews and comments of unlisted builds keep working

@@ -8,11 +8,17 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.117',
+    date: '2026-10-20',
+    notes: [
+      'Fix: generic Damage from gear is no longer counted twice in spell and weapon damage',
+    ],
+  },
+  {
     version: '0.3.116',
     date: '2026-10-20',
     notes: [
       'New: the build page shows the animated character of the build',
-      'Fix: generic Damage from gear is no longer counted twice in spell and weapon damage',
     ],
   },
   {
