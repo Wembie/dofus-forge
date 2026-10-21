@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SlotId, BuildSnapshot } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
@@ -6,6 +6,15 @@ import { LEFT_SLOTS, RIGHT_SLOTS, EXTRAS_SLOTS, DOFUS_SLOTS } from '@/features/e
 import { SLOT_CONFIGS, slotImageIcon } from '@/features/equipment/slotConfig.ts'
 import { ItemHoverTooltip } from '@/features/equipment/ItemHoverTooltip.tsx'
 import type { AppItem } from '@/data/loaders.ts'
+import { useCharacterStage } from '@/components/useCharacterStage.ts'
+
+const CharacterStage = lazy(() => import('@/components/CharacterStage.tsx').then(m => ({ default: m.CharacterStage })))
+
+const STAGE_WIDTH  = 170
+const STAGE_HEIGHT = 230
+
+/** The animated character of the build: its class, gender and companion. */
+export type BuildStage = { breed: number; gender: 'male' | 'female' }
 
 type Hovered = { item: AppItem; slot: SlotId; rect: DOMRect }
 
@@ -71,20 +80,44 @@ function SlotCell({ slot, item, size, onHover, onLeave }: {
   )
 }
 
+function PortraitFrame({ portrait, classLabel }: { portrait?: string; classLabel: string }) {
+  return (
+    <div
+      className="rounded-xl overflow-hidden flex-shrink-0"
+      style={{
+        width: 120, height: 120,
+        border:     '2px solid color-mix(in srgb, var(--gold) 45%, transparent)',
+        boxShadow:  '0 0 30px color-mix(in srgb, var(--gold) 25%, transparent)',
+        background: 'var(--surface-void)',
+      }}
+    >
+      {portrait
+        ? <img src={portrait} alt={classLabel} className="w-full h-full object-contain" draggable={false} />
+        : <div className="w-full h-full" />
+      }
+    </div>
+  )
+}
+
 /** Read-only equipment view mirroring the live EquipmentGrid's
  * character-centered layout (portrait in the middle, gear arranged around
  * it, dofus row below) instead of a generic list — used on the build
  * detail page so a viewed build looks like "the real thing", not an
  * approximation. Hovering a slot shows the same ItemHoverTooltip used
  * everywhere else, including magesmithy runes from the snapshot. */
-export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, level }: {
+export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, level, stage }: {
   snapshot:   BuildSnapshot
   equipment:  AppItem[] | null
   portrait?:  string
   classLabel: string
   level:      number
+  /** Animated character in the middle (when the player has 3D on); the portrait otherwise. */
+  stage?:     BuildStage
 }) {
   const [hovered, setHovered] = useState<Hovered | null>(null)
+  const characterStage = useCharacterStage()
+  const showStage = Boolean(stage) && characterStage.show
+  const companionId = snapshot.e[ALL_SLOTS.indexOf('companion')] ?? undefined
   const map = new Map((equipment ?? []).map(it => [it.ankama_id, it]))
 
   function itemFor(slot: SlotId): AppItem | undefined {
@@ -112,21 +145,21 @@ export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, 
       <div className="flex items-start justify-center gap-3 flex-wrap">
         <div className="flex flex-col gap-2.5">{LEFT_SLOTS.map(id => cell(id))}</div>
 
-        <div className="flex flex-col items-center flex-shrink-0" style={{ width: 140 }}>
-          <div
-            className="rounded-xl overflow-hidden flex-shrink-0"
-            style={{
-              width: 120, height: 120,
-              border:     '2px solid color-mix(in srgb, var(--gold) 45%, transparent)',
-              boxShadow:  '0 0 30px color-mix(in srgb, var(--gold) 25%, transparent)',
-              background: 'var(--surface-void)',
-            }}
-          >
-            {portrait
-              ? <img src={portrait} alt={classLabel} className="w-full h-full object-contain" draggable={false} />
-              : <div className="w-full h-full" />
-            }
-          </div>
+        <div className="flex flex-col items-center flex-shrink-0" style={{ width: showStage ? STAGE_WIDTH : 140 }}>
+          {showStage && stage ? (
+            <Suspense fallback={<PortraitFrame portrait={portrait} classLabel={classLabel} />}>
+              <CharacterStage
+                breed={stage.breed}
+                gender={stage.gender}
+                companion={companionId}
+                width={STAGE_WIDTH}
+                height={STAGE_HEIGHT}
+                onError={characterStage.fail}
+              />
+            </Suspense>
+          ) : (
+            <PortraitFrame portrait={portrait} classLabel={classLabel} />
+          )}
           <p className="mt-2 font-display text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'var(--gold)' }}>
             {classLabel}
           </p>

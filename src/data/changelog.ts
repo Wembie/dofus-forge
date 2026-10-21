@@ -15,6 +15,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Collections show unlisted builds you added from their link, only to you',
       'Moderators can restore hidden builds and comments; admins can feature builds',
       'A remix published later notifies the original author',
+      'New: the build page shows the animated character of the build',
     ],
   },
   {

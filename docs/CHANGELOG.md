@@ -11,6 +11,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Moderation**: moderators can restore a hidden build (it stays private until its owner publishes it again) or comment from the reports queue; admins can feature / unfeature a public build, shown with a badge
 - **Notifications**: a remix created private and published later now notifies the original author; notifications about a build you cannot list still open it
 - Needs the `20261021000000_unlisted_links_moderation.sql` migration
+- **New**: the build page shows the animated character of the build (class, gender and companion) when 3D is on, with the portrait as fallback
 
 ## [0.3.114] — 2026-10-20
 - **Fix (damage)**: spell and weapon damage now follow the game formula. % Spell / % Weapon Damage and % Ranged / % Melee Damage are separate multipliers applied after fixed damage (they used to be added to the characteristic, so +1% Spell Damage added about 0.5 damage instead of about 1% of the hit), and Critical Damage is multiplied by them too. Applies to the spell panel, the weapon card and the PvP arena
