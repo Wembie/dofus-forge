@@ -68,6 +68,14 @@ describe('passive bonus', () => {
     expect(passiveBonus([21996, TURQUOISE], { '21996.0': 1, [`${TURQUOISE}.0`]: 10 })).toEqual({ ap: 1 })
   })
 
+  it('uncapped "per MP used" / "per enemy" passives allow 8 MP or enemies over their two counts', () => {
+    // Sylvan (+8 Power per MP, 2 turns): a 16-stack max covers 8 MP on two turns.
+    expect(controlMax(ITEM_PASSIVES.get(29136)![0])).toBe(16)
+    expect(passiveBonus([29136], { '29136.0': 16 })).toEqual({ power: 128 })
+    expect(controlMax(ITEM_PASSIVES.get(32116)![0])).toBe(16)
+    expect(controlMax(ITEM_PASSIVES.get(22023)![0])).toBe(16)
+  })
+
   it('controlBonus is clamped to the control', () => {
     const control = ITEM_PASSIVES.get(TURQUOISE)![0]
     expect(controlMax(control)).toBe(10)

@@ -34,6 +34,9 @@ type Spec =
   | { options: PassiveBonus[] }
   | { turns: PassiveBonus[] }
 
+// When the item text gives no cap ("for each MP used", "for each enemy"),
+// the max is a safe bound — 8 MP × 2 turns, 8 enemies × 2 checks — since
+// the player picks the real count and a high max costs nothing.
 // ankama_id → the stat-changing parts of its passive, in the order the
 // item text lists them. Ids are `${ankamaId}.${index}`, so reordering an
 // entry would remap saved builds: only append.
@@ -50,7 +53,7 @@ const SPECS: Record<number, Spec[]> = {
   26066: [{ options: [{ power: 100 }] }, { options: [{ finalDamagePercent: 10 }] }], // Nightmare: pushback / both effects
   7754:  [{ options: [{ ap: 1 }, { dodge: 20 }] }],                             // Ochre: not attacked / attacked
   20286: [{ options: [{ finalDamagePercent: 20 }] }],                           // Sparkling Silver: after dropping below 20%
-  29136: [{ stacks: 12, per: { power: 8 } }],                                   // Sylvan: per MP used
+  29136: [{ stacks: 16, per: { power: 8 } }],                                   // Sylvan: per MP used, lasts 2 turns
   739:   [{ stacks: 10, per: { finalDamagePercent: 1 } }],                      // Turquoise: critical hits
   6980:  [{ options: [{ finalDamagePercent: 10 }, { lock: 20 }] }],             // Vulbis: not attacked / attacked
 
@@ -68,7 +71,7 @@ const SPECS: Record<number, Spec[]> = {
   20359: [{ stacks: 5, per: { finalDamagePercent: 2 } }],                       // Bram Worldbeard: AP/MP removals
   20360: [{ options: [{ ap: 2 }, { ap: -1, mp: -1 }] }],                        // Ganymede: even / odd turn
   32114: [{ stacks: 4, per: { finalDamagePercent: 1 } }],                       // Oto Mustam: enemies alive
-  32116: [{ stacks: 12, per: { pushbackDamage: 6 } }],                          // Menalt: per MP used
+  32116: [{ stacks: 16, per: { pushbackDamage: 6 } }],                          // Menalt: per MP used, lasts 2 turns
   32163: [{ stacks: 4, per: allRes(1) }],                                       // Amayiro: enemies alive
   32117: [{ options: [{ finalDamagePercent: 10 }] }],                           // Thanatena: after finishing off an enemy
   20358: [{ options: [{ finalDamagePercent: 7 }] }],                            // Death-Defying: above 50% health
@@ -88,7 +91,7 @@ const SPECS: Record<number, Spec[]> = {
   22012: [{ turns: [{ ap: 3, mp: -2 }] }],                                      // Shiny Prysipitate
   21997: [{ options: [{ ap: 2, finalDamagePercent: -35 }] }],                   // Shiny Pryssure
   22007: [{ stacks: 3, per: { mp: 1 } }],                                       // Prycapture: enemies more than 9 cells away
-  22023: [{ stacks: 8, per: { meleeDamagePercent: 2 } }],                       // Pryximity: enemies within 3 cells
+  22023: [{ stacks: 16, per: { meleeDamagePercent: 2 } }],                      // Pryximity: enemies within 3 cells, start + end of turn
 }
 
 /**
