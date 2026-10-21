@@ -1,9 +1,11 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { render, screen, cleanup, fireEvent, within } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent, renderHook, act, within } from '@testing-library/react'
 import '@/test/i18n.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
-import { reloadCombatView } from '@/store/useCombatView.ts'
+import { reloadCombatView, setCombatView } from '@/store/useCombatView.ts'
+import { useCombatStats } from '@/store/useCombatStats.ts'
+import { calcDamage } from '@/features/spells/spellDamage.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { CharacteristicsPanel } from '../CharacteristicsPanel.tsx'
 import { StatsPanel } from '@/features/stats-panel/StatsPanel.tsx'
@@ -28,25 +30,35 @@ beforeEach(() => {
 afterEach(cleanup)
 
 describe('CharacteristicsPanel combat view', () => {
-  it('shows gear characteristics by default', () => {
+  it('shows gear characteristics by default, with no switch of its own', () => {
     render(<CharacteristicsPanel />)
     expect(row('stat_strength').textContent).not.toContain('+400')
+    expect(screen.queryByRole('switch')).toBeNull()
+    expect(screen.queryByText('stats_combat_toggle')).toBeNull()
   })
 
-  it('with passives on: characteristics and Power include the passives, with what each adds', () => {
-    render(<CharacteristicsPanel />)
+  it('exactly one switch on screen; turning it on in the stats sheet updates the characteristics too', () => {
+    render(<><div data-testid="chars"><CharacteristicsPanel /></div><StatsPanel /></>)
+    expect(screen.getAllByRole('switch')).toHaveLength(1)
     fireEvent.click(screen.getByRole('switch'))
     const strength = row('stat_strength').textContent!
     expect(strength).toContain('+400')
     expect(strength).toContain(String(store().stats!.strength + 400 + 100)) // strength + power
-    expect(screen.getByText(/stat_power/).parentElement!.textContent).toContain('+100')
+    expect(within(screen.getByTestId('chars')).getByText(/stat_power/).parentElement!.textContent).toContain('+100')
+    // The characteristics panel says why its numbers changed.
+    expect(screen.getAllByText('stats_combat_toggle').length).toBeGreaterThan(0)
   })
+})
 
-  it('one switch for both panels: turning it on in one turns it on in the other', () => {
-    render(<><CharacteristicsPanel /><StatsPanel /></>)
-    const [first, second] = screen.getAllByRole('switch')
-    fireEvent.click(first)
-    expect(second.getAttribute('aria-checked')).toBe('true')
-    expect(within(row('stat_strength')).getByText('+400')).toBeTruthy()
+describe('passives count once, wherever they are shown', () => {
+  it('spell damage uses gear + passives once, and the view switch does not change it', () => {
+    const { result } = renderHook(() => useCombatStats())
+    const before = result.current!
+    expect(before.strength).toBe(store().stats!.strength + 400)
+    expect(before.power).toBe(store().stats!.power + 100)
+    const hit = calcDamage(10, 'earth', before)
+    act(() => setCombatView(true))
+    expect(calcDamage(10, 'earth', result.current!)).toBe(hit)
+    expect(store().stats!.strength).toBe(before.strength - 400) // gear stats never include passives
   })
 })

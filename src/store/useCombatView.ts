@@ -2,8 +2,8 @@ import { useSyncExternalStore } from 'react'
 import { ITEM_PASSIVES } from '@/engine/passives.ts'
 import { useBuildStore } from './buildStore.ts'
 
-// "With passives" view, shared by the stats sheet and the characteristics
-// panel: turning it on in one turns it on in the other. Per-viewer
+// "With passives" view: switched in the stats sheet header, followed by the
+// characteristics panel too. Per-viewer
 // preference; storage can be unavailable (private mode), so it falls back
 // to the gear view.
 const KEY = 'dofus-forge:stats-with-passives'
