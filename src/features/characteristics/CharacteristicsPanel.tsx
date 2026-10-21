@@ -1,6 +1,10 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
+import { useCombatStats } from '@/store/useCombatStats.ts'
+import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
+import { CombatViewSwitch } from '@/features/passives/CombatViewSwitch.tsx'
+import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
 import { pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
 import { CHARACTERISTICS, type Characteristic } from '@/engine/types.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
@@ -94,7 +98,7 @@ function CompactRow({ char, total }: { char: Characteristic; total: number }) {
 }
 
 // ── Elemental stat row (Str/Int/Cha/Agi) — base | +power | =effective ────────
-function ElemRow({ char, base, power }: { char: Characteristic; base: number; power: number }) {
+function ElemRow({ char, base, power, delta }: { char: Characteristic; base: number; power: number; delta?: number }) {
   const { t } = useTranslation()
   const color     = CHAR_COLOR[char]
   const effective = base + power
@@ -107,6 +111,7 @@ function ElemRow({ char, base, power }: { char: Characteristic; base: number; po
       <span className="text-xs font-medium flex-1 select-none truncate" style={{ color }}>
         {t(`stat_${char}`)}
       </span>
+      <DeltaChip delta={delta} />
       {power > 0 ? (
         <div className="flex items-center gap-1 flex-shrink-0 font-mono tabular-nums leading-none">
           <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
@@ -291,7 +296,16 @@ export function CharacteristicsPanel() {
   const { t }     = useTranslation()
   const level     = useBuildStore(s => s.level)
   const allocated = useBuildStore(s => s.allocated)
-  const stats     = useBuildStore(s => s.stats)
+  const gear      = useBuildStore(s => s.stats)
+  // "With passives" (shared with the stats sheet): characteristics and Power
+  // in combat, with what the passives add (e.g. Dofusteuse +400 Strength).
+  const combatStats = useCombatStats()
+  const combatView  = useCombatView()
+  const hasPassives = useHasPassives()
+  const combat    = combatView && hasPassives && combatStats != null
+  const stats     = combat ? combatStats : gear
+  const delta     = (k: 'strength' | 'intelligence' | 'chance' | 'agility' | 'power') =>
+    combat && gear ? combatStats![k] - gear[k] : 0
 
   const budget    = statBudget(level)
   const spent     = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, allocated[c]), 0)
@@ -306,6 +320,8 @@ export function CharacteristicsPanel() {
         <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
           {t('characteristics')}
         </h2>
+        <span className="flex-1" />
+        <span className="mr-2"><CombatViewSwitch /></span>
         <span className="text-xs font-mono tabular-nums" style={{ color: remaining <= 0 ? 'var(--ink-faint)' : 'var(--gold)' }}>
           {remaining} <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>/ {budget}</span>
         </span>
@@ -356,6 +372,7 @@ export function CharacteristicsPanel() {
               >
                 {t('stat_power')}&nbsp;{power > 0 ? `+${power}` : '0'}
               </span>
+              <DeltaChip delta={delta('power')} />
             </div>
             <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
           </div>
@@ -370,6 +387,7 @@ export function CharacteristicsPanel() {
             char={char}
             base={stats ? stats[char] : allocated[char]}
             power={stats?.power ?? 0}
+            delta={delta(char as 'strength' | 'intelligence' | 'chance' | 'agility')}
           />
         ))}
       </div>

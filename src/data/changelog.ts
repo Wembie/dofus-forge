@@ -18,6 +18,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Passive values come from the game data and update automatically with each game update',
       'Stats sheet: a With passives switch shows combat stats and what each passive adds',
       'Damage the targets suffer is its own multiplier after final damage, as in game',
+      'Characteristics panel also shows passives (e.g. Dofusteuse +400 Strength) with the shared With passives switch',
     ],
   },
   {

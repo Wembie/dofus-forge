@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { BuildState } from '@/store/buildStore.ts'
@@ -7,7 +7,9 @@ import { statIconUrl, STAT_META } from '../equipment/statDisplay.ts'
 import { runeStat } from '@/engine/runes.ts'
 import { Tooltip } from '@/ui/Tooltip.tsx'
 import { useCombatStats } from '@/store/useCombatStats.ts'
-import { ITEM_PASSIVES } from '@/engine/passives.ts'
+import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
+import { CombatViewSwitch } from '@/features/passives/CombatViewSwitch.tsx'
+import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
 
 function icon(name: string, size = 16) {
   return (
@@ -18,24 +20,6 @@ function icon(name: string, size = 16) {
       height={size}
       className="object-contain flex-shrink-0"
     />
-  )
-}
-
-/** What the active combat passives add to a stat (combat view only). */
-function DeltaChip({ delta, suffix = '' }: { delta?: number; suffix?: string }) {
-  const { t } = useTranslation()
-  if (!delta) return null
-  return (
-    <span
-      className="font-mono text-[9px] font-bold tabular-nums leading-none rounded px-1 py-0.5"
-      style={{
-        color:      delta > 0 ? 'var(--gold)' : 'var(--negative)',
-        background: `color-mix(in srgb, ${delta > 0 ? 'var(--gold)' : 'var(--negative)'} 12%, transparent)`,
-      }}
-      title={t('stats_from_passives')}
-    >
-      {delta > 0 ? '+' : '−'}{Math.abs(delta)}{suffix}
-    </span>
   )
 }
 
@@ -481,27 +465,15 @@ export function StatsFromBlock({ s, runes, base }: { s: StatBlock; runes: BuildS
   )
 }
 
-// Per-viewer preference; storage can be unavailable (private mode), so it
-// falls back to the gear view.
-const COMBAT_VIEW_KEY = 'dofus-forge:stats-with-passives'
-function readCombatView(): boolean {
-  try { return localStorage.getItem(COMBAT_VIEW_KEY) === '1' } catch { return false }
-}
-function writeCombatView(on: boolean) {
-  try { localStorage.setItem(COMBAT_VIEW_KEY, on ? '1' : '0') } catch { /* view still toggles */ }
-}
-
 export function StatsPanel() {
   const { t }         = useTranslation()
   const stats         = useBuildStore(s => s.stats)
   const selectedClass = useBuildStore(s => s.selectedClass)
   const runes         = useBuildStore(s => s.runes)
-  const equipped      = useBuildStore(s => s.equipped)
   const combatStats   = useCombatStats()
-  const [withPassives, setWithPassives] = useState(readCombatView)
-  const hasPassives   = Object.values(equipped).some(id => id != null && ITEM_PASSIVES.has(id))
-  const combat        = withPassives && hasPassives && combatStats != null
-  const toggle = () => setWithPassives(v => { writeCombatView(!v); return !v })
+  const combatView    = useCombatView()
+  const hasPassives   = useHasPassives()
+  const combat        = combatView && hasPassives && combatStats != null
 
   if (!selectedClass) {
     return (
@@ -537,28 +509,7 @@ export function StatsPanel() {
           {t('stats')}
         </h2>
         <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
-        {hasPassives && (
-          <button
-            type="button"
-            role="switch"
-            aria-checked={combat}
-            onClick={toggle}
-            className="flex items-center gap-1.5 text-[10px] font-semibold flex-shrink-0 transition-colors"
-            style={{ color: combat ? 'var(--gold)' : 'var(--ink-faint)' }}
-            title={t('stats_combat_hint')}
-          >
-            <span
-              className="relative w-6 h-3.5 rounded-full flex-shrink-0 transition-colors"
-              style={{ background: combat ? 'var(--gold)' : 'var(--surface-stone)', border: '1px solid var(--metal-edge)' }}
-            >
-              <span
-                className="absolute top-[1px] w-2.5 h-2.5 rounded-full transition-transform"
-                style={{ left: 1, background: combat ? 'var(--surface-void)' : 'var(--ink-faint)', transform: combat ? 'translateX(10px)' : undefined }}
-              />
-            </span>
-            {t('stats_combat_toggle')}
-          </button>
-        )}
+        <CombatViewSwitch />
       </div>
       {combat && (
         <p className="text-[10px] leading-snug -mt-2" style={{ color: 'var(--ink-faint)' }}>{t('stats_combat_hint')}</p>

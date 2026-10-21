@@ -5,6 +5,7 @@ import '@/test/i18n.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { StatsPanel } from '../StatsPanel.tsx'
+import { reloadCombatView } from '@/store/useCombatView.ts'
 
 const ABYSSAL = { ankama_id: 18043, name: 'Abyssal Dofus', level: 180, type: 'Dofus', slot: 'dofus', effects: [], set_id: null } as unknown as AppItem
 const HAT     = { ankama_id: 1, name: 'Hat', level: 1, type: 'Hat', slot: 'hat', effects: [{ stat: 'AP', min: 1, max: 1 }], set_id: null } as unknown as AppItem
@@ -13,6 +14,7 @@ const apBadge = () => screen.getByText('badge_ap').parentElement!
 
 beforeEach(() => {
   localStorage.clear()
+  reloadCombatView()
   store().reset()
   store().setEquipment([ABYSSAL, HAT])
   store().setSetsData([])
@@ -45,6 +47,7 @@ describe('StatsPanel combat view', () => {
 
   it('remembers the choice for the next visit', () => {
     localStorage.setItem('dofus-forge:stats-with-passives', '1')
+    reloadCombatView()
     store().equipItem('dofus1', 18043)
     render(<StatsPanel />)
     expect(screen.getByRole('switch').getAttribute('aria-checked')).toBe('true')
