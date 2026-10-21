@@ -1223,7 +1223,12 @@
   "passives_off": "Off",
   "passives_shared": "Shared: {{used}}/{{max}} stacks in total",
   "stat_target_vulnerability": "% Damage taken by the target",
-  "stats_combat_toggle": "With passives",
   "stats_combat_hint": "Combat stats: your gear plus the active passives. In combat, AP and MP can go past the cap.",
-  "stats_from_passives": "From combat passives"
+  "stats_from_passives": "From combat passives",
+  "combat_view_title": "Show stats",
+  "combat_view_gear": "Gear",
+  "combat_view_combat": "In combat",
+  "combat_view_gear_hint": "Characteristics and stats from your gear only, like the in-game sheet out of combat.",
+  "combat_view_none": "No passive active: turn them on in Combat passives.",
+  "combat_view_edit": "Adjust passives"
 }

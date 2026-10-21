@@ -1223,7 +1223,12 @@
   "passives_off": "Não",
   "passives_shared": "Compartilhado: {{used}}/{{max}} acúmulos no total",
   "stat_target_vulnerability": "% Dano sofrido pelo alvo",
-  "stats_combat_toggle": "Com passivas",
   "stats_combat_hint": "Stats em combate: seu equipamento mais as passivas ativas. Em combate, PA e PM podem passar do limite.",
-  "stats_from_passives": "Vindo das passivas de combate"
+  "stats_from_passives": "Vindo das passivas de combate",
+  "combat_view_title": "Ver stats",
+  "combat_view_gear": "Equipamento",
+  "combat_view_combat": "Em combate",
+  "combat_view_gear_hint": "Características e stats só do seu equipamento, como a ficha do jogo fora de combate.",
+  "combat_view_none": "Nenhuma passiva ativa: ative em Passivas de combate.",
+  "combat_view_edit": "Ajustar passivas"
 }

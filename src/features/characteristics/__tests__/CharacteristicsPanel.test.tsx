@@ -9,6 +9,7 @@ import { calcDamage } from '@/features/spells/spellDamage.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { CharacteristicsPanel } from '../CharacteristicsPanel.tsx'
 import { StatsPanel } from '@/features/stats-panel/StatsPanel.tsx'
+import { CombatViewBar } from '@/features/passives/CombatViewBar.tsx'
 
 const DOFUSTEUSE = { ankama_id: 958, name: 'Dofusteuse', level: 200, type: 'Cloak', slot: 'cape', effects: [], set_id: null } as unknown as AppItem
 const NIGHTMARE  = { ankama_id: 26066, name: 'Nightmare Dofus', level: 180, type: 'Dofus', slot: 'dofus', effects: [], set_id: null } as unknown as AppItem
@@ -30,23 +31,23 @@ beforeEach(() => {
 afterEach(cleanup)
 
 describe('CharacteristicsPanel combat view', () => {
-  it('shows gear characteristics by default, with no switch of its own', () => {
+  it('shows gear characteristics by default, with no control of its own', () => {
     render(<CharacteristicsPanel />)
     expect(row('stat_strength').textContent).not.toContain('+400')
-    expect(screen.queryByRole('switch')).toBeNull()
-    expect(screen.queryByText('stats_combat_toggle')).toBeNull()
+    expect(screen.queryByRole('radio')).toBeNull()
+    expect(screen.queryByText('combat_view_combat')).toBeNull()
   })
 
-  it('exactly one switch on screen; turning it on in the stats sheet updates the characteristics too', () => {
-    render(<><div data-testid="chars"><CharacteristicsPanel /></div><StatsPanel /></>)
-    expect(screen.getAllByRole('switch')).toHaveLength(1)
-    fireEvent.click(screen.getByRole('switch'))
+  it('one control for both panels (the bar above them): In combat updates the characteristics too', () => {
+    render(<><CombatViewBar /><div data-testid="chars"><CharacteristicsPanel /></div><StatsPanel /></>)
+    expect(screen.getAllByRole('radiogroup')).toHaveLength(1)
+    fireEvent.click(screen.getByRole('radio', { name: /combat_view_combat/ }))
     const strength = row('stat_strength').textContent!
     expect(strength).toContain('+400')
     expect(strength).toContain(String(store().stats!.strength + 400 + 100)) // strength + power
     expect(within(screen.getByTestId('chars')).getByText(/stat_power/).parentElement!.textContent).toContain('+100')
-    // The characteristics panel says why its numbers changed.
-    expect(screen.getAllByText('stats_combat_toggle').length).toBeGreaterThan(0)
+    // Each panel says why its numbers changed.
+    expect(within(screen.getByTestId('chars')).getByText('combat_view_combat')).toBeTruthy()
   })
 })
 

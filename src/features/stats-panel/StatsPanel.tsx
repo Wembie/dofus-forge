@@ -8,7 +8,7 @@ import { runeStat } from '@/engine/runes.ts'
 import { Tooltip } from '@/ui/Tooltip.tsx'
 import { useCombatStats } from '@/store/useCombatStats.ts'
 import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
-import { CombatViewSwitch } from '@/features/passives/CombatViewSwitch.tsx'
+import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
 
 function icon(name: string, size = 16) {
@@ -509,11 +509,8 @@ export function StatsPanel() {
           {t('stats')}
         </h2>
         <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
-        <CombatViewSwitch />
+        <CombatViewTag />
       </div>
-      {combat && (
-        <p className="text-[10px] leading-snug -mt-2" style={{ color: 'var(--ink-faint)' }}>{t('stats_combat_hint')}</p>
-      )}
       <StatsFromBlock s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} />
     </div>
   )

@@ -14,6 +14,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 - **Stats sheet: "With passives" switch** (shown when an equipped item has a passive): combat stats — gear plus active passives — with what each passive adds next to every stat (e.g. 13 AP +1); AP and MP may go past the cap in combat, % resistances keep the 50% cap. The choice is remembered
 - Damage the targets suffer (Thanatena, Scissors of Destiny) is now its own multiplier after final damage, as in game
 - The "With passives" switch is shared by the stats sheet and the characteristics panel: characteristics and Power from passives (e.g. Dofusteuse +400 Strength, Nightmare +100 Power) show there too
+- The gear / combat view is a "Show stats: Gear | In combat" selector above the characteristics and stats (with the number of active passives and a shortcut to adjust them); the panels show an "In combat" tag while it is on
 
 ## [0.3.117] — 2026-10-20
 - **Fix (damage)**: the generic Damage stat from gear was counted twice in spell and weapon damage (base 10 with +10 Damage showed 30 instead of 20)

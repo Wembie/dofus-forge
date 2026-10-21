@@ -4,6 +4,7 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import { useCombatStats } from '@/store/useCombatStats.ts'
 import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
+import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
 import { pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
 import { CHARACTERISTICS, type Characteristic } from '@/engine/types.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
@@ -296,7 +297,7 @@ export function CharacteristicsPanel() {
   const level     = useBuildStore(s => s.level)
   const allocated = useBuildStore(s => s.allocated)
   const gear      = useBuildStore(s => s.stats)
-  // "With passives" (switched in the stats sheet header): characteristics and Power
+  // Combat view (chosen in CombatViewBar): characteristics and Power
   // in combat, with what the passives add (e.g. Dofusteuse +400 Strength).
   const combatStats = useCombatStats()
   const combatView  = useCombatView()
@@ -320,17 +321,7 @@ export function CharacteristicsPanel() {
           {t('characteristics')}
         </h2>
         <span className="flex-1" />
-        {/* The switch lives in the stats sheet header (one switch for both
-            panels); this only says why the numbers include passives. */}
-        {combat && (
-          <span
-            className="mr-2 text-[10px] font-semibold rounded px-1.5 py-0.5"
-            style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 12%, transparent)' }}
-            title={t('stats_combat_hint')}
-          >
-            {t('stats_combat_toggle')}
-          </span>
-        )}
+        <span className="mr-2"><CombatViewTag /></span>
         <span className="text-xs font-mono tabular-nums" style={{ color: remaining <= 0 ? 'var(--ink-faint)' : 'var(--gold)' }}>
           {remaining} <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>/ {budget}</span>
         </span>

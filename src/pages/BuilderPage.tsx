@@ -14,6 +14,7 @@ import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
 import { CharacteristicsPanel } from '@/features/characteristics/CharacteristicsPanel.tsx'
 import { EquipmentGrid } from '@/features/equipment/EquipmentGrid.tsx'
 import { StatsPanel } from '@/features/stats-panel/StatsPanel.tsx'
+import { CombatViewBar } from '@/features/passives/CombatViewBar.tsx'
 import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
 import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
@@ -456,12 +457,14 @@ function BuilderContent() {
           {activeTab === 'character' && (
             <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
               <Frame><ClassPicker /></Frame>
+              <CombatViewBar />
               <Frame><CharacteristicsPanel /></Frame>
               {hasClass && <Frame><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>}
             </aside>
           )}
           {activeTab === 'stats' && (
-            <aside aria-label={t('stats')} aria-live="polite">
+            <aside aria-label={t('stats')} aria-live="polite" className="space-y-4">
+              <CombatViewBar />
               <Frame><StatsPanel /></Frame>
             </aside>
           )}
@@ -498,6 +501,8 @@ function BuilderContent() {
             style={{ order: sidebarLeft ? 1 : 2, animation: 'col-rise 520ms var(--ease-out) 60ms both' }}
           >
             <Frame><ClassPicker /></Frame>
+            {/* Applies to both panels below, so it sits above them. */}
+            <CombatViewBar showEdit />
             <Frame><CharacteristicsPanel /></Frame>
             <Frame material="parchment"><StatsPanel /></Frame>
           </aside>
