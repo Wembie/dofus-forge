@@ -42,10 +42,20 @@ jobs:
           fi
           pnpm fetch-data $ARGS
           pnpm fetch-spells $ARGS
-          # Item passives (Dofus, Prysmaradites, legendaries) from the game's
-          # passive spells: a rebalance reaches the app with no code change.
-          pnpm fetch-passives $ARGS
           pnpm fetch-images $ARGS
+
+      # Item passives (Dofus, Prysmaradites, legendaries) from the game's
+      # passive spells: a rebalance reaches the app with no code change.
+      # Its own step, so a failure here never holds back the item/spell update
+      # (the app keeps the previous passives file).
+      - name: Generate item passives
+        continue-on-error: true
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            ARGS="--force"
+          fi
+          pnpm fetch-passives $ARGS
 
       - name: Sync item icons to R2
         env:
