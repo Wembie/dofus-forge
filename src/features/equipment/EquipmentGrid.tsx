@@ -22,6 +22,7 @@ import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
+import { WEAPON_ATTACK_STAT, IS_STEAL } from '@/features/spells/spellCalc.ts'
 import { ElementGem } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
@@ -454,12 +455,18 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
               type AtkEntry = typeof rawAtkFx[0] & { transformed?: boolean }
               const atkFx: AtkEntry[] = (weaponTransform && isWeapon)
                 ? rawAtkFx.map(e => {
-                    if (e.stat !== 'Neutral damage') return e
+                    // A weapon's neutral attack can be a plain damage line or
+                    // a steal line (e.g. Pandamonium Wand only has "Neutral
+                    // steal") — WEAPON_ATTACK_STAT already classifies both as
+                    // 'neutral'; the literal 'Neutral damage' string missed
+                    // every steal-only weapon.
+                    if (WEAPON_ATTACK_STAT[e.stat] !== 'neutral') return e
                     const cap     = weaponTransform.element.charAt(0).toUpperCase() + weaponTransform.element.slice(1)
                     const r       = weaponTransform.ratio / 100
                     return {
                       ...e,
-                      stat:        `${cap} damage`,
+                      // Keep "damage" vs "steal" matching the source line.
+                      stat:        `${cap} ${IS_STEAL(e.stat) ? 'steal' : 'damage'}`,
                       // Dofus rounds transformed weapon damage DOWN, not up —
                       // e.g. 45-53 Neutral at 85% is 38-45, not 39-46 (ceil).
                       min:         Math.floor(e.min * r),

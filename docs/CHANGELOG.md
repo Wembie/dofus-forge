@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.120] — 2026-10-21
+- **Fix**: the elemental transform (Forgemagie) couldn't be applied to weapons whose neutral attack is a steal line instead of a plain damage line — e.g. Pandamonium Wand (Neutral Steal) and 37 other weapons showed "cannot transform" even though they genuinely deal neutral damage. The transform now recognizes both forms and correctly keeps the result as a steal line (e.g. Fire Steal, not Fire Damage) when transforming a steal-based weapon
+
 ## [0.3.119] — 2026-10-21
 - **Fix**: crawlable pages (home, About, How to Use, Explore, Privacy, Terms, the Cra class guide — all 4 languages) now ship with their real rendered content baked into the static HTML, not just an empty `<div id="root">` shell. Any crawler that doesn't execute JavaScript was seeing 20 characters of visible text sitewide regardless of how much real content each page actually had — the root cause behind an AdSense "low value content" rejection. A build step now renders each page in a real headless browser and captures the live DOM into its static file; real visitors with JS still get the exact same interactive app, untouched
 

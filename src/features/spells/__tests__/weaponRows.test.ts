@@ -45,6 +45,17 @@ const HALBAXE = weapon({
   ],
 })
 
+// Only carries "Neutral steal" (effect_id 223), no plain "Neutral damage"
+// line at all — the real shape that exposed the transform bug (Pandamonium
+// Wand and 37 other weapons in the live dataset are built this way).
+const STEAL_ONLY_WEAPON = weapon({
+  name: 'Steal-only wand', ap_cost: 3, crit_chance: 10, crit_bonus: 0,
+  effects: [
+    { stat: 'Neutral steal', min: 18, max: 21, effect_id: 223 },
+    { stat: 'Vitality',      min: 100, max: 150, effect_id: 9 },
+  ],
+})
+
 const allFinite = (rows: ReturnType<typeof weaponDamageRows>) =>
   rows.every(r => [r.low, r.high, r.critLow, r.critHigh].every(Number.isFinite))
 
@@ -89,6 +100,34 @@ describe('weaponDamageRows', () => {
   it('bestElement breaks ties in earth → fire → water → air order', () => {
     expect(bestElement(stats())).toBe('earth')
     expect(bestElement(stats({ chance: 10, agility: 10 }))).toBe('water')
+  })
+})
+
+describe('weaponAttackEffects elemental transform', () => {
+  it('transforms a plain "Neutral damage" line into "{Element} damage"', () => {
+    const fx = weaponAttackEffects(KAISER, { element: 'fire', ratio: 85 })
+    const neutral = fx.find(e => e.stat === 'Fire damage')
+    expect(neutral).toBeDefined()
+    expect(neutral).toMatchObject({ min: Math.floor(9 * 0.85), max: Math.floor(11 * 0.85) })
+    // the other weapon lines (Damage, Water damage, Air damage, AP) stay untouched
+    expect(fx.find(e => e.stat === 'Neutral damage')).toBeUndefined()
+    expect(fx.find(e => e.stat === 'Water damage')).toMatchObject({ min: 9, max: 11 })
+  })
+
+  it('transforms a steal-only weapon (Neutral steal, no plain Neutral damage line) — regression for Pandamonium Wand', () => {
+    expect(STEAL_ONLY_WEAPON.effects.some(e => e.stat === 'Neutral damage')).toBe(false)
+
+    const fx = weaponAttackEffects(STEAL_ONLY_WEAPON, { element: 'water', ratio: 68 })
+    // must still produce a transformed attack line, not silently no-op
+    expect(fx.find(e => e.stat === 'Neutral steal')).toBeUndefined()
+    const transformed = fx.find(e => e.stat === 'Water steal')
+    expect(transformed).toBeDefined()
+    expect(transformed).toMatchObject({ min: Math.floor(18 * 0.68), max: Math.floor(21 * 0.68) })
+  })
+
+  it('no transform selected leaves attack lines untouched, Neutral steal included', () => {
+    const fx = weaponAttackEffects(STEAL_ONLY_WEAPON, null)
+    expect(fx.find(e => e.stat === 'Neutral steal')).toMatchObject({ min: 18, max: 21 })
   })
 })
 
