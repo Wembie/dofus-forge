@@ -4,7 +4,7 @@ import { ChevronDown, Minus, Plus, Sparkles, RotateCcw } from 'lucide-react'
 import { Frame } from '@/ui'
 import type { AppItem } from '@/data/loaders.ts'
 import {
-  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, passiveBonus,
+  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, passiveBonus, controlRoom,
   type PassiveBonus, type PassiveControl, type PassiveState,
 } from '@/engine/passives.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
@@ -113,6 +113,9 @@ function PassiveCard({ item, state, onChange }: { item: AppItem; state: PassiveS
   const [open, setOpen] = useState(false)
   const controls = ITEM_PASSIVES.get(item.ankama_id) ?? []
   const active = controls.some(c => (state[c.id] ?? 0) > 0)
+  const sharedControls = controls.filter(c => c.kind === 'stacks' && c.shared)
+  const sharedCap  = sharedControls.length > 1 && sharedControls[0].kind === 'stacks' ? sharedControls[0].shared! : null
+  const sharedUsed = sharedControls.reduce((sum, c) => sum + (state[c.id] ?? 0), 0)
   // "Name: • effect • effect" → name + bullet lines.
   const [, ...bullets] = (item.ability ?? '').split('•').map(s => s.trim())
   const abilityName = (item.ability ?? '').split(':')[0]?.trim()
@@ -140,8 +143,11 @@ function PassiveCard({ item, state, onChange }: { item: AppItem; state: PassiveS
         {controls.length === 0 ? (
           <p className="text-[11px] italic" style={{ color: 'var(--ink-faint)' }}>{t('passives_text_only')}</p>
         ) : controls.map(control => (
-          <ControlRow key={control.id} control={control} value={state[control.id] ?? 0} onChange={onChange} />
+          <ControlRow key={control.id} control={control} value={state[control.id] ?? 0} room={controlRoom(control, state)} onChange={onChange} />
         ))}
+        {sharedCap != null && (
+          <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('passives_shared', { used: sharedUsed, max: sharedCap })}</p>
+        )}
 
         {bullets.length > 0 && (
           <div>
@@ -167,7 +173,7 @@ function PassiveCard({ item, state, onChange }: { item: AppItem; state: PassiveS
   )
 }
 
-function ControlRow({ control, value, onChange }: { control: PassiveControl; value: number; onChange?: Props['onChange'] }) {
+function ControlRow({ control, value, room, onChange }: { control: PassiveControl; value: number; room: number; onChange?: Props['onChange'] }) {
   const { t } = useTranslation()
   const readOnly = !onChange
   const set = (v: number) => onChange?.(control.id, v)
@@ -192,7 +198,8 @@ function ControlRow({ control, value, onChange }: { control: PassiveControl; val
                   <button
                     key={i}
                     type="button"
-                    disabled={readOnly}
+                    // Past the room left by shared stacks, a pip can't be turned on.
+                    disabled={readOnly || i + 1 > room}
                     onClick={() => set(value === i + 1 ? i : i + 1)}
                     aria-label={t('passives_set_stacks', { n: i + 1 })}
                     aria-pressed={on}
@@ -200,6 +207,7 @@ function ControlRow({ control, value, onChange }: { control: PassiveControl; val
                     style={{
                       background: on ? 'var(--gold)' : 'var(--surface-stone)',
                       border:     `1px solid ${on ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
+                      opacity:    !readOnly && !on && i + 1 > room ? 0.35 : 1,
                     }}
                   />
                 )
@@ -207,7 +215,7 @@ function ControlRow({ control, value, onChange }: { control: PassiveControl; val
             </div>
           ) : <div className="flex-1" />}
           {!readOnly && (
-            <StepButton label={t('passives_more')} disabled={value >= control.max} onClick={() => set(value + 1)}><Plus size={11} /></StepButton>
+            <StepButton label={t('passives_more')} disabled={value >= room} onClick={() => set(value + 1)}><Plus size={11} /></StepButton>
           )}
           <span className="font-mono text-[11px] tabular-nums w-10 text-right" style={{ color: value > 0 ? 'var(--gold)' : 'var(--ink-faint)' }}>
             {value}/{control.max}

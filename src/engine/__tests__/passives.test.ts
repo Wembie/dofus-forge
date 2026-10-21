@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { StatBlock } from '../types.ts'
 import {
-  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, hasPassive, controlMax, controlBonus,
+  ITEM_PASSIVES, TEXT_ONLY_PASSIVES, hasPassive, controlMax, controlBonus, controlRoom, setControl,
   passiveBonus, sanitizePassiveState, withPassives,
 } from '../passives.ts'
 
@@ -32,6 +32,25 @@ describe('passives table vs the real item data', () => {
       expect(item?.ability, String(id)).toBeTruthy()
       expect(notAPassive(item!), item!.name).toBe(false)
     }
+  })
+
+  it('every value and stack cap in the table appears in the item text (no typos)', () => {
+    // Caps the game text does not give ("for each MP used", "for each enemy
+    // hit"): a safe bound, see passives.ts.
+    const ESTIMATED_MAX = new Set(['20354.0', '22023.0', '29136.0', '32116.0'])
+    const wrong: string[] = []
+    for (const [id, controls] of ITEM_PASSIVES) {
+      const numbers = new Set((byId.get(id)!.ability!.match(/\d+/g) ?? []).map(Number))
+      for (const c of controls) {
+        const bonuses = c.kind === 'stacks' ? [c.perStack] : c.options.map(o => o.bonus)
+        for (const bonus of bonuses) {
+          for (const [stat, v] of Object.entries(bonus)) if (!numbers.has(Math.abs(v as number))) wrong.push(`${c.id} ${stat}=${v}`)
+        }
+        if (c.kind === 'stacks' && !ESTIMATED_MAX.has(c.id) && !numbers.has(c.max)) wrong.push(`${c.id} max=${c.max}`)
+        if (c.kind === 'stacks' && c.shared && !numbers.has(c.shared)) wrong.push(`${c.id} shared=${c.shared}`)
+      }
+    }
+    expect(wrong).toEqual([])
   })
 
   it('no item is both modelled and text-only, and control ids are unique', () => {
@@ -74,6 +93,27 @@ describe('passive bonus', () => {
     expect(passiveBonus([29136], { '29136.0': 16 })).toEqual({ power: 128 })
     expect(controlMax(ITEM_PASSIVES.get(32116)![0])).toBe(16)
     expect(controlMax(ITEM_PASSIVES.get(22023)![0])).toBe(16)
+  })
+
+  it('shared stacks never exceed their common cap (Jahash 5 across elements, Meriana 8)', () => {
+    // Raw state over the cap: trimmed in control order.
+    expect(sanitizePassiveState({ '20362.0': 3, '20362.2': 4 })).toEqual({ '20362.0': 3, '20362.2': 2 })
+    expect(passiveBonus([20362], { '20362.0': 5, '20362.1': 5 })).toEqual({ neutralResPercent: 20 })
+    // Setting one keeps it within the room the others leave.
+    expect(setControl({ '32121.0': 6 }, '32121.1', 8)).toEqual({ '32121.0': 6, '32121.1': 2 })
+    expect(controlRoom(ITEM_PASSIVES.get(32121)![1], { '32121.0': 6 })).toBe(2)
+    // Lowering one frees room for the other.
+    expect(setControl({ '32121.0': 6, '32121.1': 2 }, '32121.0', 1)).toEqual({ '32121.0': 1, '32121.1': 2 })
+  })
+
+  it('Domakuro counts in steps of 8 (16 without attacking, 8 with one attack) up to +64', () => {
+    expect(passiveBonus([23237], { '23237.0': 3 })).toEqual({ damage: 24 })
+    expect(controlMax(ITEM_PASSIVES.get(23237)![0])).toBe(8)
+  })
+
+  it('damage-suffered increases on targets count as final damage (Thanatena +4%, Scissors +6%)', () => {
+    expect(passiveBonus([32117], { '32117.1': 1 })).toEqual({ finalDamagePercent: 4 })
+    expect(passiveBonus([20354], { '20354.1': 1 })).toEqual({ finalDamagePercent: 6 })
   })
 
   it('controlBonus is clamped to the control', () => {

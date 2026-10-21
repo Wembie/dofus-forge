@@ -1220,5 +1220,6 @@
   "passives_stacks": "Cumuls",
   "passives_set_stacks": "{{n}} cumuls",
   "passives_turn": "Tour {{n}}",
-  "passives_off": "Non"
+  "passives_off": "Non",
+  "passives_shared": "Partagé : {{used}}/{{max}} cumuls au total"
 }

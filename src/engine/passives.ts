@@ -21,8 +21,8 @@ export type PassiveStat =
 export type PassiveBonus = Partial<Record<PassiveStat, number>>
 
 export type PassiveControl =
-  /** 0…max stacks of the same bonus. */
-  | { id: string; kind: 'stacks'; max: number; perStack: PassiveBonus }
+  /** 0…max stacks of the same bonus; `shared` caps the stacks of all the item's shared controls together. */
+  | { id: string; kind: 'stacks'; max: number; perStack: PassiveBonus; shared?: number }
   /** Off, or one of the options (a single option is a plain toggle; `turn` labels Prysmaradite turns). */
   | { id: string; kind: 'choice'; options: { bonus: PassiveBonus; turn?: number }[] }
 
@@ -30,7 +30,7 @@ const RES_KEYS = ['neutralResPercent', 'earthResPercent', 'fireResPercent', 'wat
 const allRes = (n: number): PassiveBonus => Object.fromEntries(RES_KEYS.map(k => [k, n]))
 
 type Spec =
-  | { stacks: number; per: PassiveBonus }
+  | { stacks: number; per: PassiveBonus; shared?: number }
   | { options: PassiveBonus[] }
   | { turns: PassiveBonus[] }
 
@@ -48,7 +48,7 @@ const SPECS: Record<number, Spec[]> = {
   8698:  [{ options: [{ finalDamagePercent: 20 }, { finalDamagePercent: -10 }] }], // Cloudy: odd / even turn
   694:   [{ stacks: 10, per: { finalDamagePercent: 1 } }],                      // Crimson: attacked
   31794: [{ stacks: 10, per: { finalDamagePercent: 1 } }],                      // Dofzzbz: summon attacked
-  23237: [{ stacks: 4, per: { damage: 16 } }],                                  // Domakuro: turns without attacking (first 4)
+  23237: [{ stacks: 8, per: { damage: 8 } }],                                    // Domakuro: first 4 turns, 16 without attacking / 8 with 1 attack
   7114:  [{ stacks: 5, per: { rangedDamagePercent: 2 } }, { stacks: 5, per: { meleeDamagePercent: 2 } }], // Ebony
   26066: [{ options: [{ power: 100 }] }, { options: [{ finalDamagePercent: 10 }] }], // Nightmare: pushback / both effects
   7754:  [{ options: [{ ap: 1 }, { dodge: 20 }] }],                             // Ochre: not attacked / attacked
@@ -61,19 +61,19 @@ const SPECS: Record<number, Spec[]> = {
   22368: [{ stacks: 5, per: { mp: 1 } }],                                       // War's Halbaxe: enemies finished off
   20365: [{ options: [{ mp: 1, critChance: 10 }, { dodge: 40, pushbackDamage: 40 }] }], // Dodge's Audacity: moved / not moved
   20366: [{ stacks: 4, per: { spellDamagePercent: 1 } }],                       // Lady Jhessica's Courage: enemies hit
-  32121: [{ stacks: 8, per: { mpReduction: 5 } }, { stacks: 8, per: { apReduction: 5 } }], // Meriana: Earth/Water, Fire/Air hits (8 shared)
+  32121: [{ stacks: 8, per: { mpReduction: 5 }, shared: 8 }, { stacks: 8, per: { apReduction: 5 }, shared: 8 }], // Meriana: Earth/Water, Fire/Air hits
   20363: [{ options: [{ mp: 2 }] }],                                            // Thousand-League Boots: odd turn
   20356: [{ options: [{ pushbackDamage: 10 }] }],                               // Buhorado Feather: after a critical hit
   958:   [{ options: [{ chance: 400 }, { strength: 400 }, { agility: 400 }, { intelligence: 400 }] }], // Dofusteuse: rotation
-  20362: RES_KEYS.map(k => ({ stacks: 5, per: { [k]: 4 } })),                   // Jahash Jurgen: per element hit (5 shared)
+  20362: RES_KEYS.map(k => ({ stacks: 5, per: { [k]: 4 }, shared: 5 })),        // Jahash Jurgen: per element hit
   20361: [{ stacks: 11, per: { rangedDamagePercent: -1 } }],                    // Rykke Errel: cells from a ranged attacker
-  20354: [{ stacks: 8, per: { lock: 10 } }],                                    // Scissors of Destiny: enemies hit
+  20354: [{ stacks: 8, per: { lock: 10 } }, { options: [{ finalDamagePercent: 6 }] }], // Scissors of Destiny: enemies hit; adjacent enemies suffer +6%
   20359: [{ stacks: 5, per: { finalDamagePercent: 2 } }],                       // Bram Worldbeard: AP/MP removals
   20360: [{ options: [{ ap: 2 }, { ap: -1, mp: -1 }] }],                        // Ganymede: even / odd turn
   32114: [{ stacks: 4, per: { finalDamagePercent: 1 } }],                       // Oto Mustam: enemies alive
   32116: [{ stacks: 16, per: { pushbackDamage: 6 } }],                          // Menalt: per MP used, lasts 2 turns
   32163: [{ stacks: 4, per: allRes(1) }],                                       // Amayiro: enemies alive
-  32117: [{ options: [{ finalDamagePercent: 10 }] }],                           // Thanatena: after finishing off an enemy
+  32117: [{ options: [{ finalDamagePercent: 10 }] }, { options: [{ finalDamagePercent: 4 }] }], // Thanatena: after a kill; everyone suffers +4%
   20358: [{ options: [{ finalDamagePercent: 7 }] }],                            // Death-Defying: above 50% health
   22444: [{ stacks: 4, per: allRes(2) }],                                       // Misery's Flail-Scale: reductions attempted
   20355: [{ stacks: 2, per: { ap: 1 } }],                                       // Brumaire's Shiver: enemies finished off
@@ -111,7 +111,7 @@ export const hasPassive = (ankamaId: number) => ITEM_PASSIVES.has(ankamaId) || T
 function toControls(ankamaId: number, specs: Spec[]): PassiveControl[] {
   return specs.map((spec, i) => {
     const id = `${ankamaId}.${i}`
-    if ('stacks' in spec) return { id, kind: 'stacks', max: spec.stacks, perStack: spec.per }
+    if ('stacks' in spec) return { id, kind: 'stacks', max: spec.stacks, perStack: spec.per, ...(spec.shared ? { shared: spec.shared } : {}) }
     if ('turns' in spec) return { id, kind: 'choice', options: spec.turns.map((bonus, t) => ({ bonus, turn: t + 1 })) }
     return { id, kind: 'choice', options: spec.options.map(bonus => ({ bonus })) }
   })
@@ -129,15 +129,49 @@ export const controlMax = (c: PassiveControl) => (c.kind === 'stacks' ? c.max : 
 /** Player's passive settings: control id → stacks, or option number (0 = off). */
 export type PassiveState = Record<string, number>
 
-/** Keeps known controls with in-range integer values (untrusted input: links, DB rows). */
+const itemOf = (controlId: string) => Number(controlId.split('.')[0])
+
+/**
+ * Stacks this control may still take: its own max, and for shared stacks
+ * ("stackable 5 times, shared between elements") what the item's other
+ * shared controls leave.
+ */
+export function controlRoom(control: PassiveControl, state: PassiveState): number {
+  if (control.kind !== 'stacks' || !control.shared) return controlMax(control)
+  const others = (ITEM_PASSIVES.get(itemOf(control.id)) ?? [])
+    .filter(c => c.id !== control.id && c.kind === 'stacks' && c.shared)
+    .reduce((sum, c) => sum + (state[c.id] ?? 0), 0)
+  return Math.max(0, Math.min(control.max, control.shared - others))
+}
+
+/**
+ * Keeps known controls with in-range integer values (untrusted input:
+ * links, DB rows); shared stacks are trimmed in control order.
+ */
 export function sanitizePassiveState(raw: unknown): PassiveState {
   if (raw == null || typeof raw !== 'object' || Array.isArray(raw)) return {}
-  return Object.fromEntries(Object.entries(raw as Record<string, unknown>).flatMap(([id, v]) => {
+  const clamped = new Map<string, number>()
+  for (const [id, v] of Object.entries(raw as Record<string, unknown>)) {
     const control = CONTROL_BY_ID.get(id)
-    if (!control || typeof v !== 'number' || !Number.isFinite(v)) return []
-    const n = Math.min(controlMax(control), Math.max(0, Math.trunc(v)))
-    return n > 0 ? [[id, n] as const] : []
-  }))
+    if (!control || typeof v !== 'number' || !Number.isFinite(v)) continue
+    clamped.set(id, Math.min(controlMax(control), Math.max(0, Math.trunc(v))))
+  }
+  const out: PassiveState = {}
+  for (const control of CONTROL_BY_ID.values()) {
+    const v = clamped.get(control.id)
+    if (!v) continue
+    const n = Math.min(v, controlRoom(control, out))
+    if (n > 0) out[control.id] = n
+  }
+  return out
+}
+
+/** Sets one control, keeping it within its room (shared stacks never exceed their cap). */
+export function setControl(state: PassiveState, id: string, value: number): PassiveState {
+  const control = CONTROL_BY_ID.get(id)
+  if (!control) return sanitizePassiveState(state)
+  const { [id]: _previous, ...rest } = state
+  return sanitizePassiveState({ ...rest, [id]: Math.min(value, controlRoom(control, rest)) })
 }
 
 function addBonus(into: PassiveBonus, bonus: PassiveBonus, times = 1) {
@@ -156,7 +190,8 @@ export function controlBonus(control: PassiveControl, value: number): PassiveBon
 }
 
 /** Total bonus of the passives of the equipped items (unequipped items count nothing). */
-export function passiveBonus(equippedIds: Iterable<number | null | undefined>, state: PassiveState): PassiveBonus {
+export function passiveBonus(equippedIds: Iterable<number | null | undefined>, rawState: PassiveState): PassiveBonus {
+  const state = sanitizePassiveState(rawState)
   const out: PassiveBonus = {}
   const seen = new Set<number>()
   for (const id of equippedIds) {

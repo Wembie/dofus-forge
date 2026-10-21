@@ -97,4 +97,12 @@ describe('PassivesPanel', () => {
     expect(screen.getByText('Turquoise Blue')).toBeTruthy()
     expect(screen.getAllByText('Surpryz')).toHaveLength(1)
   })
+
+  it('shared stacks: + stops at the common cap and the card says how much is used', () => {
+    const MERIANA = item(32121, 'Meriana', 'Meriana: • 5 MP Reduction • 5 AP Reduction (stackable 8 times, shared among effects)')
+    render(<PassivesPanel items={[MERIANA]} state={{ '32121.0': 6, '32121.1': 2 }} onChange={() => {}} />)
+    const plus = screen.getAllByRole('button', { name: 'passives_more' }) as HTMLButtonElement[]
+    expect(plus.map(b => b.disabled)).toEqual([true, true])
+    expect(screen.getByText('passives_shared')).toBeTruthy()
+  })
 })

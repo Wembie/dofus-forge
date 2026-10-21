@@ -1220,5 +1220,6 @@
   "passives_stacks": "Acúmulos",
   "passives_set_stacks": "{{n}} acúmulos",
   "passives_turn": "Turno {{n}}",
-  "passives_off": "Não"
+  "passives_off": "Não",
+  "passives_shared": "Compartilhado: {{used}}/{{max}} acúmulos no total"
 }

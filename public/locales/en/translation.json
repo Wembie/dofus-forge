@@ -1220,5 +1220,6 @@
   "passives_stacks": "Stacks",
   "passives_set_stacks": "{{n}} stacks",
   "passives_turn": "Turn {{n}}",
-  "passives_off": "Off"
+  "passives_off": "Off",
+  "passives_shared": "Shared: {{used}}/{{max}} stacks in total"
 }

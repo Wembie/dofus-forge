@@ -4,7 +4,7 @@ import { CHARACTERISTICS } from '@/engine/types.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { pointCost, statBudget } from '@/engine/characteristics.ts'
 import { computeStats } from '@/engine/stats.ts'
-import { sanitizePassiveState, type PassiveState } from '@/engine/passives.ts'
+import { sanitizePassiveState, setControl, type PassiveState } from '@/engine/passives.ts'
 import { runeEffectsForSlots, withoutExotic, exoticKey } from '@/engine/runes.ts'
 import { sanitizeSnapshot } from '@/engine/snapshot.ts'
 import type { StatBlock } from '@/engine/types.ts'
@@ -384,7 +384,7 @@ export const useBuildStore = create<BuildState>((set) => {
 
     setForjamagoName:   (slot, name)      => set(s => ({ ...s, forjamagoNames: { ...s.forjamagoNames, [slot]: name } })),
     setWeaponTransform: (slot, transform) => set(s => ({ ...s, weaponTransforms: { ...s.weaponTransforms, [slot]: transform } })),
-    setPassive: (id, value) => set(s => ({ passives: sanitizePassiveState({ ...s.passives, [id]: value }) })),
+    setPassive: (id, value) => set(s => ({ passives: setControl(s.passives, id, value) })),
 
     setEquipment: (equipment) => set(s =>
       update({ _equipment: equipment }, s)
