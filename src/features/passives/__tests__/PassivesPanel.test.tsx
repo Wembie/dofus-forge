@@ -3,7 +3,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, cleanup, fireEvent, within } from '@testing-library/react'
 import '@/test/i18n.ts'
 import type { AppItem } from '@/data/loaders.ts'
-import { PassivesPanel } from '../PassivesPanel.tsx'
+import { PassivesPanel, plainText } from '../PassivesPanel.tsx'
 
 afterEach(cleanup)
 
@@ -104,5 +104,23 @@ describe('PassivesPanel', () => {
     const plus = screen.getAllByRole('button', { name: 'passives_more' }) as HTMLButtonElement[]
     expect(plus.map(b => b.disabled)).toEqual([true, true])
     expect(screen.getByText('passives_shared')).toBeTruthy()
+  })
+})
+
+describe('plainText (item text markup)', () => {
+  it('drops game markup and never leaves an angle bracket, even from nested or broken tags', () => {
+    expect(plainText('<sprite name="eau"> 400 Chance > <sprite name="terre"> 400 Strength')).toBe(' 400 Chance   400 Strength')
+    for (const s of ['<scr<script>ipt>alert(1)</script>', '<<img src=x onerror=alert(1)>>', 'a < b > c', '<sprite name="eau"']) {
+      expect(plainText(s)).not.toMatch(/[<>]/)
+    }
+  })
+
+  it('the in-game text shown in a card has no markup left', () => {
+    const DOFUSTEUSE = item(958, 'Dofusteuse', 'Dofus Blessing: • Increases one characteristic per turn: • <sprite name="eau"> 400 Chance > <sprite name="terre"> 400 Strength')
+    render(<PassivesPanel items={[DOFUSTEUSE]} state={{}} onChange={() => {}} />)
+    fireEvent.click(screen.getByRole('button', { name: /passives_show_text/ }))
+    const list = screen.getByRole('list')
+    expect(list.textContent).toContain('400 Chance')
+    expect(list.textContent).not.toMatch(/[<>]/)
   })
 })

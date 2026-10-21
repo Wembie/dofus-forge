@@ -51,6 +51,20 @@ export type GeneratedEffect = {
   onTargets?: true
 }
 
+/** Game versions look like 3.7.1.0; anything else never reaches a URL. */
+export function checkedVersion(raw: unknown): string {
+  if (typeof raw !== 'string' || !/^\d+(\.\d+){1,3}$/.test(raw)) throw new Error(`Unexpected game version: ${String(raw)}`)
+  return raw
+}
+
+/** Item ids from equipment.json, kept only when they are positive integers. */
+export function checkedItemIds(items: { ankama_id: unknown; ability?: unknown }[]): number[] {
+  return items
+    .filter(i => typeof i.ability === 'string' && i.ability.length > 0)
+    .map(i => i.ankama_id)
+    .filter((id): id is number => typeof id === 'number' && Number.isSafeInteger(id) && id > 0)
+}
+
 function parseRefs(raw: unknown): Map<number, Ref> {
   const out = new Map<number, Ref>()
   const refs = ((raw as Ref)?.references as Ref)?.RefIds as unknown[]
@@ -147,12 +161,12 @@ export function extractEffects(
 }
 
 async function main() {
-  const version = (JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'version.json'), 'utf8')) as { gameVersion: string }).gameVersion
+  const version = checkedVersion((JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'version.json'), 'utf8')) as { gameVersion?: unknown }).gameVersion)
   if (!FORCE && existsSync(OUT) && readFileSync(OUT, 'utf8').includes(`gameVersion: '${version}'`)) {
     console.log(`Passives up to date (${version}). Pass --force to refresh.`)
     return
   }
-  const base = `https://github.com/dofusdude/dofus3-main/releases/download/${version}`
+  const base = `https://github.com/dofusdude/dofus3-main/releases/download/${encodeURIComponent(version)}`
   console.log(`Generating passives for ${version}…`)
   const [spellsRaw, levelsRaw, effectsRaw, textsRaw] = await Promise.all(
     ['spells.json', 'spell_levels.json', 'effects.json', 'en.json'].map(f => getJson(`${base}/${f}`)),
@@ -160,13 +174,12 @@ async function main() {
   const spells = parseRefs(spellsRaw), levels = parseRefs(levelsRaw), effects = parseRefs(effectsRaw)
   const texts = (textsRaw as { entries: Record<string, string> }).entries
 
-  const items = (JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'en', 'equipment.json'), 'utf8')) as { ankama_id: number; ability?: string }[])
-    .filter(i => i.ability)
-  const refs = await mapLimit(items, 8, async item => {
-    const data = await getJson(`${API}/${item.ankama_id}`) as { effects?: { formatted?: string; type?: { is_meta?: boolean } }[] }
+  const itemIds = checkedItemIds(JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'en', 'equipment.json'), 'utf8')) as { ankama_id: unknown; ability?: unknown }[])
+  const refs = await mapLimit(itemIds, 8, async id => {
+    const data = await getJson(`${API}/${encodeURIComponent(String(id))}`) as { effects?: { formatted?: string; type?: { is_meta?: boolean } }[] }
     for (const e of data.effects ?? []) {
       const m = e.type?.is_meta ? /\{\{spell,(\d+),(\d+)/.exec(e.formatted ?? '') : null
-      if (m) return { id: item.ankama_id, spell: Number(m[1]) }
+      if (m) return { id, spell: Number(m[1]) }
     }
     return null
   })

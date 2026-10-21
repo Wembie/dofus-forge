@@ -10,6 +10,13 @@ import {
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { bonusParts } from './passiveLabels.ts'
 
+/**
+ * Item text can carry game markup such as <sprite name="eau">. React renders
+ * it as text (never HTML); this only tidies it: tags go, and any leftover
+ * angle bracket (e.g. from nested or broken markup) is dropped too.
+ */
+export const plainText = (s: string) => s.replace(/<[^<>]*>/g, '').replace(/[<>]/g, '')
+
 type Props = {
   /** Equipped items, in slot order; only those with a passive are shown. */
   items:     AppItem[]
@@ -163,7 +170,7 @@ function PassiveCard({ item, state, onChange }: { item: AppItem; state: PassiveS
             </button>
             {open && (
               <ul className="mt-1 space-y-0.5 text-[10px] leading-snug list-disc pl-4" style={{ color: 'var(--ink-muted)' }}>
-                {bullets.filter(Boolean).map((b, i) => <li key={i}>{b.replace(/<[^>]+>/g, '')}</li>)}
+                {bullets.filter(Boolean).map((b, i) => <li key={i}>{plainText(b)}</li>)}
               </ul>
             )}
           </div>

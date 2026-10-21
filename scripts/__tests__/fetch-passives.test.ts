@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extractEffects } from '../fetch-passives.ts'
+import { extractEffects, checkedVersion, checkedItemIds } from '../fetch-passives.ts'
 
 type Ref = Record<string, unknown>
 const map = (rows: Ref[]) => new Map(rows.map(r => [Number(r.id), r]))
@@ -58,5 +58,27 @@ describe('fetch-passives extractEffects', () => {
   it('ignores effects on enemies, numbers that are not spells, and a missing spell', () => {
     expect(out.some(e => e.stat === 'ap')).toBe(false)
     expect(extractEffects(999, spells, levels, effects, texts)).toEqual([])
+  })
+})
+
+describe('fetch-passives input checks (values that end up in request URLs)', () => {
+  it('accepts a game version and rejects anything else', () => {
+    expect(checkedVersion('3.7.1.0')).toBe('3.7.1.0')
+    expect(checkedVersion('3.7')).toBe('3.7')
+    for (const bad of ['', '../x', '3.7.1.0/../../evil', '3.7.1.0?x=1', 3710, null, undefined]) {
+      expect(() => checkedVersion(bad), String(bad)).toThrow()
+    }
+  })
+
+  it('keeps only positive integer ids of items that have an ability', () => {
+    expect(checkedItemIds([
+      { ankama_id: 739, ability: 'x' },
+      { ankama_id: 1, ability: '' },
+      { ankama_id: 2 },
+      { ankama_id: '3/../../x', ability: 'x' },
+      { ankama_id: -4, ability: 'x' },
+      { ankama_id: 5.5, ability: 'x' },
+      { ankama_id: 6, ability: 7 },
+    ])).toEqual([739])
   })
 })
