@@ -15,6 +15,8 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Perf: switching back to the tab (or the hourly session refresh) no longer refetches your profile and reloads the data of the page you are on; each page load also asks for your profile once instead of twice',
       'Perf: build cards (Explore, profiles, remixes, bookmarks, collections) download only the equipment they draw instead of the whole build, and the version history lists versions without downloading each full build — a version is loaded when you hover, open or restore it',
       'Perf: uploaded avatars are resized to 256px webp in the browser before upload (they display at most at 72px) and cached for a year; re-uploading in another format no longer leaves the old file behind',
+      'Perf: link previews (Discord, WhatsApp...) of a build are no longer regenerated every time someone views, likes or rates it, only when the build itself changes',
+      'Perf: new database indexes for Explore (also without a class filter), version history, ratings and deletions, and every access rule now checks who you are once per query instead of once per row; Explore's "Load more" no longer recounts every matching build',
     ],
   },
   {

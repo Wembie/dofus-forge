@@ -25,7 +25,7 @@ const snap = (extra: Partial<BuildSnapshot> = {}): BuildSnapshot =>
 describe('guard: supabase-js failing to load', () => {
   it('returns each function\'s failure value instead of rejecting', async () => {
     supabaseState.get = () => Promise.reject(new Error('chunk failed'))
-    await expect(fetchPublicBuilds({ sort: 'rating', page: 0 })).resolves.toEqual({ data: [], error: 'chunk failed', count: 0 })
+    await expect(fetchPublicBuilds({ sort: 'rating', page: 0 })).resolves.toEqual({ data: [], error: 'chunk failed', count: null })
     await expect(fetchMyLike('b', 'u')).resolves.toBe(false)
     await expect(fetchMembershipTier('u')).resolves.toBe('free')
   })
@@ -39,6 +39,14 @@ describe('fetchPublicBuilds tag filter', () => {
     expect(String(opArgs(call, 'select')?.[0])).toContain('filter_tag:build_tags!inner(tag_id)')
     expect(String(opArgs(call, 'select')?.[0])).toContain('build_tags(tags(id, name, category))')
     expect(call.ops).toContainEqual(['eq', ['filter_tag.tag_id', 7]])
+  })
+
+  it('asks for the exact total only on the first page', async () => {
+    mock.on('builds', { data: [], count: 40 })
+    await expect(fetchPublicBuilds({ sort: 'likes', page: 0 })).resolves.toMatchObject({ count: 40 })
+    await expect(fetchPublicBuilds({ sort: 'likes', page: 1 })).resolves.toMatchObject({ count: null })
+    expect(opArgs(mock.callsTo('builds')[0], 'select')?.[1]).toEqual({ count: 'exact' })
+    expect(opArgs(mock.callsTo('builds')[1], 'select')?.[1]).toBeUndefined()
   })
 
   it('does not add the filter embed without a tag', async () => {

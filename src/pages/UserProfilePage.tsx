@@ -107,7 +107,7 @@ export function UserProfilePage() {
     setBuildsLoading(true)
     const { data, count } = await fetchPublicBuilds({ userId, sort: 'likes', page: nextPage })
     setBuildsLoading(false)
-    setTotal(count)
+    if (count != null) setTotal(count)
     setBuilds(prev => reset ? data : [...prev, ...data])
   }, [])
 

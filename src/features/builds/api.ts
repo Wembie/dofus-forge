@@ -102,7 +102,9 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
     .from('builds')
     // A second, aliased !inner embed filters by tag without trimming the
     // build_tags list each card displays.
-    .select(opts.tagId ? `${LIST_COLUMNS}, filter_tag:build_tags!inner(tag_id)` : LIST_COLUMNS, { count: 'exact' })
+    // The total only matters for the first page ("Load more" keeps it), and
+    // an exact count re-runs the whole filtered query on top of the page.
+    .select(opts.tagId ? `${LIST_COLUMNS}, filter_tag:build_tags!inner(tag_id)` : LIST_COLUMNS, opts.page === 0 ? { count: 'exact' } : undefined)
     .eq('visibility', 'public')
     .order(SORT_COLUMN[opts.sort], { ascending: false })
     // Tie-breaker: most builds share like/view/rating counts (often 0), and
@@ -133,8 +135,8 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
     if (tsQuery) query = query.textSearch('search_vector', tsQuery, { config: 'simple' })
   }
   const { data, error, count } = await query
-  return { data: cardRows(data ?? []), error: error?.message ?? null, count: count ?? 0 }
-}, error => ({ data: [] as BuildRow[], error, count: 0 }))
+  return { data: cardRows(data ?? []), error: error?.message ?? null, count: opts.page === 0 ? count ?? 0 : null }
+}, error => ({ data: [] as BuildRow[], error, count: null as number | null }))
 
 // An unlisted build is readable only by its link: every query about one
 // build sends its id here, so RLS can tell "opened from the link" from
