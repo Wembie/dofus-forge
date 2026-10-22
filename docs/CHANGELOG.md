@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.121] — 2026-10-21
+- **Fix**: the date on a build card could get silently clipped (e.g. "30 sept 2026" showing as "30 sept 20") when a longer localized month name combined with wide stat counts overflowed the card's footer row. The row now wraps instead of cutting content off
+
 ## [0.3.120] — 2026-10-21
 - **Fix**: the elemental transform (Forgemagie) couldn't be applied to weapons whose neutral attack is a steal line instead of a plain damage line — e.g. Pandamonium Wand (Neutral Steal) and 37 other weapons showed "cannot transform" even though they genuinely deal neutral damage. The transform now recognizes both forms and correctly keeps the result as a steal line (e.g. Fire Steal, not Fire Damage) when transforming a steal-based weapon
 

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.121',
+    date: '2026-10-21',
+    notes: [
+      'Fix: the date on a build card could get silently clipped (e.g. "30 sept 2026" showing as "30 sept 20") when a longer localized month name combined with wide stat counts overflowed the footer row — it now wraps instead of cutting content off',
+    ],
+  },
+  {
     version: '0.3.120',
     date: '2026-10-21',
     notes: [
