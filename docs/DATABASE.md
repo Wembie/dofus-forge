@@ -2948,3 +2948,37 @@ tablas nuevas de `public`. Las tablas que ya existen en producción no cambian.
   acceso que daba el default, más estrecho en membresías y rangos personalizados) y los
   permisos de secuencias, así que recrear la base desde ese archivo sigue funcionando.
 - `src/test/schema.test.ts` falla si una tabla del schema o de una migración no tiene permisos.
+
+## Backups
+
+El plan Free de Supabase no deja backups descargables. `.github/workflows/db-backup.yml`
+hace cada noche (06:30 UTC, o a mano desde Actions → Database Backup → Run workflow)
+un `pg_dump` en formato custom de los esquemas `public`, `auth` y `storage`, comprueba
+que el archivo se pueda leer (`pg_restore --list`) y lo sube a `db/db-<fecha>.dump` en el
+bucket **privado** de R2 `dofus-forge-backups`. El dump trae emails de las cuentas: nunca
+va al repo ni a un artifact de GitHub, que son públicos.
+
+Configuración (una vez):
+
+```sh
+npx wrangler r2 bucket create dofus-forge-backups
+npx wrangler r2 bucket lifecycle add dofus-forge-backups expire-30d db/ --expire-days 30
+```
+
+Secret de GitHub `SUPABASE_DB_URL`: la URI del **Session pooler** (Supabase → Connect →
+Session pooler, con la contraseña de la base), porque la conexión directa solo tiene IPv6 y
+los runners de GitHub no. `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` son los mismos
+que ya usa la sincronización de iconos. Sin `SUPABASE_DB_URL` el workflow no falla:
+avisa y no hace nada.
+
+Restaurar (con un `pg_restore` de la misma versión mayor que la base o más nueva):
+
+```sh
+npx wrangler r2 object get dofus-forge-backups/db/<archivo>.dump --file backup.dump --remote
+pg_restore --list backup.dump | head            # revisar qué trae
+# Solo los datos de la app, encima de una base con el schema ya creado:
+pg_restore --data-only --schema=public --disable-triggers --no-owner -d "$DB_URL" backup.dump
+```
+
+Para recuperar una sola tabla: `pg_restore --data-only --table=<tabla> ...`. Restaurar `auth`
+en otro proyecto de Supabase requiere que su schema `auth` esté vacío (proyecto nuevo).
