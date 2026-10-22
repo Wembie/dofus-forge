@@ -2197,6 +2197,345 @@ begin
 end $$;
 ```
 
+### Migración manual — notificaciones por Broadcast (0.3.123)
+
+También en `supabase/migrations/20261022000000_notifications_broadcast.sql`.
+Reemplaza la de 0.3.112: la campanita deja de usar Postgres Changes (que hace
+que Realtime consulte `realtime.list_changes()` en bucle, ~68% del tiempo de la
+DB en el plan Free) y pasa a un canal Broadcast privado `notifications:<uid>`
+alimentado por un trigger. Quita `notifications` de la publicación
+`supabase_realtime`. Idempotente.
+
+Opcional en el dashboard: Realtime → Settings → desactivar "Allow public access"
+(la app solo usa canales privados).
+
+```sql
+-- 0.3.123 — live notifications via Realtime Broadcast instead of Postgres
+-- Changes. Postgres Changes makes Realtime poll realtime.list_changes() in
+-- a loop (~68% of all DB time on the free instance); Broadcast from Database
+-- is fed by streaming logical replication of realtime.messages, so idle
+-- costs nothing. Each user listens on the private topic
+-- 'notifications:<uid>'; the RLS policy below is checked once per channel
+-- join (cached for the connection), never per message. No insert policy:
+-- clients can't send on these topics. Idempotent.
+
+create or replace function public.broadcast_notification() returns trigger
+language plpgsql security definer set search_path = '' as $$
+begin
+  begin
+    perform realtime.send(
+      jsonb_build_object('id', NEW.id),
+      'notification',
+      'notifications:' || NEW.user_id::text,
+      true
+    );
+  exception when others then
+    -- Live delivery is best-effort; the bell refetches on reconnect/focus.
+    null;
+  end;
+  return null;
+end; $$;
+revoke all on function public.broadcast_notification() from public, anon, authenticated;
+
+drop trigger if exists broadcast_on_notification on public.notifications;
+create trigger broadcast_on_notification
+  after insert on public.notifications
+  for each row execute procedure public.broadcast_notification();
+
+drop policy if exists "notif own topic" on realtime.messages;
+create policy "notif own topic" on realtime.messages
+  for select to authenticated
+  using (
+    realtime.messages.extension = 'broadcast'
+    and (select realtime.topic()) = 'notifications:' || (select auth.uid())::text
+  );
+
+do $$
+begin
+  if exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'notifications'
+  ) then
+    alter publication supabase_realtime drop table public.notifications;
+  end if;
+end $$;
+```
+
+### Migración manual — rendimiento: updated_at, índices y RLS (0.3.123)
+
+También en `supabase/migrations/20261022010000_perf_indexes_rls.sql`.
+`builds.updated_at` solo cambia con el contenido (antes cada vista/like/valoración
+lo movía y rompía la caché de la imagen OG), índices para Explorar sin filtro de
+clase, historial, valoraciones y llaves foráneas, se borran 2 índices duplicados,
+y todas las políticas de `public` pasan a evaluar `auth.uid()` /
+`is_moderator()` / `requested_build_id()` una vez por consulta (se reescriben
+tal como están en la base, así que respeta cambios posteriores). Idempotente.
+
+```sql
+-- 0.3.123 — performance pass (M140): content-only builds.updated_at, the
+-- indexes the app's queries and FK cascades were missing, and RLS that
+-- evaluates auth.uid() / is_moderator() / requested_build_id() once per
+-- query instead of once per row. Idempotent.
+
+-- 1. builds.updated_at moved on every view, like, rating and comment (the
+--    counter triggers UPDATE builds), and the Worker uses it as the OG
+--    image ?v= — so each view re-rendered the preview image and busted
+--    Discord/WhatsApp caches. Only content changes count now.
+create or replace function public.touch_build_updated_at() returns trigger
+language plpgsql set search_path = '' as $
+begin
+  if (NEW.name, NEW.description, NEW.slug, NEW.game_version, NEW.class_slug, NEW.gender, NEW.level, NEW.visibility, NEW.snapshot)
+     is distinct from
+     (OLD.name, OLD.description, OLD.slug, OLD.game_version, OLD.class_slug, OLD.gender, OLD.level, OLD.visibility, OLD.snapshot) then
+    NEW.updated_at = now();
+  end if;
+  return NEW;
+end; $;
+drop trigger if exists builds_updated_at on public.builds;
+create trigger builds_updated_at before update on public.builds
+  for each row execute procedure public.touch_build_updated_at();
+
+-- 2. Explore sorts by <metric> desc, id asc. The "all classes" view had no
+--    usable index (all four started with class_slug) and the class ones
+--    lacked the id tie-breaker.
+drop index if exists public.idx_builds_explore_rating;
+drop index if exists public.idx_builds_explore_likes;
+drop index if exists public.idx_builds_explore_recent;
+drop index if exists public.idx_builds_explore_views;
+create index if not exists idx_builds_public_rating on public.builds(avg_rating desc, id) where visibility = 'public';
+create index if not exists idx_builds_public_likes  on public.builds(like_count desc, id) where visibility = 'public';
+create index if not exists idx_builds_public_recent on public.builds(created_at desc, id) where visibility = 'public';
+create index if not exists idx_builds_public_views  on public.builds(view_count desc, id) where visibility = 'public';
+create index if not exists idx_builds_class_rating  on public.builds(class_slug, avg_rating desc, id) where visibility = 'public';
+create index if not exists idx_builds_class_likes   on public.builds(class_slug, like_count desc, id) where visibility = 'public';
+create index if not exists idx_builds_class_recent  on public.builds(class_slug, created_at desc, id) where visibility = 'public';
+create index if not exists idx_builds_class_views   on public.builds(class_slug, view_count desc, id) where visibility = 'public';
+
+-- My Builds orders by created_at; nothing orders builds by updated_at.
+drop index if exists public.idx_builds_user;
+create index if not exists idx_builds_user_created on public.builds(user_id, created_at desc);
+
+-- 3. Lookups by build/comment/user that only had the (user_id, …) primary
+--    key: history on every detail view, rating stats on every rating, the
+--    profile comment count, a user's collections, and the FK columns that
+--    ON DELETE CASCADE / SET NULL scan when a build, comment or profile goes.
+create index if not exists idx_build_snapshots_build  on public.build_snapshots(build_id, created_at desc);
+create index if not exists idx_build_ratings_build    on public.build_ratings(build_id);
+create index if not exists idx_build_likes_build      on public.build_likes(build_id);
+create index if not exists idx_build_bookmarks_build  on public.build_bookmarks(build_id);
+create index if not exists idx_comment_likes_comment  on public.comment_likes(comment_id);
+create index if not exists idx_comments_user          on public.build_comments(user_id) where deleted_at is null;
+create index if not exists idx_collections_user       on public.collections(user_id, updated_at desc);
+create index if not exists idx_build_tags_tag         on public.build_tags(tag_id);
+create index if not exists idx_build_reports_build    on public.build_reports(build_id);
+create index if not exists idx_comment_reports_comment on public.comment_reports(comment_id);
+create index if not exists idx_notifications_build    on public.notifications(build_id) where build_id is not null;
+create index if not exists idx_notifications_comment  on public.notifications(comment_id) where comment_id is not null;
+create index if not exists idx_notifications_actor    on public.notifications(actor_id) where actor_id is not null;
+create index if not exists idx_profiles_pinned_build  on public.profiles(pinned_build_id) where pinned_build_id is not null;
+
+-- Same columns as their primary key: pure write overhead.
+drop index if exists public.idx_slug_redirects;
+drop index if exists public.idx_follows_follower;
+
+-- 4. A bare auth.uid() in a policy runs once per row; wrapped in a scalar
+--    subquery Postgres runs it once per query (initPlan). Rewrites every
+--    public policy as it currently stands in the database, so later
+--    migrations' policy changes are kept; already-wrapped calls (deparsed
+--    as "( SELECT auth.uid() AS uid)") are left alone.
+do $
+declare
+  p record;
+  fn constant text := '(?<!SELECT )((?:auth\.uid|(?:public\.)?is_moderator|(?:public\.)?requested_build_id)\(\))';
+  q text;
+  c text;
+begin
+  for p in select schemaname, tablename, policyname, qual, with_check from pg_policies where schemaname = 'public' loop
+    q := regexp_replace(p.qual, fn, '(select \1)', 'g');
+    c := regexp_replace(p.with_check, fn, '(select \1)', 'g');
+    if q is distinct from p.qual then
+      execute format('alter policy %I on %I.%I using (%s)', p.policyname, p.schemaname, p.tablename, q);
+    end if;
+    if c is distinct from p.with_check then
+      execute format('alter policy %I on %I.%I with check (%s)', p.policyname, p.schemaname, p.tablename, c);
+    end if;
+  end loop;
+end $;
+```
+
+### Migración manual — rendimiento: trabajo del cliente al servidor (0.3.123)
+
+También en `supabase/migrations/20261022020000_perf_server_side.sql`.
+**Correrla antes de desplegar 0.3.123**: el cliente nuevo ya no archiva versiones
+por su cuenta (el viejo sigue funcionando encima: ve la versión ya archivada y no
+duplica). Historial de versiones por trigger (1 request por guardado en vez de
+5–6), vistas anónimas deduplicadas por un hash diario de IP + user agent (nunca
+se guarda ninguno de los dos) con poda de eventos de más de 1 h, estadísticas de
+la comunidad cacheadas 5 min, y dos RPC que juntan las consultas del usuario en
+el detalle de un build y las del perfil público. Idempotente.
+
+```sql
+-- 0.3.123 — performance pass (M140): work the client did in several round
+-- trips moves into the database. Run it BEFORE deploying 0.3.123: the new
+-- client no longer archives versions itself. (The old client keeps working
+-- on top of it: it sees the version already archived and skips its copy.)
+-- Idempotent.
+
+-- 1. Version history. updateBuild made 5–6 requests per save (read the old
+--    snapshot, update, read the newest archived one, insert, list the stale
+--    ones, delete them) and downloaded two snapshots. A trigger does it in
+--    the update itself. jsonb equality ignores key order, so a snapshot that
+--    only differs in key order isn't archived.
+create or replace function public.archive_build_version() returns trigger
+language plpgsql security definer set search_path = public as $
+begin
+  begin
+    if not exists (
+      select 1 from (
+        select snapshot from build_snapshots where build_id = OLD.id order by created_at desc, id limit 1
+      ) newest where newest.snapshot = OLD.snapshot
+    ) then
+      insert into build_snapshots (build_id, snapshot, label) values (OLD.id, OLD.snapshot, OLD.name);
+      delete from build_snapshots where id in (
+        select id from build_snapshots where build_id = OLD.id order by created_at desc, id offset 20
+      );
+    end if;
+  exception when others then
+    -- History is best effort: never fail the save because of it.
+    null;
+  end;
+  return null;
+end; $;
+revoke all on function public.archive_build_version() from public, anon, authenticated;
+drop trigger if exists archive_build_version on public.builds;
+create trigger archive_build_version after update of snapshot on public.builds
+  for each row when (OLD.snapshot is distinct from NEW.snapshot)
+  execute procedure public.archive_build_version();
+
+-- 2. Views. Anonymous visitors had no identity (the client always sent
+--    p_ip_hash = null), so every refresh inserted an event and bumped
+--    view_count, and build_view_events was never pruned. Anonymous visitors
+--    are now told apart by a per-build, per-day hash of IP + user agent from
+--    the request headers (neither is stored), and each recorded view prunes
+--    that build's events older than the 1-hour window, the only part read.
+create or replace function public.record_view(p_build_id uuid, p_user_id uuid, p_ip_hash text)
+returns void language plpgsql security definer set search_path = public as $
+declare
+  v_user    uuid := auth.uid();
+  v_headers json := nullif(current_setting('request.headers', true), '')::json;
+  v_ip      text;
+  v_visitor text;
+begin
+  if not exists (select 1 from builds where id = p_build_id
+                 and (visibility in ('public', 'unlisted') or user_id = v_user)) then
+    return;
+  end if;
+  if v_user is null then
+    v_ip := nullif(trim(coalesce(v_headers->>'cf-connecting-ip', v_headers->>'x-real-ip',
+                                 split_part(v_headers->>'x-forwarded-for', ',', 1))), '');
+    if v_ip is not null then
+      v_visitor := md5(p_build_id::text || current_date::text || v_ip || coalesce(v_headers->>'user-agent', ''));
+    end if;
+  end if;
+  if not exists (
+    select 1 from build_view_events
+    where build_id = p_build_id
+      and (user_id = v_user or ip_hash = v_visitor)
+      and viewed_at > now() - interval '1 hour'
+  ) then
+    insert into build_view_events(build_id, user_id, ip_hash)
+    values (p_build_id, v_user, v_visitor);
+    update builds set view_count = view_count + 1 where id = p_build_id;
+    delete from build_view_events where build_id = p_build_id and viewed_at <= now() - interval '1 hour';
+  end if;
+end; $;
+delete from public.build_view_events where viewed_at <= now() - interval '1 hour';
+
+-- 3. Community stats: 8 full aggregates (3 scans of builds, 2 of the
+--    append-only forge_runs log) on every Explore visit. Cached in one row
+--    for 5 minutes; the first call after that recomputes it.
+create table if not exists public.community_stats_cache (
+  id           boolean primary key default true check (id),
+  stats        jsonb not null,
+  refreshed_at timestamptz not null default now()
+);
+grant select, insert, update, delete on public.community_stats_cache to service_role;
+alter table public.community_stats_cache enable row level security;
+
+create or replace function public.get_community_stats()
+returns table(
+  users_count          bigint,
+  builds_count         bigint,
+  public_builds_count  bigint,
+  likes_count          bigint,
+  views_count          bigint,
+  builds_this_week     bigint,
+  forge_runs_count     bigint,
+  forge_finished_count bigint
+)
+language plpgsql security definer set search_path = public as $
+declare v jsonb;
+begin
+  select c.stats into v from community_stats_cache c where c.refreshed_at > now() - interval '5 minutes';
+  if v is null then
+    select to_jsonb(s) into v from (
+      select
+        (select count(*) from profiles)                                            as users_count,
+        (select count(*) from builds)                                              as builds_count,
+        (select count(*) from builds where visibility = 'public')                  as public_builds_count,
+        (select count(*) from build_likes)                                         as likes_count,
+        (select coalesce(sum(view_count), 0) from builds)                          as views_count,
+        (select count(*) from builds where created_at >= now() - interval '7 days') as builds_this_week,
+        (select count(*) from forge_runs)                                          as forge_runs_count,
+        (select count(*) from forge_runs where finished)                           as forge_finished_count
+    ) s;
+    insert into community_stats_cache (id, stats, refreshed_at) values (true, v, now())
+      on conflict (id) do update set stats = excluded.stats, refreshed_at = excluded.refreshed_at;
+  end if;
+  return query select
+    (v->>'users_count')::bigint, (v->>'builds_count')::bigint, (v->>'public_builds_count')::bigint,
+    (v->>'likes_count')::bigint, (v->>'views_count')::bigint, (v->>'builds_this_week')::bigint,
+    (v->>'forge_runs_count')::bigint, (v->>'forge_finished_count')::bigint;
+end; $;
+grant execute on function public.get_community_stats() to anon, authenticated;
+
+-- 4. Build detail: the signed-in viewer's like, bookmark, rating and liked
+--    comments in one round trip instead of four. Security invoker: the
+--    same RLS as the four separate queries applies.
+create or replace function public.get_build_viewer_state(p_build_id uuid)
+returns jsonb language sql stable set search_path = public as $
+  select jsonb_build_object(
+    'liked',      exists (select 1 from build_likes where build_id = p_build_id and user_id = (select auth.uid())),
+    'bookmarked', exists (select 1 from build_bookmarks where build_id = p_build_id and user_id = (select auth.uid())),
+    'rating',     (select rating from build_ratings where build_id = p_build_id and user_id = (select auth.uid())),
+    'comment_likes', coalesce((
+      select jsonb_agg(cl.comment_id)
+      from comment_likes cl join build_comments c on c.id = cl.comment_id
+      where c.build_id = p_build_id and cl.user_id = (select auth.uid())
+    ), '[]'::jsonb)
+  )
+$;
+revoke all on function public.get_build_viewer_state(uuid) from public, anon;
+grant execute on function public.get_build_viewer_state(uuid) to authenticated;
+
+-- 5. Public profile: builds count + likes received, public comment count,
+--    membership tier and custom rank in one round trip instead of four.
+--    Security invoker: the same RLS as the separate queries applies.
+create or replace function public.get_public_profile_summary(p_user_id uuid)
+returns jsonb language sql stable set search_path = public as $
+  select jsonb_build_object(
+    'tier',          get_public_membership_tier(p_user_id),
+    'rank',          (select to_jsonb(r) from get_public_custom_rank(p_user_id) r limit 1),
+    'build_count',   (select count(*) from builds where user_id = p_user_id and visibility = 'public'),
+    'like_count',    (select coalesce(sum(like_count), 0) from builds where user_id = p_user_id and visibility = 'public'),
+    'comment_count', (select count(*) from build_comments c join builds b on b.id = c.build_id
+                      where c.user_id = p_user_id and c.deleted_at is null and b.visibility = 'public')
+  )
+$;
+revoke all on function public.get_public_profile_summary(uuid) from public;
+grant execute on function public.get_public_profile_summary(uuid) to anon, authenticated;
+```
+
 ### Migración manual — integridad y permisos (0.3.113)
 
 También en `supabase/migrations/20261020000000_integrity_fixes.sql`. Correr una vez

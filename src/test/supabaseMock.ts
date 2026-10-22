@@ -43,6 +43,7 @@ export function createSupabaseMock() {
     auth: { getSession: vi.fn(async () => ({ data: { session: null } })) },
     channel: vi.fn(() => channel),
     removeChannel: vi.fn(async () => 'ok'),
+    realtime: { setAuth: vi.fn(async () => {}) },
   }
 
   return {

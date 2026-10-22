@@ -3,7 +3,7 @@ import cinzelBold from './fonts/Cinzel-Bold.ttf'
 import interRegular from './fonts/Inter-Regular.ttf'
 import jetBrainsMonoBold from './fonts/JetBrainsMono-Bold.ttf'
 import { renderBuildSvg, type OgFont } from './ogImage.ts'
-import { fetchBuildMeta } from './supabase.ts'
+import { fetchBuildMeta, fetchBuildPageMeta } from './supabase.ts'
 import { getClassNames, getEquipment, getSets, getTranslation, toDataUri, type Lang } from './data.ts'
 import { buildOgImageData } from './buildImageData.ts'
 
@@ -83,7 +83,7 @@ async function renderOgImage(env: Env, origin: string, lang: Lang, id: string): 
 }
 
 async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string, assetResponse: Response): Promise<Response> {
-  const build = await fetchBuildMeta(env, id)
+  const build = await fetchBuildPageMeta(env, id)
   if (!build) return assetResponse
 
   const [classNames, translation] = await Promise.all([

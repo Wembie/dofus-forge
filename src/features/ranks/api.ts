@@ -9,9 +9,14 @@ export async function fetchPublicCustomRank(userId: string): Promise<PublicCusto
   const supabase = await getSupabase().catch(() => null)
   if (!supabase) return null
   const { data, error } = await supabase.rpc('get_public_custom_rank', { p_user_id: userId })
-  if (error || !Array.isArray(data) || !data[0]) return null
+  if (error || !Array.isArray(data)) return null
+  return parsePublicCustomRank(data[0])
+}
 
-  const row = data[0] as {
+/** Validates one get_public_custom_rank row (also embedded in get_public_profile_summary). */
+export function parsePublicCustomRank(raw: unknown): PublicCustomRank | null {
+  if (!raw || typeof raw !== 'object') return null
+  const row = raw as {
     rank_name?: unknown
     rank_description?: unknown
     rank_icon?: unknown

@@ -8,6 +8,22 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.123',
+    date: '2026-10-22',
+    notes: [
+      'Perf: live notifications moved from Postgres Changes to a private Realtime Broadcast channel. The old mechanism kept the database polling for changes around the clock (~68% of all database time); now it costs nothing while idle. The bell only holds a live connection while the tab is visible, stops polling while connected, and refetches the unread count on every reconnect so nothing is missed',
+      'Perf: switching back to the tab (or the hourly session refresh) no longer refetches your profile and reloads the data of the page you are on; each page load also asks for your profile once instead of twice',
+      'Perf: build cards (Explore, profiles, remixes, bookmarks, collections) download only the equipment they draw instead of the whole build, and the version history lists versions without downloading each full build — a version is loaded when you hover, open or restore it',
+      'Perf: uploaded avatars are resized to 256px webp in the browser before upload (they display at most at 72px) and cached for a year; re-uploading in another format no longer leaves the old file behind',
+      'Perf: link previews (Discord, WhatsApp...) of a build are no longer regenerated every time someone views, likes or rates it, only when the build itself changes',
+      'Perf: new database indexes for Explore (also without a class filter), version history, ratings and deletions, and every access rule now checks who you are once per query instead of once per row; the Explore "Load more" button no longer recounts every matching build',
+      'Perf: saving a build is now a single request (the database keeps the version history by itself), opening a build loads your like, bookmark, rating and comment likes in one request instead of four, and a public profile loads its numbers, membership and rank in one request instead of four',
+      'Perf: views are counted once per visitor per hour also for visitors who are not signed in (refreshing the page no longer adds a view), and old view records are cleaned up automatically. Explore community stats are refreshed every 5 minutes instead of being recomputed on every visit',
+      'Perf: shared build links fetch only what their preview needs and are cached at the edge for a minute',
+      'Privacy policy: explains how views are counted without counting the same visitor twice (an irreversible hash of IP and browser, never the IP itself, deleted after an hour)',
+    ],
+  },
+  {
     version: '0.3.122',
     date: '2026-10-22',
     notes: [

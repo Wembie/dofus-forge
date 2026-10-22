@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { fetchBuildMeta } from '../supabase.ts'
+import { fetchBuildMeta, fetchBuildPageMeta } from '../supabase.ts'
 
 afterEach(() => vi.unstubAllGlobals())
 
@@ -20,5 +20,15 @@ describe('fetchBuildMeta', () => {
     vi.stubGlobal('fetch', fetchMock)
     await expect(fetchBuildMeta(env, 'x,visibility.eq.unlisted')).resolves.toBeNull()
     expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('the page meta asks only for the fields the meta tags use, cached at the edge', async () => {
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify([{ name: 'B', visibility: 'public' }]), { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    await fetchBuildPageMeta(env, ID)
+    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit & { cf?: { cacheTtl?: number } }]
+    expect(url).toContain('select=name,class_slug,level,visibility,updated_at')
+    expect(url).not.toContain('snapshot')
+    expect(init.cf?.cacheTtl).toBe(60)
   })
 })

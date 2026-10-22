@@ -123,7 +123,7 @@ export function ExplorePage() {
     if (request !== requestRef.current) return
     setLoading(false)
     if (err) { setError(true); return }
-    setTotal(count)
+    if (count != null) setTotal(count)
     setBuilds(prev => reset ? data : [...prev, ...data])
   }, [classSlug, tagId, sort, debouncedSearch])
 

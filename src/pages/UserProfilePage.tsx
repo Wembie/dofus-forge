@@ -13,11 +13,11 @@ import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { useIsFollowing } from '@/features/builds/useIsFollowing.ts'
 import { CollectionGrid } from '@/features/collections/Collections.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
-import { fetchPublicCustomRank } from '@/features/ranks/api.ts'
+import { fetchPublicCustomRank, parsePublicCustomRank } from '@/features/ranks/api.ts'
 import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
 import {
-  fetchProfileByUsername, fetchPublicBuilds, fetchUserPublicStats, fetchPublicCommentCount, fetchUserCollections, type CollectionRow,
-  followUser, unfollowUser, fetchMembershipTier,
+  fetchProfileByUsername, fetchPublicBuilds, fetchProfileSummary, fetchUserCollections, type CollectionRow,
+  followUser, unfollowUser,
   type PublicProfile, type BuildRow, type MembershipTier,
 } from '@/features/builds/api.ts'
 
@@ -82,10 +82,14 @@ export function UserProfilePage() {
       setProfile(data)
       setFollowerCount(data.followers_count)
       setLoading(false)
-      fetchUserPublicStats(data.id).then(s => { if (!cancelled) setStats(s) })
-      fetchPublicCommentCount(data.id).then(c => { if (!cancelled) setCommentCount(c.count) })
-      fetchMembershipTier(data.id).then(t => { if (!cancelled) setTier(t) })
-      fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
+      fetchProfileSummary(data.id).then(s => {
+        if (cancelled) return
+        setStats(s.stats)
+        setCommentCount(s.commentCount)
+        setTier(s.tier)
+        if (s.combined) setCustomRank(parsePublicCustomRank(s.rank))
+        else fetchPublicCustomRank(data.id).then(rank => { if (!cancelled) setCustomRank(rank) })
+      })
       fetchUserCollections(data.id, true, session?.user.id ?? null).then(({ data: list }) => { if (!cancelled) setCollections(list) })
     })
     return () => { cancelled = true }
@@ -107,7 +111,7 @@ export function UserProfilePage() {
     setBuildsLoading(true)
     const { data, count } = await fetchPublicBuilds({ userId, sort: 'likes', page: nextPage })
     setBuildsLoading(false)
-    setTotal(count)
+    if (count != null) setTotal(count)
     setBuilds(prev => reset ? data : [...prev, ...data])
   }, [])
 
