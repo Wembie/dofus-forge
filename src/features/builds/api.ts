@@ -49,9 +49,12 @@ export type BuildDetailRow = BuildRow
 // several relationships to profiles (fk_pinned_build, plus many-to-many via
 // build_likes/build_ratings/build_bookmarks as junction tables), so a bare
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
-// `snapshot` included even in the list query — Explore/My Builds cards show
-// equipment icons, not just text, so they need it up front too.
-const LIST_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, snapshot, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
+const ROW_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
+const DETAIL_COLUMNS = `${ROW_COLUMNS}, snapshot`
+// Cards only draw the equipment icons (snapshot.e): the rest of the snapshot
+// (characteristics, runes, names, passives) is the bulk of a build row, so
+// lists fetch just that path and cardRows() rebuilds a minimal snapshot.
+const LIST_COLUMNS = `${ROW_COLUMNS}, e:snapshot->e`
 
 // Each function below reports failures as an `error` value. Supabase already
 // does that for failed requests, but getSupabase() itself can still reject
@@ -76,6 +79,12 @@ function safeRow<T extends { snapshot: BuildSnapshot }>(row: T): T {
   return { ...row, snapshot: sanitizeSnapshot(row.snapshot) ?? EMPTY_SNAPSHOT }
 }
 const safeRows = <T extends { snapshot: BuildSnapshot }>(rows: T[]): T[] => rows.map(safeRow)
+type CardRow = Omit<BuildRow, 'snapshot'> & { e?: unknown }
+function cardRow({ e, ...row }: CardRow): BuildRow {
+  const snapshot = sanitizeSnapshot({ v: 1, c: row.class_slug, l: row.level, g: row.gender === 'female' ? 'f' : 'm', e }) ?? EMPTY_SNAPSHOT
+  return { ...row, snapshot }
+}
+const cardRows = (rows: unknown[]): BuildRow[] => (rows as CardRow[]).map(cardRow)
 
 const SORT_COLUMN: Record<ExploreSort, string> = {
   rating: 'avg_rating',
@@ -124,7 +133,7 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
     if (tsQuery) query = query.textSearch('search_vector', tsQuery, { config: 'simple' })
   }
   const { data, error, count } = await query
-  return { data: safeRows((data ?? []) as unknown as BuildRow[]), error: error?.message ?? null, count: count ?? 0 }
+  return { data: cardRows(data ?? []), error: error?.message ?? null, count: count ?? 0 }
 }, error => ({ data: [] as BuildRow[], error, count: 0 }))
 
 // An unlisted build is readable only by its link: every query about one
@@ -136,7 +145,7 @@ export const fetchBuildById = guard(async function fetchBuildById(id: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
-    .select(LIST_COLUMNS)
+    .select(DETAIL_COLUMNS)
     .eq('id', id)
     .setHeader(BUILD_LINK_HEADER, id)
     .single()
@@ -267,11 +276,11 @@ export const fetchCollection = guard(async function fetchCollection(id: string, 
     .eq('id', id)
     .maybeSingle()
   if (error || !data) return { data: null, error: error?.message ?? null }
-  const row = data as unknown as Record<string, unknown> & { entries: { position: number; added_at: string; builds: BuildRow | null }[] }
+  const row = data as unknown as Record<string, unknown> & { entries: { position: number; added_at: string; builds: CardRow | null }[] }
   const owner = row.user_id as string
   const builds = [...row.entries]
     .sort((a, b) => a.position - b.position || a.added_at.localeCompare(b.added_at))
-    .map(e => (e.builds ? safeRow(e.builds) : null))
+    .map(e => (e.builds ? cardRow(e.builds) : null))
     .filter((b): b is BuildRow => b != null && showsInCollection(b, owner, viewerId))
   return { data: { ...toCollection(row, viewerId), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
 }, error => ({ data: null, error }))
@@ -492,7 +501,7 @@ export const fetchForks = guard(async function fetchForks(buildId: string, limit
     .eq('visibility', 'public')
     .order('created_at', { ascending: false })
     .limit(limit)
-  return { data: safeRows((data ?? []) as unknown as BuildRow[]), count: count ?? 0, error: error?.message ?? null }
+  return { data: cardRows(data ?? []), count: count ?? 0, error: error?.message ?? null }
 }, error => ({ data: [] as BuildRow[], count: 0, error }))
 
 /** Versions kept per build in build_snapshots; older ones are pruned. */
@@ -551,20 +560,50 @@ async function archiveReplacedVersion(buildId: string, previous: StoredVersion |
   }
 }
 
-export type BuildVersion = { id: string; label: string | null; created_at: string; snapshot: BuildSnapshot }
+export type BuildVersion = { id: string; label: string | null; created_at: string; level: number }
 
-/** Previous versions of a build, newest first (readable wherever the build is). */
+/**
+ * Previous versions of a build, newest first (readable wherever the build
+ * is). The list only shows label, date and level, so it skips the snapshots
+ * (up to 20 full ones per detail view); fetchVersionSnapshot loads one when
+ * it is opened or restored.
+ */
 export const fetchBuildHistory = guard(async function fetchBuildHistory(buildId: string) {
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('build_snapshots')
-    .select('id, label, created_at, snapshot')
+    .select('id, label, created_at, l:snapshot->l')
     .eq('build_id', buildId)
     .setHeader(BUILD_LINK_HEADER, buildId)
     .order('created_at', { ascending: false })
     .limit(HISTORY_LIMIT)
-  return { data: safeRows((data ?? []) as BuildVersion[]), error: error?.message ?? null }
+  const rows = (data ?? []) as { id: string; label: string | null; created_at: string; l: unknown }[]
+  return { data: rows.map(({ l, ...v }) => ({ ...v, level: sanitizeSnapshot({ v: 1, l: l ?? undefined })!.l })), error: error?.message ?? null }
 }, error => ({ data: [] as BuildVersion[], error }))
+
+// Archived versions never change, so a fetched snapshot is reused (opening
+// then restoring the same version, or the hover prefetch then the click).
+const versionSnapshots = new Map<string, Promise<BuildSnapshot | null>>()
+const loadVersionSnapshot = guard(async function loadVersionSnapshot(buildId: string, versionId: string) {
+  const supabase = await getSupabase()
+  const { data } = await supabase
+    .from('build_snapshots')
+    .select('snapshot')
+    .eq('id', versionId)
+    .setHeader(BUILD_LINK_HEADER, buildId)
+    .maybeSingle()
+  return data ? sanitizeSnapshot((data as { snapshot: unknown }).snapshot) : null
+}, () => null)
+
+export function fetchVersionSnapshot(buildId: string, versionId: string): Promise<BuildSnapshot | null> {
+  let pending = versionSnapshots.get(versionId)
+  if (!pending) {
+    pending = loadVersionSnapshot(buildId, versionId)
+    versionSnapshots.set(versionId, pending)
+    void pending.then(snap => { if (!snap) versionSnapshots.delete(versionId) })
+  }
+  return pending
+}
 
 export const updateBuild = guard(async function updateBuild(buildId: string, opts: {
   name:        string
@@ -688,7 +727,7 @@ export const fetchMyBookmarkedBuilds = guard(async function fetchMyBookmarkedBui
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
   if (error) return { data: [] as BuildRow[], error: error.message }
-  const builds = safeRows((data ?? []).map(row => (row as unknown as { builds: BuildRow }).builds))
+  const builds = cardRows((data ?? []).map(row => (row as unknown as { builds: CardRow }).builds))
   return { data: builds, error: null }
 }, error => ({ data: [] as BuildRow[], error }))
 

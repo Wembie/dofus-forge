@@ -8,7 +8,7 @@ import {
   fetchPublicBuilds, fetchMyLike, fetchMembershipTier, fetchBuildSummary, fetchUserCollections,
   fetchCollection, updateBuild, setBuildTags, submitReport, MAX_BUILD_TAGS, subscribeToNotifications,
   fetchBuildById, fetchComments, fetchBuildHistory, fetchNotifications, setBuildFeatured, moderateContent,
-  BUILD_LINK_HEADER,
+  BUILD_LINK_HEADER, fetchVersionSnapshot,
 } from '../api.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
@@ -45,6 +45,52 @@ describe('fetchPublicBuilds tag filter', () => {
     mock.on('builds', { data: [], count: 0 })
     await fetchPublicBuilds({ sort: 'likes', page: 0 })
     expect(String(opArgs(mock.callsTo('builds')[0], 'select')?.[0])).not.toContain('filter_tag')
+  })
+})
+
+describe('card lists fetch only the equipment of each snapshot', () => {
+  it('selects snapshot->e and rebuilds a minimal snapshot from the row columns', async () => {
+    mock.on('builds', { data: [{ id: 'b1', class_slug: 'cra', level: 180, gender: 'female', e: [5, null, 'x'] }], count: 1 })
+    const { data } = await fetchPublicBuilds({ sort: 'likes', page: 0 })
+    const select = String(opArgs(mock.callsTo('builds')[0], 'select')?.[0])
+    expect(select).toContain('e:snapshot->e')
+    expect(select).not.toMatch(/(^|, )snapshot(,|$)/)
+    expect(data[0].snapshot).toMatchObject({ v: 1, c: 'cra', l: 180, g: 'f' })
+    expect(data[0].snapshot.e.slice(0, 3)).toEqual([5, null, null])
+    expect(data[0]).not.toHaveProperty('e')
+  })
+
+  it('still fetches the full snapshot for one build', async () => {
+    mock.on('builds', { data: { id: 'b1', snapshot: { v: 1, c: 'iop', l: 200, a: [1, 0, 0, 0, 0, 0], s: 0, e: [] } } })
+    const { data } = await fetchBuildById('b1')
+    expect(String(opArgs(mock.callsTo('builds')[0], 'select')?.[0])).toMatch(/, snapshot$/)
+    expect(data?.snapshot.a[0]).toBe(1)
+  })
+})
+
+describe('build history', () => {
+  it('lists versions with their level only, no snapshots', async () => {
+    mock.on('build_snapshots', { data: [{ id: 'v1', label: null, created_at: 't', l: 150 }, { id: 'v2', label: 'x', created_at: 't', l: null }] })
+    const { data } = await fetchBuildHistory('b1')
+    expect(String(opArgs(mock.callsTo('build_snapshots')[0], 'select')?.[0])).toBe('id, label, created_at, l:snapshot->l')
+    expect(data).toEqual([{ id: 'v1', label: null, created_at: 't', level: 150 }, { id: 'v2', label: 'x', created_at: 't', level: 200 }])
+  })
+
+  it('loads a version snapshot once and reuses it', async () => {
+    mock.on('build_snapshots', { data: { snapshot: { v: 1, c: 'iop', l: 199, a: [], s: 0, e: [] } } })
+    const first = await fetchVersionSnapshot('b1', 'cache-v')
+    const again = await fetchVersionSnapshot('b1', 'cache-v')
+    expect(first?.l).toBe(199)
+    expect(again).toBe(first)
+    expect(mock.callsTo('build_snapshots')).toHaveLength(1)
+    expect(opArgs(mock.callsTo('build_snapshots')[0], 'setHeader')).toEqual(['x-build-id', 'b1'])
+  })
+
+  it('retries a version snapshot that failed to load', async () => {
+    await expect(fetchVersionSnapshot('b1', 'missing-v')).resolves.toBeNull()
+    await new Promise(r => setTimeout(r, 0))
+    await fetchVersionSnapshot('b1', 'missing-v')
+    expect(mock.callsTo('build_snapshots')).toHaveLength(2)
   })
 })
 

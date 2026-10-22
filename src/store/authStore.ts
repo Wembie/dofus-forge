@@ -51,6 +51,33 @@ export const AVATAR_MAX_BYTES = 2 * 1024 * 1024
 export function isAcceptedAvatarType(type: string): boolean {
   return type in AVATAR_TYPES
 }
+
+// Avatars render at 14–72px, yet the original upload (up to 2 MB) was what
+// every list of cards and comments downloaded. Downscaled so the short side
+// is AVATAR_SIDE (sharp at 3x DPR) and re-encoded as webp; the original is
+// kept when the browser can't decode/encode it or the result isn't smaller.
+const AVATAR_SIDE = 256
+const AVATAR_LONG_MAX = 1024
+export async function shrinkAvatar(file: File): Promise<Blob> {
+  try {
+    const bitmap = await createImageBitmap(file)
+    const scale = Math.min(1, AVATAR_SIDE / Math.min(bitmap.width, bitmap.height), AVATAR_LONG_MAX / Math.max(bitmap.width, bitmap.height))
+    const w = Math.max(1, Math.round(bitmap.width * scale))
+    const h = Math.max(1, Math.round(bitmap.height * scale))
+    const canvas = document.createElement('canvas')
+    canvas.width = w
+    canvas.height = h
+    const ctx = canvas.getContext('2d')
+    if (!ctx) { bitmap.close(); return file }
+    ctx.imageSmoothingQuality = 'high'
+    ctx.drawImage(bitmap, 0, 0, w, h)
+    bitmap.close()
+    const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/webp', 0.85))
+    return blob && blob.type === 'image/webp' && blob.size < file.size ? blob : file
+  } catch {
+    return file
+  }
+}
 // avatar_url is rendered as <img src> for every viewer of a public profile —
 // restrict to http(s) so a saved `javascript:`/`data:` URI can't reach that sink.
 const SAFE_URL_RE = /^https?:\/\//i
@@ -94,20 +121,37 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       // Every auth change bumps `seq`; a profile fetch that finishes after a
       // newer change (e.g. a sign-out) is dropped instead of restoring a
       // stale session.
+      //
+      // auth-js re-emits SIGNED_IN for the same user on every tab refocus
+      // and TOKEN_REFRESHED hourly. Nothing reads the token from this store
+      // (supabase-js keeps its own), so for the same user the profile isn't
+      // refetched and `session` keeps its identity — every page effect keyed
+      // on it would otherwise refetch its data on each tab switch.
       let seq = 0
-      const apply = async (session: Session | null) => {
+      let profileUser: string | null = null
+      let latest: Session | null = null
+      const apply = async (event: string, session: Session | null) => {
+        latest = session
+        if (session && session.user.id === profileUser) {
+          if (event === 'USER_UPDATED' && !get().loading) set({ session })
+          return
+        }
         const mine = ++seq
+        profileUser = session?.user.id ?? null
         const profile = session ? await fetchProfile(session.user.id) : null
-        if (mine === seq) set({ session, profile, loading: false })
+        if (mine !== seq) return
+        if (session && !profile) profileUser = null
+        set({ session: latest, profile, loading: false })
       }
       // Subscribe before anything async: auth-js emits PASSWORD_RECOVERY
       // right after it detects the reset link, so listening only after the
       // session / profile round trips missed it (no "set new password" form).
+      // INITIAL_SESSION always follows the subscription (null on failure),
+      // so no separate getSession() round is needed.
       supabase.auth.onAuthStateChange((event, newSession) => {
         if (event === 'PASSWORD_RECOVERY') set({ passwordRecovery: true })
-        void apply(newSession)
+        void apply(event, newSession)
       })
-      return supabase.auth.getSession().then(({ data: { session } }) => apply(session))
     }).catch(() => {
       // Signed-out fallback so the auth button stops spinning; a later
       // init() call (next mount) can try again.
@@ -184,10 +228,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!ext) return { url: null, error: 'invalid_avatar_type' }
     if (file.size > AVATAR_MAX_BYTES) return { url: null, error: 'avatar_too_large' }
 
-    const supabase = await getSupabase()
-    const path = `${session.user.id}/avatar.${ext}`
-    const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true, cacheControl: '3600' })
+    const [supabase, image] = await Promise.all([getSupabase(), shrinkAvatar(file)])
+    const finalExt = AVATAR_TYPES[image.type] ?? ext
+    const path = `${session.user.id}/avatar.${finalExt}`
+    // A year of caching is safe: every upload gets a new ?t= in its URL.
+    const { error } = await supabase.storage.from('avatars').upload(path, image, { upsert: true, cacheControl: '31536000', contentType: image.type || file.type })
     if (error) return { url: null, error: error.message }
+    const stale = [...new Set(Object.values(AVATAR_TYPES))].filter(e => e !== finalExt).map(e => `${session.user.id}/avatar.${e}`)
+    void supabase.storage.from('avatars').remove(stale).catch(() => {})
 
     // Cache-bust: same path on every re-upload (upsert), so the URL alone
     // wouldn't change and <img> would keep showing the stale cached image.

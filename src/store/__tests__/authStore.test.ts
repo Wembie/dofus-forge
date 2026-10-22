@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 const getSupabase = vi.hoisted(() => vi.fn())
 vi.mock('@/lib/supabase.ts', () => ({ getSupabase }))
 
-import { useAuthStore } from '../authStore.ts'
+import { useAuthStore, shrinkAvatar } from '../authStore.ts'
 
 describe('authStore.init', () => {
   it('stops loading (signed out) when supabase-js fails to load, and allows a retry', async () => {
@@ -61,6 +61,9 @@ describe('authStore auth events', () => {
       profile: () => new Promise(r => { releaseProfile = r }),
     })
     freshInit(fake.client)
+    await vi.waitFor(() => expect(getSupabase).toHaveBeenCalled())
+    await Promise.resolve()
+    fake.emit('INITIAL_SESSION', null)
     await vi.waitFor(() => expect(useAuthStore.getState().loading).toBe(false))
     fake.emit('SIGNED_IN', { user: { id: 'u1' } })
     fake.emit('SIGNED_OUT', null)
@@ -69,5 +72,54 @@ describe('authStore auth events', () => {
     await new Promise(r => setTimeout(r, 0))
     expect(useAuthStore.getState().session).toBeNull()
     expect(useAuthStore.getState().profile).toBeNull()
+  })
+
+  async function signedIn(profile: (id: string) => Promise<unknown>) {
+    const fake = fakeClient({ getSession: () => new Promise(() => {}), profile })
+    freshInit(fake.client)
+    await vi.waitFor(() => expect(getSupabase).toHaveBeenCalled())
+    await Promise.resolve()
+    fake.emit('INITIAL_SESSION', { user: { id: 'u1' }, access_token: 't1' })
+    await vi.waitFor(() => expect(useAuthStore.getState().loading).toBe(false))
+    return fake
+  }
+
+  it('ignores same-user re-emits (tab refocus, token refresh): no profile refetch, same session object', async () => {
+    const profile = vi.fn(async (id: string) => ({ data: { id, username: 'me' }, error: null }))
+    const fake = await signedIn(profile)
+    const session = useAuthStore.getState().session
+    fake.emit('SIGNED_IN', { user: { id: 'u1' }, access_token: 't1' })
+    fake.emit('TOKEN_REFRESHED', { user: { id: 'u1' }, access_token: 't2' })
+    await new Promise(r => setTimeout(r, 0))
+    expect(profile).toHaveBeenCalledTimes(1)
+    expect(useAuthStore.getState().session).toBe(session)
+  })
+
+  it('swaps the session on USER_UPDATED without refetching the profile', async () => {
+    const profile = vi.fn(async (id: string) => ({ data: { id, username: 'me' }, error: null }))
+    const fake = await signedIn(profile)
+    const updated = { user: { id: 'u1', email: 'new@x.y' }, access_token: 't1' }
+    fake.emit('USER_UPDATED', updated)
+    expect(useAuthStore.getState().session).toBe(updated)
+    expect(profile).toHaveBeenCalledTimes(1)
+  })
+
+  it('retries the profile on the next event when the first fetch failed', async () => {
+    const profile = vi.fn()
+      .mockResolvedValueOnce({ data: null, error: { message: 'boom' } })
+      .mockResolvedValueOnce({ data: { id: 'u1', username: 'me' }, error: null })
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const fake = await signedIn(profile)
+    expect(useAuthStore.getState().profile).toBeNull()
+    fake.emit('SIGNED_IN', { user: { id: 'u1' }, access_token: 't1' })
+    await vi.waitFor(() => expect(useAuthStore.getState().profile).toEqual({ id: 'u1', username: 'me' }))
+    err.mockRestore()
+  })
+})
+
+describe('shrinkAvatar', () => {
+  it('keeps the original file when the browser cannot decode it', async () => {
+    const file = new File(['x'], 'a.png', { type: 'image/png' })
+    await expect(shrinkAvatar(file)).resolves.toBe(file)
   })
 })

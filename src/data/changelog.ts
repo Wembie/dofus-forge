@@ -12,6 +12,9 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-10-22',
     notes: [
       'Perf: live notifications moved from Postgres Changes to a private Realtime Broadcast channel. The old mechanism kept the database polling for changes around the clock (~68% of all database time); now it costs nothing while idle. The bell only holds a live connection while the tab is visible, stops polling while connected, and refetches the unread count on every reconnect so nothing is missed',
+      'Perf: switching back to the tab (or the hourly session refresh) no longer refetches your profile and reloads the data of the page you are on; each page load also asks for your profile once instead of twice',
+      'Perf: build cards (Explore, profiles, remixes, bookmarks, collections) download only the equipment they draw instead of the whole build, and the version history lists versions without downloading each full build — a version is loaded when you hover, open or restore it',
+      'Perf: uploaded avatars are resized to 256px webp in the browser before upload (they display at most at 72px) and cached for a year; re-uploading in another format no longer leaves the old file behind',
     ],
   },
   {

@@ -42,7 +42,7 @@ import {
   fetchMyBookmark, toggleBuildBookmark,
   fetchMyRating, rateBuild, fetchComments, postComment,
   fetchBuildSummary, fetchForks, fetchMyCommentLikes, toggleCommentLike,
-  fetchBuildHistory, updateBuild, setBuildFeatured, type BuildVersion,
+  fetchBuildHistory, fetchVersionSnapshot, updateBuild, setBuildFeatured, type BuildVersion,
   buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
@@ -197,11 +197,13 @@ export function BuildDetailPage() {
     if (!error) setBuild(prev => (prev && prev.id === build.id ? { ...prev, is_featured: next } : prev))
   }, [build])
 
-  function openVersion(version: BuildVersion) {
+  async function openVersion(version: BuildVersion) {
     if (!build) return
+    const snap = await fetchVersionSnapshot(build.id, version.id)
+    if (!snap) return
     const lang = langPathRootSegment(i18n.language.slice(0, 2))
     const linkParam = session?.user.id === build.user_id ? `&edit=${build.id}` : build.visibility === 'public' ? `&fork=${build.id}` : ''
-    navigate(`/${lang}?b=${encodeSnapshot({ ...version.snapshot, n: version.label || build.name || undefined })}${linkParam}`)
+    navigate(`/${lang}?b=${encodeSnapshot({ ...snap, n: version.label || build.name || undefined })}${linkParam}`)
   }
 
   // Restoring updates the build to that version; updateBuild archives the
@@ -210,7 +212,8 @@ export function BuildDetailPage() {
     if (!build || session?.user.id !== build.user_id) return
     if (!window.confirm(t('build_history_restore_confirm'))) return
     setRestoring(version.id)
-    const snap = version.snapshot
+    const snap = await fetchVersionSnapshot(build.id, version.id)
+    if (!snap) { setRestoring(null); return }
     const { error } = await updateBuild(build.id, {
       name:        build.name,
       visibility:  build.visibility,
@@ -600,12 +603,12 @@ export function BuildDetailPage() {
             <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('build_history_hint')}</p>
             <ul className="space-y-1.5">
               {history.map(v => (
-                <li key={v.id} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5" style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}>
+                <li key={v.id} onPointerEnter={() => void fetchVersionSnapshot(build.id, v.id)} onFocusCapture={() => void fetchVersionSnapshot(build.id, v.id)} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5" style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}>
                   <span className="min-w-0 flex-1">
                     <span className="block text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>{v.label || build.name}</span>
                     <span className="block text-[10px]" style={{ color: 'var(--ink-faint)' }}>
                       {new Date(v.created_at).toLocaleString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                      {' · '}{t('level_short', { level: v.snapshot.l })}
+                      {' · '}{t('level_short', { level: v.level })}
                     </span>
                   </span>
                   <Button variant="secondary" size="sm" onClick={() => openVersion(v)}>
