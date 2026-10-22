@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect, useRef, memo } from 'react'
+import { useState, useMemo, useCallback, useEffect, useRef, memo, startTransition } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -528,11 +528,16 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   }, [hasMore, items.length])
 
   const handlePick = useCallback((item: AppItem) => {
-    equipItem(slotId, item.ankama_id)
     playEquip()
     addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slotImageIcon(slotId) ?? slot.icon)
     if (onAfterEquip) onAfterEquip(slotId)
     else onClose()
+    // equipItem triggers a full build-stats recompute plus a re-render of every
+    // panel subscribed to it (stats/spells/passives/equipment) — deferring it
+    // as a transition lets the modal-close paint happen first instead of the
+    // click blocking on that whole cascade (this was the top INP offender in
+    // Cloudflare's Web Vitals debug view: clicking an item image to equip it).
+    startTransition(() => { equipItem(slotId, item.ankama_id) })
   }, [equipItem, slotId, onClose, onAfterEquip, addToast, t, slot.icon])
 
   useEffect(() => {
