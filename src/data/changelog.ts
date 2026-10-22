@@ -20,6 +20,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Perf: saving a build is now a single request (the database keeps the version history by itself), opening a build loads your like, bookmark, rating and comment likes in one request instead of four, and a public profile loads its numbers, membership and rank in one request instead of four',
       'Perf: views are counted once per visitor per hour also for visitors who are not signed in (refreshing the page no longer adds a view), and old view records are cleaned up automatically. Explore community stats are refreshed every 5 minutes instead of being recomputed on every visit',
       'Perf: shared build links fetch only what their preview needs and are cached at the edge for a minute',
+      'Privacy policy: explains how views are counted without counting the same visitor twice (an irreversible hash of IP and browser, never the IP itself, deleted after an hour)',
     ],
   },
   {
