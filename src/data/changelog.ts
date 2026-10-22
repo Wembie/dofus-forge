@@ -17,6 +17,9 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Perf: uploaded avatars are resized to 256px webp in the browser before upload (they display at most at 72px) and cached for a year; re-uploading in another format no longer leaves the old file behind',
       'Perf: link previews (Discord, WhatsApp...) of a build are no longer regenerated every time someone views, likes or rates it, only when the build itself changes',
       'Perf: new database indexes for Explore (also without a class filter), version history, ratings and deletions, and every access rule now checks who you are once per query instead of once per row; the Explore "Load more" button no longer recounts every matching build',
+      'Perf: saving a build is now a single request (the database keeps the version history by itself), opening a build loads your like, bookmark, rating and comment likes in one request instead of four, and a public profile loads its numbers, membership and rank in one request instead of four',
+      'Perf: views are counted once per visitor per hour also for visitors who are not signed in (refreshing the page no longer adds a view), and old view records are cleaned up automatically. Explore community stats are refreshed every 5 minutes instead of being recomputed on every visit',
+      'Perf: shared build links fetch only what their preview needs and are cached at the edge for a minute',
     ],
   },
   {

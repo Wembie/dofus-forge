@@ -236,7 +236,8 @@ export type CollectionRow = {
 // Counts only the builds the viewer can actually see: in a public
 // collection, someone else's view drops the owner's private builds (builds
 // RLS), so a plain collection_builds(count) would overstate it.
-const COLLECTION_COLUMNS = 'id, user_id, name, description, is_public, updated_at, visible:collection_builds(builds(id, visibility, user_id))'
+const COLLECTION_BASE = 'id, user_id, name, description, is_public, updated_at'
+const COLLECTION_COLUMNS = `${COLLECTION_BASE}, visible:collection_builds(builds(id, visibility, user_id))`
 
 type BuildVisibilityRef = { visibility: BuildVisibility; user_id: string }
 
@@ -274,7 +275,9 @@ export const fetchCollection = guard(async function fetchCollection(id: string, 
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('collections')
-    .select(`${COLLECTION_COLUMNS}, profiles(username, display_name), entries:collection_builds(position, added_at, builds(${LIST_COLUMNS}))`)
+    // The card list already has every visible build, so it gives the count too
+    // (no second `visible` embed of the same rows).
+    .select(`${COLLECTION_BASE}, profiles(username, display_name), entries:collection_builds(position, added_at, builds(${LIST_COLUMNS}))`)
     .eq('id', id)
     .maybeSingle()
   if (error || !data) return { data: null, error: error?.message ?? null }
@@ -284,7 +287,8 @@ export const fetchCollection = guard(async function fetchCollection(id: string, 
     .sort((a, b) => a.position - b.position || a.added_at.localeCompare(b.added_at))
     .map(e => (e.builds ? cardRow(e.builds) : null))
     .filter((b): b is BuildRow => b != null && showsInCollection(b, owner, viewerId))
-  return { data: { ...toCollection(row, viewerId), profiles: row.profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
+  const { entries: _entries, profiles, ...base } = row
+  return { data: { ...(base as Omit<CollectionRow, 'build_count'>), build_count: builds.length, profiles: profiles as CollectionDetail['profiles'], builds } as CollectionDetail, error: null }
 }, error => ({ data: null, error }))
 
 export const createCollection = guard(async function createCollection(userId: string, opts: { name: string; description?: string | null; isPublic: boolean }) {
@@ -506,61 +510,8 @@ export const fetchForks = guard(async function fetchForks(buildId: string, limit
   return { data: cardRows(data ?? []), count: count ?? 0, error: error?.message ?? null }
 }, error => ({ data: [] as BuildRow[], count: 0, error }))
 
-/** Versions kept per build in build_snapshots; older ones are pruned. */
+/** Versions kept per build in build_snapshots; older ones are pruned (archive_build_version trigger). */
 export const HISTORY_LIMIT = 20
-
-// jsonb doesn't keep key order, so compare snapshots with sorted keys.
-function stableJson(value: unknown): string {
-  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`
-  if (value && typeof value === 'object') {
-    const obj = value as Record<string, unknown>
-    return `{${Object.keys(obj).sort().filter(k => obj[k] !== undefined).map(k => `${JSON.stringify(k)}:${stableJson(obj[k])}`).join(',')}}`
-  }
-  return JSON.stringify(value)
-}
-
-type StoredVersion = { name: string; snapshot: unknown }
-
-// The build as stored before an update; null if it can't be read (history is
-// best effort and never blocks the update).
-async function readStoredVersion(buildId: string): Promise<StoredVersion | null> {
-  try {
-    const supabase = await getSupabase()
-    const { data } = await supabase.from('builds').select('name, snapshot').eq('id', buildId).maybeSingle()
-    return (data as StoredVersion | null) ?? null
-  } catch {
-    return null
-  }
-}
-
-// Saves the version a successful update replaced. Runs only after the update
-// went through — archiving first left one copy per failed attempt — and skips
-// a version identical to the newest one already kept (double clicks, retries).
-async function archiveReplacedVersion(buildId: string, previous: StoredVersion | null, next: BuildSnapshot) {
-  try {
-    if (!previous || stableJson(previous.snapshot) === stableJson(next)) return
-    const supabase = await getSupabase()
-    const { data: newest } = await supabase
-      .from('build_snapshots')
-      .select('snapshot')
-      .eq('build_id', buildId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle()
-    if (newest && stableJson((newest as { snapshot: unknown }).snapshot) === stableJson(previous.snapshot)) return
-    const { error } = await supabase.from('build_snapshots').insert({ build_id: buildId, snapshot: previous.snapshot, label: previous.name })
-    if (error) return
-    const { data: stale } = await supabase
-      .from('build_snapshots')
-      .select('id')
-      .eq('build_id', buildId)
-      .order('created_at', { ascending: false })
-      .range(HISTORY_LIMIT, HISTORY_LIMIT + 50)
-    if (stale && stale.length > 0) await supabase.from('build_snapshots').delete().in('id', stale.map(r => r.id))
-  } catch {
-    /* history only */
-  }
-}
 
 export type BuildVersion = { id: string; label: string | null; created_at: string; level: number }
 
@@ -616,7 +567,6 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   gameVersion: string
   snapshot:    BuildSnapshot
 }) {
-  const previous = await readStoredVersion(buildId)
   const supabase = await getSupabase()
   const { data, error } = await supabase
     .from('builds')
@@ -635,14 +585,47 @@ export const updateBuild = guard(async function updateBuild(buildId: string, opt
   // RLS turns an update of someone else's (or a deleted) build into a silent
   // 0-row success; report it so the caller doesn't claim it saved.
   if (!data || data.length === 0) return { error: 'not_updated' }
-  await archiveReplacedVersion(buildId, previous, opts.snapshot)
+  // The replaced version is archived (and old ones pruned) by the
+  // archive_build_version trigger, in the same statement.
   return { error: null }
 }, error => ({ error }))
 
+// record_view counts one view per visitor per build per hour; a refresh or
+// back-and-forth within the hour wouldn't count anyway, so skip the request.
+const VIEW_WINDOW_MS = 60 * 60 * 1000
+function viewedRecently(buildId: string): boolean {
+  try {
+    const key = `df_viewed_${buildId}`
+    const last = Number(sessionStorage.getItem(key))
+    if (last && Date.now() - last < VIEW_WINDOW_MS) return true
+    sessionStorage.setItem(key, String(Date.now()))
+  } catch { /* storage blocked: just record */ }
+  return false
+}
+
 export const recordBuildView = guard(async function recordBuildView(buildId: string, userId: string | null) {
+  if (viewedRecently(buildId)) return
   const supabase = await getSupabase()
   await supabase.rpc('record_view', { p_build_id: buildId, p_user_id: userId, p_ip_hash: null })
 }, () => undefined)
+
+export type ViewerState = { liked: boolean; bookmarked: boolean; rating: number | null; commentLikes: Set<string> }
+
+/** The signed-in viewer's like, bookmark, rating and liked comments on a
+ * build in one round trip (get_build_viewer_state); falls back to the four
+ * separate queries if that function isn't deployed. */
+export const fetchViewerState = guard(async function fetchViewerState(buildId: string, userId: string): Promise<ViewerState> {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase.rpc('get_build_viewer_state', { p_build_id: buildId })
+  if (!error && data) {
+    const s = data as { liked?: boolean; bookmarked?: boolean; rating?: number | null; comment_likes?: string[] }
+    return { liked: !!s.liked, bookmarked: !!s.bookmarked, rating: s.rating ?? null, commentLikes: new Set(s.comment_likes ?? []) }
+  }
+  const [liked, bookmarked, rating, commentLikes] = await Promise.all([
+    fetchMyLike(buildId, userId), fetchMyBookmark(buildId, userId), fetchMyRating(buildId, userId), fetchMyCommentLikes(buildId, userId),
+  ])
+  return { liked, bookmarked, rating, commentLikes }
+}, () => ({ liked: false, bookmarked: false, rating: null, commentLikes: new Set<string>() }))
 
 export type MyBuildRow = {
   id:            string
@@ -868,6 +851,36 @@ export const fetchUserPublicStats = guard(async function fetchUserPublicStats(us
   }
 }, error => ({ buildCount: 0, likeCount: 0, error }))
 
+export type ProfileSummary = {
+  stats:        { buildCount: number; likeCount: number }
+  commentCount: number
+  tier:         MembershipTier
+  /** Raw get_public_custom_rank row; parse with parsePublicCustomRank. */
+  rank:         unknown
+  /** False when the combined RPC isn't deployed: the caller fetches the rank itself. */
+  combined:     boolean
+}
+
+/** A public profile's header numbers, tier and custom rank in one round trip
+ * (get_public_profile_summary); falls back to the separate queries if that
+ * function isn't deployed. */
+export const fetchProfileSummary = guard(async function fetchProfileSummary(userId: string): Promise<ProfileSummary> {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase.rpc('get_public_profile_summary', { p_user_id: userId })
+  if (!error && data) {
+    const s = data as { tier?: MembershipTier; rank?: unknown; build_count?: number; like_count?: number; comment_count?: number }
+    return {
+      stats: { buildCount: Number(s.build_count ?? 0), likeCount: Number(s.like_count ?? 0) },
+      commentCount: Number(s.comment_count ?? 0),
+      tier: s.tier ?? 'free',
+      rank: s.rank ?? null,
+      combined: true,
+    }
+  }
+  const [stats, comments, tier] = await Promise.all([fetchUserPublicStats(userId), fetchPublicCommentCount(userId), fetchMembershipTier(userId)])
+  return { stats: { buildCount: stats.buildCount, likeCount: stats.likeCount }, commentCount: comments.count, tier, rank: null, combined: false }
+}, () => ({ stats: { buildCount: 0, likeCount: 0 }, commentCount: 0, tier: 'free' as MembershipTier, rank: null, combined: false }))
+
 /**
  * Comments this user has posted, scoped to comments on PUBLIC builds only
  * (the `builds!inner` embed + filter excludes comments left on private/
@@ -967,7 +980,19 @@ export type CommunityStats = {
  * Headline numbers for the Explore stats bar — one RPC round trip
  * (get_community_stats) instead of six separate count queries.
  */
-export const fetchCommunityStats = guard(async function fetchCommunityStats(): Promise<{ data: CommunityStats | null; error: string | null }> {
+// The database caches these for 5 minutes too; the client keeps its copy as
+// long so going back and forth to Explore doesn't ask again.
+const STATS_TTL_MS = 5 * 60 * 1000
+let statsCache: { at: number; data: CommunityStats } | null = null
+
+export async function fetchCommunityStats(): Promise<{ data: CommunityStats | null; error: string | null }> {
+  if (statsCache && Date.now() - statsCache.at < STATS_TTL_MS) return { data: statsCache.data, error: null }
+  const result = await loadCommunityStats()
+  if (result.data && !result.error) statsCache = { at: Date.now(), data: result.data }
+  return result
+}
+
+const loadCommunityStats = guard(async function loadCommunityStats(): Promise<{ data: CommunityStats | null; error: string | null }> {
   const supabase = await getSupabase()
   const { data, error } = await supabase.rpc('get_community_stats')
   const row = (Array.isArray(data) ? data[0] : data) as Record<string, number> | null

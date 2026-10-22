@@ -38,10 +38,10 @@ const CHAR_COLOR: Record<Characteristic, string> = {
   agility:      'var(--air)',
 }
 import {
-  fetchBuildById, recordBuildView, fetchMyLike, toggleBuildLike,
-  fetchMyBookmark, toggleBuildBookmark,
-  fetchMyRating, rateBuild, fetchComments, postComment,
-  fetchBuildSummary, fetchForks, fetchMyCommentLikes, toggleCommentLike,
+  fetchBuildById, recordBuildView, fetchViewerState, toggleBuildLike,
+  toggleBuildBookmark,
+  rateBuild, fetchComments, postComment,
+  fetchBuildSummary, fetchForks, toggleCommentLike,
   fetchBuildHistory, fetchVersionSnapshot, updateBuild, setBuildFeatured, type BuildVersion,
   buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
@@ -146,10 +146,13 @@ export function BuildDetailPage() {
     setLikedComments(new Set())
     if (!id || !session) return
     let cancelled = false
-    fetchMyLike(id, session.user.id).then(v => { if (!cancelled) setLiked(v) })
-    fetchMyBookmark(id, session.user.id).then(v => { if (!cancelled) setBookmarked(v) })
-    fetchMyRating(id, session.user.id).then(v => { if (!cancelled) setMyRating(v) })
-    fetchMyCommentLikes(id, session.user.id).then(v => { if (!cancelled) setLikedComments(v) })
+    fetchViewerState(id, session.user.id).then(s => {
+      if (cancelled) return
+      setLiked(s.liked)
+      setBookmarked(s.bookmarked)
+      setMyRating(s.rating)
+      setLikedComments(s.commentLikes)
+    })
     return () => { cancelled = true }
   }, [id, session])
 

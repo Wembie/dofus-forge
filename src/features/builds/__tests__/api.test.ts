@@ -8,7 +8,7 @@ import {
   fetchPublicBuilds, fetchMyLike, fetchMembershipTier, fetchBuildSummary, fetchUserCollections,
   fetchCollection, updateBuild, setBuildTags, submitReport, MAX_BUILD_TAGS, subscribeToNotifications,
   fetchBuildById, fetchComments, fetchBuildHistory, fetchNotifications, setBuildFeatured, moderateContent,
-  BUILD_LINK_HEADER, fetchVersionSnapshot,
+  BUILD_LINK_HEADER, fetchVersionSnapshot, recordBuildView, fetchViewerState, fetchProfileSummary, fetchCommunityStats,
 } from '../api.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
@@ -161,69 +161,66 @@ describe('collections: visible builds only', () => {
   })
 })
 
-describe('updateBuild version history', () => {
+describe('updateBuild', () => {
   const opts = (snapshot: BuildSnapshot) => ({ name: 'N', visibility: 'public' as const, classSlug: 'iop', gender: 'male' as const, level: 200, gameVersion: 'x', snapshot })
-  beforeEach(() => { mock.on('builds', { data: [{ id: 'b1' }] }, 'update') })
 
-  it('archives the previous snapshot when it changed', async () => {
-    mock.on('builds', { data: { name: 'Old name', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
-    mock.on('build_snapshots', { data: [] }, 'range')
-    await updateBuild('b1', opts(snap()))
-    const insert = mock.callsTo('build_snapshots', 'insert')[0]
-    expect(opArgs(insert, 'insert')?.[0]).toMatchObject({ build_id: 'b1', label: 'Old name' })
+  it('is a single request: the database archives the replaced version', async () => {
+    mock.on('builds', { data: [{ id: 'b1' }] }, 'update')
+    await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: null })
+    expect(mock.calls).toHaveLength(1)
+    expect(mock.callsTo('build_snapshots')).toHaveLength(0)
   })
 
-  it('does not archive when only the jsonb key order differs', async () => {
-    const reordered = { e: [1, null], s: 0, a: [0, 0, 0, 0, 0, 0], g: 'm', l: 200, c: 'iop', v: 1 }
-    mock.on('builds', { data: { name: 'N', snapshot: reordered } }, 'maybeSingle')
-    await updateBuild('b1', opts(snap()))
-    expect(mock.callsTo('build_snapshots', 'insert')).toHaveLength(0)
-  })
-
-  it('prunes versions beyond the limit', async () => {
-    mock.on('builds', { data: { name: 'N', snapshot: snap({ l: 1 }) } }, 'maybeSingle')
-    mock.on('build_snapshots', { data: [{ id: 'old1' }, { id: 'old2' }] }, 'range')
-    await updateBuild('b1', opts(snap()))
-    const del = mock.callsTo('build_snapshots', 'delete')[0]
-    expect(opArgs(del, 'in')).toEqual(['id', ['old1', 'old2']])
-  })
-
-  it('archives only after the update went through (a failed attempt leaves no copy)', async () => {
-    mock.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
-    mock.calls.length = 0
-    await updateBuild('b1', opts(snap()))
-    const order = mock.calls.map(c => `${c.table}:${c.ops.some(([o]) => o === 'insert') ? 'insert' : c.ops.some(([o]) => o === 'update') ? 'update' : 'read'}`)
-    expect(order.indexOf('builds:update')).toBeLessThan(order.indexOf('build_snapshots:insert'))
-  })
-
-  it('does not archive when the update fails or touches no row', async () => {
-    const failing = createSupabaseMock()
-    failing.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
-    failing.on('builds', { error: { message: 'infinite recursion detected in policy', code: '42P17' } }, 'update')
-    supabaseState.get = async () => failing.client
+  it('reports a failed update or one that touched no row', async () => {
+    mock.on('builds', { error: { message: 'infinite recursion detected in policy', code: '42P17' } }, 'update')
     await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: 'infinite recursion detected in policy' })
-    expect(failing.callsTo('build_snapshots', 'insert')).toHaveLength(0)
-
     const noRow = createSupabaseMock()
-    noRow.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
     noRow.on('builds', { data: [] }, 'update')
     supabaseState.get = async () => noRow.client
     await expect(updateBuild('b1', opts(snap()))).resolves.toEqual({ error: 'not_updated' })
-    expect(noRow.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+  })
+})
+
+describe('round trips saved on the detail and profile pages', () => {
+  it('skips record_view for a build already viewed this hour in the session', async () => {
+    const store = new Map<string, string>()
+    vi.stubGlobal('sessionStorage', { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => { store.set(k, v) } })
+    await recordBuildView('view-b', null)
+    await recordBuildView('view-b', null)
+    expect(mock.client.rpc).toHaveBeenCalledTimes(1)
+    vi.unstubAllGlobals()
   })
 
-  it('skips a version identical to the newest one already kept', async () => {
-    mock.on('builds', { data: { name: 'Old', snapshot: snap({ l: 150 }) } }, 'maybeSingle')
-    mock.on('build_snapshots', { data: { snapshot: snap({ l: 150 }) } }, 'maybeSingle')
-    await updateBuild('b1', opts(snap()))
-    expect(mock.callsTo('build_snapshots', 'insert')).toHaveLength(0)
+  it('reads the viewer state in one RPC', async () => {
+    mock.client.rpc.mockResolvedValueOnce({ data: { liked: true, bookmarked: false, rating: 3, comment_likes: ['c1'] }, error: null } as never)
+    const s = await fetchViewerState('b1', 'u1')
+    expect(s).toEqual({ liked: true, bookmarked: false, rating: 3, commentLikes: new Set(['c1']) })
+    expect(mock.calls).toHaveLength(0)
   })
 
-  it('still updates the build if archiving fails', async () => {
-    mock.on('builds', () => { throw new Error('history down') }, 'maybeSingle')
-    const result = await updateBuild('b1', opts(snap()))
-    expect(result).toEqual({ error: null })
-    expect(mock.callsTo('builds', 'update')).toHaveLength(1)
+  it('falls back to the separate viewer queries when the RPC is missing', async () => {
+    mock.client.rpc.mockResolvedValueOnce({ data: null, error: { message: 'not found', code: 'PGRST202' } } as never)
+    mock.on('build_likes', { data: { user_id: 'u1' } })
+    const s = await fetchViewerState('b1', 'u1')
+    expect(s.liked).toBe(true)
+    expect(mock.callsTo('build_likes')).toHaveLength(1)
+    expect(mock.callsTo('build_ratings')).toHaveLength(1)
+  })
+
+  it('reads the profile summary in one RPC, or falls back', async () => {
+    mock.client.rpc.mockResolvedValueOnce({ data: { tier: 'artisan', rank: { rank_name: 'x' }, build_count: 2, like_count: 5, comment_count: 1 }, error: null } as never)
+    await expect(fetchProfileSummary('u1')).resolves.toEqual({ stats: { buildCount: 2, likeCount: 5 }, commentCount: 1, tier: 'artisan', rank: { rank_name: 'x' }, combined: true })
+    mock.client.rpc.mockResolvedValueOnce({ data: null, error: { message: 'not found' } } as never)
+    await expect(fetchProfileSummary('u1')).resolves.toMatchObject({ combined: false, tier: 'free' })
+  })
+
+  it('reuses the community stats for 5 minutes', async () => {
+    mock.client.rpc.mockResolvedValue({ data: [{ users_count: 7 }], error: null } as never)
+    const first = await fetchCommunityStats()
+    const second = await fetchCommunityStats()
+    expect(first.data?.usersCount).toBe(7)
+    expect(second.data).toBe(first.data)
+    expect(mock.client.rpc).toHaveBeenCalledTimes(1)
   })
 })
 
