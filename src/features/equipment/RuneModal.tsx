@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, startTransition } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -136,15 +136,21 @@ export function RuneModal({ slotId, item, onClose }: Props) {
     setAddValue(vals[0])
   }
 
+  // Every rune/forgemagie mutation recomputes the whole build's stats and
+  // re-renders every subscribed panel (stats/spells/passives/equipment) —
+  // this was the #2 INP offender in Cloudflare's Web Vitals debug view
+  // (the Add-rune button). Deferring it as a transition lets the button's
+  // own visual update paint immediately instead of blocking on that cascade.
   function addRune() {
     if (addValueNum <= 0) return
-    setRune(slotId, selected, (runes[selected] ?? 0) + addValueNum)
+    const value = (runes[selected] ?? 0) + addValueNum
+    startTransition(() => { setRune(slotId, selected, value) })
   }
 
   function pickTranscendence(stat: string) {
     setTrFocus(stat)
     const best = bestRank(item, stat)
-    if (best) setExotic(slotId, stat, best.value)
+    if (best) startTransition(() => { setExotic(slotId, stat, best.value) })
   }
 
   const statLabel = (stat: string) => (STAT_META[stat] ? t(STAT_META[stat].tKey) : stat)
@@ -280,7 +286,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               </div>
               {exotic && (
                 <button
-                  onClick={() => clearExotic(slotId)}
+                  onClick={() => startTransition(() => clearExotic(slotId))}
                   className="flex-shrink-0 text-[10px] px-2 py-1 rounded transition-colors"
                   style={{
                     background: 'color-mix(in srgb, var(--negative) 10%, transparent)',
@@ -429,7 +435,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 </span>
                 {weaponTransform && hasNeutralDamage && (
                   <button
-                    onClick={() => setWeaponTransform(slotId, null)}
+                    onClick={() => startTransition(() => setWeaponTransform(slotId, null))}
                     className="text-[10px] px-2 py-0.5 rounded transition-colors"
                     style={{
                       background: 'color-mix(in srgb, var(--negative) 12%, transparent)',
@@ -458,7 +464,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                       return (
                         <button
                           key={elem}
-                          onClick={() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? 85 } as WeaponTransform)}
+                          onClick={() => startTransition(() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? 85 } as WeaponTransform))}
                           title={t(`elem_${elem}`)}
                           className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2 transition-all"
                           style={{
@@ -490,7 +496,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                         return (
                           <button
                             key={r}
-                            onClick={() => setWeaponTransform(slotId, { element: weaponTransform.element, ratio: r })}
+                            onClick={() => startTransition(() => setWeaponTransform(slotId, { element: weaponTransform.element, ratio: r }))}
                             className="flex-1 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all"
                             style={{
                               background: active ? `color-mix(in srgb, ${color} 16%, transparent)` : 'var(--surface-void)',
@@ -529,7 +535,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               )}
               {runeEntries.length > 0 && (
                 <button
-                  onClick={() => clearAllRunes(slotId)}
+                  onClick={() => startTransition(() => clearAllRunes(slotId))}
                   className="ml-auto text-[10px] px-2 py-0.5 rounded transition-colors"
                   style={{
                     background: 'color-mix(in srgb, var(--negative) 10%, transparent)',
@@ -590,7 +596,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                         {meta ? t(meta.tKey) : stat}
                       </span>
                       <button
-                        onClick={() => clearRune(slotId, key)}
+                        onClick={() => startTransition(() => clearRune(slotId, key))}
                         className="w-4 h-4 rounded-full flex items-center justify-center text-[10px] leading-none transition-colors flex-shrink-0"
                         style={{ background: 'var(--surface-void)', color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)' }}
                         onMouseEnter={e => {
@@ -665,7 +671,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                           <button
                             key={o.rank}
                             disabled={!o.allowed}
-                            onClick={() => setExotic(slotId, trFocus, o.value)}
+                            onClick={() => startTransition(() => setExotic(slotId, trFocus, o.value))}
                             title={o.allowed ? undefined : t('rune_rank_blocked', { weight: lineWeight(item, trFocus), limit: o.limit })}
                             className="flex flex-col items-center py-1.5 rounded-lg transition-all disabled:cursor-not-allowed"
                             style={{

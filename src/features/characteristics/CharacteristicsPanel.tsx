@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef, startTransition } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useCombatStats } from '@/store/useCombatStats.ts'
@@ -217,8 +217,8 @@ function AllocationGrid({ remaining }: { remaining: number }) {
           char={char}
           allocated={allocated[char]}
           remaining={remaining}
-          onAdd={n    => addPoints(char, n)}
-          onRemove={n => removePoints(char, n)}
+          onAdd={n    => startTransition(() => addPoints(char, n))}
+          onRemove={n => startTransition(() => removePoints(char, n))}
         />
       ))}
     </div>
@@ -243,7 +243,7 @@ function ScrollToggles() {
         <div className="flex items-center gap-1.5">
           <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{SCROLL_BONUS} {t('scroll_each')}</span>
           <button
-            onClick={() => setAllScrolls(!allActive)}
+            onClick={() => startTransition(() => setAllScrolls(!allActive))}
             title={t('scroll_all')}
             className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded transition-all"
             style={allActive ? {
@@ -267,7 +267,7 @@ function ScrollToggles() {
           return (
             <button
               key={char}
-              onClick={() => toggleScroll(char)}
+              onClick={() => startTransition(() => toggleScroll(char))}
               title={`${t(`stat_${char}`)} +${SCROLL_BONUS}`}
               className="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-md transition-all"
               style={active ? {

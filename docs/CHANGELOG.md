@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.122] — 2026-10-22
+- **Perf**: clicking an item to equip it, applying a rune, toggling a weapon's elemental transform, or allocating a characteristic point could block the UI for 400–1000ms before the next frame painted (the top offenders in Cloudflare's Web Vitals INP report — mostly the item picker's equip click and the rune "Add" button). Each of those actions mutates the build store, which recomputes every derived stat and re-renders every panel (stats, spells, passives, equipment) synchronously in the same click. Those mutations now run inside a React transition, so the immediate visual feedback (closing the picker, the button's own state) paints first and the heavier recompute/re-render cascade no longer blocks it
+
 ## [0.3.121] — 2026-10-21
 - **Fix**: the date on a build card could get silently clipped (e.g. "30 sept 2026" showing as "30 sept 20") when a longer localized month name combined with wide stat counts overflowed the card's footer row. The row now wraps instead of cutting content off
 

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.122',
+    date: '2026-10-22',
+    notes: [
+      'Perf: equipping an item, applying a rune, toggling a weapon elemental transform, or allocating a characteristic point could block the UI for 400–1000ms before the next frame painted — each one recomputes the whole build\'s stats and re-renders every panel synchronously. Those updates now run as a React transition so the click\'s own visual feedback paints immediately instead of waiting on that cascade',
+    ],
+  },
+  {
     version: '0.3.121',
     date: '2026-10-21',
     notes: [
