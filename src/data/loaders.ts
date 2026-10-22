@@ -64,8 +64,42 @@ export async function loadIndex(lang: string, bust: string): Promise<IndexItem[]
   return fetchJson<IndexItem[]>(`data/${lang}/index.json`, bust)
 }
 
+// Item icons are R2 objects. Through the Worker's /img/item/ route every
+// icon is a Worker invocation (an Explore page alone draws hundreds); with
+// VITE_ITEM_ASSETS_URL set they load from the bucket's public domain, served
+// from Cloudflare's cache without running the Worker.
+const ITEM_IMG_ROUTE = '/img/item/'
+const ITEM_ASSETS = import.meta.env.VITE_ITEM_ASSETS_URL?.replace(/\/?$/, '/')
+
+export function itemImageUrl(url: string | null): string | null {
+  if (!url || !ITEM_ASSETS || !url.startsWith(ITEM_IMG_ROUTE)) return url
+  return ITEM_ASSETS + url.slice(ITEM_IMG_ROUTE.length)
+}
+
+/** An icon missing from the bucket (item added after the last upload-items
+ * sync) retries once through the Worker route, which falls back to the
+ * upstream CDN. Error events don't bubble, hence the capture listener. */
+export function installItemImageFallback() {
+  if (!ITEM_ASSETS) return
+  document.addEventListener('error', event => {
+    const img = event.target
+    if (!(img instanceof HTMLImageElement) || img.dataset.itemFallback || !img.src.startsWith(ITEM_ASSETS)) return
+    img.dataset.itemFallback = '1'
+    img.src = ITEM_IMG_ROUTE + img.src.slice(ITEM_ASSETS.length)
+  }, true)
+}
+
+const withItemImages = new WeakMap<AppItem[], AppItem[]>()
+
 export async function loadEquipment(lang: string, bust: string): Promise<AppItem[]> {
-  return fetchJson<AppItem[]>(`data/${lang}/equipment.json`, bust)
+  const raw = await fetchJson<AppItem[]>(`data/${lang}/equipment.json`, bust)
+  if (!ITEM_ASSETS) return raw
+  let mapped = withItemImages.get(raw)
+  if (!mapped) {
+    mapped = raw.map(item => ({ ...item, image_url: itemImageUrl(item.image_url) }))
+    withItemImages.set(raw, mapped)
+  }
+  return mapped
 }
 
 export async function loadSets(lang: string, bust: string): Promise<AppSet[]> {

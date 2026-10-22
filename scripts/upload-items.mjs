@@ -38,7 +38,7 @@ const files = walk(ROOT)
 function upload({ path, key }) {
   const file = relative(process.cwd(), path).split(sep).join('/')
   return new Promise(done => {
-    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', file, '--content-type', 'image/png', '--remote'],
+    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', file, '--content-type', 'image/png', '--cache-control', 'public,max-age=604800,immutable', '--remote'],
       { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
     child.on('close', code => done(code === 0))
   })
