@@ -96,11 +96,17 @@ export function BuildCard({ build }: { build: BuildRow }) {
 
         <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
 
-        <div className="flex items-center gap-3 text-[11px] mt-auto pt-1" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
-          <span className="flex items-center gap-1"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
-          <span className="flex items-center gap-1"><Heart size={11} />{build.like_count}</span>
-          <span className="flex items-center gap-1"><Eye size={11} />{build.view_count}</span>
-          <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
+        {/* flex-wrap, not a forced single line: a long localized date (e.g.
+            Spanish "30 sept 2026" is wider than "3 oct 2026" since month
+            abbreviations vary in length) combined with wide stat counts could
+            push the date past the card's edge with nothing to clip or wrap
+            it, silently cutting off the year instead of just moving to its
+            own line. */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] mt-auto pt-1" style={{ color: 'var(--ink-faint)', borderTop: '1px solid var(--metal-edge)' }}>
+          <span className="flex items-center gap-1 flex-shrink-0"><Star size={11} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)}</span>
+          <span className="flex items-center gap-1 flex-shrink-0"><Heart size={11} />{build.like_count}</span>
+          <span className="flex items-center gap-1 flex-shrink-0"><Eye size={11} />{build.view_count}</span>
+          <span className="flex items-center gap-1 flex-shrink-0"><MessageSquare size={11} />{build.comment_count}</span>
           <span className="ml-auto flex-shrink-0">{createdLabel}</span>
         </div>
       </Link>
