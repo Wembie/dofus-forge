@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshCw, X } from 'lucide-react'
 
@@ -6,6 +6,8 @@ import { RefreshCw, X } from 'lucide-react'
 // whenever the tab becomes visible again — that's the case that actually
 // matters: a build-detail tab left open across a deploy, then revisited.
 const POLL_MS = 10 * 60 * 1000
+// Quick tab switches fired one check each; a deploy is never that fresh.
+const MIN_GAP_MS = 60 * 1000
 
 /**
  * Detects a newer deploy and prompts the user to refresh, instead of
@@ -27,13 +29,21 @@ export function UpdateBanner() {
   const { t } = useTranslation()
   const [newVersion, setNewVersion] = useState<string | null>(null)
   const [dismissed, setDismissed] = useState(false)
+  const lastCheck = useRef(0)
+  const found = useRef(false)
 
   const check = useCallback(async () => {
+    if (found.current || document.visibilityState !== 'visible') return
+    if (Date.now() - lastCheck.current < MIN_GAP_MS) return
+    lastCheck.current = Date.now()
     try {
       const res = await fetch(`${import.meta.env.BASE_URL}version.json?t=${Date.now()}`, { cache: 'no-store' })
       if (!res.ok) return
       const data = await res.json() as { version?: string }
-      if (data.version && data.version !== __APP_VERSION__) setNewVersion(data.version)
+      if (data.version && data.version !== __APP_VERSION__) {
+        found.current = true
+        setNewVersion(data.version)
+      }
     } catch {
       // Offline, or GitHub Pages hiccup — not worth surfacing, just skip this check.
     }
@@ -42,11 +52,10 @@ export function UpdateBanner() {
   useEffect(() => {
     check()
     const interval = setInterval(check, POLL_MS)
-    const onVisible = () => { if (document.visibilityState === 'visible') check() }
-    document.addEventListener('visibilitychange', onVisible)
+    document.addEventListener('visibilitychange', check)
     return () => {
       clearInterval(interval)
-      document.removeEventListener('visibilitychange', onVisible)
+      document.removeEventListener('visibilitychange', check)
     }
   }, [check])
 
