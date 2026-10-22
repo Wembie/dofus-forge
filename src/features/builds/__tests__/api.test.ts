@@ -201,16 +201,25 @@ describe('submitReport', () => {
 })
 
 describe('subscribeToNotifications', () => {
-  it('listens to INSERTs on the own notifications of the user and unsubscribes cleanly', async () => {
+  it('joins the private broadcast topic of the user, reports liveness and unsubscribes cleanly', async () => {
     const onInsert = vi.fn()
-    const stop = subscribeToNotifications('u1', onInsert)
+    const onLive = vi.fn()
+    const stop = subscribeToNotifications('u1', onInsert, onLive)
     await vi.waitFor(() => expect(mock.channel.subscribe).toHaveBeenCalled())
+    expect(mock.client.realtime.setAuth).toHaveBeenCalled()
+    expect(mock.client.channel).toHaveBeenCalledWith('notifications:u1', { config: { private: true } })
     const [event, filter, handler] = mock.channel.on.mock.calls[0] as unknown as [string, Record<string, string>, () => void]
-    expect(event).toBe('postgres_changes')
-    expect(filter).toEqual({ event: 'INSERT', schema: 'public', table: 'notifications', filter: 'user_id=eq.u1' })
+    expect(event).toBe('broadcast')
+    expect(filter).toEqual({ event: 'notification' })
     handler()
     expect(onInsert).toHaveBeenCalledTimes(1)
+    const onStatus = (mock.channel.subscribe.mock.calls[0] as unknown as [(s: string) => void])[0]
+    onStatus('SUBSCRIBED')
+    onStatus('CHANNEL_ERROR')
+    expect(onLive.mock.calls).toEqual([[true], [false]])
     stop()
+    onStatus('CLOSED')
+    expect(onLive).toHaveBeenCalledTimes(2)
     expect(mock.client.removeChannel).toHaveBeenCalledTimes(1)
   })
 

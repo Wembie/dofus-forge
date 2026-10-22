@@ -9,10 +9,16 @@ import {
   type NotificationRow, type NotificationType,
 } from '@/features/builds/api.ts'
 
-// New notifications arrive live (Supabase Realtime). Polling stays as a
-// slower fallback for when the live connection drops, plus a refresh when
-// the user comes back to the tab.
+// New notifications arrive live over a private Realtime channel, joined only
+// while the tab is visible (with a grace period so quick tab switches don't
+// churn joins): background tabs hold no connection against the plan's
+// concurrent-connection cap. Every (re)join refetches the count, covering
+// whatever arrived while disconnected. Polling only runs while the channel
+// isn't joined, and its first fetch waits briefly so a successful join
+// doesn't duplicate it.
 const POLL_MS = 120_000
+const HIDDEN_GRACE_MS = 60_000
+const JOIN_GRACE_MS = 3_000
 
 const TYPE_ICON: Record<NotificationType, typeof Heart> = {
   build_liked: Heart, build_commented: MessageSquare, build_rated: Star, build_forked: GitFork,
@@ -35,6 +41,8 @@ export function NotificationBell() {
   const [unread, setUnread] = useState(0)
   const [open, setOpen]     = useState(false)
   const [items, setItems]   = useState<NotificationRow[] | null>(null)
+  const [active, setActive] = useState(() => document.visibilityState === 'visible')
+  const [live, setLive]     = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 
   const refreshCount = useCallback(() => {
@@ -46,20 +54,38 @@ export function NotificationBell() {
   openRef.current = open
 
   useEffect(() => {
-    if (!userId) return
-    return subscribeToNotifications(userId, () => {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const onVisibility = () => {
+      clearTimeout(timer)
+      if (document.visibilityState === 'visible') setActive(true)
+      else timer = setTimeout(() => setActive(false), HIDDEN_GRACE_MS)
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => { clearTimeout(timer); document.removeEventListener('visibilitychange', onVisibility) }
+  }, [])
+
+  useEffect(() => {
+    if (!userId || !active) return
+    const stop = subscribeToNotifications(userId, () => {
       setUnread(c => c + 1)
       if (openRef.current) fetchNotifications(userId).then(setItems)
+    }, isLive => {
+      setLive(isLive)
+      if (isLive) refreshCount()
     })
+    return () => { stop(); setLive(false) }
+  }, [userId, active, refreshCount])
+
+  useEffect(() => {
+    if (!userId) { setUnread(0); setItems(null) }
   }, [userId])
 
   useEffect(() => {
-    if (!userId) { setUnread(0); setItems(null); return }
-    refreshCount()
+    if (!userId || live) return
+    const first = setTimeout(refreshCount, JOIN_GRACE_MS)
     const id = setInterval(refreshCount, POLL_MS)
-    document.addEventListener('visibilitychange', refreshCount)
-    return () => { clearInterval(id); document.removeEventListener('visibilitychange', refreshCount) }
-  }, [userId, refreshCount])
+    return () => { clearTimeout(first); clearInterval(id) }
+  }, [userId, live, active, refreshCount])
 
   useEffect(() => {
     if (!open) return

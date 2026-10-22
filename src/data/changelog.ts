@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.123',
+    date: '2026-10-22',
+    notes: [
+      'Perf: live notifications moved from Postgres Changes to a private Realtime Broadcast channel. The old mechanism kept the database polling for changes around the clock (~68% of all database time); now it costs nothing while idle. The bell only holds a live connection while the tab is visible, stops polling while connected, and refetches the unread count on every reconnect so nothing is missed',
+    ],
+  },
+  {
     version: '0.3.122',
     date: '2026-10-22',
     notes: [

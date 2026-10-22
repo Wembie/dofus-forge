@@ -1370,20 +1370,46 @@ end; $$;
 drop trigger if exists notify_on_follow on follows;
 create trigger notify_on_follow after insert on follows for each row execute procedure notify_follow();
 
--- ── Notificaciones en vivo (0.3.112) ─────────────────────────────────
--- 0.3.112 — deliver notifications live: publish the notifications table to
--- Supabase Realtime. The bell subscribes to INSERTs filtered by user_id;
--- Realtime still applies the table's RLS ("notif own"), so each user only
--- receives their own rows. Idempotent.
-do $$
+-- ── Notificaciones en vivo (0.3.123, antes Postgres Changes en 0.3.112) ──
+-- 0.3.123 — live notifications via Realtime Broadcast instead of Postgres
+-- Changes. Postgres Changes makes Realtime poll realtime.list_changes() in
+-- a loop (~68% of all DB time on the free instance); Broadcast from Database
+-- is fed by streaming logical replication of realtime.messages, so idle
+-- costs nothing. Each user listens on the private topic
+-- 'notifications:<uid>'; the RLS policy below is checked once per channel
+-- join (cached for the connection), never per message. No insert policy:
+-- clients can't send on these topics. Idempotent.
+
+create or replace function public.broadcast_notification() returns trigger
+language plpgsql security definer set search_path = '' as $$
 begin
-  if not exists (
-    select 1 from pg_publication_tables
-    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'notifications'
-  ) then
-    alter publication supabase_realtime add table public.notifications;
-  end if;
-end $$;
+  begin
+    perform realtime.send(
+      jsonb_build_object('id', NEW.id),
+      'notification',
+      'notifications:' || NEW.user_id::text,
+      true
+    );
+  exception when others then
+    -- Live delivery is best-effort; the bell refetches on reconnect/focus.
+    null;
+  end;
+  return null;
+end; $$;
+revoke all on function public.broadcast_notification() from public, anon, authenticated;
+
+drop trigger if exists broadcast_on_notification on public.notifications;
+create trigger broadcast_on_notification
+  after insert on public.notifications
+  for each row execute procedure public.broadcast_notification();
+
+drop policy if exists "notif own topic" on realtime.messages;
+create policy "notif own topic" on realtime.messages
+  for select to authenticated
+  using (
+    realtime.messages.extension = 'broadcast'
+    and (select realtime.topic()) = 'notifications:' || (select auth.uid())::text
+  );
 
 -- ── Integridad y permisos (0.3.113) ───────────────────────────────────
 

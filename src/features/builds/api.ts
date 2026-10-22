@@ -433,21 +433,25 @@ export const fetchNotifications = guard(async function fetchNotifications(userId
 }, () => [] as NotificationRow[])
 
 /**
- * Live feed of the user's new notifications (Supabase Realtime, filtered to
- * their own rows and still gated by the notifications RLS). Returns an
- * unsubscribe function; if realtime can't connect, polling still covers it.
+ * Live feed of the user's new notifications: a private Realtime Broadcast
+ * topic fed by a trigger on `notifications` (RLS on realtime.messages only
+ * lets the owner join it). Broadcast rather than Postgres Changes because
+ * the latter keeps Realtime polling the database even when nothing happens.
+ * `onLive` reports whether the channel is currently joined, so the caller
+ * can poll only while it isn't. Returns an unsubscribe function.
  */
-export function subscribeToNotifications(userId: string, onInsert: () => void): () => void {
+export function subscribeToNotifications(userId: string, onInsert: () => void, onLive: (live: boolean) => void = () => {}): () => void {
   let stopped = false
   let cleanup = () => {}
-  getSupabase().then(supabase => {
+  getSupabase().then(async supabase => {
+    await supabase.realtime.setAuth()
     if (stopped) return
     const channel = supabase
-      .channel(`notifications:${userId}`)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${userId}` }, onInsert)
-      .subscribe()
+      .channel(`notifications:${userId}`, { config: { private: true } })
+      .on('broadcast', { event: 'notification' }, onInsert)
+      .subscribe(status => { if (!stopped) onLive(status === 'SUBSCRIBED') })
     cleanup = () => { void supabase.removeChannel(channel) }
-  }).catch(() => { /* polling fallback */ })
+  }).catch(() => { if (!stopped) onLive(false) })
   return () => { stopped = true; cleanup() }
 }
 
