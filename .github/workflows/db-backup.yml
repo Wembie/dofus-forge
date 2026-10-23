@@ -46,6 +46,9 @@ jobs:
         if: steps.config.outputs.ready == 'true'
         run: |
           set -euo pipefail
+          # A secret pasted with a trailing newline made psql look for the
+          # database "postgres\n"; a connection URI never contains whitespace.
+          DB_URL="$(printf '%s' "$DB_URL" | tr -d '[:space:]')"
           sudo apt-get update -qq
           sudo apt-get install -y -qq postgresql-common > /dev/null
           sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y > /dev/null
@@ -59,6 +62,9 @@ jobs:
         if: steps.config.outputs.ready == 'true'
         run: |
           set -euo pipefail
+          # A secret pasted with a trailing newline made psql look for the
+          # database "postgres\n"; a connection URI never contains whitespace.
+          DB_URL="$(printf '%s' "$DB_URL" | tr -d '[:space:]')"
           STAMP=$(date -u +%Y-%m-%dT%H%MZ)
           echo "FILE=db-$STAMP.dump" >> "$GITHUB_ENV"
           # public = app data, auth = accounts (needed to restore logins),
