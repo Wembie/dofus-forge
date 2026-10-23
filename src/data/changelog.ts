@@ -21,6 +21,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Perf: views are counted once per visitor per hour also for visitors who are not signed in (refreshing the page no longer adds a view), and old view records are cleaned up automatically. Explore community stats are refreshed every 5 minutes instead of being recomputed on every visit',
       'Perf: shared build links fetch only what their preview needs and are cached at the edge for a minute',
       'Perf: the check for a new site version runs at most once a minute (switching tabs quickly fired one request each), never while the tab is hidden, and stops once an update is found',
+      'Perf: item icons and the animated character can load straight from the Cloudflare cache (assets.dofusforge.com) instead of going through the site server for every file, so the first visit loads them faster',
       'Privacy policy: explains how views are counted without counting the same visitor twice (an irreversible hash of IP and browser, never the IP itself, deleted after an hour)',
     ],
   },

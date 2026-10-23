@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './i18n/index.ts'
 import './index.css'
 import { initTheme } from './ui/ThemeToggle.tsx'
+import { installItemImageFallback } from './data/loaders.ts'
 
 const preloadRecoveryKey = 'vite-preload-recovery'
 
@@ -20,6 +21,7 @@ window.addEventListener('load', () => {
 }, { once: true })
 
 initTheme()
+installItemImageFallback()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

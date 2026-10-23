@@ -1,9 +1,9 @@
 /**
- * Upload extracted item icon assets (item-assets/) to the R2 bucket the
- * worker serves under /img/item/*.
+ * Upload extracted item icon assets (item-assets/) to items/ in the assets
+ * R2 bucket (public at VITE_ASSETS_URL; the worker serves /img/item/*).
  *
  * Usage: pnpm upload-items [--only 6007-128.png,44-128.png] [--since-minutes 90]
- * Requires `wrangler login` and the ITEM_ASSETS bucket from wrangler.jsonc.
+ * Requires `wrangler login` and the ASSETS_BUCKET bucket from wrangler.jsonc.
  */
 
 import { readdirSync, statSync, readFileSync } from 'node:fs'
@@ -12,10 +12,8 @@ import { spawn } from 'node:child_process'
 
 const ROOT = join(process.cwd(), 'item-assets')
 const config = readFileSync(join(process.cwd(), 'wrangler.jsonc'), 'utf8')
-const bucketBlock = config.match(/\{\s*"binding"\s*:\s*"ITEM_ASSETS"[^}]*\}/)?.[0]
-  ?? config.match(/\{[^{}]*"bucket_name"\s*:\s*"[^"]+"[^{}]*"binding"\s*:\s*"ITEM_ASSETS"[^}]*\}/)?.[0]
-const BUCKET = bucketBlock?.match(/"bucket_name"\s*:\s*"([^"]+)"/)?.[1]
-if (!BUCKET) throw new Error('no ITEM_ASSETS r2 bucket in wrangler.jsonc')
+const BUCKET = config.match(/\{\s*"binding"\s*:\s*"ASSETS_BUCKET"\s*,\s*"bucket_name"\s*:\s*"([^"]+)"/)?.[1]
+if (!BUCKET) throw new Error('no ASSETS_BUCKET r2 bucket in wrangler.jsonc')
 
 function walk(dir) {
   return readdirSync(dir).flatMap(name => {
@@ -38,7 +36,7 @@ const files = walk(ROOT)
 function upload({ path, key }) {
   const file = relative(process.cwd(), path).split(sep).join('/')
   return new Promise(done => {
-    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', file, '--content-type', 'image/png', '--remote'],
+    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/items/${key}`, '--file', file, '--content-type', 'image/png', '--cache-control', 'public,max-age=604800,immutable', '--remote'],
       { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
     child.on('close', code => done(code === 0))
   })
