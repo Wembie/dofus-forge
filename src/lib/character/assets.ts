@@ -1,7 +1,7 @@
 import { decodeAnimation, type Animation } from './anim'
 import { decodeSkin, type Skin } from './skin'
 
-const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.replace(/\/?$/, '/')
+const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.trim().replace(/\/?$/, '/').replace(/^\/$/, '') || undefined
 const ROOT: string = ASSETS_URL ? `${ASSETS_URL}chars/` : `${import.meta.env.BASE_URL}char/`
 
 export interface BoneDef {

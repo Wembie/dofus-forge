@@ -69,7 +69,7 @@ export async function loadIndex(lang: string, bust: string): Promise<IndexItem[]
 // VITE_ASSETS_URL set they load from the bucket's public domain, served
 // from Cloudflare's cache without running the Worker.
 const ITEM_IMG_ROUTE = '/img/item/'
-const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.replace(/\/?$/, '/')
+const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.trim().replace(/\/?$/, '/').replace(/^\/$/, '') || undefined
 const ITEM_ASSETS = ASSETS_URL && `${ASSETS_URL}items/`
 
 export function itemImageUrl(url: string | null): string | null {

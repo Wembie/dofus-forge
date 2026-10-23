@@ -66,6 +66,7 @@ export async function buildOgImageData(
   sets: WorkerAppSet[],
   classLabel: string,
   labels: Record<string, string>,  // translation.json's slot_<slot> and char_<characteristic> keys
+  itemBucket?: R2Bucket,
 ) {
   const { stats, equippedItems } = computeBuildStats(build, equipment, sets)
   const { equipped } = decodeSnapshot(build)
@@ -79,7 +80,7 @@ export async function buildOgImageData(
         return {
           label: labels[`slot_${slot}`] ?? slot,
           name: item?.name ?? '?',
-          iconUri: item?.image_url ? await toDataUri(assets, origin, item.image_url) : undefined,
+          iconUri: item?.image_url ? await toDataUri(assets, origin, item.image_url, itemBucket) : undefined,
         }
       }),
   )

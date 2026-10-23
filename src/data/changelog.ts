@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.124',
+    date: '2026-10-22',
+    notes: [
+      'Fix: the preview image shown when sharing a build link (Discord, WhatsApp, X...) failed to generate and showed nothing. It works again, with every equipped item icon',
+    ],
+  },
+  {
     version: '0.3.123',
     date: '2026-10-22',
     notes: [
