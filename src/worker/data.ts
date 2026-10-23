@@ -56,14 +56,31 @@ const iconCache = new Map<string, string>()
  * and resvg (our SVG→PNG renderer) can't decode WebP, so stat icons must be
  * requested as .png explicitly (equipment icons from dofusdu.de are already
  * PNG). */
-export async function toDataUri(assets: Fetcher, origin: string, url: string): Promise<string | undefined> {
+const ITEM_IMG_ROUTE = '/img/item/'
+
+export async function toDataUri(assets: Fetcher, origin: string, url: string, bucket?: R2Bucket): Promise<string | undefined> {
   const cached = iconCache.get(url)
   if (cached) return cached
   try {
-    const res = url.startsWith('/') ? await assets.fetch(new Request(`${origin}${url}`)) : await fetch(url)
-    if (!res.ok) return undefined
-    const contentType = res.headers.get('content-type') ?? 'image/png'
-    const buf = await res.arrayBuffer()
+    let contentType: string
+    let buf: ArrayBuffer
+    if (bucket && url.startsWith(ITEM_IMG_ROUTE)) {
+      // Item icons aren't static assets: the ASSETS binding answers them with
+      // the SPA's index.html, which satori then fails to decode ("is not
+      // iterable") and the whole preview image 500s. Read the bucket instead.
+      const object = await bucket.get(`items/${url.slice(ITEM_IMG_ROUTE.length)}`)
+      if (!object) return undefined
+      contentType = 'image/png'
+      buf = await object.arrayBuffer()
+    } else {
+      const res = url.startsWith('/') ? await assets.fetch(new Request(`${origin}${url}`)) : await fetch(url)
+      if (!res.ok) return undefined
+      contentType = res.headers.get('content-type') ?? 'image/png'
+      // Anything that isn't an image (an SPA fallback page, an error body)
+      // would break the render; better a missing icon than no preview.
+      if (!contentType.startsWith('image/')) return undefined
+      buf = await res.arrayBuffer()
+    }
     const base64 = btoa(String.fromCharCode(...new Uint8Array(buf)))
     const uri = `data:${contentType};base64,${base64}`
     iconCache.set(url, uri)

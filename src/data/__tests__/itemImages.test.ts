@@ -4,7 +4,8 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.resetModules() })
 
 async function loaders(itemAssets?: string) {
-  if (itemAssets) vi.stubEnv('VITE_ASSETS_URL', itemAssets)
+  // Always stubbed: a developer's .env may set it.
+  vi.stubEnv('VITE_ASSETS_URL', itemAssets ?? '')
   return import('../loaders.ts')
 }
 

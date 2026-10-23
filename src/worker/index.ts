@@ -66,7 +66,7 @@ async function renderOgImage(env: Env, origin: string, lang: Lang, id: string): 
 
   const classLabel = classNames[build.class_slug]?.[lang] ?? build.class_slug
 
-  const data = await buildOgImageData(env.ASSETS, origin, build, equipment, sets, classLabel, translation)
+  const data = await buildOgImageData(env.ASSETS, origin, build, equipment, sets, classLabel, translation, env.ASSETS_BUCKET)
   const portraitPath = `/data/classes/${build.class_slug}${build.gender === 'female' ? '-f' : ''}.png`
   const portraitUri = await toDataUri(env.ASSETS, origin, portraitPath)
 
