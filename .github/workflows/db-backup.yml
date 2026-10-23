@@ -80,26 +80,27 @@ jobs:
         with:
           node-version: 22
 
-      # wrangler talks to the Cloudflare API, which needs an API token with the
-      # account permission "Workers R2 Storage: Edit". A token made under
-      # R2 → Manage API tokens (Object Read & Write) is an S3 credential and
-      # gets 401 there; say which case it is instead of a bare 401.
+      # Tells a wrong secret (an S3 Access Key / Secret pasted instead of the
+      # token value) from a token that is valid but lacks R2 access, instead of
+      # a bare 401 from wrangler. User tokens and account tokens are verified on
+      # different endpoints.
       - name: Check Cloudflare token
         if: steps.config.outputs.ready == 'true'
         run: |
-          VERIFY=$(curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/user/tokens/verify)
-          if ! echo "$VERIFY" | grep -q '"status":"active"'; then
-            echo "::error::CLOUDFLARE_API_TOKEN is not a valid, active Cloudflare API token (did the secret get an S3 Access Key / Secret instead of the token value?)"
+          auth=(-H "Authorization: Bearer $CLOUDFLARE_API_TOKEN")
+          if curl -sS "${auth[@]}" https://api.cloudflare.com/client/v4/user/tokens/verify | grep -q '"status":"active"'; then
+            echo "User API token: active"
+          elif curl -sS "${auth[@]}" "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/tokens/verify" | grep -q '"status":"active"'; then
+            echo "Account API token: active"
+          else
+            echo "::error::CLOUDFLARE_API_TOKEN is not an active API token of account CLOUDFLARE_ACCOUNT_ID. Paste the token value (not the S3 Access Key ID / Secret Access Key) and check CLOUDFLARE_ACCOUNT_ID."
             exit 1
           fi
-          CODE=$(curl -sS -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/r2/buckets/$BUCKET")
-          if [ "$CODE" != "200" ]; then
-            echo "::error::The token is valid but can't use R2 on account CLOUDFLARE_ACCOUNT_ID (HTTP $CODE). It needs the account permission 'Workers R2 Storage: Edit' (My Profile → API Tokens → Custom token), and CLOUDFLARE_ACCOUNT_ID must be the account that owns $BUCKET."
-            exit 1
-          fi
-          echo "Token OK for $BUCKET"
 
       - name: Upload to R2
         if: steps.config.outputs.ready == 'true'
-        run: npx --yes wrangler@4 r2 object put "$BUCKET/db/$FILE" --file "$FILE" --content-type application/octet-stream --remote
+        run: |
+          if ! npx --yes wrangler@4 r2 object put "$BUCKET/db/$FILE" --file "$FILE" --content-type application/octet-stream --remote; then
+            echo "::error::Upload refused. The token needs write access to $BUCKET: an R2 token with Object Read & Write on it (or on all buckets), or an API token with 'Workers R2 Storage: Edit'."
+            exit 1
+          fi
