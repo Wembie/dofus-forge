@@ -66,10 +66,11 @@ export async function loadIndex(lang: string, bust: string): Promise<IndexItem[]
 
 // Item icons are R2 objects. Through the Worker's /img/item/ route every
 // icon is a Worker invocation (an Explore page alone draws hundreds); with
-// VITE_ITEM_ASSETS_URL set they load from the bucket's public domain, served
+// VITE_ASSETS_URL set they load from the bucket's public domain, served
 // from Cloudflare's cache without running the Worker.
 const ITEM_IMG_ROUTE = '/img/item/'
-const ITEM_ASSETS = import.meta.env.VITE_ITEM_ASSETS_URL?.replace(/\/?$/, '/')
+const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.replace(/\/?$/, '/')
+const ITEM_ASSETS = ASSETS_URL && `${ASSETS_URL}items/`
 
 export function itemImageUrl(url: string | null): string | null {
   if (!url || !ITEM_ASSETS || !url.startsWith(ITEM_IMG_ROUTE)) return url

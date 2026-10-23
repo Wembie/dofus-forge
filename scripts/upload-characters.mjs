@@ -1,9 +1,9 @@
 /**
- * Upload extracted character assets (char-assets/) to the R2 bucket the
- * worker serves under /char/*.
+ * Upload extracted character assets (char-assets/) to chars/ in the assets
+ * R2 bucket (public at VITE_ASSETS_URL; the worker serves /char/*).
  *
  * Usage: pnpm upload-characters [--only skins/10.bin,looks.json] [--since-minutes 90]
- * Requires `wrangler login` and the bucket from wrangler.jsonc.
+ * Requires `wrangler login` and the ASSETS_BUCKET bucket from wrangler.jsonc.
  */
 
 import { readdirSync, statSync, readFileSync } from 'node:fs'
@@ -12,8 +12,8 @@ import { spawn } from 'node:child_process'
 
 const ROOT = join(process.cwd(), 'char-assets')
 const config = readFileSync(join(process.cwd(), 'wrangler.jsonc'), 'utf8')
-const BUCKET = config.match(/"bucket_name"\s*:\s*"([^"]+)"/)?.[1]
-if (!BUCKET) throw new Error('no r2 bucket in wrangler.jsonc')
+const BUCKET = config.match(/\{\s*"binding"\s*:\s*"ASSETS_BUCKET"\s*,\s*"bucket_name"\s*:\s*"([^"]+)"/)?.[1]
+if (!BUCKET) throw new Error('no ASSETS_BUCKET r2 bucket in wrangler.jsonc')
 
 const TYPES = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
 
@@ -40,7 +40,7 @@ function upload({ path, key }) {
   const type = TYPES[key.split('.').pop()] ?? 'application/octet-stream'
   const file = relative(process.cwd(), path).split(sep).join('/')
   return new Promise(done => {
-    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--file', file, '--content-type', type, '--cache-control', 'public,max-age=86400,stale-while-revalidate=604800', '--remote'],
+    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/chars/${key}`, '--file', file, '--content-type', type, '--cache-control', 'public,max-age=86400,stale-while-revalidate=604800', '--remote'],
       { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
     child.on('close', code => done(code === 0))
   })

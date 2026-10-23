@@ -11,8 +11,8 @@ type Env = {
   ASSETS: Fetcher
   SUPABASE_URL: string
   SUPABASE_ANON_KEY: string
-  CHAR_ASSETS?: R2Bucket
-  ITEM_ASSETS?: R2Bucket
+  // items/<id>-128.png and chars/<path>, also public at VITE_ASSETS_URL.
+  ASSETS_BUCKET?: R2Bucket
 }
 
 const LANGS: Lang[] = ['en', 'es', 'fr', 'pt']
@@ -126,7 +126,7 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
 // in the static bundle: they are tens of megabytes and change only with game
 // updates.
 async function serveCharacterAsset(env: Env, key: string): Promise<Response> {
-  const object = await env.CHAR_ASSETS?.get(key)
+  const object = await env.ASSETS_BUCKET?.get(`chars/${key}`)
   if (!object) return new Response('Not found', { status: 404 })
   return new Response(object.body, {
     headers: {
@@ -141,8 +141,8 @@ async function serveCharacterAsset(env: Env, key: string): Promise<Response> {
 // so the catalog doesn't depend on that third party's live uptime. A miss
 // (item added since the last manual sync) falls back to their live CDN so
 // the image still shows up instead of breaking.
-async function serveItemAsset(key: string, itemAssets: R2Bucket | undefined): Promise<Response> {
-  const object = await itemAssets?.get(key)
+async function serveItemAsset(key: string, bucket: R2Bucket | undefined): Promise<Response> {
+  const object = await bucket?.get(`items/${key}`)
   if (object) {
     return new Response(object.body, {
       headers: {
@@ -187,7 +187,7 @@ export default {
     if (charMatch) return withSecurityHeaders(await serveCharacterAsset(env, charMatch[1]))
 
     const itemMatch = url.pathname.match(ITEM_IMAGE_ROUTE)
-    if (itemMatch) return withSecurityHeaders(await serveItemAsset(itemMatch[1], env.ITEM_ASSETS))
+    if (itemMatch) return withSecurityHeaders(await serveItemAsset(itemMatch[1], env.ASSETS_BUCKET))
 
     const ogMatch = url.pathname.match(OG_IMAGE_ROUTE)
     if (ogMatch) {

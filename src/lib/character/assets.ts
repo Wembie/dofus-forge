@@ -1,7 +1,8 @@
 import { decodeAnimation, type Animation } from './anim'
 import { decodeSkin, type Skin } from './skin'
 
-const ROOT: string = import.meta.env.VITE_CHAR_ASSETS_URL?.replace(/\/?$/, '/') ?? `${import.meta.env.BASE_URL}char/`
+const ASSETS_URL = import.meta.env.VITE_ASSETS_URL?.replace(/\/?$/, '/')
+const ROOT: string = ASSETS_URL ? `${ASSETS_URL}chars/` : `${import.meta.env.BASE_URL}char/`
 
 export interface BoneDef {
   fps: number
