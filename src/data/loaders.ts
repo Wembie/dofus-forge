@@ -47,6 +47,7 @@ export type AppItem = {
   min_range?:   number
   max_range?:   number
   max_per_turn?: number
+  legendary?:  boolean
 }
 
 export type AppSet = {

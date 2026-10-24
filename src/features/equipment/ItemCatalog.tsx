@@ -14,14 +14,14 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch } from '@/ui'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { playEquip } from '@/lib/sound.ts'
-import { Check } from 'lucide-react'
+import { Check, Crown } from 'lucide-react'
 
 function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
   const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
   return slots.includes(it.slot) && (!slot.apiTypes || slot.apiTypes.includes(it.type))
 }
 
-type SlotIndex = { setIds: number[]; statKeys: string[]; types: string[] }
+type SlotIndex = { setIds: number[]; statKeys: string[]; types: string[]; hasLegendary: boolean }
 
 // Keyed by the `equipment` array reference (a fresh one per loaded language,
 // stable otherwise) so re-opening the catalog for a slot you already browsed
@@ -40,17 +40,19 @@ function getSlotIndex(equipment: AppItem[], slot: SlotConfig, slotId: SlotId): S
   const types   = new Set<string>()
   const seenTKeys = new Set<string>()
   const statKeys: string[] = []
+  let hasLegendary = false
   for (const it of equipment) {
     if (!matchesSlot(it, slot)) continue
     if (it.set_id != null) setIds.add(it.set_id)
     types.add(it.type)
+    if (it.legendary) hasLegendary = true
     for (const e of it.effects) {
       if (isIgnored(e.stat) || isAttackEffect(e)) continue
       const tKey = STAT_META[e.stat]?.tKey ?? e.stat
       if (!seenTKeys.has(tKey)) { seenTKeys.add(tKey); statKeys.push(e.stat) }
     }
   }
-  const index: SlotIndex = { setIds: [...setIds], statKeys, types: [...types] }
+  const index: SlotIndex = { setIds: [...setIds], statKeys, types: [...types], hasLegendary }
   perEquipment.set(slotId, index)
   return index
 }
@@ -412,7 +414,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   }, [setsData])
 
   const slotIndex = useMemo(
-    () => equipment ? getSlotIndex(equipment, slot, slotId) : { setIds: [], statKeys: [], types: [] },
+    () => equipment ? getSlotIndex(equipment, slot, slotId) : { setIds: [], statKeys: [], types: [], hasLegendary: false },
     [equipment, slot, slotId],
   )
 
@@ -442,6 +444,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
   const [statFilter, setStatFilter] = useState<string[]>([])
   const [favsOnly,   setFavsOnly]   = useState(false)
+  const [legendaryOnly, setLegendaryOnly] = useState(false)
   const [typeFilter, setTypeFilter] = useState<string | null>(null)
   const [setModal,   setSetModal]   = useState<AppSet | null>(null)
 
@@ -468,13 +471,14 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       (setFilter  == null || it.set_id === setFilter.ankama_id) &&
       matchesStatFilter(it, statFilter) &&
       (!favsOnly  || isFav(it.ankama_id)) &&
+      (!legendaryOnly || it.legendary === true) &&
       (nameSearch === '' || normalizeSearch(it.name).includes(nameSearch)) &&
       (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
     )
     if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
     if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
     return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot, minLevel, maxLevel, search, sort, setFilter, statFilter, favsOnly, isFav, typeFilter, hasTypeFilter])
+  }, [equipment, slot, minLevel, maxLevel, search, sort, setFilter, statFilter, favsOnly, legendaryOnly, isFav, typeFilter, hasTypeFilter])
 
   // Infinite scroll: a slot can have 700+ matching items (e.g. weapon), and
   // mounting every card at once on open was the actual freeze on low-end
@@ -497,7 +501,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     bumpingRef.current = false
     setLoadingMore(false)
     setVisibleCount(PAGE_SIZE)
-  }, [search, minLevel, maxLevel, sort, setFilter, statFilter, favsOnly, typeFilter])
+  }, [search, minLevel, maxLevel, sort, setFilter, statFilter, favsOnly, legendaryOnly, typeFilter])
 
   useEffect(() => () => clearTimeout(bumpTimer.current), [])
 
@@ -615,6 +619,19 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               >
                 ★{favCount > 0 && <span className="font-mono">{favCount}</span>}
               </button>
+              {slotIndex.hasLegendary && (
+                <button
+                  onClick={() => setLegendaryOnly(v => !v)}
+                  className={[
+                    'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
+                    legendaryOnly
+                      ? 'filter-btn-active'
+                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
+                  ].join(' ')}
+                >
+                  <Crown size={12} /> {t('catalog_legendary_only')}
+                </button>
+              )}
               {(Object.keys(SORT_LABELS) as SortKey[]).map(sk => (
                 <button
                   key={sk}

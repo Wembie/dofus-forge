@@ -246,4 +246,4 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 
 - [x] hacer una seccion de sets, es decir que aparezcan asi como los items... pero ya seria los sets completos me entiedes? con sus respectivos items del set, caracteristicas, bonus etc etc asi bien bonito
 
-- [] Cuando se busca una parte de set que haya un filtro que diga algo que legendarios y solo mostraria los legendarios
+- [x] Cuando se busca una parte de set que haya un filtro que diga algo que legendarios y solo mostraria los legendarios

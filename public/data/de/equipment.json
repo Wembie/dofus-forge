@@ -164283,7 +164283,8 @@
     "crit_bonus": 7,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20354,
@@ -164368,7 +164369,8 @@
     "crit_bonus": 6,
     "min_range": 1,
     "max_range": 1,
-    "max_per_turn": 2
+    "max_per_turn": 2,
+    "legendary": true
   },
   {
     "ankama_id": 20355,
@@ -164465,7 +164467,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20356,
@@ -164562,7 +164565,8 @@
     "crit_bonus": 15,
     "min_range": 2,
     "max_range": 7,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20357,
@@ -164635,7 +164639,8 @@
     "set_id": null,
     "image_url": "/img/item/82212-128.png",
     "description": "„Jeder Féca, der etwas auf sich hält, zieht mit einem Schild in die Schlacht. Aber der sicherste Schutz gegen gegnerische Angriffe, das beste Bollwerk gegen alle, die uns schaden oder uns vernichten wollen, ist die Einigkeit. Söldner! Die Zeit ist gekommen, unsere Querelen beiseitezulegen und uns unter einem gemeinsamen Banner zu versammeln. Astrub ist nur eine Handelsstadt. Sie wurde von einer Bande von Gaunern gegründet, die die Gaunerei an den Nagel gehängt haben. Astrub ist aber auch eine alte Stadt voller Kultur und Welterbe. Astrub ist eine Nation! Heute, werte Ratsmitglieder, werdet ihr einen neuen Anführer wählen. Ich habe mich selbst auf diesen Posten beworben. Werdet ihr mir euer Vertrauen schenken? Die Entscheidung liegt bei euch.“\n\n– Fallanster, oberstes Ratsmitglied von Astrub",
-    "ability": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem quadratischen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert (1-mal kumulierbar). Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird."
+    "ability": "Rechtschaffenheit von Fallanster:\n• Wenn der Träger seine Runde in Sichtlinie eines Gegners beendet, platziert er eine Aura-Glyphe in einem quadratischen Bereich der Größe 1, die den von Verbündeten erlittenen Schaden bis zu Beginn seiner nächsten Runde um 10 % verringert (1-mal kumulierbar). Die Glyphe verschwindet in der nächsten Runde oder wenn sie wegbewegt wird.",
+    "legendary": true
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164713,8 @@
     "set_id": null,
     "image_url": "/img/item/82211-128.png",
     "description": "„Der Tod ist ein notwendiges Übel, aber wenn er sich schon nicht abwenden lässt, ist es uns doch allen lieber, wenn er jemand anderen ereilt als uns, nicht wahr? Darum habe ich diesen Schild geschmiedet. Er ist unzerstörbar, unverwüstlich und zudem rostfrei. Er blockt alle Schläge ab, die euer Leben empfindlich verkürzen könnten. Trotz seiner imposanten Größe ist er leicht und überaus handlich. Außerdem wird sein makabres Aussehen all eure Gegner tief beeindrucken. Die größten Feiglinge unter ihnen werden das tiefe Schwarz seiner leeren Augenhöhlen nicht aushalten und kreischend davonlaufen. Muss ich noch mehr sagen, um euch zu überzeugen? Es folgt eine kleine Demonstration. Sergeant Racknacknock, Ihr seid dran.“\n\n– Ein Handwerker, der lieber anonym bleiben möchte",
-    "ability": "Todesverachter:\n• Wenn der Träger mehr als 50 % seiner Lebenspunkte hat, erhöht sich sein Endschaden um 7 %. Dafür verliert er zu Beginn jeder Runde 10 % seiner LP.\n• Wenn er weniger als 50 % seiner Lebenspunkte hat, verringert sich der Schaden, den er erleidet, um 20 %."
+    "ability": "Todesverachter:\n• Wenn der Träger mehr als 50 % seiner Lebenspunkte hat, erhöht sich sein Endschaden um 7 %. Dafür verliert er zu Beginn jeder Runde 10 % seiner LP.\n• Wenn er weniger als 50 % seiner Lebenspunkte hat, verringert sich der Schaden, den er erleidet, um 20 %.",
+    "legendary": true
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164817,8 @@
     "set_id": null,
     "image_url": "/img/item/16555-128.png",
     "description": "„Sie halten uns für klein und schwach. Sie machen sich über unsere Bräuche und uralten Traditionen lustig. Sie halten uns für stinkende, gierige und kulturlose Barbaren. Glauben sie denn wirklich, dass wir uns damit zufriedengeben, wie Sidoas im Dunkel unserer Minen herumzubuddeln? Die werden wir schon von ihrem hohen Ross herunterholen! Ich werde ihnen zeigen, aus welchem Holz die Nimbos geschnitzt sind. Ich werde ihre Höfe und Ernten verbrennen. Ich werde ihre Haare, ihre Wimpern und ihre Städte versengen. Ich werde ihre Fresssäcke scheren. Ich werde ihr Gold rauben, ihre Fässer leeren und ihre Banner zerfetzen. Ich bin der König unter dem Berg ... und schon bald werde ich der König der Welt sein!“\n\n– Bram Weltbart",
-    "ability": "König unter dem Berg:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Endschaden 2 Runden lang um 2 % (5-mal kumulierbar).\n• Wenn der Träger sowohl der Angreifer als auch das Ziel ist, wird die Wirkung nicht ausgelöst."
+    "ability": "König unter dem Berg:\n• Wenn der Träger versucht, einem Gegner AP oder BP zu entziehen, oder ein Gegner dies bei ihm versucht, erhöht sich sein Endschaden 2 Runden lang um 2 % (5-mal kumulierbar).\n• Wenn der Träger sowohl der Angreifer als auch das Ziel ist, wird die Wirkung nicht ausgelöst.",
+    "legendary": true
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164903,8 @@
     "set_id": null,
     "image_url": "/img/item/16564-128.png",
     "description": "„Wenn eine junge Seele den Tempel von Incarnam verlässt, träumt sie von dem Leben, das sie draußen erwartet. Ein Leben voll spannender Abenteuer, persönlicher Errungenschaften und erfüllendem Austausch mit Gleichgesinnten. Sie wird bald vergessen, wer sie einst gewesen ist. Vielleicht hat sie einmal über ein Reich geherrscht, von dem jetzt nur noch ein paar Ruinen übrig sind. Vielleicht war sie ein bescheidener Hirte, der über eine Herde Fresssäcke wachte. Die Vergangenheit bedeutet nur wenig, wenn wir unseren Blick in die Zukunft richten: Die Himmlischen Adler wachen darüber, dass jedes Wesen einen neuen Aufbruch wagen kann, ohne Zweifel und Bedauern, bis sich sein Schicksal erfüllt hat.“\n\n– Meister Ganymed",
-    "ability": "Weisheit von Ganymed:\n• Der Träger erhält in den geraden Runden 2 AP, aber verliert in den ungeraden Runden 1 AP und 1 BP."
+    "ability": "Weisheit von Ganymed:\n• Der Träger erhält in den geraden Runden 2 AP, aber verliert in den ungeraden Runden 1 AP und 1 BP.",
+    "legendary": true
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164995,8 @@
     "set_id": null,
     "image_url": "/img/item/17418-128.png",
     "description": "„Von Kindesbeinen an habe ich hart trainiert, um irgendwann gegen Drachen kämpfen zu können. Ich bin ein Ritter, und Ritter vernichten nun mal große Echsen, die Feuer spucken. Das steht immerhin in allen Geschichtsbüchern für Kinder so geschrieben. Also muss es wahr sein! Ihr könnt euch also meine Verwunderung vorstellen, als ich Bolgrot getroffen habe. Wer hätte gedacht, dass ich einmal sein bester Freund werden würde? Ich jedenfalls nicht! Mich hat es von allen am meisten überrascht. Aber man darf sich eben nicht vom Äußeren leiten lassen ... Wir sind seit Wochen unzertrennlich. Ich will ihm unbedingt Helsephine vorstellen! Ich bin sicher, dass sich die beiden gut verstehen werden.“\n\n– Rykke Errel, Iop-Ritter",
-    "ability": "Mut von Rykke Errel:\n• Wenn der Träger einen Fernkampfangriff erleidet, erhält er 1 Runde lang 10 % seiner Stufe als Schild und sein Fernkampfschaden verringert sich um 1 % pro Feld Entfernung von seinem Angreifer (maximal 11 Felder)."
+    "ability": "Mut von Rykke Errel:\n• Wenn der Träger einen Fernkampfangriff erleidet, erhält er 1 Runde lang 10 % seiner Stufe als Schild und sein Fernkampfschaden verringert sich um 1 % pro Feld Entfernung von seinem Angreifer (maximal 11 Felder).",
+    "legendary": true
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165051,8 @@
     "set_id": null,
     "image_url": "/img/item/17423-128.png",
     "description": "„Als unsere Truppen sich versammelten, um der Armee der dunklen Stadt die Stirn zu bieten, bin ich für ein letztes Gebet auf den Gipfel des nächsten Hügels gestiegen. Am heutigen Tag werden viele Zwölfianer ihr Ende finden. Ich frage mich: Ist all diese Gewalt wirklich notwendig? Müssen wirklich tausende Seelen geopfert werden, damit die Harmonie erneut Einzug halten kann? Aber jetzt ist keine Zeit für Fragen oder Zweifel. Geist der Balance, erleuchte mich mit deinem Licht. Zeig mir den Weg der Gerechtigkeit, der zum Frieden führt. Und wenn ich dabei auf die Schlächterin von Brâkmar treffe ... gib mir die Kraft, ihr entgegenzutreten, damit in dieser Welt die Hoffnung von Neuem erblühen kann.“\n\n– Jahash Jürgen",
-    "ability": "Elementar-Assimilierung:\n• Wenn der Träger Schaden in einem Element erleidet, erhält er 2 Runden lang 4 % Resistenz in diesem Element (5-mal kumulierbar, zwischen den Elementen aufgeteilt)."
+    "ability": "Elementar-Assimilierung:\n• Wenn der Träger Schaden in einem Element erleidet, erhält er 2 Runden lang 4 % Resistenz in diesem Element (5-mal kumulierbar, zwischen den Elementen aufgeteilt).",
+    "legendary": true
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165131,8 @@
     "set_id": null,
     "image_url": "/img/item/11338-128.png",
     "description": "„Man sagt, die ersten Förster seien in der Lage gewesen, ohne Unterlass die Weiten von Amakna zu durchstreifen ohne jemals auch nur die geringste Müdigkeit zu verspüren. Ihre Stiefel waren von den vier Wächterinnen verzaubert worden: Mit ihnen konnte man das Land im Handumdrehen durchqueren. Mit einem einzigen Schritt liefen die scharfäugigen Wächter von einer Grenze zur anderen, von den Ufern des Assel-Meers bis zu den felsigen Tälern, in denen es von Bworks und Goblins nur so wimmelte. Allerdings wurde die Macht dieser wundersamen Stiefel schwächer, als sich die Vier zurückzogen ... aber die Aufklärer, die das Glück haben, ein Paar zu besitzen, sind den Feinden des Reichs immer einen Schritt voraus.“\n\n– Cornelia Streicher",
-    "ability": "Tausend Meilen:\n• Der Träger erhält in den ungeraden Runden 2 BP."
+    "ability": "Tausend Meilen:\n• Der Träger erhält in den ungeraden Runden 2 BP.",
+    "legendary": true
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165229,8 @@
     "set_id": null,
     "image_url": "/img/item/11337-128.png",
     "description": "„Tretet näher, werte Novizen! Bleibt nicht da hinten stehen, ich werde mich nämlich nicht wiederholen. Zunächst einmal müsst ihr wissen, dass allein die Meister des Ordens die heiligen Stiefel während der offiziellen Schuhputz-Zeremonien tragen dürfen. Da muss man schon ein hohes Tier sein, das werdet ihr verstehen. Wer dieser Regel zuwiderhandelt, wird von all seinen Mitschülern zu Boden getrampelt, bevor er mit einem enormen Tritt in den Hintern nach draußen befördert wird. Haben alle ihre Polierbürste und ihr Gligli-Wachs? Sehr gut! Stellt euch also auf und betretet den Saal, aber leise! Ich will nur ein einziges Paar Absätze klacken hören!“\n\n– Bowisse, Großmeister der Allerwertesten Treter",
-    "ability": "Die allerwertesten Treter:\n• Jedes Mal zu Rundenbeginn und am Rundenende stößt der Träger alle Gegner in Reichweite um 2 Felder zurück."
+    "ability": "Die allerwertesten Treter:\n• Jedes Mal zu Rundenbeginn und am Rundenende stößt der Träger alle Gegner in Reichweite um 2 Felder zurück.",
+    "legendary": true
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165321,8 @@
     "set_id": null,
     "image_url": "/img/item/10335-128.png",
     "description": "„Wenn man ein Unglücksrabe ist, erliegt man schnell der Versuchung, gar nichts mehr zu tun, sich zu Hause einzuigeln und nervös an den Krallen zu knabbern, um keine Katastrophe heraufzubeschwören ... Aber wenn das Chaos schon hereinbrechen muss, dann sollte man wenigstens noch seinen Nutzen daraus ziehen! Wer tollkühn ist, läuft weniger Gefahr, vom Pech gelähmt zu werden. Es geht doch nichts über ein bisschen Mumm, um das böse Schicksal zu bannen. Ihr habt euch an einer Sache versucht und den totalen Reinfall erlebt? Und wenn schon! Ihr müsst es nur noch mal versuchen! Es ist immer noch besser, einen Fehlschlag aufgrund von Pech statt mangelnder Dreistigkeit zu erleiden. Es ist nur wichtig, auf allen vier Pfoten zu landen.“\n\n– Dodge der Ecaflip",
-    "ability": "Kühnheit von Dodge:\n• Zu Beginn jeder Runde begibt sich der Träger per Teleportation oder Platztausch auf ein zufälliges angrenzendes Feld und erhält 1 Runde lang 1 BP und 10 % Chance auf kritische Treffer oder er ändert seine Position nicht und erhält stattdessen 40 Ausweichen und Schubsschaden."
+    "ability": "Kühnheit von Dodge:\n• Zu Beginn jeder Runde begibt sich der Träger per Teleportation oder Platztausch auf ein zufälliges angrenzendes Feld und erhält 1 Runde lang 1 BP und 10 % Chance auf kritische Treffer oder er ändert seine Position nicht und erhält stattdessen 40 Ausweichen und Schubsschaden.",
+    "legendary": true
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165389,8 @@
     "set_id": null,
     "image_url": "/img/item/10336-128.png",
     "description": "„Der Weggang eines Meisters ist eine große Tragödie für seine Schüler. Als Prosperus Elementor verschwand, wurden alle Übermagier auf einen Schlag zu Waisen. Wie sollten sie angesichts der Leere, die er hinterlassen hatte, überleben? Wie sollten sie jüngeren Generationen ein würdiges Erbe hinterlassen, wenn gewisse Fragen noch immer unbeantwortet waren? Ich werde mich heute zur grünen Insel Saharach aufmachen, um ein Tor zu öffnen, mit dessen Hilfe ich unseren Anführer wiederfinden kann. Möge das Gleichgewicht mir gewogen sein ... und möge mir der Gott Xélor die nötige Zeit gewähren, um mein Ziel zu erreichen.“\n\n– Madame Jhessica",
-    "ability": "Mut von Madame Jhessica:\n• Am Ende jeder Runde entzieht der Träger 2 Runden lang Gegnern in Reichweite 60 Ausweichen (1-mal kumulierbar) und sein Zauberschaden erhöht sich um 1 % pro getroffenem Gegner (4-mal kumulierbar)."
+    "ability": "Mut von Madame Jhessica:\n• Am Ende jeder Runde entzieht der Träger 2 Runden lang Gegnern in Reichweite 60 Ausweichen (1-mal kumulierbar) und sein Zauberschaden erhöht sich um 1 % pro getroffenem Gegner (4-mal kumulierbar).",
+    "legendary": true
   },
   {
     "ankama_id": 20391,
@@ -170136,7 +170150,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 22412,
@@ -170251,7 +170266,8 @@
     "set_id": null,
     "image_url": "/img/item/17454-128.png",
     "description": "„Welch angenehmer Duft von Verzweiflung, der hier in der Luft liegt ... Einst so stolze, so mutige, so ... arrogante Söldner. Seht euch doch mal an, mit euren tränenüberfluteten Gesichtern, beim Anblick eurer geliebten Menschen im Massengrab. Diese Bindungen, diese Versprechen, diese Gefühle ... Alles in Luft aufgelöst wegen dem Wahnsinn, der sich unter eure Haut frisst. Gibt es etwas Schöneres als das Entsetzen und die Abscheu auf den Gesichtern eurer Mitmenschen bei den ersten Anzeichen eurer eigenen Pestilenz? Zittere Astrub ... flehe zu deinen Göttern, diesen Hochstaplern, die nichts für dich tun können ... Diese Fäulnis, vor der ihr euch so fürchtet ... fällt nicht vom Himmel ... sondern steckt in jedem von uns.“\n\n– Verderbnis",
-    "ability": "Pestilenzwolke:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Gegner an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar)."
+    "ability": "Pestilenzwolke:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Gegner an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar).",
+    "legendary": true
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170376,8 @@
     "set_id": null,
     "image_url": "/img/item/10343-128.png",
     "description": "„Seht euch doch mal an, stolze Kanigs, wie ihr durch eure Gegner geknechtet seid ... Welch ein Niedergang! Ihr hättet ein richtiges Imperium aufbauen können, wenn ihr nicht so schwach gewesen wärt. Es gab eine Zeit, da hattet ihr noch von Ruhm und Eroberung geträumt, da arbeiteten die Häftlinge in eure Steinbrüchen und stöhnten unter euren Peitschenhieben ... Aber vom Meister zum Sklaven ist es manchmal nur ein kleiner Schritt. Katzbuckeln unter dem Gewicht der Ketten, wie Larven durch den Schlamm waten, ihr habt schon vergessen, wer ihr wirklich wart. Ihr seid pathetisch. Wenn euer Matriarch stirbt, ist euer Schicksal vollendet. Euer Opfer wird weniger unnütz als eure Existenz gewesen sein ... denn es wird die Geschichte verändern.“\n\n– Knechtschaft",
-    "ability": "Eisen der Tyrannei:\n• Am Ende einer jeden Runde zieht der Träger alle Einheiten zu sich heran, die maximal 3 Felder von ihm entfernt in einer Linie zu ihm stehen. Wenn sich keine Einheit in Reichweite befindet, wird er bis zum Beginn seiner nächsten Runde Unverrückbar. Der Zustand wird rückgängig gemacht, wenn er Schaden erleidet."
+    "ability": "Eisen der Tyrannei:\n• Am Ende einer jeden Runde zieht der Träger alle Einheiten zu sich heran, die maximal 3 Felder von ihm entfernt in einer Linie zu ihm stehen. Wenn sich keine Einheit in Reichweite befindet, wird er bis zum Beginn seiner nächsten Runde Unverrückbar. Der Zustand wird rückgängig gemacht, wenn er Schaden erleidet.",
+    "legendary": true
   },
   {
     "ankama_id": 22444,
@@ -170475,7 +170492,8 @@
     "crit_bonus": 3,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 23094,
@@ -198324,7 +198342,8 @@
     "set_id": null,
     "image_url": "/img/item/16869-128.png",
     "description": "Der Vorteil, wenn man in einer Stadt wie Brâkmar das Sagen hat, ist, dass sich niemand wundert, wenn gewisse Individuen plötzlich verschwinden. Welch Freude, seinen niederen Trieben nachzugeben, ohne sich rechtfertigen zu müssen! Und überhaupt, jeder, der es wagen würde, mir die Stirn zu bieten, würde umgehend im Herzen des Vulkans landen.\n\n– Oto Mustam",
-    "ability": "Leidenschaft der Dunklen Stadt:\n• Zu Beginn jeder Runde erhöht sich der Endschaden des Trägers und seiner Verbündeten 1 Runde lang um 1 % pro am Leben befindlichem gegnerischen Kämpfer (4-mal kumulierbar)."
+    "ability": "Leidenschaft der Dunklen Stadt:\n• Zu Beginn jeder Runde erhöht sich der Endschaden des Trägers und seiner Verbündeten 1 Runde lang um 1 % pro am Leben befindlichem gegnerischen Kämpfer (4-mal kumulierbar).",
+    "legendary": true
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198404,8 @@
     "set_id": null,
     "image_url": "/img/item/82553-128.png",
     "description": "„Dich erwartet ein schreckliches Schicksal, nicht wahr?“\n\n- Der Gefangene des Spiegels",
-    "ability": "Blendende Spiegelung:\n• Der Träger verringert den anfänglichen Schaden des ersten von einem Verbündeten erlittenen Angriffs und wirft 75 % dieses Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar)."
+    "ability": "Blendende Spiegelung:\n• Der Träger verringert den anfänglichen Schaden des ersten von einem Verbündeten erlittenen Angriffs und wirft 75 % dieses Schadens auf den nächsten Gegner in seiner Sichtlinie zurück (einmal pro Runde).\n• Am Ende jeder Runde entzieht er allen Gegnern in seiner Sichtlinie 1 Runde lang 4 Reichweite und macht sie sichtbar, wenn sie unsichtbar sind (1-mal kumulierbar).",
+    "legendary": true
   },
   {
     "ankama_id": 32116,
@@ -198482,7 +198502,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 4,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32117,
@@ -198591,7 +198612,8 @@
     "crit_bonus": 4,
     "min_range": 1,
     "max_range": 3,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32118,
@@ -198676,7 +198698,8 @@
     "set_id": null,
     "image_url": "/img/item/1330-128.png",
     "description": "„Oh Geliebter, wie ich mich nach deiner Umarmung sehne! Meine kürzlichen Abenteuer haben mich erschöpft, und eine kleine Pause wäre die größte aller Wonnen. Ebenso verlangt es mich danach, deinen Drachenfreund zu treffen! Ich amüsiere mich köstlich bei der Vorstellung, dass ihr wie zwei Kinder herumbalgt.\nBis bald, deine dich liebende Sefine.“\n\n– Helsefine, Iop-Magierin und -Alchemistin",
-    "ability": "Helsefines Liebe:\n• Wenn der Träger einen Schild wirkt oder Nahkampfschaden verursacht, heilt er Verbündete, die nicht weiter als 3 Felder von ihm entfernt sind, um 6 % ihrer LP (einmal pro Auslösungsart und pro Runde)."
+    "ability": "Helsefines Liebe:\n• Wenn der Träger einen Schild wirkt oder Nahkampfschaden verursacht, heilt er Verbündete, die nicht weiter als 3 Felder von ihm entfernt sind, um 6 % ihrer LP (einmal pro Auslösungsart und pro Runde).",
+    "legendary": true
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198778,8 @@
     "set_id": null,
     "image_url": "/img/item/9392-128.png",
     "description": "„Hopp, pünktlich auf die Minute, wie immer! Mach schnell, ich habe genau fünf Minuten für dich. Das göttliche Uhrwerk wartet nicht.“\n\n– Henual",
-    "ability": "Henuals Pünktlichkeit:\n• Der Träger erhält 1 AP, wenn er teleportiert wird, sich selbst teleportiert oder die Position tauscht (1 Mal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert."
+    "ability": "Henuals Pünktlichkeit:\n• Der Träger erhält 1 AP, wenn er teleportiert wird, sich selbst teleportiert oder die Position tauscht (1 Mal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert.",
+    "legendary": true
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198888,8 @@
     "set_id": null,
     "image_url": "/img/item/11382-128.png",
     "description": "„Wir sind gemeinsam einen weiten Weg gegangen, aber dieser Sieg gehört dir. Die Zwölf haben dir nur den richtigen Weg gezeigt ... Wir werden uns bald wiedersehen, Auserwählter der Götter. Deine Geschichte hat gerade erst begonnen.“\n\n– Meriana",
-    "ability": "Merianas Hellsicht:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang einen Entzug im jeweiligen Element (8-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde & Wasser: 5 BP-Entzug\n • Feuer & Luft: 5 AP-Entzug"
+    "ability": "Merianas Hellsicht:\n• Wenn der Träger Elementarschaden verursacht, erhält er 2 Runden lang einen Entzug im jeweiligen Element (8-mal kumulierbar, auf die einzelnen Wirkungen aufgeteilt):\n • Erde & Wasser: 5 BP-Entzug\n • Feuer & Luft: 5 AP-Entzug",
+    "legendary": true
   },
   {
     "ankama_id": 32163,
@@ -198979,7 +199004,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32164,

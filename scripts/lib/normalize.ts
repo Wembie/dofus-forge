@@ -30,6 +30,7 @@ export type AppItem = {
   min_range?: number
   max_range?: number
   max_per_turn?: number
+  legendary?: boolean
 }
 
 export type AppSet = {
@@ -169,7 +170,12 @@ function selfHostedItemImageUrl(url: string | undefined): string | null {
   return filename ? `/img/item/${filename}` : (url ?? null)
 }
 
-export function normalizeItem(raw: RawItem): AppItem {
+// DofusDude doesn't expose item rarity at all (verified against its live API
+// 2026-10-24 — no `rarity`/`item_subtype` field on equipment, only on recipe
+// resource entries). DofusDB.fr does, as a plain `isLegendary` boolean keyed
+// by the same Ankama item id, so fetch-data.ts builds that id set separately
+// and passes it in here.
+export function normalizeItem(raw: RawItem, legendaryIds?: Set<number>): AppItem {
   const abilityEffect = raw.effects?.find(e => e.type?.is_meta && e.formatted)
   const item: AppItem = {
     ankama_id: raw.ankama_id ?? 0,
@@ -186,6 +192,7 @@ export function normalizeItem(raw: RawItem): AppItem {
   }
   if (raw.description) item.description = raw.description
   if (abilityEffect?.formatted) item.ability = cleanFormattedText(abilityEffect.formatted)
+  if (legendaryIds?.has(item.ankama_id)) item.legendary = true
   if (raw.conditions) {
     const conds = flattenConditions(raw.conditions)
     if (conds.length > 0) item.conditions = conds

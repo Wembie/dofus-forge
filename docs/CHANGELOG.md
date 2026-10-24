@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.127] — 2026-10-24
+- **Fix**: La Forjadora's anvil scene had a stray diagonal line cutting across the frame (a "motion-blur swoosh" whose arc didn't actually match the hammer's swing geometry, so it read as a floating stroke instead of a blur) — removed. Also tightened the hammer-landing timing: the impact flash, anvil compression and spark burst are now keyed to the same 58%-of-cycle mark the hammer actually lands on, so the hit, the flash and the sparks read as one beat instead of three uncoordinated effects
+- **Feat**: item picker now has a "Legendary" filter for slots that have one, showing only the game's ~26 named level-200 legendary items. Legendary status isn't in DofusDude's data at all (verified — no `rarity` field on equipment), so it's sourced from DofusDB.fr's `isLegendary` flag, matched by the shared Ankama item id and folded in at data-fetch time
+
 ## [0.3.126] — 2026-10-24
 - **Polish**: La Forjadora's anvil scene reworked to feel more premium — the anvil now has a top-edge highlight and flashes/compresses on impact, the hammer got a two-tone steel head with a drop shadow and a motion-blur swoosh on the downswing, sparks now cool from white-hot to gold to ember red as they fly instead of staying one flat color, and steam/smoke wisps rise from the piece (heavier during the cooling/tempering stage). The flash, anvil compression and swoosh are pure CSS loops timed to the same 1.1s cycle as the hammer swing, so they land on the beat every time with no JS synchronization needed. Purely visual — no change to forging logic, timing, or results
 

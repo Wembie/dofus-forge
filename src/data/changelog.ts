@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.127',
+    date: '2026-10-24',
+    notes: [
+      "Fix: La Forjadora's anvil animation had a stray diagonal line and the strike wasn't synced with the spark burst — fixed, the hit, the flash and the sparks now land on the same beat",
+      'Feat: the item picker now has a "Legendary" filter for slots that have one of the game\'s legendary items',
+    ],
+  },
+  {
     version: '0.3.126',
     date: '2026-10-24',
     notes: [
