@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.129',
+    date: '2026-10-24',
+    notes: [
+      'Feat: new page, The Forger guide (link at the bottom of every page and in the order screen), explaining every part of the optimizer: minimums, purity and caps, intensity, pinned and banned items, forgemagic, the forging screen, the results and an FAQ',
+    ],
+  },
+  {
     version: '0.3.128',
     date: '2026-10-24',
     notes: [

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useMemo, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, Lock, Unlock, X, Flame, Anvil, RotateCcw, Settings2, Wind, AlertTriangle, Pin, Infinity as InfinityIcon } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ChevronDown, Lock, Unlock, X, Flame, Anvil, RotateCcw, Settings2, Wind, AlertTriangle, Pin, BookOpen, Infinity as InfinityIcon } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -17,6 +18,7 @@ import { CHARACTERISTICS } from '@/engine/types.ts'
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
 import { ForgeItemsPanel } from './ForgeItemsPanel.tsx'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 
 type Phase = 'locked' | 'order' | 'forging' | 'forged'
 type Equipped = Partial<Record<SlotId, number>>
@@ -318,7 +320,7 @@ function SurplusPanel({ reqs, result }: { reqs: ForgeRequirement[]; result: Buil
 type Props = { open: boolean; onClose: () => void }
 
 export function OptimizerModal({ open, onClose }: Props) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const selectedClass = useBuildStore(s => s.selectedClass)
 
@@ -841,7 +843,18 @@ export function OptimizerModal({ open, onClose }: Props) {
           </p>
         )}
 
-        <p className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_order_help')}</p>
+        <p className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>
+          {t('optimizer_order_help')}{' '}
+          <Link
+            to={`/${langPathPrefix(i18n.language)}forge-guide`}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-0.5 font-semibold underline-offset-2 hover:underline"
+            style={{ color: 'var(--gold)' }}
+          >
+            <BookOpen size={10} /> {t('optimizer_guide_link')}
+          </Link>
+        </p>
 
         {/* Base build summary */}
         <div className="rounded-lg px-2.5 py-2 flex flex-wrap items-center gap-x-3 gap-y-1" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>

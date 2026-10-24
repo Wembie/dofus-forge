@@ -162,6 +162,46 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://dofusforge.com/forge-guide</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/forge-guide"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/forge-guide</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/forge-guide"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/forge-guide</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/forge-guide"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/forge-guide</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/forge-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/forge-guide"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://dofusforge.com/privacy</loc>
     <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/privacy"/>
     <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/privacy"/>

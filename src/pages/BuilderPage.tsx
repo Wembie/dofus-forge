@@ -116,7 +116,15 @@ function BuilderContent() {
   const reset        = useBuildStore(s => s.reset)
   const clearHistory = useHistoryStore(s => s.clear)
   const [showChangelog,  setShowChangelog]  = useState(false)
-  const [showOptimizer,  setShowOptimizer]  = useState(false)
+  // ?forge=1 (the guide's "Open The Forger") opens it on arrival.
+  const [showOptimizer,  setShowOptimizer]  = useState(() => new URLSearchParams(window.location.search).get('forge') === '1')
+  // Once: a reload or a shared link must not reopen it.
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (!url.searchParams.has('forge')) return
+    url.searchParams.delete('forge')
+    window.history.replaceState(window.history.state, '', url)
+  }, [])
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [showSettings, setShowSettings] = useState(false)

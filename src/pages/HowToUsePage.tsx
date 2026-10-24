@@ -73,6 +73,13 @@ export function HowToUsePage() {
           >
             {t('howto_cta_about')}
           </Link>
+          <Link
+            to={`/${prefix}forge-guide`}
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
+            style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+          >
+            {t('nav_forge_guide')}
+          </Link>
         </div>
       </main>
 

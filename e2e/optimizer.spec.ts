@@ -15,6 +15,7 @@ test('public routes render and the optimizer runs in the browser with WASM', asy
     ['en/explore', 'Explore builds'],
     ['en/about', 'About Dofus Forge'],
     ['en/how-to-use', 'How to Use Dofus Forge'],
+    ['en/forge-guide', 'The Forger'],
   ] as const
   for (const [route, heading] of publicPages) {
     await page.goto(route, { waitUntil: 'domcontentloaded' })
