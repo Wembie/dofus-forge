@@ -1230,5 +1230,6 @@
   "combat_view_combat": "En combate",
   "combat_view_gear_hint": "Características y stats solo de tu equipo, como en la ficha del juego fuera de combate.",
   "combat_view_none": "Ninguna pasiva activa: actívalas en Pasivas de combate.",
-  "combat_view_edit": "Ajustar pasivas"
+  "combat_view_edit": "Ajustar pasivas",
+  "catalog_legendary_only": "Legendarios"
 }

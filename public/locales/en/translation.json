@@ -1230,5 +1230,6 @@
   "combat_view_combat": "In combat",
   "combat_view_gear_hint": "Characteristics and stats from your gear only, like the in-game sheet out of combat.",
   "combat_view_none": "No passive active: turn them on in Combat passives.",
-  "combat_view_edit": "Adjust passives"
+  "combat_view_edit": "Adjust passives",
+  "catalog_legendary_only": "Legendary"
 }

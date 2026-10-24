@@ -234,36 +234,31 @@ body {
   animation: dofus-pulse 3.2s var(--ease-inout) infinite;
 }
 /* ── La Forjadora ─────────────────────────────────────────────────────── */
+/* All four of the below share the same 1.1s cycle and the same 58% "impact"
+   mark (0.58 * 1100ms = 638ms — the JS spark burst in ForgeScene uses a
+   640ms setTimeout to land on that same instant), so the hammer landing,
+   the anvil compressing, the flash and the spark shower all read as one hit. */
 @keyframes forge-hammer {
   0%, 38% { transform: rotate(-40deg); }
-  58%     { transform: rotate(8deg); }
-  66%     { transform: rotate(-3deg); }
-  72%     { transform: rotate(0deg); }
+  58%     { transform: rotate(6deg); }
+  70%     { transform: rotate(0deg); }
   100%    { transform: rotate(-40deg); }
 }
 .forge-hammer {
   transform-origin: 85% 85%;
   animation: forge-hammer 1.1s cubic-bezier(.55, 0, .2, 1) infinite;
 }
-@keyframes forge-swoosh {
-  0%, 30%, 100% { opacity: 0; }
-  40%           { opacity: .6; }
-  58%           { opacity: 0; }
-}
-.forge-swoosh {
-  animation: forge-swoosh 1.1s linear infinite;
-}
 @keyframes forge-impact-flash {
-  0%, 54%, 100% { opacity: 0; }
-  60%           { opacity: .9; }
+  0%, 52%, 100% { opacity: 0; }
+  58%           { opacity: .9; }
   68%           { opacity: 0; }
 }
 .forge-impact-flash {
   animation: forge-impact-flash 1.1s linear infinite;
 }
 @keyframes forge-anvil-hit {
-  0%, 56%, 100% { transform: translateY(0) scaleY(1); }
-  60%           { transform: translateY(1.5px) scaleY(.985); }
+  0%, 54%, 100% { transform: translateY(0) scaleY(1); }
+  58%           { transform: translateY(1.5px) scaleY(.985); }
   66%           { transform: translateY(0) scaleY(1); }
 }
 .forge-anvil-hit {

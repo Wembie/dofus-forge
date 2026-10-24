@@ -148,9 +148,6 @@ export function ForgeScene({ heat, burst, tempering }: { heat: number; burst: nu
           <animate attributeName="opacity" values={`${0.45 + glow * 0.4};${0.7 + glow * 0.3};${0.45 + glow * 0.4}`} dur="1.1s" repeatCount="indefinite" />
         </rect>
 
-        {/* Motion-blur swoosh on the downswing */}
-        <path d="M150 20 Q120 40 112 64" fill="none" stroke="url(#forge-hot)" strokeWidth="3" strokeLinecap="round" opacity="0" className={swinging ? 'forge-swoosh' : ''} />
-
         {/* Hammer */}
         <g className={swinging ? 'forge-hammer' : ''} style={{ transformBox: 'view-box', transformOrigin: '176px 66px', filter: 'drop-shadow(0 2px 3px rgba(0, 0, 0, .5))' } as CSSProperties}>
           <rect x="118" y="58" width="60" height="6" rx="3" fill="color-mix(in srgb, var(--gold-deep) 80%, var(--surface-stone))" />

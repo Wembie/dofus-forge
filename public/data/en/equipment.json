@@ -164283,7 +164283,8 @@
     "crit_bonus": 7,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20354,
@@ -164368,7 +164369,8 @@
     "crit_bonus": 6,
     "min_range": 1,
     "max_range": 1,
-    "max_per_turn": 2
+    "max_per_turn": 2,
+    "legendary": true
   },
   {
     "ankama_id": 20355,
@@ -164465,7 +164467,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20356,
@@ -164562,7 +164565,8 @@
     "crit_bonus": 15,
     "min_range": 2,
     "max_range": 7,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20357,
@@ -164635,7 +164639,8 @@
     "set_id": null,
     "image_url": "/img/item/82212-128.png",
     "description": "\"Any Feca heading into combat must carry a shield. But the best protection against adversity, the best rampart against all those who seek to harm or destroy us, is union. Mercenaries! Time has come to set our quarrels aside and unite under a single banner. Astrub is not merely an old merchant city founded by a gang of bandits who've grown tame. Astrub is also an ancient city, with its own heritage and culture. Astrub is a nation! Today, dear council members, you are going to elect a new leader. I have applied for the position. Will you place your trust in me? It's your decision.\"\n\n– Fallanster, Head of the Council of Astrub",
-    "ability": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn (stackable 1 time). The glyph disappears on the next turn or if it is moved."
+    "ability": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn (stackable 1 time). The glyph disappears on the next turn or if it is moved.",
+    "legendary": true
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164713,8 @@
     "set_id": null,
     "image_url": "/img/item/82211-128.png",
     "description": "\"Death is a necessary evil, but even so, we'd all prefer it comes for someone else, isn't that so? That's why I forged this shield. It is indestructible; it will never wear out and never rust. It turns away all blows that could take you from living to dead. Despite its impressive size, it is light and manageable. Plus, its macabre looks will intimidate your opponents; the most cowardly among them won't be able to bear the dark pits of its empty eyes and will run away screaming. Still need convincing? Time for a demonstration. You're up, Sargent Kocksis.\"\n\n– a craftsman who wishes to remain anonymous",
-    "ability": "Death-Defying:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% health, the damage they suffer is reduced by 20%."
+    "ability": "Death-Defying:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% health, the damage they suffer is reduced by 20%.",
+    "legendary": true
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164817,8 @@
     "set_id": null,
     "image_url": "/img/item/16555-128.png",
     "description": "\"They think us small and weak. They mock our costumes and our ancestral traditions. They take us for smelly barbarians, greedy and uncouth. They think us happy to stay in our mines, digging in the dark like Rotceres. But they are wrong! I will show them the Stubbyobs' true nature. I will burn their farms and crops. I will flatten their cities. I will shave their heads and eyebrows. I will shear their Gobballs. I will take their gold, empty their barrels, shred their banners. I am the King Under the Mountain... and soon, I shall be king of the world!\n\n– Bram Worldbeard",
-    "ability": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target."
+    "ability": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target.",
+    "legendary": true
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164903,8 @@
     "set_id": null,
     "image_url": "/img/item/16564-128.png",
     "description": "\"When a young soul leaves the temple in Incarnam, that soul dreams of the life waiting for it outside. A life full of thrilling adventures, personal exploits, enriching exchanges, and communion with others. The soul has forgotten who it was before. Perhaps it reigned over an empire, only a little rubble of which remains. Perhaps it was a humble shepherd watching over a herd of Gobballs. The past is of little importance when one looks to the future. The Celestial Eagles ensure that every being gets a new start, without fear or regret, until destiny has been fulfilled.\"\n\n– Master Ganymede",
-    "ability": "Ganymede's Wisdom:\n• The bearer gains 2 AP on even turns but loses 1 AP and 1 MP on odd turns."
+    "ability": "Ganymede's Wisdom:\n• The bearer gains 2 AP on even turns but loses 1 AP and 1 MP on odd turns.",
+    "legendary": true
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164995,8 @@
     "set_id": null,
     "image_url": "/img/item/17418-128.png",
     "description": "\"I've been training to fight dragons since I was very young. I am a knight, and knights assail huge fire-breathing lizards. That's what all the children's history books say, so it must be true! You can imagine my surprise when I met Bolgrot, then. Who would have ever thought that I'd become his best friend? Not me, that's for sure! I was as surprised as anyone. It just goes to show that you can't count on appearances... We've been together constantly for weeks. I can't wait to introduce him to Helsephine! I'm sure they'll get along famously.\"\n\n– Rykke Errel, Iop knight",
-    "ability": "Rykke Errel's Bravery:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells)."
+    "ability": "Rykke Errel's Bravery:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells).",
+    "legendary": true
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165051,8 @@
     "set_id": null,
     "image_url": "/img/item/17423-128.png",
     "description": "\"While our troops were gathering to fight off the army of the Dark City, I climbed to the top of the closest hill for one last prayer. Today, many Twelvians shall die. I wonder. Is all this violence necessary? Must we sacrifice thousands of souls so that harmony might reign again? But now is not the time for questions or doubts. Spirit of Balance, send me your wisdom. Show me the path of justice that leads to peace. And if my path should cross that of the Butcher of Brakmar... then give me the strength to fight her so that hope can be reborn in this world.\"\n\n– Jahash Jurgen",
-    "ability": "Elemental Assimilation:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements)."
+    "ability": "Elemental Assimilation:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements).",
+    "legendary": true
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165131,8 @@
     "set_id": null,
     "image_url": "/img/item/11338-128.png",
     "description": "\"They say that the first lumberjacks could travel the length and breadth of Amakna without ever tiring. The boots they wore had been enchanted by the four guardians and let them cross the country in the blink of an eye. In a single step, the sentinels with piercing eyes leapt from border to border, from the shores of the Asse Sea to the rocky valleys full of Bworks and Goblins. Alas! The power of these miraculous boots declined when the Four left... But scouts who are lucky enough to own a pair stay a few steps ahead of the kingdom's enemies.\"\n\n– Cornelia Granpa",
-    "ability": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns."
+    "ability": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns.",
+    "legendary": true
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165229,8 @@
     "set_id": null,
     "image_url": "/img/item/11337-128.png",
     "description": "\"Come close, newcomers! Don't hang back. I won't repeat myself. First, know this: Only Masters of the Order are allowed to wear the sacred boots during official boot-kissing ceremonies. You must be able to fill the boots, you see. Anyone who dares disobey will be trampled by all their peers before being booted out on their backsides. Does everyone have their polishing brushes and Blibli wax? Good! Line up and enter the room in silence. I only want to hear one pair of heels!\"\n\n– Bowisse, Grand Master of the Kicked Ass",
-    "ability": "The Kicked Asses:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells."
+    "ability": "The Kicked Asses:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells.",
+    "legendary": true
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165321,8 @@
     "set_id": null,
     "image_url": "/img/item/10335-128.png",
     "description": "\"When you're unlucky, it's tempting to do nothing and stay at home filing one's claws so you don't trigger a disaster... But if you must be jinxed with bad luck, you might as well make it count! Audacity can break the paralysing grip of an unlucky jinx. There's nothing like a bit of nerve to ward off bad luck. You tried something and failed? Brilliant! You just have to try again! 'Tis better to try and fail because of bad luck than because you lacked nerve. What's important is landing on your feet.\"\n\n– Dodge the Ecaflip",
-    "ability": "Dodge's Audacity:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn."
+    "ability": "Dodge's Audacity:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn.",
+    "legendary": true
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165389,8 @@
     "set_id": null,
     "image_url": "/img/item/10336-128.png",
     "description": "\"A master's passing is a tragedy for his students. When Prosperus Elementor disappeared, all Huppermages were orphaned. How can we survive the emptiness left in his wake? How can the young generations receive their heritage when questions remain unanswered? I'm leaving today for the lush green island of Ohwymi to open a door that will let me find our guide. May the Scales tip in my favour... and may the god Xelor grant me the time I need to reach my goal.\"\n\n– Lady Jhessica",
-    "ability": "Lady Jhessica's Courage:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies (stackable 1 time) and gains 1% spell damage for each enemy hit for 2 turns (stackable 4 times)."
+    "ability": "Lady Jhessica's Courage:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies (stackable 1 time) and gains 1% spell damage for each enemy hit for 2 turns (stackable 4 times).",
+    "legendary": true
   },
   {
     "ankama_id": 20391,
@@ -170136,7 +170150,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 22412,
@@ -170251,7 +170266,8 @@
     "set_id": null,
     "image_url": "/img/item/17454-128.png",
     "description": "\"Oh, how lovely it is to smell the scent of despair in the air... Mercenaries once so proud, so brave, so... arrogant. Look at you, your faces covered in tears, throwing your loved ones in mass graves. Attachments, promises, feelings... All swept away by the madness crawling under your skin. Is there anything more delicious than seeing the horror and disgust wash over your peers' faces at the first signs of your own pestilence? Tremble, Astrub... Implore the gods, those imposters who can do nothing for you... This gangrene that you fear so deeply... come not from the sky... but from each and every one of you.\"\n\n– Corruption",
-    "ability": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on enemies within 2 cells or less of the bearer for 2 turns (stackable 1 time)."
+    "ability": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on enemies within 2 cells or less of the bearer for 2 turns (stackable 1 time).",
+    "legendary": true
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170376,8 @@
     "set_id": null,
     "image_url": "/img/item/10343-128.png",
     "description": "\"Look at you, you proud Kanigs, subjugated by your enemies... What a fall! You could have built a true empire if you weren't so weak. There was a time when you dreamed of glory and conquest, when prisoners worked in your rock quarries and moaned under the lash of whips... But the road from master to slave is sometimes very short. Kowtowing under the weight of your chains, crawling in the mud like larvae, you've forgotten who you once were. You are pathetic. When your matriarch dies, you destiny shall be complete. Your sacrifice will have been less vain than your existence... since it will change history.\"\n\n– Servitude",
-    "ability": "Shackles of Tyranny:\n• At the end of each turn, the bearer attracts entities within 3 cells or less of them and in a straight line with them. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage."
+    "ability": "Shackles of Tyranny:\n• At the end of each turn, the bearer attracts entities within 3 cells or less of them and in a straight line with them. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage.",
+    "legendary": true
   },
   {
     "ankama_id": 22444,
@@ -170475,7 +170492,8 @@
     "crit_bonus": 3,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 23094,
@@ -198324,7 +198342,8 @@
     "set_id": null,
     "image_url": "/img/item/16869-128.png",
     "description": "\"The advantage when you run a city like Brakmar is that no one's surprised when certain individuals disappear without warning. It's such a joy being able to give in to one's urges without having to justify one's actions. In any case, anyone who dares stand up to me will end up in the heart of the volcano in two shakes.\"\n\n— Oto Mustam",
-    "ability": "Ardour of the Dark City:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times)."
+    "ability": "Ardour of the Dark City:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times).",
+    "legendary": true
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198404,8 @@
     "set_id": null,
     "image_url": "/img/item/82553-128.png",
     "description": "\"You've met with a terrible fate, haven't you?\"\n\n— The Prisoner of the Mirror",
-    "ability": "Blinding Reflection:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time)."
+    "ability": "Blinding Reflection:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time).",
+    "legendary": true
   },
   {
     "ankama_id": 32116,
@@ -198482,7 +198502,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 4,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32117,
@@ -198591,7 +198612,8 @@
     "crit_bonus": 4,
     "min_range": 1,
     "max_range": 3,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32118,
@@ -198676,7 +198698,8 @@
     "set_id": null,
     "image_url": "/img/item/1330-128.png",
     "description": "\"Oh my love, how I long to embrace you! My recent adventures have been exhausting, and a break would do me a world of good. It will also be lovely to meet your dragon friend! I can picture the two of you fighting like children, which amuses me so.\nSee you soon. Your adoring Sephine.\"\n\n— Helsephine, Iop Magician and Alchemist",
-    "ability": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 6% of their health within 3 cells or less around them (once per trigger type per turn)."
+    "ability": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 6% of their health within 3 cells or less around them (once per trigger type per turn).",
+    "legendary": true
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198778,8 @@
     "set_id": null,
     "image_url": "/img/item/9392-128.png",
     "description": "\"You're right on time, as usual! Hurry up – I have exactly five minutes to spare. The Divine Clock waits for no one.\"\n\n— Henual",
-    "ability": "Henual's Punctuality:\n• The bearer gains 1 AP when they teleport, are teleported, or switch places (1 time per turn).\n• If the bearer didn't suffer anything on the previous turn, they are teleported to their previous position at the start of their turn."
+    "ability": "Henual's Punctuality:\n• The bearer gains 1 AP when they teleport, are teleported, or switch places (1 time per turn).\n• If the bearer didn't suffer anything on the previous turn, they are teleported to their previous position at the start of their turn.",
+    "legendary": true
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198888,8 @@
     "set_id": null,
     "image_url": "/img/item/11382-128.png",
     "description": "\"We have travelled a long road together, but this victory belongs to you. The Twelve merely pointed you to the right path... We shall meet again soon, Gods' Chosen One. Your story has only just begun.\"\n\n— Meriana",
-    "ability": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction"
+    "ability": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction",
+    "legendary": true
   },
   {
     "ankama_id": 32163,
@@ -198979,7 +199004,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32164,

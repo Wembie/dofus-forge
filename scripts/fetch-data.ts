@@ -11,6 +11,12 @@
  *   GET /dofus3/v1/{lang}/sets/all           -> { sets: RawSet[] }
  *   GET /dofus3/v1/{lang}/mounts/all         -> { mounts: RawMount[] }
  *
+ * DofusDude has no item rarity field at all (verified 2026-10-24: equipment
+ * items carry no `rarity`/`item_subtype`). Legendary status comes from
+ * DofusDB.fr instead, keyed by the same Ankama item id:
+ *   GET https://api.dofusdb.fr/items?isLegendary=true&$select[]=id&$limit=100&$skip=N
+ *     -> { total, limit, skip, data: { id: number }[] }  (~26 items, paginate via $skip)
+ *
  * Confirmed field shapes:
  *   image_urls: { icon, sd }  (no "hd" field)
  *   effects[]: { int_minimum, int_maximum, type: { name, id } }
@@ -38,6 +44,23 @@ async function get<T>(path: string): Promise<T> {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`GET ${url} -> ${res.status} ${res.statusText}`)
   return res.json() as Promise<T>
+}
+
+const DOFUSDB_URL = 'https://api.dofusdb.fr'
+
+async function fetchLegendaryIds(): Promise<Set<number>> {
+  const ids = new Set<number>()
+  let skip = 0
+  const limit = 100
+  for (;;) {
+    const page = await fetch(`${DOFUSDB_URL}/items?isLegendary=true&$select[]=id&$limit=${limit}&$skip=${skip}`)
+    if (!page.ok) throw new Error(`GET DofusDB legendary items -> ${page.status} ${page.statusText}`)
+    const body = await page.json() as { total: number; data: { id: number }[] }
+    for (const it of body.data) ids.add(it.id)
+    skip += limit
+    if (skip >= body.total) break
+  }
+  return ids
 }
 
 function stringify(data: unknown): string {
@@ -77,6 +100,10 @@ async function main() {
     if (item.ankama_id != null) canonicalType.set(item.ankama_id, item.type?.name ?? '')
   }
 
+  console.log('  Fetching legendary item ids from DofusDB...')
+  const legendaryIds = await fetchLegendaryIds()
+  console.log(`  ${legendaryIds.size} legendary items found`)
+
   for (const lang of LANGS) {
     console.log(`  [${lang}] fetching...`)
     const langDir = join(DATA_DIR, lang)
@@ -90,7 +117,7 @@ async function main() {
     ])
 
     const equipment = rawEquip.items.map(raw => {
-      const item = normalizeItem(raw)
+      const item = normalizeItem(raw, legendaryIds)
       const cType = canonicalType.get(item.ankama_id)
       if (cType !== undefined && lang !== 'en') {
         item.type = cType
@@ -98,7 +125,7 @@ async function main() {
       }
       return item
     })
-    const consumables = rawConsum.items.map(normalizeItem)
+    const consumables = rawConsum.items.map(raw => normalizeItem(raw))
     const sets        = rawSets.sets.map(normalizeSet)
     const mounts      = rawMounts.mounts.map(normalizeMount)
 

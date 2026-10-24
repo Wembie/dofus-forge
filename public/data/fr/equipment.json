@@ -164283,7 +164283,8 @@
     "crit_bonus": 7,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20354,
@@ -164368,7 +164369,8 @@
     "crit_bonus": 6,
     "min_range": 1,
     "max_range": 1,
-    "max_per_turn": 2
+    "max_per_turn": 2,
+    "legendary": true
   },
   {
     "ankama_id": 20355,
@@ -164465,7 +164467,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20356,
@@ -164562,7 +164565,8 @@
     "crit_bonus": 15,
     "min_range": 2,
     "max_range": 7,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20357,
@@ -164635,7 +164639,8 @@
     "set_id": null,
     "image_url": "/img/item/82212-128.png",
     "description": "« Tout Féca qui part au combat se doit de porter un bouclier. Mais la meilleure protection contre l'adversité, le meilleur rempart contre tous ceux qui cherchent à nous nuire ou à nous détruire, c'est l'union. Mercenaires ! Le temps est venu de mettre nos querelles de côté et de nous rassembler sous une seule bannière. Astrub n'est pas qu'une ville marchande fondée par une bande de brigands qui se sont assagis. Astrub est aussi une cité ancienne, avec son patrimoine et sa culture. Astrub est une nation ! Aujourd'hui, membres du conseil, vous allez élire un nouveau chef. J'ai posé ma candidature. M'accorderez-vous votre confiance ? C'est à vous d'en décider. »\n\n- Fallanster, chef du Conseil d'Astrub",
-    "ability": "Droiture de Fallanster :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans un carré de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour (cumulable 1 fois). Le glyphe est dissipé au prochain tour ou s'il est déplacé."
+    "ability": "Droiture de Fallanster :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans un carré de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour (cumulable 1 fois). Le glyphe est dissipé au prochain tour ou s'il est déplacé.",
+    "legendary": true
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164713,8 @@
     "set_id": null,
     "image_url": "/img/item/82211-128.png",
     "description": "« La mort est un mal nécessaire, mais tant qu'à faire, nous préférons tous qu'elle frappe quelqu'un d'autre que nous, n'est-ce pas ? C'est pourquoi j'ai forgé ce bouclier. Il est indestructible, inusable et inoxydable. Il dévie tous les coups qui risquent de vous faire passer de vie à trépas. Bien que de dimensions imposantes, il reste léger et maniable. De plus, son aspect macabre impressionnera vos adversaires ; les plus lâches ne pourront supporter la noirceur abyssale de ses orbites vides et s'enfuiront en hurlant. Vous avez encore besoin d'être convaincus ? Nous allons donc passer à la démonstration. Sergent Kocksis, c'est à vous. »\n\n- Un artisan désirant rester anonyme",
-    "ability": "Trompe-la-Mort :\n• Lorsque le porteur a plus de 50% de sa vie, ses dommages finaux sont augmentés de 7%, mais il perd 10% de sa vie à chaque début de tour.\n• Lorsqu'il a moins de 50% de sa vie, les dommages qu'il subit sont réduits de 20%."
+    "ability": "Trompe-la-Mort :\n• Lorsque le porteur a plus de 50% de sa vie, ses dommages finaux sont augmentés de 7%, mais il perd 10% de sa vie à chaque début de tour.\n• Lorsqu'il a moins de 50% de sa vie, les dommages qu'il subit sont réduits de 20%.",
+    "legendary": true
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164817,8 @@
     "set_id": null,
     "image_url": "/img/item/16555-128.png",
     "description": "« Ils pensent que nous sommes petits et faibles. Ils se moquent de nos coutumes, de nos traditions ancestrales. Ils nous prennent pour des barbares puants, avides et nincultes. Ils croient que nous nous contenterons de rester dans nos mines, à creuser dans le noir comme des Sidoas ? Ils vont tomber de haut ! Je vais leur montrer qui sont les Nimbos. Je vais brûler leurs fermes et leurs récoltes. Je vais raser leurs cheveux, leurs sourcils, leurs cités. Je vais tondre leurs bouftous. Je vais m'emparer de leur or, vider leurs tonneaux, déchirer leurs bannières. Je suis le roi sous la montagne... et bientôt, je serai le roi du monde ! »\n\n- Brâm Barbe-Monde",
-    "ability": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible."
+    "ability": "Roi sous la Montagne :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible.",
+    "legendary": true
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164903,8 @@
     "set_id": null,
     "image_url": "/img/item/16564-128.png",
     "description": "« Quand une jeune âme quitte le temple d'Incarnam, elle rêve à la vie qui l'attend au dehors. Une vie d'aventures trépidantes, d'accomplissements personnels, d'échanges enrichissants et de partage avec les autres. Elle a oublié qui elle était autrefois. Peut-être a-t-elle régné sur un empire dont il ne reste que quelques pierres. Peut-être a-t-elle été un humble berger qui gardait un troupeau de bouftous. Le passé n'a que peu d'importance lorsque l'on regarde vers l'avenir : les Aigles Célestes veillent à ce que chaque être prenne un nouveau départ, sans craintes ni regrets, jusqu'à ce que son destin s'accomplisse. »\n\n- Maître Ganymède",
-    "ability": "Sagesse de Ganymède :\n• Le porteur gagne 2 PA les tours pairs, mais perd 1 PA et 1 PM les tours impairs."
+    "ability": "Sagesse de Ganymède :\n• Le porteur gagne 2 PA les tours pairs, mais perd 1 PA et 1 PM les tours impairs.",
+    "legendary": true
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164995,8 @@
     "set_id": null,
     "image_url": "/img/item/17418-128.png",
     "description": "« Depuis tout petit, j'ai été entraîné à combattre les dragons. Je suis un chevalier, et les chevaliers pourfendent les gros lézards qui crachent du feu. C'est écrit dans tous les livres d'histoire pour les enfants, c'est donc forcément vrai ! Vous pouvez donc imaginer ma surprise quand j'ai rencontré Bolgrot. Qui aurait cru que je deviendrais son meilleur ami ? Pas moi, en tout cas ! J'ai été le premier surpris. Comme quoi, il ne faut pas se fier aux apparences... Voilà des semaines qu'on ne se quitte plus. J'ai hâte de lui présenter Helséphine ! Je suis sûr qu'ils vont bien s'entendre tous les deux. »\n\n- Rykke-Errel, chevalier iop",
-    "ability": "Bravoure de Rykke Errel :\n• Lorsque le porteur subit une attaque à distance, il gagne 10% de son niveau en bouclier et perd 1% de dommages à distance pendant 1 tour par case d'éloignement avec son attaquant (11 cases maximum)."
+    "ability": "Bravoure de Rykke Errel :\n• Lorsque le porteur subit une attaque à distance, il gagne 10% de son niveau en bouclier et perd 1% de dommages à distance pendant 1 tour par case d'éloignement avec son attaquant (11 cases maximum).",
+    "legendary": true
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165051,8 @@
     "set_id": null,
     "image_url": "/img/item/17423-128.png",
     "description": "« Alors que nos troupes se rassemblent pour faire face à l'armée de la cité sombre, je suis monté au sommet de la colline la plus proche pour une dernière prière. En ce jour, de nombreux Douziens vont mourir. Je m'interroge. Toute cette violence est-elle nécessaire ? Faut-il sacrifier des milliers d'âmes pour que l'harmonie ait une chance de régner à nouveau ? Mais l'heure n'est plus aux questions, ni aux doutes. Esprit de la Balance, éclaire-moi de ta lumière. Montre-moi la voie de la justice qui mène à la paix. Et si je croise le chemin de la Bouchère de Brâkmar... Donne-moi la force de l'affronter, pour qu'en ce monde, l'espoir renaisse. »\n\n- Jahash Jurgen",
-    "ability": "Assimilation Élémentaire :\n• Lorsque le porteur subit des dommages dans un élément, il gagne 4% de résistance dans cet élément pendant 2 tours (cumulable 5 fois, partagé entre les éléments)."
+    "ability": "Assimilation Élémentaire :\n• Lorsque le porteur subit des dommages dans un élément, il gagne 4% de résistance dans cet élément pendant 2 tours (cumulable 5 fois, partagé entre les éléments).",
+    "legendary": true
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165131,8 @@
     "set_id": null,
     "image_url": "/img/item/11338-128.png",
     "description": "« On dit que les premiers forestiers étaient capables de parcourir les terres d'Amakna en long et en large sans jamais ressentir la moindre fatigue. Les bottes qu'ils portaient avaient été enchantées par les quatre gardiennes : elles permettaient de traverser le pays en un clin d'œil. D'une seule enjambée, les sentinelles aux yeux perçants passaient d'une frontière à l'autre, des rivages de la mer d'Asse aux vallées rocailleuses envahies par les Bworks et les Gobelins. Hélas, le pouvoir de ces bottes miraculeuses déclina quand les Quatre se retirèrent... mais les éclaireurs qui ont la chance d'en posséder une paire gardent une longueur d'avance sur les ennemis du royaume. »\n\n- Cornelia Granpa",
-    "ability": "Mille Lieues :\n• Le porteur gagne 2 PM les tours impairs."
+    "ability": "Mille Lieues :\n• Le porteur gagne 2 PM les tours impairs.",
+    "legendary": true
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165229,8 @@
     "set_id": null,
     "image_url": "/img/item/11337-128.png",
     "description": "« Approchez, novices ! Ne restez pas dans le fond, car je ne me répéterai pas. Sachez tout d'abord que seuls les maîtres de l'ordre sont autorisés à porter les bottes sacrées durant les cérémonies officielles de cirage de pompes. Il faut être une pointure, vous comprenez. Les éventuels contrevenants seront piétinés par l'ensemble de leurs condisciples avant d'être jetés dehors à grand coup de pied au derrière. Tout le monde a sa brosse à reluire et sa cire de gligli ? Bien ! Mettez-vous en rang, et entrez dans la salle sans bavardages. Je ne veux entendre qu'une seule paire de talons ! »\n\n- Bowisse, grand maître du Cul Botté",
-    "ability": "Les Culs Bottés :\n• À chaque début et fin de tour, le porteur repousse de 2 cases les entités à son contact."
+    "ability": "Les Culs Bottés :\n• À chaque début et fin de tour, le porteur repousse de 2 cases les entités à son contact.",
+    "legendary": true
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165321,8 @@
     "set_id": null,
     "image_url": "/img/item/10335-128.png",
     "description": "« Quand on est malchanceux, on est tenté de ne rien faire, de rester cloîtré chez soi à se ronger les griffes pour ne pas provoquer de catastrophe... Mais quitte à avoir la scoumoune, autant que ça serve à quelque chose ! L'audace permet de ne plus être paralysé par la poisse. Rien ne vaut un peu de culot pour conjurer le mauvais sort. Vous avez tenté un truc, et vous vous êtes planté ? La belle affaire ! Vous n'avez qu'à réessayer ! Mieux vaut rater son coup par manque de chance que de toupet. L'important, c'est de retomber sur ses pattes. »\n\n- Dodge l'Ecaflip",
-    "ability": "Audace de Dodge :\n• À chaque début de tour, le porteur se téléporte ou échange de position sur une case adjacente aléatoire et gagne 1 PM et 10% Critique, ou n'est pas déplacé et gagne 40 de Fuite et de Dommages Poussée, pendant 1 tour."
+    "ability": "Audace de Dodge :\n• À chaque début de tour, le porteur se téléporte ou échange de position sur une case adjacente aléatoire et gagne 1 PM et 10% Critique, ou n'est pas déplacé et gagne 40 de Fuite et de Dommages Poussée, pendant 1 tour.",
+    "legendary": true
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165389,8 @@
     "set_id": null,
     "image_url": "/img/item/10336-128.png",
     "description": "« Le départ d'un maître est une tragédie pour ses élèves. Lorsque Prosperus Elementor a disparu, ce sont tous les Huppermages qui se sont retrouvés orphelins. Comment survivre face au vide laissé derrière lui ? Comment transmettre un héritage aux jeunes générations quand certaines questions restent sans réponse ? Je pars aujourd'hui pour l'île verdoyante de Saharach afin d'ouvrir une porte qui me permettra de retrouver notre guide. Puisse la Balance pencher en ma faveur... et que le dieu Xélor m'accorde le temps dont j'ai besoin pour atteindre mon but. »\n\n- Dame Jhessica",
-    "ability": "Courage de Dame Jhessica :\n• À chaque fin de tour, le porteur retire 60 de Fuite aux ennemis à son contact (cumulable 1 fois) et gagne 1% de dommages aux sorts pour chaque ennemi touché pendant 2 tours (cumulable 4 fois)."
+    "ability": "Courage de Dame Jhessica :\n• À chaque fin de tour, le porteur retire 60 de Fuite aux ennemis à son contact (cumulable 1 fois) et gagne 1% de dommages aux sorts pour chaque ennemi touché pendant 2 tours (cumulable 4 fois).",
+    "legendary": true
   },
   {
     "ankama_id": 20391,
@@ -170136,7 +170150,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 22412,
@@ -170251,7 +170266,8 @@
     "set_id": null,
     "image_url": "/img/item/17454-128.png",
     "description": "« Qu'il est agréable de sentir ce parfum de désespoir dans l'air... Mercenaires jadis si fiers, si braves, si... arrogants. Regardez-vous, vos visages couverts de larmes, jeter dans des fosses communes vos êtres chers. Ces liens, ces promesses, ces sentiments... Tous sont balayés par la folie qui rampe sous votre peau. Y a-t-il plus savoureux que de voir l'horreur et le dégoût se peindre sur les regards de vos semblables, aux premiers signes de votre propre pestilence ? Tremble Astrub... implore donc tes dieux, ces imposteurs qui ne peuvent rien pour toi... Cette gangrène que vous redoutez tant... ne vient pas du ciel... mais de chacun de vous. »\n\n- Corruption",
-    "ability": "Nuée Pestilentielle :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les ennemis à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois)."
+    "ability": "Nuée Pestilentielle :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les ennemis à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois).",
+    "legendary": true
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170376,8 @@
     "set_id": null,
     "image_url": "/img/item/10343-128.png",
     "description": "« Regardez-vous, fiers Kanigs, asservis par vos ennemis... Quelle déchéance ! Vous auriez pu bâtir un véritable empire si vous n'étiez pas aussi faibles. Il fut un temps où vous aviez des rêves de gloire et de conquête, où les prisonniers travaillant dans vos carrières de pierre geignaient sous les coups de fouet... Mais de maître à esclave, il n'y a parfois qu'un pas. Courbant l'échine sous le poids des chaînes, rampant dans la boue telles des larves, vous avez oublié qui vous étiez. Vous êtes pathétiques. Lorsque votre matriarche mourra, votre destin sera accompli. Votre sacrifice aura été moins vain que votre existence... car il changera l'Histoire. »\n\n- Servitude",
-    "ability": "Fers de la Tyrannie :\n• À chaque fin de tour, le porteur attire les entités à 3 cases ou moins alignés à lui. S'il n'y a aucune entité à son contact, il devient Indéplaçable jusqu'au début de son prochain tour. L'état est retiré s'il subit des dommages."
+    "ability": "Fers de la Tyrannie :\n• À chaque fin de tour, le porteur attire les entités à 3 cases ou moins alignés à lui. S'il n'y a aucune entité à son contact, il devient Indéplaçable jusqu'au début de son prochain tour. L'état est retiré s'il subit des dommages.",
+    "legendary": true
   },
   {
     "ankama_id": 22444,
@@ -170475,7 +170492,8 @@
     "crit_bonus": 3,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 23094,
@@ -198324,7 +198342,8 @@
     "set_id": null,
     "image_url": "/img/item/16869-128.png",
     "description": "« L'avantage quand on dirige une cité comme celle de Brâkmar, c'est que personne ne s'étonne que certains individus disparaissent subitement. Quel plaisir de pouvoir laisser libre cours à ses pulsions sans avoir à se justifier ! De toute façon, celui qui oserait me tenir tête finirait tout droit au cœur du volcan. »\n\n— Oto Mustam",
-    "ability": "Ardeur de la Cité Sombre :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de dommages finaux pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois)."
+    "ability": "Ardeur de la Cité Sombre :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de dommages finaux pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois).",
+    "legendary": true
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198404,8 @@
     "set_id": null,
     "image_url": "/img/item/82553-128.png",
     "description": "« Tu es confronté à une terrible destinée, n'est-ce pas ? »\n\n- Le Prisonnier du Miroir",
-    "ability": "Reflet Aveuglant :\n• Le porteur réduit et renvoie 75% des dommages initiaux de la première attaque alliée subie à l'ennemi le plus proche de lui dans sa ligne de vue (une fois par tour).\n• À chaque fin de tour, il retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois)."
+    "ability": "Reflet Aveuglant :\n• Le porteur réduit et renvoie 75% des dommages initiaux de la première attaque alliée subie à l'ennemi le plus proche de lui dans sa ligne de vue (une fois par tour).\n• À chaque fin de tour, il retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois).",
+    "legendary": true
   },
   {
     "ankama_id": 32116,
@@ -198482,7 +198502,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 4,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32117,
@@ -198591,7 +198612,8 @@
     "crit_bonus": 4,
     "min_range": 1,
     "max_range": 3,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32118,
@@ -198676,7 +198698,8 @@
     "set_id": null,
     "image_url": "/img/item/1330-128.png",
     "description": "« Ô cher amour, comme je me languis de nos étreintes ! Mes récentes aventures m'ont épuisée, et une petite pause me ferait le plus grand bien. Il me tarde aussi de rencontrer ton ami le dragon ! Je vous imagine vous chamailler comme des enfants, cela m'amuse beaucoup.\nÀ très bientôt, ta Séphine qui t'aime. »\n\n— Helséphine, magicienne et alchimiste iop",
-    "ability": "Amour d'Helséphine :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 6% de leur vie à 3 cases ou moins autour de lui (une fois par type de déclenchement par tour)."
+    "ability": "Amour d'Helséphine :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 6% de leur vie à 3 cases ou moins autour de lui (une fois par type de déclenchement par tour).",
+    "legendary": true
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198778,8 @@
     "set_id": null,
     "image_url": "/img/item/9392-128.png",
     "description": "« Hop, pile à l'heure, comme toujours ! Fais vite, j'ai exactement cinq minutes à t'accorder. L'Horloge Divine n'attend pas. »\n\n— Henual",
-    "ability": "Ponctualité d'Henual :\n• Le porteur gagne 1 PA lorsqu'il est téléporté, se téléporte ou échange de position (1 fois par tour).\n• S'il n'a rien subi au tour précédent, il est téléporté à sa position précédente au début de son tour."
+    "ability": "Ponctualité d'Henual :\n• Le porteur gagne 1 PA lorsqu'il est téléporté, se téléporte ou échange de position (1 fois par tour).\n• S'il n'a rien subi au tour précédent, il est téléporté à sa position précédente au début de son tour.",
+    "legendary": true
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198888,8 @@
     "set_id": null,
     "image_url": "/img/item/11382-128.png",
     "description": "« Nous avons parcouru un long chemin ensemble, mais cette victoire est la tienne. Les Douze n'ont fait que t'aiguiller sur la bonne voie... Nous nous reverrons bientôt, Élu des Dieux. Ton histoire ne fait que commencer. »\n\n— Mériana",
-    "ability": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA"
+    "ability": "Clairvoyance de Mériana :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA",
+    "legendary": true
   },
   {
     "ankama_id": 32163,
@@ -198979,7 +199004,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32164,

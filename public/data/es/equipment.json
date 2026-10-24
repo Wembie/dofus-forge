@@ -164283,7 +164283,8 @@
     "crit_bonus": 7,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20354,
@@ -164368,7 +164369,8 @@
     "crit_bonus": 6,
     "min_range": 1,
     "max_range": 1,
-    "max_per_turn": 2
+    "max_per_turn": 2,
+    "legendary": true
   },
   {
     "ankama_id": 20355,
@@ -164465,7 +164467,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20356,
@@ -164562,7 +164565,8 @@
     "crit_bonus": 15,
     "min_range": 2,
     "max_range": 7,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 20357,
@@ -164635,7 +164639,8 @@
     "set_id": null,
     "image_url": "/img/item/82212-128.png",
     "description": "«Todo feca que salga a combatir debe llevar consigo un escudo. Pero la mejor protección contra la adversidad, el mejor baluarte contra todos aquellos que buscan perjudicarnos o destruirnos es la unión. ¡Mercenarios! Ha llegado la hora de dejar de lado nuestras disputas y de unirnos bajo un único estandarte. Astrub no solo es una ciudad de comerciantes fundada por una banda de bandidos que se sosegaron. Astrub es también una ciudad antigua, con su patrimonio y su cultura. ¡Astrub es una nación! Hoy, miembros del consejo, vais a elegir a un nuevo jefe. Yo he presentado mi candidatura. ¿Me daréis vuestra confianza? La decisión es vuestra».\n\n- Fallanster, jefe del Consejo de Astrub",
-    "ability": "Rectitud de Fallanster:\n• Cuando el portador termina su turno en línea de visión de un enemigo, coloca un glifo aura en un cuadrado de tamaño 1 que reduce los daños recibidospor los aliados en un 10% hasta el inicio de su siguiente turno (acumulable 1 vez). El glifo se disipa en el siguiente turno o si es desplazado."
+    "ability": "Rectitud de Fallanster:\n• Cuando el portador termina su turno en línea de visión de un enemigo, coloca un glifo aura en un cuadrado de tamaño 1 que reduce los daños recibidospor los aliados en un 10% hasta el inicio de su siguiente turno (acumulable 1 vez). El glifo se disipa en el siguiente turno o si es desplazado.",
+    "legendary": true
   },
   {
     "ankama_id": 20358,
@@ -164708,7 +164713,8 @@
     "set_id": null,
     "image_url": "/img/item/82211-128.png",
     "description": "«La muerte es un mal necesario, pero, puestos a elegir, todos preferimos que azote a otros, ¿no? Por esta razón forjé este escudo. Es indestructible e inoxidable, y no se desgasta. Desvía cualquier golpe que pudiera hacerte pasar a mejor vida. Aunque sus dimensiones sean imponentes, no deja de ser ligero y manejable. Además, su aspecto macabro impresionará a tus adversarios; los más cobardes no podrán soportar la negrura abismal de sus órbitas vacías y huirán dando gritos. ¿Todavía necesitas que te convenzan? Entonces, pasemos a hacer una demostración. Adelante, sargento Koxys».\n\n- Un artesano que quiere seguir siendo anónimo",
-    "ability": "Burlador de la Muerte:\n• Cuando el portador tiene más de un 50% de vida, sus daños finales aumentan un 7%, pero pierde un 10% de su vida al principio de cada turno.\n• Cuando tiene menos del 50% de su vida, los daños que sufre se reducen un 20%."
+    "ability": "Burlador de la Muerte:\n• Cuando el portador tiene más de un 50% de vida, sus daños finales aumentan un 7%, pero pierde un 10% de su vida al principio de cada turno.\n• Cuando tiene menos del 50% de su vida, los daños que sufre se reducen un 20%.",
+    "legendary": true
   },
   {
     "ankama_id": 20359,
@@ -164811,7 +164817,8 @@
     "set_id": null,
     "image_url": "/img/item/16555-128.png",
     "description": "«Creen que somos pequeños y débiles. Se burlan de nuestras costumbres, de nuestras tradiciones ancestrales. Nos toman por bárbaros apestosos, ávidos y nanoincultos. ¿Se creen que nos conformaremos con quedarnos en nuestras minas cavando en la oscuridad, como los móguices? ¡Van a quedarse helados! Voy a enseñarles quiénes son los taponanos. Voy a quemar sus granjas y sus cosechas. Voy a pasar sus cabellos, sus cejas y sus ciudades por las armas. Voy a esquilar a sus jalatós. Voy a hacerme con su oro, vaciar sus toneles y destrozar sus banderas. Soy el rey bajo la montaña... y, pronto, ¡seré el rey del mundo!».\n\n- Bram Barbamundo",
-    "ability": "Rey Bajo la Montaña:\n• Cuando el portador realiza o sufre un intento de retirada de PA o PM, gana un 2% de daños finales durante 2 turnos (acumulable 5 veces).\n• Los efectos no pueden activarse si el portador es atacante y objetivo al mismo tiempo."
+    "ability": "Rey Bajo la Montaña:\n• Cuando el portador realiza o sufre un intento de retirada de PA o PM, gana un 2% de daños finales durante 2 turnos (acumulable 5 veces).\n• Los efectos no pueden activarse si el portador es atacante y objetivo al mismo tiempo.",
+    "legendary": true
   },
   {
     "ankama_id": 20360,
@@ -164896,7 +164903,8 @@
     "set_id": null,
     "image_url": "/img/item/16564-128.png",
     "description": "«Cuando una joven alma abandona el templo de Incarnam, sueña con la vida que le espera fuera. Una vida de aventuras trepidantes, de logros personales, de intercambios enriquecedores y de compartir con los demás. Ha olvidado quien era antaño. Quizás reinó en un imperio del que no queda más que unas cuantas piedras. Quizás fue un humilde pastor que cuidaba de un rebaño de jalatós. El pasado importa más bien poco cuando se mira al futuro: las águilas celestes procuran que cada ser empiece de nuevo, sin temores ni arrepentimientos, hasta que se cumpla su destino».\n\n- Maestro Ganymed",
-    "ability": "Sabiduría de Ganymed:\n• El portador gana 2 PA los turnos pares, pero pierde 1 PA y 1 PM los turnos impares."
+    "ability": "Sabiduría de Ganymed:\n• El portador gana 2 PA los turnos pares, pero pierde 1 PA y 1 PM los turnos impares.",
+    "legendary": true
   },
   {
     "ankama_id": 20361,
@@ -164987,7 +164995,8 @@
     "set_id": null,
     "image_url": "/img/item/17418-128.png",
     "description": "«Desde bien pequeñito, me entrenaron para luchar contra los dragones. Soy un caballero, y los caballeros matan a los lagartos gigantes que escupen fuego. Está en todos los libros de historias para niños, ¡así que tiene que ser verdad! Así que imaginad cuál fue mi sorpresa cuando me encontré con Bolgrot. ¿Quién iba a pensar que me convertiría en su mejor amigo? ¡Yo, desde luego, no! Fui el primer sorprendido. Para que veáis que no hay que fiarse de las apariencias... Llevamos semanas sin separarnos. ¡Estoy impaciente por presentarle a Helsefina! Estoy seguro de que se van a llevar muy bien».\n\n- Rykke Errel, caballero yopuka",
-    "ability": "Valentía de Rykke Errel:\n• Cuando el portador recibe un ataque a distancia, gana un 10% de su nivel en escudo y pierde un 1% de daños a distancia durante 1 turno por casilla de alejamiento con su atacante (máximo de 11 casillas)."
+    "ability": "Valentía de Rykke Errel:\n• Cuando el portador recibe un ataque a distancia, gana un 10% de su nivel en escudo y pierde un 1% de daños a distancia durante 1 turno por casilla de alejamiento con su atacante (máximo de 11 casillas).",
+    "legendary": true
   },
   {
     "ankama_id": 20362,
@@ -165042,7 +165051,8 @@
     "set_id": null,
     "image_url": "/img/item/17423-128.png",
     "description": "«Mientras nuestras tropas se reúnen para hacer frente al ejército de la ciudad oscura, he subido a lo alto de la colina más cercana para pronunciar una última oración. En este día, muchos doceros van a morir. Me hago preguntas. ¿Es necesaria toda esta violencia? ¿Hace falta sacrificar a miles de almas para que la armonía tenga una oportunidad de reinar de nuevo? Pero ya no es momento de preguntas, ni de dudas. Espíritu de la Balanza, ilumíname con tu luz. Muéstrame la senda de la justicia que lleva a la paz. Y, si me cruzo en el camino de la Carnicera de Brakmar... dame fuerza para enfrentarme a ella, para que renazca en este mundo la esperanza».\n\n- Jahash Jurgen",
-    "ability": "Asimilación Elemental:\n• Cuando el portador sufre daños con un elemento, gana un 4% de resistencia en este elemento durante 2 turnos (acumulable 5 veces, compartido entre los elementos)."
+    "ability": "Asimilación Elemental:\n• Cuando el portador sufre daños con un elemento, gana un 4% de resistencia en este elemento durante 2 turnos (acumulable 5 veces, compartido entre los elementos).",
+    "legendary": true
   },
   {
     "ankama_id": 20363,
@@ -165121,7 +165131,8 @@
     "set_id": null,
     "image_url": "/img/item/11338-128.png",
     "description": "«Dicen que los primeros guardabosques eran capaces de recorrer las tierras de Amakna a lo largo y ancho sin sentir nunca el más mínimo cansancio. Las cuatro guardianas habían encantado las botas que llevaban: con ellas se podía atravesar el país en un santiamén. De una zancada, los centinelas de ojos penetrantes pasaban de una frontera a otra, de las orillas del mar Rano a los valles rocosos invadidos por los bworks y los goblins. Por desgracia, el poder de estas botas milagrosas se debilitó cuando las Cuatro se retiraron... pero los exploradores que tienen la suerte de poseer un par les sacan una buena ventaja a los enemigos del reino».\n\n- Cornelia Trancos",
-    "ability": "Mil Leguas:\n• El portador gana 2 PM en los turnos impares."
+    "ability": "Mil Leguas:\n• El portador gana 2 PM en los turnos impares.",
+    "legendary": true
   },
   {
     "ankama_id": 20364,
@@ -165218,7 +165229,8 @@
     "set_id": null,
     "image_url": "/img/item/11337-128.png",
     "description": "«¡Acercaos, novatos! No os quedéis en el fondo, porque no voy a repetir. Que sepáis que, para empezar, solo los maestros de la orden pueden llevar las botas sagradas durante las ceremonias oficiales de limpieza de botas. Hace falta un rango de cierto número, ya me entendéis. Quienes infrinjan esta norma serán pisoteados por todos sus condiscípulos, y, posteriormente, los echaremos dándoles unas buenas patadas en el trasero. ¿Tenéis todos vuestro cepillo de limpiabotas y vuestra cera de balí? ¡Bien! Poneos en fila y entrad en clase en silencio. ¡No quiero oír más que un par de suelas!».\n\n- Bowis, gran maestro del Culo Pateado",
-    "ability": "Los Culo Pateado:\n• Al principio y final de cada turno, el portador empuja 2 casillas a las entidades en contacto con él."
+    "ability": "Los Culo Pateado:\n• Al principio y final de cada turno, el portador empuja 2 casillas a las entidades en contacto con él.",
+    "legendary": true
   },
   {
     "ankama_id": 20365,
@@ -165309,7 +165321,8 @@
     "set_id": null,
     "image_url": "/img/item/10335-128.png",
     "description": "«Cuando tienes mala suerte, tienes la tentación de no hacer nada, de quedarte encerrado en casa mordiéndote las garras para no causar una catástrofe... Pero, ya que tienes mal fario, ¡que por lo menos te sirva para algo! La audacia permite que el gafe deje de paralizarte. Nada como un poco de cara dura para evitar la mala suerte. ¿Has intentado algo y has fracasado? ¡Pues mira tú que bien! ¡Inténtalo otra vez! Es mejor errar el tiro por falta de suerte que por no atreverse. Lo importante es caer siempre de pie».\n\n- Dodge el Zurcarák",
-    "ability": "Audacia de Dodge:\n• Al principio de cada turno, el portador se teletransporta o intercambia posición en una casilla adyacente aleatoria y gana 1 PM y 10% de críticos, o no se desplaza y gana 40 de huida y daños de empuje, durante 1 turno."
+    "ability": "Audacia de Dodge:\n• Al principio de cada turno, el portador se teletransporta o intercambia posición en una casilla adyacente aleatoria y gana 1 PM y 10% de críticos, o no se desplaza y gana 40 de huida y daños de empuje, durante 1 turno.",
+    "legendary": true
   },
   {
     "ankama_id": 20366,
@@ -165376,7 +165389,8 @@
     "set_id": null,
     "image_url": "/img/item/10336-128.png",
     "description": "«La marcha de un maestro es una tragedia para sus alumnos. Cuando desapareció Prósperus Elementor, todos los hipermagos nos quedamos huérfanos. ¿Cómo sobrevivir al vacío que dejó? ¿Cómo transmitir un legado a las generaciones jóvenes cuando algunas preguntas siguen sin respuesta? Hoy me dirijo a la verde isla del Picahari para abrir una puerta que me permitirá volver a ver a nuestro guía. Ojalá la Balanza se incline a mi favor... y el dios Xelor me conceda el tiempo que necesito para alcanzar mi objetivo».\n\n- Señorita Jhessica",
-    "ability": "Valentía de la Señorita Jhessica:\n• Al final de cada turno, el portador retira 60 de huida a los enemigos en contacto con él (acumulable 1 vez) y gana un 1% de daños a los hechizos por cada enemigo alcanzado durante 2 turnos (acumulable 4 veces)."
+    "ability": "Valentía de la Señorita Jhessica:\n• Al final de cada turno, el portador retira 60 de huida a los enemigos en contacto con él (acumulable 1 vez) y gana un 1% de daños a los hechizos por cada enemigo alcanzado durante 2 turnos (acumulable 4 veces).",
+    "legendary": true
   },
   {
     "ankama_id": 20391,
@@ -170136,7 +170150,8 @@
     "crit_bonus": 10,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 22412,
@@ -170251,7 +170266,8 @@
     "set_id": null,
     "image_url": "/img/item/17454-128.png",
     "description": "«Qué agradable es sentir el olor a desesperación en el aire... Mercenarios antaño tan orgullosos, tan... arrogantes. Miraos, con la cara cubierta de lágrimas, tirando en fosas comunes a vuestros seres queridos. Esos lazos, esas promesas, esos sentimientos... Barridos por la locura que se arrastra por debajo de vuestra piel. ¿Hay algo más sabroso que ver como el horror y el asco se perfilan en las miradas de vuestros semejantes ante los primeros signos de vuestra propia pestilencia? Tiembla, Astrub... implora a tus dioses, esos impostores que no pueden hacer nada por ti... Esa gangrena que tanto teméis... no viene del cielo... sino de cada uno de vosotros».\n\n- Corrupción",
-    "ability": "Nube Pestilente:\n• Cuando el portador sube al 90% de su vida, aplica un veneno de inicio de turno de 18 con su mejor elemento de ataque a los enemigos a 2 casillas o menos de él durante 2 turnos (acumulable 1 vez)."
+    "ability": "Nube Pestilente:\n• Cuando el portador sube al 90% de su vida, aplica un veneno de inicio de turno de 18 con su mejor elemento de ataque a los enemigos a 2 casillas o menos de él durante 2 turnos (acumulable 1 vez).",
+    "legendary": true
   },
   {
     "ankama_id": 22429,
@@ -170360,7 +170376,8 @@
     "set_id": null,
     "image_url": "/img/item/10343-128.png",
     "description": "«Miraos, orgullosos kanigs, sometidos por vuestros enemigos... ¡Qué decadencia! Podríais haber construido un auténtico imperio de no ser tan débiles. Hubo un tiempo en el que soñabais con la gloria y la conquista, en el que los prisioneros que trabajaban en vuestras canteras de piedra gimoteaban con los latigazos... Pero, de amo a esclavo a veces solo hay paso. Doblando el espinazo oprimidos por las cadenas y arrastrándoos por el lodo como gusanos, habéis olvidado quiénes erais. Sois patéticos. Cuando muera vuestra matriarca, se cumplirá vuestro destino. Vuestro sacrificio habrá sido menos en vano que vuestra existencia... porque cambiará la historia».\n\n- Servidumbre",
-    "ability": "Cadenas de la Tiranía:\n• Al final de cada turno, el portador atrae a las entidades a 3 casillas o menos alineadas con él. Si no hay ninguna entidad en su contacto, se vuelve indesplazable hasta el inicio de su próximo turno. El estado se retira si sufre daños."
+    "ability": "Cadenas de la Tiranía:\n• Al final de cada turno, el portador atrae a las entidades a 3 casillas o menos alineadas con él. Si no hay ninguna entidad en su contacto, se vuelve indesplazable hasta el inicio de su próximo turno. El estado se retira si sufre daños.",
+    "legendary": true
   },
   {
     "ankama_id": 22444,
@@ -170475,7 +170492,8 @@
     "crit_bonus": 3,
     "min_range": 1,
     "max_range": 5,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 23094,
@@ -198324,7 +198342,8 @@
     "set_id": null,
     "image_url": "/img/item/16869-128.png",
     "description": "«Lo bueno de liderar una ciudad como Brakmar es que a nadie le sorprende que alguna gente desaparezca de buenas a primeras. ¡Es maravilloso poder dar rienda suelta a tus impulsos sin tener que andar dando explicaciones! Aparte de que, si a alguien se le ocurriera plantarme cara, ese iría derechito al corazón del volcán»\n\n— Oto Mustam",
-    "ability": "Ardor de la Ciudad Oscura:\n• Al inicio de cada turno, el portador y sus aliados ganan un 1% de daños finales durante 1 turno por cada luchador enemigo vivo (acumulable hasta 4 veces)."
+    "ability": "Ardor de la Ciudad Oscura:\n• Al inicio de cada turno, el portador y sus aliados ganan un 1% de daños finales durante 1 turno por cada luchador enemigo vivo (acumulable hasta 4 veces).",
+    "legendary": true
   },
   {
     "ankama_id": 32115,
@@ -198385,7 +198404,8 @@
     "set_id": null,
     "image_url": "/img/item/82553-128.png",
     "description": "«Te has enfrentando a un terrible destino, ¿verdad?»\n\n- El prisionero del espejo",
-    "ability": "Reflejo Cegador:\n• El portador reduce y devuelve el 75% de los daños iniciales del primer ataque aliado sufrido al enemigo más cercano en la línea de visión del portador (una vez por turno).\n• Al final de cada turno, retira 4 de alcance durante 1 turno a todos los enemigos en su línea de visión y los revela si están invisibles (acumulable 1 vez)."
+    "ability": "Reflejo Cegador:\n• El portador reduce y devuelve el 75% de los daños iniciales del primer ataque aliado sufrido al enemigo más cercano en la línea de visión del portador (una vez por turno).\n• Al final de cada turno, retira 4 de alcance durante 1 turno a todos los enemigos en su línea de visión y los revela si están invisibles (acumulable 1 vez).",
+    "legendary": true
   },
   {
     "ankama_id": 32116,
@@ -198482,7 +198502,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 4,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32117,
@@ -198591,7 +198612,8 @@
     "crit_bonus": 4,
     "min_range": 1,
     "max_range": 3,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32118,
@@ -198676,7 +198698,8 @@
     "set_id": null,
     "image_url": "/img/item/1330-128.png",
     "description": "«Oh, mi amor, ¡cómo extraño nuestros abrazos! Mis últimas aventuras me han dejado exhausta, y me haría más que bien hacer una pequeña pausa. ¡También estoy impaciente por conocer a tu amigo el dragón! Os imagino peleándoos como chiquillos, y me hace mucha gracia.\nHasta muy pronto, tu Sefina que te ama»\n\n— Helsefina, maga y alquimista yopuka",
-    "ability": "Amor de Helsefina:\n• Cuando el portador aplica escudo o inflige daños cuerpo a cuerpo, cura a sus aliados un 6% de su vida si están a 3 casillas o menos a su alrededor (una vez por tipo de activación por turno)."
+    "ability": "Amor de Helsefina:\n• Cuando el portador aplica escudo o inflige daños cuerpo a cuerpo, cura a sus aliados un 6% de su vida si están a 3 casillas o menos a su alrededor (una vez por tipo de activación por turno).",
+    "legendary": true
   },
   {
     "ankama_id": 32119,
@@ -198755,7 +198778,8 @@
     "set_id": null,
     "image_url": "/img/item/9392-128.png",
     "description": "«Hop, justo a tiempo, ¡como siempre! Date prisa, puedo concederte exactamente cinco minutos. El Reloj Divino no espera»\n\n— Henual",
-    "ability": "Puntualidad de Henual:\n• El portador gana 1 PA cuando es teletransportado, se teletransporta o intercambia de posición (1 vez por turno).\n• Si no ha sufrido nada en el turno anterior, se teletransporta a su anterior posición al principio de su turno."
+    "ability": "Puntualidad de Henual:\n• El portador gana 1 PA cuando es teletransportado, se teletransporta o intercambia de posición (1 vez por turno).\n• Si no ha sufrido nada en el turno anterior, se teletransporta a su anterior posición al principio de su turno.",
+    "legendary": true
   },
   {
     "ankama_id": 32121,
@@ -198864,7 +198888,8 @@
     "set_id": null,
     "image_url": "/img/item/11382-128.png",
     "description": "«Hemos recorrido un largo camino juntos, pero esta victoria te pertenece. Lo único que han hecho los Doce ha sido guiarte por el buen camino... Pronto volveremos a vernos, elegido de los dioses. Tu historia no ha hecho más que empezar»\n\n— Meriana",
-    "ability": "Clarividencia de Meriana:\n• Cuando el portador ocasiona daños elementales, gana retirada según el elemento durante 2 turnos (acumulable 8 veces, compartido entre los efectos):\n • Tierra y agua: 5 de retirada de PM\n • Fuego y aire: 5 de retirada de PA."
+    "ability": "Clarividencia de Meriana:\n• Cuando el portador ocasiona daños elementales, gana retirada según el elemento durante 2 turnos (acumulable 8 veces, compartido entre los efectos):\n • Tierra y agua: 5 de retirada de PM\n • Fuego y aire: 5 de retirada de PA.",
+    "legendary": true
   },
   {
     "ankama_id": 32163,
@@ -198979,7 +199004,8 @@
     "crit_bonus": 15,
     "min_range": 1,
     "max_range": 2,
-    "max_per_turn": 1
+    "max_per_turn": 1,
+    "legendary": true
   },
   {
     "ankama_id": 32164,
