@@ -8,12 +8,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.129',
+    date: '2026-10-24',
+    notes: [
+      'Feat: new page, The Forger guide (link at the bottom of every page and in the order screen), explaining every part of the optimizer: minimums, purity and caps, intensity, pinned and banned items, forgemagic, the forging screen, the results and an FAQ',
+    ],
+  },
+  {
     version: '0.3.128',
     date: '2026-10-24',
     notes: [
       'Feat: La Forjadora now lets you pin items every build must wear (📌) and ban items it must never use (⛔), as many as you want. Search any item or set in the new Items section, pin your planner gear in one tap, or use the 📌 on any equipped slot of the planner and on forged results',
       'Engine: pinned items are fixed before the search starts, so La Forjadora only searches the other slots (faster, not slower) and still forgemages the pinned ones; sets of pinned pieces are tried first',
-      'Feat: new page, The Forger guide (link at the bottom of every page and in the order screen), explaining every part of the optimizer: minimums, purity and caps, intensity, pinned and banned items, forgemagic, the forging screen, the results and an FAQ',
     ],
   },
   {
