@@ -33,7 +33,6 @@ export type OptimizerConfig = {
   maxLevel:            number
   lockedSlots:         Set<SlotId>
   assumeFullyScrolled: boolean
-  bannedItems:         number[]
   intensity:           ForgeIntensity
 }
 

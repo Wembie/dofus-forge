@@ -29,7 +29,6 @@ export function makeDefaultConfig(): OptimizerConfig {
     maxLevel:            MAX_LEVEL,
     lockedSlots:         new Set(),
     assumeFullyScrolled: true,
-    bannedItems:         [],
     intensity:           'standard',
   }
 }
@@ -74,7 +73,6 @@ export function loadSavedConfig(): OptimizerConfig {
       transcendence:       parsed.transcendence !== false,
       exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
-      bannedItems:         Array.isArray(parsed.bannedItems) ? parsed.bannedItems : [],
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
       stats:               OPTIMIZER_STATS.map(s => migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
     }
@@ -89,7 +87,8 @@ export function persistConfig(config: OptimizerConfig) {
   } catch { /* quota errors ignored */ }
 }
 
-export function toWireConfig(config: OptimizerConfig, islands: number, characterLevel: number) {
+// `picks.required` holds only the items planRequired() could place.
+export function toWireConfig(config: OptimizerConfig, islands: number, characterLevel: number, picks: { required: number[]; banned: number[] } = { required: [], banned: [] }) {
   return {
     stats: config.stats.filter(isActive).map(r => {
       const cap = normalizeCap(r.cap)
@@ -105,8 +104,9 @@ export function toWireConfig(config: OptimizerConfig, islands: number, character
     maxLevel:            Math.min(clampLevel(config.maxLevel), clampLevel(characterLevel)),
     lockedSlots:         [...config.lockedSlots],
     assumeFullyScrolled: config.assumeFullyScrolled,
-    bannedItems:         config.bannedItems,
+    bannedItems:         picks.banned,
     bannedTypes:         [],
+    requiredItems:       picks.required,
     transcendence:       config.transcendence,
     islands,
   }
