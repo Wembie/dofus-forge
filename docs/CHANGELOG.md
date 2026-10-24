@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.126] — 2026-10-24
+- **Polish**: La Forjadora's anvil scene reworked to feel more premium — the anvil now has a top-edge highlight and flashes/compresses on impact, the hammer got a two-tone steel head with a drop shadow and a motion-blur swoosh on the downswing, sparks now cool from white-hot to gold to ember red as they fly instead of staying one flat color, and steam/smoke wisps rise from the piece (heavier during the cooling/tempering stage). The flash, anvil compression and swoosh are pure CSS loops timed to the same 1.1s cycle as the hammer swing, so they land on the beat every time with no JS synchronization needed. Purely visual — no change to forging logic, timing, or results
+
 ## [0.3.125] — 2026-10-24
 - **Fix**: a tab restored from the browser's own cache (session restore after a reboot, a frozen background tab) kept the previous deploy's HTML, whose hashed `/assets/index-*.js` the deploy had removed: the entry script 404'd and the page stayed black, and the existing `vite:preloadError` recovery lives inside that same missing bundle. A small inline script at the top of `index.html` (so also in every prerendered page) now reloads once when an `/assets/` script or stylesheet fails during the initial load. It stops listening after `load` (later chunk failures stay with `main.tsx`, and may just be offline) and reloads at most once per 30s, so it can never loop. Verified in Chromium: with the entry chunk answering 404 the page reloads and renders; a second failure within 30s doesn't reload again
 

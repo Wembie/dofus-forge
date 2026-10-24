@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.126',
+    date: '2026-10-24',
+    notes: [
+      "Polish: La Forjadora's anvil animation got a premium pass — the hammer strike now flashes and compresses the anvil on impact, sparks cool from white-hot to ember red as they fly, and steam rises from the piece (more of it while it cools). Purely visual, no change to forging itself",
+    ],
+  },
+  {
     version: '0.3.125',
     date: '2026-10-24',
     notes: [
