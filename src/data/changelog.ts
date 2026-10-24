@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.130',
+    date: '2026-10-24',
+    notes: [
+      'Polish: the item effect filter is now organized like La Forjadora — Main effects (with Power next to the characteristics), Damage (flat, percent, steal), Resistances (flat, percent) and Combat, in the same order',
+    ],
+  },
+  {
     version: '0.3.129',
     date: '2026-10-24',
     notes: [
