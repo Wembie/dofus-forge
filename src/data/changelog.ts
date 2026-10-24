@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.125',
+    date: '2026-10-24',
+    notes: [
+      'Fix: a tab the browser restored after turning the computer back on (or a tab left open across an update) could show a completely black page. It now reloads itself once and opens the current version',
+    ],
+  },
+  {
     version: '0.3.124',
     date: '2026-10-22',
     notes: [
