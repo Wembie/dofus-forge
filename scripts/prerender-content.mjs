@@ -41,7 +41,7 @@ const BASE = (process.env.CF_PAGES || process.env.CLOUDFLARE_DEPLOY) ? '/' : '/d
 const ORIGIN = `http://localhost:${PORT}`
 const LANGS = ['en', 'es', 'fr', 'pt']
 const LANG_PATH = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
-const SLUGS = ['', 'explore', 'about', 'how-to-use', 'privacy', 'terms', 'classes/cra']
+const SLUGS = ['', 'explore', 'about', 'how-to-use', 'forge-guide', 'privacy', 'terms', 'classes/cra']
 // Generous: the very first request to a cold preview server (always the
 // home page, first in the loop) pays extra one-time cost compiling/caching
 // assets on top of its own game-data load — timed at 2.4s warm, but needs

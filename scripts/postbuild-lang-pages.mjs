@@ -97,6 +97,13 @@ const HOWTO_META = {
   pt: { title: 'Como usar o Dofus Forge', description: 'Um guia passo a passo para montar uma build de Dofus 3 — escolher classe, equipar itens, ler stats e bônus de conjunto, runas de forjamagia, o otimizador, e compartilhar sua build.' },
 }
 
+const FORGE_GUIDE_META = {
+  en: { title: 'The Forger guide — Dofus 3 build optimizer | Dofus Forge', description: "How to use Dofus Forge's build optimizer, The Forger: minimums, purity and caps, intensity, pinned and banned items, forgemagic, transcendence runes and exos, and how to read the results." },
+  es: { title: 'Guía de La Forjadora — optimizador de builds de Dofus 3 | Dofus Forge', description: 'Cómo usar La Forjadora de Dofus Forge: mínimos, Ley y topes, intensidad, objetos fijados y excluidos, forjamagia, runas de transcendencia y exos, y cómo leer los resultados.' },
+  fr: { title: 'Guide de La Forgeuse — optimiseur de builds Dofus 3 | Dofus Forge', description: "Comment utiliser La Forgeuse de Dofus Forge : minimums, aloi et plafonds, intensité, objets épinglés et exclus, forgemagie, runes de transcendance et exos, et lecture des résultats." },
+  pt: { title: 'Guia da Forjadora — otimizador de builds de Dofus 3 | Dofus Forge', description: 'Como usar A Forjadora do Dofus Forge: mínimos, Lei e tetos, intensidade, itens fixados e excluídos, forjamagia, runas de transcendência e exos, e como ler os resultados.' },
+}
+
 const PRIVACY_META = {
   en: { title: 'Privacy Policy — Dofus Forge', description: 'How Dofus Forge collects, uses, and protects your data, including cookies and Google AdSense advertising.' },
   es: { title: 'Política de Privacidad — Dofus Forge', description: 'Cómo Dofus Forge recopila, usa y protege tus datos, incluyendo cookies y la publicidad de Google AdSense.' },
@@ -219,6 +226,7 @@ generateRoute('', ROOT_META)
 generateRoute('explore', EXPLORE_META)
 generateRoute('about', ABOUT_META)
 generateRoute('how-to-use', HOWTO_META)
+generateRoute('forge-guide', FORGE_GUIDE_META)
 generateRoute('privacy', PRIVACY_META)
 generateRoute('terms', TERMS_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex
