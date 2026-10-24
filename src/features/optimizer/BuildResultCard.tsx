@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Ban } from 'lucide-react'
+import { Ban, Pin } from 'lucide-react'
 import { ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import type { BuildResult, ForgeRequirement } from './types.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -15,14 +15,17 @@ type Props = {
   lockedSlots: Set<SlotId>
   onLoad:      (result: BuildResult) => void
   onBan?:      (itemId: number) => void
+  /** Pins an item for the next forge. */
+  onPin?:      (itemId: number) => void
   ribbon?:     { label: string; gold: boolean }
   bannedItems?: number[]
+  requiredItems?: number[]
 }
 
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 const EXO_ICON = { ap: 'ap', mp: 'mp', range: 'range' } as const
 
-export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, bannedItems = [], ribbon }: Props) {
+export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, onPin, bannedItems = [], requiredItems = [], ribbon }: Props) {
   const { t } = useTranslation()
   const runeLabel = (stat: string) => { const k = runeStatLabelKey(stat); return k ? t(k) : stat }
 
@@ -100,17 +103,19 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
           const exo = result.exo[slot]
           const rune = result.runes[slot]
           const forged = hasForgedRune(slot)
+          const pinned = requiredItems.includes(item.ankama_id)
           return (
             <div
               key={slot}
               className="relative group"
-              title={`${item.name} (Nv. ${item.level})${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: runeLabel(rune.stat) })}` : ''}`}
+              title={`${item.name} (Nv. ${item.level})${pinned ? ` — 📌 ${t('optimizer_pinned_badge')}` : ''}${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: runeLabel(rune.stat) })}` : ''}`}
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
                 style={{
-                  background: 'var(--surface-panel)',
-                  border:     forged || exo || rune ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
+                  background: pinned ? 'color-mix(in srgb, var(--gold) 12%, var(--surface-panel))' : 'var(--surface-panel)',
+                  border:     pinned ? '1px solid var(--gold)' : forged || exo || rune ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
+                  boxShadow:  pinned ? '0 0 8px -3px var(--gold)' : 'none',
                 }}
               >
                 {item.image_url
@@ -142,7 +147,28 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
                   <img src={runeIconUrl(rune.stat) ?? signatureRuneUrl()} alt="" width={9} height={9} className="object-contain" />
                 </div>
               )}
-              {onBan && !lockedSlots.has(slot) && !bannedItems.includes(item.ankama_id) && (
+              {pinned && (
+                <div
+                  className="absolute -top-1 -left-1 w-4 h-4 rounded-full flex items-center justify-center"
+                  style={{ background: 'var(--gold)' }}
+                  aria-label={t('optimizer_pinned_badge')}
+                >
+                  <Pin size={9} style={{ color: 'var(--surface-void)' }} />
+                </div>
+              )}
+              {onPin && !pinned && !lockedSlots.has(slot) && (
+                <button
+                  type="button"
+                  onClick={() => onPin(item.ankama_id)}
+                  className="absolute -top-1 -left-1 w-4 h-4 rounded-full items-center justify-center hidden group-hover:flex"
+                  style={{ background: 'var(--surface-void)', border: '1px solid var(--gold)' }}
+                  title={t('optimizer_pin_item')}
+                  aria-label={t('optimizer_pin_item')}
+                >
+                  <Pin size={9} style={{ color: 'var(--gold)' }} />
+                </button>
+              )}
+              {onBan && !pinned && !lockedSlots.has(slot) && !bannedItems.includes(item.ankama_id) && (
                 <button
                   type="button"
                   onClick={() => onBan(item.ankama_id)}

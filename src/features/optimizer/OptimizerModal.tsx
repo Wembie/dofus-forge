@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, type CSSProperties } from 'react'
+import { useState, useRef, useEffect, useMemo, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, Lock, Unlock, X, Flame, Anvil, RotateCcw, Settings2, Wind, AlertTriangle, Infinity as InfinityIcon } from 'lucide-react'
+import { ChevronDown, Lock, Unlock, X, Flame, Anvil, RotateCcw, Settings2, Wind, AlertTriangle, Pin, Infinity as InfinityIcon } from 'lucide-react'
 import { Modal } from '@/ui/Modal.tsx'
 import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -15,6 +15,8 @@ import { emptyReq, isActive, normalizeCap, loadSavedConfig, persistConfig, toWir
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import { flattenRunes } from '@/engine/runes.ts'
+import { useForgePicks, planRequired } from './forgePicks.ts'
+import { ForgeItemsPanel } from './ForgeItemsPanel.tsx'
 
 type Phase = 'locked' | 'order' | 'forging' | 'forged'
 type Equipped = Partial<Record<SlotId, number>>
@@ -333,7 +335,6 @@ export function OptimizerModal({ open, onClose }: Props) {
   const [settled,        setSettled]        = useState(false)
   const [error,          setError]          = useState<string | null>(null)
   const [showSlots,      setShowSlots]      = useState(false)
-  const [showBans,       setShowBans]       = useState(false)
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => {
     const cfg = loadSavedConfig()
     const activeKeys = new Set(cfg.stats.filter(isActive).map(s => s.stat))
@@ -388,6 +389,14 @@ export function OptimizerModal({ open, onClose }: Props) {
   const runes         = useBuildStore(s => s.runes)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
+  const required      = useForgePicks(s => s.required)
+  const banned        = useForgePicks(s => s.banned)
+  const { require: pinItem, ban: banItem } = useForgePicks.getState()
+  const itemsById     = useMemo(() => new Map((equipment ?? []).map(it => [it.ankama_id, it])), [equipment])
+  const placements    = useMemo(
+    () => planRequired(required, itemsById, config.lockedSlots, equipped, level),
+    [required, itemsById, config.lockedSlots, equipped, level],
+  )
 
   function terminateWorkers() {
     workersRef.current.forEach(w => w.terminate())
@@ -430,10 +439,6 @@ export function OptimizerModal({ open, onClose }: Props) {
       else ls.add(slot)
       return { ...c, lockedSlots: ls }
     })
-  }
-
-  function banItem(id: number) {
-    setConfig(c => c.bannedItems.includes(id) ? c : { ...c, bannedItems: [...c.bannedItems, id] })
   }
 
   // Narrates what changed between the previous best piece and the new one.
@@ -544,13 +549,15 @@ export function OptimizerModal({ open, onClose }: Props) {
     if (!equipment || !sets) return
     if (!config.stats.some(isActive)) { setError(t('optimizer_no_stats')); return }
     if (ALL_SLOTS.every(s => config.lockedSlots.has(s))) { setError(t('optimizer_no_slots')); return }
+    if (placements.some(p => p.status === 'no_slot' || p.status === 'prysmaradite')) { setError(t('optimizer_items_conflicts')); return }
     setError(null)
     terminateWorkers()
 
     const preset = INTENSITY[config.intensity]
     presetRef.current = preset
     const count = preset.threads
-    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level)
+    const picks = { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }
+    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks)
     const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
@@ -611,7 +618,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   }
 
   const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
-  const itemNames = new Map((equipment ?? []).map(it => [it.ankama_id, it.name]))
+  const pinnedSlots = new Map(placements.filter(p => p.status === 'placed' && p.slot).map(p => [p.slot!, p.item?.name ?? '']))
   const activeReqs = config.stats.filter(isActive)
 
   // ── Locked (no class selected yet) ───────────────────────────────────────
@@ -694,6 +701,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                 requirements={config.stats}
                 runes={runes}
                 lockedSlots={config.lockedSlots}
+                requiredItems={required}
                 onLoad={loadBuild}
               />
             </div>
@@ -786,7 +794,9 @@ export function OptimizerModal({ open, onClose }: Props) {
                   lockedSlots={config.lockedSlots}
                   onLoad={loadBuild}
                   onBan={banItem}
-                  bannedItems={config.bannedItems}
+                  onPin={pinItem}
+                  requiredItems={required}
+                  bannedItems={banned}
                   ribbon={{ label: masterpiece.meetsRequired ? t('optimizer_masterpiece') : t('optimizer_best_piece'), gold: masterpiece.meetsRequired }}
                 />
               </div>
@@ -807,7 +817,9 @@ export function OptimizerModal({ open, onClose }: Props) {
                     lockedSlots={config.lockedSlots}
                     onLoad={loadBuild}
                     onBan={banItem}
-                    bannedItems={config.bannedItems}
+                    onPin={pinItem}
+                    requiredItems={required}
+                    bannedItems={banned}
                   />
                 </div>
               ))}
@@ -882,10 +894,6 @@ export function OptimizerModal({ open, onClose }: Props) {
             <span className="font-mono font-bold" style={{ color: 'var(--gold)' }}>{activeSlots}</span>
             <ChevronDown size={10} style={{ transform: showSlots ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
           </button>
-          <button onClick={() => setShowBans(s => !s)} className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
-            {t('optimizer_banned_items')}: <span className="font-mono font-bold" style={{ color: 'var(--gold)' }}>{config.bannedItems.length}</span>
-            <ChevronDown size={10} style={{ transform: showBans ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
-          </button>
           <label className="flex items-center gap-1.5 cursor-pointer select-none" title={t('optimizer_assume_scrolled_hint')}>
             <input type="checkbox" checked={config.assumeFullyScrolled} onChange={e => setConfig(c => ({ ...c, assumeFullyScrolled: e.target.checked }))} />
             <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>{t('optimizer_assume_scrolled')}</span>
@@ -934,23 +942,7 @@ export function OptimizerModal({ open, onClose }: Props) {
           <span className="text-[9px] italic w-full" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_forgemagie_hint')}</span>
         </div>
 
-        {/* Banned items */}
-        {showBans && (
-          <div className="rounded-lg p-3 flex flex-wrap items-center gap-1 forge-log-in" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-            {config.bannedItems.length === 0 && <span className="text-[10px] italic" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_banned_empty')}</span>}
-            {config.bannedItems.map(id => (
-              <button
-                key={id}
-                onClick={() => setConfig(c => ({ ...c, bannedItems: c.bannedItems.filter(b => b !== id) }))}
-                className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px]"
-                style={{ background: 'var(--surface-stone)', border: '1px solid var(--metal-edge)', color: 'var(--ink-muted)' }}
-                title={t('optimizer_unban')}
-              >
-                {itemNames.get(id) ?? id} <X size={9} />
-              </button>
-            ))}
-          </div>
-        )}
+        <ForgeItemsPanel items={equipment ?? []} sets={sets ?? []} equipped={equipped} placements={placements} />
 
         {/* Slots panel */}
         {showSlots && (
@@ -969,9 +961,10 @@ export function OptimizerModal({ open, onClose }: Props) {
             <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_slots_hint')}</p>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-4 gap-y-0.5">
               {ALL_SLOTS.map(slot => (
-                <label key={slot} className="flex items-center gap-1.5 cursor-pointer select-none">
+                <label key={slot} className="flex items-center gap-1.5 cursor-pointer select-none" title={pinnedSlots.has(slot) ? t('optimizer_slot_pinned', { name: pinnedSlots.get(slot) }) : undefined}>
                   <input type="checkbox" checked={!config.lockedSlots.has(slot)} onChange={() => toggleSlot(slot)} className="flex-shrink-0" />
-                  <span className="text-[10px] truncate" style={{ color: 'var(--ink-muted)' }}>{t(SLOT_LABEL_KEY[slot])}</span>
+                  <span className="text-[10px] truncate" style={{ color: pinnedSlots.has(slot) ? 'var(--gold)' : 'var(--ink-muted)' }}>{t(SLOT_LABEL_KEY[slot])}</span>
+                  {pinnedSlots.has(slot) && <Pin size={9} className="flex-shrink-0" style={{ color: 'var(--gold)' }} />}
                 </label>
               ))}
             </div>

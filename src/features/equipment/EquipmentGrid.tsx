@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
-import { Eye } from 'lucide-react'
+import { Eye, Pin } from 'lucide-react'
+import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -178,6 +179,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const IconCmp       = SLOT_ICON[slotId]
   const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
+  const forgePinned     = useForgePicks(s => item != null && s.required.includes(item.ankama_id))
 
   const [hovered, setHovered]   = useState(false)
   const [animating, setAnimating] = useState(false)
@@ -300,6 +302,25 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
           aria-label={`Unequip ${item.name}`}
         >×</button>
+      )}
+
+      {/* La Forjadora pin — always shown while pinned, on hover otherwise */}
+      {item && (
+        <button
+          onClick={e => { e.stopPropagation(); useForgePicks.getState().toggleRequired(item.ankama_id) }}
+          className={`absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full items-center justify-center transition-all z-10 ${forgePinned ? 'flex' : hovered ? 'flex' : 'hidden'}`}
+          style={{
+            background: forgePinned ? 'var(--gold)' : 'var(--surface-void)',
+            border:     `1px solid ${forgePinned ? 'var(--gold)' : 'var(--metal-edge)'}`,
+            color:      forgePinned ? 'var(--surface-void)' : 'var(--ink-faint)',
+            boxShadow:  forgePinned ? '0 0 8px -2px var(--gold)' : 'none',
+          }}
+          aria-pressed={forgePinned}
+          aria-label={`${t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}: ${item.name}`}
+          title={t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}
+        >
+          <Pin size={8} />
+        </button>
       )}
 
       {/* Magesmithy button — Signature_Rune when active, ✦ on hover when none */}

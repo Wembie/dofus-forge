@@ -278,6 +278,28 @@ fn fits_slot(item: &CatalogItem, slot: usize) -> bool {
     }
 }
 
+// Required items go in the free slots they fit and leave the search. Rings
+// and Dofus slots are interchangeable, so which one does not matter; a
+// Prysmaradite takes the first free Dofus slot (where the sheet shows it) and
+// other Dofus fill from the last one. Unknown ids, items already fixed and
+// items with no free slot left are skipped (the page warns about those).
+fn place_required(required: &[i64], catalog: &[CatalogItem], by_ankama: &HashMap<i64, i32>, fixed: &mut [i32; NSLOT], free_slots: &mut Vec<usize>) {
+    for id in required {
+        let Some(&i) = by_ankama.get(id) else { continue };
+        if fixed.contains(&i) {
+            continue;
+        }
+        let it = &catalog[i as usize];
+        let from_last = it.slot == "dofus" && it.item_type != "Prysmaradite";
+        let fits = |&&s: &&usize| fits_slot(it, s);
+        let slot = if from_last { free_slots.iter().rev().find(fits) } else { free_slots.iter().find(fits) };
+        if let Some(&s) = slot {
+            fixed[s] = i;
+            free_slots.retain(|&f| f != s);
+        }
+    }
+}
+
 // Low-level items are never worth a slot at high character levels; skipping
 // them keeps pools small (Dofus, trophies and companions are exempt since
 // many of the best ones are low level).
@@ -441,6 +463,9 @@ pub struct Forge {
     stat_pools: Vec<Vec<Vec<i32>>>, // [target][slot] -> items strongest in that stat
     free_slots: Vec<usize>,
     fixed: [i32; NSLOT],
+    // Slots kept as the planner has them, runes included. A required item
+    // is fixed too, but not locked: the Forge still picks its runes.
+    locked: [bool; NSLOT],
     base_pre: Vec60,
     targets: Vec<Target>,
     stat_targets: Vec<Vec<usize>>, // [dense stat] -> targets it feeds
@@ -575,12 +600,14 @@ impl Forge {
             .collect();
         let by_ankama: HashMap<i64, i32> = items.iter().enumerate().map(|(i, it)| (it.ankama_id, i as i32)).collect();
 
-        let locked: HashSet<&str> = config.locked_slots.iter().map(|s| s.as_str()).collect();
+        let locked_names: HashSet<&str> = config.locked_slots.iter().map(|s| s.as_str()).collect();
         let mut fixed = [-1i32; NSLOT];
+        let mut locked = [false; NSLOT];
         let mut free_slots = Vec::new();
         let mut locked_runes = Vec::new();
         for (s, name) in ALL_SLOTS.iter().enumerate() {
-            if locked.contains(name) {
+            if locked_names.contains(name) {
+                locked[s] = true;
                 if let Some(id) = base.equipped.get(*name) {
                     fixed[s] = by_ankama.get(id).copied().unwrap_or(-1);
                 }
@@ -595,6 +622,8 @@ impl Forge {
                 free_slots.push(s);
             }
         }
+
+        place_required(&config.required_items, &catalog, &by_ankama, &mut fixed, &mut free_slots);
 
         let mut base_pre = [0i64; NF];
         base_pre[AP] = BASE_AP + if base.level >= 100 { 1 } else { 0 };
@@ -624,6 +653,7 @@ impl Forge {
             stat_pools: Vec::new(),
             free_slots,
             fixed,
+            locked,
             base_pre,
             targets,
             stat_targets,
@@ -684,6 +714,9 @@ impl Forge {
         }
         for &s in &forge.free_slots {
             for &i in &forge.pools[s] {
+                if forge.fixed.contains(&i) {
+                    continue;
+                }
                 if let Some(st) = forge.items[i as usize].set {
                     let members = &mut forge.set_members[st];
                     match members.iter_mut().find(|(id, _)| *id == i) {
@@ -736,12 +769,21 @@ impl Forge {
         let baseline: Vec<f64> = (0..NSLOT)
             .map(|s| forge.pools[s].iter().filter(|&&i| forge.items[i as usize].set.is_none()).map(|&i| values[i as usize]).fold(0.0, f64::max))
             .collect();
+        // Pieces of a set already worn in fixed slots (a required item, a
+        // locked one) count toward its bonus, so completing that set ranks
+        // first even when only one free piece is left to add.
+        let mut worn = vec![0usize; forge.set_members.len()];
+        for &i in forge.fixed.iter().filter(|&&i| i >= 0) {
+            if let Some(st) = forge.items[i as usize].set {
+                worn[st] += 1;
+            }
+        }
         let mut ranked: Vec<(f64, usize)> = (0..forge.set_members.len())
-            .filter(|&st| forge.set_members[st].len() >= 2)
+            .filter(|&st| !forge.set_members[st].is_empty() && forge.set_members[st].len() + worn[st] >= 2)
             .map(|st| {
                 // Gain over loose items in the same slots, plus the full bonus.
                 let members: f64 = forge.set_members[st].iter().map(|(i, slots)| values[*i as usize] - baseline[slots[0]]).sum();
-                let full = forge.set_bonus[st][forge.set_members[st].len().min(NSLOT)];
+                let full = forge.set_bonus[st][(forge.set_members[st].len() + worn[st]).min(NSLOT)];
                 let bonus: f64 = (0..NF).filter(|&j| full[j] > 0).map(|j| forge.stat_targets[j].iter().map(|&t| forge.targets[t].weight * full[j] as f64).sum::<f64>()).sum();
                 (members + bonus, st)
             })
@@ -1265,7 +1307,7 @@ impl Forge {
             hosts = FORGEABLE
                 .iter()
                 .copied()
-                .filter(|&s| g[s] >= 0 && self.fixed[s] < 0 && (!self.exo_only_ring || s == RING1 || s == RING2))
+                .filter(|&s| g[s] >= 0 && !self.locked[s] && (!self.exo_only_ring || s == RING1 || s == RING2))
                 .collect();
             let room = self.exo_max.min(hosts.len());
             for (kind, stat, allowed) in [(1u8, AP, self.exo_ap), (2, MP, self.exo_mp), (3, RANGE, self.exo_range)] {
@@ -1301,7 +1343,7 @@ impl Forge {
         // where it gains the most, re-deciding points around them.
         let mut rune = [None; NSLOT];
         let mut alloc = self.allocate(&pre, &extra);
-        if FORGEABLE.iter().any(|&s| g[s] >= 0 && self.fixed[s] < 0 && !self.items[g[s] as usize].runes.is_empty()) {
+        if FORGEABLE.iter().any(|&s| g[s] >= 0 && !self.locked[s] && !self.items[g[s] as usize].runes.is_empty()) {
             let mut ch = Self::chars_of(&pre, &alloc);
             // A rune's gain depends only on (stat, value), not on which item
             // carries it: compute each distinct one once per round.
@@ -1311,7 +1353,7 @@ impl Forge {
                 let mut best_gain = 0.0f64;
                 memo.clear();
                 for &s in &FORGEABLE {
-                    if g[s] < 0 || self.fixed[s] >= 0 || used[s] {
+                    if g[s] < 0 || self.locked[s] || used[s] {
                         continue;
                     }
                     if free_hosts <= exo_kinds.len() && hosts.contains(&s) {
@@ -1901,10 +1943,10 @@ impl Forge {
     // first one (unless either slot is locked).
     fn arrange(&self, g: &[i32; NSLOT]) -> [i32; NSLOT] {
         let mut out = *g;
-        if self.fixed[DOFUS_FIRST] >= 0 {
+        if self.locked[DOFUS_FIRST] {
             return out;
         }
-        if let Some(s) = (DOFUS_FIRST + 1..NSLOT).find(|&s| out[s] >= 0 && self.fixed[s] < 0 && self.items[out[s] as usize].prysmaradite) {
+        if let Some(s) = (DOFUS_FIRST + 1..NSLOT).find(|&s| out[s] >= 0 && !self.locked[s] && self.items[out[s] as usize].prysmaradite) {
             if out[DOFUS_FIRST] < 0 || !self.items[out[DOFUS_FIRST] as usize].prysmaradite {
                 out.swap(DOFUS_FIRST, s);
             }
@@ -2036,6 +2078,7 @@ mod tests {
             assume_fully_scrolled: false,
             banned_items: vec![],
             banned_types: vec![],
+            required_items: vec![],
             transcendence: false,
             islands: 4,
             prune: true,
@@ -2297,6 +2340,97 @@ mod tests {
         assert_eq!(r.equipped.get("hat"), Some(&1));
         assert_eq!(get_stat(&r.stats, "vitality"), 60);
         assert!(!r.runes.contains_key("hat"));
+    }
+
+    #[test]
+    fn required_item_is_in_every_build_even_when_weaker() {
+        let items = vec![item(1, "hat", None, vec![effect("Vitality", 10)]), item(2, "hat", None, vec![effect("Vitality", 500)]), item(3, "cape", None, vec![effect("Vitality", 50)])];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.required_items = vec![1];
+        let mut f = Forge::new(cfg, items, vec![], base(1), 7);
+        f.temper(2000.0, &ticking());
+        let results = run(&mut f, 10);
+        assert!(!results.is_empty());
+        assert!(results.iter().all(|r| r.equipped.get("hat") == Some(&1)));
+        assert_eq!(results[0].equipped.get("cape"), Some(&3));
+    }
+
+    #[test]
+    fn required_item_above_the_level_limit_is_still_worn() {
+        let mut high = item(1, "hat", None, vec![effect("Vitality", 10)]);
+        high.level = 200;
+        let items = vec![high, item(2, "hat", None, vec![effect("Vitality", 20)])];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat"]);
+        cfg.max_level = 50;
+        cfg.required_items = vec![1];
+        let mut f = Forge::new(cfg, items, vec![], base(50), 3);
+        assert!(run(&mut f, 3).iter().all(|r| r.equipped.get("hat") == Some(&1)));
+    }
+
+    #[test]
+    fn required_item_still_gets_a_forge_rune_unlike_a_locked_one() {
+        let items = vec![item(1, "hat", None, vec![effect("Vitality", 10)]), item(2, "hat", None, vec![effect("Vitality", 300)])];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat"]);
+        cfg.transcendence = true;
+        cfg.required_items = vec![1];
+        let mut f = Forge::new(cfg, items, vec![], base(1), 5);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(r.equipped.get("hat"), Some(&1));
+        assert_eq!(r.runes.get("hat").map(|x| x.stat.as_str()), Some("Vitality"));
+    }
+
+    #[test]
+    fn required_rings_and_dofus_take_interchangeable_slots_and_the_rest_stays_searchable() {
+        let mut items = vec![
+            item(1, "ring", None, vec![effect("Vitality", 1)]),
+            item(2, "ring", None, vec![effect("Vitality", 2)]),
+            item(10, "dofus", None, vec![effect("Vitality", 1)]),
+        ];
+        let mut prysma = item(11, "dofus", None, vec![effect("Vitality", 1)]);
+        prysma.item_type = "Prysmaradite".to_string();
+        items.push(prysma);
+        for id in 20..26 {
+            items.push(item(id, "dofus", None, vec![effect("Vitality", 100 + id)]));
+        }
+        let open = ["ring1", "ring2", "dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6"];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &open);
+        cfg.required_items = vec![1, 2, 10, 11];
+        let mut f = Forge::new(cfg, items, vec![], base(1), 9);
+        f.temper(3000.0, &ticking());
+        let r = &f.results()[0];
+        let rings: HashSet<i64> = [r.equipped["ring1"], r.equipped["ring2"]].into_iter().collect();
+        assert_eq!(rings, HashSet::from([1, 2]));
+        assert_eq!(r.equipped.get("dofus1"), Some(&11), "the Prysmaradite sits in the first Dofus slot");
+        let dofus: Vec<i64> = (1..=6).filter_map(|n| r.equipped.get(&format!("dofus{n}")).copied()).collect();
+        assert!(dofus.contains(&10));
+        // The four free Dofus slots hold the four strongest others.
+        assert!([22, 23, 24, 25].iter().all(|id| dofus.contains(id)), "{dofus:?}");
+    }
+
+    #[test]
+    fn required_item_never_takes_a_locked_slot() {
+        let items = vec![item(1, "hat", None, vec![effect("Vitality", 10)]), item(2, "hat", None, vec![effect("Vitality", 20)]), item(3, "cape", None, vec![effect("Vitality", 1)])];
+        let mut b = base(1);
+        b.equipped.insert("hat".to_string(), 2);
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["cape"]);
+        cfg.required_items = vec![1];
+        let mut f = Forge::new(cfg, items, vec![], b, 4);
+        assert!(run(&mut f, 3).iter().all(|r| r.equipped.get("hat") == Some(&2)));
+    }
+
+    #[test]
+    fn a_required_set_piece_ranks_its_set_first() {
+        let pinned = item(1, "hat", Some(77), vec![effect("Vitality", 1)]);
+        let partner = item(2, "cape", Some(77), vec![effect("Vitality", 1)]);
+        let loose = item(3, "cape", None, vec![effect("Vitality", 40)]);
+        let mut bonuses = HashMap::new();
+        bonuses.insert("2".to_string(), vec![effect("Vitality", 500)]);
+        let sets = vec![CatalogSet { ankama_id: 77, items: vec![1, 2], bonuses }];
+        let mut cfg = config(vec![cond("vitality", 0, 1)], &["hat", "cape"]);
+        cfg.required_items = vec![1];
+        let f = Forge::new(cfg, vec![pinned, partner, loose], sets, base(1), 2);
+        assert_eq!(f.set_rank.first(), Some(&0), "the pinned piece's set is worth completing");
+        assert_eq!(f.results()[0].equipped.get("cape"), Some(&2));
     }
 
     #[test]

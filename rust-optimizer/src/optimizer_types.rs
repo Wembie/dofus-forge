@@ -79,6 +79,11 @@ pub struct OptimizerConfig {
     pub banned_items: Vec<i64>,
     #[serde(default)]
     pub banned_types: Vec<String>,
+    /// Items every build must wear (Ankama ids). Each one takes a slot it
+    /// fits that is not locked; the Forge searches the other slots around
+    /// it and may still forgemagie it.
+    #[serde(default)]
+    pub required_items: Vec<i64>,
     /// Let the Forge add official transcendence runes to the items it picks.
     #[serde(default = "default_true")]
     pub transcendence: bool,
