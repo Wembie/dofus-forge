@@ -25,19 +25,40 @@ function makeSparks(count: number, power: number): Spark[] {
   })
 }
 
+type Wisp = { id: number; x: number; drift: number; life: number; size: number }
+
+let wispId = 0
+function makeWisp(steamy: boolean): Wisp {
+  return {
+    id: wispId++,
+    x: 95 + Math.random() * 30,
+    drift: (Math.random() - 0.5) * 36,
+    life: (steamy ? 2.4 : 1.6) + Math.random() * 0.8,
+    size: (steamy ? 26 : 15) + Math.random() * 10,
+  }
+}
+
 // Anvil, striking hammer and an ember whose glow follows the forge heat.
-// Every strike throws a few sparks; `burst` changes on each better piece and
-// throws a big shower.
+// Every strike throws a few sparks and flashes the anvil; `burst` changes on
+// each better piece and throws a big shower. The flash/shake/swoosh are pure
+// CSS loops timed to the same 1.1s cycle as the hammer swing, so they land on
+// the same beat every time without any JS keeping them in sync.
 export function ForgeScene({ heat, burst, tempering }: { heat: number; burst: number; tempering: boolean }) {
   const [sparks, setSparks] = useState<Spark[]>([])
+  const [wisps, setWisps] = useState<Wisp[]>([])
+  const swinging = !tempering
 
   useEffect(() => {
     if (tempering) return
-    const id = setInterval(() => {
+    const burstSparks = () => {
       const fresh = makeSparks(3 + Math.round(heat * 4), 0.6 + heat * 0.4)
       setSparks(s => [...s.slice(-40), ...fresh])
-    }, 1100)
-    return () => clearInterval(id)
+    }
+    // Fire the first burst at the moment the hammer actually lands (~58% of
+    // the 1.1s swing) instead of at the top of the interval.
+    const first = setTimeout(burstSparks, 640)
+    const id = setInterval(burstSparks, 1100)
+    return () => { clearTimeout(first); clearInterval(id) }
   }, [heat, tempering])
 
   useEffect(() => {
@@ -51,47 +72,107 @@ export function ForgeScene({ heat, burst, tempering }: { heat: number; burst: nu
     return () => clearTimeout(id)
   }, [sparks])
 
+  useEffect(() => {
+    const spawnChance = tempering ? 1 : 0.35 + heat * 0.4
+    const id = setInterval(() => {
+      if (Math.random() > spawnChance) return
+      setWisps(w => [...w.slice(-8), makeWisp(tempering)])
+    }, 650)
+    return () => clearInterval(id)
+  }, [heat, tempering])
+
+  useEffect(() => {
+    if (wisps.length === 0) return
+    const id = setTimeout(() => setWisps(w => w.slice(1)), 2600)
+    return () => clearTimeout(id)
+  }, [wisps])
+
   const glow = Math.max(0.15, Math.min(1, tempering ? 0.25 : heat))
 
   return (
-    <div className="relative w-[220px] h-[130px] select-none" aria-hidden="true">
+    <div className="relative w-[240px] h-[140px] select-none" aria-hidden="true">
+      {/* Furnace mouth glow, behind the anvil */}
       <div
-        className="forge-ember absolute left-1/2 bottom-1 -translate-x-1/2 w-[170px] h-[38px] rounded-full"
+        className="forge-ember absolute left-1/2 bottom-3 -translate-x-1/2 w-[200px] h-[90px] rounded-full"
+        style={{
+          '--heat': glow,
+          background: `radial-gradient(ellipse at center, color-mix(in srgb, var(--fire) ${Math.round(glow * 55)}%, transparent) 0%, color-mix(in srgb, var(--gold) ${Math.round(glow * 25)}%, transparent) 40%, transparent 72%)`,
+          filter: 'blur(14px)',
+        } as CSSProperties}
+      />
+      <div
+        className="forge-ember absolute left-1/2 bottom-1 -translate-x-1/2 w-[180px] h-[40px] rounded-full"
         style={{
           '--heat': glow,
           background: `radial-gradient(ellipse at center, color-mix(in srgb, var(--fire) ${Math.round(glow * 85)}%, transparent) 0%, color-mix(in srgb, var(--gold) ${Math.round(glow * 40)}%, transparent) 45%, transparent 75%)`,
           filter: 'blur(6px)',
         } as CSSProperties}
       />
-      <svg viewBox="0 0 220 130" className="absolute inset-0 w-full h-full">
+      <svg viewBox="0 0 240 150" className="absolute inset-0 w-full h-full">
         <defs>
           <linearGradient id="forge-anvil" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="color-mix(in srgb, var(--ink-muted) 70%, var(--surface-stone))" />
+            <stop offset="0%" stopColor="color-mix(in srgb, var(--ink-muted) 85%, white)" />
+            <stop offset="18%" stopColor="color-mix(in srgb, var(--ink-muted) 70%, var(--surface-stone))" />
             <stop offset="100%" stopColor="var(--surface-void)" />
           </linearGradient>
           <linearGradient id="forge-hot" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="var(--gold-bright)" />
             <stop offset="100%" stopColor="var(--fire)" />
           </linearGradient>
+          <linearGradient id="forge-steel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="color-mix(in srgb, var(--ink-muted) 60%, white)" />
+            <stop offset="45%" stopColor="color-mix(in srgb, var(--ink-muted) 80%, var(--surface-stone))" />
+            <stop offset="100%" stopColor="var(--surface-void)" />
+          </linearGradient>
+          <radialGradient id="forge-flash" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="color-mix(in srgb, white 85%, var(--gold-bright))" stopOpacity="0.95" />
+            <stop offset="55%" stopColor="var(--gold-bright)" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="var(--gold-bright)" stopOpacity="0" />
+          </radialGradient>
         </defs>
-        {/* Anvil */}
-        <path d="M52 70 H170 Q186 70 192 60 L196 70 Q190 84 168 86 H150 L144 100 H160 V112 H62 V100 H78 L72 86 H60 Q48 84 52 70 Z" fill="url(#forge-anvil)" stroke="var(--metal-edge-strong)" strokeWidth="1.2" />
+
+        {/* Ground shadow */}
+        <ellipse cx="124" cy="123" rx="78" ry="7" fill="black" opacity="0.35" />
+
+        {/* Anvil, with a highlight along its top edge */}
+        <g className={swinging ? 'forge-anvil-hit' : ''}>
+          <path d="M60 78 H182 Q198 78 204 68 L208 78 Q202 92 180 94 H162 L156 108 H172 V120 H70 V108 H86 L80 94 H68 Q56 92 60 78 Z" fill="url(#forge-anvil)" stroke="var(--metal-edge-strong)" strokeWidth="1.2" />
+          <path d="M64 80 H178 Q190 80 196 72" fill="none" stroke="color-mix(in srgb, white 35%, transparent)" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
+        </g>
+
+        {/* Impact flash, timed to the hammer landing */}
+        <circle cx="113" cy="70" r="26" fill="url(#forge-flash)" className={swinging ? 'forge-impact-flash' : ''} style={{ opacity: 0 }} />
+
         {/* Glowing piece on the anvil */}
-        <rect x="96" y="63" width="34" height="7" rx="2" fill="url(#forge-hot)" opacity={0.45 + glow * 0.55}>
+        <rect x="104" y="71" width="34" height="7" rx="2" fill="url(#forge-hot)" opacity={0.45 + glow * 0.55}>
           <animate attributeName="opacity" values={`${0.45 + glow * 0.4};${0.7 + glow * 0.3};${0.45 + glow * 0.4}`} dur="1.1s" repeatCount="indefinite" />
         </rect>
+
+        {/* Motion-blur swoosh on the downswing */}
+        <path d="M150 20 Q120 40 112 64" fill="none" stroke="url(#forge-hot)" strokeWidth="3" strokeLinecap="round" opacity="0" className={swinging ? 'forge-swoosh' : ''} />
+
         {/* Hammer */}
-        <g className={tempering ? '' : 'forge-hammer'} style={{ transformBox: 'view-box', transformOrigin: '168px 58px' } as CSSProperties}>
-          <rect x="112" y="50" width="58" height="6" rx="3" fill="color-mix(in srgb, var(--gold-deep) 80%, var(--surface-stone))" />
-          <rect x="100" y="38" width="20" height="26" rx="3" fill="color-mix(in srgb, var(--ink-muted) 75%, var(--surface-stone))" stroke="var(--metal-edge-strong)" strokeWidth="1" />
+        <g className={swinging ? 'forge-hammer' : ''} style={{ transformBox: 'view-box', transformOrigin: '176px 66px', filter: 'drop-shadow(0 2px 3px rgba(0, 0, 0, .5))' } as CSSProperties}>
+          <rect x="118" y="58" width="60" height="6" rx="3" fill="color-mix(in srgb, var(--gold-deep) 80%, var(--surface-stone))" />
+          <rect x="105" y="45" width="22" height="28" rx="3" fill="url(#forge-steel)" stroke="var(--metal-edge-strong)" strokeWidth="1" />
+          <rect x="107" y="47" width="6" height="22" rx="2" fill="color-mix(in srgb, white 45%, transparent)" opacity="0.5" />
         </g>
       </svg>
-      <div className="absolute" style={{ left: 113, top: 63 }}>
+      <div className="absolute" style={{ left: 121, top: 71 }}>
         {sparks.map(s => (
           <span
             key={s.id}
             className="forge-spark"
             style={{ '--dx': `${s.dx}px`, '--dy': `${s.dy}px`, '--life': `${s.life}s`, width: s.size, height: s.size } as CSSProperties}
+          />
+        ))}
+      </div>
+      <div className="absolute" style={{ left: 108, top: 60 }}>
+        {wisps.map(w => (
+          <span
+            key={w.id}
+            className="forge-wisp"
+            style={{ left: w.x - 108, '--drift': `${w.drift}px`, '--life': `${w.life}s`, width: w.size, height: w.size } as CSSProperties}
           />
         ))}
       </div>
