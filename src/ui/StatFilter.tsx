@@ -2,47 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { STAT_META, statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { normalizeSearch } from './normalize'
-
-const PRIMARY_ORDER = ['AP', 'MP', 'Range', 'Vitality', 'Wisdom', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Summons', '% Critical']
-const PRIMARY_SET   = new Set(PRIMARY_ORDER)
-
-// Flat damage/steal stats — kept separate from resistances and from their
-// own % modifiers so the dropdown doesn't mix unrelated concepts together.
-const DAMAGE_SET = new Set([
-  'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage', 'Air Damage', 'Neutral Damage',
-  'Earth damage', 'Fire damage', 'Water damage', 'Air damage', 'Neutral damage',
-  'Critical Damage', 'Pushback Damage', 'Trap Damage', 'Power', 'Power (traps)',
-  'best-element damage',
-  'Earth steal', 'Fire steal', 'Air steal', 'Water steal', 'Neutral steal',
-  'Fire heals', 'best-element steal', 'Steals MP', 'MP Steal',
-])
-
-const DAMAGE_PCT_SET = new Set([
-  '% Melee Damage', '% Ranged Damage', '% Spell Damage', '% Weapon Damage',
-])
-
-// Fixed resistances only — the % variants get their own section below.
-const RESISTANCE_SET = new Set([
-  'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
-  'Critical Resistance', 'Pushback Resistance',
-])
-
-const RESISTANCE_PCT_SET = new Set([
-  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-  '% Melee Resistance', '% Ranged Resistance', '% Spell Resistance', '% Weapon Resistance',
-])
-
-type Cat = 'primary' | 'damage' | 'damagePct' | 'resistance' | 'resistancePct' | 'secondary' | 'other'
-
-function categorize(stat: string): Cat {
-  if (PRIMARY_SET.has(stat))        return 'primary'
-  if (DAMAGE_SET.has(stat))         return 'damage'
-  if (DAMAGE_PCT_SET.has(stat))     return 'damagePct'
-  if (RESISTANCE_SET.has(stat))     return 'resistance'
-  if (RESISTANCE_PCT_SET.has(stat)) return 'resistancePct'
-  if (STAT_META[stat])              return 'secondary'
-  return 'other'
-}
+import { layoutStats } from './statFilterLayout.ts'
 
 export type StatFilterProps = {
   stats:    string[]
@@ -75,24 +35,10 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
 
   const selectedSet = useMemo(() => new Set(selected), [selected])
 
-  const grouped = useMemo(() => {
-    const cats: Record<Cat, string[]> = {
-      primary: [], damage: [], damagePct: [], resistance: [], resistancePct: [], secondary: [], other: [],
-    }
-    for (const s of stats) cats[categorize(s)].push(s)
-    const alphaSort = (a: string, b: string) => {
-      const la = STAT_META[a] ? t(STAT_META[a].tKey) : a
-      const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
-      return la.localeCompare(lb)
-    }
-    cats.primary = PRIMARY_ORDER.filter(s => cats.primary.includes(s))
-    cats.damage.sort(alphaSort)
-    cats.damagePct.sort(alphaSort)
-    cats.resistance.sort(alphaSort)
-    cats.resistancePct.sort(alphaSort)
-    cats.secondary.sort(alphaSort)
-    cats.other.sort(alphaSort)
-    return cats
+  // Same groups and order as La Forjadora's order form.
+  const laidOut = useMemo(() => {
+    const label = (stat: string) => (STAT_META[stat] ? t(STAT_META[stat].tKey) : stat)
+    return layoutStats(stats, stat => STAT_META[stat]?.tKey, label)
   }, [stats, t])
 
   const filtered = useMemo(() => {
@@ -148,16 +94,19 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
     )
   }
 
-  function Group({ cat, titleKey, fallback }: { cat: Cat; titleKey: string; fallback: string }) {
-    const list = grouped[cat]
-    if (!list.length) return null
+  function GroupTitle({ children }: { children: string }) {
     return (
-      <div>
-        <p className="px-3 pt-2 pb-0.5 text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
-          {t(titleKey, fallback)}
-        </p>
-        {list.map(s => <StatRow key={s} stat={s} />)}
-      </div>
+      <p className="px-3 pt-2.5 pb-0.5 text-[9px] uppercase tracking-widest font-bold" style={{ color: 'var(--gold)' }}>
+        {children}
+      </p>
+    )
+  }
+
+  function SectionTitle({ children }: { children: string }) {
+    return (
+      <p className="px-3 pt-1.5 pb-0.5 text-[8px] uppercase tracking-[0.14em] font-semibold" style={{ color: 'var(--ink-faint)' }}>
+        {children}
+      </p>
     )
   }
 
@@ -253,13 +202,23 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
               : <p className="px-3 py-2 text-[11px]" style={{ color: 'var(--ink-faint)' }}>—</p>
             : (
               <>
-                <Group cat="primary"       titleKey="stat_group_primary"        fallback="Efectos principales"     />
-                <Group cat="damage"        titleKey="stat_group_damage"         fallback="Daños"                   />
-                <Group cat="damagePct"     titleKey="stat_group_damage_pct"     fallback="Daños %"                 />
-                <Group cat="resistance"    titleKey="stat_group_resistance"     fallback="Resistencias"            />
-                <Group cat="resistancePct" titleKey="stat_group_resistance_pct" fallback="Resistencias %"          />
-                <Group cat="secondary"     titleKey="stat_group_secondary"      fallback="Efectos secundarios"     />
-                <Group cat="other"         titleKey="stat_group_other"          fallback="Otros"                   />
+                {laidOut.groups.map(g => (
+                  <div key={g.key}>
+                    <GroupTitle>{t(g.titleKey)}</GroupTitle>
+                    {g.sections.map((sec, i) => (
+                      <div key={sec.titleKey ?? i}>
+                        {sec.titleKey && g.sections.length > 1 && <SectionTitle>{t(sec.titleKey)}</SectionTitle>}
+                        {sec.stats.map(st => <StatRow key={st} stat={st} />)}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                {laidOut.other.length > 0 && (
+                  <div>
+                    <GroupTitle>{t('stat_group_other')}</GroupTitle>
+                    {laidOut.other.map(st => <StatRow key={st} stat={st} />)}
+                  </div>
+                )}
               </>
             )
           }
