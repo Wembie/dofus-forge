@@ -14,6 +14,33 @@
       the real URL (e.g. /dofus-forge/es/) via history.replaceState before
       React Router reads location. Must run before the app's module script.
     -->
+    <!--
+      A tab restored from the browser's own cache (session restore after a
+      reboot, a frozen background tab) keeps the previous deploy's HTML,
+      whose hashed /assets/ files that deploy removed: the entry script 404s
+      and the page stays blank, before any app code can recover it. Reload
+      once to fetch the current HTML. Only during the initial load (later
+      chunk failures are main.tsx's vite:preloadError job, and may just be
+      offline), and at most once per 30s so it can never loop.
+    -->
+    <script>
+      (function() {
+        var KEY = 'df-stale-asset-reload'
+        function onError(e) {
+          var el = e.target
+          if (!el || (el.tagName !== 'SCRIPT' && el.tagName !== 'LINK')) return
+          if ((el.src || el.href || '').indexOf('/assets/') === -1) return
+          try {
+            if (Date.now() - Number(sessionStorage.getItem(KEY) || 0) < 30000) return
+            sessionStorage.setItem(KEY, String(Date.now()))
+          } catch (_) { return }
+          location.reload()
+        }
+        window.addEventListener('error', onError, true)
+        window.addEventListener('load', function() { window.removeEventListener('error', onError, true) })
+      })()
+    </script>
+
     <script>
       (function(l) {
         if (l.search[1] === '/') {

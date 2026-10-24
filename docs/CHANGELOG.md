@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.125] — 2026-10-24
+- **Fix**: a tab restored from the browser's own cache (session restore after a reboot, a frozen background tab) kept the previous deploy's HTML, whose hashed `/assets/index-*.js` the deploy had removed: the entry script 404'd and the page stayed black, and the existing `vite:preloadError` recovery lives inside that same missing bundle. A small inline script at the top of `index.html` (so also in every prerendered page) now reloads once when an `/assets/` script or stylesheet fails during the initial load. It stops listening after `load` (later chunk failures stay with `main.tsx`, and may just be offline) and reloads at most once per 30s, so it can never loop. Verified in Chromium: with the entry chunk answering 404 the page reloads and renders; a second failure within 30s doesn't reload again
+
 ## [0.3.124] — 2026-10-22
 - **Fix**: the shared-build preview image (`/og/<lang>/<id>.png`) answered 500 (`TypeError: ... is not iterable` from satori). The Worker inlined item icons by requesting `/img/item/<key>` from the static ASSETS binding, which has no such file and answers with the SPA's `index.html`; that HTML was base64-inlined as an image and broke the render. `toDataUri` now reads item icons straight from the R2 bucket (`items/<key>`), and refuses to inline any response whose content type isn't `image/*`, so a missing icon leaves a blank slot instead of failing the whole image
 
