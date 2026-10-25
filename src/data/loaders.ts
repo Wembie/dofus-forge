@@ -20,7 +20,7 @@ export type IndexItem = {
   level: number
 }
 
-export type AppEffect = { stat: string; min: number; max: number; effect_id?: number }
+export type AppEffect = { stat: string; min: number; max: number; effect_id?: number; formatted?: string }
 
 export type AppCondition = {
   stat:     string   // English stat name (e.g. "Strength", "Chance")

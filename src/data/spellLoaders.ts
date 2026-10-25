@@ -30,6 +30,7 @@ export type AppSpellLevel = {
   minRange:     number
   maxRange:     number
   maxPerTurn:   number
+  rangeModifiable?: boolean
   critChance:   number
   effects:      AppSpellEffect[]
   critEffects?: AppSpellEffect[]

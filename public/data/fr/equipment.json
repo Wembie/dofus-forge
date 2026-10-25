@@ -57180,49 +57180,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13106,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Pression : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13139,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fracture : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13119,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Épée Destructrice : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14818,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fustigation : +3 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13108,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Intimidation : ligne de vue désactivée"
       },
       {
         "stat": ": - de relance",
         "min": 13148,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Conquête : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13107,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bond : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13143,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Agitation : -1 PA"
       }
     ],
     "set_id": 81,
@@ -57282,49 +57290,57 @@
         "stat": ": + lancer par cible",
         "min": 12857,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Réflexes : +1 lancers par cible"
       },
       {
         "stat": ": +% Critique",
         "min": 12873,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Lapement : +35% Critique"
       },
       {
         "stat": ": + lancer par cible",
         "min": 29680,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Yams : +1 lancers par cible"
       },
       {
         "stat": ": +% Critique",
         "min": 12855,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Langue Râpeuse : +35% Critique"
       },
       {
         "stat": ": + lancer par cible",
         "min": 12846,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Topkaj : +1 lancers par cible"
       },
       {
         "stat": ": +% Critique",
         "min": 12849,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Griffe Joueuse : +35% Critique"
       },
       {
         "stat": ": + lancer par cible",
         "min": 12841,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Pile ou Face : +1 lancers par cible"
       },
       {
         "stat": ": +% Critique",
         "min": 12878,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Fanfaronnade : +30% Critique"
       }
     ],
     "set_id": 88,
@@ -57342,49 +57358,57 @@
         "stat": ": + Portée maximale",
         "min": 12916,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Fangeux : +2 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12943,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Épidémie : lancer en ligne désactivé"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12948,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Funeste : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14742,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Effraction : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12914,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Répulsif : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12920,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Effroyable : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12906,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Sournois : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12939,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Guet-apens : +3 Portée maximale"
       }
     ],
     "set_id": 89,
@@ -57402,49 +57426,57 @@
         "stat": ": + Portée maximale",
         "min": 13288,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Perturbation : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13283,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rouage : +1 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13245,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Gelure : lancer en ligne désactivé"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13257,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Poussière : +1 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13281,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Souvenir : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13285,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Permutation : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13252,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Frappe de Xélor : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13294,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pendule : +1 Portée maximale"
       }
     ],
     "set_id": 86,
@@ -57462,49 +57494,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 25742,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Stimulant : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 25746,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot de Déclin : ligne de vue désactivée"
       },
       {
         "stat": ": +% Critique",
         "min": 25858,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Mot Tapageur : +40% Critique"
       },
       {
         "stat": ": + Portée maximale",
         "min": 25857,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cri Assourdissant : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 25870,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Vampirique : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 25872,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sanglots : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 25871,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Lamentations : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 25856,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Vacarme : +2 Portée maximale"
       }
     ],
     "set_id": 83,
@@ -57522,49 +57562,57 @@
         "stat": ": + Portée maximale",
         "min": 13574,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Buisson Ardent : +3 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13568,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Feu de Brousse : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13577,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cigüe : +3 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13529,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Vent Empoisonné : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 13533,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sève Paralysante : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13562,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Miasmes : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13561,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Bloqueuse : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13526,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Bloqueuse Transmutée : -1 de relance"
       }
     ],
     "set_id": 90,
@@ -57582,49 +57630,57 @@
         "stat": ": + Portée maximale",
         "min": 12728,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stase : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12726,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Projection : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12756,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Hostilité : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 12737,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mutilation : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 12762,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Pacte de Sang : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12730,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Douleur Cuisante : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12736,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Transposition : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 12763,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Fluctuation : -1 de relance"
       }
     ],
     "set_id": 87,
@@ -57642,49 +57698,57 @@
         "stat": ": + Portée maximale",
         "min": 31115,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tofu : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31134,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Griffes du Chtigre : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31116,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bouftou : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31133,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Serres du Vautour : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31117,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Crapipou : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 31138,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Toison d'Or : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31118,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dragoune : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31112,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Morsure du Serpent : Portée modifiable"
       }
     ],
     "set_id": 84,
@@ -57702,49 +57766,57 @@
         "stat": ": + Portée maximale",
         "min": 12803,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gueule de Bois : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12811,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brancard : +1 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12786,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ribote : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 14307,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Alcoshu : ligne de vue désactivée"
       },
       {
         "stat": ": - de relance",
         "min": 12789,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Stabilisation : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 12813,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Varappe : -1 PA"
       },
       {
         "stat": ": +% Critique",
         "min": 12782,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schnaps : +30% Critique"
       },
       {
         "stat": ": - PA",
         "min": 12805,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Souffle Enflammé : -1 PA"
       }
     ],
     "set_id": 92,
@@ -57762,49 +57834,57 @@
         "stat": ": + lancer par tour",
         "min": 32453,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche d'Abolition : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 32433,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Flèche Persécutrice : -1 PA"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32427,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Cinglante : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 32458,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Flèche Assaillante : Portée modifiable"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32444,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Détonante : +1 lancers par tour"
       },
       {
         "stat": ": + dégâts de base",
         "min": 32439,
         "max": 0,
-        "effect_id": 243
+        "effect_id": 243,
+        "formatted": "Flèche Ralentissante : +6 dégâts de base"
       },
       {
         "stat": ": + lancer par cible",
         "min": 32436,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Flèche d'Immobilisation : +1 lancers par cible"
       },
       {
         "stat": ": + Portée maximale",
         "min": 32448,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flèche Tyrannique : +3 Portée maximale"
       }
     ],
     "set_id": 82,
@@ -57822,49 +57902,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 12977,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Somnolence : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13012,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Manœuvre : +1 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12994,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bulle : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 14436,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sonnailles : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12981,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rempart : +3 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13009,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Fortification : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 12979,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Barricade : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13016,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Pavois : -1 PA"
       }
     ],
     "set_id": 91,
@@ -57882,49 +57970,57 @@
         "stat": ": + Portée maximale",
         "min": 13335,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Remblai : +2 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 13355,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Feu de Mine : +35% Critique"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13331,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Roulage de Pelle : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13352,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Éboulement : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 13332,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Clef du Trésor : -1 de relance"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13359,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Clef de Bras : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13344,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pelle Animée : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13361,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bêche Animée : +3 Portée maximale"
       }
     ],
     "set_id": 85,
@@ -57942,49 +58038,57 @@
         "stat": ": + lancer par tour",
         "min": 13116,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Souffle : +1 lancers par tour"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13136,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Rassemblement : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13121,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Tempête de Puissance : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13131,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tannée : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13122,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Épée Céleste : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13145,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Zénith : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13111,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Épée du Destin : lancer en ligne désactivé"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13144,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Tumulte : Portée modifiable"
       }
     ],
     "set_id": 81,
@@ -58002,49 +58106,57 @@
         "stat": ": Portée modifiable",
         "min": 14310,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Pelotage : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12851,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Griffe de Ceangal : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 12875,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Coussinets : +35% Critique"
       },
       {
         "stat": ": +% Critique",
         "min": 12872,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Feulement : +35% Critique"
       },
       {
         "stat": ": - PA",
         "min": 12852,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Perception : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12867,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prédation : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 12845,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Château de Cartes : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 12876,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bonne Étoile : -1 PA"
       }
     ],
     "set_id": 88,
@@ -58062,49 +58174,57 @@
         "stat": ": Portée modifiable",
         "min": 12904,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sournoiserie : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12935,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Coupe-gorge : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 12919,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Cruauté : +35% Critique"
       },
       {
         "stat": ": - PA",
         "min": 12922,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Poisse : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12931,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Scélérat : +3 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12941,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Piège à Fragmentation : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12908,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Peur : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12945,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Méprise : -1 PA"
       }
     ],
     "set_id": 89,
@@ -58122,49 +58242,57 @@
         "stat": ": + Portée maximale",
         "min": 13299,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Engrenage : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13259,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Compte-goutte : +3 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13256,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Horloge : lancer en ligne désactivé"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13298,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Clepsydre : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 13296,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Désynchronisation : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13297,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Espace-temps : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13243,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Rembobinage : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 13255,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rémanence : -1 PA"
       }
     ],
     "set_id": 86,
@@ -58182,49 +58310,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 25744,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Vivifiant : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 25745,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Galvanisant : ligne de vue désactivée"
       },
       {
         "stat": ": +% Critique",
         "min": 25867,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Juron : +40% Critique"
       },
       {
         "stat": ": + lancer par cible",
         "min": 25866,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Pinceau Tribal : +1 lancers par cible"
       },
       {
         "stat": ": +% Critique",
         "min": 25859,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Chapardage : +40% Critique"
       },
       {
         "stat": ": + lancer par tour",
         "min": 25862,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Mot Distrayant : +1 lancers par tour"
       },
       {
         "stat": ": +% Critique",
         "min": 25869,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Onguent Ancestral : +35% Critique"
       },
       {
         "stat": ": + lancer par tour",
         "min": 25861,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Chœur Strident : +1 lancers par tour"
       }
     ],
     "set_id": 83,
@@ -58242,49 +58378,57 @@
         "stat": ": - PA",
         "min": 13514,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tremblement : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13559,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Mandragore : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 13569,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Inoculation : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13570,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Force de la Nature : Portée modifiable"
       },
       {
         "stat": ": - de relance",
         "min": 13530,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Puissance Sylvestre : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13566,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Influence Végétale : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13564,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Folle : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13515,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Folle Transmutée : -1 de relance"
       }
     ],
     "set_id": 90,
@@ -58302,49 +58446,57 @@
         "stat": ": + Portée maximale",
         "min": 12748,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Hémorragie : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12731,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Décimation : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12735,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Attirance : ligne de vue désactivée"
       },
       {
         "stat": ": - de relance",
         "min": 12758,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Perfusion : -1 de relance"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12746,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Ravage : lancer en ligne désactivé"
       },
       {
         "stat": ": case occupée nécessaire désactivée",
         "min": 12724,
         "max": 0,
-        "effect_id": 240
+        "effect_id": 240,
+        "formatted": "Fulgurance : case occupée nécessaire désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12738,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Transfusion : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 12754,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Liens du Sang : -1 de relance"
       }
     ],
     "set_id": 87,
@@ -58362,49 +58514,57 @@
         "stat": ": + Portée maximale",
         "min": 31110,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cri du Corbac : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31113,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Crocs du Mulou : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31111,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pics du Prespic : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 31137,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Déplumage : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31135,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Dents du Piranya : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31140,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Cœur Sauvage : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31132,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cri de l'Ours : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 31139,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bave du Crapaud : -1 PA"
       }
     ],
     "set_id": 84,
@@ -58422,49 +58582,57 @@
         "stat": ": +% Critique",
         "min": 12781,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Paume Explosive : +40% Critique"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12793,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pandikulation : +1 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 12809,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Liqueur : +40% Critique"
       },
       {
         "stat": ": +% Critique",
         "min": 12796,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Flasque Explosive : +40% Critique"
       },
       {
         "stat": ": +% Critique",
         "min": 12797,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Pandatak : +35% Critique"
       },
       {
         "stat": ": + lancer par cible",
         "min": 12783,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Épouvante : +1 lancers par cible"
       },
       {
         "stat": ": + lancer par tour",
         "min": 12806,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Consolation : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12815,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Distillation : Portée modifiable"
       }
     ],
     "set_id": 92,
@@ -58482,49 +58650,57 @@
         "stat": ": + lancer par cible",
         "min": 32426,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Flèche de Recul : +1 lancers par cible"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32449,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Éclatante : +1 lancers par tour"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32428,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche de Dispersion : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 32447,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Flèches Enflammées : Portée modifiable"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32455,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Vagabonde : +1 lancers par tour"
       },
       {
         "stat": ": + lancer par cible",
         "min": 32531,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Flèche Évasive : +1 lancers par cible"
       },
       {
         "stat": ": + Portée maximale",
         "min": 32454,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Œil pour Œil : +3 Portée maximale"
       },
       {
         "stat": ": + dégâts de base",
         "min": 32441,
         "max": 0,
-        "effect_id": 243
+        "effect_id": 243,
+        "formatted": "Flèche Paralysante : +6 dégâts de base"
       }
     ],
     "set_id": 82,
@@ -58542,49 +58718,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 12993,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Léthargie : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13008,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Regroupement : -1 PA"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13020,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Renfort : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 13027,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ataraxie : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12995,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bastion : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12980,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Trêve : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13022,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Giboulée : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12989,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Frisson : +2 Portée maximale"
       }
     ],
     "set_id": 91,
@@ -58602,49 +58786,57 @@
         "stat": ": + Portée maximale",
         "min": 13338,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Lancer de Pièces : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13353,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Monnaie Sonnante : +2 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 14278,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Banqueroute : +35% Critique"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13369,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Décadence : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 13362,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Avarice : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13328,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sac Animé : +3 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 13354,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Musette Animée : -1 de relance"
       },
       {
         "stat": ": +% Critique",
         "min": 13330,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Lancer de Pelle : +35% Critique"
       }
     ],
     "set_id": 85,
@@ -58662,49 +58854,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 14676,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ferveur : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13130,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Menace : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13133,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Endurance : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13146,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Pugilat : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13125,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Épée de Iop : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13134,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Fendoir : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13156,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fureur : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13124,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Colère de Iop : -1 PA"
       }
     ],
     "set_id": 81,
@@ -58722,49 +58922,57 @@
         "stat": ": +% Critique",
         "min": 12864,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Jass : +40% Critique"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12880,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Infortune : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 12848,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Baraka : +40% Critique"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12882,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Toupet : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 12870,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Blakjak : +40% Critique"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12859,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Destin d'Ecaflip : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 12866,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Belote : +40% Critique"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14311,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Péril : Portée modifiable"
       }
     ],
     "set_id": 88,
@@ -58782,49 +58990,57 @@
         "stat": ": + Portée maximale",
         "min": 12938,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Extorsion : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12947,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Perquisition : Portée modifiable"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12911,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Arnaque : lancer en ligne désactivé"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12934,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Pillage : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12937,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Larcin : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12917,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Attaque Mortelle : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12905,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fourberie : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12940,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Injection Toxique : -1 PA"
       }
     ],
     "set_id": 89,
@@ -58842,49 +59058,57 @@
         "stat": ": + Portée maximale",
         "min": 13254,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flétrissement : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13244,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Aiguille : +1 lancers par tour"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13242,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ralentissement : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13261,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Sablier de Xélor : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13248,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Régulateur : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13290,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Pétrification : +1 lancers par cible"
       },
       {
         "stat": ": + lancer par cible",
         "min": 14651,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Gousset : +1 lancers par cible"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13286,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Réfraction : +1 lancers par tour"
       }
     ],
     "set_id": 86,
@@ -58902,49 +59126,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 25749,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Accablant : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 25747,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Décourageant : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 25877,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Mot Espiègle : +1 lancers par tour"
       },
       {
         "stat": ": +% Critique",
         "min": 25878,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Mot Malicieux : +35% Critique"
       },
       {
         "stat": ": - PA",
         "min": 25863,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Cri de Guerre : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 25864,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Mot Rituel : -1 de relance"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 25868,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Peinture de Guerre : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 25882,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mot Secret : -1 PA"
       }
     ],
     "set_id": 83,
@@ -58962,49 +59194,57 @@
         "stat": ": - PA",
         "min": 13518,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Herbes Folles : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13576,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Malédiction Vaudou : -1 PA"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13531,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Sacrifice Vaudou : +1 lancers par cible"
       },
       {
         "stat": ": - de relance",
         "min": 13517,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Chardons Ardents : -1 de relance"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13525,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Ronce Apaisante : lancer en ligne désactivé"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13565,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Rempotage : Portée modifiable"
       },
       {
         "stat": ": - de relance",
         "min": 13567,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Sacrifiée : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13522,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Sacrifiée Transmutée : -1 de relance"
       }
     ],
     "set_id": 90,
@@ -59022,49 +59262,57 @@
         "stat": ": + Portée maximale",
         "min": 12750,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Hécatombe : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12751,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Entaille : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12757,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dissolution : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12752,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Carnage : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12741,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Punition : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 12740,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Folie Sanguinaire : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 12744,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Épée Vorace : -2 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 12765,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Épée Dansante : -2 de relance"
       }
     ],
     "set_id": 87,
@@ -59082,49 +59330,57 @@
         "stat": ": Portée modifiable",
         "min": 31114,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Fouet : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31136,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Cravache : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31120,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Piqûre Motivante : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 31142,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Communion Animale : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31125,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Discipline : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 31147,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Martinet : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31131,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Esprit Glouton : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31153,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Esprit Facétieux : +2 Portée maximale"
       }
     ],
     "set_id": 84,
@@ -59142,49 +59398,57 @@
         "stat": ": + Portée maximale",
         "min": 12792,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Souillure : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12816,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brassage : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12785,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bambouseraie : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12819,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Fermentation : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12824,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Bambou : Portée modifiable"
       },
       {
         "stat": ": - de relance",
         "min": 12799,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Lien Spiritueux : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 12798,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Pandanlku : -1 de relance"
       },
       {
         "stat": ": + Dommages",
         "min": 24039,
         "max": 0,
-        "effect_id": 245
+        "effect_id": 245,
+        "formatted": "Main de Pandawa : +5 Dommages"
       }
     ],
     "set_id": 92,
@@ -59202,49 +59466,57 @@
         "stat": ": + dégâts de base",
         "min": 32435,
         "max": 0,
-        "effect_id": 243
+        "effect_id": 243,
+        "formatted": "Flèche Glacée : +4 dégâts de base"
       },
       {
         "stat": ": - PA",
         "min": 32708,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Flèche Harcelante : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 32437,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Œil de Taupe : -1 PA"
       },
       {
         "stat": ": +% Critique",
         "min": 32431,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Pluie de Flèches : +35% Critique"
       },
       {
         "stat": ": - Portée minimale",
         "min": 32438,
         "max": 0,
-        "effect_id": 274
+        "effect_id": 274,
+        "formatted": "Flèche d'Expiation : -5 Portée minimale"
       },
       {
         "stat": ": - Portée minimale",
         "min": 32442,
         "max": 0,
-        "effect_id": 274
+        "effect_id": 274,
+        "formatted": "Flèche de Rédemption : -3 Portée minimale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 32429,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flèche Perforante : +3 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32432,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Boomerang : +1 lancers par tour"
       }
     ],
     "set_id": 82,
@@ -59262,49 +59534,57 @@
         "stat": ": + Portée maximale",
         "min": 12983,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Retour du Bâton : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13017,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tétanie : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12987,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Terre Battue : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13021,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Refuge : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12976,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Typhon : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 12992,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prairie : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13013,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Pâturage : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13010,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bourrasque : ligne de vue désactivée"
       }
     ],
     "set_id": 91,
@@ -59322,49 +59602,57 @@
         "stat": ": + Portée maximale",
         "min": 13336,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pelle Fantomatique : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13372,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Dernier Recours : Portée modifiable"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13366,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Opportunité : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13368,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Coup de Grisou : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 13334,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Boîte de Pandore : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13357,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Boîte à Outils : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13347,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Coffre Animé : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13371,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Malle Animée : -1 PA"
       }
     ],
     "set_id": 85,
@@ -59382,19 +59670,22 @@
         "stat": ": + Portée maximale",
         "min": 13110,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Épée Divine : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13117,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Épée du Jugement : Portée modifiable"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13126,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Déferlement : lancer en ligne désactivé"
       },
       {
         "stat": "PM",
@@ -59406,31 +59697,36 @@
         "stat": ": + Portée maximale",
         "min": 13135,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Anneau Destructeur : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13120,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vitalité : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13137,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Violence : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13114,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Précipitation : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13132,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Détermination : -1 PA"
       }
     ],
     "set_id": 81,
@@ -59448,25 +59744,29 @@
         "stat": ": + Portée maximale",
         "min": 12847,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Esprit Félin : +1 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12883,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Kraps : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 12861,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Félintion : +35% Critique"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12879,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mésaventure : ligne de vue désactivée"
       },
       {
         "stat": "PM",
@@ -59478,25 +59778,29 @@
         "stat": ": + lancer par tour",
         "min": 12844,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Bond du Félin : +1 lancers par tour"
       },
       {
         "stat": ": + lancer par tour",
         "min": 12865,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Entrechat : +1 lancers par tour"
       },
       {
         "stat": ": - de relance",
         "min": 12856,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Griffe Invocatrice : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 12869,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Caresse Invocatrice : -1 de relance"
       }
     ],
     "set_id": 88,
@@ -59520,49 +59824,57 @@
         "stat": ": +% Critique",
         "min": 12902,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Truanderie : +35% Critique"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12932,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Chausse-trappe : Portée modifiable"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12907,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Arsenic : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 12933,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Toxines : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12909,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fourvoiement : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12949,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Perfidie : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12910,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Piège d'Immobilisation : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 14314,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Fosse Commune : -1 PA"
       }
     ],
     "set_id": 89,
@@ -59586,49 +59898,57 @@
         "stat": ": - PA",
         "min": 13284,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Dessèchement : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13289,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Distorsion : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13292,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sables du Temps : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13246,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Flou Temporel : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13291,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Conservation : -1 de relance"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13251,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Fuite du Temps : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 13293,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prémonition : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13253,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rayon Obscur : -1 PA"
       }
     ],
     "set_id": 86,
@@ -59646,19 +59966,22 @@
         "stat": ": ligne de vue désactivée",
         "min": 25743,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot de Jouvence : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 25748,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Déprimant : ligne de vue désactivée"
       },
       {
         "stat": ": Portée modifiable",
         "min": 25873,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Mot Interdit : Portée modifiable"
       },
       {
         "stat": "PM",
@@ -59670,31 +59993,36 @@
         "stat": ": ligne de vue désactivée",
         "min": 13217,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot Exsangue : ligne de vue désactivée"
       },
       {
         "stat": ": +% Critique",
         "min": 25880,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Mot Fleuri : +35% Critique"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 25881,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Bosquet Enchanté : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 25875,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Cryothérapie : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 25883,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Murmure : +2 Portée maximale"
       }
     ],
     "set_id": 83,
@@ -59712,25 +60040,29 @@
         "stat": ": + Portée maximale",
         "min": 13516,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ronce : +3 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13521,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ronce Insolente : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13528,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Larme de Sadida : lancer en ligne désactivé"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13563,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Montée de Sève : +1 lancers par tour"
       },
       {
         "stat": "PM",
@@ -59742,25 +60074,29 @@
         "stat": ": Portée modifiable",
         "min": 13571,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Fléau : Portée modifiable"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13524,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Forêt Hantée : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 13519,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Arbre : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13560,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Arbre Feuillu : -1 PA"
       }
     ],
     "set_id": 90,
@@ -59778,31 +60114,36 @@
         "stat": ": ligne de vue désactivée",
         "min": 12733,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Assaut : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 12749,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Aversion : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12747,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Immolation : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 12739,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Sacrifice : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 12764,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Pénitence : -1 de relance"
       },
       {
         "stat": "PM",
@@ -59814,19 +60155,22 @@
         "stat": ": + Portée maximale",
         "min": 12734,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Absorption : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12723,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Furie : +2 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 12732,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Bain de Sang : +25% Critique"
       }
     ],
     "set_id": 87,
@@ -59850,49 +60194,57 @@
         "stat": ": + Portée maximale",
         "min": 31121,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Saute-granouille : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31143,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tornade de Plumes : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31126,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ventritofu : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31149,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Craquolosse : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31128,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Crapipaud : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31151,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sulfénix : +2 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 31123,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Charge Bestiale : lancer en ligne désactivé"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31145,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Chant du Phénix : +2 Portée maximale"
       }
     ],
     "set_id": 84,
@@ -60277,37 +60629,43 @@
         "stat": ": Portée modifiable",
         "min": 14309,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Pandjiu : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12788,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Propulsion : +1 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 12820,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Absinthe : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12823,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cascade : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 12777,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ivresse : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12826,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ébriété : -1 PA"
       },
       {
         "stat": "PM",
@@ -60319,13 +60677,15 @@
         "stat": ": +% Critique",
         "min": 12794,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Vague à Lame : +35% Critique"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12814,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Nausée : lancer en ligne désactivé"
       }
     ],
     "set_id": 92,
@@ -60343,49 +60703,57 @@
         "stat": ": + Portée maximale",
         "min": 32443,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flèche de Barrage : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 32459,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Carreaux Destructeurs : +2 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 32445,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Flèche Explosive : +30% Critique"
       },
       {
         "stat": ": + Portée maximale",
         "min": 32457,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flèche Massacrante : +3 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32456,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Punitive : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 32460,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Flèche du Jugement : -1 PA"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32446,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Flèche Dévorante : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 32450,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Flèche Fulminante : -1 PA"
       }
     ],
     "set_id": 82,
@@ -60403,49 +60771,57 @@
         "stat": ": - de relance",
         "min": 12842,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Seconde Chance : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 12874,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Neuf Vies : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12858,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tout ou Rien : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par cible",
         "min": 12881,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Tromperie : +1 lancers par cible"
       },
       {
         "stat": ": +% Critique",
         "min": 29785,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Bluff : +40% Critique"
       },
       {
         "stat": ": +% Critique",
         "min": 12853,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Rekop : +40% Critique"
       },
       {
         "stat": ": - PA",
         "min": 12854,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Odorat : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12863,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Roue de la Fortune : -1 PA"
       }
     ],
     "set_id": 88,
@@ -60463,49 +60839,57 @@
         "stat": ": Portée modifiable",
         "min": 31122,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Souffle Draconique : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31144,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Frappe du Craqueleur : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31127,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bouflourd : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31150,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Crocoléreux : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31129,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dragonnet : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31148,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Scarafoudre : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31124,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Aéropique : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 31146,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tourbillon : +2 Portée maximale"
       }
     ],
     "set_id": 84,
@@ -60523,49 +60907,57 @@
         "stat": ": + Portée maximale",
         "min": 13115,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Couperet : +2 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13138,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Accumulation : lancer en ligne désactivé"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13123,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Concentration : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13147,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Sentence : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13142,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vertu : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13112,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Massacre : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 13118,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Puissance : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 14677,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vindicte : -1 PA"
       }
     ],
     "set_id": 81,
@@ -60583,49 +60975,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13007,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Houlette : ligne de vue désactivée"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14434,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Torpeur : Portée modifiable"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 12988,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Défiance : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13019,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Barrière : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12986,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Transhumance : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13018,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Égide : Portée modifiable"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13011,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Silbo : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 29045,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Escapade : +3 Portée maximale"
       }
     ],
     "set_id": 91,
@@ -60643,49 +61043,57 @@
         "stat": ": + Portée maximale",
         "min": 13365,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Abattement : +2 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13364,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Souterrain : lancer en ligne désactivé"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13367,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Bêche des Anciens : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13345,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pelle des Anciens : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14273,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Gisement : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 13333,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Péremption : -1 PA"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13370,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Tamisage : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13360,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Obsolescence : +2 Portée maximale"
       }
     ],
     "set_id": 85,
@@ -60703,49 +61111,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13175,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot de Frayeur : ligne de vue désactivée"
       },
       {
         "stat": ": - de relance",
         "min": 25832,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Scalpel : -1 de relance"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13187,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot de Reconstitution : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13219,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mot de Solidarité : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par cible",
         "min": 25879,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Mot Farceur : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 25876,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mot Défendu : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 25860,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mot Turbulent : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 25865,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mot Furieux : -1 PA"
       }
     ],
     "set_id": 83,
@@ -60763,49 +61179,57 @@
         "stat": ": +% Critique",
         "min": 12791,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Ethylo : +40% Critique"
       },
       {
         "stat": ": + lancer par tour",
         "min": 12790,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Éviction : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12808,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Eau-de-vie : +2 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 12821,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Bistouille : +35% Critique"
       },
       {
         "stat": ": - de relance",
         "min": 24038,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Lait de Bambou : -1 de relance"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12817,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Prohibition : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 12807,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Engourdissement : -1 PA"
       },
       {
         "stat": ": +% Critique",
         "min": 12784,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Souffle Alcoolisé : +40% Critique"
       }
     ],
     "set_id": 92,
@@ -60823,49 +61247,57 @@
         "stat": ": + Portée maximale",
         "min": 12942,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège de Dérive : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12918,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piège Insidieux : +3 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12921,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Piège Mortel : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 12950,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Calamité : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 12903,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Concentration de Chakra : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 14741,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Manigance : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12913,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Invisibilité : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12930,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Brume : -1 PA"
       }
     ],
     "set_id": 89,
@@ -60883,49 +61315,57 @@
         "stat": ": - de relance",
         "min": 13249,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Téléportation : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13282,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Astrolabe : -1 de relance"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13287,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Complice : +1 lancers par tour"
       },
       {
         "stat": ": - de relance",
         "min": 13258,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Cadran de Xélor : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 13250,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Paradoxe : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13295,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Faille : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13247,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Synchro : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13300,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Glas : Portée modifiable"
       }
     ],
     "set_id": 86,
@@ -60943,49 +61383,57 @@
         "stat": ": + lancer par cible",
         "min": 13527,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Ronces Agressives : +1 lancers par cible"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14393,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fétiches Calcinés : +3 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13575,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Contagion : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 14396,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mangrove : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13573,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Gonflable : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13523,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Gonflable Transmutée : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13578,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Surpuissante : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 13520,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "La Surpuissante Transmutée : -1 de relance"
       }
     ],
     "set_id": 90,
@@ -61003,49 +61451,57 @@
         "stat": ": + Portée maximale",
         "min": 12755,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Déchaînement : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12745,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Condensation : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 12729,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Afflux : +1 lancers par tour"
       },
       {
         "stat": ": - de relance",
         "min": 12759,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Libation : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 12760,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Châtiment : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12725,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Supplice : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12727,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Nervosité : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12753,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Désolation : +2 Portée maximale"
       }
     ],
     "set_id": 87,
@@ -61063,49 +61519,57 @@
         "stat": ": + Portée maximale",
         "min": 13340,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Force de l'Âge : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13363,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Orpaillage : +2 Portée maximale"
       },
       {
         "stat": ": +% Critique",
         "min": 13343,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Pelle Aurifère : +35% Critique"
       },
       {
         "stat": ": - PA",
         "min": 13358,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tourbière : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13342,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Ruée vers l'Or : -1 de relance"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13356,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Déambulation : lancer en ligne désactivé"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13337,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Maladresse : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 13329,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Âge d'Or : -1 de relance"
       },
       {
         "stat": "PM",
@@ -61129,49 +61593,57 @@
         "stat": ": + Portée maximale",
         "min": 12978,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Langueur : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13014,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Atonie : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12985,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Terre Brûlée : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13025,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Vigie : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 12984,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Nimbus : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13015,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Stratus : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 12990,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vallée : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13023,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Verglas : ligne de vue désactivée"
       },
       {
         "stat": "PM",
@@ -61195,49 +61667,57 @@
         "stat": ": + Portée maximale",
         "min": 32464,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pas Chassé : +1 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 32467,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Balise Tactique : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 32465,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Tirs Éloignés : -1 de relance"
       },
       {
         "stat": ": + lancer par cible",
         "min": 32471,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Tir Perçant : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 32474,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Balise de Survie : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 32472,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Représailles : -1 PA"
       },
       {
         "stat": ": + lancer par cible",
         "min": 32470,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Tir de Repli : +1 lancers par cible"
       },
       {
         "stat": ": + lancer par tour",
         "min": 32473,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Vendetta : +1 lancers par tour"
       },
       {
         "stat": "PM",
@@ -96750,49 +97230,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13491,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Sismobombe : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13486,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Sismobombe Résiliente : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 14415,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bombarde : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13483,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Mitraille : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13435,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tornabombe : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13474,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tornabombe Résiliente : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13440,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Espingole : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13469,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Oblitération : +2 Portée maximale"
       }
     ],
     "set_id": 217,
@@ -96810,49 +97298,57 @@
         "stat": ": + Portée maximale",
         "min": 13408,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Appeau : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13387,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Masque du Pleutre : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13406,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Masque du Couard : Portée modifiable"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13425,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Brincadeira : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13405,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Picada : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13415,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cavalcade : +3 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13398,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tortoruga : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13411,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Armadur : -1 PA"
       }
     ],
     "set_id": 218,
@@ -96870,49 +97366,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13436,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bombe à Eau : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13478,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bombe à Eau Résiliente : ligne de vue désactivée"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13477,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Recel : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13488,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Plombage : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13444,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Explobombe : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13471,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Explobombe Résiliente : ligne de vue désactivée"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13442,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Pulsar : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 14414,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Shrapnel : +40% Critique"
       }
     ],
     "set_id": 217,
@@ -96930,49 +97434,57 @@
         "stat": ": + Portée maximale",
         "min": 13421,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Apostasie : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13386,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Masque de l'Intrépide : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13409,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Masque de l'Infatigable : Portée modifiable"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13420,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Catalepsie : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13423,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Inferno : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13392,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Distance : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13391,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Parafuso : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13389,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Martelo : +2 Portée maximale"
       }
     ],
     "set_id": 218,
@@ -96990,25 +97502,29 @@
         "stat": ": + Portée maximale",
         "min": 13473,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Mousquet : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14411,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Grenaille : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13434,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Botte : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13472,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ruse : +2 Portée maximale"
       },
       {
         "stat": "PM",
@@ -97020,25 +97536,29 @@
         "stat": ": - PA",
         "min": 13437,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Aimantation : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13480,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Croisement : Portée modifiable"
       },
       {
         "stat": ": +% Critique",
         "min": 13438,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Dagues Boomerang : +35% Critique"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13449,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tromblon : ligne de vue désactivée"
       }
     ],
     "set_id": 217,
@@ -97056,7 +97576,8 @@
         "stat": ": Portée modifiable",
         "min": 13388,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Masque du Psychopathe : Portée modifiable"
       },
       {
         "stat": "PM",
@@ -97068,43 +97589,50 @@
         "stat": ": Portée modifiable",
         "min": 13414,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Masque de l'Hystérique : Portée modifiable"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13394,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Furia : lancer en ligne désactivé"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13419,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bocciara : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13395,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cabriole : +1 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 14682,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Purgatorio : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13399,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Transe : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13426,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Névrose : ligne de vue désactivée"
       }
     ],
     "set_id": 218,
@@ -97122,49 +97650,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13441,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Poudre : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13479,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Bombe Collante : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 13443,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Resquille : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13482,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Arquebuse : lancer en ligne désactivé"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13433,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Extraction : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 13475,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Cadence : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13432,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Détonateur : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13470,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Étoupille : ligne de vue désactivée"
       }
     ],
     "set_id": 217,
@@ -97182,49 +97718,57 @@
         "stat": ": lancer en ligne désactivé",
         "min": 13400,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Reuche : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 13412,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Scudo : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13422,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ponteira : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13407,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Agular : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13396,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Boliche : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 14681,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ronda : -1 PA"
       },
       {
         "stat": ": +% Critique",
         "min": 13393,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Apathie : +30% Critique"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13390,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rétention : +2 Portée maximale"
       }
     ],
     "set_id": 218,
@@ -97242,49 +97786,57 @@
         "stat": ": - de relance",
         "min": 13450,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Kaboom : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13489,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Imposture : +1 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 13439,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Entourloupe : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13487,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bombe Ambulante : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 13431,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Roublardise : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13476,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stratagème : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13446,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Dernier Souffle : -1 PA"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13484,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Piège Magnétique : +1 lancers par tour"
       }
     ],
     "set_id": 217,
@@ -97302,49 +97854,57 @@
         "stat": ": + Portée maximale",
         "min": 13403,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Appui : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13410,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pivot : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13401,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Débandade : +1 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13418,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Comédie : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13397,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Plastron : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13417,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ginga : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 18651,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Carnavalo : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 18650,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Transfiguration : ligne de vue désactivée"
       }
     ],
     "set_id": 218,
@@ -105042,49 +105602,57 @@
         "stat": ": Portée modifiable",
         "min": 13858,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sabotage : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13870,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Périscope : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13820,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Marée : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13819,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Scaphandre : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13863,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Blindage : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13832,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Évolution : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13868,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Surtension : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13826,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Vapor : Portée modifiable"
       }
     ],
     "set_id": 250,
@@ -105102,49 +105670,57 @@
         "stat": ": Portée modifiable",
         "min": 13827,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Ancrage : Portée modifiable"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13857,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Amarrage : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13867,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Soupape : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13838,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Aspiration : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14308,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Piston : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13877,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Compas : ligne de vue désactivée"
       },
       {
         "stat": ": - de relance",
         "min": 13849,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Brise l'Âme : -1 de relance"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13872,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Court-circuit : ligne de vue désactivée"
       }
     ],
     "set_id": 250,
@@ -105162,49 +105738,57 @@
         "stat": ": Portée modifiable",
         "min": 13824,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Foène : Portée modifiable"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13828,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Gouvernail : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13865,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Torpille : +3 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13875,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Cabestan : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13836,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Secourisme : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13871,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sauvetage : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13830,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Gardienne : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13864,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Foreuse : ligne de vue désactivée"
       },
       {
         "stat": "PM",
@@ -105228,49 +105812,57 @@
         "stat": ": + Portée maximale",
         "min": 13874,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Turbine : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13823,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flibuste : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13825,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Écume : +3 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13821,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ressac : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13873,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Sonar : +1 lancers par tour"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13835,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Embuscade : Portée modifiable"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13829,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Harponneuse : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13859,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Chalutier : ligne de vue désactivée"
       }
     ],
     "set_id": 250,
@@ -105288,49 +105880,57 @@
         "stat": ": + Portée maximale",
         "min": 13837,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Longue-vue : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13866,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Corrosion : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13861,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Harmattan : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13822,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Courant : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13833,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Plongée : +1 lancers par tour"
       },
       {
         "stat": ": + lancer par tour",
         "min": 14306,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Submersion : +1 lancers par tour"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13831,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tactirelle : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13869,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bathyscaphe : ligne de vue désactivée"
       }
     ],
     "set_id": 250,
@@ -136400,49 +137000,57 @@
         "stat": ": Portée modifiable",
         "min": 14583,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Commotion : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14605,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Convulsion : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14579,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rayon de Wakfu : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14606,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Faisceau : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14575,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Affront : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 14602,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mépris : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14593,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Audace : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 14603,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tribulation : -1 PA"
       }
     ],
     "set_id": 370,
@@ -136460,49 +137068,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 14582,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Neutral : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par tour",
         "min": 14607,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Interruption : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14574,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Portail : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14604,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Errance : +1 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 14580,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Transcendance : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14609,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Exil : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14585,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stupeur : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 14591,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sillage : -1 PA"
       }
     ],
     "set_id": 370,
@@ -136520,13 +137136,15 @@
         "stat": ": + Portée maximale",
         "min": 14584,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Affliction : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 14608,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Outrage : ligne de vue désactivée"
       },
       {
         "stat": "PM",
@@ -136538,37 +137156,43 @@
         "stat": ": - PA",
         "min": 14588,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Offense : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14618,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Aplomb : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14589,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Odyssée : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 14616,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Exode : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 14596,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Entraide : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 14621,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Coalition : -1 PA"
       }
     ],
     "set_id": 370,
@@ -136586,49 +137210,57 @@
         "stat": ": - de relance",
         "min": 14577,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Distribution : -1 de relance"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14622,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Conjuration : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14610,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sinécure : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14620,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Persiflage : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14638,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sarcasme : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14595,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Raillerie : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 14587,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Cicatrisation : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14614,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Orgueil : Portée modifiable"
       }
     ],
     "set_id": 370,
@@ -136646,49 +137278,57 @@
         "stat": ": + Portée maximale",
         "min": 14592,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brimade : +1 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 14613,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sermon : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14576,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Poing Fulgurant : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14637,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Insolence : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14581,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Thérapie : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14590,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Camouflet : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 14594,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Extinction : +2 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 14619,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Cataclysme : lancer en ligne désactivé"
       }
     ],
     "set_id": 370,
@@ -142329,49 +142969,57 @@
         "stat": ": + Portée maximale",
         "min": 13669,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Éther : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13711,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Cataracte : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13668,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Onde Sismique : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13708,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Onde Céleste : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13666,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Lance-flamme : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13709,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Lances Telluriques : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13667,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stalagmite : +3 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13712,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tison : ligne de vue désactivée"
       }
     ],
     "set_id": 392,
@@ -142389,49 +143037,57 @@
         "stat": ": + Portée maximale",
         "min": 13675,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Météore : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13677,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Avalanche : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13679,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Lame Astrale : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13681,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Déflagration : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13723,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Lance Solaire : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13726,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Comète : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13721,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Déluge : ligne de vue désactivée"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13715,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Astéroïde : +2 Portée maximale"
       }
     ],
     "set_id": 392,
@@ -142455,49 +143111,57 @@
         "stat": ": - PA",
         "min": 13680,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Trait Ardent : -1 PA"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13717,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Stalactite : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 13676,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Glacier : -1 PA"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13714,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Ouragan : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 13678,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rafale : -1 PA"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13725,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Brèche : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 13674,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Orage : -1 PA"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13718,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Volcan : +1 lancers par cible"
       }
     ],
     "set_id": 392,
@@ -142515,49 +143179,57 @@
         "stat": ": + Portée maximale",
         "min": 13672,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Drain Élémentaire : +2 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13713,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tribut : ligne de vue désactivée"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13722,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Cycle Élémentaire : Portée modifiable"
       },
       {
         "stat": ": Portée modifiable",
         "min": 14341,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Courant Quadramental : Portée modifiable"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13695,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Propagation : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13719,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prisme Runique : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 32033,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Supernova : +2 Portée maximale"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 14342,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Torrent Arcanique : lancer en ligne désactivé"
       }
     ],
     "set_id": 392,
@@ -142575,49 +143247,57 @@
         "stat": ": + Portée maximale",
         "min": 13670,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Runification : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13710,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Manifestation : +2 Portée maximale"
       },
       {
         "stat": ": - PA",
         "min": 13682,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bouclier Élémentaire : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13720,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Gardien Élémentaire : -1 de relance"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13696,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Polarité : +1 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13716,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Convection : +1 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 13684,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sublimation : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 13724,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Surcharge Runique : -1 PA"
       }
     ],
     "set_id": 392,
@@ -152742,49 +153422,57 @@
         "stat": ": + lancer par cible",
         "min": 13757,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Dogue : +1 lancers par cible"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13789,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Dépouille : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13768,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Carcasse : +1 lancers par cible"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13796,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Battue : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13773,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Aboiement : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 13803,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Rogne : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 14357,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Appel de la Meute : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 14321,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Nouvelle Lune : -1 de relance"
       }
     ],
     "set_id": 430,
@@ -152808,49 +153496,57 @@
         "stat": ": ligne de vue désactivée",
         "min": 13754,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Rabattage : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13765,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Limier : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13753,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tétanisation : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13772,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Pelage Protecteur : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13798,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Férocité : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13749,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Flair : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13805,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Acharnement : lancer en ligne désactivé"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13790,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Aboi : +1 lancers par cible"
       }
     ],
     "set_id": 430,
@@ -152868,49 +153564,57 @@
         "stat": ": +% Critique",
         "min": 13763,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Tibia : +25% Critique"
       },
       {
         "stat": ": + Portée maximale",
         "min": 13794,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Humérus : +1 Portée maximale"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13802,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Amarok : ligne de vue désactivée"
       },
       {
         "stat": ": - PA",
         "min": 13758,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Cerbère : -1 PA"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13770,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Convergence : lancer en ligne désactivé"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13806,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Pistage : lancer en ligne désactivé"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13771,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Arcanin : +1 lancers par tour"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13797,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Caninos : +1 lancers par tour"
       }
     ],
     "set_id": 430,
@@ -152928,49 +153632,57 @@
         "stat": ": +% Critique",
         "min": 13756,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Molosse : +30% Critique"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13787,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Mâchoire : ligne de vue désactivée"
       },
       {
         "stat": ": + lancer par cible",
         "min": 13762,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Os à Moelle : +1 lancers par cible"
       },
       {
         "stat": ": - PA",
         "min": 13793,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Muselière : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13766,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Charogne : ligne de vue désactivée"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13799,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Radius : ligne de vue désactivée"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13755,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Traque : lancer en ligne désactivé"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13804,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Dépeçage : lancer en ligne désactivé"
       }
     ],
     "set_id": 430,
@@ -152988,49 +153700,57 @@
         "stat": ": - PA",
         "min": 13800,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vertèbre : -1 PA"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13760,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Cubitus : ligne de vue désactivée"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13788,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Calcanéus : lancer en ligne désactivé"
       },
       {
         "stat": ": - PA",
         "min": 13769,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Apaisement : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 13791,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Affection : -1 PA"
       },
       {
         "stat": ": + lancer par tour",
         "min": 13781,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Panique : +1 lancers par tour"
       },
       {
         "stat": ": lancer en ligne désactivé",
         "min": 13801,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Poursuite : lancer en ligne désactivé"
       },
       {
         "stat": ": ligne de vue désactivée",
         "min": 13795,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Chasse : ligne de vue désactivée"
       }
     ],
     "set_id": 430,
@@ -181924,49 +182644,57 @@
         "stat": ": + Portée maximale",
         "min": 23432,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Lance du Lac : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23720,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Épieu Sismique : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23719,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Lance-pierre : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23392,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Javelot-foudre : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 23263,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Lance à Incendie : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 24219,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pluie d'Airain : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23734,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Javeline de Myr : +3 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 23755,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Moulin Rouge : +1 lancers par tour"
       }
     ],
     "set_id": 515,
@@ -181984,49 +182712,57 @@
         "stat": ": - PA",
         "min": 23434,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Balestra : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 23742,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Moulin à Vent : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23726,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Talon d'Argile : +2 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 23753,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Fente : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 23750,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Muspel : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 23723,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ydra : -1 PA"
       },
       {
         "stat": ": Portée modifiable",
         "min": 23735,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Noa : Portée modifiable"
       },
       {
         "stat": ": - PA",
         "min": 23396,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Elding : -1 PA"
       }
     ],
     "set_id": 515,
@@ -182044,49 +182780,57 @@
         "stat": ": + Portée maximale",
         "min": 23393,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Trident de la Mer : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23747,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Maelstrom : +2 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23754,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Estoc Brûlant : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 23391,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Octave : Portée modifiable"
       },
       {
         "stat": ": + lancer par tour",
         "min": 23268,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Jormun : +1 lancers par tour"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23756,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fer Rouge : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 23826,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Chevalerie : -1 de relance"
       },
       {
         "stat": ": + lancer par tour",
         "min": 23319,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Renommée : +1 lancers par tour"
       }
     ],
     "set_id": 515,
@@ -182104,49 +182848,57 @@
         "stat": ": + Portée maximale",
         "min": 23736,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Effondrement : +2 Portée maximale"
       },
       {
         "stat": ": Portée modifiable",
         "min": 23729,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Lance-cyclone : Portée modifiable"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23741,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Volée d'Airain : +3 Portée maximale"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23731,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Soulèvement : +1 Portée maximale"
       },
       {
         "stat": ": + lancer par tour",
         "min": 23738,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Terre du Milieu : +1 lancers par tour"
       },
       {
         "stat": ": - PA",
         "min": 23743,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Dégagement : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 23330,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Phalange : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 23828,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Oriflamme : -1 PA"
       },
       {
         "stat": "PM",
@@ -182170,49 +182922,57 @@
         "stat": ": - PA",
         "min": 23824,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Charge Héroïque : -1 PA"
       },
       {
         "stat": ": + Portée maximale",
         "min": 23314,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Galanterie : +2 Portée maximale"
       },
       {
         "stat": ": - de relance",
         "min": 23823,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Kyrja : -1 de relance"
       },
       {
         "stat": ": - de relance",
         "min": 23829,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Vajra : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 23841,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prélude au Fer : -1 PA"
       },
       {
         "stat": ": - PA",
         "min": 23842,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Crépuscule : -1 PA"
       },
       {
         "stat": ": - de relance",
         "min": 23834,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Éclipse : -1 de relance"
       },
       {
         "stat": ": - PA",
         "min": 23846,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Holmgang : -1 PA"
       }
     ],
     "set_id": 515,

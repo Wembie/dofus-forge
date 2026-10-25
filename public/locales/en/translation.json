@@ -1358,5 +1358,6 @@
   "forgeguide_faq_4_body": "Not yet: it searches with the items' fixed stats and their sets. Combat passives show in the planner with the \"In combat\" view.",
   "forgeguide_faq_5_title": "Is my order saved?",
   "forgeguide_faq_5_body": "Yes, in this browser: stats, intensity, forgemagic, slots, pinned and banned items are still there next time you open The Forger.",
-  "optimizer_guide_link": "Full guide"
+  "optimizer_guide_link": "Full guide",
+  "item_spell_effects": "Spell effects"
 }

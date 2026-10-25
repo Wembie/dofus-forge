@@ -1,8 +1,11 @@
+import { SPELL_ITEM_EFFECT_IDS } from '../../src/data/effectIds.ts'
+
 export type AppEffect = {
   stat:       string
   min:        number
   max:        number
   effect_id?: number
+  formatted?: string
 }
 
 export type AppCondition = {
@@ -142,12 +145,18 @@ const MAX_CAP_CHAR_NAMES: Record<number, string> = {
   23: 'MP Max.',
   26: 'Summons Max.',
 }
-function normalizeRawEffect(e: RawEffect): { stat: string; min: number; max: number } {
+function normalizeRawEffect(e: RawEffect): { stat: string; min: number; max: number; formatted?: string } {
   if (e.type?.id === MAX_CAP_EFFECT_ID) {
     const charId = e.int_minimum ?? 0
     return { stat: MAX_CAP_CHAR_NAMES[charId] ?? `Characteristic #${charId} Max.`, min: e.int_maximum ?? 0, max: 0 }
   }
-  return { stat: e.type?.name ?? '', min: e.int_minimum ?? 0, max: e.int_maximum ?? 0 }
+  const stat = e.type?.name ?? ''
+  return {
+    stat,
+    min: e.int_minimum ?? 0,
+    max: e.int_maximum ?? 0,
+    ...(SPELL_ITEM_EFFECT_IDS.has(e.type?.id ?? -1) && e.formatted ? { formatted: e.formatted } : {}),
+  }
 }
 
 // Some item "ability" text (the is_meta effect's `formatted` field) embeds

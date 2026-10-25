@@ -1358,5 +1358,6 @@
   "forgeguide_faq_4_body": "Pas encore : elle cherche avec les stats fixes des objets et leurs panoplies. Les passifs de combat s'affichent dans le planificateur avec la vue « En combat ».",
   "forgeguide_faq_5_title": "Ma commande est-elle enregistrée ?",
   "forgeguide_faq_5_body": "Oui, dans ce navigateur : stats, intensité, forgemagie, emplacements, objets épinglés et exclus sont toujours là la prochaine fois.",
-  "optimizer_guide_link": "Guide complet"
+  "optimizer_guide_link": "Guide complet",
+  "item_spell_effects": "Effets de sort"
 }

@@ -4,6 +4,7 @@ import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
+import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 
 // Full item tooltip — portal, fixed position so it escapes any
 // overflow-y:auto ancestor (modals, scrollable card grids, etc).
@@ -129,6 +130,8 @@ export function ItemHoverTooltip({ item, anchor, runes, forjamagoName }: {
             <div className="space-y-0.5">{statFx.map((e, i) => <StatLine key={i} e={e} i={i} />)}</div>
           </div>
         )}
+
+        <ItemSpellEffects effects={item.effects} />
 
         {/* Magesmithy (forgemagie) — same section as the live EquipmentGrid tooltip */}
         {activeRunes.length > 0 && (

@@ -9,6 +9,7 @@ import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { Modal, Button } from '@/ui'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
+import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { assignSetSlots } from './setSlots.ts'
 
 type Props = {
@@ -378,6 +379,7 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
                       </div>
                     )}
                   </div>
+                  <ItemSpellEffects effects={item.effects} compact />
 
                   {/* Equip button */}
                   {!eq ? (

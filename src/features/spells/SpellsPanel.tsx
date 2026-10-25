@@ -4,7 +4,7 @@ import { Sword } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
-import type { AppItem } from '@/data/loaders.ts'
+import type { AppEffect, AppItem } from '@/data/loaders.ts'
 import { calcEffects, NO_MODS, type CalcedEffect } from './spellDamage.ts'
 import { DamageHover } from './DamageHover.tsx'
 import { useCombatStats } from '@/store/useCombatStats.ts'
@@ -13,6 +13,8 @@ import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
 import { spellGrade, ELEM_COLOR, fmtRange, dedupEffects, spellMods, weaponMods, WEAPON_ATTACK_STAT } from './spellCalc.ts'
 import { PvpArena } from '../pvp/PvpArena.tsx'
+import { applyItemSpellModifiers, getItemSpellModifiers } from './itemSpellModifiers.ts'
+import { SPELL_ITEM_EFFECT_IDS } from '@/data/effectIds.ts'
 
 // TODO icons needed (add file to public/data/stats/ then map here):
 //   shield.webp      → shield/barrier effects ("Bouclier:", "escudo", "X% of level to shield")
@@ -89,10 +91,25 @@ const rollOf = (e: { min: number; max: number }): [number, number] => [e.min, e.
 
 const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
 
-function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; grade: number; stats: StatBlock | null; spellNameMap: Map<number, string> }) {
+function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
+  spell: AppSpell
+  grade: number
+  stats: StatBlock | null
+  spellNameMap: Map<number, string>
+  itemEffects: AppEffect[]
+}) {
   const { t }         = useTranslation()
   const charLevel     = useBuildStore(s => s.level)
-  const lvl           = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
+  const baseLevel     = spell.levels.find(l => l.grade === grade) ?? spell.levels.at(-1)
+  const itemModifiers = useMemo(() => getItemSpellModifiers(itemEffects, spell.id), [itemEffects, spell.id])
+  const lvl           = useMemo(
+    () => baseLevel ? applyItemSpellModifiers(baseLevel, itemModifiers) : undefined,
+    [baseLevel, itemModifiers],
+  )
+  const matchingItemEffects = useMemo(
+    () => itemEffects.filter(effect => effect.min === spell.id && effect.formatted),
+    [itemEffects, spell.id],
+  )
   const color         = ELEM_COLOR[spell.element]
   const isMixed       = spell.element === 'mixed'
   const showCalc      = Boolean(stats)
@@ -541,7 +558,7 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
   }
 
   // Effective range: apply stats.range bonus to non-melee spells
-  const effectiveMaxRange = lvl && lvl.maxRange > 0 && stats?.range
+  const effectiveMaxRange = lvl && lvl.maxRange > 0 && lvl.rangeModifiable !== false && stats?.range
     ? lvl.maxRange + stats.range
     : (lvl?.maxRange ?? 0)
 
@@ -668,6 +685,19 @@ function SpellCard({ spell, grade, stats, spellNameMap }: { spell: AppSpell; gra
                 </div>
               )
             })}
+          </div>
+        )}
+
+        {matchingItemEffects.length > 0 && (
+          <div className="mt-1.5 space-y-0.5">
+            <p className="text-[9px] uppercase tracking-wider font-semibold" style={{ color: 'var(--gold)' }}>
+              {t('item_spell_effects')}
+            </p>
+            {matchingItemEffects.map((effect, i) => (
+              <p key={`${effect.effect_id}-${i}`} className="text-[10px] leading-snug" style={{ color: 'var(--gold)' }}>
+                {effect.formatted}
+              </p>
+            ))}
           </div>
         )}
 
@@ -843,10 +873,19 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
             </div>
           </div>
           <div className="flex items-center flex-wrap gap-x-3 mt-0.5">
-            {ap > 0 && <span className="text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{t('badge_ap')} {ap}</span>}
-            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{t('weapon_range_label')} {rangeStr}</span>
+            {ap > 0 && (
+              <span className="flex items-center gap-0.5 text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>
+                <img src={statIconUrl('ap')} alt="" aria-hidden="true" width={12} height={12} className="object-contain" />
+                {t('badge_ap')} {ap}
+              </span>
+            )}
+            <span className="flex items-center gap-0.5 text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
+              <img src={statIconUrl('range')} alt="" aria-hidden="true" width={12} height={12} className="object-contain" />
+              {t('weapon_range_label')} {rangeStr}
+            </span>
             {effectiveCrit > 0 && (
-              <span className="text-[10px] font-mono" style={{ color: 'var(--crit)' }}>
+              <span className="flex items-center gap-0.5 text-[10px] font-mono" style={{ color: 'var(--crit)' }}>
+                <img src={statIconUrl('crit')} alt="" aria-hidden="true" width={12} height={12} className="object-contain" />
                 {t('weapon_crit_label')} {effectiveCrit}%{critBon > 0 ? ` (+${critBon})` : ''}
               </span>
             )}
@@ -1016,6 +1055,15 @@ export function SpellsPanel() {
     return _equipment.find(it => it.ankama_id === weaponId) ?? null
   }, [equipped.weapon, _equipment])
 
+  const equippedSpellEffects = useMemo(() => {
+    const equippedIds = new Set(Object.values(equipped).filter((id): id is number => id != null))
+    return _equipment
+      .filter(item => equippedIds.has(item.ankama_id))
+      .flatMap(item => item.effects.filter(effect =>
+        effect.formatted && SPELL_ITEM_EFFECT_IDS.has(effect.effect_id ?? -1)
+      ))
+  }, [equipped, _equipment])
+
   const classData      = selectedClass ? spells.get(selectedClass) : null
   const commonData     = spells.get('common')
   const allClassSpells = classData?.spells ?? []
@@ -1138,7 +1186,7 @@ export function SpellsPanel() {
               {normalSpells.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalSpells.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
               ))}
             </div>
             <div className="space-y-2">
@@ -1151,7 +1199,7 @@ export function SpellsPanel() {
               {variantSpells.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantSpells.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
               ))}
             </div>
           </div>
@@ -1178,7 +1226,7 @@ export function SpellsPanel() {
               {normalCommon.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : normalCommon.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
               ))}
             </div>
             <div className="space-y-2">
@@ -1191,7 +1239,7 @@ export function SpellsPanel() {
               {variantCommon.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
               ) : variantCommon.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} />
+                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
               ))}
             </div>
           </div>
