@@ -160,4 +160,6 @@ Dofus Forge is an independent community project and is not affiliated with Ankam
 
 <p align="center">
   <sub>Plan with intention. Forge with confidence.</sub>
+  <br>
+  <sub>Created by <a href="https://github.com/Wembie">Juan (Wembie)</a>.</sub>
 </p>
