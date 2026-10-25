@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.133] — 2026-10-30
+- **Fix**: item-specific spell effects were hidden from equipment cards, tooltips and spell calculations. Their localized game descriptions are now visible throughout the planner and set details, while equipped effects update matching spells' supported AP, range, critical, damage and cast-per-turn values. Regression tests cover the Prince of Thieves Set and spell-effect references across all 19 class catalogs. Thanks to josegf for reporting this issue
+
 ## [0.3.132] — 2026-10-25
 - **Feat**: right-clicking an equipped item in the planner toggles its La Forjadora pin without opening the browser context menu
 - **Tests**: confirmed in the planner and optimizer engine that six pinned or locked Dofus still allow the other equipment slots to be forged

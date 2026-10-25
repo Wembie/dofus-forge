@@ -19,7 +19,7 @@
  *
  * Confirmed field shapes:
  *   image_urls: { icon, sd }  (no "hd" field)
- *   effects[]: { int_minimum, int_maximum, type: { name, id } }
+ *   effects[]: { int_minimum, int_maximum, type: { name, id }, formatted (spell modifiers) }
  *   parent_set: { id, name }
  *   sets.effects: Record<"2"|"3"..., effect[]>  (string-keyed by piece count)
  *   mounts: { ankama_id, name, family: { name }, image_urls }  — no level/type/effects

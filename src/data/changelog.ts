@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.133',
+    date: '2026-10-30',
+    notes: [
+      'Fix: item-specific spell effects are now visible in equipment cards, tooltips, set details and matching spell cards; supported equipped effects update AP, range, critical, damage and casts per turn, with regressions for the Prince of Thieves Set and all 19 class spell catalogs. Thanks to josegf for reporting this issue',
+    ],
+  },
+  {
     version: '0.3.132',
     date: '2026-10-25',
     notes: [

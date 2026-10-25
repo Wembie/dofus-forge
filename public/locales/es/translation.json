@@ -1358,5 +1358,6 @@
   "forgeguide_faq_4_body": "Todavía no: busca con las stats fijas de los objetos y sus sets. Las pasivas de combate se ven en el planificador con la vista \"En combate\".",
   "forgeguide_faq_5_title": "¿Mi encargo se guarda?",
   "forgeguide_faq_5_body": "Sí, en este navegador: stats, intensidad, forgemagia, slots, fijados y excluidos siguen ahí la próxima vez que abras La Forjadora.",
-  "optimizer_guide_link": "Guía completa"
+  "optimizer_guide_link": "Guía completa",
+  "item_spell_effects": "Efectos de hechizos"
 }

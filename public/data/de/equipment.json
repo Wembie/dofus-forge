@@ -57180,49 +57180,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13106,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Druck: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13139,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bruch: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13119,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zerstörerisches Schwert: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14818,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Geißelung: +3 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13108,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Einschüchterung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13148,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Eroberung: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13107,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sprung: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13143,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rastlosigkeit: –1 AP"
       }
     ],
     "set_id": 81,
@@ -57282,49 +57290,57 @@
         "stat": ": + Zauber pro Ziel",
         "min": 12857,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Reflexe: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12873,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schlecken: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 29680,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Yams: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12855,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Raue Zunge: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 12846,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Topkaj: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12849,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Spielkralle: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 12841,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Kopf oder Zahl: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12878,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Prahlerei: +30 % Kritische Treffer"
       }
     ],
     "set_id": 88,
@@ -57342,49 +57358,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12916,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schlammfalle: +2 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12943,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Epidemie: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12948,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Elende Falle: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14742,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Einbruch: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12914,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rückstoßfalle: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12920,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Erschreckende Falle: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12906,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tückische Falle: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12939,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Auflauern: +3 Maximale Reichweite"
       }
     ],
     "set_id": 89,
@@ -57402,49 +57426,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13288,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kontinuumsstörung: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13283,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rädchen: +1 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13245,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Einfrieren: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13257,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Staub: +1 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13281,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Souvenir: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13285,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Permutation: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13252,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Faust von Xélor: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13294,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pendel: +1 Maximale Reichweite"
       }
     ],
     "set_id": 86,
@@ -57462,49 +57494,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 25742,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Stimulierendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 25746,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Verfallendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 25858,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Lärmendes Wort: +40 % Kritische Treffer"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 25857,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ohrenbetäubender Schrei: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 25870,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Vampirhaftes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 25872,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schluchzer: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 25871,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wehklagen: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 25856,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gebrause: +2 Maximale Reichweite"
       }
     ],
     "set_id": 83,
@@ -57522,49 +57562,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13574,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brennender Dornbusch: +3 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13568,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Buschfeuer: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13577,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schierling: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13529,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Giftiger Windstrom: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 13533,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Lähmharz: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13562,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ausdünstungen: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13561,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Blockpüppchen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13526,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Das Verwandelte Blockpüppchen: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 90,
@@ -57582,49 +57630,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12728,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stase: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12726,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Projektion: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12756,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Feindseligkeit: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 12737,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verstümmelung: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12762,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Blutsbruderschaft: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12730,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brennender Schmerz: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12736,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Versetzung: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12763,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Fluktuation: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 87,
@@ -57642,49 +57698,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 31115,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tofu: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31134,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Tiguarkrallen: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31116,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fresssack: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31133,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Geierfänge: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31117,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Krötlein: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 31138,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Goldenes Vlies: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31118,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dragooner: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31112,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Schlangenbiss: Veränderbare Reichweite"
       }
     ],
     "set_id": 84,
@@ -57702,49 +57766,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12803,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brummschädel: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12811,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Krankentrage: +1 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12786,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Zecherei: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 14307,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Alkoshu: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12789,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Stabilisierung: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 12813,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Kletterei: –1 AP"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12782,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schnaps: +30 % Kritische Treffer"
       },
       {
         "stat": ": – AP",
         "min": 12805,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Brennender Atem: –1 AP"
       }
     ],
     "set_id": 92,
@@ -57762,49 +57834,57 @@
         "stat": ": + Zauber pro Runde",
         "min": 32453,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Pfeil der Abschaffung: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 32433,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Heimsuchender Pfeil: –1 AP"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32427,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Peitschender Pfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 32458,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Angriffspfeil: Veränderbare Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32444,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Detonationspfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Grundschaden",
         "min": 32439,
         "max": 0,
-        "effect_id": 243
+        "effect_id": 243,
+        "formatted": "Verlangsamungspfeil: +6 Grundschaden"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 32436,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Lähmpfeil: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 32448,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tyrannischer Pfeil: +3 Maximale Reichweite"
       }
     ],
     "set_id": 82,
@@ -57822,49 +57902,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 12977,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Schlaftrunkenheit: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13012,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Manöver: +1 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12994,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Blase: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 14436,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Glöckchen: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12981,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bollwerk: +3 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13009,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Fortifikatzion: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 12979,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Barrikade: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13016,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Pavese: –1 AP"
       }
     ],
     "set_id": 91,
@@ -57882,49 +57970,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13335,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Aufhäufen: +2 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 13355,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Minenfeuer: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13331,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Herumwirbelnde Schaufel: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13352,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Erdrutsch: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13332,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Schlüssel zum Schatz: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13359,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Armschlüssel: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13344,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Belebte Schaufel: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13361,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Belebter Spaten: +3 Maximale Reichweite"
       }
     ],
     "set_id": 85,
@@ -57942,49 +58038,57 @@
         "stat": ": + Zauber pro Runde",
         "min": 13116,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Hauch: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13136,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Aufmarsch: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13121,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sturm der Macht: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13131,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dresche: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13122,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Himmlisches Schwert: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13145,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Zenit: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13111,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Schicksalsschwert: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13144,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Tumult: Veränderbare Reichweite"
       }
     ],
     "set_id": 81,
@@ -58002,49 +58106,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 14310,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Verknäuelung: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12851,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Klaue von Ceangal: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12875,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Kleine Polster: +35 % Kritische Treffer"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12872,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Fauchen: +35 % Kritische Treffer"
       },
       {
         "stat": ": – AP",
         "min": 12852,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wahrnehmung: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12867,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prädation: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12845,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Kartenhaus: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 12876,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Guter Stern: –1 AP"
       }
     ],
     "set_id": 88,
@@ -58062,49 +58174,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 12904,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Heimtücke: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12935,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "M. Euchel: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12919,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Grausamkeiten: +35 % Kritische Treffer"
       },
       {
         "stat": ": – AP",
         "min": 12922,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Pech: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12931,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Heimtückische Falle: +3 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12941,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Fragmentierungsfalle: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12908,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Angst: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12945,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verachtung: –1 AP"
       }
     ],
     "set_id": 89,
@@ -58122,49 +58242,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13299,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Räderwerk: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13259,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tropfenzähler: +3 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13256,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Uhrwerk: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13298,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Clepsydre: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13296,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Desynchronisation: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13297,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Raumzeit: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13243,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Zurückspulen: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13255,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Remanenz: –1 AP"
       }
     ],
     "set_id": 86,
@@ -58182,49 +58310,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 25744,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Leben spendendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 25745,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Elektrisierendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 25867,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schimpfwort: +40 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 25866,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Stammespinsel: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 25859,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Diebstahl: +40 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 25862,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Unterhaltsames Wort: +1 Zauber pro Runde"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 25869,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Salbe der Ahnen: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 25861,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Schriller Chor: +1 Zauber pro Runde"
       }
     ],
     "set_id": 83,
@@ -58242,49 +58378,57 @@
         "stat": ": – AP",
         "min": 13514,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Beben: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13559,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Alraune: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13569,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Impfung: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13570,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Kraft der Natur: Veränderbare Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13530,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Macht der Waldgeister: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13566,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Macht der Pflanzen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13564,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Das Wahnsinnspüppchen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13515,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Das Verwandelte Wahnsinnspüppchen: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 90,
@@ -58302,49 +58446,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12748,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Blutsturz: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12731,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dezimierung: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12735,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Anziehung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12758,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Transfusion: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12746,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Rattenplage: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": nötiges belegtes Feld deaktiviert",
         "min": 12724,
         "max": 0,
-        "effect_id": 240
+        "effect_id": 240,
+        "formatted": "Brillanz: nötiges belegtes Feld deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12738,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Transfusion: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12754,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Blutsbande: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 87,
@@ -58362,49 +58514,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 31110,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schrei des Rablings: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31113,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Fangzähne des WuWulfs: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31111,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Prespikstacheln: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 31137,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rupfen: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31135,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Piranyazähne: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31140,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Wildes Herz: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31132,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bärenschrei: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 31139,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Krötensabber: –1 AP"
       }
     ],
     "set_id": 84,
@@ -58422,49 +58582,57 @@
         "stat": ": + % Kritische Treffer",
         "min": 12781,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Explosive Handfläche: +40 % Kritische Treffer"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12793,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Pandikulation: +1 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12809,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Likör: +40 % Kritische Treffer"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12796,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Explosiver Flachmann: +40 % Kritische Treffer"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12797,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Pandattak: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 12783,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Grusel: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 12806,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Trost: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12815,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Destillation: Veränderbare Reichweite"
       }
     ],
     "set_id": 92,
@@ -58482,49 +58650,57 @@
         "stat": ": + Zauber pro Ziel",
         "min": 32426,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Rückstoßpfeil: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32449,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Leuchtpfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32428,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Zerstreuungspfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 32447,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Flammenpfeile: Veränderbare Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32455,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Landstreicherpfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 32531,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Ausweichpfeil: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 32454,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Auge um Auge: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Grundschaden",
         "min": 32441,
         "max": 0,
-        "effect_id": 243
+        "effect_id": 243,
+        "formatted": "Lähmender Pfeil: +6 Grundschaden"
       }
     ],
     "set_id": 82,
@@ -58542,49 +58718,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 12993,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Lethargie: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13008,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Versammeln: –1 AP"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13020,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Verstärkung: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 13027,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Seelenruhe: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12995,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bastion: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12980,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Waffenstillstand: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13022,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Schauer: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12989,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schauder: +2 Maximale Reichweite"
       }
     ],
     "set_id": 91,
@@ -58602,49 +58786,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13338,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Münzenwurf: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13353,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Klingende Münze: +2 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 14278,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Bankrott: +35 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13369,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Dekadenz: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 13362,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Geiz: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13328,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Belebter Rucksack: +3 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13354,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Belebter Beutel: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 13330,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schaufelwurf: +35 % Kritische Treffer"
       }
     ],
     "set_id": 85,
@@ -58662,49 +58854,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 14676,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Eifer: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13130,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bedrohung: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13133,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ausdauer: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13146,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Faustkampf: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13125,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Iops Schwert: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13134,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Hackmesser: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13156,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zorn: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13124,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Iops Wut: –1 AP"
       }
     ],
     "set_id": 81,
@@ -58722,49 +58922,57 @@
         "stat": ": + % Kritische Treffer",
         "min": 12864,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Jass: +40 % Kritische Treffer"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12880,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Unglück: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12848,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Segenskraft: +40 % Kritische Treffer"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12882,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Dreistigkeit: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12870,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Blakjak: +40 % Kritische Treffer"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12859,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Ecaflips Schicksal: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12866,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Belote: +40 % Kritische Treffer"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14311,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Bedrohung: Veränderbare Reichweite"
       }
     ],
     "set_id": 88,
@@ -58782,49 +58990,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12938,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Erpressung: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12947,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Nachstellung: Veränderbare Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12911,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Betrug: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12934,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Plünderei: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12937,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dieberei: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12917,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tödlicher Angriff: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12905,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schurkerei: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12940,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Giftspritze: –1 AP"
       }
     ],
     "set_id": 89,
@@ -58842,49 +59058,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13254,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Verwelken: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13244,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Zeiger: +1 Zauber pro Runde"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13242,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Verlangsamen: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13261,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Sanduhr von Xélor: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13248,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Regulator: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13290,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Versteinerung: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 14651,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Taschenzauber: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13286,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Refraktion: +1 Zauber pro Runde"
       }
     ],
     "set_id": 86,
@@ -58902,49 +59126,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 25749,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Belastendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 25747,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Entmutigendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 25877,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Neckisches Wort: +1 Zauber pro Runde"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 25878,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Tückisches Wort: +35 % Kritische Treffer"
       },
       {
         "stat": ": – AP",
         "min": 25863,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Kriegsschrei: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 25864,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Ritualwort: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 25868,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kriegsgemälde: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 25882,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Geheimes Wort: –1 AP"
       }
     ],
     "set_id": 83,
@@ -58962,49 +59194,57 @@
         "stat": ": – AP",
         "min": 13518,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wuchernde Gräser: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13576,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wuddu-Fluch: –1 AP"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13531,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Wuddu-Opfer: +1 Zauber pro Ziel"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13517,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Brennende Disteln: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13525,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Besänftigende Ranken: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13565,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Umtopfen: Veränderbare Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13567,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Opferpüppchen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13522,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Das Verwandelte Opferpüppchen: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 90,
@@ -59022,49 +59262,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12750,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gemetzel: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12751,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kerbe: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12757,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Auflösung: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12752,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Abmetzeln: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12741,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Strafe: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12740,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Blutiger Wahnsinn: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12744,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Gefräßiges Schwert: Abklingzeit verringert um –2"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12765,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Tanzendes Schwert: Abklingzeit verringert um –2"
       }
     ],
     "set_id": 87,
@@ -59082,49 +59330,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 31114,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Peitsche: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31136,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Reitgerte: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31120,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Motivationsspritze: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 31142,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gemeinschaft der Tiere: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31125,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Disziplin: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 31147,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Klopfpeitsche: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31131,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gefräßiger Geist: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31153,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Spaßiger Geist: +2 Maximale Reichweite"
       }
     ],
     "set_id": 84,
@@ -59142,49 +59398,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12792,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Beflecken: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12816,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rühren: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12785,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bambushain: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12819,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Fermentation: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12824,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Bambus: Veränderbare Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12799,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Spirituelle Verbindung: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12798,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Pandaqwahl: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Schaden",
         "min": 24039,
         "max": 0,
-        "effect_id": 245
+        "effect_id": 245,
+        "formatted": "Hand von Pandawa: +5 Schaden"
       }
     ],
     "set_id": 92,
@@ -59202,49 +59466,57 @@
         "stat": ": + Grundschaden",
         "min": 32435,
         "max": 0,
-        "effect_id": 243
+        "effect_id": 243,
+        "formatted": "Eispfeil: +4 Grundschaden"
       },
       {
         "stat": ": – AP",
         "min": 32708,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Plagender Pfeil: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 32437,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Maulwurfssicht: –1 AP"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 32431,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Pfeilregen: +35 % Kritische Treffer"
       },
       {
         "stat": ": – Minimale Reichweite",
         "min": 32438,
         "max": 0,
-        "effect_id": 274
+        "effect_id": 274,
+        "formatted": "Sühnepfeil: –5 Minimale Reichweite"
       },
       {
         "stat": ": – Minimale Reichweite",
         "min": 32442,
         "max": 0,
-        "effect_id": 274
+        "effect_id": 274,
+        "formatted": "Erlösungspfeil: –3 Minimale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 32429,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Durchdringender Pfeil: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32432,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Boomerangpfeil: +1 Zauber pro Runde"
       }
     ],
     "set_id": 82,
@@ -59262,49 +59534,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12983,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gegenangriff: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13017,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tetanie: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12987,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gestampfte Erde: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13021,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Schutzhütte: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12976,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Taifun: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 12992,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prärie: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13013,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Weide: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13010,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Windstoß: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 91,
@@ -59322,49 +59602,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13336,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Phantomschaufel: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13372,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Letzter Ausweg: Veränderbare Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13366,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Gelegenheit: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13368,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Schlagwetterexplosion: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13334,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Pandoras Box: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13357,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Werkzeugkasten: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13347,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Belebte Truhe: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13371,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Belebter Koffer: –1 AP"
       }
     ],
     "set_id": 85,
@@ -59382,19 +59670,22 @@
         "stat": ": + Maximale Reichweite",
         "min": 13110,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Göttliches Schwert: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13117,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Schwert der Verurteilung: Veränderbare Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13126,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Überschwemmung: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": "BP",
@@ -59406,31 +59697,36 @@
         "stat": ": + Maximale Reichweite",
         "min": 13135,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zerstörerischer Ring: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13120,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vitalität: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13137,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gewalt: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13114,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Überstürzen: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13132,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Entschlossenheit: –1 AP"
       }
     ],
     "set_id": 81,
@@ -59448,25 +59744,29 @@
         "stat": ": + Maximale Reichweite",
         "min": 12847,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Katzengeist: +1 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12883,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Kraps: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12861,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Felienchen: +35 % Kritische Treffer"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12879,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Missgeschick: Sichtlinie deaktiviert"
       },
       {
         "stat": "BP",
@@ -59478,25 +59778,29 @@
         "stat": ": + Zauber pro Runde",
         "min": 12844,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Katzensprung: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 12865,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Kreuzsprung: +1 Zauber pro Runde"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12856,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Beschwörungskralle: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12869,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Heilende Tatzen: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 88,
@@ -59520,49 +59824,57 @@
         "stat": ": + % Kritische Treffer",
         "min": 12902,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Gaunerei: +35 % Kritische Treffer"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12932,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Fußangeln: Veränderbare Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12907,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Arsen: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 12933,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Giftstoffe: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12909,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Irreführung: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12949,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Arglist: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12910,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Lähmfalle: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 14314,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Massengrab: –1 AP"
       }
     ],
     "set_id": 89,
@@ -59586,49 +59898,57 @@
         "stat": ": – AP",
         "min": 13284,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Austrocknung: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13289,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Verzerrung: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13292,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sande der Zeit: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13246,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vergängliche Verschwommenheit: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13291,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Bewahrung: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13251,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Zeitleck: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 13293,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vorhersehung: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13253,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Dunkelstrahl: –1 AP"
       }
     ],
     "set_id": 86,
@@ -59646,19 +59966,22 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 25743,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Wort der Verjüngung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 25748,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Deprimierendes Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 25873,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Unerlaubtes Wort: Veränderbare Reichweite"
       },
       {
         "stat": "BP",
@@ -59670,31 +59993,36 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13217,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Blutleeres Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 25880,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Blumiges Wort: +35 % Kritische Treffer"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 25881,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Verzaubertes Wäldchen: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 25875,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Kryotherapie: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 25883,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Murmeln: +2 Maximale Reichweite"
       }
     ],
     "set_id": 83,
@@ -59712,25 +60040,29 @@
         "stat": ": + Maximale Reichweite",
         "min": 13516,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ranken: +3 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13521,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Bodenlose Rankenheit: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13528,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Sadida-Träne: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13563,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Harzstoß: +1 Zauber pro Runde"
       },
       {
         "stat": "BP",
@@ -59742,25 +60074,29 @@
         "stat": ": Veränderbare Reichweite",
         "min": 13571,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Geißel: Veränderbare Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13524,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Verwunschener Wald: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13519,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Baum: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13560,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Laubbaum: –1 AP"
       }
     ],
     "set_id": 90,
@@ -59778,31 +60114,36 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 12733,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Sturmangriff: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 12749,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Aversion: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12747,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flammenschlag: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12739,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Opfer: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12764,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Buße: Abklingzeit verringert um –1"
       },
       {
         "stat": "BP",
@@ -59814,19 +60155,22 @@
         "stat": ": + Maximale Reichweite",
         "min": 12734,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Absorption: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12723,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Raserei: +2 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12732,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Blutbad: +25 % Kritische Treffer"
       }
     ],
     "set_id": 87,
@@ -59850,49 +60194,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 31121,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Hüpffrusch: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31143,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Federtornado: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31126,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dickbauchtofu: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31149,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Krachloss: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31128,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kröterich: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31151,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schwefönix: +2 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 31123,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Bestialischer Ansturm: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31145,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gesang des Phönix: +2 Maximale Reichweite"
       }
     ],
     "set_id": 84,
@@ -60277,37 +60629,43 @@
         "stat": ": Veränderbare Reichweite",
         "min": 14309,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Pandjiu: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12788,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Voran-Trieb: +1 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 12820,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Absinth: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12823,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kaskade: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 12777,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rausch: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12826,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Trunkenheit: –1 AP"
       },
       {
         "stat": "BP",
@@ -60319,13 +60677,15 @@
         "stat": ": + % Kritische Treffer",
         "min": 12794,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Welle der Traurigkeit: +35 % Kritische Treffer"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12814,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Übelkeit: Lineare Wirkungsweise deaktiviert"
       }
     ],
     "set_id": 92,
@@ -60343,49 +60703,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 32443,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Sperrpfeil: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 32459,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zerstörerische Karos: +2 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 32445,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Explosionspfeil: +30 % Kritische Treffer"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 32457,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Mörderpfeil: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32456,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Strafender Pfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 32460,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Pfeil der Verurteilung: –1 AP"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32446,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Verheerender Pfeil: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 32450,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tobender Pfeil: –1 AP"
       }
     ],
     "set_id": 82,
@@ -60403,49 +60771,57 @@
         "stat": ": Abklingzeit verringert um –",
         "min": 12842,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Zweite Chance: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 12874,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Neun Leben: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12858,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Alles oder nichts: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 12881,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Blendwerk: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 29785,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Bluff: +40 % Kritische Treffer"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12853,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Rekop: +40 % Kritische Treffer"
       },
       {
         "stat": ": – AP",
         "min": 12854,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Geruchssinn: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12863,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Glücksrad: –1 AP"
       }
     ],
     "set_id": 88,
@@ -60463,49 +60839,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 31122,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Drachenhauch: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31144,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Krachlerfaust: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31127,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fressplump: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31150,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Crocoleriker: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31129,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Drachennestling: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31148,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Scarablitz: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31124,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Aero-Ass: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 31146,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wirbelwind: +2 Maximale Reichweite"
       }
     ],
     "set_id": 84,
@@ -60523,49 +60907,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13115,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fleischerbeil: +2 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13138,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Ansammlung: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13123,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Konzentration: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13147,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Urteil: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13142,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tugendhaftigkeit: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13112,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Massaker: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 13118,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Schlagkraft: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 14677,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Brandmarke: –1 AP"
       }
     ],
     "set_id": 81,
@@ -60583,49 +60975,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13007,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Hirtenstab: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14434,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Dahindämmern: Veränderbare Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 12988,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Argwohn: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13019,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Barriere: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12986,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Vermenschwandlung: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13018,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Schirmherrschaft: Veränderbare Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13011,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Silbo: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 29045,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Spritztour: +3 Maximale Reichweite"
       }
     ],
     "set_id": 91,
@@ -60643,49 +61043,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13365,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schlag lass nach!: +2 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13364,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Untergrund: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13367,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Spaten der Alten: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13345,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schaufel der Alten: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14273,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Erzvorkommen: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13333,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verfall: –1 AP"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13370,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Sieben: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13360,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Veralterung: +2 Maximale Reichweite"
       }
     ],
     "set_id": 85,
@@ -60703,49 +61111,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13175,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Wort der Furcht: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 25832,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Skalpell: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13187,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Wort der Genesung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13219,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Solidarisches Wort: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 25879,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Schelmisches Wort: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 25876,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verbotenes Wort: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 25860,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ungestümes Wort: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 25865,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Zorniges Wort: –1 AP"
       }
     ],
     "set_id": 83,
@@ -60763,49 +61179,57 @@
         "stat": ": + % Kritische Treffer",
         "min": 12791,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Ethyllo: +40 % Kritische Treffer"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 12790,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Verdrängung: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12808,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wasser des Lebens: +2 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12821,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Kaffee mit Schuss: +35 % Kritische Treffer"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 24038,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Bambusmilch: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12817,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Prohibition: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 12807,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Benommenheit: –1 AP"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 12784,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Alkoholatem: +40 % Kritische Treffer"
       }
     ],
     "set_id": 92,
@@ -60823,49 +61247,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12942,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Drift-Falle: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12918,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Hinterhältige Falle: +3 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12921,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Todesfalle: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 12950,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verhängnis: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 12903,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Chakra konzentrieren: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 14741,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Machenschaften: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12913,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Unsichtbarkeit: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12930,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Nebel: –1 AP"
       }
     ],
     "set_id": 89,
@@ -60883,49 +61315,57 @@
         "stat": ": Abklingzeit verringert um –",
         "min": 13249,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Teleportation: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13282,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Astrolabium: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13287,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Komplize: +1 Zauber pro Runde"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13258,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Zifferblatt von Xélor: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 13250,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Paradoxon: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13295,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Riss: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13247,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Synchro: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13300,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Totenglocke: Veränderbare Reichweite"
       }
     ],
     "set_id": 86,
@@ -60943,49 +61383,57 @@
         "stat": ": + Zauber pro Ziel",
         "min": 13527,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Aggressive Ranken: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14393,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Verkohlte Glücksbringer: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13575,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Ansteckung: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 14396,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mangrove: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13573,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Aufblaspüppchen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13523,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Das Verwandelte Aufblaspüppchen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13578,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Superpüppchen: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13520,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Das Verwandelte Superpüppchen: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 90,
@@ -61003,49 +61451,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12755,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Entfesselung: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12745,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kondensation: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 12729,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Zustrom: +1 Zauber pro Runde"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12759,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Trankopfer: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 12760,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Strafe: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12725,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tortur: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12727,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Nervosität: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12753,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Verzweiflung: +2 Maximale Reichweite"
       }
     ],
     "set_id": 87,
@@ -61063,49 +61519,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13340,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kraft des Alters: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13363,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Goldwaschen: +2 Maximale Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 13343,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Goldschaufel: +35 % Kritische Treffer"
       },
       {
         "stat": ": – AP",
         "min": 13358,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Moor: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13342,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Goldrausch: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13356,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Schlendern: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13337,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Ungeschicklichkeit: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13329,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Goldenes Zeitalter: Abklingzeit verringert um –1"
       },
       {
         "stat": "BP",
@@ -61129,49 +61593,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 12978,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Mattheit: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13014,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Mattigkeit: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12985,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verbrannte Erde: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13025,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ausguck: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 12984,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Nimbus: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13015,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Stratus: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 12990,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tal: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13023,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Glatteis: Sichtlinie deaktiviert"
       },
       {
         "stat": "BP",
@@ -61195,49 +61667,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 32464,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gehetzter Schritt: +1 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 32467,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Taktische Markierung: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 32465,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Weitschüsse: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 32471,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Durchbohrender Schuss: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 32474,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Markierung des Überlebens: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 32472,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Vergeltungsmaßnahmen: –1 AP"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 32470,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Rückzugsschuss: +1 Zauber pro Ziel"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 32473,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Vendetta: +1 Zauber pro Runde"
       },
       {
         "stat": "BP",
@@ -96750,49 +97230,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13491,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Seismobombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13486,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Widerstandsfähige Seismobombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 14415,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bombarde: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13483,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kugelschauer: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13435,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tornabombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13474,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Widerstandsfähige Tornabombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13440,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Espingole: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13469,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Eingehen: +2 Maximale Reichweite"
       }
     ],
     "set_id": 217,
@@ -96810,49 +97298,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13408,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Lockvogel: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13387,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Hänselmaske: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13406,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Maske des Duckmäusers: Veränderbare Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13425,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Brincadeira: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13405,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Picada: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13415,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Reiterzug: +3 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13398,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Tortoruga: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13411,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Armadur: –1 AP"
       }
     ],
     "set_id": 218,
@@ -96870,49 +97366,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13436,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Wasserbombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13478,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Widerstandsfähige Wasserbombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13477,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Hehlerei: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13488,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Plombe: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13444,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Explobombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13471,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Widerstandsfähige Explobombe: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13442,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Quasar: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 14414,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schrapnell: +40 % Kritische Treffer"
       }
     ],
     "set_id": 217,
@@ -96930,49 +97434,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13421,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Apostasie: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13386,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Maske des Unerschrockenen: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13409,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Maske des Unermüdlichen: Veränderbare Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13420,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Katalepsie: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13423,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Inferno: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13392,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Abstand: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13391,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Parafuso: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13389,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Einbläuen: +2 Maximale Reichweite"
       }
     ],
     "set_id": 218,
@@ -96990,25 +97502,29 @@
         "stat": ": + Maximale Reichweite",
         "min": 13473,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Mus Kete: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14411,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schrot: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13434,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Stiefeln: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13472,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "List: +2 Maximale Reichweite"
       },
       {
         "stat": "BP",
@@ -97020,25 +97536,29 @@
         "stat": ": – AP",
         "min": 13437,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Magnetisierung: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13480,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Kreuzung: Veränderbare Reichweite"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 13438,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Boomerangdolch: +35 % Kritische Treffer"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13449,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kartätsche: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 217,
@@ -97056,7 +97576,8 @@
         "stat": ": Veränderbare Reichweite",
         "min": 13388,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Berserkermaske: Veränderbare Reichweite"
       },
       {
         "stat": "BP",
@@ -97068,43 +97589,50 @@
         "stat": ": Veränderbare Reichweite",
         "min": 13414,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Maske des Hysterikers: Veränderbare Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13394,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Furia: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13419,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bocciara: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13395,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kabriolen: +1 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 14682,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Fegefeuer: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13399,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Trance: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13426,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Neurose: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 218,
@@ -97122,49 +97650,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13441,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Pulverladung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13479,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Klebrige Bombe: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 13443,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Prellen: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13482,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Hakenbüchse: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13433,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Extrahieren: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13475,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Sprengrhythmus: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13432,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zünder: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13470,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Leitfeuer: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 217,
@@ -97182,49 +97718,57 @@
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13400,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Rösch: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13412,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Scudo: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13422,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ponteira: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13407,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Agular: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13396,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Impuls-Trick: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14681,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ronda: –1 AP"
       },
       {
         "stat": ": + % Kritische Treffer",
         "min": 13393,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Apathie: +30 % Kritische Treffer"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13390,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Aufhalten: +2 Maximale Reichweite"
       }
     ],
     "set_id": 218,
@@ -97242,49 +97786,57 @@
         "stat": ": Abklingzeit verringert um –",
         "min": 13450,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Kaboom: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13489,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Vorgaukelung: +1 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13439,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Fauler Trick: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13487,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wanderbombe: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13431,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Halsabschneiderei: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13476,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "List und Tücke: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13446,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Letzter Atemzug: –1 AP"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13484,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Magnetische Falle: +1 Zauber pro Runde"
       }
     ],
     "set_id": 217,
@@ -97302,49 +97854,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13403,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Abspringen: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13410,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Drehung: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13401,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Hals über Kopf!: +1 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13418,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Komödie: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13397,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Plastromni: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13417,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ginga: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 18651,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Carnavalo: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 18650,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Verklärung: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 218,
@@ -105042,49 +105602,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 13858,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sabotage: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13870,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Periskop: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13820,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Gezeiten: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13819,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Taucheranzug: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13863,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Abschirmung: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13832,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Evolution: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13868,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Überspannung: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13826,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Vapor: Veränderbare Reichweite"
       }
     ],
     "set_id": 250,
@@ -105102,49 +105670,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 13827,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Verankern: Veränderbare Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13857,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Vertäuen: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13867,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ventil: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13838,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Greifer: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14308,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Kolben: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13877,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kompass: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13849,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Wellenbrecher: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13872,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kurzschluss: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 250,
@@ -105162,49 +105738,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 13824,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Lyster: Veränderbare Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13828,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Steuerruder: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13865,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Torpedo: +3 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13875,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Spill: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13836,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Erste Hilfe: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13871,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Rettung: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13830,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Wachturm: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13864,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bohrmaschine: Sichtlinie deaktiviert"
       },
       {
         "stat": "BP",
@@ -105228,49 +105812,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13874,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Turbine: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13823,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bukanier: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13825,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gischt: +3 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13821,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Brandung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13873,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Sonar: +1 Zauber pro Runde"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13835,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Hinterhalt: Veränderbare Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13829,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Geschützturm: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13859,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kutter: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 250,
@@ -105288,49 +105880,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13837,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Fernrohr: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13866,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Korrosion: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13861,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Harmattan: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13822,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Strömung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13833,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Tauchgang: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 14306,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Überflutung: +1 Zauber pro Runde"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13831,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kontrollturm: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13869,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Bathyskaph: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 250,
@@ -136400,49 +137000,57 @@
         "stat": ": Veränderbare Reichweite",
         "min": 14583,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Schock: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14605,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Krampf: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14579,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wakfu-Strahl: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14606,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zwielichtstrahl: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14575,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Affront: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14602,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Verachtung: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14593,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Tollkühn: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14603,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Leiden: –1 AP"
       }
     ],
     "set_id": 370,
@@ -136460,49 +137068,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 14582,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Neutral: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 14607,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Unterbrechung: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14574,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Portal: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14604,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Irrfahrt: +1 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 14580,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Transzendenz: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14609,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Exil: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14585,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stupor: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14591,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Nachbeben: –1 AP"
       }
     ],
     "set_id": 370,
@@ -136520,13 +137136,15 @@
         "stat": ": + Maximale Reichweite",
         "min": 14584,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Heimsuchung: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 14608,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Beleidigung: Sichtlinie deaktiviert"
       },
       {
         "stat": "BP",
@@ -136538,37 +137156,43 @@
         "stat": ": – AP",
         "min": 14588,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Brüskierung: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14618,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dreistigkeit: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14589,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Odyssee: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14616,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Exodus: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 14596,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Gegenseitige Hilfe: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 14621,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Koalition: –1 AP"
       }
     ],
     "set_id": 370,
@@ -136586,49 +137210,57 @@
         "stat": ": Abklingzeit verringert um –",
         "min": 14577,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Verteilung: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14622,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Beschwörung: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14610,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zuckerschlecken: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14620,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Persiflage: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14638,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sarkasmus: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14595,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Gespött: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14587,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wundheilung: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14614,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Stolz: Veränderbare Reichweite"
       }
     ],
     "set_id": 370,
@@ -136646,49 +137278,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 14592,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schikane: +1 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 14613,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Predigt: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14576,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Blitzfaust: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14637,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Unverfrorenheit: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14581,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Therapie: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14590,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Schmach: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 14594,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Auslöschung: +2 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 14619,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Naturkatastrophe: Lineare Wirkungsweise deaktiviert"
       }
     ],
     "set_id": 370,
@@ -142329,49 +142969,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13669,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Äther: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13711,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Katarakt: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13668,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Seismische Schockwelle: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13708,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Himmlische Welle: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13666,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Flammenwerfer: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13709,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tellurische Wurfspeere: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13667,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Stalagmit: +3 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13712,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Glut: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 392,
@@ -142389,49 +143037,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13675,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "„Meteor“: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13677,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Lawine: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13679,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Astralklinge: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13681,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Detonation: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13723,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Sonnenspeer: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13726,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Komet: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13721,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Sintflut: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13715,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Asteroid: +2 Maximale Reichweite"
       }
     ],
     "set_id": 392,
@@ -142455,49 +143111,57 @@
         "stat": ": – AP",
         "min": 13680,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Feuriger Zug: –1 AP"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13717,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Stalaktit: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 13676,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gletscher: –1 AP"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13714,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Orkan: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 13678,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Rattschlag: –1 AP"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13725,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Bresche: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 13674,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gewitter: –1 AP"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13718,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Vulkan: +1 Zauber pro Ziel"
       }
     ],
     "set_id": 392,
@@ -142515,49 +143179,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13672,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Elementar-Raub: +2 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13713,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Tribut: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13722,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Elementarzyklus: Veränderbare Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 14341,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Quadrelementarströmung: Veränderbare Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13695,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Ausbreitung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13719,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Runenprisma: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 32033,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Supernova: +2 Maximale Reichweite"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 14342,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Arkaner Strom: Lineare Wirkungsweise deaktiviert"
       }
     ],
     "set_id": 392,
@@ -142575,49 +143247,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 13670,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Runifizierung: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13710,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Erscheinung: +2 Maximale Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13682,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Elementar-Schild: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13720,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Elementarwächter: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13696,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Polarität: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13716,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Konvektion: +1 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 13684,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Sublimierung: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 13724,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Runenüberladung: –1 AP"
       }
     ],
     "set_id": 392,
@@ -152742,49 +153422,57 @@
         "stat": ": + Zauber pro Ziel",
         "min": 13757,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Dogge: +1 Zauber pro Ziel"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13789,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Abräumer: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13768,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Kadaver: +1 Zauber pro Ziel"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13796,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Treibjagd: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13773,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gebell: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 13803,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Weißglut: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 14357,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Ruf des Rudels: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 14321,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Neumond: Abklingzeit verringert um –1"
       }
     ],
     "set_id": 430,
@@ -152808,49 +153496,57 @@
         "stat": ": Sichtlinie deaktiviert",
         "min": 13754,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Treiben: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13765,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Spürhund: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13753,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Verkrampfung: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13772,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Schützendes Fell: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13798,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wildheit: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13749,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Gespür: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13805,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Vitatox: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13790,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Kläffer: +1 Zauber pro Ziel"
       }
     ],
     "set_id": 430,
@@ -152868,49 +153564,57 @@
         "stat": ": + % Kritische Treffer",
         "min": 13763,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Schienbein: +25 % Kritische Treffer"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 13794,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Humbus: +1 Maximale Reichweite"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13802,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Amarok: Sichtlinie deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13758,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Zerberus: –1 AP"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13770,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Konvergenz: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13806,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Verfolgung: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13771,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Bogenhund: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13797,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Caninos: +1 Zauber pro Runde"
       }
     ],
     "set_id": 430,
@@ -152928,49 +153632,57 @@
         "stat": ": + % Kritische Treffer",
         "min": 13756,
         "max": 0,
-        "effect_id": 226
+        "effect_id": 226,
+        "formatted": "Molosser: +30 % Kritische Treffer"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13787,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Kiefer: Sichtlinie deaktiviert"
       },
       {
         "stat": ": + Zauber pro Ziel",
         "min": 13762,
         "max": 0,
-        "effect_id": 279
+        "effect_id": 279,
+        "formatted": "Markknochen: +1 Zauber pro Ziel"
       },
       {
         "stat": ": – AP",
         "min": 13793,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Maulkorb: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13766,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Aas: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13799,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Radius: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13755,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Treibjagd: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13804,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Zerlegung: Lineare Wirkungsweise deaktiviert"
       }
     ],
     "set_id": 430,
@@ -152988,49 +153700,57 @@
         "stat": ": – AP",
         "min": 13800,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Wirbel: –1 AP"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13760,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Elle: Sichtlinie deaktiviert"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13788,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Calcaneus: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": – AP",
         "min": 13769,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Beschwichtigung: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 13791,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Große Schwäche: –1 AP"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 13781,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Panik: +1 Zauber pro Runde"
       },
       {
         "stat": ": Lineare Wirkungsweise deaktiviert",
         "min": 13801,
         "max": 0,
-        "effect_id": 209
+        "effect_id": 209,
+        "formatted": "Verfolgung: Lineare Wirkungsweise deaktiviert"
       },
       {
         "stat": ": Sichtlinie deaktiviert",
         "min": 13795,
         "max": 0,
-        "effect_id": 205
+        "effect_id": 205,
+        "formatted": "Wilde Hatz: Sichtlinie deaktiviert"
       }
     ],
     "set_id": 430,
@@ -181924,49 +182644,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 23432,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wurfspeer des Sees: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23720,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Seismischer Speer: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23719,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Steinschleuder: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23392,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wurfspeer-Blitz: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 23263,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Flammender Wurfspeer: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 24219,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Bronzeregen: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23734,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Wurfspeer von Myr: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 23755,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Rote Mühle: +1 Zauber pro Runde"
       }
     ],
     "set_id": 515,
@@ -181984,49 +182712,57 @@
         "stat": ": – AP",
         "min": 23434,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Balestraff: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 23742,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Windmühle: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23726,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Tonferse: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 23753,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Spalt: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 23750,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Muspel: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 23723,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Ydra: –1 AP"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 23735,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Noa: Veränderbare Reichweite"
       },
       {
         "stat": ": – AP",
         "min": 23396,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Elding: –1 AP"
       }
     ],
     "set_id": 515,
@@ -182044,49 +182780,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 23393,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Dreizack des Meeres: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23747,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Mahlstrom: +2 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23754,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Brennender Stoßdegen: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 23391,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Oktave: Veränderbare Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 23268,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Jormun: +1 Zauber pro Runde"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23756,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Glühendes Eisen: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 23826,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Ritterlichkeit: Abklingzeit verringert um –1"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 23319,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Renommiert: +1 Zauber pro Runde"
       }
     ],
     "set_id": 515,
@@ -182104,49 +182848,57 @@
         "stat": ": + Maximale Reichweite",
         "min": 23736,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Zusammenbruch: +2 Maximale Reichweite"
       },
       {
         "stat": ": Veränderbare Reichweite",
         "min": 23729,
         "max": 0,
-        "effect_id": 204
+        "effect_id": 204,
+        "formatted": "Wurfspeer-Zyklon: Veränderbare Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23741,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Einen Schwung Erz: +3 Maximale Reichweite"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23731,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Erleichterung: +1 Maximale Reichweite"
       },
       {
         "stat": ": + Zauber pro Runde",
         "min": 23738,
         "max": 0,
-        "effect_id": 276
+        "effect_id": 276,
+        "formatted": "Erde der Mitte: +1 Zauber pro Runde"
       },
       {
         "stat": ": – AP",
         "min": 23743,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Freiraum: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 23330,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Phalanx: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 23828,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Oriflamme: –1 AP"
       },
       {
         "stat": "BP",
@@ -182170,49 +182922,57 @@
         "stat": ": – AP",
         "min": 23824,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Heldenhafter Angriff: –1 AP"
       },
       {
         "stat": ": + Maximale Reichweite",
         "min": 23314,
         "max": 0,
-        "effect_id": 208
+        "effect_id": 208,
+        "formatted": "Galanterie: +2 Maximale Reichweite"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 23823,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Kyrja: Abklingzeit verringert um –1"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 23829,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Vajra: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 23841,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Eiserner Auftakt: –1 AP"
       },
       {
         "stat": ": – AP",
         "min": 23842,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Dämmerstunde: –1 AP"
       },
       {
         "stat": ": Abklingzeit verringert um –",
         "min": 23834,
         "max": 0,
-        "effect_id": 227
+        "effect_id": 227,
+        "formatted": "Sonnenfinsternis: Abklingzeit verringert um –1"
       },
       {
         "stat": ": – AP",
         "min": 23846,
         "max": 0,
-        "effect_id": 207
+        "effect_id": 207,
+        "formatted": "Holmgang: –1 AP"
       }
     ],
     "set_id": 515,

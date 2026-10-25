@@ -13,6 +13,7 @@ import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch } from '@/ui'
 import { SetDetailModal } from './SetDetailModal.tsx'
+import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { playEquip } from '@/lib/sound.ts'
 import { Check, Crown } from 'lucide-react'
 
@@ -362,6 +363,8 @@ const ItemCard = memo(function ItemCard({
           )}
         </>
       )}
+
+      <ItemSpellEffects effects={item.effects} compact />
 
       {/* Lore description */}
       {item.description && (

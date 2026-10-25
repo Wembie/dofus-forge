@@ -8,6 +8,7 @@ import { useBuildStore, ALL_SLOTS } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
+import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
 // Lazy: these only mount once the user opens them (catalog, runes, set
@@ -571,6 +572,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
                       </div>
                     </div>
                   )}
+                  <ItemSpellEffects effects={item.effects} compact />
                 </>
               )
             })()}
