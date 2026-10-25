@@ -46,21 +46,9 @@ jobs:
         working-directory: rust-optimizer
         run: wasm-pack build . --target web --release --out-dir "$RUNNER_TEMP/wasm-generated" --no-pack --locked
 
-      - name: Verify generated WASM bindings match the committed interface
+      - name: Verify the checked-in WASM distribution matches the generated artifacts
         run: |
           set -euo pipefail
-          for file in dofus_forge_optimizer.js dofus_forge_optimizer.d.ts dofus_forge_optimizer_bg.wasm.d.ts; do
+          for file in dofus_forge_optimizer.js dofus_forge_optimizer.d.ts dofus_forge_optimizer_bg.wasm.d.ts dofus_forge_optimizer_bg.wasm; do
             cmp "public/wasm/${file}" "${RUNNER_TEMP}/wasm-generated/${file}"
           done
-
-      - name: Require a checked-in WASM update when optimizer inputs change
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        run: |
-          set -euo pipefail
-          if ! git diff --quiet "${BASE_SHA}...HEAD" -- rust-optimizer; then
-            if git diff --quiet "${BASE_SHA}...HEAD" -- public/wasm/dofus_forge_optimizer_bg.wasm; then
-              echo "::error::Rust optimizer sources changed without updating the checked-in WASM binary."
-              exit 1
-            fi
-          fi
