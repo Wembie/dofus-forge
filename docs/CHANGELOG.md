@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.132] — 2026-10-25
+- **Feat**: right-clicking an equipped item in the planner now pins it for La Forjadora without opening the browser context menu. Right-clicking an already pinned item keeps it pinned
+- **Tests**: confirmed in the planner and optimizer engine that six pinned or locked Dofus still allow the other equipment slots to be forged
+
 ## [0.3.131] — 2026-10-24
 - **Fix**: the rune/forgemagic window now opens at the top of the screen instead of being vertically centered inside the equipment section, and its rune list scrolls within the window
 
