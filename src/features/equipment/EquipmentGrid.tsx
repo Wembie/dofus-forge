@@ -224,7 +224,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
         onContextMenu={e => {
           if (!item) return
           e.preventDefault()
-          useForgePicks.getState().require(item.ankama_id)
+          useForgePicks.getState().toggleRequired(item.ankama_id)
         }}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
         className={`rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
