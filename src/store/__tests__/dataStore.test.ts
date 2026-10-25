@@ -18,7 +18,17 @@ const open = (key: string, value: unknown) => { gate(key); gates.get(key)!.resol
 vi.mock('@/data/loaders.ts', () => ({
   loadVersion:    () => gate('version'),
   loadIndex:      (lang: string) => Promise.resolve([{ id: 1, name: `index-${lang}` }]),
-  loadEquipment:  (lang: string) => Promise.resolve([{ ankama_id: 1, name: `item-${lang}`, effects: [] }]),
+  loadEquipment:  (lang: string) => Promise.resolve([{
+    ankama_id: 1,
+    name: `item-${lang}`,
+    effects: [{
+      stat: ': + cast per turn',
+      min: 32453,
+      max: 0,
+      effect_id: 276,
+      formatted: lang === 'en' ? 'Abolition Arrow: +1 casts per turn' : "Flèche d'Abolition : +1 lancer par tour",
+    }],
+  }]),
   loadSets:       (lang: string) => Promise.resolve([{ ankama_id: 2, name: `set-${lang}`, items: [] }]),
   loadClassNames: () => Promise.resolve({}),
 }))
@@ -48,6 +58,10 @@ describe('dataStore.load', () => {
     expect(s.lang).toBe('fr')
     expect(s.loading).toBe(false)
     expect(s.equipment?.[0].name).toBe('item-fr')
+    expect(s.equipment?.[0].effects[0]).toMatchObject({
+      stat: ': + cast per turn',
+      formatted: "Flèche d'Abolition : +1 lancer par tour",
+    })
   })
 })
 
