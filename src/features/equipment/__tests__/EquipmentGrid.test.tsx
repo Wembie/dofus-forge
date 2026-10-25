@@ -43,19 +43,14 @@ describe('EquipmentGrid', () => {
     useBuildStore.setState({ selectedClass: 'iop', equipped: { hat: HAT.ankama_id } })
   })
 
-  it('pins an equipped item on right-click without opening the browser context menu', () => {
+  it('toggles an equipped item pin on right-click without opening the browser context menu', () => {
     render(<EquipmentGrid />)
     const slot = screen.getAllByRole('button', { name: /Test Hat/ })[0]
 
     expect(fireEvent.contextMenu(slot)).toBe(false)
     expect(useForgePicks.getState().required).toEqual([HAT.ankama_id])
-  })
 
-  it('keeps an already pinned item pinned on right-click', () => {
-    useForgePicks.getState().require(HAT.ankama_id)
-    render(<EquipmentGrid />)
-    fireEvent.contextMenu(screen.getAllByRole('button', { name: /Test Hat/ })[0])
-
-    expect(useForgePicks.getState().required).toEqual([HAT.ankama_id])
+    expect(fireEvent.contextMenu(slot)).toBe(false)
+    expect(useForgePicks.getState().required).toEqual([])
   })
 })

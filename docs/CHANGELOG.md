@@ -6,7 +6,7 @@ Game version is read automatically from `public/data/version.json` (currently **
 ---
 
 ## [0.3.132] — 2026-10-25
-- **Feat**: right-clicking an equipped item in the planner now pins it for La Forjadora without opening the browser context menu. Right-clicking an already pinned item keeps it pinned
+- **Feat**: right-clicking an equipped item in the planner toggles its La Forjadora pin without opening the browser context menu
 - **Tests**: confirmed in the planner and optimizer engine that six pinned or locked Dofus still allow the other equipment slots to be forged
 
 ## [0.3.131] — 2026-10-24

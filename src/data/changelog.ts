@@ -11,7 +11,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.132',
     date: '2026-10-25',
     notes: [
-      "Feat: right-clicking an equipped planner item now pins it for La Forjadora without opening the browser context menu; right-clicking an already pinned item keeps it pinned",
+      'Feat: right-clicking an equipped planner item toggles its La Forjadora pin without opening the browser context menu',
       'Tests: confirmed that six pinned or locked Dofus still leave other equipment slots available to forge',
     ],
   },
