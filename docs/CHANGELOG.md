@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.131] — 2026-10-24
+- **Fix**: the rune/forgemagic window now opens at the top of the screen instead of being vertically centered inside the equipment section, and its rune list scrolls within the window
+
 ## [0.3.130] — 2026-10-24
 - **Polish**: the item catalog's effect filter now uses La Forjadora's own groups and order instead of its own buckets: **Main effects** (Core: AP, MP, Range, Summons, % Critical and the cap raisers; Characteristics: Vitality … Agility and **Power**, which used to sit under Damage), **Damage** (Flat / Percent / Elemental steal), **Resistances** (Flat / Percent) and **Combat** (initiative, heals, lock, dodge, AP/MP reduction and parry, MP steal, prospecting, pods). Within each section stats follow the Forge's order rather than alphabetical. The layout is built from `STAT_GROUPS` in `statList.ts` (`src/ui/statFilterLayout.ts`), so moving a stat in the Forge moves it in the filter too; stats are matched by translation key, so the catalog's spelling variants land in the same row. Tests: every known item stat has a place (nothing falls into Other), the order matches the Forge, Power is a main effect, and the dropdown renders the groups in that order. Unused `stat_group_damage_pct` / `stat_group_resistance_pct` / `stat_group_secondary` keys removed from the 4 locales
 

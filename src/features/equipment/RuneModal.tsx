@@ -1,4 +1,5 @@
 import { useState, startTransition } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -155,9 +156,9 @@ export function RuneModal({ slotId, item, onClose }: Props) {
 
   const statLabel = (stat: string) => (STAT_META[stat] ? t(STAT_META[stat].tKey) : stat)
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4"
       style={{ background: 'rgba(4,4,14,0.88)', backdropFilter: 'blur(8px)' }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
@@ -165,7 +166,8 @@ export function RuneModal({ slotId, item, onClose }: Props) {
         className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden"
         style={{
           maxWidth:   640,
-          maxHeight:  '90vh',
+          maxHeight:  'calc(100dvh - 2rem)',
+          minHeight:  0,
           background: 'var(--surface-void)',
           border:     '1px solid var(--metal-edge)',
           boxShadow:  `0 0 60px rgba(0,0,0,0.9), 0 0 0 1px color-mix(in srgb, var(--gold) 8%, transparent) inset`,
@@ -425,7 +427,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
         </div>}
 
         {/* ── Scrollable body ──────────────────────────────────────────── */}
-        <div className="overflow-y-auto flex-1">
+        <div className="overflow-y-auto flex-1 min-h-0">
           {/* Elemental weapon transform */}
           {isWeaponSlot && mode === 'normal' && (
             <div className="px-4 pt-4 pb-3" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
@@ -840,6 +842,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

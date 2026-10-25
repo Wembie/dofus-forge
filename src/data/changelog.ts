@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.131',
+    date: '2026-10-24',
+    notes: [
+      'Fix: the rune/forgemagic window now opens at the top of the screen instead of being vertically centered inside the equipment section, and its rune list scrolls within the window',
+    ],
+  },
+  {
     version: '0.3.130',
     date: '2026-10-24',
     notes: [
