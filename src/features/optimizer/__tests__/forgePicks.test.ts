@@ -51,6 +51,24 @@ describe('planRequired (mirrors the engine placement)', () => {
     expect(plan([7], new Set<SlotId>(['dofus1']), { dofus1: 6 })[0].status).toBe('prysmaradite')
   })
 
+  it('allows six pinned Dofus and keeps all six when their slots are locked', () => {
+    const sixDofus = Array.from({ length: 6 }, (_, index) => {
+      const id = 20 + index
+      return item(id, 'dofus', id === 20 ? 'Prysmaradite' : 'Dofus')
+    })
+    const ids = sixDofus.map(dofus => dofus.ankama_id)
+    const slots: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+    const equipped = Object.fromEntries(slots.map((slot, index) => [slot, ids[index]]))
+    const items = new Map([...byId, ...sixDofus.map(dofus => [dofus.ankama_id, dofus] as const)])
+
+    const pinned = planRequired(ids, items, none, {}, 200)
+    expect(pinned.map(placement => placement.status)).toEqual(Array(6).fill('placed'))
+    expect(new Set(pinned.map(placement => placement.slot)).size).toBe(6)
+
+    const locked = planRequired(ids, items, new Set(slots), equipped, 200)
+    expect(locked.map(placement => placement.status)).toEqual(Array(6).fill('kept'))
+  })
+
   it('flags items above the character level and ids missing from the catalog', () => {
     expect(plan([LOW_HAT.ankama_id], none, {}, 100)[0]).toMatchObject({ status: 'placed', overLevel: true })
     expect(plan([LOW_HAT.ankama_id], none, {}, 150)[0].overLevel).toBe(false)
