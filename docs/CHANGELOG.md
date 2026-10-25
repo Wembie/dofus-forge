@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.134] — 2026-10-25
+- **Polish**: special spell effects on item cards and tooltips now keep the selected language and appear in compact, readable rows with matching stat icons
+
 ## [0.3.133] — 2026-10-30
 - **Fix**: item-specific spell effects were hidden from equipment cards, tooltips and spell calculations. Their localized game descriptions are now visible throughout the planner and set details, while equipped effects update matching spells' supported AP, range, critical, damage and cast-per-turn values. Regression tests cover the Prince of Thieves Set and spell-effect references across all 19 class catalogs. Thanks to josegf for reporting this issue
 

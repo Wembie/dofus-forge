@@ -1,7 +1,8 @@
 import { create } from 'zustand'
-import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
+import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type IndexItem, type AppEffect, type AppItem, type AppSet } from '@/data/loaders.ts'
 import { fetchSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
+import { SPELL_ITEM_EFFECT_IDS } from '@/data/effectIds.ts'
 
 interface DataState {
   lang:        string
@@ -20,6 +21,24 @@ interface DataState {
 // load still running when the user switches language) must not overwrite
 // the newer one.
 let loadSeq = 0
+
+function overlayLocalizedSpellEffects(effects: AppEffect[], localizedEffects: AppEffect[]): AppEffect[] {
+  const localizedByKey = new Map<string, AppEffect[]>()
+  for (const effect of localizedEffects) {
+    if (!SPELL_ITEM_EFFECT_IDS.has(effect.effect_id ?? -1)) continue
+    const key = `${effect.effect_id}:${effect.min}:${effect.max}`
+    const matches = localizedByKey.get(key) ?? []
+    matches.push(effect)
+    localizedByKey.set(key, matches)
+  }
+
+  return effects.map(effect => {
+    if (!SPELL_ITEM_EFFECT_IDS.has(effect.effect_id ?? -1)) return effect
+    const key = `${effect.effect_id}:${effect.min}:${effect.max}`
+    const localized = localizedByKey.get(key)?.shift()
+    return localized?.formatted ? { ...effect, formatted: localized.formatted } : effect
+  })
+}
 
 export const useDataStore = create<DataState>((set, get) => ({
   lang:       'en',
@@ -55,8 +74,8 @@ export const useDataStore = create<DataState>((set, get) => ({
       let equipment = equipmentEn
       let sets      = setsEn
 
-      // For non-English: overlay translated item/set names onto the English base.
-      // Effects and slot identifiers stay English so the engine keeps working.
+      // For non-English: keep English stat identifiers for the engine while
+      // overlaying translated item names and special spell-effect descriptions.
       if (lang !== 'en') {
         const [indexLang, equipLang, setsLang] = await Promise.all([
           loadIndex(lang, v),
@@ -78,6 +97,7 @@ export const useDataStore = create<DataState>((set, get) => ({
             type:        loc.type,
             description: loc.description,
             ability:     loc.ability,
+            effects:     overlayLocalizedSpellEffects(it.effects, loc.effects),
           }
         })
         sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id) ?? s.name }))

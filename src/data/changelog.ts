@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.134',
+    date: '2026-10-25',
+    notes: [
+      'Polish: special spell effects on item cards and tooltips now keep the selected language and appear in compact, readable rows with matching stat icons',
+    ],
+  },
+  {
     version: '0.3.133',
     date: '2026-10-30',
     notes: [
