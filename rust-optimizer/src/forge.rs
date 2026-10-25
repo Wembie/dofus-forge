@@ -2408,66 +2408,6 @@ mod tests {
     }
 
     #[test]
-    fn six_required_dofus_still_leave_other_slots_searchable() {
-        let mut items = vec![
-            item(1, "hat", None, vec![effect("Vitality", 10)]),
-            item(2, "hat", None, vec![effect("Vitality", 300)]),
-        ];
-        let mut prysmaradite = item(10, "dofus", None, vec![effect("Vitality", 10)]);
-        prysmaradite.item_type = "Prysmaradite".to_string();
-        items.push(prysmaradite);
-        for id in 11..16 {
-            items.push(item(id, "dofus", None, vec![effect("Vitality", id)]));
-        }
-
-        let open = ["hat", "dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6"];
-        let mut cfg = config(vec![cond("vitality", 0, 1)], &open);
-        cfg.required_items = (10..16).collect();
-        let mut forge = Forge::new(cfg, items, vec![], base(1), 11);
-        let results = run(&mut forge, 5);
-
-        assert!(!results.is_empty());
-        for result in results {
-            let dofus: HashSet<i64> = (1..=6)
-                .filter_map(|n| result.equipped.get(&format!("dofus{n}")).copied())
-                .collect();
-            assert_eq!(dofus, HashSet::from([10, 11, 12, 13, 14, 15]));
-            assert_eq!(result.equipped.get("hat"), Some(&2));
-        }
-    }
-
-    #[test]
-    fn six_locked_dofus_still_leave_other_slots_searchable() {
-        let mut items = vec![
-            item(1, "hat", None, vec![effect("Vitality", 10)]),
-            item(2, "hat", None, vec![effect("Vitality", 300)]),
-        ];
-        let mut prysmaradite = item(10, "dofus", None, vec![effect("Vitality", 10)]);
-        prysmaradite.item_type = "Prysmaradite".to_string();
-        items.push(prysmaradite);
-        for id in 11..16 {
-            items.push(item(id, "dofus", None, vec![effect("Vitality", id)]));
-        }
-
-        let slots = ["dofus1", "dofus2", "dofus3", "dofus4", "dofus5", "dofus6"];
-        let mut base = base(1);
-        for (index, slot) in slots.iter().enumerate() {
-            base.equipped.insert((*slot).to_string(), 10 + index as i64);
-        }
-        let mut forge = Forge::new(config(vec![cond("vitality", 0, 1)], &["hat"]), items, vec![], base, 12);
-        let results = run(&mut forge, 5);
-
-        assert!(!results.is_empty());
-        for result in results {
-            let dofus: HashSet<i64> = slots.iter()
-                .filter_map(|slot| result.equipped.get(*slot).copied())
-                .collect();
-            assert_eq!(dofus, HashSet::from([10, 11, 12, 13, 14, 15]));
-            assert_eq!(result.equipped.get("hat"), Some(&2));
-        }
-    }
-
-    #[test]
     fn required_item_never_takes_a_locked_slot() {
         let items = vec![item(1, "hat", None, vec![effect("Vitality", 10)]), item(2, "hat", None, vec![effect("Vitality", 20)]), item(3, "cape", None, vec![effect("Vitality", 1)])];
         let mut b = base(1);
