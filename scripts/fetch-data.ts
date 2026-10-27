@@ -27,6 +27,7 @@
 
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs'
 import { join } from 'path'
+import { checkedVersion } from './lib/safety.ts'
 import {
   normalizeItem, normalizeSet, normalizeMount, slotFromType,
   type AppItem, type RawItem, type RawSet, type RawMount,
@@ -76,7 +77,7 @@ function buildSearchIndex(items: AppItem[]) {
 async function main() {
   console.log('Fetching game version...')
   const meta = await get<{ version: string }>(`/${GAME}/${VER}/meta/version`)
-  const gameVersion = meta.version
+  const gameVersion = checkedVersion(meta.version)
 
   const versionFile = join(DATA_DIR, 'version.json')
   if (!FORCE && existsSync(versionFile)) {

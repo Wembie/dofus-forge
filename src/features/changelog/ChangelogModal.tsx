@@ -36,7 +36,7 @@ export function ChangelogModal({ onClose }: { onClose: () => void }) {
             <ul className="space-y-1">
               {entry.notes.map((note, i) => (
                 <li key={i} className="flex gap-2 text-[11px]" style={{ color: 'var(--ink-muted)' }}>
-                  <span style={{ color: 'var(--gold-deep)', flexShrink: 0 }}>·</span>
+                  <span style={{ color: 'var(--gold-muted)', flexShrink: 0 }}>·</span>
                   <span>{note}</span>
                 </li>
               ))}

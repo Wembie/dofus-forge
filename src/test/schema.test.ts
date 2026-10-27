@@ -157,3 +157,67 @@ describe('supabase schema guards', () => {
     }
   })
 })
+
+// The latest body of a function: later blocks in schema.sql override earlier ones.
+function latestFunction(name: string) {
+  const all = [...schema.matchAll(new RegExp(`create (?:or replace )?function (?:public\\.)?${name}\\(`, 'g'))]
+  const from = all.at(-1)!.index
+  const bodyStart = schema.indexOf('$$', from) + 2
+  return schema.slice(from, schema.indexOf('$$', bodyStart))
+}
+
+describe('security audit guards (0.3.135)', () => {
+  it('clients cannot forge server-owned columns when inserting comments, builds or reports', () => {
+    expect(schema).toMatch(/create trigger before_comment_insert_reset before insert on public\.build_comments/)
+    const comment = latestFunction('reset_comment_system_fields')
+    for (const col of ['like_count := 0', 'deleted_at := null', 'created_at := now()']) expect(comment).toContain(`NEW.${col}`)
+    const build = latestFunction('reset_build_counters')
+    expect(build).toContain('NEW.created_at        := now()')
+    expect(build).toContain('NEW.updated_at        := now()')
+    expect(schema).toMatch(/create trigger before_build_report_insert before insert on public\.build_reports/)
+    expect(schema).toMatch(/create trigger before_comment_report_insert before insert on public\.comment_reports/)
+    expect(latestFunction('reset_report_review_fields')).toContain("NEW.reviewed_by := null")
+  })
+
+  it('deleting a comment a moderator already hid does not decrement comment_count again', () => {
+    expect(latestFunction('sync_comment_count')).toMatch(/elsif OLD\.deleted_at is null then/)
+  })
+
+  it('admin revoke ends assignments closed ahead of time and fails loudly when nothing matched', () => {
+    const revoke = latestFunction('admin_revoke_custom_rank')
+    expect(revoke).toContain('(revoked_at is null or revoked_at > now())')
+    expect(revoke).toMatch(/if not found then\s+raise exception/)
+  })
+
+  it('anonymous view dedupe never uses the caller-chosen user agent, and needs an IP to count', () => {
+    const view = latestFunction('record_view')
+    expect(view).not.toContain('user-agent')
+    expect(view).toMatch(/if v_ip is null then\s+return;/)
+    expect(schema).toMatch(/revoke all on function public\.record_view\(uuid, uuid, text\) from public;/)
+  })
+
+  it('anonymous forge runs are throttled per visitor and only their own visitor can finish them', () => {
+    const start = latestFunction('start_forge_run')
+    expect(start).toMatch(/if auth\.uid\(\) is null and v_visitor is null then\s+return null;/)
+    expect(start).toContain('visitor = v_visitor')
+    const finish = latestFunction('finish_forge_run')
+    expect(finish).not.toContain('is not distinct from auth.uid()')
+    expect(finish).toContain('auth.uid() is null and visitor = v_visitor')
+  })
+
+  it('slug redirects only list builds the reader can already see', () => {
+    const policies = [...schema.matchAll(/create policy "slugs read" on [\w.]*slug_redirects for select\s+using \(([^;]*)\);/g)]
+    expect(policies.at(-1)![1]).toContain('exists (select 1 from public.builds b where b.id = build_id)')
+  })
+
+  it('the avatars bucket enforces type and size on the server', () => {
+    expect(schema).toMatch(/allowed_mime_types = array\['image\/png', 'image\/jpeg', 'image\/webp'\]/)
+    expect(schema).toMatch(/file_size_limit = 2097152/)
+  })
+
+  it('the migration file matches the block appended to schema.sql', () => {
+    const migration = readFileSync(join(ROOT, 'supabase', 'migrations', '20261027000000_security_audit_fixes.sql'), 'utf8')
+    expect(migrations).toContain('20261027000000_security_audit_fixes.sql')
+    expect(schema.replace(/\r\n/g, '\n')).toContain(migration.replace(/\r\n/g, '\n').split('\n').slice(2).join('\n').trim())
+  })
+})

@@ -92,7 +92,7 @@ export function AdminReportsPage() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
-      <main className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
+      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
         <h1 className="flex items-center gap-2 font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
           <Flag size={14} /> {t('admin_reports_title')}
         </h1>

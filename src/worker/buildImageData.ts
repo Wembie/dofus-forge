@@ -23,6 +23,16 @@ const CHAR_COLOR: Record<string, string> = {
   intelligence: '#dc4e22', chance: '#2a8fd4', agility: '#6ab04c',
 }
 
+// The publish form caps names at 60 chars, but the database doesn't, and the
+// render runs unauthenticated: a name sent straight to the API must not make
+// satori lay out an arbitrarily long string.
+const TITLE_MAX = 60
+
+function truncate(text: string, max: number): string {
+  const chars = Array.from(text)
+  return chars.length > max ? `${chars.slice(0, max - 1).join('')}…` : text
+}
+
 function decodeSnapshot(build: BuildMeta) {
   const snap = sanitizeSnapshot(build.snapshot) ?? sanitizeSnapshot({ v: 1 })!
   const allocated = Object.fromEntries(
@@ -110,7 +120,7 @@ export async function buildOgImageData(
   )
 
   return {
-    title: build.name || classLabel,
+    title: truncate(build.name, TITLE_MAX) || classLabel,
     classLabel,
     level: build.level,
     gender: build.gender === 'female' ? 'female' : 'male',

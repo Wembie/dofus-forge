@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from './cn'
+import { useFocusTrap } from './useFocusTrap'
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | 'full'
 
@@ -10,6 +11,9 @@ export type ModalProps = {
   open:       boolean
   onClose:    () => void
   title?:     string
+  /** Accessible name when the modal draws its own heading instead of `title`. */
+  ariaLabel?:  string
+  labelledBy?: string
   size?:      ModalSize
   className?: string
   children:   ReactNode
@@ -25,11 +29,6 @@ const sizeMap: Record<ModalSize, string> = {
   '4xl':'max-w-4xl',
   full: 'max-w-[calc(100vw-2rem)]',
 }
-
-const FOCUSABLE = [
-  'a[href]', 'button:not([disabled])', 'input:not([disabled])',
-  'select:not([disabled])', 'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])',
-].join(',')
 
 const EXIT_MS = 150
 
@@ -60,49 +59,15 @@ function useMountTransition(open: boolean, exitMs: number) {
   return { shouldRender, isVisible }
 }
 
-export function Modal({ open, onClose, title, size = 'md', className, children }: ModalProps) {
+export function Modal({ open, onClose, title, ariaLabel, labelledBy, size = 'md', className, children }: ModalProps) {
   const { t }    = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
-  const titleId  = title ? 'modal-title' : undefined
+  const autoId   = useId()
+  const titleId  = title ? autoId : labelledBy
   const { shouldRender, isVisible } = useMountTransition(open, EXIT_MS)
 
-  // Initial focus — only when modal opens, not when onClose ref changes.
-  // The cleanup hands focus back to whatever opened the modal, so keyboard
-  // and screen-reader users keep their place in the page.
-  useEffect(() => {
-    if (!open) return
-    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null
-    const panel = panelRef.current
-    if (panel) {
-      const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))
-      focusable[0]?.focus()
-    }
-    return () => { if (opener?.isConnected) opener.focus({ preventScroll: true }) }
-  }, [open])
-
-  // ESC + Tab trap — reattaches when onClose changes but does NOT steal focus
-  useEffect(() => {
-    if (!open) return
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return }
-      if (e.key !== 'Tab') return
-      const panel = panelRef.current
-      if (!panel) return
-      const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE))
-      if (focusable.length === 0) return
-      const first = focusable[0]
-      const last  = focusable[focusable.length - 1]
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last.focus() }
-      } else {
-        if (document.activeElement === last)  { e.preventDefault(); first.focus() }
-      }
-    }
-
-    document.addEventListener('keydown', handleKey)
-    return () => document.removeEventListener('keydown', handleKey)
-  }, [open, onClose])
+  // Gated on shouldRender: the panel only exists a render after `open` flips.
+  useFocusTrap(panelRef, open && shouldRender, onClose)
 
   // Body scroll lock
   useEffect(() => {
@@ -133,8 +98,10 @@ export function Modal({ open, onClose, title, size = 'md', className, children }
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        aria-label={titleId ? undefined : ariaLabel}
+        tabIndex={-1}
         className={cn(
-          'relative z-10 w-full rounded-frame overflow-hidden flex flex-col',
+          'relative z-10 w-full rounded-frame overflow-hidden flex flex-col focus:outline-none',
           'max-h-[90vh]',
           sizeMap[size],
           className,

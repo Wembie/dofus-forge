@@ -29,6 +29,7 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 import { getSidebarSide, LAYOUT_SETTINGS_EVENT } from '@/lib/layoutSettings.ts'
+import { scrollBehavior } from '@/lib/motionSettings.ts'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
@@ -182,7 +183,7 @@ function BuilderContent() {
   const wasCompareActive = useRef(false)
   useEffect(() => {
     if (compareActive && !wasCompareActive.current) {
-      setTimeout(() => comparePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
+      setTimeout(() => comparePanelRef.current?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' }), 50)
     }
     wasCompareActive.current = compareActive
   }, [compareActive])

@@ -21,6 +21,7 @@
 
 import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { checkedVersion } from './lib/safety.ts'
 import { createGunzip } from 'node:zlib'
 
 const LANGS    = ['en', 'es', 'fr', 'pt'] as const
@@ -511,10 +512,10 @@ async function main() {
 
   let gameVersion: string
   if (existsSync(versionFile)) {
-    gameVersion = (JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: string }).gameVersion
+    gameVersion = checkedVersion((JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: unknown }).gameVersion)
   } else {
     const meta = await fetch('https://api.dofusdu.de/dofus3/v1/meta/version').then(r => r.json()) as { version: string }
-    gameVersion = meta.version
+    gameVersion = checkedVersion(meta.version)
   }
 
   if (!FORCE && existsSync(spellVersionFile)) {

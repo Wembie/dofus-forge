@@ -138,7 +138,8 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
       const player = playerRef.current
       if (look && player) {
         // rAF timestamps can predate `start`; clamp so the index never goes negative.
-        const elapsed = Math.max(0, now - start)
+        // Reduced motion: hold the idle pose on its first frame.
+      const elapsed = still.matches ? 0 : Math.max(0, now - start)
         const { mirror } = FACINGS[facingRef.current]
         const extra = companionRef.current
         const lead = extra?.kind === 'mount' ? extra.figure : player
@@ -169,6 +170,7 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
       }
       raf = requestAnimationFrame(tick)
     }
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)')
     raf = requestAnimationFrame(tick)
     return () => {
       cancelAnimationFrame(raf)

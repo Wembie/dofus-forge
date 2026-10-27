@@ -80,7 +80,7 @@ export function ForgeItemsPanel({ items, sets, equipped, placements }: Props) {
           onKeyDown={onKey}
           placeholder={t('optimizer_items_search')}
           aria-label={t('optimizer_items_search')}
-          aria-controls={listId}
+          aria-controls={query.trim().length >= 2 ? listId : undefined}
           aria-autocomplete="list"
           className="w-full rounded-md pl-7 pr-2 py-1.5 text-[11px] outline-none transition-colors focus:border-[var(--gold)]"
           style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
@@ -164,7 +164,7 @@ export function ForgeItemsPanel({ items, sets, equipped, placements }: Props) {
                 aria-label={on ? `${t('optimizer_items_unpin')}: ${item.name}` : t('optimizer_items_pin_hint', { name: item.name })}
                 title={on ? `${t('optimizer_items_unpin')}: ${item.name}` : t('optimizer_items_pin_hint', { name: item.name })}
                 className="relative rounded-md transition-all hover:scale-110"
-                style={{ outline: on ? '1.5px solid var(--gold)' : 'none', outlineOffset: 1, boxShadow: on ? '0 0 8px -2px var(--gold)' : 'none', opacity: on ? 1 : 0.75 }}
+                style={{ outline: on ? '1.5px solid var(--gold)' : undefined, outlineOffset: on ? 1 : undefined, boxShadow: on ? '0 0 8px -2px var(--gold)' : undefined, opacity: on ? 1 : 0.75 }}
               >
                 <ItemIcon item={item} size={26} />
                 {on && (

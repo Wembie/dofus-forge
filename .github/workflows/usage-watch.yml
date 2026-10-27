@@ -1,0 +1,66 @@
+name: Usage Watch
+
+# Daily Workers usage check (docs/security/BUDGET_ALERTS.md). A notification,
+# not a spending cap: it fails the run — which emails the repo owner — when
+# yesterday's requests or errors exceed the thresholds set as repository
+# variables. Does nothing until CLOUDFLARE_ANALYTICS_TOKEN (Account Analytics:
+# Read only) is added as a secret.
+on:
+  schedule:
+    - cron: '15 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CF_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
+      CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      MAX_REQUESTS: ${{ vars.USAGE_MAX_DAILY_REQUESTS }}
+      MAX_ERRORS: ${{ vars.USAGE_MAX_DAILY_ERRORS }}
+    steps:
+      - name: Check Workers usage (last 24 h)
+        run: |
+          if [ -z "$CF_TOKEN" ] || [ -z "$CF_ACCOUNT" ]; then
+            echo "::notice::CLOUDFLARE_ANALYTICS_TOKEN / CLOUDFLARE_ACCOUNT_ID not set, skipping"
+            exit 0
+          fi
+          node --input-type=module <<'NODE'
+          const end = new Date()
+          const start = new Date(end.getTime() - 24 * 3600 * 1000)
+          const query = `query ($account: string!, $start: Time!, $end: Time!) {
+            viewer { accounts(filter: { accountTag: $account }) {
+              workersInvocationsAdaptive(limit: 100, filter: { scriptName: "dofus-forge", datetime_geq: $start, datetime_leq: $end }) {
+                sum { requests errors subrequests }
+                quantiles { cpuTimeP50 cpuTimeP99 }
+              }
+            } }
+          }`
+          const res = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${process.env.CF_TOKEN}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, variables: { account: process.env.CF_ACCOUNT, start: start.toISOString(), end: end.toISOString() } }),
+          })
+          const body = await res.json()
+          if (!res.ok || body.errors?.length) {
+            console.log(`::error::Cloudflare GraphQL query failed (HTTP ${res.status}): ${JSON.stringify(body.errors ?? body).slice(0, 500)}`)
+            process.exit(1)
+          }
+          const rows = body.data.viewer.accounts[0]?.workersInvocationsAdaptive ?? []
+          const total = rows.reduce((t, r) => ({ requests: t.requests + r.sum.requests, errors: t.errors + r.sum.errors }), { requests: 0, errors: 0 })
+          const p99 = Math.max(0, ...rows.map(r => r.quantiles.cpuTimeP99))
+          const summary = `### Workers usage, last 24 h\n\n| Metric | Value | Threshold |\n|---|---|---|\n| Requests | ${total.requests} | ${process.env.MAX_REQUESTS || 'not set'} |\n| Errors | ${total.errors} | ${process.env.MAX_ERRORS || 'not set'} |\n| CPU p99 (µs) | ${p99} | — |\n`
+          await import('node:fs').then(fs => fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary))
+          console.log(summary)
+          const over = []
+          if (process.env.MAX_REQUESTS && total.requests > Number(process.env.MAX_REQUESTS)) over.push(`requests ${total.requests} > ${process.env.MAX_REQUESTS}`)
+          if (process.env.MAX_ERRORS && total.errors > Number(process.env.MAX_ERRORS)) over.push(`errors ${total.errors} > ${process.env.MAX_ERRORS}`)
+          if (over.length) {
+            console.log(`::error::Workers usage above threshold: ${over.join('; ')}`)
+            process.exit(1)
+          }
+          NODE

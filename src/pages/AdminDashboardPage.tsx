@@ -29,7 +29,7 @@ export function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-7 sm:py-10 space-y-6 sm:space-y-8">
+      <main id="main-content" className="flex-1 max-w-6xl w-full mx-auto px-4 py-7 sm:py-10 space-y-6 sm:space-y-8">
         {authLoading ? (
           <Frame material="panel" className="py-16 text-center text-xs" style={{ color: 'var(--ink-faint)' }} role="status">
             {t('admin_hub_loading')}

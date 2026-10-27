@@ -148,12 +148,13 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
         )}
 
         <div>
-          <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+          <label htmlFor="publish-build-name" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
             {t('build_name_label')}
           </label>
           <div className="relative">
             <Swords size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
             <input
+              id="publish-build-name"
               type="text"
               maxLength={60}
               autoFocus

@@ -9,6 +9,7 @@ import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 import { assignSetSlots } from './setSlots.ts'
 import { levelCap, changeLevelRange, NO_LEVEL_CAP } from './catalogFilters.ts'
+import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { normalizeSearch } from '@/ui'
 
@@ -114,7 +115,7 @@ const SetCard = memo(function SetCard({
             onMouseLeave={e => { e.stopPropagation(); setHovered(null) }}
           >
             {it.image_url
-              ? <img src={it.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+              ? <img src={it.image_url} alt={it.name} className="w-full h-full object-contain p-1" loading="lazy" />
               : <span className="text-ink-faint text-[11px]">?</span>}
           </div>
         ))}
@@ -180,6 +181,8 @@ export function SetsCatalog({ onClose }: Props) {
   const [pieces, setPieces]       = useState<number | null>(null)
   const [sort, setSort]           = useState<SortKey>('level-desc')
   const [openSet, setOpenSet]     = useState<AppSet | null>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(dialogRef)
 
   function setLevelRange(which: 'min' | 'max', value: number) {
     const next = changeLevelRange({ min: minLevel, max: maxLevel }, which, value)
@@ -314,7 +317,9 @@ export function SetsCatalog({ onClose }: Props) {
   return (
     <>
       <div
-        className="fixed inset-0 z-50"
+        ref={dialogRef}
+        tabIndex={-1}
+        className="fixed inset-0 z-50 focus:outline-none"
         style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(4px)' }}
         role="dialog"
         aria-modal
@@ -346,6 +351,7 @@ export function SetsCatalog({ onClose }: Props) {
             <input
               type="search"
               placeholder={t('sets_catalog_search')}
+              aria-label={t('sets_catalog_search')}
               value={search}
               onChange={e => setSearch(e.target.value)}
               autoFocus
@@ -360,6 +366,7 @@ export function SetsCatalog({ onClose }: Props) {
                 <>
                   <button
                     onClick={() => setPieces(null)}
+                    aria-pressed={pieces === null}
                     className={[
                       'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                       pieces === null ? 'filter-btn-active' : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
@@ -369,6 +376,7 @@ export function SetsCatalog({ onClose }: Props) {
                     <button
                       key={n}
                       onClick={() => setPieces(pieces === n ? null : n)}
+                      aria-pressed={pieces === n}
                       className={[
                         'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                         pieces === n ? 'filter-btn-active' : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
@@ -383,6 +391,7 @@ export function SetsCatalog({ onClose }: Props) {
                   <button
                     key={sk}
                     onClick={() => setSort(sk)}
+                    aria-pressed={sort === sk}
                     className={[
                       'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                       sort === sk ? 'filter-btn-active' : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
@@ -396,6 +405,7 @@ export function SetsCatalog({ onClose }: Props) {
               <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
               <select
                 value={minLevel}
+                aria-label={t('a11y_level_min')}
                 onChange={e => setLevelRange('min', Number(e.target.value))}
                 className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
                 style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
@@ -405,6 +415,7 @@ export function SetsCatalog({ onClose }: Props) {
               <span className="text-ink-faint">–</span>
               <select
                 value={maxLevel}
+                aria-label={t('a11y_level_max')}
                 onChange={e => setLevelRange('max', Number(e.target.value))}
                 className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
                 style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}

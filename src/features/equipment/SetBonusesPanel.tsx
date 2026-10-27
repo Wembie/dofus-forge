@@ -104,7 +104,7 @@ function SetCard({ set, count, onOpen }: { set: AppSet; count: number; onOpen?: 
             border:     '1px solid color-mix(in srgb, var(--gold) 20%, transparent)',
           }}
         >
-          {count}<span style={{ color: 'var(--gold-deep)' }}>/{maxPieces}</span>
+          {count}<span style={{ color: 'var(--gold-muted)' }}>/{maxPieces}</span>
         </span>
 
         {onOpen && (

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { Search, CornerDownLeft } from 'lucide-react'
 import { normalizeSearch } from '@/ui/normalize.ts'
+import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 
 export type Command = {
   key:       string
@@ -22,6 +23,8 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
   const [query, setQuery]   = useState('')
   const [active, setActive] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(panelRef, open)
 
   const filtered = query.trim() === ''
     ? commands
@@ -70,6 +73,7 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
       onClick={e => { if (e.target === e.currentTarget) setOpen(false) }}
     >
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={t('command_palette_title')}
@@ -84,6 +88,7 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={t('command_palette_placeholder')}
+            aria-label={t('command_palette_placeholder')}
             className="flex-1 bg-transparent text-sm focus:outline-none"
             style={{ color: 'var(--ink)' }}
           />

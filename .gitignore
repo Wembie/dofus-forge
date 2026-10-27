@@ -47,3 +47,8 @@ char-assets/
 item-assets/
 .venv-chars/
 __pycache__/
+
+skills-lock.json
+
+# Local detailed explanation of the Rust optimizer
+docs/FORGE_RS_EXPLAINED.md

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Lock, KeyRound, Check } from 'lucide-react'
 import { Modal, Button, PasswordInput } from '@/ui'
@@ -19,6 +19,11 @@ export function ResetPasswordModal() {
   const [busy, setBusy]           = useState(false)
   const [error, setError]         = useState<string | null>(null)
   const [done, setDone]           = useState(false)
+  const ids = useId()
+  const titleId   = `${ids}-title`
+  const newId     = `${ids}-new`
+  const confirmId = `${ids}-confirm`
+  const errorId   = `${ids}-error`
 
   function close() {
     setPassword(''); setConfirm(''); setError(null); setBusy(false); setDone(false)
@@ -37,7 +42,7 @@ export function ResetPasswordModal() {
   }
 
   return (
-    <Modal open={open} onClose={close} size="sm">
+    <Modal open={open} onClose={close} size="sm" labelledBy={titleId}>
       <div
         className="relative flex flex-col items-center gap-2 px-6 pt-7 pb-5"
         style={{ background: 'linear-gradient(180deg, var(--surface-stone), var(--surface-panel))', borderBottom: '1px solid var(--metal-edge)' }}
@@ -48,7 +53,7 @@ export function ResetPasswordModal() {
         >
           <KeyRound size={20} style={{ color: 'var(--gold)' }} />
         </div>
-        <h2 className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
+        <h2 id={titleId} className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
           {t(done ? 'auth_password_updated' : 'auth_reset_password_title')}
         </h2>
         {!done && (
@@ -69,7 +74,7 @@ export function ResetPasswordModal() {
                 <Check size={26} style={{ color: 'var(--gold)' }} />
               </div>
             </div>
-            <p className="text-sm" style={{ color: 'var(--ink)' }}>{t('auth_password_updated_subtitle')}</p>
+            <p role="status" className="text-sm" style={{ color: 'var(--ink)' }}>{t('auth_password_updated_subtitle')}</p>
             <Button variant="secondary" size="sm" onClick={close} className="w-full justify-center">
               {t('modal_close')}
             </Button>
@@ -77,10 +82,12 @@ export function ResetPasswordModal() {
         ) : (
           <form onSubmit={submit} className="space-y-3.5">
             <div>
-              <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+              <label htmlFor={newId} className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                 {t('auth_new_password')}
               </label>
               <PasswordInput
+                id={newId}
+                describedBy={error ? errorId : undefined}
                 leftIcon={<Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />}
                 required
                 minLength={6}
@@ -92,10 +99,12 @@ export function ResetPasswordModal() {
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+              <label htmlFor={confirmId} className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                 {t('auth_confirm_password')}
               </label>
               <PasswordInput
+                id={confirmId}
+                describedBy={error ? errorId : undefined}
                 leftIcon={<Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />}
                 required
                 minLength={6}
@@ -107,6 +116,8 @@ export function ResetPasswordModal() {
 
             {error && (
               <p
+                id={errorId}
+                role="alert"
                 className="text-[11px] rounded-md px-2.5 py-1.5"
                 style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
               >

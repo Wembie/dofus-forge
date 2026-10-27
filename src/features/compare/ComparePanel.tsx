@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useId, useRef } from 'react'
+import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { useTranslation } from 'react-i18next'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
 import { useShallow } from 'zustand/react/shallow'
@@ -82,6 +83,9 @@ export function ComparePanel() {
   const sets       = useDataStore(s => s.sets ?? NO_SETS)
 
   const [showSelector, setShowSelector] = useState(false)
+  const selectorRef     = useRef<HTMLDivElement>(null)
+  const selectorTitleId = useId()
+  useFocusTrap(selectorRef, showSelector, () => setShowSelector(false))
   const [urlInput, setUrlInput]         = useState('')
   const [urlError, setUrlError]         = useState(false)
   const [copied, setCopied]             = useState(false)
@@ -237,6 +241,7 @@ export function ComparePanel() {
             className="w-6 h-6 rounded flex items-center justify-center text-[14px] transition-colors"
             style={{ color: 'var(--ink-faint)', background: 'transparent', border: '1px solid var(--metal-edge)' }}
             title={t('modal_close')}
+            aria-label={t('modal_close')}
           >
             ×
           </button>
@@ -268,7 +273,7 @@ export function ComparePanel() {
               />
             )}
             <div className="min-w-0">
-              <p className="text-[9px] uppercase tracking-widest font-semibold mb-0.5" style={{ color: 'var(--gold-deep)' }}>
+              <p className="text-[9px] uppercase tracking-widest font-semibold mb-0.5" style={{ color: 'var(--gold-muted)' }}>
                 {t('compare_build_a')}
               </p>
               <p className="text-[13px] font-bold truncate" style={{ color: 'var(--gold)' }}>
@@ -349,6 +354,7 @@ export function ComparePanel() {
                       className="w-5 h-5 rounded flex items-center justify-center text-[11px] transition-colors"
                       style={{ color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)', background: 'transparent' }}
                       title={t('compare_clear_b')}
+                      aria-label={t('compare_clear_b')}
                     >
                       ×
                     </button>
@@ -385,6 +391,8 @@ export function ComparePanel() {
                 onChange={e => { setUrlInput(e.target.value); setUrlError(false) }}
                 onKeyDown={e => e.key === 'Enter' && handleLoadUrl()}
                 placeholder={t('compare_url_placeholder')}
+                aria-label={t('compare_url_placeholder')}
+                aria-invalid={urlError || undefined}
                 className="flex-1 rounded px-2 py-1 text-[10px] min-w-0"
                 style={{
                   background: 'var(--surface-void)',
@@ -474,7 +482,7 @@ export function ComparePanel() {
         <div className="px-4 pb-3">
           <p
             className="text-[9px] uppercase tracking-widest font-semibold mb-2 pb-1"
-            style={{ color: 'var(--gold-deep)', borderBottom: '1px solid var(--metal-edge)' }}
+            style={{ color: 'var(--gold-muted)', borderBottom: '1px solid var(--metal-edge)' }}
           >
             {t('compare_equipment')}
           </p>
@@ -591,7 +599,7 @@ export function ComparePanel() {
                       borderBottom: '1px solid var(--metal-edge)',
                     }}
                   >
-                    <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                    <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
                       {t(SECTION_TKEYS[sec])}
                     </span>
                   </div>
@@ -663,7 +671,12 @@ export function ComparePanel() {
           onClick={() => setShowSelector(false)}
         >
           <div
-            className="rounded-xl overflow-hidden w-full max-w-sm mx-4"
+            ref={selectorRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={selectorTitleId}
+            tabIndex={-1}
+            className="rounded-xl overflow-hidden w-full max-w-sm mx-4 focus:outline-none"
             style={{
               background: 'var(--surface-stone)',
               border:     '1px solid var(--metal-edge)',
@@ -675,11 +688,12 @@ export function ComparePanel() {
               className="flex items-center justify-between px-4 py-2.5"
               style={{ borderBottom: '1px solid var(--metal-edge)' }}
             >
-              <span className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
+              <span id={selectorTitleId} className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
                 {t('compare_load_b')}
               </span>
               <button
                 onClick={() => setShowSelector(false)}
+                aria-label={t('modal_close')}
                 className="w-6 h-6 rounded flex items-center justify-center text-[13px]"
                 style={{ color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)' }}
               >
@@ -695,6 +709,8 @@ export function ComparePanel() {
                   onChange={e => { setUrlInput(e.target.value); setUrlError(false) }}
                   onKeyDown={e => e.key === 'Enter' && handleLoadUrl()}
                   placeholder={t('compare_url_placeholder')}
+                  aria-label={t('compare_url_placeholder')}
+                  aria-invalid={urlError || undefined}
                   className="flex-1 rounded px-2 py-1.5 text-[11px] min-w-0"
                   style={{
                     background: 'var(--surface-void)',

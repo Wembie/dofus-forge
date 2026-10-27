@@ -1,4 +1,4 @@
-import { useState, startTransition } from 'react'
+import { useId, useRef, useState, startTransition } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
@@ -7,6 +7,7 @@ import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, 
 import { exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
 import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
 import { normalizeSearch } from '@/ui/normalize.ts'
+import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { WEAPON_ATTACK_STAT } from '@/features/spells/spellCalc.ts'
 
 type RuneSection = { labelKey: string; stats: string[] }
@@ -121,6 +122,9 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const [mode, setMode]       = useState<'normal' | 'exotic'>('normal')
   const [trFocus, setTrFocus] = useState<string | null>(exotic ? exotic.stat : null)
   const [runeSearch, setRuneSearch] = useState('')
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const titleId   = useId()
+  useFocusTrap(dialogRef, true, onClose)
 
   const runeEntries   = Object.entries(runes).filter(([, v]) => v > 0).sort(exoticFirst)
   const normalCount   = runeEntries.filter(([k]) => k !== exotic?.key).length
@@ -163,7 +167,12 @@ export function RuneModal({ slotId, item, onClose }: Props) {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="w-full flex flex-col rounded-2xl shadow-2xl overflow-hidden focus:outline-none"
         style={{
           maxWidth:   640,
           maxHeight:  'calc(100dvh - 2rem)',
@@ -192,7 +201,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="font-display font-bold truncate leading-tight" style={{ color: 'var(--gold)', fontSize: 13 }}>
+            <p id={titleId} className="font-display font-bold truncate leading-tight" style={{ color: 'var(--gold)', fontSize: 13 }}>
               {item.name}
             </p>
             <p className="text-[11px] mt-0.5 flex items-center gap-1.5" style={{ color: 'var(--ink-faint)' }}>
@@ -369,11 +378,13 @@ export function RuneModal({ slotId, item, onClose }: Props) {
             >
               <button
                 onClick={() => setAddValue(v => Math.max(0, (v === '' ? 0 : v) - 1))}
+                aria-label={t('a11y_decrease')}
                 className="w-5 h-6 flex items-center justify-center text-sm font-bold select-none transition-colors"
                 style={{ color: 'var(--ink-faint)' }}
               >−</button>
               <input
                 type="number"
+                aria-label={t('a11y_rune_value')}
                 value={addValue}
                 min={0}
                 max={9999}
@@ -388,6 +399,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               />
               <button
                 onClick={() => setAddValue(v => (v === '' ? 0 : v) + 1)}
+                aria-label={t('a11y_increase')}
                 className="w-5 h-6 flex items-center justify-center text-sm font-bold select-none transition-colors"
                 style={{ color: 'var(--ink-faint)' }}
               >+</button>
@@ -716,6 +728,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               value={runeSearch}
               onChange={e => setRuneSearch(e.target.value)}
               placeholder={t('rune_search')}
+              aria-label={t('rune_search')}
               className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-ink-faint focus:outline-none transition-colors"
               style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
               onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
@@ -835,6 +848,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                 value={forjamagoName}
                 onChange={e => setForjamagoName(slotId, e.target.value)}
                 placeholder={t('forjamago_name_placeholder')}
+                aria-label={t('forjamago_name_placeholder')}
                 className="flex-1 bg-transparent text-[11px] outline-none"
                 style={{ color: 'var(--ap)', caretColor: 'var(--ap)' }}
               />

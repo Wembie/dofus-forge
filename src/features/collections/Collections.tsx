@@ -40,6 +40,7 @@ export function NewCollectionForm({ userId, onCreated }: { userId: string; onCre
           maxLength={COLLECTION_NAME_MAX}
           onChange={e => setName(e.target.value)}
           placeholder={t('collections_new_placeholder')}
+          aria-label={t('collections_new_placeholder')}
           className="flex-1 min-w-0 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none"
           style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
         />

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
 import { Modal, Button, PasswordInput } from '@/ui'
@@ -23,6 +23,12 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   const [resetSent, setResetSent] = useState(false)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [turnstileKey, setTurnstileKey] = useState(0)
+  const ids = useId()
+  const titleId    = `${ids}-title`
+  const emailId    = `${ids}-email`
+  const usernameId = `${ids}-username`
+  const passwordId = `${ids}-password`
+  const errorId    = `${ids}-error`
 
   function reset() {
     setMode('signin')
@@ -80,7 +86,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   }
 
   return (
-    <Modal open={open} onClose={close} size="sm">
+    <Modal open={open} onClose={close} size="sm" labelledBy={titleId}>
       {/* Branded header — Modal's own title bar is plain text, this gives it the
           same gold-accent identity used across the rest of the app. */}
       <div
@@ -103,7 +109,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
         >
           <Swords size={20} style={{ color: 'var(--gold)' }} />
         </div>
-        <h2 className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
+        <h2 id={titleId} className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
           {t(
             signedUp || resetSent ? 'auth_check_email_title'
             : mode === 'signin' ? 'auth_signin_title'
@@ -129,7 +135,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                 <MailCheck size={26} style={{ color: 'var(--gold)' }} />
               </div>
             </div>
-            <p className="text-sm" style={{ color: 'var(--ink)' }}>{t(resetSent ? 'auth_reset_sent' : 'auth_check_email')}</p>
+            <p role="status" className="text-sm" style={{ color: 'var(--ink)' }}>{t(resetSent ? 'auth_reset_sent' : 'auth_check_email')}</p>
             <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('auth_check_spam')}</p>
             <Button variant="secondary" size="sm" onClick={close} className="w-full justify-center">
               {t('modal_close')}
@@ -139,33 +145,37 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
           <>
             <form onSubmit={submit} className="space-y-3.5">
               <div>
-                <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                <label htmlFor={emailId} className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                   {t('auth_email')}
                 </label>
                 <div className="relative">
                   <Mail size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
                   <input
+                    id={emailId}
                     type="email"
                     required
                     autoComplete="email"
                     autoFocus
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    aria-invalid={error ? true : undefined}
+                    aria-describedby={error ? errorId : undefined}
                     className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
                     style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
                     onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
                   />
                 </div>
               </div>
               {mode === 'signup' && (
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                  <label htmlFor={usernameId} className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                     {t('auth_username')}
                   </label>
                   <div className="relative">
                     <User size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
                     <input
+                      id={usernameId}
                       type="text"
                       required
                       minLength={3}
@@ -174,19 +184,20 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                       autoComplete="username"
                       value={username}
                       onChange={e => setUsername(e.target.value)}
+                      aria-describedby={error ? `${usernameId}-hint ${errorId}` : `${usernameId}-hint`}
                       className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
                       style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
                       onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
                     />
                   </div>
-                  <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_username_hint')}</p>
+                  <p id={`${usernameId}-hint`} className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_username_hint')}</p>
                 </div>
               )}
               {mode !== 'forgot' && (
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-[10px] uppercase tracking-wider" style={{ color: 'var(--ink-faint)' }}>
+                    <label htmlFor={passwordId} className="block text-[10px] uppercase tracking-wider" style={{ color: 'var(--ink-faint)' }}>
                       {t('auth_password')}
                     </label>
                     {mode === 'signin' && (
@@ -201,6 +212,8 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                     )}
                   </div>
                   <PasswordInput
+                    id={passwordId}
+                    describedBy={error ? errorId : undefined}
                     leftIcon={<Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />}
                     required
                     minLength={6}
@@ -213,6 +226,8 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
 
               {error && (
                 <p
+                  id={errorId}
+                  role="alert"
                   className="text-[11px] rounded-md px-2.5 py-1.5"
                   style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
                 >

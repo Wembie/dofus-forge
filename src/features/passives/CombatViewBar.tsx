@@ -3,6 +3,7 @@ import { Shield, Swords, SlidersHorizontal } from 'lucide-react'
 import { ITEM_PASSIVES } from '@/engine/passives.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { setCombatView, useCombatView, useHasPassives } from '@/store/useCombatView.ts'
+import { scrollBehavior } from '@/lib/motionSettings.ts'
 
 /** Equipped items with at least one active passive control. */
 function useActivePassiveCount(): number {
@@ -14,7 +15,7 @@ function useActivePassiveCount(): number {
 /** Scrolls to the (visible) combat passives panel, where passives are set. */
 function goToPassives() {
   const panel = [...document.querySelectorAll<HTMLElement>('[data-testid="passives-panel"]')].find(el => el.offsetParent !== null)
-  panel?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  panel?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
 }
 
 /**

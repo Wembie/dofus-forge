@@ -364,7 +364,7 @@ export function AdminRanksPage() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-8 sm:py-10 space-y-6">
+      <main id="main-content" className="flex-1 max-w-6xl w-full mx-auto px-4 py-8 sm:py-10 space-y-6">
         <nav aria-label={t('admin_hub_breadcrumb')} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
           <Link to={adminPath} className="hover:text-gold transition-colors inline-flex items-center gap-1.5">
             <ShieldCheck size={12} /> {t('admin_nav')}

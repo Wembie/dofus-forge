@@ -12,10 +12,10 @@
  * regenerate public/data/classes/*.webp from the new PNGs.
  */
 
-import { mkdirSync, writeFileSync, readFileSync, existsSync, renameSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { execSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
+import { checkedVersion, extractRegularFiles } from './lib/safety.ts'
 
 const DATA_DIR = join(process.cwd(), 'public', 'data')
 const FORCE    = process.argv.includes('--force')
@@ -70,12 +70,6 @@ async function download(url: string, dest: string): Promise<void> {
   console.log(`ok (${Math.round(buf.length / 1024)}KB)`)
 }
 
-function extractFile(tarPath: string, member: string, dest: string): void {
-  // Strip leading path components down to the filename
-  const cmd = `tar -xzf "${tarPath}" --strip-components=4 -C "${dest}" "${member}"`
-  execSync(cmd, { stdio: 'pipe' })
-}
-
 async function main() {
   const versionFile = join(DATA_DIR, 'version.json')
   const imagesVersionFile = join(DATA_DIR, 'images-version.json')
@@ -85,7 +79,7 @@ async function main() {
     process.exit(1)
   }
 
-  const gameVersion = (JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: string }).gameVersion
+  const gameVersion = checkedVersion((JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: unknown }).gameVersion)
 
   if (!FORCE && existsSync(imagesVersionFile)) {
     const iv = (JSON.parse(readFileSync(imagesVersionFile, 'utf-8')) as { gameVersion: string }).gameVersion
@@ -111,31 +105,13 @@ async function main() {
   await download(`${base}/class_head_images_64.tar.gz`, classTar)
 
   console.log('Extracting characteristic icons...')
-  for (const { id, slug } of STAT_FILES) {
-    const member = `data/img/statistics/1x/${id}-48.png`
-    const dest   = join(statsDir, `${slug}.png`)
-    extractFile(statsTar, member, statsDir)
-    // tar extracts as the filename, so rename if needed — fs.renameSync
-    // instead of a shell `mv` so this works the same under bash/cmd/PowerShell
-    const extracted = join(statsDir, `${id}-48.png`)
-    if (existsSync(extracted)) {
-      renameSync(extracted, dest)
-    }
-    process.stdout.write(`  ${slug} `)
-  }
+  extractRegularFiles(statsTar, Object.fromEntries(STAT_FILES.map(({ id, slug }) => [`data/img/statistics/1x/${id}-48.png`, join(statsDir, `${slug}.png`)])))
+  process.stdout.write(STAT_FILES.map(({ slug }) => `  ${slug}`).join(' '))
   console.log('\n  done.')
 
   console.log('Extracting class portraits...')
-  for (const { headId, slug } of CLASS_FILES) {
-    const member = `data/img/class_head/2x/Head_${headId}-64.png`
-    const dest   = join(classesDir, `${slug}.png`)
-    extractFile(classTar, member, classesDir)
-    const extracted = join(classesDir, `Head_${headId}-64.png`)
-    if (existsSync(extracted)) {
-      renameSync(extracted, dest)
-    }
-    process.stdout.write(`  ${slug} `)
-  }
+  extractRegularFiles(classTar, Object.fromEntries(CLASS_FILES.map(({ headId, slug }) => [`data/img/class_head/2x/Head_${headId}-64.png`, join(classesDir, `${slug}.png`)])))
+  process.stdout.write(CLASS_FILES.map(({ slug }) => `  ${slug}`).join(' '))
   console.log('\n  done.')
 
   writeFileSync(imagesVersionFile, JSON.stringify({ gameVersion, generatedAt: new Date().toISOString() }), 'utf-8')

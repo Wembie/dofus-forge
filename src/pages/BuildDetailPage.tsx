@@ -49,14 +49,17 @@ import {
 import { TagChip } from '@/features/builds/TagChips.tsx'
 
 function StarRating({ value, onRate, disabled }: { value: number; onRate: (n: number) => void; disabled: boolean }) {
+  const { t } = useTranslation()
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-0.5" role="group" aria-label={t('build_detail_your_rating')}>
       {[1, 2, 3, 4, 5].map(n => (
         <button
           key={n}
           type="button"
           disabled={disabled}
           onClick={() => onRate(n)}
+          aria-label={t('a11y_rate_star', { count: n })}
+          aria-pressed={n === value}
           className="disabled:cursor-not-allowed"
         >
           <Star size={18} fill={n <= value ? 'var(--gold)' : 'none'} style={{ color: 'var(--gold)' }} />
@@ -334,7 +337,7 @@ export function BuildDetailPage() {
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
 
-      <main className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
+      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
         <Frame padding="lg" className="space-y-3">
           <div className="flex items-center gap-3">
             {portrait && (
@@ -406,6 +409,8 @@ export function BuildDetailPage() {
             </span>
             <button
               onClick={handleToggleLike}
+              aria-label={t('a11y_like_build', { count: likeCount })}
+              aria-pressed={liked}
               disabled={!session}
               className="flex items-center gap-1.5 disabled:cursor-not-allowed"
               style={{ color: liked ? 'var(--negative)' : 'var(--ink-faint)' }}
@@ -420,6 +425,8 @@ export function BuildDetailPage() {
               className="flex items-center gap-1.5 disabled:cursor-not-allowed"
               style={{ color: bookmarked ? 'var(--gold)' : 'var(--ink-faint)' }}
               title={session ? t('build_detail_bookmark') : t('build_detail_signin_required')}
+              aria-label={t('build_detail_bookmark')}
+              aria-pressed={bookmarked}
             >
               <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
             </button>
@@ -641,6 +648,7 @@ export function BuildDetailPage() {
                 onChange={e => setCommentText(e.target.value)}
                 maxLength={2000}
                 placeholder={t('build_detail_comment_placeholder')}
+                aria-label={t('build_detail_comment_placeholder')}
                 className="flex-1 text-sm rounded-lg px-3 py-2 transition-colors focus:outline-none"
                 style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
               />

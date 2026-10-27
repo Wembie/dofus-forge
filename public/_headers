@@ -1,0 +1,9 @@
+# Static assets only: responses built by the Worker get the same set from
+# src/worker/securityHeaders.ts, and headers.test.ts keeps the two identical.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://wkllwjxodqxhiptjaccj.supabase.co wss://wkllwjxodqxhiptjaccj.supabase.co https://assets.dofusforge.com https://api.dofusdu.de https://pagead2.googlesyndication.com https://*.adtrafficquality.google; frame-src https://challenges.cloudflare.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'

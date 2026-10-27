@@ -12,13 +12,14 @@ export type PasswordInputProps = {
   required?: boolean
   minLength?: number
   id?: string
+  describedBy?: string
 }
 
 /** Password field with a show/hide toggle — used anywhere a user types a
  * password (sign in/up, forgot/reset password, change password), so typos
  * in a field that normally hides its own content don't go unnoticed. */
 export function PasswordInput({
-  value, onChange, leftIcon, placeholder, autoComplete, autoFocus, required, minLength, id,
+  value, onChange, leftIcon, placeholder, autoComplete, autoFocus, required, minLength, id, describedBy,
 }: PasswordInputProps) {
   const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
@@ -28,6 +29,7 @@ export function PasswordInput({
       {leftIcon}
       <input
         id={id}
+        aria-describedby={describedBy}
         type={visible ? 'text' : 'password'}
         required={required}
         minLength={minLength}
@@ -38,15 +40,14 @@ export function PasswordInput({
         onChange={onChange}
         className={`w-full text-sm rounded-lg ${leftIcon ? 'pl-8' : 'pl-3'} pr-9 py-2 transition-colors focus:outline-none`}
         style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-        onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
+        onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
         onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
       />
       <button
         type="button"
-        tabIndex={-1}
         onClick={() => setVisible(v => !v)}
         aria-label={t(visible ? 'auth_password_hide' : 'auth_password_show')}
-        className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center"
+        className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
         style={{ color: 'var(--ink-faint)' }}
       >
         {visible ? <EyeOff size={14} /> : <Eye size={14} />}

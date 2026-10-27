@@ -171,6 +171,7 @@ function AllocatorControl({
       <StatIcon name={char} size={13} />
       <button
         {...removeProps}
+        aria-label={t('a11y_char_remove', { stat: t(`char_${char}`) })}
         disabled={allocated <= 0}
         style={{ ...btn, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
       >−</button>
@@ -193,6 +194,7 @@ function AllocatorControl({
       />
       <button
         {...addProps}
+        aria-label={t('a11y_char_add', { stat: t(`char_${char}`) })}
         disabled={!canAdd}
         style={{ ...btn, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
       >+</button>

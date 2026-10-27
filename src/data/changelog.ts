@@ -8,6 +8,20 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.135',
+    date: '2026-10-27',
+    notes: [
+      'Security: link-preview images are rendered once per build version (an arbitrary query string no longer forces a new render), non-GET requests are refused, and an image stops being served as soon as its build turns private, is hidden by a moderator or is deleted',
+      'Security: the item-icon fallback only serves real PNG/JPEG/WebP images from the third-party API, never HTML or SVG',
+      'Security: every page and Worker response now sends HSTS, Permissions-Policy and a Content-Security-Policy in report-only mode, alongside the existing headers',
+      'Security (database, run migration 20261027000000_security_audit_fixes.sql): new comments, builds and reports can no longer set likes, dates or review fields; revoking a rank assignment that was closed ahead of time now works and errors when nothing matched; anonymous build views and Forge runs are deduplicated per visitor IP; avatar uploads are limited to PNG/JPEG/WebP up to 2 MB on the server',
+      'Security: the hourly game-data update validates the game version before using it in download URLs, extracts only plain files from downloaded archives, and keeps the write token out of the steps that process third-party data; wrangler is pinned',
+      'Docs: new docs/security/ with the access-control matrix, Cloudflare hardening checklist, budget alerts runbook, testing authorization template and incident response; Dependabot and an opt-in daily Workers usage watch',
+      'Accessibility: dialogs move focus in, trap Tab, close on Escape and return focus; every form field has a label and errors are announced; icon-only buttons are named in all 4 languages; skip link, labelled navs and <html lang> following the language; reduced-motion respected by the animated character; contrast fixes in the dark and light themes; an automated axe check of the public pages and builder dialogs now runs with the end-to-end tests',
+      'Deps: react-router-dom 6.30.6 (open-redirect advisory fix)',
+    ],
+  },
+  {
     version: '0.3.134',
     date: '2026-10-25',
     notes: [

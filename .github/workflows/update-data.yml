@@ -16,13 +16,23 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+
+# An overlapping hourly run would race the same push.
+concurrency:
+  group: update-data
+  cancel-in-progress: false
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
+      # The fetch/sync steps process third-party data; keep the write token
+      # out of .git/config so nothing they touch can read it. Only the push
+      # step below gets it.
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - uses: pnpm/action-setup@v5
 
@@ -70,10 +80,12 @@ jobs:
 
       - name: Commit data update
         if: steps.changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add public/data/ src/data/passives.generated.ts
           VERSION=$(node -e "console.log(require('./public/data/version.json').gameVersion)")
           git commit -m "chore(data): update game data to $VERSION"
-          git push
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"

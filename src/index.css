@@ -27,18 +27,19 @@
   --gold:       #c9a24b;
   --gold-bright: #eccb78;
   --gold-deep:  #7f6428;
+  --gold-muted: #a6864a;  /* text-safe gold-deep: 4.5:1 on surface-parchment (gold-deep is 2.9:1, borders only) */
 
   /* ── Ink (text) ── */
   --ink:        #e9e5da;
   --ink-muted:  #9aa0b0;
-  --ink-faint:  #7a849c;  /* lightened from #626a7d — WCAG AA 4.5:1 on surface-panel (was 3.14:1) */
+  --ink-faint:  #848ea5;  /* WCAG AA 4.5:1 up to surface-raised (#7a849c fell to 4.0:1 there) */
   --ink-invert: #0a0d13;
 
   /* ── Elements — CANONICAL single source of truth ── */
   --earth:        #c98a2b;
   --earth-glow:   rgba(201,138,43,.35);
   --earth-dim:    rgba(201,138,43,.18);
-  --fire:         #e04b2a;
+  --fire:         #e65f40;
   --fire-glow:    rgba(224,75,42,.35);
   --fire-dim:     rgba(224,75,42,.18);
   --water:        #2f93d8;
@@ -52,7 +53,7 @@
   --neutral-dim:  rgba(185,179,166,.18);
 
   /* ── Stat tokens (non-elemental) ── */
-  --vitality: #d24b68;
+  --vitality: #db5a74;
   --wisdom:   #a06fd0;
   --ap:       #38a7cf;
   --mp:       #4fae5a;
@@ -60,7 +61,7 @@
 
   /* ── Feedback ── */
   --positive: #5fae54;
-  --negative: #d8503f;
+  --negative: #e0604f;
   --warning:  #d9a441;
   --info:     #4d8fd0;
 
@@ -133,40 +134,41 @@
   --bevel-light:       rgba(255,255,255,.55);
   --bevel-dark:        rgba(0,0,0,.12);
 
-  --gold:       #8a5c00;
+  --gold:       #7d5400;
   --gold-bright: #a87000;
   --gold-deep:  #5a3a00;
+  --gold-muted: #5a3a00;
 
   --ink:        #1a1a2e;
   --ink-muted:  #5a5a72;
-  --ink-faint:  #67646b;  /* darkened from #9a96a0 — WCAG AA 4.5:1 on white/surface-void (was 2.28-2.90:1) */
+  --ink-faint:  #5c5960;  /* WCAG AA 4.5:1 on tinted cards too (#67646b fell to 3.8:1) */
   --ink-invert: #f2efe8;
 
   --earth:        #7a5800;
   --earth-glow:   rgba(122,88,0,.25);
   --earth-dim:    rgba(122,88,0,.12);
-  --fire:         #c0350f;
+  --fire:         #a62c0b;
   --fire-glow:    rgba(192,53,15,.25);
   --fire-dim:     rgba(192,53,15,.12);
-  --water:        #1568a8;
+  --water:        #115a92;
   --water-glow:   rgba(21,104,168,.25);
   --water-dim:    rgba(21,104,168,.12);
-  --air:          #3d7a20;
+  --air:          #33661a;
   --air-glow:     rgba(61,122,32,.25);
   --air-dim:      rgba(61,122,32,.12);
-  --neutral:      #666660;
+  --neutral:      #575751;
   --neutral-glow: rgba(102,102,96,.25);
   --neutral-dim:  rgba(102,102,96,.12);
 
-  --vitality: #b52f4a;
+  --vitality: #a52a44;
   --wisdom:   #7040aa;
-  --ap:       #1878a8;
-  --mp:       #2d8a3a;
-  --crit:     #b07020;
+  --ap:       #14658e;
+  --mp:       #22662c;
+  --crit:     #8a5510;
 
   --positive: #2d7a28;
   --negative: #c03020;
-  --warning:  #b07020;
+  --warning:  #8a5510;
   --info:     #2060a8;
 
   /* Legacy aliases auto-update via var() chain — no duplication needed */
@@ -358,6 +360,13 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Visible keyboard focus for controls that don't style their own; utility
+   focus rings still win since :where() adds no specificity. */
+:where(a, button, select, summary, [role="button"], [role="tab"], [role="radio"], [role="switch"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 /* ── Skip link (a11y) ─────────────────────────────────────────────────── */

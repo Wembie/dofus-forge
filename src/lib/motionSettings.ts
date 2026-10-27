@@ -3,6 +3,14 @@ const PARTICLES_LS_KEY  = 'dofus-forge-particles'
 const CHARACTER_LS_KEY  = 'dofus-forge-character'
 export const MOTION_SETTINGS_EVENT = 'forge-motion-settings-change'
 
+export function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+}
+
+export function scrollBehavior(): ScrollBehavior {
+  return prefersReducedMotion() ? 'auto' : 'smooth'
+}
+
 export function isCursorEnabled(): boolean {
   return localStorage.getItem(CURSOR_LS_KEY) === 'on'
 }

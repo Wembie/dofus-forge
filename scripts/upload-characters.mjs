@@ -40,7 +40,7 @@ function upload({ path, key }) {
   const type = TYPES[key.split('.').pop()] ?? 'application/octet-stream'
   const file = relative(process.cwd(), path).split(sep).join('/')
   return new Promise(done => {
-    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/chars/${key}`, '--file', file, '--content-type', type, '--cache-control', 'public,max-age=86400,stale-while-revalidate=604800', '--remote'],
+    const child = spawn('npx', ['--yes', 'wrangler@4.153.0', 'r2', 'object', 'put', `${BUCKET}/chars/${key}`, '--file', file, '--content-type', type, '--cache-control', 'public,max-age=86400,stale-while-revalidate=604800', '--remote'],
       { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
     child.on('close', code => done(code === 0))
   })

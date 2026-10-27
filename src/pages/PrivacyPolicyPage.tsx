@@ -16,7 +16,7 @@ export function PrivacyPolicyPage() {
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
 
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-10 space-y-6">
+      <main id="main-content" className="flex-1 max-w-3xl w-full mx-auto px-4 py-10 space-y-6">
         <div>
           <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--gold)' }}>
             {t('privacy_title')}
