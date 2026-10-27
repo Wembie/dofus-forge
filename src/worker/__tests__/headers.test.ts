@@ -5,7 +5,7 @@ import { SECURITY_HEADERS, withSecurityHeaders } from '../securityHeaders.ts'
 
 function parseHeadersFile(): Record<string, string> {
   const text = readFileSync(resolve(__dirname, '../../../public/_headers'), 'utf8')
-  const lines = text.split('\n').filter(l => l.trim() && !l.startsWith('#'))
+  const lines = text.split(/\r?\n/).filter(l => l.trim() && !l.startsWith('#'))
   expect(lines[0]).toBe('/*')
   return Object.fromEntries(lines.slice(1).map(l => {
     const i = l.indexOf(':')
@@ -20,7 +20,7 @@ describe('security headers', () => {
 
   it('every _headers line fits Cloudflare\'s 2,000 character limit', () => {
     const text = readFileSync(resolve(__dirname, '../../../public/_headers'), 'utf8')
-    for (const line of text.split('\n')) expect(line.length).toBeLessThanOrEqual(2000)
+    for (const line of text.split(/\r?\n/)) expect(line.length).toBeLessThanOrEqual(2000)
   })
 
   it('forbids framing by other sites and object embeds', () => {
