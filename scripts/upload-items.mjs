@@ -6,7 +6,7 @@
  * Requires `wrangler login` and the ASSETS_BUCKET bucket from wrangler.jsonc.
  */
 
-import { readdirSync, statSync, readFileSync } from 'node:fs'
+import { readdirSync, statSync, lstatSync, readFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { spawn } from 'node:child_process'
 
@@ -18,7 +18,9 @@ if (!BUCKET) throw new Error('no ASSETS_BUCKET r2 bucket in wrangler.jsonc')
 function walk(dir) {
   return readdirSync(dir).flatMap(name => {
     const path = join(dir, name)
-    return statSync(path).isDirectory() ? walk(path) : [path]
+    const stat = lstatSync(path)
+    // Never follow links: a symlinked icon would upload its target's bytes.
+    return stat.isDirectory() ? walk(path) : stat.isFile() ? [path] : []
   })
 }
 
@@ -36,7 +38,7 @@ const files = walk(ROOT)
 function upload({ path, key }) {
   const file = relative(process.cwd(), path).split(sep).join('/')
   return new Promise(done => {
-    const child = spawn('npx', ['wrangler', 'r2', 'object', 'put', `${BUCKET}/items/${key}`, '--file', file, '--content-type', 'image/png', '--cache-control', 'public,max-age=604800,immutable', '--remote'],
+    const child = spawn('npx', ['--yes', 'wrangler@4.153.0', 'r2', 'object', 'put', `${BUCKET}/items/${key}`, '--file', file, '--content-type', 'image/png', '--cache-control', 'public,max-age=604800,immutable', '--remote'],
       { stdio: ['ignore', 'ignore', 'inherit'], shell: process.platform === 'win32' })
     child.on('close', code => done(code === 0))
   })

@@ -3,9 +3,10 @@ import cinzelBold from './fonts/Cinzel-Bold.ttf'
 import interRegular from './fonts/Inter-Regular.ttf'
 import jetBrainsMonoBold from './fonts/JetBrainsMono-Bold.ttf'
 import { renderBuildSvg, type OgFont } from './ogImage.ts'
-import { fetchBuildMeta, fetchBuildPageMeta } from './supabase.ts'
+import { fetchBuildMeta, fetchBuildPageMeta, type BuildMeta } from './supabase.ts'
 import { getClassNames, getEquipment, getSets, getTranslation, toDataUri, type Lang } from './data.ts'
 import { buildOgImageData } from './buildImageData.ts'
+import { withSecurityHeaders } from './securityHeaders.ts'
 
 type Env = {
   ASSETS: Fetcher
@@ -13,7 +14,14 @@ type Env = {
   SUPABASE_ANON_KEY: string
   // items/<id>-128.png and chars/<path>, also public at VITE_ASSETS_URL.
   ASSETS_BUCKET?: R2Bucket
+  // Optional "ratelimits" binding (docs/security/CLOUDFLARE_HARDENING.md);
+  // without it renders are bounded only by the cache key below.
+  OG_RATE_LIMITER?: { limit(options: { key: string }): Promise<{ success: boolean }> }
 }
+
+// Upstream image types the item fallback may serve on our origin; anything
+// else (HTML, SVG) would run as same-origin content next to the session.
+const SAFE_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp']
 
 const LANGS: Lang[] = ['en', 'es', 'fr', 'pt']
 const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})\/?$/i
@@ -32,12 +40,7 @@ function interpolate(template: string, vars: Record<string, string | number>): s
   return template.replace(/\{\{(\w+)\}\}/g, (_, key) => String(vars[key] ?? ''))
 }
 
-async function renderOgImage(env: Env, origin: string, lang: Lang, id: string): Promise<Response> {
-  const build = await fetchBuildMeta(env, id)
-  if (!build) {
-    return new Response('Not found', { status: 404 })
-  }
-
+async function renderOgImage(env: Env, origin: string, lang: Lang, build: BuildMeta): Promise<Response> {
   // Stats must be computed from the English equipment/sets data, same as the
   // client (store/dataStore.ts): STAT_MAP's keys are English effect names, so
   // feeding it a localized item's `effects` (e.g. "vitalidad" instead of
@@ -160,9 +163,11 @@ async function serveItemAsset(key: string, bucket: R2Bucket | undefined): Promis
   try {
     const liveResponse = await fetch(`https://api.dofusdu.de/dofus3/v1/img/item/${key}`, { signal: AbortSignal.timeout(5000) })
     if (!liveResponse.ok) return new Response('Not found', { status: liveResponse.status })
+    const type = liveResponse.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() ?? ''
+    if (!SAFE_IMAGE_TYPES.includes(type)) return new Response('Not found', { status: 404 })
     return new Response(liveResponse.body, {
       headers: {
-        'Content-Type': liveResponse.headers.get('Content-Type') ?? 'image/png',
+        'Content-Type': type,
         'Cache-Control': 'public, max-age=3600',
       },
     })
@@ -171,12 +176,33 @@ async function serveItemAsset(key: string, bucket: R2Bucket | undefined): Promis
   }
 }
 
-function withSecurityHeaders(response: Response): Response {
-  const headers = new Headers(response.headers)
-  headers.set('X-Content-Type-Options', 'nosniff')
-  headers.set('X-Frame-Options', 'SAMEORIGIN')
-  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers })
+async function serveOgImage(request: Request, env: Env, url: URL, lang: Lang, id: string): Promise<Response> {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET, HEAD' } })
+  }
+
+  // The visibility check runs before the cache lookup, so an image cached
+  // while the build was public stops being served once it turns private,
+  // gets hidden by a moderator or is deleted (fetchBuildMeta is edge-cached
+  // for 60s, so that's the staleness window). The cache key is derived from
+  // the build, never from the request: an arbitrary ?query can't force a
+  // fresh render, and an edit (new updated_at) naturally gets a new image.
+  const build = await fetchBuildMeta(env, id)
+  if (!build) return new Response('Not found', { status: 404 })
+
+  const cache = caches.default
+  const cacheKey = new Request(`${url.origin}/og/${lang}/${id}.png?v=${Date.parse(build.updated_at) || 0}`)
+  const cached = await cache.match(cacheKey)
+  if (cached) return cached
+
+  if (env.OG_RATE_LIMITER) {
+    const { success } = await env.OG_RATE_LIMITER.limit({ key: request.headers.get('cf-connecting-ip') ?? 'unknown' })
+    if (!success) return new Response('Too many requests', { status: 429, headers: { 'Retry-After': '60' } })
+  }
+
+  const response = await renderOgImage(env, url.origin, lang, build)
+  if (response.status === 200) await cache.put(cacheKey, response.clone())
+  return response
 }
 
 export default {
@@ -191,18 +217,12 @@ export default {
 
     const ogMatch = url.pathname.match(OG_IMAGE_ROUTE)
     if (ogMatch) {
-      const cache = caches.default
-      const cached = await cache.match(request)
-      if (cached) return cached
-
       const [, lang, id] = ogMatch
       try {
-        const response = await renderOgImage(env, url.origin, lang as Lang, id)
-        if (response.status === 200) await cache.put(request, response.clone())
-        return withSecurityHeaders(response)
+        return withSecurityHeaders(await serveOgImage(request, env, url, lang as Lang, id))
       } catch (e) {
         console.error('OG image render failed', e)
-        return new Response('Internal error', { status: 500 })
+        return withSecurityHeaders(new Response('Internal error', { status: 500 }))
       }
     }
 

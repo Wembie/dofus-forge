@@ -17,8 +17,9 @@
 
 import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, rmSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { execSync, execFileSync } from 'node:child_process'
+import { execFileSync } from 'node:child_process'
 import { tmpdir } from 'node:os'
+import { checkedVersion, extractRegularFiles } from './lib/safety.ts'
 
 const ROOT = process.cwd()
 const DATA_DIR = join(ROOT, 'public', 'data')
@@ -52,7 +53,7 @@ async function main() {
     console.error('Run pnpm fetch-data first to set the game version.')
     process.exit(1)
   }
-  const gameVersion = (JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: string }).gameVersion
+  const gameVersion = checkedVersion((JSON.parse(readFileSync(versionFile, 'utf-8')) as { gameVersion: unknown }).gameVersion)
 
   const needed = neededFilenames()
   const synced = readManifest()
@@ -78,15 +79,11 @@ async function main() {
   writeFileSync(tarPath, Buffer.from(await res.arrayBuffer()))
 
   console.log('Extracting needed icons...')
-  const extracted: string[] = []
+  const member = (filename: string) => `data/img/item/2x/${filename}`
+  const written = new Set(extractRegularFiles(tarPath, Object.fromEntries(missing.map(f => [member(f), join(ITEM_ASSETS_DIR, f)]))))
+  const extracted = missing.filter(f => written.has(member(f)))
   for (const filename of missing) {
-    const member = `data/img/item/2x/${filename}`
-    try {
-      execSync(`tar -xzf "${tarPath}" --strip-components=4 -C "${ITEM_ASSETS_DIR}" "${member}"`, { stdio: 'pipe' })
-      extracted.push(filename)
-    } catch {
-      console.warn(`  not in this version's tarball, will rely on the dofusdu fallback: ${filename}`)
-    }
+    if (!written.has(member(filename))) console.warn(`  not in this version's tarball, will rely on the dofusdu fallback: ${filename}`)
   }
 
   if (extracted.length > 0) {

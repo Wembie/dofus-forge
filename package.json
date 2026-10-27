@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.3.134",
+  "version": "0.3.135",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
@@ -32,7 +32,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.1.3",
-    "react-router-dom": "^6.28.2",
+    "react-router-dom": "^6.30.6",
     "satori": "^0.30.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",

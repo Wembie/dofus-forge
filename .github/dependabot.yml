@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Security fixes arrive as their own PRs regardless of this schedule; the
+  # weekly batch only groups routine minor/patch bumps so they stay reviewable.
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']

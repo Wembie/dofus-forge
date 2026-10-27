@@ -18,6 +18,7 @@
 
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
+import { checkedVersion } from './lib/safety.ts'
 
 const ROOT    = process.cwd()
 const OUT     = join(ROOT, 'src', 'data', 'passives.generated.ts')
@@ -55,11 +56,7 @@ export type GeneratedEffect = {
   onTargets?: true
 }
 
-/** Game versions look like 3.7.1.0; anything else never reaches a URL. */
-export function checkedVersion(raw: unknown): string {
-  if (typeof raw !== 'string' || !/^\d+(\.\d+){1,3}$/.test(raw)) throw new Error(`Unexpected game version: ${String(raw)}`)
-  return raw
-}
+export { checkedVersion }
 
 type ApiItem = { ankama_id?: unknown; effects?: { formatted?: unknown; type?: { is_meta?: unknown } }[] }
 

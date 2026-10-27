@@ -100,7 +100,7 @@ jobs:
       - name: Upload to R2
         if: steps.config.outputs.ready == 'true'
         run: |
-          if ! npx --yes wrangler@4 r2 object put "$BUCKET/db/$FILE" --file "$FILE" --content-type application/octet-stream --remote; then
+          if ! npx --yes wrangler@4.153.0 r2 object put "$BUCKET/db/$FILE" --file "$FILE" --content-type application/octet-stream --remote; then
             echo "::error::Upload refused. The token needs write access to $BUCKET: an R2 token with Object Read & Write on it (or on all buckets), or an API token with 'Workers R2 Storage: Edit'."
             exit 1
           fi
