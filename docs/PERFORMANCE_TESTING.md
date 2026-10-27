@@ -100,6 +100,19 @@ The repo includes a reusable k6 harness under `k6/`:
 - `k6/peak.js` — expected peak burst for the public journey mix
 - `k6/browser-smoke.js` — a small real-browser route check for document readiness and user-visible navigation
 
+## Safety limits and authorization
+
+- `normal-load.js`, `peak.js` and `stress.js` run only against a local `vite preview` or a staging deployment that has its own Supabase project. Running them against production or a Cloudflare preview needs the written authorization in `docs/security/TESTING_AUTHORIZATION.md`, with a traffic ceiling, a time window, someone watching, and a stop procedure.
+- Cloudflare preview deployments use the **production** Supabase project. A load test against a preview is a load test against production data and quota.
+- The scenarios that matter most for cost and abuse are the Worker routes, not static pages:
+  - `/og/<lang>/<id>.png`: one satori + resvg render per build version. Measure p95 and CPU time of a cache miss once, then confirm repeat requests with different query strings are cache hits.
+  - `/img/item/<id>-128.png` misses, which each trigger an upstream fetch.
+  - Supabase reads: Explore listing, build page.
+
+  For a staging run, add these with a low arrival rate, e.g. `constant-arrival-rate` at 1–5 req/s for a few minutes.
+- Third-party dependencies (`api.dofusdu.de`, Google, Turnstile) are never load-tested. Stub them, or keep them out of the route mix.
+- Stop conditions for any authorized run: error rate above 5% for 2 minutes, p95 above 3× the baseline, or a Supabase/Cloudflare usage alert. Stop the runner, confirm in Cloudflare analytics that the traffic stopped, then follow `docs/security/INCIDENT_RESPONSE.md` if anything persists.
+
 ## CI integration
 
 A dedicated GitHub Actions workflow in `.github/workflows/performance.yml` runs the smoke suite against a local preview build, then exits non-zero if the configured thresholds fail. The remote Cloudflare preview smoke is temporarily disabled; the local smoke remains active. This keeps local performance validation in the PR pipeline without sending automated test traffic to Cloudflare previews.
