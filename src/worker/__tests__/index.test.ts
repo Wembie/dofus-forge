@@ -48,7 +48,7 @@ beforeEach(() => {
     },
   })
   vi.stubGlobal('fetch', vi.fn(async (url: string) => {
-    if (url.startsWith(SUPABASE_URL)) return new Response(JSON.stringify(buildRow ? [buildRow] : []), { status: 200 })
+    if (new URL(url).origin === new URL(SUPABASE_URL).origin) return new Response(JSON.stringify(buildRow ? [buildRow] : []), { status: 200 })
     return upstream
   }))
 })
