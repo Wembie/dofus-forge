@@ -143,7 +143,7 @@ export function ExplorePage() {
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
 
-      <main className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-4">
+      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-4">
         <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
           {t('explore_title')}
         </h1>
@@ -160,6 +160,7 @@ export function ExplorePage() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={t('explore_search_placeholder')}
+              aria-label={t('explore_search_placeholder')}
               className="text-xs rounded-md pl-7 pr-2.5 py-1.5 w-40 sm:w-56"
               style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
             />
@@ -167,6 +168,7 @@ export function ExplorePage() {
 
           <select
             value={classSlug ?? ''}
+            aria-label={t('class')}
             onChange={e => setClassSlug(e.target.value || null)}
             className="text-xs rounded-md px-2.5 py-1.5"
             style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}

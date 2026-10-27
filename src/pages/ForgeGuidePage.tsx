@@ -126,7 +126,7 @@ export function ForgeGuidePage() {
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-8 space-y-8">
+      <main id="main-content" className="flex-1 max-w-5xl w-full mx-auto px-4 py-8 space-y-8">
         {/* Hero */}
         <header
           className="relative overflow-hidden rounded-2xl px-5 py-6 sm:px-8 sm:py-8 grid gap-6 md:grid-cols-[1fr_auto] items-center"

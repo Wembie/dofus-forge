@@ -203,7 +203,7 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
                 className="flex items-center gap-1.5"
                 title={POWER_BOOSTED.has(cfg.stat) ? t('optimizer_power_included', { own, power: result.stats.power }) : t(meta.tKey)}
               >
-                <img src={statIconUrl(meta.icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
+                <img src={statIconUrl(meta.icon)} alt={t(meta.tKey)} width={13} height={13} className="object-contain flex-shrink-0" />
                 <span className="text-[12px] font-mono font-bold" style={{ color: meetsGoal ? meta.color : 'var(--negative)' }}>
                   {val}
                 </span>

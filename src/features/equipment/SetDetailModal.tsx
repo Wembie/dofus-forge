@@ -368,7 +368,7 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
                           return (
                             <span key={i} className="flex items-center gap-0.5">
                               {meta?.icon && (
-                                <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain" />
+                                <img src={statIconUrl(meta.icon)} alt={t(meta.tKey)} width={10} height={10} className="object-contain" />
                               )}
                               <span className="text-[10px] font-mono tabular-nums" style={{ color: clr }}>
                                 {fmtValue(e.min, e.max, t('range_sep_neg'))}

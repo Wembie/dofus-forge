@@ -12,6 +12,7 @@ import { isAttackEffect, matchesStatFilter, levelCap, changeLevelRange, NO_LEVEL
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch } from '@/ui'
+import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { playEquip } from '@/lib/sound.ts'
@@ -98,13 +99,15 @@ function SetSearch({
   return (
     <div className="relative flex-1 min-w-0">
       {selected ? (
-        <div
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer filter-btn-active"
+        <button
+          type="button"
+          className="w-full flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer filter-btn-active text-left"
           onClick={() => pick(null)}
+          aria-label={t('a11y_remove_filter', { name: selected.name })}
         >
           <span className="truncate">{selected.name}</span>
-          <span className="ml-auto flex-shrink-0 opacity-60 hover:opacity-100">✕</span>
-        </div>
+          <span className="ml-auto flex-shrink-0 opacity-60 hover:opacity-100" aria-hidden="true">✕</span>
+        </button>
       ) : (
         <div className="relative">
           <input
@@ -112,6 +115,7 @@ function SetSearch({
             type="text"
             value={q}
             placeholder={t('set_search_placeholder')}
+            aria-label={t('set_search_placeholder')}
             onChange={e => { setQ(e.target.value); setOpen(true) }}
             onFocus={() => setOpen(true)}
             onBlur={() => setTimeout(() => setOpen(false), 150)}
@@ -174,12 +178,13 @@ const ItemCard = memo(function ItemCard({
   const statFx   = isWeapon ? allFx.filter(e => !isAtk(e)) : allFx
   const effects  = allFx
 
+  // The item name is the card's real button, stretched over the whole card
+  // (::after), so the set link and favorite star can be sibling buttons
+  // instead of controls nested inside another button.
   return (
-    <button
-      onClick={() => { if (!isAlreadyEquipped) onPick(item) }}
-      aria-disabled={isAlreadyEquipped}
+    <div
       title={blockedLabel ?? undefined}
-      className={`text-left relative rounded-xl overflow-hidden w-full group ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
+      className={`text-left relative rounded-xl overflow-hidden w-full group cursor-pointer ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
       style={{
         background: highlighted
           ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
@@ -195,12 +200,12 @@ const ItemCard = memo(function ItemCard({
         containIntrinsicSize: '0 340px',
       } as React.CSSProperties}
       onMouseEnter={e => {
-        const el = e.currentTarget as HTMLButtonElement
+        const el = e.currentTarget
         if (highlighted) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
         else el.style.background = 'var(--surface-panel)'
       }}
       onMouseLeave={e => {
-        const el = e.currentTarget as HTMLButtonElement
+        const el = e.currentTarget
         if (highlighted) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
         else el.style.background = 'var(--surface-void)'
       }}
@@ -228,19 +233,25 @@ const ItemCard = memo(function ItemCard({
         </div>
 
         <div className="flex-1 min-w-0 pt-0.5">
-          <p
-            className="font-semibold text-base leading-tight"
-            style={{
-              color: highlighted ? 'var(--gold)' : 'var(--ink)',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            } as React.CSSProperties}
+          <button
+            type="button"
+            onClick={() => { if (!isAlreadyEquipped) onPick(item) }}
+            aria-disabled={isAlreadyEquipped}
+            className={`block w-full text-left font-semibold text-base leading-tight focus-visible:outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-gold/60 ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
+            style={{ color: highlighted ? 'var(--gold)' : 'var(--ink)' }}
           >
-            {item.name}
-            {isEquipped && !isAlreadyEquipped && <span className="ml-1 text-[10px]" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
-          </p>
+            <span
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              } as React.CSSProperties}
+            >
+              {item.name}
+              {isEquipped && !isAlreadyEquipped && <span className="ml-1 text-[10px]" aria-hidden="true" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
+            </span>
+          </button>
           {isAlreadyEquipped && (
             <span
               className="inline-flex items-center gap-1 mt-1 px-1.5 py-0.5 rounded text-[10px] font-semibold"
@@ -258,32 +269,32 @@ const ItemCard = memo(function ItemCard({
             Lv {item.level}
           </p>
           {itemSet && (
-            <span
-              role="button"
-              tabIndex={-1}
-              className="text-[12px] font-medium truncate block cursor-pointer hover:underline"
+            <button
+              type="button"
+              className="relative z-10 max-w-full text-left text-[12px] font-medium truncate block cursor-pointer hover:underline"
               style={{ color: 'var(--water)' }}
               onClick={e => { e.stopPropagation(); onOpenSet(itemSet) }}
             >
               {itemSet.name}
-            </span>
+            </button>
           )}
         </div>
 
         {/* Fav star */}
-        <span
-          role="button"
-          tabIndex={-1}
-          className="text-[18px] leading-none flex-shrink-0 transition-colors select-none mt-0.5 cursor-pointer"
-          style={{ color: isFavItem ? 'var(--gold)' : 'var(--metal-edge)' }}
+        <button
+          type="button"
+          aria-pressed={isFavItem}
+          aria-label={t('a11y_favorite', { name: item.name })}
+          className="relative z-10 self-start text-[18px] leading-none flex-shrink-0 transition-colors select-none mt-0.5 cursor-pointer"
+          style={{ color: isFavItem ? 'var(--gold)' : 'var(--ink-faint)' }}
           onMouseEnter={e => {
             if (!isFavItem) (e.currentTarget as HTMLElement).style.color = 'var(--gold-deep)'
           }}
           onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.color = isFavItem ? 'var(--gold)' : 'var(--metal-edge)'
+            (e.currentTarget as HTMLElement).style.color = isFavItem ? 'var(--gold)' : 'var(--ink-faint)'
           }}
           onClick={e => { e.stopPropagation(); onToggleFav(item.ankama_id) }}
-        >★</span>
+        >★</button>
       </div>
 
       {/* Special passive ability */}
@@ -296,7 +307,7 @@ const ItemCard = memo(function ItemCard({
             padding:      '6px 8px',
           }}>
             {item.ability.split('\n').filter(Boolean).map((line, i) => (
-              <p key={i} style={{ fontSize: 12, color: i === 0 ? 'var(--gold)' : 'var(--gold-deep)', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
+              <p key={i} style={{ fontSize: 12, color: i === 0 ? 'var(--gold)' : 'var(--gold-muted)', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
                 {line}
               </p>
             ))}
@@ -324,7 +335,7 @@ const ItemCard = memo(function ItemCard({
                         : <span style={{ width: 15, flexShrink: 0 }} />
                       }
                       <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>{val}</span>
-                      <span style={{ color: clr, fontSize: 13, lineHeight: 1.3, opacity: 0.7 }}>{meta ? t(meta.tKey) : e.stat}</span>
+                      <span style={{ color: clr, fontSize: 13, lineHeight: 1.3 }}>{meta ? t(meta.tKey) : e.stat}</span>
                     </div>
                   )
                 })}
@@ -353,7 +364,7 @@ const ItemCard = memo(function ItemCard({
                       : <span style={{ width: 15, flexShrink: 0 }} />
                     }
                     <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>{val}</span>
-                    <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 13, lineHeight: 1.3, opacity: 0.7 }}>
+                    <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 13, lineHeight: 1.3 }}>
                       {meta ? t(meta.tKey) : e.stat}
                     </span>
                   </div>
@@ -380,7 +391,7 @@ const ItemCard = memo(function ItemCard({
           </p>
         </div>
       )}
-    </button>
+    </div>
   )
 })
 
@@ -491,6 +502,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const PAGE_SIZE = 20
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [loadingMore,  setLoadingMore]  = useState(false)
+  const dialogRef   = useRef<HTMLDivElement>(null)
+  useFocusTrap(dialogRef)
   const scrollRef   = useRef<HTMLDivElement>(null)
   const sentinelRef = useRef<HTMLDivElement>(null)
   const bumpingRef  = useRef(false)
@@ -559,7 +572,9 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   return (
     <>
     <div
-      className="fixed inset-0 z-50"
+      ref={dialogRef}
+      tabIndex={-1}
+      className="fixed inset-0 z-50 focus:outline-none"
       style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(4px)' }}
       role="dialog"
       aria-modal
@@ -596,6 +611,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
           <input
             type="search"
             placeholder={t('search_items')}
+            aria-label={t('search_items')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             autoFocus
@@ -613,6 +629,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
             <div className="ml-auto flex gap-1">
               <button
                 onClick={() => setFavsOnly(v => !v)}
+                aria-pressed={favsOnly}
+                aria-label={t('a11y_favorites_only')}
                 className={[
                   'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
                   favsOnly
@@ -625,6 +643,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
               {slotIndex.hasLegendary && (
                 <button
                   onClick={() => setLegendaryOnly(v => !v)}
+                  aria-pressed={legendaryOnly}
                   className={[
                     'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
                     legendaryOnly
@@ -639,6 +658,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                 <button
                   key={sk}
                   onClick={() => setSort(sk)}
+                  aria-pressed={sort === sk}
                   className={[
                     'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
                     sort === sk
@@ -690,6 +710,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
             <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
             <select
               value={minLevel}
+              aria-label={t('a11y_level_min')}
               onChange={e => setLevelRange('min', Number(e.target.value))}
               className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
               style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
@@ -699,6 +720,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
             <span className="text-ink-faint">–</span>
             <select
               value={maxLevel}
+              aria-label={t('a11y_level_max')}
               onChange={e => setLevelRange('max', Number(e.target.value))}
               className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
               style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}

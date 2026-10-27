@@ -173,27 +173,30 @@ export function PvpArena() {
   if (!selectedClass) return null
 
   return (
-    <div className="rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
+    <div className="relative rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
       <button
         onClick={() => setExpanded(v => !v)}
+        aria-expanded={expanded}
         className="w-full flex items-center gap-2 px-3 py-2 text-left"
         style={{ borderBottom: expanded ? '1px solid var(--metal-edge)' : 'none', background: 'var(--surface-stone)' }}
       >
         <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1, flexShrink: 0 }} />
-        <p className="text-[12px] uppercase tracking-widest font-semibold flex-1" style={{ color: 'var(--gold-deep)' }}>
+        <p className="text-[12px] uppercase tracking-widest font-semibold flex-1" style={{ color: 'var(--gold-muted)' }}>
           {t('pvp_dummy_title')}
         </p>
-        {expanded && (
-          <span
-            onClick={e => { e.stopPropagation(); resetResist() }}
-            className="text-[9px] hover:underline"
-            style={{ color: 'var(--ink-faint)' }}
-          >
-            {t('pvp_dummy_reset')}
-          </span>
-        )}
-        <span className="text-[10px]" style={{ color: 'var(--ink-faint)', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
+        {expanded && <span className="text-[9px] invisible" aria-hidden="true">{t('pvp_dummy_reset')}</span>}
+        <span className="text-[10px]" aria-hidden="true" style={{ color: 'var(--ink-faint)', transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }}>▾</span>
       </button>
+      {expanded && (
+        <button
+          type="button"
+          onClick={resetResist}
+          className="absolute top-[7px] right-[30px] text-[9px] hover:underline"
+          style={{ color: 'var(--ink-faint)' }}
+        >
+          {t('pvp_dummy_reset')}
+        </button>
+      )}
 
       {expanded && (
       <div className="p-3 space-y-3">
@@ -213,6 +216,7 @@ export function PvpArena() {
                 <input
                   type="number"
                   min={0}
+                  aria-label={`${t(el.tKey)} — ${t('pvp_dummy_fixed')}`}
                   value={r.fixed}
                   onChange={e => setResist(el.key, 'fixed', Math.max(0, parseInt(e.target.value, 10) || 0))}
                   className="w-full text-center text-[11px] font-mono rounded px-1 py-0.5 focus:outline-none border"
@@ -222,6 +226,7 @@ export function PvpArena() {
                   type="number"
                   min={0}
                   max={100}
+                  aria-label={`${t(el.tKey)} %`}
                   value={r.percent}
                   onChange={e => setResist(el.key, 'percent', Math.min(100, Math.max(0, parseInt(e.target.value, 10) || 0)))}
                   className="w-full text-center text-[11px] font-mono rounded px-1 py-0.5 focus:outline-none border"

@@ -106,7 +106,7 @@ function BreakdownCard({ anchor, roll, elem, stats, mods, extraFlat, kind, crit 
         {rows.map(r => (
           <div key={r.label} className="contents">
             <span className="truncate" style={{ color: 'var(--ink-muted)' }}>{r.label}</span>
-            <span className="font-mono tabular-nums text-right" style={{ color: 'var(--gold-deep)' }}>{r.factor}</span>
+            <span className="font-mono tabular-nums text-right" style={{ color: 'var(--gold-muted)' }}>{r.factor}</span>
             <span className="font-mono tabular-nums text-right">{r.value}</span>
           </div>
         ))}

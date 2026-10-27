@@ -154,7 +154,7 @@ export function UserProfilePage() {
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 space-y-8">
+      <main id="main-content" className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 space-y-8">
         {/* Hero */}
         <div
           className="flex items-center gap-4 p-4 rounded-xl relative overflow-hidden"

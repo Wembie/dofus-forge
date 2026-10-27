@@ -306,7 +306,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           onClick={e => { e.stopPropagation(); onUnequip() }}
           className={`slot-unequip-btn absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 text-ink-muted hover:text-red-400 ${hovered ? 'flex' : 'hidden'}`}
           style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-          aria-label={`Unequip ${item.name}`}
+          aria-label={t('unequip', { name: item.name })}
         >×</button>
       )}
 
@@ -346,7 +346,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             const active = (runeCount ?? 0) > 0
             ;(e.currentTarget as HTMLButtonElement).style.borderColor = active ? 'color-mix(in srgb, var(--ap) 60%, transparent)' : 'var(--metal-edge)'
           }}
-          aria-label={`Magesmithy: ${item.name}`}
+          aria-label={`${t('magesmithy')}: ${item.name}`}
           title={t('magesmithy_title')}
         >
           {(runeCount ?? 0) > 0
@@ -396,6 +396,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center transition-all z-10 hover:text-ap ${hovered ? 'opacity-100' : 'opacity-0'}`}
           style={{ background: 'var(--surface-void)', border: '1px solid var(--water)', color: 'var(--water)' }}
           title={t('view_set')}
+          aria-label={t('view_set')}
         >
           <Eye size={10} />
         </button>

@@ -275,13 +275,14 @@ function formatRatio(n: number): string {
 }
 
 // Keeps the raw text while typing; clamps to 1–200 on blur (empty = 200).
-export function LevelField({ value, onCommit }: { value: number; onCommit: (v: number) => void }) {
+export function LevelField({ value, onCommit, label }: { value: number; onCommit: (v: number) => void; label?: string }) {
   const [raw, setRaw] = useState(String(value))
   useEffect(() => { setRaw(String(value)) }, [value])
   return (
     <input
       type="text"
       inputMode="numeric"
+      aria-label={label}
       value={raw}
       onChange={e => setRaw(e.target.value.replace(/[^0-9]/g, ''))}
       onBlur={() => {

@@ -15,7 +15,7 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-forge-border mt-8 py-5 px-4 text-center space-y-3">
-      <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] font-semibold text-ink-muted">
+      <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] font-semibold text-ink-muted" aria-label={t('a11y_site_nav')}>
         <Link to={homePath} className="hover:text-gold transition-colors">{t('app_title')}</Link>
         <Link to={`/${prefix}about`} className="hover:text-gold transition-colors">{t('nav_about')}</Link>
         <Link to={`/${prefix}how-to-use`} className="hover:text-gold transition-colors">{t('nav_how_to_use')}</Link>
@@ -53,9 +53,9 @@ export function SiteFooter() {
         <span style={{ color: 'var(--ink-muted)' }}>{t('credits_community')}: </span>
         <a href="https://discord.gg/Rv8q4C8C5j" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
         <span aria-hidden="true"> · </span>
-        <a href="https://x.com/DofusForgeApp" target="_blank" rel="noopener noreferrer" aria-label="Dofus Forge on X" className="hover:text-gold transition-colors underline-offset-2 hover:underline">X</a>
+        <a href="https://x.com/DofusForgeApp" target="_blank" rel="noopener noreferrer" aria-label={t('a11y_on_x')} className="hover:text-gold transition-colors underline-offset-2 hover:underline">X</a>
       </p>
-      <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>
+      <nav className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[10px]" style={{ color: 'var(--ink-faint)' }} aria-label={t('a11y_legal_nav')}>
         <Link to={`/${prefix}privacy`} className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_privacy')}</Link>
         <Link to={`/${prefix}terms`} className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_terms')}</Link>
         <a href="mailto:contact@dofusforge.com" className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_contact')}</a>

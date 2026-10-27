@@ -51,10 +51,11 @@ export function ReportModal({ target, reporterId, onClose }: { target: ReportTar
             maxLength={500}
             rows={3}
             placeholder={t('report_detail_placeholder')}
+            aria-label={t('report_detail_placeholder')}
             className="w-full text-xs rounded-lg px-3 py-2 focus:outline-none resize-none"
             style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
           />
-          {result === 'error' && <p className="text-[11px]" style={{ color: 'var(--negative)' }}>{t('report_error')}</p>}
+          {result === 'error' && <p role="alert" className="text-[11px]" style={{ color: 'var(--negative)' }}>{t('report_error')}</p>}
           <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center">
             {busy ? t('auth_loading') : t('report_submit')}
           </Button>

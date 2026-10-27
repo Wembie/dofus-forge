@@ -85,7 +85,7 @@ export function CollectionPage() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
-      <main className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-4">
+      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-4">
         {loading ? (
           <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
         ) : !collection ? (
@@ -100,6 +100,7 @@ export function CollectionPage() {
                     value={name}
                     maxLength={COLLECTION_NAME_MAX}
                     onChange={e => setName(e.target.value)}
+                    aria-label={t('collections_new_placeholder')}
                     autoFocus
                     className="w-full text-sm rounded-lg px-3 py-2 focus:outline-none"
                     style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
@@ -109,6 +110,7 @@ export function CollectionPage() {
                     maxLength={300}
                     onChange={e => setDescription(e.target.value)}
                     placeholder={t('collection_description_placeholder')}
+                    aria-label={t('collection_description_placeholder')}
                     rows={2}
                     className="w-full text-xs rounded-lg px-3 py-2 focus:outline-none resize-none"
                     style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}

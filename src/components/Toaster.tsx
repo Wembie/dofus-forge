@@ -75,7 +75,7 @@ export function Toaster() {
   const display      = useToastPhases(toasts)
 
   return (
-    <div className="fixed bottom-6 right-6 z-[200] flex flex-col gap-2 items-end pointer-events-none">
+    <div className="fixed bottom-6 right-6 z-[200] flex flex-col gap-2 items-end pointer-events-none" role="status" aria-live="polite">
       {display.map(toast => {
         const shown = toast.phase === 'visible'
         return (
@@ -95,7 +95,7 @@ export function Toaster() {
           >
             {toast.icon.startsWith('/') || toast.icon.startsWith('http')
               ? <img src={toast.icon} alt="" className="w-4 h-4 object-contain flex-shrink-0" />
-              : <span className="text-base leading-none">{toast.icon}</span>
+              : <span className="text-base leading-none" aria-hidden="true">{toast.icon}</span>
             }
             <span>{toast.message}</span>
           </div>

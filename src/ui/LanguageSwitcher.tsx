@@ -36,7 +36,7 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1" role="group" aria-label="Language">
+    <div className="flex items-center gap-1" role="group" aria-label={t('settings_language')}>
       {LANGS.map(({ code, label }) => (
         <button
           key={code}

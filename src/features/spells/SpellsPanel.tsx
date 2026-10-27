@@ -394,7 +394,7 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
         rows.push(
           <div key={`sb${i}`}>
             <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
-              style={{ background: 'color-mix(in srgb, var(--gold-deep) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold-deep) 25%, transparent)', color: 'var(--gold-deep)' }}>
+              style={{ background: 'color-mix(in srgb, var(--gold-deep) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold-deep) 25%, transparent)', color: 'var(--gold-muted)' }}>
               ⭐ {spellName}: +{e.calcMin} base{turnsStr}{deathStr}
             </span>
           </div>
@@ -460,7 +460,7 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
         const ccrit = calcedCrit.filter(isDmgOrSteal)
         rows.push(
           <div key={`cs-${label}`} className="pt-0.5" style={{ borderTop: '1px solid color-mix(in srgb, var(--gold) 18%, transparent)' }}>
-            <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'var(--gold-deep)' }}>
+            <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'var(--gold-muted)' }}>
               {t('spell_charge_n', { n: label })}
             </span>
           </div>
@@ -702,7 +702,7 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
         )}
 
         {spell.description && (
-          <div className="mt-1.5 text-[9px] leading-snug italic" style={{ color: 'var(--ink-faint)', opacity: 0.7 }}>
+          <div className="mt-1.5 text-[9px] leading-snug italic" style={{ color: 'var(--ink-faint)' }}>
             {spell.description}
           </div>
         )}
@@ -921,6 +921,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
               type="number"
               min={0}
               value={dominioNorm}
+              aria-label={t('weapon_mastery')}
               onChange={e => setDominioNorm(Math.max(0, parseInt(e.target.value, 10) || 0))}
               className="w-14 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border"
               style={{ background: 'var(--surface-panel)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', color: 'var(--gold)' }}
@@ -931,6 +932,7 @@ function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBloc
               type="number"
               min={0}
               value={dominioCrit}
+              aria-label={`${t('weapon_mastery')} (${t('weapon_crit_col')})`}
               onChange={e => setDominioCrit(Math.max(0, parseInt(e.target.value, 10) || 0))}
               className="w-14 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border"
               style={{ background: 'var(--surface-panel)', border: '1px solid color-mix(in srgb, var(--crit) 40%, transparent)', color: 'var(--crit)' }}
@@ -1100,7 +1102,7 @@ export function SpellsPanel() {
         </h3>
 
         {/* Grade selector */}
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-0.5" role="group" aria-label={t('a11y_spell_grade')}>
           {[1,2,3,4,5,6].map(g => {
             const isAuto   = g === autoGrade && manualGrade == null
             const isActive = g === grade
@@ -1108,8 +1110,10 @@ export function SpellsPanel() {
               <button
                 key={g}
                 onClick={() => setManual(g === autoGrade && manualGrade === g ? null : g)}
-                title={`${t('spell_grade', { grade: g })}${g === autoGrade ? ' (auto)' : ''}`}
-                className="w-5 h-5 rounded text-[10px] font-bold font-mono transition-colors"
+                title={`${t('spell_grade', { grade: g })}${g === autoGrade ? ` ${t('spell_grade_auto')}` : ''}`}
+                aria-label={`${t('spell_grade', { grade: g })}${g === autoGrade ? ` ${t('spell_grade_auto')}` : ''}`}
+                aria-pressed={isActive}
+                className="w-6 h-6 rounded text-[10px] font-bold font-mono transition-colors"
                 style={{
                   background:  isActive ? 'var(--gold)' : isAuto ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'transparent',
                   color:       isActive ? 'var(--ink-invert)' : isAuto ? 'var(--gold)' : 'var(--ink-faint)',
@@ -1124,6 +1128,7 @@ export function SpellsPanel() {
               className="ml-0.5 text-[9px] transition-colors"
               style={{ color: 'var(--ink-faint)' }}
               title={t('spell_reset_grade')}
+              aria-label={t('spell_reset_grade')}
             >↺</button>
           )}
         </div>
@@ -1163,7 +1168,7 @@ export function SpellsPanel() {
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1, flexShrink: 0 }} />
-          <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+          <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
             {t('weapon_attack')}
           </p>
         </div>
@@ -1179,7 +1184,7 @@ export function SpellsPanel() {
             <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
                   {t('spell_col_normal')}
                 </p>
               </div>
@@ -1192,7 +1197,7 @@ export function SpellsPanel() {
             <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
                   {t('spell_col_variant')}
                 </p>
               </div>
@@ -1211,7 +1216,7 @@ export function SpellsPanel() {
         <div className="space-y-2">
           <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
             <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-            <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>
+            <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
               {t('common_spells')}
             </p>
           </div>

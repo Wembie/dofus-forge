@@ -52,6 +52,7 @@ function SideToggle({ side, onChange }: { side: SidebarSide; onChange: (side: Si
           key={id}
           onClick={() => onChange(id)}
           aria-pressed={side === id}
+          aria-label={label}
           title={label}
           className="flex items-center justify-center rounded-md border transition-colors"
           style={{

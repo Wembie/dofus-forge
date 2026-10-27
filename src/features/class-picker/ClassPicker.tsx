@@ -137,7 +137,7 @@ export function ClassPicker() {
             style={{
               background: 'color-mix(in srgb, var(--gold) 8%, transparent)',
               border: '1px solid var(--gold-deep)',
-              color: 'var(--gold-deep)',
+              color: 'var(--gold-muted)',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold)' }}
             onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold-deep)'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--gold-deep)' }}
@@ -279,7 +279,7 @@ export function ClassPicker() {
                   border:     isSelected ? `1px solid ${color}55` : '1px solid var(--metal-edge)',
                 }}
               >
-                <img src={img} alt={displayName} className="w-full h-full object-cover" draggable={false} loading="lazy" />
+                <img src={img} alt="" className="w-full h-full object-cover" draggable={false} loading="lazy" />
               </div>
 
               <span

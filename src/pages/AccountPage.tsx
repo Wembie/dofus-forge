@@ -129,7 +129,7 @@ export function AccountPage() {
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
 
-      <main className="px-4 sm:px-6 py-8 max-w-2xl mx-auto space-y-6">
+      <main id="main-content" className="px-4 sm:px-6 py-8 max-w-2xl mx-auto space-y-6">
         {!session ? (
           <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('my_builds_signin_required')}</p>
         ) : (
@@ -208,12 +208,13 @@ export function AccountPage() {
               <Frame padding="lg">
                 <form onSubmit={submitProfile} className="space-y-3.5">
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                    <label htmlFor="account-auth-username" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                       {t('auth_username')}
                     </label>
                     <div className="relative">
                       <User size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
                       <input
+                        id="account-auth-username"
                         type="text"
                         required
                         minLength={3}
@@ -231,10 +232,11 @@ export function AccountPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                    <label htmlFor="account-auth-display-name" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                       {t('auth_display_name')}
                     </label>
                     <input
+                      id="account-auth-display-name"
                       type="text"
                       maxLength={50}
                       value={displayName}
@@ -248,12 +250,13 @@ export function AccountPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                    <label htmlFor="account-auth-bio" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                       {t('auth_bio')}
                     </label>
                     <div className="relative">
                       <FileText size={14} className="absolute left-2.5 top-2.5 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
                       <textarea
+                        id="account-auth-bio"
                         maxLength={300}
                         rows={3}
                         value={bio}
@@ -268,6 +271,7 @@ export function AccountPage() {
 
                   {error && (
                     <p
+                      role="alert"
                       className="text-[11px] rounded-md px-2.5 py-1.5"
                       style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
                     >
@@ -275,7 +279,7 @@ export function AccountPage() {
                     </p>
                   )}
                   {saved && !error && (
-                    <p className="text-[11px]" style={{ color: 'var(--gold)' }}>{t('save')} ✓</p>
+                    <p role="status" className="text-[11px]" style={{ color: 'var(--gold)' }}>{t('save')} ✓</p>
                   )}
 
                   <Button type="submit" variant="primary" size="md" disabled={busy || uploadingAvatar}>
@@ -296,10 +300,11 @@ export function AccountPage() {
                 ) : (
                   <form onSubmit={submitPassword} className="space-y-3">
                     <div>
-                      <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                      <label htmlFor="account-auth-new-password" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                         {t('auth_new_password')}
                       </label>
                       <PasswordInput
+                        id="account-auth-new-password"
                         required
                         minLength={6}
                         autoComplete="new-password"
@@ -308,10 +313,11 @@ export function AccountPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
+                      <label htmlFor="account-auth-confirm-password" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
                         {t('auth_confirm_password')}
                       </label>
                       <PasswordInput
+                        id="account-auth-confirm-password"
                         required
                         minLength={6}
                         autoComplete="new-password"
@@ -321,6 +327,7 @@ export function AccountPage() {
                     </div>
                     {passwordError && (
                       <p
+                        role="alert"
                         className="text-[11px] rounded-md px-2.5 py-1.5"
                         style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
                       >

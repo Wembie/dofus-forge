@@ -117,7 +117,7 @@ function TotalStrip({ bonus }: { bonus: PassiveBonus }) {
       style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
       aria-live="polite"
     >
-      <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-deep)' }}>{t('passives_total')}</span>
+      <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>{t('passives_total')}</span>
       {empty
         ? <span className="text-[11px] italic" style={{ color: 'var(--ink-faint)' }}>{t('passives_none_active')}</span>
         : <BonusChips bonus={bonus} />}

@@ -256,7 +256,7 @@ export function MyBuildsPage() {
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
 
-      <main className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-5">
+      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-5">
         <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
           {t('my_builds')}
         </h1>

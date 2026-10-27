@@ -41,6 +41,7 @@ export function SiteHeader() {
         boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
       }}
     >
+      <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
       <Link to={homePath} className="flex items-center gap-2 flex-shrink-0" style={{ textDecoration: 'none' }}>
         <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
           <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
@@ -57,7 +58,7 @@ export function SiteHeader() {
         </span>
       </Link>
 
-      <nav className="hidden sm:flex items-center gap-1.5 ml-1">
+      <nav className="hidden sm:flex items-center gap-1.5 ml-1" aria-label={t('a11y_main_nav')}>
         <Link
           to={`/${prefix}explore`}
           className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"

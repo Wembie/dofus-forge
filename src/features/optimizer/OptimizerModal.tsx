@@ -169,6 +169,14 @@ function RequirementCard({ meta, req, onChange }: {
       }}
       onClick={activate}
       title={active ? t(`${meta.tKey}_desc`) : t('optimizer_activate_hint')}
+      {...(!active && {
+        role: 'button',
+        tabIndex: 0,
+        'aria-label': `${t(meta.tKey)} — ${t('optimizer_activate_hint')}`,
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate() }
+        },
+      })}
     >
       <div className="flex items-center gap-1 min-w-0">
         <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
@@ -900,7 +908,7 @@ export function OptimizerModal({ open, onClose }: Props) {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <label className="flex items-center gap-1.5">
             <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level')}:</span>
-            <LevelField value={config.maxLevel} onCommit={v => setConfig(c => ({ ...c, maxLevel: v }))} />
+            <LevelField value={config.maxLevel} label={t('optimizer_max_level_hint')} onCommit={v => setConfig(c => ({ ...c, maxLevel: v }))} />
           </label>
           <button onClick={() => setShowSlots(s => !s)} className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
             {t('optimizer_slots')}:
@@ -913,10 +921,8 @@ export function OptimizerModal({ open, onClose }: Props) {
           </label>
           <button
             onClick={() => setConfig(c => ({ ...c, stats: OPTIMIZER_STATS.map(s => emptyReq(s.key)) }))}
-            className="ml-auto text-[10px] transition-opacity"
-            style={{ color: 'var(--negative)', opacity: 0.55 }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '0.55')}
+            className="ml-auto text-[10px] hover:underline"
+            style={{ color: 'var(--negative)' }}
           >
             {t('optimizer_clear_stats')}
           </button>

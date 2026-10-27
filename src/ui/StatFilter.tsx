@@ -120,8 +120,10 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
           const clr  = meta?.color ?? 'var(--ink-muted)'
           const lbl  = meta ? t(meta.tKey) : stat
           return (
-            <div
+            <button
+              type="button"
               key={stat}
+              aria-label={t('a11y_remove_filter', { name: lbl })}
               className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium cursor-pointer"
               style={{
                 border:     `1px solid color-mix(in srgb, ${clr} 31%, transparent)`,
@@ -134,8 +136,8 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
                 <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain flex-shrink-0" />
               )}
               <span className="max-w-[90px] truncate">{lbl}</span>
-              <span className="opacity-60 hover:opacity-100 flex-shrink-0">✕</span>
-            </div>
+              <span className="opacity-60 hover:opacity-100 flex-shrink-0" aria-hidden="true">✕</span>
+            </button>
           )
         })}
 
@@ -148,6 +150,7 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
             color:       open ? 'var(--ink-muted)' : 'var(--ink-faint)',
           }}
           onClick={() => { setOpen(o => !o); if (open) setQ('') }}
+          aria-expanded={open}
         >
           <span>⊙</span>
           <span>{selected.length > 0 ? `+${t('filter_by_stat', 'efecto')}` : t('filter_by_stat', 'Filtrar efecto')}</span>
@@ -177,6 +180,7 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
               type="text"
               value={q}
               placeholder={t('search_stat', 'Buscar stat…')}
+              aria-label={t('search_stat', 'Buscar stat…')}
               onChange={e => setQ(e.target.value)}
               className="w-full rounded px-2 py-1 text-[11px] focus:outline-none"
               style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}

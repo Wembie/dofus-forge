@@ -22,4 +22,10 @@ i18n
     },
   })
 
+// Pages set <html lang> via usePageSeo, but a language switch without a
+// route change (or a page that skips usePageSeo) would leave it stale.
+i18n.on('languageChanged', lng => {
+  if (typeof document !== 'undefined') document.documentElement.lang = lng.slice(0, 2)
+})
+
 export default i18n
