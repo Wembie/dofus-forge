@@ -45,9 +45,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Fetch game data
+        env:
+          FORCE: ${{ github.event.inputs.force }}
         run: |
           ARGS=""
-          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+          if [ "$FORCE" = "true" ]; then
             ARGS="--force"
           fi
           pnpm fetch-data $ARGS
@@ -60,9 +62,11 @@ jobs:
       # (the app keeps the previous passives file).
       - name: Generate item passives
         continue-on-error: true
+        env:
+          FORCE: ${{ github.event.inputs.force }}
         run: |
           ARGS=""
-          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+          if [ "$FORCE" = "true" ]; then
             ARGS="--force"
           fi
           pnpm fetch-passives $ARGS
