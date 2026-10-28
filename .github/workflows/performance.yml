@@ -110,8 +110,14 @@ jobs:
 
   cloudflare-preview-smoke:
     needs: local-smoke
-    # Temporarily paused; remove this condition to restore the Cloudflare check.
-    if: ${{ false }}
+    # Paused unless the repository variable CLOUDFLARE_PREVIEW_SMOKE is "true"
+    # (Settings → Secrets and variables → Actions → Variables); no code change
+    # needed to turn it back on.
+    if: >-
+      vars.CLOUDFLARE_PREVIEW_SMOKE == 'true' &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.ref == 'dev' &&
+      github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
