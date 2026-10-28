@@ -1,0 +1,52 @@
+name: Database
+
+# Runs supabase/tests/database (pgTAP: cross-user isolation, RLS, server-owned
+# columns) against a throwaway local Supabase stack built from
+# supabase/schema.sql. Never touches the hosted project; needs no secrets.
+on:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'supabase/**'
+      - '.github/workflows/database.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: database-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rls-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DB_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: supabase/setup-cli@1dedf2c611547ede7232d26866dd3c56ab903bbb # v1.7.3
+        with:
+          version: 2.122.0
+
+      # supabase/migrations are incremental and assume the base schema already
+      # exists; a fresh database is built from the cumulative schema.sql.
+      - name: Start local Supabase
+        run: |
+          mv supabase/migrations "$RUNNER_TEMP/migrations"
+          supabase init < /dev/null
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,postgres-meta,supavisor
+
+      - name: Load schema
+        run: psql "$DB_URL" -v ON_ERROR_STOP=1 -q -f supabase/schema.sql
+
+      - name: Run pgTAP tests
+        run: supabase test db
+
+      - name: Stop local Supabase
+        if: always()
+        run: supabase stop --no-backup

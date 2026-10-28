@@ -1,0 +1,48 @@
+name: Workflow lint
+
+# actionlint: syntax, expressions, job wiring and action inputs (fails the run).
+# zizmor: security audit of the workflows (template injection, permissions,
+# credential persistence, unpinned actions); findings go to the Security tab
+# as code-scanning alerts instead of failing the run.
+on:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - '.github/**'
+  push:
+    branches: [dev]
+    paths:
+      - '.github/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workflow-lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      # shellcheck/pyflakes of run: blocks are left out on purpose: style
+      # findings in existing scripts shouldn't block unrelated changes.
+      - name: actionlint
+        run: docker run --rm -v "$PWD:/repo" --workdir /repo rhysd/actionlint:1.7.12 -color -shellcheck= -pyflakes=
+
+  zizmor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+      - uses: zizmorcore/zizmor-action@53290badfa369cb0bf7ad16342cb62c2fa47ac7b # v0.8.0
