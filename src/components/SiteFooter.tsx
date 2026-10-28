@@ -20,6 +20,7 @@ export function SiteFooter() {
         <Link to={`/${prefix}about`} className="hover:text-gold transition-colors">{t('nav_about')}</Link>
         <Link to={`/${prefix}how-to-use`} className="hover:text-gold transition-colors">{t('nav_how_to_use')}</Link>
         <Link to={`/${prefix}forge-guide`} className="hover:text-gold transition-colors">{t('nav_forge_guide')}</Link>
+        <Link to={`/${prefix}shortcuts`} className="hover:text-gold transition-colors">{t('nav_shortcuts')}</Link>
         <Link to={`/${prefix}explore`} className="hover:text-gold transition-colors">{t('explore_open')}</Link>
         <Link to={`/${prefix}my-builds`} className="hover:text-gold transition-colors">{t('my_builds')}</Link>
       </nav>

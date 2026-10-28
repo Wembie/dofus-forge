@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import i18next from 'i18next'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
@@ -393,6 +393,7 @@ function BuilderContent() {
                 { key: 'undo',       label: t('undo'),              Icon: Undo2,      disabled: !canUndo, onClick: undo },
                 { key: 'redo',       label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
                 { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onClick: () => navToLangPath('how-to-use') },
+                { key: 'shortcuts',  label: t('nav_shortcuts'),     Icon: Keyboard,   onClick: () => navToLangPath('shortcuts') },
                 { key: 'about',      label: t('nav_about'),         Icon: Info,       onClick: () => navToLangPath('about') },
                 ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onClick: () => navToLangPath('admin') }] : []),
               ]}
@@ -416,6 +417,7 @@ function BuilderContent() {
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
           { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onRun: () => navToLangPath('how-to-use') },
+          { key: 'shortcuts',  label: t('nav_shortcuts'),     Icon: Keyboard,   onRun: () => navToLangPath('shortcuts') },
           { key: 'about',      label: t('nav_about'),         Icon: Info,       onRun: () => navToLangPath('about') },
           ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onRun: () => navToLangPath('admin') }] : []),
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },

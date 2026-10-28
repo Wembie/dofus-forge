@@ -104,6 +104,13 @@ const FORGE_GUIDE_META = {
   pt: { title: 'Guia da Forjadora — otimizador de builds de Dofus 3 | Dofus Forge', description: 'Como usar A Forjadora do Dofus Forge: mínimos, Lei e tetos, intensidade, itens fixados e excluídos, forjamagia, runas de transcendência e exos, e como ler os resultados.' },
 }
 
+const SHORTCUTS_META = {
+  en: { title: 'Keyboard Shortcuts & Controls — Dofus Forge', description: 'Every Dofus Forge shortcut on desktop and mobile: drag to swap rings and Dofus, right-click to pin an item for The Forger, undo/redo, the command palette, and more.' },
+  es: { title: 'Atajos de teclado y controles — Dofus Forge', description: 'Todos los atajos de teclado y controles de mouse/táctil de Dofus Forge: mover anillos y Dofus arrastrando, fijar items con click derecho, deshacer/rehacer, paleta de comandos y más.' },
+  fr: { title: 'Raccourcis clavier et contrôles — Dofus Forge', description: "Tous les raccourcis de Dofus Forge sur ordinateur et mobile : glisser pour échanger anneaux et Dofus, clic droit pour épingler un objet pour La Forgeuse, annuler/rétablir, la palette de commandes, et plus." },
+  pt: { title: 'Atalhos de teclado e controles — Dofus Forge', description: 'Todos os atalhos e controles de mouse/toque do Dofus Forge: mover anéis e Dofus arrastando, fixar itens com clique direito para A Forjadora, desfazer/refazer, paleta de comandos e mais.' },
+}
+
 const PRIVACY_META = {
   en: { title: 'Privacy Policy — Dofus Forge', description: 'How Dofus Forge collects, uses, and protects your data, including cookies and Google AdSense advertising.' },
   es: { title: 'Política de Privacidad — Dofus Forge', description: 'Cómo Dofus Forge recopila, usa y protege tus datos, incluyendo cookies y la publicidad de Google AdSense.' },
@@ -227,6 +234,7 @@ generateRoute('explore', EXPLORE_META)
 generateRoute('about', ABOUT_META)
 generateRoute('how-to-use', HOWTO_META)
 generateRoute('forge-guide', FORGE_GUIDE_META)
+generateRoute('shortcuts', SHORTCUTS_META)
 generateRoute('privacy', PRIVACY_META)
 generateRoute('terms', TERMS_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex

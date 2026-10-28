@@ -1,7 +1,7 @@
 import { Suspense, lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck } from 'lucide-react'
+import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { IconButton } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
@@ -29,6 +29,7 @@ export function SiteHeader() {
   const isMyBuilds  = location.pathname.includes('/my-builds')
   const isAbout     = location.pathname.includes('/about')
   const isHowToUse  = location.pathname.includes('/how-to-use')
+  const isShortcuts = location.pathname.includes('/shortcuts')
   const isAdminSection = /(?:^|\/)admin(?:\/|$)/.test(location.pathname)
   const [showSettings, setShowSettings] = useState(false)
 
@@ -103,6 +104,7 @@ export function SiteHeader() {
             { key: 'explore',    label: t('explore_open'),   Icon: Compass,    active: isExplore,    onClick: () => navigate(`/${prefix}explore`) },
             { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, active: isMyBuilds,   onClick: () => navigate(`/${prefix}my-builds`) },
             { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   active: isHowToUse,   onClick: () => navigate(`/${prefix}how-to-use`) },
+            { key: 'shortcuts',  label: t('nav_shortcuts'),  Icon: Keyboard,   active: isShortcuts,  onClick: () => navigate(`/${prefix}shortcuts`) },
             { key: 'about',      label: t('nav_about'),      Icon: Info,       active: isAbout,      onClick: () => navigate(`/${prefix}about`) },
             ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, active: isAdminSection, onClick: () => navigate(`/${prefix}admin`) }] : []),
           ]}
@@ -118,6 +120,7 @@ export function SiteHeader() {
           { key: 'explore',    label: t('explore_open'),   Icon: Compass,    onRun: () => navigate(`/${prefix}explore`) },
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
           { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   onRun: () => navigate(`/${prefix}how-to-use`) },
+          { key: 'shortcuts',  label: t('nav_shortcuts'),  Icon: Keyboard,   onRun: () => navigate(`/${prefix}shortcuts`) },
           { key: 'about',      label: t('nav_about'),      Icon: Info,       onRun: () => navigate(`/${prefix}about`) },
           ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onRun: () => navigate(`/${prefix}admin`) }] : []),
           { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },

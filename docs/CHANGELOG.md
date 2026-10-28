@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.136] — 2026-10-28
+- **Feat**: new `/shortcuts` page (linked from the footer, header menu, planner menu and command palette, in all 4 languages) listing every control — dragging rings/Dofus to swap them, right-click to pin an item for La Forjadora, Ctrl+Z/Y undo-redo, Ctrl+K command palette, and the mobile-friendly equivalents (tap to open a slot's catalog, the Pin button inside La Forjadora instead of right-click; drag-and-drop swap is called out as desktop-only for now)
+
 ## [0.3.135] — 2026-10-27
 - **Security**: link-preview images are rendered once per build version (an arbitrary query string no longer forces a new render), non-GET requests are refused, and an image stops being served as soon as its build turns private, is hidden by a moderator or is deleted
 - **Security**: the item-icon fallback only serves real PNG/JPEG/WebP images from the third-party API, never HTML or SVG
