@@ -12,8 +12,37 @@ permissions:
   contents: read
 
 jobs:
+  # Docs-only PRs skip build/lint/test, the dependency audit and CodeQL. Secret
+  # scanning still runs on them: a Markdown file can leak a token too.
+  # Skipping at job level (not with on.pull_request.paths-ignore) keeps
+  # required status checks green: a skipped job reports success, a workflow
+  # that never starts leaves the check pending forever.
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: diff
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --name-only "$BASE...$HEAD" | grep -qvE '(\.md$|^docs/|^LICENSE$)'; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Docs-only change (Markdown, docs/, LICENSE): skipping build and test jobs"
+          fi
+
   # ── Build, lint, type-check, tests ───────────────────────────────────
   validate:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -58,6 +87,7 @@ jobs:
 
   # ── Security ──────────────────────────────────────────────────────────
   security:
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -86,13 +116,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: pnpm/action-setup@v5
+        if: needs.changes.outputs.code == 'true'
 
       - uses: actions/setup-node@v5
+        if: needs.changes.outputs.code == 'true'
         with:
           node-version: 22
           cache: pnpm
 
       - name: Install dependencies
+        if: needs.changes.outputs.code == 'true'
         run: pnpm install --frozen-lockfile
 
       # High/critical only — moderate/low in transitive deps with no fix
@@ -107,9 +140,12 @@ jobs:
       # This flag only skips vulnerabilities with no installable fix right
       # now; it starts failing again the moment one becomes available.
       - name: Dependency audit (high/critical)
+        if: needs.changes.outputs.code == 'true'
         run: pnpm audit --audit-level=high --ignore-unfixable
 
   codeql:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
