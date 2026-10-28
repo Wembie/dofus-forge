@@ -23,7 +23,7 @@ jobs:
     outputs:
       code: ${{ steps.diff.outputs.code }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -46,13 +46,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 22
           cache: pnpm
@@ -79,6 +79,13 @@ jobs:
       - name: Type check + build
         run: pnpm build
 
+      # Bundles the Worker exactly as a deploy would (fonts, wasm, bindings)
+      # without uploading anything; needs no Cloudflare credentials.
+      - name: Worker bundle (dry run)
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+        run: npx --yes wrangler@4.153.0 deploy --dry-run --outdir "$RUNNER_TEMP/worker-bundle"
+
       - name: Lint
         run: pnpm lint
 
@@ -93,13 +100,16 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0   # gitleaks needs full history to scan the PR's commit range
           persist-credentials: false
 
       - name: Check PR diff for whitespace errors and conflict markers
-        run: git diff --check "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}"
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: git diff --check "$BASE...$HEAD"
 
       # Fails fast, cheap, and specific to this repo: .env holds real
       # Supabase credentials locally and must never be committed.
@@ -111,14 +121,14 @@ jobs:
           fi
 
       - name: Scan for leaked secrets (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
         if: needs.changes.outputs.code == 'true'
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         if: needs.changes.outputs.code == 'true'
         with:
           node-version: 22
@@ -143,6 +153,20 @@ jobs:
         if: needs.changes.outputs.code == 'true'
         run: pnpm audit --audit-level=high --ignore-unfixable
 
+  # Fails a PR that adds or upgrades to a dependency with a known high or
+  # critical advisory (pnpm audit above checks the whole tree instead).
+  dependency-review:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
+        with:
+          fail-on-severity: high
+
   codeql:
     needs: changes
     if: needs.changes.outputs.code == 'true'
@@ -153,15 +177,15 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           languages: javascript-typescript
           queries: security-extended
 
       - name: Analyze with CodeQL
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1

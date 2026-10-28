@@ -18,24 +18,33 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
+      # Step outputs reach later scripts through env, never as ${{ }} text
+      # spliced into a script, and the version must look like one first.
       - name: Read version
         id: ver
         run: |
-          VERSION="v$(cat VERSION | tr -d '[:space:]')"
-          echo "tag=$VERSION" >> $GITHUB_OUTPUT
-          echo "num=$(cat VERSION | tr -d '[:space:]')" >> $GITHUB_OUTPUT
+          NUM="$(tr -d '[:space:]' < VERSION)"
+          if ! [[ "$NUM" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::VERSION must be MAJOR.MINOR.PATCH, got '$NUM'"
+            exit 1
+          fi
+          echo "tag=v$NUM" >> "$GITHUB_OUTPUT"
+          echo "num=$NUM" >> "$GITHUB_OUTPUT"
 
       - name: Check if tag already exists
         id: tag_check
+        env:
+          TAG: ${{ steps.ver.outputs.tag }}
         run: |
-          if git ls-remote --tags origin "${{ steps.ver.outputs.tag }}" | grep -q "${{ steps.ver.outputs.tag }}"; then
-            echo "exists=true" >> $GITHUB_OUTPUT
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q .; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Prepare English X post draft
@@ -46,13 +55,13 @@ jobs:
 
       - name: Extract changelog for this version
         if: steps.tag_check.outputs.exists == 'false' || github.run_attempt > 1
-        id: notes
+        env:
+          VER: ${{ steps.ver.outputs.num }}
         run: |
           python3 - <<'PYEOF' > release_notes.txt
-          import sys
+          import os, sys
           content = open('docs/CHANGELOG.md', encoding='utf-8').read()
-          ver = '${{ steps.ver.outputs.num }}'
-          marker = f'## [{ver}]'
+          marker = f"## [{os.environ['VER']}]"
           start = content.find(marker)
           if start == -1:
               print('No changelog entry found.')
@@ -63,19 +72,15 @@ jobs:
               end = len(content)
           print(content[start:end].strip())
           PYEOF
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          cat release_notes.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
 
+      # gh ships with the runner, so no third-party action holds the
+      # contents: write token. The notes go in as a file, never as text.
       - name: Create GitHub Release
         if: steps.tag_check.outputs.exists == 'false'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name:   ${{ steps.ver.outputs.tag }}
-          name:       Dofus Forge ${{ steps.ver.outputs.tag }}
-          body:       ${{ steps.notes.outputs.body }}
-          draft:      false
-          prerelease: false
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.ver.outputs.tag }}
+        run: gh release create "$TAG" --target "$GITHUB_SHA" --title "Dofus Forge $TAG" --notes-file release_notes.txt
 
       # Discord's own GitHub webhook integration (the one using the /github
       # URL suffix) only shows a bare one-line "new release published"
@@ -106,4 +111,3 @@ jobs:
             '{embeds: [{title: $title, description: $desc, url: $url, color: 13148498}]}' \
             > payload.json
           curl -sf -H "Content-Type: application/json" -d @payload.json "$DISCORD_WEBHOOK_URL"
-

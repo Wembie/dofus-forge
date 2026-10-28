@@ -1,0 +1,16 @@
+# Review routing. With "Require review from Code Owners" enabled in the
+# branch protection of main, changes here need the owner's approval.
+*                                   @Wembie
+
+# Security-sensitive: authorization, edge, CI/CD and supply chain.
+/supabase/                          @Wembie
+/src/worker/                        @Wembie
+/public/_headers                    @Wembie
+/.github/                           @Wembie
+/scripts/                           @Wembie
+/wrangler.jsonc                     @Wembie
+/package.json                       @Wembie
+/pnpm-lock.yaml                     @Wembie
+/pnpm-workspace.yaml                @Wembie
+/SECURITY.md                        @Wembie
+/docs/security/                     @Wembie

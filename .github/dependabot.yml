@@ -1,22 +1,78 @@
 version: 2
+
+# Version updates go to dev (the normal flow); security updates are opened
+# against the default branch by GitHub regardless of target-branch, and skip
+# the cooldown. Commit titles follow the repo's Conventional Commits style:
+# "chore(deps): …" / "chore(deps-dev): …".
 updates:
-  # Security fixes arrive as their own PRs regardless of this schedule; the
-  # weekly batch only groups routine minor/patch bumps so they stay reviewable.
+  # ── JavaScript (pnpm) ────────────────────────────────────────────────
   - package-ecosystem: npm
     directory: /
     target-branch: dev
     schedule:
       interval: weekly
+      day: monday
+      time: '06:00'
+    # Supply-chain buffer: a just-published version (the window in which
+    # hijacked releases are usually caught and yanked) waits before a PR.
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
     open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    labels: [dependencies, javascript]
     groups:
-      minor-and-patch:
+      # One reviewable PR per kind of change; majors stay separate because
+      # they usually need code changes (React, Vite, Tailwind, Vitest...).
+      production-minor-patch:
+        dependency-type: production
         update-types: [minor, patch]
+      development-minor-patch:
+        dependency-type: development
+        update-types: [minor, patch]
+      majors:
+        update-types: [major]
+      security:
+        applies-to: security-updates
+        patterns: ['*']
 
+  # ── Rust optimizer (compiled to the checked-in public/wasm) ──────────
+  # A crate bump changes the WASM output, so these PRs fail the
+  # reproducibility check until the artifact is rebuilt (see CONTRIBUTING).
+  # Monthly keeps that manual step rare.
+  - package-ecosystem: cargo
+    directory: /rust-optimizer
+    target-branch: dev
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 14
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: chore
+      include: scope
+    labels: [dependencies, rust]
+    groups:
+      rust:
+        patterns: ['*']
+
+  # ── GitHub Actions (pinned by commit SHA) ────────────────────────────
+  # Dependabot updates the SHA and the "# vX.Y.Z" comment together.
   - package-ecosystem: github-actions
     directory: /
     target-branch: dev
     schedule:
       interval: weekly
+      day: monday
+      time: '06:00'
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: chore
+      include: scope
+    labels: [dependencies, github-actions]
     groups:
       actions:
         patterns: ['*']
