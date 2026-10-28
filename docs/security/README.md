@@ -44,4 +44,4 @@ Dofus Forge is a static React SPA served by a Cloudflare Worker. User data lives
 |---|---|---|
 | 2026-10-27 | Full repository, Cloudflare `security-audit` skill, `quick` profile, source-only | No confirmed findings. 10 leads need validation. Fixes shipped in 0.3.135; see the CHANGELOG. The report artifacts are kept outside the repository. |
 
-Report a vulnerability privately to the repository owner (GitHub → Security → Report a vulnerability). Do not open a public issue.
+To report a vulnerability, follow [SECURITY.md](../../SECURITY.md). Do not open a public issue.
