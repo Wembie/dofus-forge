@@ -12,6 +12,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # The redirect page doesn't change with documentation.
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
   workflow_dispatch:
 
 permissions:

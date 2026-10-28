@@ -14,8 +14,35 @@ permissions:
   issues: read
 
 jobs:
+  # Docs-only PRs (Markdown, docs/, LICENSE) skip the smoke and e2e runs.
+  # Skipping at job level (not with on.pull_request.paths-ignore) keeps
+  # required status checks green: a skipped job reports success, a workflow
+  # that never starts leaves the check pending forever.
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: diff
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git diff --name-only "$BASE...$HEAD" | grep -qvE '(\.md$|^docs/|^LICENSE$)'; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Docs-only change (Markdown, docs/, LICENSE): skipping build and test jobs"
+          fi
+
   local-smoke:
-    if: github.event_name == 'pull_request'
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
