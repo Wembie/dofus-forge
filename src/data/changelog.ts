@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.136',
+    date: '2026-10-28',
+    notes: [
+      "Feat: new /shortcuts page (linked from the footer, header menu, planner menu and command palette, in all 4 languages) listing every control — dragging rings/Dofus to swap them, right-click to pin an item for La Forjadora, Ctrl+Z/Y undo-redo, Ctrl+K command palette, and the mobile-friendly equivalents (tap to open a slot's catalog, the Pin button inside La Forjadora instead of right-click; drag-and-drop swap is called out as desktop-only for now)",
+    ],
+  },
+  {
     version: '0.3.135',
     date: '2026-10-27',
     notes: [

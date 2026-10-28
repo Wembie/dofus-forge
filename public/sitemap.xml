@@ -202,6 +202,46 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://dofusforge.com/shortcuts</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/shortcuts"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/shortcuts</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/shortcuts"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/shortcuts</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/shortcuts"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/shortcuts</loc>
+    <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="fr"       href="https://dofusforge.com/fr/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="pt"       href="https://dofusforge.com/pt/shortcuts"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/shortcuts"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://dofusforge.com/privacy</loc>
     <xhtml:link rel="alternate" hreflang="en"       href="https://dofusforge.com/privacy"/>
     <xhtml:link rel="alternate" hreflang="es"       href="https://dofusforge.com/es/privacy"/>
