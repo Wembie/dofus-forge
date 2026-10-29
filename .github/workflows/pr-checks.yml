@@ -12,8 +12,9 @@ permissions:
   contents: read
 
 jobs:
-  # Docs-only PRs skip build/lint/test, the dependency audit and CodeQL. Secret
-  # scanning still runs on them: a Markdown file can leak a token too.
+  # Docs-only PRs skip build/lint/test and the dependency audit. Secret
+  # scanning and CodeQL still run on them: a Markdown file can leak a token
+  # too, and the code-scanning rule needs a CodeQL result on every PR.
   # Skipping at job level (not with on.pull_request.paths-ignore) keeps
   # required status checks green: a skipped job reports success, a workflow
   # that never starts leaves the check pending forever.
@@ -167,9 +168,9 @@ jobs:
         with:
           fail-on-severity: high
 
+  # Runs on every PR, docs-only included: the code-scanning rule on main
+  # waits for a CodeQL result on the PR head and never sees a skipped job.
   codeql:
-    needs: changes
-    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:

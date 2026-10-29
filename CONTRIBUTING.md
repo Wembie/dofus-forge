@@ -118,7 +118,7 @@ git diff --exit-code -- public/wasm
 
 PR workflows run without repository secrets, so they're safe for contributions from forks. Every action is pinned to a full commit SHA; Dependabot keeps the pins current.
 
-**Docs-only pull requests** — every changed file is Markdown, under `docs/`, or `LICENSE` — skip build, tests, e2e, CodeQL and the Rust build. Those jobs show up as *skipped*, which counts as passing. The secret scan still runs, because a Markdown file can leak a token too.
+**Docs-only pull requests** — every changed file is Markdown, under `docs/`, or `LICENSE` — skip build, tests, e2e and the Rust build. Those jobs show up as *skipped*, which counts as passing. The secret scan and CodeQL still run: a Markdown file can leak a token too, and `main`'s code-scanning rule needs a CodeQL result on every PR.
 
 ## Open the pull request
 
