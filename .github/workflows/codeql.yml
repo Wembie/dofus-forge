@@ -1,0 +1,49 @@
+name: CodeQL baseline
+
+# CodeQL on the branches themselves, not only on PRs. The "code scanning"
+# rule on main compares a PR's results with the base branch's results; with
+# no analysis on main it waits forever ("configuration not found"). The
+# weekly run also picks up new CodeQL queries when nobody opens a PR.
+# PR analysis stays in pr-checks.yml (required check "codeql"); both use the
+# same category so they are one configuration.
+on:
+  push:
+    branches: [main, dev]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeql-baseline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  codeql-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+
+      - name: Analyze with CodeQL
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        with:
+          category: /language:javascript-typescript
