@@ -1,6 +1,8 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
+import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
+import type { PassiveState } from '@/engine/passives.ts'
 
 export const STORAGE_KEY = 'dofus-forge:optimizer-config'
 export const MAX_LEVEL = 200
@@ -29,6 +31,8 @@ export function makeDefaultConfig(): OptimizerConfig {
     maxLevel:            MAX_LEVEL,
     lockedSlots:         new Set(),
     assumeFullyScrolled: true,
+    passives:            'off',
+    passiveExcluded:     [],
     intensity:           'standard',
   }
 }
@@ -74,6 +78,8 @@ export function loadSavedConfig(): OptimizerConfig {
       exo:                 { ...defaults.exo, ...(current && typeof parsed.exo?.onlyOnRing === 'boolean' ? parsed.exo : {}) },
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
+      passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
+      passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       stats:               OPTIMIZER_STATS.map(s => migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
     }
   } catch {
@@ -88,7 +94,11 @@ export function persistConfig(config: OptimizerConfig) {
 }
 
 // `picks.required` holds only the items planRequired() could place.
-export function toWireConfig(config: OptimizerConfig, islands: number, characterLevel: number, picks: { required: number[]; banned: number[] } = { required: [], banned: [] }) {
+export function toWireConfig(
+  config: OptimizerConfig, islands: number, characterLevel: number,
+  picks: { required: number[]; banned: number[] } = { required: [], banned: [] },
+  passiveEffects: PassiveEffects[] = [],
+) {
   return {
     stats: config.stats.filter(isActive).map(r => {
       const cap = normalizeCap(r.cap)
@@ -107,12 +117,15 @@ export function toWireConfig(config: OptimizerConfig, islands: number, character
     bannedItems:         picks.banned,
     bannedTypes:         [],
     requiredItems:       picks.required,
+    passiveEffects:      config.passives === 'off' ? [] : passiveEffects,
     transcendence:       config.transcendence,
     islands,
   }
 }
 
-// One store update, so loading a piece is a single undo step.
-export function loadForgeResult(result: BuildResult, lockedSlots: ReadonlySet<SlotId>) {
-  useBuildStore.getState().applyForgeResult(result, lockedSlots)
+// One store update, so loading a piece is a single undo step. `passives`:
+// the passive settings the Forge counted for the piece's items, so the
+// planner's combat view shows the same numbers.
+export function loadForgeResult(result: BuildResult, lockedSlots: ReadonlySet<SlotId>, passives?: PassiveState) {
+  useBuildStore.getState().applyForgeResult({ ...result, passives }, lockedSlots)
 }

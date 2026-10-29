@@ -67,6 +67,7 @@ fn config(open_slots: &[&str], required_items: Vec<i64>) -> OptimizerConfig {
         banned_items: vec![],
         banned_types: vec![],
         required_items,
+        passive_effects: vec![],
         transcendence: false,
         islands: 4,
         prune: true,

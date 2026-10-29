@@ -1,6 +1,7 @@
 import type { StatBlock } from '@/engine/types.ts'
 import type { SlotId, RuneMap } from '@/store/buildStore.ts'
 import type { DofusClass, AllocatedCharacteristics, ScrolledCharacteristics } from '@/engine/types.ts'
+import type { ForgePassiveMode } from './forgePassives.ts'
 
 export type OptimizerStatKey = keyof Omit<StatBlock, 'unknownStats' | 'pointsBudget' | 'pointsSpent'>
 
@@ -33,6 +34,10 @@ export type OptimizerConfig = {
   maxLevel:            number
   lockedSlots:         Set<SlotId>
   assumeFullyScrolled: boolean
+  /** Count item combat passives: not at all, at their best case, or as set in the planner. */
+  passives:            ForgePassiveMode
+  /** Passive items the player left out of the count. */
+  passiveExcluded:     number[]
   intensity:           ForgeIntensity
 }
 

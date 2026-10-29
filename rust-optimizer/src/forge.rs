@@ -472,6 +472,9 @@ pub struct Forge {
     level: i64,
     scrolled: ScrolledCharacteristics,
     locked_runes: Vec<ItemEffect>,
+    // [item] -> its counted combat passive (empty for most), reported with
+    // the item's own effects so the exact recomputation matches.
+    passives: Vec<Vec<ItemEffect>>,
     exo_ap: bool,
     exo_mp: bool,
     exo_range: bool,
@@ -545,6 +548,7 @@ impl Forge {
             .collect();
 
         // Items
+        let passive_by_id: HashMap<i64, &Vec<ItemEffect>> = config.passive_effects.iter().map(|p| (p.id, &p.effects)).collect();
         let items: Vec<Item> = catalog
             .iter()
             .map(|it| {
@@ -575,7 +579,7 @@ impl Forge {
                             .collect()
                     })
                     .unwrap_or_default();
-                let vec = dense(&raw_effects_block(&it.effects, it.slot == "weapon"));
+                let mut vec = dense(&raw_effects_block(&it.effects, it.slot == "weapon"));
                 let forgeable = ["hat", "cape", "amulet", "ring", "belt", "boots", "weapon", "shield"].contains(&it.slot.as_str());
                 let runes = if forgeable {
                     rune_table
@@ -588,6 +592,11 @@ impl Forge {
                 } else {
                     Vec::new()
                 };
+                // After the runes: a passive is not a line on the item, so it
+                // never changes which rune rank the item can take.
+                if let Some(passive) = passive_by_id.get(&it.ankama_id) {
+                    add_into(&mut vec, &dense(&raw_effects_block(passive, false)));
+                }
                 Item {
                     ankama_id: it.ankama_id,
                     vec,
@@ -599,6 +608,7 @@ impl Forge {
             })
             .collect();
         let by_ankama: HashMap<i64, i32> = items.iter().enumerate().map(|(i, it)| (it.ankama_id, i as i32)).collect();
+        let passives: Vec<Vec<ItemEffect>> = catalog.iter().map(|it| passive_by_id.get(&it.ankama_id).map(|p| (*p).clone()).unwrap_or_default()).collect();
 
         let locked_names: HashSet<&str> = config.locked_slots.iter().map(|s| s.as_str()).collect();
         let mut fixed = [-1i32; NSLOT];
@@ -660,6 +670,7 @@ impl Forge {
             level: base.level,
             scrolled,
             locked_runes,
+            passives,
             exo_ap: config.exo.ap,
             exo_mp: config.exo.mp,
             exo_range: config.exo.range,
@@ -1975,7 +1986,9 @@ impl Forge {
                 continue;
             }
             let it = &self.catalog[item as usize];
-            items.push(EquippedItem { ankama_id: it.ankama_id, effects: it.effects.clone(), set_id: it.set_id, slot: it.slot.clone() });
+            let mut effects = it.effects.clone();
+            effects.extend(self.passives[item as usize].iter().cloned());
+            items.push(EquippedItem { ankama_id: it.ankama_id, effects, set_id: it.set_id, slot: it.slot.clone() });
             let kind = match ev.exo[s] {
                 1 => Some(("ap", "AP")),
                 2 => Some(("mp", "MP")),
@@ -2058,7 +2071,7 @@ impl Forge {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::optimizer_types::{CatalogCondition, ExoConfig, StatConfig};
+    use crate::optimizer_types::{CatalogCondition, ExoConfig, PassiveEffects, StatConfig};
 
     fn effect(stat: &str, v: i64) -> ItemEffect {
         ItemEffect { stat: stat.to_string(), min: v, max: 0, effect_id: None }
@@ -2079,6 +2092,7 @@ mod tests {
             banned_items: vec![],
             banned_types: vec![],
             required_items: vec![],
+            passive_effects: vec![],
             transcendence: false,
             islands: 4,
             prune: true,
@@ -2340,6 +2354,51 @@ mod tests {
         assert_eq!(r.equipped.get("hat"), Some(&1));
         assert_eq!(get_stat(&r.stats, "vitality"), 60);
         assert!(!r.runes.contains_key("hat"));
+    }
+
+    fn passive(id: i64, effects: Vec<ItemEffect>) -> PassiveEffects {
+        PassiveEffects { id, effects }
+    }
+
+    #[test]
+    fn a_counted_passive_can_decide_the_build_and_the_report_includes_it() {
+        // Dofus 1: 1 AP on the item. Dofus 2: nothing on the item, 2 AP from its passive.
+        let items = vec![item(1, "dofus", None, vec![effect("AP", 1)]), item(2, "dofus", None, vec![effect("Vitality", 1)])];
+        let open = ["dofus1"];
+        let mut f = Forge::new(config(vec![cond("ap", 0, 10)], &open), items.clone(), vec![], base(1), 3);
+        assert_eq!(run(&mut f, 3)[0].equipped.get("dofus1"), Some(&1), "without passives the AP item wins");
+
+        let mut cfg = config(vec![cond("ap", 0, 10)], &open);
+        cfg.passive_effects = vec![passive(2, vec![effect("AP", 2)])];
+        let mut f = Forge::new(cfg, items, vec![], base(1), 3);
+        let r = &run(&mut f, 3)[0];
+        assert_eq!(r.equipped.get("dofus1"), Some(&2));
+        // BASE_AP (6, level < 100) + the passive's 2: the exact recomputation agrees.
+        assert_eq!(r.stats.ap, 8);
+    }
+
+    #[test]
+    fn a_passive_never_changes_the_rune_rank_of_its_item() {
+        let items = vec![item(1, "hat", None, vec![effect("Strength", 10)])];
+        let mut cfg = config(vec![cond("strength", 0, 1)], &["hat"]);
+        cfg.transcendence = true;
+        let f = Forge::new(cfg.clone(), items.clone(), vec![], base(1), 1);
+        let plain = f.items[0].runes.clone();
+        cfg.passive_effects = vec![passive(1, vec![effect("Strength", 200)])];
+        let f = Forge::new(cfg, items, vec![], base(1), 1);
+        assert_eq!(f.items[0].runes, plain);
+        assert_eq!(f.items[0].vec[STR], 210);
+    }
+
+    #[test]
+    fn passive_damage_feeds_every_element_and_resistances_keep_their_cap() {
+        let items = vec![item(1, "dofus", None, vec![effect("% Fire Resistance", 45)])];
+        let mut cfg = config(vec![cond("fireDamage", 0, 1), cond("fireResPercent", 0, 1)], &["dofus1"]);
+        cfg.passive_effects = vec![passive(1, vec![effect("Damage", 7), effect("% Fire Resistance", 20)])];
+        let mut f = Forge::new(cfg, items, vec![], base(1), 1);
+        let r = &run(&mut f, 2)[0];
+        assert_eq!(r.stats.fire_damage, 7);
+        assert_eq!(r.stats.fire_res_percent, 50);
     }
 
     #[test]

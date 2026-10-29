@@ -35,7 +35,7 @@ fn forge_seeded(label: &str, stats: Vec<StatConfig>, seed: u64, transcendence: b
         locked_slots: vec![],
         assume_fully_scrolled: true,
         banned_items: vec![],
-        banned_types: vec![], required_items: vec![],
+        banned_types: vec![], required_items: vec![], passive_effects: vec![],
         transcendence,
         islands,
         prune: std::env::var("FORGE_PRUNE").map(|v| v != "0").unwrap_or(true),
@@ -207,7 +207,7 @@ fn forge_variant(label: &str, transcendence: bool, scrolled: bool, seed: u64, se
         stats: screenshot_order(),
         exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 },
         max_level: 200, locked_slots: vec![], assume_fully_scrolled: scrolled,
-        banned_items: vec![], banned_types: vec![], required_items: vec![], transcendence, islands: 24, prune: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], transcendence, islands: 24, prune: true,
     };
     let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
     let clock = Instant::now();
@@ -259,7 +259,7 @@ fn screenshot_forge(seed: u64, transcendence: bool, islands: usize) -> Forge {
         stats: screenshot_order(),
         exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 },
         max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
-        banned_items: vec![], banned_types: vec![], required_items: vec![], transcendence, islands, prune: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], transcendence, islands, prune: true,
     };
     let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
     Forge::new(config, items, sets, base, seed)
@@ -483,7 +483,7 @@ fn case2_forge(extra: bool, seed: u64, islands: usize) -> Forge {
         stats: case2_order(extra),
         exo: ExoConfig { ap: true, mp: true, range: true, only_on_ring: true, max_count: 2 },
         max_level: 200, locked_slots: vec![], assume_fully_scrolled: true,
-        banned_items: vec![], banned_types: vec![], required_items: vec![], transcendence: true, islands, prune: true,
+        banned_items: vec![], banned_types: vec![], required_items: vec![], passive_effects: vec![], transcendence: true, islands, prune: true,
     };
     let base = OptimizerBuildBase { level: 200, allocated: Default::default(), scrolled: Default::default(), equipped: HashMap::new(), runes: HashMap::new() };
     Forge::new(config, items, sets, base, seed)

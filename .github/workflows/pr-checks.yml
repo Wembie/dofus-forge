@@ -12,8 +12,9 @@ permissions:
   contents: read
 
 jobs:
-  # Docs-only PRs skip build/lint/test, the dependency audit and CodeQL. Secret
-  # scanning still runs on them: a Markdown file can leak a token too.
+  # Docs-only PRs skip build/lint/test and the dependency audit. Secret
+  # scanning and CodeQL still run on them: a Markdown file can leak a token
+  # too, and the code-scanning rule needs a CodeQL result on every PR.
   # Skipping at job level (not with on.pull_request.paths-ignore) keeps
   # required status checks green: a skipped job reports success, a workflow
   # that never starts leaves the check pending forever.
@@ -167,25 +168,5 @@ jobs:
         with:
           fail-on-severity: high
 
-  codeql:
-    needs: changes
-    if: needs.changes.outputs.code == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
-        with:
-          persist-credentials: false
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
-        with:
-          languages: javascript-typescript
-          queries: security-extended
-
-      - name: Analyze with CodeQL
-        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+  # CodeQL (required check "codeql") lives in codeql.yml: the same job must
+  # also run on pushes to main for the code-scanning rule to compare them.
