@@ -110,7 +110,8 @@ git diff --exit-code -- public/wasm
 
 | Workflow | Checks |
 |---|---|
-| **PR Checks** | Version consistency · type check + build · Worker bundle dry run · lint · unit tests · gitleaks secret scan · `pnpm audit` (high/critical) · dependency review of new packages · CodeQL |
+| **PR Checks** | Version consistency · type check + build · Worker bundle dry run · lint · unit tests · gitleaks secret scan · `pnpm audit` (high/critical) · dependency review of new packages |
+| **CodeQL** | Security analysis (`security-extended`) on every PR, on pushes to `main`/`dev` and weekly; results also gate merges into `main` |
 | **Performance smoke** | k6 smoke against a local preview · Playwright e2e + axe accessibility scan |
 | **Rust optimizer** | clippy · cargo tests · WASM build reproducibility |
 | **Database** *(when `supabase/` changes)* | Local Supabase stack built from `schema.sql` · pgTAP isolation/RLS tests |

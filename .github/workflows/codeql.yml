@@ -1,36 +1,30 @@
-name: CodeQL baseline
+name: CodeQL
 
-# The "code scanning" rule on main compares a PR's CodeQL results with the
-# base branch's; with no analysis on main it waits forever ("configuration
-# not found"). This workflow keeps main (and dev) analyzed:
-# - on every PR to main, the exact base commit is analyzed and uploaded as
-#   main's result, so the comparison never lacks a baseline (this also
-#   covers the very first PR, and docs-only pushes to main that skip CodeQL);
-# - on pushes to main/dev, weekly (new CodeQL queries), and on demand.
-# The PR's own analysis stays in pr-checks.yml (required check "codeql").
-# All of them share one category, so they are one configuration.
+# One job for pull requests AND the branches themselves. GitHub identifies a
+# code-scanning configuration by workflow + job + category, and the "code
+# scanning" rule on main compares a PR's configurations with main's, so both
+# must come from this same job; an analysis that only ran on PRs (or a
+# separate baseline job) never matches and the rule waits forever
+# ("configuration not found"). This job is the required check "codeql".
+# It runs on docs-only changes too: the rule needs a result on every PR.
 on:
   pull_request:
-    branches: [main]
+    branches: [main, dev]
   push:
     branches: [main, dev]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - 'LICENSE'
   schedule:
-    - cron: '0 5 * * 1'
+    - cron: '0 5 * * 1'   # weekly: new CodeQL queries without waiting for a PR
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: codeql-baseline-${{ github.event.pull_request.number || github.ref }}
+  group: codeql-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  codeql-baseline:
+  codeql:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -41,7 +35,6 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
-          ref: ${{ github.event.pull_request.base.sha || github.sha }}
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
@@ -49,10 +42,5 @@ jobs:
           languages: javascript-typescript
           queries: security-extended
 
-      # On a PR the result belongs to the base branch, not to the PR.
       - name: Analyze with CodeQL
         uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
-        with:
-          category: /language:javascript-typescript
-          ref: ${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.event.pull_request.base.ref) || github.ref }}
-          sha: ${{ github.event.pull_request.base.sha || github.sha }}
