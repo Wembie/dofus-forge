@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest'
 import { ITEM_PASSIVES, sanitizePassiveState, controlMax, passiveBonus } from '@/engine/passives.ts'
-import { maxPassiveState, forgePassiveState, forgePassiveEffects, passiveStateFor } from '../forgePassives.ts'
+import { maxPassiveState, forgePassiveState, forgePassiveEffects, passiveStateFor, passiveSection, orderPassiveItems, sanitizeExcluded } from '../forgePassives.ts'
+import type { AppItem } from '@/data/loaders.ts'
 import { makeDefaultConfig, toWireConfig, loadSavedConfig, persistConfig, loadForgeResult, STORAGE_KEY } from '../forgeConfig.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { BuildResult } from '../types.ts'
@@ -61,6 +62,24 @@ describe('forgePassiveEffects', () => {
     expect(forgePassiveState('planner', { 'nope.0': 3 })).toEqual({})
   })
 
+  it('skips the items the player left out', () => {
+    const effects = forgePassiveEffects(maxPassiveState(), new Set([ABYSSAL]))
+    expect(effects.some(e => e.id === ABYSSAL)).toBe(false)
+    expect(effects.some(e => e.id === JAHASH)).toBe(true)
+  })
+
+  it('lists only items whose passive can change an order', () => {
+    expect(orderPassiveItems()).toContain(ABYSSAL)
+    expect(orderPassiveItems()).not.toContain(TURQUOISE)
+  })
+
+  it('sorts passive items into Dofus, Prysmaradites and legendary gear', () => {
+    const it = (slot: string, type: string) => ({ slot, type }) as AppItem
+    expect(passiveSection(it('dofus', 'Dofus'))).toBe('dofus')
+    expect(passiveSection(it('dofus', 'Prysmaradite'))).toBe('prysmaradite')
+    expect(passiveSection(it('cloak', 'Cloak'))).toBe('legendary')
+  })
+
   it('passiveStateFor keeps only the given items', () => {
     const state = maxPassiveState()
     const kept = passiveStateFor(state, [ABYSSAL, undefined as unknown as number])
@@ -76,6 +95,14 @@ describe('passives in the order config', () => {
     const effects = forgePassiveEffects(maxPassiveState())
     expect(toWireConfig(makeDefaultConfig(), 96, 200, undefined, effects).passiveEffects).toEqual([])
     expect(toWireConfig({ ...makeDefaultConfig(), passives: 'max' }, 96, 200, undefined, effects).passiveEffects).toBe(effects)
+  })
+
+  it('left-out passive items are saved; junk and unknown ids are dropped', () => {
+    expect(makeDefaultConfig().passiveExcluded).toEqual([])
+    persistConfig({ ...makeDefaultConfig(), passiveExcluded: [ABYSSAL] })
+    expect(loadSavedConfig().passiveExcluded).toEqual([ABYSSAL])
+    expect(sanitizeExcluded([ABYSSAL, ABYSSAL, 1, 'x', 1.5, JAHASH])).toEqual([ABYSSAL, JAHASH])
+    expect(sanitizeExcluded('nope')).toEqual([])
   })
 
   it('the mode is saved, and anything unknown reads as off', () => {

@@ -1355,7 +1355,7 @@
   "forgeguide_faq_3_title": "¿Fijar muchos objetos la hace más lenta?",
   "forgeguide_faq_3_body": "No, al revés: cada objeto fijado es un slot menos que buscar.",
   "forgeguide_faq_4_title": "¿Tiene en cuenta las pasivas de Dofus y legendarios?",
-  "forgeguide_faq_4_body": "Sí, si activás \"Contar pasivas de objetos\" en el encargo: al máximo (acumulaciones llenas, primer caso o turno 1) o como las configuraste en el planificador. Los resultados lo marcan con ⚔ y al cargar el build las mismas pasivas quedan configuradas para la vista \"En combate\". El daño final y la vulnerabilidad no son stats del encargo, así que no cambian la elección.",
+  "forgeguide_faq_4_body": "Sí, si activás \"Contar pasivas de objetos\" en el encargo: al máximo (acumulaciones llenas, primer caso o turno 1) o como las configuraste en el planificador. Van por secciones (Dofus, Prismaraditas, objetos legendarios): apagá una sección entera o, con ⚙, solo las pasivas que no tengan sentido para tu juego, como las que suman PA por enemigo rematado. Los resultados lo marcan con ⚔ y al cargar el build las mismas pasivas quedan configuradas para la vista \"En combate\". El daño final y la vulnerabilidad no son stats del encargo, así que no cambian la elección.",
   "forgeguide_faq_5_title": "¿Mi encargo se guarda?",
   "forgeguide_faq_5_body": "Sí, en este navegador: stats, intensidad, forgemagia, slots, fijados y excluidos siguen ahí la próxima vez que abras La Forjadora.",
   "optimizer_guide_link": "Guía completa",
@@ -1419,5 +1419,10 @@
   "optimizer_log_passives_planner": "Pasivas del planificador: {{n}} objetos suman stats",
   "optimizer_passive_badge": "Pasiva incluida",
   "optimizer_with_passives": "con pasivas",
-  "optimizer_with_passives_hint": "Las stats incluyen las pasivas de combate. En el planificador se ven con la vista \"En combate\"."
+  "optimizer_with_passives_hint": "Las stats incluyen las pasivas de combate. En el planificador se ven con la vista \"En combate\".",
+  "optimizer_passive_section_dofus": "Pasivas Dofus",
+  "optimizer_passive_section_prysmaradite": "Pasivas Prismaraditas",
+  "optimizer_passive_section_legendary": "Pasivas objetos legendarios",
+  "optimizer_passive_section_configure": "Elegir cuáles cuentan: {{section}}",
+  "optimizer_passive_not_set": "sin configurar"
 }

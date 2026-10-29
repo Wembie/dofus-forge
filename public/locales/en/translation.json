@@ -1355,7 +1355,7 @@
   "forgeguide_faq_3_title": "Does pinning many items slow it down?",
   "forgeguide_faq_3_body": "No, the opposite: every pinned item is one fewer slot to search.",
   "forgeguide_faq_4_title": "Does it account for Dofus and legendary passives?",
-  "forgeguide_faq_4_body": "Yes, if you tick \"Count item passives\" in the order: at their best (full stacks, first case or turn 1) or as you set them in the planner. Results mark it with ⚔, and loading the build sets the same passives for the \"In combat\" view. Final damage and vulnerability aren't order stats, so they don't change the choice.",
+  "forgeguide_faq_4_body": "Yes, if you tick \"Count item passives\" in the order: at their best (full stacks, first case or turn 1) or as you set them in the planner. They come in sections (Dofus, Prysmaradites, legendary items): switch a whole section off or, with ⚙, only the passives that make no sense for how you play, such as AP per enemy finished off. Results mark it with ⚔, and loading the build sets the same passives for the \"In combat\" view. Final damage and vulnerability aren't order stats, so they don't change the choice.",
   "forgeguide_faq_5_title": "Is my order saved?",
   "forgeguide_faq_5_body": "Yes, in this browser: stats, intensity, forgemagic, slots, pinned and banned items are still there next time you open The Forger.",
   "optimizer_guide_link": "Full guide",
@@ -1419,5 +1419,10 @@
   "optimizer_log_passives_planner": "Planner passives: {{n}} items add stats",
   "optimizer_passive_badge": "Passive included",
   "optimizer_with_passives": "with passives",
-  "optimizer_with_passives_hint": "The stats include combat passives. In the planner, see them with the \"In combat\" view."
+  "optimizer_with_passives_hint": "The stats include combat passives. In the planner, see them with the \"In combat\" view.",
+  "optimizer_passive_section_dofus": "Dofus passives",
+  "optimizer_passive_section_prysmaradite": "Prysmaradite passives",
+  "optimizer_passive_section_legendary": "Legendary item passives",
+  "optimizer_passive_section_configure": "Choose which count: {{section}}",
+  "optimizer_passive_not_set": "not set"
 }

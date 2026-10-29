@@ -1,4 +1,5 @@
 import { ITEM_PASSIVES, controlBonus, controlRoom, sanitizePassiveState, type PassiveBonus, type PassiveStat, type PassiveState } from '@/engine/passives.ts'
+import type { AppItem } from '@/data/loaders.ts'
 
 // Combat passives in La Forjadora. The page resolves every passive item's
 // bonus for the chosen assumption once per forge and sends it as plain
@@ -55,20 +56,54 @@ export function forgePassiveState(mode: ForgePassiveMode, planner: PassiveState)
   return {}
 }
 
-/** Each passive item's total bonus under `state`, as engine effects (items adding nothing are left out). */
-export function forgePassiveEffects(state: PassiveState): PassiveEffects[] {
-  const out: PassiveEffects[] = []
-  for (const [id, controls] of ITEM_PASSIVES) {
-    const total: PassiveBonus = {}
-    for (const c of controls) {
-      for (const [k, v] of Object.entries(controlBonus(c, state[c.id] ?? 0)) as [PassiveStat, number][]) total[k] = (total[k] ?? 0) + v
+/** The part of one item's passive bonus under `state` that an order can ask for. */
+export function orderPassiveBonus(id: number, state: PassiveState): PassiveBonus {
+  const total: PassiveBonus = {}
+  for (const c of ITEM_PASSIVES.get(id) ?? []) {
+    for (const [k, v] of Object.entries(controlBonus(c, state[c.id] ?? 0)) as [PassiveStat, number][]) {
+      if (EFFECT_NAME[k]) total[k] = (total[k] ?? 0) + v
     }
-    const effects = (Object.entries(total) as [PassiveStat, number][])
-      .filter(([k, v]) => v !== 0 && EFFECT_NAME[k])
+  }
+  for (const k of Object.keys(total) as PassiveStat[]) if (total[k] === 0) delete total[k]
+  return total
+}
+
+/**
+ * Each passive item's total bonus under `state`, as engine effects (items
+ * adding nothing, and the ones the player left out, are skipped).
+ */
+export function forgePassiveEffects(state: PassiveState, excluded: ReadonlySet<number> = new Set()): PassiveEffects[] {
+  const out: PassiveEffects[] = []
+  for (const id of ITEM_PASSIVES.keys()) {
+    if (excluded.has(id)) continue
+    const effects = (Object.entries(orderPassiveBonus(id, state)) as [PassiveStat, number][])
       .map(([k, v]) => ({ stat: EFFECT_NAME[k]!, min: v, max: v }))
     if (effects.length) out.push({ id, effects })
   }
   return out
+}
+
+/** Where a passive item is listed in the order: Dofus, Prysmaradites or legendary gear. */
+export type PassiveSection = 'dofus' | 'prysmaradite' | 'legendary'
+export const PASSIVE_SECTIONS: PassiveSection[] = ['dofus', 'prysmaradite', 'legendary']
+
+export function passiveSection(item: AppItem): PassiveSection {
+  if (item.slot !== 'dofus') return 'legendary'
+  return item.type === 'Prysmaradite' ? 'prysmaradite' : 'dofus'
+}
+
+let orderItems: number[] | null = null
+
+/** Items whose passive can change an order (at its best): the ones worth listing. */
+export function orderPassiveItems(): number[] {
+  orderItems ??= forgePassiveEffects(maxPassiveState()).map(p => p.id)
+  return orderItems
+}
+
+/** Saved list of left-out passive items (untrusted: localStorage). */
+export function sanitizeExcluded(raw: unknown): number[] {
+  if (!Array.isArray(raw)) return []
+  return [...new Set(raw.filter((id): id is number => Number.isSafeInteger(id) && ITEM_PASSIVES.has(id)))]
 }
 
 /** The settings of the given items' passives, to carry into the planner with a loaded build. */

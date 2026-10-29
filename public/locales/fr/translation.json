@@ -1355,7 +1355,7 @@
   "forgeguide_faq_3_title": "Épingler beaucoup d'objets la ralentit-il ?",
   "forgeguide_faq_3_body": "Non, au contraire : chaque objet épinglé est un emplacement de moins à chercher.",
   "forgeguide_faq_4_title": "Tient-elle compte des passifs des Dofus et légendaires ?",
-  "forgeguide_faq_4_body": "Oui, si vous cochez « Compter les passifs des objets » dans la commande : au maximum (cumuls pleins, premier cas ou tour 1) ou comme réglés dans le planificateur. Les résultats l'indiquent avec ⚔, et charger le build règle les mêmes passifs pour la vue « En combat ». Les dommages finaux et la vulnérabilité ne sont pas des stats de commande : ils ne changent pas le choix.",
+  "forgeguide_faq_4_body": "Oui, si vous cochez « Compter les passifs des objets » dans la commande : au maximum (cumuls pleins, premier cas ou tour 1) ou comme réglés dans le planificateur. Ils sont classés par section (Dofus, Prysmaradites, objets légendaires) : désactivez une section entière ou, avec ⚙, seulement les passifs qui n'ont pas de sens pour votre jeu, comme les PA par ennemi achevé. Les résultats l'indiquent avec ⚔, et charger le build règle les mêmes passifs pour la vue « En combat ». Les dommages finaux et la vulnérabilité ne sont pas des stats de commande : ils ne changent pas le choix.",
   "forgeguide_faq_5_title": "Ma commande est-elle enregistrée ?",
   "forgeguide_faq_5_body": "Oui, dans ce navigateur : stats, intensité, forgemagie, emplacements, objets épinglés et exclus sont toujours là la prochaine fois.",
   "optimizer_guide_link": "Guide complet",
@@ -1419,5 +1419,10 @@
   "optimizer_log_passives_planner": "Passifs du planificateur : {{n}} objets ajoutent des stats",
   "optimizer_passive_badge": "Passif inclus",
   "optimizer_with_passives": "avec passifs",
-  "optimizer_with_passives_hint": "Les stats incluent les passifs de combat. Dans le planificateur, voyez-les avec la vue « En combat »."
+  "optimizer_with_passives_hint": "Les stats incluent les passifs de combat. Dans le planificateur, voyez-les avec la vue « En combat ».",
+  "optimizer_passive_section_dofus": "Passifs des Dofus",
+  "optimizer_passive_section_prysmaradite": "Passifs des Prysmaradites",
+  "optimizer_passive_section_legendary": "Passifs des objets légendaires",
+  "optimizer_passive_section_configure": "Choisir lesquels comptent : {{section}}",
+  "optimizer_passive_not_set": "non réglé"
 }

@@ -1,7 +1,7 @@
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import type { OptimizerConfig, BuildResult, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
 import { OPTIMIZER_STATS, leyPreset, unitValue } from './statList.ts'
-import { PASSIVE_MODES, type PassiveEffects } from './forgePassives.ts'
+import { PASSIVE_MODES, sanitizeExcluded, type PassiveEffects } from './forgePassives.ts'
 import type { PassiveState } from '@/engine/passives.ts'
 
 export const STORAGE_KEY = 'dofus-forge:optimizer-config'
@@ -32,6 +32,7 @@ export function makeDefaultConfig(): OptimizerConfig {
     lockedSlots:         new Set(),
     assumeFullyScrolled: true,
     passives:            'off',
+    passiveExcluded:     [],
     intensity:           'standard',
   }
 }
@@ -78,6 +79,7 @@ export function loadSavedConfig(): OptimizerConfig {
       lockedSlots:         new Set<SlotId>(parsed.lockedSlots ?? []),
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
+      passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
       stats:               OPTIMIZER_STATS.map(s => migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
     }
   } catch {

@@ -5,7 +5,7 @@ import { ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { useForgePicks, slotsFor, slotNameKey, searchItems, type RequiredPlacement } from './forgePicks.ts'
 
-function ItemIcon({ item, size = 28 }: { item?: AppItem; size?: number }) {
+export function ItemIcon({ item, size = 28 }: { item?: AppItem; size?: number }) {
   return (
     <span
       className="rounded-md flex items-center justify-center overflow-hidden flex-shrink-0"

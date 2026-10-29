@@ -13,6 +13,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'Feat: La Forjadora can now count the combat passives of Dofus, Prysmaradites and legendary items — tick "Count item passives" in the order and choose at their best or as set in the planner. Pieces show "with passives" and the items whose passive counted',
       'Engine: passives are folded into each item once when the forge starts, so counting them does not slow the search down',
+      'Feat: passives come in sections (Dofus, Prysmaradites, legendary items) — switch a whole section off, or open its gear to leave out only the passives that make no sense for how you play',
     ],
   },
   {
