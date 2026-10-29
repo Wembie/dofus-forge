@@ -1355,7 +1355,7 @@
   "forgeguide_faq_3_title": "Épingler beaucoup d'objets la ralentit-il ?",
   "forgeguide_faq_3_body": "Non, au contraire : chaque objet épinglé est un emplacement de moins à chercher.",
   "forgeguide_faq_4_title": "Tient-elle compte des passifs des Dofus et légendaires ?",
-  "forgeguide_faq_4_body": "Pas encore : elle cherche avec les stats fixes des objets et leurs panoplies. Les passifs de combat s'affichent dans le planificateur avec la vue « En combat ».",
+  "forgeguide_faq_4_body": "Oui, si vous cochez « Compter les passifs des objets » dans la commande : au maximum (cumuls pleins, premier cas ou tour 1) ou comme réglés dans le planificateur. Les résultats l'indiquent avec ⚔, et charger le build règle les mêmes passifs pour la vue « En combat ». Les dommages finaux et la vulnérabilité ne sont pas des stats de commande : ils ne changent pas le choix.",
   "forgeguide_faq_5_title": "Ma commande est-elle enregistrée ?",
   "forgeguide_faq_5_body": "Oui, dans ce navigateur : stats, intensité, forgemagie, emplacements, objets épinglés et exclus sont toujours là la prochaine fois.",
   "optimizer_guide_link": "Guide complet",
@@ -1407,5 +1407,17 @@
   "shortcuts_mobile_pin_title": "Épingler un objet pour La Forgeuse",
   "shortcuts_mobile_pin_body": "Dans La Forgeuse, chaque objet de votre build a un bouton Épingler — la même fonction que le clic droit sur ordinateur, mais d’un simple toucher.",
   "shortcuts_cta_start": "Commencer à planifier",
-  "shortcuts_cta_howto": "Comment utiliser Dofus Forge"
+  "shortcuts_cta_howto": "Comment utiliser Dofus Forge",
+  "optimizer_passives": "Passifs de combat",
+  "optimizer_passives_count": "Compter les passifs des objets",
+  "optimizer_passives_max": "Au maximum",
+  "optimizer_passives_planner": "Comme dans le planificateur",
+  "optimizer_passives_off_hint": "Seules les stats des objets comptent, comme sur la fiche hors combat.",
+  "optimizer_passives_max_hint": "Chaque passif de Dofus, Prysmaradite ou légendaire au mieux : cumuls pleins, premier cas ou tour 1. Montre ce qu'ils apportent vraiment en combat.",
+  "optimizer_passives_planner_hint": "Utilise ce que vous avez réglé dans les Passifs de combat du planificateur ; les passifs non réglés ne comptent pas.",
+  "optimizer_log_passives_max": "Passifs au maximum : {{n}} objets ajoutent des stats",
+  "optimizer_log_passives_planner": "Passifs du planificateur : {{n}} objets ajoutent des stats",
+  "optimizer_passive_badge": "Passif inclus",
+  "optimizer_with_passives": "avec passifs",
+  "optimizer_with_passives_hint": "Les stats incluent les passifs de combat. Dans le planificateur, voyez-les avec la vue « En combat »."
 }

@@ -17,6 +17,7 @@ import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { CHARACTERISTICS } from '@/engine/types.ts'
 import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
+import { forgePassiveState, forgePassiveEffects, passiveStateFor, PASSIVE_MODES, type ForgePassiveMode } from './forgePassives.ts'
 import { ForgeItemsPanel } from './ForgeItemsPanel.tsx'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 
@@ -363,6 +364,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   const finishingRef = useRef(false)
   const presetRef    = useRef(INTENSITY.standard)
   const logIdRef     = useRef(0)
+  // Items whose passive the current forge counts (marked on the result cards).
+  const countedPassivesRef = useRef<ReadonlySet<number>>(new Set())
 
   // Debounced: every keystroke in a minimum / ley / cap field is a config
   // change. The unmount flush keeps the last edit when the modal closes
@@ -397,6 +400,7 @@ export function OptimizerModal({ open, onClose }: Props) {
   const scrolled      = useBuildStore(s => s.scrolled)
   const equipped      = useBuildStore(s => s.equipped)
   const runes         = useBuildStore(s => s.runes)
+  const plannerPassives = useBuildStore(s => s.passives)
   const equipment     = useDataStore(s => s.equipment)
   const sets          = useDataStore(s => s.sets)
   const required      = useForgePicks(s => s.required)
@@ -567,7 +571,10 @@ export function OptimizerModal({ open, onClose }: Props) {
     presetRef.current = preset
     const count = preset.threads
     const picks = { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }
-    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks)
+    // Resolved once per forge; the engine folds them into each item's stats.
+    const passiveEffects = config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives))
+    countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
+    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks, passiveEffects)
     const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
     reportsRef.current = Array(count).fill(null)
     bestRef.current = { score: -Infinity, generation: 0 }
@@ -591,6 +598,7 @@ export function OptimizerModal({ open, onClose }: Props) {
     setTempering(false)
     setLog([])
     addLog(t(seedBuilds.length ? 'optimizer_log_relit' : 'optimizer_log_lit'), 'fire')
+    if (passiveEffects.length) addLog(t(`optimizer_log_passives_${config.passives}`, { n: passiveEffects.length }), 'muted')
     let ready = 0
 
     for (let i = 0; i < count; i++) {
@@ -623,7 +631,8 @@ export function OptimizerModal({ open, onClose }: Props) {
   }
 
   function loadBuild(result: BuildResult) {
-    loadForgeResult(result, config.lockedSlots)
+    const counted = config.passives === 'max' ? passiveStateFor(forgePassiveState('max', {}), Object.values(result.equipped)) : undefined
+    loadForgeResult(result, config.lockedSlots, counted)
     handleClose()
   }
 
@@ -711,6 +720,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                 requirements={config.stats}
                 runes={runes}
                 lockedSlots={config.lockedSlots}
+                passiveItems={countedPassivesRef.current}
                 requiredItems={required}
                 onLoad={loadBuild}
               />
@@ -802,6 +812,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                   requirements={config.stats}
                   runes={runes}
                   lockedSlots={config.lockedSlots}
+                  passiveItems={countedPassivesRef.current}
                   onLoad={loadBuild}
                   onBan={banItem}
                   onPin={pinItem}
@@ -825,6 +836,7 @@ export function OptimizerModal({ open, onClose }: Props) {
                     requirements={config.stats}
                     runes={runes}
                     lockedSlots={config.lockedSlots}
+                    passiveItems={countedPassivesRef.current}
                     onLoad={loadBuild}
                     onBan={banItem}
                     onPin={pinItem}
@@ -959,6 +971,40 @@ export function OptimizerModal({ open, onClose }: Props) {
             </select>
           </label>
           <span className="text-[9px] italic w-full" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_forgemagie_hint')}</span>
+        </div>
+
+        {/* Combat passives */}
+        <div className="rounded-lg p-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5" style={{ background: 'var(--surface-void)', border: `1px solid ${config.passives === 'off' ? 'var(--metal-edge)' : 'color-mix(in srgb, var(--wisdom) 45%, var(--metal-edge))'}` }}>
+          <span className="text-[10px] font-bold tracking-widest uppercase flex-shrink-0" style={{ color: 'var(--gold)' }}>⚔ {t('optimizer_passives')}</span>
+          <label className="flex items-center gap-1 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={config.passives !== 'off'}
+              onChange={e => setConfig(c => ({ ...c, passives: e.target.checked ? 'max' : 'off' }))}
+            />
+            <span className="font-semibold text-[10px]" style={{ color: 'var(--ink-muted)' }}>{t('optimizer_passives_count')}</span>
+          </label>
+          {config.passives !== 'off' && (
+            <div className="flex rounded-lg overflow-hidden forge-log-in" style={{ border: '1px solid var(--metal-edge)' }} role="radiogroup" aria-label={t('optimizer_passives')}>
+              {PASSIVE_MODES.filter((m): m is Exclude<ForgePassiveMode, 'off'> => m !== 'off').map(m => (
+                <button
+                  key={m}
+                  type="button"
+                  role="radio"
+                  aria-checked={config.passives === m}
+                  onClick={() => setConfig(c => ({ ...c, passives: m }))}
+                  className="px-2.5 py-1 text-[10px] font-semibold transition-colors"
+                  style={{
+                    color:      config.passives === m ? 'var(--surface-void)' : 'var(--ink-muted)',
+                    background: config.passives === m ? 'var(--wisdom)' : 'var(--surface-stone)',
+                  }}
+                >
+                  {t(`optimizer_passives_${m}`)}
+                </button>
+              ))}
+            </div>
+          )}
+          <span key={config.passives} className="text-[9px] italic w-full forge-log-in" style={{ color: 'var(--ink-faint)' }}>{t(`optimizer_passives_${config.passives}_hint`)}</span>
         </div>
 
         <ForgeItemsPanel items={equipment ?? []} sets={sets ?? []} equipped={equipped} placements={placements} />

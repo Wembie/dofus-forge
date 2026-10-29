@@ -95,6 +95,8 @@ export interface BuildState {
     scrolled:  ScrolledCharacteristics
     exo:       Partial<Record<SlotId, 'ap' | 'mp' | 'range'>>
     runes:     Partial<Record<SlotId, { stat: string; value: number }>>
+    /** Passive settings to merge in (the ones the Forge counted). */
+    passives?: PassiveState
   }, lockedSlots: ReadonlySet<SlotId>) => void
   unequipItem:   (slot: SlotId) => void
   swapSlots:     (slotA: SlotId, slotB: SlotId) => void
@@ -303,6 +305,7 @@ export const useBuildStore = create<BuildState>((set) => {
       return update({
         equipped: result.equipped, allocated: result.allocated, scrolled: result.scrolled,
         runes, forjamagoNames, weaponTransforms,
+        ...(result.passives ? { passives: sanitizePassiveState({ ...s.passives, ...result.passives }) } : {}),
       }, s)
     }),
 

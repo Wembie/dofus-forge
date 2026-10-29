@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.137',
+    date: '2026-10-29',
+    notes: [
+      'Feat: La Forjadora can now count the combat passives of Dofus, Prysmaradites and legendary items — tick "Count item passives" in the order and choose at their best or as set in the planner. Pieces show "with passives" and the items whose passive counted',
+      'Engine: passives are folded into each item once when the forge starts, so counting them does not slow the search down',
+    ],
+  },
+  {
     version: '0.3.136',
     date: '2026-10-28',
     notes: [

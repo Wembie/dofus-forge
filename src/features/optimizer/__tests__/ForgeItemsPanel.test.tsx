@@ -117,3 +117,25 @@ describe('BuildResultCard pins', () => {
     expect(bans).toBe(0)
   })
 })
+
+describe('BuildResultCard passives', () => {
+  const result = {
+    equipped: { weapon: 1, hat: 2 }, stats: { pointsBudget: 0, pointsSpent: 0, power: 0 }, score: 10, meetsRequired: true,
+    conditionsOk: true, exo: {}, runes: {}, requirementsMet: 0, requirementsTotal: 0,
+  } as unknown as BuildResult
+  const card = (passiveItems?: ReadonlySet<number>) => render(
+    <BuildResultCard result={result} rank={1} items={ITEMS} requirements={[]} runes={{}} lockedSlots={new Set()} onLoad={() => {}} passiveItems={passiveItems} />,
+  )
+
+  it('marks the items whose counted passive is in the stats, and says so in the header', () => {
+    card(new Set([2, 999]))
+    expect(screen.getAllByLabelText('optimizer_passive_badge')).toHaveLength(1)
+    expect(screen.getByText(/optimizer_with_passives/)).toBeTruthy()
+  })
+
+  it('shows nothing when no worn item has a counted passive', () => {
+    card(new Set([999]))
+    expect(screen.queryByLabelText('optimizer_passive_badge')).toBeNull()
+    expect(screen.queryByText(/optimizer_with_passives/)).toBeNull()
+  })
+})

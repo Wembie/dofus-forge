@@ -84,6 +84,11 @@ pub struct OptimizerConfig {
     /// it and may still forgemagie it.
     #[serde(default)]
     pub required_items: Vec<i64>,
+    /// Combat passives to count, already resolved by the page for the chosen
+    /// assumption: each item's total passive bonus as plain effects. Added to
+    /// the item's own stats once, so evaluating a build costs the same.
+    #[serde(default)]
+    pub passive_effects: Vec<PassiveEffects>,
     /// Let the Forge add official transcendence runes to the items it picks.
     #[serde(default = "default_true")]
     pub transcendence: bool,
@@ -101,6 +106,13 @@ fn default_true() -> bool {
 
 fn default_islands() -> usize {
     8
+}
+
+/// The passive bonus one item brings while worn.
+#[derive(Debug, Clone, Deserialize)]
+pub struct PassiveEffects {
+    pub id: i64,
+    pub effects: Vec<ItemEffect>,
 }
 
 /// A transcendence rune the Forge chose for one item.

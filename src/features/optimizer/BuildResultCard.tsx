@@ -20,12 +20,14 @@ type Props = {
   ribbon?:     { label: string; gold: boolean }
   bannedItems?: number[]
   requiredItems?: number[]
+  /** Items whose combat passive this forge counted (already in the stats). */
+  passiveItems?: ReadonlySet<number>
 }
 
 const MEDALS: Record<number, string> = { 1: '🥇', 2: '🥈', 3: '🥉' }
 const EXO_ICON = { ap: 'ap', mp: 'mp', range: 'range' } as const
 
-export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, onPin, bannedItems = [], requiredItems = [], ribbon }: Props) {
+export function BuildResultCard({ result, rank, items, requirements, runes, lockedSlots, onLoad, onBan, onPin, bannedItems = [], requiredItems = [], passiveItems, ribbon }: Props) {
   const { t } = useTranslation()
   const runeLabel = (stat: string) => { const k = runeStatLabelKey(stat); return k ? t(k) : stat }
 
@@ -80,6 +82,15 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
             {result.meetsRequired ? '✓' : `${result.requirementsMet}/${result.requirementsTotal}`}
           </span>
         )}
+        {equippedList.some(e => passiveItems?.has(e.item.ankama_id)) && (
+          <span
+            className="text-[9px] font-semibold px-1.5 py-0.5 rounded"
+            style={{ color: 'var(--wisdom)', background: 'color-mix(in srgb, var(--wisdom) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--wisdom) 35%, transparent)' }}
+            title={t('optimizer_with_passives_hint')}
+          >
+            ⚔ {t('optimizer_with_passives')}
+          </span>
+        )}
         {ribbon && (
           <span
             className="forge-pop text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ml-1"
@@ -104,11 +115,12 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
           const rune = result.runes[slot]
           const forged = hasForgedRune(slot)
           const pinned = requiredItems.includes(item.ankama_id)
+          const passive = passiveItems?.has(item.ankama_id) ?? false
           return (
             <div
               key={slot}
               className="relative group"
-              title={`${item.name} (Nv. ${item.level})${pinned ? ` — 📌 ${t('optimizer_pinned_badge')}` : ''}${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: runeLabel(rune.stat) })}` : ''}`}
+              title={`${item.name} (Nv. ${item.level})${pinned ? ` — 📌 ${t('optimizer_pinned_badge')}` : ''}${passive ? ` — ⚔ ${t('optimizer_passive_badge')}` : ''}${forged ? ` — ${t('magesmithy_title')}` : ''}${exo ? ` — ${t(`optimizer_exo_${exo}`)}` : ''}${rune ? ` — ${t('optimizer_rune_badge', { value: rune.value, stat: runeLabel(rune.stat) })}` : ''}`}
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0"
@@ -145,6 +157,15 @@ export function BuildResultCard({ result, rank, items, requirements, runes, lock
                   style={{ background: 'color-mix(in srgb, var(--gold) 20%, var(--surface-void))', border: '1px solid var(--gold)' }}
                 >
                   <img src={runeIconUrl(rune.stat) ?? signatureRuneUrl()} alt="" width={9} height={9} className="object-contain" />
+                </div>
+              )}
+              {passive && (
+                <div
+                  className="absolute -bottom-1 -left-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px]"
+                  style={{ background: 'color-mix(in srgb, var(--wisdom) 25%, var(--surface-void))', border: '1px solid var(--wisdom)' }}
+                  aria-label={t('optimizer_passive_badge')}
+                >
+                  ⚔
                 </div>
               )}
               {pinned && (
