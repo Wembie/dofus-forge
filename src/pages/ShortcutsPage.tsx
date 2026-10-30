@@ -122,3 +122,5 @@ export function ShortcutsPage() {
     </div>
   )
 }
+
+export default ShortcutsPage

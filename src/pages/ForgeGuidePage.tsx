@@ -236,3 +236,5 @@ export function ForgeGuidePage() {
     </div>
   )
 }
+
+export default ForgeGuidePage

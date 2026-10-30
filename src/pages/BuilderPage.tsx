@@ -1,7 +1,6 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router'
-import i18next from 'i18next'
 import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
@@ -28,7 +27,7 @@ import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
-import { getSidebarSide, LAYOUT_SETTINGS_EVENT } from '@/lib/layoutSettings.ts'
+import { getSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
 import { scrollBehavior } from '@/lib/motionSettings.ts'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
 
@@ -60,7 +59,7 @@ function BrandLink({ onReset }: { onReset: () => void }) {
     const encoded  = encodeBuild(buildState)
     const lang     = i18n.language.slice(0, 2)
     const langPath = langPathRootSegment(lang)
-    return `${location.origin}${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
+    return `${import.meta.env.BASE_URL}${langPath}?b=${encoded}`
   }, [buildState, i18n.language])
 
   return (
@@ -97,7 +96,7 @@ function BrandLink({ onReset }: { onReset: () => void }) {
 function BuilderContent() {
   const { t, i18n } = useTranslation()
   const navigate       = useNavigate()
-  const routerLocation = useLocation()  // basename-relative pathname, unlike window.location used below for brandHref's absolute URL
+  const routerLocation = useLocation()
   const hasClass  = useBuildStore(s => s.selectedClass !== null)
   // A build loaded from (or just published as) a cloud build re-publishes as
   // an update of that same row, so the button says so.
@@ -117,22 +116,26 @@ function BuilderContent() {
   const reset        = useBuildStore(s => s.reset)
   const clearHistory = useHistoryStore(s => s.clear)
   const [showChangelog,  setShowChangelog]  = useState(false)
-  // ?forge=1 (the guide's "Open The Forger") opens it on arrival.
-  const [showOptimizer,  setShowOptimizer]  = useState(() => new URLSearchParams(window.location.search).get('forge') === '1')
-  // Once: a reload or a shared link must not reopen it.
+  const [showOptimizer,  setShowOptimizer]  = useState(false)
+  // ?forge=1 (the guide's "Open The Forger") opens it on arrival, once: a
+  // reload or a shared link must not reopen it. Read after mount, since the
+  // prerendered page this hydrates was rendered without the query.
   useEffect(() => {
     const url = new URL(window.location.href)
     if (!url.searchParams.has('forge')) return
+    if (url.searchParams.get('forge') === '1') setShowOptimizer(true)
     url.searchParams.delete('forge')
     window.history.replaceState(window.history.state, '', url)
   }, [])
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
-  const [sidebarSide, setSidebarSideState] = useState(getSidebarSide)
+  // The saved side is applied after mount; the prerendered page uses the default.
+  const [sidebarSide, setSidebarSideState] = useState<SidebarSide>('right')
 
   useEffect(() => {
     const sync = () => setSidebarSideState(getSidebarSide())
+    sync()
     window.addEventListener(LAYOUT_SETTINGS_EVENT, sync)
     return () => window.removeEventListener(LAYOUT_SETTINGS_EVENT, sync)
   }, [])
@@ -546,13 +549,16 @@ function BuilderContent() {
 }
 
 export function BuilderPage() {
+  const { t } = useTranslation()
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-forge-bg flex items-center justify-center text-forge-muted text-sm">
-        {i18next.t('loading_data')}
+        {t('loading_data')}
       </div>
     }>
       <BuilderContent />
     </Suspense>
   )
 }
+
+export default BuilderPage

@@ -24,7 +24,12 @@ export default tseslint.config(
       // sub-component closing over props) as hard errors.
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      // React Router route modules export these next to the component; its
+      // Vite plugin handles their hot reload.
+      'react-refresh/only-export-components': ['warn', {
+        allowConstantExport: true,
+        allowExportNames: ['loader', 'clientLoader', 'action', 'clientAction', 'links', 'meta', 'headers', 'handle', 'shouldRevalidate', 'ErrorBoundary', 'HydrateFallback', 'Layout'],
+      }],
       // Pattern used throughout the codebase for intentionally-unused params/destructures
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',

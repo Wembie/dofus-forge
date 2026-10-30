@@ -9,7 +9,7 @@ These never send traffic to shared infrastructure, so anyone working on the repo
 - Reading source, SQL, workflows and configuration.
 - Static analysis: CodeQL, gitleaks, `pnpm audit`, ESLint, `src/test/schema.test.ts`.
 - Unit tests (`pnpm test`) and the local Playwright suite (`pnpm test:e2e`), which builds the app and serves it on `127.0.0.1`.
-- k6 against a local `vite preview` (`k6/README.md`).
+- k6 against a local `pnpm preview` (`k6/README.md`).
 - A local Supabase stack (`supabase start`) loaded with `supabase/schema.sql` and dummy accounts.
 
 ## What needs a written authorization
@@ -81,7 +81,7 @@ These defaults apply to the local and CI runs described in `docs/PERFORMANCE_TES
 
 | Target | Allowed profiles | Ceiling |
 |---|---|---|
-| Local `vite preview` | all k6 profiles | machine limits |
+| Local `pnpm preview` | all k6 profiles | machine limits |
 | CI local preview (`performance.yml`) | `smoke.js`, `browser-smoke.js` | as written in the workflow |
 | Cloudflare preview deployment | `smoke.js` only | 7 concurrent requests, once per PR |
 | Production | none | needs the authorization above |

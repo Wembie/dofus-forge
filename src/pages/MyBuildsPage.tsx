@@ -345,3 +345,5 @@ export function MyBuildsPage() {
     </div>
   )
 }
+
+export default MyBuildsPage

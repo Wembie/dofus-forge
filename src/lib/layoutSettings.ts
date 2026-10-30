@@ -1,3 +1,5 @@
+import { readLocal } from '@/lib/storage.ts'
+
 const LS_KEY = 'dofus-forge-sidebar-side'
 export const LAYOUT_SETTINGS_EVENT = 'forge-layout-settings-change'
 
@@ -8,7 +10,7 @@ export type SidebarSide = 'left' | 'right'
  * Requested by a user whose friend has muscle memory for it on the left from
  * other build planners. */
 export function getSidebarSide(): SidebarSide {
-  return localStorage.getItem(LS_KEY) === 'left' ? 'left' : 'right'
+  return readLocal(LS_KEY) === 'left' ? 'left' : 'right'
 }
 
 export function setSidebarSide(side: SidebarSide) {

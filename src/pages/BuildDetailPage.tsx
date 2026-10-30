@@ -732,3 +732,5 @@ export function BuildDetailPage() {
     </div>
   )
 }
+
+export default BuildDetailPage

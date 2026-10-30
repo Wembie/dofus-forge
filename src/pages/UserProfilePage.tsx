@@ -289,3 +289,5 @@ function StatCard({ Icon, value, label }: { Icon: typeof Layers; value: number; 
     </div>
   )
 }
+
+export default UserProfilePage

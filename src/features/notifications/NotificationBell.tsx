@@ -41,7 +41,7 @@ export function NotificationBell() {
   const [unread, setUnread] = useState(0)
   const [open, setOpen]     = useState(false)
   const [items, setItems]   = useState<NotificationRow[] | null>(null)
-  const [active, setActive] = useState(() => document.visibilityState === 'visible')
+  const [active, setActive] = useState(() => typeof document === 'undefined' || document.visibilityState === 'visible')
   const [live, setLive]     = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 

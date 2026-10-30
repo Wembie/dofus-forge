@@ -1,10 +1,12 @@
+import { readLocal } from '@/lib/storage.ts'
+
 const LS_KEY      = 'dofus-forge-sound'
 const SOUND_EVENT = 'forge-sound-change'
 
 let ctx: AudioContext | null = null
 
 export function isSoundEnabled(): boolean {
-  return localStorage.getItem(LS_KEY) === 'on'
+  return readLocal(LS_KEY) === 'on'
 }
 
 export function setSoundEnabled(on: boolean) {

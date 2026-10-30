@@ -187,3 +187,5 @@ export function AdminReportsPage() {
     </div>
   )
 }
+
+export default AdminReportsPage

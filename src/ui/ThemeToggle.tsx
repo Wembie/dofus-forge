@@ -1,3 +1,5 @@
+import { readLocal } from '@/lib/storage.ts'
+
 const LS_KEY      = 'dofus-forge-theme'
 const THEME_EVENT = 'forge-theme-change'
 export const THEME_EVENT_NAME = THEME_EVENT
@@ -7,7 +9,7 @@ export function getCurrentTheme(): 'dark' | 'light' {
 }
 
 function getInitialTheme(): 'dark' | 'light' {
-  const stored = localStorage.getItem(LS_KEY)
+  const stored = readLocal(LS_KEY)
   if (stored === 'light' || stored === 'dark') return stored
   return 'dark'
 }

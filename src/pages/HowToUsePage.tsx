@@ -87,3 +87,5 @@ export function HowToUsePage() {
     </div>
   )
 }
+
+export default HowToUsePage

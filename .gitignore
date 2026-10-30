@@ -52,3 +52,5 @@ skills-lock.json
 
 # Local detailed explanation of the Rust optimizer
 docs/FORGE_RS_EXPLAINED.md
+# React Router route type generation
+.react-router/

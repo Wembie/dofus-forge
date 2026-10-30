@@ -67,12 +67,14 @@ jobs:
         run: pnpm build
 
       - name: Start preview server
-        run: pnpm preview --host 0.0.0.0 --port 4173 &
+        # The production Worker (wrangler dev): serves each prerendered page at
+        # its path and the SPA fallback elsewhere, exactly like Cloudflare.
+        run: pnpm preview &
 
       - name: Wait for preview server
         run: |
           for i in {1..60}; do
-            if curl -fsS http://127.0.0.1:4173/dofus-forge/ >/dev/null; then
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
               exit 0
             fi
             sleep 2
@@ -85,7 +87,7 @@ jobs:
 
       - name: Run local smoke test
         env:
-          BASE_URL: http://127.0.0.1:4173/dofus-forge
+          BASE_URL: http://127.0.0.1:4173
         run: k6 run k6/smoke.js
 
       - name: Install Playwright Chromium
@@ -94,7 +96,7 @@ jobs:
       - name: Run browser end-to-end tests
         env:
           CI: true
-          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4173/dofus-forge/
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4173/
         run: pnpm test:e2e
 
       - name: Upload browser test report

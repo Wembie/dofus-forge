@@ -40,7 +40,7 @@ The policy ships as **Report-Only** first: it changes nothing for users and only
 - Turnstile: `challenges.cloudflare.com`
 - AdSense: `pagead2.googlesyndication.com` and the Google ad domains it loads
 
-`'unsafe-inline'` is still needed for `script-src` because `index.html` has inline bootstrap scripts, and for `style-src` because React style attributes need it.
+`'unsafe-inline'` is still needed for `script-src` because `src/root.tsx` has inline bootstrap scripts (stale-asset reload, language redirect, theme) plus React Router's own hydration scripts, and for `style-src` because React style attributes need it.
 
 To make it enforcing:
 

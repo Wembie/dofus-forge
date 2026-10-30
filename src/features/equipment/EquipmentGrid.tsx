@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense, type JSX } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense, type JSX } from 'react'
 import { Eye, Pin } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
@@ -698,15 +698,16 @@ const STAGE_HEIGHT        = 340
 const MOBILE_STAGE_HEIGHT = 240
 const DESKTOP_QUERY       = '(min-width: 1024px)' // Tailwind lg
 
+function subscribeDesktop(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY)
+  mq.addEventListener('change', onChange)
+  return () => mq.removeEventListener('change', onChange)
+}
+
+// The prerendered page assumes desktop; on a phone React re-renders with the
+// real value right after hydrating.
 function useIsDesktop() {
-  const [match, setMatch] = useState(() => window.matchMedia(DESKTOP_QUERY).matches)
-  useEffect(() => {
-    const mq = window.matchMedia(DESKTOP_QUERY)
-    const sync = () => setMatch(mq.matches)
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
-  return match
+  return useSyncExternalStore(subscribeDesktop, () => window.matchMedia(DESKTOP_QUERY).matches, () => true)
 }
 
 function MobileCharacter() {

@@ -202,3 +202,5 @@ export function CollectionPage() {
     </div>
   )
 }
+
+export default CollectionPage

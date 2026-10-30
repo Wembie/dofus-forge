@@ -2,6 +2,7 @@ packages: []
 
 allowBuilds:
   esbuild: true
+  workerd: true
 
 # Transitive dev-only deps (eslint's own chain) with known high-severity
 # advisories — same-major patch bumps, never shipped to the browser bundle.

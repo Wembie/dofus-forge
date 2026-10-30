@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { createContext, useContext, useEffect } from 'react'
 
 export type SeoLang = 'en' | 'es' | 'fr' | 'pt'
 
-const SITE = 'https://dofusforge.com'
+export const SITE = 'https://dofusforge.com'
+export const DEFAULT_IMAGE = `${SITE}/og-preview.jpg`
 
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 
@@ -35,10 +36,6 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
   el.setAttribute('content', content)
 }
 
-function removeMeta(attr: 'name' | 'property', key: string) {
-  document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)?.remove()
-}
-
 function upsertLink(rel: string, href: string, hreflang?: string) {
   const selector = hreflang ? `link[rel="${rel}"][hreflang="${hreflang}"]` : `link[rel="${rel}"]`
   let el = document.querySelector<HTMLLinkElement>(selector)
@@ -62,6 +59,48 @@ function normalizePath(path: string) {
   return trimmed ? `/${trimmed}` : ''
 }
 
+type SeoOptions = { title?: string; description?: string; noindex?: boolean; image?: string }
+
+export type SeoTags = {
+  lang:        SeoLang
+  title:       string
+  description: string
+  canonical:   string
+  /** hreflang alternates, x-default last. */
+  alternates:  { hreflang: string; href: string }[]
+  robots:      string
+  ogLocale:    string
+  image:       string
+}
+
+export function seoTags(lang: SeoLang, path = '', opts: SeoOptions = {}): SeoTags {
+  const normalized = normalizePath(path)
+  return {
+    lang,
+    title:       opts.title ?? META[lang].title,
+    description: opts.description ?? META[lang].description,
+    canonical:   `${SITE}${PATH[lang]}${normalized}`,
+    alternates:  [
+      ...(Object.keys(PATH) as SeoLang[]).map(code => ({ hreflang: code, href: `${SITE}${PATH[code]}${normalized}` })),
+      { hreflang: 'x-default', href: `${SITE}${normalized}` },
+    ],
+    robots:      opts.noindex ? 'noindex, follow' : 'index, follow',
+    ogLocale:    `${lang}_${lang === 'en' ? 'US' : lang.toUpperCase()}`,
+    image:       opts.image ?? DEFAULT_IMAGE,
+  }
+}
+
+/**
+ * Set only while rendering HTML on the server: usePageSeo reports the page's
+ * tags here during render (effects never run there), and root.tsx writes
+ * them into <head>. In the browser there is no collector and the effect
+ * below keeps <head> in sync on every navigation.
+ */
+export const SeoCollectorContext = createContext<((tags: SeoTags) => void) | null>(null)
+
+/** The collected tags, handed back for the server's second render of the document. */
+export const SeoTagsContext = createContext<SeoTags | null>(null)
+
 /**
  * Sets per-page title, description, canonical URL, hreflang alternates
  * and (optionally) a noindex directive, keyed by the route's path
@@ -70,47 +109,30 @@ function normalizePath(path: string) {
  * homepage's. Call this from the page component itself, not a shared
  * layout, since each route owns its own title/description.
  */
-export function usePageSeo(
-  lang: SeoLang,
-  path = '',
-  opts: { title?: string; description?: string; noindex?: boolean; image?: string } = {},
-) {
+export function usePageSeo(lang: SeoLang, path = '', opts: SeoOptions = {}) {
   const { title, description, noindex = false, image } = opts
+  const collect = useContext(SeoCollectorContext)
+  collect?.(seoTags(lang, path, opts))
 
   useEffect(() => {
-    const normalized = normalizePath(path)
-    const fallback = META[lang]
-    const pageTitle = title ?? fallback.title
-    const pageDescription = description ?? fallback.description
+    const tags = seoTags(lang, path, { title, description, noindex, image })
 
-    document.title = pageTitle
+    document.title = tags.title
     document.documentElement.lang = lang
 
-    upsertMeta('name', 'description', pageDescription)
-    upsertMeta('property', 'og:title', pageTitle)
-    upsertMeta('property', 'og:description', pageDescription)
-    upsertMeta('name', 'twitter:title', pageTitle)
-    upsertMeta('name', 'twitter:description', pageDescription)
+    upsertMeta('name', 'description', tags.description)
+    upsertMeta('property', 'og:title', tags.title)
+    upsertMeta('property', 'og:description', tags.description)
+    upsertMeta('name', 'twitter:title', tags.title)
+    upsertMeta('name', 'twitter:description', tags.description)
+    upsertMeta('property', 'og:image', tags.image)
+    upsertMeta('name', 'twitter:image', tags.image)
 
-    if (image) {
-      upsertMeta('property', 'og:image', image)
-      upsertMeta('name', 'twitter:image', image)
-    }
-
-    const canonicalUrl = `${SITE}${PATH[lang]}${normalized}`
-    upsertLink('canonical', canonicalUrl)
-    upsertMeta('property', 'og:url', canonicalUrl)
-    upsertMeta('property', 'og:locale', `${lang}_${lang === 'en' ? 'US' : lang.toUpperCase()}`)
-
-    if (noindex) {
-      upsertMeta('name', 'robots', 'noindex, follow')
-    } else {
-      removeMeta('name', 'robots')
-      ;(Object.keys(PATH) as SeoLang[]).forEach(code => {
-        upsertLink('alternate', `${SITE}${PATH[code]}${normalized}`, code)
-      })
-      upsertLink('alternate', `${SITE}${normalized}`, 'x-default')
-    }
+    upsertLink('canonical', tags.canonical)
+    upsertMeta('property', 'og:url', tags.canonical)
+    upsertMeta('property', 'og:locale', tags.ogLocale)
+    upsertMeta('name', 'robots', tags.robots)
+    for (const { hreflang, href } of tags.alternates) upsertLink('alternate', href, hreflang)
   }, [lang, path, title, description, noindex, image])
 }
 

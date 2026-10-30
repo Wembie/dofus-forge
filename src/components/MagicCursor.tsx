@@ -11,10 +11,13 @@ const INTERACTIVE_SELECTOR = 'button, a, [role="button"], input, select, textare
  * trigger a re-render. */
 export function MagicCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
-  const [enabled, setEnabled] = useState(isCursorEnabled)
+  // Off until mounted: the prerendered HTML can't know the saved setting,
+  // and hydration must start from what the server rendered.
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
     const sync = () => setEnabled(isCursorEnabled())
+    sync()
     window.addEventListener(MOTION_SETTINGS_EVENT, sync)
     return () => window.removeEventListener(MOTION_SETTINGS_EVENT, sync)
   }, [])

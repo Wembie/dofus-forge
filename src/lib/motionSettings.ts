@@ -1,3 +1,5 @@
+import { readLocal } from '@/lib/storage.ts'
+
 const CURSOR_LS_KEY     = 'dofus-forge-cursor'
 const PARTICLES_LS_KEY  = 'dofus-forge-particles'
 const CHARACTER_LS_KEY  = 'dofus-forge-character'
@@ -12,7 +14,7 @@ export function scrollBehavior(): ScrollBehavior {
 }
 
 export function isCursorEnabled(): boolean {
-  return localStorage.getItem(CURSOR_LS_KEY) === 'on'
+  return readLocal(CURSOR_LS_KEY) === 'on'
 }
 
 export function setCursorEnabled(on: boolean) {
@@ -21,7 +23,7 @@ export function setCursorEnabled(on: boolean) {
 }
 
 export function isParticlesEnabled(): boolean {
-  return localStorage.getItem(PARTICLES_LS_KEY) === 'on'
+  return readLocal(PARTICLES_LS_KEY) === 'on'
 }
 
 export function setParticlesEnabled(on: boolean) {
@@ -32,7 +34,7 @@ export function setParticlesEnabled(on: boolean) {
 export type CharacterMode = '2d' | '3d'
 
 export function getCharacterMode(): CharacterMode {
-  const saved = localStorage.getItem(CHARACTER_LS_KEY)
+  const saved = readLocal(CHARACTER_LS_KEY)
   return saved === '2d' ? '2d' : '3d'
 }
 
