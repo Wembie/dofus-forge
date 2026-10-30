@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Bell, Heart, MessageSquare, Star, GitFork, UserPlus } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'

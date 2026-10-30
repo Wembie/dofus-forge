@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Globe, Link2, Lock, Swords, GitFork } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useBuildStore } from '@/store/buildStore.ts'

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, cleanup, act } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 
 type Sub = { onInsert: () => void; onLive: (live: boolean) => void; stop: ReturnType<typeof vi.fn> }

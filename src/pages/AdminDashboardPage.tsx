@@ -1,4 +1,4 @@
-import { Navigate, Link, useLocation } from 'react-router-dom'
+import { Navigate, Link, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Award, BadgeCheck, ChevronRight, Flag, History, LockKeyhole, ShieldCheck, UserPlus } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'

@@ -179,6 +179,12 @@ Marcar con `[x]` cuando se complete.
 
 ## Pendientes 🔧
 
+- [ ] **M148 — React Router v7 en modo framework: HTML real sin navegador (SSG + SSR en el Worker)** (0.3.139) — reemplaza el prerender con Chromium (M147) por render de React en Node/Workers. Etapas:
+  - [x] 1. React Router 6.30 → 7.18.4 en modo librería (`react-router-dom` → `react-router`), sin cambio de comportamiento; router en chunk propio. v8 queda para después de React 19 (exige React ≥19.2, Vite ≥7, Node ≥22.22)
+  - [ ] 2. Modo framework con `ssr: false` + `prerender`: `root.tsx` reemplaza `index.html`, `entry.client` con `hydrateRoot`, rutas en `routes.ts`, `meta` por ruta, i18n por request, loaders de build para las guías de clase; borra `prerender-content.mjs` y `postbuild-lang-pages.mjs`
+  - [ ] 3. SSR en el Worker (`@cloudflare/vite-plugin`) para `/build/:id`, perfiles y Explorar con loaders de Supabase (reemplaza `rewriteBuildMeta`); stores por request
+  - [ ] 4. Volver al build de Cloudflare (sin Chromium) y borrar `deploy-worker.yml`
+  - [ ] 5. Páginas indexables por objeto y por set
 - [ ] **M116 — Forjadora: modo daño (hechizos vs objetivo)** — maximizar daño esperado (o daño/PA) de hechizos de clase y arma contra las resistencias de un objetivo (presets Poutch / PvP), una vez cumplidos los objetivos
 - [ ] **M128 — Personaje animado: apariencia de sombrero, capa y escudo** — el cliente no trae qué skin corresponde a cada sombrero/capa/escudo normal (lo decide el servidor). Se resolverá junto con la sección de apariencias; el renderer ya admite capas extra (se buscan antes que cabeza/cuerpo).
 - [ ] **M146 — Forjadora: pasivas de mascotas y mascoturas** — sección propia junto a Dofus / Prismaraditas / legendarios cuando el juego les dé pasiva de combate (hoy ninguna mascota ni mascotura trae hechizo pasivo en los datos; `fetch-passives` ya las recogería solas)

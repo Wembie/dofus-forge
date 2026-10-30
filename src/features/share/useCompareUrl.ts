@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { decodeBuild } from './codec.ts'

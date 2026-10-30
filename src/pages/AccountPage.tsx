@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router'
 import { User, FileText, LogOut, Camera, Lock, Calendar } from 'lucide-react'
 import { Frame, SectionHeader, Button, PasswordInput } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'

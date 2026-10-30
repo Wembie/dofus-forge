@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router'
 import { Star, Heart, Eye, Link2, Globe, Lock, Trash2, MessageSquare, UploadCloud, Layers, Bookmark, FolderOpen } from 'lucide-react'
 import { Frame, Tabs } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'

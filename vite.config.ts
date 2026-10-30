@@ -60,6 +60,13 @@ export default defineConfig({
     // dist/ is deployed as-is, so source maps here would be public. Nothing
     // consumes them in production; `SOURCEMAP=1 pnpm build` when debugging.
     sourcemap: process.env.SOURCEMAP === '1',
+    rollupOptions: {
+      output: {
+        // Changes far less often than app code, so it stays cached across
+        // deploys; also keeps the entry chunk under the 500 kB warning.
+        manualChunks: id => id.includes('/node_modules/react-router/') ? 'router' : undefined,
+      },
+    },
   },
   test: {
     globals: true,

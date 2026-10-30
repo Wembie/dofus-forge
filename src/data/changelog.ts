@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.139',
+    date: '2026-10-30',
+    notes: [
+      'Deps: React Router 7 — first step toward rendering every page as real HTML for search engines',
+    ],
+  },
+  {
     version: '0.3.138',
     date: '2026-10-30',
     notes: [
