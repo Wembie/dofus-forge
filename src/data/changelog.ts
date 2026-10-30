@@ -16,6 +16,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Deps: React Router 7 — first step toward rendering every page as real HTML for search engines',
       'Deps: React 19',
       'Perf: every public page now arrives as real HTML and becomes usable on top of it instead of being redrawn — on a slow phone, content shows up about 3× sooner and class guides no longer jump around while loading',
+      'Feat: community builds, profiles and Explore now arrive with their content — a shared build shows its stats and equipment right away instead of waiting for the item catalog',
     ],
   },
   {

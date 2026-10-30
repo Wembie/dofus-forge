@@ -52,13 +52,11 @@ describe('ForgeGuidePage', () => {
     for (const a of open) expect(a.getAttribute('href')).toMatch(/\?forge=1$/)
   })
 
-  it('the guide is linked from the footer, the order screen and the sitemap in every language', () => {
+  it('the guide is linked from the footer, the order screen and the prerendered sitemap pages', () => {
     const read = (p: string) => readFileSync(join(ROOT, p), 'utf8')
     expect(read('src/components/SiteFooter.tsx')).toContain('forge-guide')
     expect(read('src/features/optimizer/OptimizerModal.tsx')).toContain('forge-guide')
-    const sitemap = read('public/sitemap.xml')
-    for (const path of ['', 'es/', 'fr/', 'pt/']) expect(sitemap).toContain(`<loc>https://dofusforge.com/${path}forge-guide</loc>`)
     expect(read('src/routes.ts')).toContain("['forge-guide', ")
-    expect(read('react-router.config.ts')).toContain("'forge-guide'")
+    expect(read('react-router.config.ts').split('const NOINDEX_PAGES')[0]).toContain("'forge-guide'")
   })
 })

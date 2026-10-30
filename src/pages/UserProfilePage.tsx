@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, Link } from 'react-router'
+import { useParams, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
 import { User, Calendar, Heart, MessageSquare, Layers, UserPlus, UserCheck } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -20,6 +20,31 @@ import {
   followUser, unfollowUser,
   type PublicProfile, type BuildRow, type MembershipTier,
 } from '@/features/builds/api.ts'
+import { SENTINEL_USERNAME } from '@/data/prerenderSentinels.ts'
+import { useDateFormatter } from '@/ui/useDateFormatter.ts'
+
+// Runs only while prerendering the authors of public builds
+// (react-router.config.ts). A profile that no longer exists is never served
+// from that file: the Worker checks first.
+const NO_PROFILE = { profile: null, summary: null, builds: [] as BuildRow[], total: 0, collections: [] as CollectionRow[] }
+
+export async function loader({ params }: LoaderFunctionArgs) {
+  const username = params.username ?? ''
+  if (username === SENTINEL_USERNAME) return NO_PROFILE
+  const { data: profile } = await fetchProfileByUsername(username)
+  if (!profile) return NO_PROFILE
+  const [summary, builds, collections] = await Promise.all([
+    fetchProfileSummary(profile.id),
+    fetchPublicBuilds({ userId: profile.id, sort: 'likes', page: 0 }),
+    fetchUserCollections(profile.id, true, null),
+  ])
+  return { profile, summary, builds: builds.data, total: builds.count ?? 0, collections: collections.data }
+}
+
+// In the browser the page loads its own data, as it always has.
+export async function clientLoader() {
+  return null
+}
 
 // Ascending gold intensity by tier — same accent already used for anything
 // "special" on this page (hero border, username), so the ladder reads as
@@ -50,35 +75,45 @@ export function UserProfilePage() {
 
   useLoadGameData()
   const session = useAuthStore(s => s.session)
+  const formatDate = useDateFormatter()
+  const seed = useLoaderData<typeof loader | typeof clientLoader>()
+  const summary = seed?.summary ?? null
+  // The first load on mount refreshes a prerendered profile in place
+  // instead of blanking it, so the hydrated page doesn't flash to "loading".
+  const seededUsername = useRef(seed ? username : null)
 
-  const [profile, setProfile]   = useState<PublicProfile | null>(null)
-  const [loading, setLoading]   = useState(true)
-  const [notFound, setNotFound] = useState(false)
-  const [tier, setTier]         = useState<MembershipTier>('free')
-  const [customRank, setCustomRank] = useState<PublicCustomRank | null>(null)
+  const [profile, setProfile]   = useState<PublicProfile | null>(seed?.profile ?? null)
+  const [loading, setLoading]   = useState(!seed)
+  const [notFound, setNotFound] = useState(!!seed && !seed.profile)
+  const [tier, setTier]         = useState<MembershipTier>(summary?.tier ?? 'free')
+  const [customRank, setCustomRank] = useState<PublicCustomRank | null>(summary?.combined ? parsePublicCustomRank(summary.rank) : null)
 
-  const [stats, setStats] = useState({ buildCount: 0, likeCount: 0 })
-  const [commentCount, setCommentCount] = useState(0)
+  const [stats, setStats] = useState(summary?.stats ?? { buildCount: 0, likeCount: 0 })
+  const [commentCount, setCommentCount] = useState(summary?.commentCount ?? 0)
 
   const [isFollowing, setIsFollowing] = useIsFollowing(session?.user.id ?? null, profile?.id ?? null)
-  const [followerCount, setFollowerCount] = useState(0)
+  const [followerCount, setFollowerCount] = useState(seed?.profile?.followers_count ?? 0)
   const isOwnProfile = session?.user.id === profile?.id
 
-  const [builds, setBuilds]         = useState<BuildRow[]>([])
-  const [collections, setCollections] = useState<CollectionRow[]>([])
+  const [builds, setBuilds]         = useState<BuildRow[]>(seed?.builds ?? [])
+  const [collections, setCollections] = useState<CollectionRow[]>(seed?.collections ?? [])
   const [page, setPage]             = useState(0)
-  const [total, setTotal]           = useState(0)
+  const [total, setTotal]           = useState(seed?.total ?? 0)
   const [buildsLoading, setBuildsLoading] = useState(false)
 
   useEffect(() => {
     if (!username) return
     let cancelled = false
-    setLoading(true)
-    setNotFound(false)
-    setCustomRank(null)
+    const fromSeed = seededUsername.current === username
+    seededUsername.current = null
+    if (!fromSeed) {
+      setLoading(true)
+      setNotFound(false)
+      setCustomRank(null)
+    }
     fetchProfileByUsername(username).then(({ data }) => {
       if (cancelled) return
-      if (!data) { setNotFound(true); setLoading(false); return }
+      if (!data) { setProfile(null); setNotFound(true); setLoading(false); return }
       setProfile(data)
       setFollowerCount(data.followers_count)
       setLoading(false)
@@ -148,7 +183,7 @@ export function UserProfilePage() {
   // attribution and the account menu: the nickname is the identity shown
   // everywhere, display_name is just optional flavor text underneath it.
   const name = profile.username
-  const joinedDate = new Date(profile.created_at).toLocaleDateString(i18n.language)
+  const joinedDate = formatDate(profile.created_at)
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">

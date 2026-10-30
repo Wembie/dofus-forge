@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { useSearchParams } from 'react-router'
+import { useSearchParams, useLoaderData } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
@@ -13,6 +13,23 @@ import { TagChip, useTags } from '@/features/builds/TagChips.tsx'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+
+// Runs while prerendering: crawlers get the community builds (first page,
+// default order) and the stats in the HTML. Tags are not included: a ?tag=
+// link would then hydrate a different selection than the HTML shows.
+export async function loader() {
+  const [builds, stats] = await Promise.all([fetchPublicBuilds({ sort: 'rating', page: 0 }), fetchCommunityStats()])
+  return {
+    builds: builds.error ? [] : builds.data,
+    total: builds.error ? 0 : builds.count ?? 0,
+    stats: stats.error ? null : stats.data,
+  }
+}
+
+// In the browser the page loads and refreshes its own data, as it always has.
+export async function clientLoader() {
+  return null
+}
 
 const STAT_ITEMS: { key: keyof CommunityStats; labelKey: string; Icon: typeof Users }[] = [
   { key: 'usersCount',        labelKey: 'explore_stat_users',        Icon: Users },
@@ -37,9 +54,9 @@ function StatChip({ children, Icon }: { children: React.ReactNode; Icon: typeof 
   )
 }
 
-function CommunityStatsBar() {
+function CommunityStatsBar({ initial }: { initial: CommunityStats | null }) {
   const { t } = useTranslation()
-  const [stats, setStats] = useState<CommunityStats | null>(null)
+  const [stats, setStats] = useState<CommunityStats | null>(initial)
   // Catalog size costs no query at all — Explore already loads game data
   // via useLoadGameData() for the build cards' equipment icons.
   const itemCount = useDataStore(s => s.index?.length ?? 0)
@@ -79,6 +96,7 @@ function ClassLabel({ id }: { id: string | null }) {
 
 export function ExplorePage() {
   const { t, i18n } = useTranslation()
+  const seed = useLoaderData<typeof loader | typeof clientLoader>()
   useLoadGameData()
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'explore', {
     title: t('explore_seo_title'),
@@ -99,10 +117,10 @@ export function ExplorePage() {
   }
   const [search, setSearch]       = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
-  const [builds, setBuilds]       = useState<BuildRow[]>([])
+  const [builds, setBuilds]       = useState<BuildRow[]>(seed?.builds ?? [])
   const [page, setPage]           = useState(0)
-  const [total, setTotal]         = useState(0)
-  const [loading, setLoading]     = useState(true)
+  const [total, setTotal]         = useState(seed?.total ?? 0)
+  const [loading, setLoading]     = useState(!seed)
   const [error, setError]         = useState(false)
 
   // Debounced so typing doesn't fire a network request (and a full-text
@@ -148,7 +166,7 @@ export function ExplorePage() {
           {t('explore_title')}
         </h1>
 
-        <CommunityStatsBar />
+        <CommunityStatsBar initial={seed?.stats ?? null} />
 
         <div className="flex flex-wrap items-center gap-3 justify-between">
           <Tabs items={sortLabels} active={sort} onChange={id => setSort(id as ExploreSort)} variant="segment" />

@@ -37,7 +37,9 @@ export function BuildEquipmentPreview({ snapshot, equipment, size = 44, hideEmpt
       {ALL_SLOTS.map((slot, i) => {
         const id   = snapshot.e[i]
         const item = id != null ? map.get(id) : undefined
-        if (!item && hideEmpty) return null
+        // An equipped slot keeps its tile while the catalog loads, so the
+        // card doesn't grow (layout shift) when the icons arrive.
+        if (hideEmpty && (id == null || (equipment && !item))) return null
         const cfg  = SLOT_CONFIGS[i]
         return (
           <div

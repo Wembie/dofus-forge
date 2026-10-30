@@ -115,3 +115,100 @@ describe('item image fallback', () => {
     expect(res.headers.get('Content-Type')).not.toBe(type)
   })
 })
+
+describe('prerendered build and profile pages', () => {
+  const PRERENDERED = '<html>prerendered build</html>'
+  const FALLBACK = '<html><head><title>Dofus Forge</title><meta property="og:title" content="Dofus Forge" /></head><body>app</body></html>'
+  let profileRows: unknown[]
+
+  // dist/client as the ASSETS binding sees it: one prerendered build page
+  // (+ its .data), one prerendered profile, and the SPA fallback.
+  function siteEnv() {
+    return env({
+      ASSETS: {
+        fetch: async (req: Request) => {
+          const path = new URL(req.url).pathname
+          if (path === '/__spa-fallback') return new Response(FALLBACK, { headers: { 'Content-Type': 'text/html' } })
+          if (path === `/es/build/${ID}` || path === '/u/someone') return new Response(PRERENDERED, { headers: { 'Content-Type': 'text/html' } })
+          if (path === `/es/build/${ID}.data` || path === '/u/someone.data') return new Response('data')
+          return new Response('Not found', { status: 404 })
+        },
+      },
+    })
+  }
+  const get = (path: string) => worker.fetch(new Request(`https://dofusforge.com${path}`), siteEnv())
+
+  beforeEach(() => {
+    profileRows = [{ username: 'someone' }]
+    vi.stubGlobal('HTMLRewriter', class {
+      private handlers: [string, { element(el: { setInnerContent(v: string): void; setAttribute(k: string, v: string): void }): void }][] = []
+      on(selector: string, handler: (typeof this.handlers)[number][1]) { this.handlers.push([selector, handler]); return this }
+      async transform(res: Response) {
+        let html = await res.text()
+        for (const [selector, h] of this.handlers) {
+          if (selector === 'meta[property="og:title"]') h.element({ setInnerContent() {}, setAttribute: (_k, v) => { html = html.replace('content="Dofus Forge"', `content="${v}"`) } })
+        }
+        return new Response(html, res)
+      }
+    })
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+      const u = new URL(url)
+      if (u.pathname.endsWith('/profiles')) return new Response(JSON.stringify(profileRows))
+      if (u.origin === new URL(SUPABASE_URL).origin) return new Response(JSON.stringify(buildRow ? [buildRow] : []))
+      return upstream
+    }))
+  })
+
+  it('serves the prerendered page while the build is public', async () => {
+    const res = await get(`/es/build/${ID}`)
+    expect(res.status).toBe(200)
+    expect(await res.text()).toBe(PRERENDERED)
+  })
+
+  it('never serves the prerendered page once the build is private or deleted', async () => {
+    buildRow = null
+    const res = await get(`/es/build/${ID}`)
+    expect(res.status).toBe(200)
+    const html = await res.text()
+    expect(html).not.toContain('prerendered')
+    expect(html).toContain('<body>app</body>')
+  })
+
+  it('serves an unlisted build through the app document, with its preview tags', async () => {
+    buildRow!.visibility = 'unlisted'
+    const html = await (await get(`/es/build/${ID}`)).text()
+    expect(html).not.toContain('prerendered')
+    expect(html).toContain('content="B — ')
+  })
+
+  it('treats a failed lookup as not public', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('network') }))
+    expect(await (await get(`/es/build/${ID}`)).text()).not.toContain('prerendered')
+  })
+
+  it('serves a build published after the deploy through the app document', async () => {
+    const other = '11111111-2222-4333-8444-555555555555'
+    const html = await (await get(`/es/build/${other}`)).text()
+    expect(html).toContain('<body>app</body>')
+  })
+
+  it('gates the .data file the same way', async () => {
+    expect((await get(`/es/build/${ID}.data`)).status).toBe(200)
+    buildRow!.visibility = 'private'
+    expect((await get(`/es/build/${ID}.data`)).status).toBe(404)
+  })
+
+  it('serves a prerendered profile only while it exists', async () => {
+    expect(await (await get('/u/someone')).text()).toBe(PRERENDERED)
+    expect((await get('/u/someone.data')).status).toBe(200)
+    profileRows = []
+    expect(await (await get('/u/someone')).text()).not.toContain('prerendered')
+    expect((await get('/u/someone.data')).status).toBe(404)
+  })
+
+  it('never queries Supabase for an impossible username', async () => {
+    const res = await get('/u/a,b)or(x')
+    expect(res.status).toBe(200)
+    expect(vi.mocked(fetch)).not.toHaveBeenCalled()
+  })
+})

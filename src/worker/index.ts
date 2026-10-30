@@ -3,7 +3,7 @@ import cinzelBold from './fonts/Cinzel-Bold.ttf'
 import interRegular from './fonts/Inter-Regular.ttf'
 import jetBrainsMonoBold from './fonts/JetBrainsMono-Bold.ttf'
 import { renderBuildSvg, type OgFont } from './ogImage.ts'
-import { fetchBuildMeta, fetchBuildPageMeta, type BuildMeta } from './supabase.ts'
+import { fetchBuildMeta, fetchBuildPageMeta, profileExists, type BuildMeta, type BuildPageMeta } from './supabase.ts'
 import { getClassNames, getEquipment, getSets, getTranslation, toDataUri, type Lang } from './data.ts'
 import { buildOgImageData } from './buildImageData.ts'
 import { withSecurityHeaders } from './securityHeaders.ts'
@@ -24,7 +24,9 @@ type Env = {
 const SAFE_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp']
 
 const LANGS: Lang[] = ['en', 'es', 'fr', 'pt']
-const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})\/?$/i
+// Also matches the page's .data file (client-side navigation data).
+const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})(\.data)?\/?$/i
+const PROFILE_ROUTE = /^\/(?:en\/|es\/|fr\/|pt\/)?u\/([^/]+?)(\.data)?\/?$/
 const OG_IMAGE_ROUTE = /^\/og\/(en|es|fr|pt)\/([0-9a-f-]{36})\.png$/i
 const CHAR_ROUTE = /^\/char\/((?:[\w-]+\/)*[\w.-]+\.(?:json|bin|webp))$/
 const CHAR_TYPES: Record<string, string> = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
@@ -37,14 +39,57 @@ const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
 const SPA_FALLBACK = '/__spa-fallback'
 const FILE_EXTENSION = /\.[a-z0-9]+$/i
 
+async function serveFallback(env: Env, request: Request): Promise<Response> {
+  const fallback = await env.ASSETS.fetch(new Request(new URL(SPA_FALLBACK, request.url), { method: request.method }))
+  return new Response(fallback.body, { status: 200, headers: fallback.headers })
+}
+
 async function serveAsset(env: Env, request: Request): Promise<Response> {
   const response = await env.ASSETS.fetch(request)
   const url = new URL(request.url)
   if (response.status !== 404 || (request.method !== 'GET' && request.method !== 'HEAD') || FILE_EXTENSION.test(url.pathname)) {
     return response
   }
-  const fallback = await env.ASSETS.fetch(new Request(new URL(SPA_FALLBACK, url), { method: request.method }))
-  return new Response(fallback.body, { status: 200, headers: fallback.headers })
+  return serveFallback(env, request)
+}
+
+const NOT_FOUND = () => new Response('Not found', { status: 404 })
+
+/**
+ * Builds and profiles are prerendered at deploy time, but can turn private
+ * or be deleted afterwards. These paths run the Worker first
+ * (wrangler.jsonc run_worker_first), which serves the prerendered file only
+ * while the build is still public; otherwise the app document, which loads
+ * the build in the browser under the visitor's own permissions. A failed
+ * lookup counts as "not public": never serve a page that may be private.
+ */
+async function serveBuildPage(env: Env, request: Request, lang: Lang, id: string, isData: boolean): Promise<Response> {
+  const build = await fetchBuildPageMeta(env, id).catch(() => null)
+  const isPublic = build?.visibility === 'public'
+  if (isData) return isPublic ? env.ASSETS.fetch(request) : NOT_FOUND()
+  if (isPublic) {
+    const prerendered = await env.ASSETS.fetch(request)
+    if (prerendered.status !== 404) return prerendered
+  }
+  // Published since the last deploy, unlisted, private or gone: the app
+  // document, with the preview tags filled in for public/unlisted builds.
+  const fallback = await serveFallback(env, request)
+  if (!build) return fallback
+  try {
+    return await rewriteBuildMeta(env, new URL(request.url).origin, lang, id, build, fallback)
+  } catch {
+    return fallback
+  }
+}
+
+async function serveProfilePage(env: Env, request: Request, username: string, isData: boolean): Promise<Response> {
+  const exists = await profileExists(env, username).catch(() => false)
+  if (isData) return exists ? env.ASSETS.fetch(request) : NOT_FOUND()
+  if (exists) {
+    const prerendered = await env.ASSETS.fetch(request)
+    if (prerendered.status !== 404) return prerendered
+  }
+  return serveFallback(env, request)
 }
 
 const FONTS: OgFont[] = [
@@ -102,10 +147,7 @@ async function renderOgImage(env: Env, origin: string, lang: Lang, build: BuildM
   })
 }
 
-async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string, assetResponse: Response): Promise<Response> {
-  const build = await fetchBuildPageMeta(env, id)
-  if (!build) return assetResponse
-
+async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string, build: BuildPageMeta, assetResponse: Response): Promise<Response> {
   const [classNames, translation] = await Promise.all([
     getClassNames(env.ASSETS, origin),
     getTranslation(env.ASSETS, origin, lang),
@@ -129,6 +171,7 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
   const imageUrl = `${origin}/og/${lang}/${id}.png?v=${imageVersion}`
 
   return new HTMLRewriter()
+    .on('html', { element(el) { el.setAttribute('lang', lang) } })
     .on('title', { element(el) { el.setInnerContent(title) } })
     .on('meta[name="description"]', { element(el) { el.setAttribute('content', description) } })
     .on('meta[property="og:title"]', { element(el) { el.setAttribute('content', title) } })
@@ -245,14 +288,15 @@ export default {
 
     const buildMatch = url.pathname.match(BUILD_ROUTE)
     if (buildMatch) {
-      const assetResponse = await serveAsset(env, request)
-      const [, langSeg, id] = buildMatch
+      const [, langSeg, id, data] = buildMatch
       const lang = (LANGS.includes(langSeg as Lang) ? langSeg : 'en') as Lang
-      try {
-        return withSecurityHeaders(await rewriteBuildMeta(env, url.origin, lang, id, assetResponse))
-      } catch {
-        return withSecurityHeaders(assetResponse)
-      }
+      return withSecurityHeaders(await serveBuildPage(env, request, lang, id, !!data))
+    }
+
+    const profileMatch = url.pathname.match(PROFILE_ROUTE)
+    if (profileMatch) {
+      const [, username, data] = profileMatch
+      return withSecurityHeaders(await serveProfilePage(env, request, decodeURIComponent(username), !!data))
     }
 
     const assetResponse = await serveAsset(env, request)

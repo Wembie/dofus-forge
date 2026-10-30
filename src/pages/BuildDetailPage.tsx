@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, useNavigate, Link } from 'react-router'
+import { useParams, useNavigate, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
 import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus, Flag, Award } from 'lucide-react'
 import { CollectionPicker } from '@/features/collections/Collections.tsx'
 import { ReportModal } from '@/features/moderation/ReportModal.tsx'
@@ -14,7 +14,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
-import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
+import { langFromPath, langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
@@ -47,6 +47,31 @@ import {
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
 import { TagChip } from '@/features/builds/TagChips.tsx'
+import { SENTINEL_BUILD_ID } from '@/data/prerenderSentinels.ts'
+import { equippedCatalog } from '@/data/buildCatalog.server.ts'
+import { useDateFormatter } from '@/ui/useDateFormatter.ts'
+
+// Runs only while prerendering public builds (react-router.config.ts), so
+// crawlers get the build and its comments in the HTML. A build that stopped
+// being public is never served from that file: the Worker checks first.
+// The build's equipped items and sets come along too, so its stats, set
+// bonuses and equipment are in the HTML instead of waiting for the ~5 MB
+// item catalog to download.
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const id = params.id ?? ''
+  if (id === SENTINEL_BUILD_ID) return { build: null, comments: [] as CommentRow[], catalog: null }
+  const [{ data: build }, { data: comments }] = await Promise.all([fetchBuildById(id), fetchComments(id)])
+  if (!build) return { build: null, comments: [] as CommentRow[], catalog: null }
+  const catalog = await equippedCatalog(langFromPath(new URL(request.url).pathname), build.snapshot.e)
+  return { build, comments, catalog }
+}
+
+// In the browser the page loads and refreshes its own data, as it always
+// has (prerendered builds hydrate from the loader's data first). Builds
+// published since the last deploy have no prerendered data to fetch.
+export async function clientLoader() {
+  return null
+}
 
 function StarRating({ value, onRate, disabled }: { value: number; onRate: (n: number) => void; disabled: boolean }) {
   const { t } = useTranslation()
@@ -77,20 +102,29 @@ export function BuildDetailPage() {
   const session        = useAuthStore(s => s.session)
   const isAdmin        = useAuthStore(s => s.profile?.role === 'admin')
   const [featureBusy, setFeatureBusy] = useState(false)
-  const equipmentData  = useDataStore(s => s.equipment)
-  const setsData       = useDataStore(s => s.sets)
+  const seed = useLoaderData<typeof loader | typeof clientLoader>()
+  // A prerendered build carries its own items and sets until the full
+  // catalog loads; both give the same stats.
+  const seedCatalog    = seed?.catalog && seed.build?.id === id ? seed.catalog : null
+  const equipmentData  = useDataStore(s => s.equipment) ?? seedCatalog?.items ?? null
+  const setsData       = useDataStore(s => s.sets) ?? seedCatalog?.sets ?? null
 
-  const [build, setBuild]     = useState<BuildDetailRow | null>(null)
+  const formatDate = useDateFormatter()
+  // The first data load on mount refreshes a prerendered build in place
+  // instead of blanking it, so the hydrated page doesn't flash to "loading".
+  const seededId = useRef(seed ? id : null)
+
+  const [build, setBuild]     = useState<BuildDetailRow | null>(seed?.build ?? null)
   const resolvedClassLabel    = useClassName(build?.class_slug)
-  const [loading, setLoading] = useState(true)
-  const [notFound, setNotFound] = useState(false)
+  const [loading, setLoading] = useState(!seed)
+  const [notFound, setNotFound] = useState(!!seed && !seed.build)
 
   const [liked, setLiked]         = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+  const [likeCount, setLikeCount] = useState(seed?.build?.like_count ?? 0)
   const [bookmarked, setBookmarked] = useState(false)
   const [myRating, setMyRating]   = useState<number | null>(null)
 
-  const [comments, setComments]         = useState<CommentRow[]>([])
+  const [comments, setComments]         = useState<CommentRow[]>(seed?.comments ?? [])
   const [likedComments, setLikedComments] = useState<Set<string>>(new Set())
   const [history, setHistory]           = useState<BuildVersion[]>([])
   const [collectOpen, setCollectOpen]   = useState(false)
@@ -107,28 +141,34 @@ export function BuildDetailPage() {
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, `build/${id ?? ''}`, {
     title: build ? (build.name ? `${build.name} — ${baseSeoTitle}` : baseSeoTitle) : undefined,
     description: build ? t('build_detail_seo_description', { class: resolvedClassLabel, level: build.level }) : undefined,
-    image: build ? `https://dofusforge.com/og/${i18n.language.slice(0, 2)}/${id}.png` : undefined,
+    // ?v= changes with every edit, so link previews (Discord, WhatsApp) that
+    // cache by exact image URL pick up the new image; same as the Worker.
+    image: build ? `https://dofusforge.com/og/${i18n.language.slice(0, 2)}/${id}.png?v=${Date.parse(build.updated_at) || 0}` : undefined,
     noindex: notFound,
   })
 
   useEffect(() => {
     if (!id) return
     let cancelled = false
-    setLoading(true)
-    setNotFound(false)
-    // Build → build navigation (remix links) keeps this page mounted: drop
-    // everything from the previous build so nothing of it (history with
-    // Restore buttons, comments, remixes) shows under the new one.
-    setBuild(null)
-    setComments([])
-    setForks({ data: [], count: 0 })
-    setHistory([])
-    setForkParent(undefined)
-    setReportTarget(null)
-    setCollectOpen(false)
+    const fromSeed = seededId.current === id
+    seededId.current = null
+    if (!fromSeed) {
+      setLoading(true)
+      setNotFound(false)
+      // Build → build navigation (remix links) keeps this page mounted: drop
+      // everything from the previous build so nothing of it (history with
+      // Restore buttons, comments, remixes) shows under the new one.
+      setBuild(null)
+      setComments([])
+      setForks({ data: [], count: 0 })
+      setHistory([])
+      setForkParent(undefined)
+      setReportTarget(null)
+      setCollectOpen(false)
+    }
     fetchBuildById(id).then(({ data, error }) => {
       if (cancelled) return
-      if (error || !data) { setNotFound(true); setLoading(false); return }
+      if (error || !data) { setBuild(null); setNotFound(true); setLoading(false); return }
       setBuild(data)
       setLikeCount(data.like_count)
       setLoading(false)
@@ -405,7 +445,7 @@ export function BuildDetailPage() {
             )}
             <span className="flex items-center gap-1.5">
               <Calendar size={13} />
-              {new Date(build.created_at).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' })}
+              {formatDate(build.created_at, { year: 'numeric', month: 'short', day: 'numeric' })}
             </span>
             <button
               onClick={handleToggleLike}
@@ -688,9 +728,7 @@ export function BuildDetailPage() {
                         several times in the same day, a date alone wouldn't
                         tell two same-day replies apart. */}
                     <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-                      {new Date(c.created_at).toLocaleString(i18n.language, {
-                        year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-                      })}
+                      {formatDate(c.created_at, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                   <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>

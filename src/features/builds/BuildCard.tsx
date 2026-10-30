@@ -10,6 +10,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { BuildEquipmentPreview } from './BuildEquipmentPreview.tsx'
 import { buildTags, type BuildRow } from './api.ts'
 import { TagChip } from './TagChips.tsx'
+import { useDateFormatter } from '@/ui/useDateFormatter.ts'
 
 export function BuildCard({ build }: { build: BuildRow }) {
   const { t, i18n } = useTranslation()
@@ -25,9 +26,8 @@ export function BuildCard({ build }: { build: BuildRow }) {
   const prefix      = langPathPrefix(i18n.language)
   const [buildHover, setBuildHover] = useState(false)
 
-  const createdLabel = new Date(build.created_at).toLocaleDateString(i18n.language, {
-    year: 'numeric', month: 'short', day: 'numeric',
-  })
+  const formatDate   = useDateFormatter()
+  const createdLabel = formatDate(build.created_at, { year: 'numeric', month: 'short', day: 'numeric' })
 
   return (
     <div
