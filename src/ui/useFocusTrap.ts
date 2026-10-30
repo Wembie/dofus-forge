@@ -21,7 +21,7 @@ const stack: object[] = []
  * whatever opened it on deactivate.
  */
 export function useFocusTrap(
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement | null>,
   active = true,
   onEscape?: () => void,
 ) {

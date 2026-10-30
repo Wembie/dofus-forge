@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
-import { Link, Navigate, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import {
   Archive, ArrowUpRight, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert, Clock3, Infinity as InfinityIcon,
@@ -834,3 +834,5 @@ function ToggleRow({ icon: Icon, title, description, checked, onChange }: { icon
 function LoadingRows({ label }: { label: string }) {
   return <Frame material="panel" className="px-6 py-12 text-center text-xs" style={{ color: 'var(--ink-faint)' }}>{label}</Frame>
 }
+
+export default AdminRanksPage

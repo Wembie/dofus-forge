@@ -28,8 +28,8 @@ function StatIcon({ name, size = 14 }: { name: string; size?: number }) {
 
 // ── Hold-to-repeat ────────────────────────────────────────────────────────────
 function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
-  const timerRef    = useRef<ReturnType<typeof setTimeout>>()
-  const intervalRef = useRef<ReturnType<typeof setInterval>>()
+  const timerRef    = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const intervalRef = useRef<ReturnType<typeof setInterval>>(undefined)
   const countRef    = useRef(0)
   const addRef      = useRef(onAdd)
   const removeRef   = useRef(onRemove)

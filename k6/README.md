@@ -7,7 +7,7 @@ This folder contains a small Grafana k6 harness for Dofus Forge. The suite focus
 ```bash
 docker run --rm \
   --add-host=host.docker.internal:host-gateway \
-  -e BASE_URL=http://host.docker.internal:4173/dofus-forge \
+  -e BASE_URL=http://host.docker.internal:4173 \
   -v "$(pwd):/src" \
   -w /src \
   grafana/k6:latest run /src/k6/smoke.js
@@ -18,7 +18,7 @@ For the browser suite:
 ```bash
 docker run --rm \
   --add-host=host.docker.internal:host-gateway \
-  -e BASE_URL=http://host.docker.internal:4173/dofus-forge \
+  -e BASE_URL=http://host.docker.internal:4173 \
   -v "$(pwd):/src" \
   -w /src \
   grafana/k6:latest run --browser /src/k6/browser-smoke.js

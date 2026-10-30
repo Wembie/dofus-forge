@@ -1,4 +1,4 @@
-export const BASE_URL = __ENV.BASE_URL || 'http://localhost:4173/dofus-forge'
+export const BASE_URL = __ENV.BASE_URL || 'http://localhost:4173'
 
 export const SCENARIO_STAGES = {
   smoke: {

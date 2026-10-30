@@ -1,7 +1,7 @@
 import { chromium } from 'k6/x/browser'
 import { check } from 'k6'
 
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:4173/dofus-forge'
+const BASE_URL = __ENV.BASE_URL || 'http://localhost:4173'
 
 export const options = {
   scenarios: {

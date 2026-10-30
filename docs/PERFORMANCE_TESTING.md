@@ -2,9 +2,9 @@
 
 ## Architecture and risk assessment
 
-The repository is a Vite 6 + React 18 + TypeScript single-page app with a static data layer and a browser-side optimizer. The most relevant implementation points are:
+The repository is a Vite 6 + React 19 + TypeScript app on React Router 7 (framework mode: public pages prerendered to HTML, the rest client-rendered) with a static data layer and a browser-side optimizer. The most relevant implementation points are:
 
-- `src/App.tsx` defines the public route tree and lazy-loads the heavy pages (`ExplorePage`, `BuildDetailPage`, `UserProfilePage`, etc.) so route-level navigation is the main user-facing entry point.
+- `src/routes.ts` defines the route tree (React Router framework mode); every page is its own route module, loaded on navigation, and the indexable ones are prerendered to HTML at build time (`react-router.config.ts`).
 - `src/store/authStore.ts` shows that authenticated journeys are backed by Supabase (`VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`), while anonymous browsing stays entirely in the browser.
 - `src/features/builds/api.ts` confirms the real first-party API surface: public build listings, detail lookups, publish/update operations, and view tracking all flow through Supabase tables and RPCs. These endpoints are the natural subject of protocol-level load tests when a real environment is available.
 - `public/data/` is the bulk static JSON dataset used by the builder, item catalog, class guides, and spell lists. This is the largest non-network dependency in the browser and is a clear performance-risk area under cold loads.
@@ -102,7 +102,7 @@ The repo includes a reusable k6 harness under `k6/`:
 
 ## Safety limits and authorization
 
-- `normal-load.js`, `peak.js` and `stress.js` run only against a local `vite preview` or a staging deployment that has its own Supabase project. Running them against production or a Cloudflare preview needs the written authorization in `docs/security/TESTING_AUTHORIZATION.md`, with a traffic ceiling, a time window, someone watching, and a stop procedure.
+- `normal-load.js`, `peak.js` and `stress.js` run only against a local `pnpm preview` (the Worker under `wrangler dev`) or a staging deployment that has its own Supabase project. Running them against production or a Cloudflare preview needs the written authorization in `docs/security/TESTING_AUTHORIZATION.md`, with a traffic ceiling, a time window, someone watching, and a stop procedure.
 - Cloudflare preview deployments use the **production** Supabase project. A load test against a preview is a load test against production data and quota.
 - The scenarios that matter most for cost and abuse are the Worker routes, not static pages:
   - `/og/<lang>/<id>.png`: one satori + resvg render per build version. Measure p95 and CPU time of a cache miss once, then confirm repeat requests with different query strings are cache hits.

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router'
 import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus, Flag, Award } from 'lucide-react'
 import { CollectionPicker } from '@/features/collections/Collections.tsx'
 import { ReportModal } from '@/features/moderation/ReportModal.tsx'
@@ -732,3 +732,5 @@ export function BuildDetailPage() {
     </div>
   )
 }
+
+export default BuildDetailPage

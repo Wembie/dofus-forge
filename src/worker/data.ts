@@ -66,8 +66,8 @@ export async function toDataUri(assets: Fetcher, origin: string, url: string, bu
     let buf: ArrayBuffer
     if (bucket && url.startsWith(ITEM_IMG_ROUTE)) {
       // Item icons aren't static assets: the ASSETS binding answers them with
-      // the SPA's index.html, which satori then fails to decode ("is not
-      // iterable") and the whole preview image 500s. Read the bucket instead.
+      // a 404 (this used to be the SPA's index.html, which satori failed to
+      // decode and the whole preview image 500ed). Read the bucket instead.
       const object = await bucket.get(`items/${url.slice(ITEM_IMG_ROUTE.length)}`)
       if (!object) return undefined
       contentType = 'image/png'

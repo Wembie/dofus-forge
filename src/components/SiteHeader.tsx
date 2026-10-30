@@ -1,6 +1,6 @@
 import { Suspense, lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { IconButton } from '@/ui'

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Sparkles, Database, Heart, Users, BookOpen, Layers, Wand2, Share2, Compass, Hammer } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { Frame } from '@/ui'
-import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
@@ -31,13 +31,9 @@ const FEATURES = [
 
 const FAQ_NUMS = [1, 2, 3, 4, 5] as const
 
-// Pilot for the new /classes/:id spell-guide page — see ClassGuidePage.tsx.
-const CLASS_GUIDE_PILOT = ['cra']
-
 export function AboutPage() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
-  const homePath = `/${langPathRootSegment(i18n.language)}`
   const lang = i18n.language.slice(0, 2)
   usePageSeo(lang as SeoLang, 'about', {
     title: t('about_seo_title'),
@@ -136,14 +132,9 @@ export function AboutPage() {
             {CLASS_DATA.map(c => (
               <Link
                 key={c.id}
-                // Pilot: only Cra has a standalone guide page (/classes/cra) for now
-                // — see docs/CHANGELOG.md. Every other class still deep-links
-                // straight into the planner until the guide format is validated.
-                to={CLASS_GUIDE_PILOT.includes(c.id) ? `/${prefix}classes/${c.id}` : `${homePath}?class=${c.id}`}
+                to={`/${prefix}classes/${c.id}`}
                 className="px-2 py-1 rounded text-xs border transition-colors"
-                style={CLASS_GUIDE_PILOT.includes(c.id)
-                  ? { borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
-                  : { borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+                style={{ borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }}
               >
                 {resolveClassName(c.id, lang, classNames)}
               </Link>
@@ -189,3 +180,5 @@ export function AboutPage() {
     </div>
   )
 }
+
+export default AboutPage

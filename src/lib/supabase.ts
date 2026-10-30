@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 // Lazy singleton: keeps @supabase/supabase-js (~230KB) out of the eager
 // main bundle for visitors who never touch auth/cloud builds. Loaded as
-// its own chunk the moment auth actually initializes (App.tsx mount).
+// its own chunk the moment auth actually initializes (root.tsx mount).
 let client: SupabaseClient | null = null
 let clientPromise: Promise<SupabaseClient> | null = null
 

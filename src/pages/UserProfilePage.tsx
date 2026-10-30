@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router'
 import { User, Calendar, Heart, MessageSquare, Layers, UserPlus, UserCheck } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -289,3 +289,5 @@ function StatCard({ Icon, value, label }: { Icon: typeof Layers; value: number; 
     </div>
   )
 }
+
+export default UserProfilePage

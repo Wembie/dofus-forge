@@ -23,8 +23,12 @@ function subscribe(fn: () => void) {
 
 function getSnapshot() { return _favs }
 
+// Prerendered pages have no saved favorites; the real set applies after hydration.
+const NO_FAVORITES = new Set<number>()
+function getServerSnapshot() { return NO_FAVORITES }
+
 export function useFavorites() {
-  const favs = useSyncExternalStore(subscribe, getSnapshot)
+  const favs = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const isFav = useCallback((id: number) => favs.has(id), [favs])
 

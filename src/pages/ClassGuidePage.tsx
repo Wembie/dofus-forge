@@ -1,18 +1,21 @@
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
 import { Sword } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
+import { langFromPath, langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
-import { useLoadGameData } from '@/data/useLoadGameData.ts'
-import { useDataStore } from '@/store/dataStore.ts'
 import { CLASS_DATA, ELEMENT_HEX } from '@/features/class-picker/classData.ts'
-import { resolveClassName } from '@/features/class-picker/useClassName.ts'
 import { ELEM_COLOR, fmtRange } from '@/features/spells/spellCalc.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import type { AppSpell } from '@/data/spellLoaders.ts'
+import { loadClassGuide } from '@/data/classGuide.server.ts'
+
+// Runs at build time for every prerendered guide; client navigations read
+// the resulting .data file, so the spells are in the HTML from the start.
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  return loadClassGuide(langFromPath(new URL(request.url).pathname), params.classId ?? '')
+}
 
 /**
  * Read-only per-class spell guide — distinct from the planner's SpellsPanel,
@@ -23,24 +26,14 @@ import type { AppSpell } from '@/data/spellLoaders.ts'
  */
 export function ClassGuidePage() {
   const { classId } = useParams<{ classId: string }>()
+  const guide = useLoaderData<typeof loader>()
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
   const homePath = `/${langPathRootSegment(i18n.language)}`
   const lang = i18n.language.slice(0, 2)
 
-  useLoadGameData()
-  const dataLang   = useDataStore(s => s.lang)
-  const loadSpells = useDataStore(s => s.loadSpells)
-  const spellsMap  = useDataStore(s => s.spells)
-  const classNames = useDataStore(s => s.classNames)
-
-  const classInfo = CLASS_DATA.find(c => c.id === classId)
-
-  useEffect(() => {
-    if (classInfo) loadSpells(dataLang, classInfo.id)
-  }, [loadSpells, dataLang, classInfo])
-
-  const className = classInfo ? resolveClassName(classInfo.id, lang, classNames) : ''
+  const classInfo = guide ? CLASS_DATA.find(c => c.id === classId) : undefined
+  const className = guide?.className ?? ''
   const elemColor = classInfo ? ELEMENT_HEX[classInfo.element] : 'var(--gold)'
 
   usePageSeo(lang as SeoLang, `classes/${classId ?? ''}`, {
@@ -58,7 +51,7 @@ export function ClassGuidePage() {
     )
   }
 
-  const spells = spellsMap.get(classInfo.id)?.spells.filter(sp => !sp.is_variant) ?? []
+  const spells = guide?.spells ?? []
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
@@ -198,3 +191,5 @@ function SpellCard({ sp, index, t }: { sp: AppSpell; index: number; t: (key: str
     </div>
   )
 }
+
+export default ClassGuidePage

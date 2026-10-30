@@ -127,7 +127,7 @@ git diff --exit-code -- public/wasm
 
 | Part | Choice |
 |---|---|
-| Interface | React 18 · TypeScript · Vite 6 |
+| Interface | React 19 · React Router 7 (prerendered pages) · TypeScript · Vite 6 |
 | Build state | Zustand |
 | Styling | Tailwind CSS · custom design tokens |
 | Optimizer | Rust → WebAssembly · Web Worker |

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { OptimizerModal } from '../OptimizerModal.tsx'

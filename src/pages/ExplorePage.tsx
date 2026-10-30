@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
 import { Tabs, Button, type TabItem } from '@/ui'
@@ -232,3 +232,5 @@ export function ExplorePage() {
     </div>
   )
 }
+
+export default ExplorePage

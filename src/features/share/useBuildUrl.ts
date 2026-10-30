@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { encodeBuild, decodeBuild } from './codec.ts'
 

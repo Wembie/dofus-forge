@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type IndexItem, type AppEffect, type AppItem, type AppSet } from '@/data/loaders.ts'
-import { fetchSpells, type ClassSpells } from '@/data/spellLoaders.ts'
+import { fetchSpells, localizeSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
 import { SPELL_ITEM_EFFECT_IDS } from '@/data/effectIds.ts'
 
@@ -123,20 +123,7 @@ export const useDataStore = create<DataState>((set, get) => ({
         if (lang !== 'en') {
           try {
             const langData = await fetchSpells(lang, classSlug)
-            const langMap = new Map(langData.spells.map(sp => [sp.id, sp]))
-            data.spells = data.spells.map(sp => {
-              const loc = langMap.get(sp.id)
-              if (!loc) return sp
-              return {
-                ...sp,
-                name: loc.name,
-                ...(loc.description != null ? { description: loc.description } : {}),
-                levels: sp.levels.map((lvl, i) => {
-                  const locLvl = loc.levels[i]
-                  return locLvl?.buffs?.length ? { ...lvl, buffs: locLvl.buffs } : lvl
-                }),
-              }
-            })
+            data.spells = localizeSpells(data.spells, langData.spells)
           } catch { /* lang spell file optional */ }
         }
         next.set(classSlug, data)
@@ -147,20 +134,7 @@ export const useDataStore = create<DataState>((set, get) => ({
           if (lang !== 'en') {
             try {
               const langCommon = await fetchSpells(lang, 'common')
-              const langMap = new Map(langCommon.spells.map(sp => [sp.id, sp]))
-              commonData.spells = commonData.spells.map(sp => {
-                const loc = langMap.get(sp.id)
-                if (!loc) return sp
-                return {
-                  ...sp,
-                  name: loc.name,
-                  ...(loc.description != null ? { description: loc.description } : {}),
-                  levels: sp.levels.map((lvl, i) => {
-                    const locLvl = loc.levels[i]
-                    return locLvl?.buffs?.length ? { ...lvl, buffs: locLvl.buffs } : lvl
-                  }),
-                }
-              })
+              commonData.spells = localizeSpells(commonData.spells, langCommon.spells)
             } catch { /* lang common file optional */ }
           }
           next.set('common', commonData)

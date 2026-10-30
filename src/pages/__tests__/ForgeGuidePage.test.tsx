@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import '@/test/i18n.ts'
@@ -58,7 +58,7 @@ describe('ForgeGuidePage', () => {
     expect(read('src/features/optimizer/OptimizerModal.tsx')).toContain('forge-guide')
     const sitemap = read('public/sitemap.xml')
     for (const path of ['', 'es/', 'fr/', 'pt/']) expect(sitemap).toContain(`<loc>https://dofusforge.com/${path}forge-guide</loc>`)
-    expect(read('scripts/postbuild-lang-pages.mjs')).toContain("generateRoute('forge-guide'")
-    expect(read('scripts/prerender-content.mjs')).toContain("'forge-guide'")
+    expect(read('src/routes.ts')).toContain("['forge-guide', ")
+    expect(read('react-router.config.ts')).toContain("'forge-guide'")
   })
 })

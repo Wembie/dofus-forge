@@ -53,10 +53,33 @@ export type ClassSpells = {
 export async function fetchSpells(lang: string, classSlug: string): Promise<ClassSpells> {
   const res = await fetch(`${BASE}data/${lang}/spells/${classSlug}.json`)
   if (!res.ok) throw new Error(`Spells not found: ${classSlug} (${lang}) — ${res.status}`)
-  const data = await res.json() as ClassSpells
-  data.spells = data.spells.map(sp => ({
-    ...sp,
-    image_url: sp.image_url ? BASE + sp.image_url.replace(/^\//, '') : null,
-  }))
-  return data
+  return withSpellImageUrls(await res.json() as ClassSpells)
+}
+
+export function withSpellImageUrls(data: ClassSpells): ClassSpells {
+  return {
+    ...data,
+    spells: data.spells.map(sp => ({
+      ...sp,
+      image_url: sp.image_url ? BASE + sp.image_url.replace(/^\//, '') : null,
+    })),
+  }
+}
+
+/** English spells (the engine's source of truth) with names, descriptions and buffs from `localized`. */
+export function localizeSpells(spells: AppSpell[], localized: AppSpell[]): AppSpell[] {
+  const byId = new Map(localized.map(sp => [sp.id, sp]))
+  return spells.map(sp => {
+    const loc = byId.get(sp.id)
+    if (!loc) return sp
+    return {
+      ...sp,
+      name: loc.name,
+      ...(loc.description != null ? { description: loc.description } : {}),
+      levels: sp.levels.map((lvl, i) => {
+        const locLvl = loc.levels[i]
+        return locLvl?.buffs?.length ? { ...lvl, buffs: locLvl.buffs } : lvl
+      }),
+    }
+  })
 }

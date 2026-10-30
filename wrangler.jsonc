@@ -4,8 +4,12 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/worker/index.ts",
   "assets": {
-    "directory": "./dist",
-    "not_found_handling": "single-page-application",
+    "directory": "./dist/client",
+    // Not "single-page-application": that would answer every unknown path
+    // with index.html, which is now the prerendered English home page.
+    // Unmatched paths reach the Worker instead, which serves React Router's
+    // __spa-fallback.html for pages and a real 404 for missing files.
+    "not_found_handling": "none",
     // Default is "auto-trailing-slash" (redirects /explore -> /explore/),
     // which forces a 307 round-trip on every visit that arrives via a bare
     // URL — the common case, since nobody types or shares a trailing slash.

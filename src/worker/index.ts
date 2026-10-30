@@ -30,6 +30,23 @@ const CHAR_ROUTE = /^\/char\/((?:[\w-]+\/)*[\w.-]+\.(?:json|bin|webp))$/
 const CHAR_TYPES: Record<string, string> = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
 const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
 
+// Written by React Router next to the prerendered pages: the bare document
+// that boots the app on any route that has no HTML of its own (build pages,
+// profiles, admin). Served without its extension because html_handling
+// redirects /x.html to /x.
+const SPA_FALLBACK = '/__spa-fallback'
+const FILE_EXTENSION = /\.[a-z0-9]+$/i
+
+async function serveAsset(env: Env, request: Request): Promise<Response> {
+  const response = await env.ASSETS.fetch(request)
+  const url = new URL(request.url)
+  if (response.status !== 404 || (request.method !== 'GET' && request.method !== 'HEAD') || FILE_EXTENSION.test(url.pathname)) {
+    return response
+  }
+  const fallback = await env.ASSETS.fetch(new Request(new URL(SPA_FALLBACK, url), { method: request.method }))
+  return new Response(fallback.body, { status: 200, headers: fallback.headers })
+}
+
 const FONTS: OgFont[] = [
   { name: 'Cinzel', data: cinzelBold, weight: 700, style: 'normal' },
   { name: 'Inter', data: interRegular, weight: 400, style: 'normal' },
@@ -228,7 +245,7 @@ export default {
 
     const buildMatch = url.pathname.match(BUILD_ROUTE)
     if (buildMatch) {
-      const assetResponse = await env.ASSETS.fetch(request)
+      const assetResponse = await serveAsset(env, request)
       const [, langSeg, id] = buildMatch
       const lang = (LANGS.includes(langSeg as Lang) ? langSeg : 'en') as Lang
       try {
@@ -238,7 +255,7 @@ export default {
       }
     }
 
-    const assetResponse = await env.ASSETS.fetch(request)
+    const assetResponse = await serveAsset(env, request)
     if (url.pathname.startsWith('/assets/') && assetResponse.headers.get('Content-Type')?.startsWith('text/html')) {
       return withSecurityHeaders(new Response('Not found', { status: 404 }))
     }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navigate, Link, useLocation } from 'react-router-dom'
+import { Navigate, Link, useLocation } from 'react-router'
 import { Flag, EyeOff, Trash2, Check, X, MessageSquare, Layers, RotateCcw } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -187,3 +187,5 @@ export function AdminReportsPage() {
     </div>
   )
 }
+
+export default AdminReportsPage

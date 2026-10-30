@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Flame, Scale, Gauge, Pin, Lock, Sparkles, Anvil, Trophy, HelpCircle, BookOpen, ChevronDown, type LucideIcon } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -236,3 +236,5 @@ export function ForgeGuidePage() {
     </div>
   )
 }
+
+export default ForgeGuidePage

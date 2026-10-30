@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { FolderOpen, Globe, Lock, Plus, Check } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'

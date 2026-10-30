@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import '@/test/i18n.ts'
@@ -52,7 +52,7 @@ describe('ShortcutsPage', () => {
     expect(read('src/pages/BuilderPage.tsx')).toContain('shortcuts')
     const sitemap = read('public/sitemap.xml')
     for (const path of ['', 'es/', 'fr/', 'pt/']) expect(sitemap).toContain(`<loc>https://dofusforge.com/${path}shortcuts</loc>`)
-    expect(read('scripts/postbuild-lang-pages.mjs')).toContain("generateRoute('shortcuts'")
-    expect(read('scripts/prerender-content.mjs')).toContain("'shortcuts'")
+    expect(read('src/routes.ts')).toContain("['shortcuts', ")
+    expect(read('react-router.config.ts')).toContain("'shortcuts'")
   })
 })

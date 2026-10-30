@@ -1424,5 +1424,8 @@
   "optimizer_passive_section_prysmaradite": "Passivas das Prismaraditas",
   "optimizer_passive_section_legendary": "Passivas dos itens lendários",
   "optimizer_passive_section_configure": "Escolher quais contam: {{section}}",
-  "optimizer_passive_not_set": "não configurada"
+  "optimizer_passive_not_set": "não configurada",
+  "error_page_title": "Algo deu errado",
+  "error_page_body": "Não foi possível carregar esta página. Tente novamente em instantes.",
+  "error_page_home": "Voltar ao planejador"
 }

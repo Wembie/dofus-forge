@@ -20,10 +20,13 @@ function particleCount(width: number, height: number): number {
  * and paused while the tab is hidden. */
 export function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [enabled, setEnabled] = useState(isParticlesEnabled)
+  // Off until mounted: the prerendered HTML can't know the saved setting,
+  // and hydration must start from what the server rendered.
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
     const sync = () => setEnabled(isParticlesEnabled())
+    sync()
     window.addEventListener(MOTION_SETTINGS_EVENT, sync)
     return () => window.removeEventListener(MOTION_SETTINGS_EVENT, sync)
   }, [])

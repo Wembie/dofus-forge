@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense, type JSX } from 'react'
 import { Eye, Pin } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
@@ -184,7 +184,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
   const [hovered, setHovered]   = useState(false)
   const [animating, setAnimating] = useState(false)
-  const leaveRef                = useRef<ReturnType<typeof setTimeout>>()
+  const leaveRef                = useRef<ReturnType<typeof setTimeout>>(undefined)
   const prevItemRef             = useRef(item)
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
@@ -698,15 +698,16 @@ const STAGE_HEIGHT        = 340
 const MOBILE_STAGE_HEIGHT = 240
 const DESKTOP_QUERY       = '(min-width: 1024px)' // Tailwind lg
 
+function subscribeDesktop(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY)
+  mq.addEventListener('change', onChange)
+  return () => mq.removeEventListener('change', onChange)
+}
+
+// The prerendered page assumes desktop; on a phone React re-renders with the
+// real value right after hydrating.
 function useIsDesktop() {
-  const [match, setMatch] = useState(() => window.matchMedia(DESKTOP_QUERY).matches)
-  useEffect(() => {
-    const mq = window.matchMedia(DESKTOP_QUERY)
-    const sync = () => setMatch(mq.matches)
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
-  return match
+  return useSyncExternalStore(subscribeDesktop, () => window.matchMedia(DESKTOP_QUERY).matches, () => true)
 }
 
 function MobileCharacter() {
