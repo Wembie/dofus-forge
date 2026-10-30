@@ -18,7 +18,29 @@ const STATIC_PAGES = [
 ]
 const NOINDEX_PAGES = ['my-builds', 'account']
 
-type PublicBuild = { id: string; updated_at: string; profiles: { username: string } | null }
+type PublicBuild = { id: string; username: string | null; lastmod: string | null }
+
+// Rows come from the network and end up in file paths (prerendered pages)
+// and in sitemap.xml, so only well-formed values get through: a build id is
+// a UUID, a username follows the app's own rule (authStore USERNAME_RE; the
+// database does not enforce it), and the date is re-serialized from a Date.
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+const USERNAME = /^[a-z0-9_-]{3,30}$/
+
+function toPublicBuild(row: unknown): PublicBuild | null {
+  const r = row as { id?: unknown; updated_at?: unknown; profiles?: { username?: unknown } | null }
+  if (typeof r.id !== 'string' || !UUID.test(r.id)) return null
+  const username = r.profiles?.username
+  const updated = typeof r.updated_at === 'string' ? new Date(r.updated_at) : null
+  return {
+    id: r.id,
+    username: typeof username === 'string' && USERNAME.test(username) ? username : null,
+    lastmod: updated && !Number.isNaN(updated.getTime()) ? updated.toISOString().slice(0, 10) : null,
+  }
+}
+
+const XML_ENTITIES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }
+const xml = (value: string) => value.replace(/[&<>"']/g, c => XML_ENTITIES[c])
 
 /**
  * Public builds and their authors, read at build time. Without Supabase
@@ -41,15 +63,19 @@ async function fetchPublicBuilds(): Promise<PublicBuild[]> {
         headers: { apikey: key, Authorization: `Bearer ${key}`, Range: `${from}-${from + PAGE - 1}` },
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      const page = (await res.json()) as PublicBuild[]
-      rows.push(...page)
+      const page = (await res.json()) as unknown[]
+      for (const row of page) {
+        const build = toPublicBuild(row)
+        if (build) rows.push(build)
+        else console.warn('[prerender] Skipping a public build row with an unexpected id.')
+      }
       if (page.length < PAGE) break
     }
   } catch (err) {
     console.warn(`[prerender] Could not list public builds (${(err as Error).message}): community builds and profiles are not prerendered.`)
     return []
   }
-  console.log(`[prerender] ${rows.length} public builds by ${new Set(rows.map(r => r.profiles?.username).filter(Boolean)).size} authors.`)
+  console.log(`[prerender] ${rows.length} public builds by ${new Set(rows.map(r => r.username).filter(Boolean)).size} authors.`)
   return rows
 }
 
@@ -59,7 +85,7 @@ const publicBuilds = () => (publicBuildsRequest ??= fetchPublicBuilds())
 
 async function dynamicPages() {
   const builds = await publicBuilds()
-  const usernames = [...new Set(builds.map(b => b.profiles?.username).filter((u): u is string => !!u))]
+  const usernames = [...new Set(builds.map(b => b.username).filter((u): u is string => !!u))]
   return [...builds.map(b => `build/${b.id}`), ...usernames.map(u => `u/${encodeURIComponent(u)}`)]
 }
 
@@ -72,28 +98,28 @@ const withPrefixes = (pages: string[]) => PREFIXES.flatMap(prefix => pages.map(p
  * to the bare URLs, so they are not listed.
  */
 async function writeSitemap(clientDir: string) {
-  const lastmod = new Map((await publicBuilds()).map(b => [`build/${b.id}`, b.updated_at.slice(0, 10)]))
+  const lastmod = new Map<string, string>((await publicBuilds()).flatMap(b => (b.lastmod ? [[`build/${b.id}`, b.lastmod]] : [])))
   const url = (page: string) => {
     const loc = (prefix: string) => `${SITE}${prefix}${page ? `/${page}` : ''}`
     const alternates = Object.entries(LANG_PREFIXES)
-      .map(([lang, prefix]) => `    <xhtml:link rel="alternate" hreflang="${lang}" href="${loc(prefix)}"/>`)
-      .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${loc('')}"/>`)
+      .map(([lang, prefix]) => `    <xhtml:link rel="alternate" hreflang="${lang}" href="${xml(loc(prefix))}"/>`)
+      .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${xml(loc(''))}"/>`)
     return Object.values(LANG_PREFIXES).map(prefix => [
       '  <url>',
-      `    <loc>${loc(prefix)}</loc>`,
+      `    <loc>${xml(loc(prefix))}</loc>`,
       ...alternates,
-      ...(lastmod.has(page) ? [`    <lastmod>${lastmod.get(page)}</lastmod>`] : []),
+      ...(lastmod.has(page) ? [`    <lastmod>${xml(lastmod.get(page)!)}</lastmod>`] : []),
       '  </url>',
     ].join('\n')).join('\n')
   }
-  const xml = [
+  const sitemap = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
     ...[...STATIC_PAGES, ...await dynamicPages()].map(url),
     '</urlset>',
     '',
   ].join('\n')
-  writeFileSync(join(clientDir, 'sitemap.xml'), xml)
+  writeFileSync(join(clientDir, 'sitemap.xml'), sitemap)
 }
 
 export default {
