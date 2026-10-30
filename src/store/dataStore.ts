@@ -1,8 +1,8 @@
 import { create } from 'zustand'
-import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type IndexItem, type AppEffect, type AppItem, type AppSet } from '@/data/loaders.ts'
+import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type IndexItem, type AppItem, type AppSet } from '@/data/loaders.ts'
 import { fetchSpells, localizeSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
-import { SPELL_ITEM_EFFECT_IDS } from '@/data/effectIds.ts'
+import { localizeEquipment, localizeSets } from '@/data/localizeItems.ts'
 
 interface DataState {
   lang:        string
@@ -21,24 +21,6 @@ interface DataState {
 // load still running when the user switches language) must not overwrite
 // the newer one.
 let loadSeq = 0
-
-function overlayLocalizedSpellEffects(effects: AppEffect[], localizedEffects: AppEffect[]): AppEffect[] {
-  const localizedByKey = new Map<string, AppEffect[]>()
-  for (const effect of localizedEffects) {
-    if (!SPELL_ITEM_EFFECT_IDS.has(effect.effect_id ?? -1)) continue
-    const key = `${effect.effect_id}:${effect.min}:${effect.max}`
-    const matches = localizedByKey.get(key) ?? []
-    matches.push(effect)
-    localizedByKey.set(key, matches)
-  }
-
-  return effects.map(effect => {
-    if (!SPELL_ITEM_EFFECT_IDS.has(effect.effect_id ?? -1)) return effect
-    const key = `${effect.effect_id}:${effect.min}:${effect.max}`
-    const localized = localizedByKey.get(key)?.shift()
-    return localized?.formatted ? { ...effect, formatted: localized.formatted } : effect
-  })
-}
 
 export const useDataStore = create<DataState>((set, get) => ({
   lang:       'en',
@@ -83,24 +65,10 @@ export const useDataStore = create<DataState>((set, get) => ({
           loadSets(lang, v),
         ])
 
-        const indexNames = new Map(indexLang.map(it => [it.id,         it.name]))
-        const itemLocMap = new Map(equipLang.map (it => [it.ankama_id, it]))
-        const setNames   = new Map(setsLang.map  (s  => [s.ankama_id,  s.name]))
-
+        const indexNames = new Map(indexLang.map(it => [it.id, it.name]))
         index     = indexEn.map(it => ({ ...it, name: indexNames.get(it.id) ?? it.name }))
-        equipment = equipmentEn.map(it => {
-          const loc = itemLocMap.get(it.ankama_id)
-          if (!loc) return it
-          return {
-            ...it,
-            name:        loc.name,
-            type:        loc.type,
-            description: loc.description,
-            ability:     loc.ability,
-            effects:     overlayLocalizedSpellEffects(it.effects, loc.effects),
-          }
-        })
-        sets      = setsEn.map(s  => ({ ...s,  name: setNames.get(s.ankama_id) ?? s.name }))
+        equipment = localizeEquipment(equipmentEn, equipLang)
+        sets      = localizeSets(setsEn, setsLang)
       }
 
       if (seq !== loadSeq) return

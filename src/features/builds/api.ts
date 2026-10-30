@@ -43,14 +43,15 @@ export function buildTags(build: Pick<BuildRow, 'build_tags'>): Tag[] {
 /** Most tags a build can carry: enough to describe it, few enough to scan. */
 export const MAX_BUILD_TAGS = 5
 
-export type BuildDetailRow = BuildRow
+/** updated_at versions the build's preview image URL (the Worker uses the same value). */
+export type BuildDetailRow = BuildRow & { updated_at: string }
 
 // `profiles!builds_user_id_fkey` is required, not optional — builds has
 // several relationships to profiles (fk_pinned_build, plus many-to-many via
 // build_likes/build_ratings/build_bookmarks as junction tables), so a bare
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
 const ROW_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
-const DETAIL_COLUMNS = `${ROW_COLUMNS}, snapshot`
+const DETAIL_COLUMNS = `${ROW_COLUMNS}, snapshot, updated_at`
 // Cards only draw the equipment icons (snapshot.e): the rest of the snapshot
 // (characteristics, runes, names, passives) is the bulk of a build row, so
 // lists fetch just that path and cardRows() rebuilds a minimal snapshot.

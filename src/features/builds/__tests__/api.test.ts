@@ -71,7 +71,9 @@ describe('card lists fetch only the equipment of each snapshot', () => {
   it('still fetches the full snapshot for one build', async () => {
     mock.on('builds', { data: { id: 'b1', snapshot: { v: 1, c: 'iop', l: 200, a: [1, 0, 0, 0, 0, 0], s: 0, e: [] } } })
     const { data } = await fetchBuildById('b1')
-    expect(String(opArgs(mock.callsTo('builds')[0], 'select')?.[0])).toMatch(/, snapshot$/)
+    const select = String(opArgs(mock.callsTo('builds')[0], 'select')?.[0])
+    expect(select).toMatch(/, snapshot(,|$)/)
+    expect(select).toMatch(/updated_at/)
     expect(data?.snapshot.a[0]).toBe(1)
   })
 })

@@ -17,6 +17,10 @@
     // the other way (/explore/ -> /explore), matching the no-trailing-slash
     // canonical convention in src/seo/useSeoMeta.ts and public/sitemap.xml.
     "html_handling": "drop-trailing-slash",
+    // Prerendered builds and profiles can turn private or be deleted after a
+    // deploy: these paths go through the Worker, which checks before serving
+    // the file (src/worker/index.ts serveBuildPage / serveProfilePage).
+    "run_worker_first": ["/build/*", "/*/build/*", "/u/*", "/*/u/*"],
     "binding": "ASSETS"
   },
   "rules": [

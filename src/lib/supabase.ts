@@ -18,7 +18,11 @@ export function getSupabase(): Promise<SupabaseClient> {
           'Auth/cloud-build features will fail until .env is set (see .env.example).'
         )
       }
-      client = createClient(url ?? '', anonKey ?? '')
+      // Prerendering (Node) only reads public data: no session to keep, and
+      // no token-refresh timer to hold the build process open.
+      client = createClient(url ?? '', anonKey ?? '', typeof window === 'undefined'
+        ? { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
+        : undefined)
       return client
     }).catch(err => {
       // Don't cache the failure: the next call retries the import instead

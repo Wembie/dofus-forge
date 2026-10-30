@@ -62,3 +62,18 @@ async function fetchBuildRow<T extends { visibility: BuildMeta['visibility'] }>(
   if (!row || row.visibility === 'private') return null
   return row
 }
+
+// Same rule as the app (authStore USERNAME_RE): anything else can't exist,
+// so it never reaches PostgREST.
+const USERNAME = /^[a-z0-9_-]{3,30}$/
+
+/** Whether a public profile with this username exists (profiles are publicly readable). */
+export async function profileExists(env: { SUPABASE_URL: string; SUPABASE_ANON_KEY: string }, username: string): Promise<boolean> {
+  if (!USERNAME.test(username)) return false
+  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/profiles?username=eq.${username}&select=username`, {
+    cf: { cacheTtl: 60 },
+    headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}` },
+  })
+  if (!res.ok) return false
+  return ((await res.json()) as unknown[]).length > 0
+}

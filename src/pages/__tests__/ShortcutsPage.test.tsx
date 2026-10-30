@@ -45,14 +45,12 @@ describe('ShortcutsPage', () => {
     expect(screen.getByRole('link', { name: 'shortcuts_cta_howto' })).toBeTruthy()
   })
 
-  it('is linked from the footer, the header, the builder page and the sitemap in every language', () => {
+  it('is linked from the footer, the header, the builder page and the prerendered sitemap pages', () => {
     const read = (p: string) => readFileSync(join(ROOT, p), 'utf8')
     expect(read('src/components/SiteFooter.tsx')).toContain('shortcuts')
     expect(read('src/components/SiteHeader.tsx')).toContain('shortcuts')
     expect(read('src/pages/BuilderPage.tsx')).toContain('shortcuts')
-    const sitemap = read('public/sitemap.xml')
-    for (const path of ['', 'es/', 'fr/', 'pt/']) expect(sitemap).toContain(`<loc>https://dofusforge.com/${path}shortcuts</loc>`)
     expect(read('src/routes.ts')).toContain("['shortcuts', ")
-    expect(read('react-router.config.ts')).toContain("'shortcuts'")
+    expect(read('react-router.config.ts').split('const NOINDEX_PAGES')[0]).toContain("'shortcuts'")
   })
 })
