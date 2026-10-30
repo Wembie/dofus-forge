@@ -11,7 +11,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.138',
     date: '2026-10-30',
     notes: [
-      'Fix: search engines now see the real content of every page — the step that writes it into the page did not run on the live site, which showed crawlers empty pages',
+      'Fix: search engines now see the real content of every page — the live site was showing them empty pages',
       'Feat: spell guides for all 19 classes, in all 4 languages, linked from the About page',
       'Deps: React Router 7 — first step toward rendering every page as real HTML for search engines',
     ],
