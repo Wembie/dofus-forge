@@ -179,7 +179,7 @@ Marcar con `[x]` cuando se complete.
 
 ## Pendientes 🔧
 
-- [ ] **M148 — React Router v7 en modo framework: HTML real sin navegador (SSG + SSR en el Worker)** (0.3.139) — reemplaza el prerender con Chromium (M147) por render de React en Node/Workers. Etapas:
+- [ ] **M148 — React Router v7 en modo framework: HTML real sin navegador (SSG + SSR en el Worker)** (0.3.138) — reemplaza el prerender con Chromium (M147) por render de React en Node/Workers. Etapas:
   - [x] 1. React Router 6.30 → 7.18.4 en modo librería (`react-router-dom` → `react-router`), sin cambio de comportamiento; router en chunk propio. v8 queda para después de React 19 (exige React ≥19.2, Vite ≥7, Node ≥22.22)
   - [ ] 2. Modo framework con `ssr: false` + `prerender`: `root.tsx` reemplaza `index.html`, `entry.client` con `hydrateRoot`, rutas en `routes.ts`, `meta` por ruta, i18n por request, loaders de build para las guías de clase; borra `prerender-content.mjs` y `postbuild-lang-pages.mjs`
   - [ ] 3. SSR en el Worker (`@cloudflare/vite-plugin`) para `/build/:id`, perfiles y Explorar con loaders de Supabase (reemplaza `rewriteBuildMeta`); stores por request

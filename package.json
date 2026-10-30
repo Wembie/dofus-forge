@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.3.139",
+  "version": "0.3.138",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
