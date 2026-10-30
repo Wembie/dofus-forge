@@ -14,6 +14,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Fix: search engines now see the real content of every page — the live site was showing them empty pages',
       'Feat: spell guides for all 19 classes, in all 4 languages, linked from the About page',
       'Deps: React Router 7 — first step toward rendering every page as real HTML for search engines',
+      'Deps: React 19',
     ],
   },
   {

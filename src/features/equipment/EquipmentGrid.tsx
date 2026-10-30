@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense, type JSX } from 'react'
 import { Eye, Pin } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
@@ -184,7 +184,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
   const [hovered, setHovered]   = useState(false)
   const [animating, setAnimating] = useState(false)
-  const leaveRef                = useRef<ReturnType<typeof setTimeout>>()
+  const leaveRef                = useRef<ReturnType<typeof setTimeout>>(undefined)
   const prevItemRef             = useRef(item)
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }

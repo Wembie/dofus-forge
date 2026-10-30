@@ -62,9 +62,12 @@ export default defineConfig({
     sourcemap: process.env.SOURCEMAP === '1',
     rollupOptions: {
       output: {
-        // Changes far less often than app code, so it stays cached across
+        // Change far less often than app code, so they stay cached across
         // deploys; also keeps the entry chunk under the 500 kB warning.
-        manualChunks: id => id.includes('/node_modules/react-router/') ? 'router' : undefined,
+        manualChunks: id =>
+          id.includes('/node_modules/react-router/') ? 'router'
+          : /\/node_modules\/(react|react-dom|scheduler)\//.test(id) ? 'react'
+          : undefined,
       },
     },
   },

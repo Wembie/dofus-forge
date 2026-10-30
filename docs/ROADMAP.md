@@ -181,6 +181,7 @@ Marcar con `[x]` cuando se complete.
 
 - [ ] **M148 — React Router v7 en modo framework: HTML real sin navegador (SSG + SSR en el Worker)** (0.3.138) — reemplaza el prerender con Chromium (M147) por render de React en Node/Workers. Etapas:
   - [x] 1. React Router 6.30 → 7.18.4 en modo librería (`react-router-dom` → `react-router`), sin cambio de comportamiento; router en chunk propio. v8 queda para después de React 19 (exige React ≥19.2, Vite ≥7, Node ≥22.22)
+  - [x] 1b. React 18.3 → 19.3.1: el modo framework hidrata el documento entero y React 18 falla si AdSense o una extensión mete nodos en `<head>`/`<body>` antes; React 19 los ignora (html/head/body son singletons). Arreglos de tipos (refs con null, `useRef(undefined)`, `JSX` importado) y React en chunk propio
   - [ ] 2. Modo framework con `ssr: false` + `prerender`: `root.tsx` reemplaza `index.html`, `entry.client` con `hydrateRoot`, rutas en `routes.ts`, `meta` por ruta, i18n por request, loaders de build para las guías de clase; borra `prerender-content.mjs` y `postbuild-lang-pages.mjs`
   - [ ] 3. SSR en el Worker (`@cloudflare/vite-plugin`) para `/build/:id`, perfiles y Explorar con loaders de Supabase (reemplaza `rewriteBuildMeta`); stores por request
   - [ ] 4. Volver al build de Cloudflare (sin Chromium) y borrar `deploy-worker.yml`
