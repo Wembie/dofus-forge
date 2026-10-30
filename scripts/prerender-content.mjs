@@ -26,7 +26,7 @@
 
 import { chromium } from '@playwright/test'
 import { spawn } from 'node:child_process'
-import { writeFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
 const DIST = join(process.cwd(), 'dist')
@@ -41,7 +41,13 @@ const BASE = (process.env.CF_PAGES || process.env.CLOUDFLARE_DEPLOY) ? '/' : '/d
 const ORIGIN = `http://localhost:${PORT}`
 const LANGS = ['en', 'es', 'fr', 'pt']
 const LANG_PATH = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
-const SLUGS = ['', 'explore', 'about', 'how-to-use', 'forge-guide', 'shortcuts', 'privacy', 'terms', 'classes/cra']
+const CLASS_IDS = Object.keys(JSON.parse(readFileSync(join(process.cwd(), 'public', 'data', 'class-names.json'), 'utf-8')))
+const SLUGS = ['', 'explore', 'about', 'how-to-use', 'forge-guide', 'shortcuts', 'privacy', 'terms', ...CLASS_IDS.map(id => `classes/${id}`)]
+// Set by the production deploy workflow: there a skipped page means the
+// deploy would ship an empty shell to crawlers, so it must fail instead.
+// Cloudflare's own build container has no Chromium, and the silent skip
+// meant production served empty pages to AdSense for weeks unnoticed.
+const REQUIRED = process.env.PRERENDER_REQUIRED === '1'
 // Generous: the very first request to a cold preview server (always the
 // home page, first in the loop) pays extra one-time cost compiling/caching
 // assets on top of its own game-data load — timed at 2.4s warm, but needs
@@ -89,6 +95,7 @@ async function main() {
     try {
       await waitForServer(`${ORIGIN}${BASE}`, 20_000)
     } catch (err) {
+      if (REQUIRED) throw err
       console.warn(`Skipping prerendering — ${err.message}`)
       return
     }
@@ -97,12 +104,9 @@ async function main() {
     try {
       browser = await chromium.launch()
     } catch (err) {
-      // This step is an enhancement, not a requirement: if the build
-      // environment doesn't have (or can't install) a Chromium binary — e.g.
-      // Cloudflare Workers Builds' remote container, never verified to
-      // support this — skip it without failing the whole production
-      // deploy. The site still ships correctly, just without the richer
-      // crawler-visible snapshots this adds on top.
+      // Optional for local and PR builds (no Chromium installed is fine
+      // there); required only in the deploy workflow, see REQUIRED.
+      if (REQUIRED) throw err
       console.warn(`Skipping prerendering — could not launch a browser: ${err.message.split('\n')[0]}`)
       return
     }
@@ -142,13 +146,16 @@ async function main() {
 
     await browser.close()
     console.log(`Prerendering done: ${written} written, ${skipped} skipped.`)
+    if (REQUIRED && skipped > 0) throw new Error(`${skipped} page(s) were not prerendered`)
   } finally {
     preview.kill()
   }
 }
 
 main().catch(err => {
-  // Never fail the production build over this enhancement step — worst case,
-  // the site ships with the metadata-only static pages it already had.
+  if (REQUIRED) {
+    console.error('Prerendering failed:', err.message)
+    process.exit(1)
+  }
   console.warn('Skipping prerendering — unexpected error:', err.message)
 })

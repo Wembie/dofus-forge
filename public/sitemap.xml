@@ -322,6 +322,326 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://dofusforge.com/classes/feca</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/feca"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/feca</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/feca"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/feca</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/feca"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/feca</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/feca"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/feca"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/osamodas</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/osamodas"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/osamodas</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/osamodas"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/osamodas</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/osamodas"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/osamodas</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/osamodas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/osamodas"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/enutrof</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/enutrof"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/enutrof</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/enutrof"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/enutrof</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/enutrof"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/enutrof</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/enutrof"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/enutrof"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/sram</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sram"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/sram</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sram"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/sram</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sram"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/sram</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sram"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/xelor</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/xelor"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/xelor</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/xelor"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/xelor</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/xelor"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/xelor</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/xelor"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/xelor"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/ecaflip</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ecaflip"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/ecaflip</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ecaflip"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/ecaflip</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ecaflip"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/ecaflip</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ecaflip"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ecaflip"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/eniripsa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eniripsa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/eniripsa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eniripsa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/eniripsa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eniripsa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/eniripsa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eniripsa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eniripsa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/iop</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/iop"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/iop</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/iop"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/iop</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/iop"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/iop</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/iop"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/iop"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://dofusforge.com/classes/cra</loc>
     <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/cra"/>
     <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/cra"/>
@@ -358,6 +678,406 @@
     <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/cra"/>
     <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/cra"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/cra"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/sadida</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sadida"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/sadida</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sadida"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/sadida</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sadida"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/sadida</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sadida"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sadida"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/sacrier</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sacrier"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/sacrier</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sacrier"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/sacrier</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sacrier"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/sacrier</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/sacrier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/sacrier"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/pandawa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/pandawa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/pandawa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/pandawa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/pandawa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/pandawa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/pandawa</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/pandawa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/pandawa"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/rogue</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/rogue"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/rogue</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/rogue"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/rogue</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/rogue"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/rogue</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/rogue"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/rogue"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/masqueraider</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/masqueraider"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/masqueraider</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/masqueraider"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/masqueraider</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/masqueraider"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/masqueraider</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/masqueraider"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/masqueraider"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/foggernaut</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/foggernaut"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/foggernaut</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/foggernaut"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/foggernaut</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/foggernaut"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/foggernaut</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/foggernaut"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/foggernaut"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/eliotrope</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eliotrope"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/eliotrope</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eliotrope"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/eliotrope</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eliotrope"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/eliotrope</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/eliotrope"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/eliotrope"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/huppermage</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/huppermage"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/huppermage</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/huppermage"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/huppermage</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/huppermage"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/huppermage</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/huppermage"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/huppermage"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/ouginak</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ouginak"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/ouginak</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ouginak"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/ouginak</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ouginak"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/ouginak</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/ouginak"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/ouginak"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/classes/forgelance</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/forgelance"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/es/classes/forgelance</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/forgelance"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/fr/classes/forgelance</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/forgelance"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://dofusforge.com/pt/classes/forgelance</loc>
+    <xhtml:link rel="alternate" hreflang="en"        href="https://dofusforge.com/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="es"        href="https://dofusforge.com/es/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="fr"        href="https://dofusforge.com/fr/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="pt"        href="https://dofusforge.com/pt/classes/forgelance"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://dofusforge.com/classes/forgelance"/>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>

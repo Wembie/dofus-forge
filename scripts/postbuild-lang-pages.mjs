@@ -125,13 +125,17 @@ const TERMS_META = {
   pt: { title: 'Termos de Serviço — Dofus Forge', description: 'Os termos que regem o uso do Dofus Forge, incluindo contas, conteúdo de usuários e uso aceitável.' },
 }
 
-// Pilot for /classes/:id (ClassGuidePage) — only Cra for now, see
-// AboutPage's CLASS_GUIDE_PILOT. Names from public/data/class-names.json.
-const CRA_META = {
-  en: { title: 'Cra — Dofus 3 Spell Guide', description: 'All Cra spells in Dofus 3 — AP cost, range and effects at max level, plus a shortcut to start a Cra build.' },
-  es: { title: 'Ocra — Guía de hechizos Dofus 3', description: 'Todos los hechizos de Ocra en Dofus 3 — coste en PA, alcance y efectos a nivel máximo, más un atajo para armar un build de Ocra.' },
-  fr: { title: 'Crâ — Guide des sorts Dofus 3', description: "Tous les sorts de Crâ dans Dofus 3 — coût en PA, portée et effets au niveau maximum, plus un raccourci pour créer un build Crâ." },
-  pt: { title: 'Cra — Guia de feitiços Dofus 3', description: 'Todos os feitiços de Cra no Dofus 3 — custo em PA, alcance e efeitos no nível máximo, além de um atalho para montar uma build de Cra.' },
+// /classes/:id (ClassGuidePage), one page per class in
+// public/data/class-names.json — same ids as DOFUS_CLASSES.
+const CLASS_NAMES = JSON.parse(readFileSync(join(process.cwd(), 'public', 'data', 'class-names.json'), 'utf-8'))
+
+function classGuideMeta(names) {
+  return {
+    en: { title: `${names.en} — Dofus 3 Spell Guide`, description: `All ${names.en} spells in Dofus 3 — AP cost, range and effects at max level, plus a shortcut to start a ${names.en} build.` },
+    es: { title: `${names.es} — Guía de hechizos Dofus 3`, description: `Todos los hechizos de ${names.es} en Dofus 3 — coste en PA, alcance y efectos a nivel máximo, más un atajo para armar un build de ${names.es}.` },
+    fr: { title: `${names.fr} — Guide des sorts Dofus 3`, description: `Tous les sorts de ${names.fr} dans Dofus 3 — coût en PA, portée et effets au niveau maximum, plus un raccourci pour créer un build ${names.fr}.` },
+    pt: { title: `${names.pt} — Guia de feitiços Dofus 3`, description: `Todos os feitiços de ${names.pt} no Dofus 3 — custo em PA, alcance e efeitos no nível máximo, além de um atalho para montar uma build de ${names.pt}.` },
+  }
 }
 
 const baseHtml = readFileSync(join(DIST, 'index.html'), 'utf-8')
@@ -239,7 +243,7 @@ generateRoute('privacy', PRIVACY_META)
 generateRoute('terms', TERMS_META)
 generateRoute('my-builds', MY_BUILDS_META, { noindex: true }) // private/auth-gated — real 200 for bookmarked direct loads, but noindex
 generateRoute('account', ACCOUNT_META, { noindex: true }) // private/auth-gated — same treatment as my-builds
-generateRoute('classes/cra', CRA_META)
+for (const [id, names] of Object.entries(CLASS_NAMES)) generateRoute(`classes/${id}`, classGuideMeta(names))
 
 // Fetched at runtime (no-store) so the running app can detect a newer
 // deploy and prompt the user to refresh instead of risking a stale

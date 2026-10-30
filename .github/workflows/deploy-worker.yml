@@ -1,0 +1,106 @@
+# Production deploy of the Cloudflare Worker (wrangler.jsonc, dofusforge.com).
+#
+# Runs here instead of in Cloudflare Workers Builds because the build must
+# prerender every crawlable page in a real browser (scripts/prerender-content.mjs)
+# and Cloudflare's build container has no Chromium: there the step skipped
+# silently and production served empty `<div id="root">` shells to crawlers,
+# which is what AdSense rejected as low-value content. PRERENDER_REQUIRED makes
+# a missing snapshot fail the build, and the last step checks the live site.
+#
+# Requires repository secrets CLOUDFLARE_API_TOKEN (Workers Scripts: Edit),
+# CLOUDFLARE_ACCOUNT_ID, VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY, and the
+# Git integration's production deploy turned off in the Cloudflare dashboard,
+# otherwise its unprerendered build can land after this one.
+name: Deploy Worker
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Check deploy secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: |
+          missing=0
+          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID VITE_SUPABASE_URL VITE_SUPABASE_ANON_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Repository secret $name is not set"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build and prerender
+        env:
+          CLOUDFLARE_DEPLOY: '1'
+          PRERENDER_REQUIRED: '1'
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: pnpm build
+
+      - name: Deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: npx --yes wrangler@4.153.0 deploy
+
+      # What a crawler that runs no JavaScript gets: the body text with
+      # scripts stripped. An empty shell is a handful of words.
+      - name: Verify production serves prerendered content
+        run: |
+          node --input-type=module <<'NODE'
+          const pages = ['/', '/es', '/about', '/fr/forge-guide', '/pt/classes/iop']
+          const words = html => (html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? '')
+            .replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<[^>]+>/g, ' ')
+            .split(/\s+/).filter(Boolean).length
+          let failed = false
+          for (const path of pages) {
+            let count = 0
+            for (let attempt = 0; attempt < 6 && count < 100; attempt++) {
+              if (attempt) await new Promise(r => setTimeout(r, 10_000))
+              const res = await fetch(`https://dofusforge.com${path}`, { headers: { 'cache-control': 'no-cache' } })
+              count = words(await res.text())
+            }
+            console.log(`${path}: ${count} words`)
+            if (count < 100) { console.log(`::error::${path} serves an empty shell (${count} words)`); failed = true }
+          }
+          process.exit(failed ? 1 : 0)
+          NODE
