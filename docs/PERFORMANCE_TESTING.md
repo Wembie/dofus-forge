@@ -117,6 +117,17 @@ The repo includes a reusable k6 harness under `k6/`:
 
 A dedicated GitHub Actions workflow in `.github/workflows/performance.yml` runs the smoke suite against a local preview build, then exits non-zero if the configured thresholds fail. The remote Cloudflare preview smoke is temporarily disabled; the local smoke remains active. This keeps local performance validation in the PR pipeline without sending automated test traffic to Cloudflare previews.
 
+### Front-end regression budgets (M150)
+
+Two checks guard what the M150 audit fixed, each failing the PR on a regression:
+
+- **Page weight** (`scripts/check-budget.mjs`, PR Checks, right after `pnpm build`): the JavaScript and CSS each key prerendered page loads up front (its scripts, `modulepreload` and stylesheet links), brotli-compressed, against a per-page budget set at the measured size plus ~10%. Deterministic: it reads `dist/client`, no browser involved. Raise a budget on purpose, in the commit that needs it.
+- **Lighthouse** (`scripts/check-lighthouse.mjs`, Performance smoke, after the e2e tests): Lighthouse 13.6 — the version PageSpeed Insights runs — mobile with simulated throttling, two runs per page against the local Worker; the best run counts. Errors: LCP > 2.5 s, CLS > 0.1, accessibility or SEO below 95, or any failure of `canonical`, `target-size`, `color-contrast`, `document-title`, `meta-description`, `image-alt`, `button-name`, `link-name`. TBT > 200 ms is a warning (shared CI machines vary). Exact category scores are deliberately not asserted: they move between Lighthouse versions. Reports are uploaded as an artifact when the job fails.
+
+Lighthouse CI (`@lhci/cli` 0.15) was tried and not used: it bundles Lighthouse 12.6, whose LCP model put these pages at 2.9–5 s while the observed LCP was 0.2–0.3 s and Lighthouse 13.6 measured 0.8–0.9 s.
+
+These are lab numbers on a local server (no network latency, no CDN). Field data (CrUX) for dofusforge.com did not exist yet at the time of the audit (not enough traffic), so INP and real-user LCP/CLS are not measured anywhere; Cloudflare Web Analytics is the closest source.
+
 ## Summary
 
 The Dofus Forge performance strategy is intentionally conservative and evidence-driven: it measures the real app, isolates the real bottlenecks, and makes the workload profiles and thresholds explicit so that regressions are visible before they reach users.

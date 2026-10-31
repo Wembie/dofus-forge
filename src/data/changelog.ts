@@ -17,6 +17,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'Perf: repeat visits load faster: the app files are cached instead of re-checked every time',
       'Fix: search engines now see one canonical address per page (some pages also pointed at the home page)',
       'Accessibility: bigger footer links and more readable element chips',
+      'Perf: the About page loads about 1 MB less data',
     ],
   },
   {

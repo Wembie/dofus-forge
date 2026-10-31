@@ -10,7 +10,6 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { fetchTotalBuildsCount } from '@/features/builds/api.ts'
 
 const SECTIONS = [
@@ -39,7 +38,8 @@ export function AboutPage() {
     title: t('about_seo_title'),
     description: t('about_seo_description'),
   })
-  useLoadGameData() // needed so classNames (per-language class labels) are loaded — see the class list below
+  // The class list's names come from the table bundled with the app (resolveClassName),
+  // or from the store when another page already loaded the game data.
   const classNames = useDataStore(s => s.classNames)
 
   const [totalBuilds, setTotalBuilds] = useState<number | null>(null)
