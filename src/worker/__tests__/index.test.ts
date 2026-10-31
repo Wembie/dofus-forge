@@ -212,3 +212,36 @@ describe('prerendered build and profile pages', () => {
     expect(vi.mocked(fetch)).not.toHaveBeenCalled()
   })
 })
+
+describe('pages that are all prerendered', () => {
+  const FALLBACK = '<html><body>app</body></html>'
+  const siteEnv = () => env({
+    ASSETS: {
+      fetch: async (req: Request) => {
+        const path = new URL(req.url).pathname
+        if (path === '/__spa-fallback') return new Response(FALLBACK, { headers: { 'Content-Type': 'text/html' } })
+        if (path === '/es/sets/gobball-set') return new Response('<html>set</html>', { headers: { 'Content-Type': 'text/html' } })
+        return new Response('Not found', { status: 404 })
+      },
+    },
+  })
+  const get = (path: string) => worker.fetch(new Request(`https://dofusforge.com${path}`), siteEnv())
+
+  it('serves an existing set page as is', async () => {
+    const res = await get('/es/sets/gobball-set')
+    expect(res.status).toBe(200)
+    expect(await res.text()).toBe('<html>set</html>')
+  })
+
+  it('answers 404 with the app document for a set or class that does not exist', async () => {
+    for (const path of ['/sets/nope', '/fr/sets/nope', '/classes/nope', '/pt/classes/nope']) {
+      const res = await get(path)
+      expect(res.status, path).toBe(404)
+      expect(await res.text()).toBe(FALLBACK)
+    }
+  })
+
+  it('keeps serving the app document with 200 for routes without their own page', async () => {
+    expect((await get('/c/some-collection')).status).toBe(200)
+  })
+})

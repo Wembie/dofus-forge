@@ -8,6 +8,16 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.139',
+    date: '2026-10-31',
+    notes: [
+      'Feat: a page for every set — bonuses for each number of pieces, full-set stats, every item, similar sets and a button to try it in the planner',
+      'Feat: new Sets page with all 521 sets by level, searchable and filterable by element',
+      'Feat: class guides now show the best sets for each element at every level, the sets made for that class and its community builds',
+      "Feat: the planner's set window links to the set's page",
+    ],
+  },
+  {
     version: '0.3.138',
     date: '2026-10-30',
     notes: [

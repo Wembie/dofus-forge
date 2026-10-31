@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+import { ExternalLink } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -11,6 +13,7 @@ import { Modal, Button } from '@/ui'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { assignSetSlots } from './setSlots.ts'
+import { setPath } from '@/features/set-guide/setGuideLinks.ts'
 
 type Props = {
   set:     AppSet
@@ -46,8 +49,9 @@ function TierEffectRow({ e, active }: { e: AppEffect; active: boolean }) {
 }
 
 export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
-  const { t }     = useTranslation()
+  const { t, i18n } = useTranslation()
   const equipment   = useDataStore(s => s.equipment)
+  const slug        = useDataStore(s => s.setSlugs.get(set.ankama_id))
   const equipped      = useBuildStore(s => s.equipped)
   const equipItem     = useBuildStore(s => s.equipItem)
   const equipMultiple = useBuildStore(s => s.equipMultiple)
@@ -178,6 +182,19 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
             {t('set_pieces_equipped', { n: equippedCount, total: setItems.length })}
           </span>
         </div>
+        {slug && (
+          // A new tab: the planner and its unsaved build stay where they are.
+          <Link
+            to={setPath(i18n.language, slug)}
+            target="_blank"
+            rel="noopener"
+            className="flex items-center gap-1 text-[11px] font-semibold flex-shrink-0 hover:underline"
+            style={{ color: 'var(--gold)' }}
+          >
+            {t('set_page_open')}
+            <ExternalLink size={11} aria-hidden="true" />
+          </Link>
+        )}
       </div>
 
       <div className="p-4 space-y-5 overflow-y-auto">

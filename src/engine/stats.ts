@@ -1,4 +1,4 @@
-import type { BuildInput, StatBlock, ItemEffect } from './types.ts'
+import type { BuildInput, StatBlock, ItemEffect, EquippedItem } from './types.ts'
 import { pointCost, statBudget, SCROLL_BONUS } from './characteristics.ts'
 import { STAT_MAP, IGNORED_STATS, WEAPON_ATTACK_IDS } from './statMap.ts'
 
@@ -99,6 +99,16 @@ function computeSetBonuses(items: BuildInput['items'], sets: BuildInput['sets'])
   return bonusEffects
 }
 
+/** An item's effects that count toward the character's stats: a weapon's attack lines are not stat bonuses. */
+export function itemStatEffects(item: Pick<EquippedItem, 'slot' | 'effects'>): ItemEffect[] {
+  if (item.slot !== 'weapon') return item.effects
+  return item.effects.filter(e =>
+    e.effect_id != null
+      ? !WEAPON_ATTACK_IDS.has(e.effect_id)
+      : !WEAPON_ATTACK_STAT_NAMES.has(e.stat)
+  )
+}
+
 /**
  * Compute the full aggregated StatBlock for a build.
  *
@@ -113,16 +123,7 @@ export function computeStats(input: BuildInput): StatBlock {
   block.pods = BASE_PODS
 
   // 2. Aggregate item effects (filter weapon attack ranges from weapon-slot items)
-  for (const item of input.items) {
-    const effects = item.slot === 'weapon'
-      ? item.effects.filter(e =>
-          e.effect_id != null
-            ? !WEAPON_ATTACK_IDS.has(e.effect_id)
-            : !WEAPON_ATTACK_STAT_NAMES.has(e.stat)
-        )
-      : item.effects
-    applyEffects(block, effects)
-  }
+  for (const item of input.items) applyEffects(block, itemStatEffects(item))
 
   // 3. Aggregate set bonuses
   const setBonuses = computeSetBonuses(input.items, input.sets)

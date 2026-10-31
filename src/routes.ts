@@ -12,6 +12,8 @@ const PAGES: [path: string, file: string][] = [
   ['privacy', 'pages/PrivacyPolicyPage.tsx'],
   ['terms', 'pages/TermsPage.tsx'],
   ['classes/:classId', 'pages/ClassGuidePage.tsx'],
+  ['sets', 'pages/SetsPage.tsx'],
+  ['sets/:slug', 'pages/SetPage.tsx'],
   ['u/:username', 'pages/UserProfilePage.tsx'],
   ['account', 'pages/AccountPage.tsx'],
   ['admin', 'pages/AdminDashboardPage.tsx'],

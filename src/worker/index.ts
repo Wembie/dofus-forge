@@ -39,9 +39,14 @@ const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
 const SPA_FALLBACK = '/__spa-fallback'
 const FILE_EXTENSION = /\.[a-z0-9]+$/i
 
-async function serveFallback(env: Env, request: Request): Promise<Response> {
+// Every set page and class guide is prerendered, so a miss under these
+// paths is a page that does not exist: a real 404 for crawlers, while the
+// fallback still renders the app's not-found view for people.
+const PRERENDERED_ONLY = /^(?:\/(?:en|es|fr|pt))?\/(?:sets|classes)\/[^/]+$/
+
+async function serveFallback(env: Env, request: Request, status = 200): Promise<Response> {
   const fallback = await env.ASSETS.fetch(new Request(new URL(SPA_FALLBACK, request.url), { method: request.method }))
-  return new Response(fallback.body, { status: 200, headers: fallback.headers })
+  return new Response(fallback.body, { status, headers: fallback.headers })
 }
 
 async function serveAsset(env: Env, request: Request): Promise<Response> {
@@ -50,7 +55,7 @@ async function serveAsset(env: Env, request: Request): Promise<Response> {
   if (response.status !== 404 || (request.method !== 'GET' && request.method !== 'HEAD') || FILE_EXTENSION.test(url.pathname)) {
     return response
   }
-  return serveFallback(env, request)
+  return serveFallback(env, request, PRERENDERED_ONLY.test(url.pathname) ? 404 : 200)
 }
 
 const NOT_FOUND = () => new Response('Not found', { status: 404 })

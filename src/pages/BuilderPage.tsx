@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard } from 'lucide-react'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library } from 'lucide-react'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
@@ -19,6 +19,8 @@ import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
 import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
 import { encodeBuild } from '@/features/share/codec.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
+import { useToastStore } from '@/store/toastStore.ts'
+import { assignSetSlots } from '@/features/equipment/setSlots.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
 import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
@@ -203,6 +205,32 @@ function BuilderContent() {
   useEffect(() => {
     if (_compEquip && _compSets) refreshCompare(_compEquip, _compSets)
   }, [_compEquip, _compSets, refreshCompare])
+
+  // ?set=<id> (a set page's "Try it in the planner") equips the whole set
+  // once the catalog has loaded, once: the param is dropped right away so a
+  // reload or a shared link never re-equips it over later changes.
+  const pendingSetId = useRef<number | null>(null)
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (!url.searchParams.has('set')) return
+    const id = Number(url.searchParams.get('set'))
+    if (Number.isInteger(id) && id > 0 && !url.searchParams.has('b')) pendingSetId.current = id
+    url.searchParams.delete('set')
+    window.history.replaceState(window.history.state, '', url)
+  }, [])
+  useEffect(() => {
+    const id = pendingSetId.current
+    if (id == null || !_compEquip || !_compSets) return
+    pendingSetId.current = null
+    const set = _compSets.find(s => s.ankama_id === id)
+    if (!set) return
+    const byId = new Map(_compEquip.map(it => [it.ankama_id, it]))
+    const items = set.items.flatMap(itemId => (byId.has(itemId) ? [byId.get(itemId)!] : [])).sort((a, b) => b.level - a.level)
+    const assigned = assignSetSlots(items, useBuildStore.getState().equipped)
+    if (assigned.length === 0) return
+    useBuildStore.getState().equipMultiple(assigned.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
+    useToastStore.getState().addToast(t('set_page_equipped_toast', { name: set.name }))
+  }, [_compEquip, _compSets, t])
 
   const mobileTabItems: TabItem[] = [
     { id: 'equipment', label: t('equipment'), Icon: Swords },
@@ -395,6 +423,7 @@ function BuilderContent() {
                 { key: 'compare',    label: t('compare'),           Icon: BarChart2,  active: compareActive, onClick: toggleCompare },
                 { key: 'undo',       label: t('undo'),              Icon: Undo2,      disabled: !canUndo, onClick: undo },
                 { key: 'redo',       label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
+                { key: 'sets-page',  label: t('nav_sets'),          Icon: Library,    onClick: () => navToLangPath('sets') },
                 { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onClick: () => navToLangPath('how-to-use') },
                 { key: 'shortcuts',  label: t('nav_shortcuts'),     Icon: Keyboard,   onClick: () => navToLangPath('shortcuts') },
                 { key: 'about',      label: t('nav_about'),         Icon: Info,       onClick: () => navToLangPath('about') },
@@ -419,6 +448,7 @@ function BuilderContent() {
           { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
+          { key: 'sets-page',  label: t('nav_sets'),          Icon: Library,    onRun: () => navToLangPath('sets') },
           { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onRun: () => navToLangPath('how-to-use') },
           { key: 'shortcuts',  label: t('nav_shortcuts'),     Icon: Keyboard,   onRun: () => navToLangPath('shortcuts') },
           { key: 'about',      label: t('nav_about'),         Icon: Info,       onRun: () => navToLangPath('about') },
