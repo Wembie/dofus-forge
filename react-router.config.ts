@@ -3,18 +3,26 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { loadEnv } from 'vite'
 import { SENTINEL_BUILD_ID, SENTINEL_USERNAME } from './src/data/prerenderSentinels.ts'
+import { setSlugs } from './src/data/setGuide.ts'
 
 const SITE = 'https://dofusforge.com'
 const LANG_PREFIXES = { en: '', es: '/es', fr: '/fr', pt: '/pt' } as const
 const PREFIXES = ['', '/en', '/es', '/fr', '/pt']
-const CLASS_IDS = Object.keys(JSON.parse(readFileSync('./public/data/class-names.json', 'utf-8')))
+const readData = <T>(file: string): T => JSON.parse(readFileSync(`./public/data/${file}`, 'utf-8')) as T
+const CLASS_IDS = Object.keys(readData<Record<string, unknown>>('class-names.json'))
+// One page per set with known items (src/data/setGuide.ts), at /sets/<slug>.
+const SET_SLUGS = [...setSlugs(
+  readData<{ ankama_id: number; name: string; items: number[] }[]>('en/sets.json'),
+  new Set(readData<{ ankama_id: number }[]>('en/equipment.json').map(it => it.ankama_id)),
+).values()]
 
 // Every page that has to reach crawlers as real HTML. my-builds and account
 // are noindex (their body is a sign-in prompt) but are still prerendered so a
 // direct load gets that noindex in the HTML itself.
 const STATIC_PAGES = [
-  '', 'explore', 'about', 'how-to-use', 'forge-guide', 'shortcuts', 'privacy', 'terms',
+  '', 'explore', 'about', 'how-to-use', 'forge-guide', 'shortcuts', 'privacy', 'terms', 'sets',
   ...CLASS_IDS.map(id => `classes/${id}`),
+  ...SET_SLUGS.map(slug => `sets/${slug}`),
 ]
 const NOINDEX_PAGES = ['my-builds', 'account']
 
@@ -98,7 +106,12 @@ const withPrefixes = (pages: string[]) => PREFIXES.flatMap(prefix => pages.map(p
  * to the bare URLs, so they are not listed.
  */
 async function writeSitemap(clientDir: string) {
-  const lastmod = new Map<string, string>((await publicBuilds()).flatMap(b => (b.lastmod ? [[`build/${b.id}`, b.lastmod]] : [])))
+  // Set pages change only when the game data does.
+  const dataDate = readData<{ generatedAt: string }>('version.json').generatedAt.slice(0, 10)
+  const lastmod = new Map<string, string>([
+    ...SET_SLUGS.map(slug => [`sets/${slug}`, dataDate] as const),
+    ...(await publicBuilds()).flatMap(b => (b.lastmod ? [[`build/${b.id}`, b.lastmod] as const] : [])),
+  ])
   const url = (page: string) => {
     const loc = (prefix: string) => `${SITE}${prefix}${page ? `/${page}` : ''}`
     const alternates = Object.entries(LANG_PREFIXES)

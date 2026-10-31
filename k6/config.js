@@ -48,5 +48,7 @@ export const PUBLIC_ROUTES = [
   '/how-to-use',
   '/classes/iop',
   '/classes/sadida',
-  '/classes/enu',
+  '/classes/enutrof',
+  '/sets',
+  '/sets/gobball-set',
 ]

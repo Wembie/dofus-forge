@@ -10,7 +10,9 @@ export const PUBLIC_ROUTES = [
   '/how-to-use',
   '/classes/iop',
   '/classes/sadida',
-  '/classes/enu',
+  '/classes/enutrof',
+  '/sets',
+  '/sets/gobball-set',
 ]
 
 export const ROUTE_LABELS = {
@@ -20,7 +22,9 @@ export const ROUTE_LABELS = {
   '/how-to-use': 'how_to_use',
   '/classes/iop': 'class_iop',
   '/classes/sadida': 'class_sadida',
-  '/classes/enu': 'class_enu',
+  '/classes/enutrof': 'class_enutrof',
+  '/sets': 'sets',
+  '/sets/gobball-set': 'set_page',
 }
 
 export function buildUrl(path) {

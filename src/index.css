@@ -385,6 +385,29 @@ body {
   left: 0;
 }
 
+/* ── Set guide cards ──────────────────────────────────────────────────────
+   Classes rather than inline styles: the sets index draws ~500 of these and
+   repeated inline styles alone made up most of its HTML. */
+.set-card {
+  background: var(--surface-stone);
+  border: 1px solid var(--metal-edge);
+  box-shadow: var(--inset-bevel);
+  transition: border-color 150ms ease;
+}
+.set-card:hover { border-color: color-mix(in srgb, var(--gold) 45%, var(--metal-edge)); }
+.set-card-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--surface-void);
+  border: 1px solid var(--metal-edge);
+}
+/* --c is the element's color, set per chip. */
+.elem-chip {
+  color: var(--c);
+  border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+  background: color-mix(in srgb, var(--c) 10%, transparent);
+}
+
 /* ── Scrollbar ────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }

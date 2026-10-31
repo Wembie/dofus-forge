@@ -1,7 +1,7 @@
 import { Suspense, lazy, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router'
-import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard } from 'lucide-react'
+import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { IconButton } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
@@ -30,6 +30,7 @@ export function SiteHeader() {
   const isAbout     = location.pathname.includes('/about')
   const isHowToUse  = location.pathname.includes('/how-to-use')
   const isShortcuts = location.pathname.includes('/shortcuts')
+  const isSets      = /(?:^|\/)sets(?:\/|$)/.test(location.pathname)
   const isAdminSection = /(?:^|\/)admin(?:\/|$)/.test(location.pathname)
   const [showSettings, setShowSettings] = useState(false)
 
@@ -80,6 +81,16 @@ export function SiteHeader() {
           <FolderOpen size={13} />
           {t('my_builds')}
         </Link>
+        <Link
+          to={`/${prefix}sets`}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
+          style={isSets
+            ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
+            : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
+        >
+          <Library size={13} />
+          {t('nav_sets')}
+        </Link>
         {isAdmin && (
           <Link
             to={`/${prefix}admin`}
@@ -103,6 +114,7 @@ export function SiteHeader() {
           items={[
             { key: 'explore',    label: t('explore_open'),   Icon: Compass,    active: isExplore,    onClick: () => navigate(`/${prefix}explore`) },
             { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, active: isMyBuilds,   onClick: () => navigate(`/${prefix}my-builds`) },
+            { key: 'sets',       label: t('nav_sets'),       Icon: Library,    active: isSets,       onClick: () => navigate(`/${prefix}sets`) },
             { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   active: isHowToUse,   onClick: () => navigate(`/${prefix}how-to-use`) },
             { key: 'shortcuts',  label: t('nav_shortcuts'),  Icon: Keyboard,   active: isShortcuts,  onClick: () => navigate(`/${prefix}shortcuts`) },
             { key: 'about',      label: t('nav_about'),      Icon: Info,       active: isAbout,      onClick: () => navigate(`/${prefix}about`) },
@@ -119,6 +131,7 @@ export function SiteHeader() {
           { key: 'home',       label: t('app_title'),      Icon: Home,       onRun: () => navigate(homePath) },
           { key: 'explore',    label: t('explore_open'),   Icon: Compass,    onRun: () => navigate(`/${prefix}explore`) },
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
+          { key: 'sets',       label: t('nav_sets'),       Icon: Library,    onRun: () => navigate(`/${prefix}sets`) },
           { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   onRun: () => navigate(`/${prefix}how-to-use`) },
           { key: 'shortcuts',  label: t('nav_shortcuts'),  Icon: Keyboard,   onRun: () => navigate(`/${prefix}shortcuts`) },
           { key: 'about',      label: t('nav_about'),      Icon: Info,       onRun: () => navigate(`/${prefix}about`) },

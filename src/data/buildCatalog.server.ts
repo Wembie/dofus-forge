@@ -12,12 +12,12 @@ async function readJson<T>(lang: string, file: string): Promise<T> {
   return JSON.parse(await readFile(join(DATA, lang, file), 'utf-8')) as T
 }
 
-type Catalog = { items: Map<number, AppItem>; sets: Map<number, AppSet> }
+export type Catalog = { items: Map<number, AppItem>; sets: Map<number, AppSet> }
 const catalogs = new Map<PathLang, Promise<Catalog>>()
 
 // Built the way dataStore builds it in the browser, once per language for
 // the whole prerender (the equipment file alone is ~5 MB).
-function catalog(lang: PathLang): Promise<Catalog> {
+export function catalog(lang: PathLang): Promise<Catalog> {
   let pending = catalogs.get(lang)
   if (!pending) {
     pending = (async () => {

@@ -3,12 +3,15 @@ import { loadVersion, loadIndex, loadEquipment, loadSets, loadClassNames, type I
 import { fetchSpells, localizeSpells, type ClassSpells } from '@/data/spellLoaders.ts'
 import { useBuildStore } from './buildStore.ts'
 import { localizeEquipment, localizeSets } from '@/data/localizeItems.ts'
+import { setSlugs } from '@/data/setGuide.ts'
 
 interface DataState {
   lang:        string
   index:       IndexItem[] | null
   equipment:   AppItem[] | null
   sets:        AppSet[] | null
+  /** Set id -> its page's slug (/sets/<slug>), for the sets that have one. */
+  setSlugs:    Map<number, string>
   classNames:  Record<string, Record<string, string>> | null
   spells:      Map<string, ClassSpells>
   loading:     boolean
@@ -27,6 +30,7 @@ export const useDataStore = create<DataState>((set, get) => ({
   index:      null,
   equipment:  null,
   sets:       null,
+  setSlugs:   new Map(),
   classNames: null,
   spells:     new Map(),
   loading:    false,
@@ -72,7 +76,9 @@ export const useDataStore = create<DataState>((set, get) => ({
       }
 
       if (seq !== loadSeq) return
-      set({ index, equipment, sets, classNames, loading: false })
+      // From the English names, exactly as react-router.config.ts names the pages.
+      const slugs = setSlugs(setsEn, new Set(equipmentEn.map(it => it.ankama_id)))
+      set({ index, equipment, sets, setSlugs: slugs, classNames, loading: false })
       useBuildStore.getState().setEquipment(equipment)
       useBuildStore.getState().setSetsData(sets)
     } catch (e) {
