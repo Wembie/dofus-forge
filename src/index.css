@@ -181,6 +181,17 @@
   box-sizing: border-box;
 }
 
+/* Arial resized to Inter's metrics: text keeps its width when the web font
+   swaps in, so lines don't rewrap and push the layout around (CLS). */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+  size-adjust: 107.12%;
+}
+
 body {
   background-color: var(--surface-void);
   background-image:
@@ -188,7 +199,7 @@ body {
     radial-gradient(ellipse 50% 50% at 0% 100%, rgba(47,147,216,0.04) 0%, transparent 100%),
     radial-gradient(ellipse 50% 50% at 100% 100%, rgba(201,138,43,0.04) 0%, transparent 100%);
   color: var(--ink);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Inter Fallback', sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden; /* prevent horizontal scroll / zoom-out on mobile */
 }
@@ -227,6 +238,13 @@ body {
 @keyframes col-rise {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
+}
+/* Page content's entrance: motion only. Starting at opacity 0 kept text that
+   is already in the prerendered HTML invisible until the animation ran, which
+   delayed the largest paint by ~1 s on a throttled phone. */
+@keyframes page-rise {
+  from { transform: translateY(14px); }
+  to   { transform: none; }
 }
 @keyframes dofus-pulse {
   0%, 100% { box-shadow: 0 0 10px 1px color-mix(in srgb, var(--gold-bright) 35%, transparent), inset 0 0 10px color-mix(in srgb, var(--gold) 15%, transparent); }
@@ -403,7 +421,8 @@ body {
 }
 /* --c is the element's color, set per chip. */
 .elem-chip {
-  color: var(--c);
+  /* Toward --ink: fire and water alone fell just under 4.5:1 on the tinted chip. */
+  color: color-mix(in srgb, var(--c) 85%, var(--ink));
   border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
   background: color-mix(in srgb, var(--c) 10%, transparent);
 }

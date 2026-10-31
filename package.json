@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.3.139",
+  "version": "0.3.140",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
@@ -62,8 +62,8 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.71.0",
-    "vite": "^6.0.7",
-    "vitest": "^3.0.4",
+    "vite": "^6.4.5",
+    "vitest": "^4.1.12",
     "wrangler": "4.153.0"
   }
 }

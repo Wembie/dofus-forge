@@ -80,6 +80,10 @@ jobs:
       - name: Type check + build
         run: pnpm build
 
+      # JS/CSS each key page loads up front (brotli), against fixed budgets.
+      - name: Page weight budget
+        run: node scripts/check-budget.mjs
+
       # Bundles the Worker exactly as a deploy would (fonts, wasm, bindings)
       # without uploading anything; needs no Cloudflare credentials.
       - name: Worker bundle (dry run)

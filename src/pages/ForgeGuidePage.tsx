@@ -133,7 +133,7 @@ export function ForgeGuidePage() {
           style={{
             background: 'radial-gradient(ellipse at 85% 90%, color-mix(in srgb, var(--fire) 16%, var(--surface-void)) 0%, var(--surface-void) 65%)',
             border:     '1px solid color-mix(in srgb, var(--gold) 35%, var(--metal-edge))',
-            animation:  'col-rise 520ms var(--ease-out) both',
+            animation:  'page-rise 520ms var(--ease-out) both',
           }}
         >
           <div>
@@ -172,7 +172,7 @@ export function ForgeGuidePage() {
         </header>
 
         {/* Contents */}
-        <nav aria-label={t('forgeguide_toc')} style={{ animation: 'col-rise 420ms var(--ease-out) 80ms both' }}>
+        <nav aria-label={t('forgeguide_toc')} style={{ animation: 'page-rise 420ms var(--ease-out) 80ms both' }}>
           <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--ink-faint)' }}>{t('forgeguide_toc')}</p>
           <ul className="flex flex-wrap gap-1.5">
             {SECTIONS.map(s => (
@@ -194,7 +194,7 @@ export function ForgeGuidePage() {
             key={s.id}
             id={s.id}
             className="scroll-mt-20 space-y-3"
-            style={{ animation: `col-rise 420ms var(--ease-out) ${120 + Math.min(i, 4) * 60}ms both` }}
+            style={{ animation: `page-rise 420ms var(--ease-out) ${120 + Math.min(i, 4) * 60}ms both` }}
           >
             <div className="flex items-start gap-3">
               <span

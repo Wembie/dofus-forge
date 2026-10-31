@@ -525,13 +525,13 @@ function BuilderContent() {
               style={{
                 border:    '1px solid var(--metal-edge)',
                 boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,0,0,0.4)',
-                animation: 'col-rise 520ms var(--ease-out) 0ms both',
+                animation: 'page-rise 520ms var(--ease-out) 0ms both',
               }}
             >
               <EquipmentGrid />
             </section>
             {hasClass && (
-              <div style={{ animation: 'col-rise 520ms var(--ease-out) 200ms both' }}>
+              <div style={{ animation: 'page-rise 520ms var(--ease-out) 200ms both' }}>
                 <Frame padding="lg"><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>
               </div>
             )}
@@ -542,7 +542,7 @@ function BuilderContent() {
             aria-label={`${t('class')} & ${t('characteristics')} & ${t('stats')}`}
             aria-live="polite"
             className="sticky top-[58px] max-h-[calc(100vh-68px)] overflow-y-auto space-y-4 pb-4"
-            style={{ order: sidebarLeft ? 1 : 2, animation: 'col-rise 520ms var(--ease-out) 60ms both' }}
+            style={{ order: sidebarLeft ? 1 : 2, animation: 'page-rise 520ms var(--ease-out) 60ms both' }}
           >
             <Frame><ClassPicker /></Frame>
             {/* Applies to both panels below, so it sits above them. */}

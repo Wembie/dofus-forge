@@ -6,6 +6,7 @@ node_modules/
 dist/
 playwright-report/
 test-results/
+lighthouse-reports/
 
 # local env
 .env

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, useSyncExternalStore } from 'react'
 import { useSearchParams, useLoaderData } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
@@ -8,23 +8,30 @@ import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
-import { fetchPublicBuilds, fetchCommunityStats, type BuildRow, type ExploreSort, type CommunityStats } from '@/features/builds/api.ts'
+import { fetchPublicBuilds, fetchCommunityStats, fetchTags, type BuildRow, type ExploreSort, type CommunityStats } from '@/features/builds/api.ts'
 import { TagChip, useTags } from '@/features/builds/TagChips.tsx'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { catalogCounts } from '@/data/buildCatalog.server.ts'
 
 // Runs while prerendering: crawlers get the community builds (first page,
-// default order) and the stats in the HTML. Tags are not included: a ?tag=
-// link would then hydrate a different selection than the HTML shows.
+// default order) and the stats in the HTML. The tag row and the catalog chip
+// are in it too, so they don't push the list down when they load.
 export async function loader() {
-  const [builds, stats] = await Promise.all([fetchPublicBuilds({ sort: 'rating', page: 0 }), fetchCommunityStats()])
+  const [builds, stats, tags, catalog] = await Promise.all([
+    fetchPublicBuilds({ sort: 'rating', page: 0 }), fetchCommunityStats(), fetchTags(), catalogCounts(),
+  ])
   return {
     builds: builds.error ? [] : builds.data,
     total: builds.error ? 0 : builds.count ?? 0,
     stats: stats.error ? null : stats.data,
+    tags: tags.length > 0 ? tags : null,
+    catalog,
   }
 }
+
+const noSubscription = () => () => {}
 
 // In the browser the page loads and refreshes its own data, as it always has.
 export async function clientLoader() {
@@ -54,13 +61,13 @@ function StatChip({ children, Icon }: { children: React.ReactNode; Icon: typeof 
   )
 }
 
-function CommunityStatsBar({ initial }: { initial: CommunityStats | null }) {
+function CommunityStatsBar({ initial, catalog }: { initial: CommunityStats | null; catalog: { items: number; sets: number } | null }) {
   const { t } = useTranslation()
   const [stats, setStats] = useState<CommunityStats | null>(initial)
   // Catalog size costs no query at all — Explore already loads game data
   // via useLoadGameData() for the build cards' equipment icons.
-  const itemCount = useDataStore(s => s.index?.length ?? 0)
-  const setCount  = useDataStore(s => s.sets?.length ?? 0)
+  const itemCount = useDataStore(s => s.index?.length ?? 0) || (catalog?.items ?? 0)
+  const setCount  = useDataStore(s => s.sets?.length ?? 0) || (catalog?.sets ?? 0)
 
   useEffect(() => {
     let cancelled = false
@@ -105,9 +112,13 @@ export function ExplorePage() {
   const [sort, setSort]           = useState<ExploreSort>('rating')
   const [classSlug, setClassSlug] = useState<string | null>(null)
   const [searchParams, setSearchParams] = useSearchParams()
-  const tagList = useTags()
+  const tagList = useTags(seed?.tags ?? null)
   const tags    = tagList ?? []
-  const tagName = searchParams.get('tag')
+  // The prerendered HTML has no selected tag (it has no query string), so a
+  // ?tag= link selects it right after hydration rather than during it.
+  const hydrated = useSyncExternalStore(noSubscription, () => true, () => false)
+  const tagParam = searchParams.get('tag')
+  const tagName = hydrated ? tagParam : null
   const tagId   = tags.find(tag => tag.name === tagName)?.id ?? null
   const selectTag = (name: string | null) => {
     const next = new URLSearchParams(searchParams)
@@ -145,9 +156,9 @@ export function ExplorePage() {
     setBuilds(prev => reset ? data : [...prev, ...data])
   }, [classSlug, tagId, sort, debouncedSearch])
 
-  // A ?tag= link waits for the tag catalog, so it doesn't first list
+  // A ?tag= link waits for hydration and the tag catalog, so it doesn't first list
   // everything; if the catalog fails to load it gives up and lists all.
-  const tagPending = tagName != null && tagList == null
+  const tagPending = (tagParam != null && !hydrated) || (tagName != null && tagList == null)
 
   useEffect(() => {
     if (tagPending) return
@@ -166,7 +177,7 @@ export function ExplorePage() {
           {t('explore_title')}
         </h1>
 
-        <CommunityStatsBar initial={seed?.stats ?? null} />
+        <CommunityStatsBar initial={seed?.stats ?? null} catalog={seed?.catalog ?? null} />
 
         <div className="flex flex-wrap items-center gap-3 justify-between">
           <Tabs items={sortLabels} active={sort} onChange={id => setSort(id as ExploreSort)} variant="segment" />

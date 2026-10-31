@@ -10,7 +10,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['Cinzel', 'serif'],
-        body:    ['Inter', 'sans-serif'],
+        body:    ['Inter', 'Inter Fallback', 'sans-serif'],
         mono:    ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       colors: {

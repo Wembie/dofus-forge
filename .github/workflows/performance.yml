@@ -99,6 +99,22 @@ jobs:
           PLAYWRIGHT_BASE_URL: http://127.0.0.1:4173/
         run: pnpm test:e2e
 
+      # Lighthouse 13 (the version PageSpeed Insights runs), mobile with
+      # simulated throttling, twice per page: LCP, CLS, accessibility, SEO
+      # and the audits fixed in M150 (scripts/check-lighthouse.mjs).
+      - name: Lighthouse budgets
+        run: |
+          mkdir -p lighthouse-reports
+          for path in / /explore /about /classes/iop /sets/gobball-set; do
+            for run in 1 2; do
+              npx --yes lighthouse@13.6.0 "http://127.0.0.1:4173$path" --quiet \
+                --chrome-flags="--headless=new --no-sandbox" \
+                --only-categories=performance,accessibility,best-practices,seo \
+                --output=json --output-path="lighthouse-reports/$(echo "$path" | tr / _)-$run.json"
+            done
+          done
+          node scripts/check-lighthouse.mjs lighthouse-reports
+
       - name: Upload browser test report
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -107,6 +123,7 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            lighthouse-reports/
           if-no-files-found: ignore
           retention-days: 7
 

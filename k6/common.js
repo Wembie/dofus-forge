@@ -44,6 +44,9 @@ export function visitPage(route, options = {}) {
     'status is 200': (r) => r.status === 200,
     'content type is HTML': (r) => /text\/html/i.test(r.headers['Content-Type'] || ''),
     'body was not empty': (r) => (r.body || '').length > 0,
+    // A deferred Suspense boundary paints its fallback first and reveals the
+    // page on a timer (src/entry.server.tsx progressiveChunkSize).
+    'content is in place, not deferred': (r) => !(r.body || '').includes('<template id="B:'),
   })
 
   return res

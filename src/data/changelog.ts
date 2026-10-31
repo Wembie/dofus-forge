@@ -8,6 +8,19 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.140',
+    date: '2026-10-31',
+    notes: [
+      'Perf: the planner shows its content right away on load, instead of a loading placeholder for about two seconds',
+      'Perf: guides, set pages and the about page show their text immediately instead of fading it in',
+      'Perf: Explore no longer jumps when its tag filters load',
+      'Perf: repeat visits load faster: the app files are cached instead of re-checked every time',
+      'Fix: search engines now see one canonical address per page (some pages also pointed at the home page)',
+      'Accessibility: bigger footer links and more readable element chips',
+      'Perf: the About page loads about 1 MB less data',
+    ],
+  },
+  {
     version: '0.3.139',
     date: '2026-10-31',
     notes: [

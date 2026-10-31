@@ -86,7 +86,7 @@ function SetPageBody({ data, prefix, homePath, summary }: { data: SetPageData; p
         <section
           className="relative overflow-hidden rounded-xl p-5 space-y-4"
           style={{
-            animation:   'col-rise 520ms var(--ease-out) 0ms both',
+            animation:   'page-rise 520ms var(--ease-out) 0ms both',
             background:  `linear-gradient(135deg, color-mix(in srgb, ${accent} 14%, var(--surface-panel)), var(--surface-void))`,
             borderTop:   `2px solid color-mix(in srgb, ${accent} 55%, transparent)`,
             borderRight: '1px solid var(--metal-edge)',
@@ -171,7 +171,7 @@ function SetPageBody({ data, prefix, homePath, summary }: { data: SetPageData; p
               {items.map((it, i) => {
                 const stats = it.effects.filter(e => !isIgnored(e.stat) && !SPELL_ITEM_EFFECT_IDS.has(e.effect_id ?? -1))
                 return (
-                  <article key={it.ankama_id} className="rounded-xl overflow-hidden" style={{ ...panelStyle, animation: `col-rise 420ms var(--ease-out) ${Math.min(i * 40, 320)}ms both` }}>
+                  <article key={it.ankama_id} className="rounded-xl overflow-hidden" style={{ ...panelStyle, animation: `page-rise 420ms var(--ease-out) ${Math.min(i * 40, 320)}ms both` }}>
                     <div className="flex gap-3 p-3">
                       <span className="flex-shrink-0 rounded-lg flex items-center justify-center" style={{ width: 56, height: 56, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
                         {it.image_url && <img src={it.image_url} alt={it.name} width={50} height={50} loading="lazy" decoding="async" className="object-contain" />}

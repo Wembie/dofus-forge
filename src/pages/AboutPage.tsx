@@ -10,7 +10,6 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { resolveClassName } from '@/features/class-picker/useClassName.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { fetchTotalBuildsCount } from '@/features/builds/api.ts'
 
 const SECTIONS = [
@@ -39,7 +38,8 @@ export function AboutPage() {
     title: t('about_seo_title'),
     description: t('about_seo_description'),
   })
-  useLoadGameData() // needed so classNames (per-language class labels) are loaded — see the class list below
+  // The class list's names come from the table bundled with the app (resolveClassName),
+  // or from the store when another page already loaded the game data.
   const classNames = useDataStore(s => s.classNames)
 
   const [totalBuilds, setTotalBuilds] = useState<number | null>(null)
@@ -64,7 +64,7 @@ export function AboutPage() {
       <SiteHeader />
 
       <main id="main-content" className="flex-1 max-w-3xl w-full mx-auto px-4 py-10 space-y-8">
-        <div style={{ animation: 'col-rise 520ms var(--ease-out) 0ms both' }}>
+        <div style={{ animation: 'page-rise 520ms var(--ease-out) 0ms both' }}>
           <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--gold)' }}>
             {t('about_title')}
           </h1>
@@ -85,7 +85,7 @@ export function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {SECTIONS.map(({ key, Icon }, i) => (
             <Frame key={key} padding="lg">
-              <div style={{ animation: `col-rise 520ms var(--ease-out) ${i * 60}ms both` }}>
+              <div style={{ animation: `page-rise 520ms var(--ease-out) ${i * 60}ms both` }}>
                 <div className="flex items-center gap-2 mb-2">
                   <Icon size={16} style={{ color: 'var(--gold)' }} />
                   <h2 className="font-display text-sm font-bold" style={{ color: 'var(--ink)' }}>
@@ -109,7 +109,7 @@ export function AboutPage() {
               <div
                 key={key}
                 className="flex gap-3 p-3 rounded-lg"
-                style={{ border: '1px solid var(--metal-edge)', background: 'var(--surface-stone)', animation: `col-rise 420ms var(--ease-out) ${i * 50}ms both` }}
+                style={{ border: '1px solid var(--metal-edge)', background: 'var(--surface-stone)', animation: `page-rise 420ms var(--ease-out) ${i * 50}ms both` }}
               >
                 <Icon size={18} style={{ color: 'var(--gold)', flexShrink: 0 }} />
                 <div>
