@@ -3,7 +3,7 @@ import sys
 import r2_build as b
 
 b.OUT = sys.argv[1] if len(sys.argv) > 1 else b.OUT
-labels = [("ocre", "MARCA"), ("earth", "TIERRA"), ("fire", "FUEGO"), ("water", "AGUA"), ("air", "AIRE")]
+labels = [("ocre", "BRAND"), ("earth", "EARTH"), ("fire", "FIRE"), ("water", "WATER"), ("air", "AIR")]
 p = [f'<rect width="1400" height="420" fill="{b.VOID}"/>']
 for i, (k, name) in enumerate(labels):
     cx = 140 + i * 280

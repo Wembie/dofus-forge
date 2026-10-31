@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t"><title id="t">Dofus Forge — Builder</title>
+<defs>
+  <radialGradient id="halo" cx="262" cy="230" r="250" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".42"/>
+    <stop offset=".4" stop-color="#c9a24b" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="hotspot" cx="262" cy="324" r="120" gradientTransform="translate(0 290) scale(1 .1)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/>
+    <stop offset=".5" stop-color="#e65f40" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/>
+    <stop offset=".45" stop-color="#eccb78"/>
+    <stop offset=".55" stop-color="#c9a24b"/>
+    <stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <clipPath id="anvilClip"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z"/></clipPath>
+</defs><defs>
+  <linearGradient id="ringGold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#eccb78"/>
+    <stop offset=".6" stop-color="#c9a24b"/><stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <radialGradient id="sealBg" cx="50%" cy="42%" r="60%">
+    <stop offset="0" stop-color="#3a2216"/><stop offset=".55" stop-color="#171c28"/><stop offset="1" stop-color="#0a0d13"/>
+  </radialGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b43a22"/><stop offset="1" stop-color="#6e1f10"/>
+  </linearGradient>
+</defs><defs>
+  <radialGradient id="plaqueWell" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#3a2216"/><stop offset="1" stop-color="#0a0d13"/></radialGradient>
+</defs><defs>
+  <radialGradient id="wellGlow" cx="50%" cy="38%" r="62%"><stop offset="0" stop-color="#c9a24b" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient>
+  <radialGradient id="runeGlow"><stop offset="0" stop-color="#e65f40" stop-opacity=".7"/><stop offset="1" stop-color="#e65f40" stop-opacity="0"/></radialGradient>
+  <radialGradient id="orbG" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#c9a6ff"/><stop offset=".5" stop-color="#a06fd0"/><stop offset="1" stop-color="#3f2a8a"/></radialGradient>
+  <radialGradient id="portalG" cx="50%" cy="60%" r="70%"><stop offset="0" stop-color="#bff3ff"/><stop offset=".45" stop-color="#2f93d8"/><stop offset="1" stop-color="#134a7a"/></radialGradient>
+</defs>
+
+<path d="M128 6 L233.66 67 L233.66 189 L128 250 L22.34 189 L22.34 67 Z" fill="#07090d"/><path d="M128 12 L228.46 70 L228.46 186 L128 244 L27.54 186 L27.54 70 Z" fill="url(#ringGold)"/><path d="M128 12 L228.5 70 L128 128 Z" fill="#fff6d8" opacity=".25"/><path d="M128 30 L212.87 79 L212.87 177 L128 226 L43.13 177 L43.13 79 Z" fill="#07090d"/><path d="M128 35 L208.54 81.5 L208.54 174.5 L128 221 L47.46 174.5 L47.46 81.5 Z" fill="#241a14"/><path d="M128 35 L208.54 81.5 L208.54 174.5 L128 221 L47.46 174.5 L47.46 81.5 Z" fill="url(#wellGlow)"/><g transform="translate(128 132) scale(.8) translate(-128 -132)"><g transform="translate(128 140) scale(.36) translate(-239 -300)"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z" fill="#1b2232"/><g clip-path="url(#anvilClip)"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z" transform="translate(-12 -12)" fill="#3a465e"/><path d="M20 298 C60 314 110 318 160 318 L436 318 Q458 318 458 340 L458 342 L160 342 C104 342 56 328 20 298 Z" fill="#5f7194"/><rect x="120" y="300" width="290" height="60" fill="url(#hotspot)"/></g><path d="M20 298 C60 314 110 318 160 318 L436 318 Q458 318 458 340" fill="none" stroke="#eccb78" stroke-width="3" opacity=".9"/><path d="M398 372 C356 372 336 392 336 420" fill="none" stroke="#c9a24b" stroke-width="3" opacity=".5"/><path d="M256 388 L272 412 L256 436 L240 412 Z" fill="#c9a24b" stroke="#07090d" stroke-width="3"/><path d="M256 388 L272 412 L256 412 Z" fill="#eccb78"/><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z" fill="none" stroke="#07090d" stroke-width="9" stroke-linejoin="round"/><clipPath id="eggib"><path d="M262 122 C303.97 122 338 172.89 338 235.68 C338 281.15 303.97 318 262 318 C220.03 318 186 281.15 186 235.68 C186 172.89 220.03 122 262 122 Z"/></clipPath><g transform="rotate(7 262 318)"><path d="M262 122 C303.97 122 338 172.89 338 235.68 C338 281.15 303.97 318 262 318 C220.03 318 186 281.15 186 235.68 C186 172.89 220.03 122 262 122 Z" fill="#8f3f14"/><g clip-path="url(#eggib)"><path d="M254.4 118.08 C292.18 118.08 322.8 166.94 322.8 227.21 C322.8 270.86 292.18 306.24 254.4 306.24 C216.62 306.24 186 270.86 186 227.21 C186 166.94 216.62 118.08 254.4 118.08 Z" fill="#c9741f"/><path d="M246.8 125.92 C276.18 125.92 300 165.62 300 214.59 C300 250.05 276.18 278.8 246.8 278.8 C217.42 278.8 193.6 250.05 193.6 214.59 C193.6 165.62 217.42 125.92 246.8 125.92 Z" fill="#e9a540"/><path d="M170.8 239.6 C231.6 257.24 292.4 223.92 353.2 243.52 L353.2 257.24 C292.4 237.64 231.6 270.96 170.8 253.32 Z" fill="#7a3310" opacity=".8"/><path d="M170.8 270.96 C231.6 288.6 292.4 255.28 353.2 274.88 L353.2 281.74 C292.4 262.14 231.6 295.46 170.8 277.82 Z" fill="#7a3310" opacity=".8"/><path d="M236.16 141.6 C248.75 141.6 258.96 161.96 258.96 187.07 C258.96 205.26 248.75 220 236.16 220 C223.57 220 213.36 205.26 213.36 187.07 C213.36 161.96 223.57 141.6 236.16 141.6 Z" fill="#f8d778" opacity=".85"/></g><ellipse cx="227.04" cy="171" rx="9.88" ry="23.52" transform="rotate(20 227.04 171)" fill="#fffdf4"/><circle cx="231.6" cy="210.2" r="4.94" fill="#fffdf4"/><path d="M262 122 C303.97 122 338 172.89 338 235.68 C338 281.15 303.97 318 262 318 C220.03 318 186 281.15 186 235.68 C186 172.89 220.03 122 262 122 Z" fill="none" stroke="#2a1004" stroke-width="8"/></g><g fill="#eccb78" stroke="#e65f40" stroke-width="1.5"><path transform="translate(394 150) rotate(12)" d="M0 -17 L10 0 L0 17 L-10 0 Z"/><path transform="translate(360 92) rotate(8)" d="M0 -10.2 L6 0 L0 10.2 L-6 0 Z"/><path transform="translate(432 224) rotate(18)" d="M0 -10.2 L6 0 L0 10.2 L-6 0 Z"/><path transform="translate(126 176) rotate(-12)" d="M0 -13.6 L8 0 L0 13.6 L-8 0 Z"/><path transform="translate(168 108) rotate(-6)" d="M0 -8.5 L5 0 L0 8.5 L-5 0 Z"/><circle cx="98" cy="246" r="3"/><circle cx="414" cy="290" r="3"/><circle cx="304" cy="66" r="2.5"/><circle cx="210" cy="84" r="2.5"/></g></g></g>
+</svg>

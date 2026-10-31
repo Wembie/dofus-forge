@@ -1,28 +1,57 @@
-# Brief de identidad — Dofus Forge
+# Identity brief — Dofus Forge
 
-**Qué es:** dofusforge.com. Planificador y optimizador de builds para Dofus 3: equipo, características, hechizos, sets y rangos.
-**Audiencia:** jugadores de Dofus, desde casuales hasta theorycrafters, en ES/EN/FR/PT.
-**Promesa:** "Debe sentirse como una extensión del juego, no como una hoja de cálculo." (DESIGN.md)
+**What it is:** dofusforge.com. Build planner and optimizer for Dofus 3: gear, characteristics, spells, sets and ranks.
+**Audience:** Dofus players, from casual players to theorycrafters, in ES/EN/FR/PT.
+**Promise:** "It must feel like an extension of the game, not a spreadsheet." (DESIGN.md)
 
-**Adjetivos:** forjado · preciso · premium · medieval oscuro · del juego (Ankama)
+**Adjectives:** forged · precise · premium · dark medieval · of the game (Ankama)
 
-**Equity existente (se conserva):**
-- Oro `#c9a24b` / `#eccb78` / `#7f6428` sobre void `#0a0d13`
-- Tipografía Cinzel en display y logo
-- ◆ en el logo del header
-- Yunque, martillo y chispas en el loader (`forge-hammer`, `forge-anvil-hit`, `forge-spark`)
-- Colores elementales sagrados: tierra `#c98a2b`, fuego `#e65f40`, agua `#2f93d8`, aire `#74b93f`
+## Positioning
 
-**Qué reemplaza:** el favicon actual es el glifo `⚒` como texto vivo, así que depende de las fuentes de cada sistema y es un cliché. Tampoco hay símbolo propio.
+**Look like Dofus, own the forge.** Resembling the game's art is desired: cel shading, Dofus eggs, smithmagic runes, guild heraldry, kamas, dragon lore. Players should feel at home instantly.
 
-**Dónde debe funcionar:** favicon de 16 px, header de 52 px, apple-touch/PWA, bot de Discord, imagen OG de 1200×630, ExportCard, modal "Novedades", posts en X.
+The ownable signature that sets us apart from every other fan site is **the Forge**:
+- molten gold
+- the anvil
+- ◆ sparks
+- the void + gold palette
 
-**Clichés a evitar:**
-- Martillos cruzados
-- Llamas genéricas
-- Escudos vacíos
-- Chispa de 4 puntas (hoy se lee como "IA")
+Every sub-identity carries at least one of those.
 
-**Restricciones:**
-- Fan site no oficial. "Dofus" y los huevos Dofus son propiedad de Ankama, así que nunca hay que imitar su logo oficial y el aviso de fan site debe seguir visible.
-- Fuentes OFL: Cinzel y Cinzel Decorative permiten uso en logos.
+## Existing equity (keep)
+
+- Gold `#c9a24b` / `#eccb78` / `#7f6428` on void `#0a0d13`
+- Cinzel for display and the logo
+- The ◆ in the header logo
+- Anvil, hammer and sparks in the loader (`forge-hammer`, `forge-anvil-hit`, `forge-spark`)
+- Sacred element colours: earth `#c98a2b`, fire `#e65f40`, water `#2f93d8`, air `#74b93f`
+- Membership ladder (docs/MEMBERSHIP_DESIGN.md): Supporter, Apprentice, Artisan, Forger, Master of the Forge
+
+## What it replaces
+
+- The current favicon is the `⚒` glyph set as live text. It depends on system fonts and is a cliché.
+- There is no proprietary symbol yet.
+
+## Where it must work
+
+- Favicon at 16 px
+- Header at 52 px
+- apple-touch / PWA icons
+- Discord bot
+- OG image at 1200×630
+- ExportCard
+- "What's New" modal
+- Posts on X
+- Membership badges
+
+## Clichés to avoid
+
+- Crossed hammers
+- Generic flames
+- Empty shields
+- The 4-point sparkle (it now reads as "AI")
+
+## Constraints
+
+- **Unofficial fan site.** "Dofus" and the Dofus eggs belong to Ankama, so we evoke but never trace: no official logo, monsters, class emblems or exact in-game icons. The fan-site disclaimer stays visible.
+- **Fonts are OFL:** Cinzel and Cinzel Decorative allow logo use.

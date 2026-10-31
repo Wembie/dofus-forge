@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t"><title id="t">Dofus Forge — Magesmithy</title>
+<defs>
+  <radialGradient id="halo" cx="262" cy="230" r="250" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".42"/>
+    <stop offset=".4" stop-color="#c9a24b" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="hotspot" cx="262" cy="324" r="120" gradientTransform="translate(0 290) scale(1 .1)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/>
+    <stop offset=".5" stop-color="#e65f40" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/>
+    <stop offset=".45" stop-color="#eccb78"/>
+    <stop offset=".55" stop-color="#c9a24b"/>
+    <stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <clipPath id="anvilClip"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z"/></clipPath>
+</defs><defs>
+  <linearGradient id="ringGold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#eccb78"/>
+    <stop offset=".6" stop-color="#c9a24b"/><stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <radialGradient id="sealBg" cx="50%" cy="42%" r="60%">
+    <stop offset="0" stop-color="#3a2216"/><stop offset=".55" stop-color="#171c28"/><stop offset="1" stop-color="#0a0d13"/>
+  </radialGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b43a22"/><stop offset="1" stop-color="#6e1f10"/>
+  </linearGradient>
+</defs><defs>
+  <radialGradient id="plaqueWell" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#3a2216"/><stop offset="1" stop-color="#0a0d13"/></radialGradient>
+</defs><defs>
+  <radialGradient id="wellGlow" cx="50%" cy="38%" r="62%"><stop offset="0" stop-color="#c9a24b" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient>
+  <radialGradient id="runeGlow"><stop offset="0" stop-color="#e65f40" stop-opacity=".7"/><stop offset="1" stop-color="#e65f40" stop-opacity="0"/></radialGradient>
+  <radialGradient id="orbG" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#c9a6ff"/><stop offset=".5" stop-color="#a06fd0"/><stop offset="1" stop-color="#3f2a8a"/></radialGradient>
+  <radialGradient id="portalG" cx="50%" cy="60%" r="70%"><stop offset="0" stop-color="#bff3ff"/><stop offset=".45" stop-color="#2f93d8"/><stop offset="1" stop-color="#134a7a"/></radialGradient>
+</defs>
+
+<path d="M128 6 L233.66 67 L233.66 189 L128 250 L22.34 189 L22.34 67 Z" fill="#07090d"/><path d="M128 12 L228.46 70 L228.46 186 L128 244 L27.54 186 L27.54 70 Z" fill="url(#ringGold)"/><path d="M128 12 L228.5 70 L128 128 Z" fill="#fff6d8" opacity=".25"/><path d="M128 30 L212.87 79 L212.87 177 L128 226 L43.13 177 L43.13 79 Z" fill="#07090d"/><path d="M128 35 L208.54 81.5 L208.54 174.5 L128 221 L47.46 174.5 L47.46 81.5 Z" fill="#1d1a2a"/><path d="M128 35 L208.54 81.5 L208.54 174.5 L128 221 L47.46 174.5 L47.46 81.5 Z" fill="url(#wellGlow)"/><g transform="translate(128 132) scale(.8) translate(-128 -132)"><clipPath id="runeC"><path d="M128 62 C162.24 62 190 93.34 190 132 C190 170.66 162.24 202 128 202 C93.76 202 66 170.66 66 132 C66 93.34 93.76 62 128 62 Z"/></clipPath><path d="M128 62 C162.24 62 190 93.34 190 132 C190 170.66 162.24 202 128 202 C93.76 202 66 170.66 66 132 C66 93.34 93.76 62 128 62 Z" fill="#5a5f6b"/><g clip-path="url(#runeC)"><path d="M118 56 C150.03 56 176 86.44 176 124 C176 161.56 150.03 192 118 192 C85.97 192 60 161.56 60 124 C60 86.44 85.97 56 118 56 Z" fill="#8e94a2"/><path d="M108 66 C124.57 66 138 82.56 138 103 C138 123.44 124.57 140 108 140 C91.43 140 78 123.44 78 103 C78 82.56 91.43 66 108 66 Z" fill="#b9bec9" opacity=".8"/></g><path d="M128 62 C162.24 62 190 93.34 190 132 C190 170.66 162.24 202 128 202 C93.76 202 66 170.66 66 132 C66 93.34 93.76 62 128 62 Z" fill="none" stroke="#07090d" stroke-width="7"/><circle cx="128" cy="134" r="40" fill="url(#runeGlow)"/><path d="M128 98 L150 134 L128 170 L106 134 Z" fill="none" stroke="#07090d" stroke-width="13" stroke-linejoin="round" stroke-linecap="round" /><path d="M128 98 L150 134 L128 170 L106 134 Z" fill="none" stroke="#ffd27a" stroke-width="7" stroke-linejoin="round"/><path d="M128 112 L128 156" fill="none" stroke="#07090d" stroke-width="11" stroke-linejoin="round" stroke-linecap="round" /><path d="M128 112 L128 156" stroke="#fff3c4" stroke-width="5" stroke-linecap="round"/></g>
+</svg>

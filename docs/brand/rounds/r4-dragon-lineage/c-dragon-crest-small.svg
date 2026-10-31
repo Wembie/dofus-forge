@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 60 512 400" width="512" height="400" role="img" aria-labelledby="t"><title id="t">Dofus Forge — Dragon Crest small</title>
+<defs>
+  <radialGradient id="halo" cx="262" cy="230" r="250" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".42"/>
+    <stop offset=".4" stop-color="#c9a24b" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="hotspot" cx="262" cy="324" r="120" gradientTransform="translate(0 290) scale(1 .1)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/>
+    <stop offset=".5" stop-color="#e65f40" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/>
+    <stop offset=".45" stop-color="#eccb78"/>
+    <stop offset=".55" stop-color="#c9a24b"/>
+    <stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <clipPath id="anvilClip"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z"/></clipPath>
+</defs><defs>
+  <linearGradient id="ringGold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#eccb78"/>
+    <stop offset=".6" stop-color="#c9a24b"/><stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <radialGradient id="sealBg" cx="50%" cy="42%" r="60%">
+    <stop offset="0" stop-color="#3a2216"/><stop offset=".55" stop-color="#171c28"/><stop offset="1" stop-color="#0a0d13"/>
+  </radialGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b43a22"/><stop offset="1" stop-color="#6e1f10"/>
+  </linearGradient>
+</defs><defs>
+  <linearGradient id="molten" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff6d8"/><stop offset=".5" stop-color="#eccb78"/><stop offset="1" stop-color="#e65f40"/>
+  </linearGradient>
+  <radialGradient id="crestGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".22"/><stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <pattern id="scales" width="64" height="64" patternUnits="userSpaceOnUse"><rect width="64" height="64" fill="#0a0d13"/><g fill="none" stroke="#7f6428" stroke-width="2.5" opacity=".7"><path d="M-64 -16 Q-64 14 -32 20 Q0 14 0 -16"/><path d="M0 -16 Q0 14 32 20 Q64 14 64 -16"/><path d="M64 -16 Q64 14 96 20 Q128 14 128 -16"/><path d="M128 -16 Q128 14 160 20 Q192 14 192 -16"/><path d="M-32 16 Q-32 46 0 52 Q32 46 32 16"/><path d="M32 16 Q32 46 64 52 Q96 46 96 16"/><path d="M96 16 Q96 46 128 52 Q160 46 160 16"/><path d="M160 16 Q160 46 192 52 Q224 46 224 16"/><path d="M-64 48 Q-64 78 -32 84 Q0 78 0 48"/><path d="M0 48 Q0 78 32 84 Q64 78 64 48"/><path d="M64 48 Q64 78 96 84 Q128 78 128 48"/><path d="M128 48 Q128 78 160 84 Q192 78 192 48"/></g></pattern>
+  <radialGradient id="topGlow" cx="50%" cy="0%" r="70%"><stop offset="0" stop-color="#c9a24b" stop-opacity=".10"/><stop offset="1" stop-color="#c9a24b" stop-opacity="0"/></radialGradient>
+  <radialGradient id="cardGlow" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#2a1a18"/><stop offset="1" stop-color="#171c28"/></radialGradient>
+  <linearGradient id="hdr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#11151e"/><stop offset="1" stop-color="#0a0d13"/></linearGradient>
+</defs>
+<rect x="-2000" y="-2000" width="5000" height="5000" fill="#0a0d13"/>
+<g transform="translate(0 30)"><clipPath id="wcsl"><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40 Q 60 96 20 150 Q 78 176 60 236 Q 122 238 124 292 Q 172 268 212 296 Z"/></clipPath><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40 Q 60 96 20 150 Q 78 176 60 236 Q 122 238 124 292 Q 172 268 212 296 Z" fill="#5e150b"/><g clip-path="url(#wcsl)"><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40 Q 60 96 20 150 Q 78 176 60 236 Q 122 238 124 292 Q 172 268 212 296 Z" transform="translate(-10 -8)" fill="#9c2c1a"/><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40 Q 56 92 50 140 Q 108 150 120 200 Q 170 210 196 262 Z" fill="#c8452a" opacity=".85"/></g><g fill="none" stroke="#7f6428" stroke-width="8" stroke-linecap="round"><path d="M94 104 Q67 121 20 150" /><path d="M94 104 Q87 164 60 236" /><path d="M94 104 Q119 192 124 292" /></g><g fill="none" stroke="#eccb78" stroke-width="3.5" stroke-linecap="round"><path d="M94 104 Q67 121 20 150" /><path d="M94 104 Q87 164 60 236" /><path d="M94 104 Q119 192 124 292" /></g><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40 Q 60 96 20 150 Q 78 176 60 236 Q 122 238 124 292 Q 172 268 212 296 Z" fill="none" stroke="#07090d" stroke-width="8" stroke-linejoin="round"/><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40" fill="none" stroke="#07090d" stroke-width="16" stroke-linecap="round"/><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40" fill="none" stroke="#7f6428" stroke-width="10" stroke-linecap="round"/><path d="M 212 262 C 202 200 162 150 102 110 C 72 90 42 70 12 40" fill="none" stroke="#eccb78" stroke-width="4" stroke-linecap="round" transform="translate(-1 -2)"/><path d="M90 106 l-4 -26 l18 18 Z" fill="#eccb78" stroke="#07090d" stroke-width="4" stroke-linejoin="round"/><clipPath id="wcsr"><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40 Q452 96 492 150 Q434 176 452 236 Q390 238 388 292 Q340 268 300 296 Z"/></clipPath><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40 Q452 96 492 150 Q434 176 452 236 Q390 238 388 292 Q340 268 300 296 Z" fill="#5e150b"/><g clip-path="url(#wcsr)"><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40 Q452 96 492 150 Q434 176 452 236 Q390 238 388 292 Q340 268 300 296 Z" transform="translate(-10 -8)" fill="#9c2c1a"/><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40 Q456 92 462 140 Q404 150 392 200 Q342 210 316 262 Z" fill="#c8452a" opacity=".85"/></g><g fill="none" stroke="#7f6428" stroke-width="8" stroke-linecap="round"><path d="M418 104 Q465 121 492 150" /><path d="M418 104 Q445 164 452 236" /><path d="M418 104 Q413 192 388 292" /></g><g fill="none" stroke="#eccb78" stroke-width="3.5" stroke-linecap="round"><path d="M418 104 Q465 121 492 150" /><path d="M418 104 Q445 164 452 236" /><path d="M418 104 Q413 192 388 292" /></g><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40 Q452 96 492 150 Q434 176 452 236 Q390 238 388 292 Q340 268 300 296 Z" fill="none" stroke="#07090d" stroke-width="8" stroke-linejoin="round"/><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40" fill="none" stroke="#07090d" stroke-width="16" stroke-linecap="round"/><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40" fill="none" stroke="#7f6428" stroke-width="10" stroke-linecap="round"/><path d="M300 262 C310 200 350 150 410 110 C440 90 470 70 500 40" fill="none" stroke="#eccb78" stroke-width="4" stroke-linecap="round" transform="translate(-1 -2)"/><path d="M414 106 l-4 -26 l18 18 Z" fill="#eccb78" stroke="#07090d" stroke-width="4" stroke-linejoin="round"/></g><clipPath id="eggcsegg"><path d="M256 150 C309.02 150 352 214.92 352 295 C352 352.99 309.02 400 256 400 C202.98 400 160 352.99 160 295 C160 214.92 202.98 150 256 150 Z"/></clipPath><g transform="rotate(0 256 400)"><path d="M256 150 C309.02 150 352 214.92 352 295 C352 352.99 309.02 400 256 400 C202.98 400 160 352.99 160 295 C160 214.92 202.98 150 256 150 Z" fill="#8f3f14"/><g clip-path="url(#eggcsegg)"><path d="M246.4 145 C294.12 145 332.8 207.32 332.8 284.2 C332.8 339.87 294.12 385 246.4 385 C198.68 385 160 339.87 160 284.2 C160 207.32 198.68 145 246.4 145 Z" fill="#c9741f"/><path d="M236.8 155 C273.91 155 304 205.63 304 268.1 C304 313.33 273.91 350 236.8 350 C199.69 350 169.6 313.33 169.6 268.1 C169.6 205.63 199.69 155 236.8 155 Z" fill="#e9a540"/><path d="M140.8 300 C217.6 322.5 294.4 280 371.2 305 L371.2 322.5 C294.4 297.5 217.6 340 140.8 317.5 Z" fill="#7a3310" opacity=".8"/><path d="M140.8 340 C217.6 362.5 294.4 320 371.2 345 L371.2 353.75 C294.4 328.75 217.6 371.25 140.8 348.75 Z" fill="#7a3310" opacity=".8"/><path d="M223.36 175 C239.27 175 252.16 200.97 252.16 233 C252.16 256.2 239.27 275 223.36 275 C207.45 275 194.56 256.2 194.56 233 C194.56 200.97 207.45 175 223.36 175 Z" fill="#f8d778" opacity=".85"/></g><ellipse cx="211.84" cy="212.5" rx="12.48" ry="30" transform="rotate(20 211.84 212.5)" fill="#fffdf4"/><circle cx="217.6" cy="262.5" r="6.24" fill="#fffdf4"/><path d="M256 150 C309.02 150 352 214.92 352 295 C352 352.99 309.02 400 256 400 C202.98 400 160 352.99 160 295 C160 214.92 202.98 150 256 150 Z" fill="none" stroke="#2a1004" stroke-width="10"/></g>
+</svg>

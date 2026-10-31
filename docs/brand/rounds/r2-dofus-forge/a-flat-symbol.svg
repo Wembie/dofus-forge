@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 20 512 512" width="512" height="512" role="img" aria-labelledby="t"><title id="t">Dofus Forge — one-colour symbol</title>
+<defs>
+  <radialGradient id="halo" cx="262" cy="230" r="250" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".42"/>
+    <stop offset=".4" stop-color="#c9a24b" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="hotspot" cx="262" cy="324" r="120" gradientTransform="translate(0 290) scale(1 .1)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/>
+    <stop offset=".5" stop-color="#e65f40" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/>
+    <stop offset=".45" stop-color="#eccb78"/>
+    <stop offset=".55" stop-color="#c9a24b"/>
+    <stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <clipPath id="anvilClip"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z"/></clipPath>
+</defs><defs>
+  <linearGradient id="ringGold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#eccb78"/>
+    <stop offset=".6" stop-color="#c9a24b"/><stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <radialGradient id="sealBg" cx="50%" cy="42%" r="60%">
+    <stop offset="0" stop-color="#3a2216"/><stop offset=".55" stop-color="#171c28"/><stop offset="1" stop-color="#0a0d13"/>
+  </radialGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b43a22"/><stop offset="1" stop-color="#6e1f10"/>
+  </linearGradient>
+</defs>
+
+<path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z" fill="#000"/><g transform="rotate(7 262 318)"><path d="M262 110 C310.6 110 350 165.57 350 234.12 C350 283.76 310.6 324 262 324 C213.4 324 174 283.76 174 234.12 C174 165.57 213.4 110 262 110 Z" fill="#fff"/><path fill-rule="evenodd" fill="#000" d="M262 122 C303.97 122 338 171.86 338 233.36 C338 277.9 303.97 314 262 314 C220.03 314 186 277.9 186 233.36 C186 171.86 220.03 122 262 122 Z M227.04 154 C233.34 154 238.44 172.7 238.44 195.76 C238.44 212.46 233.34 226 227.04 226 C220.74 226 215.64 212.46 215.64 195.76 C215.64 172.7 220.74 154 227.04 154 Z"/></g><g fill="#000"><path transform="translate(394 150) rotate(12)" d="M0 -17 L10 0 L0 17 L-10 0 Z"/><path transform="translate(360 92) rotate(8)" d="M0 -10.2 L6 0 L0 10.2 L-6 0 Z"/><path transform="translate(432 224) rotate(18)" d="M0 -10.2 L6 0 L0 10.2 L-6 0 Z"/><path transform="translate(126 176) rotate(-12)" d="M0 -13.6 L8 0 L0 13.6 L-8 0 Z"/></g>
+</svg>

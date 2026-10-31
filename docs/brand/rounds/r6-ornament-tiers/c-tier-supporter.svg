@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t"><title id="t">Dofus Forge — Supporter</title>
+<defs>
+  <radialGradient id="halo" cx="262" cy="230" r="250" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".42"/>
+    <stop offset=".4" stop-color="#c9a24b" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="hotspot" cx="262" cy="324" r="120" gradientTransform="translate(0 290) scale(1 .1)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/>
+    <stop offset=".5" stop-color="#e65f40" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/>
+    <stop offset=".45" stop-color="#eccb78"/>
+    <stop offset=".55" stop-color="#c9a24b"/>
+    <stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <clipPath id="anvilClip"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z"/></clipPath>
+</defs><defs>
+  <linearGradient id="ringGold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#eccb78"/>
+    <stop offset=".6" stop-color="#c9a24b"/><stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <radialGradient id="sealBg" cx="50%" cy="42%" r="60%">
+    <stop offset="0" stop-color="#3a2216"/><stop offset=".55" stop-color="#171c28"/><stop offset="1" stop-color="#0a0d13"/>
+  </radialGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b43a22"/><stop offset="1" stop-color="#6e1f10"/>
+  </linearGradient>
+</defs><defs>
+  <radialGradient id="plaqueWell" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#3a2216"/><stop offset="1" stop-color="#0a0d13"/></radialGradient>
+</defs>
+
+<circle cx="128" cy="128" r="100" fill="#c9a24b" stroke="#07090d" stroke-width="9"/><circle cx="128" cy="128" r="82" fill="#241631" stroke="#7f6428" stroke-width="5"/><path d="M128 56 L176 128 L128 200 L80 128 Z" fill="#a06fd0" stroke="#07090d" stroke-width="7" stroke-linejoin="round"/><path d="M128 56 L176 128 L128 128 Z" fill="#d2b0f0"/><path d="M128 128 L80 128 L128 200 Z" fill="#6a3f94"/><circle cx="112" cy="104" r="7" fill="#fff"/>
+</svg>

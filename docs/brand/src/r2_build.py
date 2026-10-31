@@ -10,7 +10,7 @@ from fontTools.pens.boundsPen import BoundsPen
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FONTS = os.path.join(HERE, "fonts")
-OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "rounds", "r2-dofus-forja")
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "rounds", "r2-dofus-forge")
 os.makedirs(OUT, exist_ok=True)
 
 # ── Palette (docs/DESIGN.md §2) ─────────────────────────────────────────────
@@ -309,12 +309,12 @@ DEFS = DEFS + f"""<defs>
 
 if __name__ == "__main__":
     A_VB = (0, 20, 512, 512)
-    write("a-hero-symbol.svg", svg(hero_symbol(), 512, 512, "Dofus Forge — Dofus forjado", bg=VOID, vb="0 20 512 512"))
-    write("a-flat-symbol.svg", svg(flat_symbol(), 512, 512, "Dofus Forge — símbolo una tinta", vb="0 20 512 512"))
-    write("b-seal.svg", svg(seal(), 512, 512, "Dofus Forge — Sello de la Forja", bg=VOID))
-    write("c-blazon.svg", svg(blazon(), 512, 512, "Dofus Forge — Dofus blasonado", bg=VOID))
+    write("a-hero-symbol.svg", svg(hero_symbol(), 512, 512, "Dofus Forge — Forged Dofus", bg=VOID, vb="0 20 512 512"))
+    write("a-flat-symbol.svg", svg(flat_symbol(), 512, 512, "Dofus Forge — one-colour symbol", vb="0 20 512 512"))
+    write("b-seal.svg", svg(seal(), 512, 512, "Dofus Forge — Forge Seal", bg=VOID))
+    write("c-blazon.svg", svg(blazon(), 512, 512, "Dofus Forge — Blazoned Dofus", bg=VOID))
     write("a-lockup-h.svg", lockup_h(hero_symbol(halo=False, uid="ah"), (0, 60, 480, 452), "Dofus Forge — horizontal"))
-    write("a-lockup-v.svg", lockup_v(hero_symbol(uid="av"), A_VB, "Dofus Forge — apilado"))
+    write("a-lockup-v.svg", lockup_v(hero_symbol(uid="av"), A_VB, "Dofus Forge — stacked"))
     write("b-lockup-h.svg", lockup_h(seal(), (0, 0, 512, 512), "Dofus Forge — B horizontal"))
     write("c-lockup-h.svg", lockup_h(blazon(), (0, 0, 512, 512), "Dofus Forge — C horizontal"))
 
@@ -324,5 +324,5 @@ if __name__ == "__main__":
         rows.append(game_text(d))
         rows.append(f'<text x="80" y="{y + 40}" fill="{INK}" opacity=".5" font-family="Inter,sans-serif" font-size="20">{font}</text>')
         y += 190
-    write("wordmark-study.svg", svg("".join(rows), 1400, y - 40, "Estudio de wordmark", bg=VOID))
+    write("wordmark-study.svg", svg("".join(rows), 1400, y - 40, "Wordmark study", bg=VOID))
     print("ok", OUT)

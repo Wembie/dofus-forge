@@ -25,7 +25,7 @@ def header_mock(x, y, w, sym, vb):
             + nest(sym, vb, x + 14, y + 8, 36)
             + f'<path d="{d}" fill="{b.GOLD_B}"/>'
             + f'<rect x="{x + w - 132}" y="{y + 14}" width="54" height="24" rx="5" fill="{b.PANEL}" stroke="{b.EDGE}"/>'
-            + text(x + w - 105, y + 31, "Nv 200", 11, b.GOLD_B, 700, "middle")
+            + text(x + w - 105, y + 31, "Lv 200", 11, b.GOLD_B, 700, "middle")
             + f'<rect x="{x + w - 68}" y="{y + 14}" width="54" height="24" rx="5" fill="{b.GOLD_D}" opacity=".5"/>'
             + text(x + w - 41, y + 31, "Builds", 11, b.INK, 600, "middle"))
 
@@ -37,7 +37,7 @@ def card(x, y, letter, name, kind, lines, sym, vb, small, small_vb, rec=False):
          nest(sym, vb, x + 70, y + 30, 400)]
     if rec:
         p.append(f'<rect x="{x + 20}" y="{y + 20}" width="150" height="30" rx="15" fill="{b.GOLD_D}"/>'
-                 + text(x + 95, y + 40, "RECOMENDADO", 12, b.GOLD_B, 700, "middle", ls=1.5))
+                 + text(x + 95, y + 40, "RECOMMENDED", 12, b.GOLD_B, 700, "middle", ls=1.5))
     nd, _ = b.wordmark(f"{letter} · {name}", "Cinzel-700.ttf", 23, 0.03, x0=x + 36, base=y + 484)
     p.append(f'<path d="{nd}" fill="{b.GOLD_B}"/>')
     p.append(text(x + 36, y + 514, kind.upper(), 13, b.GOLD, 700, ls=2))
@@ -53,33 +53,33 @@ def card(x, y, letter, name, kind, lines, sym, vb, small, small_vb, rec=False):
     p.append(nest(small, small_vb, x + 268, yy + 22, 52))
     p.append(f'<rect x="{x + 346}" y="{yy + 28}" width="120" height="40" rx="8" fill="#e9e5da"/>')
     p.append(nest(small, small_vb, x + 352, yy + 32, 32))
-    p.append(text(x + 392, yy + 54, "claro", 12, b.VOID, 600))
+    p.append(text(x + 392, yy + 54, "light", 12, b.VOID, 600))
     p.append(header_mock(x + 36, y + 790, W - 72, small, small_vb))
     return "".join(p)
 
 
 def board():
     W, H = 1800, 1240
-    t, tw = b.wordmark("DOFUS × FORJA", b.WM_FONT, 58, 0.04, x0=60, base=150)
+    t, tw = b.wordmark("DOFUS × FORGE", b.WM_FONT, 58, 0.04, x0=60, base=150)
     p = [f'<rect width="{W}" height="{H}" fill="{b.VOID}"/>',
          f'<rect width="{W}" height="{H}" fill="url(#topGlow)"/>',
-         text(62, 64, "DOFUS FORGE · IDENTIDAD VISUAL · RONDA 2", 15, b.GOLD, 700, ls=3),
+         text(62, 64, "DOFUS FORGE · VISUAL IDENTITY · ROUND 2", 15, b.GOLD, 700, ls=3),
          b.game_text(t, stroke=8, shadow=4),
-         text(62, 200, "El Dofus nace en la forja: tu build se forja como un huevo legendario. Cel-shading estilo Ankama sobre la paleta The Vault.", 20, b.INK, op=.75)]
+         text(62, 200, "The Dofus is born in the forge: your build is forged like a legendary egg. Ankama-style cel shading on The Vault palette.", 20, b.INK, op=.75)]
     A = b.hero_symbol(uid="ba")
     A_small = b.hero_symbol(halo=False, uid="bas")
     B = b.seal()
     C = b.blazon()
-    p.append(card(60, 260, "A", "El Dofus en la Forja", "Combinación · símbolo principal",
-                  ["Un Dofus ocre, incandescente, recién", "forjado sobre el yunque; chispas ◆", "como el rombo del header."],
+    p.append(card(60, 260, "A", "The Dofus on the Anvil", "Combination · primary symbol",
+                  ["An ochre Dofus, glowing hot, freshly", "forged on the anvil; ◆ sparks echo", "the header diamond."],
                   A, "0 20 512 512", A_small, "0 60 480 452", rec=True))
-    p.append(card(630, 260, "B", "Sello de la Forja", "Emblema · insignia premium",
-                  ["Medallón de oro con 12 remaches ◆ y", "cinta roja: el sello para OG, Discord,", "logros y el modal «Novedades»."],
+    p.append(card(630, 260, "B", "The Forge Seal", "Emblem · premium badge",
+                  ["Gold medallion with 12 ◆ rivets and a", "red ribbon: the seal for OG, Discord,", "achievements and What's New."],
                   B, "0 0 512 512", B, "0 0 512 512"))
-    p.append(card(1200, 260, "C", "Dofus Blasonado", "Pictórico · ícono compacto",
-                  ["El propio Dofus es el escudo: un yunque", "de oro forjado en su franja. Máxima", "lectura a 16 px (favicon, app)."],
+    p.append(card(1200, 260, "C", "The Blazoned Dofus", "Pictorial · compact icon",
+                  ["The Dofus itself is the shield: a gold", "anvil forged into its band. Best", "legibility at 16 px (favicon, app)."],
                   C, "0 0 512 512", C, "0 0 512 512"))
-    p.append(text(62, 1210, "Recomendación: A como símbolo principal + C como ícono/favicon + B como sello — un solo sistema, tres escalas.", 18, b.GOLD_B, 600))
+    p.append(text(62, 1210, "Recommendation: A as primary symbol + C as icon/favicon + B as seal — one system, three scales.", 18, b.GOLD_B, 600))
     defs = f"""<defs>
   <radialGradient id="topGlow" cx="50%" cy="0%" r="70%"><stop offset="0" stop-color="{b.GOLD}" stop-opacity=".10"/><stop offset="1" stop-color="{b.GOLD}" stop-opacity="0"/></radialGradient>
   <radialGradient id="cardGlow" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#2a2018"/><stop offset="1" stop-color="{b.PANEL}"/></radialGradient>
