@@ -14,6 +14,12 @@ function renderToHtml(element: ReactNode): Promise<string> {
   return new Promise((resolve, reject) => {
     let failed: unknown = null
     const { pipe, abort } = renderToPipeableStream(element, {
+      // Without this, React writes any boundary over ~12.8 kB as its fallback
+      // ("Loading data…") and swaps the real markup in later from a hidden
+      // div, a reveal it throttles to ~2.3 s after navigation start: the page
+      // first painted a spinner and its LCP waited for that timer. The whole
+      // document is written at once here, so every boundary goes in place.
+      progressiveChunkSize: Infinity,
       onAllReady() {
         const chunks: Buffer[] = []
         pipe(new Writable({

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.140',
+    date: '2026-10-31',
+    notes: [
+      'Perf: the planner shows its content right away on load, instead of a loading placeholder for about two seconds',
+    ],
+  },
+  {
     version: '0.3.139',
     date: '2026-10-31',
     notes: [
