@@ -72,7 +72,7 @@ export function ShortcutsPage() {
       <SiteHeader />
 
       <main id="main-content" className="flex-1 max-w-3xl w-full mx-auto px-4 py-10 space-y-8">
-        <div style={{ animation: 'col-rise 520ms var(--ease-out) 0ms both' }}>
+        <div style={{ animation: 'page-rise 520ms var(--ease-out) 0ms both' }}>
           <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--gold)' }}>
             {t('shortcuts_title')}
           </h1>
@@ -82,7 +82,7 @@ export function ShortcutsPage() {
         </div>
 
         {GROUPS.map((g, gi) => (
-          <section key={g.id} className="space-y-3" style={{ animation: `col-rise 420ms var(--ease-out) ${80 + gi * 60}ms both` }}>
+          <section key={g.id} className="space-y-3" style={{ animation: `page-rise 420ms var(--ease-out) ${80 + gi * 60}ms both` }}>
             <div className="flex items-center gap-2">
               <span
                 className="flex items-center justify-center rounded-xl flex-shrink-0"

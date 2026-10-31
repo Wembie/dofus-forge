@@ -87,7 +87,7 @@ export function ClassGuidePage() {
         <div
           className="flex items-center gap-4 p-4 rounded-xl relative overflow-hidden"
           style={{
-            animation:   'col-rise 520ms var(--ease-out) 0ms both',
+            animation:   'page-rise 520ms var(--ease-out) 0ms both',
             background:  `linear-gradient(135deg, color-mix(in srgb, ${elemColor} 14%, var(--surface-panel)), var(--surface-void))`,
             borderTop:   `2px solid color-mix(in srgb, ${elemColor} 55%, transparent)`,
             borderRight: '1px solid var(--metal-edge)',
@@ -280,7 +280,7 @@ function SpellCard({ sp, index, t }: { sp: AppSpell; index: number; t: (key: str
     <div
       className="flex gap-3 p-4 rounded-lg"
       style={{
-        animation:  `col-rise 420ms var(--ease-out) ${Math.min(index * 30, 400)}ms both`,
+        animation:  `page-rise 420ms var(--ease-out) ${Math.min(index * 30, 400)}ms both`,
         background: 'var(--surface-stone)',
         borderTop:    `2px solid color-mix(in srgb, ${accent} 55%, transparent)`,
         borderRight:  '1px solid var(--metal-edge)',

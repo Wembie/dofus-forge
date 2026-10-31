@@ -67,7 +67,7 @@ export function SetsPage() {
           { label: t('sets_page_title'), to: `/${prefix}sets` },
         ]} />
 
-        <header className="space-y-2" style={{ animation: 'col-rise 520ms var(--ease-out) 0ms both' }}>
+        <header className="space-y-2" style={{ animation: 'page-rise 520ms var(--ease-out) 0ms both' }}>
           <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{t('sets_page_title')}</h1>
           <p className="text-sm leading-relaxed max-w-3xl" style={{ color: 'var(--ink-muted)' }}>{t('sets_page_intro', { count: sets.length })}</p>
         </header>

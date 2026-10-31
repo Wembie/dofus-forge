@@ -194,7 +194,7 @@ export function UserProfilePage() {
         <div
           className="flex items-center gap-4 p-4 rounded-xl relative overflow-hidden"
           style={{
-            animation:   'col-rise 520ms var(--ease-out) 0ms both',
+            animation:   'page-rise 520ms var(--ease-out) 0ms both',
             background:  'linear-gradient(135deg, color-mix(in srgb, var(--gold) 12%, var(--surface-panel)), var(--surface-void))',
             borderTop:   '2px solid color-mix(in srgb, var(--gold) 55%, transparent)',
             borderRight: '1px solid var(--metal-edge)',

@@ -1,4 +1,7 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+// The prerendered page is visible before React hydrates it (root.tsx sets the flag).
+const hydrated = (page: Page) => page.locator('html[data-hydrated]').waitFor({ state: 'attached' })
 
 test('public routes render and the optimizer runs in the browser with WASM', async ({ page }) => {
   const pageErrors: string[] = []
@@ -24,6 +27,7 @@ test('public routes render and the optimizer runs in the browser with WASM', asy
 
   await page.goto('en/', { waitUntil: 'domcontentloaded' })
   await expect(page.getByRole('button', { name: 'The Forger' })).toBeVisible()
+  await hydrated(page)
 
   await page.getByRole('button', { name: 'The Forger' }).click()
   const dialog = page.getByRole('dialog')

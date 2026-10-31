@@ -102,6 +102,30 @@ export const SeoCollectorContext = createContext<((tags: SeoTags) => void) | nul
 export const SeoTagsContext = createContext<SeoTags | null>(null)
 
 /**
+ * The tags the prerendered <head> was written with, for the first client
+ * render. React 19 does not hydrate <title>/<meta>/<link> in place: it looks
+ * for an existing element with the same attributes and inserts a new one when
+ * there is none, so rendering anything else (the language defaults) left a
+ * second canonical, description and hreflang set pointing at the home page.
+ */
+export function readSeoTags(doc: Document, lang: SeoLang): SeoTags {
+  const defaults = seoTags(lang)
+  const meta = (selector: string) => doc.head.querySelector<HTMLMetaElement>(`meta[${selector}]`)?.content
+  const alternates = [...doc.head.querySelectorAll<HTMLLinkElement>('link[rel="alternate"][hreflang]')]
+    .map(link => ({ hreflang: link.getAttribute('hreflang')!, href: link.getAttribute('href')! }))
+  return {
+    lang,
+    title:       doc.title || defaults.title,
+    description: meta('name="description"') ?? defaults.description,
+    canonical:   doc.head.querySelector('link[rel="canonical"]')?.getAttribute('href') ?? defaults.canonical,
+    alternates:  alternates.length ? alternates : defaults.alternates,
+    robots:      meta('name="robots"') ?? defaults.robots,
+    ogLocale:    meta('property="og:locale"') ?? defaults.ogLocale,
+    image:       meta('property="og:image"') ?? defaults.image,
+  }
+}
+
+/**
  * Sets per-page title, description, canonical URL, hreflang alternates
  * and (optionally) a noindex directive, keyed by the route's path
  * (without the /es /fr /pt prefix) so every indexable page — not just

@@ -29,6 +29,8 @@ async function open(page: Page, route: string) {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto(route, { waitUntil: 'domcontentloaded' })
   await expect(page.locator('main')).toBeVisible()
+  // The prerendered page is visible before React hydrates it (root.tsx sets the flag).
+  await page.locator('html[data-hydrated]').waitFor({ state: 'attached' })
   await page.waitForLoadState('networkidle').catch(() => {})
 }
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect, type ReactNode } from 'react'
+import { useContext, useEffect, useState, type ReactNode } from 'react'
 import { Links, Outlet, Scripts, isRouteErrorResponse, useLocation, useRouteError, Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import stylesheet from './index.css?url'
@@ -8,7 +8,7 @@ import { ParticleField } from './components/ParticleField.tsx'
 import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import { langFromPath, langPathRootSegment } from './i18n/langPath.ts'
-import { SeoTagsContext, seoTags, SITE, DEFAULT_IMAGE } from './seo/useSeoMeta.ts'
+import { SeoTagsContext, seoTags, readSeoTags, SITE, DEFAULT_IMAGE } from './seo/useSeoMeta.ts'
 
 export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 
@@ -122,12 +122,14 @@ const WEBSITE_LD = {
 /**
  * Per-page tags. On the server they come from the page's usePageSeo call
  * (SeoTagsContext, see entry.server.tsx). In the browser this renders the
- * language defaults once and never changes them; usePageSeo's effect owns
- * these elements from then on, so suppressHydrationWarning keeps the
- * server's per-page values instead of "correcting" them to the defaults.
+ * values the prerendered <head> already has (readSeoTags), once, so React
+ * adopts those elements instead of adding a second set; usePageSeo's effect
+ * owns them from then on.
  */
 function SeoHead({ lang }: { lang: ReturnType<typeof langFromPath> }) {
-  const tags = useContext(SeoTagsContext) ?? seoTags(lang)
+  const serverTags = useContext(SeoTagsContext)
+  const [clientTags] = useState(() => (serverTags || typeof document === 'undefined' ? null : readSeoTags(document, lang)))
+  const tags = serverTags ?? clientTags ?? seoTags(lang)
   return (
     <>
       <title suppressHydrationWarning>{tags.title}</title>
@@ -213,6 +215,9 @@ export function Layout({ children }: { children: ReactNode }) {
 export default function App() {
   useEffect(() => {
     useAuthStore.getState().init()
+    // Prerendered buttons are on screen before React handles their clicks;
+    // the end-to-end tests wait for this before interacting.
+    document.documentElement.dataset.hydrated = ''
   }, [])
 
   return (

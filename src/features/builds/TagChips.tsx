@@ -13,14 +13,15 @@ function tagColor(tag: Tag): string {
   return tag.category === 'playstyle' ? 'var(--gold)' : 'var(--ink-muted)'
 }
 
-/** The tag catalog; null while it loads ([] if it failed or is empty). */
-export function useTags(): Tag[] | null {
-  const [tags, setTags] = useState<Tag[] | null>(null)
+/** The tag catalog; null while it loads ([] if it failed or is empty). `initial` is a prerendered copy, refreshed on mount. */
+export function useTags(initial: Tag[] | null = null): Tag[] | null {
+  const [tags, setTags] = useState<Tag[] | null>(initial)
   useEffect(() => {
     let cancelled = false
-    fetchTags().then(list => { if (!cancelled) setTags(list) })
+    // A failed fetch resolves to []: keep the prerendered copy then.
+    fetchTags().then(list => { if (!cancelled && (list.length > 0 || !initial)) setTags(list) })
     return () => { cancelled = true }
-  }, [])
+  }, [initial])
   return tags
 }
 

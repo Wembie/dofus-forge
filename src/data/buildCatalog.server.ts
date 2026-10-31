@@ -48,3 +48,9 @@ export async function equippedCatalog(lang: PathLang, equippedIds: (number | nul
   const setIds = new Set(equipped.flatMap(it => (it.set_id != null ? [it.set_id] : [])))
   return { items: equipped, sets: [...setIds].flatMap(id => (sets.has(id) ? [sets.get(id)!] : [])) }
 }
+
+/** Item and set counts, as the browser's catalog reports them (Explore's catalog chip). */
+export async function catalogCounts() {
+  const [index, sets] = await Promise.all([readJson<unknown[]>('en', 'index.json'), readJson<unknown[]>('en', 'sets.json')])
+  return { items: index.length, sets: sets.length }
+}

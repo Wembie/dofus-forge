@@ -54,7 +54,7 @@ export function SetCard({ set, index = 0 }: { set: SetLink; index?: number }) {
       to={setPath(i18n.language, set.slug)}
       className="set-card group flex items-center gap-3 p-2.5 rounded-lg min-w-0"
       // Long lists (the sets index) animate their first rows only.
-      style={index < 24 ? { animation: `col-rise 360ms var(--ease-out) ${index * 18}ms both` } : undefined}
+      style={index < 24 ? { animation: `page-rise 360ms var(--ease-out) ${index * 18}ms both` } : undefined}
     >
       <span className="set-card-icon flex-shrink-0 rounded-md flex items-center justify-center">
         {set.icon && <img src={set.icon} alt="" width={40} height={40} loading="lazy" decoding="async" className="object-contain" />}
