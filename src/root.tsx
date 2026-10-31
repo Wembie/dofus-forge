@@ -9,6 +9,7 @@ import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import { langFromPath, langPathRootSegment } from './i18n/langPath.ts'
 import { SeoTagsContext, seoTags, readSeoTags, SITE, DEFAULT_IMAGE } from './seo/useSeoMeta.ts'
+import { BRAND } from './data/brand.ts'
 
 export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 
@@ -115,7 +116,7 @@ const WEBSITE_LD = {
   publisher: {
     '@type': 'Organization',
     name: 'Dofus Forge',
-    logo: { '@type': 'ImageObject', url: `${SITE}/favicon-192.png`, width: 192, height: 192 },
+    logo: { '@type': 'ImageObject', url: `${SITE}${BRAND.logo512}`, width: 512, height: 512 },
   },
 }
 
@@ -183,17 +184,18 @@ export function Layout({ children }: { children: ReactNode }) {
           search-result favicon fetcher (and older browsers/Safari pinned tabs)
           are more reliable with a plain square PNG.
         */}
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href={BRAND.favicon.ico} sizes="48x48" />
+        <link rel="icon" type="image/svg+xml" href={BRAND.favicon.svg} />
+        <link rel="icon" type="image/png" sizes="48x48" href={BRAND.favicon.png48} />
+        <link rel="icon" type="image/png" sizes="192x192" href={BRAND.favicon.png192} />
+        <link rel="apple-touch-icon" href={BRAND.favicon.appleTouch} />
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="application-name" content="Dofus Forge" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Dofus Forge" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#0d0f14" />
+        <meta name="theme-color" content="#0a0d13" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

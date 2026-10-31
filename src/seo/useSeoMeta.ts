@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect } from 'react'
+import { BRAND } from '../data/brand.ts'
 
 export type SeoLang = 'en' | 'es' | 'fr' | 'pt'
 
 export const SITE = 'https://dofusforge.com'
-export const DEFAULT_IMAGE = `${SITE}/og-preview.jpg`
+export const DEFAULT_IMAGE = `${SITE}${BRAND.ogImage}`
 
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 

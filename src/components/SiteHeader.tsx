@@ -10,6 +10,7 @@ import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useAuthStore } from '@/store/authStore.ts'
+import { BRAND } from '@/data/brand.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
@@ -45,19 +46,18 @@ export function SiteHeader() {
     >
       <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
       <Link to={homePath} className="flex items-center gap-2 flex-shrink-0" style={{ textDecoration: 'none' }}>
-        <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
-          <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
-        </svg>
+        <img src={BRAND.icon} width={34} height={34} alt="" aria-hidden="true" style={{ flexShrink: 0 }} />
         {/* Persistent brand mark, not a page heading — it's the same element on
             every page this header is used on (Explore, My Builds, build
             detail, About, How to Use), each of which has its own real <h1>.
             An <h1> here duplicated that on every one of them. */}
-        <span
-          className="font-display font-bold tracking-[0.18em] uppercase"
-          style={{ fontSize: '0.82rem', color: 'var(--gold)', textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)', letterSpacing: '0.2em' }}
-        >
-          {t('app_title')}
-        </span>
+        <img
+          src={BRAND.wordmark}
+          height={15}
+          width={Math.round(15 * BRAND.wordmarkAspect)}
+          alt={t('app_title')}
+          style={{ filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.8)) drop-shadow(0 0 14px rgba(201,162,75,0.35))' }}
+        />
       </Link>
 
       <nav className="hidden sm:flex items-center gap-1.5 ml-1" aria-label={t('a11y_main_nav')}>

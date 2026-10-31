@@ -32,6 +32,7 @@ import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 import { getSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
 import { scrollBehavior } from '@/lib/motionSettings.ts'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
+import { BRAND } from '@/data/brand.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -76,20 +77,15 @@ function BrandLink({ onReset }: { onReset: () => void }) {
       }}
       title={t('reset_build')}
     >
-      {/* Diamond accent */}
-      <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink: 0 }}>
-        <path d="M5 0 L10 5 L5 10 L0 5Z" fill="var(--gold)" opacity="0.9" />
-      </svg>
-      <h1
-        className="font-display font-bold tracking-[0.18em] uppercase"
-        style={{
-          fontSize:   '0.82rem',
-          color:      'var(--gold)',
-          textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)',
-          letterSpacing: '0.2em',
-        }}
-      >
-        {t('app_title')}
+      <img src={BRAND.icon} width={34} height={34} alt="" aria-hidden="true" style={{ flexShrink: 0 }} />
+      <h1 className="m-0 leading-none">
+        <img
+          src={BRAND.wordmark}
+          height={15}
+          width={Math.round(15 * BRAND.wordmarkAspect)}
+          alt={t('app_title')}
+          style={{ display: 'block', filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.8)) drop-shadow(0 0 14px rgba(201,162,75,0.35))' }}
+        />
       </h1>
     </a>
   )
