@@ -152,6 +152,111 @@ def mark_forge_egg(uid="f"):
     return faceted_egg(256, 24, 488, 168, uid, holes=f"{CUT_ANVIL} {CUT_SPARK}")
 
 
+# ── C2 — The Forge Egg, premium: polished metal, engraved anvil lit by the forge, a burning ◆ spark ──
+EGG2 = (256, 22, 486, 164)
+# refined anvil: sweeping horn, concave waist, flared feet (512 box, inside the egg)
+ANVIL2 = ("M120 330 C150 326 178 325 200 325 L358 325 Q364 325 364 331 L364 344 Q364 350 358 350 L338 350 "
+          "C320 352 308 362 306 378 L306 386 C308 397 320 403 338 405 Q344 406 344 412 L344 418 Q344 424 338 424 "
+          "L174 424 Q168 424 168 418 L168 412 Q168 406 174 405 C192 403 204 397 206 386 L206 378 "
+          "C204 363 194 353 176 351 L172 351 C150 351 132 344 120 330 Z")
+SPARK2 = diamond(256, 226, 27, 52)
+SPARK2_CORE = diamond(256, 228, 13, 28)
+DEFS += f"""<defs>
+  <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff4cf"/><stop offset=".16" stop-color="#f3d68c"/><stop offset=".42" stop-color="#d9b25c"/>
+    <stop offset=".58" stop-color="#a77d32"/><stop offset=".7" stop-color="#c9a24b"/><stop offset=".84" stop-color="#e8c977"/>
+    <stop offset="1" stop-color="#8d6a26"/>
+  </linearGradient>
+  <radialGradient id="metalSide" cx="34%" cy="30%" r="78%">
+    <stop offset="0" stop-color="#3b2a0c" stop-opacity="0"/><stop offset=".62" stop-color="#3b2a0c" stop-opacity="0"/>
+    <stop offset="1" stop-color="#2a1d07" stop-opacity=".62"/>
+  </radialGradient>
+  <linearGradient id="bevel" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#fff7da"/><stop offset=".45" stop-color="#f0d58e" stop-opacity=".4"/>
+    <stop offset=".55" stop-color="#5a420f" stop-opacity=".4"/><stop offset="1" stop-color="#3d2c08"/>
+  </linearGradient>
+  <linearGradient id="recess" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0d0805"/><stop offset=".55" stop-color="#1f0e07"/><stop offset="1" stop-color="#4a170a"/>
+  </linearGradient>
+  <linearGradient id="molten" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fffbe8"/><stop offset=".4" stop-color="#ffd27a"/><stop offset="1" stop-color="#f08a3a"/>
+  </linearGradient>
+  <radialGradient id="spec" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="tile2" cx="50%" cy="30%" r="85%">
+    <stop offset="0" stop-color="#222a3d"/><stop offset=".55" stop-color="#121722"/><stop offset="1" stop-color="#06080d"/>
+  </radialGradient>
+  <radialGradient id="floor" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="{FIRE}" stop-opacity=".38"/><stop offset=".5" stop-color="{GOLD}" stop-opacity=".12"/>
+    <stop offset="1" stop-color="{GOLD}" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="aura" cx="50%" cy="46%" r="50%">
+    <stop offset="0" stop-color="{GOLD_B}" stop-opacity=".26"/><stop offset=".6" stop-color="{GOLD}" stop-opacity=".06"/>
+    <stop offset="1" stop-color="{GOLD}" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fbe7ad"/><stop offset=".35" stop-color="{GOLD}"/><stop offset=".75" stop-color="{GOLD_D}"/>
+    <stop offset="1" stop-color="#b8924a"/>
+  </linearGradient>
+</defs>"""
+
+
+def forge_egg2(uid="p", glow=True):
+    cx, top, bot, rx = EGG2
+    shape = egg(cx, top, bot, rx)
+    h = bot - top
+    shade = (f"M{fmt(cx + rx * .28)} {fmt(top - 2)} C{fmt(cx + rx * .86)} {fmt(top + h * .3)} {fmt(cx + rx * .78)} {fmt(top + h * .8)} "
+             f"{fmt(cx + rx * .14)} {fmt(bot + 2)} L{fmt(cx + rx * 1.3)} {fmt(bot + 2)} L{fmt(cx + rx * 1.3)} {fmt(top - 2)} Z")
+    p = [f'<clipPath id="g{uid}"><path d="{shape}"/></clipPath>',
+         f'<clipPath id="r{uid}"><path d="{ANVIL2}"/></clipPath>',
+         f'<path d="{shape}" fill="url(#metal)"/>',
+         f'<g clip-path="url(#g{uid})">',
+         f'<path d="{shape}" fill="url(#metalSide)"/>',
+         f'<path d="{shade}" fill="#5c4313" opacity=".28"/>',
+         # specular: long soft streak + crisp glint
+         f'<ellipse cx="{fmt(cx - rx * .44)}" cy="{fmt(top + h * .27)}" rx="{fmt(rx * .13)}" ry="{fmt(h * .17)}" transform="rotate(14 {fmt(cx - rx * .44)} {fmt(top + h * .27)})" fill="url(#spec)" opacity=".75"/>',
+         f'<path d="M{fmt(cx - rx * .8)} {fmt(top + h * .52)} C{fmt(cx - rx * .82)} {fmt(top + h * .3)} {fmt(cx - rx * .6)} {fmt(top + h * .1)} {fmt(cx - rx * .24)} {fmt(top + h * .04)}" '
+         f'fill="none" stroke="#fffbea" stroke-width="{fmt(rx * .045)}" stroke-linecap="round" opacity=".9"/>',
+         # bevel: 14-wide stroke clipped to the egg = 7 px inner bevel, light top-left, dark bottom-right
+         f'<path d="{shape}" fill="none" stroke="url(#bevel)" stroke-width="14" opacity=".85"/>',
+         # engraved anvil: lip highlight below, recess, inner forge glow
+         f'<path d="{ANVIL2}" transform="translate(0 3)" fill="#fff1c4" opacity=".75"/>',
+         f'<path d="{ANVIL2}" fill="url(#recess)"/>',
+         f'<g clip-path="url(#r{uid})">']
+    if glow:
+        for w, o in ((22, .14), (12, .28), (5, .7)):
+            p.append(f'<path d="{ANVIL2}" fill="none" stroke="{FIRE}" stroke-width="{w}" opacity="{o}"/>')
+        p.append(f'<path d="M100 325 L370 325 L370 333 L100 333 Z" fill="#ffcf73" opacity=".55"/>')
+    p.append(f'<path d="{ANVIL2}" transform="translate(0 -4)" fill="none" stroke="#000" stroke-width="6" opacity=".45"/></g>')
+    # spark: an engraved ◆ socket holding a molten core
+    p.append(f'<path d="{SPARK2}" transform="translate(0 3)" fill="#fff1c4" opacity=".75"/>'
+             f'<path d="{SPARK2}" fill="url(#recess)"/>')
+    if glow:
+        p.append(f'<path d="{SPARK2}" fill="none" stroke="{FIRE}" stroke-width="7" opacity=".45"/>'
+                 f'<path d="{diamond(256, 228, 20, 40)}" fill="{FIRE}" opacity=".35"/>')
+    p.append(f'<path d="{SPARK2_CORE}" fill="url(#molten)"/>'
+             f'<path d="M256 200 L269 228 L256 228 Z" fill="#fff" opacity=".55"/>')
+    p.append("</g>")
+    return "".join(p)
+
+
+def mark_forge_egg2(uid="p"):
+    """C2 — The Forge Egg, premium."""
+    return (f'<ellipse cx="256" cy="488" rx="150" ry="16" fill="#000" opacity=".45"/>'
+            + forge_egg2(uid))
+
+
+def forge_egg2_small():
+    """16–48 px cut: bright two-tone gold, a fat engraved anvil and a solid spark — no glow, no glints."""
+    cx, top, bot, rx = EGG2
+    shape = egg(cx, top, bot, rx)
+    return (f'<clipPath id="gs"><path d="{shape}"/></clipPath><path d="{shape}" fill="url(#metal)"/>'
+            f'<g clip-path="url(#gs)"><path d="{shape}" fill="url(#metalSide)"/></g>'
+            f'<path d="{ANVIL2}" transform="translate(256 374) scale(1.18) translate(-238 -369)" fill="#1a0c06"/>'
+            f'<path d="{diamond(256, 222, 34, 62)}" fill="#1a0c06"/><path d="{diamond(256, 224, 17, 32)}" fill="#ffd27a"/>')
+
+
 CONCEPTS = {
     "a": dict(slug="a-the-slot", name="The Slot", mark=mark_slot,
               idea="The planner's class slot becomes the logo: a gold-framed tile on the element ring, a Dofus inside.",
@@ -162,6 +267,9 @@ CONCEPTS = {
     "c": dict(slug="c-forge-egg", name="The Forge Egg", mark=mark_forge_egg,
               idea="One gold Dofus with the anvil and a ◆ spark cut out of it: the forge lives inside the egg.",
               small=lambda: mark_forge_egg("cs")),
+    "c2": dict(slug="c2-forge-egg-premium", name="The Forge Egg · Premium", mark=mark_forge_egg2, premium=True,
+               idea="Polished gold Dofus with the anvil engraved into it, lit from inside by the forge, and a burning ◆ spark.",
+               small=forge_egg2_small, small_tile={"scale": .94, "border": False}, tile_mark=lambda u: forge_egg2(u)),
 }
 
 
@@ -178,6 +286,29 @@ def tile(mark_svg, scale=.66, radius=112, full=False, border=True):
                      f'fill="none" stroke="url(#hair)" stroke-width="6" opacity=".9"/>')
     parts.append(f'<g transform="translate({fmt(off)} {fmt(off)}) scale({fmt(scale)})">{mark_svg}</g>')
     return "".join(parts)
+
+
+def tile_premium(mark_svg, scale=.66, radius=112, full=False, border=True):
+    """Jewel tile: vignetted void, gold aura, forge floor glow, double gold filet and a ◆ on the top edge."""
+    r = 0 if full else radius
+    off = (512 - 512 * scale) / 2
+    parts = [f'<rect width="512" height="512" rx="{r}" fill="url(#tile2)"/>',
+             f'<rect width="512" height="512" rx="{r}" fill="url(#aura)"/>',
+             f'<ellipse cx="256" cy="{fmt(off + 512 * scale * .93)}" rx="{fmt(190 * scale / .66)}" ry="{fmt(60 * scale / .66)}" fill="url(#floor)"/>']
+    if border:
+        i1 = 22 if full else 12
+        r1 = 96 if full else r - i1
+        parts += [f'<rect x="{i1}" y="{i1}" width="{512 - 2 * i1}" height="{512 - 2 * i1}" rx="{r1}" fill="none" stroke="url(#frame)" stroke-width="6"/>',
+                  f'<rect x="{i1 + 13}" y="{i1 + 13}" width="{512 - 2 * i1 - 26}" height="{512 - 2 * i1 - 26}" rx="{r1 - 13}" fill="none" stroke="{GOLD}" stroke-width="1.6" opacity=".35"/>',
+                  f'<path d="M{i1 + r1} {i1 + 4} L{512 - i1 - r1} {i1 + 4}" stroke="#fff" stroke-width="2" opacity=".18"/>',
+                  f'<path d="{diamond(256, i1, 18, 15)}" fill="#0b0e15"/>',
+                  f'<path d="{diamond(256, i1, 12, 10)}" fill="url(#frame)"/>']
+    parts.append(f'<g transform="translate({fmt(off)} {fmt(off)}) scale({fmt(scale)})">{mark_svg}</g>')
+    return "".join(parts)
+
+
+def tile_for(cid):
+    return tile_premium if CONCEPTS[cid].get("premium") else tile
 
 
 def svg_doc(body, w, h, title, vb=None, bg=None):
@@ -224,7 +355,7 @@ def lockup(cid):
     """Horizontal lockup: app tile + gold wordmark."""
     d, w, h = wordmark(cap=120)
     W = int(300 + w + 20)
-    body = (f'<g transform="scale(.5)">{tile(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "L"))}</g>'
+    body = (f'<g transform="scale(.5)">{tile_for(cid)(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "L"))}</g>'
             f'<path transform="translate(296 66)" d="{d}" fill="url(#gold)"/>')
     return svg_doc(body, W, 256, "Dofus Forge"), W, 256
 
@@ -249,7 +380,7 @@ def og(cid):
     p = [f'<rect width="1200" height="630" fill="{VOID}"/>',
          f'<circle cx="300" cy="315" r="360" fill="url(#glow)"/>',
          f'<rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="{EDGE}"/>',
-         f'<g transform="translate(110 125) scale(.74)">{tile(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "O"))}</g>',
+         f'<g transform="translate(110 125) scale(.74)">{tile_for(cid)(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "O"))}</g>',
          f'<path transform="translate(560 {fmt(262 - cap)})" d="{d}" fill="url(#gold)"/>',
          text(562, 330, "Build planner &amp; optimizer for Dofus 3", 30, INK, 500),
          text(562, 372, "Every item, set and rune — and The Forger finds your best gear.", 21, INK_M)]
@@ -264,7 +395,7 @@ def og(cid):
 
 def emblem_404(cid):
     """Inline SVG for public/404.html (no external refs, small)."""
-    return svg_doc(tile(CONCEPTS[cid]["small"]()), 512, 512, "Dofus Forge")
+    return svg_doc(tile_for(cid)(CONCEPTS[cid]["small"](), **CONCEPTS[cid].get("small_tile", {})), 512, 512, "Dofus Forge")
 
 
 # ── Rendering ──────────────────────────────────────────────────────────────
@@ -291,11 +422,12 @@ def build(cid):
 
     mark = svg_doc(c["mark"](cid + "m"), 512, 512, "Dofus Forge")
     tm = c.get("tile_mark", c["mark"])
-    app = svg_doc(tile(tm(cid + "t")), 512, 512, "Dofus Forge")
-    small = svg_doc(tile(c["small"](), scale=.74), 512, 512, "Dofus Forge")
-    square = svg_doc(tile(tm(cid + "q"), full=True), 512, 512, "Dofus Forge")
-    disc = svg_doc(tile(tm(cid + "d"), scale=.62, full=True, border=False), 512, 512, "Dofus Forge")
-    mask = svg_doc(tile(tm(cid + "k"), scale=.5, full=True, border=False), 512, 512, "Dofus Forge")
+    T = tile_for(cid)
+    app = svg_doc(T(tm(cid + "t")), 512, 512, "Dofus Forge")
+    small = svg_doc(T(c["small"](), **c.get("small_tile", {"scale": .74})), 512, 512, "Dofus Forge")
+    square = svg_doc(T(tm(cid + "q"), full=True), 512, 512, "Dofus Forge")
+    disc = svg_doc(T(tm(cid + "d"), scale=.62, full=True, border=False), 512, 512, "Dofus Forge")
+    mask = svg_doc(T(tm(cid + "k"), scale=.5, full=True, border=False), 512, 512, "Dofus Forge")
     lk, lw, lh = lockup(cid)
     wd, ww, wh = wordmark()
     wm = svg_doc(f'<path d="{wd}" fill="url(#gold)"/>', int(ww) + 2, int(wh), "Dofus Forge")
@@ -397,26 +529,27 @@ def overview():
          text(64, 70, "DOFUS FORGE · DEFINITIVE IDENTITY · R8", 15, GOLD, 700, ls=3)]
     d, w, h = wordmark(cap=44)
     p.append(f'<path transform="translate(64 96)" d="{d}" fill="url(#gold)"/>')
-    p.append(text(64, 196, "Three marks in the site's own language: flat faceted gold, void tile, gold hairline, Cinzel small caps.", 19, INK_M))
-    for i, cid in enumerate("abc"):
+    p.append(text(64, 196, "Marks in the site's own language: gold on a void tile with a gold filet, Cinzel small caps. C2 refines C into polished, engraved metal.", 19, INK_M))
+    REC = "c2"
+    for i, cid in enumerate(CONCEPTS):
         c = CONCEPTS[cid]
-        x = 64 + i * 576
+        x = 64 + i * 426
         pn = os.path.join(HERE, "concepts", c["slug"], "png")
-        p.append(f'<rect x="{x}" y="240" width="544" height="600" rx="18" fill="{PANEL}" stroke="{GOLD if cid == "c" else EDGE}" stroke-width="{2 if cid == "c" else 1}"/>')
-        p.append(f'<image href="{data_uri(os.path.join(pn, "favicon-512.png"))}" x="{x + 112}" y="270" width="320" height="320"/>')
+        p.append(f'<rect x="{x}" y="240" width="402" height="600" rx="18" fill="{PANEL}" stroke="{GOLD if cid == REC else EDGE}" stroke-width="{2 if cid == REC else 1}"/>')
+        p.append(f'<image href="{data_uri(os.path.join(pn, "favicon-512.png"))}" x="{x + 61}" y="280" width="280" height="280"/>')
         for k, s in enumerate((64, 32, 16)):
-            p.append(f'<image href="{data_uri(os.path.join(pn, f"favicon-{s}.png"))}" x="{x + 150 + k * 100}" y="{620 + (64 - s) / 2}" width="{s}" height="{s}"/>')
-        p.append(text(x + 32, 740, f"{cid.upper()} · {c['name']}", 26, GOLD_B, 700, family="Cinzel, Georgia, serif"))
+            p.append(f'<image href="{data_uri(os.path.join(pn, f"favicon-{s}.png"))}" x="{x + 100 + k * 90}" y="{600 + (64 - s) / 2}" width="{s}" height="{s}"/>')
+        p.append(text(x + 28, 730, f"{cid.upper()} · {c['name']}", 22, GOLD_B, 700, family="Cinzel, Georgia, serif"))
         words, line, lines = c["idea"].split(), "", []
         for wd in words:
-            if len(line) + len(wd) > 52:
+            if len(line) + len(wd) > 40:
                 lines.append(line); line = ""
             line += wd + " "
         lines.append(line)
-        for k, ln in enumerate(lines[:3]):
-            p.append(text(x + 32, 776 + k * 24, ln.strip(), 16, INK_M))
-        if cid == "c":
-            p.append(f'<rect x="{x + 380}" y="262" width="140" height="30" rx="15" fill="{GOLD_D}"/>' + text(x + 450, 282, "RECOMMENDED", 12, GOLD_B, 700, "middle", ls=1.5))
+        for k, ln in enumerate(lines[:4]):
+            p.append(text(x + 28, 764 + k * 22, ln.strip(), 15, INK_M))
+        if cid == REC:
+            p.append(f'<rect x="{x + 248}" y="262" width="140" height="30" rx="15" fill="{GOLD_D}"/>' + text(x + 318, 282, "RECOMMENDED", 12, GOLD_B, 700, "middle", ls=1.5))
     raw = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 900" width="1800" height="900">{DEFS}{"".join(p)}</svg>'
     open(os.path.join(HERE, "overview.svg"), "w", encoding="utf-8").write(raw)
     render(raw, 1800, 900).convert("RGB").save(os.path.join(HERE, "overview.png"), quality=92)
@@ -455,8 +588,8 @@ def apply(cid):
 
 
 if __name__ == "__main__":
-    only = [a for a in sys.argv[1:] if len(a) == 1]
-    for cid in (only if only and "--apply" not in sys.argv else "abc"):
+    only = [a for a in sys.argv[1:] if a in CONCEPTS]
+    for cid in (only if only and "--apply" not in sys.argv else list(CONCEPTS)):
         print("built", build(cid))
     overview()
     if "--apply" in sys.argv:

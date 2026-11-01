@@ -38,14 +38,23 @@ R8 applies that pattern with the site's own materials.
 |---|---|---|
 | A | [The Slot](concepts/a-the-slot/board.png) | The planner's class slot becomes the logo: a Dofus on the element ring |
 | B | [Forged Dofus](concepts/b-forged-dofus/board.png) | A faceted gold Dofus resting on a steel anvil |
-| **C** | **[The Forge Egg](concepts/c-forge-egg/board.png)** — applied | One gold Dofus with the anvil and a ◆ spark cut out of it: the forge lives inside the egg |
+| C | [The Forge Egg](concepts/c-forge-egg/board.png) | One gold Dofus with the anvil and a ◆ spark cut out of it: the forge lives inside the egg |
+| **C2** | **[The Forge Egg · Premium](concepts/c2-forge-egg-premium/board.png)** — applied | C refined: polished gold with a horizon reflection, inner bevel and specular, the anvil engraved and lit from inside by the forge, a molten ◆ set like a gem; jewel tile with a double gold filet and a ◆ on its top edge |
 
-**Why C:**
+**Why C (chosen by the user), refined into C2:**
 - It has the strongest silhouette: an egg reads at 16 px, where A's ring and B's anvil disappear.
 - It is the only one that needs no container to be recognised.
 - It tells the whole story in one shape: Dofus, forge, spark.
 
-![The Forge Egg](concepts/c-forge-egg/board.png)
+**C2 adds** what makes it premium without losing the 16 px silhouette:
+- polished metal instead of flat gold
+- an engraved, forge-lit anvil
+- the spark as a gem set in gold
+- the jewel tile
+
+Below 48 px it switches to a borderless cut, so the egg fills the tile.
+
+![The Forge Egg · Premium](concepts/c2-forge-egg-premium/board.png)
 
 ## Kit per concept — `concepts/<id>/`
 
@@ -67,7 +76,7 @@ R8 applies that pattern with the site's own materials.
 
 ```bash
 python docs/brand/dofus-forge/build.py              # rebuild all concepts + overview
-python docs/brand/dofus-forge/build.py --apply c    # put concept c on the site
+python docs/brand/dofus-forge/build.py --apply c2   # put concept c2 on the site
 ```
 
 `--apply` writes these files:
