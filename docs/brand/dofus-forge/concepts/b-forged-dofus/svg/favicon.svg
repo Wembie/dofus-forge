@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t"><title id="t">Dofus Forge</title><defs>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f8e3a3" /><stop offset=".32" stop-color="#eccb78" />
+    <stop offset=".72" stop-color="#c9a24b" /><stop offset="1" stop-color="#9b7a33" />
+  </linearGradient>
+  <linearGradient id="goldShade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b8923f" /><stop offset="1" stop-color="#6b5220" />
+  </linearGradient>
+  <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#5d6c88" /><stop offset=".45" stop-color="#3a465e" /><stop offset="1" stop-color="#1f2636" />
+  </linearGradient>
+  <linearGradient id="steelShade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#2f3a50" /><stop offset="1" stop-color="#151a26" />
+  </linearGradient>
+  <radialGradient id="tile" cx="50%" cy="34%" r="80%">
+    <stop offset="0" stop-color="#1d2334" /><stop offset=".6" stop-color="#11151e" /><stop offset="1" stop-color="#0a0d13" />
+  </radialGradient>
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#c9a24b" stop-opacity=".34" /><stop offset=".55" stop-color="#c9a24b" stop-opacity=".08" />
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0" />
+  </radialGradient>
+  <radialGradient id="ember" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".30" /><stop offset="1" stop-color="#e65f40" stop-opacity="0" />
+  </radialGradient>
+  <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#eccb78" /><stop offset=".5" stop-color="#c9a24b" /><stop offset="1" stop-color="#7f6428" />
+  </linearGradient>
+</defs><rect width="512" height="512" rx="112" fill="url(#tile)" /><rect width="512" height="512" rx="112" fill="url(#glow)" opacity=".9" /><rect x="14" y="14" width="484" height="484" rx="98" fill="none" stroke="url(#hair)" stroke-width="6" opacity=".9" /><g transform="translate(66.56 66.56) scale(0.74)"><ellipse cx="256" cy="282" rx="150" ry="26" fill="url(#ember)" /><g transform="translate(0 0) scale(1)"><clipPath id="anbs"><path d="M48 300 L420 300 L420 338 L380 338 L346 366 L346 396 L392 426 L392 452 L120 452 L120 426 L166 396 L166 366 L132 338 Q70 334 48 300 Z" /></clipPath><path d="M48 300 L420 300 L420 338 L380 338 L346 366 L346 396 L392 426 L392 452 L120 452 L120 426 L166 396 L166 366 L132 338 Q70 334 48 300 Z" fill="url(#steel)" /><g clip-path="url(#anbs)"><path d="M132 338 L420 338 L380 338 L346 366 L346 396 L392 426 L392 452 L120 452 L120 426 L166 396 L166 366 Z" fill="url(#steelShade)" opacity=".55" /><rect x="0" y="300" width="512" height="7" fill="#eccb78" opacity=".9" /><rect x="0" y="307" width="512" height="10" fill="#fff" opacity=".06" /></g></g><clipPath id="ebs"><path fill-rule="evenodd" d="M256 64 C306.81 64 348 125.8 348 202.04 C348 257.25 306.81 302 256 302 C205.19 302 164 257.25 164 202.04 C164 125.8 205.19 64 256 64 Z" /></clipPath><path fill-rule="evenodd" d="M256 64 C306.81 64 348 125.8 348 202.04 C348 257.25 306.81 302 256 302 C205.19 302 164 257.25 164 202.04 C164 125.8 205.19 64 256 64 Z" fill="url(#gold)" /><g clip-path="url(#ebs)"><path d="M274.4 62 C329.6 135.4 320.4 254.4 257.84 304 L375.6 304 L375.6 62 Z" fill="url(#goldShade)" opacity=".92" /><path d="M184.24 183 C182.4 130.64 205.4 87.8 239.44 75.9" fill="none" stroke="#fff6dc" stroke-width="6.44" stroke-linecap="round" opacity=".75" /></g><path d="M384 72 L398 96 L384 120 L370 96 Z" fill="url(#gold)" /><path d="M126 135 L135 150 L126 165 L117 150 Z" fill="#c9a24b" opacity=".85" /></g></svg>

@@ -1,4 +1,6 @@
-"""Export the final Forge Crest kit into public/ — every format and size the site and socials need.
+"""SUPERSEDED by docs/brand/dofus-forge/build.py (R8) — running this puts the R7 crest back on the site.
+
+Export the R7 Forge Crest kit into public/ — every format and size the site and socials need.
 
 usage: python export_kit.py            (writes public/brand/* and the root favicons/PWA/OG files)
 

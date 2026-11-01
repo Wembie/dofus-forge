@@ -9,10 +9,10 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     version: '0.3.141',
-    date: '2026-10-31',
+    date: '2026-11-01',
     notes: [
-      'New: a new look for Dofus Forge — The Forge Crest, with the Dofus on the anvil, dragon wings and the four element runes',
-      'New: new logo in the header, browser tab, home-screen app icon and link previews',
+      'New: a new Dofus Forge logo — a gold Dofus with the forge inside, in the same style as the planner',
+      'New: the new logo in the header, browser tab, home-screen app icon, Discord and link previews',
     ],
   },
   {

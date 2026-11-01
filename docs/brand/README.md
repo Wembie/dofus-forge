@@ -2,11 +2,25 @@
 
 Running log of the brand identity work. Every concept round lives in its own folder, including the rejected ones, together with the feedback it got and the decisions it led to. Nothing gets deleted.
 
+- **Definitive identity:** [dofus-forge/](dofus-forge/) (R8)
 - **Brief:** [BRIEF.md](BRIEF.md). Positioning: *look like Dofus, own the forge*.
 - **UI design system:** [../DESIGN.md](../DESIGN.md) — The Vault palette, element colours, Cinzel.
 - **Source:** [src/](src/). Every file is generated with Python + fontTools from real font outlines in [src/fonts/](src/fonts/) (SIL OFL 1.1).
 
-## Final: The Forge Crest
+## ▶ Current: R8 — The Forge Egg
+
+**The definitive identity lives in [`dofus-forge/`](dofus-forge/)**: 3 concepts with full kits, the applied one (C, The Forge Egg), and `build.py --apply <id>` to swap.
+
+![R8 overview](dofus-forge/overview.png)
+
+**Feedback on R1–R7:** none of them was liked.
+
+**Learned:** the cel-shaded cartoon marks clashed with the site's refined UI. R8 is designed from the live pages themselves: flat faceted gold, the slot tile, and Cinzel small caps.
+
+---
+
+## History — R7: The Forge Crest (superseded)
+
 
 ![The Forge Crest](rounds/r7-forge-system/png/board-1-master.png)
 
@@ -47,7 +61,7 @@ The system pieces:
 
 ![Applications](rounds/r7-forge-system/png/board-3-applications.png)
 
-### Kit — `public/brand/`
+### R7 kit (no longer on the site)
 
 Generate the kit with `python docs/brand/src/export_kit.py`. It also rewrites the root favicons, apple-touch, Discord and OG files.
 
@@ -79,7 +93,7 @@ The app reads every path from [`src/data/brand.ts`](../../src/data/brand.ts). To
 | [R4](rounds/r4-dragon-lineage/) | Dragon lineage | ✅ | Wings, scale tile, wing divider |
 | [R5](rounds/r5-guild-kamas/) | Guild & kamas | ✅ | Element crests, Forge Kama (What's New / rewards) |
 | [R6](rounds/r6-ornament-tiers/) | Ornament & tiers | ✅ | Flourished wordmark, membership tier badges, retro plaque theme |
-| [R7](rounds/r7-forge-system/) | The Forge System | ✅ Final | Master crest, feature sigils, kit |
+| [R7](rounds/r7-forge-system/) | The Forge System | ❌ Superseded | Master crest, feature sigils, kit |
 
 ### R1 — Geometric · ❌
 
