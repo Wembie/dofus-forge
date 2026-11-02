@@ -499,7 +499,7 @@ CONCEPTS = {
     "c5": dict(slug="c5-molten-forged", name="Molten Dofus · Forged", mark=molten_forged, premium=True,
                idea="A hammered-iron Dofus split by four seams glowing in the element colours, white-hot at the anvil, crowned and set on gold.",
                small=lambda: molten_forged("ms", detail=False), small_tile={"scale": .94, "border": False},
-               tile_mark=lambda u: f'<g transform="translate(256 258) scale(1.08) translate(-256 -256)">{molten_forged(u)}</g>'),
+               bare=True, tile_mark=lambda u: f'<g transform="translate(256 258) scale(1.08) translate(-256 -256)">{molten_forged(u)}</g>'),
 }
 
 
@@ -535,6 +535,11 @@ def tile_premium(mark_svg, scale=.66, radius=112, full=False, border=True):
                   f'<path d="{diamond(256, i1, 12, 10)}" fill="url(#frame)"/>']
     parts.append(f'<g transform="translate({fmt(off)} {fmt(off)}) scale({fmt(scale)})">{mark_svg}</g>')
     return "".join(parts)
+
+
+def bare(mark_svg, scale=1.0):
+    """The mark without a tile, centred on the 512 box (for favicons, header, logo)."""
+    return f'<g transform="translate(256 256) scale({fmt(scale)}) translate(-256 -257)">{mark_svg}</g>'
 
 
 def tile_for(cid):
@@ -585,7 +590,9 @@ def lockup(cid):
     """Horizontal lockup: app tile + gold wordmark."""
     d, w, h = wordmark(cap=120)
     W = int(300 + w + 20)
-    body = (f'<g transform="scale(.5)">{tile_for(cid)(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "L"))}</g>'
+    c = CONCEPTS[cid]
+    icon = (bare(c["mark"](cid + "L")) if c.get("bare") else tile_for(cid)(c.get("tile_mark", c["mark"])(cid + "L")))
+    body = (f'<g transform="scale(.5)">{icon}</g>'
             f'<path transform="translate(296 66)" d="{d}" fill="url(#gold)"/>')
     return svg_doc(body, W, 256, "Dofus Forge"), W, 256
 
@@ -610,7 +617,8 @@ def og(cid):
     p = [f'<rect width="1200" height="630" fill="{VOID}"/>',
          f'<circle cx="300" cy="315" r="360" fill="url(#glow)"/>',
          f'<rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="{EDGE}"/>',
-         f'<g transform="translate(110 125) scale(.74)">{tile_for(cid)(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "O"))}</g>',
+         (f'<g transform="translate(40 22) scale(1.14)">{CONCEPTS[cid]["mark"](cid + "O")}</g>' if CONCEPTS[cid].get("bare") else
+          f'<g transform="translate(110 125) scale(.74)">{tile_for(cid)(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "O"))}</g>'),
          f'<path transform="translate(560 {fmt(262 - cap)})" d="{d}" fill="url(#gold)"/>',
          text(562, 330, "Build planner &amp; optimizer for Dofus 3", 30, INK, 500),
          text(562, 372, "Every item, set and rune — and The Forger finds your best gear.", 21, INK_M)]
@@ -625,7 +633,10 @@ def og(cid):
 
 def emblem_404(cid):
     """Inline SVG for public/404.html (no external refs, small)."""
-    return svg_doc(tile_for(cid)(CONCEPTS[cid]["small"](), **CONCEPTS[cid].get("small_tile", {})), 512, 512, "Dofus Forge")
+    c = CONCEPTS[cid]
+    if c.get("bare"):
+        return svg_doc(bare(c["small"](), 1.04), 512, 512, "Dofus Forge")
+    return svg_doc(tile_for(cid)(c["small"](), **c.get("small_tile", {})), 512, 512, "Dofus Forge")
 
 
 # ── Rendering ──────────────────────────────────────────────────────────────
@@ -654,7 +665,8 @@ def build(cid):
     tm = c.get("tile_mark", c["mark"])
     T = tile_for(cid)
     app = svg_doc(T(tm(cid + "t")), 512, 512, "Dofus Forge")
-    small = svg_doc(T(c["small"](), **c.get("small_tile", {"scale": .74})), 512, 512, "Dofus Forge")
+    small = (svg_doc(bare(c["small"](), 1.04), 512, 512, "Dofus Forge") if c.get("bare") else
+             svg_doc(T(c["small"](), **c.get("small_tile", {"scale": .74})), 512, 512, "Dofus Forge"))
     square = svg_doc(T(tm(cid + "q"), full=True), 512, 512, "Dofus Forge")
     disc = svg_doc(T(tm(cid + "d"), scale=.62, full=True, border=False), 512, 512, "Dofus Forge")
     mask = svg_doc(T(tm(cid + "k"), scale=.5, full=True, border=False), 512, 512, "Dofus Forge")
@@ -674,8 +686,9 @@ def build(cid):
         big_mark.resize((s, s), Image.LANCZOS).save(os.path.join(pn, f"mark-{s}.png"))
     for s in (16, 32, 48):
         big_small.resize((s, s), Image.LANCZOS).save(os.path.join(pn, f"favicon-{s}.png"))
+    # bare concepts: the tab/header/logo favicons are the mark alone; the tile stays for iOS, Android and Discord
     for s in (64, 96, 128, 192, 256, 512, 1024):
-        big_app.resize((s, s), Image.LANCZOS).save(os.path.join(pn, f"favicon-{s}.png"))
+        (big_mark if c.get("bare") else big_app).resize((s, s), Image.LANCZOS).save(os.path.join(pn, f"favicon-{s}.png"))
     big_square.convert("RGB").resize((180, 180), Image.LANCZOS).save(os.path.join(pn, "apple-touch-icon.png"))
     render(disc, 512, bg=VOID).convert("RGB").save(os.path.join(pn, "discord-bot-icon.png"))
     render(mask, 512, bg=VOID).convert("RGB").save(os.path.join(pn, "app-icon-maskable-512.png"))

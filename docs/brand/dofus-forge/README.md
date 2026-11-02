@@ -57,6 +57,7 @@ R8 applies that pattern with the site's own materials.
 - **One seam per element.** Each uses the DESIGN.md colour, so the four elements are literally being forged into the Dofus. Kintsugi logic: the cracks are filled with molten metal.
 - **Gold structure.** The ◆ finial, rim and stand carry over from C4: jewellery, not clip-art.
 - **Small cut (≤48 px).** A thick gold rim, fatter seams and the white-hot anvil.
+- **No frame where the silhouette carries it.** The favicon, header icon, logo, lockup, OG and 404 show the egg and its stand alone. The dark tile stays only for apple-touch, Android/PWA and the Discord bot, whose platforms crop to a square or circle (`bare=True` in `build.py`).
 
 ![Molten Dofus · Forged](concepts/c5-molten-forged/board.png)
 
