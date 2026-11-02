@@ -657,7 +657,7 @@ def num(n, sep):
 
 
 def og(cid, lang="en"):
-    """1200×630 social card: brand + promise + proof on the left, a live-looking planner card on the right.
+    """1200×630 social card: brand, promise and proof on the left, the emblem on the right (the build card lives on /og/<lang>/<id>.png).
     Built to read as a ~400 px thumbnail (Discord, WhatsApp, X): one big headline, few elements, real numbers."""
     c, t, f = CONCEPTS[cid], OG_COPY[lang], site_facts()
     mark = bare(c["mark"](cid + "O" + lang)) if c.get("bare") else tile_for(cid)(c.get("tile_mark", c["mark"])(cid + "O" + lang))
@@ -666,11 +666,13 @@ def og(cid, lang="en"):
          f'<circle cx="150" cy="120" r="260" fill="url(#glow)" opacity=".35"/>',
          f'<rect x="16" y="16" width="1168" height="598" rx="22" fill="none" stroke="{EDGE}"/>',
          f'<path d="M80 16.5 L1120 16.5" stroke="{GOLD}" stroke-opacity=".35"/>']
+    # emblem on the right, with the forge glow behind it
+    p.append(f'<circle cx="948" cy="318" r="250" fill="url(#floor)" opacity=".55"/>'
+             f'<g transform="translate(948 316) scale(.84) translate(-256 -256)">{mark}</g>')
     # brand row
-    wd, ww, _ = wordmark(cap=26, track=.06)
-    p.append(f'<g transform="translate(52 40) scale(.17)">{mark}</g>')
-    p.append(f'<path transform="translate(150 64)" d="{wd}" fill="url(#gold)"/>')
-    px = 150 + ww + 22
+    wd, ww, _ = wordmark(cap=30, track=.06)
+    p.append(f'<path transform="translate(64 62)" d="{wd}" fill="url(#gold)"/>')
+    px = 64 + ww + 22
     lab = f'{t["updated"]} {f["version"]}'
     pw = 34 + len(lab) * 7.6
     p.append(f'<rect x="{fmt(px)}" y="60" width="{fmt(pw)}" height="32" rx="16" fill="#122016" stroke="#5fae54" stroke-opacity=".55"/>'
@@ -678,63 +680,24 @@ def og(cid, lang="en"):
     # headline (Cinzel outlines), auto-fitted to the left column
     _, w1, _ = wordmark(t["h1"], cap=100, track=.02)
     _, w2, _ = wordmark(t["h2"], cap=100, track=.02)
-    cap = min(54, 100 * 620 / max(w1, w2))
+    cap = min(58, 100 * 640 / max(w1, w2))
     d1, _, _ = wordmark(t["h1"], cap=cap, track=.02)
     d2, _, _ = wordmark(t["h2"], cap=cap, track=.02)
-    p.append(f'<path transform="translate(62 {fmt(196 - cap)})" d="{d1}" fill="{INK}"/>')
-    p.append(f'<path transform="translate(62 {fmt(196 - cap + cap * 1.34)})" d="{d2}" fill="url(#gold)"/>')
+    p.append(f'<path transform="translate(62 {fmt(232 - cap)})" d="{d1}" fill="{INK}"/>')
+    p.append(f'<path transform="translate(62 {fmt(232 - cap + cap * 1.34)})" d="{d2}" fill="url(#gold)"/>')
     for k, ln in enumerate(t["sub"]):
-        p.append(text(64, 316 + k * 30, ln, 22, INK_M))
-    # features 2×2
-    for k, ft in enumerate(t["feats"]):
-        fx, fy = 64 + (k % 2) * 318, 400 + (k // 2) * 40
-        p.append(f'<path d="{diamond(fx + 7, fy - 7, 6, 10)}" fill="{GOLD}"/>' + text(fx + 24, fy, ft, 19, INK, 500))
+        p.append(text(64, 360 + k * 32, ln, 23, INK_M))
     # proof: real numbers in mono, like the site's stats
     vals = [num(f["items"], t["sep"]), num(f["sets"], t["sep"]), str(f["classes"]), "4"]
     sx = 64
     for k, (v, lb) in enumerate(zip(vals, t["stats"])):
-        p.append(f'<text x="{sx}" y="520" font-family="{MONO}" font-size="32" font-weight="700" fill="{GOLD_B}">{v}</text>')
-        p.append(text(sx, 544, lb.upper(), 13, INK_M, 700, ls=2))
-        sx += max(len(v) * 20, len(lb) * 10.6) + 44
+        p.append(f'<text x="{sx}" y="482" font-family="{MONO}" font-size="34" font-weight="700" fill="{GOLD_B}">{v}</text>')
+        p.append(text(sx, 506, lb.upper(), 13, INK_M, 700, ls=2))
+        sx += max(len(v) * 21, len(lb) * 10.6) + 46
         if k < 3:
-            p.append(f'<path d="M{fmt(sx - 22)} 494 L{fmt(sx - 22)} 546" stroke="{EDGE_S}"/>')
-    p.append(text(64, 592, "dofusforge.com", 20, GOLD, 700, ls=1) + text(240, 592, "·  " + t["free"], 17, INK_M))
-    # planner card
-    X, Y, CW, CH = 748, 52, 396, 526
-    p.append(f'<rect x="{X}" y="{Y}" width="{CW}" height="{CH}" rx="18" fill="{PANEL}" stroke="{EDGE_S}"/>'
-             f'<rect x="{X + 1}" y="{Y + 1}" width="{CW - 2}" height="120" rx="17" fill="url(#glow)" opacity=".5"/>'
-             f'<path d="M{X + 24} {Y + .5} L{X + CW - 24} {Y + .5}" stroke="{GOLD}" stroke-opacity=".5"/>')
-    p.append(f'<clipPath id="pt{lang}"><rect x="{X + 22}" y="{Y + 22}" width="68" height="68" rx="14"/></clipPath>'
-             f'<rect x="{X + 22}" y="{Y + 22}" width="68" height="68" rx="14" fill="{PARCH}"/>'
-             f'<image href="{png_uri("classes/cra.png")}" x="{X + 22}" y="{Y + 22}" width="68" height="68" clip-path="url(#pt{lang})"/>'
-             f'<rect x="{X + 22}" y="{Y + 22}" width="68" height="68" rx="14" fill="none" stroke="{GOLD}" stroke-width="1.5"/>')
-    cd, _, _ = wordmark("Cra", cap=24, track=.04)
-    p.append(f'<path transform="translate({X + 108} {Y + 30})" d="{cd}" fill="{GOLD_B}"/>')
-    p.append(text(X + 108, Y + 82, f'{t["lv"]} 200', 15, INK_M, 600))
-    ew = 22 + len(t["elem"]) * 8
-    p.append(f'<rect x="{X + 178}" y="{Y + 66}" width="{fmt(ew)}" height="24" rx="12" fill="none" stroke="{AIR}" stroke-opacity=".7"/>'
-             + text(X + 178 + ew / 2, Y + 83, t["elem"], 13, AIR, 700, "middle"))
-    badges = [("vitality.png", "4" + t["sep"] + "945", t["hp"], "#db5a74"), ("ap.png", "12", t["ap"], "#38a7cf"),
-              ("mp.png", "6", t["mp"], "#4fae5a"), ("range.png", "6", t["rng"], GOLD_B)]
-    for k, (ic, v, lb, col) in enumerate(badges):
-        bx, by = X + 22 + (k % 2) * 180, Y + 112 + (k // 2) * 70
-        p.append(f'<rect x="{bx}" y="{by}" width="172" height="60" rx="12" fill="{PARCH}" stroke="{EDGE}"/>'
-                 f'<image href="{png_uri("stats-og/" + ic)}" x="{bx + 12}" y="{by + 14}" width="32" height="32"/>'
-                 f'<text x="{bx + 54}" y="{by + 38}" font-family="{MONO}" font-size="24" font-weight="700" fill="{col}">{v}</text>'
-                 + text(bx + 160, by + 37, lb.upper(), 12, INK_M, 700, "end", ls=1))
-    chars = [("strength.png", t["chars"][0], 120, EARTH), ("intelligence.png", t["chars"][1], 0, FIRE),
-             ("chance.png", t["chars"][2], 40, WATER), ("agility.png", t["chars"][3], 995, AIR)]
-    for k, (ic, nm, v, col) in enumerate(chars):
-        ry = Y + 276 + k * 44
-        fillw = 150 * min(1, v / 995)
-        p.append(f'<image href="{png_uri("stats-og/" + ic)}" x="{X + 24}" y="{ry - 18}" width="24" height="24"/>'
-                 + text(X + 58, ry, nm, 15, col, 600)
-                 + f'<rect x="{X + 186}" y="{ry - 10}" width="150" height="8" rx="4" fill="{VOID}"/>'
-                 + (f'<rect x="{X + 186}" y="{ry - 10}" width="{fmt(max(fillw, 4))}" height="8" rx="4" fill="{col}"/>' if v else "")
-                 + f'<text x="{X + 374}" y="{ry}" font-family="{MONO}" font-size="15" font-weight="700" fill="{INK}" text-anchor="end">{v}</text>')
-    p.append(f'<rect x="{X + 22}" y="{Y + CH - 74}" width="{CW - 44}" height="52" rx="12" fill="url(#gold)"/>'
-             f'<path d="{diamond(X + 50, Y + CH - 48, 7, 12)}" fill="{VOID}"/>'
-             + text(X + CW / 2 + 10, Y + CH - 41, t["cta"], 19, VOID, 700, "middle"))
+            p.append(f'<path d="M{fmt(sx - 23)} 454 L{fmt(sx - 23)} 510" stroke="{EDGE_S}"/>')
+    p.append(f'<path d="M64 548 L640 548" stroke="{EDGE}"/>')
+    p.append(text(64, 586, "dofusforge.com", 21, GOLD, 700, ls=1) + text(244, 586, "·  " + t["free"], 17, INK_M))
     return svg_doc("".join(p), 1200, 630, "Dofus Forge")
 
 

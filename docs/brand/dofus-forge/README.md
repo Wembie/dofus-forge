@@ -79,7 +79,7 @@ R8 applies that pattern with the site's own materials.
 | `svg/app-icon-maskable.svg`, `png/app-icon-maskable-512.png` | Android / PWA maskable |
 | `svg/lockup-horizontal.svg`, `png/lockup-horizontal-{600,1200}.png` | Icon + wordmark |
 | `svg/wordmark.svg` | Wordmark alone |
-| `svg/og-preview-{en,es,fr,pt}.svg`, `png/og-preview-{lang}.{png,jpg}` | Social preview per language, 1200×630: brand row with the live game version, headline, four features, real numbers from `public/data` (items, sets, classes), and a planner card with real class/stat icons. `og-preview.*` = English |
+| `svg/og-preview-{en,es,fr,pt}.svg`, `png/og-preview-{lang}.{png,jpg}` | Social preview per language, 1200×630: wordmark with the live game version, headline, one-line promise, real numbers from `public/data` (items, sets, classes) and the emblem. The character/stats card belongs to each build's own preview. `og-preview.*` = English |
 | `svg/404-emblem.svg` | Inline emblem for `public/404.html` |
 | `board.png` | Presentation board with every asset in context |
 
