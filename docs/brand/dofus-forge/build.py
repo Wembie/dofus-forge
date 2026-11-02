@@ -609,26 +609,133 @@ def chip(x, y, label, active=False):
             + text(x + w / 2, y + 23, label, 15, GOLD_B, 600, "middle")), w
 
 
-def og(cid):
-    """1200×630 social card, built from the site's own components: slot tile, Cinzel title, gold chips."""
-    _, w100, _ = wordmark(cap=100)
-    cap = min(66, 100 * 580 / w100)
-    d, w, h = wordmark(cap=cap)
+LANGS = ("en", "es", "fr", "pt")
+DATA = os.path.join(ROOT, "public", "data")
+
+
+def site_facts():
+    """Real numbers for the social card, read from the shipped game data."""
+    import json
+    count = lambda f: len(json.load(open(os.path.join(DATA, "en", f), encoding="utf-8")))
+    classes = len([f for f in os.listdir(os.path.join(DATA, "classes")) if f.endswith(".png") and "-f." not in f])
+    ver = json.load(open(os.path.join(DATA, "version.json"), encoding="utf-8"))["gameVersion"]
+    return dict(items=count("equipment.json"), sets=count("sets.json"), classes=classes, version=".".join(ver.split(".")[:2]))
+
+
+# Copy per language. Feature names follow public/locales/<lang>/translation.json (optimizer_title, nav_sets, magesmithy).
+OG_COPY = {
+    "en": dict(h1="Forge the perfect", h2="Dofus 3 build", sub=["Gear, characteristics, spells and runes —", "planned in seconds, right in your browser."],
+               feats=["The Forger optimizer", "Every set bonus", "Magesmithy runes", "Shareable builds"],
+               stats=["items", "sets", "classes", "languages"], updated="Updated for Dofus", free="Free · No account needed",
+               lv="Lv.", elem="Air", cta="Optimize with The Forger", hp="HP", ap="AP", mp="MP", rng="Range",
+               chars=["Strength", "Intelligence", "Chance", "Agility"], sep=","),
+    "es": dict(h1="Forja la build perfecta", h2="para Dofus 3", sub=["Equipo, características, hechizos y runas,", "planificados en segundos desde tu navegador."],
+               feats=["Optimizador La Forjadora", "Bonos de cada set", "Runas de forjamagia", "Builds para compartir"],
+               stats=["ítems", "sets", "clases", "idiomas"], updated="Actualizado a Dofus", free="Gratis · Sin cuenta",
+               lv="Nv.", elem="Aire", cta="Optimiza con La Forjadora", hp="PV", ap="PA", mp="PM", rng="Alcance",
+               chars=["Fuerza", "Inteligencia", "Suerte", "Agilidad"], sep="."),
+    "fr": dict(h1="Forgez le build parfait", h2="pour Dofus 3", sub=["Équipement, caractéristiques, sorts et runes,", "planifiés en quelques secondes."],
+               feats=["L'optimiseur La Forgeuse", "Bonus de chaque panoplie", "Runes de forgemagie", "Builds à partager"],
+               stats=["objets", "panoplies", "classes", "langues"], updated="À jour : Dofus", free="Gratuit · Sans compte",
+               lv="Niv.", elem="Air", cta="Optimisez avec La Forgeuse", hp="PV", ap="PA", mp="PM", rng="PO",
+               chars=["Force", "Intelligence", "Chance", "Agilité"], sep=" "),
+    "pt": dict(h1="Forje a build perfeita", h2="para Dofus 3", sub=["Equipamento, características, feitiços e runas,", "planejados em segundos no seu navegador."],
+               feats=["Otimizador A Forjadora", "Bônus de cada conjunto", "Runas de forjamagia", "Builds para compartilhar"],
+               stats=["itens", "conjuntos", "classes", "idiomas"], updated="Atualizado: Dofus", free="Grátis · Sem conta",
+               lv="Nv.", elem="Ar", cta="Otimize com A Forjadora", hp="PV", ap="PA", mp="PM", rng="Alcance",
+               chars=["Força", "Inteligência", "Sorte", "Agilidade"], sep="."),
+}
+MONO = "JetBrains Mono, Consolas, monospace"
+
+
+def png_uri(rel):
+    return "data:image/png;base64," + base64.b64encode(open(os.path.join(DATA, rel), "rb").read()).decode()
+
+
+def num(n, sep):
+    return f"{n:,}".replace(",", sep)
+
+
+def og(cid, lang="en"):
+    """1200×630 social card: brand + promise + proof on the left, a live-looking planner card on the right.
+    Built to read as a ~400 px thumbnail (Discord, WhatsApp, X): one big headline, few elements, real numbers."""
+    c, t, f = CONCEPTS[cid], OG_COPY[lang], site_facts()
+    mark = bare(c["mark"](cid + "O" + lang)) if c.get("bare") else tile_for(cid)(c.get("tile_mark", c["mark"])(cid + "O" + lang))
     p = [f'<rect width="1200" height="630" fill="{VOID}"/>',
-         f'<circle cx="300" cy="315" r="360" fill="url(#glow)"/>',
-         f'<rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="{EDGE}"/>',
-         (f'<g transform="translate(40 22) scale(1.14)">{CONCEPTS[cid]["mark"](cid + "O")}</g>' if CONCEPTS[cid].get("bare") else
-          f'<g transform="translate(110 125) scale(.74)">{tile_for(cid)(CONCEPTS[cid].get("tile_mark", CONCEPTS[cid]["mark"])(cid + "O"))}</g>'),
-         f'<path transform="translate(560 {fmt(262 - cap)})" d="{d}" fill="url(#gold)"/>',
-         text(562, 330, "Build planner &amp; optimizer for Dofus 3", 30, INK, 500),
-         text(562, 372, "Every item, set and rune — and The Forger finds your best gear.", 21, INK_M)]
-    x = 562
-    for lab in ("Builder", "The Forger", "Sets", "Magesmithy"):
-        c, cw = chip(x, 420, lab, active=lab == "The Forger")
-        p.append(c)
-        x += cw + 12
-    p.append(text(562, 540, "dofusforge.com", 22, GOLD, 700, ls=1.5))
-    return svg_doc("".join(p), 1200, 630, "Dofus Forge — Build planner for Dofus 3")
+         f'<circle cx="960" cy="300" r="420" fill="url(#glow)" opacity=".55"/>',
+         f'<circle cx="150" cy="120" r="260" fill="url(#glow)" opacity=".35"/>',
+         f'<rect x="16" y="16" width="1168" height="598" rx="22" fill="none" stroke="{EDGE}"/>',
+         f'<path d="M80 16.5 L1120 16.5" stroke="{GOLD}" stroke-opacity=".35"/>']
+    # brand row
+    wd, ww, _ = wordmark(cap=26, track=.06)
+    p.append(f'<g transform="translate(52 40) scale(.17)">{mark}</g>')
+    p.append(f'<path transform="translate(150 64)" d="{wd}" fill="url(#gold)"/>')
+    px = 150 + ww + 22
+    lab = f'{t["updated"]} {f["version"]}'
+    pw = 34 + len(lab) * 7.6
+    p.append(f'<rect x="{fmt(px)}" y="60" width="{fmt(pw)}" height="32" rx="16" fill="#122016" stroke="#5fae54" stroke-opacity=".55"/>'
+             f'<circle cx="{fmt(px + 17)}" cy="76" r="5" fill="#5fae54"/>' + text(px + 30, 81, lab, 14, "#a9d8a0", 600))
+    # headline (Cinzel outlines), auto-fitted to the left column
+    _, w1, _ = wordmark(t["h1"], cap=100, track=.02)
+    _, w2, _ = wordmark(t["h2"], cap=100, track=.02)
+    cap = min(54, 100 * 620 / max(w1, w2))
+    d1, _, _ = wordmark(t["h1"], cap=cap, track=.02)
+    d2, _, _ = wordmark(t["h2"], cap=cap, track=.02)
+    p.append(f'<path transform="translate(62 {fmt(196 - cap)})" d="{d1}" fill="{INK}"/>')
+    p.append(f'<path transform="translate(62 {fmt(196 - cap + cap * 1.34)})" d="{d2}" fill="url(#gold)"/>')
+    for k, ln in enumerate(t["sub"]):
+        p.append(text(64, 316 + k * 30, ln, 22, INK_M))
+    # features 2×2
+    for k, ft in enumerate(t["feats"]):
+        fx, fy = 64 + (k % 2) * 318, 400 + (k // 2) * 40
+        p.append(f'<path d="{diamond(fx + 7, fy - 7, 6, 10)}" fill="{GOLD}"/>' + text(fx + 24, fy, ft, 19, INK, 500))
+    # proof: real numbers in mono, like the site's stats
+    vals = [num(f["items"], t["sep"]), num(f["sets"], t["sep"]), str(f["classes"]), "4"]
+    sx = 64
+    for k, (v, lb) in enumerate(zip(vals, t["stats"])):
+        p.append(f'<text x="{sx}" y="520" font-family="{MONO}" font-size="32" font-weight="700" fill="{GOLD_B}">{v}</text>')
+        p.append(text(sx, 544, lb.upper(), 13, INK_M, 700, ls=2))
+        sx += max(len(v) * 20, len(lb) * 10.6) + 44
+        if k < 3:
+            p.append(f'<path d="M{fmt(sx - 22)} 494 L{fmt(sx - 22)} 546" stroke="{EDGE_S}"/>')
+    p.append(text(64, 592, "dofusforge.com", 20, GOLD, 700, ls=1) + text(240, 592, "·  " + t["free"], 17, INK_M))
+    # planner card
+    X, Y, CW, CH = 748, 52, 396, 526
+    p.append(f'<rect x="{X}" y="{Y}" width="{CW}" height="{CH}" rx="18" fill="{PANEL}" stroke="{EDGE_S}"/>'
+             f'<rect x="{X + 1}" y="{Y + 1}" width="{CW - 2}" height="120" rx="17" fill="url(#glow)" opacity=".5"/>'
+             f'<path d="M{X + 24} {Y + .5} L{X + CW - 24} {Y + .5}" stroke="{GOLD}" stroke-opacity=".5"/>')
+    p.append(f'<clipPath id="pt{lang}"><rect x="{X + 22}" y="{Y + 22}" width="68" height="68" rx="14"/></clipPath>'
+             f'<rect x="{X + 22}" y="{Y + 22}" width="68" height="68" rx="14" fill="{PARCH}"/>'
+             f'<image href="{png_uri("classes/cra.png")}" x="{X + 22}" y="{Y + 22}" width="68" height="68" clip-path="url(#pt{lang})"/>'
+             f'<rect x="{X + 22}" y="{Y + 22}" width="68" height="68" rx="14" fill="none" stroke="{GOLD}" stroke-width="1.5"/>')
+    cd, _, _ = wordmark("Cra", cap=24, track=.04)
+    p.append(f'<path transform="translate({X + 108} {Y + 30})" d="{cd}" fill="{GOLD_B}"/>')
+    p.append(text(X + 108, Y + 82, f'{t["lv"]} 200', 15, INK_M, 600))
+    ew = 22 + len(t["elem"]) * 8
+    p.append(f'<rect x="{X + 178}" y="{Y + 66}" width="{fmt(ew)}" height="24" rx="12" fill="none" stroke="{AIR}" stroke-opacity=".7"/>'
+             + text(X + 178 + ew / 2, Y + 83, t["elem"], 13, AIR, 700, "middle"))
+    badges = [("vitality.png", "4" + t["sep"] + "945", t["hp"], "#db5a74"), ("ap.png", "12", t["ap"], "#38a7cf"),
+              ("mp.png", "6", t["mp"], "#4fae5a"), ("range.png", "6", t["rng"], GOLD_B)]
+    for k, (ic, v, lb, col) in enumerate(badges):
+        bx, by = X + 22 + (k % 2) * 180, Y + 112 + (k // 2) * 70
+        p.append(f'<rect x="{bx}" y="{by}" width="172" height="60" rx="12" fill="{PARCH}" stroke="{EDGE}"/>'
+                 f'<image href="{png_uri("stats-og/" + ic)}" x="{bx + 12}" y="{by + 14}" width="32" height="32"/>'
+                 f'<text x="{bx + 54}" y="{by + 38}" font-family="{MONO}" font-size="24" font-weight="700" fill="{col}">{v}</text>'
+                 + text(bx + 160, by + 37, lb.upper(), 12, INK_M, 700, "end", ls=1))
+    chars = [("strength.png", t["chars"][0], 120, EARTH), ("intelligence.png", t["chars"][1], 0, FIRE),
+             ("chance.png", t["chars"][2], 40, WATER), ("agility.png", t["chars"][3], 995, AIR)]
+    for k, (ic, nm, v, col) in enumerate(chars):
+        ry = Y + 276 + k * 44
+        fillw = 150 * min(1, v / 995)
+        p.append(f'<image href="{png_uri("stats-og/" + ic)}" x="{X + 24}" y="{ry - 18}" width="24" height="24"/>'
+                 + text(X + 58, ry, nm, 15, col, 600)
+                 + f'<rect x="{X + 186}" y="{ry - 10}" width="150" height="8" rx="4" fill="{VOID}"/>'
+                 + (f'<rect x="{X + 186}" y="{ry - 10}" width="{fmt(max(fillw, 4))}" height="8" rx="4" fill="{col}"/>' if v else "")
+                 + f'<text x="{X + 374}" y="{ry}" font-family="{MONO}" font-size="15" font-weight="700" fill="{INK}" text-anchor="end">{v}</text>')
+    p.append(f'<rect x="{X + 22}" y="{Y + CH - 74}" width="{CW - 44}" height="52" rx="12" fill="url(#gold)"/>'
+             f'<path d="{diamond(X + 50, Y + CH - 48, 7, 12)}" fill="{VOID}"/>'
+             + text(X + CW / 2 + 10, Y + CH - 41, t["cta"], 19, VOID, 700, "middle"))
+    return svg_doc("".join(p), 1200, 630, "Dofus Forge")
 
 
 def emblem_404(cid):
@@ -674,6 +781,8 @@ def build(cid):
     wd, ww, wh = wordmark()
     wm = svg_doc(f'<path d="{wd}" fill="url(#gold)"/>', int(ww) + 2, int(wh), "Dofus Forge")
     ogs = og(cid)
+    for lg in LANGS:
+        W(f"og-preview-{lg}.svg", og(cid, lg))
     for n, s in (("mark.svg", mark), ("app-icon.svg", app), ("favicon.svg", small), ("app-icon-square.svg", square),
                  ("app-icon-maskable.svg", mask), ("lockup-horizontal.svg", lk), ("wordmark.svg", wm), ("og-preview.svg", ogs)):
         W(n, s)
@@ -696,9 +805,12 @@ def build(cid):
     ico[2].save(os.path.join(out, "favicon.ico"), sizes=[(16, 16), (32, 32), (48, 48)], append_images=ico[:2])
     for w in (600, 1200):
         render(lk, w, round(w * lh / lw)).save(os.path.join(pn, f"lockup-horizontal-{w}.png"))
-    ogi = render(ogs, 1200, 630)
-    ogi.save(os.path.join(pn, "og-preview.png"))
-    ogi.convert("RGB").save(os.path.join(pn, "og-preview.jpg"), quality=90, optimize=True)
+    for lg in LANGS:
+        ogi = render(og(cid, lg), 1200, 630)
+        ogi.save(os.path.join(pn, f"og-preview-{lg}.png"))
+        ogi.convert("RGB").save(os.path.join(pn, f"og-preview-{lg}.jpg"), quality=90, optimize=True)
+    shutil.copyfile(os.path.join(pn, "og-preview-en.png"), os.path.join(pn, "og-preview.png"))
+    shutil.copyfile(os.path.join(pn, "og-preview-en.jpg"), os.path.join(pn, "og-preview.jpg"))
     open(os.path.join(sv, "404-emblem.svg"), "w", encoding="utf-8").write(emblem_404(cid))
     board(cid, out, lk, lw, lh)
     return out
@@ -817,6 +929,8 @@ def apply(cid):
     cp("png/apple-touch-icon.png", os.path.join(pub, "apple-touch-icon.png"))
     cp("png/discord-bot-icon.png", os.path.join(pub, "discord-bot-icon.png"))
     cp("png/og-preview.jpg", os.path.join(pub, "og-preview.jpg"))
+    for lg in LANGS:
+        cp(f"png/og-preview-{lg}.jpg", os.path.join(brand, f"og-preview-{lg}.jpg"))
     # icon.svg is the header icon (34 px), so it takes the small cut; the full tile ships as app-icon.svg
     for a, b in (("svg/favicon.svg", "icon.svg"), ("svg/app-icon.svg", "app-icon.svg"), ("svg/mark.svg", "mark.svg"), ("svg/wordmark.svg", "wordmark.svg"),
                  ("svg/lockup-horizontal.svg", "lockup-horizontal.svg"), ("png/og-preview.jpg", "og-preview.jpg"),

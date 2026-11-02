@@ -8,7 +8,8 @@ export const BRAND = {
   mark: '/brand/mark.svg',
   wordmark: '/brand/wordmark.svg',
   wordmarkAspect: 1064 / 108,
-  ogImage: '/brand/og-preview.jpg',
+  ogImage: '/brand/og-preview-en.jpg',
+  ogImageByLang: (lang: 'en' | 'es' | 'fr' | 'pt') => `/brand/og-preview-${lang}.jpg`,
   logo512: '/brand/icon-512.png',
   favicon: {
     svg: '/favicon.svg',

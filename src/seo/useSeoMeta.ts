@@ -5,6 +5,8 @@ export type SeoLang = 'en' | 'es' | 'fr' | 'pt'
 
 export const SITE = 'https://dofusforge.com'
 export const DEFAULT_IMAGE = `${SITE}${BRAND.ogImage}`
+// One share card per language (docs/brand/dofus-forge/build.py writes them).
+export const defaultImage = (lang: SeoLang) => `${SITE}${BRAND.ogImageByLang(lang)}`
 
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 
@@ -87,7 +89,7 @@ export function seoTags(lang: SeoLang, path = '', opts: SeoOptions = {}): SeoTag
     ],
     robots:      opts.noindex ? 'noindex, follow' : 'index, follow',
     ogLocale:    `${lang}_${lang === 'en' ? 'US' : lang.toUpperCase()}`,
-    image:       opts.image ?? DEFAULT_IMAGE,
+    image:       opts.image ?? defaultImage(lang),
   }
 }
 
