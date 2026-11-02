@@ -11,7 +11,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: '0.3.141',
     date: '2026-11-01',
     notes: [
-      'New: a new Dofus Forge logo — a polished gold Dofus with the forge glowing inside, in the same style as the planner',
+      'New: a new Dofus Forge logo — a forged Dofus cracked open by the four elements, with a white-hot anvil at its heart',
       'New: the new logo in the header, browser tab, home-screen app icon, Discord and link previews',
     ],
   },

@@ -257,6 +257,225 @@ def forge_egg2_small():
             f'<path d="{diamond(256, 222, 34, 62)}" fill="#1a0c06"/><path d="{diamond(256, 224, 17, 32)}" fill="#ffd27a"/>')
 
 
+# ── C3 / C4 — The Forge Egg with character, in the page's literal colours ──
+DEFS += f"""<defs>
+  <linearGradient id="steelEgg" x1=".2" y1="0" x2=".8" y2="1">
+    <stop offset="0" stop-color="#4f5d7a"/><stop offset=".3" stop-color="{EDGE_S}"/>
+    <stop offset=".68" stop-color="{PANEL}"/><stop offset="1" stop-color="{VOID}"/>
+  </linearGradient>
+  <radialGradient id="innerFire" cx="50%" cy="72%" r="60%">
+    <stop offset="0" stop-color="{FIRE}" stop-opacity=".55"/><stop offset=".45" stop-color="{GOLD}" stop-opacity=".18"/>
+    <stop offset="1" stop-color="{GOLD}" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="hot" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fffbe6"/><stop offset=".35" stop-color="{GOLD_B}"/><stop offset=".8" stop-color="#f0a640"/>
+    <stop offset="1" stop-color="{FIRE}"/>
+  </linearGradient>
+  <linearGradient id="enamel" x1=".25" y1="0" x2=".75" y2="1">
+    <stop offset="0" stop-color="#34426a"/><stop offset=".35" stop-color="#1f2740"/><stop offset=".75" stop-color="{PANEL}"/>
+    <stop offset="1" stop-color="#07090e"/>
+  </linearGradient>
+  <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff0bf"/><stop offset=".3" stop-color="{GOLD_B}"/><stop offset=".65" stop-color="{GOLD}"/>
+    <stop offset="1" stop-color="{GOLD_D}"/>
+  </linearGradient>
+</defs>"""
+
+CRACKS = [
+    [(256, 262), (247, 222), (262, 186), (249, 148), (259, 112), (252, 70)],
+    [(214, 318), (186, 288), (172, 250), (146, 228), (128, 236)],
+    [(298, 318), (328, 284), (342, 244), (370, 222), (388, 230)],
+    [(204, 392), (168, 410), (132, 400)],
+    [(308, 392), (346, 412), (378, 402)],
+    [(172, 250), (176, 204), (160, 170)],
+    [(342, 244), (334, 196), (352, 160)],
+]
+
+
+def molten_dofus(uid="m3", glow=True):
+    """C3 — a dark steel Dofus split by molten gold seams that burst from a white-hot anvil inside it."""
+    cx, top, bot, rx = 256, 34, 476, 158
+    shape = egg(cx, top, bot, rx)
+    h = bot - top
+    anv = f'<path d="{ANVIL2}" transform="translate(256 348) scale(.78) translate(-238 -374)"'
+    p = [f'<clipPath id="m{uid}"><path d="{shape}"/></clipPath>',
+         f'<path d="{shape}" fill="url(#steelEgg)"/>',
+         f'<g clip-path="url(#m{uid})">',
+         f'<path d="{shape}" fill="url(#innerFire)"/>',
+         f'<ellipse cx="{fmt(cx - rx * .42)}" cy="{fmt(top + h * .26)}" rx="{fmt(rx * .14)}" ry="{fmt(h * .17)}" transform="rotate(14 {fmt(cx - rx * .42)} {fmt(top + h * .26)})" fill="url(#spec)" opacity=".14"/>',
+         f'<path d="M{fmt(cx - rx * .8)} {fmt(top + h * .5)} C{fmt(cx - rx * .82)} {fmt(top + h * .3)} {fmt(cx - rx * .6)} {fmt(top + h * .1)} {fmt(cx - rx * .24)} {fmt(top + h * .04)}" fill="none" stroke="#c9d4ec" stroke-width="5" stroke-linecap="round" opacity=".55"/>']
+    for pts in CRACKS[:5]:
+        d = "M" + " L".join(f"{x} {y}" for x, y in pts)
+        if glow:
+            p.append(f'<path d="{d}" fill="none" stroke="{FIRE}" stroke-width="20" stroke-linejoin="round" stroke-linecap="round" opacity=".22"/>')
+        p.append(f'<path d="{d}" fill="none" stroke="url(#gold)" stroke-width="13" stroke-linejoin="round" stroke-linecap="round"/>'
+                 f'<path d="{d}" fill="none" stroke="#fff6d6" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>')
+    if glow:
+        p.append(f'<ellipse cx="256" cy="352" rx="120" ry="70" fill="url(#floor)"/>')
+    p.append(f'{anv} fill="url(#hot)"/>'
+             f'<path d="{diamond(256, 262, 17, 32)}" fill="#fffbe6"/>')
+    p.append(f'<path d="{shape}" fill="none" stroke="url(#bevel)" stroke-width="10" opacity=".55"/></g>')
+    p.append(f'<path d="{shape}" fill="none" stroke="url(#frame)" stroke-width="6"/>')
+    return "".join(p)
+
+
+def molten_small():
+    cx, top, bot, rx = 256, 34, 476, 158
+    shape = egg(cx, top, bot, rx)
+    return (f'<path d="{shape}" fill="url(#steelEgg)"/><path d="{shape}" fill="none" stroke="{GOLD_B}" stroke-width="22"/>'
+            f'<path d="{ANVIL2}" transform="translate(256 340) scale(1.05) translate(-238 -374)" fill="url(#hot)"/>'
+            f'<path d="M256 262 L248 200 L262 150 L254 90" fill="none" stroke="{GOLD_B}" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>')
+
+
+GEMS = [(EARTH, "#f2c46d"), (FIRE, "#ffa184"), (WATER, "#8fd0f5"), (AIR, "#c2e98c")]
+
+
+def gem(x, y, r, col, hi):
+    return (f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(r + 5)}" fill="url(#band)"/>'
+            f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(r + 5)}" fill="none" stroke="#3d2c08" stroke-width="2"/>'
+            f'<path d="{diamond(x, y, r, r)}" fill="{col}"/>'
+            f'<path d="M{fmt(x)} {fmt(y - r)} L{fmt(x + r)} {fmt(y)} L{fmt(x)} {fmt(y)} Z" fill="{hi}"/>'
+            f'<path d="M{fmt(x)} {fmt(y + r)} L{fmt(x - r)} {fmt(y)} L{fmt(x)} {fmt(y)} Z" fill="#000" opacity=".28"/>')
+
+
+def faberge(uid="f4", detail=True):
+    """C4 — Fabergé Forge: navy enamel Dofus, gold bands, the four element gems on its belt, an anvil medallion,
+    a ◆ finial and a gold stand. The jeweller is the smith."""
+    cx, top, bot, rx = 256, 46, 440, 146
+    shape = egg(cx, top, bot, rx)
+    h = bot - top
+    by = top + h * .6  # belt line
+    belt = (f"M60 {fmt(by - 20)} Q256 {fmt(by + 26)} 452 {fmt(by - 20)} L452 {fmt(by + 12)} Q256 {fmt(by + 58)} 60 {fmt(by + 12)} Z")
+    merid = [f"M256 {top} C{fmt(cx - rx * .62)} {fmt(top + h * .25)} {fmt(cx - rx * .62)} {fmt(top + h * .78)} 256 {bot}",
+             f"M256 {top} C{fmt(cx + rx * .62)} {fmt(top + h * .25)} {fmt(cx + rx * .62)} {fmt(top + h * .78)} 256 {bot}"]
+    p = [f'<clipPath id="f{uid}"><path d="{shape}"/></clipPath>',
+         # stand
+         f'<path d="M206 {bot - 6} L306 {bot - 6} L326 {bot + 30} Q256 {bot + 46} 186 {bot + 30} Z" fill="url(#band)"/>',
+         f'<path d="M186 {bot + 30} Q256 {bot + 46} 326 {bot + 30}" fill="none" stroke="#3d2c08" stroke-width="3"/>',
+         f'<path d="{shape}" fill="url(#enamel)"/>',
+         f'<g clip-path="url(#f{uid})">']
+    if detail:  # guilloché: fine radiating engine-turned lines
+        for k in range(-11, 12):
+            ang = math.radians(k * 8)
+            x2, y2 = 256 + 600 * math.sin(ang), bot + 40 - 600 * math.cos(ang)
+            p.append(f'<path d="M256 {bot + 40} L{fmt(x2)} {fmt(y2)}" stroke="#5a6a92" stroke-width="1.4" opacity=".35"/>')
+    p.append(f'<ellipse cx="{fmt(cx - rx * .42)}" cy="{fmt(top + h * .26)}" rx="{fmt(rx * .13)}" ry="{fmt(h * .17)}" transform="rotate(14 {fmt(cx - rx * .42)} {fmt(top + h * .26)})" fill="url(#spec)" opacity=".4"/>')
+    for d in merid:
+        bw = 9 if detail else 16
+        p.append(f'<path d="{d}" fill="none" stroke="#3d2c08" stroke-width="{bw + 5}"/><path d="{d}" fill="none" stroke="url(#band)" stroke-width="{bw}"/>')
+    p.append(f'<path d="{belt}" fill="#3d2c08" transform="translate(0 3)" opacity=".6"/><path d="{belt}" fill="url(#band)"/>')
+    p.append(f'<path d="{shape}" fill="none" stroke="url(#bevel)" stroke-width="10" opacity=".5"/></g>')
+    p.append(f'<path d="{shape}" fill="none" stroke="url(#frame)" stroke-width="7"/>')
+    # gems on the belt, where the meridians cross it and at its ends
+    gx = [(150, 0), (198, 0), (314, 0), (362, 0)]
+    for (x, dy), (col, hi) in zip(gx, GEMS):
+        t = (x - 60) / 392
+        y = (1 - t) ** 2 * (by - 4) + 2 * t * (1 - t) * (by + 42) + t ** 2 * (by - 4)
+        p.append(gem(x, y, 11 if detail else 15, col, hi))
+    # anvil medallion
+    my = by + 20
+    p.append(f'<ellipse cx="256" cy="{fmt(my)}" rx="44" ry="38" fill="url(#band)"/>'
+             f'<ellipse cx="256" cy="{fmt(my)}" rx="44" ry="38" fill="none" stroke="#3d2c08" stroke-width="2.5"/>'
+             f'<ellipse cx="256" cy="{fmt(my)}" rx="35" ry="29" fill="url(#enamel)"/>'
+             f'<path d="{ANVIL2}" transform="translate(256 {fmt(my + 4)}) scale(.25) translate(-238 -374)" fill="url(#hot)"/>')
+    # finial
+    p.append(f'<path d="{diamond(256, top - 6, 16, 26)}" fill="url(#band)"/>'
+             f'<path d="M256 {top - 32} L272 {top - 6} L256 {top - 6} Z" fill="#fff6d6" opacity=".7"/>'
+             f'<circle cx="256" cy="{top + 4}" r="9" fill="url(#band)"/>')
+    return "".join(p)
+
+
+
+# ── C5 — Molten Dofus, forged: hammered iron, one glowing seam per element, white-hot anvil, gold rim/finial/stand ──
+DEFS += f"""<defs>
+  <linearGradient id="iron" x1=".2" y1="0" x2=".8" y2="1">
+    <stop offset="0" stop-color="#465472"/><stop offset=".3" stop-color="#2b3446"/><stop offset=".7" stop-color="#151a25"/>
+    <stop offset="1" stop-color="#07090e"/>
+  </linearGradient>
+  <linearGradient id="dent" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset=".55" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#9fb0d4" stop-opacity=".28"/>
+  </linearGradient>
+  <radialGradient id="core" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#fff6d6" stop-opacity=".95"/><stop offset=".35" stop-color="{GOLD_B}" stop-opacity=".6"/>
+    <stop offset=".7" stop-color="{FIRE}" stop-opacity=".25"/><stop offset="1" stop-color="{FIRE}" stop-opacity="0"/>
+  </radialGradient>
+</defs>"""
+
+ELEMENT_SEAMS = [  # (points from the anvil outward, element colour)
+    ([(232, 304), (206, 270), (216, 234), (186, 202), (180, 160), (148, 128)], EARTH),
+    ([(280, 304), (306, 270), (296, 234), (326, 202), (332, 160), (364, 128)], FIRE),
+    ([(214, 380), (180, 394), (162, 424), (128, 436)], WATER),
+    ([(298, 380), (332, 394), (350, 424), (384, 436)], AIR),
+]
+CROWN_SEAM = [(256, 252), (249, 214), (260, 176), (251, 136), (257, 96), (256, 58)]
+
+
+def molten_forged(uid="m5", detail=True):
+    cx, top, bot, rx = 256, 52, 452, 150
+    shape = egg(cx, top, bot, rx)
+    h = bot - top
+    p = [f'<clipPath id="i{uid}"><path d="{shape}"/></clipPath>',
+         # stand
+         f'<path d="M204 {bot - 8} L308 {bot - 8} L330 {bot + 30} Q256 {bot + 46} 182 {bot + 30} Z" fill="url(#band)"/>',
+         f'<path d="M182 {bot + 30} Q256 {bot + 46} 330 {bot + 30}" fill="none" stroke="#3d2c08" stroke-width="3"/>',
+         f'<path d="{shape}" fill="url(#iron)"/>',
+         f'<g clip-path="url(#i{uid})">']
+    if detail:  # hammered dents, deterministic scatter
+        import random
+        rnd = random.Random(7)
+        for _ in range(46):
+            x, y = rnd.uniform(110, 402), rnd.uniform(70, 440)
+            r = rnd.uniform(12, 24)
+            p.append(f'<ellipse cx="{fmt(x)}" cy="{fmt(y)}" rx="{fmt(r)}" ry="{fmt(r * .8)}" transform="rotate({rnd.randint(-30, 30)} {fmt(x)} {fmt(y)})" fill="url(#dent)" opacity=".8"/>')
+    p.append(f'<ellipse cx="256" cy="330" rx="150" ry="120" fill="url(#core)" opacity=".55"/>')
+    p.append(f'<ellipse cx="{fmt(cx - rx * .44)}" cy="{fmt(top + h * .24)}" rx="{fmt(rx * .12)}" ry="{fmt(h * .15)}" transform="rotate(14 {fmt(cx - rx * .44)} {fmt(top + h * .24)})" fill="url(#spec)" opacity=".22"/>')
+    seams = [(pts, col) for pts, col in ELEMENT_SEAMS] + [(CROWN_SEAM, GOLD_B)]
+    for i, (pts, col) in enumerate(seams):
+        d = "M" + " L".join(f"{x} {y}" for x, y in pts)
+        (x1, y1), (x2, y2) = pts[0], pts[-1]
+        gid = f"s{uid}{i}"
+        p.append(f'<linearGradient id="{gid}" gradientUnits="userSpaceOnUse" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}">'
+                 f'<stop offset="0" stop-color="#fffbe6"/><stop offset=".16" stop-color="{GOLD_B}"/><stop offset=".42" stop-color="{col}"/><stop offset="1" stop-color="{col}"/></linearGradient>')
+        w = 1 if detail else 1.6
+        p.append(f'<path d="{d}" fill="none" stroke="{col}" stroke-width="{fmt(28 * w)}" stroke-linejoin="round" stroke-linecap="round" opacity=".42"/>'
+                 f'<path d="{d}" fill="none" stroke="#120a06" stroke-width="{fmt(15 * w)}" stroke-linejoin="round" stroke-linecap="round"/>'
+                 f'<path d="{d}" fill="none" stroke="url(#{gid})" stroke-width="{fmt(11 * w)}" stroke-linejoin="round" stroke-linecap="round"/>'
+                 f'<path d="{d}" fill="none" stroke="#fffdf2" stroke-width="{fmt(2.6 * w)}" stroke-linejoin="round" stroke-linecap="round" opacity=".55"/>')
+    # white-hot anvil + spark
+    p.append(f'<ellipse cx="256" cy="344" rx="104" ry="54" fill="url(#core)"/>'
+             f'<path d="{ANVIL2}" transform="translate(256 346) scale(.74) translate(-238 -374)" fill="#120a06" stroke="#120a06" stroke-width="10" stroke-linejoin="round"/>'
+             f'<path d="{ANVIL2}" transform="translate(256 346) scale(.74) translate(-238 -374)" fill="url(#hot)"/>'
+             f'<path d="{diamond(256, 256, 15, 28)}" fill="#fffbe6"/>')
+    p.append(f'<path d="{shape}" fill="none" stroke="url(#bevel)" stroke-width="10" opacity=".5"/></g>')
+    rim = 7 if detail else 22
+    p.append(f'<path d="{shape}" fill="none" stroke="#3d2c08" stroke-width="{rim + 4}"/><path d="{shape}" fill="none" stroke="url(#frame)" stroke-width="{rim}"/>')
+    # finial
+    p.append(f'<path d="{diamond(256, top - 8, 17, 28)}" fill="url(#band)"/>'
+             f'<path d="M256 {top - 36} L273 {top - 8} L256 {top - 8} Z" fill="#fff6d6" opacity=".7"/>'
+             f'<circle cx="256" cy="{top + 2}" r="9" fill="url(#band)"/>')
+    if detail:  # rising embers
+        for x, y, r, c in ((392, 120, 7, GOLD_B), (418, 196, 4, FIRE), (120, 150, 6, GOLD_B), (100, 230, 3.5, FIRE), (372, 66, 4, GOLD_B), (146, 84, 3, GOLD)):
+            p.append(f'<path d="{diamond(x, y, r, r * 1.7)}" fill="{c}" opacity=".9"/>')
+    return "".join(p)
+
+
+def faberge_small():
+    """16–48 px cut of C4, colours inverted so it pops on the tab bar: gold egg, navy enamel belt, element dots."""
+    cx, top, bot, rx = 256, 40, 446, 156
+    shape = egg(cx, top, bot, rx)
+    by = top + (bot - top) * .6
+    belt = f"M60 {fmt(by - 34)} Q256 {fmt(by + 12)} 452 {fmt(by - 34)} L452 {fmt(by + 30)} Q256 {fmt(by + 76)} 60 {fmt(by + 30)} Z"
+    p = [f'<path d="M196 {bot - 10} L316 {bot - 10} L340 {bot + 40} L172 {bot + 40} Z" fill="url(#band)"/>',
+         f'<clipPath id="fsm"><path d="{shape}"/></clipPath><path d="{shape}" fill="url(#metal)"/>',
+         f'<g clip-path="url(#fsm)"><path d="{shape}" fill="url(#metalSide)"/><path d="{belt}" fill="url(#enamel)"/></g>',
+         f'<path d="{diamond(256, top - 4, 22, 34)}" fill="url(#band)"/>']
+    for x, (col, _hi) in zip((150, 214, 298, 362), GEMS):
+        t = (x - 60) / 392
+        y = (1 - t) ** 2 * (by - 2) + 2 * t * (1 - t) * (by + 44) + t ** 2 * (by - 2)
+        p.append(f'<circle cx="{x}" cy="{fmt(y)}" r="22" fill="{col}"/>')
+    return "".join(p)
+
 CONCEPTS = {
     "a": dict(slug="a-the-slot", name="The Slot", mark=mark_slot,
               idea="The planner's class slot becomes the logo: a gold-framed tile on the element ring, a Dofus inside.",
@@ -270,6 +489,17 @@ CONCEPTS = {
     "c2": dict(slug="c2-forge-egg-premium", name="The Forge Egg · Premium", mark=mark_forge_egg2, premium=True,
                idea="Polished gold Dofus with the anvil engraved into it, lit from inside by the forge, and a burning ◆ spark.",
                small=forge_egg2_small, small_tile={"scale": .94, "border": False}, tile_mark=lambda u: forge_egg2(u)),
+    "c3": dict(slug="c3-molten-dofus", name="Molten Dofus", mark=molten_dofus, premium=True,
+               idea="A dark steel Dofus split by molten gold seams that burst from a white-hot anvil inside it.",
+               small=molten_small, small_tile={"scale": .94, "border": False}),
+    "c4": dict(slug="c4-faberge-forge", name="Fabergé Forge", mark=faberge, premium=True,
+               idea="A navy enamel Dofus banded in gold like a Fabergé egg, the four element gems on its belt and an anvil medallion.",
+               small=faberge_small, small_tile={"scale": .94, "border": False},
+               tile_mark=lambda u: f'<g transform="translate(256 260) scale(1.1) translate(-256 -256)">{faberge(u)}</g>'),
+    "c5": dict(slug="c5-molten-forged", name="Molten Dofus · Forged", mark=molten_forged, premium=True,
+               idea="A hammered-iron Dofus split by four seams glowing in the element colours, white-hot at the anvil, crowned and set on gold.",
+               small=lambda: molten_forged("ms", detail=False), small_tile={"scale": .94, "border": False},
+               tile_mark=lambda u: f'<g transform="translate(256 258) scale(1.08) translate(-256 -256)">{molten_forged(u)}</g>'),
 }
 
 
@@ -525,34 +755,37 @@ def board(cid, out, lk, lw, lh):
 
 
 def overview():
-    p = [f'<rect width="1800" height="900" fill="{VOID}"/>',
+    rows = (len(CONCEPTS) + 2) // 3
+    H = 260 + rows * 640
+    p = [f'<rect width="1800" height="{H}" fill="{VOID}"/>',
          text(64, 70, "DOFUS FORGE · DEFINITIVE IDENTITY · R8", 15, GOLD, 700, ls=3)]
     d, w, h = wordmark(cap=44)
     p.append(f'<path transform="translate(64 96)" d="{d}" fill="url(#gold)"/>')
-    p.append(text(64, 196, "Marks in the site's own language: gold on a void tile with a gold filet, Cinzel small caps. C2 refines C into polished, engraved metal.", 19, INK_M))
-    REC = "c2"
+    p.append(text(64, 196, "Marks in the site's own language: gold on a void tile with a gold filet, Cinzel small caps. C2–C5 refine The Forge Egg; C5 recommended.", 19, INK_M))
+    REC = "c5"
     for i, cid in enumerate(CONCEPTS):
         c = CONCEPTS[cid]
-        x = 64 + i * 426
+        x = 64 + (i % 3) * 576
+        yo = (i // 3) * 640
         pn = os.path.join(HERE, "concepts", c["slug"], "png")
-        p.append(f'<rect x="{x}" y="240" width="402" height="600" rx="18" fill="{PANEL}" stroke="{GOLD if cid == REC else EDGE}" stroke-width="{2 if cid == REC else 1}"/>')
-        p.append(f'<image href="{data_uri(os.path.join(pn, "favicon-512.png"))}" x="{x + 61}" y="280" width="280" height="280"/>')
+        p.append(f'<rect x="{x}" y="{240 + yo}" width="544" height="600" rx="18" fill="{PANEL}" stroke="{GOLD if cid == REC else EDGE}" stroke-width="{2 if cid == REC else 1}"/>')
+        p.append(f'<image href="{data_uri(os.path.join(pn, "favicon-512.png"))}" x="{x + 122}" y="{270 + yo}" width="300" height="300"/>')
         for k, s in enumerate((64, 32, 16)):
-            p.append(f'<image href="{data_uri(os.path.join(pn, f"favicon-{s}.png"))}" x="{x + 100 + k * 90}" y="{600 + (64 - s) / 2}" width="{s}" height="{s}"/>')
-        p.append(text(x + 28, 730, f"{cid.upper()} · {c['name']}", 22, GOLD_B, 700, family="Cinzel, Georgia, serif"))
+            p.append(f'<image href="{data_uri(os.path.join(pn, f"favicon-{s}.png"))}" x="{x + 170 + k * 90}" y="{600 + yo + (64 - s) / 2}" width="{s}" height="{s}"/>')
+        p.append(text(x + 28, 730 + yo, f"{cid.upper()} · {c['name']}", 22, GOLD_B, 700, family="Cinzel, Georgia, serif"))
         words, line, lines = c["idea"].split(), "", []
         for wd in words:
-            if len(line) + len(wd) > 40:
+            if len(line) + len(wd) > 56:
                 lines.append(line); line = ""
             line += wd + " "
         lines.append(line)
         for k, ln in enumerate(lines[:4]):
-            p.append(text(x + 28, 764 + k * 22, ln.strip(), 15, INK_M))
+            p.append(text(x + 28, 764 + yo + k * 22, ln.strip(), 15, INK_M))
         if cid == REC:
-            p.append(f'<rect x="{x + 248}" y="262" width="140" height="30" rx="15" fill="{GOLD_D}"/>' + text(x + 318, 282, "RECOMMENDED", 12, GOLD_B, 700, "middle", ls=1.5))
-    raw = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 900" width="1800" height="900">{DEFS}{"".join(p)}</svg>'
+            p.append(f'<rect x="{x + 390}" y="{262 + yo}" width="140" height="30" rx="15" fill="{GOLD_D}"/>' + text(x + 460, 282 + yo, "RECOMMENDED", 12, GOLD_B, 700, "middle", ls=1.5))
+    raw = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 {H}" width="1800" height="{H}">{DEFS}{"".join(p)}</svg>'
     open(os.path.join(HERE, "overview.svg"), "w", encoding="utf-8").write(raw)
-    render(raw, 1800, 900).convert("RGB").save(os.path.join(HERE, "overview.png"), quality=92)
+    render(raw, 1800, H).convert("RGB").save(os.path.join(HERE, "overview.png"), quality=92)
 
 
 def apply(cid):
@@ -571,7 +804,8 @@ def apply(cid):
     cp("png/apple-touch-icon.png", os.path.join(pub, "apple-touch-icon.png"))
     cp("png/discord-bot-icon.png", os.path.join(pub, "discord-bot-icon.png"))
     cp("png/og-preview.jpg", os.path.join(pub, "og-preview.jpg"))
-    for a, b in (("svg/app-icon.svg", "icon.svg"), ("svg/mark.svg", "mark.svg"), ("svg/wordmark.svg", "wordmark.svg"),
+    # icon.svg is the header icon (34 px), so it takes the small cut; the full tile ships as app-icon.svg
+    for a, b in (("svg/favicon.svg", "icon.svg"), ("svg/app-icon.svg", "app-icon.svg"), ("svg/mark.svg", "mark.svg"), ("svg/wordmark.svg", "wordmark.svg"),
                  ("svg/lockup-horizontal.svg", "lockup-horizontal.svg"), ("png/og-preview.jpg", "og-preview.jpg"),
                  ("png/favicon-512.png", "icon-512.png"), ("png/app-icon-maskable-512.png", "icon-maskable-512.png"),
                  ("png/mark-1024.png", "mark-1024.png"), ("png/lockup-horizontal-1200.png", "lockup-horizontal-1200.png")):

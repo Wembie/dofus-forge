@@ -39,29 +39,39 @@ R8 applies that pattern with the site's own materials.
 | A | [The Slot](concepts/a-the-slot/board.png) | The planner's class slot becomes the logo: a Dofus on the element ring |
 | B | [Forged Dofus](concepts/b-forged-dofus/board.png) | A faceted gold Dofus resting on a steel anvil |
 | C | [The Forge Egg](concepts/c-forge-egg/board.png) | One gold Dofus with the anvil and a ◆ spark cut out of it: the forge lives inside the egg |
-| **C2** | **[The Forge Egg · Premium](concepts/c2-forge-egg-premium/board.png)** — applied | C refined: polished gold with a horizon reflection, inner bevel and specular, the anvil engraved and lit from inside by the forge, a molten ◆ set like a gem; jewel tile with a double gold filet and a ◆ on its top edge |
+| C2 | [The Forge Egg · Premium](concepts/c2-forge-egg-premium/board.png) | C refined: polished gold, engraved forge-lit anvil, molten ◆ set like a gem, jewel tile |
+| C3 | [Molten Dofus](concepts/c3-molten-dofus/board.png) | A dark steel Dofus split by molten gold seams that burst from a white-hot anvil inside it |
+| C4 | [Fabergé Forge](concepts/c4-faberge-forge/board.png) | A navy enamel Dofus with guilloché, banded in gold like a Fabergé egg; the four element gems on its belt, an anvil medallion, a ◆ finial and a gold stand |
+| **C5** | **[Molten Dofus · Forged](concepts/c5-molten-forged/board.png)** — applied | C3 completed: a hammered-iron Dofus split by four seams, each glowing in its element colour (earth, fire, water, air) and white-hot where it meets the anvil; a crown seam up to a gold ◆ finial, a gold rim and stand, rising ◆ embers |
 
-**Why C (chosen by the user), refined into C2:**
-- It has the strongest silhouette: an egg reads at 16 px, where A's ring and B's anvil disappear.
-- It is the only one that needs no container to be recognised.
-- It tells the whole story in one shape: Dofus, forge, spark.
+**From C to C4.** The user picked The Forge Egg (C). C2 made it more premium, but a gold egg on a dark tile still read as a generic app icon.
 
-**C2 adds** what makes it premium without losing the 16 px silhouette:
-- polished metal instead of flat gold
-- an engraved, forge-lit anvil
-- the spark as a gem set in gold
-- the jewel tile
+**C3 → C5.** The user liked C3 (the forge bursting out of the Dofus) but felt something was missing. Four things were:
+- the cracks read as random lightning rather than craft
+- the steel read as glass
+- there was no premium structure
+- none of the page's colours appeared except gold
 
-Below 48 px it switches to a borderless cut, so the egg fills the tile.
+**C5 adds:**
+- **Forged material.** Hammered iron in `--metal-edge-strong` → `--surface-panel` → `--surface-void`, with dents and an inner forge glow.
+- **One seam per element.** Each uses the DESIGN.md colour, so the four elements are literally being forged into the Dofus. Kintsugi logic: the cracks are filled with molten metal.
+- **Gold structure.** The ◆ finial, rim and stand carry over from C4: jewellery, not clip-art.
+- **Small cut (≤48 px).** A thick gold rim, fatter seams and the white-hot anvil.
 
-![The Forge Egg · Premium](concepts/c2-forge-egg-premium/board.png)
+![Molten Dofus · Forged](concepts/c5-molten-forged/board.png)
+
+<details><summary>C4 · Fabergé Forge</summary>
+
+![Fabergé Forge](concepts/c4-faberge-forge/board.png)
+
+</details>
 
 ## Kit per concept — `concepts/<id>/`
 
 | File | Use |
 |---|---|
 | `svg/mark.svg`, `png/mark-{256,512,1024}.png` | Symbol, transparent |
-| `svg/app-icon.svg`, `png/favicon-{64…1024}.png` | App icon tile |
+| `svg/app-icon.svg`, `png/favicon-{64…1024}.png` | App icon tile (`public/brand/app-icon.svg`) |
 | `svg/favicon.svg`, `png/favicon-{16,32,48}.png`, `favicon.ico` | Browser tab (16/32/48 cut) |
 | `png/apple-touch-icon.png` | iOS home screen (180, opaque — iOS rounds it) |
 | `png/discord-bot-icon.png` | Discord bot avatar (512, safe inside the circle crop) |
@@ -76,7 +86,7 @@ Below 48 px it switches to a borderless cut, so the egg fills the tile.
 
 ```bash
 python docs/brand/dofus-forge/build.py              # rebuild all concepts + overview
-python docs/brand/dofus-forge/build.py --apply c2   # put concept c2 on the site
+python docs/brand/dofus-forge/build.py --apply c5   # put concept c5 on the site
 ```
 
 `--apply` writes these files:

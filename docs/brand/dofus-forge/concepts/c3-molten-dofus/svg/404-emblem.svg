@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t"><title id="t">Dofus Forge</title><defs>
+  </defs><defs>
+  <radialGradient id="tile2" cx="50%" cy="30%" r="85%">
+    <stop offset="0" stop-color="#222a3d" /><stop offset=".55" stop-color="#121722" /><stop offset="1" stop-color="#06080d" />
+  </radialGradient>
+  <radialGradient id="floor" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".38" /><stop offset=".5" stop-color="#c9a24b" stop-opacity=".12" />
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0" />
+  </radialGradient>
+  <radialGradient id="aura" cx="50%" cy="46%" r="50%">
+    <stop offset="0" stop-color="#eccb78" stop-opacity=".26" /><stop offset=".6" stop-color="#c9a24b" stop-opacity=".06" />
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0" />
+  </radialGradient>
+  </defs><defs>
+  <linearGradient id="steelEgg" x1=".2" y1="0" x2=".8" y2="1">
+    <stop offset="0" stop-color="#4f5d7a" /><stop offset=".3" stop-color="#3a465e" />
+    <stop offset=".68" stop-color="#171c28" /><stop offset="1" stop-color="#0a0d13" />
+  </linearGradient>
+  <linearGradient id="hot" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fffbe6" /><stop offset=".35" stop-color="#eccb78" /><stop offset=".8" stop-color="#f0a640" />
+    <stop offset="1" stop-color="#e65f40" />
+  </linearGradient>
+  </defs><defs>
+  </defs><rect width="512" height="512" rx="112" fill="url(#tile2)" /><rect width="512" height="512" rx="112" fill="url(#aura)" /><ellipse cx="256" cy="462.95" rx="270.61" ry="85.45" fill="url(#floor)" /><g transform="translate(15.36 15.36) scale(0.94)"><path d="M256 34 C343.26 34 414 148.77 414 290.36 C414 392.89 343.26 476 256 476 C168.74 476 98 392.89 98 290.36 C98 148.77 168.74 34 256 34 Z" fill="url(#steelEgg)" /><path d="M256 34 C343.26 34 414 148.77 414 290.36 C414 392.89 343.26 476 256 476 C168.74 476 98 392.89 98 290.36 C98 148.77 168.74 34 256 34 Z" fill="none" stroke="#eccb78" stroke-width="22" /><path d="M120 330 C150 326 178 325 200 325 L358 325 Q364 325 364 331 L364 344 Q364 350 358 350 L338 350 C320 352 308 362 306 378 L306 386 C308 397 320 403 338 405 Q344 406 344 412 L344 418 Q344 424 338 424 L174 424 Q168 424 168 418 L168 412 Q168 406 174 405 C192 403 204 397 206 386 L206 378 C204 363 194 353 176 351 L172 351 C150 351 132 344 120 330 Z" transform="translate(256 340) scale(1.05) translate(-238 -374)" fill="url(#hot)" /><path d="M256 262 L248 200 L262 150 L254 90" fill="none" stroke="#eccb78" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
