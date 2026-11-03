@@ -11,6 +11,8 @@ export { Tooltip }        from './Tooltip'
 export { Tabs }           from './Tabs'
 export { Modal }          from './Modal'
 export { ElementGem }     from './ElementGem'
+export { SlotIcon }       from './SlotIcon'
+export { slotToastIcon }  from './slotIcons'
 export { StatFilter }     from './StatFilter'
 export { PasswordInput }  from './PasswordInput'
 

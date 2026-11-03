@@ -4,14 +4,13 @@ import { Eye } from 'lucide-react'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppSet, AppItem, AppEffect } from '@/data/loaders.ts'
-import { SLOT_CONFIGS, slotImageIcon } from './slotConfig.ts'
 import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 import { assignSetSlots } from './setSlots.ts'
 import { levelCap, changeLevelRange, NO_LEVEL_CAP } from './catalogFilters.ts'
 import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { normalizeSearch } from '@/ui'
+import { normalizeSearch, slotToastIcon } from '@/ui'
 
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 
@@ -305,8 +304,7 @@ export function SetsCatalog({ onClose }: Props) {
     if (equippedItems.length === 0) return
     equipMultiple(equippedItems.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
     for (const { slot, item } of equippedItems) {
-      const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
-      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
+      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotToastIcon(slot))
     }
     // Equipping a whole set from a card click means "I'm done browsing" —
     // same as SetDetailModal's own "Equip All" button, drop the user back
