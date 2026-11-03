@@ -111,10 +111,11 @@ function classTree(d: OgClassCard) {
   const body = el('div', { style: { display: 'flex', gap: 44, flex: 1, alignItems: 'center' } }, [
     el('div', {
       style: {
-        display: 'flex', width: 200, height: 200, borderRadius: 32, overflow: 'hidden', alignItems: 'center', justifyContent: 'center',
+        display: 'flex', width: 200, height: 200, borderRadius: 32, overflow: 'hidden', alignItems: 'flex-end', justifyContent: 'center',
         border: `2px solid ${C.gold}`, background: C.parch, boxShadow: '0 0 60px rgba(201,162,75,0.25)',
       },
-    }, d.portraitUri ? [el('img', { src: d.portraitUri, width: 152, height: 152 })] : []),
+    // Portraits are busts cut at their bottom edge: sit them on the frame's floor.
+    }, d.portraitUri ? [el('img', { src: d.portraitUri, width: 196, height: 196 })] : []),
     el('div', { style: { display: 'flex', flexDirection: 'column', flex: 1 } }, [
       el('div', { style: { display: 'flex', fontFamily: 'Cinzel', fontSize: 88, color: C.goldB, lineHeight: 1 } }, d.className),
       el('div', { style: { display: 'flex', fontSize: 30, color: C.ink, marginTop: 14 } }, d.title),

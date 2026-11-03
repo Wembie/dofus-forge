@@ -195,7 +195,7 @@ async function renderSetOg(env: Env, origin: string, lang: Lang, slug: string): 
     kicker: t('sets_page_title'),
     name,
     chips: [
-      { label: t('level_short', { level: facts.level }), color: '#eccb78' },
+      { label: t('sets_card_level', { level: facts.level }), color: '#eccb78' },
       { label: t('sets_card_pieces_other', { count: facts.items.length }), color: '#9aa0b0' },
       ...facts.elements.map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
     ],

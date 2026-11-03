@@ -616,10 +616,14 @@ DATA = os.path.join(ROOT, "public", "data")
 def site_facts():
     """Real numbers for the social card, read from the shipped game data."""
     import json
-    count = lambda f: len(json.load(open(os.path.join(DATA, "en", f), encoding="utf-8")))
+    load = lambda f: json.load(open(os.path.join(DATA, "en", f), encoding="utf-8"))
+    items = load("equipment.json")
+    known = {i["ankama_id"] for i in items}
+    # Same rule as setSlugs (src/data/setGuide.ts): only a set with a known item gets a page, so only those count.
+    sets = sum(1 for s in load("sets.json") if any(i in known for i in s["items"]))
     classes = len([f for f in os.listdir(os.path.join(DATA, "classes")) if f.endswith(".png") and "-f." not in f])
     ver = json.load(open(os.path.join(DATA, "version.json"), encoding="utf-8"))["gameVersion"]
-    return dict(items=count("equipment.json"), sets=count("sets.json"), classes=classes, version=".".join(ver.split(".")[:2]))
+    return dict(items=len(items), sets=sets, classes=classes, version=".".join(ver.split(".")[:2]))
 
 
 # Copy per language. Feature names follow public/locales/<lang>/translation.json (optimizer_title, nav_sets, magesmithy).
