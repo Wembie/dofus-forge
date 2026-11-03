@@ -51,13 +51,12 @@ export function SiteHeader() {
             every page this header is used on (Explore, My Builds, build
             detail, About, How to Use), each of which has its own real <h1>.
             An <h1> here duplicated that on every one of them. */}
-        <img
-          src={BRAND.wordmark}
-          height={15}
-          width={Math.round(15 * BRAND.wordmarkAspect)}
-          alt={t('app_title')}
-          style={{ filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.8)) drop-shadow(0 0 14px rgba(201,162,75,0.35))' }}
-        />
+        <span
+          className="font-display font-bold uppercase"
+          style={{ fontSize: '0.82rem', color: 'var(--gold)', textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)', letterSpacing: '0.2em' }}
+        >
+          {t('app_title')}
+        </span>
       </Link>
 
       <nav className="hidden sm:flex items-center gap-1.5 ml-1" aria-label={t('a11y_main_nav')}>

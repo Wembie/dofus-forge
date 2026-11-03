@@ -9,7 +9,6 @@ export const BRAND = {
   // Raster mark for renderers that rasterize the page or a card (html-to-image, the Worker's OG images).
   mark256: '/brand/mark-256.png',
   wordmark: '/brand/wordmark.svg',
-  wordmarkAspect: 1064 / 108,
   ogImage: '/brand/og-preview-en.jpg',
   ogImageByLang: (lang: 'en' | 'es' | 'fr' | 'pt') => `/brand/og-preview-${lang}.jpg`,
   logo512: '/brand/icon-512.png',
