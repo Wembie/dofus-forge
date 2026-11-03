@@ -1489,5 +1489,9 @@
   "item_type_Ring": "Anneau",
   "item_type_Belt": "Ceinture",
   "item_type_Boots": "Bottes",
-  "item_type_Shield": "Bouclier"
+  "item_type_Shield": "Bouclier",
+  "footer_founded": "Fondé le {{date}}",
+  "footer_days_online_one": "{{count}} jour en ligne",
+  "footer_days_online_other": "{{count}} jours en ligne",
+  "footer_license": "Open source · Licence MIT"
 }

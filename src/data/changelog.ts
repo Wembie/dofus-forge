@@ -16,6 +16,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       'New: empty equipment slots have their own icons, in the same style as the logo, on the planner, build pages, Compare and the item and set windows',
       'New: links to a set or a class guide now show their own preview card (set items and stats, class portrait), in your language',
       'New: the installed app has shortcuts to the planner, The Forger, sets and Explore',
+      'New: the footer shows the copyright, the date Dofus Forge was founded, how many days it has been online and its open-source license',
     ],
   },
   {

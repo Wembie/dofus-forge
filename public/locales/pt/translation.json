@@ -1489,5 +1489,9 @@
   "item_type_Ring": "Anel",
   "item_type_Belt": "Cinto",
   "item_type_Boots": "Botas",
-  "item_type_Shield": "Escudo"
+  "item_type_Shield": "Escudo",
+  "footer_founded": "Fundado em {{date}}",
+  "footer_days_online_one": "{{count}} dia online",
+  "footer_days_online_other": "{{count}} dias online",
+  "footer_license": "Código aberto · Licença MIT"
 }
