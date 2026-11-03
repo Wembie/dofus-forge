@@ -2,13 +2,16 @@
   "id": "./",
   "name": "Dofus Forge",
   "short_name": "Dofus Forge",
-  "description": "Plan and optimize your Dofus 3 builds.",
+  "description": "Build planner and optimizer for Dofus 3: every item, set and rune, characteristics and spells, The Forger optimizer and shareable builds. Free, no account needed.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#0a0d13",
   "theme_color": "#0a0d13",
   "lang": "en",
+  "dir": "ltr",
+  "categories": ["games", "utilities"],
   "icons": [
     {
       "src": "favicon-192.png",
@@ -27,6 +30,55 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Build planner",
+      "short_name": "Planner",
+      "url": "./",
+      "icons": [{ "src": "brand/icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "The Forger — optimizer",
+      "short_name": "The Forger",
+      "url": "./?forge=1",
+      "icons": [{ "src": "brand/icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Dofus 3 sets",
+      "short_name": "Sets",
+      "url": "./sets",
+      "icons": [{ "src": "brand/icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Explore community builds",
+      "short_name": "Explore",
+      "url": "./explore",
+      "icons": [{ "src": "brand/icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "brand/screenshots/planner-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "The build planner: gear, characteristics and stats"
+    },
+    {
+      "src": "brand/screenshots/sets-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Every Dofus 3 set with its bonuses"
+    },
+    {
+      "src": "brand/screenshots/planner-narrow.png",
+      "sizes": "540x1170",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "The planner on a phone"
     }
   ]
 }

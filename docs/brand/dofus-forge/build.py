@@ -701,6 +701,39 @@ def og(cid, lang="en"):
     return svg_doc("".join(p), 1200, 630, "Dofus Forge")
 
 
+def social(cid, out):
+    """Profile and banner art for X and Discord (uploaded by hand; not served by the site)."""
+    c, t, f = CONCEPTS[cid], OG_COPY["en"], site_facts()
+    mark = c["mark"](cid + "S")
+    T = tile_for(cid)
+    tm = c.get("tile_mark", c["mark"])
+    so = os.path.join(out, "social")
+    os.makedirs(so, exist_ok=True)
+
+    def banner(W, H, mark_x, mark_scale, text_x, cap, anchor_note):
+        wd, ww, _ = wordmark(cap=cap, track=.06)
+        hd, hw, _ = wordmark(t["h1"] + " " + t["h2"], cap=cap * .42, track=.02)
+        p = [f'<rect width="{W}" height="{H}" fill="{VOID}"/>',
+             f'<circle cx="{mark_x}" cy="{H / 2}" r="{H * .62}" fill="url(#floor)" opacity=".55"/>',
+             f'<circle cx="{W * .55}" cy="{H * .3}" r="{H}" fill="url(#glow)" opacity=".35"/>',
+             f'<g transform="translate({mark_x} {H / 2}) scale({mark_scale}) translate(-256 -256)">{bare(mark)}</g>',
+             f'<path transform="translate({text_x} {fmt(H / 2 - cap * .9)})" d="{wd}" fill="url(#gold)"/>',
+             f'<path transform="translate({text_x + 2} {fmt(H / 2 + cap * .35)})" d="{hd}" fill="{INK}"/>',
+             text(text_x + 2, H / 2 + cap * 1.25, f'{num(f["items"], ",")} items · {num(f["sets"], ",")} sets · The Forger optimizer · dofusforge.com', cap * .3, INK_M)]
+        return svg_doc("".join(p), W, H, f"Dofus Forge — {anchor_note}")
+
+    pieces = {
+        # X keeps the bottom-left ~420 px under the avatar: emblem right, text centre
+        "x-banner-1500x500": (banner(1500, 500, 1335, .7, 460, 66, "X banner"), 1500, 500),
+        "discord-server-banner-960x540": (banner(960, 540, 812, .62, 56, 54, "Discord banner"), 960, 540),
+        "x-avatar-400": (svg_doc(T(tm(cid + "xa"), scale=.66, full=True, border=False), 512, 512, "Dofus Forge"), 400, 400),
+        "discord-server-icon-512": (svg_doc(T(tm(cid + "ds"), scale=.66, full=True, border=False), 512, 512, "Dofus Forge"), 512, 512),
+    }
+    for name, (svg, w, h) in pieces.items():
+        open(os.path.join(so, f"{name}.svg"), "w", encoding="utf-8").write(svg)
+        render(svg, w, h if w != h else None, bg=VOID).convert("RGB").save(os.path.join(so, f"{name}.png"))
+
+
 def emblem_404(cid):
     """Inline SVG for public/404.html (no external refs, small)."""
     c = CONCEPTS[cid]
@@ -882,8 +915,9 @@ def apply(cid):
     src = os.path.join(HERE, "concepts", c["slug"])
     pub, brand = os.path.join(ROOT, "public"), os.path.join(ROOT, "public", "brand")
     os.makedirs(brand, exist_ok=True)
-    for f in os.listdir(brand):
-        os.remove(os.path.join(brand, f))
+    for f in os.listdir(brand):  # files only: screenshots/ is captured from the live site, not generated here
+        if os.path.isfile(os.path.join(brand, f)):
+            os.remove(os.path.join(brand, f))
     cp = lambda a, b: shutil.copyfile(os.path.join(src, a), b)
     cp("svg/favicon.svg", os.path.join(pub, "favicon.svg"))
     cp("favicon.ico", os.path.join(pub, "favicon.ico"))
@@ -898,7 +932,7 @@ def apply(cid):
     for a, b in (("svg/favicon.svg", "icon.svg"), ("svg/app-icon.svg", "app-icon.svg"), ("svg/mark.svg", "mark.svg"), ("svg/wordmark.svg", "wordmark.svg"),
                  ("svg/lockup-horizontal.svg", "lockup-horizontal.svg"), ("png/og-preview.jpg", "og-preview.jpg"),
                  ("png/favicon-512.png", "icon-512.png"), ("png/app-icon-maskable-512.png", "icon-maskable-512.png"),
-                 ("png/mark-1024.png", "mark-1024.png"), ("png/lockup-horizontal-1200.png", "lockup-horizontal-1200.png")):
+                 ("png/mark-1024.png", "mark-1024.png"), ("png/mark-256.png", "mark-256.png"), ("png/favicon-96.png", "icon-96.png"), ("png/lockup-horizontal-1200.png", "lockup-horizontal-1200.png")):
         cp(a, os.path.join(brand, b))
     # 404.html: swap the inline emblem between its markers
     p404 = os.path.join(pub, "404.html")

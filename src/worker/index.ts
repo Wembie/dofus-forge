@@ -3,8 +3,9 @@ import cinzelBold from './fonts/Cinzel-Bold.ttf'
 import interRegular from './fonts/Inter-Regular.ttf'
 import jetBrainsMonoBold from './fonts/JetBrainsMono-Bold.ttf'
 import { renderBuildSvg, type OgFont } from './ogImage.ts'
+import { CARD_STATS, ELEMENT_COLOR, renderClassSvg, renderSetSvg, setFacts, setIdForSlug } from './ogPages.ts'
 import { fetchBuildMeta, fetchBuildPageMeta, profileExists, type BuildMeta, type BuildPageMeta } from './supabase.ts'
-import { getClassNames, getEquipment, getSets, getTranslation, toDataUri, type Lang } from './data.ts'
+import { getClassNames, getEquipment, getSets, getTranslation, statIconDataUri, toDataUri, type Lang } from './data.ts'
 import { buildOgImageData } from './buildImageData.ts'
 import { withSecurityHeaders } from './securityHeaders.ts'
 
@@ -28,6 +29,9 @@ const LANGS: Lang[] = ['en', 'es', 'fr', 'pt']
 const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})(\.data)?\/?$/i
 const PROFILE_ROUTE = /^\/(?:en\/|es\/|fr\/|pt\/)?u\/([^/]+?)(\.data)?\/?$/
 const OG_IMAGE_ROUTE = /^\/og\/(en|es|fr|pt)\/([0-9a-f-]{36})\.png$/i
+const PAGE_OG_ROUTE = /^\/og\/(en|es|fr|pt)\/(set|class)\/([a-z0-9-]{1,80})\.png$/
+// The brand mark drawn on every generated card (docs/brand/dofus-forge, --apply copies it).
+const LOGO_PATH = '/brand/mark-256.png'
 const CHAR_ROUTE = /^\/char\/((?:[\w-]+\/)*[\w.-]+\.(?:json|bin|webp))$/
 const CHAR_TYPES: Record<string, string> = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
 const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
@@ -140,16 +144,122 @@ async function renderOgImage(env: Env, origin: string, lang: Lang, build: BuildM
   const portraitPath = `/data/classes/${build.class_slug}${build.gender === 'female' ? '-f' : ''}.png`
   const portraitUri = await toDataUri(env.ASSETS, origin, portraitPath)
 
-  const svg = await renderBuildSvg({ ...data, portraitUrl: portraitUri ?? '' }, FONTS)
+  const logoUri = await toDataUri(env.ASSETS, origin, LOGO_PATH)
+
+  const svg = await renderBuildSvg({ ...data, portraitUrl: portraitUri ?? '', logoUrl: logoUri }, FONTS)
+  return pngResponse(svg)
+}
+
+async function pngResponse(svg: string): Promise<Response> {
   const resvg = await Resvg.async(svg)
   const png = resvg.render().asPng()
-
   return new Response(png as BufferSource, {
     headers: {
       'Content-Type': 'image/png',
       'Cache-Control': 'public, max-age=3600, s-maxage=86400',
     },
   })
+}
+
+async function renderSetOg(env: Env, origin: string, lang: Lang, slug: string): Promise<Response | null> {
+  const [setsEn, equipmentEn, setsLang, translation] = await Promise.all([
+    getSets(env.ASSETS, origin, 'en'),
+    getEquipment(env.ASSETS, origin, 'en'),
+    getSets(env.ASSETS, origin, lang),
+    getTranslation(env.ASSETS, origin, lang),
+  ])
+  const id = setIdForSlug(slug, setsEn, equipmentEn)
+  const set = id === undefined ? undefined : setsEn.find(s => s.ankama_id === id)
+  if (!set) return null
+
+  const facts = setFacts(set, equipmentEn)
+  const name = setsLang.find(s => s.ankama_id === id)?.name ?? set.name
+  const t = (key: string, vars: Record<string, string | number> = {}) => interpolate(translation[key] ?? key, vars)
+  const [items, totals, logoUri] = await Promise.all([
+    Promise.all(facts.items.slice(0, 9).map(async it => {
+      if (!it.image_url) return undefined
+      // Same fallback as /img/item: an icon missing from R2 comes from DofusDude's live CDN.
+      return (await toDataUri(env.ASSETS, origin, it.image_url, env.ASSETS_BUCKET))
+        ?? toDataUri(env.ASSETS, origin, `https://api.dofusdu.de/dofus3/v1/img/item/${it.image_url.split('/').pop()}`)
+    })),
+    Promise.all(facts.totals.slice(0, 6).map(async s => ({
+      iconUri: await statIconDataUri(env.ASSETS, origin, CARD_STATS[s.stat].icon),
+      label: t(CARD_STATS[s.stat].tKey),
+      value: s.value,
+      color: CARD_STATS[s.stat].color,
+    }))),
+    toDataUri(env.ASSETS, origin, LOGO_PATH),
+  ])
+  const prefix = lang === 'en' ? '' : `/${lang}`
+  const svg = await renderSetSvg({
+    kicker: t('sets_page_title'),
+    name,
+    chips: [
+      { label: t('level_short', { level: facts.level }), color: '#eccb78' },
+      { label: t('sets_card_pieces_other', { count: facts.items.length }), color: '#9aa0b0' },
+      ...facts.elements.map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
+    ],
+    items,
+    totalsTitle: t('set_page_totals_title'),
+    totals,
+    logoUri,
+    url: `dofusforge.com${prefix}/sets/${slug}`,
+  }, FONTS)
+  return pngResponse(svg)
+}
+
+async function renderClassOg(env: Env, origin: string, lang: Lang, slug: string): Promise<Response | null> {
+  const [classNames, translation] = await Promise.all([getClassNames(env.ASSETS, origin), getTranslation(env.ASSETS, origin, lang)])
+  const className = classNames[slug]?.[lang]
+  if (!className) return null
+  const t = (key: string, vars: Record<string, string | number> = {}) => interpolate(translation[key] ?? key, vars)
+  const [portraitUri, logoUri] = await Promise.all([
+    toDataUri(env.ASSETS, origin, `/data/classes/${slug}.png`),
+    toDataUri(env.ASSETS, origin, LOGO_PATH),
+  ])
+  const prefix = lang === 'en' ? '' : `/${lang}`
+  const svg = await renderClassSvg({
+    kicker: 'Dofus 3',
+    title: t('class_guide_elements_title', { class: className }),
+    className,
+    portraitUri,
+    chips: (['earth', 'fire', 'water', 'air'] as const).map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
+    sections: [t('class_guide_nav_class_sets'), t('class_guide_nav_builds'), t('class_guide_nav_spells')],
+    logoUri,
+    url: `dofusforge.com${prefix}/classes/${slug}`,
+  }, FONTS)
+  return pngResponse(svg)
+}
+
+async function gameDataVersion(env: Env, origin: string): Promise<string> {
+  try {
+    const res = await env.ASSETS.fetch(new Request(`${origin}/data/version.json`))
+    return res.ok ? ((await res.json()) as { gameVersion?: string }).gameVersion ?? '0' : '0'
+  } catch {
+    return '0'
+  }
+}
+
+// Set and class cards only change with the game data, so the cache key is the
+// data version — never the request's own query, which can't force a re-render.
+async function servePageOg(request: Request, env: Env, url: URL, lang: Lang, kind: 'set' | 'class', slug: string): Promise<Response> {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET, HEAD' } })
+  }
+  const cache = caches.default
+  const cacheKey = new Request(`${url.origin}/og/${lang}/${kind}/${slug}.png?data=${await gameDataVersion(env, url.origin)}`)
+  const cached = await cache.match(cacheKey)
+  if (cached) return cached
+
+  if (env.OG_RATE_LIMITER) {
+    const { success } = await env.OG_RATE_LIMITER.limit({ key: request.headers.get('cf-connecting-ip') ?? 'unknown' })
+    if (!success) return new Response('Too many requests', { status: 429, headers: { 'Retry-After': '60' } })
+  }
+
+  const response = kind === 'set' ? await renderSetOg(env, url.origin, lang, slug) : await renderClassOg(env, url.origin, lang, slug)
+  if (!response) return new Response('Not found', { status: 404 })
+  await cache.put(cacheKey, response.clone())
+  return response
 }
 
 async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string, build: BuildPageMeta, assetResponse: Response): Promise<Response> {
@@ -186,7 +296,10 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
     .on('meta[property="og:url"]', { element(el) { el.setAttribute('content', canonicalUrl) } })
     .on('link[rel="canonical"]', { element(el) { el.setAttribute('href', canonicalUrl) } })
     .on('meta[property="og:image"]', { element(el) { el.setAttribute('content', imageUrl) } })
+    .on('meta[property="og:image:type"]', { element(el) { el.setAttribute('content', 'image/png') } })
+    .on('meta[property="og:image:alt"]', { element(el) { el.setAttribute('content', title) } })
     .on('meta[name="twitter:image"]', { element(el) { el.setAttribute('content', imageUrl) } })
+    .on('meta[name="twitter:image:alt"]', { element(el) { el.setAttribute('content', title) } })
     .transform(assetResponse)
 }
 
@@ -287,6 +400,17 @@ export default {
         return withSecurityHeaders(await serveOgImage(request, env, url, lang as Lang, id))
       } catch (e) {
         console.error('OG image render failed', e)
+        return withSecurityHeaders(new Response('Internal error', { status: 500 }))
+      }
+    }
+
+    const pageOgMatch = url.pathname.match(PAGE_OG_ROUTE)
+    if (pageOgMatch) {
+      const [, lang, kind, slug] = pageOgMatch
+      try {
+        return withSecurityHeaders(await servePageOg(request, env, url, lang as Lang, kind as 'set' | 'class', slug))
+      } catch (e) {
+        console.error('page OG image render failed', e)
         return withSecurityHeaders(new Response('Internal error', { status: 500 }))
       }
     }

@@ -4,7 +4,8 @@ import { Sword, Hammer } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { langFromPath, langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
-import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { usePageSeo, pageOgImage, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { Breadcrumbs } from '@/seo/JsonLd.tsx'
 import { CLASS_DATA, ELEMENT_HEX } from '@/features/class-picker/classData.ts'
 import { ELEM_COLOR, fmtRange } from '@/features/spells/spellCalc.ts'
@@ -53,6 +54,7 @@ export function ClassGuidePage() {
     title: classInfo ? t('class_guide_seo_title', { class: className }) : undefined,
     description: classInfo ? t('class_guide_seo_description', { class: className }) : undefined,
     noindex: !classInfo,
+    image: classInfo && classId ? pageOgImage(lang as SeoLang, 'class', classId, DOFUS_GAME_VERSION) : undefined,
   })
 
   if (!classInfo) {

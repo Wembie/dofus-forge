@@ -8,7 +8,7 @@ import { ParticleField } from './components/ParticleField.tsx'
 import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import { langFromPath, langPathRootSegment } from './i18n/langPath.ts'
-import { SeoTagsContext, seoTags, readSeoTags, SITE, DEFAULT_IMAGE } from './seo/useSeoMeta.ts'
+import { SeoTagsContext, seoTags, readSeoTags, SITE, DEFAULT_IMAGE, OG_IMAGE_SIZE, ogImageType } from './seo/useSeoMeta.ts'
 import { BRAND } from './data/brand.ts'
 
 export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
@@ -144,10 +144,15 @@ function SeoHead({ lang }: { lang: ReturnType<typeof langFromPath> }) {
       <meta property="og:title" content={tags.title} suppressHydrationWarning />
       <meta property="og:description" content={tags.description} suppressHydrationWarning />
       <meta property="og:image" content={tags.image} suppressHydrationWarning />
+      <meta property="og:image:type" content={ogImageType(tags.image)} suppressHydrationWarning />
+      <meta property="og:image:width" content={String(OG_IMAGE_SIZE.width)} />
+      <meta property="og:image:height" content={String(OG_IMAGE_SIZE.height)} />
+      <meta property="og:image:alt" content={tags.title} suppressHydrationWarning />
       <meta property="og:locale" content={tags.ogLocale} suppressHydrationWarning />
       <meta name="twitter:title" content={tags.title} suppressHydrationWarning />
       <meta name="twitter:description" content={tags.description} suppressHydrationWarning />
       <meta name="twitter:image" content={tags.image} suppressHydrationWarning />
+      <meta name="twitter:image:alt" content={tags.title} suppressHydrationWarning />
     </>
   )
 }

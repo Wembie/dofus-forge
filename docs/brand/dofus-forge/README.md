@@ -103,6 +103,38 @@ Requirements:
 - the logo-design skill's `render_png.py`, which renders through headless Chrome
 - the Cinzel font, from [`../src/fonts/`](../src/fonts/) (SIL OFL 1.1)
 
+## Generated share cards (Worker)
+
+| Route | Card |
+|---|---|
+| `/brand/og-preview-<lang>.jpg` | Site card per language (home, guides, every page without its own image) — built here |
+| `/og/<lang>/set/<slug>.png` | Set: name, level, pieces, elements, item icons, full-set stats — `src/worker/ogPages.ts` |
+| `/og/<lang>/class/<id>.png` | Class guide: portrait, build-by-element title, the four elements, the guide's sections |
+| `/og/<lang>/<build-id>.png` | Build: character, stats and gear, with the logo — `src/worker/ogImage.ts` |
+
+All are 1200×630. The Worker draws `/brand/mark-256.png` as the logo, so `--apply` keeps it in sync.
+
+## Social profiles — `concepts/c5-molten-forged/social/`
+
+| File | Where |
+|---|---|
+| `x-avatar-400.png` | X profile picture |
+| `x-banner-1500x500.png` | X header. The avatar covers the bottom-left corner, so the content sits right of centre |
+| `discord-server-icon-512.png` | Discord server icon |
+| `discord-server-banner-960x540.png` | Discord server banner (and invite splash) |
+
+## Post-deploy checklist (after dev → main)
+
+1. **Cloudflare:** Caching → Purge everything, or purge just `/favicon*`, `/apple-touch-icon.png`, `/og-preview.jpg` and `/brand/*`.
+2. **Discord bot:** open the Developer Portal → your app → Bot, and upload `public/discord-bot-icon.png`.
+3. **Discord server:** upload the icon and banner from `social/` under Server Settings → Overview.
+4. **X:** upload the avatar and banner from `social/`.
+5. **Re-scrape link previews:**
+   - Facebook: Sharing Debugger (developers.facebook.com/tools/debug) → "Scrape Again" on `https://dofusforge.com/`, `/es`, `/fr` and `/pt`.
+   - X: post a link and check it renders.
+   - Discord: caches the old preview for a while, and a new message picks up the new card.
+6. **Browsers:** a cached favicon can stick for days. A hard reload (Ctrl+F5) on the site shows the new one.
+
 ## Notes
 
 - **Trademark.** "Dofus" and the Dofus eggs belong to Ankama. The mark evokes an egg but copies no official asset, and the fan-site disclaimer stays visible.

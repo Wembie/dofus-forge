@@ -13,6 +13,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     notes: [
       'New: a new Dofus Forge logo — a forged Dofus cracked open by the four elements, with a white-hot anvil at its heart',
       'New: the new logo in the header, browser tab, home-screen app icon, Discord and link previews',
+      'New: links to a set or a class guide now show their own preview card (set items and stats, class portrait), in your language',
+      'New: the installed app has shortcuts to the planner, The Forger, sets and Explore',
     ],
   },
   {

@@ -7,6 +7,12 @@ export const SITE = 'https://dofusforge.com'
 export const DEFAULT_IMAGE = `${SITE}${BRAND.ogImage}`
 // One share card per language (docs/brand/dofus-forge/build.py writes them).
 export const defaultImage = (lang: SeoLang) => `${SITE}${BRAND.ogImageByLang(lang)}`
+// Every share image we serve (language cards, build and set previews) is 1200×630.
+export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const
+// Generated per page by the Worker (src/worker/ogPages.ts); the version busts link-preview caches on game updates.
+export const pageOgImage = (lang: SeoLang, kind: 'set' | 'class', slug: string, version: string) =>
+  `${SITE}/og/${lang}/${kind}/${slug}.png?v=${version}`
+export const ogImageType = (url: string) => (/\.png(\?|$)/.test(url) ? 'image/png' : 'image/jpeg')
 
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 
@@ -153,7 +159,10 @@ export function usePageSeo(lang: SeoLang, path = '', opts: SeoOptions = {}) {
     upsertMeta('name', 'twitter:title', tags.title)
     upsertMeta('name', 'twitter:description', tags.description)
     upsertMeta('property', 'og:image', tags.image)
+    upsertMeta('property', 'og:image:type', ogImageType(tags.image))
+    upsertMeta('property', 'og:image:alt', tags.title)
     upsertMeta('name', 'twitter:image', tags.image)
+    upsertMeta('name', 'twitter:image:alt', tags.title)
 
     upsertLink('canonical', tags.canonical)
     upsertMeta('property', 'og:url', tags.canonical)

@@ -4,7 +4,8 @@ import { Hammer, Layers, Sparkles, Users } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { langFromPath, langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
-import { usePageSeo, SITE, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { usePageSeo, pageOgImage, SITE, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { Breadcrumbs, JsonLd } from '@/seo/JsonLd.tsx'
 import { STAT_META, isIgnored } from '@/features/equipment/statDisplay.ts'
 import { ItemSpellEffects } from '@/features/equipment/ItemSpellEffects.tsx'
@@ -40,6 +41,7 @@ export function SetPage() {
     title:       data ? t('set_page_seo_title', { name: data.set.name, level: data.set.level }) : undefined,
     description: data ? t('set_page_seo_description', { name: data.set.name, level: data.set.level, count: data.set.pieces, bonus: summary }) : undefined,
     noindex:     !data,
+    image:       data ? pageOgImage(lang, 'set', data.set.slug, DOFUS_GAME_VERSION) : undefined,
   })
 
   if (!data) {

@@ -6,6 +6,7 @@ import type { StatBlock } from '@/engine/types.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
 import { statIconUrl } from '../equipment/statDisplay.ts'
+import { BRAND } from '@/data/brand.ts'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -125,9 +126,13 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
             {gender === 'female' ? '♀' : '♂'} · {t('export_level')} {level}
           </div>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ color: C.gold, fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', fontFamily: "'Cinzel', Georgia, serif" }}>DOFUS FORGE</div>
-          <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>dofus 3 build planner</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {/* PNG, not the SVG mark: html-to-image rasterizes it reliably */}
+          <img src={BRAND.mark256} width={34} height={34} style={{ display: 'block' }} alt="" />
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ color: C.gold, fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', fontFamily: "'Cinzel', Georgia, serif" }}>DOFUS FORGE</div>
+            <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>dofus 3 build planner</div>
+          </div>
         </div>
       </div>
 

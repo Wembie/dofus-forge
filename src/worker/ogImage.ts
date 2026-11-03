@@ -15,6 +15,7 @@ export type OgBuildData = {
   badges:       OgBadge[]
   chars:        OgCharRow[]
   footerText:   string    // "dofusforge.com"
+  logoUrl?:     string    // brand mark (data URI), drawn next to the wordmark
 }
 
 const C = {
@@ -53,9 +54,12 @@ function buildTree(data: OgBuildData) {
       el('div', { style: { fontSize: 15, color: C.muted, marginTop: 4, display: 'flex' } },
         `${data.gender === 'female' ? 'F' : 'M'} · Lv. ${data.level}${data.ownerLabel ? ` · ${data.ownerLabel}` : ''}`),
     ]),
-    el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end' } }, [
-      el('div', { style: { fontSize: 20, fontWeight: 700, color: C.gold, letterSpacing: 3, fontFamily: 'Cinzel', display: 'flex' } }, 'DOFUS FORGE'),
-      el('div', { style: { fontSize: 12, color: C.dim, marginTop: 4, display: 'flex' } }, 'dofus 3 build planner'),
+    el('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } }, [
+      ...(data.logoUrl ? [el('img', { src: data.logoUrl, width: 52, height: 52 })] : []),
+      el('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end' } }, [
+        el('div', { style: { fontSize: 20, fontWeight: 700, color: C.gold, letterSpacing: 3, fontFamily: 'Cinzel', display: 'flex' } }, 'DOFUS FORGE'),
+        el('div', { style: { fontSize: 12, color: C.dim, marginTop: 4, display: 'flex' } }, 'dofus 3 build planner'),
+      ]),
     ]),
   ])
 
