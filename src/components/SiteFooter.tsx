@@ -1,8 +1,13 @@
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { Coffee, Mountain } from 'lucide-react'
 import { ColombianMark } from '@/components/ColombianMark.tsx'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
+
+// Date of the project's first commit.
+const FOUNDED_AT = Date.UTC(2026, 7, 4)
+const FOUNDED_YEAR = 2026
 
 /** Shared across every page (planner, Explore, My Builds, build detail,
  * About, How to Use) — gives every page the same internal-linking surface
@@ -12,6 +17,13 @@ export function SiteFooter() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
   const homePath = `/${langPathRootSegment(i18n.language)}`
+  // Pages are prerendered at build time, so anything derived from "now" is
+  // set after mount; otherwise the baked HTML and hydration disagree.
+  const [now, setNow] = useState<number | null>(null)
+  useEffect(() => setNow(Date.now()), [])
+  const nowYear = now === null ? null : new Date(now).getUTCFullYear()
+  const daysOnline = now === null ? null : Math.floor((now - FOUNDED_AT) / 86_400_000)
+  const foundedLabel = new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(FOUNDED_AT)
 
   return (
     <footer className="border-t border-forge-border mt-8 py-5 px-4 text-center space-y-3">
@@ -63,6 +75,17 @@ export function SiteFooter() {
         <a href="mailto:contact@dofusforge.com" className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_contact')}</a>
       </nav>
       <p className="text-[10px] max-w-xl mx-auto" style={{ color: 'var(--ink-faint)' }}>{t('legal_ankama_disclaimer')}</p>
+      <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-1.5" style={{ color: 'var(--ink-faint)' }}>
+        <span>© {FOUNDED_YEAR}{nowYear && nowYear > FOUNDED_YEAR ? `–${nowYear}` : ''} {t('app_title')}</span>
+        <span aria-hidden="true">·</span>
+        <span>{t('footer_founded', { date: foundedLabel })}</span>
+        {daysOnline !== null && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>{t('footer_days_online', { count: daysOnline })}</span>
+          </>
+        )}
+      </p>
     </footer>
   )
 }

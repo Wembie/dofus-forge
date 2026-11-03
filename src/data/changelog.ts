@@ -8,6 +8,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.141',
+    date: '2026-11-01',
+    notes: [
+      'New: a new Dofus Forge logo — a forged Dofus cracked open by the four elements, with a white-hot anvil at its heart',
+      'New: the new logo in the header, browser tab, home-screen app icon, Discord and link previews; the site name in the header keeps its gold lettering',
+      'New: empty equipment slots have their own icons, in the same style as the logo, on the planner, build pages, Compare and the item and set windows',
+      'New: links to a set or a class guide now show their own preview card (set items and stats, class portrait), in your language',
+      'New: the installed app has shortcuts to the planner, The Forger, sets and Explore',
+      'New: the footer shows the copyright, the date Dofus Forge was founded, and how many days it has been online',
+    ],
+  },
+  {
     version: '0.3.140',
     date: '2026-10-31',
     notes: [

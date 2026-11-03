@@ -6,10 +6,10 @@ import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
-import { SLOT_CONFIGS, slotImageIcon } from './slotConfig.ts'
+import { SLOT_CONFIGS } from './slotConfig.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { Modal, Button } from '@/ui'
+import { Modal, Button, SlotIcon, slotToastIcon } from '@/ui'
 import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { assignSetSlots } from './setSlots.ts'
@@ -108,8 +108,7 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
     if (equippedItems.length > 0) {
       equipMultiple(equippedItems.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
       for (const { slot, item } of equippedItems) {
-        const slotCfg = SLOT_CONFIGS.find(s => s.id === slot)
-        addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotImageIcon(slot) ?? slotCfg?.icon ?? '✓')
+        addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotToastIcon(slot))
       }
     }
     // "Equip All" means "I'm done here" — closes the modal and drops the
@@ -124,8 +123,7 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
     const target = slots.find(sid => equipped[sid] == null) ?? slots[0]
     if (target) {
       equipItem(target, item.ankama_id)
-      const slotCfg = SLOT_CONFIGS.find(s => s.id === target)
-      addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), slotImageIcon(target) ?? slotCfg?.icon ?? '✓')
+      addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), slotToastIcon(target))
     }
   }
 
@@ -332,9 +330,9 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
                   >
                     {item.image_url
                       ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-0.5" loading="lazy" />
-                      : slot && slotImageIcon(slot.id)
-                      ? <img src={slotImageIcon(slot.id)!} alt="" className="w-full h-full object-contain p-1.5 opacity-60" />
-                      : <span style={{ color: 'var(--ink-faint)', fontSize: 20 }}>{slot?.icon ?? '?'}</span>
+                      : slot
+                      ? <span style={{ color: 'var(--ink-faint)' }}><SlotIcon slot={slot.id} /></span>
+                      : <span style={{ color: 'var(--ink-faint)', fontSize: 20 }}>?</span>
                     }
                   </div>
 
@@ -367,10 +365,7 @@ export function SetDetailModal({ set, onClose, onEquipAll }: Props) {
                             border:     '1px solid var(--metal-edge)',
                           }}
                         >
-                          {slotImageIcon(slot.id)
-                            ? <img src={slotImageIcon(slot.id)!} alt="" width={10} height={10} className="object-contain inline-block align-[-1px]" />
-                            : slot.icon
-                          } {t(`slot_${slot.id}`)}
+                          <SlotIcon slot={slot.id} className="w-2.5 h-2.5 inline-block align-[-1px]" /> {t(`slot_${slot.id}`)}
                         </span>
                       )}
                     </div>

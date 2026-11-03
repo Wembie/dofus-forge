@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t"><title id="t">Dofus Forge</title><defs>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f8e3a3" /><stop offset=".32" stop-color="#eccb78" />
+    <stop offset=".72" stop-color="#c9a24b" /><stop offset="1" stop-color="#9b7a33" />
+  </linearGradient>
+  <linearGradient id="goldShade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b8923f" /><stop offset="1" stop-color="#6b5220" />
+  </linearGradient>
+  <radialGradient id="tile" cx="50%" cy="34%" r="80%">
+    <stop offset="0" stop-color="#1d2334" /><stop offset=".6" stop-color="#11151e" /><stop offset="1" stop-color="#0a0d13" />
+  </radialGradient>
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#c9a24b" stop-opacity=".34" /><stop offset=".55" stop-color="#c9a24b" stop-opacity=".08" />
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0" />
+  </radialGradient>
+  <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#eccb78" /><stop offset=".5" stop-color="#c9a24b" /><stop offset="1" stop-color="#7f6428" />
+  </linearGradient>
+</defs><defs>
+  </defs><defs>
+  </defs><defs>
+  </defs><rect width="512" height="512" rx="112" fill="url(#tile)" /><rect width="512" height="512" rx="112" fill="url(#glow)" opacity=".9" /><rect x="14" y="14" width="484" height="484" rx="98" fill="none" stroke="url(#hair)" stroke-width="6" opacity=".9" /><g transform="translate(66.56 66.56) scale(0.74)"><clipPath id="ecs"><path fill-rule="evenodd" d="M256 24 C348.79 24 424 144.49 424 293.12 C424 400.75 348.79 488 256 488 C163.21 488 88 400.75 88 293.12 C88 144.49 163.21 24 256 24 Z M150 318 L362 318 L362 344 L334 344 L310 364 L310 382 L342 404 L342 420 L170 420 L170 404 L202 382 L202 364 L178 344 L168 344 Q150 340 132 318 L150 318 Z M256 198 L278 236 L256 274 L234 236 Z" /></clipPath><path fill-rule="evenodd" d="M256 24 C348.79 24 424 144.49 424 293.12 C424 400.75 348.79 488 256 488 C163.21 488 88 400.75 88 293.12 C88 144.49 163.21 24 256 24 Z M150 318 L362 318 L362 344 L334 344 L310 364 L310 382 L342 404 L342 420 L170 420 L170 404 L202 382 L202 364 L178 344 L168 344 Q150 340 132 318 L150 318 Z M256 198 L278 236 L256 274 L234 236 Z" fill="url(#gold)" /><g clip-path="url(#ecs)"><path d="M289.6 22 C390.4 163.2 373.6 395.2 259.36 490 L474.4 490 L474.4 22 Z" fill="url(#goldShade)" opacity=".92" /><path d="M124.96 256 C121.6 153.92 163.6 70.4 225.76 47.2" fill="none" stroke="#fff6dc" stroke-width="11.76" stroke-linecap="round" opacity=".75" /></g></g></svg>

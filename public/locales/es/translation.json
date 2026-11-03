@@ -1489,5 +1489,8 @@
   "item_type_Ring": "Anillo",
   "item_type_Belt": "Cinturón",
   "item_type_Boots": "Botas",
-  "item_type_Shield": "Escudo"
+  "item_type_Shield": "Escudo",
+  "footer_founded": "Fundado el {{date}}",
+  "footer_days_online_one": "{{count}} día en línea",
+  "footer_days_online_other": "{{count}} días en línea"
 }

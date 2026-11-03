@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense, type JSX } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense } from 'react'
 import { Eye, Pin } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
@@ -25,107 +25,10 @@ import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { WEAPON_ATTACK_STAT, IS_STEAL } from '@/features/spells/spellCalc.ts'
-import { ElementGem } from '@/ui'
+import { ElementGem, SlotIcon } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
-
-// ── SVG slot icons ──────────────────────────────────────────────────────────
-
-function HatIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <path d="M12 3C8.5 3 6 6.5 6 9.5h12C18 6.5 15.5 3 12 3z"/>
-      <rect x="3" y="11" width="18" height="4" rx="2"/>
-    </svg>
-  )
-}
-function CapeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <path d="M12 1.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"/>
-      <path d="M12 6.5L5 22l3.5-1.5L12 23l3.5-2.5L19 22 12 6.5z"/>
-    </svg>
-  )
-}
-function AmuletIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <circle cx="12" cy="7" r="3"/>
-      <path d="M9 7C6.5 8.5 6 13 7.5 17L12 23l4.5-6c1.5-4 1-8.5-1.5-10" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-function RingIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 3.5a6.5 6.5 0 010 13 6.5 6.5 0 010-13z"/>
-      <circle cx="12" cy="12" r="2.5"/>
-    </svg>
-  )
-}
-function WeaponIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <path d="M19.5 3.5l1 1L8 17l-4 1 1-4L19.5 3.5zM4 19l1.5 1.5-2 .5z"/>
-      <path d="M16 5l3 3"/>
-    </svg>
-  )
-}
-function ShieldIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <path d="M12 2L4 6v7c0 5.5 3.5 9 8 10.5C16.5 22 20 18.5 20 13V6L12 2z"/>
-    </svg>
-  )
-}
-function BeltIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <rect x="2" y="9" width="20" height="6" rx="2"/>
-      <path d="M10 7h4v10h-4z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-      <circle cx="12" cy="12" r="1.5"/>
-    </svg>
-  )
-}
-function BootsIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <path d="M9 2v14H6c-2 0-3 1.5-3 3v3h14v-3.5C17 17 15.5 16 14 16h-3V2H9z"/>
-    </svg>
-  )
-}
-function PetIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor">
-      <circle cx="8.5" cy="6" r="2.5"/>
-      <circle cx="15.5" cy="6" r="2.5"/>
-      <circle cx="5.5" cy="11" r="2"/>
-      <circle cx="18.5" cy="11" r="2"/>
-      <ellipse cx="12" cy="18" rx="6" ry="5"/>
-    </svg>
-  )
-}
-function DofusIcon() {
-  return (
-    <img src={statIconUrl('dofus')} alt="" className="w-6 h-6 object-contain" draggable={false} />
-  )
-}
-
-const SLOT_ICON: Record<string, () => JSX.Element> = {
-  hat:       HatIcon,
-  cape:      CapeIcon,
-  amulet:    AmuletIcon,
-  ring1:     RingIcon,
-  ring2:     RingIcon,
-  weapon:    WeaponIcon,
-  shield:    ShieldIcon,
-  belt:      BeltIcon,
-  boots:     BootsIcon,
-  companion: PetIcon,
-  dofus1: DofusIcon, dofus2: DofusIcon, dofus3: DofusIcon,
-  dofus4: DofusIcon, dofus5: DofusIcon, dofus6: DofusIcon,
-}
 
 // ── Layout groups — exported so read-only build views can mirror this exact
 // character-centered arrangement instead of a generic list/grid ───────────
@@ -176,8 +79,6 @@ type SlotButtonProps = {
 
 function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
   const { t }         = useTranslation()
-  const cfg           = SLOT_MAP[slotId]
-  const IconCmp       = SLOT_ICON[slotId]
   const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
   const forgePinned     = useForgePicks(s => item != null && s.required.includes(item.ankama_id))
@@ -278,11 +179,11 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             ? <img src={item.image_url} alt={item.name}
                 className="w-full h-full object-contain p-1.5" loading="lazy" />
             : <span className="opacity-80" style={{ color: 'var(--gold)' }}>
-                {IconCmp ? <IconCmp /> : cfg.icon}
+                <SlotIcon slot={slotId} />
               </span>
         ) : (
           <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>
-            {IconCmp ? <IconCmp /> : cfg.icon}
+            <SlotIcon slot={slotId} />
           </span>
         )}
 

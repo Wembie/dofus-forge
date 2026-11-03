@@ -11,7 +11,8 @@ import { listBuilds } from '@/features/share/savedBuilds.ts'
 import { fetchMyBuilds, fetchBuildById, type MyBuildRow } from '@/features/builds/api.ts'
 import { decodeBuild, encodeBuild, encodeSnapshot } from '@/features/share/codec.ts'
 import { statIconUrl } from '@/features/equipment/statDisplay.ts'
-import { SLOT_CONFIGS, slotImageIcon } from '@/features/equipment/slotConfig.ts'
+import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
+import { SlotIcon } from '@/ui'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { StatBlock } from '@/engine/types.ts'
@@ -524,10 +525,7 @@ export function ComparePanel() {
                   </div>
                   {/* Slot icon — center */}
                   <div className="flex items-center justify-center">
-                    {slotImageIcon(sc.id)
-                      ? <img src={slotImageIcon(sc.id)!} alt="" width={13} height={13} className="object-contain" />
-                      : <span style={{ fontSize: 13 }}>{sc.icon}</span>
-                    }
+                    <span style={{ color: 'var(--ink-faint)' }}><SlotIcon slot={sc.id} className="w-[13px] h-[13px]" /></span>
                   </div>
                   {/* Build B item — left-aligned */}
                   <div className="flex items-center gap-1.5 min-w-0">

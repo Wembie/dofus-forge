@@ -1,5 +1,5 @@
 import { ALL_SLOTS } from '@/store/buildStore.ts'
-import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
+import { SlotIcon } from '@/ui'
 import type { AppItem } from '@/data/loaders.ts'
 import type { BuildSnapshot } from '@/store/buildStore.ts'
 
@@ -40,7 +40,6 @@ export function BuildEquipmentPreview({ snapshot, equipment, size = 44, hideEmpt
         // An equipped slot keeps its tile while the catalog loads, so the
         // card doesn't grow (layout shift) when the icons arrive.
         if (hideEmpty && (id == null || (equipment && !item))) return null
-        const cfg  = SLOT_CONFIGS[i]
         return (
           <div
             key={slot}
@@ -62,7 +61,7 @@ export function BuildEquipmentPreview({ snapshot, equipment, size = 44, hideEmpt
           >
             {item?.image_url
               ? <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
-              : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>{cfg.icon}</span>
+              : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}><SlotIcon slot={slot} /></span>
             }
             {item && (
               <div

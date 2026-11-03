@@ -69,6 +69,15 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
+  // Dev: the route modules are only crawled on first request, so these were
+  // discovered late and re-optimized mid-load, leaving the page with two React
+  // copies ("Cannot read properties of null (reading 'useContext')").
+  optimizeDeps: {
+    include: [
+      'react-i18next', 'i18next', 'i18next-browser-languagedetector', 'lucide-react',
+      'zustand', 'zustand/react/shallow', 'clsx', 'tailwind-merge', 'html-to-image', '@supabase/supabase-js',
+    ],
+  },
   build: {
     // dist/ is deployed as-is, so source maps here would be public. Nothing
     // consumes them in production; `SOURCEMAP=1 pnpm build` when debugging.

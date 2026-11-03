@@ -7,12 +7,21 @@ vi.mock('../fonts/Inter-Regular.ttf', () => ({ default: new ArrayBuffer(0) }))
 vi.mock('../fonts/JetBrainsMono-Bold.ttf', () => ({ default: new ArrayBuffer(0) }))
 vi.mock('../ogImage.ts', () => ({ renderBuildSvg: vi.fn(async () => '<svg/>') }))
 vi.mock('../buildImageData.ts', () => ({ buildOgImageData: vi.fn(async () => ({})) }))
+vi.mock('../ogPages.ts', () => ({
+  CARD_STATS: {},
+  ELEMENT_COLOR: {},
+  renderSetSvg: vi.fn(async () => '<svg/>'),
+  renderClassSvg: vi.fn(async () => '<svg/>'),
+  setIdForSlug: vi.fn((slug: string) => (slug === 'abyss-set' ? 1 : undefined)),
+  setFacts: vi.fn(() => ({ items: [], level: 200, elements: [], totals: [] })),
+}))
 vi.mock('../data.ts', () => ({
   getEquipment: vi.fn(async () => []),
-  getSets: vi.fn(async () => []),
-  getClassNames: vi.fn(async () => ({})),
+  getSets: vi.fn(async () => [{ ankama_id: 1, name: 'Abyss Set', items: [], bonuses: {} }]),
+  getClassNames: vi.fn(async () => ({ cra: { en: 'Cra', es: 'Cra', fr: 'Crâ', pt: 'Cra' } })),
   getTranslation: vi.fn(async () => ({})),
   toDataUri: vi.fn(async () => undefined),
+  statIconDataUri: vi.fn(async () => undefined),
 }))
 
 const { default: worker } = await import('../index.ts')
@@ -96,6 +105,34 @@ describe('OG image route', () => {
     const hit = await og()
     expect(hit.headers.get('X-Content-Type-Options')).toBe('nosniff')
     expect(hit.headers.get('Strict-Transport-Security')).toContain('max-age=')
+  })
+})
+
+describe('set and class OG cards', () => {
+  const card = (path: string, init?: RequestInit) => worker.fetch(new Request(`https://dofusforge.com/og/${path}`, init), env())
+
+  it('renders a set card and a class card as PNG', async () => {
+    for (const path of ['en/set/abyss-set.png', 'fr/class/cra.png']) {
+      const res = await card(path)
+      expect(res.status).toBe(200)
+      expect(res.headers.get('Content-Type')).toBe('image/png')
+    }
+  })
+
+  it('answers 404 for a set or class that does not exist', async () => {
+    expect((await card('en/set/no-such-set.png')).status).toBe(404)
+    expect((await card('en/class/no-such-class.png')).status).toBe(404)
+  })
+
+  it('renders once per game-data version, whatever query string the request carries', async () => {
+    await card('es/set/abyss-set.png?v=1')
+    await card('es/set/abyss-set.png?v=2')
+    expect(render).toHaveBeenCalledTimes(1)
+  })
+
+  it('rejects methods other than GET/HEAD without rendering', async () => {
+    expect((await card('en/set/abyss-set.png', { method: 'POST' })).status).toBe(405)
+    expect(render).not.toHaveBeenCalled()
   })
 })
 

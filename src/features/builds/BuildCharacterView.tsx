@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { SlotId, BuildSnapshot } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
 import { LEFT_SLOTS, RIGHT_SLOTS, EXTRAS_SLOTS, DOFUS_SLOTS } from '@/features/equipment/EquipmentGrid.tsx'
-import { SLOT_CONFIGS, slotImageIcon } from '@/features/equipment/slotConfig.ts'
+import { SlotIcon } from '@/ui'
 import { ItemHoverTooltip } from '@/features/equipment/ItemHoverTooltip.tsx'
 import type { AppItem } from '@/data/loaders.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
@@ -26,7 +26,6 @@ function SlotCell({ slot, item, size, onHover, onLeave }: {
   onLeave: () => void
 }) {
   const { t }   = useTranslation()
-  const cfg     = SLOT_CONFIGS.find(sc => sc.id === slot)
   const isSet   = item?.set_id != null
   const isDofus = slot.startsWith('dofus')
 
@@ -62,9 +61,9 @@ function SlotCell({ slot, item, size, onHover, onLeave }: {
       >
         {item?.image_url
           ? <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
-          : item && slotImageIcon(slot)
-          ? <img src={slotImageIcon(slot)!} alt="" className="w-full h-full object-contain p-2 opacity-60" />
-          : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>{cfg?.icon}</span>
+          : item && isDofus
+          ? <span className="opacity-60" style={{ color: 'var(--gold)' }}><SlotIcon slot={slot} /></span>
+          : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}><SlotIcon slot={slot} /></span>
         }
         {item && (
           <div

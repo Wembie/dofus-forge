@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useToastStore, type Toast } from '@/store/toastStore.ts'
+import { SlotIcon } from '@/ui/SlotIcon.tsx'
+import { toastSlot } from '@/ui/slotIcons.ts'
 
 const EXIT_MS = 180
 
@@ -93,7 +95,9 @@ export function Toaster() {
             }}
             onClick={() => removeToast(toast.id)}
           >
-            {toast.icon.startsWith('/') || toast.icon.startsWith('http')
+            {toastSlot(toast.icon)
+              ? <span className="flex-shrink-0" style={{ color: 'var(--gold)' }}><SlotIcon slot={toastSlot(toast.icon)!} className="w-4 h-4" /></span>
+              : toast.icon.startsWith('/') || toast.icon.startsWith('http')
               ? <img src={toast.icon} alt="" className="w-4 h-4 object-contain flex-shrink-0" />
               : <span className="text-base leading-none" aria-hidden="true">{toast.icon}</span>
             }

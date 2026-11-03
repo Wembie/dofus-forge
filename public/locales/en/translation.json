@@ -1489,5 +1489,8 @@
   "item_type_Ring": "Ring",
   "item_type_Belt": "Belt",
   "item_type_Boots": "Boots",
-  "item_type_Shield": "Shield"
+  "item_type_Shield": "Shield",
+  "footer_founded": "Founded {{date}}",
+  "footer_days_online_one": "{{count}} day online",
+  "footer_days_online_other": "{{count}} days online"
 }

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -40 376 376" width="256" height="256" role="img" aria-labelledby="t"><title id="t">Dofus Forge — Artisan</title>
+<defs>
+  <radialGradient id="halo" cx="262" cy="230" r="250" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#e65f40" stop-opacity=".42"/>
+    <stop offset=".4" stop-color="#c9a24b" stop-opacity=".14"/>
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="hotspot" cx="262" cy="324" r="120" gradientTransform="translate(0 290) scale(1 .1)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/>
+    <stop offset=".5" stop-color="#e65f40" stop-opacity=".5"/>
+    <stop offset="1" stop-color="#e65f40" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/>
+    <stop offset=".45" stop-color="#eccb78"/>
+    <stop offset=".55" stop-color="#c9a24b"/>
+    <stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <clipPath id="anvilClip"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z"/></clipPath>
+</defs><defs>
+  <linearGradient id="ringGold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff1bd"/><stop offset=".35" stop-color="#eccb78"/>
+    <stop offset=".6" stop-color="#c9a24b"/><stop offset="1" stop-color="#7f6428"/>
+  </linearGradient>
+  <radialGradient id="sealBg" cx="50%" cy="42%" r="60%">
+    <stop offset="0" stop-color="#3a2216"/><stop offset=".55" stop-color="#171c28"/><stop offset="1" stop-color="#0a0d13"/>
+  </radialGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b43a22"/><stop offset="1" stop-color="#6e1f10"/>
+  </linearGradient>
+</defs><defs>
+  <radialGradient id="plaqueWell" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#3a2216"/><stop offset="1" stop-color="#0a0d13"/></radialGradient>
+</defs>
+
+<path d="M128 14 L226 42 L226 120 C226 182 184 224 128 246 C72 224 30 182 30 120 L30 42 Z" fill="#b0703a" stroke="#07090d" stroke-width="9" stroke-linejoin="round"/><path d="M128 14 L128 246 C72 224 30 182 30 120 L30 42 Z" fill="#e3a56c" opacity=".55"/><path d="M128 34 L208 57 L208 120 C208 172 174 207 128 226 C82 207 48 172 48 120 L48 57 Z" fill="#2a1c14" stroke="#5a3216" stroke-width="5" stroke-linejoin="round"/><path d="M128 34 L128 226 C82 207 48 172 48 120 L48 57 Z" fill="#fff" opacity=".04"/><g transform="translate(128 138) scale(.3) translate(-239 -398)"><path d="M160 318 L436 318 Q458 318 458 340 L458 350 Q458 372 436 372 L398 372 C356 372 336 392 336 420 C336 440 352 452 396 458 Q420 462 420 480 L420 486 Q420 498 406 498 L106 498 Q92 498 92 486 L92 480 Q92 462 116 458 C160 452 176 440 176 420 C176 394 166 378 140 376 C92 372 50 346 20 298 C60 314 110 318 160 318 Z" fill="#e3a56c" stroke="#07090d" stroke-width="22" stroke-linejoin="round"/></g><path d="M186 74.1 L193 86 L186 97.9 L179 86 Z" fill="#eccb78" stroke="#07090d" stroke-width="2"/><path d="M70 89.5 L75 98 L70 106.5 L65 98 Z" fill="#eccb78" stroke="#07090d" stroke-width="2"/>
+</svg>

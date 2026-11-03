@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t"><title id="t">Dofus Forge</title><defs>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f8e3a3" /><stop offset=".32" stop-color="#eccb78" />
+    <stop offset=".72" stop-color="#c9a24b" /><stop offset="1" stop-color="#9b7a33" />
+  </linearGradient>
+  <linearGradient id="goldShade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b8923f" /><stop offset="1" stop-color="#6b5220" />
+  </linearGradient>
+  <radialGradient id="tile" cx="50%" cy="34%" r="80%">
+    <stop offset="0" stop-color="#1d2334" /><stop offset=".6" stop-color="#11151e" /><stop offset="1" stop-color="#0a0d13" />
+  </radialGradient>
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#c9a24b" stop-opacity=".34" /><stop offset=".55" stop-color="#c9a24b" stop-opacity=".08" />
+    <stop offset="1" stop-color="#c9a24b" stop-opacity="0" />
+  </radialGradient>
+  <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#eccb78" /><stop offset=".5" stop-color="#c9a24b" /><stop offset="1" stop-color="#7f6428" />
+  </linearGradient>
+</defs><defs>
+  </defs><defs>
+  </defs><defs>
+  </defs><rect width="512" height="512" rx="112" fill="url(#tile)" /><rect width="512" height="512" rx="112" fill="url(#glow)" opacity=".9" /><rect x="14" y="14" width="484" height="484" rx="98" fill="none" stroke="url(#hair)" stroke-width="6" opacity=".9" /><g transform="translate(87.04 87.04) scale(0.66)"><clipPath id="ess"><path fill-rule="evenodd" d="M256 112 C316.75 112 366 187.82 366 281.36 C366 349.09 316.75 404 256 404 C195.25 404 146 349.09 146 281.36 C146 187.82 195.25 112 256 112 Z" /></clipPath><path fill-rule="evenodd" d="M256 112 C316.75 112 366 187.82 366 281.36 C366 349.09 316.75 404 256 404 C195.25 404 146 349.09 146 281.36 C146 187.82 195.25 112 256 112 Z" fill="url(#gold)" /><g clip-path="url(#ess)"><path d="M278 110 C344 199.6 333 345.6 258.2 406 L399 406 L399 110 Z" fill="url(#goldShade)" opacity=".92" /><path d="M170.2 258 C168 193.76 195.5 141.2 236.2 126.6" fill="none" stroke="#fff6dc" stroke-width="7.7" stroke-linecap="round" opacity=".75" /></g></g></svg>

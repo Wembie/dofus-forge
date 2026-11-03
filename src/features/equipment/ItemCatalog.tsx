@@ -4,14 +4,13 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { SlotConfig } from './slotConfig.ts'
-import { slotImageIcon } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { isAttackEffect, matchesStatFilter, levelCap, changeLevelRange, NO_LEVEL_CAP, catalogBlock } from './catalogFilters.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { StatFilter, normalizeSearch } from '@/ui'
+import { StatFilter, normalizeSearch, SlotIcon, slotToastIcon } from '@/ui'
 import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { SetDetailModal } from './SetDetailModal.tsx'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
@@ -149,7 +148,6 @@ function SetSearch({
 type ItemCardProps = {
   item:        AppItem
   slotId:      SlotId
-  slotIcon:    string
   isEquipped:  boolean
   /** Set when the item can't be picked here (already worn elsewhere, or rule conflict) — the badge text. */
   blockedLabel: string | null
@@ -165,7 +163,7 @@ type ItemCardProps = {
 // star, or hovering it, doesn't re-render every other visible card — each
 // only re-renders when ITS OWN props actually change.
 const ItemCard = memo(function ItemCard({
-  item, slotId, slotIcon, isEquipped, blockedLabel, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
+  item, slotId, isEquipped, blockedLabel, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
 }: ItemCardProps) {
   const isAlreadyEquipped = blockedLabel !== null
   const highlighted = isEquipped || isAlreadyEquipped
@@ -226,9 +224,7 @@ const ItemCard = memo(function ItemCard({
         >
           {item.image_url
             ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" decoding="async" />
-            : slotImageIcon(slotId)
-            ? <img src={slotImageIcon(slotId)!} alt="" className="w-full h-full object-contain p-3 opacity-60" loading="lazy" decoding="async" />
-            : <span className="text-ink-faint text-xl">{slotIcon}</span>
+            : <span className="text-ink-faint"><SlotIcon slot={slotId} className="w-7 h-7" /></span>
           }
         </div>
 
@@ -549,7 +545,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
 
   const handlePick = useCallback((item: AppItem) => {
     playEquip()
-    addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slotImageIcon(slotId) ?? slot.icon)
+    addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slotToastIcon(slotId))
     if (onAfterEquip) onAfterEquip(slotId)
     else onClose()
     // equipItem triggers a full build-stats recompute plus a re-render of every
@@ -558,7 +554,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     // click blocking on that whole cascade (this was the top INP offender in
     // Cloudflare's Web Vitals debug view: clicking an item image to equip it).
     startTransition(() => { equipItem(slotId, item.ankama_id) })
-  }, [equipItem, slotId, onClose, onAfterEquip, addToast, t, slot.icon])
+  }, [equipItem, slotId, onClose, onAfterEquip, addToast, t])
 
   useEffect(() => {
     // The set modal on top handles its own Escape; only the topmost layer closes.
@@ -744,7 +740,6 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                     key={item.ankama_id}
                     item={item}
                     slotId={slotId}
-                    slotIcon={slot.icon}
                     isEquipped={item.ankama_id === currentId}
                     blockedLabel={blockedLabel(item)}
                     itemSet={item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined}
