@@ -1492,6 +1492,5 @@
   "item_type_Shield": "Escudo",
   "footer_founded": "Fundado em {{date}}",
   "footer_days_online_one": "{{count}} dia online",
-  "footer_days_online_other": "{{count}} dias online",
-  "footer_license": "Código aberto · Licença MIT"
+  "footer_days_online_other": "{{count}} dias online"
 }

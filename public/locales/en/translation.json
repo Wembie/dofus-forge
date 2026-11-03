@@ -1492,6 +1492,5 @@
   "item_type_Shield": "Shield",
   "footer_founded": "Founded {{date}}",
   "footer_days_online_one": "{{count}} day online",
-  "footer_days_online_other": "{{count}} days online",
-  "footer_license": "Open source · MIT License"
+  "footer_days_online_other": "{{count}} days online"
 }

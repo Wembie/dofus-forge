@@ -85,8 +85,6 @@ export function SiteFooter() {
             <span>{t('footer_days_online', { count: daysOnline })}</span>
           </>
         )}
-        <span aria-hidden="true">·</span>
-        <a href="https://github.com/Wembie/dofus-forge/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('footer_license')}</a>
       </p>
     </footer>
   )
