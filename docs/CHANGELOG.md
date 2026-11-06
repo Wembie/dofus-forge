@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.142] — 2026-11-06
+- **Fix (security)**: bumped `satori` (renders the `/og/*` share-card images) past a moderate advisory for improper SVG escaping (GHSA-wx4j-mvgx-mqwp)
+- **Perf**: `public/data/*` (item/set/index JSON) now sends a real `Cache-Control` header instead of falling back to the default — fewer revalidations on repeat visits
+
 ## [0.3.141] — 2026-11-01
 - **Feat (brand)**: new definitive identity, **Molten Dofus** (M152) — a hammered-iron Dofus split by four seams of molten metal, each glowing in its element colour (earth, fire, water, air) and white-hot where it meets the anvil at its heart; a gold rim, ◆ finial and stand, and rising ◆ embers. The tab, header, logo and share card show the egg alone; the iOS, Android and Discord icons put it on a jewel tile that takes the planner's slot treatment. At 16–48 px a simpler cut (thick gold rim, white-hot anvil) keeps it readable in the tab bar. Wordmark in Cinzel small caps, like every title on the site. Seven concepts with full kits are in `docs/brand/dofus-forge/` (C5 applied); the earlier rounds stay in `docs/brand/rounds/`
 - **Feat**: header and planner show the new icon next to the name in live text (flat `--gold`, Cinzel capitals, the same as before and as every heading, and it follows the light theme; as an image it had become the largest element painted on the home page and held its LCP back); favicon (SVG, ICO 16/32/48, PNG 48/192/512), apple-touch icon, PWA icons (separate maskable icon), Discord bot icon, social preview (1200×630) and the redirect page's emblem (`404.html`) use the new mark; theme colour matches the page background (`#0a0d13`)

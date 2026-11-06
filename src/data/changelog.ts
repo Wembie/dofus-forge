@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.142',
+    date: '2026-11-06',
+    notes: [
+      'Fix: patched a moderate security advisory in the library that renders share-card images',
+      'Improved: game data loads faster on repeat visits thanks to better browser caching',
+    ],
+  },
+  {
     version: '0.3.141',
     date: '2026-11-01',
     notes: [
