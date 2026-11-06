@@ -84,14 +84,14 @@ const WEB_APPLICATION_LD = {
   '@type': 'WebApplication',
   name: 'Dofus Forge',
   alternateName: 'dofus-forge',
-  description: 'Build planner for Dofus 3 — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs.',
+  description: 'Dofus 3 build planner and stuff builder — item catalog, set bonuses, magesmithy runes, stat optimizer and calculator, and shareable build URLs.',
   url: `${SITE}/`,
   image: DEFAULT_IMAGE,
   applicationCategory: 'GameApplication',
   operatingSystem: 'Web Browser',
   inLanguage: ['en', 'es', 'fr', 'pt'],
   isAccessibleForFree: true,
-  keywords: 'dofus, dofus 3, dofus forge, dofus build planner, dofus sets, dofus panoplies, dofus equipment, dofus stuff, dofus optimizer, dofus runes, dofus forgemagie, dofus stats calculator, dofus classes',
+  keywords: 'dofus, dofus 3, dofus forge, dofus planner, dofus build planner, dofus builder, dofus build creator, dofus stuff builder, dofus stuff simulator, dofus sets, dofus panoplies, dofus equipment, dofus stuff, dofus optimizer, dofus runes, dofus forgemagie, dofus stats calculator, dofus classes',
   featureList: [
     'Full Dofus 3 item catalog',
     'Real-time set bonuses',
@@ -173,7 +173,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
         <SeoHead lang={lang} />
         {/* Ignored by Google for ranking since ~2009; kept because it costs nothing. */}
-        <meta name="keywords" content="dofus forge, dofus build planner, dofus 3, dofus optimizer, dofus sets, dofus equipment, dofus stats, dofus runes, dofus classes, dofus calculator, planificador de builds dofus, panoplias dofus, equipo dofus, optimizador dofus, runas de forjamagia, estadisticas dofus, clases dofus, planificateur de builds dofus, panoplies dofus, equipement dofus, optimiseur dofus, forgemagie, statistiques dofus, classes dofus, planejador de builds dofus, conjuntos dofus, equipamento dofus, otimizador dofus, forjamagia, estatisticas dofus, classes de dofus" />
+        <meta name="keywords" content="dofus forge, dofus planner, dofus build planner, dofus builder, dofus build creator, dofus stuff builder, dofus 3, dofus optimizer, dofus sets, dofus equipment, dofus stats, dofus runes, dofus classes, dofus calculator, planificador de builds dofus, creador de builds dofus, simulador de stuff dofus, panoplias dofus, equipo dofus, optimizador dofus, runas de forjamagia, estadisticas dofus, clases dofus, planificateur de builds dofus, panoplies dofus, equipement dofus, optimiseur dofus, forgemagie, statistiques dofus, classes dofus, créateur de stuff dofus, simulateur de stuff dofus, planejador de builds dofus, criador de builds dofus, conjuntos dofus, equipamento dofus, otimizador dofus, forjamagia, estatisticas dofus, classes de dofus" />
         <meta name="author" content="Wembie" />
         <meta property="og:type" content="website" />
         <meta property="og:locale:alternate" content="es_ES" />

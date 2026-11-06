@@ -1,0 +1,13 @@
+char-assets/
+public/data/
+public/wasm/
+public/brand/
+public/*.png
+public/*.svg
+public/*.jpg
+docs/brand/
+playwright-report/
+test-results/
+rust-optimizer/target/
+node_modules/
+dist/

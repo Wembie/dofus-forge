@@ -12,3 +12,16 @@
 # file is a new URL: these never need revalidating (default is max-age=0).
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Game data JSON (items/sets/index per locale). Most loads append ?v=<bust>
+# from loadVersion() (src/data/loaders.ts), so the URL itself changes when
+# the data does — but Cloudflare's _headers matching ignores query strings
+# and a plain reload can still hit the bare path, so this stays short-lived
+# and revalidated rather than immutable.
+/data/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# The one file every client re-reads to decide if its cached data is stale:
+# must never be served long-lived or the staleness check itself goes stale.
+/data/version.json
+  Cache-Control: public, max-age=60, must-revalidate

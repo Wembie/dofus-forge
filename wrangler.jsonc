@@ -16,6 +16,11 @@
     // "drop-trailing-slash" serves /explore directly and instead redirects
     // the other way (/explore/ -> /explore), matching the no-trailing-slash
     // canonical convention in src/seo/useSeoMeta.ts and public/sitemap.xml.
+    // Assets answer that with a 307 (temporary), which kept /es/ and /es
+    // indexed as separate pages; a dashboard Redirect Rule ("Quitar barra
+    // final": https://dofusforge.com/*/ -> https://dofusforge.com/${1}, 301)
+    // runs first and makes it permanent. A second one sends www.* to the
+    // apex with a 301 (www is an AAAA 100:: proxied record, redirect-only).
     "html_handling": "drop-trailing-slash",
     // Prerendered builds and profiles can turn private or be deleted after a
     // deploy: these paths go through the Worker, which checks before serving

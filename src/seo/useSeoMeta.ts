@@ -17,21 +17,24 @@ export const ogImageType = (url: string) => (/\.png(\?|$)/.test(url) ? 'image/pn
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }
 
 const META: Record<SeoLang, { title: string; description: string }> = {
+  // Players search the tool by several names (planner, builder, stuff
+  // creator/simulator, optimizer); each title/description carries the ones
+  // used in that language in a readable sentence, not a keyword list.
   en: {
-    title: 'Dofus Forge — Build Planner for Dofus 3',
-    description: 'Plan your Dofus 3 builds online — item catalog, set bonuses, magesmithy runes, stat optimizer, and shareable build URLs. Free, fast, always up to date.',
+    title: 'Dofus Forge — Dofus 3 Build Planner, Builder & Stuff Optimizer',
+    description: 'Free Dofus 3 build planner and stuff builder: every item, set bonuses, magesmithy runes, stat optimizer and calculator. Create, simulate and share your build with one link.',
   },
   es: {
-    title: 'Dofus Forge — Planificador de Builds para Dofus 3',
-    description: 'Planifica tus builds de Dofus 3 online — catálogo de items, bonus de sets, runas de forjamagia, optimizador de stats y builds compartibles. Gratis y siempre actualizado.',
+    title: 'Dofus Forge — Planner, Builder y Creador de Builds Dofus 3',
+    description: 'Planner y simulador de builds de Dofus 3 gratis: crea tu stuff con todos los items, bonus de sets, runas de forjamagia, optimizador y calculadora de stats. Comparte tu build con un link.',
   },
   fr: {
-    title: 'Dofus Forge — Planificateur de Builds pour Dofus 3',
-    description: "Planifiez vos builds Dofus 3 en ligne — catalogue d'objets, bonus de panoplies, runes de forgemagie, optimiseur de stats et builds partageables. Gratuit, toujours à jour.",
+    title: 'Dofus Forge — Créateur de Stuff & Build Planner Dofus 3',
+    description: "Simulateur de stuff et build planner Dofus 3 gratuit : tous les objets, bonus de panoplies, runes de forgemagie, optimiseur et calculateur de caractéristiques. Partagez votre stuff en un lien.",
   },
   pt: {
-    title: 'Dofus Forge — Planejador de Builds para Dofus 3',
-    description: 'Planeje suas builds de Dofus 3 online — catálogo de itens, bônus de conjuntos, runas de forjamagia, otimizador de stats e builds compartilháveis. Grátis e sempre atualizado.',
+    title: 'Dofus Forge — Planner, Builder e Criador de Builds Dofus 3',
+    description: 'Planner e simulador de builds de Dofus 3 grátis: monte seu stuff com todos os itens, bônus de conjuntos, runas de forjamagia, otimizador e calculadora de stats. Compartilhe sua build com um link.',
   },
 }
 
