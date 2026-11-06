@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.142',
+    date: '2026-11-06',
+    notes: [
+      'Improved: Dofus Forge is easier to find in search engines when you look for a Dofus planner, builder, stuff creator or simulator, in all four languages',
+    ],
+  },
+  {
     version: '0.3.141',
     date: '2026-11-01',
     notes: [
