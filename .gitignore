@@ -55,3 +55,7 @@ skills-lock.json
 docs/FORGE_RS_EXPLAINED.md
 # React Router route type generation
 .react-router/
+
+# graphify knowledge graph (local only — extracted from CLAUDE.md and
+# docs/FORGE_RS_EXPLAINED.md, both intentionally excluded from this repo)
+graphify-out/
