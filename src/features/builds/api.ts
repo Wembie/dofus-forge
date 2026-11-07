@@ -512,14 +512,14 @@ export const fetchForks = guard(async function fetchForks(buildId: string, limit
 }, error => ({ data: [] as BuildRow[], count: 0, error }))
 
 /** Versions kept per build in build_snapshots; older ones are pruned (archive_build_version trigger). */
-export const HISTORY_LIMIT = 20
+export const HISTORY_LIMIT = 3
 
 export type BuildVersion = { id: string; label: string | null; created_at: string; level: number }
 
 /**
  * Previous versions of a build, newest first (readable wherever the build
  * is). The list only shows label, date and level, so it skips the snapshots
- * (up to 20 full ones per detail view); fetchVersionSnapshot loads one when
+ * (up to 3 full ones per detail view); fetchVersionSnapshot loads one when
  * it is opened or restored.
  */
 export const fetchBuildHistory = guard(async function fetchBuildHistory(buildId: string) {

@@ -1856,7 +1856,7 @@ begin
     ) then
       insert into build_snapshots (build_id, snapshot, label) values (OLD.id, OLD.snapshot, OLD.name);
       delete from build_snapshots where id in (
-        select id from build_snapshots where build_id = OLD.id order by created_at desc, id offset 20
+        select id from build_snapshots where build_id = OLD.id order by created_at desc, id offset 3
       );
     end if;
   exception when others then

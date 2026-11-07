@@ -2949,6 +2949,19 @@ tablas nuevas de `public`. Las tablas que ya existen en producción no cambian.
   permisos de secuencias, así que recrear la base desde ese archivo sigue funcionando.
 - `src/test/schema.test.ts` falla si una tabla del schema o de una migración no tiene permisos.
 
+### Migración manual — bajar el historial de versiones de 20 a 3 (0.3.142)
+
+También en `supabase/migrations/20261106000000_lower_build_history_limit.sql`.
+Parte de la auditoría de consumo/free-tier (`docs/performance/free-tier-capacity-analysis.md`):
+`build_snapshots` cuenta contra el límite de 500 MB de la base en el free tier
+de Supabase, y la mayoría de builds nunca miran más allá de sus últimos
+guardados. El trigger `archive_build_version` ahora poda a 3 versiones por
+build en vez de 20 — automático en cada guardado, el usuario nunca tiene que
+borrar una versión a mano para que quepa la siguiente. La migración también
+purga de una vez las versiones >3 que ya existan (retroactivo, no solo hacia
+adelante). `HISTORY_LIMIT` en `src/features/builds/api.ts` baja a 3 junto con
+el trigger. Correr una vez.
+
 ## Backups
 
 El plan Free de Supabase no deja backups descargables. `.github/workflows/db-backup.yml`
