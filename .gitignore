@@ -59,3 +59,6 @@ docs/FORGE_RS_EXPLAINED.md
 # graphify knowledge graph (local only — extracted from CLAUDE.md and
 # docs/FORGE_RS_EXPLAINED.md, both intentionally excluded from this repo)
 graphify-out/
+
+# temporary files for local dev
+temp/

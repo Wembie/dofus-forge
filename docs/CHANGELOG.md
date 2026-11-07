@@ -5,6 +5,11 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.143] — 2026-11-06
+- **Fix (security)**: bumped `satori` (renders the `/og/*` share-card images) past a moderate advisory for improper SVG escaping (GHSA-wx4j-mvgx-mqwp)
+- **Perf**: `public/data/*` (item/set/index JSON) now sends a real `Cache-Control` header instead of falling back to the default — fewer revalidations on repeat visits
+- **Changed**: per-build version history now keeps the last 3 saves instead of 20 — most builds never looked past their most recent couple of versions, and the full snapshots were adding up against the database's storage limit; older archived versions are pruned automatically on save, same as before, just a shorter window
+
 ## [0.3.142] — 2026-11-06
 - **SEO**: the home page title and description in every language now name the tool the way players search for it — planner, builder, build/stuff creator or simulator, optimizer and stat calculator (EN “Dofus 3 Build Planner, Builder & Stuff Optimizer”, ES “Planner, Builder y Creador de Builds Dofus 3”, FR “Créateur de Stuff & Build Planner Dofus 3”, PT “Planner, Builder e Criador de Builds Dofus 3”). Before, only “Build Planner” / “Planificador” / “Planificateur” / “Planejador” appeared, so searches like “dofus planner” in Spanish or “dofus stuff” in French did not match the title. Written as readable sentences, not keyword lists (stuffing is penalised). Structured data (WebApplication description and keywords) and the keywords meta carry the same variants (M155)
 
