@@ -37,5 +37,19 @@
   "vars": {
     "SUPABASE_URL": "https://wkllwjxodqxhiptjaccj.supabase.co"
   },
-  "previews": {}
+  "previews": {},
+  // Workers Logs (dashboard → Observability). Kept here, not only in the
+  // dashboard: each deploy applies this file and would switch it back off.
+  // One event per invocation plus each console.* line; the Free plan stores
+  // 200,000 a day and then stops storing until 00:00 UTC, it never bills.
+  // Static files don't invoke the Worker, so only Worker routes count
+  // (~30k invocations a day). Lower head_sampling_rate if that grows.
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  }
 }
