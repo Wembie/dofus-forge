@@ -1,0 +1,111 @@
+name: Cloudflare preview
+
+# One preview per PR, only after the owner approves it: the job runs in the
+# `cloudflare-preview` environment, whose required reviewer gets a "Review
+# deployments" button on the PR's run. Nothing builds or uploads until then.
+# Replaces Cloudflare Workers Builds' automatic branch previews (turned off in
+# the dashboard), which built and uploaded on every push. Setup and the
+# dashboard switch: docs/security/CLOUDFLARE_HARDENING.md ("PR previews").
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+# A new push cancels the previous run, including one still waiting for
+# approval: only the latest commit asks to be deployed.
+concurrency:
+  group: cloudflare-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    # Fork PRs never get environment secrets; skip them instead of failing.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: cloudflare-preview
+      url: ${{ steps.upload.outputs.url }}
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Check credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PREVIEW_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::CLOUDFLARE_PREVIEW_TOKEN / CLOUDFLARE_ACCOUNT_ID are not set for the cloudflare-preview environment."
+            exit 1
+          fi
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Same public client settings the production build gets from Cloudflare.
+      - name: Build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+        run: pnpm build
+
+      # Uploads a version without deploying it: production keeps serving the
+      # current deployment. The alias gives the PR one stable URL.
+      - name: Upload preview version
+        id: upload
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PREVIEW_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          pnpm exec wrangler versions upload \
+            --preview-alias "pr-${PR_NUMBER}" \
+            --message "PR #${PR_NUMBER} ${HEAD_SHA:0:7}" | tee "$RUNNER_TEMP/upload.log"
+          alias_url=$(grep -oE 'https://pr-[0-9]+-dofus-forge\.[A-Za-z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/upload.log" | head -1 || true)
+          version_url=$(grep -oE 'https://[A-Za-z0-9-]+-dofus-forge\.[A-Za-z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/upload.log" | grep -v '://pr-' | head -1 || true)
+          url="${alias_url:-$version_url}"
+          if [ -z "$url" ]; then
+            echo "::error::wrangler did not print a preview URL."
+            exit 1
+          fi
+          echo "url=${url}" >> "$GITHUB_OUTPUT"
+          echo "version_url=${version_url}" >> "$GITHUB_OUTPUT"
+
+      - name: Comment the preview URL
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          URL: ${{ steps.upload.outputs.url }}
+          VERSION_URL: ${{ steps.upload.outputs.version_url }}
+        run: |
+          set -euo pipefail
+          marker='<!-- cloudflare-preview -->'
+          body=$(printf '%s\n**Cloudflare preview** for `%s`: %s\n\nThis commit only: %s\n' \
+            "$marker" "${HEAD_SHA:0:7}" "$URL" "${VERSION_URL:-—}")
+          existing=$(gh api --paginate "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq "[.[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"${marker}\")))][0].id // empty" | head -1)
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${existing}" -f body="$body" > /dev/null
+          else
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$body" > /dev/null
+          fi
