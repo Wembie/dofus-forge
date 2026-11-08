@@ -1,0 +1,83 @@
+name: Share images
+
+# Renders every set and class share card (4 languages) into the private OG
+# bucket ahead of time (scripts/og-pregenerate.ts), so the Worker serves them
+# instead of rendering: a render takes 0.3–1.4 s of CPU, against the Workers
+# Free plan's 10 ms per request. Build cards are stored by the Worker itself.
+#
+# Idempotent: once a game data version is complete a marker is stored and
+# later runs exit in seconds. The schedule catches data updates
+# (update-data.yml pushes with GITHUB_TOKEN, which starts no workflow); the
+# push trigger catches card design changes merged into main.
+on:
+  schedule:
+    - cron: '40 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - public/data/version.json
+      - src/worker/ogRender.ts
+      - src/worker/ogPages.ts
+      - src/worker/ogImage.ts
+      - src/worker/fonts/**
+      - scripts/og-pregenerate.ts
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Re-render and re-upload every card of the current game data version
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: og-images
+  cancel-in-progress: false
+
+jobs:
+  pregenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      FORCE: ${{ inputs.force && '--force' || '' }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Rasterizing is CPU-bound: one shard per core. Each shard exits right
+      # away when the version is already complete; only if every shard
+      # succeeded is the version marked complete.
+      - name: Render and store set and class cards
+        run: |
+          set -euo pipefail
+          pids=()
+          for shard in 0 1 2 3; do
+            # shellcheck disable=SC2086
+            pnpm -s og:pregenerate --shard "${shard}/4" $FORCE > "$RUNNER_TEMP/shard-${shard}.log" 2>&1 &
+            pids+=("$!")
+          done
+          status=0
+          for i in "${!pids[@]}"; do
+            if ! wait "${pids[$i]}"; then status=1; fi
+            echo "::group::shard ${i}/4"; cat "$RUNNER_TEMP/shard-${i}.log"; echo "::endgroup::"
+          done
+          if [ "$status" -ne 0 ]; then
+            echo "::error::At least one shard failed; the version is not marked complete and the next run retries."
+            exit 1
+          fi
+          if ! grep -q "already stored" "$RUNNER_TEMP/shard-0.log"; then
+            pnpm -s og:pregenerate --mark-complete
+          fi

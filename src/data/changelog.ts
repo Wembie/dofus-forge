@@ -12,6 +12,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-11-08',
     notes: [
       'Fixed: link previews (the image shown when a build, set or class guide is shared on Discord, WhatsApp, X…) were broken since the last update',
+      'Improved: link preview images are now prepared ahead of time and load faster',
     ],
   },
   {

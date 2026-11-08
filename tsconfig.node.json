@@ -16,5 +16,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "react-router.config.ts", "scripts"]
+  "include": ["vite.config.ts", "react-router.config.ts", "scripts"],
+  // Runs with tsx and imports the Worker's own modules (src/worker/ogRender.ts),
+  // which need @cloudflare/workers-types; not loaded in this project.
+  "exclude": ["scripts/og-pregenerate.ts"]
 }

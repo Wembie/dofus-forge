@@ -25,3 +25,8 @@
 # must never be served long-lived or the staleness check itself goes stale.
 /data/version.json
   Cache-Control: public, max-age=60, must-revalidate
+
+# Chrome's private prefetch proxy reads this before prefetching the site from
+# Google results; it must be served with its own media type.
+/.well-known/traffic-advice
+  Content-Type: application/trafficadvice+json

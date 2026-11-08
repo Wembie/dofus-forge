@@ -17,6 +17,7 @@
     "fetch-passives": "tsx scripts/fetch-passives.ts",
     "fetch-images": "tsx scripts/fetch-images.ts",
     "sync-item-images": "tsx scripts/sync-item-images.ts",
+    "og:pregenerate": "tsx scripts/og-pregenerate.ts",
     "extract-characters": "python scripts/extract-characters.py",
     "upload-characters": "node scripts/upload-characters.mjs",
     "upload-items": "node scripts/upload-items.mjs"

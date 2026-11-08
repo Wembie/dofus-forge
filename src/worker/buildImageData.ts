@@ -123,7 +123,7 @@ export async function buildOgImageData(
     title: truncate(build.name, TITLE_MAX) || classLabel,
     classLabel,
     level: build.level,
-    gender: build.gender === 'female' ? 'female' : 'male',
+    gender: build.gender === 'female' ? 'female' as const : 'male' as const,
     ownerLabel: build.profiles?.username ? `by ${build.profiles.username}` : undefined,
     items: itemRows,
     badges,
