@@ -32,7 +32,7 @@
 
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, extname, join, relative } from 'node:path'
+import { dirname, extname, join } from 'node:path'
 import { Resvg } from '@cf-wasm/resvg/node'
 import { setSlugs } from '../src/data/setGuide.ts'
 import type { OgFont } from '../src/worker/ogImage.ts'
@@ -94,17 +94,21 @@ const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONT
 /** Everything that draws a card besides its input: a change here re-renders every card. */
 function rendererFingerprint(): string {
   const files = [
-    'scripts/og-pregenerate.ts',
     'src/worker/ogRender.ts',
     'src/worker/ogPages.ts',
     'src/worker/data.ts',
     'src/data/setGuide.ts',
     'public/brand/mark-256.png',
-    ...readdirSync(FONT_DIR).map(f => relative(ROOT, join(FONT_DIR, f))),
+    ...readdirSync(FONT_DIR).sort().map(f => `src/worker/fonts/${f}`),
     ...['public/data/stats-og', 'public/data/classes'].flatMap(dir => readdirSync(join(ROOT, dir)).sort().map(f => `${dir}/${f}`)),
   ]
   const hash = createHash('sha256')
-  for (const file of files) hash.update(file).update('\0').update(readFileSync(join(ROOT, file))).update('\0')
+  // The same fingerprint on any machine: '/' paths, sorted listings, and
+  // source files with LF line endings (a Windows checkout has CRLF, CI LF).
+  for (const file of files) {
+    const bytes = readFileSync(join(ROOT, file))
+    hash.update(file).update('\0').update(file.endsWith('.ts') ? bytes.toString('utf8').replace(/\r\n/g, '\n') : bytes).update('\0')
+  }
   const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as { dependencies?: Record<string, string> }
   hash.update(`satori ${pkg.dependencies?.satori} resvg ${pkg.dependencies?.['@cf-wasm/resvg']}`)
   return hash.digest('hex')
