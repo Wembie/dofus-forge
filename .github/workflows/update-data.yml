@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # dispatch og-images.yml after a data update
 
 # An overlapping hourly run would race the same push.
 concurrency:
@@ -93,3 +94,13 @@ jobs:
           VERSION=$(node -e "console.log(require('./public/data/version.json').gameVersion)")
           git commit -m "chore(data): update game data to $VERSION"
           git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"
+
+      # Share cards (set pages, class guides) are rendered from this data:
+      # start that job now instead of waiting for its 6-hourly schedule (a
+      # push made with GITHUB_TOKEN starts no workflow, a dispatch does). It
+      # re-renders only the cards whose content changed.
+      - name: Refresh share cards
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run og-images.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME"

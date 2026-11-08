@@ -7,9 +7,9 @@ name: Share images
 #
 # Incremental: each card's content is hashed and only cards whose hash
 # changed are rendered (a game patch touching ten sets renders ten cards; a
-# template change renders all). A run with nothing to do takes seconds. The
-# schedule catches data updates (update-data.yml pushes with GITHUB_TOKEN,
-# which starts no workflow); the push trigger catches card code merged into
+# template change renders all). A run with nothing to do takes seconds.
+# update-data.yml dispatches it right after committing new game data; the
+# schedule is the safety net, the push trigger catches card code merged into
 # main.
 on:
   schedule:
