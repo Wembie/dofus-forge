@@ -1,5 +1,5 @@
 /**
- * Keeps every set and class share card (4 languages, ~3,800) rendered in the
+ * Keeps every set and class share card (4 languages: 19 classes and 521 sets, 2,160 cards) rendered in the
  * private OG bucket, so the Worker only ever serves them: a render costs
  * 0.3–1.4 s of CPU, past the Workers Free plan's 10 ms per request. Same
  * rendering code as the Worker (src/worker/ogRender.ts), fed from public/
