@@ -25,6 +25,9 @@ export type OgSources = {
  */
 export const OG_RENDER_VERSION = 1
 
+/** The OG_BUCKET binding's bucket in wrangler.jsonc (a test keeps them equal). */
+export const OG_BUCKET_NAME = 'dofus-forge-og'
+
 export const pageCardKey = (gameVersion: string, lang: Lang, kind: 'set' | 'class', slug: string) =>
   `v${OG_RENDER_VERSION}/pages/${gameVersion}/${lang}/${kind}/${slug}.png`
 

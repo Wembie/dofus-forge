@@ -29,7 +29,7 @@ import { dirname, extname, join } from 'node:path'
 import { Resvg } from '@cf-wasm/resvg/node'
 import { setSlugs } from '../src/data/setGuide.ts'
 import type { OgFont } from '../src/worker/ogImage.ts'
-import { pageCardKey, pageCardsCompleteKey, renderClassCard, renderSetCard, type OgSources } from '../src/worker/ogRender.ts'
+import { OG_BUCKET_NAME, OG_RENDER_VERSION, pageCardKey, pageCardsCompleteKey, renderClassCard, renderSetCard, type OgSources } from '../src/worker/ogRender.ts'
 import type { Lang, WorkerAppItem, WorkerAppSet } from '../src/worker/data.ts'
 
 const ROOT = process.cwd()
@@ -82,19 +82,25 @@ const FONTS: OgFont[] = [
 const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONTS }
 
 // ── R2 through Cloudflare's REST API ─────────────────────────────────────
-function bucketName(): string {
-  const config = readFileSync(join(ROOT, 'wrangler.jsonc'), 'utf8')
-  const name = config.match(/\{\s*"binding"\s*:\s*"OG_BUCKET"\s*,\s*"bucket_name"\s*:\s*"([^"]+)"/)?.[1]
-  if (!name) throw new Error('no OG_BUCKET r2 bucket in wrangler.jsonc')
-  return name
-}
+// pageCardKey() / pageCardsCompleteKey() with a numeric game version and the
+// same slug rule as the Worker's PAGE_OG_ROUTE.
+const STORABLE_KEY = new RegExp(
+  `^v${OG_RENDER_VERSION}/pages/\\d+(?:\\.\\d+){0,3}/(?:_complete|(?:en|es|fr|pt)/(?:set|class)/[a-z0-9-]{1,80}\\.png)$`,
+)
 
 function r2() {
   const token = process.env.CLOUDFLARE_API_TOKEN
   const account = process.env.CLOUDFLARE_ACCOUNT_ID
   if (!token || !account) throw new Error('CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are required to upload (or pass --out <dir>)')
-  const base = `https://api.cloudflare.com/client/v4/accounts/${account}/r2/buckets/${bucketName()}/objects/`
-  const url = (key: string) => base + key.split('/').map(encodeURIComponent).join('/')
+  if (!/^[0-9a-f]{32}$/.test(account)) throw new Error('CLOUDFLARE_ACCOUNT_ID is not a Cloudflare account id')
+  const base = `https://api.cloudflare.com/client/v4/accounts/${account}/r2/buckets/${OG_BUCKET_NAME}/objects/`
+  // Keys are built from data files (game version, set slugs): only the exact
+  // shapes this script writes may reach the URL, so a malformed or tampered
+  // data file can't address anything else in the account.
+  const url = (key: string) => {
+    if (!STORABLE_KEY.test(key)) throw new Error(`refusing to store an unexpected key: ${JSON.stringify(key)}`)
+    return base + key
+  }
   const headers = { Authorization: `Bearer ${token}` }
   return {
     async exists(key: string): Promise<boolean> {
