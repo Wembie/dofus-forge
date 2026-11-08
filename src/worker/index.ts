@@ -109,7 +109,11 @@ const FONTS: OgFont[] = [
 
 const sources = (env: Env, origin: string): OgSources => ({ assets: env.ASSETS, origin, bucket: env.ASSETS_BUCKET, fonts: FONTS })
 
-const PNG_HEADERS = { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=3600, s-maxage=86400' }
+// A build card's URL and key change with every edit, so it can stay a day at
+// the edge. A set/class card is overwritten in place when a game patch changes
+// it (scripts/og-pregenerate.ts), so locations keep it 6 h at most.
+const BUILD_CARD_CACHE = 'public, max-age=3600, s-maxage=86400'
+const PAGE_CARD_CACHE = 'public, max-age=3600, s-maxage=21600'
 
 async function rasterize(svg: string): Promise<Uint8Array> {
   const resvg = await Resvg.async(svg)
@@ -118,7 +122,7 @@ async function rasterize(svg: string): Promise<Uint8Array> {
 
 /**
  * A share card from this location's cache, else from the OG bucket, else
- * rendered and then kept in both. A render costs 15–200 ms of CPU, far past
+ * rendered and then kept in both. A render costs 0.1–1.4 s of CPU, far past
  * the Free plan's 10 ms per request; the bucket is shared by every
  * Cloudflare location, so a card is rendered once in total rather than once
  * per location and cache expiry, and the set/class cards are stored ahead of
@@ -131,8 +135,10 @@ async function serveCard(
   ctx: ExecutionContext | undefined,
   cacheUrl: string,
   key: string,
+  cacheControl: string,
   render: () => Promise<string | null>,
 ): Promise<Response> {
+  const headers = { 'Content-Type': 'image/png', 'Cache-Control': cacheControl }
   const cache = caches.default
   const cacheKey = new Request(cacheUrl)
   const cached = await cache.match(cacheKey)
@@ -149,7 +155,7 @@ async function serveCard(
 
   const stored = await env.OG_BUCKET?.get(key).catch(() => null)
   if (stored) {
-    const response = new Response(await stored.arrayBuffer(), { headers: PNG_HEADERS })
+    const response = new Response(await stored.arrayBuffer(), { headers })
     keep(cache.put(cacheKey, response.clone()))
     await Promise.all(pending)
     return response
@@ -163,7 +169,7 @@ async function serveCard(
   const svg = await render()
   if (svg === null) return new Response('Not found', { status: 404 })
   const png = await rasterize(svg)
-  const response = new Response(png as BufferSource, { headers: PNG_HEADERS })
+  const response = new Response(png as BufferSource, { headers })
   keep(cache.put(cacheKey, response.clone()))
   keep(env.OG_BUCKET?.put(key, png, { httpMetadata: { contentType: 'image/png' } }))
   await Promise.all(pending)
@@ -190,7 +196,8 @@ async function servePageOg(request: Request, env: Env, ctx: ExecutionContext | u
   return serveCard(
     request, env, ctx,
     `${url.origin}/og/${lang}/${kind}/${slug}.png?data=${version}`,
-    pageCardKey(version, lang, kind, slug),
+    pageCardKey(lang, kind, slug),
+    PAGE_CARD_CACHE,
     () => (kind === 'set' ? renderSetCard(src, lang, slug) : renderClassCard(src, lang, slug)),
   )
 }
@@ -305,6 +312,7 @@ async function serveOgImage(request: Request, env: Env, ctx: ExecutionContext | 
     request, env, ctx,
     `${url.origin}/og/${lang}/${id}.png?v=${Date.parse(build.updated_at) || 0}`,
     buildCardKey(id, lang, build.updated_at),
+    BUILD_CARD_CACHE,
     () => renderBuildCard(sources(env, url.origin), lang, build),
   )
 }

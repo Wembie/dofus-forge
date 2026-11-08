@@ -1,35 +1,45 @@
 /**
- * Renders every set and class share card (4 languages) ahead of time and
- * stores it in the private OG bucket, so the Worker only ever serves them:
- * a render costs 15–200 ms of CPU, past the Workers Free plan's 10 ms per
- * request. Same rendering code as the Worker (src/worker/ogRender.ts), fed
- * from public/ instead of the ASSETS binding and rasterized with resvg's
- * Node build, so the PNGs are the ones the Worker would produce.
+ * Keeps every set and class share card (4 languages, ~3,800) rendered in the
+ * private OG bucket, so the Worker only ever serves them: a render costs
+ * 0.3–1.4 s of CPU, past the Workers Free plan's 10 ms per request. Same
+ * rendering code as the Worker (src/worker/ogRender.ts), fed from public/
+ * instead of the ASSETS binding and rasterized with resvg's Node build, so
+ * the PNGs are the ones the Worker would produce.
  *
- * Keys carry the game data version and OG_RENDER_VERSION. Once a version is
- * complete a marker object is written, and later runs for that version exit
- * right away (unless --force). Build cards are not generated here: the
- * Worker stores each one the first time it renders it.
+ * Incremental: each card's input (texts, numbers, image paths) is hashed
+ * together with a fingerprint of everything that draws it (this code, the
+ * card templates, fonts, logo, stat icons, class portraits, satori/resvg
+ * versions). A per-shard manifest in the bucket remembers the hash each key
+ * was stored with; only cards whose hash changed are rendered and
+ * overwritten. A game patch that changes ten sets re-renders ten cards; a
+ * template change re-renders all of them, with no version to bump.
+ * Item icons are part of the input by path, not by pixels.
+ *
+ * Build cards are not generated here: the Worker stores each one the first
+ * time it renders it.
  *
  * Upload goes through Cloudflare's REST API with CLOUDFLARE_API_TOKEN (R2
  * write) and CLOUDFLARE_ACCOUNT_ID.
  *
  * Usage:
- *   pnpm og:pregenerate                 render + upload what is missing
+ *   pnpm og:pregenerate                 render + upload what changed
  *   pnpm og:pregenerate --force         re-render and re-upload everything
+ *   pnpm og:pregenerate --shard 2/4     this shard's cards only: run all 4 at
+ *                                       once (rasterizing is CPU-bound)
  *   pnpm og:pregenerate --out <dir>     write PNGs locally, no upload
- *   pnpm og:pregenerate --limit <n>     only the first n cards (testing)
- *   pnpm og:pregenerate --shard 2/4     every 4th card from the 3rd: run 4 at
- *                                       once (rasterizing is CPU-bound), then
- *   pnpm og:pregenerate --mark-complete once all shards succeeded
+ *   pnpm og:pregenerate --limit <n>     at most n renders (testing)
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, extname, join } from 'node:path'
+import { createHash } from 'node:crypto'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, extname, join, relative } from 'node:path'
 import { Resvg } from '@cf-wasm/resvg/node'
 import { setSlugs } from '../src/data/setGuide.ts'
 import type { OgFont } from '../src/worker/ogImage.ts'
-import { OG_BUCKET_NAME, OG_RENDER_VERSION, pageCardKey, pageCardsCompleteKey, renderClassCard, renderSetCard, type OgSources } from '../src/worker/ogRender.ts'
+import {
+  OG_BUCKET_NAME, OG_KEY_VERSION, cardHash, classCardInput, pageCardKey, pageManifestKey, renderPageCard, setCardInput,
+  type OgSources, type PageCardInput,
+} from '../src/worker/ogRender.ts'
 import type { Lang, WorkerAppItem, WorkerAppSet } from '../src/worker/data.ts'
 
 const ROOT = process.cwd()
@@ -46,8 +56,7 @@ const FORCE = process.argv.includes('--force')
 const OUT = arg('--out')
 const LIMIT = Number(arg('--limit') ?? Infinity)
 const [SHARD, SHARDS] = (arg('--shard') ?? '0/1').split('/').map(Number)
-const MARK_COMPLETE = process.argv.includes('--mark-complete')
-if (!(SHARDS >= 1 && SHARD >= 0 && SHARD < SHARDS)) throw new Error('--shard must look like 0/4')
+if (!(Number.isInteger(SHARDS) && SHARDS >= 1 && Number.isInteger(SHARD) && SHARD >= 0 && SHARD < SHARDS)) throw new Error('--shard must look like 0/4')
 
 const TYPES: Record<string, string> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.json': 'application/json' }
 
@@ -69,8 +78,9 @@ const itemBucket = {
   },
 } as unknown as Pick<R2Bucket, 'get'>
 
+const FONT_DIR = join(ROOT, 'src', 'worker', 'fonts')
 const font = (file: string) => {
-  const buf = readFileSync(join(ROOT, 'src', 'worker', 'fonts', file))
+  const buf = readFileSync(join(FONT_DIR, file))
   return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength)
 }
 const FONTS: OgFont[] = [
@@ -81,11 +91,32 @@ const FONTS: OgFont[] = [
 
 const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONTS }
 
+/** Everything that draws a card besides its input: a change here re-renders every card. */
+function rendererFingerprint(): string {
+  const files = [
+    'scripts/og-pregenerate.ts',
+    'src/worker/ogRender.ts',
+    'src/worker/ogPages.ts',
+    'src/worker/data.ts',
+    'src/data/setGuide.ts',
+    'public/brand/mark-256.png',
+    ...readdirSync(FONT_DIR).map(f => relative(ROOT, join(FONT_DIR, f))),
+    ...['public/data/stats-og', 'public/data/classes'].flatMap(dir => readdirSync(join(ROOT, dir)).sort().map(f => `${dir}/${f}`)),
+  ]
+  const hash = createHash('sha256')
+  for (const file of files) hash.update(file).update('\0').update(readFileSync(join(ROOT, file))).update('\0')
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as { dependencies?: Record<string, string> }
+  hash.update(`satori ${pkg.dependencies?.satori} resvg ${pkg.dependencies?.['@cf-wasm/resvg']}`)
+  return hash.digest('hex')
+}
+
 // ── R2 through Cloudflare's REST API ─────────────────────────────────────
-// pageCardKey() / pageCardsCompleteKey() with a numeric game version and the
-// same slug rule as the Worker's PAGE_OG_ROUTE.
+// Only the exact keys this script writes may reach the URL (page cards with
+// the same slug rule as the Worker's PAGE_OG_ROUTE, and the shard
+// manifests), so a malformed or tampered data file can't address anything
+// else in the account.
 const STORABLE_KEY = new RegExp(
-  `^v${OG_RENDER_VERSION}/pages/\\d+(?:\\.\\d+){0,3}/(?:_complete|(?:en|es|fr|pt)/(?:set|class)/[a-z0-9-]{1,80}\\.png)$`,
+  `^v${OG_KEY_VERSION}/pages/(?:(?:en|es|fr|pt)/(?:set|class)/[a-z0-9-]{1,80}\\.png|_manifest/\\d{1,2}-of-\\d{1,2}\\.json)$`,
 )
 
 function r2() {
@@ -94,21 +125,17 @@ function r2() {
   if (!token || !account) throw new Error('CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are required to upload (or pass --out <dir>)')
   if (!/^[0-9a-f]{32}$/.test(account)) throw new Error('CLOUDFLARE_ACCOUNT_ID is not a Cloudflare account id')
   const base = `https://api.cloudflare.com/client/v4/accounts/${account}/r2/buckets/${OG_BUCKET_NAME}/objects/`
-  // Keys are built from data files (game version, set slugs): only the exact
-  // shapes this script writes may reach the URL, so a malformed or tampered
-  // data file can't address anything else in the account.
   const url = (key: string) => {
-    if (!STORABLE_KEY.test(key)) throw new Error(`refusing to store an unexpected key: ${JSON.stringify(key)}`)
+    if (!STORABLE_KEY.test(key)) throw new Error(`refusing an unexpected key: ${JSON.stringify(key)}`)
     return base + key
   }
   const headers = { Authorization: `Bearer ${token}` }
   return {
-    async exists(key: string): Promise<boolean> {
+    async getJson<T>(key: string): Promise<T | null> {
       const res = await fetch(url(key), { headers })
-      await res.body?.cancel()
-      if (res.status === 404) return false
-      if (!res.ok) throw new Error(`R2 GET ${key}: HTTP ${res.status}`)
-      return true
+      if (res.status === 404) { await res.body?.cancel(); return null }
+      if (!res.ok) throw new Error(`R2 GET ${key}: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`)
+      return (await res.json()) as T
     },
     async put(key: string, body: Uint8Array, contentType: string): Promise<void> {
       for (let attempt = 1; ; attempt++) {
@@ -123,77 +150,89 @@ function r2() {
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────
-type Card = { lang: Lang; kind: 'set' | 'class'; slug: string }
+type Card = { lang: Lang; kind: 'set' | 'class'; slug: string; key: string }
+type Manifest = Record<string, string>   // key → content hash
 
-function allCards(): Card[] {
+/** Every page card, assigned to a shard by its key (stable when sets are added or removed). */
+function shardCards(): Card[] {
   const read = <T>(path: string): T => JSON.parse(readFileSync(join(PUBLIC, path), 'utf8')) as T
   const setsEn = read<WorkerAppSet[]>('data/en/sets.json')
   const equipmentEn = read<WorkerAppItem[]>('data/en/equipment.json')
   const setSlugList = [...setSlugs(setsEn, new Set(equipmentEn.map(it => it.ankama_id))).values()]
   const classSlugs = Object.keys(read<Record<string, unknown>>('data/class-names.json'))
-  return LANGS.flatMap(lang => [
-    ...classSlugs.map(slug => ({ lang, kind: 'class' as const, slug })),
-    ...setSlugList.map(slug => ({ lang, kind: 'set' as const, slug })),
-  ])
+  const shardOf = (key: string) => createHash('sha256').update(key).digest().readUInt32BE(0) % SHARDS
+  return LANGS
+    .flatMap(lang => [
+      ...classSlugs.map(slug => ({ lang, kind: 'class' as const, slug })),
+      ...setSlugList.map(slug => ({ lang, kind: 'set' as const, slug })),
+    ])
+    .map(card => ({ ...card, key: pageCardKey(card.lang, card.kind, card.slug) }))
+    .filter(card => shardOf(card.key) === SHARD)
 }
 
 async function main() {
-  const gameVersion = (JSON.parse(readFileSync(join(PUBLIC, 'data', 'version.json'), 'utf8')) as { gameVersion: string }).gameVersion
   const store = OUT ? null : r2()
+  const fingerprint = rendererFingerprint()
+  const manifestKey = pageManifestKey(SHARD, SHARDS)
+  const localManifest = OUT ? join(OUT, manifestKey) : null
+  const previous: Manifest = FORCE ? {} : (store
+    ? await store.getJson<Manifest>(manifestKey)
+    : localManifest && existsSync(localManifest) ? JSON.parse(readFileSync(localManifest, 'utf8')) as Manifest : null) ?? {}
+  const next: Manifest = {}
 
-  if (MARK_COMPLETE) {
-    if (!store) throw new Error('--mark-complete uploads a marker: drop --out')
-    await store.put(pageCardsCompleteKey(gameVersion), new TextEncoder().encode(new Date().toISOString()), 'text/plain')
-    console.log(`Marked share cards for game data ${gameVersion} as complete.`)
-    return
-  }
-
-  if (store && !FORCE && await store.exists(pageCardsCompleteKey(gameVersion))) {
-    console.log(`Share cards for game data ${gameVersion} are already stored; nothing to do (--force to redo).`)
-    return
-  }
-
-  const cards = allCards().filter((_, i) => i % SHARDS === SHARD).slice(0, LIMIT)
-  console.log(`Rendering ${cards.length} share cards for game data ${gameVersion}${SHARDS > 1 ? ` (shard ${SHARD}/${SHARDS})` : ''}${OUT ? ` into ${OUT}` : ''}`)
+  const cards = shardCards()
+  const label = `${SHARDS > 1 ? `shard ${SHARD}/${SHARDS}, ` : ''}${cards.length} cards`
+  console.log(`Checking ${label}${OUT ? ` into ${OUT}` : ''}`)
 
   const uploads = new Set<Promise<void>>()
   const failures: string[] = []
-  let done = 0
+  let rendered = 0
+  let unchanged = 0
   let missing = 0
   const started = Date.now()
 
   for (const card of cards) {
-    const key = pageCardKey(gameVersion, card.lang, card.kind, card.slug)
+    if (rendered >= LIMIT || failures.length >= 20) break
     try {
-      const svg = card.kind === 'set' ? await renderSetCard(src, card.lang, card.slug) : await renderClassCard(src, card.lang, card.slug)
-      if (svg === null) { missing++; continue }
-      const png = (await Resvg.async(svg)).render().asPng()
+      const input: PageCardInput | null = card.kind === 'set'
+        ? await setCardInput(src, card.lang, card.slug)
+        : await classCardInput(src, card.lang, card.slug)
+      if (!input) { missing++; continue }
+      const hash = await cardHash(fingerprint, input)
+      if (previous[card.key] === hash) { next[card.key] = hash; unchanged++; continue }
+
+      const png = (await Resvg.async(await renderPageCard(src, input))).render().asPng()
+      rendered++
       if (OUT) {
-        const file = join(OUT, key)
+        const file = join(OUT, card.key)
         mkdirSync(dirname(file), { recursive: true })
         writeFileSync(file, png)
+        next[card.key] = hash
       } else {
-        const upload = store!.put(key, png, 'image/png').catch(e => { failures.push(`${key}: ${(e as Error).message}`) })
+        const upload = store!.put(card.key, png, 'image/png')
+          .then(() => { next[card.key] = hash })
+          .catch(e => { failures.push(`${card.key}: ${(e as Error).message}`) })
         uploads.add(upload)
         void upload.finally(() => uploads.delete(upload))
         if (uploads.size >= 8) await Promise.race(uploads)
       }
+      if (rendered % 100 === 0) console.log(`  ${rendered} rendered (${Math.round((Date.now() - started) / 1000)} s)`)
     } catch (e) {
-      failures.push(`${key}: ${(e as Error).message}`)
+      failures.push(`${card.key}: ${(e as Error).message}`)
     }
-    if (++done % 200 === 0) console.log(`  ${done}/${cards.length} (${Math.round((Date.now() - started) / 1000)} s)`)
-    // A bad token fails every upload the same way: stop instead of rendering thousands more.
-    if (failures.length >= 20) break
   }
   await Promise.all(uploads)
 
-  console.log(`Done: ${done - missing - failures.length} stored, ${missing} skipped (no such page), ${failures.length} failed, ${Math.round((Date.now() - started) / 1000)} s`)
+  // Saved even after failures: what was stored is recorded, the rest is
+  // retried on the next run. A card that is gone from the catalog drops out.
+  if (store && rendered > 0) await store.put(manifestKey, new TextEncoder().encode(JSON.stringify(next)), 'application/json')
+  if (localManifest) { mkdirSync(dirname(localManifest), { recursive: true }); writeFileSync(localManifest, JSON.stringify(next)) }
+
+  console.log(`Done (${label}): ${rendered} rendered, ${unchanged} unchanged, ${missing} skipped (no such page), ${failures.length} failed, ${Math.round((Date.now() - started) / 1000)} s`)
   if (failures.length) {
     for (const f of failures.slice(0, 20)) console.error(`  ${f}`)
     process.exit(1)
   }
-  // A single full run marks itself; sharded runs are marked by --mark-complete.
-  if (store && LIMIT === Infinity && SHARDS === 1) await store.put(pageCardsCompleteKey(gameVersion), new TextEncoder().encode(new Date().toISOString()), 'text/plain')
 }
 
 main().catch(e => {

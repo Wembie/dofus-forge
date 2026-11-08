@@ -191,10 +191,10 @@ describe('stored share cards (OG bucket)', () => {
     expect(b.get).not.toHaveBeenCalled()
   })
 
-  it('stores set and class cards under the game data version', async () => {
+  it('stores set and class cards under one key per page', async () => {
     const b = bucket()
     await worker.fetch(new Request('https://dofusforge.com/og/es/set/abyss-set.png'), env({ OG_BUCKET: b }))
-    expect(b.put).toHaveBeenCalledWith(pageCardKey('0', 'es', 'set', 'abyss-set'), expect.any(Uint8Array), expect.anything())
+    expect(b.put).toHaveBeenCalledWith(pageCardKey('es', 'set', 'abyss-set'), expect.any(Uint8Array), expect.anything())
     store.clear()
     await worker.fetch(new Request('https://dofusforge.com/og/es/set/abyss-set.png'), env({ OG_BUCKET: b }))
     expect(render).toHaveBeenCalledTimes(1)

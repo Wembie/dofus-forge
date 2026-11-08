@@ -5,10 +5,12 @@ name: Share images
 # instead of rendering: a render takes 0.3–1.4 s of CPU, against the Workers
 # Free plan's 10 ms per request. Build cards are stored by the Worker itself.
 #
-# Idempotent: once a game data version is complete a marker is stored and
-# later runs exit in seconds. The schedule catches data updates
-# (update-data.yml pushes with GITHUB_TOKEN, which starts no workflow); the
-# push trigger catches card design changes merged into main.
+# Incremental: each card's content is hashed and only cards whose hash
+# changed are rendered (a game patch touching ten sets renders ten cards; a
+# template change renders all). A run with nothing to do takes seconds. The
+# schedule catches data updates (update-data.yml pushes with GITHUB_TOKEN,
+# which starts no workflow); the push trigger catches card code merged into
+# main.
 on:
   schedule:
     - cron: '40 */6 * * *'
@@ -16,6 +18,7 @@ on:
     branches: [main]
     paths:
       - public/data/version.json
+      - public/locales/*/translation.json
       - src/worker/ogRender.ts
       - src/worker/ogPages.ts
       - src/worker/ogImage.ts
@@ -24,7 +27,7 @@ on:
   workflow_dispatch:
     inputs:
       force:
-        description: Re-render and re-upload every card of the current game data version
+        description: Re-render and re-upload every card, changed or not
         type: boolean
         default: false
 
@@ -57,9 +60,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Rasterizing is CPU-bound: one shard per core. Each shard exits right
-      # away when the version is already complete; only if every shard
-      # succeeded is the version marked complete.
+      # Rasterizing is CPU-bound: one shard per core, each with its own
+      # manifest of stored hashes. A failed card is retried on the next run.
       - name: Render and store set and class cards
         run: |
           set -euo pipefail
@@ -75,9 +77,6 @@ jobs:
             echo "::group::shard ${i}/4"; cat "$RUNNER_TEMP/shard-${i}.log"; echo "::endgroup::"
           done
           if [ "$status" -ne 0 ]; then
-            echo "::error::At least one shard failed; the version is not marked complete and the next run retries."
+            echo "::error::At least one shard failed; its other cards are stored and the next run retries the rest."
             exit 1
-          fi
-          if ! grep -q "already stored" "$RUNNER_TEMP/shard-0.log"; then
-            pnpm -s og:pregenerate --mark-complete
           fi
