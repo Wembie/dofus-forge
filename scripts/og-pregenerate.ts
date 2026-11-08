@@ -134,21 +134,41 @@ function r2() {
     return base + key
   }
   const headers = { Authorization: `Bearer ${token}` }
+
+  // Cloudflare's API allows 1,200 requests per 5 minutes per user (4/s),
+  // shared by every shard: each one paces itself to its share of ~3.5/s and
+  // backs off on 429 (Retry-After when given). Rendering is faster than
+  // that, so a full re-render is upload-bound (~20 min); a patch is seconds.
+  const interval = 1000 / (3.5 / SHARDS)
+  let nextSlot = 0
+  const paced = async () => {
+    const now = Date.now()
+    const wait = Math.max(0, nextSlot - now)
+    nextSlot = Math.max(now, nextSlot) + interval
+    if (wait) await new Promise(r => setTimeout(r, wait))
+  }
+  const send = async (key: string, init: RequestInit): Promise<Response> => {
+    for (let attempt = 1; ; attempt++) {
+      await paced()
+      const res = await fetch(url(key), { ...init, headers: { ...headers, ...(init.headers as Record<string, string>) } })
+      const retryable = res.status === 429 || res.status >= 500
+      if (!retryable || attempt >= 6) return res
+      await res.body?.cancel()
+      const retryAfter = Number(res.headers.get('Retry-After'))
+      await new Promise(r => setTimeout(r, retryAfter > 0 ? retryAfter * 1000 : Math.min(60_000, 2000 * 2 ** attempt)))
+    }
+  }
   return {
     async getJson<T>(key: string): Promise<T | null> {
-      const res = await fetch(url(key), { headers })
+      const res = await send(key, { method: 'GET' })
       if (res.status === 404) { await res.body?.cancel(); return null }
       if (!res.ok) throw new Error(`R2 GET ${key}: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`)
       return (await res.json()) as T
     },
     async put(key: string, body: Uint8Array, contentType: string): Promise<void> {
-      for (let attempt = 1; ; attempt++) {
-        const res = await fetch(url(key), { method: 'PUT', headers: { ...headers, 'Content-Type': contentType }, body })
-        if (res.ok) return
-        const text = await res.text()
-        if (attempt >= 3 || res.status === 401 || res.status === 403) throw new Error(`R2 PUT ${key}: HTTP ${res.status} ${text.slice(0, 300)}`)
-        await new Promise(r => setTimeout(r, 1000 * attempt))
-      }
+      const res = await send(key, { method: 'PUT', headers: { 'Content-Type': contentType }, body })
+      if (!res.ok) throw new Error(`R2 PUT ${key}: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`)
+      await res.body?.cancel()
     },
   }
 }
@@ -221,6 +241,12 @@ async function main() {
         if (uploads.size >= 8) await Promise.race(uploads)
       }
       if (rendered % 100 === 0) console.log(`  ${rendered} rendered (${Math.round((Date.now() - started) / 1000)} s)`)
+      // Checkpoint: an interrupted run keeps what it stored. Cards not reached
+      // yet keep their previous hash, so a changed one still differs next run.
+      if (store && rendered % 200 === 0) {
+        await Promise.all(uploads)
+        await store.put(manifestKey, new TextEncoder().encode(JSON.stringify({ ...previous, ...next })), 'application/json')
+      }
     } catch (e) {
       failures.push(`${card.key}: ${(e as Error).message}`)
     }
