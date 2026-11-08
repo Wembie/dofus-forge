@@ -69,7 +69,8 @@ jobs:
       - name: Start preview server
         # The production Worker (wrangler dev): serves each prerendered page at
         # its path and the SPA fallback elsewhere, exactly like Cloudflare.
-        run: pnpm preview &
+        # Logged to a file so a failing check below can show what the Worker said.
+        run: pnpm preview > "$RUNNER_TEMP/preview.log" 2>&1 &
 
       - name: Wait for preview server
         run: |
@@ -81,6 +82,24 @@ jobs:
           done
           echo "Preview server did not start in time" >&2
           exit 1
+
+      # Share cards are rendered by the Worker (satori + resvg) inside workerd,
+      # where a dependency can fail to load even though every Node test
+      # passes: satori 0.33.5 made all of them answer 500 in production.
+      # -w ends with a newline: under bash -e, `read` fails on a last line
+      # without one, which made this step exit before checking anything.
+      - name: Share images render in the Worker
+        run: |
+          for path in /og/en/class/iop.png /og/es/set/gobball-set.png; do
+            read -r code type < <(curl -s --max-time 90 -o "$RUNNER_TEMP/card.bin" -w '%{http_code} %{content_type}\n' "http://127.0.0.1:4173${path}" || echo "000 none")
+            echo "${path}: ${code} ${type}"
+            if [ "$code" != "200" ] || [ "$type" != "image/png" ]; then
+              echo "::error::${path} answered ${code} ${type}, expected 200 image/png"
+              echo "--- response body (first 500 bytes)"; head -c 500 "$RUNNER_TEMP/card.bin" || true; echo
+              echo "--- wrangler dev log (last 60 lines)"; tail -n 60 "$RUNNER_TEMP/preview.log" || true
+              exit 1
+            fi
+          done
 
       - name: Set up k6
         uses: grafana/setup-k6-action@43b9fc21641a76002687994433dd586f56e791b1 # v1.2.2

@@ -32,7 +32,13 @@
     { "type": "Data", "globs": ["**/*.ttf"], "fallthrough": true }
   ],
   "r2_buckets": [
-    { "binding": "ASSETS_BUCKET", "bucket_name": "dofus-forge-assets" }
+    { "binding": "ASSETS_BUCKET", "bucket_name": "dofus-forge-assets" },
+    // Rendered share cards (src/worker/ogRender.ts keys). Private on purpose:
+    // no custom domain or r2.dev URL, so a build's card is only reachable
+    // through the Worker's visibility check. Set/class cards are overwritten in
+    // place (scripts/og-pregenerate.ts); a lifecycle rule expires build cards
+    // (v1/builds/, keyed by updated_at) after 60 days, re-rendered if requested.
+    { "binding": "OG_BUCKET", "bucket_name": "dofus-forge-og" }
   ],
   "vars": {
     "SUPABASE_URL": "https://wkllwjxodqxhiptjaccj.supabase.co"

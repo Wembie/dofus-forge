@@ -1,7 +1,7 @@
 {
   "name": "dofus-forge",
   "private": true,
-  "version": "0.3.143",
+  "version": "0.3.144",
   "type": "module",
   "packageManager": "pnpm@11.20.0",
   "scripts": {
@@ -17,6 +17,7 @@
     "fetch-passives": "tsx scripts/fetch-passives.ts",
     "fetch-images": "tsx scripts/fetch-images.ts",
     "sync-item-images": "tsx scripts/sync-item-images.ts",
+    "og:pregenerate": "tsx scripts/og-pregenerate.ts",
     "extract-characters": "python scripts/extract-characters.py",
     "upload-characters": "node scripts/upload-characters.mjs",
     "upload-items": "node scripts/upload-items.mjs"
@@ -33,7 +34,7 @@
     "react-dom": "^19.3.1",
     "react-i18next": "^15.1.3",
     "react-router": "7.18.4",
-    "satori": "^0.33.5",
+    "satori": "^0.30.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.7"

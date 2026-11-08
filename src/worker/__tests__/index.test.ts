@@ -25,6 +25,7 @@ vi.mock('../data.ts', () => ({
 }))
 
 const { default: worker } = await import('../index.ts')
+const { buildCardKey, pageCardKey } = await import('../ogRender.ts')
 
 const ID = '26ba3a5b-43a7-4e5d-ae86-4abb11865e4e'
 const SUPABASE_URL = 'https://x.supabase.co'
@@ -133,6 +134,76 @@ describe('set and class OG cards', () => {
   it('rejects methods other than GET/HEAD without rendering', async () => {
     expect((await card('en/set/abyss-set.png', { method: 'POST' })).status).toBe(405)
     expect(render).not.toHaveBeenCalled()
+  })
+})
+
+describe('stored share cards (OG bucket)', () => {
+  const bucket = () => {
+    const objects = new Map<string, Uint8Array>()
+    return {
+      objects,
+      get: vi.fn(async (key: string) => (objects.has(key) ? { arrayBuffer: async () => objects.get(key)!.slice().buffer } : null)),
+      put: vi.fn(async (key: string, value: Uint8Array) => { objects.set(key, value) }),
+    }
+  }
+  const buildCard = (b: ReturnType<typeof bucket>) => worker.fetch(new Request(`https://dofusforge.com/og/en/${ID}.png`), env({ OG_BUCKET: b }))
+
+  it('serves a stored card without rendering it', async () => {
+    const b = bucket()
+    b.objects.set(buildCardKey(ID, 'en', '2026-10-01T00:00:00Z'), new Uint8Array([137, 80, 78, 71, 9]))
+    const res = await buildCard(b)
+    expect(res.status).toBe(200)
+    expect(res.headers.get('Content-Type')).toBe('image/png')
+    expect(new Uint8Array(await res.arrayBuffer())).toEqual(new Uint8Array([137, 80, 78, 71, 9]))
+    expect(render).not.toHaveBeenCalled()
+  })
+
+  it('stores what it renders, so another location serves it without rendering again', async () => {
+    const b = bucket()
+    await buildCard(b)
+    expect(b.put).toHaveBeenCalledWith(buildCardKey(ID, 'en', '2026-10-01T00:00:00Z'), expect.any(Uint8Array), expect.anything())
+    store.clear() // another Cloudflare location: its own empty cache
+    expect((await buildCard(b)).status).toBe(200)
+    expect(render).toHaveBeenCalledTimes(1)
+  })
+
+  it('a new build version gets a new card', async () => {
+    const b = bucket()
+    await buildCard(b)
+    buildRow!.updated_at = '2026-10-02T00:00:00Z'
+    store.clear()
+    await buildCard(b)
+    expect(render).toHaveBeenCalledTimes(2)
+  })
+
+  it('still renders when the bucket fails', async () => {
+    const failing = { get: vi.fn(async () => { throw new Error('R2 down') }), put: vi.fn(async () => { throw new Error('R2 down') }) }
+    const res = await worker.fetch(new Request(`https://dofusforge.com/og/en/${ID}.png`), env({ OG_BUCKET: failing }))
+    expect(res.status).toBe(200)
+    expect(render).toHaveBeenCalledTimes(1)
+  })
+
+  it('never serves the stored card of a build that is no longer public', async () => {
+    const b = bucket()
+    b.objects.set(buildCardKey(ID, 'en', '2026-10-01T00:00:00Z'), new Uint8Array([137, 80, 78, 71]))
+    buildRow = null
+    expect((await buildCard(b)).status).toBe(404)
+    expect(b.get).not.toHaveBeenCalled()
+  })
+
+  it('stores set and class cards under one key per page', async () => {
+    const b = bucket()
+    await worker.fetch(new Request('https://dofusforge.com/og/es/set/abyss-set.png'), env({ OG_BUCKET: b }))
+    expect(b.put).toHaveBeenCalledWith(pageCardKey('es', 'set', 'abyss-set'), expect.any(Uint8Array), expect.anything())
+    store.clear()
+    await worker.fetch(new Request('https://dofusforge.com/og/es/set/abyss-set.png'), env({ OG_BUCKET: b }))
+    expect(render).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not store anything for a set that does not exist', async () => {
+    const b = bucket()
+    expect((await worker.fetch(new Request('https://dofusforge.com/og/en/set/no-such-set.png'), env({ OG_BUCKET: b }))).status).toBe(404)
+    expect(b.put).not.toHaveBeenCalled()
   })
 })
 

@@ -2,11 +2,10 @@ import { Resvg } from '@cf-wasm/resvg/workerd'
 import cinzelBold from './fonts/Cinzel-Bold.ttf'
 import interRegular from './fonts/Inter-Regular.ttf'
 import jetBrainsMonoBold from './fonts/JetBrainsMono-Bold.ttf'
-import { renderBuildSvg, type OgFont } from './ogImage.ts'
-import { CARD_STATS, ELEMENT_COLOR, renderClassSvg, renderSetSvg, setFacts, setIdForSlug } from './ogPages.ts'
-import { fetchBuildMeta, fetchBuildPageMeta, profileExists, type BuildMeta, type BuildPageMeta } from './supabase.ts'
-import { getClassNames, getEquipment, getSets, getTranslation, statIconDataUri, toDataUri, type Lang } from './data.ts'
-import { buildOgImageData } from './buildImageData.ts'
+import type { OgFont } from './ogImage.ts'
+import { buildCardKey, interpolate, pageCardKey, renderBuildCard, renderClassCard, renderSetCard, type OgSources } from './ogRender.ts'
+import { fetchBuildMeta, fetchBuildPageMeta, profileExists, type BuildPageMeta } from './supabase.ts'
+import { getClassNames, getTranslation, type Lang } from './data.ts'
 import { withSecurityHeaders } from './securityHeaders.ts'
 
 type Env = {
@@ -15,6 +14,9 @@ type Env = {
   SUPABASE_ANON_KEY: string
   // items/<id>-128.png and chars/<path>, also public at VITE_ASSETS_URL.
   ASSETS_BUCKET?: R2Bucket
+  // Rendered share cards (keys in ogRender.ts). Private: no public domain, so
+  // the visibility check below stays the only way to a build's card.
+  OG_BUCKET?: R2Bucket
   // Optional "ratelimits" binding (docs/security/CLOUDFLARE_HARDENING.md);
   // without it renders are bounded only by the cache key below.
   OG_RATE_LIMITER?: { limit(options: { key: string }): Promise<{ success: boolean }> }
@@ -30,8 +32,6 @@ const BUILD_ROUTE = /^\/(?:(en|es|fr|pt)\/)?build\/([0-9a-f-]{36})(\.data)?\/?$/
 const PROFILE_ROUTE = /^\/(?:en\/|es\/|fr\/|pt\/)?u\/([^/]+?)(\.data)?\/?$/
 const OG_IMAGE_ROUTE = /^\/og\/(en|es|fr|pt)\/([0-9a-f-]{36})\.png$/i
 const PAGE_OG_ROUTE = /^\/og\/(en|es|fr|pt)\/(set|class)\/([a-z0-9-]{1,80})\.png$/
-// The brand mark drawn on every generated card (docs/brand/dofus-forge, --apply copies it).
-const LOGO_PATH = '/brand/mark-256.png'
 const CHAR_ROUTE = /^\/char\/((?:[\w-]+\/)*[\w.-]+\.(?:json|bin|webp))$/
 const CHAR_TYPES: Record<string, string> = { json: 'application/json', bin: 'application/octet-stream', webp: 'image/webp' }
 const ITEM_IMAGE_ROUTE = /^\/img\/item\/(\d+-(?:64|128)\.png)$/
@@ -107,128 +107,73 @@ const FONTS: OgFont[] = [
   { name: 'JetBrainsMono', data: jetBrainsMonoBold, weight: 700, style: 'normal' },
 ]
 
-function interpolate(template: string, vars: Record<string, string | number>): string {
-  return template.replace(/\{\{(\w+)\}\}/g, (_, key) => String(vars[key] ?? ''))
+const sources = (env: Env, origin: string): OgSources => ({ assets: env.ASSETS, origin, bucket: env.ASSETS_BUCKET, fonts: FONTS })
+
+// A build card's URL and key change with every edit, so it can stay a day at
+// the edge. A set/class card is overwritten in place when a game patch changes
+// it (scripts/og-pregenerate.ts), so locations keep it 6 h at most.
+const BUILD_CARD_CACHE = 'public, max-age=3600, s-maxage=86400'
+const PAGE_CARD_CACHE = 'public, max-age=3600, s-maxage=21600'
+
+async function rasterize(svg: string): Promise<Uint8Array> {
+  const resvg = await Resvg.async(svg)
+  return resvg.render().asPng()
 }
 
-async function renderOgImage(env: Env, origin: string, lang: Lang, build: BuildMeta): Promise<Response> {
-  // Stats must be computed from the English equipment/sets data, same as the
-  // client (store/dataStore.ts): STAT_MAP's keys are English effect names, so
-  // feeding it a localized item's `effects` (e.g. "vitalidad" instead of
-  // "Vitality") makes every gear bonus silently fall into unknownStats and
-  // the image shows only base characteristic points, nowhere near the real
-  // totals. The requested `lang` only overlays item *names* for display.
-  const [equipmentEn, setsEn, classNames, translation] = await Promise.all([
-    getEquipment(env.ASSETS, origin, 'en'),
-    getSets(env.ASSETS, origin, 'en'),
-    getClassNames(env.ASSETS, origin),
-    getTranslation(env.ASSETS, origin, lang),
-  ])
+/**
+ * A share card from this location's cache, else from the OG bucket, else
+ * rendered and then kept in both. A render costs 0.1–1.4 s of CPU, far past
+ * the Free plan's 10 ms per request; the bucket is shared by every
+ * Cloudflare location, so a card is rendered once in total rather than once
+ * per location and cache expiry, and the set/class cards are stored ahead of
+ * time by scripts/og-pregenerate.ts. Bucket errors fall through to
+ * rendering: never worse than without the bucket.
+ */
+async function serveCard(
+  request: Request,
+  env: Env,
+  ctx: ExecutionContext | undefined,
+  cacheUrl: string,
+  key: string,
+  cacheControl: string,
+  render: () => Promise<string | null>,
+): Promise<Response> {
+  const headers = { 'Content-Type': 'image/png', 'Cache-Control': cacheControl }
+  const cache = caches.default
+  const cacheKey = new Request(cacheUrl)
+  const cached = await cache.match(cacheKey)
+  if (cached) return cached
 
-  let equipment = equipmentEn
-  let sets = setsEn
-  if (lang !== 'en') {
-    const [equipmentLang, setsLang] = await Promise.all([
-      getEquipment(env.ASSETS, origin, lang),
-      getSets(env.ASSETS, origin, lang),
-    ])
-    const nameBySlotId = new Map(equipmentLang.map(it => [it.ankama_id, it.name]))
-    const setNameById = new Map(setsLang.map(s => [s.ankama_id, s.name]))
-    equipment = equipmentEn.map(it => ({ ...it, name: nameBySlotId.get(it.ankama_id) ?? it.name }))
-    sets = setsEn.map(s => ({ ...s, name: setNameById.get(s.ankama_id) ?? s.name }))
+  // Writes after the response when the runtime lets us; awaited in tests.
+  const pending: Promise<unknown>[] = []
+  const keep = (work: Promise<unknown> | undefined) => {
+    if (!work) return
+    const safe = work.catch(() => undefined)
+    if (ctx) ctx.waitUntil(safe)
+    else pending.push(safe)
   }
 
-  const classLabel = classNames[build.class_slug]?.[lang] ?? build.class_slug
+  const stored = await env.OG_BUCKET?.get(key).catch(() => null)
+  if (stored) {
+    const response = new Response(await stored.arrayBuffer(), { headers })
+    keep(cache.put(cacheKey, response.clone()))
+    await Promise.all(pending)
+    return response
+  }
 
-  const data = await buildOgImageData(env.ASSETS, origin, build, equipment, sets, classLabel, translation, env.ASSETS_BUCKET)
-  const portraitPath = `/data/classes/${build.class_slug}${build.gender === 'female' ? '-f' : ''}.png`
-  const portraitUri = await toDataUri(env.ASSETS, origin, portraitPath)
+  if (env.OG_RATE_LIMITER) {
+    const { success } = await env.OG_RATE_LIMITER.limit({ key: request.headers.get('cf-connecting-ip') ?? 'unknown' })
+    if (!success) return new Response('Too many requests', { status: 429, headers: { 'Retry-After': '60' } })
+  }
 
-  const logoUri = await toDataUri(env.ASSETS, origin, LOGO_PATH)
-
-  const svg = await renderBuildSvg({ ...data, portraitUrl: portraitUri ?? '', logoUrl: logoUri }, FONTS)
-  return pngResponse(svg)
-}
-
-async function pngResponse(svg: string): Promise<Response> {
-  const resvg = await Resvg.async(svg)
-  const png = resvg.render().asPng()
-  return new Response(png as BufferSource, {
-    headers: {
-      'Content-Type': 'image/png',
-      'Cache-Control': 'public, max-age=3600, s-maxage=86400',
-    },
-  })
-}
-
-async function renderSetOg(env: Env, origin: string, lang: Lang, slug: string): Promise<Response | null> {
-  const [setsEn, equipmentEn, setsLang, translation] = await Promise.all([
-    getSets(env.ASSETS, origin, 'en'),
-    getEquipment(env.ASSETS, origin, 'en'),
-    getSets(env.ASSETS, origin, lang),
-    getTranslation(env.ASSETS, origin, lang),
-  ])
-  const id = setIdForSlug(slug, setsEn, equipmentEn)
-  const set = id === undefined ? undefined : setsEn.find(s => s.ankama_id === id)
-  if (!set) return null
-
-  const facts = setFacts(set, equipmentEn)
-  const name = setsLang.find(s => s.ankama_id === id)?.name ?? set.name
-  const t = (key: string, vars: Record<string, string | number> = {}) => interpolate(translation[key] ?? key, vars)
-  const [items, totals, logoUri] = await Promise.all([
-    Promise.all(facts.items.slice(0, 9).map(async it => {
-      if (!it.image_url) return undefined
-      // Same fallback as /img/item: an icon missing from R2 comes from DofusDude's live CDN.
-      return (await toDataUri(env.ASSETS, origin, it.image_url, env.ASSETS_BUCKET))
-        ?? toDataUri(env.ASSETS, origin, `https://api.dofusdu.de/dofus3/v1/img/item/${it.image_url.split('/').pop()}`)
-    })),
-    Promise.all(facts.totals.slice(0, 6).map(async s => ({
-      iconUri: await statIconDataUri(env.ASSETS, origin, CARD_STATS[s.stat].icon),
-      label: t(CARD_STATS[s.stat].tKey),
-      value: s.value,
-      color: CARD_STATS[s.stat].color,
-    }))),
-    toDataUri(env.ASSETS, origin, LOGO_PATH),
-  ])
-  const prefix = lang === 'en' ? '' : `/${lang}`
-  const svg = await renderSetSvg({
-    kicker: t('sets_page_title'),
-    name,
-    chips: [
-      { label: t('sets_card_level', { level: facts.level }), color: '#eccb78' },
-      { label: t('sets_card_pieces_other', { count: facts.items.length }), color: '#9aa0b0' },
-      ...facts.elements.map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
-    ],
-    items,
-    totalsTitle: t('set_page_totals_title'),
-    totals,
-    logoUri,
-    url: `dofusforge.com${prefix}/sets/${slug}`,
-  }, FONTS)
-  return pngResponse(svg)
-}
-
-async function renderClassOg(env: Env, origin: string, lang: Lang, slug: string): Promise<Response | null> {
-  const [classNames, translation] = await Promise.all([getClassNames(env.ASSETS, origin), getTranslation(env.ASSETS, origin, lang)])
-  const className = classNames[slug]?.[lang]
-  if (!className) return null
-  const t = (key: string, vars: Record<string, string | number> = {}) => interpolate(translation[key] ?? key, vars)
-  const [portraitUri, logoUri] = await Promise.all([
-    toDataUri(env.ASSETS, origin, `/data/classes/${slug}.png`),
-    toDataUri(env.ASSETS, origin, LOGO_PATH),
-  ])
-  const prefix = lang === 'en' ? '' : `/${lang}`
-  const svg = await renderClassSvg({
-    kicker: 'Dofus 3',
-    title: t('class_guide_elements_title', { class: className }),
-    className,
-    portraitUri,
-    chips: (['earth', 'fire', 'water', 'air'] as const).map(e => ({ label: t(`elem_${e}_label`), color: ELEMENT_COLOR[e] })),
-    sections: [t('class_guide_nav_class_sets'), t('class_guide_nav_builds'), t('class_guide_nav_spells')],
-    logoUri,
-    url: `dofusforge.com${prefix}/classes/${slug}`,
-  }, FONTS)
-  return pngResponse(svg)
+  const svg = await render()
+  if (svg === null) return new Response('Not found', { status: 404 })
+  const png = await rasterize(svg)
+  const response = new Response(png as BufferSource, { headers })
+  keep(cache.put(cacheKey, response.clone()))
+  keep(env.OG_BUCKET?.put(key, png, { httpMetadata: { contentType: 'image/png' } }))
+  await Promise.all(pending)
+  return response
 }
 
 async function gameDataVersion(env: Env, origin: string): Promise<string> {
@@ -242,24 +187,19 @@ async function gameDataVersion(env: Env, origin: string): Promise<string> {
 
 // Set and class cards only change with the game data, so the cache key is the
 // data version — never the request's own query, which can't force a re-render.
-async function servePageOg(request: Request, env: Env, url: URL, lang: Lang, kind: 'set' | 'class', slug: string): Promise<Response> {
+async function servePageOg(request: Request, env: Env, ctx: ExecutionContext | undefined, url: URL, lang: Lang, kind: 'set' | 'class', slug: string): Promise<Response> {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET, HEAD' } })
   }
-  const cache = caches.default
-  const cacheKey = new Request(`${url.origin}/og/${lang}/${kind}/${slug}.png?data=${await gameDataVersion(env, url.origin)}`)
-  const cached = await cache.match(cacheKey)
-  if (cached) return cached
-
-  if (env.OG_RATE_LIMITER) {
-    const { success } = await env.OG_RATE_LIMITER.limit({ key: request.headers.get('cf-connecting-ip') ?? 'unknown' })
-    if (!success) return new Response('Too many requests', { status: 429, headers: { 'Retry-After': '60' } })
-  }
-
-  const response = kind === 'set' ? await renderSetOg(env, url.origin, lang, slug) : await renderClassOg(env, url.origin, lang, slug)
-  if (!response) return new Response('Not found', { status: 404 })
-  await cache.put(cacheKey, response.clone())
-  return response
+  const version = await gameDataVersion(env, url.origin)
+  const src = sources(env, url.origin)
+  return serveCard(
+    request, env, ctx,
+    `${url.origin}/og/${lang}/${kind}/${slug}.png?data=${version}`,
+    pageCardKey(lang, kind, slug),
+    PAGE_CARD_CACHE,
+    () => (kind === 'set' ? renderSetCard(src, lang, slug) : renderClassCard(src, lang, slug)),
+  )
 }
 
 async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string, build: BuildPageMeta, assetResponse: Response): Promise<Response> {
@@ -354,37 +294,31 @@ async function serveItemAsset(key: string, bucket: R2Bucket | undefined): Promis
   }
 }
 
-async function serveOgImage(request: Request, env: Env, url: URL, lang: Lang, id: string): Promise<Response> {
+async function serveOgImage(request: Request, env: Env, ctx: ExecutionContext | undefined, url: URL, lang: Lang, id: string): Promise<Response> {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     return new Response('Method not allowed', { status: 405, headers: { Allow: 'GET, HEAD' } })
   }
 
-  // The visibility check runs before the cache lookup, so an image cached
-  // while the build was public stops being served once it turns private,
-  // gets hidden by a moderator or is deleted (fetchBuildMeta is edge-cached
-  // for 60s, so that's the staleness window). The cache key is derived from
+  // The visibility check runs before any cache or bucket lookup, so a card
+  // stored while the build was public stops being served once it turns
+  // private, gets hidden by a moderator or is deleted (fetchBuildMeta is
+  // edge-cached for 60s, so that's the staleness window). The keys come from
   // the build, never from the request: an arbitrary ?query can't force a
-  // fresh render, and an edit (new updated_at) naturally gets a new image.
+  // fresh render, and an edit (new updated_at) naturally gets a new card.
   const build = await fetchBuildMeta(env, id)
   if (!build) return new Response('Not found', { status: 404 })
 
-  const cache = caches.default
-  const cacheKey = new Request(`${url.origin}/og/${lang}/${id}.png?v=${Date.parse(build.updated_at) || 0}`)
-  const cached = await cache.match(cacheKey)
-  if (cached) return cached
-
-  if (env.OG_RATE_LIMITER) {
-    const { success } = await env.OG_RATE_LIMITER.limit({ key: request.headers.get('cf-connecting-ip') ?? 'unknown' })
-    if (!success) return new Response('Too many requests', { status: 429, headers: { 'Retry-After': '60' } })
-  }
-
-  const response = await renderOgImage(env, url.origin, lang, build)
-  if (response.status === 200) await cache.put(cacheKey, response.clone())
-  return response
+  return serveCard(
+    request, env, ctx,
+    `${url.origin}/og/${lang}/${id}.png?v=${Date.parse(build.updated_at) || 0}`,
+    buildCardKey(id, lang, build.updated_at),
+    BUILD_CARD_CACHE,
+    () => renderBuildCard(sources(env, url.origin), lang, build),
+  )
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
     const url = new URL(request.url)
 
     const charMatch = url.pathname.match(CHAR_ROUTE)
@@ -397,7 +331,7 @@ export default {
     if (ogMatch) {
       const [, lang, id] = ogMatch
       try {
-        return withSecurityHeaders(await serveOgImage(request, env, url, lang as Lang, id))
+        return withSecurityHeaders(await serveOgImage(request, env, ctx, url, lang as Lang, id))
       } catch (e) {
         console.error('OG image render failed', e)
         return withSecurityHeaders(new Response('Internal error', { status: 500 }))
@@ -408,7 +342,7 @@ export default {
     if (pageOgMatch) {
       const [, lang, kind, slug] = pageOgMatch
       try {
-        return withSecurityHeaders(await servePageOg(request, env, url, lang as Lang, kind as 'set' | 'class', slug))
+        return withSecurityHeaders(await servePageOg(request, env, ctx, url, lang as Lang, kind as 'set' | 'class', slug))
       } catch (e) {
         console.error('page OG image render failed', e)
         return withSecurityHeaders(new Response('Internal error', { status: 500 }))
