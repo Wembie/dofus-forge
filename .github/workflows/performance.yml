@@ -86,10 +86,12 @@ jobs:
       # Share cards are rendered by the Worker (satori + resvg) inside workerd,
       # where a dependency can fail to load even though every Node test
       # passes: satori 0.33.5 made all of them answer 500 in production.
+      # -w ends with a newline: under bash -e, `read` fails on a last line
+      # without one, which made this step exit before checking anything.
       - name: Share images render in the Worker
         run: |
           for path in /og/en/class/iop.png /og/es/set/gobball-set.png; do
-            read -r code type < <(curl -s --max-time 90 -o "$RUNNER_TEMP/card.bin" -w '%{http_code} %{content_type}' "http://127.0.0.1:4173${path}" || echo "000 none")
+            read -r code type < <(curl -s --max-time 90 -o "$RUNNER_TEMP/card.bin" -w '%{http_code} %{content_type}\n' "http://127.0.0.1:4173${path}" || echo "000 none")
             echo "${path}: ${code} ${type}"
             if [ "$code" != "200" ] || [ "$type" != "image/png" ]; then
               echo "::error::${path} answered ${code} ${type}, expected 200 image/png"
