@@ -1,0 +1,160 @@
+name: Cloudflare preview
+
+# Every PR to main gets a preview job that waits for approval: it runs in the
+# `preview` environment, whose only required reviewer is the repository owner,
+# so the PR shows "Review deployments" and nothing builds or uploads until the
+# owner approves. The Cloudflare token is an environment secret: it exists
+# only inside an approved run.
+# Replaces Cloudflare Workers Builds' automatic branch previews (turned off in
+# the dashboard), which built and uploaded on every push. Setup:
+# docs/security/CLOUDFLARE_HARDENING.md ("PR previews").
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+# A new push replaces a run still waiting for approval: only the latest
+# commit asks to be deployed.
+concurrency:
+  group: cloudflare-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    # A fork's code never runs with the token.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: preview
+      url: ${{ steps.upload.outputs.url }}
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Check credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PREVIEW_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::CLOUDFLARE_PREVIEW_TOKEN (preview environment secret) / CLOUDFLARE_ACCOUNT_ID are not set."
+            exit 1
+          fi
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Same public client settings the production build gets from Cloudflare.
+      - name: Build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+        run: pnpm build
+
+      # Uploads a version without deploying it: production keeps serving the
+      # current deployment. The alias gives the PR one stable URL.
+      - name: Upload preview version
+        id: upload
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PREVIEW_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          set -euo pipefail
+          pnpm exec wrangler versions upload \
+            --preview-alias "pr-${PR_NUMBER}" \
+            --message "PR #${PR_NUMBER} ${HEAD_SHA:0:7}" | tee "$RUNNER_TEMP/upload.log"
+          alias_url=$(grep -oE 'https://pr-[0-9]+-dofus-forge\.[A-Za-z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/upload.log" | head -1 || true)
+          version_url=$(grep -oE 'https://[A-Za-z0-9-]+-dofus-forge\.[A-Za-z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/upload.log" | grep -v '://pr-' | head -1 || true)
+          url="${alias_url:-$version_url}"
+          if [ -z "$url" ]; then
+            echo "::error::wrangler did not print a preview URL."
+            exit 1
+          fi
+          echo "url=${url}" >> "$GITHUB_OUTPUT"
+          echo "version_url=${version_url}" >> "$GITHUB_OUTPUT"
+
+      # One comment per PR, edited in place: the alias URL on top and a row per
+      # deployed commit (newest first, last 10). Also runs when a step failed,
+      # so a failed attempt shows up as a row with its logs.
+      - name: Comment on the PR
+        if: success() || failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ job.status }}
+          URL: ${{ steps.upload.outputs.url }}
+          VERSION_URL: ${{ steps.upload.outputs.version_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          node --input-type=module <<'NODE'
+          const { GH_TOKEN, GITHUB_REPOSITORY: repo, GITHUB_SERVER_URL: server, PR_NUMBER, HEAD_SHA, STATUS, URL, VERSION_URL, RUN_URL } = process.env
+          const api = async (path, init = {}) => {
+            const res = await fetch(`https://api.github.com/${path}`, {
+              ...init,
+              headers: { Authorization: `Bearer ${GH_TOKEN}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+            })
+            if (!res.ok) throw new Error(`GitHub API ${res.status} on ${path}`)
+            return res.json()
+          }
+          const marker = '<!-- cloudflare-preview -->'
+          const comments = []
+          for (let page = 1; ; page++) {
+            const batch = await api(`repos/${repo}/issues/${PR_NUMBER}/comments?per_page=100&page=${page}`)
+            comments.push(...batch)
+            if (batch.length < 100) break
+          }
+          const existing = comments.find(c => c.user?.login === 'github-actions[bot]' && c.body?.startsWith(marker))
+          const oldBody = existing?.body ?? ''
+
+          const ok = STATUS === 'success'
+          const short = HEAD_SHA.slice(0, 7)
+          const commit = `[\`${short}\`](${server}/${repo}/commit/${HEAD_SHA})`
+          const updated = new Date().toISOString().replace('T', ' ').slice(0, 16)
+          const state = ok ? '✅ Build · ✅ Upload' : '❌ Failed'
+          const row = `| ${state} | ${ok ? VERSION_URL || URL : '—'} | ${commit} | ${updated} | [Logs ↗](${RUN_URL}) |`
+          const oldRows = oldBody.split('\n').filter(line => line.startsWith('| ') && line.includes('/commit/') && !line.includes(`/commit/${HEAD_SHA})`))
+          const rows = [row, ...oldRows].slice(0, 10)
+
+          // The alias keeps serving the last good upload when a run fails.
+          const alias = URL || oldBody.match(/\*\*Preview URL:\*\* (\S+)/)?.[1]
+          const lines = [
+            marker,
+            '## 🚀 Cloudflare preview',
+            '',
+            alias ? `**Preview URL:** ${alias}` : '**Preview URL:** — (no successful upload yet)',
+            '',
+            ok
+              ? `<sub>Latest approved commit: ${commit}. This URL always serves the newest preview of this PR.</sub>`
+              : `<sub>The last attempt (${commit}) failed: [logs](${RUN_URL}).${alias ? ' The URL above still serves the previous preview.' : ''}</sub>`,
+            '',
+            '### Deployments by commit',
+            '',
+            '| Status | Deployment URL | Commit | Updated (UTC) | Run |',
+            '|---|---|---|---|---|',
+            ...rows,
+            '',
+            '<sub>Built only after the repository owner approves it (Review deployments). Production is not affected.</sub>',
+          ]
+          const body = JSON.stringify({ body: lines.join('\n') })
+          if (existing) await api(`repos/${repo}/issues/comments/${existing.id}`, { method: 'PATCH', body })
+          else await api(`repos/${repo}/issues/${PR_NUMBER}/comments`, { method: 'POST', body })
+          NODE

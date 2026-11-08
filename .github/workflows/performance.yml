@@ -131,7 +131,9 @@ jobs:
     needs: local-smoke
     # Paused unless the repository variable CLOUDFLARE_PREVIEW_SMOKE is "true"
     # (Settings → Secrets and variables → Actions → Variables); no code change
-    # needed to turn it back on.
+    # needed to turn it back on. It waits for Cloudflare's own Workers Builds
+    # preview, which is now off for PRs (previews are approved by hand in
+    # preview.yml): point it at that workflow's comment before re-enabling.
     if: >-
       vars.CLOUDFLARE_PREVIEW_SMOKE == 'true' &&
       github.event_name == 'pull_request' &&

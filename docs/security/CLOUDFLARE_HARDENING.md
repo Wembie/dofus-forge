@@ -90,6 +90,14 @@ AdSense loads from a long, changing list of Google domains, so an enforcing CSP 
 - [ ] `dofus-forge-backups` has **no public access** of any kind.
 - [ ] Workers & Pages → `dofus-forge` → **Preview URLs**: decide whether `*.workers.dev` previews should be public. They run the same code against the production Supabase project.
 
+### PR previews (owner approval)
+Every PR to `main` gets a preview job (`.github/workflows/preview.yml`) that waits in the `preview` environment: nothing builds or uploads until the owner clicks **Review deployments → Approve and deploy** on the PR. The approved run builds the PR, uploads a Worker version without deploying it (`wrangler versions upload --preview-alias pr-<n>`) and comments the URL on the PR. A new push replaces a run still waiting. PRs from forks are skipped. Production deploys from `main` are unchanged (Workers Builds).
+
+- [ ] Workers & Pages → `dofus-forge` → Settings → Build → Previews: **Builds for Preview branches off**. Otherwise Workers Builds keeps building every push as before.
+- [ ] GitHub → Settings → Environments → **`preview`**: Required reviewers = the owner only, "Prevent self-review" **off** (the owner opens the PRs), "Allow administrators to bypass" off.
+- [ ] In that environment, secret `CLOUDFLARE_PREVIEW_TOKEN`: API token with **Workers Scripts: Edit** on this account only (the repo's `CLOUDFLARE_API_TOKEN` stays R2-only). As an environment secret it only exists inside an approved run: if the environment were ever left without its reviewer, a run would still have no token and fail. `CLOUDFLARE_ACCOUNT_ID` is the existing repository secret.
+- [ ] Repository variables `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`: the same public values the production build uses.
+
 ### Account
 - [ ] 2FA on the Cloudflare account and on every member.
 - [ ] API tokens scoped to the minimum: `CLOUDFLARE_API_TOKEN` in GitHub only needs R2 write on the two buckets.

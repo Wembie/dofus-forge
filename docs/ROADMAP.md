@@ -276,3 +276,5 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 - [] Que en la parte del set se ponga la version de dofus en el cual se creo, para asi saber y si despues de x tiempo quedo desactualizado o no o tal, validar muy bien eso
 
 - [] idealizar una forma cada vez que añadan cosas nuevas, tanto clases, hechizos, sets, items, runas, etc etc que se pueda hacer un test automatico (con todo lo que tiene) para validar que todo este bien y no se rompa nada, y que el simulador sea lo mas real posible a lo que es dofus en cuanto a hechizos, cargas, efectos, sets, bonus de set, runas y demas, y aparte que se agreguen automaticamente sin la necesidad de tocar codigo
+
+- [] Como feedback, te comento que algunas cajas visuales(como las de los daños de hechizos) se cortan en la pantalla de mi celular. by: FabryGreen
