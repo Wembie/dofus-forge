@@ -93,20 +93,68 @@ jobs:
           echo "url=${url}" >> "$GITHUB_OUTPUT"
           echo "version_url=${version_url}" >> "$GITHUB_OUTPUT"
 
-      - name: Comment the preview URL
+      # One comment per PR, edited in place: the alias URL on top and a row per
+      # deployed commit (newest first, last 10). Also runs when a step failed,
+      # so a failed attempt shows up as a row with its logs.
+      - name: Comment on the PR
+        if: success() || failure()
         env:
           GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ job.status }}
           URL: ${{ steps.upload.outputs.url }}
           VERSION_URL: ${{ steps.upload.outputs.version_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          set -euo pipefail
-          marker='<!-- cloudflare-preview -->'
-          body=$(printf '%s\n**Cloudflare preview** for `%s`: %s\n\nThis commit only: %s\n' \
-            "$marker" "${HEAD_SHA:0:7}" "$URL" "${VERSION_URL:-—}")
-          existing=$(gh api --paginate "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
-            --jq "[.[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"${marker}\")))][0].id // empty" | head -1)
-          if [ -n "$existing" ]; then
-            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${existing}" -f body="$body" > /dev/null
-          else
-            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$body" > /dev/null
-          fi
+          node --input-type=module <<'NODE'
+          const { GH_TOKEN, GITHUB_REPOSITORY: repo, GITHUB_SERVER_URL: server, PR_NUMBER, HEAD_SHA, STATUS, URL, VERSION_URL, RUN_URL } = process.env
+          const api = async (path, init = {}) => {
+            const res = await fetch(`https://api.github.com/${path}`, {
+              ...init,
+              headers: { Authorization: `Bearer ${GH_TOKEN}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+            })
+            if (!res.ok) throw new Error(`GitHub API ${res.status} on ${path}`)
+            return res.json()
+          }
+          const marker = '<!-- cloudflare-preview -->'
+          const comments = []
+          for (let page = 1; ; page++) {
+            const batch = await api(`repos/${repo}/issues/${PR_NUMBER}/comments?per_page=100&page=${page}`)
+            comments.push(...batch)
+            if (batch.length < 100) break
+          }
+          const existing = comments.find(c => c.user?.login === 'github-actions[bot]' && c.body?.startsWith(marker))
+          const oldBody = existing?.body ?? ''
+
+          const ok = STATUS === 'success'
+          const short = HEAD_SHA.slice(0, 7)
+          const commit = `[\`${short}\`](${server}/${repo}/commit/${HEAD_SHA})`
+          const updated = new Date().toISOString().replace('T', ' ').slice(0, 16)
+          const state = ok ? '✅ Build · ✅ Upload' : '❌ Failed'
+          const row = `| ${state} | ${ok ? VERSION_URL || URL : '—'} | ${commit} | ${updated} | [Logs ↗](${RUN_URL}) |`
+          const oldRows = oldBody.split('\n').filter(line => line.startsWith('| ') && line.includes('/commit/') && !line.includes(`/commit/${HEAD_SHA})`))
+          const rows = [row, ...oldRows].slice(0, 10)
+
+          // The alias keeps serving the last good upload when a run fails.
+          const alias = URL || oldBody.match(/\*\*Preview URL:\*\* (\S+)/)?.[1]
+          const lines = [
+            marker,
+            '## 🚀 Cloudflare preview',
+            '',
+            alias ? `**Preview URL:** ${alias}` : '**Preview URL:** — (no successful upload yet)',
+            '',
+            ok
+              ? `<sub>Latest approved commit: ${commit}. This URL always serves the newest preview of this PR.</sub>`
+              : `<sub>The last attempt (${commit}) failed: [logs](${RUN_URL}).${alias ? ' The URL above still serves the previous preview.' : ''}</sub>`,
+            '',
+            '### Deployments by commit',
+            '',
+            '| Status | Deployment URL | Commit | Updated (UTC) | Run |',
+            '|---|---|---|---|---|',
+            ...rows,
+            '',
+            '<sub>Built only after the repository owner approves it (Review deployments). Production is not affected.</sub>',
+          ]
+          const body = JSON.stringify({ body: lines.join('\n') })
+          if (existing) await api(`repos/${repo}/issues/comments/${existing.id}`, { method: 'PATCH', body })
+          else await api(`repos/${repo}/issues/${PR_NUMBER}/comments`, { method: 'POST', body })
+          NODE
