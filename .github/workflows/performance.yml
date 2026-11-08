@@ -82,6 +82,20 @@ jobs:
           echo "Preview server did not start in time" >&2
           exit 1
 
+      # Share cards are rendered by the Worker (satori + resvg) inside workerd,
+      # where a dependency can fail to load even though every Node test
+      # passes: satori 0.33.5 made all of them answer 500 in production.
+      - name: Share images render in the Worker
+        run: |
+          for path in /og/en/class/iop.png /og/es/set/gobball-set.png; do
+            read -r code type < <(curl -s -o /dev/null -w '%{http_code} %{content_type}' "http://127.0.0.1:4173${path}")
+            echo "${path}: ${code} ${type}"
+            if [ "$code" != "200" ] || [ "$type" != "image/png" ]; then
+              echo "::error::${path} answered ${code} ${type}, expected 200 image/png"
+              exit 1
+            fi
+          done
+
       - name: Set up k6
         uses: grafana/setup-k6-action@43b9fc21641a76002687994433dd586f56e791b1 # v1.2.2
 

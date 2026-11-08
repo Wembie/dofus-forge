@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.144] — 2026-11-08
+- **Fix**: every share image (`/og/*`: builds, set pages, class guides) answered 500 since 0.3.143. The satori version bumped there for its SVG-escaping advisory loads HarfBuzz in a way Cloudflare Workers cannot run (`TypeError: Cannot read properties of undefined (reading 'href')` from `harfbuzzjs`), while Node — where the tests run — loads it fine. Back to satori 0.30 (the version 0.3.140 had tested in the Worker). The advisory stays open: our SVG is only ever rasterized to PNG by resvg inside the Worker and never served. The Performance smoke check now requests a class and a set share image from the local Worker (`wrangler dev`, same runtime as production) and fails unless both come back as PNG
+- **CI**: PR previews are no longer built on every push by Cloudflare; each PR gets a preview job that waits for the owner's approval (`.github/workflows/preview.yml`) and comments a table of deployments by commit. Workers Logs (Observability) are on, within the Free plan's daily quota
+
 ## [0.3.143] — 2026-11-06
 - **Fix (security)**: bumped `satori` (renders the `/og/*` share-card images) past a moderate advisory for improper SVG escaping (GHSA-wx4j-mvgx-mqwp)
 - **Perf**: `public/data/*` (item/set/index JSON) now sends a real `Cache-Control` header instead of falling back to the default — fewer revalidations on repeat visits

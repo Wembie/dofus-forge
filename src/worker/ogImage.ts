@@ -1,3 +1,7 @@
+// satori stays on 0.30: from 0.33.5 it loads harfbuzzjs, which throws on load
+// inside the Worker ("Cannot read properties of undefined (reading 'href')"),
+// so every /og/* image answered 500 in 0.3.143. Node tests pass either way;
+// the Performance smoke check renders one in workerd and catches it.
 import satori from 'satori'
 
 export type OgBadge = { iconUri?: string; label: string; value: number; suffix?: string; color: string }

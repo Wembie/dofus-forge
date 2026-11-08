@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.144',
+    date: '2026-11-08',
+    notes: [
+      'Fixed: link previews (the image shown when a build, set or class guide is shared on Discord, WhatsApp, X…) were broken since the last update',
+    ],
+  },
+  {
     version: '0.3.143',
     date: '2026-11-06',
     notes: [
