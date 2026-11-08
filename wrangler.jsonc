@@ -36,7 +36,8 @@
     // Rendered share cards (src/worker/ogRender.ts keys). Private on purpose:
     // no custom domain or r2.dev URL, so a build's card is only reachable
     // through the Worker's visibility check. A lifecycle rule expires objects
-    // after 180 days (old versions; live ones are re-rendered on demand).
+    // after 60 days: old versions go, live ones are re-rendered (set/class cards by
+    // the og-images job within 6 h, build cards on their next request).
     { "binding": "OG_BUCKET", "bucket_name": "dofus-forge-og" }
   ],
   "vars": {

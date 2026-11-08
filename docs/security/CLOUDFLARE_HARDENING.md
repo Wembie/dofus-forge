@@ -88,7 +88,7 @@ AdSense loads from a long, changing list of Google domains, so an enforcing CSP 
 - [ ] No leftover grey-cloud records pointing at old hosts (GitHub Pages, previews).
 - [ ] `assets.dofusforge.com` is an R2 custom domain. Confirm the `dofus-forge-assets` bucket has **public r2.dev access disabled**, so it is only reachable through the custom domain with Cloudflare in front.
 - [ ] `dofus-forge-backups` has **no public access** of any kind.
-- [x] `dofus-forge-og` (rendered share cards) has no custom domain and no r2.dev URL: a build's card must only be reachable through the Worker, which checks the build is still public. Lifecycle rule: objects expire after 180 days.
+- [x] `dofus-forge-og` (rendered share cards) has no custom domain and no r2.dev URL: a build's card must only be reachable through the Worker, which checks the build is still public. Lifecycle rule: objects expire after 60 days.
 - [ ] Workers & Pages → `dofus-forge` → **Preview URLs**: decide whether `*.workers.dev` previews should be public. They run the same code against the production Supabase project.
 
 ### PR previews (owner approval)
