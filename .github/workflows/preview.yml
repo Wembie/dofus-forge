@@ -1,33 +1,42 @@
 name: Cloudflare preview
 
-# A preview for one PR, only when the owner asks for it: Actions → "Cloudflare
-# preview" → Run workflow → PR number. Nothing runs on its own (no push or PR
-# trigger), and only users with write access can start a manual run.
+# Every PR to main gets a preview job that waits for approval: it runs in the
+# `preview` environment, whose only required reviewer is the repository owner,
+# so the PR shows "Review deployments" and nothing builds or uploads until the
+# owner approves. The Cloudflare token is an environment secret: it exists
+# only inside an approved run.
 # Replaces Cloudflare Workers Builds' automatic branch previews (turned off in
 # the dashboard), which built and uploaded on every push. Setup:
 # docs/security/CLOUDFLARE_HARDENING.md ("PR previews").
 on:
-  workflow_dispatch:
-    inputs:
-      pr:
-        description: PR number
-        required: true
-        type: number
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
 
+# A new push replaces a run still waiting for approval: only the latest
+# commit asks to be deployed.
 concurrency:
-  group: cloudflare-preview-${{ inputs.pr }}
+  group: cloudflare-preview-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   deploy:
+    # A fork's code never runs with the token.
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment:
+      name: preview
+      url: ${{ steps.upload.outputs.url }}
     permissions:
       contents: read
       pull-requests: write
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - name: Check credentials
         env:
@@ -35,35 +44,14 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "::error::Repository secrets CLOUDFLARE_PREVIEW_TOKEN / CLOUDFLARE_ACCOUNT_ID are not set."
+            echo "::error::CLOUDFLARE_PREVIEW_TOKEN (preview environment secret) / CLOUDFLARE_ACCOUNT_ID are not set."
             exit 1
           fi
-
-      # Only open PRs from this repository: a fork's code never runs with the token.
-      - name: Resolve the PR
-        id: pr
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ inputs.pr }}
-        run: |
-          set -euo pipefail
-          pr=$(gh api "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}")
-          state=$(jq -r '.state' <<< "$pr")
-          head_repo=$(jq -r '.head.repo.full_name // empty' <<< "$pr")
-          if [ "$state" != "open" ]; then
-            echo "::error::PR #${PR_NUMBER} is ${state}."
-            exit 1
-          fi
-          if [ "$head_repo" != "$GITHUB_REPOSITORY" ]; then
-            echo "::error::PR #${PR_NUMBER} comes from ${head_repo:-a deleted fork}; previews only build branches of this repository."
-            exit 1
-          fi
-          echo "sha=$(jq -r '.head.sha' <<< "$pr")" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
-          ref: ${{ steps.pr.outputs.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
 
@@ -90,8 +78,6 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PREVIEW_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           WRANGLER_SEND_METRICS: 'false'
-          PR_NUMBER: ${{ inputs.pr }}
-          HEAD_SHA: ${{ steps.pr.outputs.sha }}
         run: |
           set -euo pipefail
           pnpm exec wrangler versions upload \
@@ -110,8 +96,6 @@ jobs:
       - name: Comment the preview URL
         env:
           GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ inputs.pr }}
-          HEAD_SHA: ${{ steps.pr.outputs.sha }}
           URL: ${{ steps.upload.outputs.url }}
           VERSION_URL: ${{ steps.upload.outputs.version_url }}
         run: |
