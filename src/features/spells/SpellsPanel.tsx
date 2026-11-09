@@ -609,9 +609,19 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-semibold truncate leading-tight mb-1" style={{ color, textShadow: `0 0 12px color-mix(in srgb, ${color} 40%, transparent)` }}>
-          {spell.name}
-        </p>
+        <div className="flex items-center gap-1.5 mb-1">
+          <p className="text-[13px] font-semibold truncate leading-tight" style={{ color, textShadow: `0 0 12px color-mix(in srgb, ${color} 40%, transparent)` }}>
+            {spell.name}
+          </p>
+          {spell.is_variant && (
+            <span
+              className="flex-shrink-0 px-1 py-px rounded text-[8px] uppercase tracking-wider font-semibold"
+              style={{ background: 'color-mix(in srgb, var(--gold-deep) 18%, transparent)', color: 'var(--gold-muted)' }}
+            >
+              {t('spell_variant_badge')}
+            </span>
+          )}
+        </div>
 
         {lvl && (
           <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
@@ -1083,6 +1093,11 @@ export function SpellsPanel() {
   const variantSpells = allClassSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
   const normalCommon  = allCommonSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
   const variantCommon = allCommonSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
+  // Narrow screens: one column, spell immediately followed by its own variant
+  // (source data is always ordered normal,variant,normal,variant…) instead of
+  // two side-by-side columns that squeeze each card's content.
+  const classSpellsOrdered  = allClassSpells.filter(sp => elemFilter === 'all' || sp.element === elemFilter)
+  const commonSpellsOrdered = allCommonSpells.filter(sp => elemFilter === 'all' || sp.element === elemFilter)
 
   const ELEM_KEYS: Record<AppSpellElement, string> = {
     earth:   'elem_earth',
@@ -1180,34 +1195,43 @@ export function SpellsPanel() {
         !classData ? (
           <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
         ) : (
-          <div className="grid grid-cols-2 gap-x-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5 mb-2">
-                <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-                  {t('spell_col_normal')}
-                </p>
-              </div>
-              {normalSpells.length === 0 ? (
+          <>
+            <div className="sm:hidden space-y-2">
+              {classSpellsOrdered.length === 0 ? (
                 <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-              ) : normalSpells.map(spell => (
+              ) : classSpellsOrdered.map(spell => (
                 <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
               ))}
             </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5 mb-2">
-                <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-                  {t('spell_col_variant')}
-                </p>
+            <div className="hidden sm:grid grid-cols-2 gap-x-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
+                  <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
+                    {t('spell_col_normal')}
+                  </p>
+                </div>
+                {normalSpells.length === 0 ? (
+                  <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
+                ) : normalSpells.map(spell => (
+                  <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
+                ))}
               </div>
-              {variantSpells.length === 0 ? (
-                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-              ) : variantSpells.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-              ))}
+              <div className="space-y-2">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
+                  <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
+                    {t('spell_col_variant')}
+                  </p>
+                </div>
+                {variantSpells.length === 0 ? (
+                  <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
+                ) : variantSpells.map(spell => (
+                  <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
+                ))}
+              </div>
             </div>
-          </div>
+          </>
         )
       )}
 
@@ -1220,7 +1244,14 @@ export function SpellsPanel() {
               {t('common_spells')}
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-x-4">
+          <div className="sm:hidden space-y-2">
+            {commonSpellsOrdered.length === 0 ? (
+              <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
+            ) : commonSpellsOrdered.map(spell => (
+              <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
+            ))}
+          </div>
+          <div className="hidden sm:grid grid-cols-2 gap-x-4">
             <div className="space-y-2">
               <div className="flex items-center gap-1.5 mb-2">
                 <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />

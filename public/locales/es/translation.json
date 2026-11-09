@@ -201,6 +201,7 @@
   "unequip_btn": "Quitar",
   "spell_col_normal": "Hechizos",
   "spell_col_variant": "Variantes",
+  "spell_variant_badge": "Variante",
   "spell_melee": "Cuerpo a cuerpo",
   "spell_support": "Soporte / Utilidad",
   "spell_push": "Empuja {{cells}}",

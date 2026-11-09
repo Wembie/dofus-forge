@@ -12,6 +12,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: '2026-11-09',
     notes: [
       'Fixed: the spell damage breakdown tooltip could get cut off at the edge of the screen on mobile (reported by FabryGreen)',
+      'Improved: the spell list on mobile is now a single column (spell, its variant, next spell…) instead of two squeezed side-by-side columns, with a small "Variant" tag so it stays clear which is which',
     ],
   },
   {
