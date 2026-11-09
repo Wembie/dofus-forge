@@ -281,3 +281,5 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 
 
 - [] Que los admins puedan ver cuando se meten a un perfil de una persona ver todos los stats del mismo y aparte todas las builds ocultas o privadas (etc), para mantener una trazabilidad
+
+ - [] agregar un atajo en la parte de cuando selecciona los items... algo para equipar todo el set de una, como shift + cllick iZQUIERDO O ALGO ASi, no se pensarle bien
