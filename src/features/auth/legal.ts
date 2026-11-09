@@ -24,6 +24,12 @@ export function legalAcceptance(docs: LegalDoc[], now = new Date()): LegalAccept
   return acceptance
 }
 
+/** The documents' own pages, in any language: the consent dialog must not
+ * cover the text it asks the user to read. */
+export function isLegalPage(pathname: string): boolean {
+  return /^\/(?:(?:es|fr|pt)\/)?(?:terms|privacy)\/?$/.test(pathname)
+}
+
 /** Documents the user has not accepted in their current version. */
 export function pendingLegalDocs(user: Pick<User, 'user_metadata'> | null | undefined): LegalDoc[] {
   if (!user) return []

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { LEGAL_DOCS, LEGAL_VERSIONS, legalAcceptance, pendingLegalDocs } from '../legal.ts'
+import { LEGAL_DOCS, LEGAL_VERSIONS, isLegalPage, legalAcceptance, pendingLegalDocs } from '../legal.ts'
 
 const ROOT = join(__dirname, '..', '..', '..', '..')
 const user = (meta: Record<string, unknown>) => ({ user_metadata: meta })
@@ -25,6 +25,11 @@ describe('legal acceptance', () => {
   it('asks again only for the document whose version changed', () => {
     expect(pendingLegalDocs(user({ ...legalAcceptance(LEGAL_DOCS), privacy_version: '2000-01-01' }))).toEqual(['privacy'])
     expect(pendingLegalDocs(user(legalAcceptance(LEGAL_DOCS)))).toEqual([])
+  })
+
+  it('never covers the legal pages it links to, in any language', () => {
+    for (const path of ['/terms', '/privacy', '/es/terms', '/fr/privacy', '/pt/terms/', '/es/privacy']) expect(isLegalPage(path), path).toBe(true)
+    for (const path of ['/', '/es', '/explore', '/es/explore', '/account', '/u/terms', '/build/privacy']) expect(isLegalPage(path), path).toBe(false)
   })
 
   it('never blocks signed-out visitors', () => {

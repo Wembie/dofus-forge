@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router'
 import { ScrollText } from 'lucide-react'
 import { Modal, Button } from '@/ui'
 import { useAuthStore } from '@/store/authStore.ts'
 import { LegalConsentChecks } from './LegalConsentChecks.tsx'
-import { pendingLegalDocs, type LegalDoc } from './legal.ts'
+import { isLegalPage, pendingLegalDocs, type LegalDoc } from './legal.ts'
 
 const noop = () => {}
 
@@ -22,8 +23,9 @@ export function ConsentGate() {
   const [busy, setBusy]       = useState(false)
   const [error, setError]     = useState<string | null>(null)
 
+  const { pathname } = useLocation()
   const pending = pendingLegalDocs(session?.user)
-  const open = pending.length > 0 && !recovering
+  const open = pending.length > 0 && !recovering && !isLegalPage(pathname)
   const ready = pending.every(doc => checked[doc])
 
   async function accept(e: React.FormEvent) {
