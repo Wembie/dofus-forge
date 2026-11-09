@@ -40,6 +40,38 @@ jobs:
             echo "::notice::Docs-only change (Markdown, docs/, LICENSE): skipping build and test jobs"
           fi
 
+  # ── PR metadata ───────────────────────────────────────────────────────
+  # Runs on every PR, docs-only included — no checkout needed, title/body
+  # come straight from the pull_request event payload.
+  pr-metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Validate PR title (Conventional Commits)
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [ "${#PR_TITLE}" -gt 72 ]; then
+            echo "::error::PR title is ${#PR_TITLE} chars, must be <= 72: $PR_TITLE"
+            exit 1
+          fi
+          if ! printf '%s' "$PR_TITLE" | grep -qE '^(feat|fix|refactor|chore|style|perf|docs|test|ci|build)(\([a-z0-9_-]+\))?: .+'; then
+            echo "::error::PR title must follow Conventional Commits — type(scope): description. Allowed types: feat, fix, refactor, chore, style, perf, docs, test, ci, build. Got: $PR_TITLE"
+            exit 1
+          fi
+
+      - name: Validate PR has a real description
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          trimmed=$(printf '%s' "$PR_BODY" | tr -d '[:space:]')
+          if [ "${#trimmed}" -lt 10 ]; then
+            echo "::error::PR description is missing or too short — explain the why and what changed, not just the title again."
+            exit 1
+          fi
+
   # ── Build, lint, type-check, tests ───────────────────────────────────
   validate:
     needs: changes
