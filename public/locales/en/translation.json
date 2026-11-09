@@ -200,6 +200,7 @@
   "unequip_btn": "Unequip",
   "spell_col_normal": "Spells",
   "spell_col_variant": "Variants",
+  "spell_variant_badge": "Variant",
   "spell_melee": "Melee",
   "spell_support": "Support / Utility",
   "spell_push": "Push {{cells}}",

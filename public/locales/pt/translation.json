@@ -200,6 +200,7 @@
   "unequip_btn": "Retirar",
   "spell_col_normal": "Feitiços",
   "spell_col_variant": "Variantes",
+  "spell_variant_badge": "Variante",
   "spell_melee": "Corpo a corpo",
   "spell_support": "Suporte / Utilidade",
   "spell_push": "Recua {{cells}}",

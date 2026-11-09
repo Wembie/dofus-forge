@@ -200,6 +200,7 @@
   "unequip_btn": "Retirer",
   "spell_col_normal": "Sorts",
   "spell_col_variant": "Variantes",
+  "spell_variant_badge": "Variante",
   "spell_melee": "Mêlée",
   "spell_support": "Soutien / Utilité",
   "spell_push": "Recule {{cells}}",

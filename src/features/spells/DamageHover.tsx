@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import type { StatBlock } from '@/engine/types.ts'
@@ -51,6 +51,8 @@ function BreakdownCard({ anchor, roll, elem, stats, mods, extraFlat, kind, crit 
   extraFlat: number; kind: 'spell' | 'weapon'; crit: boolean
 }) {
   const { t, i18n } = useTranslation()
+  const ref = useRef<HTMLDivElement>(null)
+  const [top, setTop] = useState<number | null>(null)
   const lo = damageBreakdown(roll[0], elem, stats, mods, extraFlat)
   const hi = damageBreakdown(roll[1], elem, stats, mods, extraFlat)
   const mult   = (pct: number) => `×${(pct / 100).toLocaleString(i18n.language, { maximumFractionDigits: 2 })}`
@@ -82,17 +84,25 @@ function BreakdownCard({ anchor, roll, elem, stats, mods, extraFlat, kind, crit 
     rows.push({ label: t('stat_target_vulnerability'), factor: mult(100 + lo.vulnerabilityPct), value: fmtRange(lo.total, hi.total) })
   }
 
-  const left  = Math.max(8, Math.min(anchor.left + anchor.width / 2 - WIDTH / 2, window.innerWidth - WIDTH - 8))
-  const below = anchor.bottom + 240 < window.innerHeight
+  const left = Math.max(8, Math.min(anchor.left + anchor.width / 2 - WIDTH / 2, window.innerWidth - WIDTH - 8))
+
+  // Position against the card's real height (not a guess) so it never runs off
+  // either edge of a short mobile viewport — the bug report (ROADMAP #281).
+  useLayoutEffect(() => {
+    const h = ref.current?.offsetHeight ?? 0
+    const below = anchor.bottom + h + 6 <= window.innerHeight - 8
+    setTop(below ? Math.min(anchor.bottom + 6, window.innerHeight - h - 8) : Math.max(anchor.top - h - 6, 8))
+  }, [anchor])
 
   return (
     <div
+      ref={ref}
       role="tooltip"
       className="fixed z-[200] pointer-events-none rounded-md border p-2 text-[11px]"
       style={{
         left, width: WIDTH,
-        top:         below ? anchor.bottom + 6 : anchor.top - 6,
-        transform:   below ? undefined : 'translateY(-100%)',
+        top:         top ?? anchor.bottom + 6,
+        visibility:  top === null ? 'hidden' : 'visible',
         background:  'var(--surface-parchment)',
         borderColor: 'var(--metal-edge)',
         color:       'var(--ink)',

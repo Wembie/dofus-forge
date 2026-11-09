@@ -59,7 +59,10 @@ describe('SpellsPanel item modifiers', () => {
 
     render(<SpellsPanel />)
 
-    const spellCard = screen.getByText('Tyrannical Arrow').closest('.rounded-lg')!
+    // The mobile (single column) and desktop (two columns) layouts both
+    // render in the DOM — CSS picks which is visible — so each spell appears
+    // twice; either copy carries the same content.
+    const spellCard = screen.getAllByText('Tyrannical Arrow')[0].closest('.rounded-lg')!
     expect(spellCard.textContent).toContain('1–11')
     expect(spellCard.textContent).toContain('Tyrannical Arrow: +3 Maximum Range')
 
