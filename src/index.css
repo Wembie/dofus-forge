@@ -28,6 +28,7 @@
   --gold-bright: #eccb78;
   --gold-deep:  #7f6428;
   --gold-muted: #a6864a;  /* text-safe gold-deep: 4.5:1 on surface-parchment (gold-deep is 2.9:1, borders only) */
+  --brand-hot:  #fff1c9;  /* the molten core of the brand mark only (BrandMark.tsx) */
 
   /* ── Ink (text) ── */
   --ink:        #e9e5da;
@@ -138,6 +139,7 @@
   --gold-bright: #a87000;
   --gold-deep:  #5a3a00;
   --gold-muted: #5a3a00;
+  --brand-hot:  #c9a24b;
 
   --ink:        #1a1a2e;
   --ink-muted:  #5a5a72;
