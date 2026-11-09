@@ -4,6 +4,8 @@ import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
 import { Modal, Button, PasswordInput } from '@/ui'
 import { useAuthStore } from '@/store/authStore.ts'
 import { Turnstile } from '@/components/Turnstile.tsx'
+import { LegalConsentChecks } from './LegalConsentChecks.tsx'
+import { LEGAL_DOCS, type LegalDoc } from './legal.ts'
 
 type Mode = 'signin' | 'signup' | 'forgot'
 
@@ -23,6 +25,8 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   const [resetSent, setResetSent] = useState(false)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [turnstileKey, setTurnstileKey] = useState(0)
+  const [accepted, setAccepted] = useState<Partial<Record<LegalDoc, boolean>>>({})
+  const legalOk = mode !== 'signup' || LEGAL_DOCS.every(doc => accepted[doc])
   const ids = useId()
   const titleId    = `${ids}-title`
   const emailId    = `${ids}-email`
@@ -33,7 +37,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
   function reset() {
     setMode('signin')
     setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false)
-    setSignedUp(false); setResetSent(false)
+    setSignedUp(false); setResetSent(false); setAccepted({})
     setCaptchaToken(null); setTurnstileKey(k => k + 1)
   }
 
@@ -51,7 +55,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
-    if (!captchaToken) return
+    if (!captchaToken || !legalOk) return
     setError(null)
     setBusy(true)
 
@@ -235,11 +239,15 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                 </p>
               )}
 
+              {mode === 'signup' && (
+                <LegalConsentChecks docs={LEGAL_DOCS} checked={accepted} onChange={(doc, value) => setAccepted(a => ({ ...a, [doc]: value }))} />
+              )}
+
               <div className="flex justify-center">
                 <Turnstile key={turnstileKey} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken(null)} />
               </div>
 
-              <Button type="submit" variant="primary" size="md" disabled={busy || !captchaToken} className="w-full justify-center mt-1">
+              <Button type="submit" variant="primary" size="md" disabled={busy || !captchaToken || !legalOk} className="w-full justify-center mt-1">
                 {busy ? t('auth_loading') : t(mode === 'signin' ? 'auth_signin_btn' : mode === 'signup' ? 'auth_signup_btn' : 'auth_forgot_btn')}
               </Button>
             </form>

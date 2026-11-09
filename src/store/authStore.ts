@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { Session } from '@supabase/supabase-js'
 import { getSupabase } from '@/lib/supabase.ts'
+import { legalAcceptance, LEGAL_DOCS, type LegalDoc } from '@/features/auth/legal.ts'
 
 export type Profile = {
   id:               string
@@ -33,6 +34,8 @@ type AuthState = {
 
   init:                 () => void
   signUp:               (email: string, password: string, username: string, captchaToken: string) => Promise<{ error: string | null }>
+  /** Records the signed-in user's acceptance of the current version of each document. */
+  acceptLegal:          (docs: LegalDoc[]) => Promise<{ error: string | null }>
   signIn:               (email: string, password: string, captchaToken: string) => Promise<{ error: string | null }>
   signOut:              () => Promise<void>
   updateUsername:       (username: string) => Promise<{ error: string | null }>
@@ -175,9 +178,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const redirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
     const { error } = await supabase.auth.signUp({
       email, password,
-      options: { emailRedirectTo: redirectTo, data: { username }, captchaToken },
+      // The form only submits with both legal boxes ticked; the acceptance is
+      // kept with the account as the record of consent.
+      options: { emailRedirectTo: redirectTo, data: { username, ...legalAcceptance(LEGAL_DOCS) }, captchaToken },
     })
     return { error: error?.message ?? null }
+  },
+
+  acceptLegal: async (docs) => {
+    const supabase = await getSupabase()
+    const { data, error } = await supabase.auth.updateUser({ data: legalAcceptance(docs) })
+    if (error) return { error: error.message }
+    set(s => ({ session: s.session ? { ...s.session, user: data.user } : s.session }))
+    return { error: null }
   },
 
   signIn: async (email, password, captchaToken) => {

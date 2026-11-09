@@ -2,8 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { LegalBody } from '@/components/LegalBody.tsx'
 
-const SECTIONS = [1, 2, 3, 4, 5, 6, 7] as const
+const SECTIONS = Array.from({ length: 12 }, (_, i) => i + 1)
 
 export function PrivacyPolicyPage() {
   const { t, i18n } = useTranslation()
@@ -21,7 +22,7 @@ export function PrivacyPolicyPage() {
           <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--gold)' }}>
             {t('privacy_title')}
           </h1>
-          <p className="text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>{t('privacy_updated')}</p>
+          <p className="text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>{t('legal_effective')}</p>
           <p className="text-sm leading-relaxed mt-3 max-w-2xl" style={{ color: 'var(--ink-muted)' }}>
             {t('privacy_intro')}
           </p>
@@ -29,14 +30,12 @@ export function PrivacyPolicyPage() {
 
         <div className="space-y-5">
           {SECTIONS.map(n => (
-            <div key={n}>
+            <section key={n} id={`s${n}`} className="scroll-mt-20">
               <h2 className="font-display text-sm font-bold" style={{ color: 'var(--ink)' }}>
                 {t(`privacy_s${n}_title`)}
               </h2>
-              <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--ink-muted)' }}>
-                {t(`privacy_s${n}_body`)}
-              </p>
-            </div>
+              <LegalBody text={t(`privacy_s${n}_body`)} />
+            </section>
           ))}
         </div>
 
