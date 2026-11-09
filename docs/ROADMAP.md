@@ -182,6 +182,7 @@ Marcar con `[x]` cuando se complete.
 - [x] **Fix — "Mis Builds" duplicado en el header** — `ShareBar` tenía su propio link a Mis Builds además del que ya existe en el nav/menú de `BuilderPage`; eliminado el duplicado
 - [x] **Fix — Hover de nombre de usuario mezclado con el de la card** — en `BuildCard`, pasar el mouse sobre el nombre del dueño activaba el glow dorado de toda la card (mismo div, mismo handler); separado en dos zonas de hover independientes. En comentarios, el nombre del autor no reaccionaba visualmente al hover por un `style` inline que pisaba la clase de Tailwind
 - [x] **Fix — Lista de clases en "Acerca de" mostraba siempre el nombre en inglés** — `AboutPage` no llamaba `useLoadGameData()`, así que la tabla de nombres por idioma nunca se cargaba y el resolver caía siempre al nombre en inglés de respaldo
+- [x] **Fix — Tooltip de desglose de daño cortado en pantallas chicas (feedback de FabryGreen)** — `DamageHover` posicionaba el tooltip con una altura adivinada (240px fijos) y, al ir arriba del cursor, con `translateY(-100%)` sin límite — en un celular (viewport bajo), eso lo sacaba por arriba o por abajo de la pantalla visible. Ahora mide la altura real del tooltip ya montado (`ref.offsetHeight`, oculto hasta posicionarse) y calcula `top` recortado contra `window.innerHeight`/`8px` de margen en ambos sentidos, igual que ya se hacía para `left`
 
 ---
 
@@ -278,6 +279,5 @@ Hallazgos concretos de una segunda pasada sobre el resto del código, mismo esti
 
 - [] idealizar una forma cada vez que añadan cosas nuevas, tanto clases, hechizos, sets, items, runas, etc etc que se pueda hacer un test automatico (con todo lo que tiene) para validar que todo este bien y no se rompa nada, y que el simulador sea lo mas real posible a lo que es dofus en cuanto a hechizos, cargas, efectos, sets, bonus de set, runas y demas, y aparte que se agreguen automaticamente sin la necesidad de tocar codigo
 
-- [] Como feedback, te comento que algunas cajas visuales(como las de los daños de hechizos) se cortan en la pantalla de mi celular. by: FabryGreen
 
 - [] Que los admins puedan ver cuando se meten a un perfil de una persona ver todos los stats del mismo y aparte todas las builds ocultas o privadas (etc), para mantener una trazabilidad

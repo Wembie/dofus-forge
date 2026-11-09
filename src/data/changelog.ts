@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.145',
+    date: '2026-11-09',
+    notes: [
+      'Fixed: the spell damage breakdown tooltip could get cut off at the edge of the screen on mobile',
+    ],
+  },
+  {
     version: '0.3.144',
     date: '2026-11-08',
     notes: [
