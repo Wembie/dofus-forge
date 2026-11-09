@@ -8,6 +8,15 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.146',
+    date: '2026-11-09',
+    notes: [
+      'New: creating an account now asks you to accept the Terms of Service and the Privacy Policy, each with its own checkbox',
+      'New: rewritten Terms of Service and Privacy Policy, in all 4 languages: who runs the site, what data is used and why, who it is shared with, cookies and ads, how long data is kept, and how to exercise your rights',
+      'Existing accounts are asked once to accept the new documents (and again only when one of them changes)',
+    ],
+  },
+  {
     version: '0.3.145',
     date: '2026-11-09',
     notes: [

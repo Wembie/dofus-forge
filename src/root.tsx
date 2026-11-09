@@ -6,6 +6,7 @@ import { Toaster } from './components/Toaster.tsx'
 import { MagicCursor } from './components/MagicCursor.tsx'
 import { ParticleField } from './components/ParticleField.tsx'
 import { UpdateBanner } from './components/UpdateBanner.tsx'
+import { ConsentGate } from './features/auth/ConsentGate.tsx'
 import { useAuthStore } from './store/authStore.ts'
 import { langFromPath, langPathRootSegment } from './i18n/langPath.ts'
 import { SeoTagsContext, seoTags, readSeoTags, SITE, DEFAULT_IMAGE, OG_IMAGE_SIZE, ogImageType } from './seo/useSeoMeta.ts'
@@ -234,6 +235,7 @@ export default function App() {
       <ParticleField />
       <MagicCursor />
       <UpdateBanner />
+      <ConsentGate />
     </>
   )
 }

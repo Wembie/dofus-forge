@@ -220,4 +220,14 @@ describe('security audit guards (0.3.135)', () => {
     expect(migrations).toContain('20261027000000_security_audit_fixes.sql')
     expect(schema.replace(/\r\n/g, '\n')).toContain(migration.replace(/\r\n/g, '\n').split('\n').slice(2).join('\n').trim())
   })
+
+  it('pseudonymous visitor identifiers are purged on a schedule (Privacy Policy retention)', () => {
+    const fn = schema.match(/create or replace function public\.purge_visitor_identifiers\(\)[\s\S]*?\$\$([\s\S]*?)\$\$/)
+    expect(fn).not.toBeNull()
+    expect(fn![1]).toMatch(/delete from public\.build_view_events where viewed_at <= now\(\) - interval '1 hour'/)
+    expect(fn![1]).toMatch(/update public\.forge_runs set visitor = null[\s\S]*interval '1 day'/)
+    expect(schema).toMatch(/cron\.schedule\('purge-visitor-identifiers', '17 \* \* \* \*'/)
+    expect(schema).toMatch(/revoke all on function public\.purge_visitor_identifiers\(\) from public, anon, authenticated;/)
+    expect(migrations).toContain('20261109000000_privacy_retention_purge.sql')
+  })
 })
