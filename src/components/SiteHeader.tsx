@@ -3,14 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
-import { IconButton } from '@/ui'
+import { BrandMark, IconButton } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
 import { CommandPalette } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useAuthStore } from '@/store/authStore.ts'
-import { BRAND } from '@/data/brand.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
@@ -46,7 +45,7 @@ export function SiteHeader() {
     >
       <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
       <Link to={homePath} className="flex items-center gap-2 flex-shrink-0" style={{ textDecoration: 'none' }}>
-        <img src={BRAND.icon} width={34} height={34} alt="" aria-hidden="true" style={{ flexShrink: 0 }} />
+        <BrandMark />
         {/* Persistent brand mark, not a page heading — it's the same element on
             every page this header is used on (Explore, My Builds, build
             detail, About, How to Use), each of which has its own real <h1>.

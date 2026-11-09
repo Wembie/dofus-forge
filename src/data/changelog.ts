@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.147',
+    date: '2026-11-09',
+    notes: [
+      'New: a new logo, The Core: a flat gold Dofus forged from three plates around a molten ◆ core, with one spark leaving the crown. New favicon, app icons, share cards and social art',
+      'Improved: the mark in the header is drawn inline, so it follows the light theme and the page paints a little sooner',
+    ],
+  },
+  {
     version: '0.3.146',
     date: '2026-11-09',
     notes: [

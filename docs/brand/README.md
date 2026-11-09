@@ -2,22 +2,36 @@
 
 Running log of the brand identity work. Every concept round lives in its own folder, including the rejected ones, together with the feedback it got and the decisions it led to. Nothing gets deleted.
 
-- **Definitive identity:** [dofus-forge/](dofus-forge/) (R8)
+- **Definitive identity:** [dofus-forge/](dofus-forge/) (R9)
 - **Brief:** [BRIEF.md](BRIEF.md). Positioning: *look like Dofus, own the forge*.
 - **UI design system:** [../DESIGN.md](../DESIGN.md) — The Vault palette, element colours, Cinzel.
-- **Source:** [src/](src/). Every file is generated with Python + fontTools from real font outlines in [src/fonts/](src/fonts/) (SIL OFL 1.1).
+- **Source:** [src/](src/) (R1–R7 generators and the OFL fonts). R8 and R9 each carry their own `build.py`.
 
-## ▶ Current: R8 — The Forge Egg
+## ▶ Current: R9 — The Core
 
-**The definitive identity lives in [`dofus-forge/`](dofus-forge/)**: 3 concepts with full kits, the applied one (C, The Forge Egg), and `build.py --apply <id>` to swap.
+**The definitive identity lives in [`dofus-forge/`](dofus-forge/)**: a flat, exact-geometry Dofus split into
+three forged plates by seams that meet at a molten ◆ core, one spark leaving the crown. Three concepts with full
+kits (A The Core, applied; B Circle of Six; C The Hatch), colour/light/mono/black/white variants, lockups, favicons,
+OG and social art, [colour](dofus-forge/colors.md) and [type](dofus-forge/typography.md) guidelines, and
+`build.py --apply <id>` to swap.
 
-![R8 overview](dofus-forge/overview.png)
+![R9 overview](dofus-forge/overview.png)
 
-**Feedback on R1–R7:** none of them was liked.
-
-**Learned:** the cel-shaded cartoon marks clashed with the site's refined UI. R8 is designed from the live pages themselves: flat faceted gold, the slot tile, and Cinzel small caps.
+**Why R9 replaced R8:** Molten Dofus was an illustration (gradients, clip paths, an anvil); it smudged at 16 px,
+had no one-colour version and needed its own tile on light. R9 keeps the story and draws it as a logo.
 
 ---
+
+## History — R8: Molten Dofus (superseded)
+
+![R8 overview](rounds/r8-forge-egg/overview.png)
+
+R8 ([`rounds/r8-forge-egg/`](rounds/r8-forge-egg/)) started over from the live UI after the cel-shaded rounds:
+flat faceted gold on the slot tile, Cinzel small caps. Seven concepts (A The Slot, B Forged Dofus, C The Forge Egg,
+C2 premium, C3 Molten Dofus, C4 Fabergé Forge, C5 Molten Dofus · Forged); C5 shipped in 0.3.141 (2026-11-02).
+
+**Learned:** the right story (the forge inside the Dofus), the wrong medium: C5 needed sixteen gradients to
+look premium and had nothing left at favicon size.
 
 ## History — R7: The Forge Crest (superseded)
 
@@ -94,6 +108,8 @@ The app reads every path from [`src/data/brand.ts`](../../src/data/brand.ts). To
 | [R5](rounds/r5-guild-kamas/) | Guild & kamas | ✅ | Element crests, Forge Kama (What's New / rewards) |
 | [R6](rounds/r6-ornament-tiers/) | Ornament & tiers | ✅ | Flourished wordmark, membership tier badges, retro plaque theme |
 | [R7](rounds/r7-forge-system/) | The Forge System | ❌ Superseded | Master crest, feature sigils, kit |
+| [R8](rounds/r8-forge-egg/) | The Forge Egg → Molten Dofus | ❌ Superseded | The Dofus silhouette, the ◆ core idea, the slot tile |
+| [R9](dofus-forge/) | The Core | ✅ Current | — |
 
 ### R1 — Geometric · ❌
 

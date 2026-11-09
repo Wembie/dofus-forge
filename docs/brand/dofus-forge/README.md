@@ -1,141 +1,163 @@
-# Dofus Forge — Definitive identity (R8)
+# Dofus Forge — Brand identity (R9)
 
-![Overview](overview.png)
+![The Core — board](concepts/a-the-core/board.png)
 
-This is the definitive brand folder. Rounds R1–R7 in [`../rounds/`](../rounds/) are history only.
+This is the definitive brand folder. R1–R8 in [`../rounds/`](../rounds/) are history: R8 (Molten Dofus,
+[`../rounds/r8-forge-egg/`](../rounds/r8-forge-egg/)) is the identity this one replaces.
 
-## Why R8 starts over
+- [colors.md](colors.md) — the palette, with roles and rules
+- [typography.md](typography.md) — families, the wordmark construction, lockups, minimum sizes
+- `marks.py` — the marks as exact geometry · `build.py` — the kit, the boards and `--apply`
 
-The site's UI is refined dark-luxe:
-- void background and thin `--metal-edge` borders
-- rounded cards
-- gold Cinzel titles in small caps
-- gold-outlined chips
-- a glowing gold frame around the planner's slots
+## Why R9 replaces R8
 
-R2–R7 drew cel-shaded, thick-outlined cartoon marks, and they clashed with that UI.
+R8's Molten Dofus told the right story (the forge bursting out of a Dofus) but told it as an illustration:
+hammered iron, four glowing seams, a white-hot anvil, rim light, embers, a gold stand. Measured against what a
+logo has to do, it failed four tests:
 
-The marks that work for companion apps follow one pattern:
-- one bold, simple symbol on a solid tile
-- readable at 16 px
-- the detail stays in the illustrations, not in the logo
-
-R8 applies that pattern with the site's own materials.
-
-## Visual language
-
-| Element | Rule | From the site |
+| Test | R8 | R9 |
 |---|---|---|
-| Symbol | Flat gold in three tones (light, body, shade facet) with a thin rim light. No outlines | `--gold-bright` / `--gold` / `--gold-deep` |
-| Container | Void tile, gold glow, gold hairline border | The planner's class and equipment slots |
-| Steel | `--metal-edge-strong` gradient, gold top edge | Panel borders, the anvil on the Forger guide |
-| Wordmark | Cinzel small caps, gold gradient | Every page title ("About Dofus Forge", "The Forger") |
-| Accents | Element colours, only where they mean an element | DESIGN.md §2.4 |
+| 16 px | a gold smudge with a bright dot | an egg, a dark Y, a cup, a light |
+| One colour | impossible (16 gradients, clip paths) | one path per plate, any single colour |
+| Light background | needed its own dark tile | the same plates in the light theme's golds |
+| Ownable idea | "an egg with cracks" could be any fantasy app | the ◆ core and the spark are ours; the three plates are the site's faceting rule |
 
-## Concepts
+The site's own icons (`src/ui/slotIcons.ts`) had already set the rule: flat silhouette, lit facets, no
+outline, no gradient. The logo now follows the rule the icons follow.
 
-| | Concept | Idea |
-|---|---|---|
-| A | [The Slot](concepts/a-the-slot/board.png) | The planner's class slot becomes the logo: a Dofus on the element ring |
-| B | [Forged Dofus](concepts/b-forged-dofus/board.png) | A faceted gold Dofus resting on a steel anvil |
-| C | [The Forge Egg](concepts/c-forge-egg/board.png) | One gold Dofus with the anvil and a ◆ spark cut out of it: the forge lives inside the egg |
-| C2 | [The Forge Egg · Premium](concepts/c2-forge-egg-premium/board.png) | C refined: polished gold, engraved forge-lit anvil, molten ◆ set like a gem, jewel tile |
-| C3 | [Molten Dofus](concepts/c3-molten-dofus/board.png) | A dark steel Dofus split by molten gold seams that burst from a white-hot anvil inside it |
-| C4 | [Fabergé Forge](concepts/c4-faberge-forge/board.png) | A navy enamel Dofus with guilloché, banded in gold like a Fabergé egg; the four element gems on its belt, an anvil medallion, a ◆ finial and a gold stand |
-| **C5** | **[Molten Dofus · Forged](concepts/c5-molten-forged/board.png)** — applied | C3 completed: a hammered-iron Dofus split by four seams, each glowing in its element colour (earth, fire, water, air) and white-hot where it meets the anvil; a crown seam up to a gold ◆ finial, a gold rim and stand, rising ◆ embers |
+## Creative direction
 
-**From C to C4.** The user picked The Forge Egg (C). C2 made it more premium, but a gold egg on a dark tile still read as a generic app icon.
+**Positioning:** *look like Dofus, own the forge* (BRIEF.md). The Dofus is the silhouette; the forge is what
+happens inside it.
 
-**C3 → C5.** The user liked C3 (the forge bursting out of the Dofus) but felt something was missing. Four things were:
-- the cracks read as random lightning rather than craft
-- the steel read as glass
-- there was no premium structure
-- none of the page's colours appeared except gold
+**Idea in one sentence:** a Dofus is forged, not hatched — three plates joined at a molten core, and the heat
+escaping through the crown is the build leaving the forge.
 
-**C5 adds:**
-- **Forged material.** Hammered iron in `--metal-edge-strong` → `--surface-panel` → `--surface-void`, with dents and an inner forge glow.
-- **One seam per element.** Each uses the DESIGN.md colour, so the four elements are literally being forged into the Dofus. Kintsugi logic: the cracks are filled with molten metal.
-- **Gold structure.** The ◆ finial, rim and stand carry over from C4: jewellery, not clip-art.
-- **Small cut (≤48 px).** A thick gold rim, fatter seams and the white-hot anvil.
-- **No frame where the silhouette carries it.** The favicon, header icon, logo, lockup, OG and 404 show the egg and its stand alone. The dark tile stays only for apple-touch, Android/PWA and the Discord bot, whose platforms crop to a square or circle (`bare=True` in `build.py`).
+**Adjectives → visual cues**
 
-![Molten Dofus · Forged](concepts/c5-molten-forged/board.png)
+| Adjective | Cue |
+|---|---|
+| Forged | plates and seams, not a smooth shell |
+| Precise | exact geometry: 45° seams, a 24-unit grid, Béziers split at the intersection |
+| Premium | three flat golds, generous negative space, nothing drawn that doesn't carry meaning |
+| Of the game | the Dofus silhouette, pointed at the crown and round at the base, drawn from our own curve |
+| Technical | the mark is data: 31 anchors, four fills, 764 bytes, and the header draws it from path data |
 
-<details><summary>C4 · Fabergé Forge</summary>
+**Clichés avoided:** hammer, anvil, crossed tools, flames, shields, swords, the 4-point AI sparkle, neon gradients,
+and anything traced from Ankama. The anvil stays only in the loader animation, where it is a verb, not a logo.
 
-![Fabergé Forge](concepts/c4-faberge-forge/board.png)
+## The mark — Concept A, *The Core*
 
-</details>
+![The Core](concepts/a-the-core/png/mark-512.png)
 
-## Kit per concept — `concepts/<id>/`
+**Construction** (`marks.py` → `core()`, 512 box):
+
+- One egg curve (four cubics, widest at 58 % of the height) — the Dofus.
+- Three plates cut from it by seams of empty space, 26 units wide (5 % of the box): a vertical seam from the
+  crown down, two seams at exactly 45° from the junction to the lower rim. The curves are split analytically at
+  each intersection, so every plate is a clean closed path.
+- At the junction a diamond socket (60 × 80) is cut out of all three plates, and a ◆ (30 × 40) sits inside it:
+  the molten core, with a ring of void around it so it reads in one colour too.
+- Above the crown, where the vertical seam exits, one ◆ spark (22 × 30) floats one seam-width clear of the egg.
+- Tones, light from the upper left: lit plate `#eccb78`, body plate `#c9a24b`, shade plate `#7f6428` (the
+  crucible), core and spark `#fff1c9`. The same lit/base rule as the slot icons.
+
+**Small cut** (`favicon.svg`, ≤ 48 px): seams 40 wide, socket 84 × 112, bolder spark. Used for the favicon,
+the 404 emblem and the header component.
+
+**Readings we checked:** the three-seam junction can recall a Mercedes star or a peace sign; the egg silhouette,
+the socketed core and the spark pull it away from both, and 45° (not 60°) keeps the arms from forming the
+120° star. At 16 px it reads as an egg with a dark Y and a light at the centre. Mirrored and rotated it shows
+nothing unintended.
+
+**Variants:** `mark.svg` (colour, transparent) · `mark-light.svg` (light-theme golds) · `mark-mono.svg` (one gold)
+· `mark-black.svg` · `mark-white.svg` · `favicon.svg` (small cut) · `app-icon.svg` (stone tile with a gold
+hairline, the planner's slot) · `app-icon-square.svg` (iOS) · `app-icon-maskable.svg` (Android, 52 % safe zone).
+
+### The two other concepts
+
+| | Concept | Idea | Why not |
+|---|---|---|---|
+| B | [Circle of Six](concepts/b-circle-of-six/board.png) | Six Dofus around one ◆: the complete build | Deeply Dofus, but as a shape it is a rosette, the most generic abstract-mark form; at 16 px it is six dots |
+| C | [The Hatch](concepts/c-the-hatch/board.png) | The Dofus opens on a slanted seam; the light inside is a ◆ | Clean and quiet, but it says "hatch", not "forge", and the slanted band reads as an Easter egg |
+
+Every concept has a full kit in `concepts/<id>/`; `build.py --apply b` swaps the site to it in one command.
+
+## Wordmark and lockups
+
+See [typography.md](typography.md). Cinzel 700 small caps, set as outlines, with both small-cap o's redrawn as a
+Dofus with Cinzel's own stroke contrast. Horizontal lockup (mark : cap height = 256 : 118), stacked lockup,
+wordmark alone; each in colour, light, one gold, black and white.
+
+![Horizontal lockup](concepts/a-the-core/png/lockup-horizontal-1200.png)
+
+## Graphic language
+
+| Element | Rule |
+|---|---|
+| **The slot** | A rounded square (22 % radius) in `--surface-stone` with a 1 px `--gold` hairline inset: the planner's tile, the app icon, the frame of every card |
+| **The ◆** | The one ornament. Bullet, divider, the core of the mark, the ElementGem shape in the stats; never more than one per line of text |
+| **Facets** | Any icon is a flat silhouette at 55 % plus lit facets at 100 %, light from the upper left (`SlotIcon`) |
+| **Seams** | Dividers are empty space or a 1 px `--metal-edge` rule, never a gradient line |
+| **Rules** | Gold hairline at 35–40 % opacity along the top edge of a card (`og()` and the header) |
+| **Backgrounds** | Flat void or stone. Glow is interaction feedback (`--glow-gold`), not decoration |
+| **Element colours** | Game semantics only; never on the mark |
+
+## Applications in the kit — `concepts/a-the-core/`
 
 | File | Use |
 |---|---|
-| `svg/mark.svg`, `png/mark-{256,512,1024}.png` | Symbol, transparent |
-| `svg/app-icon.svg`, `png/favicon-{64…1024}.png` | App icon tile (`public/brand/app-icon.svg`) |
-| `svg/favicon.svg`, `png/favicon-{16,32,48}.png`, `favicon.ico` | Browser tab (16/32/48 cut) |
-| `png/apple-touch-icon.png` | iOS home screen (180, opaque — iOS rounds it) |
-| `png/discord-bot-icon.png` | Discord bot avatar (512, safe inside the circle crop) |
-| `svg/app-icon-maskable.svg`, `png/app-icon-maskable-512.png` | Android / PWA maskable |
-| `svg/lockup-horizontal.svg`, `png/lockup-horizontal-{600,1200}.png` | Icon + wordmark |
-| `svg/wordmark.svg` | Wordmark alone |
-| `svg/og-preview-{en,es,fr,pt}.svg`, `png/og-preview-{lang}.{png,jpg}` | Social preview per language, 1200×630: wordmark with the live game version, headline, one-line promise, real numbers from `public/data` (items, sets, classes) and the emblem. The character/stats card belongs to each build's own preview. `og-preview.*` = English |
+| `svg/mark*.svg`, `png/mark-{256,512,1024}.png`, `png/mark-{light,mono,black,white}-512.png` | The symbol |
+| `svg/favicon.svg`, `png/favicon-{16…1024}.png`, `favicon.ico` | Browser tab (16/32/48 = small cut), PWA |
+| `svg/app-icon*.svg`, `png/app-icon-512.png`, `png/apple-touch-icon.png`, `png/app-icon-maskable-512.png` | iOS, Android, future mobile app |
+| `png/discord-bot-icon.png` | Discord bot avatar |
+| `svg/lockup-*.svg`, `png/lockup-*.png`, `svg/wordmark*.svg`, `png/wordmark-1200.png` | Lockups and wordmark |
+| `svg/og-preview-{en,es,fr,pt}.svg`, `png/og-preview-{lang}.{png,jpg}` | Social preview per language, 1200 × 630, with real numbers from `public/data` |
+| `social/x-avatar-400.png`, `social/x-banner-1500x500.png` | X profile |
+| `social/discord-server-icon-512.png`, `social/discord-server-banner-960x540.png` | Discord server |
+| `social/announcement-1200x675.png` | Announcement frame for Discord/X posts (title area left blank) |
+| `social/docs-banner-1280x320.png` | Documentation header |
 | `svg/404-emblem.svg` | Inline emblem for `public/404.html` |
-| `board.png` | Presentation board with every asset in context |
+| `board.png` | Presentation board |
+
+Generated share cards keep working unchanged: the Worker draws `/brand/mark-256.png` on set, class and build
+cards (`src/worker/ogPages.ts`, `ogImage.ts`), and the export card draws it too.
 
 ## Build, swap, apply
 
 ```bash
 python docs/brand/dofus-forge/build.py              # rebuild all concepts + overview
-python docs/brand/dofus-forge/build.py --apply c5   # put concept c5 on the site
+python docs/brand/dofus-forge/build.py a --apply a  # put concept a on the site
 ```
 
-`--apply` writes these files:
-- the root favicons (`favicon.svg/.ico`, `favicon-48/192/512.png`)
-- `apple-touch-icon.png`, `discord-bot-icon.png` and `og-preview.jpg`
-- the header assets in `public/brand/`
+`--apply` writes:
+- the root favicons (`favicon.svg/.ico`, `favicon-48/192/512.png`), `apple-touch-icon.png`, `discord-bot-icon.png`, `og-preview.jpg`
+- the header and share assets in `public/brand/`
 - the emblem between the `<!-- brand:emblem -->` markers in `public/404.html`
+- `src/ui/brandMarkData.ts`: the small cut as path data, which `src/ui/BrandMark.tsx` draws inline in the header and
+  the planner with the theme's golds (`--gold-bright`, `--gold`, `--gold-deep`, `--brand-hot`), so the mark
+  follows the light theme and costs no image request
 
-The app reads every path from [`src/data/brand.ts`](../../../src/data/brand.ts). If the wordmark changes, update `wordmarkAspect` there; `--apply` prints the value.
+The app reads every path from [`src/data/brand.ts`](../../../src/data/brand.ts).
 
-Requirements:
-- Python 3 with fontTools and Pillow
-- the logo-design skill's `render_png.py`, which renders through headless Chrome
-- the Cinzel font, from [`../src/fonts/`](../src/fonts/) (SIL OFL 1.1)
+![The header in the dark and light themes](header-themes.png)
 
-## Generated share cards (Worker)
-
-| Route | Card |
-|---|---|
-| `/brand/og-preview-<lang>.jpg` | Site card per language (home, guides, every page without its own image) — built here |
-| `/og/<lang>/set/<slug>.png` | Set: name, level, pieces, elements, item icons, full-set stats — `src/worker/ogPages.ts` |
-| `/og/<lang>/class/<id>.png` | Class guide: portrait, build-by-element title, the four elements, the guide's sections |
-| `/og/<lang>/<build-id>.png` | Build: character, stats and gear, with the logo — `src/worker/ogImage.ts` |
-
-All are 1200×630. The Worker draws `/brand/mark-256.png` as the logo, so `--apply` keeps it in sync.
-
-## Social profiles — `concepts/c5-molten-forged/social/`
-
-| File | Where |
-|---|---|
-| `x-avatar-400.png` | X profile picture |
-| `x-banner-1500x500.png` | X header. The avatar covers the bottom-left corner, so the content sits right of centre |
-| `discord-server-icon-512.png` | Discord server icon |
-| `discord-server-banner-960x540.png` | Discord server banner (and invite splash) |
+Requirements: Python 3 with fontTools and Pillow, the logo-design skill's `render_png.py` (headless Chrome), and
+the Cinzel font from [`../src/fonts/`](../src/fonts/) (SIL OFL 1.1).
 
 ## Post-deploy checklist (after dev → main)
 
-1. **Cloudflare:** Caching → Purge everything, or purge just `/favicon*`, `/apple-touch-icon.png`, `/og-preview.jpg` and `/brand/*`.
-2. **Discord bot:** open the Developer Portal → your app → Bot, and upload `public/discord-bot-icon.png`.
-3. **Discord server:** upload the icon and banner from `social/` under Server Settings → Overview.
-4. **X:** upload the avatar and banner from `social/`.
-5. **Re-scrape link previews:**
-   - Facebook: Sharing Debugger (developers.facebook.com/tools/debug) → "Scrape Again" on `https://dofusforge.com/`, `/es`, `/fr` and `/pt`.
-   - X: post a link and check it renders.
-   - Discord: caches the old preview for a while, and a new message picks up the new card.
-6. **Browsers:** a cached favicon can stick for days. A hard reload (Ctrl+F5) on the site shows the new one.
+1. **Cloudflare:** Caching → Purge everything, or purge `/favicon*`, `/apple-touch-icon.png`, `/og-preview.jpg` and `/brand/*`.
+2. **Discord bot:** Developer Portal → your app → Bot → upload `public/discord-bot-icon.png`.
+3. **Discord server:** Server Settings → Overview → upload `social/discord-server-icon-512.png` and the banner.
+4. **X:** upload `social/x-avatar-400.png` and `social/x-banner-1500x500.png`.
+5. **Re-scrape previews:** Facebook Sharing Debugger on `/`, `/es`, `/fr`, `/pt`; post a link on X; Discord picks up the new card on the next message.
+6. **Browsers:** a cached favicon can stick for days; Ctrl+F5 shows the new one.
 
-## Notes
+## Notes and limits
 
-- **Trademark.** "Dofus" and the Dofus eggs belong to Ankama. The mark evokes an egg but copies no official asset, and the fan-site disclaimer stays visible.
-- **Discord.** The bot avatar is uploaded by hand in the Discord developer portal, so the file in `public/` is only the source.
+- **Trademark.** "Dofus" and the Dofus eggs belong to Ankama. The mark evokes an egg with our own curve and
+  copies no official asset; the fan-site disclaimer stays visible. No trademark search was run.
+- **Fonts.** Cinzel (SIL OFL 1.1) allows logo use; the wordmark ships as outlines only.
+- **Strokes.** The app-icon hairline is the only stroke in the kit; every mark is fills only.
+- **Masters.** SVG only. No AI/EPS/PDF masters were produced.

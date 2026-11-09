@@ -23,7 +23,7 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { assignSetSlots } from '@/features/equipment/setSlots.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
-import { IconButton, Tabs, Frame, type TabItem } from '@/ui'
+import { BrandMark, IconButton, Tabs, Frame, type TabItem } from '@/ui'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
@@ -32,7 +32,6 @@ import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 import { getSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
 import { scrollBehavior } from '@/lib/motionSettings.ts'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
-import { BRAND } from '@/data/brand.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -77,7 +76,7 @@ function BrandLink({ onReset }: { onReset: () => void }) {
       }}
       title={t('reset_build')}
     >
-      <img src={BRAND.icon} width={34} height={34} alt="" aria-hidden="true" style={{ flexShrink: 0 }} />
+      <BrandMark />
       {/* Live text, not the wordmark image: same flat --gold as every heading
           in the UI, and it follows the light theme. */}
       <h1
