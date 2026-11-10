@@ -615,7 +615,7 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
           </p>
           {spell.is_variant && (
             <span
-              className="flex-shrink-0 px-1 py-px rounded text-[8px] uppercase tracking-wider font-semibold"
+              className="sm:hidden flex-shrink-0 px-1 py-px rounded text-[8px] uppercase tracking-wider font-semibold"
               style={{ background: 'var(--surface-void)', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }}
             >
               {t('spell_variant_badge')}
