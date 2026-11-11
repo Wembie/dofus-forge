@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.148] — 2026-11-11
+- **Improved (compare)**: the build comparator (⚖ Compare) replaces its plain number table with a radar chart snapshot (HP, AP, MP, Range, Crit Chance, Initiative, each axis normalized against the other build so a lopsided stat is still visible) and a two-sided "tug of war" bar for every other stat — Build A grows left in gold, Build B grows right in blue, from a shared centerline. The equipment diff, share link and build-loading flow are unchanged
+
 ## [0.3.147] — 2026-11-09
 - **Feat (brand, M161)**: new visual identity, *The Core*: a flat, exact-geometry Dofus split into three forged plates by seams that meet at a molten ◆ core, with one spark leaving the crown. Three flat golds, no gradients, legible at 16 px, with one-colour, black, white and light-theme versions. Wordmark set from the Cinzel 700 outlines with both small-cap o's redrawn as a Dofus. Kit in `docs/brand/dofus-forge/` (`marks.py` geometry + `build.py --apply`): favicons, PWA/maskable, apple-touch, Discord bot, OG cards per language, X/Discord profile art, announcement frame, docs banner, 404 emblem, plus `colors.md` and `typography.md`. The header and the planner now draw the mark inline (`BrandMark`) in the theme's golds, so it follows the light theme and no longer costs an image request. R8 (Molten Dofus) moved to `docs/brand/rounds/r8-forge-egg/`.
 

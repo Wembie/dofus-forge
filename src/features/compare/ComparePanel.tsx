@@ -10,13 +10,14 @@ import { useAuthStore } from '@/store/authStore.ts'
 import { listBuilds } from '@/features/share/savedBuilds.ts'
 import { fetchMyBuilds, fetchBuildById, type MyBuildRow } from '@/features/builds/api.ts'
 import { decodeBuild, encodeBuild, encodeSnapshot } from '@/features/share/codec.ts'
-import { statIconUrl } from '@/features/equipment/statDisplay.ts'
 import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
 import { SlotIcon } from '@/ui'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { COMPARE_STATS, type CompareStatDef } from './compareStats.ts'
+import { CompareRadar } from './CompareRadar.tsx'
+import { CompareStatBar } from './CompareStatBar.tsx'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 
 const SECTIONS = ['core', 'chars', 'damage', 'steal', 'res_fixed', 'res_pct', 'combat', 'mods'] as const
@@ -552,38 +553,27 @@ export function ComparePanel() {
         </div>
       )}
 
-      {/* ── Stats table ── */}
+      {/* ── Radar snapshot ── */}
       {statsA && statsB && (
-        <div className="px-4 pb-4">
-          {/* Column headers */}
-          <div
-            className="grid items-center px-2 py-1.5 mb-1 rounded-t"
-            style={{
-              gridTemplateColumns: '72px 1fr 72px 52px',
-              gap: 4,
-              background:   'var(--surface-stone)',
-              border:       '1px solid var(--metal-edge)',
-              borderBottom: 'none',
-            }}
-          >
-            <span className="text-[9px] font-semibold uppercase tracking-widest text-right" style={{ color: 'var(--gold)' }}>
+        <div className="px-4 pb-2">
+          <CompareRadar statsA={statsA} statsB={statsB} />
+          <div className="flex items-center justify-center gap-4 mt-1">
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold" style={{ color: 'var(--gold)' }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} />
               {t('compare_build_a')}
             </span>
-            <span className="text-[9px] uppercase tracking-widest text-center" style={{ color: 'var(--ink-faint)' }}>
-              Stat
-            </span>
-            <span className="text-[9px] font-semibold uppercase tracking-widest" style={{ color: 'var(--water)' }}>
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold" style={{ color: 'var(--water)' }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--water)', display: 'inline-block' }} />
               {nameB || t('compare_build_b')}
             </span>
-            <span className="text-[9px] uppercase tracking-widest text-center" style={{ color: 'var(--ink-faint)' }}>
-              Δ
-            </span>
           </div>
+        </div>
+      )}
 
-          <div
-            className="rounded-b overflow-hidden"
-            style={{ border: '1px solid var(--metal-edge)' }}
-          >
+      {/* ── Stat bars (tug-of-war) ── */}
+      {statsA && statsB && (
+        <div className="px-4 pb-4">
+          <div className="rounded-lg overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
             {SECTIONS.map(sec => {
               const rows = statsBySection[sec]
               if (!rows || rows.length === 0) return null
@@ -602,58 +592,17 @@ export function ComparePanel() {
                     </span>
                   </div>
                   {/* Stat rows */}
-                  {rows.map((def, i) => {
-                    const a   = statsA ? (statsA[def.key] as number) : 0
-                    const b   = statsB ? (statsB[def.key] as number) : 0
-                    const d   = b - a
-                    const sfx = def.suffix ?? ''
-                    const dColor = d > 0 ? 'var(--positive)' : d < 0 ? 'var(--negative)' : 'var(--ink-faint)'
-                    const aColor = a > b ? 'var(--positive)' : a < b ? 'var(--negative)' : 'var(--ink-muted)'
-                    const bColor = b > a ? 'var(--positive)' : b < a ? 'var(--negative)' : 'var(--ink-muted)'
-                    return (
-                      <div
-                        key={def.key}
-                        className="grid items-center px-2 py-1"
-                        style={{
-                          gridTemplateColumns: '72px 1fr 72px 52px',
-                          gap: 4,
-                          background: i % 2 === 0
-                            ? 'transparent'
-                            : 'color-mix(in srgb, var(--surface-stone) 25%, transparent)',
-                          borderBottom: '1px solid color-mix(in srgb, var(--metal-edge) 40%, transparent)',
-                        }}
-                      >
-                        {/* A value */}
-                        <span
-                          className="font-mono tabular-nums text-[11px] text-right"
-                          style={{ color: a === 0 && b === 0 ? 'var(--ink-faint)' : aColor }}
-                        >
-                          {a === 0 ? '—' : `${a}${sfx}`}
-                        </span>
-                        {/* Icon + name */}
-                        <div className="flex items-center gap-1 min-w-0">
-                          <img src={statIconUrl(def.icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
-                          <span className="text-[11px] truncate" style={{ color: def.color }}>
-                            {t(def.tKey)}
-                          </span>
+                  <div className="px-3 divide-y" style={{ borderColor: 'color-mix(in srgb, var(--metal-edge) 40%, transparent)' }}>
+                    {rows.map(def => {
+                      const a = statsA ? (statsA[def.key] as number) : 0
+                      const b = statsB ? (statsB[def.key] as number) : 0
+                      return (
+                        <div key={def.key} style={{ borderColor: 'color-mix(in srgb, var(--metal-edge) 40%, transparent)' }} className="border-b last:border-b-0">
+                          <CompareStatBar def={def} a={a} b={b} />
                         </div>
-                        {/* B value */}
-                        <span
-                          className="font-mono tabular-nums text-[11px]"
-                          style={{ color: b === 0 && a === 0 ? 'var(--ink-faint)' : bColor }}
-                        >
-                          {b === 0 ? '—' : `${b}${sfx}`}
-                        </span>
-                        {/* Delta */}
-                        <span
-                          className="font-mono tabular-nums text-[11px] text-center font-bold"
-                          style={{ color: dColor }}
-                        >
-                          {d === 0 ? '=' : `${d > 0 ? '+' : ''}${d}${sfx}`}
-                        </span>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </div>
                 </div>
               )
             })}
