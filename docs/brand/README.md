@@ -5,6 +5,7 @@ Running log of the brand identity work. Every concept round lives in its own fol
 - **Definitive identity:** [dofus-forge/](dofus-forge/) (R9)
 - **Brief:** [BRIEF.md](BRIEF.md). Positioning: *look like Dofus, own the forge*.
 - **UI design system:** [../DESIGN.md](../DESIGN.md) — The Vault palette, element colours, Cinzel.
+- **UI/UX redesign brief:** [ui-brief/](ui-brief/) — for an external designer: diagnosis, constraints, scope, deliverables, live captures.
 - **Source:** [src/](src/) (R1–R7 generators and the OFL fonts). R8 and R9 each carry their own `build.py`.
 
 ## ▶ Current: R9 — The Core

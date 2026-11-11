@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.148',
+    date: '2026-11-11',
+    notes: [
+      'Improved: the build comparator (⚖ Compare) replaces its plain number table with a radar chart snapshot and a two-sided "tug of war" bar for every stat, so you can see which build wins at a glance instead of reading a column of deltas',
+    ],
+  },
+  {
     version: '0.3.147',
     date: '2026-11-09',
     notes: [
