@@ -117,10 +117,7 @@ export function GapAnalysisPanel() {
           {t('gap_analysis_title')}
         </span>
         {findings.length > 0 ? (
-          <span
-            className="font-mono text-[10px] font-bold rounded-full px-1.5 leading-4 flex-shrink-0"
-            style={{ background: 'color-mix(in srgb, var(--negative) 20%, transparent)', color: 'var(--negative)' }}
-          >
+          <span className="font-mono text-[10px] font-bold flex-shrink-0" style={{ color: 'var(--negative)' }}>
             {findings.length}
           </span>
         ) : (
