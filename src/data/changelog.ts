@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.150',
+    date: '2026-11-12',
+    notes: [
+      'New: a "Compare with the Community" button in the "What\'s Missing?" panel shows what percentile your HP/AP/MP/Crit land in against real public builds of your class and level — only fetches when you click it',
+    ],
+  },
+  {
     version: '0.3.149',
     date: '2026-11-12',
     notes: [
