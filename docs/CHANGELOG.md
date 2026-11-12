@@ -5,6 +5,10 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.149] — 2026-11-12
+- **Feat (stats)**: new "What's Missing?" gap-analysis row at the top of the Stats panel, collapsed by default so it never pushes the AP/MP/HP badges down. Click to expand the full list, in priority order: empty core equipment slots (Hat, Cape, Amulet, Rings, Belt, Boots, Weapon), empty Dofus slots, AP/MP below the typical breakpoint for your level, any negative resistance (you'd take bonus damage from that element), 0% Crit Chance, and HP that looks low for your level. Says so right away when the build has no obvious gaps
+- **Feat (stats)**: added a "Compare with the Community" button inside that same panel — only fires its request on click, never just from expanding the panel. Pulls a sample of public builds of your class within ±10 levels (from Explore) and shows what percentile your HP, AP, MP and Crit Chance land in against real players' builds, not a fixed rule. Says so honestly when there aren't enough similar public builds yet to compare
+
 ## [0.3.148] — 2026-11-11
 - **Improved (compare)**: the build comparator (⚖ Compare) replaces its plain number table with a radar chart snapshot (HP, AP, MP, Range, Crit Chance, Initiative, each axis normalized against the other build so a lopsided stat is still visible) and a two-sided "tug of war" bar for every other stat — Build A grows left in gold, Build B grows right in blue, from a shared centerline. The equipment diff, share link and build-loading flow are unchanged
 

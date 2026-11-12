@@ -10,6 +10,7 @@ import { useCombatStats } from '@/store/useCombatStats.ts'
 import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
+import { GapAnalysisPanel } from './GapAnalysisPanel.tsx'
 
 function icon(name: string, size = 16) {
   return (
@@ -511,6 +512,7 @@ export function StatsPanel() {
         <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
         <CombatViewTag />
       </div>
+      <GapAnalysisPanel />
       <StatsFromBlock s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} />
     </div>
   )

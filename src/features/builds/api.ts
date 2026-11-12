@@ -139,6 +139,37 @@ export const fetchPublicBuilds = guard(async function fetchPublicBuilds(opts: { 
   return { data: cardRows(data ?? []), error: error?.message ?? null, count: opts.page === 0 ? count ?? 0 : null }
 }, error => ({ data: [] as BuildRow[], error, count: null as number | null }))
 
+export type BenchmarkSnapshot = { level: number; snapshot: BuildSnapshot }
+
+// Lightweight sibling of fetchPublicBuilds for the Stats panel's community
+// benchmark: needs the FULL snapshot (allocated points, scrolls, runes — not
+// just `e`/equipment like the card list) to recompute real stats client-side,
+// but only for a small sample, never paginated.
+export const fetchBenchmarkSnapshots = guard(async function fetchBenchmarkSnapshots(opts: {
+  classSlug: string
+  levelMin:  number
+  levelMax:  number
+  limit?:    number
+}) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('builds')
+    .select('level, snapshot')
+    .eq('visibility', 'public')
+    .eq('class_slug', opts.classSlug)
+    .gte('level', opts.levelMin)
+    .lte('level', opts.levelMax)
+    .limit(opts.limit ?? 60)
+  if (error) return { data: [] as BenchmarkSnapshot[], error: error.message }
+  const rows = (data ?? [])
+    .map((r): BenchmarkSnapshot | null => {
+      const snap = sanitizeSnapshot(r.snapshot)
+      return snap ? { level: r.level as number, snapshot: snap } : null
+    })
+    .filter((r): r is BenchmarkSnapshot => r !== null)
+  return { data: rows, error: null as string | null }
+}, error => ({ data: [] as BenchmarkSnapshot[], error }))
+
 // An unlisted build is readable only by its link: every query about one
 // build sends its id here, so RLS can tell "opened from the link" from
 // "listed" (requested_build_id() in the 20261021000000 migration).
