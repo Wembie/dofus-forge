@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.149',
+    date: '2026-11-12',
+    notes: [
+      'New: a collapsed "What\'s Missing?" row in Stats — click to expand a gap check (empty gear slots, low AP/MP for your level, negative resistances, 0% Crit Chance, low HP) so you know what to upgrade next',
+    ],
+  },
+  {
     version: '0.3.148',
     date: '2026-11-11',
     notes: [
