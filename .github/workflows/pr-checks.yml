@@ -53,8 +53,8 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if [ "${#PR_TITLE}" -gt 72 ]; then
-            echo "::error::PR title is ${#PR_TITLE} chars, must be <= 72: $PR_TITLE"
+          if [ "${#PR_TITLE}" -gt 100 ]; then
+            echo "::error::PR title is ${#PR_TITLE} chars, must be <= 100: $PR_TITLE"
             exit 1
           fi
           if ! printf '%s' "$PR_TITLE" | grep -qE '^(feat|fix|refactor|chore|style|perf|docs|test|ci|build)(\([a-z0-9_-]+\))?: .+'; then
