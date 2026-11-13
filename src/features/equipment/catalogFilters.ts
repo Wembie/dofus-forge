@@ -3,6 +3,13 @@ import type { SlotId } from '@/store/buildStore.ts'
 import type { AppEffect, AppItem } from '@/data/loaders.ts'
 import { STAT_META } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS } from '@/engine/statMap.ts'
+import type { SlotConfig } from './slotConfig.ts'
+
+/** Does this catalog item fit the given equipment slot (api slot + optional type filter)? */
+export function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
+  const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
+  return slots.includes(it.slot) && (!slot.apiTypes || slot.apiTypes.includes(it.type))
+}
 
 /** Weapon attack lines share stat names with real bonuses (attack 'Neutral damage' vs +Neutral Damage). */
 export function isAttackEffect(e: AppEffect): boolean {

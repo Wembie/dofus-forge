@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight, Users } from 'lucide-react'
-import { useBuildStore } from '@/store/buildStore.ts'
+import { ChevronRight, Users, TrendingUp } from 'lucide-react'
+import { useBuildStore, recompute, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { analyzeGaps, type GapFinding, type GapSeverity } from './gapAnalysis.ts'
 import { fetchCommunityBenchmark, BENCHMARK_KEYS, type CommunityBenchmark } from './communityBenchmark.ts'
+import { findUpgrades, type UpgradeSuggestion } from './nextUpgrade.ts'
 import { STAT_DEF_BY_KEY } from '@/features/compare/compareStats.ts'
+import { ItemIcon } from '@/features/optimizer/ForgeItemsPanel.tsx'
+import type { StatBlock } from '@/engine/types.ts'
 
 const SEVERITY_COLOR: Record<GapSeverity, string> = {
   critical: 'var(--negative)',
@@ -79,6 +82,57 @@ function BenchmarkSection({ status, onRequest }: { status: BenchStatus; onReques
   )
 }
 
+type UpgradeStatus = { kind: 'idle' } | { kind: 'ready'; list: UpgradeSuggestion[] } | { kind: 'empty' }
+
+function statLabel(t: (key: string) => string, key: keyof StatBlock): string {
+  const def = STAT_DEF_BY_KEY.get(key)
+  return def ? t(def.tKey) : key
+}
+
+function UpgradeSection({ status, onRequest }: { status: UpgradeStatus; onRequest: () => void }) {
+  const { t } = useTranslation()
+
+  if (status.kind === 'idle') {
+    return (
+      <button
+        type="button"
+        onClick={onRequest}
+        className="flex items-center justify-center gap-1.5 w-full rounded-md py-1.5 text-[11px] font-bold uppercase tracking-wide transition-transform hover:scale-[1.02] active:scale-[0.98]"
+        style={{
+          background:  'var(--gold)',
+          color:       'var(--surface-void)',
+          boxShadow:   '0 2px 10px -2px color-mix(in srgb, var(--gold) 55%, transparent)',
+        }}
+      >
+        <TrendingUp size={12} />
+        {t('gap_upgrade_cta')}
+      </button>
+    )
+  }
+  if (status.kind === 'empty') {
+    return <p className="text-[10px] italic" style={{ color: 'var(--ink-faint)' }}>{t('gap_upgrade_empty')}</p>
+  }
+
+  return (
+    <div className="space-y-1.5">
+      {status.list.slice(0, 5).map(s => (
+        <div key={s.slot} className="flex items-center gap-2">
+          <ItemIcon item={s.item} size={24} />
+          <p className="text-[11px] leading-snug min-w-0" style={{ color: 'var(--ink-muted)' }}>
+            {s.topStat
+              ? t('gap_upgrade_row', {
+                  slot: t(`slot_${s.slot}`), item: s.item.name,
+                  sign: s.topStat.delta > 0 ? '+' : '',
+                  value: s.topStat.delta, stat: statLabel(t, s.topStat.key),
+                })
+              : t('gap_upgrade_row_plain', { slot: t(`slot_${s.slot}`), item: s.item.name })}
+          </p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /** Collapsed by default — a slim summary row the player opens on demand,
  * so it never pushes the AP/MP/HP badges down unless they ask to see it. */
 export function GapAnalysisPanel() {
@@ -87,9 +141,13 @@ export function GapAnalysisPanel() {
   const level         = useBuildStore(s => s.level)
   const equipped      = useBuildStore(s => s.equipped)
   const selectedClass = useBuildStore(s => s.selectedClass)
+  const allocated     = useBuildStore(s => s.allocated)
+  const scrolled      = useBuildStore(s => s.scrolled)
+  const runes         = useBuildStore(s => s.runes)
   const equipment      = useDataStore(s => s.equipment)
   const sets           = useDataStore(s => s.sets)
-  const [bench, setBench] = useState<BenchStatus>({ kind: 'idle' })
+  const [bench, setBench]       = useState<BenchStatus>({ kind: 'idle' })
+  const [upgrades, setUpgrades] = useState<UpgradeStatus>({ kind: 'idle' })
 
   const findings = useMemo(
     () => (stats ? analyzeGaps(stats, level, equipped) : []),
@@ -108,6 +166,16 @@ export function GapAnalysisPanel() {
     fetchCommunityBenchmark(selectedClass, level, stats, equipment, sets).then(result => {
       setBench(result ? { kind: 'ready', data: result } : { kind: 'empty' })
     })
+  }
+
+  // Local computation only (no network) — still click-gated: scanning the whole catalog on
+  // every keystroke/equip would be wasteful, and "what should I improve" is an on-demand ask.
+  function handleRequestUpgrades() {
+    if (upgrades.kind !== 'idle' || !equipment || !sets || !selectedClass || !stats) return
+    const recomputeWith = (slot: SlotId, candidateId: number) =>
+      recompute(selectedClass, level, allocated, scrolled, { ...equipped, [slot]: candidateId }, equipment, sets, runes)
+    const list = findUpgrades(equipped, level, equipment, stats, recomputeWith)
+    setUpgrades(list.length > 0 ? { kind: 'ready', list } : { kind: 'empty' })
   }
 
   return (
@@ -144,6 +212,12 @@ export function GapAnalysisPanel() {
           {t('gap_benchmark_title')}
         </span>
         <BenchmarkSection status={bench} onRequest={handleRequestBenchmark} />
+      </div>
+      <div className="mt-2 pt-2 space-y-1" style={{ borderTop: '1px solid var(--metal-edge)' }}>
+        <span className="font-display text-[9px] uppercase tracking-[0.18em] font-bold" style={{ color: 'var(--gold-muted)' }}>
+          {t('gap_upgrade_title')}
+        </span>
+        <UpgradeSection status={upgrades} onRequest={handleRequestUpgrades} />
       </div>
     </details>
   )

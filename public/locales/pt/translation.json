@@ -1539,5 +1539,10 @@
   "terms_s14_title": "Lei aplicável e solução de conflitos",
   "terms_s14_body": "Estes Termos são regidos pelas leis da República da Colômbia. Antes de iniciar qualquer ação, escreva para contact@dofusforge.com para tentarmos resolver a questão diretamente por pelo menos 30 dias. Se não for resolvida, serão competentes os tribunais da Colômbia. Se você usa o site como consumidor e mora em outro país, mantém a proteção das normas obrigatórias do seu país e pode recorrer aos tribunais dele quando essa lei permitir.",
   "terms_s15_title": "Disposições gerais",
-  "terms_s15_body": "Estes Termos, junto com a Política de Privacidade, são o acordo completo entre você e nós sobre o site. Se uma cláusula for considerada inválida, as demais continuam em vigor. Não exercer um direito não significa renunciar a ele. Podemos transferir o serviço a quem continuar a operá-lo, avisando você previamente. Estes Termos são traduzidos para vários idiomas; em caso de divergência, prevalece a versão em espanhol, salvo se a lei do seu país dispuser de outra forma. Em vigor desde 9 de novembro de 2026."
+  "terms_s15_body": "Estes Termos, junto com a Política de Privacidade, são o acordo completo entre você e nós sobre o site. Se uma cláusula for considerada inválida, as demais continuam em vigor. Não exercer um direito não significa renunciar a ele. Podemos transferir o serviço a quem continuar a operá-lo, avisando você previamente. Estes Termos são traduzidos para vários idiomas; em caso de divergência, prevalece a versão em espanhol, salvo se a lei do seu país dispuser de outra forma. Em vigor desde 9 de novembro de 2026.",
+  "gap_upgrade_title": "Próxima melhoria",
+  "gap_upgrade_cta": "O que eu deveria melhorar primeiro?",
+  "gap_upgrade_empty": "Nenhum item do catálogo atual melhoraria sua build.",
+  "gap_upgrade_row": "Troque seu {{slot}} por {{item}}: {{sign}}{{value}} {{stat}}",
+  "gap_upgrade_row_plain": "Troque seu {{slot}} por {{item}}"
 }

@@ -1539,5 +1539,10 @@
   "terms_s14_title": "Governing law and disputes",
   "terms_s14_body": "These Terms are governed by the laws of the Republic of Colombia. Before taking any action, write to contact@dofusforge.com so we can try to resolve the matter directly for at least 30 days. If it is not resolved, the courts of Colombia will have jurisdiction. If you use the site as a consumer and live in another country, you keep the protection of the mandatory laws of your country and may go to its courts where that law allows.",
   "terms_s15_title": "General provisions",
-  "terms_s15_body": "These Terms, together with the Privacy Policy, are the entire agreement between you and us about the site. If a clause is held invalid, the rest remains in force. Not exercising a right does not mean waiving it. We may transfer the service to someone who continues to operate it, with prior notice to you. These Terms are translated into several languages; if they differ, the Spanish version prevails unless the law of your country provides otherwise. Effective from November 9, 2026."
+  "terms_s15_body": "These Terms, together with the Privacy Policy, are the entire agreement between you and us about the site. If a clause is held invalid, the rest remains in force. Not exercising a right does not mean waiving it. We may transfer the service to someone who continues to operate it, with prior notice to you. These Terms are translated into several languages; if they differ, the Spanish version prevails unless the law of your country provides otherwise. Effective from November 9, 2026.",
+  "gap_upgrade_title": "Next upgrade",
+  "gap_upgrade_cta": "What should I improve first?",
+  "gap_upgrade_empty": "No item in the current catalog would improve your build.",
+  "gap_upgrade_row": "Swap your {{slot}} for {{item}}: {{sign}}{{value}} {{stat}}",
+  "gap_upgrade_row_plain": "Swap your {{slot}} for {{item}}"
 }

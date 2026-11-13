@@ -7,7 +7,7 @@ import type { SlotConfig } from './slotConfig.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
 import { IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
-import { isAttackEffect, matchesStatFilter, levelCap, changeLevelRange, NO_LEVEL_CAP, catalogBlock } from './catalogFilters.ts'
+import { isAttackEffect, matchesStatFilter, levelCap, changeLevelRange, NO_LEVEL_CAP, catalogBlock, matchesSlot } from './catalogFilters.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { StatFilter, normalizeSearch, SlotIcon, slotToastIcon } from '@/ui'
@@ -16,11 +16,6 @@ import { SetDetailModal } from './SetDetailModal.tsx'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { playEquip } from '@/lib/sound.ts'
 import { Check, Crown } from 'lucide-react'
-
-function matchesSlot(it: AppItem, slot: SlotConfig): boolean {
-  const slots = Array.isArray(slot.apiSlot) ? slot.apiSlot : [slot.apiSlot]
-  return slots.includes(it.slot) && (!slot.apiTypes || slot.apiTypes.includes(it.type))
-}
 
 type SlotIndex = { setIds: number[]; statKeys: string[]; types: string[]; hasLegendary: boolean }
 
