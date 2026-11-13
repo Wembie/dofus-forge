@@ -124,7 +124,7 @@ export function PvpArena() {
   const isAttackSpell = (sp: AppSpell) => {
     const lvl = sp.levels.find(l => l.grade === grade) ?? sp.levels.at(-1)
     if (!lvl) return false
-    return dedupEffects(lvl.effects).some(e => DMG_KINDS.has(e.kind) && e.condition !== 'shield')
+    return dedupEffects(lvl.effects).some(e => DMG_KINDS.has(e.kind) && e.condition === undefined)
   }
 
   const spellGroups = useMemo(() => {
