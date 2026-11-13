@@ -7,23 +7,31 @@ import type { AppSpellLevel } from '@/data/spellLoaders.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { calcEffects, type DamageMods } from '../spells/spellDamage.ts'
-import { dedupEffects, weaponMods } from '../spells/spellCalc.ts'
+import { dedupEffects, collapseTieredOutcomes, weaponMods } from '../spells/spellCalc.ts'
 import { weaponAttackEffects, weaponDamageRows } from '../spells/weaponRows.ts'
 import type { PvpElement, PvpResist } from '@/store/pvpStore.ts'
 import { applyResist } from './pvpMath.ts'
 
 export type HitResult = { min: number; max: number; hasCrit: boolean; critMin: number; critMax: number }
 
-const DMG_KINDS = new Set(['damage', 'steal', 'poison'])
+// Poison (a per-turn DoT tick) is excluded: it never lands in the same instant as the rest
+// of this hit, so it must not be folded into a single aggregate number (see spellCalc.ts's
+// `inSigma`/SpellsPanel.tsx — the same bug, same fix, for the arena's one-number model).
+const DMG_KINDS = new Set(['damage', 'steal'])
 
-/** Sum of every non-shield damage/steal/poison effect, resisted per its own element. */
+// Any conditioned effect (shield, a target-HP threshold, a named combat state) is a
+// mutually-exclusive alternative to the base case, not a guaranteed extra hit — the arena's
+// one-number estimate always uses the unconditioned (base) branch.
+const isBaseEffect = (e: { condition?: unknown }) => e.condition === undefined
+
+/** Sum of every base-case instant damage/steal effect, resisted per its own element. */
 export function simulateSpellHit(
   lvl:      AppSpellLevel,
   stats:    StatBlock,
   mods:     DamageMods,
   resist:   Record<PvpElement, PvpResist>,
 ): HitResult {
-  const effects = dedupEffects(lvl.effects).filter(e => DMG_KINDS.has(e.kind) && e.condition !== 'shield')
+  const effects = collapseTieredOutcomes(dedupEffects(lvl.effects).filter(e => DMG_KINDS.has(e.kind) && isBaseEffect(e)))
   const calced  = calcEffects(effects, stats, mods)
   let min = 0, max = 0
   for (const e of calced) {
@@ -31,11 +39,11 @@ export function simulateSpellHit(
     max += applyResist(e.calcMax, resist[e.element])
   }
 
-  const critEffects = (lvl.critEffects ?? []).filter(e => DMG_KINDS.has(e.kind) && e.condition !== 'shield')
+  const critEffects = collapseTieredOutcomes(dedupEffects(lvl.critEffects ?? []).filter(e => DMG_KINDS.has(e.kind) && isBaseEffect(e)))
   const hasCrit      = critEffects.length > 0
   let critMin = min, critMax = max
   if (hasCrit) {
-    const calcedCrit = calcEffects(dedupEffects(critEffects), stats, mods, stats.critDamage)
+    const calcedCrit = calcEffects(critEffects, stats, mods, stats.critDamage)
     critMin = 0; critMax = 0
     for (const e of calcedCrit) {
       critMin += applyResist(e.calcMin, resist[e.element])

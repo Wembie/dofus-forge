@@ -226,6 +226,7 @@
   "spell_erosion": "{{pct}}% Erosion · {{turns}}t",
   "spell_heal_mod": "Heals ×{{pct}}%",
   "spell_condition_shield": "With shield",
+  "spell_condition_low_target_hp": "Target below {{threshold}}% HP",
   "weapon_attack": "Weapon Attack",
   "weapon_fist": "Unarmed (Fist)",
   "weapon_normal": "Normal",

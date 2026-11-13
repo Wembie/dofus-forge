@@ -9,6 +9,7 @@
  *   spells.json          — spell metadata (nameId, iconId, spellLevels IDs)
  *   spell_levels.json    — per-grade stats (AP cost, range, effects)
  *   spell_variants.json  — pairs of [normalSpellId, variantSpellId] per breed
+ *   spell_states.json    — combat state id -> nameId (resolves `*e<id>`/`*E<id>` condition labels)
  *   spell_images_48.tar.gz — 48px spell icon PNGs (sort_{iconId}-48.png)
  *   {lang}.json          — string ID -> translated text
  *
@@ -66,12 +67,25 @@ export type AppSpellEffectKind =
   | 'mp' | 'mp_gain'
   | 'erosion' | 'heal_mod' | 'spell_buff'
 
+/**
+ * A mutually-exclusive alternative branch of an effect, read from the raw targetMask's
+ * criterion tokens (lowercase = branch inactive, uppercase = branch active — same convention
+ * for all three): `pb`/`PB` (shielded target), `v<N>`/`V<N>` (target below N% HP, the literal
+ * threshold is the number itself, not a lookup), and `*e<id>`/`*E<id>` (a named combat state —
+ * `id` resolves via `spell_states.json`'s id → nameId → the per-language string table, same
+ * table every other spell name/description already resolves through).
+ */
+export type AppSpellCondition =
+  | { kind: 'shield' }
+  | { kind: 'low_target_hp'; threshold: number }
+  | { kind: 'state'; id: number; label: string }
+
 export type AppSpellEffect = {
   element:    Exclude<AppSpellElement, 'mixed'>
   min:        number
   max:        number
   kind:       AppSpellEffectKind
-  condition?: 'shield'
+  condition?: AppSpellCondition
   spellId?:    number
   stack?:      number
   turns?:      number
@@ -264,21 +278,84 @@ function extractDamageEffects(rawEffects: Record<string, unknown>[]): AppSpellEf
     }
   }
 
-  // Detect shield condition (PB = "Protection Bouclier" in targetMask)
-  // Only separate into groups when BOTH shielded and non-shielded effects exist.
-  const hasShield   = items.some(r => /\bPB\b/.test(r.mask))
-  const hasNoShield = items.some(r => /\bpb\b/.test(r.mask))
-
-  if (hasShield && hasNoShield) {
-    const baseItems   = items.filter(r => !/\bPB\b/.test(r.mask))
-    const shieldItems = items.filter(r =>  /\bPB\b/.test(r.mask))
+  const split = detectConditionSplit(items)
+  if (split) {
     return [
-      ...deduplicateConditional(baseItems),
-      ...deduplicateConditional(shieldItems).map(e => ({ ...e, condition: 'shield' as const })),
+      ...deduplicateConditional(split.falseItems),
+      ...deduplicateConditional(split.trueItems).map(e => ({ ...e, condition: split.condition })),
     ]
   }
 
   return deduplicateConditional(items)
+}
+
+/**
+ * Finds the one criterion (if any) that genuinely splits `items` into a "branch inactive" and
+ * a "branch active" set with DIFFERENT effect values — i.e. the spell deals one thing normally
+ * and something else under a condition, never both at once (see `AppSpellCondition`). Only
+ * three criterion shapes are known to exist in the raw data; checked in this fixed order since
+ * no spell has been found combining more than one. A pair with identical values on both
+ * branches is intentionally left alone here — `deduplicateConditional` already collapses an
+ * exact duplicate, and a state id with no real value difference isn't worth surfacing as a
+ * labeled "condition" in the UI.
+ */
+function detectConditionSplit(items: RawEffect[]): { trueItems: RawEffect[]; falseItems: RawEffect[]; condition: AppSpellCondition } | null {
+  // Shield (PB = "Protection Bouclier")
+  const hasShield   = items.some(r => /\bPB\b/.test(r.mask))
+  const hasNoShield = items.some(r => /\bpb\b/.test(r.mask))
+  if (hasShield && hasNoShield) {
+    return {
+      trueItems:  items.filter(r =>  /\bPB\b/.test(r.mask)),
+      falseItems: items.filter(r => !/\bPB\b/.test(r.mask)),
+      condition:  { kind: 'shield' },
+    }
+  }
+
+  // Target HP threshold (v<N> = below N% HP is false, V<N> = below N% HP is true — the
+  // threshold N is the literal number in the token, not a ref to any table).
+  for (const r of items) {
+    const m = /\bV(\d+)\b/.exec(r.mask)
+    if (!m) continue
+    const threshold = Number(m[1])
+    const trueRe  = new RegExp(`\\bV${threshold}\\b`)
+    const falseRe = new RegExp(`\\bv${threshold}\\b`)
+    if (items.some(x => trueRe.test(x.mask)) && items.some(x => falseRe.test(x.mask))) {
+      return {
+        trueItems:  items.filter(x => trueRe.test(x.mask)),
+        falseItems: items.filter(x => !trueRe.test(x.mask)),
+        condition:  { kind: 'low_target_hp', threshold },
+      }
+    }
+  }
+
+  // Named combat state (*e<id> = state inactive, *E<id> = state active). `id` is resolved to
+  // a real label (e.g. "Tactic A", "Armed") from spell_states.json in the per-language pass
+  // below — effects here only carry the numeric id.
+  for (const r of items) {
+    const m = /\*[eE](\d+)\b/.exec(r.mask)
+    if (!m) continue
+    const id = Number(m[1])
+    const trueRe  = new RegExp(`\\*E${id}\\b`)
+    const falseRe = new RegExp(`\\*e${id}\\b`)
+    const trueItems  = items.filter(x => trueRe.test(x.mask))
+    const falseItems = items.filter(x => !trueRe.test(x.mask) && falseRe.test(x.mask))
+    if (trueItems.length === 0 || falseItems.length === 0) continue
+    const sameValues = (a: RawEffect[], b: RawEffect[]) => {
+      const key = (x: RawEffect) => `${x.effect.element}|${x.effect.kind}|${x.effect.min}|${x.effect.max}`
+      const as = new Set(a.map(key)), bs = new Set(b.map(key))
+      return as.size === bs.size && [...as].every(k => bs.has(k))
+    }
+    if (sameValues(trueItems, falseItems)) continue
+    return {
+      trueItems,
+      // Items with neither *e<id> nor *E<id> at all are not part of this split — leave them in
+      // the base branch so an unrelated third effect on the same level isn't dropped.
+      falseItems: items.filter(x => !trueRe.test(x.mask)),
+      condition:  { kind: 'state', id, label: '' }, // label resolved per-language below
+    }
+  }
+
+  return null
 }
 
 function buildLevels(raw: Record<string, unknown>): AppSpellLevelInternal {
@@ -472,6 +549,27 @@ async function extractSpellImages(tarGzUrl: string, neededIconIds: Set<number>, 
   console.log(`  Extracted ${written}/${neededIconIds.size} spell images.`)
 }
 
+/** Resolves `condition: {kind:'state', id, label: ''}` placeholders to the state's real,
+ * per-language name (e.g. "Tactic A"). Falls back to `#<id>` on a missing/unnamed state
+ * rather than silently rendering a blank label. */
+function resolveStateLabels(
+  level: AppSpellLevel,
+  entries: Record<string, string>,
+  stateNameIdMap: Map<number, number>,
+): AppSpellLevel {
+  const resolve = (e: AppSpellEffect): AppSpellEffect => {
+    if (e.condition?.kind !== 'state') return e
+    const nameId = stateNameIdMap.get(e.condition.id)
+    const label  = (nameId ? t(entries, nameId) : '') || `#${e.condition.id}`
+    return { ...e, condition: { ...e.condition, label } }
+  }
+  return {
+    ...level,
+    effects: level.effects.map(resolve),
+    ...(level.critEffects ? { critEffects: level.critEffects.map(resolve) } : {}),
+  }
+}
+
 function renderEffectLabel(
   rb: RawBuff,
   entries: Record<string, string>,
@@ -530,12 +628,13 @@ async function main() {
   const base = `https://github.com/dofusdude/dofus3-main/releases/download/${gameVersion}`
 
   console.log('Downloading game data (spell_levels.json is large ~88MB):')
-  const [breedsRaw, spellsRaw, levelsRaw, variantsRaw, effectsRaw] = await Promise.all([
+  const [breedsRaw, spellsRaw, levelsRaw, variantsRaw, effectsRaw, statesRaw] = await Promise.all([
     download(`${base}/breeds.json`),
     download(`${base}/spells.json`),
     download(`${base}/spell_levels.json`),
     download(`${base}/spell_variants.json`),
     download(`${base}/effects.json`),
+    download(`${base}/spell_states.json`),
   ])
 
   const breeds      = parseRefs(breedsRaw)
@@ -543,13 +642,22 @@ async function main() {
   const levels      = parseRefs(levelsRaw)
   const variants    = parseRefs(variantsRaw)
   const effectsMeta = parseRefs(effectsRaw)
-  console.log(`Parsed: ${breeds.size} breeds, ${spells.size} spells, ${levels.size} spell levels, ${variants.size} variant pairs`)
+  const statesMeta  = parseRefs(statesRaw)
+  console.log(`Parsed: ${breeds.size} breeds, ${spells.size} spells, ${levels.size} spell levels, ${variants.size} variant pairs, ${statesMeta.size} combat states`)
 
   // effectId → descriptionId (for buff label rendering per-lang)
   const effectDescMap = new Map<number, number>()
   for (const [, eff] of effectsMeta) {
     const descId = Number(eff.descriptionId)
     if (descId > 0) effectDescMap.set(Number(eff.id), descId)
+  }
+
+  // Named-state id → nameId (resolves `condition: {kind:'state', id}`'s real label per-lang,
+  // e.g. id 441 -> "Tactic A"). `parseRefs` keys spell_states.json by its own `id` field already.
+  const stateNameIdMap = new Map<number, number>()
+  for (const [stateId, state] of statesMeta) {
+    const nameId = Number(state.nameId)
+    if (nameId > 0) stateNameIdMap.set(stateId, nameId)
   }
 
   // Build variant map: breedId -> Map<normalSpellId, variantSpellId>
@@ -738,12 +846,13 @@ async function main() {
 
         const namedLevels: AppSpellLevel[] = (sp.levels as AppSpellLevelInternal[]).map(lvl => {
           const { _rawBuffs, ...rest } = lvl
-          if (!_rawBuffs?.length) return rest
+          const resolved = resolveStateLabels(rest, entries, stateNameIdMap)
+          if (!_rawBuffs?.length) return resolved
           const seen = new Set<string>()
           const buffs = _rawBuffs
             .map(rb => renderEffectLabel(rb, entries, effectDescMap))
             .filter((s): s is string => s !== null && !seen.has(s) && seen.add(s) !== undefined)
-          return { ...rest, ...(buffs.length ? { buffs } : {}) }
+          return { ...resolved, ...(buffs.length ? { buffs } : {}) }
         })
 
         namedSpells.push({ ...sp, name: spellName, ...(spellDesc ? { description: spellDesc } : {}), levels: namedLevels })
@@ -767,12 +876,13 @@ async function main() {
 
       const namedLevels: AppSpellLevel[] = (sp.levels as AppSpellLevelInternal[]).map(lvl => {
         const { _rawBuffs, ...rest } = lvl
-        if (!_rawBuffs?.length) return rest
+        const resolved = resolveStateLabels(rest, entries, stateNameIdMap)
+        if (!_rawBuffs?.length) return resolved
         const seen = new Set<string>()
         const buffs = _rawBuffs
           .map(rb => renderEffectLabel(rb, entries, effectDescMap))
           .filter((s): s is string => s !== null && !seen.has(s) && seen.add(s) !== undefined)
-        return { ...rest, ...(buffs.length ? { buffs } : {}) }
+        return { ...resolved, ...(buffs.length ? { buffs } : {}) }
       })
 
       namedCommon.push({ ...sp, name: spellName, ...(spellDesc ? { description: spellDesc } : {}), levels: namedLevels })

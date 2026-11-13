@@ -8,6 +8,14 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.150',
+    date: '2026-11-13',
+    notes: [
+      'Fix: spell damage totals (Σ) no longer add numbers that never land at the same time — a poison tick, a charge/discharge tier, or a dice/card draw are no longer summed into one wrong total',
+      'New: spells with a condition (only on a shielded target, only below a target-HP threshold, or a named combat state) now show each as its own clearly labeled group instead of silently mixing them together',
+    ],
+  },
+  {
     version: '0.3.149',
     date: '2026-11-12',
     notes: [

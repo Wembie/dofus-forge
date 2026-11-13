@@ -1,9 +1,9 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Sword } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import type { AppSpell, AppSpellElement, AppSpellEffect } from '@/data/spellLoaders.ts'
+import type { AppSpell, AppSpellElement, AppSpellEffect, AppSpellCondition } from '@/data/spellLoaders.ts'
 import type { AppEffect, AppItem } from '@/data/loaders.ts'
 import { calcEffects, NO_MODS, type CalcedEffect } from './spellDamage.ts'
 import { DamageHover } from './DamageHover.tsx'
@@ -11,7 +11,7 @@ import { useCombatStats } from '@/store/useCombatStats.ts'
 import type { StatBlock } from '@/engine/types.ts'
 import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
 import { weaponAttackEffects, weaponDamageRows } from './weaponRows.ts'
-import { spellGrade, ELEM_COLOR, fmtRange, dedupEffects, spellMods, weaponMods, WEAPON_ATTACK_STAT } from './spellCalc.ts'
+import { spellGrade, ELEM_COLOR, fmtRange, dedupEffects, spellMods, weaponMods, WEAPON_ATTACK_STAT, hasDescargaPattern, hasTieredOutcomes, conditionKey, sameCondition } from './spellCalc.ts'
 import { PvpArena } from '../pvp/PvpArena.tsx'
 import { applyItemSpellModifiers, getItemSpellModifiers } from './itemSpellModifiers.ts'
 import { SPELL_ITEM_EFFECT_IDS } from '@/data/effectIds.ts'
@@ -83,6 +83,15 @@ function buffIcon(text: string): string | null {
   // Generic damage — FR: dommage/dégât
   if (/damage|dommage|dégât|daño|dano/i.test(t)) return 'damage'
   return null
+}
+
+/** Human label for a condition group's header. `state` already carries its own real,
+ * per-language name (resolved at build time from the game's own data) — everything else
+ * routes through `t()` like any other UI string. */
+function conditionLabel(t: (key: string, opts?: Record<string, unknown>) => string, condition: AppSpellCondition): string {
+  if (condition.kind === 'shield') return t('spell_condition_shield')
+  if (condition.kind === 'low_target_hp') return t('spell_condition_low_target_hp', { threshold: condition.threshold })
+  return condition.label
 }
 
 type ElemFilter = AppSpellElement | 'all'
@@ -185,9 +194,14 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
 
   const isDmgOrSteal = (e: { kind: string }) => e.kind === 'damage' || e.kind === 'steal' || e.kind === 'poison'
 
-  // Separate effects by condition (shield = effects only on shielded targets)
-  const shieldDisplayEffects = displayEffects.filter(e => e.condition === 'shield')
-  const hasShieldGroup       = shieldDisplayEffects.length > 0
+  // Every distinct condition present (shield, a target-HP threshold, a named combat state),
+  // each rendered as its own labeled group below the base (no-condition) one — generic over
+  // however many condition kinds the data actually has, not a fixed single boolean split.
+  const conditionGroups = useMemo(() => {
+    const byKey = new Map<string, AppSpellCondition>()
+    for (const e of displayEffects) if (e.condition) byKey.set(conditionKey(e.condition), e.condition)
+    return [...byKey.values()]
+  }, [displayEffects])
 
   // Crit effects in same order as normal: base first, shield second
   const critDmgEffects = critDisplayEffects.filter(isDmgOrSteal)
@@ -215,13 +229,11 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
   const pushTotalDmg   = pushTotalCells * pushDmgPerCell
   const hasPush        = pushEffects.length > 0
 
-  function renderEffectGroup(shieldGroup: boolean) {
-    const groupDmgEffects = displayEffects.filter(e =>
-      isDmgOrSteal(e) && (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield')
-    )
+  function renderEffectGroup(condition: AppSpellCondition | undefined) {
+    const inThisGroup = (e: { condition?: AppSpellCondition }) => sameCondition(e.condition, condition)
+    const groupDmgEffects = displayEffects.filter(e => isDmgOrSteal(e) && inThisGroup(e))
     const critGroup = displayEffects.flatMap((e, i) => {
-      const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
-      if (!inGroup || !isDmgOrSteal(e)) return []
+      if (!inThisGroup(e) || !isDmgOrSteal(e)) return []
       return [critByDisplayIdx.get(i)]
     })
     const hasCritGroup   = critGroup.some(c => c != null)
@@ -234,19 +246,16 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
     const dmgCols        = showCritCol ? '13px 56px 56px' : '13px 56px'
 
     // Descarga detection must come before Σ totals so we can exclude the steal (charge) phase
-    const groupEffectsInOrder = displayEffects.filter(e =>
-      (shieldGroup ? e.condition === 'shield' : e.condition !== 'shield') && isDmgOrSteal(e)
-    )
-    const stealCount  = groupEffectsInOrder.filter(e => e.kind === 'steal').length
-    const damageCount = groupEffectsInOrder.filter(e => e.kind === 'damage').length
-    const hasDescarga = !shieldGroup && stealCount >= 1 && damageCount >= 1
-      && groupEffectsInOrder.findIndex(e => e.kind === 'damage') > groupEffectsInOrder.findIndex(e => e.kind === 'steal')
+    const groupEffectsInOrder = displayEffects.filter(e => inThisGroup(e) && isDmgOrSteal(e))
+    const isBaseGroup = condition === undefined
+    const hasDescarga = isBaseGroup && hasDescargaPattern(groupEffectsInOrder)
 
-    // Descarga spells: Σ only sums discharge (damage-kind) phase — steal phase is charging, not additive
-    const sigmaEffects   = hasDescarga ? groupDmgEffects.filter(e => e.kind === 'damage') : groupDmgEffects
-    const sigmaCritGroup = hasDescarga
-      ? critGroup.filter((_, i) => groupDmgEffects[i]?.kind === 'damage')
-      : critGroup
+    // Descarga spells: Σ only sums the discharge (damage-kind) phase — the steal phase is
+    // charging, not additive. Poison is a per-turn tick (its own labeled section below), never
+    // an instant hit, so it must never be folded into the instant Σ either.
+    const inSigma         = (e: { kind: string }) => e.kind !== 'poison' && (!hasDescarga || e.kind === 'damage')
+    const sigmaEffects    = groupDmgEffects.filter(inSigma)
+    const sigmaCritGroup  = critGroup.filter((_, i) => inSigma(groupDmgEffects[i] ?? { kind: '' }))
 
     const totalNormMin   = sigmaEffects.reduce((s, e) => s + e.calcMin, 0)
     const totalNormMax   = sigmaEffects.reduce((s, e) => s + e.calcMax, 0)
@@ -257,8 +266,11 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
     const totalHealMax   = groupDmgEffects.filter(e => e.kind === 'steal').reduce((s, e) => s + Math.floor(e.calcMax / 2), 0)
     const critHealMin    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMin / 2) : 0), 0)
     const critHealMax    = critGroup.reduce((s, c) => s + (c?.kind === 'steal' ? Math.floor(c.calcMax / 2) : 0), 0)
-    const showGroupTotal = !shieldGroup && !hasDescarga && !isMixed && sigmaEffects.length >= 2
-    const showPushSigma  = !shieldGroup && !hasDescarga && !isMixed && hasPush && stats != null
+    // Two+ distinct values of the same kind in the sum (a charge tier, a dice/card draw) are
+    // mutually exclusive outcomes, not simultaneous hits — never add them into one total.
+    const hasTiers        = hasTieredOutcomes(sigmaEffects)
+    const showGroupTotal = isBaseGroup && !hasDescarga && !isMixed && !hasTiers && sigmaEffects.length >= 2
+    const showPushSigma  = isBaseGroup && !hasDescarga && !isMixed && hasPush && stats != null
 
     const rows: React.ReactNode[] = []
 
@@ -284,8 +296,7 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
     let poisonLabelShown = false
 
     displayEffects.forEach((e, i) => {
-      const inGroup = shieldGroup ? e.condition === 'shield' : e.condition !== 'shield'
-      if (!inGroup) return
+      if (!inThisGroup(e)) return
       const c = ELEM_COLOR[e.element]
 
       // Insert Descarga separator before first damage effect in charge+discharge spells
@@ -454,7 +465,7 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
       )
     })
 
-    if (!shieldGroup && chargeSets.length > 0) {
+    if (isBaseGroup && chargeSets.length > 0) {
       chargeSets.forEach(({ label, calced, calcedCrit }) => {
         const cdmg  = calced.filter(isDmgOrSteal)
         const ccrit = calcedCrit.filter(isDmgOrSteal)
@@ -651,17 +662,17 @@ function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
 
         {displayEffects.length > 0 ? (
           <div className="space-y-0.5">
-            {renderEffectGroup(false)}
-            {hasShieldGroup && (
-              <>
+            {renderEffectGroup(undefined)}
+            {conditionGroups.map(cond => (
+              <Fragment key={conditionKey(cond)}>
                 <div className="pt-0.5 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
                   <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
-                    {t('spell_condition_shield')}
+                    {conditionLabel(t, cond)}
                   </span>
                 </div>
-                {renderEffectGroup(true)}
-              </>
-            )}
+                {renderEffectGroup(cond)}
+              </Fragment>
+            ))}
           </div>
         ) : (
           <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>

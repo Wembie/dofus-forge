@@ -227,6 +227,7 @@
   "spell_erosion": "{{pct}}% Erosión · {{turns}}t",
   "spell_heal_mod": "Curas ×{{pct}}%",
   "spell_condition_shield": "Objetivos con escudo",
+  "spell_condition_low_target_hp": "Objetivo con menos del {{threshold}}% de vida",
   "weapon_attack": "Ataque de Arma",
   "weapon_fist": "Sin Arma (Puño)",
   "weapon_normal": "Normal",

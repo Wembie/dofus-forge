@@ -12,12 +12,20 @@ export type AppSpellEffectKind =
   | 'spell_buff' // stacking spell damage buff — min=amount, spellId, stack, turns, deathReset
   // poison = DoT damage (triggers="TE", effectTriggerDuration>0) — turns=duration in rounds
 
+/** A mutually-exclusive alternative branch of an effect — see `scripts/fetch-spells.ts`'s
+ * `AppSpellCondition` doc comment for how each is detected and (for `state`) how its label
+ * is resolved at build time from the game's own `spell_states.json`. */
+export type AppSpellCondition =
+  | { kind: 'shield' }
+  | { kind: 'low_target_hp'; threshold: number }
+  | { kind: 'state'; id: number; label: string }
+
 export type AppSpellEffect = {
   element:    Exclude<AppSpellElement, 'mixed'>
   min:        number
   max:        number
   kind:       AppSpellEffectKind
-  condition?: 'shield'
+  condition?: AppSpellCondition
   // spell_buff / erosion
   spellId?:    number
   stack?:      number

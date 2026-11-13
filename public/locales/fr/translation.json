@@ -226,6 +226,7 @@
   "spell_erosion": "{{pct}}% Érosion · {{turns}}t",
   "spell_heal_mod": "Soins ×{{pct}}%",
   "spell_condition_shield": "Objectifs avec bouclier",
+  "spell_condition_low_target_hp": "Cible avec moins de {{threshold}}% de vie",
   "weapon_attack": "Attaque d'arme",
   "weapon_fist": "Sans arme (Poing)",
   "weapon_normal": "Normal",
