@@ -1539,5 +1539,10 @@
   "terms_s14_title": "Droit applicable et litiges",
   "terms_s14_body": "Ces Conditions sont régies par le droit de la République de Colombie. Avant toute action, écrivez à contact@dofusforge.com afin que nous tentions de résoudre le différend à l'amiable pendant au moins 30 jours. À défaut, les tribunaux colombiens seront compétents. Si vous utilisez le site en tant que consommateur et résidez dans un autre pays, vous conservez la protection des dispositions impératives de votre pays et pouvez saisir ses tribunaux lorsque cette loi le permet.",
   "terms_s15_title": "Dispositions générales",
-  "terms_s15_body": "Ces Conditions, avec la Politique de confidentialité, constituent l'intégralité de l'accord entre vous et nous concernant le site. Si une clause est jugée invalide, les autres restent en vigueur. Ne pas exercer un droit ne vaut pas renonciation. Nous pouvons céder le service à une personne qui en poursuit l'exploitation, en vous prévenant au préalable. Ces Conditions sont traduites en plusieurs langues ; en cas de divergence, la version espagnole prévaut, sauf disposition contraire de la loi de votre pays. En vigueur depuis le 9 novembre 2026."
+  "terms_s15_body": "Ces Conditions, avec la Politique de confidentialité, constituent l'intégralité de l'accord entre vous et nous concernant le site. Si une clause est jugée invalide, les autres restent en vigueur. Ne pas exercer un droit ne vaut pas renonciation. Nous pouvons céder le service à une personne qui en poursuit l'exploitation, en vous prévenant au préalable. Ces Conditions sont traduites en plusieurs langues ; en cas de divergence, la version espagnole prévaut, sauf disposition contraire de la loi de votre pays. En vigueur depuis le 9 novembre 2026.",
+  "gap_upgrade_title": "Prochaine amélioration",
+  "gap_upgrade_cta": "Que devrais-je améliorer en premier ?",
+  "gap_upgrade_empty": "Aucun objet du catalogue actuel n'améliorerait votre build.",
+  "gap_upgrade_row": "Remplacez votre {{slot}} par {{item}} : {{sign}}{{value}} {{stat}}",
+  "gap_upgrade_row_plain": "Remplacez votre {{slot}} par {{item}}"
 }

@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.151',
+    date: '2026-11-13',
+    notes: [
+      'New: a "Next upgrade" section in the "What\'s Missing?" panel — for each gear slot, scans the catalog and names the single item (and the stat it would change) that improves your build the most, with everything else held fixed',
+    ],
+  },
+  {
     version: '0.3.150',
     date: '2026-11-13',
     notes: [
