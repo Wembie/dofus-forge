@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.153',
+    date: '2026-11-13',
+    notes: [
+      'Removed: the "What\'s Missing?" panel (gap checklist, community comparison, next-upgrade suggestions) — it didn\'t add anything you couldn\'t already see on screen',
+    ],
+  },
+  {
     version: '0.3.152',
     date: '2026-11-13',
     notes: [

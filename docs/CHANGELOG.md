@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.153] — 2026-11-13
+- **Removed (stats)**: the "What's Missing?" panel (gap checklist, community-percentile comparison, and "Next upgrade" suggestions) is gone from the Stats panel — user feedback was that the findings didn't add anything you couldn't already see on screen. May come back in a different shape later
+
 ## [0.3.152] — 2026-11-13
 - **Fix (stats)**: "Next upgrade" (M163) could recommend trading away AP or MP for a bigger score elsewhere, and could show a stat that got *worse* as the reason for a suggestion (reported live: a weapon suggestion headlined "-1 AP", an amulet swap headlined "-140 Agility"). Now a swap that costs AP or MP is never suggested at all, and the stat shown is always the one that actually improved. Also fixed: scanning each Dofus slot independently could suggest the exact same Dofus for 2-3 different slots at once (impossible to actually equip) — slots now claim their suggested item as they're found, so later slots suggest the next-best distinct one instead
 
