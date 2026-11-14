@@ -42,15 +42,16 @@ function powerScore(stats: StatBlock, weights: Partial<Record<keyof StatBlock, n
   return score
 }
 
-/** The single stat that moved the comparison the most — shown to the player as the concrete
- * "why", instead of an opaque score. Ranked by weighted contribution (so +1 AP beats +50
- * Vitality even though 50 > 1), but the delta shown is the real, unweighted stat value. */
+/** The single stat that improved the most — shown to the player as the concrete "why", instead
+ * of an opaque score. Only considers stats that got BETTER: the swap's net score is positive
+ * (it wouldn't be suggested otherwise), so some gain always exists even when a trade-off stat
+ * drops — showing that drop as "the reason" reads as a downgrade, not an upgrade. */
 function topStatDiff(a: StatBlock, b: StatBlock, weights: Partial<Record<keyof StatBlock, number>>): { key: keyof StatBlock; delta: number } | null {
   let top: { key: keyof StatBlock; delta: number; weighted: number } | null = null
   for (const [key, weight] of Object.entries(weights) as [keyof StatBlock, number][]) {
     const delta = (b[key] as number) - (a[key] as number)
-    if (delta === 0) continue
-    const weighted = Math.abs(delta * weight)
+    if (delta <= 0) continue
+    const weighted = delta * weight
     if (!top || weighted > top.weighted) top = { key, delta, weighted }
   }
   return top ? { key: top.key, delta: top.delta } : null
@@ -86,6 +87,11 @@ export function findUpgrades(
   const weights   = weightsFor(primaryElement(baseStats))
   const baseScore = powerScore(baseStats, weights)
   const suggestions: UpgradeSuggestion[] = []
+  // Claims a unique item (a Dofus can't be worn twice) across slots scanned so far, so e.g.
+  // Dofus 3/4/5 don't all independently suggest the same single best Dofus — each slot's stat
+  // comparison itself still uses the real `equipped` (recomputeWith), only this exclusion list
+  // grows, so suggestions stay independent "change just this one slot" comparisons.
+  const claimed: Partial<Record<SlotId, number>> = { ...equipped }
 
   for (const slotConfig of SLOT_CONFIGS) {
     const slot      = slotConfig.id
@@ -97,10 +103,13 @@ export function findUpgrades(
       if (item.level > level) continue
       if (!isDofusSlot(slot) && level - item.level > LEVEL_WINDOW) continue
       if (!matchesSlot(item, slotConfig)) continue
-      if (catalogBlock(item, slot, equipped, byId)) continue
+      if (catalogBlock(item, slot, claimed, byId)) continue
 
       const candidateStats = recomputeWith(slot, item.ankama_id)
       if (!candidateStats) continue
+      // AP/PM are too precious in Dofus to trade away silently for a bigger weighted total
+      // elsewhere — never recommend a swap that costs either, even if the net score is higher.
+      if (candidateStats.ap < baseStats.ap || candidateStats.mp < baseStats.mp) continue
       const score = powerScore(candidateStats, weights)
       if (score > baseScore && (!best || score > best.score)) best = { item, score, stats: candidateStats }
     }
@@ -110,6 +119,7 @@ export function findUpgrades(
         slot, item: best.item, scoreDelta: best.score - baseScore,
         topStat: topStatDiff(baseStats, best.stats, weights),
       })
+      claimed[slot] = best.item.ankama_id
     }
   }
 

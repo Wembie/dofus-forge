@@ -8,6 +8,13 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.152',
+    date: '2026-11-13',
+    notes: [
+      'Fix: "Next upgrade" no longer recommends trading away AP or MP, never shows a stat that got worse as the reason for a suggestion, and no longer suggests the same Dofus for multiple slots at once',
+    ],
+  },
+  {
     version: '0.3.151',
     date: '2026-11-13',
     notes: [

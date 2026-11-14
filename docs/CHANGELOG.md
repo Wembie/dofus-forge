@@ -5,6 +5,9 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
+## [0.3.152] — 2026-11-13
+- **Fix (stats)**: "Next upgrade" (M163) could recommend trading away AP or MP for a bigger score elsewhere, and could show a stat that got *worse* as the reason for a suggestion (reported live: a weapon suggestion headlined "-1 AP", an amulet swap headlined "-140 Agility"). Now a swap that costs AP or MP is never suggested at all, and the stat shown is always the one that actually improved. Also fixed: scanning each Dofus slot independently could suggest the exact same Dofus for 2-3 different slots at once (impossible to actually equip) — slots now claim their suggested item as they're found, so later slots suggest the next-best distinct one instead
+
 ## [0.3.151] — 2026-11-13
 - **Feat (stats, M163)**: new "Next upgrade" section inside the "What's Missing?" panel — for each equipped slot (empty or not), it scans the catalog for the level-appropriate item that would raise the build the most if swapped in, everything else about the build held fixed, and names the concrete stat it would change (e.g. "Swap your Belt for Epeni's Belt: +25 Crit Damage"). Scores against the build's real played element (inferred from actual stats, not the class's flavor element) using the same forgemagic weights the set guide pages already rank sets with. Pure client-side computation, click-gated like the community benchmark button — no WASM, no network
 
