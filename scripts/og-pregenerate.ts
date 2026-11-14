@@ -71,10 +71,20 @@ const assets = {
 } as unknown as Fetcher
 
 // The ASSETS_BUCKET binding (item icons), read from its public domain.
+// A thrown fetch (DNS blip, connection reset — no HTTP response at all) gets
+// a few retries with backoff, same idea as r2()'s send(); an actual 404
+// still means "no icon" and returns null on the first try, untouched.
 const itemBucket = {
   async get(key: string) {
-    const res = await fetch(`${ASSETS_URL}${key}`, { signal: AbortSignal.timeout(15_000) })
-    return res.ok ? { arrayBuffer: () => res.arrayBuffer() } : null
+    for (let attempt = 1; ; attempt++) {
+      try {
+        const res = await fetch(`${ASSETS_URL}${key}`, { signal: AbortSignal.timeout(15_000) })
+        return res.ok ? { arrayBuffer: () => res.arrayBuffer() } : null
+      } catch (e) {
+        if (attempt >= 3) throw e
+        await new Promise(r => setTimeout(r, 500 * 2 ** (attempt - 1)))
+      }
+    }
   },
 } as unknown as Pick<R2Bucket, 'get'>
 

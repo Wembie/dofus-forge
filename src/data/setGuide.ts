@@ -13,8 +13,8 @@ type GuideItem = { ankama_id: number; level: number; slot: string; effects: Item
 export const GUIDE_ELEMENTS = ['earth', 'fire', 'water', 'air'] as const
 export type GuideElement = (typeof GUIDE_ELEMENTS)[number]
 
-export const CHARACTERISTIC: Record<GuideElement, StatKey> = { earth: 'strength', fire: 'intelligence', water: 'chance', air: 'agility' }
-export const ELEMENT_DAMAGE: Record<GuideElement, StatKey> = { earth: 'earthDamage', fire: 'fireDamage', water: 'waterDamage', air: 'airDamage' }
+const CHARACTERISTIC: Record<GuideElement, StatKey> = { earth: 'strength', fire: 'intelligence', water: 'chance', air: 'agility' }
+const ELEMENT_DAMAGE: Record<GuideElement, StatKey> = { earth: 'earthDamage', fire: 'fireDamage', water: 'waterDamage', air: 'airDamage' }
 
 /** What a link to a set page shows: enough for a card, nothing more. */
 export type SetLink = {
@@ -142,7 +142,7 @@ export function gearTotals(items: readonly GuideItem[], setsById: ReadonlyMap<nu
 }
 
 /** How much a stat line is worth to a damage dealer of an element (forgemagic rune weights). */
-export const SHARED_WEIGHT: Partial<Record<StatKey, number>> = {
+const SHARED_WEIGHT: Partial<Record<StatKey, number>> = {
   ap: 100, mp: 90, range: 51, summons: 30,
   power: 1, damage: 5, bestElemDamage: 5,
   critChance: 10, critDamage: 5,
