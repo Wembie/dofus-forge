@@ -3,6 +3,12 @@ name: PR Checks
 on:
   pull_request:
     branches: [main, dev]
+    # Default types (opened/synchronize/reopened) don't include a title/body
+    # edit, so a PR title fixed after a failed pr-metadata check never
+    # reruns it on its own — editing alone leaves the old failed run stuck.
+    # `edited` closes that gap; the `changes` job below skips on it so the
+    # expensive build/test/security jobs don't rerun for a title-only edit.
+    types: [opened, synchronize, reopened, edited]
 
 concurrency:
   group: pr-checks-${{ github.event.pull_request.number }}
@@ -21,6 +27,9 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # A title/body edit alone has no new diff to check — skip so validate/
+    # dependency-review (which need this job) skip too, cascading for free.
+    if: github.event.action != 'edited'
     outputs:
       code: ${{ steps.diff.outputs.code }}
     steps:
