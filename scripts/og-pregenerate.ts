@@ -160,7 +160,18 @@ function r2() {
   const send = async (key: string, init: RequestInit): Promise<Response> => {
     for (let attempt = 1; ; attempt++) {
       await paced()
-      const res = await fetch(url(key), { ...init, headers: { ...headers, ...(init.headers as Record<string, string>) } })
+      // A thrown fetch (DNS blip, connection reset — no HTTP response at all) is retried the
+      // same as a 429/5xx response; previously it wasn't caught here, so a single transient
+      // network error failed the card outright (observed live: a class card's PUT to R2 threw
+      // "fetch failed" with no retry, failing the whole shard for one card).
+      let res: Response
+      try {
+        res = await fetch(url(key), { ...init, headers: { ...headers, ...(init.headers as Record<string, string>) } })
+      } catch (e) {
+        if (attempt >= 6) throw e
+        await new Promise(r => setTimeout(r, Math.min(60_000, 2000 * 2 ** attempt)))
+        continue
+      }
       const retryable = res.status === 429 || res.status >= 500
       if (!retryable || attempt >= 6) return res
       await res.body?.cancel()
