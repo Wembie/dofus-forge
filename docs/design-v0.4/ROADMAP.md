@@ -35,7 +35,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Hechizos y arma | Adaptación provisional | `SpellsPanel` |
 | Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
 | Simular un combate | Rediseñado como tabla de daño de todos los ataques contra un objetivo. No incluye la tirada al azar ni la probabilidad de crítico: su regla (crítico base + crítico de la build, tope 100) está dentro de `PvpArena` y debe exportarse antes | `prototype/Combat.tsx` |
-| Comparar dos builds | Adaptación provisional | `ComparePanel` |
+| Comparar dos builds | Rediseñado: veredicto, barra enfrentada por estadística y piezas distintas. La referencia se fija desde la build actual o se pega como enlace/código. Pendiente al migrar: elegir entre builds guardadas y de la cuenta, enlaces de builds publicadas y el enlace para compartir la comparación (su armado está dentro de `ComparePanel`) | `prototype/Compare.tsx` |
 | Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
 | Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |
 | Detalle de panoplia abierto desde un objeto o una página de panoplia | Rediseñado; abre Panoplias en esa panoplia | `prototype/Sets.tsx` |

@@ -9,7 +9,7 @@ import { Catalog } from "./Catalog";
 import { Sets } from "./Sets";
 import { SetBonuses, Changelog } from "./SetBonuses";
 import { RuneModal } from "../../../src/features/equipment/RuneModal";
-import { ComparePanel } from "../../../src/features/compare/ComparePanel";
+import { Compare } from "./Compare";
 import { useCompareStore } from "../../../src/store/compareStore";
 import { buildSnapshotFromState } from "../../../src/features/share/codec";
 import { SharePanel } from "./SharePanel";
@@ -138,7 +138,7 @@ export function WorkspaceTools({
       {tool === "pvp" && <Combat />}
       {tool === "bonuses" && <SetBonuses />}
       {tool === "changelog" && <Changelog />}
-      {tool === "compare" && <ComparePanel />}
+      {tool === "compare" && <Compare />}
       {tool === "share" && <SharePanel />}
       {tool === "runes" && !selected && (
         <p>Equipa un objeto en este espacio para editar sus runas.</p>

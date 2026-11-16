@@ -170,6 +170,41 @@ for (const [device, width, height] of [
   await expect(damage).toHaveText(open);
   await expect(earth).toHaveValue("0");
   await page.keyboard.press("Escape");
+  const compare = page.getByRole("button", {
+      name: "Comparar dos builds",
+      exact: true,
+    }),
+    verdict = page.locator(".cmp-head p");
+  await compare.click();
+  await expect(verdict).toContainText("son iguales");
+  await page.keyboard.press("Escape");
+  await catalog();
+  await page
+    .getByRole("textbox", { name: "Buscar objetos", exact: true })
+    .fill("Sombrero Soifam");
+  await page.locator(".catalog-result-open").first().click();
+  await page
+    .getByRole("button", { name: "Equipar en sombrero", exact: true })
+    .click();
+  await compare.click();
+  await expect(verdict).toContainText("1 pieza distinta");
+  await expect(page.locator(".cmp-rows li").first()).toBeVisible();
+  await page.getByRole("button", { name: "Usar otra build…" }).click();
+  await page
+    .getByRole("textbox", { name: "Enlace o código de una build" })
+    .fill("esto-no-es-una-build");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Comparar", exact: true })
+    .click();
+  await expect(page.getByRole("alert")).toContainText("No reconocemos");
+  await page
+    .getByRole("button", { name: "Fijar mi build actual como referencia" })
+    .click();
+  await expect(verdict).toContainText("son iguales");
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Deshacer", exact: true }).click();
+  await expect.poll(() => metric.allTextContents()).toEqual(baseline);
   if (device === "desktop") {
     await page
       .getByRole("button", { name: "Compartir y exportar", exact: true })
@@ -194,6 +229,7 @@ for (const [device, width, height] of [
     characteristics: true,
     passives: true,
     combatTable: true,
+    compare: true,
     exported: device === "desktop",
     errors,
   });
