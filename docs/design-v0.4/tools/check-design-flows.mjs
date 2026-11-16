@@ -135,6 +135,19 @@ for (const [device, width, height] of [
   await scroll.click();
   await page.keyboard.press("Escape");
   await expect.poll(() => metric.allTextContents()).toEqual(baseline);
+  await page
+    .getByRole("button", { name: "Pasivos de combate", exact: true })
+    .click();
+  const passiveTotal = page.locator(".passive-total");
+  await expect(passiveTotal).toContainText("Ninguno activo");
+  await page.getByRole("radio").filter({ hasText: "Fuerza" }).first().click();
+  await expect(passiveTotal).toContainText("+400 Fuerza");
+  await page.getByRole("slider").first().focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(passiveTotal).toContainText("Daño final");
+  await page.getByRole("button", { name: "Restablecer", exact: true }).click();
+  await expect(passiveTotal).toContainText("Ninguno activo");
+  await page.keyboard.press("Escape");
   if (device === "desktop") {
     await page
       .getByRole("button", { name: "Compartir y exportar", exact: true })
@@ -157,6 +170,7 @@ for (const [device, width, height] of [
     commandPalette: true,
     setEquipAndUndo: true,
     characteristics: true,
+    passives: true,
     exported: device === "desktop",
     errors,
   });

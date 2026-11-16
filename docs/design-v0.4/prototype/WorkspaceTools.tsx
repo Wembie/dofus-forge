@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useBuildStore, type SlotId } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
 import { Characteristics } from "./Characteristics";
-import { PassivesPanel } from "../../../src/features/passives/PassivesPanel";
-import { CombatViewBar } from "../../../src/features/passives/CombatViewBar";
+import { Passives, CombatSwitch } from "./Passives";
 import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
 import { PvpArena } from "../../../src/features/pvp/PvpArena";
 import { Catalog } from "./Catalog";
@@ -129,30 +128,16 @@ export function WorkspaceTools({
         </div>
       )}
       {tool === "characteristics" && <Characteristics />}
-      {tool === "passives" && (
-        <>
-          <CombatViewBar />
-          <PassivesPanel
-            items={Object.values(b.equipped).flatMap((id) =>
-              equipment.get(id!) ? [equipment.get(id!)!] : [],
-            )}
-            state={b.passives}
-            onChange={b.setPassive}
-            onReset={() =>
-              Object.keys(b.passives).forEach((id) => b.setPassive(id, 0))
-            }
-          />
-        </>
-      )}
+      {tool === "passives" && <Passives />}
       {tool === "spells" && (
         <>
-          <CombatViewBar />
+          <CombatSwitch />
           <SpellsPanel />
         </>
       )}
       {tool === "pvp" && (
         <>
-          <CombatViewBar />
+          <CombatSwitch />
           <PvpArena />
         </>
       )}

@@ -33,7 +33,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Distribuir características | Rediseñado | `prototype/Characteristics.tsx` |
 | Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
 | Hechizos y arma | Adaptación provisional | `SpellsPanel` |
-| Pasivos de combate | Adaptación provisional | `PassivesPanel`, `CombatViewBar` |
+| Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
 | Simular un combate | Adaptación provisional | `PvpArena` |
 | Comparar dos builds | Adaptación provisional | `ComparePanel` |
 | Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
