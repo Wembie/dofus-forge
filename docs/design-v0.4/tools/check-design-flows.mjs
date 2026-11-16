@@ -93,6 +93,48 @@ for (const [device, width, height] of [
   await page
     .getByRole("button", { name: "Volver al taller", exact: true })
     .click();
+  await page.getByRole("button", { name: "Panoplias", exact: true }).click();
+  await page
+    .getByRole("textbox", { name: "Buscar panoplias", exact: true })
+    .fill("volc");
+  await page.locator(".catalog-result-open").first().click();
+  await expect(page.locator(".set-tiers .is-reached")).toHaveCount(1);
+  await page.getByRole("button", { name: /^Equipar \d+ piezas/ }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect.poll(() => metric.allTextContents()).not.toEqual(baseline);
+  await page.getByRole("button", { name: "Deshacer", exact: true }).click();
+  await expect.poll(() => metric.allTextContents()).toEqual(baseline);
+  await page
+    .getByRole("button", { name: "Distribuir características", exact: true })
+    .click();
+  const points = page.locator(".chars-budget strong"),
+    field = (name) =>
+      page.getByRole("textbox", { name: "Puntos en " + name, exact: true }),
+    set = async (name, value) => {
+      await field(name).fill(String(value));
+      await field(name).blur();
+    };
+  await expect(points).toHaveText("0");
+  await set("Fuerza", 100);
+  await expect(points).toHaveText("500");
+  await page
+    .getByRole("button", { name: "Asignar el máximo posible a Agilidad" })
+    .click();
+  await expect(points).toHaveText("2");
+  await expect(field("Agilidad")).toHaveValue("266");
+  await set("Agilidad", 0);
+  await set("Fuerza", 300);
+  await expect(points).toHaveText("0");
+  const luck = page
+    .getByRole("group", { name: "Suerte" })
+    .locator(".chars-total strong"),
+    withScroll = Number(await luck.textContent());
+  const scroll = page.getByRole("button", { name: /^Pergamino de Suerte/ });
+  await scroll.click();
+  await expect(luck).toHaveText(String(withScroll - 100));
+  await scroll.click();
+  await page.keyboard.press("Escape");
+  await expect.poll(() => metric.allTextContents()).toEqual(baseline);
   if (device === "desktop") {
     await page
       .getByRole("button", { name: "Compartir y exportar", exact: true })
@@ -113,6 +155,8 @@ for (const [device, width, height] of [
     nestedSetDialog: true,
     runeAndUndo: true,
     commandPalette: true,
+    setEquipAndUndo: true,
+    characteristics: true,
     exported: device === "desktop",
     errors,
   });

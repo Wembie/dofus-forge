@@ -9,6 +9,8 @@
     "nestedSetDialog": true,
     "runeAndUndo": true,
     "commandPalette": true,
+    "setEquipAndUndo": true,
+    "characteristics": true,
     "exported": true,
     "errors": []
   },
@@ -22,6 +24,8 @@
     "nestedSetDialog": true,
     "runeAndUndo": true,
     "commandPalette": true,
+    "setEquipAndUndo": true,
+    "characteristics": true,
     "exported": false,
     "errors": []
   }
