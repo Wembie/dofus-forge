@@ -32,7 +32,7 @@ import { CLASS_DATA } from "../../../src/features/class-picker/classData";
 import { resolveClassName } from "../../../src/features/class-picker/useClassName";
 import { CharacterStage } from "../../../src/components/CharacterStage";
 import { LegalBody } from "../../../src/components/LegalBody";
-import { SetDetailModal } from "../../../src/features/equipment/SetDetailModal";
+import { Sets } from "./Sets";
 import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import { prepareModel, equipment, seedItems, visibleSlots } from "./model";
 import { BuildSheet, sheetVitals, type SheetBuild } from "./BuildSheet";
@@ -1523,7 +1523,7 @@ function App() {
       )}
       <WorkspaceTools tool={tool} onClose={() => setTool(null)} />
       {setOpen && chosenSet && (
-        <SetDetailModal set={chosenSet} onClose={() => setSetOpen(false)} />
+        <Sets open={chosenSet.ankama_id} onClose={() => setSetOpen(false)} />
       )}
       <details className="tool-directory">
         <summary>Herramientas y subpaneles del equipo</summary>

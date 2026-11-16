@@ -18,7 +18,7 @@ import {
   statIconUrl,
 } from "../../../src/features/equipment/statDisplay";
 import { ItemSpellEffects } from "../../../src/features/equipment/ItemSpellEffects";
-import { SetDetailModal } from "../../../src/features/equipment/SetDetailModal";
+import { Sets } from "./Sets";
 import { StatFilter } from "../../../src/ui/StatFilter";
 import { normalizeSearch } from "../../../src/ui/normalize";
 import { equipment, previewItems, visibleSlots } from "./model";
@@ -509,10 +509,10 @@ export function Catalog({
         </section>
       </div>
       {setDetail && (
-        <SetDetailModal
-          set={setDetail}
+        <Sets
+          open={setDetail.ankama_id}
           onClose={() => setSetDetail(null)}
-          onEquipAll={onClose}
+          onEquipped={onClose}
         />
       )}
     </Modal>

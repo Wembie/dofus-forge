@@ -31,14 +31,14 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
 | Distribuir características | Rediseñado | `prototype/Characteristics.tsx` |
-| Forjamagia (runas y trascendencia) | Adaptación provisional | `RuneModal` |
+| Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
 | Hechizos y arma | Adaptación provisional | `SpellsPanel` |
 | Pasivos de combate | Adaptación provisional | `PassivesPanel`, `CombatViewBar` |
 | Simular un combate | Adaptación provisional | `PvpArena` |
 | Comparar dos builds | Adaptación provisional | `ComparePanel` |
 | Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
 | Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |
-| Detalle de panoplia abierto desde el catálogo | Adaptación provisional | `SetDetailModal` |
+| Detalle de panoplia abierto desde un objeto o una página de panoplia | Rediseñado; abre Panoplias en esa panoplia | `prototype/Sets.tsx` |
 
 Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-forge`, `check-workspace`, `check-design-flows` y `check-surfaces` (ambos temas) terminan sin desbordamiento, errores de JavaScript ni infracciones automáticas de accesibilidad. Solo cubren 1440×900 y 390×844 salvo `check-prototype`, que cubre cinco tamaños.
 

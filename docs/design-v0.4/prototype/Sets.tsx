@@ -31,8 +31,19 @@ const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200];
 const level = (e: Entry) =>
   e.minLevel === e.maxLevel ? e.minLevel : `${e.minLevel}–${e.maxLevel}`;
 
-/** Same list/detail composition as the item catalogue: read the set and what it changes, then equip. */
-export function Sets({ onClose }: { onClose: () => void }) {
+/**
+ * Same list/detail composition as the item catalogue: read the set and what it
+ * changes, then equip. `open` starts on that set, for links from an item or a set page.
+ */
+export function Sets({
+  onClose,
+  open,
+  onEquipped = onClose,
+}: {
+  onClose: () => void;
+  open?: number;
+  onEquipped?: () => void;
+}) {
   const { t } = useTranslation(),
     build = useBuildStore(),
     sets = useDataStore((s) => s.sets) || [];
@@ -40,7 +51,7 @@ export function Sets({ onClose }: { onClose: () => void }) {
     [range, setRange] = useState({ min: 0, max: 200 }),
     [pieces, setPieces] = useState(0),
     [sort, setSort] = useState("desc"),
-    [selected, setSelected] = useState<Entry | null>(null),
+    [picked, setSelected] = useState<Entry | null | undefined>(undefined),
     [page, setPage] = useState(1);
   const detailRef = useRef<HTMLHeadingElement>(null),
     lastRow = useRef<HTMLButtonElement | null>(null);
@@ -61,6 +72,10 @@ export function Sets({ onClose }: { onClose: () => void }) {
       }),
     [sets],
   );
+  const selected =
+    picked === undefined
+      ? entries.find((e) => e.set.ankama_id === open) || null
+      : picked;
   const sizes = useMemo(
     () => [...new Set(entries.map((e) => e.items.length))].sort((a, b) => a - b),
     [entries],
@@ -128,7 +143,7 @@ export function Sets({ onClose }: { onClose: () => void }) {
     build.equipMultiple(
       plan.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })),
     );
-    onClose();
+    onEquipped();
   }
   const have = selected ? count(selected) : 0,
     after = have + plan.length,
