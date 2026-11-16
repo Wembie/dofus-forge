@@ -32,7 +32,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
 | Distribuir características | Rediseñado | `prototype/Characteristics.tsx` |
 | Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
-| Hechizos y arma | Adaptación provisional | `SpellsPanel` |
+| Hechizos y arma | Adaptación provisional. Los totales por golpe, la exclusión de la fase de carga, la cura por robo y los casos escalonados se calculan dentro del componente; requiere antes un modelo de vista exportado | `SpellsPanel` |
 | Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
 | Simular un combate | Rediseñado como tabla de daño de todos los ataques contra un objetivo. No incluye la tirada al azar ni la probabilidad de crítico: su regla (crítico base + crítico de la build, tope 100) está dentro de `PvpArena` y debe exportarse antes | `prototype/Combat.tsx` |
 | Comparar dos builds | Rediseñado: veredicto, barra enfrentada por estadística y piezas distintas. La referencia se fija desde la build actual o se pega como enlace/código. Pendiente al migrar: elegir entre builds guardadas y de la cuenta, enlaces de builds publicadas y el enlace para compartir la comparación (su armado está dentro de `ComparePanel`) | `prototype/Compare.tsx` |
@@ -41,6 +41,17 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Detalle de panoplia abierto desde un objeto o una página de panoplia | Rediseñado; abre Panoplias en esa panoplia | `prototype/Sets.tsx` |
 
 Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-forge`, `check-workspace`, `check-design-flows` y `check-surfaces` (ambos temas) terminan sin desbordamiento, errores de JavaScript ni infracciones automáticas de accesibilidad. Solo cubren 1440×900 y 390×844 salvo `check-prototype`, que cubre cinco tamaños.
+
+### Prerrequisitos para terminar el rediseño
+
+Las dos herramientas que siguen en adaptación provisional, y dos funciones no trasladadas, dependen de reglas que hoy viven dentro de componentes de producción. El estudio no las reescribe: duplicar reglas del juego contradice el contrato de `UX-SPEC.md`. Hace falta exportarlas sin cambiar su comportamiento (un `refactor` en `src/`, sin versión ni changelog):
+
+| Regla | Dónde está | Desbloquea |
+|---|---|---|
+| Secciones de runas, valores rápidos por tipo y relaciones de transformación del arma | `RuneModal.tsx` | Forjamagia |
+| Modelo de vista de un hechizo y del arma: filas, totales por golpe y crítico, fase de carga, cura por robo, casos escalonados y condiciones | `SpellsPanel.tsx` (`SpellCard`, `WeaponCard`) | Hechizos y arma |
+| Crítico efectivo de un ataque (crítico base + crítico de la build, tope 100) | `PvpArena.tsx` | Probabilidad de crítico y tirada al azar en la tabla de combate |
+| Armado del enlace de comparación y lectura de enlaces de builds publicadas | `ComparePanel.tsx` | Compartir la comparación y elegir una build publicada como referencia |
 
 ## Secuencia técnica
 
