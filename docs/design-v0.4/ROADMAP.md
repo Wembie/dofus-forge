@@ -30,7 +30,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | La Forjadora | Rediseñado; conserva el componente y el motor | `prototype/ForgeModal.tsx` |
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
-| Distribuir características | Adaptación provisional | `CharacteristicsPanel` |
+| Distribuir características | Rediseñado | `prototype/Characteristics.tsx` |
 | Forjamagia (runas y trascendencia) | Adaptación provisional | `RuneModal` |
 | Hechizos y arma | Adaptación provisional | `SpellsPanel` |
 | Pasivos de combate | Adaptación provisional | `PassivesPanel`, `CombatViewBar` |
