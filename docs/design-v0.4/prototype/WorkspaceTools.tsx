@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useBuildStore, type SlotId } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
-import { CharacteristicsPanel } from "../../../src/features/characteristics/CharacteristicsPanel";
+import { Characteristics } from "./Characteristics";
 import { PassivesPanel } from "../../../src/features/passives/PassivesPanel";
 import { CombatViewBar } from "../../../src/features/passives/CombatViewBar";
 import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
@@ -130,7 +130,7 @@ export function WorkspaceTools({
           </button>
         </div>
       )}
-      {tool === "characteristics" && <CharacteristicsPanel />}
+      {tool === "characteristics" && <Characteristics />}
       {tool === "passives" && (
         <>
           <CombatViewBar />
