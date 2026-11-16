@@ -57,10 +57,10 @@
     "geometry": {
       "width": 1440,
       "scrollWidth": 1440,
-      "contentWidth": 1358,
-      "contentScrollWidth": 1358
+      "contentWidth": 1178,
+      "contentScrollWidth": 1178
     },
-    "focusReturned": false,
+    "focusReturned": true,
     "errors": [],
     "violations": []
   },
@@ -129,6 +129,19 @@
   },
   {
     "device": "mobile",
+    "id": "characteristics",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
     "id": "passives",
     "geometry": {
       "width": 390,
@@ -175,7 +188,7 @@
       "contentWidth": 388,
       "contentScrollWidth": 388
     },
-    "focusReturned": false,
+    "focusReturned": true,
     "errors": [],
     "violations": []
   },
@@ -227,19 +240,6 @@
       "contentWidth": 388,
       "contentScrollWidth": 388
     },
-    "errors": [],
-    "violations": []
-  },
-  {
-    "device": "mobile",
-    "id": "characteristics",
-    "geometry": {
-      "width": 390,
-      "scrollWidth": 390,
-      "contentWidth": 388,
-      "contentScrollWidth": 388
-    },
-    "focusReturned": true,
     "errors": [],
     "violations": []
   },

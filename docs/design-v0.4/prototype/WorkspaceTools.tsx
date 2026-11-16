@@ -7,7 +7,7 @@ import { CombatViewBar } from "../../../src/features/passives/CombatViewBar";
 import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
 import { PvpArena } from "../../../src/features/pvp/PvpArena";
 import { Catalog } from "./Catalog";
-import { SetsCatalog } from "../../../src/features/equipment/SetsCatalog";
+import { Sets } from "./Sets";
 import { SetBonusesPanel } from "../../../src/features/equipment/SetBonusesPanel";
 import { RuneModal } from "../../../src/features/equipment/RuneModal";
 import { ComparePanel } from "../../../src/features/compare/ComparePanel";
@@ -83,7 +83,7 @@ export function WorkspaceTools({
   if (!tool) return null;
   const selected = equipment.get(b.equipped[runeSlot] || 0);
   if (tool === "catalog") return <Catalog slot={slot} onClose={onClose} />;
-  if (tool === "sets") return <SetsCatalog onClose={onClose} />;
+  if (tool === "sets") return <Sets onClose={onClose} />;
   if (tool === "runes" && selected)
     return <RuneModal slotId={runeSlot} item={selected} onClose={onClose} />;
   if (tool === "changelog") return <ChangelogModal onClose={onClose} />;
