@@ -27,6 +27,11 @@ import { initReactI18next } from "react-i18next";
 import es from "../../../public/locales/es/translation.json";
 import { CharacterStage } from "../../../src/components/CharacterStage";
 import { useBuildStore } from "../../../src/store/buildStore";
+import { useCombatStats } from "../../../src/store/useCombatStats";
+import {
+  useCombatView,
+  useHasPassives,
+} from "../../../src/store/useCombatView";
 import { useHistoryStore } from "../../../src/store/historyStore";
 import { useHistory } from "../../../src/store/useHistory";
 import { OptimizerModal } from "../../../src/features/optimizer/OptimizerModal";
@@ -249,8 +254,12 @@ function App() {
     [saved, setSaved] = useState(false),
     [search, setSearch] = useState(""),
     [forge, setForge] = useState(false);
+  const combatStats = useCombatStats(),
+    combatView = useCombatView(),
+    hasPassives = useHasPassives(),
+    inCombat = combatView && hasPassives && combatStats != null;
   const dialog = useRef<HTMLDialogElement>(null),
-    stats = build.stats!,
+    stats = inCombat ? combatStats : build.stats!,
     baseline = useMemo(previousStats, [history]),
     preview = useMemo(
       () =>
@@ -678,7 +687,7 @@ function App() {
           <div className="section-head">
             <div>
               <h2>{full ? "Ficha completa" : "Estadísticas"}</h2>
-              <span>Equipo</span>
+              <span>{inCombat ? "En combate" : "Equipo"}</span>
             </div>
             <button
               className="icon-button"
@@ -827,8 +836,10 @@ function App() {
               <div className="stat-note">
                 <Shield size={15} />
                 <span>
-                  Daños generales incluidos en los totales elementales. Vista de
-                  equipo.
+                  Daños generales incluidos en los totales elementales.{" "}
+                  {inCombat
+                    ? "Vista en combate: suma tus pasivos activos."
+                    : "Vista de equipo."}
                 </span>
               </div>
               <button className="sheet-link" onClick={() => setFull(true)}>

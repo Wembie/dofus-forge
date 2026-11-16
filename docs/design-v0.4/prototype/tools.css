@@ -652,7 +652,6 @@
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   gap: 36px;
-  padding-top: 20px;
 }
 .combat-target {
   align-self: start;

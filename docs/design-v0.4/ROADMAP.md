@@ -27,11 +27,12 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Catálogo de objetos | Rediseñado | `prototype/Catalog.tsx` |
 | Panoplias | Rediseñado | `prototype/Sets.tsx` |
 | Compartir y exportar | Rediseñado | `prototype/SharePanel.tsx` |
-| La Forjadora | Rediseñado; conserva el componente y el motor | `prototype/ForgeModal.tsx` |
+| La Forjadora | Recompuesta, no rediseñada: el marco, el orden (objetivos primero, reglas al lado) y la navegación interna son nuevos; las tarjetas de objetivo, las reglas y las tarjetas de resultado siguen siendo `OptimizerModal` de producción con estilos adaptados | `prototype/ForgeModal.tsx`, `prototype/forge.css` |
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
 | Distribuir características | Rediseñado | `prototype/Characteristics.tsx` |
 | Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
+| Paleta de acciones del taller (Ctrl+K) | Adaptación provisional | `CommandPalette` |
 | Hechizos y arma | Adaptación provisional. Los totales por golpe, la exclusión de la fase de carga, la cura por robo y los casos escalonados se calculan dentro del componente; requiere antes un modelo de vista exportado | `SpellsPanel` |
 | Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
 | Simular un combate | Rediseñado como tabla de daño de todos los ataques contra un objetivo. No incluye la tirada al azar ni la probabilidad de crítico: su regla (crítico base + crítico de la build, tope 100) está dentro de `PvpArena` y debe exportarse antes | `prototype/Combat.tsx` |
@@ -40,7 +41,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |
 | Detalle de panoplia abierto desde un objeto o una página de panoplia | Rediseñado; abre Panoplias en esa panoplia | `prototype/Sets.tsx` |
 
-Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-forge`, `check-workspace`, `check-design-flows` y `check-surfaces` (ambos temas) terminan sin desbordamiento, errores de JavaScript ni infracciones automáticas de accesibilidad. Solo cubren 1440×900 y 390×844 salvo `check-prototype`, que cubre cinco tamaños.
+Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-forge`, `check-workspace`, `check-design-flows` y `check-surfaces` (ambos temas) terminan sin desbordamiento, errores de JavaScript ni infracciones automáticas de accesibilidad. Solo cubren 1440×900 y 390×844 salvo `check-prototype`, que cubre cinco tamaños. `check-workspace --mineral` falla únicamente en las dos herramientas provisionales: contraste insuficiente en Hechizos (4,29:1) y en Forjamagia (3,72:1 y 4,43:1) con el tema claro; las rediseñadas pasan en ambos temas.
 
 ### Prerrequisitos para terminar el rediseño
 
@@ -52,6 +53,9 @@ Las dos herramientas que siguen en adaptación provisional, y dos funciones no t
 | Modelo de vista de un hechizo y del arma: filas, totales por golpe y crítico, fase de carga, cura por robo, casos escalonados y condiciones | `SpellsPanel.tsx` (`SpellCard`, `WeaponCard`) | Hechizos y arma |
 | Crítico efectivo de un ataque (crítico base + crítico de la build, tope 100) | `PvpArena.tsx` | Probabilidad de crítico y tirada al azar en la tabla de combate |
 | Armado del enlace de comparación y lectura de enlaces de builds publicadas | `ComparePanel.tsx` | Compartir la comparación y elegir una build publicada como referencia |
+| Modelo de vista de la Forjadora: objetivos, reglas y resultados | `OptimizerModal.tsx` | Rediseño real de la Forjadora |
+
+Dos piezas de presentación sí están repetidas en el estudio y deben exportarse al migrar en lugar de copiarse: el filtro de ataques que golpean a un objetivo sin condición (`Combat.tsx`, tomado de `PvpArena`) y el encuadre de la escena del personaje con mascota o montura (`BuildSheet.tsx`, tomado de `CharacterStage`).
 
 ## Secuencia técnica
 

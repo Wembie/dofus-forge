@@ -14,6 +14,7 @@ const wanted = process.argv
   .find((a) => a.startsWith("--only="))
   ?.slice(7)
   .split(",");
+const mineral = process.argv.includes("--mineral");
 const results = [];
 fs.mkdirSync("docs/design-v0.4/evidence/workspace", { recursive: true });
 for (const [device, width, height] of [
@@ -25,6 +26,7 @@ for (const [device, width, height] of [
     errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("http://127.0.0.1:4404/", { waitUntil: "networkidle" });
+  if (mineral) await page.getByRole("button", { name: "Tema mineral" }).click();
   const tools = [
     ["characteristics", "Distribuir características"],
     ["passives", "Pasivos de combate"],
@@ -58,7 +60,7 @@ for (const [device, width, height] of [
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
     await page.screenshot({
-      path: `docs/design-v0.4/evidence/workspace/${id}-${device}.png`,
+      path: `docs/design-v0.4/evidence/workspace/${mineral ? "mineral-" : ""}${id}-${device}.png`,
     });
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
@@ -108,7 +110,7 @@ for (const [device, width, height] of [
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
     await page.screenshot({
-      path: `docs/design-v0.4/evidence/workspace/${id}-${device}.png`,
+      path: `docs/design-v0.4/evidence/workspace/${mineral ? "mineral-" : ""}${id}-${device}.png`,
     });
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
@@ -136,18 +138,16 @@ for (const [device, width, height] of [
   await context.close();
 }
 await browser.close();
+const reportPath = `docs/design-v0.4/workspace${mineral ? "-mineral" : ""}-check.json`;
 const report = wanted
   ? [
       ...JSON.parse(
-        fs.readFileSync("docs/design-v0.4/workspace-check.json", "utf8"),
+        fs.readFileSync(reportPath, "utf8"),
       ).filter((r) => !wanted.includes(r.device + ":" + r.id)),
       ...results,
     ]
   : results;
-fs.writeFileSync(
-  "docs/design-v0.4/workspace-check.json",
-  JSON.stringify(report, null, 2),
-);
+fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
 if (
   results.some(
     (r) =>

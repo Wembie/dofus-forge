@@ -203,8 +203,28 @@ for (const [device, width, height] of [
     .click();
   await expect(verdict).toContainText("son iguales");
   await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: /^Guardar/ }).first().click();
   await page.getByRole("button", { name: "Deshacer", exact: true }).click();
   await expect.poll(() => metric.allTextContents()).toEqual(baseline);
+  const code = await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((k) => k.includes("draft"));
+    return key ? localStorage.getItem(key) : null;
+  });
+  await compare.click();
+  await page.getByRole("button", { name: "Usar otra build…" }).click();
+  await page
+    .getByRole("textbox", { name: "Enlace o código de una build" })
+    .fill("https://dofusforge.com/es/?b=" + code);
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Comparar", exact: true })
+    .click();
+  await expect(page.getByRole("alert")).toHaveCount(0);
+  await expect(page.locator(".cmp-head strong").first()).toHaveText(
+    "Build pegada",
+  );
+  await expect(verdict).toContainText("1 pieza distinta");
+  await page.keyboard.press("Escape");
   if (device === "desktop") {
     await page
       .getByRole("button", { name: "Compartir y exportar", exact: true })

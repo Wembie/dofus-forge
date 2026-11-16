@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useBuildStore, type SlotId } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
 import { Characteristics } from "./Characteristics";
-import { Passives, CombatSwitch } from "./Passives";
+import { Passives } from "./Passives";
 import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
 import { Combat } from "./Combat";
 import { Catalog } from "./Catalog";
@@ -129,12 +129,7 @@ export function WorkspaceTools({
       )}
       {tool === "characteristics" && <Characteristics />}
       {tool === "passives" && <Passives />}
-      {tool === "spells" && (
-        <>
-          <CombatSwitch />
-          <SpellsPanel />
-        </>
-      )}
+      {tool === "spells" && <SpellsPanel />}
       {tool === "pvp" && <Combat />}
       {tool === "bonuses" && <SetBonuses />}
       {tool === "changelog" && <Changelog />}

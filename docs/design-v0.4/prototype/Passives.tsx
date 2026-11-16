@@ -44,8 +44,8 @@ export function CombatSwitch() {
       </div>
       <p>
         {combat
-          ? "El taller suma los pasivos que actives aquí, como durante un combate."
-          : "El taller muestra solo tu equipo, como la ficha del juego fuera de combate."}
+          ? "La ficha y las características del taller suman los pasivos que actives aquí."
+          : "La ficha del taller muestra solo tu equipo. Hechizos y combate cuentan siempre los pasivos activos."}
       </p>
     </div>
   );

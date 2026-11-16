@@ -15,7 +15,6 @@ import {
 } from "../../../src/features/pvp/simulate";
 import { statIconUrl } from "../../../src/features/equipment/statDisplay";
 import type { AppSpell } from "../../../src/data/spellLoaders";
-import { CombatSwitch } from "./Passives";
 import { equipment } from "./model";
 import "./tools.css";
 
@@ -101,7 +100,6 @@ export function Combat() {
   );
   return (
     <div className="combat">
-      <CombatSwitch />
       <div className="combat-layout">
         <section className="combat-target" aria-label="Objetivo">
           <header>
@@ -160,7 +158,8 @@ export function Combat() {
           <p>
             {untouched
               ? "Sin resistencias: verás el daño de tu build tal cual."
-              : "El daño de la tabla ya descuenta estas resistencias."}
+              : "El daño de la tabla ya descuenta estas resistencias."}{" "}
+            Siempre cuenta tus pasivos de combate activos.
           </p>
         </section>
         <section className="combat-damage" aria-label="Daño de tus ataques">
