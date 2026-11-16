@@ -1,0 +1,142 @@
+{
+  "fileKey": "TWromSdJxK8iMbxmCTa6wo",
+  "createdNodeIds": [
+    "2:341",
+    "2:342"
+  ],
+  "mutatedNodeIds": [
+    "0:1"
+  ],
+  "pages": {
+    "brand": "0:1",
+    "library": "2:341",
+    "screens": "2:342"
+  },
+  "vars": {
+    "canvas": "VariableID:2:290",
+    "surface": "VariableID:2:292",
+    "text": "VariableID:2:294",
+    "muted": "VariableID:2:296",
+    "border": "VariableID:2:298",
+    "accent": "VariableID:2:300",
+    "accentHover": "VariableID:2:302",
+    "onAccent": "VariableID:2:304",
+    "wash": "VariableID:2:306",
+    "positive": "VariableID:2:308",
+    "negative": "VariableID:2:310",
+    "focus": "VariableID:2:312",
+    "earth": "VariableID:2:314",
+    "fire": "VariableID:2:316",
+    "water": "VariableID:2:318",
+    "air": "VariableID:2:320",
+    "neutral": "VariableID:2:322",
+    "space/4": "VariableID:2:324",
+    "space/8": "VariableID:2:325",
+    "space/12": "VariableID:2:326",
+    "space/16": "VariableID:2:327",
+    "space/24": "VariableID:2:328",
+    "space/32": "VariableID:2:329",
+    "radius/4": "VariableID:2:330",
+    "radius/8": "VariableID:2:331",
+    "size/touch": "VariableID:2:332"
+  },
+  "darkVars": {
+    "canvas": "VariableID:2:291",
+    "surface": "VariableID:2:293",
+    "text": "VariableID:2:295",
+    "muted": "VariableID:2:297",
+    "border": "VariableID:2:299",
+    "accent": "VariableID:2:301",
+    "accentHover": "VariableID:2:303",
+    "onAccent": "VariableID:2:305",
+    "wash": "VariableID:2:307",
+    "positive": "VariableID:2:309",
+    "negative": "VariableID:2:311",
+    "focus": "VariableID:2:313",
+    "earth": "VariableID:2:315",
+    "fire": "VariableID:2:317",
+    "water": "VariableID:2:319",
+    "air": "VariableID:2:321",
+    "neutral": "VariableID:2:323"
+  },
+  "styles": {
+    "Display": "S:f9f0714e1c2b42d822e023ae2cfa053d613c88bc,",
+    "Title": "S:8b2fd2717323d89e27a2bf348c970249274735a1,",
+    "Heading": "S:97da6bc640964e2322c15b82e1194cadcbba5e61,",
+    "Body": "S:f3a0c85dd148c764af583e39d4350795a6c03dc7,",
+    "Label": "S:4f64bc00f08f12cf054840bdfa3138672859fe17,",
+    "Small": "S:577d1dbb06f349233a6d1cc34c2cc2de7fded009,",
+    "Number": "S:a6668b7b2e02e392c17a9936b89981ea605c3f21,",
+    "Data": "S:a45ad75edbabe64f4ec6aa029c5d7e9d89fd07e0,"
+  },
+  "theme": {
+    "id": "VariableCollectionId:2:264",
+    "light": "2:3",
+    "darkId": "VariableCollectionId:2:265",
+    "dark": "2:4"
+  },
+  "palette": {
+    "paper": "#F4F0E6",
+    "white": "#FFFCF6",
+    "ink": "#172B29",
+    "muted": "#586660",
+    "line": "#C8CCC1",
+    "copper": "#A64E2F",
+    "copperHover": "#873B23",
+    "patina": "#356C60",
+    "wash": "#E5EAE0",
+    "night": "#142523",
+    "panel": "#1F3430",
+    "nightText": "#F1EEE3",
+    "nightMuted": "#B4C5BC",
+    "nightLine": "#536B60",
+    "lightCopper": "#F2A985",
+    "earth": "#805024",
+    "fire": "#A7392C",
+    "water": "#1D667F",
+    "air": "#43612E",
+    "neutral": "#59615D",
+    "success": "#2E6652",
+    "danger": "#A63334",
+    "warning": "#795C1B",
+    "focus": "#227EAA"
+  },
+  "counts": {
+    "variables": 67,
+    "textStyles": 8,
+    "componentFamilies": 7,
+    "variants": 44,
+    "screens": 14
+  },
+  "status": "Initial Figma proposal; local revision 3 is newer. Final sync blocked by Starter tool quota.",
+  "reference": "prototype/",
+  "localRevision": 3,
+  "screens": {
+    "workshop": "3:861",
+    "stats": "3:1089",
+    "catalog": "3:1284",
+    "mobileEquipment": "3:1383",
+    "mobileStats": "3:1479",
+    "mobileCatalog": "3:1603",
+    "mobileForge": "3:1658",
+    "explore": "4:63",
+    "forge": "4:136",
+    "compare": "4:197",
+    "collections": "4:264",
+    "publicBuild": "4:345",
+    "guides": "4:384",
+    "account": "4:412"
+  },
+  "brandNodes": {
+    "mark": "2:256",
+    "cover": "5:2",
+    "assetShelf": "5:57"
+  },
+  "pending": [
+    "Sync character-centered workshop and mobile composition",
+    "Sync local revision 3 typography and themes",
+    "Replace forge screens with source-based order, progress and results",
+    "Review all frame bounds, interactions and content",
+    "Complete component library and Code Connect"
+  ]
+}

@@ -1,0 +1,419 @@
+.catalog-study {
+  height: calc(100dvh - 40px);
+}
+.catalog-study .surface-dialog-content {
+  padding: 0;
+  overflow: hidden;
+  flex: 1;
+}
+.catalog-composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+}
+.catalog-browse {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  padding: 24px 0 0;
+}
+.catalog-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  padding: 0 12px;
+  margin: 0 24px 16px;
+  border-radius: 4px;
+}
+.catalog-search input {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  padding: 12px 0;
+  font-weight: 400;
+}
+.catalog-search:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.catalog-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0 24px;
+}
+.catalog-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.catalog-filters label:has(select > option[value=""]) {
+  grid-column: span 3;
+}
+.catalog-filters select {
+  width: 100%;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  padding: 8px;
+  color: var(--text);
+  border-radius: 3px;
+  font-weight: 400;
+}
+.catalog-flags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+  z-index: 2;
+}
+.catalog-flags button {
+  font-size: 12px;
+  padding: 6px 8px;
+  font-weight: 400;
+}
+.catalog-flags [aria-pressed="true"] {
+  background: var(--hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.catalog-results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.catalog-results {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+  padding: 0 14px 20px;
+  scrollbar-gutter: stable;
+}
+.catalog-result {
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-bottom-color: var(--line);
+  border-radius: 4px;
+  padding-right: 8px;
+}
+.catalog-result.selected {
+  background: var(--hover);
+  border-color: var(--line);
+}
+.catalog-result-open {
+  border: 0;
+  flex: 1;
+  min-width: 0;
+  padding: 12px 10px;
+  gap: 14px;
+  text-align: left;
+  justify-content: flex-start;
+  background: transparent;
+}
+.catalog-result-open img {
+  width: 44px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.catalog-result-open > span {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.catalog-result-open b {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.catalog-result-open small {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.catalog-result-open svg {
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.catalog-favorite {
+  border: 0;
+  padding: 6px !important;
+  min-width: 36px;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.catalog-favorite[aria-pressed="true"] {
+  color: var(--accent);
+}
+.catalog-favorite[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+.catalog-inspection {
+  padding: 28px;
+  overflow: auto;
+  min-height: 0;
+  scrollbar-gutter: stable;
+}
+.catalog-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 20px;
+  gap: 16px;
+  min-height: 260px;
+  color: var(--muted);
+}
+.catalog-empty h3 {
+  font: 500 28px Alegreya;
+  color: var(--text);
+  margin: 0;
+}
+.catalog-empty p {
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 330px;
+  margin: 0;
+}
+.catalog-item-heading {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding-bottom: 24px;
+}
+.catalog-item-heading > img {
+  width: 84px;
+  height: 90px;
+  object-fit: contain;
+}
+.catalog-item-heading span {
+  font: 10px "IBM Plex Mono";
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+.catalog-item-heading h3 {
+  font: 500 30px/1.15 Alegreya;
+  margin: 8px 0;
+}
+.catalog-item-heading p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+.catalog-set-link {
+  color: var(--accent);
+  font-size: 12px;
+  border: 0;
+  padding: 0;
+  margin: 0 0 14px;
+}
+.catalog-inspection h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 22px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.catalog-inspection h4 span {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.catalog-effects,
+.catalog-deltas {
+  margin: 0;
+}
+.catalog-effects > div,
+.catalog-deltas > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--subtle);
+  padding: 7px 0;
+  font-size: 13px;
+}
+.catalog-effects dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--muted);
+}
+.catalog-effects dt img {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+.catalog-effects dt small {
+  font: 9px "IBM Plex Mono";
+  color: var(--muted);
+}
+.catalog-effects dd,
+.catalog-deltas dd {
+  margin: 0;
+  font: 12px "IBM Plex Mono";
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  white-space: nowrap;
+}
+.catalog-deltas em {
+  font-style: normal;
+  min-width: 36px;
+  text-align: right;
+  font-size: 11px;
+}
+.catalog-footnote,
+.catalog-conditions p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 12px 0;
+}
+.catalog-equip {
+  position: sticky;
+  bottom: -28px;
+  margin: 24px -28px -28px;
+  padding: 16px 28px;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+.catalog-equip p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.catalog-equip > button {
+  min-height: 44px;
+  width: 100%;
+}
+.catalog-equip label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin: 12px 0;
+  color: var(--muted);
+}
+.catalog-equip input {
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+}
+.catalog-more {
+  width: 100%;
+  margin-top: 16px;
+  font-size: 13px;
+}
+.catalog-notice {
+  font-size: 12px;
+  color: var(--success);
+  margin: 0;
+  padding: 8px 24px;
+}
+.catalog-back {
+  display: none;
+}
+.set-equip-action {
+  margin: 12px 16px;
+  background: var(--hover);
+  font-size: 13px !important;
+  color: var(--accent);
+}
+@media (max-width: 700px) {
+  .catalog-study {
+    height: 100dvh !important;
+  }
+  .catalog-composition {
+    display: block;
+  }
+  .catalog-browse {
+    height: 100%;
+    border: 0;
+    padding-top: 16px;
+  }
+  .catalog-inspection {
+    display: none;
+    padding: 20px;
+    height: 100%;
+  }
+  .catalog-composition.has-selection .catalog-inspection {
+    display: block;
+  }
+  .catalog-composition.has-selection .catalog-browse {
+    display: none;
+  }
+  .catalog-back {
+    display: flex;
+    border: 0;
+    padding: 0;
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .catalog-filters {
+    padding: 0 16px;
+    gap: 8px;
+  }
+  .catalog-search {
+    margin: 0 16px 14px;
+  }
+  .catalog-flags {
+    padding: 12px 16px;
+  }
+  .catalog-filters label:has(select > option[value=""]) {
+    grid-column: span 3;
+  }
+  .catalog-results {
+    padding: 0 8px 20px;
+  }
+  .catalog-results-heading {
+    padding: 12px 16px;
+  }
+  .catalog-item-heading {
+    gap: 16px;
+  }
+  .catalog-item-heading h3 {
+    font-size: 28px;
+  }
+  .catalog-equip {
+    margin: 24px -20px -20px;
+    bottom: -20px;
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  }
+  .catalog-filters select,
+  .catalog-search input {
+    font-size: 16px !important;
+  }
+  .catalog-flags > div {
+    position: static;
+  }
+  .catalog-flags > div > div {
+    left: 12px !important;
+    right: 12px !important;
+    width: calc(100vw - 24px) !important;
+  }
+  .catalog-result-open {
+    padding: 12px 8px;
+  }
+  .catalog-result-open b {
+    font-size: 15px;
+  }
+}

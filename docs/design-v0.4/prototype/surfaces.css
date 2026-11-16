@@ -1,0 +1,376 @@
+/* Shared foundations for the complete product study, including legacy business components. */
+:root {
+  --surface-void: var(--canvas);
+  --surface-stone: var(--stage);
+  --surface-panel: var(--surface);
+  --surface-parchment: var(--surface);
+  --surface-raised: var(--hover);
+  --ink: var(--text);
+  --ink-muted: var(--muted);
+  --ink-faint: var(--muted);
+  --ink-invert: var(--accent-ink);
+  --gold: var(--accent);
+  --gold-bright: var(--accent);
+  --gold-deep: var(--line);
+  --positive: var(--success);
+  --warning: var(--accent);
+  --metal-edge: var(--line);
+  --metal-edge-strong: var(--line);
+  --forge-bg: var(--canvas);
+  --forge-surface: var(--surface);
+  --forge-card: var(--surface);
+  --forge-border: var(--line);
+  --shadow-frame: 0 0 0 transparent;
+  --well-inset: 0 0 0 transparent;
+  --glow-gold: 0 0 0 transparent;
+  --inset-bevel: 0 0 0 transparent;
+  --earth: #805024;
+  --fire: #a7392c;
+  --water: #1d667f;
+  --air: #43612e;
+  --neutral: var(--muted);
+  --vitality: #a23944;
+  --wisdom: #745082;
+  --ap: #1d667f;
+  --mp: #43612e;
+  --crit: var(--accent);
+}
+:root[data-theme="tinta"] {
+  --earth: #d7b382;
+  --fire: #edaa95;
+  --water: #8fc6d5;
+  --air: #b5cf97;
+  --vitality: #d6a0a1;
+  --wisdom: #c0accd;
+  --ap: #9ac7da;
+  --mp: #b5cf97;
+}
+.study-link {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.workspace-tools {
+  display: flex;
+  gap: 4px;
+  padding: 0 28px 10px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border-bottom: 1px solid var(--subtle);
+}
+.workspace-tools button {
+  flex-shrink: 0;
+  border: 0;
+  min-height: 32px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  color: var(--muted);
+}
+.build-bar .level-tag {
+  min-height: 28px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+.item-tools {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+.share-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.share-preview {
+  width: 100%;
+  overflow: auto;
+  max-height: 480px;
+  border: 1px solid var(--line);
+}
+.share-offscreen {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  pointer-events: none;
+  width: 1200px;
+}
+.export-sheet * {
+  box-sizing: border-box;
+}
+.export-sheet b {
+  overflow-wrap: anywhere;
+}
+.app-shell:has(.full-view) .workspace-tools {
+  display: none;
+}
+.legacy-content input[type="number"] {
+  min-width: 64px;
+  padding: 6px !important;
+  font-variant-numeric: tabular-nums;
+}
+.legacy-content button.flex-1.flex-col {
+  padding-left: 4px;
+  padding-right: 4px;
+  min-width: 0;
+}
+.legacy-content div[style*="opacity: 0.4"],
+.legacy-content div[style*="opacity: 0.45"],
+[role="dialog"] div[style*="opacity: 0.5"] {
+  opacity: 1 !important;
+}
+@media (max-width: 600px) {
+  .legacy-content .grid.grid-cols-2:has(input[type="number"]) {
+    grid-template-columns: 1fr;
+  }
+  .legacy-content input[type="number"] {
+    min-width: 56px;
+  }
+  [role="dialog"] .flex:has(> input[type="number"]) {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 600px) {
+  [role="dialog"].rounded-2xl
+    .flex.gap-1\.5.items-center:has(> div > input[type="number"]) {
+    flex-wrap: wrap;
+  }
+  [role="dialog"].rounded-2xl
+    .flex.gap-1\.5.items-center:has(> div > input[type="number"])
+    > div:first-child {
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+  [role="dialog"].rounded-2xl .flex:has(> input[type="number"]) {
+    flex-wrap: nowrap;
+    min-width: 160px;
+  }
+  [role="dialog"].rounded-2xl .flex:has(> input[type="number"]) > button {
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+  }
+  [role="dialog"].rounded-2xl input[type="number"] {
+    width: 56px;
+    min-width: 56px !important;
+    padding: 6px;
+  }
+}
+.surface-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: 0;
+  width: min(620px, calc(100vw - 40px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  overflow: hidden;
+}
+.surface-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.surface-dialog.size-sm {
+  width: min(440px, calc(100vw - 40px));
+}
+.surface-dialog.size-xl {
+  width: min(740px, calc(100vw - 40px));
+}
+.surface-dialog.size-3xl,
+.surface-dialog.size-4xl {
+  width: min(1180px, calc(100vw - 40px));
+}
+.surface-dialog::backdrop {
+  background: #060c0bbc;
+  backdrop-filter: blur(3px);
+}
+.surface-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--stage);
+  flex-shrink: 0;
+}
+.surface-dialog-header h2 {
+  font: 600 25px Alegreya;
+  margin: 0;
+}
+.surface-dialog-content {
+  padding: 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+}
+.surface-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.surface-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.surface-form input,
+.surface-form textarea,
+.surface-form select {
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--canvas);
+  font: inherit;
+  color: var(--text);
+  width: 100%;
+}
+.surface-form p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+.surface-form .primary {
+  align-self: flex-start;
+}
+.legacy-content .font-display,
+[role="dialog"] .font-display {
+  font-family: "Source Sans 3", sans-serif;
+  letter-spacing: 0.02em;
+}
+.legacy-content .font-mono,
+[role="dialog"] .font-mono {
+  font-family: "IBM Plex Mono", monospace;
+}
+.legacy-content :is(button, input, select, textarea),
+[role="dialog"] :is(button, input, select, textarea) {
+  font-family: "Source Sans 3", sans-serif;
+  box-shadow: none !important;
+}
+.legacy-content button,
+[role="dialog"] button {
+  max-width: 100%;
+  min-height: 36px;
+  white-space: normal;
+}
+.legacy-content :is(input:not([type="checkbox"]), select),
+[role="dialog"] :is(input:not([type="checkbox"]), select) {
+  min-height: 36px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.legacy-content [class*="text-[8px]"],
+.legacy-content [class*="text-[9px]"],
+.legacy-content [class*="text-[10px]"],
+[role="dialog"] [class*="text-[8px]"],
+[role="dialog"] [class*="text-[9px]"],
+[role="dialog"] [class*="text-[10px]"] {
+  font-size: 12px !important;
+  line-height: 1.5;
+}
+.legacy-content .rounded-frame {
+  border-radius: 4px;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+[role="dialog"] .catalog-panel {
+  inset: 20px !important;
+  max-width: 1360px;
+  margin: 0 auto;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+[role="dialog"].rounded-2xl {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  background: var(--surface) !important;
+}
+body:has([role="dialog"]) .app-shell {
+  pointer-events: none;
+}
+body:has([role="dialog"]) .app-shell [role="dialog"] {
+  pointer-events: auto;
+}
+@media (min-width: 1080px) {
+  .app-shell > main {
+    padding-top: 0;
+  }
+  .app-shell .build-bar {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .app-shell > main:not(.full-view) .stats-panel .stat-row {
+    margin-bottom: 4px;
+  }
+  .app-shell > main:not(.full-view) .stats-panel .elements {
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+  .app-shell > main:not(.full-view) .stats-panel .characteristic-strip {
+    padding: 8px 0;
+  }
+  .global-header {
+    gap: 24px;
+  }
+  .version {
+    display: none;
+  }
+  .workspace-tools {
+    height: 43px;
+  }
+}
+@media (max-width: 1079px) {
+  .workspace-tools {
+    padding: 0 12px 6px;
+    gap: 0;
+  }
+  .study-link {
+    display: none;
+  }
+  .surface-dialog {
+    width: calc(100vw - 24px) !important;
+    max-height: calc(100dvh - 24px);
+  }
+  .surface-dialog-content {
+    padding: 16px;
+  }
+  .surface-dialog-header {
+    padding: 12px 16px;
+  }
+  .surface-dialog-header h2 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .surface-dialog {
+    width: 100vw !important;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  .surface-dialog[open] {
+    height: 100dvh;
+  }
+  .surface-dialog-content {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+  [role="dialog"] .catalog-panel {
+    inset: 0 !important;
+    border-radius: 0 !important;
+  }
+  [role="dialog"] .catalog-panel .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  [role="dialog"].rounded-2xl {
+    max-height: calc(100dvh - 16px) !important;
+  }
+  [role="dialog"] .catalog-panel button {
+    min-height: 40px;
+  }
+}

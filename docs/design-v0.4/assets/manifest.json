@@ -1,0 +1,134 @@
+[
+  {
+    "key": "item-694",
+    "file": "docs/design-v0.4/assets/item-694.png",
+    "name": "Dofus Púrpura",
+    "slot": "dofus",
+    "id": 694,
+    "url": "/img/item/23001-128.png"
+  },
+  {
+    "key": "item-737",
+    "file": "docs/design-v0.4/assets/item-737.png",
+    "name": "Dofus Esmeralda",
+    "slot": "dofus",
+    "id": 737,
+    "url": "/img/item/23002-128.png"
+  },
+  {
+    "key": "item-739",
+    "file": "docs/design-v0.4/assets/item-739.png",
+    "name": "Dofus Turquesa",
+    "slot": "dofus",
+    "id": 739,
+    "url": "/img/item/23003-128.png"
+  },
+  {
+    "key": "item-972",
+    "file": "docs/design-v0.4/assets/item-972.png",
+    "name": "Dofus zanahowia",
+    "slot": "dofus",
+    "id": 972,
+    "url": "/img/item/23006-128.png"
+  },
+  {
+    "key": "item-6980",
+    "file": "docs/design-v0.4/assets/item-6980.png",
+    "name": "Dofus vulbis",
+    "slot": "dofus",
+    "id": 6980,
+    "url": "/img/item/23004-128.png"
+  },
+  {
+    "key": "item-7043",
+    "file": "docs/design-v0.4/assets/item-7043.png",
+    "name": "Dofus de los hielos",
+    "slot": "dofus",
+    "id": 7043,
+    "url": "/img/item/23005-128.png"
+  },
+  {
+    "key": "item-9461",
+    "file": "docs/design-v0.4/assets/item-9461.png",
+    "name": "El Kim",
+    "slot": "hat",
+    "id": 9461,
+    "url": "/img/item/16230-128.png"
+  },
+  {
+    "key": "item-958",
+    "file": "docs/design-v0.4/assets/item-958.png",
+    "name": "Dofustadora",
+    "slot": "cape",
+    "id": 958,
+    "url": "/img/item/17251-128.png"
+  },
+  {
+    "key": "item-9464",
+    "file": "docs/design-v0.4/assets/item-9464.png",
+    "name": "Kralamansion",
+    "slot": "amulet",
+    "id": 9464,
+    "url": "/img/item/1142-128.png"
+  },
+  {
+    "key": "item-8877",
+    "file": "docs/design-v0.4/assets/item-8877.png",
+    "name": "Kralanillo",
+    "slot": "ring",
+    "id": 8877,
+    "url": "/img/item/9142-128.png"
+  },
+  {
+    "key": "item-9143",
+    "file": "docs/design-v0.4/assets/item-9143.png",
+    "name": "Tanga muscárido",
+    "slot": "belt",
+    "id": 9143,
+    "url": "/img/item/10132-128.png"
+  },
+  {
+    "key": "item-8861",
+    "file": "docs/design-v0.4/assets/item-8861.png",
+    "name": "Sandalias circulares del Kimbo",
+    "slot": "boots",
+    "id": 8861,
+    "url": "/img/item/11113-128.png"
+  },
+  {
+    "key": "item-8098",
+    "file": "docs/design-v0.4/assets/item-8098.png",
+    "name": "Hacha Musical",
+    "slot": "weapon",
+    "id": 8098,
+    "url": "/img/item/19038-128.png"
+  },
+  {
+    "key": "item-18670",
+    "file": "docs/design-v0.4/assets/item-18670.png",
+    "name": "Escudo de Capitán Amakna",
+    "slot": "shield",
+    "id": 18670,
+    "url": "/img/item/82014-128.png"
+  },
+  {
+    "key": "iop",
+    "file": "docs/design-v0.4/assets/iop.png",
+    "name": "iop"
+  },
+  {
+    "key": "cra",
+    "file": "docs/design-v0.4/assets/cra.png",
+    "name": "cra"
+  },
+  {
+    "key": "feca",
+    "file": "docs/design-v0.4/assets/feca.png",
+    "name": "feca"
+  },
+  {
+    "key": "pandawa",
+    "file": "docs/design-v0.4/assets/pandawa.png",
+    "name": "pandawa"
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "name": "desktop",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "canvasCount": 1,
+      "canvasVisible": true,
+      "height": 900,
+      "brokenImages": []
+    },
+    "viewportHeight": 900,
+    "statCount": 73,
+    "sheetHeight": 900,
+    "searchCount": 2,
+    "removed": 1,
+    "restored": 0,
+    "focusReturned": true,
+    "restoredAfterReload": 0,
+    "errors": [],
+    "accessibilityDark": [],
+    "accessibilityLight": []
+  },
+  {
+    "name": "laptop",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "canvasCount": 1,
+      "canvasVisible": true,
+      "height": 900,
+      "brokenImages": []
+    },
+    "viewportHeight": 900,
+    "statCount": 73,
+    "sheetHeight": 900,
+    "searchCount": 2,
+    "removed": 1,
+    "restored": 0,
+    "focusReturned": true,
+    "restoredAfterReload": 0,
+    "errors": [],
+    "accessibilityDark": [],
+    "accessibilityLight": []
+  },
+  {
+    "name": "tablet",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "canvasCount": 1,
+      "canvasVisible": true,
+      "height": 1024,
+      "brokenImages": []
+    },
+    "viewportHeight": 1024,
+    "statCount": 73,
+    "sheetHeight": 2039,
+    "searchCount": 2,
+    "removed": 1,
+    "restored": 0,
+    "focusReturned": true,
+    "restoredAfterReload": 0,
+    "errors": [],
+    "accessibilityDark": [],
+    "accessibilityLight": []
+  },
+  {
+    "name": "mobile",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "canvasCount": 1,
+      "canvasVisible": true,
+      "height": 925,
+      "brokenImages": []
+    },
+    "viewportHeight": 844,
+    "statCount": 73,
+    "sheetHeight": 3101,
+    "searchCount": 2,
+    "removed": 1,
+    "restored": 0,
+    "focusReturned": true,
+    "restoredAfterReload": 0,
+    "errors": [],
+    "accessibilityDark": [],
+    "accessibilityLight": []
+  },
+  {
+    "name": "small-mobile",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "canvasCount": 1,
+      "canvasVisible": true,
+      "height": 925,
+      "brokenImages": []
+    },
+    "viewportHeight": 800,
+    "statCount": 73,
+    "sheetHeight": 3101,
+    "searchCount": 2,
+    "removed": 1,
+    "restored": 0,
+    "focusReturned": true,
+    "restoredAfterReload": 0,
+    "errors": [],
+    "accessibilityDark": [],
+    "accessibilityLight": []
+  }
+]

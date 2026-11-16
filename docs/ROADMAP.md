@@ -3,6 +3,10 @@
 Track de mejoras UX/UI, fidelidad al juego y nuevas features.
 Marcar con `[x]` cuando se complete.
 
+## En diseño · 0.4.0
+
+- [ ] **Rediseño integral de identidad y experiencia** — [roadmap detallado](design-v0.4/ROADMAP.md), [prototipo y capturas](design-v0.4/README.md), [auditoría funcional](design-v0.4/DOMAIN-AUDIT.md), [contrato UX](design-v0.4/UX-SPEC.md) y [cobertura de rutas](design-v0.4/COVERAGE.md). Personaje animado central, equipo a su alrededor, ficha de estadísticas y navegación móvil. La revisión local 3 reutiliza el estado, historial y Forjadora del producto; la sincronización final con Figma y la migración al producto siguen pendientes. No cambia la versión publicada.
+
 ---
 
 ## Completados ✅

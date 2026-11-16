@@ -1,0 +1,28 @@
+[
+  {
+    "device": "desktop",
+    "detailGeometry": {
+      "width": 560,
+      "scrollWidth": 560
+    },
+    "equipAndUndo": true,
+    "nestedSetDialog": true,
+    "runeAndUndo": true,
+    "commandPalette": true,
+    "exported": true,
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "detailGeometry": {
+      "width": 373,
+      "scrollWidth": 373
+    },
+    "equipAndUndo": true,
+    "nestedSetDialog": true,
+    "runeAndUndo": true,
+    "commandPalette": true,
+    "exported": false,
+    "errors": []
+  }
+]
