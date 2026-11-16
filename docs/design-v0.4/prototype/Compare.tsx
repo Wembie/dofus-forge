@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useBuildStore } from "../../../src/store/buildStore";
-import { useCompareStore } from "../../../src/store/compareStore";
-import { useDataStore } from "../../../src/store/dataStore";
-import { COMPARE_STATS } from "../../../src/features/compare/compareStats";
+import { useBuildStore, type BuildSnapshot } from "@/store/buildStore.ts";
+import { useCompareStore } from "@/store/compareStore.ts";
+import { useDataStore } from "@/store/dataStore.ts";
+import { useAuthStore } from "@/store/authStore.ts";
+import { COMPARE_STATS } from "@/features/compare/compareStats.ts";
+import { CompareRadar } from "@/features/compare/CompareRadar.tsx";
 import {
   buildSnapshotFromState,
   decodeBuild,
-} from "../../../src/features/share/codec";
-import { resolveClassName } from "../../../src/features/class-picker/useClassName";
-import { statIconUrl } from "../../../src/features/equipment/statDisplay";
+  encodeBuild,
+  encodeSnapshot,
+} from "@/features/share/codec.ts";
+import { listBuilds } from "@/features/share/savedBuilds.ts";
+import {
+  fetchBuildById,
+  fetchMyBuilds,
+  type MyBuildRow,
+} from "@/features/builds/api.ts";
+import { langPathRootSegment } from "@/i18n/langPath.ts";
+import { resolveClassName } from "@/features/class-picker/useClassName.ts";
+import { statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { equipment, visibleSlots } from "./model";
 import "./tools.css";
 
@@ -25,35 +36,85 @@ const SECTIONS: [string, string][] = [
 ];
 const group = (n: number) =>
   String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-const signed = (n: number) => (n > 0 ? "+" : n < 0 ? "−" : "") + group(Math.abs(n));
+const signed = (n: number) =>
+  (n > 0 ? "+" : n < 0 ? "−" : "") + group(Math.abs(n));
+const day = new Intl.DateTimeFormat("es", { day: "numeric", month: "short" });
 
 /** Your build against a reference: who is ahead on each stat, by how much, and which pieces differ. */
 export function Compare() {
-  const { t } = useTranslation(),
+  const { t, i18n } = useTranslation(),
     b = useBuildStore(),
     ref = useCompareStore(),
-    data = useDataStore();
+    data = useDataStore(),
+    session = useAuthStore((s) => s.session);
   const [onlyChanges, setOnlyChanges] = useState(true),
     [code, setCode] = useState(""),
-    [error, setError] = useState(false),
-    [picking, setPicking] = useState(false);
+    [error, setError] = useState(""),
+    [picking, setPicking] = useState(false),
+    [copied, setCopied] = useState(false),
+    [account, setAccount] = useState<MyBuildRow[] | null>(null);
   const mine = b.stats,
-    theirs = ref.statsB;
-  function load(snapshot: ReturnType<typeof decodeBuild>, name: string) {
-    if (!snapshot) return setError(true);
+    theirs = ref.statsB,
+    local = listBuilds();
+  useEffect(() => {
+    if (!session) return;
+    let live = true;
+    void fetchMyBuilds(session.user.id).then(
+      ({ data: rows }) => live && setAccount(rows),
+    );
+    return () => {
+      live = false;
+    };
+  }, [session]);
+  function load(snapshot: BuildSnapshot | null, name: string) {
+    if (!snapshot)
+      return setError(
+        "No reconocemos ese enlace o código. Copia el enlace completo desde «Compartir y exportar».",
+      );
     ref.loadBuild(snapshot, name, data.equipment || [], data.sets || []);
     setCode("");
-    setError(false);
+    setError("");
     setPicking(false);
   }
-  function paste() {
-    let raw = code.trim();
+  /** Same inputs production accepts: a published build link or id, a `?b=` link (current or legacy hash form), or the bare code. */
+  async function paste() {
+    const raw = code.trim(),
+      id = raw.match(
+        /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i,
+      );
+    if (id) {
+      const { data: found } = await fetchBuildById(id[0]);
+      if (found) return load(found.snapshot, found.name);
+      return setError(
+        "No encontramos esa build publicada. Puede ser privada o haberse retirado.",
+      );
+    }
+    let encoded = raw;
     try {
-      raw = new URL(raw).searchParams.get("b") || raw;
+      const url = new URL(raw);
+      encoded =
+        url.searchParams.get("b") ||
+        (url.hash.includes("?")
+          ? new URLSearchParams(url.hash.slice(url.hash.indexOf("?") + 1)).get(
+              "b",
+            )
+          : null) ||
+        raw;
     } catch {
       /* Not a link: treat it as the build code itself. */
     }
-    load(decodeBuild(raw), "Build pegada");
+    load(decodeBuild(encoded), "Build pegada");
+  }
+  function share() {
+    const base = `${location.origin}${import.meta.env.BASE_URL}${langPathRootSegment(i18n.language)}`,
+      a = encodeBuild(useBuildStore.getState()),
+      z = ref.snapshotB ? encodeSnapshot(ref.snapshotB) : "";
+    void navigator.clipboard
+      .writeText(z ? `${base}?b=${a}&c=${z}` : `${base}?b=${a}`)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      });
   }
   if (!mine || !theirs)
     return (
@@ -98,24 +159,28 @@ export function Compare() {
             {resolveClassName(ref.classB, "es", null)} · nivel {ref.levelB}
           </small>
         </div>
-        <p aria-live="polite">
-          {ahead || behind || swapped.length ? (
-            <>
-              Tu build gana en <b className="positive">{ahead}</b> y pierde en{" "}
-              <b className="negative">{behind}</b> estadísticas ·{" "}
-              {swapped.length === 1
-                ? "1 pieza distinta"
-                : `${swapped.length} piezas distintas`}
-            </>
-          ) : (
-            "Las dos builds son iguales. Cambia una pieza en el taller y vuelve aquí."
-          )}
-        </p>
+        <figure>
+          <CompareRadar statsA={mine} statsB={theirs} />
+          <figcaption aria-live="polite">
+            {ahead || behind || swapped.length ? (
+              <>
+                Tu build gana en <b className="positive">{ahead}</b> y pierde
+                en <b className="negative">{behind}</b> estadísticas ·{" "}
+                {swapped.length === 1
+                  ? "1 pieza distinta"
+                  : `${swapped.length} piezas distintas`}
+              </>
+            ) : (
+              "Las dos builds son iguales. Cambia una pieza en el taller y vuelve aquí."
+            )}
+          </figcaption>
+        </figure>
         <div>
           <span>Tu build</span>
           <strong>{b.buildName || "Borrador"}</strong>
           <small>
-            {resolveClassName(b.selectedClass || "", "es", null)} · nivel {b.level}
+            {resolveClassName(b.selectedClass || "", "es", null)} · nivel{" "}
+            {b.level}
           </small>
         </div>
       </header>
@@ -128,6 +193,9 @@ export function Compare() {
           />
           Solo diferencias
         </label>
+        <button onClick={share} aria-live="polite">
+          {copied ? "Enlace copiado" : "Copiar enlace de la comparación"}
+        </button>
         <button
           onClick={() =>
             load(
@@ -143,36 +211,79 @@ export function Compare() {
         </button>
       </div>
       {picking && (
-        <form
-          className="cmp-paste"
-          onSubmit={(e) => {
-            e.preventDefault();
-            paste();
-          }}
-        >
-          <label>
-            Enlace o código de una build
-            <input
-              value={code}
-              aria-invalid={error}
-              aria-describedby={error ? "cmp-paste-error" : undefined}
-              placeholder="https://dofusforge.com/es/?b=…"
-              onChange={(e) => {
-                setCode(e.target.value);
-                setError(false);
-              }}
-            />
-          </label>
-          <button className="primary" disabled={!code.trim()}>
-            Comparar
-          </button>
-          {error && (
-            <p id="cmp-paste-error" role="alert">
-              No reconocemos ese enlace o código. Copia el enlace completo desde
-              «Compartir y exportar».
-            </p>
-          )}
-        </form>
+        <div className="cmp-pick">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void paste();
+            }}
+          >
+            <label>
+              Enlace o código de una build
+              <input
+                value={code}
+                aria-invalid={!!error}
+                aria-describedby={error ? "cmp-paste-error" : undefined}
+                placeholder="https://dofusforge.com/es/?b=…"
+                onChange={(e) => {
+                  setCode(e.target.value);
+                  setError("");
+                }}
+              />
+            </label>
+            <button className="primary" disabled={!code.trim()}>
+              Comparar
+            </button>
+            {error && (
+              <p id="cmp-paste-error" role="alert">
+                {error}
+              </p>
+            )}
+          </form>
+          <section aria-label="Builds de tu cuenta">
+            <h4>De tu cuenta</h4>
+            {!session ? (
+              <p>Inicia sesión para elegir entre las builds que has guardado.</p>
+            ) : !account ? (
+              <p>Cargando tus builds…</p>
+            ) : !account.length ? (
+              <p>Todavía no has guardado ninguna build en tu cuenta.</p>
+            ) : (
+              <ul>
+                {account.map((row) => (
+                  <li key={row.id}>
+                    <button onClick={() => load(row.snapshot, row.name)}>
+                      <b>{row.name}</b>
+                      <small>
+                        {resolveClassName(row.class_slug, "es", null)} · nivel{" "}
+                        {row.level}
+                      </small>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+          <section aria-label="Builds guardadas en este dispositivo">
+            <h4>En este dispositivo</h4>
+            {!local.length ? (
+              <p>No hay builds guardadas en este navegador.</p>
+            ) : (
+              <ul>
+                {local.map((row) => (
+                  <li key={row.id}>
+                    <button
+                      onClick={() => load(decodeBuild(row.encoded), row.name)}
+                    >
+                      <b>{row.name}</b>
+                      <small>Guardada el {day.format(row.savedAt)}</small>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </div>
       )}
       {sections.map((section) => (
         <section key={section.title} aria-label={section.title}>

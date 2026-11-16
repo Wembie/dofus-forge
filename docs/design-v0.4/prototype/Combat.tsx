@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { Dices } from "lucide-react";
 import { useBuildStore } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
 import { usePvpStore, type PvpElement } from "../../../src/store/pvpStore";
@@ -33,7 +34,12 @@ interface Row {
   name: string;
   art: string | null;
   hit: HitResult;
+  /** Chance of a critical hit, in percent; 0 when the attack cannot crit. */
+  crit: number;
 }
+/** As production resolves it: the attack's own critical plus the build's, capped at 100. */
+const critChance = (base: number, bonus: number) =>
+  base > 0 ? Math.min(100, base + bonus) : 0;
 const span = (lo: number, hi: number) => (hi > lo ? `${lo} – ${hi}` : String(lo));
 
 /** Every attack of the build against one target: the normal and critical range, side by side. */
@@ -71,6 +77,7 @@ export function Combat() {
               spellMods(stats, level.minRange, level.maxRange),
               resist,
             ),
+            crit: critChance(level.critChance, stats.critChance),
           },
         ];
       });
@@ -86,6 +93,7 @@ export function Combat() {
                 name: weapon.name,
                 art: weapon.image_url,
                 hit: simulateWeaponHit(weapon, stats, resist, transform),
+                crit: critChance(weapon.crit_chance ?? 0, stats.critChance),
               },
             ]
           : [],
@@ -95,6 +103,25 @@ export function Combat() {
       { title: "Hechizos comunes", rows: rows(common) },
     ].filter((g) => g.rows.length);
   }, [stats, spells, resist, weapon, transform, grade, b.selectedClass]);
+  const [last, setLast] = useState<{
+    key: string;
+    name: string;
+    value: number;
+    crit: boolean;
+  } | null>(null);
+  /** One hit, as in production: decide whether it crits, then pick a value in that range. */
+  function roll(row: Row) {
+    const crit =
+        row.hit.hasCrit && row.crit > 0 && Math.random() * 100 < row.crit,
+      lo = crit ? row.hit.critMin : row.hit.min,
+      hi = crit ? row.hit.critMax : row.hit.max;
+    setLast({
+      key: row.key,
+      name: row.name,
+      value: hi > lo ? lo + Math.floor(Math.random() * (hi - lo + 1)) : lo,
+      crit,
+    });
+  }
   const untouched = ELEMENTS.every(
     ([el]) => !resist[el].fixed && !resist[el].percent,
   );
@@ -161,6 +188,24 @@ export function Combat() {
               : "El daño de la tabla ya descuenta estas resistencias."}{" "}
             Siempre cuenta tus pasivos de combate activos.
           </p>
+          <div className="combat-roll" aria-live="polite">
+            <span>Último golpe</span>
+            {last ? (
+              <>
+                <strong className={last.crit ? "is-crit" : ""}>
+                  {last.value}
+                </strong>
+                <small>
+                  {last.name} · {last.crit ? "golpe crítico" : "golpe normal"}
+                </small>
+              </>
+            ) : (
+              <small>
+                Usa el dado de un ataque para tirar un golpe al azar dentro de
+                su rango.
+              </small>
+            )}
+          </div>
         </section>
         <section className="combat-damage" aria-label="Daño de tus ataques">
           {!groups.length ? (
@@ -181,28 +226,51 @@ export function Combat() {
                   <th scope="col">Ataque</th>
                   <th scope="col">Golpe normal</th>
                   <th scope="col">Crítico</th>
+                  <th scope="col">
+                    <span className="sr-only">Tirar un golpe</span>
+                  </th>
                 </tr>
               </thead>
               {groups.map((group) => (
                 <tbody key={group.title}>
                   <tr className="combat-group">
-                    <th scope="colgroup" colSpan={3}>
+                    <th scope="colgroup" colSpan={4}>
                       {group.title}
                     </th>
                   </tr>
                   {group.rows.map((row) => (
-                    <tr key={row.key}>
+                    <tr
+                      key={row.key}
+                      className={last?.key === row.key ? "is-rolled" : ""}
+                    >
                       <th scope="row">
                         <span>
                           {row.art ? <img src={row.art} alt="" /> : <i />}
                           {row.name}
                         </span>
+                        {last?.key === row.key && (
+                          <small className="combat-hit">
+                            Golpe: <b>{last.value}</b>
+                            {last.crit ? " · crítico" : ""}
+                          </small>
+                        )}
                       </th>
                       <td>{span(row.hit.min, row.hit.max)}</td>
                       <td className={row.hit.hasCrit ? "is-crit" : "is-none"}>
                         {row.hit.hasCrit
                           ? span(row.hit.critMin, row.hit.critMax)
                           : "sin crítico"}
+                        {row.hit.hasCrit && row.crit > 0 && (
+                          <small>{row.crit} % de probabilidad</small>
+                        )}
+                      </td>
+                      <td className="combat-dice">
+                        <button
+                          aria-label={`Tirar un golpe de ${row.name}`}
+                          onClick={() => roll(row)}
+                        >
+                          <Dices size={16} />
+                        </button>
                       </td>
                     </tr>
                   ))}

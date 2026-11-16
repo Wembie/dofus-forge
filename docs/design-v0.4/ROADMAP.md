@@ -35,8 +35,8 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Paleta de acciones del taller (Ctrl+K) | Adaptación provisional | `CommandPalette` |
 | Hechizos y arma | Adaptación provisional. Los totales por golpe, la exclusión de la fase de carga, la cura por robo y los casos escalonados se calculan dentro del componente; requiere antes un modelo de vista exportado | `SpellsPanel` |
 | Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
-| Simular un combate | Rediseñado como tabla de daño de todos los ataques contra un objetivo. No incluye la tirada al azar ni la probabilidad de crítico: su regla (crítico base + crítico de la build, tope 100) está dentro de `PvpArena` y debe exportarse antes | `prototype/Combat.tsx` |
-| Comparar dos builds | Rediseñado: veredicto, barra enfrentada por estadística y piezas distintas. La referencia se fija desde la build actual o se pega como enlace/código. Pendiente al migrar: elegir entre builds guardadas y de la cuenta, enlaces de builds publicadas y el enlace para compartir la comparación (su armado está dentro de `ComparePanel`) | `prototype/Compare.tsx` |
+| Simular un combate | Rediseñado con todas las funciones de producción: resistencias del objetivo, tabla de daño normal y crítico de cada ataque, probabilidad de crítico y tirada de un golpe al azar | `prototype/Combat.tsx` |
+| Comparar dos builds | Rediseñado con todas las funciones de producción: radar, barra enfrentada por estadística, piezas distintas, referencia desde builds de la cuenta, guardadas en el dispositivo, enlace `?b=`, enlace de build publicada o código, y enlace para compartir la comparación. Añade fijar la build actual como referencia y «Solo diferencias» | `prototype/Compare.tsx` |
 | Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
 | Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |
 | Detalle de panoplia abierto desde un objeto o una página de panoplia | Rediseñado; abre Panoplias en esa panoplia | `prototype/Sets.tsx` |
@@ -45,17 +45,15 @@ Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-fo
 
 ### Prerrequisitos para terminar el rediseño
 
-Las dos herramientas que siguen en adaptación provisional, y dos funciones no trasladadas, dependen de reglas que hoy viven dentro de componentes de producción. El estudio no las reescribe: duplicar reglas del juego contradice el contrato de `UX-SPEC.md`. Hace falta exportarlas sin cambiar su comportamiento (un `refactor` en `src/`, sin versión ni changelog):
+Las herramientas que siguen en adaptación provisional dependen de reglas que hoy viven dentro de componentes de producción. El estudio no las reescribe: duplicar reglas del juego contradice el contrato de `UX-SPEC.md`. Hace falta exportarlas sin cambiar su comportamiento (un `refactor` en `src/`, sin versión ni changelog):
 
 | Regla | Dónde está | Desbloquea |
 |---|---|---|
 | Secciones de runas, valores rápidos por tipo y relaciones de transformación del arma | `RuneModal.tsx` | Forjamagia |
 | Modelo de vista de un hechizo y del arma: filas, totales por golpe y crítico, fase de carga, cura por robo, casos escalonados y condiciones | `SpellsPanel.tsx` (`SpellCard`, `WeaponCard`) | Hechizos y arma |
-| Crítico efectivo de un ataque (crítico base + crítico de la build, tope 100) | `PvpArena.tsx` | Probabilidad de crítico y tirada al azar en la tabla de combate |
-| Armado del enlace de comparación y lectura de enlaces de builds publicadas | `ComparePanel.tsx` | Compartir la comparación y elegir una build publicada como referencia |
 | Modelo de vista de la Forjadora: objetivos, reglas y resultados | `OptimizerModal.tsx` | Rediseño real de la Forjadora |
 
-Dos piezas de presentación sí están repetidas en el estudio y deben exportarse al migrar en lugar de copiarse: el filtro de ataques que golpean a un objetivo sin condición (`Combat.tsx`, tomado de `PvpArena`) y el encuadre de la escena del personaje con mascota o montura (`BuildSheet.tsx`, tomado de `CharacterStage`).
+Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presentan. Para cumplirla sin tocar `src/`, cuatro piezas pequeñas están repetidas en el estudio tal como las escribe producción y deben exportarse al migrar en lugar de copiarse: el filtro de ataques que golpean a un objetivo sin condición y el crítico efectivo de un ataque (`Combat.tsx`, de `PvpArena`); la lectura de enlaces de build y el armado del enlace de comparación (`Compare.tsx`, de `ComparePanel`); y el encuadre de la escena del personaje con mascota o montura (`BuildSheet.tsx`, de `CharacterStage`).
 
 ## Secuencia técnica
 

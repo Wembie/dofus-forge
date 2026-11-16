@@ -169,12 +169,28 @@ for (const [device, width, height] of [
   await page.getByRole("button", { name: "Reiniciar", exact: true }).click();
   await expect(damage).toHaveText(open);
   await expect(earth).toHaveValue("0");
+  const row = page.getByRole("row", { name: /^Presión/ }),
+    range = (await row.locator("td").first().textContent())
+      .split("–")
+      .map((n) => Number(n.trim())),
+    critical = (await row.locator("td").nth(1).textContent()).match(/\d+/g).map(Number);
+  await expect(row.locator("td").nth(1)).toContainText("% de probabilidad");
+  for (let i = 0; i < 12; i++) {
+    await page.getByRole("button", { name: "Tirar un golpe de Presión" }).click();
+    const value = Number(await page.locator(".combat-roll strong").textContent()),
+      wasCrit = (await page.locator(".combat-roll small").textContent()).includes(
+        "crítico",
+      ),
+      [lo, hi] = wasCrit ? critical : range;
+    if (!(value >= lo && value <= hi))
+      throw new Error(`roll ${value} outside ${lo}–${hi}`);
+  }
   await page.keyboard.press("Escape");
   const compare = page.getByRole("button", {
       name: "Comparar dos builds",
       exact: true,
     }),
-    verdict = page.locator(".cmp-head p");
+    verdict = page.locator(".cmp-head figcaption");
   await compare.click();
   await expect(verdict).toContainText("son iguales");
   await page.keyboard.press("Escape");
@@ -224,6 +240,29 @@ for (const [device, width, height] of [
     "Build pegada",
   );
   await expect(verdict).toContainText("1 pieza distinta");
+  await expect(page.locator(".cmp-head svg polygon")).not.toHaveCount(0);
+  await page.getByRole("button", { name: "Usar otra build…" }).click();
+  await expect(
+    page.getByRole("region", { name: "Builds de tu cuenta" }),
+  ).toContainText("Inicia sesión");
+  await page
+    .getByRole("textbox", { name: "Enlace o código de una build" })
+    .fill("https://dofusforge.com/es/build/00000000-0000-4000-8000-000000000000");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Comparar", exact: true })
+    .click();
+  await expect(page.getByRole("alert")).toContainText("build publicada");
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page
+    .getByRole("button", { name: "Copiar enlace de la comparación" })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Enlace copiado" }),
+  ).toBeVisible();
+  const link = await page.evaluate(() => navigator.clipboard.readText());
+  if (!/[?]b=.+&c=.+/.test(link))
+    throw new Error("comparison link lacks both builds: " + link);
   await page.keyboard.press("Escape");
   if (device === "desktop") {
     await page
