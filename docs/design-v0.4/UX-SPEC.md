@@ -4,7 +4,7 @@
 
 - Mantener el visor `src/components/CharacterStage.tsx` como centro visual: ocho orientaciones, reposo, caminar y correr, género y clase, acompañante, montura y fallback por error.
 - Un único canvas activo por vista. No montar simultáneamente dos visores ocultos para diferentes breakpoints.
-- Conservar la organización de equipo alrededor del personaje. Diez espacios principales, Multiman y seis Dofus/trofeos. En el prototipo, mascota/montura y Multiman están reservados; sus selectores deben implementarse en la siguiente fase.
+- Conservar la organización de equipo alrededor del personaje. Diez espacios principales, Multiman y seis Dofus/trofeos. Mascota/montura y Multiman abren el mismo catálogo que el resto de espacios.
 - Anillos identificados por espacio, aunque el objeto tenga el mismo ID. Quitar uno no quita ambos.
 - Efectos y órbitas detrás del personaje, sin bloquear clics ni reducir contraste. Respetar movimiento reducido; el visor ya mantiene una pose estática en ese caso.
 - Giro y movimiento: objetivos táctiles de 44 px. Al fallar recursos, conservar un retrato y acción de reintento sin perder equipo ni estadísticas.

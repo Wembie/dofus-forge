@@ -13,7 +13,8 @@ El personaje animado es el centro de la construcción. Equipo a sus lados, seis 
 ## Entrega actual
 
 - Figma: 3 páginas, 14 pantallas editables, 7 familias / 44 variantes de componentes, 67 variables y 8 estilos tipográficos; marca vectorial original y lámina de identidad.
-- Prototipo local, revisión 3: personaje real del proyecto, 19 clases, dos géneros, giro/movimiento y montura/mascota equipada; temas Tinta/Mineral, catálogo de datos completo, estado e historial reales, vista previa de quitar/reponer piezas, comparación del último cambio y borrador mediante el codec del producto. La ficha agrupa los 73 campos actuales de `StatBlock`.
+- Estudio local: además del taller, propuestas para las 19 rutas, 36 diálogos y 6 estados de vista (`prototype/surfaces.html`), con catálogo, panoplias, compartir y tarjetas de build rediseñados. El estado por superficie está en [ROADMAP.md](ROADMAP.md#estado-del-estudio-local).
+- Taller, revisión 3: personaje real del proyecto, 19 clases, dos géneros, giro/movimiento y montura/mascota equipada; temas Tinta/Mineral, catálogo de datos completo, estado e historial reales, vista previa de quitar/reponer piezas, comparación del último cambio y borrador mediante el codec del producto. La ficha agrupa los 73 campos actuales de `StatBlock`.
 - Forjadora integrada: componente, validaciones, Worker y WASM existentes; encargo reorganizado con objetivos y reglas, búsqueda real, templado, alternativas, carga y deshacer. Su presentación se adapta localmente, sin modificar el módulo de producción.
 - Identidad: `assets/forge-mark.svg`, exploración raster `identity-exploration.png`, prompt reproducible `identity-prompt.txt`. Se usó generación integrada de imágenes para la exploración y generación vectorial de Figma para la marca. La herramienta integrada no expone selección explícita del modelo; no se afirma un modelo concreto.
 - Inventario de 19 páginas y 19 módulos; trazabilidad de 495 nodos con eventos/destinos en 94 TSX, contrato de accesibilidad y migración por fases.
@@ -26,11 +27,15 @@ Desde la raíz del repositorio, con las dependencias actuales instaladas:
 node node_modules/vite/bin/vite.js --config docs/design-v0.4/prototype/vite.config.ts
 ```
 
-Abrir `http://127.0.0.1:4404`. El servidor utiliza los recursos existentes de `char-assets/` y `public/`; no necesita credenciales. Los tipos de letra de la exploración se cargan desde Google Fonts; la migración de producción debe servirlos localmente.
+Abrir `http://127.0.0.1:4404` para el taller y `http://127.0.0.1:4404/surfaces.html` para el resto de rutas, diálogos y estados. El servidor utiliza los recursos existentes de `char-assets/` y `public/`; no necesita credenciales. Los tipos de letra de la exploración se cargan desde Google Fonts; la migración de producción debe servirlos localmente.
 
 ```sh
 node docs/design-v0.4/tools/check-prototype.mjs
 node docs/design-v0.4/tools/check-forge.mjs
+node docs/design-v0.4/tools/check-workspace.mjs
+node docs/design-v0.4/tools/check-design-flows.mjs
+node docs/design-v0.4/tools/check-surfaces.mjs
+node docs/design-v0.4/tools/check-surfaces.mjs --mineral
 node node_modules/typescript/bin/tsc --project docs/design-v0.4/prototype/tsconfig.json
 node node_modules/vite/bin/vite.js build --config docs/design-v0.4/prototype/vite.config.ts
 ```
@@ -48,6 +53,8 @@ La revisión sustituye las tarjetas repetidas por un área de trabajo continua. 
 ## Qué falta
 
 El plan Starter de Figma bloqueó las llamadas adicionales. Quedaron sin ejecutar la actualización del constructor con personaje central y la revisión visual completa de las demás pantallas. Solo se inspeccionaron visualmente las primeras vistas de escritorio/móvil de Figma antes de la corrección del personaje; no se presentan como aprobadas. Las capturas antiguas de la cuadrícula se retiraron de la entrega local.
+
+En el estudio local, ocho herramientas del taller (características, forjamagia, hechizos, pasivos, combate, comparación, bonificaciones y novedades) siguen siendo el componente de producción con estilos adaptados; no cuentan como rediseñadas.
 
 La biblioteca es una primera base, no cubre todavía todos los componentes de producción. Falta publicar o vincular Code Connect, completar los estados de cada flujo, sincronizar el tema Tinta con el prototipo y probar la propuesta con personas. Las pantallas secundarias de Figma usan cifras ilustrativas; el prototipo del constructor usa el cálculo del motor.
 

@@ -4,7 +4,7 @@ Inventario basado en `src/routes.ts`, `src/pages` y `src/features`. «Plantilla�
 
 | Página / ruta | Propuesta | Requisitos propios pendientes |
 |---|---|---|
-| BuilderPage `/` | Prototipo con personaje, store, historial y Forjadora actuales; Figma a actualizar | Completar selectores de espacios, nivel/nombre, editor de runas, pasivos, hechizos, comparación A/B y exportar |
+| BuilderPage `/` | Prototipo con personaje, store, historial y Forjadora actuales; Figma a actualizar | Rediseñar las herramientas en adaptación provisional: características, forjamagia, hechizos, pasivos, combate, comparación A/B, bonificaciones y novedades |
 | ExplorePage `/explore` | Frame 04; tarjeta con ficha completa en el estudio | Filtros reales, ordenar, vacío, carga, paginación, cifras reales. PA, PM y alcance de la tarjeta: el listado actual solo trae los objetos (`snapshot.e`), así que requieren esos tres valores en la fila o el snapshot completo. Imagen fija del personaje: exponerla desde `src/lib/character` en lugar de duplicar la escena del visor |
 | BuildDetailPage `/build/:id` | Frame 08 | Autor, versión, duplicar, likes, comentarios, reportar, enlace eliminado |
 | MyBuildsPage `/my-builds` | Frame 07 | Local/nube, guardar, renombrar, borrar, duplicar, conflicto |
