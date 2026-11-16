@@ -15,6 +15,7 @@ La herramienta debe permitir decidir sobre equipo con rapidez. El personaje esta
 | Características mezcladas con elementos de daño | Las seis características se muestran aparte; Neutral permanece en daños y resistencias |
 | Forjadora ausente del recorrido principal | Acción persistente, objetivos primero y reglas al lado; en móvil, orden semántico y enlaces internos |
 | Estudio separado de las reglas del producto | Reutilizar catálogo, estado, historial, codec y Forjadora del repositorio |
+| Tarjetas de build con cuatro objetos y un retrato | Ficha en miniatura con la misma disposición del taller: cinco espacios a cada lado, el personaje de la build en el centro, seis Dofus debajo y Multiman cuando existe. Los espacios vacíos se mantienen visibles. La figura es una imagen fija del personaje real, con su mascota o montura; el visor animado queda para el taller y el detalle |
 
 La investigación de interfaces reales se usó para estudiar jerarquía, densidad, navegación y selección de equipo. Los materiales externos de esa investigación no forman parte de esta entrega pública.
 

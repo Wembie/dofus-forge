@@ -34,7 +34,8 @@ import { CharacterStage } from "../../../src/components/CharacterStage";
 import { LegalBody } from "../../../src/components/LegalBody";
 import { SetDetailModal } from "../../../src/features/equipment/SetDetailModal";
 import { STAT_META } from "../../../src/features/equipment/statDisplay";
-import { prepareModel, equipment, seedItems } from "./model";
+import { prepareModel, equipment, seedItems, visibleSlots } from "./model";
+import { BuildSheet, sheetVitals, type SheetBuild } from "./BuildSheet";
 import {
   WorkspaceTools,
   toolNames,
@@ -56,14 +57,149 @@ import "./product.css";
 
 const translations = es as Record<string, string>,
   t = (key: string) => translations[key] || key;
-const buildExamples = [
-  ["Yopuka · Tierra", "iop", "PvM"],
-  ["El filo paciente", "iop", "PvP"],
-  ["Guardia de piedra", "feca", "PvM"],
-  ["Distancia justa", "cra", "PvM"],
-  ["Entre bambúes", "pandawa", "PvM"],
-  ["Una segunda idea", "iop", "PvP"],
+/** Example compositions from real catalogue pieces; nothing here is a recommendation. */
+const seedSlots = () =>
+  Object.fromEntries(
+    visibleSlots.flatMap((slot, i) =>
+      seedItems[i] ? [[slot, seedItems[i]]] : [],
+    ),
+  ) as SheetBuild["slots"];
+const exampleBuilds = (): SheetBuild[] => [
+  {
+    name: "Yopuka · Tierra",
+    classId: "iop",
+    gender: "male",
+    level: 200,
+    tag: "PvM",
+    slots: seedSlots(),
+    allocated: { vitality: 395, strength: 300 },
+  },
+  {
+    name: "El filo paciente",
+    classId: "iop",
+    gender: "female",
+    level: 200,
+    tag: "PvP",
+    slots: {
+      hat: 22190,
+      cape: 22201,
+      weapon: 21229,
+      shield: 22191,
+      companion: 15469,
+      amulet: 22200,
+      ring1: 22192,
+      ring2: 22205,
+      belt: 22209,
+      boots: 22189,
+      dofus1: 6980,
+      dofus2: 7114,
+      dofus3: 7115,
+      dofus4: 8698,
+      dofus5: 18043,
+      dofus6: 19398,
+    },
+  },
+  {
+    name: "Guardia de piedra",
+    classId: "feca",
+    gender: "male",
+    level: 200,
+    tag: "PvM",
+    slots: {
+      hat: 19978,
+      cape: 19591,
+      weapon: 19606,
+      shield: 19598,
+      companion: 33012,
+      amulet: 19590,
+      ring1: 19977,
+      ring2: 15740,
+      belt: 19976,
+      boots: 19592,
+      dofus1: 694,
+      dofus2: 737,
+      dofus3: 739,
+      dofus4: 7112,
+      dofus5: 20286,
+      dofus6: 21451,
+      sidekick: 14962,
+    },
+  },
+  {
+    name: "Distancia justa",
+    classId: "cra",
+    gender: "female",
+    level: 200,
+    tag: "PvM",
+    slots: {
+      hat: 20465,
+      cape: 20464,
+      weapon: 20391,
+      companion: 12975,
+      amulet: 21227,
+      ring1: 21228,
+      ring2: 18029,
+      belt: 18019,
+      boots: 20463,
+      dofus1: 739,
+      dofus2: 972,
+      dofus3: 6980,
+      dofus4: 7043,
+      dofus5: 26066,
+    },
+  },
+  {
+    name: "Entre bambúes",
+    classId: "pandawa",
+    gender: "male",
+    level: 200,
+    tag: "PvM",
+    slots: {
+      hat: 24026,
+      cape: 24027,
+      weapon: 24028,
+      shield: 30683,
+      companion: 33146,
+      amulet: 24022,
+      ring1: 12113,
+      ring2: 12114,
+      belt: 24023,
+      boots: 24024,
+      dofus1: 737,
+      dofus2: 7114,
+      dofus3: 8698,
+      dofus4: 29134,
+      dofus5: 22010,
+      dofus6: 22014,
+    },
+  },
+  {
+    name: "Una segunda idea",
+    classId: "iop",
+    gender: "male",
+    level: 200,
+    tag: "PvP",
+    slots: {
+      ...seedSlots(),
+      hat: 19266,
+      shield: 19263,
+      companion: 8693,
+      amulet: 19261,
+      ring2: 19264,
+      boots: 19265,
+    },
+  },
 ];
+let examples: (SheetBuild & {
+  vitals: ReturnType<typeof sheetVitals>;
+})[] = [];
+const vitalIcons = { ap: "ap.webp", mp: "mp.webp", range: "range.webp" };
+const elementIcons = {
+  earth: "strength.png",
+  fire: "intelligence.png",
+  water: "chance.png",
+  air: "agility.png",
+};
 const links: Partial<Record<PageId, string>> = {
   explore: "Comunidad",
   "my-builds": "Tu espacio",
@@ -198,45 +334,54 @@ function App() {
     </div>
   );
   function BuildList({ owned = false }: { owned?: boolean }) {
-    const matches = buildExamples.filter(
-      ([name, cls, tag]) =>
-        name.toLowerCase().includes(query.toLowerCase()) &&
-        (filter === "Todos" || filter === cls || filter === tag),
+    const matches = examples.filter(
+      (b) =>
+        b.name.toLowerCase().includes(query.toLowerCase()) &&
+        (filter === "Todos" || filter === b.classId || filter === b.tag),
     );
     return matches.length ? (
       <div className="build-grid">
-        {matches.map(([name, cls, tag], i) => (
-          <article className="product-build" key={name}>
+        {matches.map((b) => (
+          <article className="product-build" key={b.name}>
             <button className="build-card-open" onClick={() => go("build")}>
               <span className="build-card-head">
-                <span className="build-number">0{i + 1}</span>
-                <span>Niv. 200 · {tag}</span>
-                <ArrowUpRight size={16} />
-              </span>
-              <div className="build-card-art">
-                <img src={"/data/classes/" + cls + ".webp"} alt="" />
-                <div className="mini-equipment">
-                  {seedItems.slice(0, 4).map((id) => (
+                <span>{b.tag}</span>
+                {b.vitals && (
+                  <span className={"build-element " + b.vitals.element}>
                     <img
-                      key={id}
-                      src={equipment.get(id)?.image_url || ""}
-                      alt={equipment.get(id)?.name}
+                      src={"/data/stats/" + elementIcons[b.vitals.element]}
+                      alt=""
                     />
-                  ))}
-                </div>
-              </div>
-              <h2>{name}</h2>
+                    {b.vitals.label}
+                  </span>
+                )}
+                <span className="build-level">Niv. {b.level}</span>
+              </span>
+              <BuildSheet build={b} items={equipment} />
+              <h2>{b.name}</h2>
               <span className="card-author">
-                {owned ? "Borrador de ejemplo" : "Por Brasa · build de ejemplo"}
+                {resolveClassName(b.classId, "es", null)} ·{" "}
+                {owned ? "borrador de ejemplo" : "por Brasa · build de ejemplo"}
               </span>
             </button>
             <div className="build-card-bottom">
-              <span>
+              {b.vitals && (
+                <ul className="build-vitals" aria-label="Puntos de acción, movimiento y alcance">
+                  {(["ap", "mp", "range"] as const).map((key) => (
+                    <li key={key}>
+                      <img src={"/data/stats/" + vitalIcons[key]} alt="" />
+                      <strong>{b.vitals![key]}</strong>
+                      {key === "ap" ? "PA" : key === "mp" ? "PM" : "AL"}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <span className="build-rating">
                 <Star size={13} />
-                Vista de valoración
+                Sin votos
               </span>
               <button
-                aria-label={"Acciones de " + name}
+                aria-label={"Acciones de " + b.name}
                 onClick={() => open(owned ? "visibility" : "collection-picker")}
               >
                 <MoreHorizontal size={18} />
@@ -1409,6 +1554,9 @@ void i18n
     interpolation: { escapeValue: false },
   })
   .then(prepareModel)
+  .then(() => {
+    examples = exampleBuilds().map((b) => ({ ...b, vitals: sheetVitals(b) }));
+  })
   .then(() =>
     createRoot(document.getElementById("root")!).render(
       <MemoryRouter>
