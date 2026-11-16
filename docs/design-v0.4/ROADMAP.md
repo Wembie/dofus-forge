@@ -34,7 +34,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
 | Hechizos y arma | Adaptación provisional | `SpellsPanel` |
 | Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
-| Simular un combate | Adaptación provisional | `PvpArena` |
+| Simular un combate | Rediseñado como tabla de daño de todos los ataques contra un objetivo. No incluye la tirada al azar ni la probabilidad de crítico: su regla (crítico base + crítico de la build, tope 100) está dentro de `PvpArena` y debe exportarse antes | `prototype/Combat.tsx` |
 | Comparar dos builds | Adaptación provisional | `ComparePanel` |
 | Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
 | Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |

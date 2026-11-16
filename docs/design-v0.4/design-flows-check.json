@@ -12,6 +12,7 @@
     "setEquipAndUndo": true,
     "characteristics": true,
     "passives": true,
+    "combatTable": true,
     "exported": true,
     "errors": []
   },
@@ -28,6 +29,7 @@
     "setEquipAndUndo": true,
     "characteristics": true,
     "passives": true,
+    "combatTable": true,
     "exported": false,
     "errors": []
   }

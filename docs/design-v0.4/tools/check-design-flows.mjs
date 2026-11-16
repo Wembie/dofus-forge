@@ -148,6 +148,28 @@ for (const [device, width, height] of [
   await page.getByRole("button", { name: "Restablecer", exact: true }).click();
   await expect(passiveTotal).toContainText("Ninguno activo");
   await page.keyboard.press("Escape");
+  await page
+    .getByRole("button", { name: "Simular un combate", exact: true })
+    .click();
+  const damage = page
+      .locator(".combat-damage tbody tr:not(.combat-group)")
+      .nth(1)
+      .locator("td")
+      .first(),
+    earth = page.getByRole("spinbutton", {
+      name: "Resistencia porcentual a Tierra",
+    });
+  await expect(damage).toBeVisible({ timeout: 15000 });
+  const open = await damage.textContent();
+  for (const element of ["Neutro", "Tierra", "Fuego", "Agua", "Aire"])
+    await page
+      .getByRole("spinbutton", { name: "Resistencia porcentual a " + element })
+      .fill("50");
+  await expect(damage).not.toHaveText(open);
+  await page.getByRole("button", { name: "Reiniciar", exact: true }).click();
+  await expect(damage).toHaveText(open);
+  await expect(earth).toHaveValue("0");
+  await page.keyboard.press("Escape");
   if (device === "desktop") {
     await page
       .getByRole("button", { name: "Compartir y exportar", exact: true })
@@ -171,6 +193,7 @@ for (const [device, width, height] of [
     setEquipAndUndo: true,
     characteristics: true,
     passives: true,
+    combatTable: true,
     exported: device === "desktop",
     errors,
   });

@@ -4,7 +4,7 @@ import { useDataStore } from "../../../src/store/dataStore";
 import { Characteristics } from "./Characteristics";
 import { Passives, CombatSwitch } from "./Passives";
 import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
-import { PvpArena } from "../../../src/features/pvp/PvpArena";
+import { Combat } from "./Combat";
 import { Catalog } from "./Catalog";
 import { Sets } from "./Sets";
 import { SetBonuses, Changelog } from "./SetBonuses";
@@ -135,12 +135,7 @@ export function WorkspaceTools({
           <SpellsPanel />
         </>
       )}
-      {tool === "pvp" && (
-        <>
-          <CombatSwitch />
-          <PvpArena />
-        </>
-      )}
+      {tool === "pvp" && <Combat />}
       {tool === "bonuses" && <SetBonuses />}
       {tool === "changelog" && <Changelog />}
       {tool === "compare" && <ComparePanel />}

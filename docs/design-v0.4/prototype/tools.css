@@ -648,3 +648,169 @@
     grid-template-columns: 44px minmax(0, 1fr) 44px 54px;
   }
 }
+.combat-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 36px;
+  padding-top: 20px;
+}
+.combat-target {
+  align-self: start;
+  position: sticky;
+  top: 0;
+}
+.combat-target header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.combat-target h3 {
+  font: 500 22px Alegreya;
+  margin: 0;
+}
+.combat-target header button {
+  border: 0;
+  padding: 0 4px;
+  min-height: 32px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.combat-target header button:disabled {
+  opacity: 0.4;
+}
+.combat-resist,
+.combat-resist > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px 60px;
+  gap: 8px;
+  align-items: center;
+}
+.combat-resist {
+  row-gap: 6px;
+}
+.combat-resist > span {
+  font-size: 11px;
+  color: var(--muted);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.combat-resist > span + span {
+  text-align: center;
+}
+.combat-resist > div {
+  grid-column: 1 / -1;
+}
+.combat-resist > div > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.combat-resist img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.combat-resist input {
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--canvas);
+  color: var(--text);
+  font: 500 14px "IBM Plex Mono";
+  text-align: center;
+  appearance: textfield;
+}
+.combat-resist input::-webkit-inner-spin-button {
+  appearance: none;
+}
+.combat-target p {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.combat-damage table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.combat-damage thead th {
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: right;
+}
+.combat-damage thead th:first-child {
+  text-align: left;
+}
+.combat-damage .combat-group th {
+  padding: 18px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+.combat-damage tbody tr:not(.combat-group) > * {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--subtle);
+}
+.combat-damage tbody th[scope="row"] {
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+}
+.combat-damage tbody th[scope="row"] > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.combat-damage tbody img,
+.combat-damage tbody i {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.combat-damage td {
+  width: 124px;
+  font: 500 14px "IBM Plex Mono";
+  text-align: right;
+  white-space: nowrap;
+}
+.combat-damage td.is-crit {
+  color: var(--accent);
+}
+.combat-damage td.is-none {
+  font: 12px "Source Sans 3", sans-serif;
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  .combat-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .combat-target {
+    position: static;
+  }
+  .combat-resist input,
+  .combat-target header button {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .combat-target header button {
+    font-size: 13px;
+  }
+  .combat-damage td {
+    width: 92px;
+    font-size: 13px;
+  }
+  .combat-damage tbody th[scope="row"] {
+    font-size: 13px;
+  }
+}
