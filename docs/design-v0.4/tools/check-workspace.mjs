@@ -34,6 +34,7 @@ for (const [device, width, height] of [
     ["bonuses", "Bonificaciones de panoplia"],
     ["compare", "Comparar dos builds"],
     ["share", "Compartir y exportar"],
+    ["changelog", "Novedades"],
   ];
   for (const [id, label] of tools) {
     if (wanted && !wanted.includes(device + ":" + id)) continue;

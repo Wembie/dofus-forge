@@ -847,9 +847,12 @@ function App() {
           Borrador local
         </span>
         <span>Datos del juego · Combinación de estudio</span>
-        <button onClick={() => setOverlay("guide")}>
-          Ayuda y atajos <BookOpen size={13} />
-        </button>
+        <span className="app-footer-links">
+          <button onClick={() => openTool("changelog")}>Novedades</button>
+          <button onClick={() => setOverlay("guide")}>
+            Ayuda y atajos <BookOpen size={13} />
+          </button>
+        </span>
       </footer>
       <nav className="mobile-nav" aria-label="Vistas del taller">
         <button onClick={() => setForge(true)}>

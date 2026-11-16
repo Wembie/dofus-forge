@@ -44,7 +44,7 @@ El build comprueba el bundle de la exploración. No es un paquete de despliegue:
 
 ## Revisión visual y evidencia
 
-[Escritorio](workshop-3d-desktop.png) · [Móvil](workshop-3d-mobile.png) · [Tema mineral](workshop-mineral-desktop.png) · [Ficha completa](workshop-stats-desktop.png) · [Decisiones y validación](DESIGN-REVIEW.md)
+[Escritorio](workshop-3d-desktop.png) · [Móvil](workshop-3d-mobile.png) · [Tema mineral](workshop-mineral-desktop.png) · [Tarjetas de build](surfaces-explore-desktop.png) · [Catálogo](catalog-detail-desktop.png) · [Decisiones y validación](DESIGN-REVIEW.md)
 
 [Forjadora escritorio](forge-order-desktop.png) · [Forjadora móvil](forge-order-mobile.png) · [Búsqueda](forge-running-desktop.png) · [Resultados reales](forge-results-desktop.png)
 
@@ -54,7 +54,7 @@ La revisión sustituye las tarjetas repetidas por un área de trabajo continua. 
 
 El plan Starter de Figma bloqueó las llamadas adicionales. Quedaron sin ejecutar la actualización del constructor con personaje central y la revisión visual completa de las demás pantallas. Solo se inspeccionaron visualmente las primeras vistas de escritorio/móvil de Figma antes de la corrección del personaje; no se presentan como aprobadas. Las capturas antiguas de la cuadrícula se retiraron de la entrega local.
 
-En el estudio local, siete herramientas del taller (forjamagia, hechizos, pasivos, combate, comparación, bonificaciones y novedades) siguen siendo el componente de producción con estilos adaptados; no cuentan como rediseñadas.
+En el estudio local, cinco herramientas del taller (forjamagia, hechizos, pasivos, combate y comparación) siguen siendo el componente de producción con estilos adaptados; no cuentan como rediseñadas.
 
 La biblioteca es una primera base, no cubre todavía todos los componentes de producción. Falta publicar o vincular Code Connect, completar los estados de cada flujo, sincronizar el tema Tinta con el prototipo y probar la propuesta con personas. Las pantallas secundarias de Figma usan cifras ilustrativas; el prototipo del constructor usa el cálculo del motor.
 

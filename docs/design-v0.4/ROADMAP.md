@@ -36,8 +36,8 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Pasivos de combate | Adaptación provisional | `PassivesPanel`, `CombatViewBar` |
 | Simular un combate | Adaptación provisional | `PvpArena` |
 | Comparar dos builds | Adaptación provisional | `ComparePanel` |
-| Bonificaciones de panoplia | Adaptación provisional | `SetBonusesPanel` |
-| Novedades | Adaptación provisional | `ChangelogModal` |
+| Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
+| Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |
 | Detalle de panoplia abierto desde el catálogo | Adaptación provisional | `SetDetailModal` |
 
 Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-forge`, `check-workspace`, `check-design-flows` y `check-surfaces` (ambos temas) terminan sin desbordamiento, errores de JavaScript ni infracciones automáticas de accesibilidad. Solo cubren 1440×900 y 390×844 salvo `check-prototype`, que cubre cinco tamaños.

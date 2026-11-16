@@ -8,13 +8,12 @@ import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
 import { PvpArena } from "../../../src/features/pvp/PvpArena";
 import { Catalog } from "./Catalog";
 import { Sets } from "./Sets";
-import { SetBonusesPanel } from "../../../src/features/equipment/SetBonusesPanel";
+import { SetBonuses, Changelog } from "./SetBonuses";
 import { RuneModal } from "../../../src/features/equipment/RuneModal";
 import { ComparePanel } from "../../../src/features/compare/ComparePanel";
 import { useCompareStore } from "../../../src/store/compareStore";
 import { buildSnapshotFromState } from "../../../src/features/share/codec";
 import { SharePanel } from "./SharePanel";
-import { ChangelogModal } from "../../../src/features/changelog/ChangelogModal";
 import { Modal } from "./SurfaceModal";
 import { equipment } from "./model";
 
@@ -86,7 +85,6 @@ export function WorkspaceTools({
   if (tool === "sets") return <Sets onClose={onClose} />;
   if (tool === "runes" && selected)
     return <RuneModal slotId={runeSlot} item={selected} onClose={onClose} />;
-  if (tool === "changelog") return <ChangelogModal onClose={onClose} />;
   return (
     <Modal
       open
@@ -158,7 +156,8 @@ export function WorkspaceTools({
           <PvpArena />
         </>
       )}
-      {tool === "bonuses" && <SetBonusesPanel />}
+      {tool === "bonuses" && <SetBonuses />}
+      {tool === "changelog" && <Changelog />}
       {tool === "compare" && <ComparePanel />}
       {tool === "share" && <SharePanel />}
       {tool === "runes" && !selected && (

@@ -773,8 +773,12 @@ main {
 .app-footer > span:nth-child(2) {
   opacity: 1;
 }
-.app-footer button {
+.app-footer-links {
+  display: flex;
+  gap: 24px;
   margin-left: auto;
+}
+.app-footer button {
   font-size: 10px;
   color: var(--muted);
   border: 0;
@@ -1354,10 +1358,16 @@ dialog::backdrop {
   .app-footer {
     padding: 10px 16px 82px;
     font-size: 9px;
-    gap: 12px;
+    gap: 4px 12px;
+    flex-wrap: wrap;
+  }
+  .app-footer-links {
+    flex-basis: 100%;
+    margin-left: 0;
   }
   .app-footer button {
-    display: none;
+    min-height: 44px;
+    font-size: 12px;
   }
   .app-footer > span:nth-child(2) {
     margin-left: auto;

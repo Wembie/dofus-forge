@@ -205,3 +205,154 @@
     align-items: stretch;
   }
 }
+.tool-empty {
+  padding: 28px 0;
+  max-width: 46ch;
+}
+.tool-empty h3 {
+  font: 500 24px Alegreya;
+  margin: 0 0 8px;
+}
+.tool-empty p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.bonus-sets {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.bonus-sets header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.bonus-sets h3 {
+  font: 500 24px/1.2 Alegreya;
+  margin: 0;
+}
+.bonus-sets header p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.bonus-sets header strong {
+  font: 500 15px "IBM Plex Mono";
+  color: var(--text);
+}
+.bonus-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 12px 0 14px;
+  padding: 0;
+}
+.bonus-pieces li {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.bonus-pieces img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.bonus-pieces .is-missing {
+  border-style: dashed;
+}
+.bonus-pieces .is-missing img {
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+.bonus-sets .set-tiers {
+  border-top: 1px solid var(--line);
+}
+.set-tier-note.is-next {
+  color: var(--muted);
+}
+.notes-data {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.notes-data strong {
+  font: 500 12px "IBM Plex Mono";
+  color: var(--text);
+}
+.notes-data span {
+  margin-left: auto;
+}
+.notes ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.notes ol > li {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--subtle);
+}
+.notes ol > li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+.notes ol strong {
+  font: 500 14px "IBM Plex Mono";
+}
+.notes time {
+  font-size: 12px;
+  color: var(--muted);
+}
+.notes em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--accent);
+}
+.notes ol ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.notes ol ul li {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 68ch;
+  overflow-wrap: anywhere;
+}
+.notes > button {
+  margin-top: 18px;
+}
+@media (max-width: 700px) {
+  .notes ol > li {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .notes ol > li > div {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .bonus-sets header {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

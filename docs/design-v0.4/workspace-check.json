@@ -1,6 +1,19 @@
 [
   {
     "device": "desktop",
+    "id": "characteristics",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
     "id": "passives",
     "geometry": {
       "width": 1440,
@@ -80,6 +93,19 @@
   {
     "device": "desktop",
     "id": "share",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "changelog",
     "geometry": {
       "width": 1440,
       "scrollWidth": 1440,
@@ -116,6 +142,19 @@
   },
   {
     "device": "mobile",
+    "id": "characteristics",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
     "id": "passives",
     "geometry": {
       "width": 390,
@@ -207,6 +246,19 @@
   },
   {
     "device": "mobile",
+    "id": "changelog",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
     "id": "catalog",
     "geometry": {
       "width": 390,
@@ -226,32 +278,6 @@
       "contentWidth": 356,
       "contentScrollWidth": 356
     },
-    "errors": [],
-    "violations": []
-  },
-  {
-    "device": "desktop",
-    "id": "characteristics",
-    "geometry": {
-      "width": 1440,
-      "scrollWidth": 1440,
-      "contentWidth": 738,
-      "contentScrollWidth": 738
-    },
-    "focusReturned": true,
-    "errors": [],
-    "violations": []
-  },
-  {
-    "device": "mobile",
-    "id": "characteristics",
-    "geometry": {
-      "width": 390,
-      "scrollWidth": 390,
-      "contentWidth": 388,
-      "contentScrollWidth": 388
-    },
-    "focusReturned": true,
     "errors": [],
     "violations": []
   }
