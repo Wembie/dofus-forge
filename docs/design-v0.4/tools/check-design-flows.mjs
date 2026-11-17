@@ -104,6 +104,31 @@ for (const [device, width, height] of [
   await expect.poll(() => metric.allTextContents()).not.toEqual(baseline);
   await page.getByRole("button", { name: "Deshacer", exact: true }).click();
   await expect.poll(() => metric.allTextContents()).toEqual(baseline);
+  await page.getByRole("button", { name: "Panoplias", exact: true }).click();
+  await page
+    .getByRole("textbox", { name: "Buscar panoplias", exact: true })
+    .fill("volc");
+  await page.locator(".catalog-result-open").first().click();
+  await expect(page.locator(".set-page-link")).toHaveAttribute("href", /sets/);
+  const firstPiece = page.locator(".set-pieces-plan li").first();
+  await firstPiece.getByRole("button", { name: /^Equipar solo/ }).click();
+  await expect(firstPiece).toContainText("Ya equipada");
+  await firstPiece.getByRole("button", { name: /^Quitar/ }).click();
+  await expect(firstPiece).not.toContainText("Ya equipada");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.getByRole("button", { name: "Deshacer", exact: true }).click();
+  await page.getByRole("button", { name: "Deshacer", exact: true }).click();
+  await expect.poll(() => metric.allTextContents()).toEqual(baseline);
+  await page
+    .getByRole("button", { name: "Bonificaciones de panoplia", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Ver la panoplia" }).first().click();
+  await expect(page.getByRole("dialog")).toHaveCount(2);
+  await expect(page.locator(".set-heading h3")).not.toBeEmpty();
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page
     .getByRole("button", { name: "Distribuir características", exact: true })
     .click();
@@ -125,6 +150,22 @@ for (const [device, width, height] of [
   await set("Agilidad", 0);
   await set("Fuerza", 300);
   await expect(points).toHaveText("0");
+  await set("Fuerza", 100);
+  const agility = field("Agilidad"),
+    plus = page.getByRole("button", { name: "Añadir puntos a Agilidad" });
+  await plus.click({ modifiers: ["Shift"] });
+  await expect(agility).toHaveValue("5");
+  await plus.click();
+  await expect(agility).toHaveValue("6");
+  const box = await plus.boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(1200);
+  await page.mouse.up();
+  const held = Number(await agility.inputValue());
+  if (held < 15) throw new Error("holding + added only " + (held - 6));
+  await set("Agilidad", 0);
+  await set("Fuerza", 300);
   const luck = page
     .getByRole("group", { name: "Suerte" })
     .locator(".chars-total strong"),
@@ -288,6 +329,8 @@ for (const [device, width, height] of [
     characteristics: true,
     passives: true,
     combatTable: true,
+    holdAndModifiers: true,
+    singleSetPiece: true,
     compare: true,
     exported: device === "desktop",
     errors,

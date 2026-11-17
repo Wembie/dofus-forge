@@ -25,19 +25,19 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 |---|---|---|
 | Taller: personaje, equipo, resumen y ficha de 73 campos | Rediseñado | `prototype/main.tsx` |
 | Catálogo de objetos | Rediseñado | `prototype/Catalog.tsx` |
-| Panoplias | Rediseñado | `prototype/Sets.tsx` |
+| Panoplias | Rediseñado con las funciones de producción: buscar, filtrar por nivel y piezas, ordenar, ver bonificaciones por tramo, equipar la panoplia entera en un paso, equipar o quitar una pieza suelta y abrir la página de la panoplia. Añade dónde va cada pieza y el cambio en la build | `prototype/Sets.tsx` |
 | Compartir y exportar | Rediseñado | `prototype/SharePanel.tsx` |
 | La Forjadora | Recompuesta, no rediseñada: el marco, el orden (objetivos primero, reglas al lado) y la navegación interna son nuevos; las tarjetas de objetivo, las reglas y las tarjetas de resultado siguen siendo `OptimizerModal` de producción con estilos adaptados | `prototype/ForgeModal.tsx`, `prototype/forge.css` |
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
-| Distribuir características | Rediseñado | `prototype/Characteristics.tsx` |
+| Distribuir características | Rediseñado con las funciones de producción: −/+ de uno en uno que repiten al mantener (Mayús ×5, Ctrl ×20), valor escrito, pergaminos uno a uno o todos, potencia y lo que suman los pasivos en vista de combate. Añade «Máx.» por característica | `prototype/Characteristics.tsx` |
 | Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
 | Paleta de acciones del taller (Ctrl+K) | Adaptación provisional | `CommandPalette` |
 | Hechizos y arma | Adaptación provisional. Los totales por golpe, la exclusión de la fase de carga, la cura por robo y los casos escalonados se calculan dentro del componente; requiere antes un modelo de vista exportado | `SpellsPanel` |
-| Pasivos de combate, y el selector Equipo / En combate de hechizos y combate | Rediseñado | `prototype/Passives.tsx` |
+| Pasivos de combate y selector Equipo / En combate | Rediseñado con las funciones de producción, incluido el número de pasivos activos en el selector | `prototype/Passives.tsx` |
 | Simular un combate | Rediseñado con todas las funciones de producción: resistencias del objetivo, tabla de daño normal y crítico de cada ataque, probabilidad de crítico y tirada de un golpe al azar | `prototype/Combat.tsx` |
 | Comparar dos builds | Rediseñado con todas las funciones de producción: radar, barra enfrentada por estadística, piezas distintas, referencia desde builds de la cuenta, guardadas en el dispositivo, enlace `?b=`, enlace de build publicada o código, y enlace para compartir la comparación. Añade fijar la build actual como referencia y «Solo diferencias» | `prototype/Compare.tsx` |
-| Bonificaciones de panoplia | Rediseñado | `prototype/SetBonuses.tsx` |
+| Bonificaciones de panoplia | Rediseñado con las funciones de producción, incluida abrir cada panoplia desde su sección. Añade el tramo siguiente y un estado vacío | `prototype/SetBonuses.tsx` |
 | Novedades | Rediseñado; se abre desde el pie del taller | `prototype/SetBonuses.tsx` |
 | Detalle de panoplia abierto desde un objeto o una página de panoplia | Rediseñado; abre Panoplias en esa panoplia | `prototype/Sets.tsx` |
 

@@ -102,13 +102,15 @@
 }
 .chars-points {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px 52px;
+  grid-template-columns: 40px minmax(0, 1fr) 40px 52px;
   gap: 4px;
 }
 .chars-points button {
   min-height: 36px;
   padding: 0;
-  font: 500 12px "IBM Plex Mono";
+  font: 500 17px "IBM Plex Mono";
+  user-select: none;
+  touch-action: manipulation;
 }
 .chars-points .chars-max {
   border-color: transparent;
@@ -135,6 +137,12 @@
 }
 .chars-total strong {
   font: 500 20px "IBM Plex Mono";
+}
+.chars-total em {
+  margin-left: 6px;
+  font: 500 12px "IBM Plex Mono";
+  font-style: normal;
+  color: var(--accent);
 }
 .chars-foot {
   display: flex;
@@ -198,7 +206,7 @@
     font-size: 16px;
   }
   .chars-points button {
-    font-size: 13px;
+    font-size: 18px;
   }
   .chars-foot {
     flex-direction: column;
@@ -233,8 +241,17 @@
   font: 500 24px/1.2 Alegreya;
   margin: 0;
 }
+.bonus-open {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+}
 .bonus-sets header p {
-  margin: 0;
+  margin: 0 0 0 auto;
   font-size: 12px;
   color: var(--muted);
   white-space: nowrap;
@@ -352,8 +369,18 @@
     gap: 12px;
   }
   .bonus-sets header {
-    flex-direction: column;
-    gap: 4px;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+  .bonus-sets h3 {
+    flex-basis: 100%;
+  }
+  .bonus-sets header p {
+    margin: 0;
+  }
+  .bonus-open {
+    min-height: 44px;
+    margin-left: auto;
   }
 }
 .view-switch {
@@ -382,6 +409,19 @@
   background: var(--hover);
   color: var(--text);
   font-weight: 600;
+}
+.view-count {
+  display: inline-block;
+  min-width: 18px;
+  margin-left: 8px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--subtle);
+  font: 500 11px/18px "IBM Plex Mono";
+  text-align: center;
+}
+.view-switch button[aria-checked="true"] .view-count {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
 }
 .view-switch p {
   margin: 0;

@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, Search } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  ExternalLink,
+  Search,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBuildStore } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
@@ -14,6 +20,9 @@ import {
   statIconUrl,
 } from "../../../src/features/equipment/statDisplay";
 import { assignSetSlots } from "../../../src/features/equipment/setSlots";
+import { SLOT_CONFIGS } from "../../../src/features/equipment/slotConfig";
+import { setPath } from "../../../src/features/set-guide/setGuideLinks";
+import type { SlotId } from "../../../src/store/buildStore";
 import { normalizeSearch } from "../../../src/ui/normalize";
 import { equipment, previewItems, visibleSlots } from "./model";
 import { Modal } from "./SurfaceModal";
@@ -44,9 +53,10 @@ export function Sets({
   open?: number;
   onEquipped?: () => void;
 }) {
-  const { t } = useTranslation(),
+  const { t, i18n } = useTranslation(),
     build = useBuildStore(),
-    sets = useDataStore((s) => s.sets) || [];
+    sets = useDataStore((s) => s.sets) || [],
+    slugs = useDataStore((s) => s.setSlugs);
   const [query, setQuery] = useState(""),
     [range, setRange] = useState({ min: 0, max: 200 }),
     [pieces, setPieces] = useState(0),
@@ -137,6 +147,20 @@ export function Sets({
   function back() {
     setSelected(null);
     requestAnimationFrame(() => lastRow.current?.focus());
+  }
+  /** One piece on its own, as production does: the first empty slot that takes it, else the first one. */
+  function equipPiece(item: AppItem) {
+    const slots = SLOT_CONFIGS.filter((c) =>
+        (Array.isArray(c.apiSlot) ? c.apiSlot : [c.apiSlot]).includes(item.slot),
+      ).map((c) => c.id),
+      target = slots.find((slot) => build.equipped[slot] == null) ?? slots[0];
+    if (target) build.equipItem(target, item.ankama_id);
+  }
+  function removePiece(item: AppItem) {
+    const slot = (Object.entries(build.equipped) as [SlotId, number][]).find(
+      ([, id]) => id === item.ankama_id,
+    )?.[0];
+    if (slot) build.unequipItem(slot);
   }
   function equip() {
     if (!plan.length) return;
@@ -318,6 +342,20 @@ export function Sets({
                   <p>
                     {selected.items.length} piezas · {have} en tu equipo
                   </p>
+                  {slugs.get(selected.set.ankama_id) && (
+                    <a
+                      className="set-page-link"
+                      href={setPath(
+                        i18n.language,
+                        slugs.get(selected.set.ankama_id)!,
+                      )}
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Abrir la página de la panoplia
+                      <ExternalLink size={13} aria-hidden="true" />
+                    </a>
+                  )}
                 </div>
               </div>
               <h4>
@@ -352,6 +390,23 @@ export function Sets({
                         </small>
                       </span>
                       <em>Niv. {it.level}</em>
+                      {worn.has(it.ankama_id) ? (
+                        <button
+                          className="set-piece-action"
+                          aria-label={`Quitar ${it.name}`}
+                          onClick={() => removePiece(it)}
+                        >
+                          Quitar
+                        </button>
+                      ) : (
+                        <button
+                          className="set-piece-action"
+                          aria-label={`Equipar solo ${it.name}`}
+                          onClick={() => equipPiece(it)}
+                        >
+                          Equipar
+                        </button>
+                      )}
                     </li>
                   );
                 })}

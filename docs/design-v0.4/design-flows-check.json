@@ -13,6 +13,8 @@
     "characteristics": true,
     "passives": true,
     "combatTable": true,
+    "holdAndModifiers": true,
+    "singleSetPiece": true,
     "compare": true,
     "exported": true,
     "errors": []
@@ -31,6 +33,8 @@
     "characteristics": true,
     "passives": true,
     "combatTable": true,
+    "holdAndModifiers": true,
+    "singleSetPiece": true,
     "compare": true,
     "exported": false,
     "errors": []

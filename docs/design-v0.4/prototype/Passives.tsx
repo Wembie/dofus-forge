@@ -23,7 +23,17 @@ import "./tools.css";
 
 /** Which numbers the workshop shows: the gear alone, or the gear with the passives you switch on. */
 export function CombatSwitch() {
-  const combat = useCombatView();
+  const combat = useCombatView(),
+    active = useBuildStore(
+      (s) =>
+        Object.values(s.equipped).filter(
+          (id) =>
+            id != null &&
+            (ITEM_PASSIVES.get(id) ?? []).some(
+              (c) => (s.passives[c.id] ?? 0) > 0,
+            ),
+        ).length,
+    );
   return (
     <div className="view-switch">
       <div role="radiogroup" aria-label="Estadísticas que muestra el taller">
@@ -40,6 +50,9 @@ export function CombatSwitch() {
           onClick={() => setCombatView(true)}
         >
           En combate
+          <span className="view-count" aria-label={`${active} pasivos activos`}>
+            {active}
+          </span>
         </button>
       </div>
       <p>

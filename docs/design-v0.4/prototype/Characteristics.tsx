@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useBuildStore } from "../../../src/store/buildStore";
 import { useCombatStats } from "../../../src/store/useCombatStats";
 import {
@@ -38,6 +38,54 @@ const number = {
     String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "."),
 };
 
+/** Step size as in production: Shift = 5, Ctrl/⌘ = 20, otherwise 1. */
+const step = (e: { shiftKey: boolean; ctrlKey: boolean; metaKey: boolean }) =>
+  e.shiftKey ? 5 : e.ctrlKey || e.metaKey ? 20 : 1;
+
+/**
+ * Press-and-hold as in production: one step on press, then after 350 ms a
+ * repeat every 80 ms that speeds up to 5 per tick after 15 ticks. Pointer
+ * events cover mouse and touch; a keyboard click still does a single step.
+ */
+function useHold(apply: (n: number) => void) {
+  const fn = useRef(apply),
+    timer = useRef<ReturnType<typeof setTimeout>>(undefined),
+    tick = useRef<ReturnType<typeof setInterval>>(undefined),
+    pressed = useRef(false);
+  fn.current = apply;
+  const stop = useCallback(() => {
+    clearTimeout(timer.current);
+    clearInterval(tick.current);
+  }, []);
+  useEffect(() => stop, [stop]);
+  return {
+    onPointerDown: (e: React.PointerEvent) => {
+      if (e.button !== 0) return;
+      pressed.current = true;
+      fn.current(step(e));
+      if (e.shiftKey || e.ctrlKey || e.metaKey) return;
+      let count = 0;
+      timer.current = setTimeout(() => {
+        tick.current = setInterval(() => {
+          count++;
+          fn.current(count >= 15 ? 5 : 1);
+        }, 80);
+      }, 350);
+    },
+    onPointerUp: stop,
+    onPointerLeave: stop,
+    onPointerCancel: stop,
+    onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
+    onClick: (e: React.MouseEvent) => {
+      if (pressed.current) {
+        pressed.current = false;
+        return;
+      }
+      fn.current(step(e));
+    },
+  };
+}
+
 function Points({
   char,
   value,
@@ -73,9 +121,37 @@ function Points({
   );
 }
 
+const signedDelta = (n: number) =>
+  (n > 0 ? "+" : "−") + number.format(Math.abs(n));
+
+function Step({
+  label,
+  disabled,
+  apply,
+  children,
+}: {
+  label: string;
+  disabled: boolean;
+  apply: (n: number) => void;
+  children: React.ReactNode;
+}) {
+  const hold = useHold(apply);
+  return (
+    <button
+      aria-label={label}
+      title={label + " (Mayús ×5, Ctrl ×20, mantener para repetir)"}
+      disabled={disabled}
+      {...hold}
+    >
+      {children}
+    </button>
+  );
+}
+
 /** One row per characteristic: scroll, points and the resulting total, read left to right. */
 export function Characteristics() {
   const b = useBuildStore(),
+    gear = b.stats,
     combatStats = useCombatStats(),
     combatView = useCombatView(),
     hasPassives = useHasPassives(),
@@ -88,7 +164,8 @@ export function Characteristics() {
     ),
     left = budget - spent,
     everyScroll = CHARACTERISTICS.every((c) => b.scrolled[c]),
-    power = stats?.power ?? 0;
+    power = stats?.power ?? 0,
+    powerFromPassives = combat && gear ? power - gear.power : 0;
   function commit(char: Characteristic, target: number) {
     const now = b.allocated[char];
     if (target > now) b.addPoints(char, target - now);
@@ -158,25 +235,25 @@ export function Characteristics() {
               +{SCROLL_BONUS}
             </button>
             <div className="chars-points">
-              <button
-                aria-label={`Quitar 10 puntos de ${NAMES[char]}`}
+              <Step
+                label={`Quitar puntos de ${NAMES[char]}`}
                 disabled={points <= 0}
-                onClick={() => b.removePoints(char, 10)}
+                apply={(n) => b.removePoints(char, n)}
               >
-                −10
-              </button>
+                −
+              </Step>
               <Points
                 char={char}
                 value={points}
                 onCommit={(target) => commit(char, target)}
               />
-              <button
-                aria-label={`Añadir 10 puntos a ${NAMES[char]}`}
+              <Step
+                label={`Añadir puntos a ${NAMES[char]}`}
                 disabled={left < next}
-                onClick={() => b.addPoints(char, 10)}
+                apply={(n) => b.addPoints(char, n)}
               >
-                +10
-              </button>
+                +
+              </Step>
               <button
                 className="chars-max"
                 aria-label={`Asignar el máximo posible a ${NAMES[char]}`}
@@ -187,7 +264,14 @@ export function Characteristics() {
               </button>
             </div>
             <div className="chars-total">
-              <strong>{number.format(total)}</strong>
+              <strong>
+                {number.format(total)}
+                {combat && gear && total !== (char === "vitality" ? gear.maxHp : gear[char]) && (
+                  <em title="Lo que suman tus pasivos de combate">
+                    {signedDelta(total - (char === "vitality" ? gear.maxHp : gear[char]))}
+                  </em>
+                )}
+              </strong>
               <small>
                 {char === "vitality"
                   ? "puntos de vida"
@@ -201,8 +285,10 @@ export function Characteristics() {
       })}
       <div className="chars-foot">
         <p>
+          Mantén pulsado − o + para repetir; con Mayús suma de 5 en 5 y con
+          Ctrl de 20 en 20.{" "}
           {power > 0
-            ? `Tu potencia (+${number.format(power)}) se suma a Fuerza, Inteligencia, Suerte y Agilidad al calcular daños.`
+            ? `Tu potencia (+${number.format(power)}${powerFromPassives ? `, ${signedDelta(powerFromPassives)} por pasivos` : ""}) se suma a Fuerza, Inteligencia, Suerte y Agilidad al calcular daños.`
             : "La potencia de tu equipo se suma a las cuatro características elementales al calcular daños."}
         </p>
         <button onClick={() => b.setAllScrolls(!everyScroll)}>

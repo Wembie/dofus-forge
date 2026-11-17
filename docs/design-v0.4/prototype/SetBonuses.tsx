@@ -11,13 +11,16 @@ import {
 import { CHANGELOG, DOFUS_GAME_VERSION } from "../../../src/data/changelog";
 import { equipment } from "./model";
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
+import { Sets } from "./Sets";
 import "./catalog.css";
 import "./tools.css";
 
 /** Each set you wear, the pieces that count and every tier, with the one in force marked. */
 export function SetBonuses() {
   const { t } = useTranslation(),
-    b = useBuildStore();
+    b = useBuildStore(),
+    [open, setOpen] = useState<number | null>(null);
   const active = useMemo(
     () => computeActiveSets(b.equipped, b._equipment, b._sets),
     [b.equipped, b._equipment, b._sets],
@@ -54,6 +57,13 @@ export function SetBonuses() {
                 <strong>{count}</strong> de {pieces.length} piezas
                 {inForce ? "" : " · aún sin bonificación"}
               </p>
+              <button
+                className="bonus-open"
+                onClick={() => setOpen(set.ankama_id)}
+              >
+                Ver la panoplia
+                <ArrowRight size={14} />
+              </button>
             </header>
             <ul className="bonus-pieces">
               {pieces.map((it) => (
@@ -113,6 +123,9 @@ export function SetBonuses() {
           </section>
         );
       })}
+      {open != null && (
+        <Sets open={open} onClose={() => setOpen(null)} />
+      )}
     </div>
   );
 }
