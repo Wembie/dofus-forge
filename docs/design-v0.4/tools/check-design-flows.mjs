@@ -235,6 +235,28 @@ for (const [device, width, height] of [
   await expect(passiveTotal).toContainText("Ninguno activo");
   await page.keyboard.press("Escape");
   await page
+    .getByRole("button", { name: "Hechizos y arma", exact: true })
+    .click();
+  const spellbook = page.getByRole("dialog", { name: "Hechizos y arma" }),
+    firstSpell = spellbook.locator(".sp-section").nth(1).locator(".sp-normal").nth(1);
+  await expect(firstSpell).toBeVisible({ timeout: 15000 });
+  const atLevel = await firstSpell.textContent();
+  await spellbook.getByRole("button", { name: /^Grado 1/ }).click();
+  await expect(firstSpell).not.toHaveText(atLevel);
+  await spellbook
+    .getByRole("button", { name: "Volver al grado de tu nivel" })
+    .click();
+  await expect(firstSpell).toHaveText(atLevel);
+  await spellbook.getByRole("radio", { name: "Fuego" }).click();
+  for (const spell of await spellbook.locator(".sp-pair .sp-spell").all())
+    await expect(spell).toHaveClass(/fire/);
+  await spellbook.getByRole("radio", { name: "Todos" }).click();
+  const weaponHit = spellbook.locator(".sp-weapon .sp-normal").nth(1),
+    plainHit = await weaponHit.textContent();
+  await spellbook.getByRole("checkbox", { name: "Dominio del arma" }).check();
+  await expect(weaponHit).not.toHaveText(plainHit);
+  await page.keyboard.press("Escape");
+  await page
     .getByRole("button", { name: "Simular un combate", exact: true })
     .click();
   const damage = page
@@ -373,6 +395,7 @@ for (const [device, width, height] of [
     setEquipAndUndo: true,
     characteristics: true,
     passives: true,
+    spells: true,
     combatTable: true,
     holdAndModifiers: true,
     singleSetPiece: true,

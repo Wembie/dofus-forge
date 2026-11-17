@@ -36,25 +36,7 @@
     },
     "focusReturned": true,
     "errors": [],
-    "violations": [
-      {
-        "id": "color-contrast",
-        "nodes": [
-          {
-            "target": [
-              ".space-y-2:nth-child(1) > .rounded-lg.overflow-hidden:nth-child(2) > .p-3.gap-3.flex > .flex-1.min-w-0 > .space-y-0\\.5 > div:nth-child(3) > .px-1\\.5.inline-flex.py-px"
-            ],
-            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.29 (foreground color: #a7392c, background color: #e1d0c4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-          },
-          {
-            "target": [
-              ".space-y-2:nth-child(2) > .rounded-lg.overflow-hidden:nth-child(2) > .p-3.gap-3.flex > .flex-1.min-w-0 > .space-y-0\\.5 > div:nth-child(3) > .px-1\\.5.inline-flex.py-px"
-            ],
-            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.29 (foreground color: #a7392c, background color: #ded1c4, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-          }
-        ]
-      }
-    ]
+    "violations": []
   },
   {
     "device": "desktop",

@@ -3,7 +3,7 @@ import { useBuildStore, type SlotId } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
 import { Characteristics } from "./Characteristics";
 import { Passives } from "./Passives";
-import { SpellsPanel } from "../../../src/features/spells/SpellsPanel";
+import { Spells } from "./Spells";
 import { Combat } from "./Combat";
 import { Catalog } from "./Catalog";
 import { Sets } from "./Sets";
@@ -129,7 +129,7 @@ export function WorkspaceTools({
       )}
       {tool === "characteristics" && <Characteristics />}
       {tool === "passives" && <Passives />}
-      {tool === "spells" && <SpellsPanel />}
+      {tool === "spells" && <Spells />}
       {tool === "pvp" && <Combat />}
       {tool === "bonuses" && <SetBonuses />}
       {tool === "changelog" && <Changelog />}

@@ -6,8 +6,5 @@ export function adaptPresentation(code: string, id: string) {
       "aria-label={active ? t('passives_on')",
       "role=\"img\" aria-label={active ? t('passives_on')",
     );
-  // The study has its own damage table ("Simular un combate"); the embedded simulator would duplicate it.
-  if (file.endsWith("/features/spells/SpellsPanel.tsx"))
-    return code.replace("<PvpArena />", "");
   return null;
 }
