@@ -4,6 +4,8 @@ Propuesta de identidad y experiencia, 15 de noviembre de 2026. **Estado: diseño
 
 [Archivo editable en Figma](https://www.figma.com/design/TWromSdJxK8iMbxmCTa6wo) · [Roadmap](ROADMAP.md) · [Auditoría funcional](DOMAIN-AUDIT.md) · [Contrato UX](UX-SPEC.md) · [Cobertura](COVERAGE.md)
 
+**Acceso · 17 de noviembre:** [login, registro y recuperación](ACCESS-REVIEW.md) con composición propia, cuatro idiomas y estados locales; seis HTML de correo en [`supabase/email-templates`](../../supabase/email-templates). [Login escritorio](captures/acceso/signin-desktop-tinta.png) · [Registro móvil](captures/acceso/signup-mobile-tinta.png) · [Correo de confirmación](captures/correos/confirm-signup-600.png).
+
 ## Dirección
 
 El personaje animado es el centro de la construcción. Equipo a sus lados, seis Dofus debajo y una ficha legible al lado. El material visual combina tinta verde, mineral claro, cobre trabajado y arte del juego. La personalidad aparece en la composición, la tipografía y las decisiones de interacción.
@@ -68,7 +70,7 @@ En el estudio local, todas las herramientas del taller y la Forjadora tienen com
 
 La biblioteca es una primera base, no cubre todavía todos los componentes de producción. Falta publicar o vincular Code Connect, completar los estados de cada flujo, sincronizar el tema Tinta con el prototipo y probar la propuesta con personas. Las pantallas secundarias de Figma usan cifras ilustrativas; el prototipo del constructor usa el cálculo del motor.
 
-La producción, su versión y sus rutas no se modificaron. Los textos del prototipo están en español para la revisión de diseño; su implementación debe pasar por las cuatro traducciones del producto.
+La presentación de producción, su versión y sus rutas se conservan. Se extrajeron reglas compartidas de runas, hechizos, Forjadora y acceso para preparar la migración sin duplicar cálculos ni flujos. El acceso tiene textos en los cuatro idiomas; el resto del estudio aún debe completar esa migración.
 
 La auditoría distingue paridad con código, pruebas automáticas y tareas todavía abiertas. No se afirma haber probado todas las combinaciones de equipo ni todos los estados autenticados.
 

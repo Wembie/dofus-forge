@@ -1,0 +1,170 @@
+[
+  {
+    "name": "confirm-signup",
+    "width": 600,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 600,
+      "scrollWidth": 600
+    },
+    "violations": []
+  },
+  {
+    "name": "confirm-signup",
+    "width": 360,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "violations": []
+  },
+  {
+    "name": "reset-password",
+    "width": 600,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 600,
+      "scrollWidth": 600
+    },
+    "violations": []
+  },
+  {
+    "name": "reset-password",
+    "width": 360,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "violations": []
+  },
+  {
+    "name": "magic-link",
+    "width": 600,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 600,
+      "scrollWidth": 600
+    },
+    "violations": []
+  },
+  {
+    "name": "magic-link",
+    "width": 360,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "violations": []
+  },
+  {
+    "name": "invite-user",
+    "width": 600,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 600,
+      "scrollWidth": 600
+    },
+    "violations": []
+  },
+  {
+    "name": "invite-user",
+    "width": 360,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "violations": []
+  },
+  {
+    "name": "change-email",
+    "width": 600,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 600,
+      "scrollWidth": 600
+    },
+    "violations": []
+  },
+  {
+    "name": "change-email",
+    "width": 360,
+    "variables": [
+      "ConfirmationURL",
+      "SiteURL"
+    ],
+    "links": 2,
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "violations": []
+  },
+  {
+    "name": "reauthentication",
+    "width": 600,
+    "variables": [
+      "SiteURL",
+      "Token"
+    ],
+    "links": 0,
+    "geometry": {
+      "width": 600,
+      "scrollWidth": 600
+    },
+    "violations": []
+  },
+  {
+    "name": "reauthentication",
+    "width": 360,
+    "variables": [
+      "SiteURL",
+      "Token"
+    ],
+    "links": 0,
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "violations": []
+  }
+]

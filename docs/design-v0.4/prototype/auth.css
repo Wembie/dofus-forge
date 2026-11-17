@@ -1,0 +1,485 @@
+.surface-dialog.auth-dialog.size-4xl {
+  width: min(980px, calc(100vw - 40px));
+  background: var(--surface);
+}
+.auth-dialog > .surface-dialog-header {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  z-index: 4;
+}
+.auth-dialog .surface-dialog-content {
+  padding: 0;
+  overflow: auto;
+}
+.access-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  min-height: 610px;
+}
+.access-story {
+  position: relative;
+  padding: 40px 32px;
+  background: var(--stage);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  overflow: hidden;
+}
+.access-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 700 24px "Barlow Condensed";
+  letter-spacing: 0.6px;
+}
+.access-brand img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+:root[data-theme="tinta"] .access-brand img {
+  filter: brightness(0) invert(0.95);
+}
+.access-eyebrow {
+  font: 10px/1.7 "IBM Plex Mono" !important;
+  color: var(--accent) !important;
+  letter-spacing: 1.2px;
+  margin: 0 0 16px;
+}
+.access-story h3 {
+  font: 500 40px/1.1 Alegreya;
+  letter-spacing: -0.5px;
+  margin: 0 0 20px;
+}
+.access-story > div > p:not(.access-eyebrow) {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 0;
+}
+.access-build {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  z-index: 1;
+}
+.access-build > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.access-build b {
+  font-size: 13px;
+  font-weight: 500;
+}
+.access-build span:not(.access-dot) {
+  font: 11px "IBM Plex Mono";
+  color: var(--muted);
+}
+.access-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  flex-shrink: 0;
+}
+.access-dofus {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.access-dofus img {
+  width: 42px;
+  height: 56px;
+  object-fit: contain;
+}
+.access-main {
+  padding: 44px 48px 32px;
+  min-width: 0;
+}
+.access-main h2 {
+  font: 500 36px/1.1 Alegreya;
+  letter-spacing: -0.3px;
+  margin: 0 0 14px;
+}
+.access-intro {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0 0 24px;
+}
+.access-mode {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+  gap: 28px;
+  margin: 24px 0;
+}
+.access-mode button {
+  border: 0;
+  border-radius: 0;
+  padding: 10px 0;
+  min-height: 44px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.access-mode [aria-pressed="true"] {
+  color: var(--text);
+  box-shadow: inset 0 -2px var(--accent);
+  background: transparent;
+}
+.access-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.access-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+.access-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.access-form .access-field input {
+  font: 400 16px/1.5 "Source Sans 3";
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  padding: 11px 12px;
+  min-height: 48px;
+  border-radius: 4px;
+  color: var(--text);
+  width: 100%;
+  min-width: 0;
+}
+.access-field input::placeholder {
+  color: var(--muted);
+}
+.access-field small {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.access-password {
+  position: relative;
+}
+.access-form .access-password input {
+  padding-right: 52px;
+}
+.access-password button {
+  position: absolute;
+  inset: 2px 2px 2px auto;
+  min-height: 44px;
+  width: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+}
+.access-forgot {
+  align-self: flex-end;
+  color: var(--accent);
+  border: 0;
+  padding: 0;
+  min-height: 32px !important;
+  font-size: 12px;
+  margin-top: -14px;
+}
+.access-consent {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.access-consent label {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.access-consent input {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  accent-color: var(--accent);
+  margin: 2px 0;
+  flex-shrink: 0;
+}
+.access-consent a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+.access-verification {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 0;
+  border-block: 1px solid var(--line);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.access-verification.verified svg {
+  color: var(--success);
+}
+.access-verification.expired svg,
+.access-verification.error svg {
+  color: var(--negative);
+}
+.access-verification span {
+  flex: 1;
+  min-width: 140px;
+}
+.access-verification button {
+  padding: 0;
+  border: 0;
+  color: var(--accent);
+  font-size: 12px;
+  min-height: 32px;
+}
+.access-submit {
+  min-height: 48px !important;
+  justify-content: space-between;
+  padding: 12px 16px !important;
+  font-size: 15px;
+}
+.access-submit:disabled {
+  opacity: 0.65;
+}
+.access-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-left: 2px solid var(--negative);
+  color: var(--negative);
+  background: var(--canvas);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+.access-error p {
+  margin: 0;
+}
+.access-error svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.access-footer {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.access-footer button {
+  padding: 0;
+  border: 0;
+  justify-content: flex-start;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 400;
+  min-height: 32px;
+}
+.access-footer > span,
+.access-hint {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.access-review {
+  border-bottom: 1px dashed var(--line);
+  background: var(--stage);
+  padding: 10px 56px 10px 18px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.access-review summary {
+  cursor: pointer;
+  min-height: 24px;
+  padding: 4px 0;
+}
+.access-review summary > span {
+  margin-left: 12px;
+  font-size: 10px;
+}
+.access-review > div {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+.access-review label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 120px;
+}
+.access-review select {
+  font-size: 12px;
+  max-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 6px;
+  border-radius: 3px;
+}
+.access-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding-top: 24px;
+}
+.access-result h2 {
+  margin: 0;
+}
+.access-result p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+.access-result .access-recipient {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.access-result-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.access-result .primary {
+  width: 100%;
+  min-height: 48px;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.access-text-button {
+  border: 0;
+  padding: 0;
+  font-size: 13px;
+  color: var(--accent);
+  justify-content: flex-start;
+  min-height: 44px !important;
+}
+@media (max-width: 780px) {
+  .access-layout {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+  .access-story {
+    padding: 32px 24px;
+    gap: 32px;
+  }
+  .access-story h3 {
+    font-size: 34px;
+  }
+  .access-main {
+    padding: 40px 28px 28px;
+  }
+  .access-brand {
+    font-size: 20px;
+    gap: 8px;
+  }
+}
+@media (max-width: 600px) {
+  .surface-dialog.auth-dialog {
+    height: 100dvh !important;
+    max-height: 100dvh;
+    width: 100vw !important;
+  }
+  .access-layout {
+    display: block;
+    min-height: 0;
+  }
+  .access-story {
+    padding: 16px 22px;
+    gap: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .access-story > div:nth-child(2),
+  .access-dofus {
+    display: none;
+  }
+  .access-build {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    gap: 8px;
+  }
+  .access-build b {
+    font-size: 10px;
+  }
+  .access-build span:not(.access-dot) {
+    font-size: 10px;
+  }
+  .access-brand {
+    font-size: 20px;
+    gap: 8px;
+  }
+  .access-brand img {
+    width: 28px;
+    height: 28px;
+  }
+  .access-main {
+    padding: 28px 22px calc(28px + env(safe-area-inset-bottom));
+  }
+  .access-main h2 {
+    font-size: 34px;
+  }
+  .access-main > .access-eyebrow {
+    display: none;
+  }
+  .access-review summary > span {
+    display: none;
+  }
+  .access-review {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .auth-dialog > .surface-dialog-header {
+    top: 4px;
+    right: 8px;
+  }
+  .access-intro {
+    margin-bottom: 20px;
+  }
+  .access-mode {
+    margin: 20px 0;
+  }
+  .access-form {
+    gap: 18px;
+  }
+  .access-result {
+    padding-top: 8px;
+  }
+  .access-footer {
+    margin-top: 24px;
+  }
+}

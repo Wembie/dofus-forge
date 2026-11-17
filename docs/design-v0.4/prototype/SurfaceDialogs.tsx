@@ -1,3 +1,4 @@
+import { AuthAccess, type AccessMode } from "./AuthAccess";
 import { useState, type ReactNode } from "react";
 import {
   Check,
@@ -99,27 +100,19 @@ export function SurfaceDialogs({
     [commandQuery, setCommandQuery] = useState(""),
     [pickedTags, setPickedTags] = useState<string[]>([]),
     [selection, setSelection] = useState("");
+  if (["signin", "signup", "forgot", "reset-password", "consent"].includes(id))
+    return <AuthAccess initialMode={id as AccessMode} onClose={onClose} />;
   const title = dialogs.find((d) => d[0] === id)![1];
-  const auth = ["signin", "signup", "forgot", "reset-password"].includes(id),
-    isPublish = id === "publish" || id === "update-build";
-  const submitLabel =
-    id === "signin"
-      ? "Entrar al taller"
-      : id === "signup"
-        ? "Crear mi cuenta"
-        : id === "forgot"
-          ? "Enviar enlace de recuperación"
-          : id === "reset-password"
-            ? "Guardar contraseña"
-            : isPublish
-              ? id === "publish"
-                ? "Publicar build"
-                : "Guardar nueva versión"
-              : id.startsWith("report-")
-                ? "Enviar reporte"
-                : confirmations.has(id)
-                  ? title
-                  : "Guardar cambios";
+  const isPublish = id === "publish" || id === "update-build";
+  const submitLabel = isPublish
+    ? id === "publish"
+      ? "Publicar build"
+      : "Guardar nueva versión"
+    : id.startsWith("report-")
+      ? "Enviar reporte"
+      : confirmations.has(id)
+        ? title
+        : "Guardar cambios";
   return (
     <Modal
       open
@@ -147,16 +140,12 @@ export function SurfaceDialogs({
           <h3>
             {state === "duplicate"
               ? "Esta acción ya está registrada"
-              : auth && id === "forgot"
-                ? "Revisa tu correo"
-                : "Cambios guardados"}
+              : "Cambios guardados"}
           </h3>
           <p>
             {state === "duplicate"
               ? "Conservamos el registro anterior. Puedes volver a la tarea que estabas realizando."
-              : auth && id === "forgot"
-                ? "La confirmación del envío aparece aquí. El prototipo no envía correos."
-                : "Esta es la vista de confirmación del estudio. No se modificó ninguna cuenta ni contenido publicado."}
+              : "Esta es la vista de confirmación del estudio. No se modificó ninguna cuenta ni contenido publicado."}
           </p>
           <button className="primary" onClick={onClose}>
             Volver a mi tarea
@@ -243,104 +232,7 @@ export function SurfaceDialogs({
               </nav>
             </>
           )}
-          {auth && (
-            <>
-              <p>
-                {id === "signin"
-                  ? "Entra para conservar tus builds, compartirlas y seguir a otros jugadores."
-                  : id === "signup"
-                    ? "Tu equipo, tus colecciones y tus próximas ideas, en un solo lugar."
-                    : id === "forgot"
-                      ? "Te enviaremos un enlace para volver a entrar."
-                      : "Elige una nueva contraseña para tu cuenta."}
-              </p>
-              {id !== "reset-password" && (
-                <Field label="Correo electrónico" type="email" required />
-              )}
-              {id === "signup" && (
-                <Field label="Nombre de usuario" required maxLength={24} />
-              )}
-              {id !== "forgot" && (
-                <Field
-                  label={
-                    id === "reset-password" ? "Nueva contraseña" : "Contraseña"
-                  }
-                  type="password"
-                  required
-                />
-              )}
-              {id === "reset-password" && (
-                <Field label="Confirmar contraseña" type="password" required />
-              )}
-              {id === "signup" && (
-                <>
-                  <CheckField required>
-                    Acepto las{" "}
-                    <a
-                      href="/surfaces.html?view=terms"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      condiciones de uso
-                    </a>
-                    .
-                  </CheckField>
-                  <CheckField required>
-                    He leído la{" "}
-                    <a
-                      href="/surfaces.html?view=privacy"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      política de privacidad
-                    </a>
-                    .
-                  </CheckField>
-                </>
-              )}
-              {id !== "reset-password" && (
-                <div className="verification-preview">
-                  <Shield size={18} />
-                  <span>
-                    Verificación de acceso{" "}
-                    <small>
-                      Espacio reservado al control de seguridad actual.
-                    </small>
-                  </span>
-                </div>
-              )}
-            </>
-          )}
-          {id === "consent" && (
-            <>
-              <p>
-                Los documentos se abren en una vista de lectura para que puedas
-                revisarlos antes de continuar.
-              </p>
-              <CheckField required>
-                Acepto las{" "}
-                <a
-                  href="/surfaces.html?view=terms"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  condiciones de uso
-                </a>
-                .
-              </CheckField>
-              <CheckField required>
-                He leído la{" "}
-                <a
-                  href="/surfaces.html?view=privacy"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  política de privacidad
-                </a>
-                .
-              </CheckField>
-            </>
-          )}
+
           {(isPublish ||
             id === "rename" ||
             id === "collection-new" ||
@@ -760,21 +652,6 @@ export function SurfaceDialogs({
                 {state === "busy" ? "Guardando…" : submitLabel}
               </button>
             </div>
-          )}
-          {id === "signin" && (
-            <div className="auth-links">
-              <button type="button" onClick={() => onOpen("forgot")}>
-                Olvidé mi contraseña
-              </button>
-              <button type="button" onClick={() => onOpen("signup")}>
-                Crear una cuenta
-              </button>
-            </div>
-          )}
-          {(id === "signup" || id === "forgot") && (
-            <button type="button" onClick={() => onOpen("signin")}>
-              Ya tengo una cuenta
-            </button>
           )}
         </form>
       )}

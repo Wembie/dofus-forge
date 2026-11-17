@@ -270,7 +270,7 @@ function App() {
     if (found) build.setClass(found.id);
   };
   const setGender = build.setGender;
-  const [surface, setSurface] = useState<"settings" | "publish" | null>(null),
+  const [surface, setSurface] = useState<"settings" | "publish" | "signin" | null>(null),
     isAdmin = useAuthStore((s) => s.profile?.role === "admin");
   const [dark, setDark] = useState(true),
     [tab, setTab] = useState("Equipo"),
@@ -370,6 +370,7 @@ function App() {
     { key: "undo", group: "Build", label: "Deshacer", Icon: PaletteUndo, hint: "Ctrl Z", disabled: !historyState.canUndo, onRun: undo },
     { key: "redo", group: "Build", label: "Rehacer", Icon: Redo2, hint: "Ctrl Y", disabled: !historyState.canRedo, onRun: redo },
     { key: "save", group: "Build", label: "Guardar borrador", Icon: PaletteSave, onRun: save },
+    { key: "signin", group: "Build", label: i18n.t("auth_signin_btn"), Icon: PalettePublish, onRun: () => setSurface("signin") },
     { key: "publish", group: "Build", label: "Publicar build", Icon: PalettePublish, disabled: !build.selectedClass, onRun: () => setSurface("publish") },
     { key: "reset", group: "Build", label: "Empezar una build nueva", Icon: PaletteReset, onRun: resetBuild },
     { key: "my-builds", group: "Ir a", label: "Mis builds", Icon: PaletteMine, onRun: page("my-builds") },
