@@ -213,10 +213,10 @@
     "kind": "dialog",
     "id": "settings",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
     },
     "focusReturned": true,
     "violations": [],
@@ -521,12 +521,11 @@
     "kind": "dialog",
     "id": "notifications",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
     },
-    "focusReturned": true,
     "violations": [],
     "errors": []
   },
@@ -689,12 +688,11 @@
     "kind": "dialog",
     "id": "update-banner",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
     },
-    "focusReturned": true,
     "violations": [],
     "errors": []
   },
@@ -1294,12 +1292,11 @@
     "kind": "dialog",
     "id": "notifications",
     "geometry": {
-      "width": 388,
-      "scrollWidth": 388,
-      "contentWidth": 388,
-      "contentScrollWidth": 388
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
     },
-    "focusReturned": true,
     "violations": [],
     "errors": []
   },
@@ -1462,12 +1459,11 @@
     "kind": "dialog",
     "id": "update-banner",
     "geometry": {
-      "width": 388,
-      "scrollWidth": 388,
-      "contentWidth": 388,
-      "contentScrollWidth": 388
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
     },
-    "focusReturned": true,
     "violations": [],
     "errors": []
   },

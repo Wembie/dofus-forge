@@ -85,6 +85,43 @@ for (const [device, width, height] of [
       exact: true,
     });
     await trigger.focus();
+    // Not modal in production: the notifications panel and the update notice open where they live.
+    if (id === "notifications" || id === "update-banner") {
+      await trigger.selectOption(id);
+      const target = page.locator(
+        id === "notifications" ? ".shell-notifications" : ".shell-update",
+      );
+      await expect(target).toBeVisible();
+      if (id === "notifications")
+        await expect(target).not.toContainText("Cargando");
+      const axe = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+        .analyze();
+      await page.screenshot({
+        path: `docs/design-v0.4/evidence/surfaces/${mineral ? "mineral-" : ""}dialog-${id}-${device}.png`,
+      });
+      if (id === "notifications") await page.keyboard.press("Escape");
+      else await target.getByRole("button", { name: "Cerrar" }).click();
+      await expect(target).toHaveCount(0);
+      results.push({
+        device,
+        kind: "dialog",
+        id,
+        geometry: await page.evaluate(() => ({
+          width: innerWidth,
+          scrollWidth: document.documentElement.scrollWidth,
+          contentWidth: 0,
+          contentScrollWidth: 0,
+        })),
+        violations: axe.violations.map((v) => ({
+          id: v.id,
+          nodes: v.nodes.map((n) => ({ target: n.target, summary: n.failureSummary })),
+        })),
+        errors: [...errors],
+      });
+      errors.length = 0;
+      continue;
+    }
     await trigger.selectOption(id);
     await expect(page.getByRole("dialog")).toBeVisible();
     const geometry = await page

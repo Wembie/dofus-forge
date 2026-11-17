@@ -1,18 +1,18 @@
 import { BuildDetailDialog } from "./BuildDetail";
 import { PublishDialog } from "./Publish";
+import { NavigationSheet, SettingsDialog } from "./Shell";
+import { useShellStudy } from "./shell-model";
 import { LibraryDialog } from "./Library";
 import { libraryDialogIds, type LibraryDialogId } from "./library-model";
 import { PeopleDialog, SignOut } from "./Account";
 import { useAccountStudy, publicPerson } from "./account-model";
 import { AuthAccess, type AccessMode } from "./AuthAccess";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Check,
   ArrowRight,
   Folder,
   Shield,
-  RefreshCw,
-  Bell,
 } from "lucide-react";
 import { Modal } from "./SurfaceModal";
 import { dialogs, pages, type DialogId } from "./surface-registry";
@@ -87,6 +87,21 @@ const confirmations = new Set<DialogId>([
   "signout",
 ]);
 
+function OpenInPlace({
+  id,
+  onDone,
+}: {
+  id: "notifications" | "update-banner";
+  onDone: () => void;
+}) {
+  useEffect(() => {
+    if (id === "notifications") useShellStudy.getState().setOpen(true);
+    else useShellStudy.getState().setUpdateAvailable(true);
+    onDone();
+  }, []);
+  return null;
+}
+
 /** Visual interaction specimens; never invoke authentication, publication or moderation services. */
 export function SurfaceDialogs({
   id,
@@ -95,6 +110,10 @@ export function SurfaceDialogs({
   onNavigate,
   onPublished = (build) =>
     location.assign("/surfaces.html?view=build&build=" + build),
+  dark = document.documentElement.dataset.theme !== "mineral",
+  onTheme = (next) => {
+    document.documentElement.dataset.theme = next ? "tinta" : "mineral";
+  },
 }: {
   id: DialogId;
   onClose: () => void;
@@ -102,6 +121,8 @@ export function SurfaceDialogs({
   onNavigate: (id: string) => void;
   /** Production lands on the published build's page. */
   onPublished?: (id: string) => void;
+  dark?: boolean;
+  onTheme?: (dark: boolean) => void;
 }) {
   const [state, setState] = useState("form"),
     [commandQuery, setCommandQuery] = useState(""),
@@ -133,6 +154,26 @@ export function SurfaceDialogs({
     id === "restore-version"
   )
     return <BuildDetailDialog id={id} onClose={onClose} />;
+  if (id === "settings")
+    return <SettingsDialog onClose={onClose} dark={dark} onTheme={onTheme} />;
+  if (id === "navigation")
+    return (
+      <NavigationSheet
+        onClose={onClose}
+        admin={useAccountStudy.getState().profile.role === "admin"}
+        onSettings={() => onOpen("settings")}
+        onNavigate={(target) =>
+          typeof target === "object"
+            ? onNavigate("build" in target ? "build" : "profile")
+            : target === "workshop"
+              ? location.assign("/")
+              : onNavigate(target)
+        }
+      />
+    );
+  // Not modal in production: the directory opens them where they really live.
+  if (id === "notifications" || id === "update-banner")
+    return <OpenInPlace id={id} onDone={onClose} />;
   if (id === "publish" || id === "update-build")
     return (
       <PublishDialog
@@ -217,31 +258,6 @@ export function SurfaceDialogs({
               vuelve a intentarlo.
             </p>
           )}
-          {id === "settings" && (
-            <>
-              <Choice
-                label="Idioma"
-                options={["Español", "English", "Français", "Português"]}
-              />
-              <Choice label="Aspecto" options={["Tinta", "Mineral"]} />
-              <CheckField>Sonido del taller</CheckField>
-              <CheckField>Efecto del cursor</CheckField>
-              <CheckField>Partículas ambientales</CheckField>
-              <Choice
-                label="Personaje"
-                options={["Animado · 3D", "Retrato · 2D"]}
-              />
-              <Choice
-                label="Lado preferido de la ficha"
-                options={["Derecha", "Izquierda"]}
-              />
-              <p>
-                La ficha completa se abre en todo el ancho. Las preferencias de
-                movimiento deben respetar la configuración de accesibilidad del
-                dispositivo.
-              </p>
-            </>
-          )}
           {id === "commands" && (
             <>
               <label>
@@ -294,40 +310,6 @@ export function SurfaceDialogs({
                   ? "Esta acción retira el contenido indicado. El botón principal identifica explícitamente la acción para evitar cambios accidentales."
                   : "Recupera el contenido seleccionado y vuelve a su contexto."}
               </p>
-            </>
-          )}
-          {id === "notifications" && (
-            <>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.currentTarget.textContent = "Todas leídas";
-                }}
-              >
-                Marcar todas como leídas
-              </button>
-              {[
-                "Brasa comentó tu build",
-                "Caliza comenzó a seguirte",
-                "Tu build tiene una nueva valoración",
-              ].map((text, i) => (
-                <button
-                  className="notification-row"
-                  type="button"
-                  key={text}
-                  onClick={() => {
-                    onClose();
-                    onNavigate(i === 1 ? "profile" : "build");
-                  }}
-                >
-                  <Bell size={18} />
-                  <span>
-                    {text}
-                    <small>Hace {i + 1} horas</small>
-                  </span>
-                  <ArrowRight size={16} />
-                </button>
-              ))}
             </>
           )}
           {id === "rank-edit" && (
@@ -464,46 +446,6 @@ export function SurfaceDialogs({
                 Eliminar contenido…
               </button>
             </>
-          )}
-          {id === "update-banner" && (
-            <>
-              <RefreshCw size={28} />
-              <p>
-                Hay una versión nueva del taller. Guarda tu borrador antes de
-                recargar para conservar el trabajo.
-              </p>
-              <button type="button" onClick={onClose}>
-                Continuar trabajando
-              </button>
-            </>
-          )}
-          {id === "navigation" && (
-            <nav className="mobile-directory" aria-label="Todas las secciones">
-              {pages
-                .filter(
-                  (p) =>
-                    ![
-                      "build",
-                      "set",
-                      "collection",
-                      "class",
-                      "profile",
-                    ].includes(p[0]),
-                )
-                .map((p) => (
-                  <button
-                    type="button"
-                    key={p[0]}
-                    onClick={() => {
-                      onClose();
-                      onNavigate(p[0]);
-                    }}
-                  >
-                    {p[1]}
-                    <ArrowRight size={16} />
-                  </button>
-                ))}
-            </nav>
           )}
 
           {![

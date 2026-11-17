@@ -1,5 +1,13 @@
 import { Explore } from "./Explore";
 import { BuildDetail } from "./BuildDetail";
+import {
+  AccountButton,
+  NotificationBell,
+  ShellReview,
+  SiteFooter,
+  UpdateBanner,
+  type ShellNavigate,
+} from "./Shell";
 import { restorePublished } from "./publish-model";
 import {
   detailFromExplore,
@@ -39,7 +47,7 @@ import { initReactI18next } from "react-i18next";
 import {
   ArrowRight,
   ArrowUpRight,
-  Bell,
+  Settings,
   BookOpen,
   Check,
   Compass,
@@ -330,6 +338,26 @@ function App() {
     account.showProfile(username);
     go("profile");
   }
+  const isAdmin =
+    account.signedIn &&
+    (account.profile.role === "admin" || detail.admin);
+  const shellNavigate: ShellNavigate = (target) => {
+    if (typeof target === "object") {
+      if ("profile" in target) {
+        showProfile(target.profile);
+        history.replaceState(null, "", "?view=profile&player=" + encodeURIComponent(target.profile));
+        return;
+      }
+      const record = explore.records.find((r) => r.id === target.build);
+      setExploreDetail(record ?? null);
+      setDetailSelection(record ? null : target.build);
+      go("build");
+      history.replaceState(null, "", "?view=build&" + (record ? "example=" : "build=") + target.build);
+      return;
+    }
+    if (target === "workshop") location.assign("/");
+    else go(target);
+  };
   function leaveAccount() {
     const next = pendingNavigation;
     setPendingNavigation(null);
@@ -1294,6 +1322,7 @@ function App() {
             ))}
           </select>
         </label>
+        <ShellReview />
         <span>Ejemplos locales · sin conexión a cuentas</span>
       </div>
       <header className="product-header">
@@ -1303,32 +1332,31 @@ function App() {
             DOFUS <span>FORGE</span>
           </span>
         </a>
-        <nav aria-label="Navegación principal">
+        <nav aria-label={t("a11y_main_nav")}>
           <a href="/">
             <Hammer size={15} />
-            Taller
+            {t("shell_v4_workshop")}
           </a>
-          {(["explore", "my-builds", "sets", "how-to-use"] as PageId[]).map(
-            (id) => (
-              <button
-                key={id}
-                aria-current={view === id ? "page" : undefined}
-                onClick={() => go(id)}
-              >
-                {id === "explore"
-                  ? "Explorar"
-                  : id === "my-builds"
-                    ? "Mis builds"
-                    : id === "sets"
-                      ? "Panoplias"
-                      : "Guías"}
-              </button>
-            ),
-          )}
+          {(
+            [
+              ["explore", "explore_open"],
+              ["my-builds", "my_builds"],
+              ["sets", "nav_sets"],
+              ...(isAdmin ? [["admin", "admin_nav"]] : []),
+            ] as [PageId, string][]
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              aria-current={view === id ? "page" : undefined}
+              onClick={() => go(id)}
+            >
+              {t(label)}
+            </button>
+          ))}
         </nav>
         <div>
           <button
-            className="icon-button"
+            className="icon-button wide-only"
             aria-label="Todas las acciones (Ctrl K)"
             title="Todas las acciones · Ctrl K"
             onClick={openPalette}
@@ -1343,19 +1371,18 @@ function App() {
             <Sun size={18} />
           </button>
           <button
-            className="icon-button"
-            aria-label="Notificaciones"
-            onClick={() => open("notifications")}
+            className="icon-button wide-only"
+            aria-label={t("settings_title")}
+            onClick={() => open("settings")}
           >
-            <Bell size={18} />
+            <Settings size={18} />
           </button>
-          <button
-            className="avatar"
-            aria-label="Mi cuenta"
-            onClick={() => go("account")}
-          >
-            B
-          </button>
+          <NotificationBell onNavigate={shellNavigate} />
+          <AccountButton
+            onSignIn={() => open("signin")}
+            onSignOut={() => open("signout")}
+            onNavigate={shellNavigate}
+          />
           <button
             className="icon-button mobile-menu-trigger"
             aria-label="Abrir navegación"
@@ -1426,34 +1453,23 @@ function App() {
           )}
         </main>
       </div>
-      <footer className="product-footer">
-        <span>DOFUS FORGE · El taller de los Doce</span>
-        <nav aria-label="Información del producto">
-          {(["about", "how-to-use", "privacy", "terms"] as PageId[]).map(
-            (id) => (
-              <button key={id} onClick={() => go(id)}>
-                {pages.find((p) => p[0] === id)![1]}
-              </button>
-            ),
-          )}
-        </nav>
-      </footer>
-      <nav className="product-mobile-nav" aria-label="Navegación móvil">
+      <SiteFooter onNavigate={shellNavigate} />
+      <nav className="product-mobile-nav" aria-label={t("shell_v4_mobile_nav")}>
         <a href="/">
           <Hammer size={20} />
-          Taller
+          {t("shell_v4_workshop")}
         </a>
         <button onClick={() => go("explore")}>
           <Compass size={20} />
-          Explorar
+          {t("explore_open")}
         </button>
         <button onClick={() => go("my-builds")}>
           <Folder size={20} />
-          Mis builds
+          {t("my_builds")}
         </button>
         <button onClick={() => open("navigation")}>
           <Menu size={20} />
-          Más
+          {t("shell_v4_more")}
         </button>
       </nav>
       {dialog && (
@@ -1472,6 +1488,8 @@ function App() {
           }}
           onOpen={open}
           onNavigate={go}
+          dark={dark}
+          onTheme={setDark}
           onPublished={(id) => {
             setExploreDetail(null);
             setDetailSelection(id);
@@ -1493,6 +1511,7 @@ function App() {
         ))}
         <a href="/">La Forjadora y ficha completa →</a>
       </details>
+      <UpdateBanner />
       {notice && (
         <div className="toast" role="status">
           <Check size={17} />

@@ -142,7 +142,7 @@ for (const [device, width, height] of flowOnly
       "collection-picker",
       "collection-delete",
     ]) {
-      await page.locator(".review-bar select").last().selectOption(id);
+      await page.getByLabel("Abrir diálogo de revisión", { exact: true }).selectOption(id);
       await expect(page.getByRole("dialog")).toBeVisible();
       await inspect(page, id, device, theme, errors);
       await page.keyboard.press("Escape");
@@ -156,7 +156,7 @@ const { context, page, errors } = await contextFor(390, 844);
 await page.goto(base + "my-builds", { waitUntil: "networkidle" });
 await ready(page);
 async function dialog(id) {
-  await page.locator(".review-bar select").last().selectOption(id);
+  await page.getByLabel("Abrir diálogo de revisión", { exact: true }).selectOption(id);
   await expect(page.getByRole("dialog")).toBeVisible();
 }
 // Search, visibility, ordering and a card-specific target.
@@ -467,7 +467,7 @@ await page.keyboard.press("Escape");
 await page.goto(base + "my-builds", { waitUntil: "networkidle" });
 await ready(page);
 await page.locator(".library-card-main").nth(2).click();
-await expect(page.locator(".product-heading h1")).toHaveText(
+await expect(page.locator(".detail-hero h1")).toHaveText(
   "Guardia de piedra",
 );
 await page.goto(base + "my-builds", { waitUntil: "networkidle" });

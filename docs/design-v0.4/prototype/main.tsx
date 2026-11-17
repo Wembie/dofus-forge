@@ -22,6 +22,13 @@ import {
 import { Palette, openPalette, type PaletteCommand } from "./Palette";
 import { Search as PaletteSearch } from "lucide-react";
 import { SurfaceDialogs } from "./SurfaceDialogs";
+import {
+  AccountButton,
+  NotificationBell,
+  SiteFooter,
+  UpdateBanner,
+  type ShellNavigate,
+} from "./Shell";
 import { toggleSound } from "@/lib/sound.ts";
 import { useAuthStore } from "@/store/authStore.ts";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -46,6 +53,9 @@ import {
   Plus,
   Cat,
   BookOpen,
+  Compass,
+  FolderOpen,
+  Menu,
 } from "lucide-react";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -270,7 +280,9 @@ function App() {
     if (found) build.setClass(found.id);
   };
   const setGender = build.setGender;
-  const [surface, setSurface] = useState<"settings" | "publish" | "signin" | null>(null),
+  const [surface, setSurface] = useState<
+      "settings" | "publish" | "signin" | "signout" | "navigation" | null
+    >(null),
     isAdmin = useAuthStore((s) => s.profile?.role === "admin");
   const [dark, setDark] = useState(true),
     [tab, setTab] = useState("Equipo"),
@@ -448,6 +460,18 @@ function App() {
       </div>
     );
   }
+  // Other pages live in the surfaces study; the workshop is this page.
+  const shellNavigate: ShellNavigate = (target) => {
+    if (target === "workshop") return navigate("Equipo");
+    location.assign(
+      "/surfaces.html?" +
+        (typeof target === "string"
+          ? "view=" + target
+          : "build" in target
+            ? (target.build.startsWith("explore-") ? "view=build&example=" : "view=build&build=") + target.build
+            : "view=profile&player=" + encodeURIComponent(target.profile)),
+    );
+  };
   return (
     <div className="app-shell">
       <Palette commands={commands} />
@@ -457,11 +481,16 @@ function App() {
           id={surface}
           onClose={() => setSurface(null)}
           onOpen={(next) =>
-            next === "settings" || next === "publish" || next === "signin"
+            next === "settings" ||
+            next === "publish" ||
+            next === "signin" ||
+            next === "signout"
               ? setSurface(next)
               : location.assign("/surfaces.html?dialog=" + next)
           }
           onNavigate={(view) => location.assign("/surfaces.html?view=" + view)}
+          dark={dark}
+          onTheme={setDark}
         />
       )}
       <header className="global-header">
@@ -476,9 +505,17 @@ function App() {
             <Hammer size={15} />
             Taller
           </button>
+          <button onClick={() => shellNavigate("explore")}>
+            <Compass size={15} />
+            {i18n.t("explore_open")}
+          </button>
+          <button onClick={() => shellNavigate("my-builds")}>
+            <FolderOpen size={15} />
+            {i18n.t("my_builds")}
+          </button>
           <button onClick={() => setOverlay("saved")}>
             <Columns2 size={15} />
-            Mis builds
+            Borradores
           </button>
           <button onClick={() => setOverlay("guide")}>
             <BookOpen size={15} />
@@ -501,7 +538,7 @@ function App() {
             <PaletteSearch size={18} />
           </button>
           <button
-            className="icon-button"
+            className="icon-button wide-only"
             aria-label="Preferencias del taller"
             onClick={() => setSurface("settings")}
           >
@@ -514,12 +551,18 @@ function App() {
           >
             {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
+          <NotificationBell onNavigate={shellNavigate} />
+          <AccountButton
+            onSignIn={() => setSurface("signin")}
+            onSignOut={() => setSurface("signout")}
+            onNavigate={shellNavigate}
+          />
           <button
-            className="avatar"
-            aria-label="Ver borradores locales"
-            onClick={() => setOverlay("saved")}
+            className="icon-button workshop-menu"
+            aria-label={i18n.t("shell_v4_nav_title")}
+            onClick={() => setSurface("navigation")}
           >
-            DF
+            <Menu size={22} />
           </button>
         </div>
       </header>
@@ -959,6 +1002,8 @@ function App() {
           </button>
         </span>
       </footer>
+      <SiteFooter onNavigate={shellNavigate} />
+      <UpdateBanner />
       <nav className="mobile-nav" aria-label="Vistas del taller">
         <button onClick={() => setForge(true)}>
           <Hammer size={20} />

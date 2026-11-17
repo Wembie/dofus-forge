@@ -37,7 +37,7 @@ Inventario basado en `src/routes.ts`, `src/pages` y `src/features`. «Plantilla�
 | compare | Tabla completa, diferencias, referencias y aplicar |
 | equipment | Slots, catálogo, favorito, runas, sets, efectos y condiciones |
 | moderation | Reporte, estado y respuesta |
-| notifications | Leído/no leído, vacío, carga y destino |
+| notifications | Composición local propia en `prototype/Shell.tsx`: sin leer, marcar todo, cada tipo con su destino, cargando y vacío. Pendiente integrar `fetchNotifications`, `markNotificationsRead`, el recuento y la suscripción en vivo |
 | optimizer | Configuración, piezas fijas, cancelación, explicación y resultados |
 | passives | Equipo/combate, controles, condiciones y deltas |
 | publish | Composición local propia (`prototype/Publish.tsx`): nueva, actualizar, remix, enlace ajeno, sin sesión, cargando la publicación, error, límite y etiquetas no disponibles. Pendiente integrar `publishBuild`, `updateBuild`, `setBuildTags` y `fetchBuildById` reales |
