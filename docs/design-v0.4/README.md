@@ -8,7 +8,7 @@ Propuesta de identidad y experiencia, 15 de noviembre de 2026. **Estado: diseño
 
 El personaje animado es el centro de la construcción. Equipo a sus lados, seis Dofus debajo y una ficha legible al lado. El material visual combina tinta verde, mineral claro, cobre trabajado y arte del juego. La personalidad aparece en la composición, la tipografía y las decisiones de interacción.
 
-**Requisito confirmado:** conservar `CharacterStage`, sus orientaciones, animaciones, mascotas, monturas y efectos. La primera distribución de Figma con cuadrícula sin personaje quedó superada por este requisito. La referencia vigente del constructor es el prototipo local y sus capturas `workshop-3d-*`.
+**Requisito confirmado:** conservar `CharacterStage`, sus orientaciones, animaciones, mascotas, monturas y efectos. La primera distribución de Figma con cuadrícula sin personaje quedó superada por este requisito. La referencia vigente del constructor es el prototipo local y sus capturas en [`captures/taller`](captures/taller).
 
 ## Entrega actual
 
