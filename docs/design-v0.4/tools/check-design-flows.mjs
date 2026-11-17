@@ -37,6 +37,10 @@ for (const [device, width, height] of [
     ).toBeVisible();
   }
   await catalog();
+  await page.waitForLoadState("networkidle");
+  await page.screenshot({
+    path: `docs/design-v0.4/captures/catalogo/list-${device}.png`,
+  });
   await page
     .getByRole("textbox", { name: "Buscar objetos", exact: true })
     .fill("no-existe-este-objeto");
@@ -47,7 +51,13 @@ for (const [device, width, height] of [
   await page
     .getByRole("textbox", { name: "Buscar objetos", exact: true })
     .fill("Sombrero Soifam");
-  await page.locator(".catalog-result-open").first().click();
+  // The panel follows the pointer on desktop; on touch the card's own button opens it.
+  if (device === "desktop")
+    await page.locator(".catalog-card").first().hover();
+  else
+    await page
+      .getByRole("button", { name: "Ver el cambio de Sombrero Soifam" })
+      .click();
   await expect(page.locator(".catalog-item-heading h3")).toHaveText(
     "Sombrero Soifam",
   );
@@ -70,8 +80,11 @@ for (const [device, width, height] of [
   await page
     .getByRole("textbox", { name: "Buscar objetos", exact: true })
     .fill("Sombrero del conde");
-  await page.locator(".catalog-result-open").first().click();
-  await page.locator(".catalog-set-link").click();
+  await page
+    .getByRole("button", { name: /^Ver el cambio de Sombrero del conde/ })
+    .first()
+    .click();
+  await page.locator(".catalog-panel-set").click();
   await expect(page.getByRole("dialog")).toHaveCount(2);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(1);
@@ -104,8 +117,9 @@ for (const [device, width, height] of [
   await page
     .getByRole("textbox", { name: "Buscar objetos", exact: true })
     .fill("Báculo de Setador");
+  // A plain click on the card equips, as in production.
   await page.locator(".catalog-result-open").first().click();
-  await page.getByRole("button", { name: "Equipar en arma", exact: true }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByRole("button", { name: /^Arma:/ }).click();
   await page.getByRole("button", { name: "Editar runas", exact: true }).click();
   await runes.getByRole("button", { name: "Transformar a Agua" }).click();
@@ -141,8 +155,20 @@ for (const [device, width, height] of [
   await page
     .getByRole("textbox", { name: "Buscar panoplias", exact: true })
     .fill("volc");
-  await page.locator(".catalog-result-open").first().click();
+  await page.waitForTimeout(600);
+  await page.waitForLoadState("networkidle");
+  await page.screenshot({
+    path: `docs/design-v0.4/captures/catalogo/sets-${device}.png`,
+  });
+  await page
+    .getByRole("button", { name: /^Ver el detalle de/ })
+    .first()
+    .click();
   await expect(page.locator(".set-tiers .is-reached")).toHaveCount(1);
+  await page.waitForLoadState("networkidle");
+  await page.screenshot({
+    path: `docs/design-v0.4/captures/catalogo/sets-detail-${device}.png`,
+  });
   await page.getByRole("button", { name: /^Equipar \d+ piezas/ }).click();
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect.poll(() => metric.allTextContents()).not.toEqual(baseline);
@@ -152,7 +178,10 @@ for (const [device, width, height] of [
   await page
     .getByRole("textbox", { name: "Buscar panoplias", exact: true })
     .fill("volc");
-  await page.locator(".catalog-result-open").first().click();
+  await page
+    .getByRole("button", { name: /^Ver el detalle de/ })
+    .first()
+    .click();
   await expect(page.locator(".set-page-link")).toHaveAttribute("href", /sets/);
   const firstPiece = page.locator(".set-pieces-plan li").first();
   await firstPiece.getByRole("button", { name: /^Equipar solo/ }).click();
@@ -307,9 +336,6 @@ for (const [device, width, height] of [
     .getByRole("textbox", { name: "Buscar objetos", exact: true })
     .fill("Sombrero Soifam");
   await page.locator(".catalog-result-open").first().click();
-  await page
-    .getByRole("button", { name: "Equipar en sombrero", exact: true })
-    .click();
   await compare.click();
   await expect(verdict).toContainText("1 pieza distinta");
   await expect(page.locator(".cmp-rows li").first()).toBeVisible();

@@ -51,7 +51,7 @@ Todas las capturas están en [`captures/`](captures), una carpeta por área, y l
 | [`captures/taller`](captures/taller) | Taller en 1440, 1366, 768, 390 y 360 px y en tema Mineral | `check-prototype.mjs` |
 | [`captures/herramientas`](captures/herramientas) | Cada herramienta del taller en escritorio y móvil: características, pasivos, hechizos, combate, panoplias, bonificaciones, comparar, compartir, novedades, catálogo y forjamagia | `check-workspace.mjs` |
 | [`captures/forjadora`](captures/forjadora) | Encargo en escritorio y móvil, búsqueda en curso y resultados reales | `check-forge.mjs` |
-| [`captures/catalogo`](captures/catalogo) | Detalle de un objeto con su impacto en la build | `check-design-flows.mjs` |
+| [`captures/catalogo`](captures/catalogo) | Catálogo de objetos y de panoplias: tarjetas completas (`list-*`, `sets-*`) y panel de impacto en la build (`detail-*`, `sets-detail-*`) | `check-design-flows.mjs` |
 | [`captures/exportar`](captures/exportar) | Ficha descargada con la nueva identidad | `check-design-flows.mjs` |
 | [`captures/vistas`](captures/vistas) | Explorar con las tarjetas de build completas | `check-surfaces.mjs` |
 | [`captures/identidad`](captures/identidad) | Exploración de marca | — |

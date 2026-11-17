@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  ChartNoAxesColumn,
   Check,
   ExternalLink,
   Search,
@@ -26,8 +27,9 @@ import type { SlotId } from "../../../src/store/buildStore";
 import { normalizeSearch } from "../../../src/ui/normalize";
 import { equipment, previewItems, visibleSlots } from "./model";
 import { Modal } from "./SurfaceModal";
-import labels from "./stat-labels.json";
-import type { AppItem, AppSet } from "../../../src/data/loaders";
+import { ImpactDeltas, ItemPeek, useHoverIntent } from "./ItemFacts";
+import { useInfiniteList } from "./useInfiniteList";
+import type { AppEffect, AppItem, AppSet } from "../../../src/data/loaders";
 import "./catalog.css";
 
 interface Entry {
@@ -35,14 +37,36 @@ interface Entry {
   items: AppItem[];
   minLevel: number;
   maxLevel: number;
+  top: number;
+  topBonus: AppEffect[];
 }
 const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200];
 const level = (e: Entry) =>
   e.minLevel === e.maxLevel ? e.minLevel : `${e.minLevel}–${e.maxLevel}`;
 
+function Bonus({ effects }: { effects: AppEffect[] }) {
+  const { t } = useTranslation();
+  if (!effects.length) return <span>Sin efectos de combate</span>;
+  return (
+    <>
+      {effects.map((e, i) => {
+        const meta = STAT_META[e.stat];
+        return (
+          <span key={i} className={e.min < 0 ? "is-negative" : undefined}>
+            {meta?.icon && <img src={statIconUrl(meta.icon)} alt="" />}
+            <b>{fmtValue(e.min, e.max)}</b> {meta ? t(meta.tKey) : e.stat}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
 /**
- * Same list/detail composition as the item catalogue: read the set and what it
- * changes, then equip. `open` starts on that set, for links from an item or a set page.
+ * Set cards that show every piece and the full-set bonus without a click,
+ * equip in one press, and open a panel with where each piece goes, the tier
+ * reached and what the build gains. `open` starts on that set, for links from
+ * an item or a set page.
  */
 export function Sets({
   onClose,
@@ -61,8 +85,7 @@ export function Sets({
     [range, setRange] = useState({ min: 0, max: 200 }),
     [pieces, setPieces] = useState(0),
     [sort, setSort] = useState("desc"),
-    [picked, setSelected] = useState<Entry | null | undefined>(undefined),
-    [page, setPage] = useState(1);
+    [picked, setSelected] = useState<Entry | null | undefined>(undefined);
   const detailRef = useRef<HTMLHeadingElement>(null),
     lastRow = useRef<HTMLButtonElement | null>(null);
   const entries = useMemo(
@@ -70,13 +93,16 @@ export function Sets({
       sets.flatMap((set): Entry[] => {
         const items = set.items.flatMap((id) => equipment.get(id) ?? []);
         if (set.items.length < 2 || !items.length) return [];
-        const levels = items.map((it) => it.level);
+        const levels = items.map((it) => it.level),
+          top = Math.max(...Object.keys(set.bonuses).map(Number));
         return [
           {
             set,
             items,
             minLevel: Math.min(...levels),
             maxLevel: Math.max(...levels),
+            top,
+            topBonus: (set.bonuses[top] ?? []).filter((e) => !isIgnored(e.stat)),
           },
         ];
       }),
@@ -112,11 +138,21 @@ export function Sets({
         ),
     [entries, query, range, pieces, sort],
   );
+  const scroller = useRef<HTMLDivElement>(null),
+    { visible, sentinel, more } = useInfiniteList(list, scroller, 24);
   const worn = useMemo(
     () => new Set(Object.values(build.equipped)),
     [build.equipped],
   );
   const count = (e: Entry) => e.items.filter((it) => worn.has(it.ankama_id)).length;
+  const wornSets = useMemo(
+    () =>
+      entries
+        .map((e) => ({ e, n: count(e) }))
+        .filter((x) => x.n > 0)
+        .sort((a, b) => b.n - a.n),
+    [entries, worn],
+  );
   const plan = useMemo(
     () => (selected ? assignSetSlots(selected.items, build.equipped) : []),
     [selected, build.equipped],
@@ -135,10 +171,10 @@ export function Sets({
         : null,
     [plan, build.equipped, build.runes, build.allocated, build.scrolled],
   );
-  useEffect(() => setPage(1), [list]);
   useEffect(() => {
     if (selected && innerWidth <= 700) detailRef.current?.focus();
   }, [selected]);
+  const hover = useHoverIntent<Entry>(setSelected);
   function clear() {
     setQuery("");
     setRange({ min: 0, max: 200 });
@@ -162,10 +198,11 @@ export function Sets({
     )?.[0];
     if (slot) build.unequipItem(slot);
   }
-  function equip() {
-    if (!plan.length) return;
+  function equipSet(entry: Entry) {
+    const placed = assignSetSlots(entry.items, build.equipped);
+    if (!placed.length) return;
     build.equipMultiple(
-      plan.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })),
+      placed.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })),
     );
     onEquipped();
   }
@@ -188,17 +225,19 @@ export function Sets({
       <div
         className={"catalog-composition " + (selected ? "has-selection" : "")}
       >
-        <section className="catalog-browse" aria-label="Panoplias del catálogo">
-          <label className="catalog-search">
-            <Search size={18} />
-            <span className="sr-only">Buscar panoplias</span>
-            <input
-              autoFocus
-              placeholder="Nombre de la panoplia…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </label>
+        <header className="catalog-toolbar">
+          <div className="catalog-toolbar-main">
+            <label className="catalog-search">
+              <Search size={18} aria-hidden="true" />
+              <span className="sr-only">Buscar panoplias</span>
+              <input
+                autoFocus
+                placeholder="Nombre de la panoplia…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </label>
+          </div>
           <div className="catalog-filters">
             <label>
               Nivel mínimo
@@ -233,20 +272,6 @@ export function Sets({
               </select>
             </label>
             <label>
-              Piezas
-              <select
-                value={pieces}
-                onChange={(e) => setPieces(Number(e.target.value))}
-              >
-                <option value={0}>Cualquiera</option>
-                {sizes.map((n) => (
-                  <option key={n} value={n}>
-                    {n} piezas
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
               Orden
               <select value={sort} onChange={(e) => setSort(e.target.value)}>
                 <option value="desc">Mayor nivel</option>
@@ -256,75 +281,173 @@ export function Sets({
               </select>
             </label>
           </div>
+          <div className="catalog-types" role="group" aria-label="Número de piezas">
+            <button aria-pressed={!pieces} onClick={() => setPieces(0)}>
+              Todas
+            </button>
+            {sizes.map((n) => (
+              <button
+                key={n}
+                aria-pressed={pieces === n}
+                onClick={() => setPieces(pieces === n ? 0 : n)}
+              >
+                {n} piezas
+              </button>
+            ))}
+          </div>
+        </header>
+        <section
+          className="catalog-browse"
+          aria-label="Panoplias del catálogo"
+          ref={scroller}
+        >
           <div className="catalog-results-heading">
             <span>{list.length} panoplias</span>
-            <span>Selecciona para ver el cambio</span>
+            <span>Clic para equipar · pasa por encima para ver el detalle</span>
           </div>
-          <div className="catalog-results">
-            {list.slice(0, page * 30).map((e) => {
+          <div className="catalog-grid is-sets">
+            {visible.map((e) => {
               const mine = count(e),
-                active = selected?.set.ankama_id === e.set.ankama_id;
+                active = selected?.set.ankama_id === e.set.ankama_id,
+                placeable = assignSetSlots(e.items, build.equipped).length,
+                complete = mine === e.items.length;
               return (
-                <div
-                  className={"catalog-result " + (active ? "selected" : "")}
+                <article
                   key={e.set.ankama_id}
+                  className={
+                    "catalog-card set-card" +
+                    (active ? " is-selected" : "") +
+                    (complete ? " is-equipped" : "")
+                  }
+                  onMouseEnter={() => hover.enter(e)}
+                  onMouseLeave={hover.leave}
                 >
-                  <button
-                    className="catalog-result-open set-row"
-                    aria-pressed={active}
-                    onClick={(event) => {
-                      lastRow.current = event.currentTarget;
-                      setSelected(e);
-                    }}
-                  >
-                    <span>
-                      <b>{e.set.name}</b>
+                  <header className="set-card-head">
+                    <div>
+                      <button
+                        className="catalog-result-open"
+                        aria-label={`${e.set.name}: ${placeable ? `equipar ${placeable} ${placeable === 1 ? "pieza" : "piezas"}` : complete ? "equipada" : "sin espacio libre"}`}
+                        aria-disabled={!placeable}
+                        onClick={() => equipSet(e)}
+                        onFocus={(event) =>
+                          event.currentTarget.matches(":focus-visible") &&
+                          setSelected(e)
+                        }
+                      >
+                        {e.set.name}
+                      </button>
                       <small>
                         Niv. {level(e)} · {e.items.length} piezas
-                        {mine > 0 && ` · ${mine} en tu equipo`}
                       </small>
+                    </div>
+                    <span className="catalog-card-tools">
+                      <span
+                        className="set-card-count"
+                        aria-label={`${mine} de ${e.items.length} en tu equipo`}
+                      >
+                        {complete && <Check size={12} aria-hidden="true" />}
+                        {mine}/{e.items.length}
+                      </span>
+                      <button
+                        className="catalog-card-inspect"
+                        aria-label={`Ver el detalle de ${e.set.name}`}
+                        title="Ver dónde va cada pieza"
+                        onClick={(event) => {
+                          lastRow.current = event.currentTarget;
+                          setSelected(e);
+                        }}
+                      >
+                        <ChartNoAxesColumn size={16} />
+                      </button>
                     </span>
-                    <span className="set-row-pieces">
-                      {e.items.slice(0, 4).map((it) => (
-                        <img
-                          key={it.ankama_id}
-                          src={it.image_url || "/design-assets/forge-mark.svg"}
-                          alt=""
-                          loading="lazy"
-                        />
-                      ))}
-                      {e.items.length > 4 && <i>+{e.items.length - 4}</i>}
-                    </span>
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
+                  </header>
+                  <ul className="set-card-pieces" aria-label="Piezas">
+                    {e.items.map((it) => (
+                      <li
+                        key={it.ankama_id}
+                        className={worn.has(it.ankama_id) ? "is-worn" : undefined}
+                      >
+                        <ItemPeek item={it}>
+                          <span className="set-card-piece" tabIndex={0}>
+                            <img
+                              src={it.image_url || "/design-assets/forge-mark.svg"}
+                              alt={it.name}
+                              loading="lazy"
+                            />
+                          </span>
+                        </ItemPeek>
+                      </li>
+                    ))}
+                  </ul>
+                  {e.topBonus.length > 0 && (
+                    <div className="set-card-bonus">
+                      <h5>Con {e.top} piezas</h5>
+                      <p className="set-tier-effects">
+                        <Bonus effects={e.topBonus} />
+                      </p>
+                    </div>
+                  )}
+                  <footer className="catalog-card-cta" aria-hidden="true">
+                    {placeable ? (
+                      <>
+                        Equipar {placeable} {placeable === 1 ? "pieza" : "piezas"}
+                        <ArrowRight size={13} />
+                      </>
+                    ) : complete ? (
+                      "Panoplia equipada"
+                    ) : (
+                      "Sin espacio libre"
+                    )}
+                  </footer>
+                </article>
               );
             })}
-            {!list.length && (
-              <div className="catalog-empty">
-                <h3>No hay coincidencias</h3>
-                <p>Amplía el rango de nivel o busca otro nombre.</p>
-                <button onClick={clear}>Restablecer filtros</button>
-              </div>
-            )}
-            {list.length > page * 30 && (
-              <button className="catalog-more" onClick={() => setPage(page + 1)}>
-                Ver 30 panoplias más
-              </button>
-            )}
           </div>
+          {!list.length && (
+            <div className="catalog-empty">
+              <h3>No hay coincidencias</h3>
+              <p>Amplía el rango de nivel o busca otro nombre.</p>
+              <button onClick={clear}>Restablecer filtros</button>
+            </div>
+          )}
+          {more && (
+            <div ref={sentinel} className="catalog-sentinel" aria-hidden="true" />
+          )}
         </section>
-        <section
+        <aside
           className="catalog-inspection"
           aria-label="Piezas, bonificaciones y cambio en el equipo"
         >
           {!selected ? (
-            <div className="catalog-empty">
-              <Search size={30} />
-              <h3>Las piezas y lo que suman juntas.</h3>
+            <div className="catalog-now">
+              <span className="catalog-kicker">Panoplias en tu equipo</span>
+              {wornSets.length ? (
+                <ul className="set-worn">
+                  {wornSets.map(({ e, n }) => (
+                    <li key={e.set.ankama_id}>
+                      <button
+                        onClick={(event) => {
+                          lastRow.current = event.currentTarget;
+                          setSelected(e);
+                        }}
+                      >
+                        <b>{e.set.name}</b>
+                        <span>
+                          {n}/{e.items.length}
+                        </span>
+                        <ArrowRight size={14} aria-hidden="true" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="catalog-now-empty">Ninguna pieza de panoplia</p>
+              )}
               <p>
-                Selecciona una panoplia para ver dónde va cada pieza, qué
-                bonificación alcanzas y cómo cambia tu build antes de equiparla.
+                Cada tarjeta muestra sus piezas y la bonificación completa, y
+                se equipa con un clic. Pasa el cursor por una para ver aquí
+                dónde va cada pieza, qué bonificación alcanzas y cómo cambia
+                tu build.
               </p>
             </div>
           ) : (
@@ -369,10 +492,13 @@ export function Sets({
                     out = target && equipment.get(build.equipped[target.slot] || 0);
                   return (
                     <li key={it.ankama_id}>
-                      <img
-                        src={it.image_url || "/design-assets/forge-mark.svg"}
-                        alt=""
-                      />
+                      <ItemPeek item={it}>
+                        <img
+                          src={it.image_url || "/design-assets/forge-mark.svg"}
+                          alt=""
+                          tabIndex={0}
+                        />
+                      </ItemPeek>
                       <span>
                         <b>{it.name}</b>
                         <small>
@@ -388,8 +514,8 @@ export function Sets({
                             `${t("slot_" + target.slot)} · espacio vacío`
                           )}
                         </small>
+                        <em>Niv. {it.level}</em>
                       </span>
-                      <em>Niv. {it.level}</em>
                       {worn.has(it.ankama_id) ? (
                         <button
                           className="set-piece-action"
@@ -415,90 +541,38 @@ export function Sets({
                 Bonificaciones <span>Según las piezas equipadas</span>
               </h4>
               <ol className="set-tiers">
-                {tiers.map((n) => {
-                  const effects = selected.set.bonuses[n].filter(
-                    (e) => !isIgnored(e.stat),
-                  );
-                  return (
-                    <li
-                      key={n}
-                      className={
-                        n === after ? "is-reached" : n === have ? "is-current" : ""
-                      }
-                    >
-                      <span className="set-tier-count">
-                        {n} <small>piezas</small>
-                      </span>
-                      <span className="set-tier-effects">
-                        {effects.map((e, i) => {
-                          const meta = STAT_META[e.stat];
-                          return (
-                            <span key={i}>
-                              {meta?.icon && (
-                                <img src={statIconUrl(meta.icon)} alt="" />
-                              )}
-                              <b>{fmtValue(e.min, e.max)}</b>{" "}
-                              {meta ? t(meta.tKey) : e.stat}
-                            </span>
-                          );
-                        })}
-                        {!effects.length && <span>Sin efectos de combate</span>}
-                      </span>
-                      {n === after && plan.length > 0 && (
-                        <span className="set-tier-note">Con este cambio</span>
-                      )}
-                      {n === have && !(n === after && plan.length > 0) && (
-                        <span className="set-tier-note">Ahora</span>
-                      )}
-                    </li>
-                  );
-                })}
+                {tiers.map((n) => (
+                  <li
+                    key={n}
+                    className={
+                      n === after ? "is-reached" : n === have ? "is-current" : ""
+                    }
+                  >
+                    <span className="set-tier-count">
+                      {n} <small>piezas</small>
+                    </span>
+                    <span className="set-tier-effects">
+                      <Bonus
+                        effects={selected.set.bonuses[n].filter(
+                          (e) => !isIgnored(e.stat),
+                        )}
+                      />
+                    </span>
+                    {n === after && plan.length > 0 && (
+                      <span className="set-tier-note">Con este cambio</span>
+                    )}
+                    {n === have && !(n === after && plan.length > 0) && (
+                      <span className="set-tier-note">Ahora</span>
+                    )}
+                  </li>
+                ))}
               </ol>
               {preview && (
                 <>
                   <h4>
                     En tu equipo <span>Actual → con la panoplia</span>
                   </h4>
-                  <dl className="catalog-deltas">
-                    {(
-                      [
-                        "maxHp",
-                        "ap",
-                        "mp",
-                        "range",
-                        "strength",
-                        "intelligence",
-                        "chance",
-                        "agility",
-                        "power",
-                        "critChance",
-                      ] as const
-                    ).map((key) => {
-                      const before = build.stats![key],
-                        next = preview[key] || 0,
-                        diff = next - before;
-                      return (
-                        <div key={key}>
-                          <dt>{labels[key]}</dt>
-                          <dd>
-                            {before} <ArrowRight size={12} /> <b>{next}</b>
-                            <em
-                              className={
-                                diff < 0
-                                  ? "negative"
-                                  : diff > 0
-                                    ? "positive"
-                                    : ""
-                              }
-                            >
-                              {diff > 0 ? "+" : ""}
-                              {diff}
-                            </em>
-                          </dd>
-                        </div>
-                      );
-                    })}
-                  </dl>
+                  <ImpactDeltas preview={preview} />
                   <p className="catalog-footnote">
                     Incluye las bonificaciones de panoplia que ganas y las que
                     pierdes. Cambiar una pieza retira las runas de su espacio.
@@ -518,7 +592,7 @@ export function Sets({
                 <button
                   className="primary"
                   disabled={!plan.length}
-                  onClick={equip}
+                  onClick={() => equipSet(selected)}
                 >
                   {plan.length
                     ? `Equipar ${plan.length} piezas`
@@ -528,7 +602,7 @@ export function Sets({
               </div>
             </>
           )}
-        </section>
+        </aside>
       </div>
     </Modal>
   );

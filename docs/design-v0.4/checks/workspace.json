@@ -57,8 +57,8 @@
     "geometry": {
       "width": 1440,
       "scrollWidth": 1440,
-      "contentWidth": 1178,
-      "contentScrollWidth": 1178
+      "contentWidth": 1398,
+      "contentScrollWidth": 1398
     },
     "focusReturned": true,
     "errors": [],
@@ -122,8 +122,8 @@
     "geometry": {
       "width": 1440,
       "scrollWidth": 1440,
-      "contentWidth": 1178,
-      "contentScrollWidth": 1178
+      "contentWidth": 1398,
+      "contentScrollWidth": 1398
     },
     "errors": [],
     "violations": []

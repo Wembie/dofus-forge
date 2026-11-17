@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Search, Star } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ChartNoAxesColumn,
+  Check,
+  Crown,
+  Search,
+  SlidersHorizontal,
+  Star,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBuildStore, type SlotId } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
@@ -13,21 +22,24 @@ import {
   catalogBlock,
   isAttackEffect,
 } from "../../../src/features/equipment/catalogFilters";
-import {
-  STAT_META,
-  statIconUrl,
-} from "../../../src/features/equipment/statDisplay";
-import { ItemSpellEffects } from "../../../src/features/equipment/ItemSpellEffects";
+import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import { Sets } from "./Sets";
 import { StatFilter } from "../../../src/ui/StatFilter";
 import { normalizeSearch } from "../../../src/ui/normalize";
 import { equipment, previewItems, visibleSlots } from "./model";
 import { Modal } from "./SurfaceModal";
-import labels from "./stat-labels.json";
+import { ImpactDeltas, ItemFactsList, useHoverIntent } from "./ItemFacts";
+import { useInfiniteList } from "./useInfiniteList";
 import type { AppItem, AppSet } from "../../../src/data/loaders";
 import "./catalog.css";
 
-/** New list/detail composition consuming the existing slot, filter, conflict and build rules. */
+const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200];
+
+/**
+ * Cards that read in full without a click (effects, attack, spell effects,
+ * ability, lore, set, favourite, one-click equip) next to a panel that shows
+ * what the selected piece changes in the build before equipping it.
+ */
 export function Catalog({
   slot: initialSlot,
   onClose,
@@ -49,10 +61,10 @@ export function Catalog({
     [onlyFav, setOnlyFav] = useState(false),
     [legendary, setLegendary] = useState(false),
     [selected, setSelected] = useState<AppItem | null>(null),
-    [page, setPage] = useState(1),
     [setDetail, setSetDetail] = useState<AppSet | null>(null),
     [continueDofus, setContinueDofus] = useState(true),
-    [notice, setNotice] = useState("");
+    [notice, setNotice] = useState(""),
+    [showFilters, setShowFilters] = useState(false);
   const detailRef = useRef<HTMLHeadingElement>(null),
     lastItem = useRef<HTMLButtonElement | null>(null);
   const config = SLOT_CONFIGS.find((s) => s.id === slot)!,
@@ -60,6 +72,10 @@ export function Catalog({
       () => [...equipment.values()].filter((it) => matchesSlot(it, config)),
       [slot],
     );
+  const setById = useMemo(
+    () => new Map(sets.map((s) => [s.ankama_id, s])),
+    [sets],
+  );
   const options = useMemo(
     () => ({
       types: [...new Set(candidates.map((it) => it.type))].sort(),
@@ -70,9 +86,10 @@ export function Catalog({
           ),
         ),
       ].sort(),
-      sets: sets.filter((s) =>
-        candidates.some((it) => it.set_id === s.ankama_id),
-      ),
+      sets: sets
+        .filter((s) => candidates.some((it) => it.set_id === s.ankama_id))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+      legendary: candidates.some((it) => it.legendary === true),
     }),
     [candidates, sets],
   );
@@ -111,10 +128,13 @@ export function Catalog({
       favorites.isFav,
     ],
   );
-  const block = selected
-    ? catalogBlock(selected, slot, build.equipped, equipment)
-    : null;
-  const current = build.equipped[slot] === selected?.ankama_id;
+  const scroller = useRef<HTMLDivElement>(null),
+    { visible, sentinel, more } = useInfiniteList(list, scroller, 24);
+  const worn = equipment.get(build.equipped[slot] || 0),
+    block = selected
+      ? catalogBlock(selected, slot, build.equipped, equipment)
+      : null,
+    current = build.equipped[slot] === selected?.ankama_id;
   const preview = useMemo(
     () =>
       selected
@@ -133,10 +153,10 @@ export function Catalog({
       build.scrolled,
     ],
   );
-  useEffect(() => setPage(1), [list]);
   useEffect(() => {
     if (selected && innerWidth <= 700) detailRef.current?.focus();
   }, [selected]);
+  const hover = useHoverIntent<AppItem>(setSelected);
   function inspect(item: AppItem, button: HTMLButtonElement) {
     lastItem.current = button;
     setSelected(item);
@@ -145,9 +165,14 @@ export function Catalog({
     setSelected(null);
     requestAnimationFrame(() => lastItem.current?.focus());
   }
-  function equip() {
-    if (!selected || block || current) return;
-    build.equipItem(slot, selected.ankama_id);
+  function blockedIn(item: AppItem) {
+    const b = catalogBlock(item, slot, build.equipped, equipment);
+    return b ? t("slot_" + b.slot) : null;
+  }
+  function equip(item: AppItem) {
+    if (catalogBlock(item, slot, build.equipped, equipment)) return;
+    if (build.equipped[slot] === item.ankama_id) return;
+    build.equipItem(slot, item.ankama_id);
     if (continueDofus && slot.startsWith("dofus")) {
       const next = visibleSlots.find(
         (s) =>
@@ -158,7 +183,7 @@ export function Catalog({
       if (next) {
         setSlot(next);
         setSelected(null);
-        setNotice(`${selected.name} equipado. Elige el siguiente Dofus.`);
+        setNotice(`${item.name} equipado. Elige el siguiente Dofus.`);
         return;
       }
     }
@@ -173,7 +198,15 @@ export function Catalog({
     setOnlyFav(false);
     setLegendary(false);
   }
-  const slotLabel = t("slot_" + slot);
+  const slotLabel = t("slot_" + slot),
+    typeLabel = (v: string) => t(`item_type_${v}`, { defaultValue: v }),
+    favCount = candidates.filter((it) => favorites.isFav(it.ankama_id)).length,
+    activeFilters =
+      Number(range.min > 0 || range.max !== 200) +
+      Number(!!setId) +
+      stats.length +
+      Number(onlyFav) +
+      Number(legendary);
   return (
     <Modal
       open
@@ -185,20 +218,34 @@ export function Catalog({
       <div
         className={"catalog-composition " + (selected ? "has-selection" : "")}
       >
-        <section
-          className="catalog-browse"
-          aria-label="Resultados del catálogo"
+        <header
+          className={
+            "catalog-toolbar has-toggle" + (showFilters ? " filters-open" : "")
+          }
         >
-          <label className="catalog-search">
-            <Search size={18} />
-            <span className="sr-only">Buscar objetos</span>
-            <input
-              autoFocus
-              placeholder="Nombre del objeto…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </label>
+          <div className="catalog-toolbar-main">
+            <label className="catalog-search">
+              <Search size={18} aria-hidden="true" />
+              <span className="sr-only">Buscar objetos</span>
+              <input
+                autoFocus
+                placeholder="Nombre del objeto…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </label>
+            <button
+              className="catalog-filter-toggle"
+              aria-expanded={showFilters}
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <SlidersHorizontal size={16} aria-hidden="true" />
+              Filtros
+              {activeFilters > 0 && (
+                <span className="catalog-flag-count">{activeFilters}</span>
+              )}
+            </button>
+          </div>
           <div className="catalog-filters">
             <label>
               Nivel mínimo
@@ -210,7 +257,7 @@ export function Catalog({
                   )
                 }
               >
-                {[0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200].map((n) => (
+                {LEVELS.map((n) => (
                   <option key={n}>{n}</option>
                 ))}
               </select>
@@ -225,7 +272,7 @@ export function Catalog({
                   )
                 }
               >
-                {[0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200].map((n) => (
+                {LEVELS.map((n) => (
                   <option key={n} value={n}>
                     {n || "Sin límite"}
                   </option>
@@ -240,18 +287,7 @@ export function Catalog({
                 <option value="name">Nombre A–Z</option>
               </select>
             </label>
-            {options.types.length > 1 && (
-              <label>
-                Tipo
-                <select value={type} onChange={(e) => setType(e.target.value)}>
-                  <option value="">Todos</option>
-                  {options.types.map((v) => (
-                    <option key={v}>{v}</option>
-                  ))}
-                </select>
-              </label>
-            )}
-            <label>
+            <label className="catalog-filter-wide">
               Panoplia
               <select value={setId} onChange={(e) => setSetId(e.target.value)}>
                 <option value="">Todas</option>
@@ -264,16 +300,24 @@ export function Catalog({
             </label>
           </div>
           <div className="catalog-flags">
-            <button aria-pressed={onlyFav} onClick={() => setOnlyFav(!onlyFav)}>
-              <Star size={15} />
-              Favoritos
-            </button>
             <button
-              aria-pressed={legendary}
-              onClick={() => setLegendary(!legendary)}
+              aria-pressed={onlyFav}
+              aria-label={`Solo favoritos (${favCount})`}
+              onClick={() => setOnlyFav(!onlyFav)}
             >
-              Legendarios
+              <Star size={15} aria-hidden="true" />
+              Favoritos
+              {favCount > 0 && <span className="catalog-flag-count">{favCount}</span>}
             </button>
+            {options.legendary && (
+              <button
+                aria-pressed={legendary}
+                onClick={() => setLegendary(!legendary)}
+              >
+                <Crown size={14} aria-hidden="true" />
+                Legendarios
+              </button>
+            )}
             <StatFilter
               stats={options.stats}
               selected={stats}
@@ -281,88 +325,166 @@ export function Catalog({
             />
             <button onClick={clear}>Limpiar</button>
           </div>
+          {options.types.length > 1 && (
+            <div className="catalog-types" role="group" aria-label="Tipo de objeto">
+              <button aria-pressed={!type} onClick={() => setType("")}>
+                Todos
+              </button>
+              {options.types.map((v) => (
+                <button
+                  key={v}
+                  aria-pressed={type === v}
+                  onClick={() => setType(type === v ? "" : v)}
+                >
+                  {typeLabel(v)}
+                </button>
+              ))}
+              {query && type && (
+                <span>La búsqueda por nombre incluye todos los tipos</span>
+              )}
+            </div>
+          )}
+        </header>
+        <section
+          className="catalog-browse"
+          aria-label="Resultados del catálogo"
+          ref={scroller}
+        >
           <div className="catalog-results-heading">
             <span>{list.length} objetos</span>
-            <span>Selecciona para ver el cambio</span>
+            <span>Clic para equipar · pasa por encima para ver el cambio</span>
           </div>
           {notice && (
             <p className="catalog-notice" role="status">
               {notice}
             </p>
           )}
-          <div className="catalog-results">
-            {list.slice(0, page * 30).map((it) => {
-              const blocked = catalogBlock(it, slot, build.equipped, equipment),
-                equipped = build.equipped[slot] === it.ankama_id;
+          <div className="catalog-grid">
+            {visible.map((it) => {
+              const blocked = blockedIn(it),
+                equipped = build.equipped[slot] === it.ankama_id,
+                active = selected?.ankama_id === it.ankama_id,
+                set = it.set_id != null ? setById.get(it.set_id) : undefined,
+                fav = favorites.isFav(it.ankama_id);
               return (
-                <div
-                  className={
-                    "catalog-result " +
-                    (selected?.ankama_id === it.ankama_id ? "selected" : "")
-                  }
+                <article
                   key={it.ankama_id}
+                  className={
+                    "catalog-card" +
+                    (active ? " is-selected" : "") +
+                    (equipped ? " is-equipped" : "") +
+                    (blocked ? " is-blocked" : "")
+                  }
+                  onMouseEnter={() => hover.enter(it)}
+                  onMouseLeave={hover.leave}
                 >
-                  <button
-                    className="catalog-result-open"
-                    onClick={(e) => inspect(it, e.currentTarget)}
-                    aria-pressed={selected?.ankama_id === it.ankama_id}
-                  >
-                    <img
-                      src={it.image_url || "/design-assets/forge-mark.svg"}
-                      alt=""
-                    />
-                    <span>
-                      <b>{it.name}</b>
-                      <small>
-                        Niv. {it.level} ·{" "}
-                        {equipped
-                          ? "Equipado"
-                          : blocked
-                            ? "En otro espacio"
-                            : it.type}
-                      </small>
+                  <header className="catalog-card-head">
+                    <span className="catalog-card-art">
+                      <img
+                        src={it.image_url || "/design-assets/forge-mark.svg"}
+                        alt=""
+                        loading="lazy"
+                      />
                     </span>
-                    <ArrowRight size={16} />
-                  </button>
-                  <button
-                    className="catalog-favorite"
-                    aria-label={`${favorites.isFav(it.ankama_id) ? "Quitar de" : "Añadir a"} favoritos: ${it.name}`}
-                    aria-pressed={favorites.isFav(it.ankama_id)}
-                    onClick={() => favorites.toggle(it.ankama_id)}
-                  >
-                    <Star size={16} />
-                  </button>
-                </div>
+                    <div>
+                      <button
+                        className="catalog-result-open"
+                        aria-label={`${it.name}: ${equipped ? "equipado" : blocked ? `ya en ${blocked}` : "equipar"}`}
+                        aria-disabled={equipped || !!blocked}
+                        onClick={() => equip(it)}
+                        onFocus={(e) =>
+                          e.currentTarget.matches(":focus-visible") &&
+                          setSelected(it)
+                        }
+                      >
+                        {it.name}
+                      </button>
+                      <small>
+                        Niv. {it.level} · {typeLabel(it.type)}
+                      </small>
+                      {set && (
+                        <button
+                          className="catalog-set-link"
+                          onClick={() => setSetDetail(set)}
+                        >
+                          {set.name}
+                          <ArrowRight size={12} aria-hidden="true" />
+                        </button>
+                      )}
+                      {(equipped || blocked) && (
+                        <span className="catalog-card-status">
+                          <Check size={12} aria-hidden="true" />
+                          {equipped ? "Equipado" : `Ya en ${blocked}`}
+                        </span>
+                      )}
+                    </div>
+                    <span className="catalog-card-tools">
+                      <button
+                        className="catalog-favorite"
+                        aria-label={`${fav ? "Quitar de" : "Añadir a"} favoritos: ${it.name}`}
+                        aria-pressed={fav}
+                        onClick={() => favorites.toggle(it.ankama_id)}
+                      >
+                        <Star size={16} />
+                      </button>
+                      <button
+                        className="catalog-card-inspect"
+                        aria-label={`Ver el cambio de ${it.name}`}
+                        title="Ver qué cambia en tu build"
+                        onClick={(e) => inspect(it, e.currentTarget)}
+                      >
+                        <ChartNoAxesColumn size={16} />
+                      </button>
+                    </span>
+                  </header>
+                  <div className="catalog-card-facts">
+                    <ItemFactsList item={it} />
+                  </div>
+                  <footer className="catalog-card-cta" aria-hidden="true">
+                    {equipped
+                      ? "Equipado"
+                      : blocked
+                        ? `Ya equipado en ${blocked}`
+                        : <>Equipar <ArrowRight size={13} /></>}
+                  </footer>
+                </article>
               );
             })}
-            {!list.length && (
-              <div className="catalog-empty">
-                <h3>No hay coincidencias</h3>
-                <p>Combina menos filtros o busca otro nombre.</p>
-                <button onClick={clear}>Restablecer filtros</button>
-              </div>
-            )}
-            {list.length > page * 30 && (
-              <button
-                className="catalog-more"
-                onClick={() => setPage(page + 1)}
-              >
-                Ver 30 objetos más
-              </button>
-            )}
           </div>
+          {!list.length && (
+            <div className="catalog-empty">
+              <h3>No hay coincidencias</h3>
+              <p>Combina menos filtros o busca otro nombre.</p>
+              <button onClick={clear}>Restablecer filtros</button>
+            </div>
+          )}
+          {more && (
+            <div ref={sentinel} className="catalog-sentinel" aria-hidden="true" />
+          )}
         </section>
-        <section
+        <aside
           className="catalog-inspection"
-          aria-label="Detalle y cambio en el equipo"
+          aria-label="Cambio en el equipo"
         >
           {!selected ? (
-            <div className="catalog-empty">
-              <Search size={30} />
-              <h3>La pieza y lo que cambia.</h3>
+            <div className="catalog-now">
+              <span className="catalog-kicker">Ahora en {slotLabel.toLowerCase()}</span>
+              {worn ? (
+                <div className="catalog-item-heading is-small">
+                  <img src={worn.image_url || "/design-assets/forge-mark.svg"} alt="" />
+                  <div>
+                    <span>NIVEL {worn.level}</span>
+                    <h3>{worn.name}</h3>
+                    <p>{typeLabel(worn.type)}</p>
+                  </div>
+                </div>
+              ) : (
+                <p className="catalog-now-empty">Espacio vacío</p>
+              )}
               <p>
-                Selecciona un objeto para consultar sus efectos, condiciones y
-                el impacto en tu build antes de equiparlo.
+                Cada tarjeta muestra todos sus efectos y se equipa con un clic.
+                Pasa el cursor por una pieza para ver aquí vida, PA, PM,
+                alcance, características y potencia antes y después.
               </p>
             </div>
           ) : (
@@ -381,83 +503,32 @@ export function Catalog({
                   <h3 tabIndex={-1} ref={detailRef}>
                     {selected.name}
                   </h3>
-                  <p>{selected.type}</p>
+                  <p>{typeLabel(selected.type)}</p>
                 </div>
               </div>
-              {selected.set_id && (
+              <p className="catalog-replaces">
+                {current
+                  ? "Es la pieza que llevas."
+                  : worn
+                    ? `Reemplaza ${worn.name}`
+                    : "Ocupa un espacio vacío"}
+              </p>
+              {selected.set_id != null && setById.get(selected.set_id) && (
                 <button
-                  className="catalog-set-link"
-                  onClick={() =>
-                    setSetDetail(
-                      sets.find((s) => s.ankama_id === selected.set_id) || null,
-                    )
-                  }
+                  className="catalog-panel-set"
+                  onClick={() => setSetDetail(setById.get(selected.set_id!)!)}
                 >
-                  {sets.find((s) => s.ankama_id === selected.set_id)?.name}
-                  <ArrowRight size={14} />
+                  Panoplia: {setById.get(selected.set_id)!.name}
+                  <ArrowRight size={13} aria-hidden="true" />
                 </button>
               )}
-              <h4>Efectos del objeto</h4>
-              <dl className="catalog-effects">
-                {selected.effects
-                  .filter((e) => e.stat in STAT_META || e.min || e.max)
-                  .map((e, i) => {
-                    const meta = STAT_META[e.stat];
-                    return (
-                      <div key={i}>
-                        <dt>
-                          {meta && <img src={statIconUrl(meta.icon)} alt="" />}
-                          {meta ? t(meta.tKey) : e.stat}
-                          {isAttackEffect(e) && <small>ataque</small>}
-                        </dt>
-                        <dd>
-                          {e.min}
-                          {e.max !== 0 && e.max !== e.min ? "–" + e.max : ""}
-                        </dd>
-                      </div>
-                    );
-                  })}
-              </dl>
-              <ItemSpellEffects effects={selected.effects} />
+              <div className="catalog-mobile-facts">
+                <ItemFactsList item={selected} />
+              </div>
               <h4>
                 En tu equipo <span>Actual → con esta pieza</span>
               </h4>
-              <dl className="catalog-deltas">
-                {(
-                  [
-                    "maxHp",
-                    "ap",
-                    "mp",
-                    "range",
-                    "strength",
-                    "intelligence",
-                    "chance",
-                    "agility",
-                    "power",
-                    "critChance",
-                  ] as const
-                ).map((key) => {
-                  const before = build.stats![key],
-                    after = preview?.[key] || 0,
-                    diff = after - before;
-                  return (
-                    <div key={key}>
-                      <dt>{labels[key]}</dt>
-                      <dd>
-                        {before} <ArrowRight size={12} /> <b>{after}</b>
-                        <em
-                          className={
-                            diff < 0 ? "negative" : diff > 0 ? "positive" : ""
-                          }
-                        >
-                          {diff > 0 ? "+" : ""}
-                          {diff}
-                        </em>
-                      </dd>
-                    </div>
-                  );
-                })}
-              </dl>
+              {preview && <ImpactDeltas preview={preview} />}
               <p className="catalog-footnote">
                 Incluye las bonificaciones de panoplia. Cambiar la pieza retira
                 las runas del espacio.
@@ -496,7 +567,7 @@ export function Catalog({
                 <button
                   className="primary"
                   disabled={!!block || current}
-                  onClick={equip}
+                  onClick={() => equip(selected)}
                 >
                   {current
                     ? "Equipado"
@@ -506,7 +577,7 @@ export function Catalog({
               </div>
             </>
           )}
-        </section>
+        </aside>
       </div>
       {setDetail && (
         <Sets
