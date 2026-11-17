@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import type { Session } from '@supabase/supabase-js'
 import { getSupabase } from '@/lib/supabase.ts'
 import { legalAcceptance, LEGAL_DOCS, type LegalDoc } from '@/features/auth/legal.ts'
-import { USERNAME_RE } from '@/features/auth/authRules.ts'
 
 export type Profile = {
   id:               string
@@ -47,6 +46,7 @@ type AuthState = {
   clearPasswordRecovery: () => void
 }
 
+const USERNAME_RE = /^[a-z0-9_-]{3,30}$/
 // SVG excluded deliberately — it can carry embedded <script>/event handlers.
 const AVATAR_TYPES: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' }
 export const AVATAR_ACCEPT = Object.keys(AVATAR_TYPES).join(',')
