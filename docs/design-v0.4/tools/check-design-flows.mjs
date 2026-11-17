@@ -83,9 +83,15 @@ for (const [device, width, height] of [
   await expect.poll(() => metric.allTextContents()).not.toEqual(baseline);
   await page.getByRole("button", { name: "Deshacer", exact: true }).click();
   await expect.poll(() => metric.allTextContents()).toEqual(baseline);
+  await page.getByRole("button", { name: /Todas las acciones/ }).click();
+  await expect(page.getByRole("option", { name: /Rehacer/ })).toBeVisible();
+  await expect(page.getByRole("option", { name: /Publicar build/ })).toBeVisible();
+  await page.keyboard.press("Escape");
   await page.keyboard.press("Control+k");
   await expect(page.getByRole("dialog")).toBeVisible();
-  await page.getByRole("dialog").getByRole("textbox").fill("Forjadora");
+  await page
+    .getByRole("combobox", { name: "Buscar una acción" })
+    .fill("Forjadora");
   await page.keyboard.press("Enter");
   await expect(
     page.getByRole("dialog", { name: "La Forjadora" }),

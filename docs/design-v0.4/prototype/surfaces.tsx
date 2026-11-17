@@ -1,4 +1,11 @@
-import { CommandPalette } from "../../../src/components/CommandPalette";
+import {
+  Compass as PaletteExplore,
+  Settings as PaletteSettings,
+  SunMoon as PaletteTheme,
+  Volume2 as PaletteSound,
+} from "lucide-react";
+import { Palette, openPalette } from "./Palette";
+import { toggleSound } from "@/lib/sound.ts";
 import { useEffect, useState, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter } from "react-router";
@@ -229,7 +236,10 @@ function App() {
       pages.some((p) => p[0] === initial) ? (initial as PageId) : "explore",
     );
   const [state, setState] = useState<ViewState>("ready"),
-    [dialog, setDialog] = useState<DialogId | null>(null),
+    [dialog, setDialog] = useState<DialogId | null>(() => {
+      const asked = new URLSearchParams(location.search).get("dialog");
+      return dialogs.some((d) => d[0] === asked) ? (asked as DialogId) : null;
+    }),
     [tool, setTool] = useState<WorkspaceTool | null>(null),
     [dark, setDark] = useState(true),
     [query, setQuery] = useState(""),
@@ -1309,13 +1319,37 @@ function App() {
   }
   return (
     <div className="product-study">
-      <CommandPalette
-        commands={pages.map((p) => ({
-          key: p[0],
-          label: p[1],
-          Icon: ArrowRight,
-          onRun: () => go(p[0]),
-        }))}
+      <Palette
+        commands={[
+          ...pages.map(([key, label]) => ({
+            key,
+            label,
+            group: "Ir a",
+            Icon: PaletteExplore,
+            onRun: () => go(key),
+          })),
+          {
+            key: "settings",
+            label: "Preferencias del taller",
+            group: "Preferencias",
+            Icon: PaletteSettings,
+            onRun: () => open("settings"),
+          },
+          {
+            key: "theme",
+            label: dark ? "Cambiar al tema Mineral" : "Cambiar al tema Tinta",
+            group: "Preferencias",
+            Icon: PaletteTheme,
+            onRun: () => setDark(!dark),
+          },
+          {
+            key: "sound",
+            label: "Activar o silenciar sonidos",
+            group: "Preferencias",
+            Icon: PaletteSound,
+            onRun: toggleSound,
+          },
+        ]}
       />
       <div className="review-bar">
         <b>Estudio 0.4.0</b>
@@ -1395,6 +1429,14 @@ function App() {
           )}
         </nav>
         <div>
+          <button
+            className="icon-button"
+            aria-label="Todas las acciones (Ctrl K)"
+            title="Todas las acciones · Ctrl K"
+            onClick={openPalette}
+          >
+            <Search size={18} />
+          </button>
           <button
             className="icon-button"
             aria-label="Cambiar tema"

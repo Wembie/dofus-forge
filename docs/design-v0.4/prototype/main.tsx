@@ -1,4 +1,29 @@
-import { CommandPalette } from "../../../src/components/CommandPalette";
+import {
+  BarChart2 as PaletteCompare,
+  BookOpen as PaletteGuide,
+  Compass as PaletteExplore,
+  FolderOpen as PaletteMine,
+  Info as PaletteAbout,
+  Keyboard as PaletteKeys,
+  Layers as PaletteSets,
+  Library as PaletteSetPages,
+  Redo2,
+  RotateCcw as PaletteReset,
+  Save as PaletteSave,
+  Send as PalettePublish,
+  Settings as PaletteSettings,
+  ShieldCheck as PaletteAdmin,
+  SunMoon as PaletteTheme,
+  Undo2 as PaletteUndo,
+  Volume2 as PaletteSound,
+  Wand2 as PaletteForge,
+  Wrench as PaletteTool,
+} from "lucide-react";
+import { Palette, openPalette, type PaletteCommand } from "./Palette";
+import { Search as PaletteSearch } from "lucide-react";
+import { SurfaceDialogs } from "./SurfaceDialogs";
+import { toggleSound } from "@/lib/sound.ts";
+import { useAuthStore } from "@/store/authStore.ts";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -58,6 +83,7 @@ import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import "./style.css";
 import "./forge.css";
 import "./surfaces.css";
+import "./product.css";
 import {
   WorkspaceTools,
   toolNames,
@@ -243,6 +269,8 @@ function App() {
     if (found) build.setClass(found.id);
   };
   const setGender = build.setGender;
+  const [surface, setSurface] = useState<"settings" | "publish" | null>(null),
+    isAdmin = useAuthStore((s) => s.profile?.role === "admin");
   const [dark, setDark] = useState(true),
     [tab, setTab] = useState("Equipo"),
     [full, setFull] = useState(false),
@@ -319,6 +347,41 @@ function App() {
     historyState.undo();
     setSaved(false);
   }
+  function redo() {
+    historyState.redo();
+    setSaved(false);
+  }
+  /** Production's reset: an empty build and a clean history. */
+  function resetBuild() {
+    build.reset();
+    historyState.clear();
+    setSaved(false);
+  }
+  const page = (view: string) => () =>
+    location.assign("/surfaces.html?view=" + view);
+  const commands: PaletteCommand[] = [
+    { key: "forge", group: "Herramientas", label: "La Forjadora", Icon: PaletteForge, onRun: () => setForge(true) },
+    { key: "sets", group: "Herramientas", label: "Panoplias", Icon: PaletteSets, onRun: () => openTool("sets") },
+    { key: "compare", group: "Herramientas", label: "Comparar dos builds", Icon: PaletteCompare, onRun: () => openTool("compare") },
+    ...(Object.entries(toolNames) as [WorkspaceTool, string][])
+      .filter(([key]) => key !== "sets" && key !== "compare")
+      .map(([key, label]) => ({ key, group: "Herramientas", label, Icon: PaletteTool, onRun: () => openTool(key) })),
+    { key: "undo", group: "Build", label: "Deshacer", Icon: PaletteUndo, hint: "Ctrl Z", disabled: !historyState.canUndo, onRun: undo },
+    { key: "redo", group: "Build", label: "Rehacer", Icon: Redo2, hint: "Ctrl Y", disabled: !historyState.canRedo, onRun: redo },
+    { key: "save", group: "Build", label: "Guardar borrador", Icon: PaletteSave, onRun: save },
+    { key: "publish", group: "Build", label: "Publicar build", Icon: PalettePublish, disabled: !build.selectedClass, onRun: () => setSurface("publish") },
+    { key: "reset", group: "Build", label: "Empezar una build nueva", Icon: PaletteReset, onRun: resetBuild },
+    { key: "my-builds", group: "Ir a", label: "Mis builds", Icon: PaletteMine, onRun: page("my-builds") },
+    { key: "explore", group: "Ir a", label: "Explorar builds", Icon: PaletteExplore, onRun: page("explore") },
+    { key: "sets-page", group: "Ir a", label: "Páginas de panoplias", Icon: PaletteSetPages, onRun: page("sets") },
+    { key: "how-to-use", group: "Ir a", label: "Guía del taller", Icon: PaletteGuide, onRun: page("how-to-use") },
+    { key: "shortcuts", group: "Ir a", label: "Atajos y accesibilidad", Icon: PaletteKeys, onRun: page("shortcuts") },
+    { key: "about", group: "Ir a", label: "Acerca de Dofus Forge", Icon: PaletteAbout, onRun: page("about") },
+    ...(isAdmin ? [{ key: "admin", group: "Ir a", label: "Administración", Icon: PaletteAdmin, onRun: page("admin") }] : []),
+    { key: "settings", group: "Preferencias", label: "Preferencias del taller", Icon: PaletteSettings, onRun: () => setSurface("settings") },
+    { key: "theme", group: "Preferencias", label: dark ? "Cambiar al tema Mineral" : "Cambiar al tema Tinta", Icon: PaletteTheme, onRun: () => setDark(!dark) },
+    { key: "sound", group: "Preferencias", label: "Activar o silenciar sonidos", Icon: PaletteSound, onRun: toggleSound },
+  ];
   function save() {
     try {
       saveModel();
@@ -385,22 +448,20 @@ function App() {
   }
   return (
     <div className="app-shell">
-      <CommandPalette
-        commands={[
-          ...Object.entries(toolNames).map(([key, label]) => ({
-            key,
-            label,
-            Icon: Hammer,
-            onRun: () => openTool(key as WorkspaceTool),
-          })),
-          {
-            key: "forge",
-            label: "La Forjadora",
-            Icon: Hammer,
-            onRun: () => setForge(true),
-          },
-        ]}
-      />
+      <Palette commands={commands} />
+      {surface && (
+        <SurfaceDialogs
+          key={surface}
+          id={surface}
+          onClose={() => setSurface(null)}
+          onOpen={(next) =>
+            next === "settings" || next === "publish"
+              ? setSurface(next)
+              : location.assign("/surfaces.html?dialog=" + next)
+          }
+          onNavigate={(view) => location.assign("/surfaces.html?view=" + view)}
+        />
+      )}
       <header className="global-header">
         <a className="brand" href="#" onClick={() => navigate("Equipo")}>
           <img src="/design-assets/forge-mark.svg" alt="" />
@@ -429,6 +490,21 @@ function App() {
           <span className="version">
             0.4.0 <span>ESTUDIO</span>
           </span>
+          <button
+            className="icon-button"
+            aria-label="Todas las acciones (Ctrl K)"
+            title="Todas las acciones · Ctrl K"
+            onClick={openPalette}
+          >
+            <PaletteSearch size={18} />
+          </button>
+          <button
+            className="icon-button"
+            aria-label="Preferencias del taller"
+            onClick={() => setSurface("settings")}
+          >
+            <PaletteSettings size={18} />
+          </button>
           <button
             className="icon-button"
             aria-label={dark ? "Tema mineral" : "Tema tinta"}
@@ -477,6 +553,14 @@ function App() {
             <Undo2 size={18} />
           </button>
           <button
+            className="icon-button"
+            aria-label="Rehacer"
+            disabled={!historyState.canRedo}
+            onClick={redo}
+          >
+            <Redo2 size={18} />
+          </button>
+          <button
             className="forge-action"
             aria-label="La Forjadora"
             onClick={() => setForge(true)}
@@ -490,6 +574,14 @@ function App() {
           >
             <Columns2 size={16} />
             Comparar
+          </button>
+          <button
+            className="compare-action"
+            disabled={!build.selectedClass}
+            onClick={() => setSurface("publish")}
+          >
+            <PalettePublish size={16} />
+            Publicar
           </button>
           <button
             className="primary"

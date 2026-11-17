@@ -1252,3 +1252,123 @@
     font-size: 12px;
   }
 }
+.palette {
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(560px, calc(100dvh - 120px));
+  margin: 12vh auto auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 60px #0006;
+}
+.palette::backdrop {
+  background: color-mix(in srgb, var(--canvas) 70%, transparent);
+  backdrop-filter: blur(3px);
+}
+.palette-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.palette-search input {
+  flex: 1;
+  min-width: 0;
+  min-height: 28px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: 400 16px "Source Sans 3", sans-serif;
+  outline: none;
+}
+.palette kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: 11px "IBM Plex Mono";
+  color: var(--muted);
+  text-align: center;
+}
+.palette-list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 6px 0 8px;
+}
+.palette-list h3 {
+  margin: 10px 16px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.palette-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  margin: 0 6px;
+  padding: 0 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.palette-option > svg:first-child {
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.palette-option span {
+  flex: 1;
+  min-width: 0;
+}
+.palette-option[aria-selected="true"] {
+  background: var(--hover);
+}
+.palette-option[aria-selected="true"] > svg {
+  color: var(--accent);
+}
+.palette-option[aria-disabled="true"] {
+  cursor: default;
+  color: var(--muted);
+}
+.palette-option small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.palette-empty {
+  margin: 0;
+  padding: 28px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+.palette-foot {
+  display: flex;
+  gap: 18px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+}
+.palette-foot kbd {
+  margin-right: 2px;
+}
+@media (max-width: 700px) {
+  .palette {
+    margin-top: 16px;
+    max-height: calc(100dvh - 32px);
+  }
+  .palette-option {
+    min-height: 44px;
+  }
+  .palette-foot {
+    display: none;
+  }
+}
