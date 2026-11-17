@@ -14,19 +14,6 @@
   },
   {
     "device": "desktop",
-    "id": "passives",
-    "geometry": {
-      "width": 1440,
-      "scrollWidth": 1440,
-      "contentWidth": 738,
-      "contentScrollWidth": 738
-    },
-    "focusReturned": true,
-    "errors": [],
-    "violations": []
-  },
-  {
-    "device": "desktop",
     "id": "spells",
     "geometry": {
       "width": 1440,
@@ -147,51 +134,8 @@
     "violations": []
   },
   {
-    "device": "desktop",
-    "id": "runes",
-    "geometry": {
-      "width": 1440,
-      "scrollWidth": 1440,
-      "contentWidth": 638,
-      "contentScrollWidth": 638
-    },
-    "errors": [],
-    "violations": [
-      {
-        "id": "color-contrast",
-        "nodes": [
-          {
-            "target": [
-              ".inline-flex"
-            ],
-            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.72 (foreground color: #a26b55, background color: #f2ebe2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-          },
-          {
-            "target": [
-              ".py-1\\.5.gap-1\\.5[role=\"tab\"]:nth-child(1)"
-            ],
-            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.43 (foreground color: #1d667f, background color: #d1d8d2, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "device": "mobile",
     "id": "characteristics",
-    "geometry": {
-      "width": 390,
-      "scrollWidth": 390,
-      "contentWidth": 388,
-      "contentScrollWidth": 388
-    },
-    "focusReturned": true,
-    "errors": [],
-    "violations": []
-  },
-  {
-    "device": "mobile",
-    "id": "passives",
     "geometry": {
       "width": 390,
       "scrollWidth": 390,
@@ -306,33 +250,53 @@
     "violations": []
   },
   {
+    "device": "desktop",
+    "id": "passives",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "runes",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1178,
+      "contentScrollWidth": 1178
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "passives",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
     "device": "mobile",
     "id": "runes",
     "geometry": {
       "width": 390,
       "scrollWidth": 390,
-      "contentWidth": 356,
-      "contentScrollWidth": 356
+      "contentWidth": 388,
+      "contentScrollWidth": 388
     },
     "errors": [],
-    "violations": [
-      {
-        "id": "color-contrast",
-        "nodes": [
-          {
-            "target": [
-              ".inline-flex"
-            ],
-            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.72 (foreground color: #a26b55, background color: #f2ebe2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-          },
-          {
-            "target": [
-              ".py-1\\.5.gap-1\\.5[role=\"tab\"]:nth-child(1)"
-            ],
-            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.43 (foreground color: #1d667f, background color: #d1d8d2, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-          }
-        ]
-      }
-    ]
+    "violations": []
   }
 ]

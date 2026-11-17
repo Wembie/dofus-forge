@@ -54,7 +54,7 @@ La revisión sustituye las tarjetas repetidas por un área de trabajo continua. 
 
 El plan Starter de Figma bloqueó las llamadas adicionales. Quedaron sin ejecutar la actualización del constructor con personaje central y la revisión visual completa de las demás pantallas. Solo se inspeccionaron visualmente las primeras vistas de escritorio/móvil de Figma antes de la corrección del personaje; no se presentan como aprobadas. Las capturas antiguas de la cuadrícula se retiraron de la entrega local.
 
-En el estudio local, forjamagia, hechizos, la paleta de acciones y el interior de la Forjadora siguen siendo componentes de producción con estilos adaptados; no cuentan como rediseñados.
+En el estudio local, hechizos y el interior de la Forjadora siguen siendo componentes de producción con estilos adaptados; no cuentan como rediseñados.
 
 La biblioteca es una primera base, no cubre todavía todos los componentes de producción. Falta publicar o vincular Code Connect, completar los estados de cada flujo, sincronizar el tema Tinta con el prototipo y probar la propuesta con personas. Las pantallas secundarias de Figma usan cifras ilustrativas; el prototipo del constructor usa el cálculo del motor.
 

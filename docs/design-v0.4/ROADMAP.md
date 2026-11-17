@@ -31,7 +31,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
 | Distribuir características | Rediseñado con las funciones de producción: −/+ de uno en uno que repiten al mantener (Mayús ×5, Ctrl ×20), valor escrito, pergaminos uno a uno o todos, potencia y lo que suman los pasivos en vista de combate. Añade «Máx.» por característica | `prototype/Characteristics.tsx` |
-| Forjamagia (runas y trascendencia) | Adaptación provisional. Requiere antes exportar sus reglas (secciones de runas, valores rápidos, relaciones de transformación del arma), hoy internas al componente; copiarlas al estudio duplicaría reglas del juego | `RuneModal` |
+| Forjamagia (runas y trascendencia) | Rediseñado con las funciones de producción: runas por sección con búsqueda, cantidades rápidas por tipo, valor libre ±1 que se suma a lo que ya lleva, quitar una o todas, runa de trascendencia con rangos permitidos o bloqueados por el peso de la línea, transformación elemental del arma (elemento y proporción, solo con daño neutro) y firma del forjamago. Reglas en `src/features/equipment/runeRules.ts` | `prototype/Runes.tsx` |
 | Paleta de acciones (Ctrl+K) y acciones de la cabecera del taller | Rediseñado con las funciones de producción: las mismas acciones (herramientas, deshacer y rehacer, publicar, empezar de nuevo, páginas, administración solo para admins, preferencias, tema y sonido), búsqueda sin acentos, teclado y acciones no disponibles visibles. Agrupadas por tipo y abribles con un botón, también en móvil. La cabecera del taller recupera Rehacer, Publicar y Preferencias, que faltaban | `prototype/Palette.tsx` |
 | Hechizos y arma | Adaptación provisional. Los totales por golpe, la exclusión de la fase de carga, la cura por robo y los casos escalonados se calculan dentro del componente; requiere antes un modelo de vista exportado | `SpellsPanel` |
 | Pasivos de combate y selector Equipo / En combate | Rediseñado con las funciones de producción, incluido el número de pasivos activos en el selector | `prototype/Passives.tsx` |
@@ -49,7 +49,6 @@ Las herramientas que siguen en adaptación provisional dependen de reglas que ho
 
 | Regla | Dónde está | Desbloquea |
 |---|---|---|
-| Secciones de runas, valores rápidos por tipo y relaciones de transformación del arma | `RuneModal.tsx` | Forjamagia |
 | Modelo de vista de un hechizo y del arma: filas, totales por golpe y crítico, fase de carga, cura por robo, casos escalonados y condiciones | `SpellsPanel.tsx` (`SpellCard`, `WeaponCard`) | Hechizos y arma |
 | Modelo de vista de la Forjadora: objetivos, reglas y resultados | `OptimizerModal.tsx` | Rediseño real de la Forjadora |
 

@@ -8,7 +8,7 @@ import { Combat } from "./Combat";
 import { Catalog } from "./Catalog";
 import { Sets } from "./Sets";
 import { SetBonuses, Changelog } from "./SetBonuses";
-import { RuneModal } from "../../../src/features/equipment/RuneModal";
+import { Runes } from "./Runes";
 import { Compare } from "./Compare";
 import { useCompareStore } from "../../../src/store/compareStore";
 import { buildSnapshotFromState } from "../../../src/features/share/codec";
@@ -83,7 +83,7 @@ export function WorkspaceTools({
   if (tool === "catalog") return <Catalog slot={slot} onClose={onClose} />;
   if (tool === "sets") return <Sets onClose={onClose} />;
   if (tool === "runes" && selected)
-    return <RuneModal slotId={runeSlot} item={selected} onClose={onClose} />;
+    return <Runes slot={runeSlot} item={selected} onClose={onClose} />;
   return (
     <Modal
       open
