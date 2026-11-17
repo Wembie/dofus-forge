@@ -2,9 +2,11 @@
 
 Propuesta de identidad y experiencia, 15 de noviembre de 2026. **Estado: diseño en desarrollo; no es una versión publicada.**
 
-[Archivo editable en Figma](https://www.figma.com/design/TWromSdJxK8iMbxmCTa6wo) · [Roadmap](ROADMAP.md) · [Auditoría funcional](DOMAIN-AUDIT.md) · [Contrato UX](UX-SPEC.md) · [Cobertura](COVERAGE.md)
+[Roadmap](ROADMAP.md) · [Auditoría funcional](DOMAIN-AUDIT.md) · [Contrato UX](UX-SPEC.md) · [Cobertura](COVERAGE.md)
 
 **Acceso · 17 de noviembre:** [login, registro y recuperación](ACCESS-REVIEW.md) con composición propia, cuatro idiomas y estados locales; seis HTML de correo en [`supabase/email-templates`](../../supabase/email-templates). [Login escritorio](captures/acceso/signin-desktop-tinta.png) · [Registro móvil](captures/acceso/signup-mobile-tinta.png) · [Correo de confirmación](captures/correos/confirm-signup-600.png).
+
+**Cuenta y perfil · 17 de noviembre:** [edición, seguridad, sesión y perfil público](ACCOUNT-REVIEW.md), con ejemplos locales y estados completos. La referencia vigente es local; Figma queda como archivo histórico y deja de ser un requisito de entrega.
 
 ## Dirección
 
@@ -38,6 +40,7 @@ node docs/design-v0.4/tools/check-workspace.mjs
 node docs/design-v0.4/tools/check-design-flows.mjs
 node docs/design-v0.4/tools/check-surfaces.mjs
 node docs/design-v0.4/tools/check-surfaces.mjs --mineral
+node docs/design-v0.4/tools/check-account.mjs
 node node_modules/typescript/bin/tsc --project docs/design-v0.4/prototype/tsconfig.json
 node node_modules/vite/bin/vite.js build --config docs/design-v0.4/prototype/vite.config.ts
 ```
@@ -56,6 +59,7 @@ Todas las capturas están en [`captures/`](captures), una carpeta por área, y l
 | [`captures/catalogo`](captures/catalogo) | Catálogo de objetos y de panoplias: tarjetas completas (`list-*`, `sets-*`) y panel de impacto en la build (`detail-*`, `sets-detail-*`) | `check-design-flows.mjs` |
 | [`captures/exportar`](captures/exportar) | Ficha descargada con la nueva identidad | `check-design-flows.mjs` |
 | [`captures/vistas`](captures/vistas) | Explorar con las tarjetas de build completas | `check-surfaces.mjs` |
+| [`captures/cuenta`](captures/cuenta) | Cuenta, seguridad, sesión, listas de personas, perfiles y errores; cinco tamaños, dos temas y cuatro idiomas | `check-account.mjs` |
 | [`captures/identidad`](captures/identidad) | Exploración de marca | — |
 
 [Decisiones y validación](DESIGN-REVIEW.md)
@@ -64,18 +68,18 @@ La revisión sustituye las tarjetas repetidas por un área de trabajo continua. 
 
 ## Qué falta
 
-El plan Starter de Figma bloqueó las llamadas adicionales. Quedaron sin ejecutar la actualización del constructor con personaje central y la revisión visual completa de las demás pantallas. Solo se inspeccionaron visualmente las primeras vistas de escritorio/móvil de Figma antes de la corrección del personaje; no se presentan como aprobadas. Las capturas antiguas de la cuadrícula se retiraron de la entrega local.
+El archivo anterior de Figma se conserva como referencia histórica. Por decisión del proyecto, el trabajo continúa exclusivamente en el prototipo local. No hay una sincronización de Figma pendiente para cerrar el diseño.
 
 En el estudio local, todas las herramientas del taller y la Forjadora tienen composición propia sobre las reglas del producto.
 
-La biblioteca es una primera base, no cubre todavía todos los componentes de producción. Falta publicar o vincular Code Connect, completar los estados de cada flujo, sincronizar el tema Tinta con el prototipo y probar la propuesta con personas. Las pantallas secundarias de Figma usan cifras ilustrativas; el prototipo del constructor usa el cálculo del motor.
+Falta completar la migración de las rutas secundarias a servicios reales, unificar componentes y tokens locales y probar la propuesta con jugadores. Los datos de cuenta y comunidad del estudio son ejemplos; el constructor usa el cálculo del motor.
 
 La presentación de producción, su versión y sus rutas se conservan. Se extrajeron reglas compartidas de runas, hechizos, Forjadora y acceso para preparar la migración sin duplicar cálculos ni flujos. El acceso tiene textos en los cuatro idiomas; el resto del estudio aún debe completar esa migración.
 
 La auditoría distingue paridad con código, pruebas automáticas y tareas todavía abiertas. No se afirma haber probado todas las combinaciones de equipo ni todos los estados autenticados.
 
-## Continuación en Figma
+## Continuación local
 
-`figma-state.json` registra IDs reales y estado. Primero reemplazar los frames `3:861` y `3:1383` por la composición con personaje del prototipo. Después revisar todos los frames: tamaño del texto, desbordamiento de contenido, estados, enlaces de prototipo, tema oscuro y arte real. No ejecutar a ciegas los scripts de creación: producen nuevos nodos. Los scripts son la fuente de construcción y deben adaptarse para actualizar los IDs guardados.
+Revisar el estado por superficie en `ROADMAP.md`. Los archivos de Figma y sus scripts quedan archivados; `prototype/`, sus capturas y los informes de `checks/` son la referencia de trabajo. No ejecutar scripts de creación del archivo histórico para continuar este rediseño.
 
 Los materiales públicos contienen únicamente el diseño de Dofus Forge. La investigación externa temporal, sus capturas y sus enlaces fueron retirados.

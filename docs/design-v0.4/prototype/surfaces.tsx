@@ -1,3 +1,5 @@
+import { Account, PublicProfile, LeaveAccount } from "./Account";
+import { useAccountStudy } from "./account-model";
 import {
   Compass as PaletteExplore,
   Settings as PaletteSettings,
@@ -10,7 +12,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter } from "react-router";
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -62,8 +64,7 @@ import "./forge.css";
 import "./surfaces.css";
 import "./product.css";
 
-const translations = es as Record<string, string>,
-  t = (key: string) => translations[key] || key;
+const translations = es as Record<string, string>;
 /** Example compositions from real catalogue pieces; nothing here is a recommendation. */
 const seedSlots = () =>
   Object.fromEntries(
@@ -231,6 +232,21 @@ function Action({
   );
 }
 function App() {
+  const { t } = useTranslation();
+  const account = useAccountStudy(),
+    [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
+  function showProfile(username: string) {
+    account.showProfile(username);
+    go("profile");
+  }
+  function leaveAccount() {
+    const next = pendingNavigation;
+    setPendingNavigation(null);
+    account.setDirty(false);
+    if (next === "href:/") location.assign("/");
+    else if (next) go(next, true);
+  }
+
   const initial = new URLSearchParams(location.search).get("view"),
     [view, setView] = useState<PageId>(
       pages.some((p) => p[0] === initial) ? (initial as PageId) : "explore",
@@ -269,7 +285,12 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [notice]);
-  function go(id: string) {
+  function go(id: string, force = false) {
+    if (!force && view === "account" && account.dirty && id !== view) {
+      setPendingNavigation(id);
+      return;
+    }
+
     if (!pages.some((p) => p[0] === id)) return;
     setView(id as PageId);
     setQuery("");
@@ -343,7 +364,15 @@ function App() {
       </button>
     </div>
   );
-  function BuildList({ owned = false }: { owned?: boolean }) {
+  function BuildList({
+    owned = false,
+    limit = Infinity,
+    author = "Brasa",
+  }: {
+    owned?: boolean;
+    limit?: number;
+    author?: string;
+  }) {
     const matches = examples.filter(
       (b) =>
         b.name.toLowerCase().includes(query.toLowerCase()) &&
@@ -351,7 +380,7 @@ function App() {
     );
     return matches.length ? (
       <div className="build-grid">
-        {matches.map((b) => (
+        {matches.slice(0, limit).map((b) => (
           <article className="product-build" key={b.name}>
             <button className="build-card-open" onClick={() => go("build")}>
               <span className="build-card-head">
@@ -371,12 +400,17 @@ function App() {
               <h2>{b.name}</h2>
               <span className="card-author">
                 {resolveClassName(b.classId, "es", null)} ·{" "}
-                {owned ? "borrador de ejemplo" : "por Brasa · build de ejemplo"}
+                {owned
+                  ? "borrador de ejemplo"
+                  : `por ${author} · build de ejemplo`}
               </span>
             </button>
             <div className="build-card-bottom">
               {b.vitals && (
-                <ul className="build-vitals" aria-label="Puntos de acción, movimiento y alcance">
+                <ul
+                  className="build-vitals"
+                  aria-label="Puntos de acción, movimiento y alcance"
+                >
                   {(["ap", "mp", "range"] as const).map((key) => (
                     <li key={key}>
                       <img src={"/data/stats/" + vitalIcons[key]} alt="" />
@@ -739,44 +773,16 @@ function App() {
       );
     if (view === "profile")
       return (
-        <>
-          {hero(
-            "PERFIL DE JUGADOR",
-            "Brasa",
-            "Siempre hay una pieza que cambia el resto.",
-            <Action
-              onClick={() => setNotice("Seguimiento mostrado en el ejemplo")}
-            >
-              <Plus size={16} />
-              Seguir
-            </Action>,
+        <PublicProfile
+          onAccount={() => go("account")}
+          onSignIn={() => open("signin")}
+          onPeople={(kind) => open(kind)}
+          onBuild={() => go("build")}
+          onCollection={() => go("collection")}
+          renderBuilds={(limit) => (
+            <BuildList limit={limit} author={account.publicUsername} />
           )}
-          <div className="profile-strip">
-            <span className="profile-avatar">B</span>
-            <div>
-              <span>@brasa</span>
-              <p>Miembro del taller · perfil de ejemplo</p>
-            </div>
-            <button onClick={() => open("followers")}>
-              Seguidores <ArrowRight size={15} />
-            </button>
-            <button onClick={() => open("following")}>
-              Siguiendo <ArrowRight size={15} />
-            </button>
-          </div>
-          {tabs(["Builds", "Colecciones"])}
-          {tab === "Colecciones" ? (
-            <button
-              className="collection-link"
-              onClick={() => go("collection")}
-            >
-              <Folder size={22} />
-              Equipos para mazmorras <ArrowRight size={17} />
-            </button>
-          ) : (
-            <BuildList />
-          )}
-        </>
+        />
       );
     if (view === "build")
       return (
@@ -1081,82 +1087,15 @@ function App() {
     }
     if (view === "account")
       return (
-        <>
-          {hero(
-            "MI CUENTA",
-            "Un lugar para tu identidad.",
-            "Controla tu perfil y el acceso a tu cuenta.",
-          )}
-          <div className="settings-layout">
-            <aside>
-              <a href="#profile-settings">Perfil público</a>
-              <a href="#security-settings">Seguridad</a>
-              <button onClick={() => open("followers")}>Seguidores</button>
-              <button onClick={() => open("following")}>Siguiendo</button>
-            </aside>
-            <div>
-              <section id="profile-settings">
-                <h2>Perfil público</h2>
-                <p>Así te verán los demás jugadores.</p>
-                <form
-                  className="surface-form"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setNotice("Vista de confirmación: perfil guardado");
-                  }}
-                >
-                  <label>
-                    Nombre de usuario
-                    <input
-                      defaultValue="brasa"
-                      minLength={3}
-                      maxLength={24}
-                      required
-                    />
-                  </label>
-                  <label>
-                    Nombre visible
-                    <input defaultValue="Brasa" maxLength={60} />
-                  </label>
-                  <label>
-                    Biografía
-                    <textarea
-                      defaultValue="Siempre hay una pieza que cambia el resto."
-                      maxLength={300}
-                      rows={3}
-                    />
-                  </label>
-                  <button className="primary">Guardar perfil</button>
-                </form>
-              </section>
-              <section id="security-settings">
-                <h2>Seguridad</h2>
-                <p>Actualiza la contraseña que usas para entrar.</p>
-                <form
-                  className="surface-form"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setNotice("Vista de confirmación: contraseña actualizada");
-                  }}
-                >
-                  <label>
-                    Nueva contraseña
-                    <input type="password" minLength={8} required />
-                  </label>
-                  <label>
-                    Confirmar contraseña
-                    <input type="password" minLength={8} required />
-                  </label>
-                  <button>Cambiar contraseña</button>
-                </form>
-              </section>
-              <section>
-                <h2>Sesión</h2>
-                <button onClick={() => open("signout")}>Cerrar sesión</button>
-              </section>
-            </div>
-          </div>
-        </>
+        <Account
+          onProfile={showProfile}
+          onPeople={(kind) => {
+            account.showProfile(account.profile.username);
+            open(kind);
+          }}
+          onSignIn={() => open("signin")}
+          onBuilds={() => go("my-builds")}
+        />
       );
     if (view === "admin")
       return (
@@ -1318,7 +1257,27 @@ function App() {
     return null;
   }
   return (
-    <div className="product-study">
+    <div
+      className="product-study"
+      onClickCapture={(e) => {
+        const link = (e.target as Element).closest("a");
+        if (
+          view === "account" &&
+          account.dirty &&
+          link?.getAttribute("href") === "/"
+        ) {
+          e.preventDefault();
+          setPendingNavigation("href:/");
+        }
+      }}
+    >
+      {pendingNavigation && (
+        <LeaveAccount
+          onStay={() => setPendingNavigation(null)}
+          onLeave={leaveAccount}
+        />
+      )}
+
       <Palette
         commands={[
           ...pages.map(([key, label]) => ({
@@ -1510,7 +1469,11 @@ function App() {
               <Shield size={16} />
               Administración
             </button>
-            <button onClick={() => open("signin")}>Iniciar sesión</button>
+            <button
+              onClick={() => open(account.signedIn ? "signout" : "signin")}
+            >
+              {t(account.signedIn ? "auth_signout" : "auth_signin_btn")}
+            </button>
           </div>
         </aside>
         <main className="product-main" id="product-content">

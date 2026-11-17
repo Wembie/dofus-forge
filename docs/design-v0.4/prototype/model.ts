@@ -62,7 +62,9 @@ export async function prepareModel() {
       .filter((item) => item.ankama_id > 0),
   );
   try {
-    const saved = localStorage.getItem(key);
+    const saved =
+      sessionStorage.getItem("forge-design-workspace") ||
+      localStorage.getItem(key);
     const snap = saved && decodeBuild(saved);
     if (snap) build.applySnapshot(snap);
   } catch {
@@ -70,6 +72,16 @@ export async function prepareModel() {
   }
   useHistoryStore.getState().clear();
   trackBuildChange(useBuildStore.getState());
+  window.addEventListener("pagehide", () => {
+    try {
+      sessionStorage.setItem(
+        "forge-design-workspace",
+        encodeBuild(useBuildStore.getState()),
+      );
+    } catch {
+      /* The in-memory build remains available. */
+    }
+  });
 }
 export function saveModel() {
   localStorage.setItem(key, encodeBuild(useBuildStore.getState()));

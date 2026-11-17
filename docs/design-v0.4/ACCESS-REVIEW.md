@@ -46,6 +46,6 @@ node docs/design-v0.4/tools/check-email-templates.mjs
 2. Conectar los eventos reales de confirmación/recuperación y el captcha, incluidos expiración y fallo de carga; conservar el borrador al volver desde un correo. No tratar la demostración local de éxito como una sesión.
 3. Mantener la versión de cada documento y registrar la aceptación con el servicio actual. Los documentos legales no se modificaron.
 4. Instalar y probar los correos en un entorno de prueba. El cambio en Git no modifica la configuración alojada. Revisar Gmail, Outlook y Apple Mail, imágenes bloqueadas y modo oscuro.
-5. Sincronizar estos formularios en Figma como capas editables. Este bloque no actualizó el archivo; su estado pendiente permanece registrado.
+5. Continuar la revisión de estos formularios en el prototipo local. Figma queda archivado y su sincronización deja de ser un pendiente.
 
 Contrato de variables de correo contrastado con la [documentación de Supabase](https://supabase.com/docs/guides/auth/auth-email-templates). La reautenticación usa `{{ .Token }}`; las otras cinco acciones conservan `{{ .ConfirmationURL }}`. Los correos permanecen en inglés como antes; la localización del envío requiere trabajo adicional.

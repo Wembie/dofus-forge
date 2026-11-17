@@ -122,9 +122,11 @@ function LegalChecks({
 export function AuthAccess({
   initialMode,
   onClose,
+  onSignedIn,
 }: {
   initialMode: AccessMode;
   onClose: () => void;
+  onSignedIn?: () => void;
 }) {
   const { t } = useTranslation(),
     [scenario, setScenario] = useState<ResponseMode>("success"),
@@ -163,7 +165,10 @@ export function AuthAccess({
       initialMode === "reset-password" || initialMode === "consent"
         ? "signin"
         : initialMode,
-    onClose: () => setDone(true),
+    onClose: () => {
+      setDone(true);
+      onSignedIn?.();
+    },
     services,
   });
   useEffect(() => {
@@ -185,7 +190,6 @@ export function AuthAccess({
     setVerification("verified");
   }
   function close() {
-    flow.close();
     onClose();
   }
   const titleKey = confirmed

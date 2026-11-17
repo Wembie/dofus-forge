@@ -1,9 +1,10 @@
+import { PeopleDialog, SignOut } from "./Account";
+import { useAccountStudy, publicPerson } from "./account-model";
 import { AuthAccess, type AccessMode } from "./AuthAccess";
 import { useState, type ReactNode } from "react";
 import {
   Check,
   ArrowRight,
-  User,
   Folder,
   Shield,
   RefreshCw,
@@ -101,7 +102,26 @@ export function SurfaceDialogs({
     [pickedTags, setPickedTags] = useState<string[]>([]),
     [selection, setSelection] = useState("");
   if (["signin", "signup", "forgot", "reset-password", "consent"].includes(id))
-    return <AuthAccess initialMode={id as AccessMode} onClose={onClose} />;
+    return (
+      <AuthAccess
+        initialMode={id as AccessMode}
+        onClose={onClose}
+        onSignedIn={() => useAccountStudy.getState().setSignedIn(true)}
+      />
+    );
+  if (id === "followers" || id === "following")
+    return (
+      <PeopleDialog
+        kind={id}
+        userId={publicPerson(useAccountStudy.getState().publicUsername)?.id}
+        onClose={onClose}
+        onProfile={(username) => {
+          useAccountStudy.getState().showProfile(username);
+          onNavigate("profile");
+        }}
+      />
+    );
+  if (id === "signout") return <SignOut onClose={onClose} />;
   const title = dialogs.find((d) => d[0] === id)![1];
   const isPublish = id === "publish" || id === "update-build";
   const submitLabel = isPublish
@@ -345,33 +365,7 @@ export function SurfaceDialogs({
               </button>
             </>
           )}
-          {(id === "followers" || id === "following") && (
-            <>
-              <Field label="Buscar jugador" />
-              {["Brasa", "Caliza", "Nébula"].map((name) => (
-                <div className="person-row" key={name}>
-                  <span className="person-avatar">
-                    <User size={20} />
-                  </span>
-                  <span>
-                    <b>{name}</b>
-                    <small>@{name.toLowerCase()}</small>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.currentTarget.textContent =
-                        e.currentTarget.textContent === "Seguir"
-                          ? "Siguiendo"
-                          : "Seguir";
-                    }}
-                  >
-                    Seguir
-                  </button>
-                </div>
-              ))}
-            </>
-          )}
+
           {id.startsWith("report-") && (
             <>
               <p>
@@ -401,9 +395,7 @@ export function SurfaceDialogs({
               <div className="confirm-object">
                 <img src="/data/classes/iop.webp" alt="" />
                 <span>
-                  <b>
-                    {id === "signout" ? "Tu sesión actual" : "Yopuka · Tierra"}
-                  </b>
+                  <b>{"Yopuka · Tierra"}</b>
                   <small>
                     {id === "restore-version"
                       ? "Versión anterior del build"
@@ -414,9 +406,7 @@ export function SurfaceDialogs({
               <p>
                 {destructive.has(id)
                   ? "Esta acción retira el contenido indicado. El botón principal identifica explícitamente la acción para evitar cambios accidentales."
-                  : id === "signout"
-                    ? "Tu borrador local permanece en este dispositivo."
-                    : "Recupera el contenido seleccionado y vuelve a su contexto."}
+                  : "Recupera el contenido seleccionado y vuelve a su contexto."}
               </p>
             </>
           )}
@@ -629,6 +619,7 @@ export function SurfaceDialogs({
                 ))}
             </nav>
           )}
+
           {![
             "commands",
             "rank-icons",

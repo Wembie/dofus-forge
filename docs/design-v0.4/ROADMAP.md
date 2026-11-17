@@ -6,8 +6,8 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 |---|---|---|---|
 | D0 · Inventario | Inventario y contratos revisados | 290 fuentes inventariadas; 94 TSX y 495 nodos con eventos/destinos; auditoría de datos, controles y Forjadora | Completar comprobación manual de estados secundarios y autenticados |
 | D1 · Identidad | Propuesta creada | Sello vectorial, exploración de marca, paleta, tipografía | Validar símbolo a 16/24/32 px, temas y exportaciones |
-| D2 · Biblioteca | Base creada | 67 variables, 8 estilos, 44 variantes | Completar componentes de dominio, tema Tinta y pruebas visuales |
-| D3 · Experiencia | En curso | Estudio local: taller, 19 rutas, 36 diálogos y 6 estados de vista sobre el store, el motor y la Forjadora del producto. Figma: 14 pantallas anteriores a esta revisión | Revisar con la regla de paridad lo que no se rehízo en esta pasada (catálogo de objetos, compartir, rutas y diálogos de cuenta y comunidad); sincronizar Figma; validar pantallas y estados |
+| D2 · Biblioteca | Base local creada | Tokens CSS, componentes y patrones del estudio | Unificar componentes, contratos y temas para la migración |
+| D3 · Experiencia | En curso | Estudio local: taller, 19 rutas, 36 diálogos y 6 estados de vista sobre el store, el motor y la Forjadora del producto. Figma: 14 pantallas anteriores a esta revisión | Revisar con la regla de paridad lo que no se rehízo en esta pasada (catálogo de objetos, compartir, rutas y diálogos de cuenta y comunidad); validar pantallas, estados y contratos locales |
 | D4 · Validación con personas | Pendiente | Tareas en móvil/escritorio, observaciones y ajustes | Resolver errores críticos de orientación y lectura |
 | I1 · Fundamentos en producto | Pendiente | Tokens, fuentes locales, marca, foco, temas, UI base | Consistencia de componentes e i18n sin cambiar cálculos |
 | I2 · Constructor | Pendiente | Visor central + equipo + ficha + navegación móvil | Personaje preservado, 17 espacios, 73 campos, sin scroll en ficha de referencia |
@@ -18,6 +18,9 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | R0 · Lanzamiento | Pendiente | QA, capturas, changelog, versión y publicación | Criterios de release completos |
 
 ## Estado del estudio local
+
+Desde el 17 de noviembre, el proyecto continúa exclusivamente en local. Figma es un archivo histórico y su sincronización no es un criterio de cierre.
+
 
 «Rediseñado» significa composición nueva en el estudio que consume las reglas del producto. «Adaptación provisional» significa el componente de producción dentro del diálogo nuevo, con sus estilos adaptados: funciona, pero su estructura todavía es la anterior y no cuenta como diseño terminado.
 
@@ -30,6 +33,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | La Forjadora | Rediseñado con las funciones de producción: encargo (objetivos por grupo con mínimo, tope, tope estricto, Ley y sus cinco niveles, aviso de mínimo sin Ley, escala de Leyes), reglas (intensidad, nivel máximo, pergaminos, ranuras con fijados, forjamagia, pasivos por sección y objeto, objetos fijados y vetados con buscador), búsqueda (etapa, calor, tiempo, piezas probadas, calidad, mínimos cumplidos, bitácora, pieza en el yunque, avivar, templar, apagar) y resultados (obra maestra, sobrante, otras piezas, fijar o vetar cada pieza, cargar, reforjar, desde cero, ajustar). Estado y búsqueda en `src/features/optimizer/useForge.ts`; la escena del yunque es la ilustración de producción | `prototype/Forge.tsx` |
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
+| Cuenta y perfil público | Composición propia con edición, guardado parcial, contraseña, sesión, navegación con cambios pendientes y listas de personas; ejemplos locales en cuatro idiomas | `prototype/Account.tsx`, [revisión de cuenta](ACCOUNT-REVIEW.md) |
 | Login, registro, recuperar acceso, nueva contraseña y consentimiento | Composición propia, cuatro idiomas y cinco tamaños en ambos temas; login/registro/recuperación usan `useAuthFlow` compartido con producción, con servicios locales en el estudio. Recuperación por evento y aceptación real pendientes de integrar | `prototype/AuthAccess.tsx`, [revisión de acceso](ACCESS-REVIEW.md) |
 | Correos de acceso | Seis HTML con identidad Mineral y variables de Supabase conservadas; validados a 600/360 px. Instalación y prueba de entrega pendientes | `supabase/email-templates/` |
 | Distribuir características | Rediseñado con las funciones de producción: −/+ de uno en uno que repiten al mantener (Mayús ×5, Ctrl ×20), valor escrito, pergaminos uno a uno o todos, potencia y lo que suman los pasivos en vista de combate. Añade «Máx.» por característica | `prototype/Characteristics.tsx` |
@@ -57,22 +61,14 @@ Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presenta
 2. Migrar `src/ui` y shell compartido. Sustituir logo mediante `src/data/brand.ts`; preparar favicons, OG y exportación en los cuatro idiomas.
 3. Extraer la composición de `EquipmentGrid` sin alterar `buildStore`. Mantener un visor activo y sus monturas/mascotas. Slots y canvas conservan identidad al cambiar el viewport.
 4. Crear `StatsOverview` y `StatsSheet` como consumidores de `StatBlock`. Compartir descriptor de estadísticas con comparación y exportaciones; no duplicar etiquetas ni fórmulas.
-5. Reorganizar navegación móvil y catálogo. Conservar virtualización y carga de datos existente. Los prototipos estáticos de Figma no reemplazan este trabajo.
+5. Reorganizar navegación móvil y catálogo. Conservar virtualización y carga de datos existente y validar los recorridos en el navegador local.
 6. Integrar los flujos de la matriz, uno por cambio revisable. Mantener undo/redo, enlaces, SSR/prerender y variantes de idioma.
-7. Crear y validar Code Connect cuando las interfaces definitivas de componentes existan. Los IDs de Figma registrados hoy no equivalen a un mapeo publicado.
+7. Unificar los componentes del estudio con las interfaces definitivas de producción; retirar adaptadores provisionales y duplicación de presentación.
 8. Probar todas las rutas y estados. Actualizar `VERSION`, `package.json` y ambos changelogs únicamente al preparar la release real.
 
-## Bloqueo de Figma y continuación
+## Referencia local
 
-El límite de llamadas Starter impidió la última auditoría visual y el cambio del personaje central. Pendientes concretos:
-
-- Reemplazar el constructor `3:861` y el móvil `3:1383` por la composición actual `prototype/`; usar su paleta y tipografía revisadas.
-- Ajustar el catálogo y sus enlaces de móvil para permanecer dentro del flujo móvil.
-- Revisar alturas de Forjadora, tabla de comparación, build pública, guía y ficha completa; los frames no cuentan con revisión final.
-- Corregir los colores elementales oscuros para mantener distinción semántica.
-- Alinear cifras ilustrativas entre las pantallas o capturar valores calculados del prototipo.
-- Añadir componentes completos de objeto, etapa del personaje, navegación, selector, panoplia, hechizo, tooltip, diálogo y notificación.
-- Crear specimen de variantes, verificar bindings y exportar capturas finales.
+`prototype/`, `captures/` y `checks/` son la referencia vigente. El archivo histórico de Figma no se mantiene ni bloquea la migración. El cierre exige revisión de las rutas locales, paridad funcional y validación con jugadores.
 
 ## Criterios de release
 
@@ -86,4 +82,4 @@ El límite de llamadas Starter impidió la última auditoría visual y el cambio
 - [ ] Motor, pasivos, condiciones, equipo y optimizador con regresiones existentes en verde.
 - [ ] Carga inicial y coste del visor medidos respecto a la versión anterior; recursos del juego sin duplicación innecesaria.
 - [ ] Marca y exportaciones terminadas, metadatos y páginas legales conservados.
-- [ ] QA de Figma y validación con personas completadas.
+- [ ] QA del prototipo local y validación con personas completadas.
