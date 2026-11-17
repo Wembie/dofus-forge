@@ -1,4 +1,11 @@
 import { Explore } from "./Explore";
+import { BuildDetail } from "./BuildDetail";
+import {
+  detailFromExplore,
+  detailFromLibrary,
+  openBuildDetail,
+  useBuildDetailStudy,
+} from "./build-detail-model";
 import {
   seedExplore,
   useExploreStudy,
@@ -6,9 +13,8 @@ import {
   type ExploreRecord,
 } from "./explore-model";
 import { BuildActivity, type BuildActivityValues } from "./BuildActivity";
-import { encodeSnapshot } from "../../../src/features/share/codec";
 import { Library } from "./Library";
-import { seedLibrary, useLibraryStudy, librarySnapshot } from "./library-model";
+import { seedLibrary, useLibraryStudy } from "./library-model";
 import {
   Account,
   PublicProfile,
@@ -38,7 +44,6 @@ import {
   Compass,
   Folder,
   Hammer,
-  Heart,
   Menu,
   MoreHorizontal,
   Plus,
@@ -50,18 +55,15 @@ import {
   X,
 } from "lucide-react";
 import es from "../../../public/locales/es/translation.json";
-import { useBuildStore } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
 import { CLASS_DATA } from "../../../src/features/class-picker/classData";
 import { resolveClassName } from "../../../src/features/class-picker/useClassName";
-import { CharacterStage } from "../../../src/components/CharacterStage";
 import { LegalBody } from "../../../src/components/LegalBody";
 import { Sets } from "./Sets";
 import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import { prepareModel, equipment, seedItems, visibleSlots } from "./model";
 import {
   BuildSheet,
-  sheetStats,
   sheetVitals,
   type SheetBuild,
 } from "./BuildSheet";
@@ -304,7 +306,7 @@ function Action({
 }
 function App() {
   const { t } = useAccountLocale();
-  const liveStats = useBuildStore((s) => s.stats);
+  const detail = useBuildDetailStudy();
   const explore = useExploreStudy(),
     [exploreDetail, setExploreDetail] = useState<ExploreRecord | null>(
       () =>
@@ -317,13 +319,10 @@ function App() {
     [pendingExploreSave, setPendingExploreSave] =
       useState<ExploreRecord | null>(null);
   const library = useLibraryStudy(),
-    [detailSelection, setDetailSelection] = useState<string | null>(null);
-  const detailBuild =
-      exploreDetail || library.builds.find((b) => b.id === detailSelection),
-    detailItems = detailBuild
-      ? visibleSlots.map((slot) => detailBuild.sheet.slots[slot] || 0)
-      : seedItems,
-    detailStats = detailBuild ? sheetStats(detailBuild.sheet) : liveStats;
+    // ?build= opens one of the library's builds (yours or a saved one), as /build/:id does.
+    [detailSelection, setDetailSelection] = useState<string | null>(() =>
+      new URLSearchParams(location.search).get("build"),
+    );
   const account = useAccountStudy(),
     [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
   function showProfile(username: string) {
@@ -369,6 +368,18 @@ function App() {
   useEffect(() => {
     if (view === "class") void data.loadSpells("es", classId);
   }, [view, classId]);
+  useEffect(() => {
+    if (view !== "build") return;
+    const owned = library.builds.find((b) => b.id === detailSelection),
+      record = exploreDetail ?? (owned ? null : explore.records[0]);
+    openBuildDetail(
+      record
+        ? detailFromExplore(record)
+        : owned
+          ? detailFromLibrary(owned)
+          : null,
+    );
+  }, [view, exploreDetail, detailSelection]);
   useEffect(() => {
     if (notice) {
       const timer = setTimeout(() => setNotice(""), 4500);
@@ -761,6 +772,7 @@ function App() {
             setDetailSelection(b.id);
             setExploreDetail(null);
             go("build");
+            history.replaceState(null, "", "?view=build&build=" + b.id);
           }}
           onSignIn={() => open("signin")}
         />
@@ -780,175 +792,43 @@ function App() {
       );
     if (view === "build")
       return (
-        <>
-          {hero(
-            "BUILD DE LA COMUNIDAD",
-            detailBuild?.sheet.name || "Yopuka · Tierra",
-            detailBuild
-              ? `${detailBuild.owner} · ${t("level_short", { level: detailBuild.sheet.level })}`
-              : "Por Brasa · Nivel 200 · PvM",
-            <a
-              className="primary product-anchor"
-              href={
-                detailBuild
-                  ? "/?b=" + encodeSnapshot(librarySnapshot(detailBuild))
-                  : "/"
-              }
-            >
-              Abrir en mi taller <ArrowUpRight size={18} />
-            </a>,
-          )}
-          <div className="detail-actions">
-            <Action
-              onClick={() => setNotice("Me gusta seleccionado en el ejemplo")}
-            >
-              <Heart size={16} />
-              Me gusta
-            </Action>
-            <Action onClick={() => open("collection-picker")}>
-              <Folder size={16} />
-              Guardar
-            </Action>
-            <Action onClick={() => setTool("share")}>Compartir</Action>
-            <Action onClick={() => open("report-build")}>Reportar</Action>
-            <Action onClick={() => open("update-build")}>
-              Editar publicación
-            </Action>
-          </div>
-          <div className="public-build-layout">
-            <div className="public-character">
-              {detailBuild ? (
-                <BuildSheet build={detailBuild.sheet} items={equipment} />
-              ) : (
-                <CharacterStage
-                  breed={8}
-                  gender="male"
-                  width={240}
-                  height={330}
-                />
-              )}
-              <span>{detailBuild?.sheet.name || "YOPUKA · TIERRA"}</span>
-              <div className="public-eggs">
-                {detailItems
-                  .slice(9, 15)
-                  .filter((id) => equipment.has(id))
-                  .map((id) => (
-                    <img
-                      key={id}
-                      src={equipment.get(id)?.image_url || ""}
-                      alt={equipment.get(id)?.name}
-                    />
-                  ))}
-              </div>
-            </div>
-            <section>
-              <h2>El equipo, de un vistazo.</h2>
-              <div className="public-metrics">
-                {[
-                  ["PV", detailStats?.maxHp],
-                  ["PA", detailStats?.ap],
-                  ["PM", detailStats?.mp],
-                  ["Alcance", detailStats?.range],
-                  ["Fuerza", detailStats?.strength],
-                  ["Potencia", detailStats?.power],
-                ].map(([label, v]) => (
-                  <div key={label}>
-                    <span>{label}</span>
-                    <b>{v}</b>
-                  </div>
-                ))}
-              </div>
-              <div className="public-gear">
-                {detailItems
-                  .slice(0, 9)
-                  .filter((id) => equipment.has(id))
-                  .map((id) => (
-                    <button key={id} onClick={() => setTool("bonuses")}>
-                      <img src={equipment.get(id)?.image_url || ""} alt="" />
-                      <span>{equipment.get(id)?.name}</span>
-                    </button>
-                  ))}
-              </div>
-              <div className="detail-actions">
-                <button onClick={() => setTool("passives")}>Pasivos</button>
-                <button onClick={() => setTool("spells")}>Hechizos</button>
-                <button onClick={() => setTool("compare")}>Comparar</button>
-              </div>
-            </section>
-          </div>
-          {tabs(["Comentarios", "Historial", "Valoración"])}
-          {tab === "Historial" ? (
-            <div className="version-list">
-              {["Versión actual", "Versión anterior"].map((n, i) => (
-                <div key={n}>
-                  <span>0{2 - i}</span>
-                  <b>{n}</b>
-                  <button onClick={() => open("restore-version")}>
-                    Restaurar esta versión
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : tab === "Valoración" ? (
-            <div className="rating-row">
-              <p>Tu valoración</p>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <button
-                  key={n}
-                  aria-label={`Valorar con ${n} estrellas`}
-                  onClick={() =>
-                    setNotice(`Valoración de ejemplo: ${n} estrellas`)
-                  }
-                >
-                  <Star size={24} />
-                </button>
-              ))}
-            </div>
-          ) : (
-            <section className="comments">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setNotice("Comentario de ejemplo listo para revisión");
-                }}
-              >
-                <label htmlFor="comment">
-                  Añade algo útil a la conversación
-                </label>
-                <div>
-                  <input
-                    id="comment"
-                    required
-                    placeholder="¿Qué cambiarías en esta build?"
-                  />
-                  <button className="primary">Comentar</button>
-                </div>
-              </form>
-              <article>
-                <div>
-                  <span className="person-avatar">C</span>
-                  <b>Caliza</b>
-                  <small>Ejemplo</small>
-                  <button onClick={() => open("report-comment")}>
-                    Reportar
-                  </button>
-                  <button onClick={() => open("delete-comment")}>
-                    Eliminar
-                  </button>
-                </div>
-                <p>Una buena base para comparar alternativas.</p>
-                <button
-                  onClick={() =>
-                    setNotice("Me gusta del comentario seleccionado")
-                  }
-                >
-                  <Heart size={14} />
-                  Me gusta
-                </button>
-              </article>
-            </section>
-          )}
-        </>
+        <BuildDetail
+          onBack={() => go("explore")}
+          onAuthor={(username) => {
+            showProfile(username);
+            history.replaceState(
+              null,
+              "",
+              "?view=profile&player=" + encodeURIComponent(username),
+            );
+          }}
+          onOpenBuild={(id) => {
+            const record = explore.records.find((r) => r.id === id);
+            if (!record) return;
+            setDetailSelection(null);
+            setExploreDetail(record);
+            history.replaceState(null, "", "?view=build&example=" + id);
+            window.scrollTo(0, 0);
+          }}
+          onTag={(tag) => {
+            go("explore");
+            // Explore reads the URL the first time it opens, like /explore?tag= does.
+            history.replaceState(
+              null,
+              "",
+              "?view=explore&tag=" + encodeURIComponent(tag),
+            );
+            if (explore.initialized)
+              explore.setFilters({ search: "", classId: "", tag });
+          }}
+          onSignIn={() => open("signin")}
+          onCollection={(build) => {
+            const record = explore.records.find((r) => r.id === build.id);
+            if (record) rememberExploreBuild(record);
+            else useLibraryStudy.getState().selectBuild(build.id);
+            open("collection-picker");
+          }}
+        />
       );
     if (view === "sets") {
       const results = sets
@@ -1344,7 +1224,13 @@ function App() {
           <select
             aria-label="Estado de la vista"
             value={
-              view === "explore"
+              view === "build"
+                ? detail.scene === "loading"
+                  ? "loading"
+                  : detail.scene === "not-found"
+                    ? "missing"
+                    : "ready"
+                : view === "explore"
                 ? explore.scene === "loading"
                   ? "loading"
                   : explore.scene === "empty"
@@ -1355,7 +1241,15 @@ function App() {
                 : state
             }
             onChange={(e) => {
-              if (view === "explore")
+              if (view === "build")
+                detail.setScene(
+                  e.target.value === "loading"
+                    ? "loading"
+                    : e.target.value === "missing"
+                      ? "not-found"
+                      : "normal",
+                );
+              else if (view === "explore")
                 explore.setScene(
                   (
                     {
@@ -1372,8 +1266,10 @@ function App() {
             {states
               .filter(
                 (s) =>
-                  view !== "explore" ||
-                  ["ready", "empty", "loading", "error"].includes(s[0]),
+                  view === "build"
+                    ? ["ready", "loading", "missing"].includes(s[0])
+                    : view !== "explore" ||
+                      ["ready", "empty", "loading", "error"].includes(s[0]),
               )
               .map((s) => (
                 <option key={s[0]} value={s[0]}>
@@ -1519,7 +1415,7 @@ function App() {
           </div>
         </aside>
         <main className="product-main" id="product-content">
-          {state === "ready" || view === "explore" ? (
+          {state === "ready" || view === "explore" || view === "build" ? (
             Content()
           ) : (
             <>

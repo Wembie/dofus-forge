@@ -1,3 +1,4 @@
+import { BuildDetailDialog } from "./BuildDetail";
 import { LibraryDialog } from "./Library";
 import { libraryDialogIds, type LibraryDialogId } from "./library-model";
 import { PeopleDialog, SignOut } from "./Account";
@@ -81,7 +82,6 @@ const destructive = new Set<DialogId>([
 ]);
 const confirmations = new Set<DialogId>([
   ...destructive,
-  "restore-version",
   "restore-content",
   "signout",
 ]);
@@ -124,6 +124,12 @@ export function SurfaceDialogs({
       />
     );
   if (id === "signout") return <SignOut onClose={onClose} />;
+  if (
+    id === "report-build" ||
+    id === "report-comment" ||
+    id === "restore-version"
+  )
+    return <BuildDetailDialog id={id} onClose={onClose} />;
   if (libraryDialogIds.includes(id))
     return (
       <LibraryDialog
@@ -138,9 +144,7 @@ export function SurfaceDialogs({
     ? id === "publish"
       ? "Publicar build"
       : "Guardar nueva versión"
-    : id.startsWith("report-")
-      ? "Enviar reporte"
-      : confirmations.has(id)
+    : confirmations.has(id)
         ? title
         : "Guardar cambios";
   return (
@@ -342,30 +346,6 @@ export function SurfaceDialogs({
             </>
           )}
 
-          {id.startsWith("report-") && (
-            <>
-              <p>
-                {id === "report-comment"
-                  ? "Reportar el comentario de Brasa."
-                  : "Reportar Yopuka · Tierra."}{" "}
-                Selecciona el motivo para que el equipo pueda revisarlo.
-              </p>
-              <Choice
-                label="Motivo"
-                options={[
-                  "Spam",
-                  "Datos incorrectos",
-                  "Contenido inapropiado",
-                  "Otro",
-                ]}
-              />
-              <label>
-                Detalle (opcional)
-                <textarea rows={4} maxLength={500} />
-              </label>
-              <small>500 caracteres como máximo.</small>
-            </>
-          )}
           {confirmations.has(id) && (
             <>
               <div className="confirm-object">
@@ -373,9 +353,7 @@ export function SurfaceDialogs({
                 <span>
                   <b>{"Yopuka · Tierra"}</b>
                   <small>
-                    {id === "restore-version"
-                      ? "Versión anterior del build"
-                      : "Revisa el objeto de esta acción antes de continuar."}
+                    Revisa el objeto de esta acción antes de continuar.
                   </small>
                 </span>
               </div>

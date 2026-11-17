@@ -321,7 +321,7 @@ await expect(page.locator(".explore-card")).toHaveCount(3);
 await page.locator(".explore-card").first().scrollIntoViewIfNeeded();
 const selected = await page.locator(".explore-card h2").first().innerText();
 await page.locator(".explore-card-open").first().click();
-await expect(page.locator(".product-heading h1")).toHaveText(selected);
+await expect(page.locator(".detail-hero h1")).toHaveText(selected);
 const detailUrl = page.url();
 await page
   .getByLabel("Vista del producto", { exact: true })
@@ -433,7 +433,7 @@ await page
 await ready(page);
 await expect(page).not.toHaveURL(/tag=/);
 await page.goto(detailUrl, { waitUntil: "networkidle" });
-await expect(page.locator(".product-heading h1")).toHaveText(selected);
+await expect(page.locator(".detail-hero h1")).toHaveText(selected);
 await page.goto(
   "http://127.0.0.1:4404/surfaces.html?view=profile&player=caliza",
   { waitUntil: "networkidle" },

@@ -465,10 +465,10 @@
     "kind": "dialog",
     "id": "report-build",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
     },
     "focusReturned": true,
     "violations": [],
@@ -479,10 +479,10 @@
     "kind": "dialog",
     "id": "report-comment",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
     },
     "focusReturned": true,
     "violations": [],
@@ -507,10 +507,10 @@
     "kind": "dialog",
     "id": "restore-version",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
     },
     "focusReturned": true,
     "violations": [],
