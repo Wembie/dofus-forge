@@ -62,12 +62,21 @@ export async function prepareModel() {
       .filter((item) => item.ankama_id > 0),
   );
   try {
-    const saved =
-      new URLSearchParams(location.search).get("b") ||
-      sessionStorage.getItem("forge-design-workspace") ||
-      localStorage.getItem(key);
+    const params = new URLSearchParams(location.search),
+      linked = params.get("b"),
+      saved =
+        linked ||
+        sessionStorage.getItem("forge-design-workspace") ||
+        localStorage.getItem(key);
     const snap = saved && decodeBuild(saved);
     if (snap) build.applySnapshot(snap);
+    // As useBuildUrl: a link from a build page carries &edit= (yours) or &fork= (a remix).
+    if (snap && linked) {
+      const edit = params.get("edit"),
+        fork = params.get("fork");
+      if (edit) build.setLinkedBuildId(edit);
+      else if (fork) build.setForkOf(fork);
+    }
   } catch {
     /* Default build remains available. */
   }

@@ -9,7 +9,11 @@ import type { SheetBuild } from "./BuildSheet";
 import type { BuildActivityValues } from "./BuildActivity";
 import { useAccountStudy } from "./account-model";
 import { useLibraryStudy, type LibraryBuild } from "./library-model";
-import { useExploreStudy, type ExploreRecord } from "./explore-model";
+import {
+  exploreTags,
+  useExploreStudy,
+  type ExploreRecord,
+} from "./explore-model";
 
 /** What the page needs from a build row, whichever list it was opened from. */
 export type DetailBuild = {
@@ -87,7 +91,7 @@ export function detailFromLibrary(b: LibraryBuild): DetailBuild {
     owner: b.owner,
     visibility: b.visibility,
     featured: false,
-    tags: [],
+    tags: exploreTags.filter((t) => b.tagIds?.includes(t.id)),
     activity: {
       avg_rating: b.rating,
       rating_count: b.rating ? 6 : 0,

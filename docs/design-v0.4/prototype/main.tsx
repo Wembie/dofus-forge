@@ -457,7 +457,7 @@ function App() {
           id={surface}
           onClose={() => setSurface(null)}
           onOpen={(next) =>
-            next === "settings" || next === "publish"
+            next === "settings" || next === "publish" || next === "signin"
               ? setSurface(next)
               : location.assign("/surfaces.html?dialog=" + next)
           }
@@ -583,7 +583,7 @@ function App() {
             onClick={() => setSurface("publish")}
           >
             <PalettePublish size={16} />
-            Publicar
+            {build.linkedBuildId ? "Actualizar" : "Publicar"}
           </button>
           <button
             className="primary"

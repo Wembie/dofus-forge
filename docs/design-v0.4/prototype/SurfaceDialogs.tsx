@@ -1,4 +1,5 @@
 import { BuildDetailDialog } from "./BuildDetail";
+import { PublishDialog } from "./Publish";
 import { LibraryDialog } from "./Library";
 import { libraryDialogIds, type LibraryDialogId } from "./library-model";
 import { PeopleDialog, SignOut } from "./Account";
@@ -92,16 +93,18 @@ export function SurfaceDialogs({
   onClose,
   onOpen,
   onNavigate,
+  onPublished = (build) =>
+    location.assign("/surfaces.html?view=build&build=" + build),
 }: {
   id: DialogId;
   onClose: () => void;
   onOpen: (id: DialogId) => void;
   onNavigate: (id: string) => void;
+  /** Production lands on the published build's page. */
+  onPublished?: (id: string) => void;
 }) {
   const [state, setState] = useState("form"),
-    [choice, setChoice] = useState("private"),
     [commandQuery, setCommandQuery] = useState(""),
-    [pickedTags, setPickedTags] = useState<string[]>([]),
     [selection, setSelection] = useState("");
   if (["signin", "signup", "forgot", "reset-password", "consent"].includes(id))
     return (
@@ -130,6 +133,19 @@ export function SurfaceDialogs({
     id === "restore-version"
   )
     return <BuildDetailDialog id={id} onClose={onClose} />;
+  if (id === "publish" || id === "update-build")
+    return (
+      <PublishDialog
+        update={id === "update-build"}
+        onClose={onClose}
+        onSignIn={() => onOpen("signin")}
+        onNavigate={onNavigate}
+        onPublished={(build) => {
+          onClose();
+          onPublished(build);
+        }}
+      />
+    );
   if (libraryDialogIds.includes(id))
     return (
       <LibraryDialog
@@ -139,12 +155,7 @@ export function SurfaceDialogs({
       />
     );
   const title = dialogs.find((d) => d[0] === id)![1];
-  const isPublish = id === "publish" || id === "update-build";
-  const submitLabel = isPublish
-    ? id === "publish"
-      ? "Publicar build"
-      : "Guardar nueva versión"
-    : confirmations.has(id)
+  const submitLabel = confirmations.has(id)
         ? title
         : "Guardar cambios";
   return (
@@ -264,85 +275,6 @@ export function SurfaceDialogs({
                     </button>
                   ))}
               </nav>
-            </>
-          )}
-
-          {isPublish && (
-            <Field
-              label="Nombre del build"
-              value="Yopuka · Tierra"
-              required
-              maxLength={60}
-            />
-          )}
-          {isPublish && (
-            <fieldset className="choice-list">
-              <legend>Quién puede verlo</legend>
-              {[
-                ["private", "Privado", "Solo tú puedes acceder."],
-                [
-                  "unlisted",
-                  "Con enlace",
-                  "Disponible para quien tenga el enlace.",
-                ],
-                ["public", "Público", "Aparece en Explorar y en tu perfil."],
-              ].map(([v, label, desc]) => (
-                <label key={v} className={choice === v ? "selected" : ""}>
-                  <input
-                    type="radio"
-                    name="visibility"
-                    value={v}
-                    checked={choice === v}
-                    onChange={() => setChoice(v)}
-                  />
-                  <span>
-                    <strong>{label}</strong>
-                    <small>{desc}</small>
-                  </span>
-                </label>
-              ))}
-            </fieldset>
-          )}
-          {isPublish && (
-            <>
-              <fieldset className="tag-options">
-                <legend>
-                  Etiquetas <small>{pickedTags.length} / 5</small>
-                </legend>
-                {[
-                  "PvM",
-                  "PvP",
-                  "Tierra",
-                  "Fuego",
-                  "Agua",
-                  "Aire",
-                  "Multielemento",
-                  "Económico",
-                ].map((s) => (
-                  <label className="check-field" key={s}>
-                    <input
-                      type="checkbox"
-                      checked={pickedTags.includes(s)}
-                      disabled={
-                        !pickedTags.includes(s) && pickedTags.length >= 5
-                      }
-                      onChange={() =>
-                        setPickedTags(
-                          pickedTags.includes(s)
-                            ? pickedTags.filter((v) => v !== s)
-                            : [...pickedTags, s],
-                        )
-                      }
-                    />
-                    {s}
-                  </label>
-                ))}
-              </fieldset>
-              {id === "update-build" && (
-                <p>
-                  La nueva versión conserva el enlace del build y su historial.
-                </p>
-              )}
             </>
           )}
 

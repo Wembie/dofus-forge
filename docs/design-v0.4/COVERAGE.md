@@ -40,7 +40,7 @@ Inventario basado en `src/routes.ts`, `src/pages` y `src/features`. «Plantilla�
 | notifications | Leído/no leído, vacío, carga y destino |
 | optimizer | Configuración, piezas fijas, cancelación, explicación y resultados |
 | passives | Equipo/combate, controles, condiciones y deltas |
-| publish | Metadatos, visibilidad, publicar/actualizar y errores |
+| publish | Composición local propia (`prototype/Publish.tsx`): nueva, actualizar, remix, enlace ajeno, sin sesión, cargando la publicación, error, límite y etiquetas no disponibles. Pendiente integrar `publishBuild`, `updateBuild`, `setBuildTags` y `fetchBuildById` reales |
 | pvp | Parámetros del objetivo y contexto de combate |
 | ranks | Visualización y administración coherentes |
 | set-guide | Lectura de piezas y bonos por tier |

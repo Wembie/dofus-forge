@@ -72,6 +72,7 @@ La actividad de las tarjetas tiene 44 comprobaciones en `checks/build-activity.j
 | [`captures/explorar`](captures/explorar) | Actividad de las tarjetas de Explorar y perfil, ambos temas y cuatro idiomas | `check-build-activity.mjs` |
 | [`captures/explorar-experiencia`](captures/explorar-experiencia) | Explorar completo: resumen, filtros, resultados filtrados, carga, vacío, errores y cifras en cero o sin Forjadora; ambos temas, escritorio y móvil, cuatro idiomas | `check-explore.mjs` |
 | [`captures/detalle-build`](captures/detalle-build) | Detalle de build: visitante, dueño, sin sesión, administración, reportar, restaurar versión, remix, remix retirado, sin actividad, no disponible y cargando; ambos temas, escritorio y móvil, cuatro idiomas | `check-build-detail.mjs` |
+| [`captures/publicar`](captures/publicar) | Publicar y actualizar build: nueva, actualizar, remix, etiquetas completas, error, límite, etiquetas no disponibles, cargando la publicación y sin sesión; ambos temas, escritorio y móvil, cuatro idiomas | `check-publish.mjs` |
 | [`captures/identidad`](captures/identidad) | Exploración de marca | — |
 
 [Decisiones y validación](DESIGN-REVIEW.md)

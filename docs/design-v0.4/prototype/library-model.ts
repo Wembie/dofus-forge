@@ -14,6 +14,8 @@ export interface LibraryBuild {
   comments: number;
   rating: number;
   updated: string;
+  /** Tag ids chosen when publishing from the study. */
+  tagIds?: number[];
 }
 export interface LibraryCollection {
   id: string;

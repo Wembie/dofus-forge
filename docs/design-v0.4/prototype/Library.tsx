@@ -883,7 +883,7 @@ export function Library({
   );
 }
 
-function PrivacyChoices({
+export function PrivacyChoices({
   value,
   onChange,
   collection = false,

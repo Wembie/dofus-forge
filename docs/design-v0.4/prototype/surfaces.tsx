@@ -1,5 +1,6 @@
 import { Explore } from "./Explore";
 import { BuildDetail } from "./BuildDetail";
+import { restorePublished } from "./publish-model";
 import {
   detailFromExplore,
   detailFromLibrary,
@@ -1471,6 +1472,12 @@ function App() {
           }}
           onOpen={open}
           onNavigate={go}
+          onPublished={(id) => {
+            setExploreDetail(null);
+            setDetailSelection(id);
+            go("build");
+            history.replaceState(null, "", "?view=build&build=" + id);
+          }}
         />
       )}
       <WorkspaceTools tool={tool} onClose={() => setTool(null)} />
@@ -1513,6 +1520,7 @@ void i18n
       activity: activityExamples[i],
     }));
     seedLibrary(examples);
+    restorePublished();
     seedExplore(examples);
     const player = new URLSearchParams(location.search).get("player");
     if (player) useAccountStudy.getState().showProfile(player);
