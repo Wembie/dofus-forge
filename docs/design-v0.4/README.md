@@ -70,6 +70,7 @@ La actividad de las tarjetas tiene 44 comprobaciones en `checks/build-activity.j
 | [`captures/cuenta`](captures/cuenta) | Cuenta, seguridad, sesión, listas de personas, perfiles y errores; cinco tamaños, dos temas y cuatro idiomas | `check-account.mjs` |
 | [`captures/biblioteca`](captures/biblioteca) | Mis builds, Guardadas, colecciones, propietario/visitante y siete diálogos | `check-library.mjs` |
 | [`captures/explorar`](captures/explorar) | Actividad de las tarjetas de Explorar y perfil, ambos temas y cuatro idiomas | `check-build-activity.mjs` |
+| [`captures/explorar-experiencia`](captures/explorar-experiencia) | Explorar completo: resumen, filtros, resultados filtrados, carga, vacío, errores y cifras en cero o sin Forjadora; ambos temas, escritorio y móvil, cuatro idiomas | `check-explore.mjs` |
 | [`captures/identidad`](captures/identidad) | Exploración de marca | — |
 
 [Decisiones y validación](DESIGN-REVIEW.md)

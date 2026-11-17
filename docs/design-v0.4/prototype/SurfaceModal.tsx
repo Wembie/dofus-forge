@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { ModalProps } from "../../../src/ui/Modal";
 
 /** Study-only presentation. Native dialog provides focus containment and top-layer stacking. */
@@ -14,6 +15,7 @@ export function Modal({
   className = "",
   children,
 }: ModalProps) {
+  const { t } = useTranslation();
   const ref = useRef<HTMLDialogElement>(null),
     id = useId();
   useEffect(() => {
@@ -57,7 +59,7 @@ export function Modal({
         <button
           className="icon-button"
           onClick={onClose}
-          aria-label="Cerrar ventana"
+          aria-label={t("modal_close")}
         >
           <X size={20} />
         </button>

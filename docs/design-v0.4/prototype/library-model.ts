@@ -260,7 +260,7 @@ export function collectionBuilds(c: LibraryCollection, visitor: boolean) {
         (b.visibility === "unlisted" && b.owner === "brasa"),
     );
 }
-export function librarySnapshot(b: LibraryBuild): BuildSnapshot {
+export function librarySnapshot(b: Pick<LibraryBuild, "sheet">): BuildSnapshot {
   const a = b.sheet.allocated || {};
   return {
     v: 1,

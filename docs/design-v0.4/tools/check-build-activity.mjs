@@ -83,6 +83,10 @@ for (const [device, width, height] of [
       await page
         .getByRole("button", { name: "Cambiar tema", exact: true })
         .click();
+    await page.locator(".explore-sort select").selectOption("recent");
+    await expect(page.locator(".explore-card h2").nth(1)).toHaveText(
+      "El filo paciente",
+    );
     await expect(page.locator(".build-activity")).toHaveCount(6);
     await expect(
       page.locator(".build-activity-counts").first().locator("dt"),

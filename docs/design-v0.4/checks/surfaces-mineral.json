@@ -241,10 +241,10 @@
     "kind": "dialog",
     "id": "signin",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
     },
     "focusReturned": true,
     "violations": [],
@@ -255,10 +255,10 @@
     "kind": "dialog",
     "id": "signup",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
     },
     "focusReturned": true,
     "violations": [],
@@ -269,10 +269,10 @@
     "kind": "dialog",
     "id": "forgot",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
     },
     "focusReturned": true,
     "violations": [],
@@ -283,10 +283,10 @@
     "kind": "dialog",
     "id": "reset-password",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
     },
     "focusReturned": true,
     "violations": [],
@@ -297,10 +297,10 @@
     "kind": "dialog",
     "id": "consent",
     "geometry": {
-      "width": 618,
-      "scrollWidth": 618,
-      "contentWidth": 618,
-      "contentScrollWidth": 618
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
     },
     "focusReturned": true,
     "violations": [],

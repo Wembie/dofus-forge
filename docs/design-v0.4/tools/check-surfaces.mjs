@@ -130,6 +130,10 @@ for (const [device, width, height] of [
       axe.violations.map((v) => v.id),
     );
   }
+  // Explore and the build page drive their own scenes; the generic states are reviewed on a plain page.
+  await page
+    .getByLabel("Vista del producto", { exact: true })
+    .selectOption("about");
   for (const state of [
     "empty",
     "loading",

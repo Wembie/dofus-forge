@@ -1,3 +1,10 @@
+import { Explore } from "./Explore";
+import {
+  seedExplore,
+  useExploreStudy,
+  rememberExploreBuild,
+  type ExploreRecord,
+} from "./explore-model";
 import { BuildActivity, type BuildActivityValues } from "./BuildActivity";
 import { encodeSnapshot } from "../../../src/features/share/codec";
 import { Library } from "./Library";
@@ -37,7 +44,6 @@ import {
   Plus,
   Search,
   Shield,
-  SlidersHorizontal,
   Star,
   Sun,
   User,
@@ -299,9 +305,21 @@ function Action({
 function App() {
   const { t } = useAccountLocale();
   const liveStats = useBuildStore((s) => s.stats);
+  const explore = useExploreStudy(),
+    [exploreDetail, setExploreDetail] = useState<ExploreRecord | null>(
+      () =>
+        useExploreStudy
+          .getState()
+          .records.find(
+            (r) => r.id === new URLSearchParams(location.search).get("example"),
+          ) || null,
+    ),
+    [pendingExploreSave, setPendingExploreSave] =
+      useState<ExploreRecord | null>(null);
   const library = useLibraryStudy(),
     [detailSelection, setDetailSelection] = useState<string | null>(null);
-  const detailBuild = library.builds.find((b) => b.id === detailSelection),
+  const detailBuild =
+      exploreDetail || library.builds.find((b) => b.id === detailSelection),
     detailItems = detailBuild
       ? visibleSlots.map((slot) => detailBuild.sheet.slots[slot] || 0)
       : seedItems,
@@ -458,6 +476,7 @@ function App() {
               className="build-card-open"
               onClick={() => {
                 setDetailSelection(null);
+                setExploreDetail(null);
                 go("build");
               }}
             >
@@ -706,66 +725,29 @@ function App() {
       return <Editorial />;
     if (view === "explore")
       return (
-        <>
-          {hero(
-            "LA COMUNIDAD",
-            "Encuentra tu próxima build.",
-            "Equipo, decisiones y nuevas formas de jugar. Empieza por tu clase.",
-            <img
-              className="hero-dofus"
-              src="/design-assets/item-972.png"
-              alt="Dofus"
-            />,
-          )}
-          <div className="explore-tools">
-            {search("Buscar una build")}
-            <label>
-              Ordenar
-              <select>
-                <option>Mejor valoradas</option>
-                <option>Más recientes</option>
-                <option>Más populares</option>
-                <option>Más vistas</option>
-              </select>
-            </label>
-          </div>
-          <div className="class-filters" aria-label="Filtrar por clase">
-            <button
-              aria-pressed={filter === "Todos"}
-              onClick={() => setFilter("Todos")}
-            >
-              Todas las clases
-            </button>
-            {CLASS_DATA.map((c) => (
-              <button
-                aria-pressed={filter === c.id}
-                key={c.id}
-                onClick={() => setFilter(c.id)}
-              >
-                <img src={c.imageUrl} alt="" />
-                {resolveClassName(c.id, "es", null)}
-              </button>
-            ))}
-          </div>
-          <div className="list-heading">
-            <h2>Builds de la comunidad</h2>
-            <span>Ejemplos de composición</span>
-            <button
-              onClick={() => setFilter(filter === "PvM" ? "Todos" : "PvM")}
-            >
-              <SlidersHorizontal size={15} />
-              PvM
-            </button>
-          </div>
-          <BuildList />
-          <div className="pagination">
-            <button onClick={() => setNotice("Primera página del ejemplo")}>
-              Anterior
-            </button>
-            <span>Página 1 de 1</span>
-            <button disabled>Siguiente</button>
-          </div>
-        </>
+        <Explore
+          onBuild={(record) => {
+            setExploreDetail(record);
+            setDetailSelection(null);
+            go("build");
+            history.replaceState(null, "", "?view=build&example=" + record.id);
+          }}
+          onAuthor={(username) => {
+            showProfile(username);
+            history.replaceState(
+              null,
+              "",
+              "?view=profile&player=" + encodeURIComponent(username),
+            );
+          }}
+          onSave={(record) => {
+            rememberExploreBuild(record);
+            if (!account.signedIn) {
+              setPendingExploreSave(record);
+              open("signin");
+            } else open("collection-picker");
+          }}
+        />
       );
     if (view === "my-builds" || view === "collection")
       return (
@@ -777,6 +759,7 @@ function App() {
           }
           onDetail={(b) => {
             setDetailSelection(b.id);
+            setExploreDetail(null);
             go("build");
           }}
           onSignIn={() => open("signin")}
@@ -1360,14 +1343,43 @@ function App() {
           Estado
           <select
             aria-label="Estado de la vista"
-            value={state}
-            onChange={(e) => setState(e.target.value as ViewState)}
+            value={
+              view === "explore"
+                ? explore.scene === "loading"
+                  ? "loading"
+                  : explore.scene === "empty"
+                    ? "empty"
+                    : explore.scene === "initial-error"
+                      ? "error"
+                      : "ready"
+                : state
+            }
+            onChange={(e) => {
+              if (view === "explore")
+                explore.setScene(
+                  (
+                    {
+                      ready: "normal",
+                      loading: "loading",
+                      error: "initial-error",
+                      empty: "empty",
+                    } as const
+                  )[e.target.value as "ready" | "loading" | "error" | "empty"],
+                );
+              else setState(e.target.value as ViewState);
+            }}
           >
-            {states.map((s) => (
-              <option key={s[0]} value={s[0]}>
-                {s[1]}
-              </option>
-            ))}
+            {states
+              .filter(
+                (s) =>
+                  view !== "explore" ||
+                  ["ready", "empty", "loading", "error"].includes(s[0]),
+              )
+              .map((s) => (
+                <option key={s[0]} value={s[0]}>
+                  {s[1]}
+                </option>
+              ))}
           </select>
         </label>
         <label>
@@ -1507,7 +1519,7 @@ function App() {
           </div>
         </aside>
         <main className="product-main" id="product-content">
-          {state === "ready" ? (
+          {state === "ready" || view === "explore" ? (
             Content()
           ) : (
             <>
@@ -1551,7 +1563,16 @@ function App() {
         <SurfaceDialogs
           key={dialog}
           id={dialog}
-          onClose={() => setDialog(null)}
+          onClose={() => {
+            if (pendingExploreSave && account.signedIn) {
+              rememberExploreBuild(pendingExploreSave);
+              setPendingExploreSave(null);
+              setDialog("collection-picker");
+            } else {
+              setPendingExploreSave(null);
+              setDialog(null);
+            }
+          }}
           onOpen={open}
           onNavigate={go}
         />
@@ -1596,6 +1617,9 @@ void i18n
       activity: activityExamples[i],
     }));
     seedLibrary(examples);
+    seedExplore(examples);
+    const player = new URLSearchParams(location.search).get("player");
+    if (player) useAccountStudy.getState().showProfile(player);
   })
   .then(() =>
     createRoot(document.getElementById("root")!).render(
