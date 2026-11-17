@@ -61,6 +61,8 @@ Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presenta
 
 ## Secuencia técnica
 
+**Vocabulario al migrar:** el estudio dice «panoplia» en sus textos en español (selector, bonificaciones, detalle de build, claves `build_v4_sets_count_*` y `build_v4_open_set`). En producción se usará «set», como ya hace la web («Sets», «Sets activos», «bonus de set»): «panoplia» no lo reconocen los jugadores. Al pasar cada componente a producción, cambiar el término y su concordancia («el set», «ningún set», «set equipado») en lugar de copiar el texto del estudio. El estudio no se modifica.
+
 1. Crear adaptador de tokens hacia los nombres actuales de CSS. Mantenerlo temporalmente para migrar por componente; retirar alias al cerrar todas las rutas.
 2. Migrar `src/ui` y shell compartido. Sustituir logo mediante `src/data/brand.ts`; preparar favicons, OG y exportación en los cuatro idiomas.
 3. Extraer la composición de `EquipmentGrid` sin alterar `buildStore`. Mantener un visor activo y sus monturas/mascotas. Slots y canvas conservan identidad al cambiar el viewport.
