@@ -51,14 +51,15 @@ for (const [name, width, height] of [
   await expect(
     page.getByRole("heading", { name: "Qué quieres mejorar", exact: true }),
   ).toBeVisible();
+  await page.waitForLoadState("networkidle");
   await page.screenshot({ path: `docs/design-v0.4/captures/forjadora/order-${name}.png` });
   const geometry = await page
-    .locator(".forge-workbench")
+    .locator(".fg-dialog")
     .evaluate((e) => ({
       width: e.clientWidth,
       scrollWidth: e.scrollWidth,
-      bodyWidth: e.querySelector(".forge-body").clientWidth,
-      bodyScrollWidth: e.querySelector(".forge-body").scrollWidth,
+      bodyWidth: e.querySelector(".fg-body").clientWidth,
+      bodyScrollWidth: e.querySelector(".fg-body").scrollWidth,
     }));
   const controls = await page
     .getByRole("dialog")
@@ -71,7 +72,8 @@ for (const [name, width, height] of [
     await expect(
       page.getByRole("button", { name: "Templar ahora", exact: true }),
     ).toBeEnabled({ timeout: 60000 });
-    await page.screenshot({
+    await page.waitForLoadState("networkidle");
+  await page.screenshot({
       path: "docs/design-v0.4/captures/forjadora/running-desktop.png",
     });
     await page
@@ -80,7 +82,8 @@ for (const [name, width, height] of [
     await expect(
       page.getByRole("button", { name: "Reforjar", exact: true }),
     ).toBeVisible({ timeout: 45000 });
-    await page.screenshot({
+    await page.waitForLoadState("networkidle");
+  await page.screenshot({
       path: "docs/design-v0.4/captures/forjadora/results-desktop.png",
     });
     const load = page

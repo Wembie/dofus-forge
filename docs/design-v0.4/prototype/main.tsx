@@ -59,7 +59,8 @@ import {
 } from "../../../src/store/useCombatView";
 import { useHistoryStore } from "../../../src/store/historyStore";
 import { useHistory } from "../../../src/store/useHistory";
-import { OptimizerModal } from "../../../src/features/optimizer/OptimizerModal";
+import { Forge } from "./Forge";
+import "./forge-study.css";
 import { MemoryRouter } from "react-router";
 import { CLASS_DATA } from "../../../src/features/class-picker/classData";
 import {
@@ -990,7 +991,7 @@ function App() {
         slot={toolSlot}
         onClose={() => setTool(null)}
       />
-      {forge && <OptimizerModal open onClose={() => setForge(false)} />}{" "}
+      {forge && <Forge onClose={() => setForge(false)} />}{" "}
       {notice && (
         <div className="toast" role="status">
           <Check size={16} />

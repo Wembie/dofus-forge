@@ -7,7 +7,7 @@
       "bodyWidth": 1303,
       "bodyScrollWidth": 1303
     },
-    "controls": 69,
+    "controls": 79,
     "resultCount": 5,
     "appliedHp": "3.850",
     "undoRestored": true,
@@ -21,7 +21,7 @@
       "bodyWidth": 375,
       "bodyScrollWidth": 375
     },
-    "controls": 69,
+    "controls": 79,
     "errors": []
   }
 ]

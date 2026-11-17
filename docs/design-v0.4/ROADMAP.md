@@ -7,7 +7,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | D0 · Inventario | Inventario y contratos revisados | 290 fuentes inventariadas; 94 TSX y 495 nodos con eventos/destinos; auditoría de datos, controles y Forjadora | Completar comprobación manual de estados secundarios y autenticados |
 | D1 · Identidad | Propuesta creada | Sello vectorial, exploración de marca, paleta, tipografía | Validar símbolo a 16/24/32 px, temas y exportaciones |
 | D2 · Biblioteca | Base creada | 67 variables, 8 estilos, 44 variantes | Completar componentes de dominio, tema Tinta y pruebas visuales |
-| D3 · Experiencia | En curso | Estudio local: taller, 19 rutas, 36 diálogos y 6 estados de vista sobre el store, el motor y la Forjadora del producto. Figma: 14 pantallas anteriores a esta revisión | Rediseñar las herramientas del taller que siguen en adaptación provisional (tabla siguiente); sincronizar Figma; validar pantallas y estados |
+| D3 · Experiencia | En curso | Estudio local: taller, 19 rutas, 36 diálogos y 6 estados de vista sobre el store, el motor y la Forjadora del producto. Figma: 14 pantallas anteriores a esta revisión | Revisar con la regla de paridad lo que no se rehízo en esta pasada (catálogo de objetos, compartir, rutas y diálogos de cuenta y comunidad); sincronizar Figma; validar pantallas y estados |
 | D4 · Validación con personas | Pendiente | Tareas en móvil/escritorio, observaciones y ajustes | Resolver errores críticos de orientación y lectura |
 | I1 · Fundamentos en producto | Pendiente | Tokens, fuentes locales, marca, foco, temas, UI base | Consistencia de componentes e i18n sin cambiar cálculos |
 | I2 · Constructor | Pendiente | Visor central + equipo + ficha + navegación móvil | Personaje preservado, 17 espacios, 73 campos, sin scroll en ficha de referencia |
@@ -27,7 +27,7 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 | Catálogo de objetos | Rediseñado | `prototype/Catalog.tsx` |
 | Panoplias | Rediseñado con las funciones de producción: buscar, filtrar por nivel y piezas, ordenar, ver bonificaciones por tramo, equipar la panoplia entera en un paso, equipar o quitar una pieza suelta y abrir la página de la panoplia. Añade dónde va cada pieza y el cambio en la build | `prototype/Sets.tsx` |
 | Compartir y exportar | Rediseñado | `prototype/SharePanel.tsx` |
-| La Forjadora | Recompuesta, no rediseñada: el marco, el orden (objetivos primero, reglas al lado) y la navegación interna son nuevos; las tarjetas de objetivo, las reglas y las tarjetas de resultado siguen siendo `OptimizerModal` de producción con estilos adaptados | `prototype/ForgeModal.tsx`, `prototype/forge.css` |
+| La Forjadora | Rediseñado con las funciones de producción: encargo (objetivos por grupo con mínimo, tope, tope estricto, Ley y sus cinco niveles, aviso de mínimo sin Ley, escala de Leyes), reglas (intensidad, nivel máximo, pergaminos, ranuras con fijados, forjamagia, pasivos por sección y objeto, objetos fijados y vetados con buscador), búsqueda (etapa, calor, tiempo, piezas probadas, calidad, mínimos cumplidos, bitácora, pieza en el yunque, avivar, templar, apagar) y resultados (obra maestra, sobrante, otras piezas, fijar o vetar cada pieza, cargar, reforjar, desde cero, ajustar). Estado y búsqueda en `src/features/optimizer/useForge.ts`; la escena del yunque es la ilustración de producción | `prototype/Forge.tsx` |
 | Tarjeta de build (Explorar, Mis builds, perfil, colección) | Rediseñado | `prototype/BuildSheet.tsx` |
 | 19 rutas y 36 diálogos de cuenta, comunidad y administración | Rediseñado con ejemplos locales | `prototype/surfaces.tsx`, `prototype/SurfaceDialogs.tsx` |
 | Distribuir características | Rediseñado con las funciones de producción: −/+ de uno en uno que repiten al mantener (Mayús ×5, Ctrl ×20), valor escrito, pergaminos uno a uno o todos, potencia y lo que suman los pasivos en vista de combate. Añade «Máx.» por característica | `prototype/Characteristics.tsx` |
@@ -43,15 +43,11 @@ La versión 0.4.0 se publica cuando la migración completa pase sus criterios, n
 
 Comprobaciones con el servidor del estudio abierto: `check-prototype`, `check-forge`, `check-workspace`, `check-design-flows` y `check-surfaces` (ambos temas) terminan sin desbordamiento, errores de JavaScript ni infracciones automáticas de accesibilidad. Solo cubren 1440×900 y 390×844 salvo `check-prototype`, que cubre cinco tamaños. `check-workspace --mineral` pasa: todas las herramientas del taller cumplen contraste en ambos temas.
 
-### Prerrequisitos para terminar el rediseño
+### Reglas exportadas para el rediseño
 
-Las herramientas que siguen en adaptación provisional dependen de reglas que hoy viven dentro de componentes de producción. El estudio no las reescribe: duplicar reglas del juego contradice el contrato de `UX-SPEC.md`. Hace falta exportarlas sin cambiar su comportamiento (un `refactor` en `src/`, sin versión ni changelog):
+Las herramientas que tenían reglas del juego dentro de su componente se rediseñaron después de exportarlas a `src/`, sin cambiar su comportamiento: `runeRules.ts` (forjamagia), `spellView.ts` (hechizos y arma) y `useForge.ts` (la Forjadora). Cada refactor se comprobó renderizando el componente de producción antes y después.
 
-| Regla | Dónde está | Desbloquea |
-|---|---|---|
-| Modelo de vista de la Forjadora: objetivos, reglas y resultados | `OptimizerModal.tsx` | Rediseño real de la Forjadora |
-
-Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presentan. Para cumplirla sin tocar `src/`, cuatro piezas pequeñas están repetidas en el estudio tal como las escribe producción y deben exportarse al migrar en lugar de copiarse: el filtro de ataques que golpean a un objetivo sin condición y el crítico efectivo de un ataque (`Combat.tsx`, de `PvpArena`); la lectura de enlaces de build y el armado del enlace de comparación (`Compare.tsx`, de `ComparePanel`); y el encuadre de la escena del personaje con mascota o montura (`BuildSheet.tsx`, de `CharacterStage`).
+Regla de trabajo: el rediseño no quita funciones; solo cambia cómo se presentan. Para cumplirla, unas piezas pequeñas de presentación están repetidas en el estudio tal como las escribe producción y deben exportarse al migrar en lugar de copiarse: el filtro de ataques que golpean a un objetivo sin condición y el crítico efectivo de un ataque (`Combat.tsx`, de `PvpArena`); la lectura de enlaces de build y el armado del enlace de comparación (`Compare.tsx`, de `ComparePanel`); el encuadre de la escena del personaje con mascota o montura (`BuildSheet.tsx`, de `CharacterStage`); y en la Forjadora, la elección de estadísticas de una tarjeta de resultado, la regla de runas propias en ranuras conservadas, la escala de Leyes y la etapa de la búsqueda (`Forge.tsx`, de `BuildResultCard`, `ForgeParts` y `OptimizerModal`).
 
 ## Secuencia técnica
 

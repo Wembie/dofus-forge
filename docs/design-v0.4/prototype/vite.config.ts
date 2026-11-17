@@ -27,14 +27,6 @@ export default defineConfig({
           source === "./Modal"
         )
           return path.join(import.meta.dirname, "SurfaceModal.tsx");
-        if (
-          importer
-            ?.replaceAll("\\", "/")
-            .endsWith("/features/optimizer/OptimizerModal.tsx") &&
-          (source === "@/ui/Modal.tsx" ||
-            source.replaceAll("\\", "/").endsWith("/src/ui/Modal.tsx"))
-        )
-          return path.join(import.meta.dirname, "ForgeModal.tsx");
       },
     },
     react(),
