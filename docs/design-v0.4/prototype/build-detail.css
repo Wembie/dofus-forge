@@ -328,9 +328,16 @@
   align-items: start;
   margin-bottom: 40px;
 }
-.detail-gear {
-  position: sticky;
-  top: 16px;
+.detail-column {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  min-width: 0;
+}
+.detail-column > .detail-sets,
+.detail-column > .detail-passives {
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
 }
 .detail-stage-grid {
   display: grid;
@@ -641,14 +648,6 @@ span.detail-tile[tabindex]:focus-visible {
 }
 
 /* Sets and passives. */
-.detail-extras {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
-  gap: 34px;
-  border-top: 1px solid var(--line);
-  padding-top: 30px;
-  margin-bottom: 40px;
-}
 .detail-sets article + article {
   margin-top: 22px;
   padding-top: 22px;
@@ -1221,8 +1220,18 @@ span.detail-tile[tabindex]:focus-visible {
   .detail-community {
     grid-template-columns: 1fr;
   }
-  .detail-gear {
-    position: static;
+  /* One column: gear, then its sheet, then sets and passives. */
+  .detail-column {
+    display: contents;
+  }
+  .detail-stats {
+    order: 1;
+  }
+  .detail-column > .detail-sets {
+    order: 2;
+  }
+  .detail-column > .detail-passives {
+    order: 3;
   }
   .detail-skel-body {
     grid-template-columns: 1fr;

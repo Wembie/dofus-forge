@@ -491,7 +491,14 @@ function Bonus({ bonus }: { bonus: PassiveBonus }) {
   );
 }
 
-function SetsAndPassives({ sheet }: { sheet: SheetBuild }) {
+/** Sets sit under the gear and passives under the sheet, so neither column runs on alone. */
+function SetsAndPassives({
+  sheet,
+  part,
+}: {
+  sheet: SheetBuild;
+  part: "sets" | "passives";
+}) {
   const { t } = useAccountLocale(),
     store = useBuildStore.getState(),
     [open, setOpen] = useState<number | null>(null),
@@ -507,10 +514,10 @@ function SetsAndPassives({ sheet }: { sheet: SheetBuild }) {
         ? [item]
         : [];
     });
-  if (!active.length && !passives.length) return null;
+  if (part === "sets" ? !active.length : !passives.length) return null;
   return (
-    <div className="detail-extras">
-      {active.length > 0 && (
+    <>
+      {part === "sets" && (
         <section aria-labelledby="detail-sets-title" className="detail-sets">
           <header className="detail-section-head">
             <h2 id="detail-sets-title">{t("active_sets")}</h2>
@@ -582,7 +589,7 @@ function SetsAndPassives({ sheet }: { sheet: SheetBuild }) {
           })}
         </section>
       )}
-      {passives.length > 0 && (
+      {part === "passives" && (
         <section aria-labelledby="detail-passives-title" className="detail-passives">
           <header className="detail-section-head">
             <h2 id="detail-passives-title">
@@ -626,7 +633,7 @@ function SetsAndPassives({ sheet }: { sheet: SheetBuild }) {
         </section>
       )}
       {open != null && <Sets open={open} onClose={() => setOpen(null)} />}
-    </div>
+    </>
   );
 }
 
@@ -1192,11 +1199,15 @@ export function BuildDetail({
       </div>
 
       <div className="detail-body">
-        <GearStage build={b} />
-        <StatsColumn sheet={b.sheet} />
+        <div className="detail-column">
+          <GearStage build={b} />
+          <SetsAndPassives sheet={b.sheet} part="sets" />
+        </div>
+        <div className="detail-column">
+          <StatsColumn sheet={b.sheet} />
+          <SetsAndPassives sheet={b.sheet} part="passives" />
+        </div>
       </div>
-
-      <SetsAndPassives sheet={b.sheet} />
 
       <div className="detail-community">
         <Section
