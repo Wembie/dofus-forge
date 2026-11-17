@@ -5,7 +5,7 @@ const directory = path.dirname(fileURLToPath(import.meta.url));
 export const templates = {
   "confirm-signup": {
     subject: "Confirm your Dofus Forge account",
-    label: "YOUR ACCOUNT · 01",
+    label: "YOUR ACCOUNT",
     heading: "Your workshop is almost ready.",
     intro:
       "Confirm your email address to activate your Dofus Forge account. Then sign in to save your builds and keep your equipment ideas together.",
@@ -14,7 +14,7 @@ export const templates = {
   },
   "reset-password": {
     subject: "Reset your Dofus Forge password",
-    label: "ACCOUNT ACCESS · 02",
+    label: "ACCOUNT ACCESS",
     heading: "Back to your workshop.",
     intro:
       "We received a request to reset your Dofus Forge password. Use the link below to choose a new password.",
@@ -23,7 +23,7 @@ export const templates = {
   },
   "magic-link": {
     subject: "Your Dofus Forge sign-in link",
-    label: "ACCOUNT ACCESS · 01",
+    label: "ACCOUNT ACCESS",
     heading: "Your next build is waiting.",
     intro:
       "Use this link to sign in to your Dofus Forge account. You do not need to enter your password for this request.",
@@ -32,7 +32,7 @@ export const templates = {
   },
   "invite-user": {
     subject: "You are invited to Dofus Forge",
-    label: "YOUR INVITATION · 01",
+    label: "YOUR INVITATION",
     heading: "There is a place for your ideas.",
     intro:
       "You have been invited to join Dofus Forge. Accept your invitation to set up your account and start planning your equipment.",
@@ -41,7 +41,7 @@ export const templates = {
   },
   "change-email": {
     subject: "Confirm your Dofus Forge email change",
-    label: "ACCOUNT SECURITY · 03",
+    label: "ACCOUNT SECURITY",
     heading: "Confirm your email change.",
     intro:
       "A change of email address was requested for your Dofus Forge account. Confirm this step using the link below.",
@@ -50,7 +50,7 @@ export const templates = {
   },
   reauthentication: {
     subject: "Your Dofus Forge verification code",
-    label: "ACCOUNT SECURITY · 04",
+    label: "ACCOUNT SECURITY",
     heading: "One more check. Then you’re in.",
     intro:
       "Enter this code in Dofus Forge to confirm the sensitive action you requested. Keep this code private.",
