@@ -4,11 +4,11 @@ Inventario basado en `src/routes.ts`, `src/pages` y `src/features`. «Plantilla�
 
 | Página / ruta | Propuesta | Requisitos propios pendientes |
 |---|---|---|
-| BuilderPage `/` | Prototipo con personaje, store, historial y Forjadora actuales; Figma a actualizar | Migrar las composiciones del estudio al producto (fase I2–I4) |
+| BuilderPage `/` | Prototipo local con personaje, store, historial y Forjadora actuales | Migrar las composiciones del estudio al producto (fase I2–I4) |
 | ExplorePage `/explore` | Frame 04; tarjeta con ficha completa en el estudio | Filtros reales, ordenar, vacío, carga, paginación, cifras reales. PA, PM y alcance de la tarjeta: el listado actual solo trae los objetos (`snapshot.e`), así que requieren esos tres valores en la fila o el snapshot completo. Imagen fija del personaje: exponerla desde `src/lib/character` en lugar de duplicar la escena del visor |
 | BuildDetailPage `/build/:id` | Frame 08 | Autor, versión, duplicar, likes, comentarios, reportar, enlace eliminado |
-| MyBuildsPage `/my-builds` | Frame 07 | Local/nube, guardar, renombrar, borrar, duplicar, conflicto |
-| CollectionPage `/c/:id` | Plantilla 07 | Colección vacía, permisos, orden, edición y compartir |
+| MyBuildsPage `/my-builds` | Composición local: Mis builds, Guardadas y Colecciones; densidades, filtros y acciones por equipo; [revisión](LIBRARY-REVIEW.md) | Integrar servicios, snapshots completos e identidad de edición; comprobar permisos y sesión real. Los guardados antiguos locales siguen siendo de solo lectura para Comparar |
+| CollectionPage `/c/:id` | Composición local de propietario/visitante; creación, edición, selector, eliminación, vacío, error y permisos; [revisión](LIBRARY-REVIEW.md) | Integrar consultas/pertenencia, conservar orden y privacidad reales y probar con servidor |
 | AboutPage `/about` | Plantilla editorial 09 | Identidad, información del proyecto, contacto |
 | HowToUsePage `/how-to-use` | Frame 09 | Guía por tareas, enlaces profundos y navegación móvil |
 | ForgeGuidePage `/forge-guide` | Plantilla editorial 09 | Objetivos, límites, resultados incompletos, restricciones |
@@ -18,8 +18,8 @@ Inventario basado en `src/routes.ts`, `src/pages` y `src/features`. «Plantilla�
 | ClassGuidePage `/classes/:classId` | Plantilla editorial 09 | 19 clases, roles y hechizos, datos del juego |
 | SetsPage `/sets` | Derivación de catálogo pendiente | Índice, filtros, piezas, nivel y SEO |
 | SetPage `/sets/:slug` | Derivación de catálogo pendiente | Bonos por piezas, condiciones, equipar y comparación |
-| UserProfilePage `/u/:username` | Derivación de 07/08 pendiente | Perfil, seguimiento, builds, colecciones, vacío |
-| AccountPage `/account` | Frame 14 | Datos, privacidad, preferencias, sesión y acciones sensibles |
+| UserProfilePage `/u/:username` | Composición local propia; [revisión](ACCOUNT-REVIEW.md) | Integrar perfil, seguimiento, builds y colecciones reales |
+| AccountPage `/account` | Composición local propia de perfil, seguridad y sesión; [revisión](ACCOUNT-REVIEW.md) | Integrar servicios y sesión reales, conservando guardado parcial y cambios pendientes |
 | AdminDashboardPage `/admin` | Pantalla pendiente | Resumen real, permisos, navegación operativa |
 | AdminRanksPage `/admin/ranks` | Pantalla pendiente | Tabla, edición, vista previa, errores y permisos |
 | AdminReportsPage `/admin/reports` | Pantalla pendiente | Cola, estado, contexto, decisión y confirmación |

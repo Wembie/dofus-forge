@@ -8,6 +8,8 @@ Propuesta de identidad y experiencia, 15 de noviembre de 2026. **Estado: diseño
 
 **Cuenta y perfil · 17 de noviembre:** [edición, seguridad, sesión y perfil público](ACCOUNT-REVIEW.md), con ejemplos locales y estados completos. La referencia vigente es local; Figma queda como archivo histórico y deja de ser un requisito de entrega.
 
+**Biblioteca · 17 de noviembre:** [Mis builds, Guardadas y Colecciones](LIBRARY-REVIEW.md), tarjetas con personaje/equipo y densidad compacta, acciones por build y siete diálogos con estados recuperables. Los datos y operaciones son ejemplos locales.
+
 ## Dirección
 
 El personaje animado es el centro de la construcción. Equipo a sus lados, seis Dofus debajo y una ficha legible al lado. El material visual combina tinta verde, mineral claro, cobre trabajado y arte del juego. La personalidad aparece en la composición, la tipografía y las decisiones de interacción.
@@ -41,6 +43,7 @@ node docs/design-v0.4/tools/check-design-flows.mjs
 node docs/design-v0.4/tools/check-surfaces.mjs
 node docs/design-v0.4/tools/check-surfaces.mjs --mineral
 node docs/design-v0.4/tools/check-account.mjs
+node docs/design-v0.4/tools/check-library.mjs
 node node_modules/typescript/bin/tsc --project docs/design-v0.4/prototype/tsconfig.json
 node node_modules/vite/bin/vite.js build --config docs/design-v0.4/prototype/vite.config.ts
 ```
@@ -60,6 +63,7 @@ Todas las capturas están en [`captures/`](captures), una carpeta por área, y l
 | [`captures/exportar`](captures/exportar) | Ficha descargada con la nueva identidad | `check-design-flows.mjs` |
 | [`captures/vistas`](captures/vistas) | Explorar con las tarjetas de build completas | `check-surfaces.mjs` |
 | [`captures/cuenta`](captures/cuenta) | Cuenta, seguridad, sesión, listas de personas, perfiles y errores; cinco tamaños, dos temas y cuatro idiomas | `check-account.mjs` |
+| [`captures/biblioteca`](captures/biblioteca) | Mis builds, Guardadas, colecciones, propietario/visitante y siete diálogos | `check-library.mjs` |
 | [`captures/identidad`](captures/identidad) | Exploración de marca | — |
 
 [Decisiones y validación](DESIGN-REVIEW.md)

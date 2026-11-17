@@ -1,3 +1,6 @@
+import { encodeSnapshot } from "../../../src/features/share/codec";
+import { Library } from "./Library";
+import { seedLibrary, useLibraryStudy, librarySnapshot } from "./library-model";
 import { Account, PublicProfile, LeaveAccount } from "./Account";
 import { useAccountStudy } from "./account-model";
 import {
@@ -44,7 +47,12 @@ import { LegalBody } from "../../../src/components/LegalBody";
 import { Sets } from "./Sets";
 import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import { prepareModel, equipment, seedItems, visibleSlots } from "./model";
-import { BuildSheet, sheetVitals, type SheetBuild } from "./BuildSheet";
+import {
+  BuildSheet,
+  sheetStats,
+  sheetVitals,
+  type SheetBuild,
+} from "./BuildSheet";
 import {
   WorkspaceTools,
   toolNames,
@@ -233,6 +241,14 @@ function Action({
 }
 function App() {
   const { t } = useTranslation();
+  const liveStats = useBuildStore((s) => s.stats);
+  const library = useLibraryStudy(),
+    [detailSelection, setDetailSelection] = useState<string | null>(null);
+  const detailBuild = library.builds.find((b) => b.id === detailSelection),
+    detailItems = detailBuild
+      ? visibleSlots.map((slot) => detailBuild.sheet.slots[slot] || 0)
+      : seedItems,
+    detailStats = detailBuild ? sheetStats(detailBuild.sheet) : liveStats;
   const account = useAccountStudy(),
     [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
   function showProfile(username: string) {
@@ -266,7 +282,6 @@ function App() {
     [setOpen, setSetOpen] = useState(false),
     [classId, setClassId] = useState("iop");
   const data = useDataStore(),
-    build = useBuildStore(),
     heading = pages.find((p) => p[0] === view)![1];
   const sets = data.sets || [],
     chosenSet =
@@ -382,7 +397,13 @@ function App() {
       <div className="build-grid">
         {matches.slice(0, limit).map((b) => (
           <article className="product-build" key={b.name}>
-            <button className="build-card-open" onClick={() => go("build")}>
+            <button
+              className="build-card-open"
+              onClick={() => {
+                setDetailSelection(null);
+                go("build");
+              }}
+            >
               <span className="build-card-head">
                 <span>{b.tag}</span>
                 {b.vitals && (
@@ -694,82 +715,18 @@ function App() {
       );
     if (view === "my-builds" || view === "collection")
       return (
-        <>
-          {hero(
-            "TU ESPACIO",
-            view === "collection"
-              ? "Equipos para mazmorras"
-              : "Tus ideas, listas para volver.",
-            "Organiza tus variantes sin perder el punto de partida.",
-            <Action
-              primary
-              onClick={() =>
-                open(
-                  view === "collection" ? "collection-edit" : "collection-new",
-                )
-              }
-            >
-              <Plus size={16} />
-              {view === "collection" ? "Editar colección" : "Nueva colección"}
-            </Action>,
-          )}
-          {tabs(
-            view === "collection"
-              ? ["Builds", "Información"]
-              : [
-                  "Mis builds",
-                  "Guardadas",
-                  "Colecciones",
-                  "En este dispositivo",
-                ],
-          )}
-          {tab === "Colecciones" ? (
-            <div className="collection-list">
-              {[
-                "Equipos para mazmorras",
-                "Ideas para PvP",
-                "Pendientes de probar",
-              ].map((n, i) => (
-                <button onClick={() => go("collection")} key={n}>
-                  <span className="collection-number">0{i + 1}</span>
-                  <Folder size={30} />
-                  <h2>{n}</h2>
-                  <span>
-                    3 builds <ArrowRight size={16} />
-                  </span>
-                </button>
-              ))}
-            </div>
-          ) : tab === "Información" ? (
-            <div className="reading-content">
-              <h2>Equipos para mazmorras</h2>
-              <p>Una colección para reunir alternativas del mismo equipo.</p>
-              <Action onClick={() => open("collection-edit")}>
-                Editar información
-              </Action>
-              <Action onClick={() => open("collection-delete")}>
-                Eliminar colección
-              </Action>
-            </div>
-          ) : (
-            <>
-              {search("Buscar en mis builds")}
-              <div className="library-actions">
-                <button onClick={() => open("rename")}>Renombrar</button>
-                <button
-                  onClick={() =>
-                    setNotice("Duplicado de ejemplo creado localmente")
-                  }
-                >
-                  Duplicar
-                </button>
-                <button onClick={() => open("visibility")}>Visibilidad</button>
-                <button onClick={() => open("delete-build")}>Eliminar…</button>
-              </div>
-              <BuildList owned />
-            </>
-          )}
-        </>
+        <Library
+          collection={view === "collection"}
+          onDialog={open}
+          onCollection={() =>
+            go(view === "collection" ? "my-builds" : "collection")
+          }
+          onDetail={(b) => {
+            setDetailSelection(b.id);
+            go("build");
+          }}
+          onSignIn={() => open("signin")}
+        />
       );
     if (view === "profile")
       return (
@@ -789,9 +746,18 @@ function App() {
         <>
           {hero(
             "BUILD DE LA COMUNIDAD",
-            "Yopuka · Tierra",
-            "Por Brasa · Nivel 200 · PvM",
-            <a className="primary product-anchor" href="/">
+            detailBuild?.sheet.name || "Yopuka · Tierra",
+            detailBuild
+              ? `${detailBuild.owner} · ${t("level_short", { level: detailBuild.sheet.level })}`
+              : "Por Brasa · Nivel 200 · PvM",
+            <a
+              className="primary product-anchor"
+              href={
+                detailBuild
+                  ? "/?b=" + encodeSnapshot(librarySnapshot(detailBuild))
+                  : "/"
+              }
+            >
               Abrir en mi taller <ArrowUpRight size={18} />
             </a>,
           )}
@@ -814,33 +780,40 @@ function App() {
           </div>
           <div className="public-build-layout">
             <div className="public-character">
-              <CharacterStage
-                breed={8}
-                gender="male"
-                width={240}
-                height={330}
-              />
-              <span>YOPUKA · TIERRA</span>
+              {detailBuild ? (
+                <BuildSheet build={detailBuild.sheet} items={equipment} />
+              ) : (
+                <CharacterStage
+                  breed={8}
+                  gender="male"
+                  width={240}
+                  height={330}
+                />
+              )}
+              <span>{detailBuild?.sheet.name || "YOPUKA · TIERRA"}</span>
               <div className="public-eggs">
-                {seedItems.slice(9, 15).map((id) => (
-                  <img
-                    key={id}
-                    src={equipment.get(id)?.image_url || ""}
-                    alt={equipment.get(id)?.name}
-                  />
-                ))}
+                {detailItems
+                  .slice(9, 15)
+                  .filter((id) => equipment.has(id))
+                  .map((id) => (
+                    <img
+                      key={id}
+                      src={equipment.get(id)?.image_url || ""}
+                      alt={equipment.get(id)?.name}
+                    />
+                  ))}
               </div>
             </div>
             <section>
               <h2>El equipo, de un vistazo.</h2>
               <div className="public-metrics">
                 {[
-                  ["PV", build.stats?.maxHp],
-                  ["PA", build.stats?.ap],
-                  ["PM", build.stats?.mp],
-                  ["Alcance", build.stats?.range],
-                  ["Fuerza", build.stats?.strength],
-                  ["Potencia", build.stats?.power],
+                  ["PV", detailStats?.maxHp],
+                  ["PA", detailStats?.ap],
+                  ["PM", detailStats?.mp],
+                  ["Alcance", detailStats?.range],
+                  ["Fuerza", detailStats?.strength],
+                  ["Potencia", detailStats?.power],
                 ].map(([label, v]) => (
                   <div key={label}>
                     <span>{label}</span>
@@ -849,12 +822,15 @@ function App() {
                 ))}
               </div>
               <div className="public-gear">
-                {seedItems.slice(0, 9).map((id) => (
-                  <button key={id} onClick={() => setTool("bonuses")}>
-                    <img src={equipment.get(id)?.image_url || ""} alt="" />
-                    <span>{equipment.get(id)?.name}</span>
-                  </button>
-                ))}
+                {detailItems
+                  .slice(0, 9)
+                  .filter((id) => equipment.has(id))
+                  .map((id) => (
+                    <button key={id} onClick={() => setTool("bonuses")}>
+                      <img src={equipment.get(id)?.image_url || ""} alt="" />
+                      <span>{equipment.get(id)?.name}</span>
+                    </button>
+                  ))}
               </div>
               <div className="detail-actions">
                 <button onClick={() => setTool("passives")}>Pasivos</button>
@@ -1561,6 +1537,7 @@ void i18n
   .then(prepareModel)
   .then(() => {
     examples = exampleBuilds().map((b) => ({ ...b, vitals: sheetVitals(b) }));
+    seedLibrary(examples);
   })
   .then(() =>
     createRoot(document.getElementById("root")!).render(

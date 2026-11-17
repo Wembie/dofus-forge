@@ -1,3 +1,5 @@
+import { LibraryDialog } from "./Library";
+import { libraryDialogIds, type LibraryDialogId } from "./library-model";
 import { PeopleDialog, SignOut } from "./Account";
 import { useAccountStudy, publicPerson } from "./account-model";
 import { AuthAccess, type AccessMode } from "./AuthAccess";
@@ -122,6 +124,14 @@ export function SurfaceDialogs({
       />
     );
   if (id === "signout") return <SignOut onClose={onClose} />;
+  if (libraryDialogIds.includes(id))
+    return (
+      <LibraryDialog
+        id={id as LibraryDialogId}
+        onClose={onClose}
+        onNavigate={onNavigate}
+      />
+    );
   const title = dialogs.find((d) => d[0] === id)![1];
   const isPublish = id === "publish" || id === "update-build";
   const submitLabel = isPublish
@@ -253,22 +263,15 @@ export function SurfaceDialogs({
             </>
           )}
 
-          {(isPublish ||
-            id === "rename" ||
-            id === "collection-new" ||
-            id === "collection-edit") && (
+          {isPublish && (
             <Field
-              label={
-                id.startsWith("collection")
-                  ? "Nombre de la colección"
-                  : "Nombre del build"
-              }
-              value={id === "collection-new" ? "" : "Yopuka · Tierra"}
+              label="Nombre del build"
+              value="Yopuka · Tierra"
               required
               maxLength={60}
             />
           )}
-          {(isPublish || id === "visibility") && (
+          {isPublish && (
             <fieldset className="choice-list">
               <legend>Quién puede verlo</legend>
               {[
@@ -336,33 +339,6 @@ export function SurfaceDialogs({
                   La nueva versión conserva el enlace del build y su historial.
                 </p>
               )}
-            </>
-          )}
-          {(id === "collection-new" || id === "collection-edit") && (
-            <>
-              <label>
-                Descripción
-                <textarea
-                  rows={3}
-                  defaultValue="Equipos para distintas situaciones."
-                />
-              </label>
-              <CheckField>Colección pública</CheckField>
-            </>
-          )}
-          {id === "collection-picker" && (
-            <>
-              <p>Organiza este build para encontrarlo después.</p>
-              {[
-                "Equipos para mazmorras",
-                "Ideas para PvP",
-                "Pendientes de probar",
-              ].map((s) => (
-                <CheckField key={s}>{s}</CheckField>
-              ))}
-              <button type="button" onClick={() => onOpen("collection-new")}>
-                Crear otra colección
-              </button>
             </>
           )}
 

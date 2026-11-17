@@ -39,7 +39,7 @@ import fr from "../../../public/locales/fr/translation.json";
 import pt from "../../../public/locales/pt/translation.json";
 import "./account.css";
 
-function useAccountLocale() {
+export function useAccountLocale() {
   const result = useTranslation();
   useEffect(() => {
     for (const [lang, copy] of Object.entries({ es, en, fr, pt }))

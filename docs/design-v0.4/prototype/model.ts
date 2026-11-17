@@ -63,6 +63,7 @@ export async function prepareModel() {
   );
   try {
     const saved =
+      new URLSearchParams(location.search).get("b") ||
       sessionStorage.getItem("forge-design-workspace") ||
       localStorage.getItem(key);
     const snap = saved && decodeBuild(saved);

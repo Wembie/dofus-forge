@@ -80,8 +80,7 @@ async function loadFigure(bone: string, anim: string): Promise<Figure> {
   return {
     def,
     anim: animation,
-    own:
-      own && def.graphics ? { layer: own, names: def.graphics } : undefined,
+    own: own && def.graphics ? { layer: own, names: def.graphics } : undefined,
   };
 }
 function fitBox(measured: Box | null, mounted: boolean): Box {
@@ -115,7 +114,10 @@ const drawn = new Map<string, Still>();
 
 function release() {
   renderer?.dispose();
-  canvas?.getContext("webgl")?.getExtension("WEBGL_lose_context")?.loseContext();
+  canvas
+    ?.getContext("webgl")
+    ?.getExtension("WEBGL_lose_context")
+    ?.loseContext();
   canvas?.remove();
   renderer = null;
   canvas = null;
@@ -226,7 +228,9 @@ export interface SheetBuild {
   tag: string;
   slots: Partial<Record<SlotId, number>>;
   /** Characteristic points spent, when the example needs them to read as its element. */
-  allocated?: Partial<Record<(typeof ELEMENTS)[number][0] | "vitality", number>>;
+  allocated?: Partial<
+    Record<(typeof ELEMENTS)[number][0] | "vitality", number>
+  >;
 }
 const ELEMENTS = [
   ["strength", "earth", "Tierra"],
@@ -236,9 +240,9 @@ const ELEMENTS = [
 ] as const;
 
 /** PA, PM, range and leading element of an example, computed by the product's engine. */
-export function sheetVitals(build: SheetBuild) {
+export function sheetStats(build: SheetBuild) {
   const store = useBuildStore.getState();
-  const stats = recompute(
+  return recompute(
     build.classId,
     build.level,
     {
@@ -263,6 +267,9 @@ export function sheetVitals(build: SheetBuild) {
     store._sets,
     {},
   );
+}
+export function sheetVitals(build: SheetBuild) {
+  const stats = sheetStats(build);
   if (!stats) return null;
   const [, element, label] = ELEMENTS.reduce((best, next) =>
     stats[next[0]] > stats[best[0]] ? next : best,
@@ -295,7 +302,9 @@ export function BuildSheet({
   const tile = (slot: SlotId, extra = "") => {
     const id = build.slots[slot];
     const item = id ? items.get(id) : undefined;
-    const place = slot.startsWith("dofus") ? "Dofus o trofeo" : SLOT_NAMES[slot];
+    const place = slot.startsWith("dofus")
+      ? "Dofus o trofeo"
+      : SLOT_NAMES[slot];
     return (
       <span
         key={slot}
