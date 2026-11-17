@@ -4,66 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { useBuildStore, type SlotId, type WeaponTransform } from '@/store/buildStore.ts'
 import type { AppItem } from '@/data/loaders.ts'
 import { STAT_META, statIconUrl, runeIconUrl, runeKeyIconUrl, runeIconFallback, transcendenceIconUrl } from './statDisplay.ts'
-import { exoticOf, isExoticKey, runeStat } from '@/engine/runes.ts'
+import { exoticOf, runeStat } from '@/engine/runes.ts'
 import { TRANSCENDENCE, FORGEABLE_SLOTS, rankOptions, bestRank, lineWeight } from './transcendence.ts'
 import { normalizeSearch } from '@/ui/normalize.ts'
 import { useFocusTrap } from '@/ui/useFocusTrap.ts'
-import { WEAPON_ATTACK_STAT } from '@/features/spells/spellCalc.ts'
-
-type RuneSection = { labelKey: string; stats: string[] }
-
-const RUNE_SECTIONS: RuneSection[] = [
-  {
-    labelKey: 'rune_section_primary',
-    stats: ['Vitality', 'Strength', 'Intelligence', 'Chance', 'Agility', 'Wisdom', 'Power', 'AP', 'MP', 'Range', 'Summons', '% Critical'],
-  },
-  {
-    labelKey: 'rune_section_damage',
-    stats: [
-      'Damage', 'Earth Damage', 'Fire Damage', 'Water Damage', 'Air Damage', 'Neutral Damage',
-      '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
-      'Critical Damage', 'Pushback Damage', 'Trap Damage', 'Power (traps)',
-    ],
-  },
-  {
-    labelKey: 'rune_section_resistance',
-    stats: [
-      'Earth Resistance', 'Fire Resistance', 'Water Resistance', 'Air Resistance', 'Neutral Resistance',
-      'Critical Resistance', 'Pushback Resistance',
-    ],
-  },
-  {
-    labelKey: 'rune_section_pct_resistance',
-    stats: [
-      '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-      '% Melee Resistance', '% Ranged Resistance',
-    ],
-  },
-  {
-    labelKey: 'rune_section_secondary',
-    stats: [
-      'Initiative', 'Lock', 'Dodge', 'Heal', 'Prospecting', 'Pod',
-      'AP Reduction', 'MP Reduction', 'AP Parry', 'MP Parry', 'reflected damage',
-    ],
-  },
-]
-
-const ALL_RUNES = RUNE_SECTIONS.flatMap(s => s.stats)
-
-const PCT_RUNES = new Set([
-  '% Earth Resistance', '% Fire Resistance', '% Water Resistance', '% Air Resistance', '% Neutral Resistance',
-  '% Spell Damage', '% Weapon Damage', '% Melee Damage', '% Ranged Damage',
-  '% Melee Resistance', '% Ranged Resistance', '% Critical',
-])
-const UNIT_RUNES = new Set(['AP', 'MP', 'Range'])
-
-function quickValuesFor(stat: string): number[] {
-  if (PCT_RUNES.has(stat))  return [1, 2, 3, 4, 5]
-  if (UNIT_RUNES.has(stat)) return [1]
-  return [1, 5, 10, 25, 50, 100]
-}
-
-const exoticFirst = ([a]: [string, number], [b]: [string, number]) => Number(isExoticKey(b)) - Number(isExoticKey(a))
+import {
+  ALL_RUNES, RUNE_SECTIONS, TRANSFORM_ELEMENTS, TRANSFORM_RATIOS, DEFAULT_TRANSFORM_RATIO,
+  quickValuesFor, exoticFirst, canTransformWeapon, type TransformElement,
+} from './runeRules.ts'
 
 function RuneIcon({ stat, size, color, dim, transcendence }: { stat: string; size: number; color: string; dim?: boolean; transcendence?: boolean }) {
   const meta = STAT_META[stat]
@@ -74,14 +22,13 @@ function RuneIcon({ stat, size, color, dim, transcendence }: { stat: string; siz
   return null
 }
 
-type TransformElem = 'fire' | 'earth' | 'water' | 'air'
-const TRANSFORM_ELEMENTS: { elem: TransformElem; color: string }[] = [
-  { elem: 'fire',  color: 'var(--fire)'  },
-  { elem: 'earth', color: 'var(--earth)' },
-  { elem: 'water', color: 'var(--water)' },
-  { elem: 'air',   color: 'var(--air)'   },
-]
-const TRANSFORM_RATIOS: (85 | 68 | 50)[] = [85, 68, 50]
+const ELEMENT_COLOR: Record<TransformElement, string> = {
+  fire:  'var(--fire)',
+  earth: 'var(--earth)',
+  water: 'var(--water)',
+  air:   'var(--air)',
+}
+const TRANSFORM_SWATCHES = TRANSFORM_ELEMENTS.map(elem => ({ elem, color: ELEMENT_COLOR[elem] }))
 
 type Props = {
   slotId:  SlotId
@@ -107,11 +54,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
   const clearExotic        = useBuildStore(s => s.clearExotic)
 
   const isWeaponSlot     = slotId === 'weapon'
-  // WEAPON_ATTACK_STAT['Neutral damage' | 'Neutral steal'] === 'neutral' — a
-  // weapon's neutral attack can come from either a plain damage line or a
-  // steal line (e.g. Pandamonium Wand only has "Neutral steal"); checking
-  // just the literal 'Neutral damage' string missed every steal-only weapon.
-  const hasNeutralDamage = isWeaponSlot && item.effects.some(e => WEAPON_ATTACK_STAT[e.stat] === 'neutral')
+  const hasNeutralDamage = isWeaponSlot && canTransformWeapon(item)
 
   const [selected, setSelected] = useState(ALL_RUNES[0])
   const [addValue, setAddValue] = useState<number | ''>(10)
@@ -472,13 +415,13 @@ export function RuneModal({ slotId, item, onClose }: Props) {
               ) : (
                 <>
                   <div className="flex gap-2 mb-2">
-                    {TRANSFORM_ELEMENTS.map(({ elem, color }) => {
+                    {TRANSFORM_SWATCHES.map(({ elem, color }) => {
                       const active  = weaponTransform?.element === elem
                       const iconUrl = runeIconUrl(`transform_${elem}`) ?? ''
                       return (
                         <button
                           key={elem}
-                          onClick={() => startTransition(() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? 85 } as WeaponTransform))}
+                          onClick={() => startTransition(() => setWeaponTransform(slotId, { element: elem, ratio: weaponTransform?.ratio ?? DEFAULT_TRANSFORM_RATIO } as WeaponTransform))}
                           title={t(`elem_${elem}`)}
                           className="flex-1 flex flex-col items-center gap-1 rounded-xl py-2 transition-all"
                           style={{
@@ -506,7 +449,7 @@ export function RuneModal({ slotId, item, onClose }: Props) {
                     <div className="flex gap-1.5">
                       {TRANSFORM_RATIOS.map(r => {
                         const active = weaponTransform.ratio === r
-                        const color  = TRANSFORM_ELEMENTS.find(e => e.elem === weaponTransform.element)?.color ?? 'var(--gold)'
+                        const color  = TRANSFORM_SWATCHES.find(e => e.elem === weaponTransform.element)?.color ?? 'var(--gold)'
                         return (
                           <button
                             key={r}
