@@ -1,93 +1,18 @@
-import { useId, useState } from 'react'
+import { useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
 import { Modal, Button, PasswordInput } from '@/ui'
-import { useAuthStore } from '@/store/authStore.ts'
+import { useAuthFlow } from './useAuthFlow.ts'
+import { USERNAME_PATTERN, PASSWORD_MIN_LENGTH } from './authRules.ts'
 import { Turnstile } from '@/components/Turnstile.tsx'
 import { LegalConsentChecks } from './LegalConsentChecks.tsx'
-import { LEGAL_DOCS, type LegalDoc } from './legal.ts'
-
-type Mode = 'signin' | 'signup' | 'forgot'
+import { LEGAL_DOCS } from './legal.ts'
 
 export function AuthModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { t }                 = useTranslation()
-  const signIn                = useAuthStore(s => s.signIn)
-  const signUp                = useAuthStore(s => s.signUp)
-  const requestPasswordReset  = useAuthStore(s => s.requestPasswordReset)
-
-  const [mode, setMode]         = useState<Mode>('signin')
-  const [email, setEmail]       = useState('')
-  const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
-  const [busy, setBusy]         = useState(false)
-  const [error, setError]       = useState<string | null>(null)
-  const [signedUp, setSignedUp] = useState(false)
-  const [resetSent, setResetSent] = useState(false)
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
-  const [turnstileKey, setTurnstileKey] = useState(0)
-  const [accepted, setAccepted] = useState<Partial<Record<LegalDoc, boolean>>>({})
-  const legalOk = mode !== 'signup' || LEGAL_DOCS.every(doc => accepted[doc])
+  const { t } = useTranslation()
+  const {mode,email,setEmail,password,setPassword,username,setUsername,busy,error,signedUp,resetSent,captchaToken,setCaptchaToken,turnstileKey,accepted,setAccepted,legalOk,switchMode,close,submit} = useAuthFlow({onClose})
   const ids = useId()
-  const titleId    = `${ids}-title`
-  const emailId    = `${ids}-email`
-  const usernameId = `${ids}-username`
-  const passwordId = `${ids}-password`
-  const errorId    = `${ids}-error`
-
-  function reset() {
-    setMode('signin')
-    setEmail(''); setPassword(''); setUsername(''); setError(null); setBusy(false)
-    setSignedUp(false); setResetSent(false); setAccepted({})
-    setCaptchaToken(null); setTurnstileKey(k => k + 1)
-  }
-
-  function close() {
-    reset()
-    onClose()
-  }
-
-  function switchMode(next: Mode) {
-    setMode(next)
-    setError(null)
-    setCaptchaToken(null)
-    setTurnstileKey(k => k + 1)
-  }
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!captchaToken || !legalOk) return
-    setError(null)
-    setBusy(true)
-
-    if (mode === 'forgot') {
-      const { error: err } = await requestPasswordReset(email, captchaToken)
-      setBusy(false)
-      if (err) {
-        setError(err)
-        setCaptchaToken(null)
-        setTurnstileKey(k => k + 1)
-        return
-      }
-      setResetSent(true)
-      return
-    }
-
-    const { error: err } = mode === 'signin'
-      ? await signIn(email, password, captchaToken)
-      : await signUp(email, password, username.trim().toLowerCase(), captchaToken)
-    setBusy(false)
-    if (err) {
-      setError(err === 'invalid_username' ? t('auth_username_invalid') : err === 'username_taken' ? t('auth_username_taken') : err)
-      // Turnstile tokens are single-use — force a fresh challenge (remount
-      // the widget) before the next attempt instead of silently retrying
-      // with a now-spent token.
-      setCaptchaToken(null)
-      setTurnstileKey(k => k + 1)
-      return
-    }
-    if (mode === 'signup') { setSignedUp(true); return }
-    close()
-  }
+  const titleId = ids+'-title', emailId=ids+'-email', usernameId=ids+'-username', passwordId=ids+'-password', errorId=ids+'-error'
 
   return (
     <Modal open={open} onClose={close} size="sm" labelledBy={titleId}>
@@ -184,7 +109,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                       required
                       minLength={3}
                       maxLength={30}
-                      pattern="[a-z0-9_-]{3,30}"
+                      pattern={USERNAME_PATTERN}
                       autoComplete="username"
                       value={username}
                       onChange={e => setUsername(e.target.value)}
@@ -220,7 +145,7 @@ export function AuthModal({ open, onClose }: { open: boolean; onClose: () => voi
                     describedBy={error ? errorId : undefined}
                     leftIcon={<Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />}
                     required
-                    minLength={6}
+                    minLength={PASSWORD_MIN_LENGTH}
                     autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                     value={password}
                     onChange={e => setPassword(e.target.value)}
