@@ -21,7 +21,7 @@ La investigación de interfaces reales se usó para estudiar jerarquía, densida
 
 ## Validación realizada
 
-Resultados reproducibles en `prototype-check.json`; el script se ejecuta con el servidor del prototipo abierto. Chromium utiliza renderizado WebGL por software en esta comprobación, por lo que no constituye una medición de rendimiento en dispositivos reales.
+Resultados reproducibles en `checks/prototype.json`; el script se ejecuta con el servidor del prototipo abierto. Chromium utiliza renderizado WebGL por software en esta comprobación, por lo que no constituye una medición de rendimiento en dispositivos reales.
 
 - Cinco viewports: 1440×900, 1366×900, 768×1024, 390×844 y 360×800.
 - Sin desbordamiento horizontal, errores de JavaScript ni imágenes rotas en las vistas comprobadas.
@@ -32,7 +32,7 @@ Resultados reproducibles en `prototype-check.json`; el script se ejecuta con el 
 - Axe, reglas WCAG 2 A/AA y 2.1 AA: cero infracciones automáticas en la vista inicial de ambos temas y los cinco tamaños. Esto no sustituye evaluación manual, lector de pantalla o pruebas con personas.
 - TypeScript y bundle local como comprobaciones separadas.
 - Producto existente: 434 pruebas aprobadas. Rust: 47 aprobadas y 13 omitidas; ver `DOMAIN-AUDIT.md`.
-- Forjadora: abrir encargo, ejecutar Worker/WASM, templar, obtener alternativas reales, cargar y recuperar los valores previos con deshacer. Apertura/cierre y ancho comprobados también en móvil; evidencia en `forge-check.json`.
+- Forjadora: abrir encargo, ejecutar Worker/WASM, templar, obtener alternativas reales, cargar y recuperar los valores previos con deshacer. Apertura/cierre y ancho comprobados también en móvil; evidencia en `checks/forge.json`.
 
 Las capturas corresponden al prototipo local. Los frames de Figma anteriores todavía no reflejan esta revisión.
 

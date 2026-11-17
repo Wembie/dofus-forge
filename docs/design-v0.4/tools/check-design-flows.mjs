@@ -1,5 +1,8 @@
 import { chromium, expect } from "@playwright/test";
 import fs from "node:fs";
+fs.mkdirSync("docs/design-v0.4/captures/catalogo", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/captures/exportar", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/checks", { recursive: true });
 const browser = await chromium.launch({
   headless: true,
   args: [
@@ -52,7 +55,7 @@ for (const [device, width, height] of [
     .locator(".catalog-inspection")
     .evaluate((e) => ({ width: e.clientWidth, scrollWidth: e.scrollWidth }));
   await page.screenshot({
-    path: `docs/design-v0.4/catalog-detail-${device}.png`,
+    path: `docs/design-v0.4/captures/catalogo/detail-${device}.png`,
   });
   await page
     .getByRole("button", { name: "Equipar en sombrero", exact: true })
@@ -356,7 +359,7 @@ for (const [device, width, height] of [
       .getByRole("button", { name: "Descargar ficha", exact: true })
       .click();
     const download = await downloadPromise;
-    await download.saveAs("docs/design-v0.4/export-sheet.png");
+    await download.saveAs("docs/design-v0.4/captures/exportar/sheet.png");
     await expect(page.getByRole("status")).toContainText("Imagen preparada");
     await page.keyboard.press("Escape");
   }
@@ -382,7 +385,7 @@ for (const [device, width, height] of [
 }
 await browser.close();
 fs.writeFileSync(
-  "docs/design-v0.4/design-flows-check.json",
+  "docs/design-v0.4/checks/design-flows.json",
   JSON.stringify(results, null, 2),
 );
 if (

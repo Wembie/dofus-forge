@@ -1,5 +1,7 @@
 import { chromium, expect } from "@playwright/test";
 import fs from "node:fs";
+fs.mkdirSync("docs/design-v0.4/captures/forjadora", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/checks", { recursive: true });
 const browser = await chromium.launch({
   headless: true,
   args: [
@@ -49,7 +51,7 @@ for (const [name, width, height] of [
   await expect(
     page.getByRole("heading", { name: "Qué quieres mejorar", exact: true }),
   ).toBeVisible();
-  await page.screenshot({ path: `docs/design-v0.4/forge-order-${name}.png` });
+  await page.screenshot({ path: `docs/design-v0.4/captures/forjadora/order-${name}.png` });
   const geometry = await page
     .locator(".forge-workbench")
     .evaluate((e) => ({
@@ -70,7 +72,7 @@ for (const [name, width, height] of [
       page.getByRole("button", { name: "Templar ahora", exact: true }),
     ).toBeEnabled({ timeout: 60000 });
     await page.screenshot({
-      path: "docs/design-v0.4/forge-running-desktop.png",
+      path: "docs/design-v0.4/captures/forjadora/running-desktop.png",
     });
     await page
       .getByRole("button", { name: "Templar ahora", exact: true })
@@ -79,7 +81,7 @@ for (const [name, width, height] of [
       page.getByRole("button", { name: "Reforjar", exact: true }),
     ).toBeVisible({ timeout: 45000 });
     await page.screenshot({
-      path: "docs/design-v0.4/forge-results-desktop.png",
+      path: "docs/design-v0.4/captures/forjadora/results-desktop.png",
     });
     const load = page
       .getByRole("button", { name: /^Cargar este build/ })
@@ -118,7 +120,7 @@ for (const [name, width, height] of [
 }
 await browser.close();
 fs.writeFileSync(
-  "docs/design-v0.4/forge-check.json",
+  "docs/design-v0.4/checks/forge.json",
   JSON.stringify(results, null, 2),
 );
 console.log(JSON.stringify(results, null, 2));

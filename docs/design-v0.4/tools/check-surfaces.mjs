@@ -1,6 +1,8 @@
 import { chromium, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
+fs.mkdirSync("docs/design-v0.4/checks", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/captures/vistas", { recursive: true });
 fs.mkdirSync("docs/design-v0.4/evidence/surfaces", { recursive: true });
 const browser = await chromium.launch({
   headless: true,
@@ -156,9 +158,35 @@ for (const [device, width, height] of [
   }
   await context.close();
 }
+// Committed captures of the build cards: they wait for the character stills.
+if (!mineral)
+  for (const [device, width, height] of [
+    ["desktop", 1440, 900],
+    ["mobile", 390, 844],
+  ]) {
+    const context = await browser.newContext({ viewport: { width, height } }),
+      page = await context.newPage();
+    await page.goto("http://127.0.0.1:4404/surfaces.html?view=explore", {
+      waitUntil: "networkidle",
+    });
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll(".sheet-figure").length > 0 &&
+        !document.querySelector(".sheet-figure.is-portrait"),
+      null,
+      { timeout: 20000 },
+    );
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(400);
+    await page.screenshot({
+      path: `docs/design-v0.4/captures/vistas/explore-${device}.png`,
+      fullPage: true,
+    });
+    await context.close();
+  }
 await browser.close();
 fs.writeFileSync(
-  `docs/design-v0.4/surfaces${mineral ? "-mineral" : ""}-check.json`,
+  `docs/design-v0.4/checks/surfaces${mineral ? "-mineral" : ""}.json`,
   JSON.stringify(results, null, 2),
 );
 if (

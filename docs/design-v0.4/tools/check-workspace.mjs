@@ -17,6 +17,8 @@ const wanted = process.argv
 const mineral = process.argv.includes("--mineral");
 const results = [];
 fs.mkdirSync("docs/design-v0.4/evidence/workspace", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/captures/herramientas", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/checks", { recursive: true });
 for (const [device, width, height] of [
   ["desktop", 1440, 900],
   ["mobile", 390, 844],
@@ -44,6 +46,7 @@ for (const [device, width, height] of [
     await trigger.click();
     await expect(page.getByRole("dialog")).toBeVisible();
     await page.waitForTimeout(id === "spells" ? 1200 : 200);
+    await page.waitForLoadState("networkidle");
     const geometry = await page.getByRole("dialog").evaluate((e) => {
       const content =
         e.querySelector(".surface-dialog-content") ||
@@ -60,7 +63,9 @@ for (const [device, width, height] of [
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
     await page.screenshot({
-      path: `docs/design-v0.4/evidence/workspace/${mineral ? "mineral-" : ""}${id}-${device}.png`,
+      path: mineral
+        ? `docs/design-v0.4/evidence/workspace/mineral-${id}-${device}.png`
+        : `docs/design-v0.4/captures/herramientas/${id}-${device}.png`,
     });
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
@@ -97,6 +102,7 @@ for (const [device, width, height] of [
     await page.getByRole("button", { name: action, exact: true }).click();
     await expect(page.getByRole("dialog")).toBeVisible();
     await page.waitForTimeout(400);
+    await page.waitForLoadState("networkidle");
     const geometry = await page.getByRole("dialog").evaluate((e) => {
       const content = e.querySelector(".catalog-panel") || e;
       return {
@@ -110,7 +116,9 @@ for (const [device, width, height] of [
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();
     await page.screenshot({
-      path: `docs/design-v0.4/evidence/workspace/${mineral ? "mineral-" : ""}${id}-${device}.png`,
+      path: mineral
+        ? `docs/design-v0.4/evidence/workspace/mineral-${id}-${device}.png`
+        : `docs/design-v0.4/captures/herramientas/${id}-${device}.png`,
     });
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
@@ -138,7 +146,7 @@ for (const [device, width, height] of [
   await context.close();
 }
 await browser.close();
-const reportPath = `docs/design-v0.4/workspace${mineral ? "-mineral" : ""}-check.json`;
+const reportPath = `docs/design-v0.4/checks/workspace${mineral ? "-mineral" : ""}.json`;
 const report = wanted
   ? [
       ...JSON.parse(

@@ -1,6 +1,8 @@
 import { chromium } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
+fs.mkdirSync("docs/design-v0.4/captures/taller", { recursive: true });
+fs.mkdirSync("docs/design-v0.4/checks", { recursive: true });
 const browser = await chromium.launch({
   headless: true,
   args: [
@@ -26,7 +28,7 @@ for (const [name, width, height] of [
   await page.goto("http://127.0.0.1:4404/", { waitUntil: "networkidle" });
   await page.waitForTimeout(700);
   await page.screenshot({
-    path: `docs/design-v0.4/workshop-3d-${name}.png`,
+    path: `docs/design-v0.4/captures/taller/${name}.png`,
     fullPage: true,
   });
   const geometry = await page.evaluate(() => ({
@@ -88,7 +90,7 @@ for (const [name, width, height] of [
     .analyze();
   if (name === "desktop")
     await page.screenshot({
-      path: "docs/design-v0.4/workshop-mineral-desktop.png",
+      path: "docs/design-v0.4/captures/taller/mineral-desktop.png",
       fullPage: true,
     });
   results.push({
@@ -124,7 +126,7 @@ for (const [name, width, height] of [
 }
 await browser.close();
 fs.writeFileSync(
-  "docs/design-v0.4/prototype-check.json",
+  "docs/design-v0.4/checks/prototype.json",
   JSON.stringify(results, null, 2),
 );
 console.log(

@@ -16,7 +16,7 @@ El personaje animado es el centro de la construcción. Equipo a sus lados, seis 
 - Estudio local: además del taller, propuestas para las 19 rutas, 36 diálogos y 6 estados de vista (`prototype/surfaces.html`), con catálogo, panoplias, compartir y tarjetas de build rediseñados. El estado por superficie está en [ROADMAP.md](ROADMAP.md#estado-del-estudio-local).
 - Taller, revisión 3: personaje real del proyecto, 19 clases, dos géneros, giro/movimiento y montura/mascota equipada; temas Tinta/Mineral, catálogo de datos completo, estado e historial reales, vista previa de quitar/reponer piezas, comparación del último cambio y borrador mediante el codec del producto. La ficha agrupa los 73 campos actuales de `StatBlock`.
 - Forjadora integrada: componente, validaciones, Worker y WASM existentes; encargo reorganizado con objetivos y reglas, búsqueda real, templado, alternativas, carga y deshacer. Su presentación se adapta localmente, sin modificar el módulo de producción.
-- Identidad: `assets/forge-mark.svg`, exploración raster `identity-exploration.png`, prompt reproducible `identity-prompt.txt`. Se usó generación integrada de imágenes para la exploración y generación vectorial de Figma para la marca. La herramienta integrada no expone selección explícita del modelo; no se afirma un modelo concreto.
+- Identidad: `assets/forge-mark.svg`, exploración raster `captures/identidad/exploration.png`, prompt reproducible `identity-prompt.txt`. Se usó generación integrada de imágenes para la exploración y generación vectorial de Figma para la marca. La herramienta integrada no expone selección explícita del modelo; no se afirma un modelo concreto.
 - Inventario de 19 páginas y 19 módulos; trazabilidad de 495 nodos con eventos/destinos en 94 TSX, contrato de accesibilidad y migración por fases.
 
 ## Abrir el prototipo
@@ -44,9 +44,19 @@ El build comprueba el bundle de la exploración. No es un paquete de despliegue:
 
 ## Revisión visual y evidencia
 
-[Escritorio](workshop-3d-desktop.png) · [Móvil](workshop-3d-mobile.png) · [Tema mineral](workshop-mineral-desktop.png) · [Tarjetas de build](surfaces-explore-desktop.png) · [Catálogo](catalog-detail-desktop.png) · [Decisiones y validación](DESIGN-REVIEW.md)
+Todas las capturas están en [`captures/`](captures), una carpeta por área, y las regeneran los scripts de `tools/` con el estudio abierto. Los informes de cada comprobación están en [`checks/`](checks). La carpeta `evidence/` (local, fuera del repositorio) guarda las capturas de cada ruta, diálogo y estado, y las del tema Mineral.
 
-[Forjadora escritorio](forge-order-desktop.png) · [Forjadora móvil](forge-order-mobile.png) · [Búsqueda](forge-running-desktop.png) · [Resultados reales](forge-results-desktop.png)
+| Carpeta | Contenido | Script |
+|---|---|---|
+| [`captures/taller`](captures/taller) | Taller en 1440, 1366, 768, 390 y 360 px y en tema Mineral | `check-prototype.mjs` |
+| [`captures/herramientas`](captures/herramientas) | Cada herramienta del taller en escritorio y móvil: características, pasivos, hechizos, combate, panoplias, bonificaciones, comparar, compartir, novedades, catálogo y forjamagia | `check-workspace.mjs` |
+| [`captures/forjadora`](captures/forjadora) | Encargo en escritorio y móvil, búsqueda en curso y resultados reales | `check-forge.mjs` |
+| [`captures/catalogo`](captures/catalogo) | Detalle de un objeto con su impacto en la build | `check-design-flows.mjs` |
+| [`captures/exportar`](captures/exportar) | Ficha descargada con la nueva identidad | `check-design-flows.mjs` |
+| [`captures/vistas`](captures/vistas) | Explorar con las tarjetas de build completas | `check-surfaces.mjs` |
+| [`captures/identidad`](captures/identidad) | Exploración de marca | — |
+
+[Decisiones y validación](DESIGN-REVIEW.md)
 
 La revisión sustituye las tarjetas repetidas por un área de trabajo continua. Navegación discreta, acciones persistentes, objetos reconocibles, personaje central y datos alineados. La ornamentación se concentra detrás del personaje. El cobre identifica acciones; los elementos conservan su significado en el juego.
 
