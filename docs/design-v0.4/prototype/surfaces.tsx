@@ -1,7 +1,13 @@
+import { BuildActivity, type BuildActivityValues } from "./BuildActivity";
 import { encodeSnapshot } from "../../../src/features/share/codec";
 import { Library } from "./Library";
 import { seedLibrary, useLibraryStudy, librarySnapshot } from "./library-model";
-import { Account, PublicProfile, LeaveAccount } from "./Account";
+import {
+  Account,
+  PublicProfile,
+  LeaveAccount,
+  useAccountLocale,
+} from "./Account";
 import { useAccountStudy } from "./account-model";
 import {
   Compass as PaletteExplore,
@@ -15,7 +21,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter } from "react-router";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -206,7 +212,58 @@ const exampleBuilds = (): SheetBuild[] => [
     },
   },
 ];
+const activityExamples: BuildActivityValues[] = [
+  {
+    avg_rating: 4.8,
+    rating_count: 24,
+    like_count: 12,
+    view_count: 12480,
+    comment_count: 3,
+    created_at: "2026-11-17T12:00:00Z",
+  },
+  {
+    avg_rating: 0,
+    rating_count: 0,
+    like_count: 0,
+    view_count: 0,
+    comment_count: 0,
+    created_at: "2026-11-16T12:00:00Z",
+  },
+  {
+    avg_rating: 4.6,
+    rating_count: 8,
+    like_count: 6,
+    view_count: 2800,
+    comment_count: 3,
+    created_at: "2026-11-15T12:00:00Z",
+  },
+  {
+    avg_rating: 4.5,
+    rating_count: 15,
+    like_count: 47,
+    view_count: 9156,
+    comment_count: 12,
+    created_at: "2026-11-14T12:00:00Z",
+  },
+  {
+    avg_rating: 4.7,
+    rating_count: 12,
+    like_count: 32,
+    view_count: 4102,
+    comment_count: 8,
+    created_at: "2026-11-13T12:00:00Z",
+  },
+  {
+    avg_rating: 4,
+    rating_count: 1,
+    like_count: 1,
+    view_count: 85,
+    comment_count: 1,
+    created_at: "2026-11-12T12:00:00Z",
+  },
+];
 let examples: (SheetBuild & {
+  activity: BuildActivityValues;
   vitals: ReturnType<typeof sheetVitals>;
 })[] = [];
 const vitalIcons = { ap: "ap.webp", mp: "mp.webp", range: "range.webp" };
@@ -240,7 +297,7 @@ function Action({
   );
 }
 function App() {
-  const { t } = useTranslation();
+  const { t } = useAccountLocale();
   const liveStats = useBuildStore((s) => s.stats);
   const library = useLibraryStudy(),
     [detailSelection, setDetailSelection] = useState<string | null>(null);
@@ -441,10 +498,6 @@ function App() {
                   ))}
                 </ul>
               )}
-              <span className="build-rating">
-                <Star size={13} />
-                Sin votos
-              </span>
               <button
                 aria-label={"Acciones de " + b.name}
                 onClick={() => open(owned ? "visibility" : "collection-picker")}
@@ -452,6 +505,7 @@ function App() {
                 <MoreHorizontal size={18} />
               </button>
             </div>
+            <BuildActivity activity={b.activity} />
           </article>
         ))}
       </div>
@@ -1536,7 +1590,11 @@ void i18n
   })
   .then(prepareModel)
   .then(() => {
-    examples = exampleBuilds().map((b) => ({ ...b, vitals: sheetVitals(b) }));
+    examples = exampleBuilds().map((b, i) => ({
+      ...b,
+      vitals: sheetVitals(b),
+      activity: activityExamples[i],
+    }));
     seedLibrary(examples);
   })
   .then(() =>

@@ -1700,5 +1700,15 @@
   "lib_v4_detailed_view": "Vis?o de conjuntos",
   "lib_v4_compact_view": "Vis?o compacta",
   "lib_v4_saved_order": "Ordem da cole??o",
-  "lib_v4_response_membership-error": "Falha ao adicionar ? cole??o"
+  "lib_v4_response_membership-error": "Falha ao adicionar ? cole??o",
+  "build_activity_label": "Atividade do conjunto",
+  "build_activity_rating": "Avaliação: {{rating}} de 5.",
+  "build_activity_votes_one": "{{formatted}} avaliação",
+  "build_activity_votes_other": "{{formatted}} avaliações",
+  "build_activity_unrated": "Sem avaliações",
+  "build_activity_published": "Publicado em",
+  "build_activity_likes": "Curtidas",
+  "build_activity_views": "Visualizações",
+  "build_activity_comments": "Comentários",
+  "build_activity_exact": "{{label}}: {{value}}"
 }

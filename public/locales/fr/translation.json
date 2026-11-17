@@ -1700,5 +1700,15 @@
   "lib_v4_detailed_view": "Vue des ?quipements",
   "lib_v4_compact_view": "Vue compacte",
   "lib_v4_saved_order": "Ordre de la collection",
-  "lib_v4_response_membership-error": "?chec de l?ajout ? la collection"
+  "lib_v4_response_membership-error": "?chec de l?ajout ? la collection",
+  "build_activity_label": "Activité de l’équipement",
+  "build_activity_rating": "Note : {{rating}} sur 5.",
+  "build_activity_votes_one": "{{formatted}} évaluation",
+  "build_activity_votes_other": "{{formatted}} évaluations",
+  "build_activity_unrated": "Pas encore de note",
+  "build_activity_published": "Publié le",
+  "build_activity_likes": "J’aime",
+  "build_activity_views": "Vues",
+  "build_activity_comments": "Commentaires",
+  "build_activity_exact": "{{label}} : {{value}}"
 }

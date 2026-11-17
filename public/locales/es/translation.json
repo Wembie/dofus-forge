@@ -1700,5 +1700,15 @@
   "lib_v4_detailed_view": "Vista de equipos",
   "lib_v4_compact_view": "Vista compacta",
   "lib_v4_saved_order": "Orden de la colecci?n",
-  "lib_v4_response_membership-error": "Fallo al a?adir a colecci?n"
+  "lib_v4_response_membership-error": "Fallo al a?adir a colecci?n",
+  "build_activity_label": "Actividad de la build",
+  "build_activity_rating": "Valoración: {{rating}} de 5.",
+  "build_activity_votes_one": "{{formatted}} valoración",
+  "build_activity_votes_other": "{{formatted}} valoraciones",
+  "build_activity_unrated": "Sin valoraciones",
+  "build_activity_published": "Publicada el",
+  "build_activity_likes": "Me gusta",
+  "build_activity_views": "Vistas",
+  "build_activity_comments": "Comentarios",
+  "build_activity_exact": "{{label}}: {{value}}"
 }

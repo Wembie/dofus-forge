@@ -1700,5 +1700,15 @@
   "lib_v4_detailed_view": "Build view",
   "lib_v4_compact_view": "Compact view",
   "lib_v4_saved_order": "Collection order",
-  "lib_v4_response_membership-error": "Collection membership failure"
+  "lib_v4_response_membership-error": "Collection membership failure",
+  "build_activity_label": "Build activity",
+  "build_activity_rating": "Rating: {{rating}} out of 5.",
+  "build_activity_votes_one": "{{formatted}} rating",
+  "build_activity_votes_other": "{{formatted}} ratings",
+  "build_activity_unrated": "No ratings yet",
+  "build_activity_published": "Published on",
+  "build_activity_likes": "Likes",
+  "build_activity_views": "Views",
+  "build_activity_comments": "Comments",
+  "build_activity_exact": "{{label}}: {{value}}"
 }
