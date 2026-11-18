@@ -7,6 +7,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 - **Una sección = un commit** (o varios si la sección es grande, cada uno revisable y reversible por sí solo).
 - **Paridad antes del commit.** Se lista todo lo que hace hoy la vista vieja (fuente: [INTERACTIONS.md](INTERACTIONS.md) y la fila de la sección en [ROADMAP.md](ROADMAP.md)) y se comprueba punto por punto en la vista nueva. Si falta algo importante, se para y se avisa; lo menor va a la lista de huecos al final de este documento.
 - **Sin cambios de cálculo.** Motor, `buildStore`, pasivos, condiciones y Forjadora no cambian; solo su presentación. Las reglas que el estudio repite (lista en ROADMAP, «Reglas exportadas») se exportan desde `src/`, no se copian.
+- **Nombres de producción.** Las estadísticas y lo que ya tiene nombre en el producto conservan su nombre y traducción (p. ej. «Placaje», no «Tacle»); las claves nuevas solo para lo que no existía.
 - **Textos.** Las claves `*_v4_*` que use un componente migrado pasan a su nombre definitivo, se funden con claves de producción equivalentes o se borran. Siempre en los cuatro idiomas. En español se dice «set», nunca «panoplia».
 - **SEO.** Cada ruta conserva título, descripción, canonical, hreflang, JSON-LD, imagen OG y prerender (145 páginas). Se compara el HTML prerenderizado antes y después.
 - **Medición.** Se conserva lo que hay hoy: Cloudflare Web Analytics (sin cookies) y el cargador de AdSense en `root.tsx`. Google Analytics está pendiente de decisión (ver abajo).
@@ -26,6 +27,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 | S1 | Armazón: cabecera, menú del sitio, cuenta, campana, preferencias, aviso de versión y pie en todas las páginas salvo el taller (el taller lo adopta en S2). Capturas en `captures/migracion/s1-armazon/` |
 | S2 | Taller: armazón compartido, barra con miga, título de la build (nombre o clase · elemento), nivel, deshacer/rehacer, la Forjadora destacada, Comparar, Publicar/Actualizar, Exportar, Compartir; barra de herramientas; franja inferior con el guardado en el dispositivo, versión de datos, novedades y atajos. Capturas en `captures/migracion/s2-taller-cabecera/` |
 | S3 | Panel de equipo: cabecera con espacios ocupados, casillas con nombre del espacio y del objeto en escritorio (cuadradas en móvil), clase y género bajo el personaje, Dofus y trofeos con recuento, compañero y estado de la animación. Conserva tooltip, runas, set, fijar para la Forjadora, quitar, arrastrar entre espacios y continuar al siguiente Dofus. Capturas en `captures/migracion/s3-taller-equipo/` |
+| S4 | Panel de estadísticas: equipo y estadísticas en dos columnas (lado según Ajustes); resumen (vida, PA, PM, alcance, críticos, potencia) con topes y sus excesos, características, tabla de elementos con daño, resistencia fija y % (tope 50 %, barra, desglose de daños generales), combate, control y bonificaciones, y cuando los hay modificadores de daño, runas y efectos sin mapear; diferencias en vista de combate; ficha completa. Sin clase, la columna muestra el selector de clase. Nuevo diálogo «Nombre y nivel» desde el nivel de la barra; características se abre desde la barra de herramientas. Capturas en `captures/migracion/s4-taller-estadisticas/` |
 
 ## Secciones, en orden
 
@@ -90,5 +92,8 @@ Se anotan aquí durante la migración: lo que falta, la sección y si bloquea.
 | S3 | En móvil, las tarjetas de «Sets activos» quedan en dos columnas apretadas (ya era así) | No |
 | S3 | El botón «reiniciar equipo» del estudio no se migró: el store no tiene una acción que quite todo el equipo y sus runas en un paso deshacible; crearla es una función nueva | Decidir |
 | S3 | El compañero conserva el nombre de producción («Compañero») en lugar de «Multiman» del estudio | No |
+| S4 | «Distribuir características» abre el panel de producción dentro del diálogo nuevo hasta S8 (composición del estudio) | No |
+| S4 | Revisión del usuario aplicada: nombres de producción (Placaje, Huida, Retira PA, PV, AL…) en lugar de los del estudio, icono en cada estadística y en forjamagia, sin Vitalidad en la fila de características (ya está en PV), Fuerza/Inteligencia/Suerte/Agilidad con su valor más la potencia y el total, Crítico y Empuje de vuelta en la tabla de elementos, Invocaciones en el resumen y Potencia en Bonificaciones, texto más grande | No |
+| S4 / S17 | `StatsFromBlock` sigue en la página de una build hasta S17, que usará `StatsOverview` | No |
 | S7 / S10 | Los paneles viejos de bonus de set y pasivos fallan axe con equipo puesto (38–42 contrastes por el texto de bonus inactivos y un `aria-label` no permitido); se corrigen al migrarlos | No |
 | S24 | `useAuthFlow.ts` usa `auth_v4_password_hint` y `auth_v4_connection_error` | No |

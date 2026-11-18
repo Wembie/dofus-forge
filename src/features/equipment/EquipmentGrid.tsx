@@ -775,7 +775,7 @@ export function EquipmentGrid() {
   return (
     <div className="workshop-equipment-surface">
       <header className="workshop-panel-head">
-        <h2>{t('workshop_gear')}</h2>
+        <h2>{t('equipment')}</h2>
         <span>{t('workshop_slots_count', { worn, total: ALL_SLOTS.length })}</span>
       </header>
       <div className="workshop-gear-stage">

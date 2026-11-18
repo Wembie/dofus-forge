@@ -1,4 +1,4 @@
-import type { ElementType } from 'react'
+import { useEffect, useRef, useState, type ElementType } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { BookOpen, Columns2, Hammer, Redo2, Undo2 } from 'lucide-react'
@@ -9,6 +9,7 @@ import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
+import { Modal } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 
 export type WorkshopTool = 'characteristics' | 'passives' | 'spells' | 'pvp' | 'sets' | 'bonuses' | 'compare'
@@ -17,13 +18,14 @@ const TOOLS: WorkshopTool[] = ['characteristics', 'passives', 'spells', 'pvp', '
 
 /** The workshop's heading: where the build lives, its name, class element and
  * level, that it is kept on this device, and the build-wide actions. */
-export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publishLabel, PublishIcon }: {
+export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publishLabel, PublishIcon, onIdentity }: {
   onForge: () => void
   onCompare: () => void
   compareActive: boolean
   onPublish: () => void
   publishLabel: string
   PublishIcon: ElementType
+  onIdentity: () => void
 }) {
   const { t } = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
@@ -56,7 +58,7 @@ export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publ
           ) : (
             <h1>{t('workshop_heading_empty')}</h1>
           )}
-          {selectedClass && <span className="workshop-level" title={t('level')}>{level}</span>}
+          {selectedClass && <button type="button" className="workshop-level" onClick={onIdentity} aria-label={t('identity_edit', { level })} title={t('tool_identity')}>{level}</button>}
         </div>
       </div>
       <div className="workshop-actions">
@@ -117,5 +119,48 @@ export function WorkshopStatus({ onChangelog }: { onChangelog: () => void }) {
         </Link>
       </span>
     </div>
+  )
+}
+
+/** Build name and level, opened from the level in the heading. */
+export function WorkshopIdentity({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useTranslation()
+  const buildName    = useBuildStore(s => s.buildName)
+  const setBuildName = useBuildStore(s => s.setBuildName)
+  const level        = useBuildStore(s => s.level)
+  const setLevel     = useBuildStore(s => s.setLevel)
+  // Buffered while typing so clearing the field to type "20" does not snap
+  // to the clamped "1"; committed (and clamped to 1–200) on blur or Enter.
+  const [draft, setDraft] = useState(String(level))
+  const focused = useRef(false)
+  useEffect(() => { if (!focused.current) setDraft(String(level)) }, [level])
+  const commit = () => {
+    focused.current = false
+    const n = parseInt(draft, 10)
+    if (Number.isFinite(n)) { setLevel(n); setDraft(String(Math.max(1, Math.min(200, n)))) }
+    else setDraft(String(level))
+  }
+  return (
+    <Modal open={open} onClose={onClose} title={t('tool_identity')} size="sm">
+      <form className="workshop-identity-form" onSubmit={e => { e.preventDefault(); commit(); onClose() }}>
+        <label>
+          {t('build_name_label')}
+          <input value={buildName} maxLength={60} placeholder={t('build_name_placeholder')} onChange={e => setBuildName(e.target.value)} />
+        </label>
+        <label>
+          {t('level')}
+          <span className="workshop-level-input">
+            <button type="button" onClick={() => setLevel(level - 1)} disabled={level <= 1} aria-label={t('level_decrease')}>−</button>
+            <input type="text" inputMode="numeric" value={draft}
+              onFocus={() => { focused.current = true }}
+              onChange={e => { if (/^\d{0,3}$/.test(e.target.value)) setDraft(e.target.value) }}
+              onBlur={commit} />
+            <button type="button" onClick={() => setLevel(level + 1)} disabled={level >= 200} aria-label={t('level_increase')}>+</button>
+          </span>
+        </label>
+        <p>{t('identity_level_hint')}</p>
+        <button type="submit" className="site-primary">{t('identity_done')}</button>
+      </form>
+    </Modal>
   )
 }

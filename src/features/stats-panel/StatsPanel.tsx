@@ -10,7 +10,7 @@ import { useCombatStats } from '@/store/useCombatStats.ts'
 import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
-import { StatsSheetButton } from './StatsSheet.tsx'
+import { StatsOverview } from './StatsOverview.tsx'
 
 function icon(name: string, size = 16) {
   return (
@@ -504,16 +504,12 @@ export function StatsPanel() {
   if (!stats) return null
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <h2 className="font-display text-xs uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
-          {t('stats')}
-        </h2>
-        <div className="flex-1" style={{ height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)' }} />
+    <section className="stats-panel" aria-label={t('stats')}>
+      <header className="workshop-panel-head">
+        <h2>{t('stats')}</h2>
         <CombatViewTag />
-      </div>
-      <StatsFromBlock s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} />
-      <StatsSheetButton stats={combat ? combatStats! : stats} />
-    </div>
+      </header>
+      <StatsOverview s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} inCombat={combat} />
+    </section>
   )
 }

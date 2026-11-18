@@ -4,6 +4,7 @@ import { ArrowRight, Search } from 'lucide-react'
 import type { StatBlock } from '@/engine/types.ts'
 import { Modal } from '@/ui'
 import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
+import { statIconUrl, STAT_FIELDS } from '@/features/equipment/statDisplay.ts'
 
 type SheetKey = Exclude<keyof StatBlock, 'unknownStats'> | 'unknownStats'
 
@@ -37,8 +38,9 @@ function StatsSheet({ stats }: { stats: StatBlock }) {
   // "es" alone drops the thousands separator on four-digit values.
   const format = new Intl.NumberFormat(i18n.language === 'es' ? 'es-CO' : i18n.language)
   const needle = query.trim().toLocaleLowerCase()
+  const label = (key: SheetKey) => (STAT_FIELDS[key] ? t(STAT_FIELDS[key].tKey) : t(`sheet_stat_${key}`))
   const groups = STAT_SHEET_GROUPS
-    .map(([title, keys]) => [title, keys.filter(key => t(`sheet_stat_${key}`).toLocaleLowerCase().includes(needle))] as const)
+    .map(([title, keys]) => [title, keys.filter(key => label(key).toLocaleLowerCase().includes(needle))] as const)
     .filter(([, keys]) => keys.length > 0)
 
   return (
@@ -59,14 +61,15 @@ function StatsSheet({ stats }: { stats: StatBlock }) {
             <h3>{t(title)}</h3>
             <dl>
               {keys.map(key => {
-                const label = t(`sheet_stat_${key}`)
+                const name = label(key)
+                const icon = STAT_FIELDS[key]?.icon
                 const value = stats[key]
                 const text = typeof value === 'number'
                   ? format.format(value)
                   : Object.entries(value).map(([name, amount]) => `${name}: ${format.format(amount)}`).join(' · ') || t('stats_sheet_none')
                 return (
                   <div key={key} data-stat={key} className={value === 0 ? 'is-zero' : undefined}>
-                    <dt title={label}>{label}</dt>
+                    <dt title={name}>{icon && <img src={statIconUrl(icon)} alt="" width={14} height={14} />}{name}</dt>
                     <dd title={text}>{text}</dd>
                   </div>
                 )

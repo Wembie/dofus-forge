@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router'
 import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library, Sparkles } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
-import { WorkshopBar, WorkshopStatus, WorkshopTools, type WorkshopTool } from '@/features/workshop/WorkshopBar.tsx'
+import { WorkshopBar, WorkshopIdentity, WorkshopStatus, WorkshopTools, type WorkshopTool } from '@/features/workshop/WorkshopBar.tsx'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -21,7 +21,7 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { assignSetSlots } from '@/features/equipment/setSlots.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
-import { BrandMark, Tabs, Frame, type TabItem } from '@/ui'
+import { BrandMark, Tabs, Frame, Modal, type TabItem } from '@/ui'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -111,6 +111,8 @@ function BuilderContent() {
   }, [])
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
+  const [showCharacteristics, setShowCharacteristics] = useState(false)
+  const [showIdentity, setShowIdentity] = useState(false)
   // The saved side is applied after mount; the prerendered page uses the default.
   const [sidebarSide, setSidebarSideState] = useState<SidebarSide>('right')
 
@@ -219,9 +221,10 @@ function BuilderContent() {
 
   function selectTool(tool: WorkshopTool) {
     if (tool === 'sets') return setShowSetsCatalog(true)
+    if (tool === 'characteristics') return setShowCharacteristics(true)
     if (tool === 'compare') return toggleCompare()
     // Until each tool gets its own panel, the bar reaches the one on the page.
-    const inCharacterTab = tool === 'characteristics' || tool === 'spells' || tool === 'pvp'
+    const inCharacterTab = tool === 'spells' || tool === 'pvp'
     if (!window.matchMedia('(min-width: 1024px)').matches) setActiveTab(inCharacterTab ? 'character' : 'equipment')
     setTimeout(() => {
       const target = [...document.querySelectorAll<HTMLElement>(`[data-tool="${tool}"]`)].find(el => el.offsetParent !== null)
@@ -243,6 +246,8 @@ function BuilderContent() {
           { key: 'compare',   label: t('compare'),           Icon: BarChart2,   onRun: toggleCompare },
           { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
+          { key: 'characteristics', label: t('tool_characteristics'), Icon: User, disabled: !hasClass, onRun: () => setShowCharacteristics(true) },
+          { key: 'identity',  label: t('tool_identity'),      Icon: Settings,   disabled: !hasClass, onRun: () => setShowIdentity(true) },
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
           { key: 'sets-page',  label: t('nav_sets'),          Icon: Library,    onRun: () => navToLangPath('sets') },
           { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onRun: () => navToLangPath('how-to-use') },
@@ -262,7 +267,12 @@ function BuilderContent() {
         onPublish={() => setShowPublish(true)}
         publishLabel={publishLabel}
         PublishIcon={PublishIcon}
+        onIdentity={() => setShowIdentity(true)}
       />
+      <WorkshopIdentity open={showIdentity} onClose={() => setShowIdentity(false)} />
+      <Modal open={showCharacteristics} onClose={() => setShowCharacteristics(false)} title={t('tool_characteristics')} size="lg">
+        <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel /></div>
+      </Modal>
       <WorkshopTools onSelect={selectTool} compareActive={compareActive} />
 
       {/* Changelog modal */}
@@ -318,19 +328,13 @@ function BuilderContent() {
           )}
         </div>
 
-        {/* Desktop: 2-column grid (lg+) */}
-        <div className={`hidden lg:grid gap-5 items-start ${sidebarLeft ? 'lg:grid-cols-[360px_1fr]' : 'lg:grid-cols-[1fr_360px]'}`}>
-
-          {/* Equipment + Spells stacked — order flips with the sidebar side setting */}
+        {/* Desktop: equipment and stats side by side (lg+); the side follows Settings */}
+        <div className="hidden lg:grid gap-5 items-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
           <div className="flex flex-col gap-5" style={{ order: sidebarLeft ? 2 : 1 }}>
             <section
               aria-label={t('equipment')}
               className="rounded-xl overflow-hidden"
-              style={{
-                border:    '1px solid var(--metal-edge)',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,0,0,0.4)',
-                animation: 'page-rise 520ms var(--ease-out) 0ms both',
-              }}
+              style={{ border: '1px solid var(--metal-edge)', animation: 'page-rise 520ms var(--ease-out) 0ms both' }}
             >
               <EquipmentGrid />
             </section>
@@ -341,20 +345,22 @@ function BuilderContent() {
             )}
           </div>
 
-          {/* Class + Characteristics + Stats sidebar (sticky, scrollable) — side set in Settings */}
           <aside
-            aria-label={`${t('class')} & ${t('characteristics')} & ${t('stats')}`}
+            aria-label={hasClass ? t('stats') : t('class')}
             aria-live="polite"
-            className="sticky top-[58px] max-h-[calc(100vh-68px)] overflow-y-auto space-y-4 pb-4"
+            className="sticky top-[76px] max-h-[calc(100vh-88px)] overflow-y-auto space-y-4 pb-4"
             style={{ order: sidebarLeft ? 1 : 2, animation: 'page-rise 520ms var(--ease-out) 60ms both' }}
           >
-            <Frame><ClassPicker /></Frame>
-            {/* Applies to both panels below, so it sits above them. */}
-            <CombatViewBar showEdit />
-            <div data-tool="characteristics"><Frame><CharacteristicsPanel /></Frame></div>
-            <Frame material="parchment"><StatsPanel /></Frame>
+            {hasClass ? (
+              <>
+                {/* Applies to the stats below and to the tools, so it sits above them. */}
+                <CombatViewBar showEdit />
+                <Frame><StatsPanel /></Frame>
+              </>
+            ) : (
+              <Frame><ClassPicker /></Frame>
+            )}
           </aside>
-
         </div>
       </main>
 
