@@ -407,8 +407,16 @@ for (const [device, width, height] of [
       .getByRole("button", { name: "Descargar ficha", exact: true })
       .click();
     const download = await downloadPromise;
+    // Production's file name, and a link in the page's language (Spanish here).
+    if (!/^dofus-.+-lv\d+\.png$/.test(download.suggestedFilename()))
+      throw new Error("export file name differs from production: " + download.suggestedFilename());
     await download.saveAs("docs/design-v0.4/captures/exportar/sheet.png");
     await expect(page.getByRole("status")).toContainText("Imagen preparada");
+    await page.getByRole("button", { name: "Copiar enlace", exact: true }).click();
+    await expect(page.getByRole("status")).toContainText("Copiado");
+    const shared = await page.evaluate(() => navigator.clipboard.readText());
+    if (!/^https:\/\/dofusforge\.com\/es\?b=.+/.test(shared))
+      throw new Error("share link is not the Spanish build link: " + shared);
     await page.keyboard.press("Escape");
   }
   results.push({

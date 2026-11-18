@@ -1913,5 +1913,19 @@
   "rd_v4_kicker_legal": "INFORMACIÓN LEGAL",
   "rd_v4_kicker_class": "GUÍA DE CLASE",
   "rd_v4_about_project": "El proyecto",
-  "rd_v4_other_classes": "Otras clases"
+  "rd_v4_other_classes": "Otras clases",
+  "share_v4_intro": "El enlace conserva equipo, runas, características, nombre y pasivos. Abre la build en Dofus Forge.",
+  "share_v4_link_label": "Enlace de tu build",
+  "share_v4_copy": "Copiar enlace",
+  "share_v4_copy_error": "No se pudo copiar. Selecciona el enlace y cópialo a mano.",
+  "share_v4_download": "Descargar ficha",
+  "share_v4_downloaded": "Imagen preparada.",
+  "share_v4_download_error": "No se pudo generar la imagen. Puedes volver a intentarlo.",
+  "share_v4_preview_show": "Ver vista previa",
+  "share_v4_preview_hide": "Ocultar vista previa",
+  "share_v4_no_class": "Elige una clase para compartir tu build.",
+  "share_v4_sheet_kicker": "FICHA DE EQUIPO",
+  "share_v4_empty_slot": "Espacio vacío",
+  "share_v4_none": "Ninguno",
+  "share_v4_footer": "Estadísticas de equipo · 73 campos · sin pasivos de combate activos"
 }

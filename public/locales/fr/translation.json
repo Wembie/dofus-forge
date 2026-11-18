@@ -1913,5 +1913,19 @@
   "rd_v4_kicker_legal": "INFORMATIONS LÉGALES",
   "rd_v4_kicker_class": "GUIDE DE CLASSE",
   "rd_v4_about_project": "Le projet",
-  "rd_v4_other_classes": "Autres classes"
+  "rd_v4_other_classes": "Autres classes",
+  "share_v4_intro": "Le lien conserve l’équipement, les runes, les caractéristiques, le nom et les passifs. Il ouvre l’équipement dans Dofus Forge.",
+  "share_v4_link_label": "Lien de votre équipement",
+  "share_v4_copy": "Copier le lien",
+  "share_v4_copy_error": "Impossible de copier. Sélectionnez le lien et copiez-le vous-même.",
+  "share_v4_download": "Télécharger la fiche",
+  "share_v4_downloaded": "Image prête.",
+  "share_v4_download_error": "L’image n’a pas pu être générée. Vous pouvez réessayer.",
+  "share_v4_preview_show": "Afficher l’aperçu",
+  "share_v4_preview_hide": "Masquer l’aperçu",
+  "share_v4_no_class": "Choisissez une classe pour partager votre équipement.",
+  "share_v4_sheet_kicker": "FICHE D’ÉQUIPEMENT",
+  "share_v4_empty_slot": "Emplacement vide",
+  "share_v4_none": "Aucun",
+  "share_v4_footer": "Stats d’équipement · 73 champs · sans passifs de combat actifs"
 }

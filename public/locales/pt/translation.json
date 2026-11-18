@@ -1913,5 +1913,19 @@
   "rd_v4_kicker_legal": "INFORMAÇÕES LEGAIS",
   "rd_v4_kicker_class": "GUIA DE CLASSE",
   "rd_v4_about_project": "O projeto",
-  "rd_v4_other_classes": "Outras classes"
+  "rd_v4_other_classes": "Outras classes",
+  "share_v4_intro": "O link guarda equipamento, runas, características, nome e passivos. Abre o conjunto no Dofus Forge.",
+  "share_v4_link_label": "Link do seu conjunto",
+  "share_v4_copy": "Copiar link",
+  "share_v4_copy_error": "Não foi possível copiar. Selecione o link e copie manualmente.",
+  "share_v4_download": "Baixar ficha",
+  "share_v4_downloaded": "Imagem pronta.",
+  "share_v4_download_error": "Não foi possível gerar a imagem. Você pode tentar de novo.",
+  "share_v4_preview_show": "Ver prévia",
+  "share_v4_preview_hide": "Ocultar prévia",
+  "share_v4_no_class": "Escolha uma classe para compartilhar seu conjunto.",
+  "share_v4_sheet_kicker": "FICHA DE EQUIPAMENTO",
+  "share_v4_empty_slot": "Espaço vazio",
+  "share_v4_none": "Nenhum",
+  "share_v4_footer": "Stats do equipamento · 73 campos · sem passivos de combate ativos"
 }

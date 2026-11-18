@@ -1913,5 +1913,19 @@
   "rd_v4_kicker_legal": "LEGAL INFORMATION",
   "rd_v4_kicker_class": "CLASS GUIDE",
   "rd_v4_about_project": "The project",
-  "rd_v4_other_classes": "Other classes"
+  "rd_v4_other_classes": "Other classes",
+  "share_v4_intro": "The link keeps gear, runes, characteristics, name and passives. It opens the build in Dofus Forge.",
+  "share_v4_link_label": "Your build’s link",
+  "share_v4_copy": "Copy link",
+  "share_v4_copy_error": "Couldn’t copy. Select the link and copy it yourself.",
+  "share_v4_download": "Download sheet",
+  "share_v4_downloaded": "Image ready.",
+  "share_v4_download_error": "The image couldn’t be made. You can try again.",
+  "share_v4_preview_show": "Show preview",
+  "share_v4_preview_hide": "Hide preview",
+  "share_v4_no_class": "Pick a class to share your build.",
+  "share_v4_sheet_kicker": "GEAR SHEET",
+  "share_v4_empty_slot": "Empty slot",
+  "share_v4_none": "None",
+  "share_v4_footer": "Gear stats · 73 fields · no combat passives switched on"
 }
