@@ -1,3 +1,4 @@
+import { VISUAL_REVISION } from '../data/visual.ts'
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
@@ -143,7 +144,7 @@ export function BuildDetailPage() {
     description: build ? t('build_detail_seo_description', { class: resolvedClassLabel, level: build.level }) : undefined,
     // ?v= changes with every edit, so link previews (Discord, WhatsApp) that
     // cache by exact image URL pick up the new image; same as the Worker.
-    image: build ? `https://dofusforge.com/og/${i18n.language.slice(0, 2)}/${id}.png?v=${Date.parse(build.updated_at) || 0}` : undefined,
+    image: build ? `https://dofusforge.com/og/${i18n.language.slice(0, 2)}/${id}.png?v=${Date.parse(build.updated_at) || 0}-${VISUAL_REVISION}` : undefined,
     noindex: notFound,
   })
 

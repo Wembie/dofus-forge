@@ -1,3 +1,4 @@
+import { VISUAL_REVISION } from '../data/visual.ts'
 import { createContext, useContext, useEffect } from 'react'
 import { BRAND } from '../data/brand.ts'
 
@@ -11,7 +12,7 @@ export const defaultImage = (lang: SeoLang) => `${SITE}${BRAND.ogImageByLang(lan
 export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const
 // Generated per page by the Worker (src/worker/ogPages.ts); the version busts link-preview caches on game updates.
 export const pageOgImage = (lang: SeoLang, kind: 'set' | 'class', slug: string, version: string) =>
-  `${SITE}/og/${lang}/${kind}/${slug}.png?v=${version}`
+  `${SITE}/og/${lang}/${kind}/${slug}.png?v=${version}-${VISUAL_REVISION}`
 export const ogImageType = (url: string) => (/\.png(\?|$)/.test(url) ? 'image/png' : 'image/jpeg')
 
 const PATH: Record<SeoLang, string> = { en: '', es: '/es', fr: '/fr', pt: '/pt' }

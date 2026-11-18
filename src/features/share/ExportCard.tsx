@@ -1,3 +1,4 @@
+import { PREVIEW_COLORS as P } from '../../data/visual.ts'
 import { createRoot } from 'react-dom/client'
 import { flushSync } from 'react-dom'
 import { toPng } from 'html-to-image'
@@ -10,15 +11,7 @@ import { BRAND } from '@/data/brand.ts'
 
 const BASE = import.meta.env.BASE_URL
 
-const C = {
-  bg:      '#070b12',
-  surface: '#0d1220',
-  border:  '#1c2333',
-  gold:    '#c9a84c',
-  text:    '#e8eaf0',
-  muted:   '#4a5268',
-  dim:     '#2a3347',
-} as const
+const C = {bg:P.bg,surface:P.surface,border:P.border,gold:P.accent,text:P.text,muted:P.muted,dim:P.muted} as const
 
 function slotLabel(id: SlotId): string {
   const t = i18next.t.bind(i18next)
@@ -55,7 +48,7 @@ function fmt(v: number, suffix = '') {
 
 const SECTION_STYLE: React.CSSProperties = {
   color: C.gold, fontSize: 9,
-  fontFamily: "'Cinzel', Georgia, serif",
+  fontFamily: "'Alegreya', Georgia, serif",
   textTransform: 'uppercase', letterSpacing: '0.2em',
   marginBottom: 8,
 }
@@ -107,7 +100,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
       width: 720, background: C.bg,
       border: `1px solid ${C.border}`, borderRadius: 12,
       overflow: 'hidden',
-      fontFamily: "'Inter', system-ui, sans-serif",
+      fontFamily: "'Source Sans 3', system-ui, sans-serif",
     }}>
       {/* ── Header ── */}
       <div style={{
@@ -119,7 +112,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
           <img src={portrait} width={60} height={60} style={{ objectFit: 'cover', display: 'block' }} alt="" />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ color: C.gold, fontSize: 18, fontWeight: 700, fontFamily: "'Cinzel', Georgia, serif", letterSpacing: '0.05em' }}>
+          <div style={{ color: C.gold, fontSize: 18, fontWeight: 700, fontFamily: "'Alegreya', Georgia, serif", letterSpacing: '0.05em' }}>
             {classLabel}
           </div>
           <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>
@@ -130,8 +123,8 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
           {/* PNG, not the SVG mark: html-to-image rasterizes it reliably */}
           <img src={BRAND.mark256} width={34} height={34} style={{ display: 'block' }} alt="" />
           <div style={{ textAlign: 'right' }}>
-            <div style={{ color: C.gold, fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', fontFamily: "'Cinzel', Georgia, serif" }}>DOFUS FORGE</div>
-            <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>dofus 3 build planner</div>
+            <div style={{ color: C.gold, fontSize: 18, fontWeight: 600, letterSpacing: '0.05em', fontFamily: "'Barlow Condensed', sans-serif" }}>DOFUS FORGE</div>
+            <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>Dofus 3</div>
           </div>
         </div>
       </div>
@@ -145,7 +138,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
             background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
           }}>
             <StatIcon name={b.icon} size={18} />
-            <span style={{ color: b.color, fontFamily: 'monospace', fontWeight: 700, fontSize: 20, lineHeight: 1 }}>{b.value}</span>
+            <span style={{ color: b.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 20, lineHeight: 1 }}>{b.value}</span>
             <span style={{ color: C.dim, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{b.label}</span>
           </div>
         ))}
@@ -177,7 +170,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
                   <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '2px 0' }}>
                     <StatIcon name={c.icon} size={13} />
                     <span style={{ color: C.muted, fontSize: 10, flex: 1 }}>{c.label}</span>
-                    <span style={{ color: c.color, fontFamily: 'monospace', fontWeight: 700, fontSize: 11 }}>{fmt(c.value)}</span>
+                    <span style={{ color: c.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11 }}>{fmt(c.value)}</span>
                   </div>
                 ))}
               </div>
@@ -199,9 +192,9 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
                     <StatIcon name={e.icon} size={13} />
                     <span style={{ color: e.color, fontSize: 11, fontWeight: 600 }}>{e.label}</span>
                   </div>
-                  <div style={{ width: 48, textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, fontSize: 11, color: e.dmg !== 0 ? e.color : C.dim }}>{fmt(e.dmg)}</div>
-                  <div style={{ width: 48, textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, fontSize: 11, color: e.res !== 0 ? e.color : C.dim }}>{fmt(e.res)}</div>
-                  <div style={{ width: 48, textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, fontSize: 11, color: e.pct !== 0 ? e.color : C.dim }}>{fmt(e.pct, '%')}</div>
+                  <div style={{ width: 48, textAlign: 'right', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11, color: e.dmg !== 0 ? e.color : C.dim }}>{fmt(e.dmg)}</div>
+                  <div style={{ width: 48, textAlign: 'right', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11, color: e.res !== 0 ? e.color : C.dim }}>{fmt(e.res)}</div>
+                  <div style={{ width: 48, textAlign: 'right', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11, color: e.pct !== 0 ? e.color : C.dim }}>{fmt(e.pct, '%')}</div>
                 </div>
               ))}
             </div>
@@ -218,7 +211,7 @@ function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: E
                     background: C.surface, border: `1px solid ${C.border}`, borderRadius: 4,
                   }}>
                     <StatIcon name={c.icon} size={12} />
-                    <span style={{ color: c.color, fontFamily: 'monospace', fontWeight: 700, fontSize: 11 }}>{fmt(c.value, c.suffix)}</span>
+                    <span style={{ color: c.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11 }}>{fmt(c.value, c.suffix)}</span>
                     <span style={{ color: C.muted, fontSize: 10 }}>{c.label}</span>
                   </div>
                 ))}

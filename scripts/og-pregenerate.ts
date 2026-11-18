@@ -94,9 +94,10 @@ const font = (file: string) => {
   return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength)
 }
 const FONTS: OgFont[] = [
-  { name: 'Cinzel', data: font('Cinzel-Bold.ttf'), weight: 700, style: 'normal' },
-  { name: 'Inter', data: font('Inter-Regular.ttf'), weight: 400, style: 'normal' },
-  { name: 'JetBrainsMono', data: font('JetBrainsMono-Bold.ttf'), weight: 700, style: 'normal' },
+  {name:'BarlowCondensed',data:font('BarlowCondensed-SemiBold.ttf'),weight:600,style:'normal'},
+  { name: 'Alegreya', data: font('Alegreya-SemiBold.ttf'), weight: 700, style: 'normal' },
+  { name: 'SourceSans3', data: font('SourceSans3-Regular.ttf'), weight: 400, style: 'normal' },
+  { name: 'IBMPlexMono', data: font('IBMPlexMono-Medium.ttf'), weight: 700, style: 'normal' },
 ]
 
 const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONTS }
@@ -105,6 +106,7 @@ const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONT
 function rendererFingerprint(): string {
   const files = [
     'src/worker/ogRender.ts',
+    'src/data/visual.ts',
     'src/worker/ogPages.ts',
     'src/worker/data.ts',
     'src/data/setGuide.ts',

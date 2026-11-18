@@ -19,6 +19,8 @@ on:
     paths:
       - public/data/version.json
       - public/locales/*/translation.json
+      - public/brand/**
+      - src/data/visual.ts
       - src/worker/ogRender.ts
       - src/worker/ogPages.ts
       - src/worker/ogImage.ts

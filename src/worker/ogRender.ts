@@ -1,3 +1,4 @@
+import { VISUAL_REVISION } from '../data/visual.ts'
 import { renderBuildSvg, type OgFont } from './ogImage.ts'
 import { CARD_STATS, ELEMENT_COLOR, renderClassSvg, renderSetSvg, setFacts, setIdForSlug, type OgChip } from './ogPages.ts'
 import { getClassNames, getEquipment, getSets, getTranslation, statIconDataUri, toDataUri, type Lang } from './data.ts'
@@ -48,7 +49,7 @@ export const pageManifestKey = (shard: number, shards: number) =>
  */
 export const BUILD_CARDS_PREFIX = `v${OG_KEY_VERSION}/builds/`
 export const buildCardKey = (id: string, lang: Lang, updatedAt: string) =>
-  `${BUILD_CARDS_PREFIX}${id.toLowerCase()}/${lang}-${Date.parse(updatedAt) || 0}.png`
+  `${BUILD_CARDS_PREFIX}${id.toLowerCase()}/${lang}-${Date.parse(updatedAt) || 0}-${VISUAL_REVISION}.png`
 
 // The brand mark drawn on every generated card (docs/brand/dofus-forge, --apply copies it).
 const LOGO_PATH = '/brand/mark-256.png'
