@@ -163,7 +163,7 @@ export function CollectionPage() {
             {collection.builds.length === 0 ? (
               <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('collection_empty')}</p>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div className="build-grid">
                 {collection.builds.map(b => (
                   <div key={b.id} className="relative">
                     <BuildCard build={b} />

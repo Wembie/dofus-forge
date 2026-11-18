@@ -1,23 +1,25 @@
-import { useEffect, useState, useCallback, useRef, useSyncExternalStore } from 'react'
-import { useSearchParams, useLoaderData } from 'react-router'
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
+import { Link, useLoaderData, useSearchParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Star, Heart, Clock, Eye, Search, Users, Hammer, Globe, Flame, Layers, Anvil, Sparkles } from 'lucide-react'
-import { Tabs, Button, type TabItem } from '@/ui'
+import { ArrowRight, ArrowUpRight, ChevronDown, Compass, Search, SlidersHorizontal, X } from 'lucide-react'
+import { Modal } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
-import { fetchPublicBuilds, fetchCommunityStats, fetchTags, type BuildRow, type ExploreSort, type CommunityStats } from '@/features/builds/api.ts'
-import { TagChip, useTags } from '@/features/builds/TagChips.tsx'
+import { fetchPublicBuilds, fetchCommunityStats, fetchTags, type BuildRow, type ExploreSort, type CommunityStats, type Tag } from '@/features/builds/api.ts'
+import { useTags } from '@/features/builds/TagChips.tsx'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { langPathPrefix } from '@/i18n/langPath.ts'
 import { catalogCounts } from '@/data/buildCatalog.server.ts'
+import './explore.css'
 
 // Runs while prerendering: crawlers get the community builds (first page,
-// default order) and the stats in the HTML. The tag row and the catalog chip
-// are in it too, so they don't push the list down when they load.
+// default order) and the stats in the HTML. The tag catalog and the catalog
+// count are in it too, so nothing shifts when they load.
 export async function loader() {
   const [builds, stats, tags, catalog] = await Promise.all([
     fetchPublicBuilds({ sort: 'rating', page: 0 }), fetchCommunityStats(), fetchTags(), catalogCounts(),
@@ -31,74 +33,174 @@ export async function loader() {
   }
 }
 
-const noSubscription = () => () => {}
-
 // In the browser the page loads and refreshes its own data, as it always has.
 export async function clientLoader() {
   return null
 }
 
-const STAT_ITEMS: { key: keyof CommunityStats; labelKey: string; Icon: typeof Users }[] = [
-  { key: 'usersCount',        labelKey: 'explore_stat_users',        Icon: Users },
-  { key: 'publicBuildsCount', labelKey: 'explore_stat_public_builds', Icon: Globe },
-  { key: 'buildsCount',       labelKey: 'explore_stat_builds',        Icon: Hammer },
-  { key: 'viewsCount',        labelKey: 'explore_stat_views',         Icon: Eye },
-  { key: 'buildsThisWeek',    labelKey: 'explore_stat_week',          Icon: Flame },
-  { key: 'likesCount',        labelKey: 'explore_stat_likes',         Icon: Heart },
-  { key: 'forgeRunsCount',     labelKey: 'explore_stat_forge_runs',     Icon: Anvil },
-  { key: 'forgeFinishedCount', labelKey: 'explore_stat_forge_finished', Icon: Sparkles },
+const noSubscription = () => () => {}
+const SORTS: ExploreSort[] = ['rating', 'likes', 'recent', 'views']
+const TAG_CATEGORIES = ['playstyle', 'element', 'general'] as const
+const STAT_ROWS: [keyof CommunityStats, string][] = [
+  ['usersCount', 'explore_stat_players'],
+  ['publicBuildsCount', 'explore_stat_public'],
+  ['viewsCount', 'explore_stat_seen'],
+  ['forgeFinishedCount', 'explore_stat_forged'],
+  ['buildsCount', 'explore_stat_all_builds'],
+  ['likesCount', 'explore_stat_liked'],
+  ['buildsThisWeek', 'explore_stat_this_week'],
+  ['forgeRunsCount', 'explore_stat_forge_lit'],
 ]
 
-function StatChip({ children, Icon }: { children: React.ReactNode; Icon: typeof Users }) {
+type Filters = { search: string; classId: string; tag: string; sort: ExploreSort }
+
+function useHydrated() {
+  return useSyncExternalStore(noSubscription, () => true, () => false)
+}
+
+/** The community at a glance: open on wide screens, a one-line summary on phones. */
+function CommunitySummary({ initial, catalog }: { initial: CommunityStats | null; catalog: { items: number; sets: number } | null }) {
+  const { t, i18n } = useTranslation()
+  const id = useId()
+  const hydrated = useHydrated()
+  const [stats, setStats] = useState<CommunityStats | null>(initial)
+  const [state, setState] = useState<'loading' | 'ready' | 'error'>(initial ? 'ready' : 'loading')
+  const [open, setOpen] = useState<boolean | null>(null)
+  const itemCount = useDataStore(s => s.index?.length ?? 0) || (catalog?.items ?? 0)
+  const setCount  = useDataStore(s => s.sets?.length ?? 0) || (catalog?.sets ?? 0)
+  const nf = new Intl.NumberFormat(i18n.language)
+  const expanded = open ?? (hydrated ? matchMedia('(min-width: 1000px)').matches : true)
+
+  const load = useCallback(() => {
+    setState(s => (s === 'ready' ? s : 'loading'))
+    fetchCommunityStats().then(({ data, error }) => {
+      if (error || !data) setState(s => (s === 'ready' ? s : 'error'))
+      else { setStats(data); setState('ready') }
+    })
+  }, [])
+  useEffect(load, [load])
+
   return (
-    <span
-      className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
-      style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)' }}
-    >
-      <Icon size={12} />
-      {children}
-    </span>
+    <section className="explore-community" aria-label={t('explore_community')}>
+      <button type="button" className="explore-community-toggle" aria-expanded={expanded} aria-controls={id} onClick={() => setOpen(!expanded)}>
+        <span>
+          <b>{t('explore_community')}</b>
+          <small>{t('explore_community_hint')}</small>
+        </span>
+        <span>
+          {state === 'ready' && stats && t('explore_community_short', { players: nf.format(stats.usersCount ?? 0), builds: nf.format(stats.publicBuildsCount ?? 0) })}
+          <ChevronDown size={17} className={expanded ? 'is-open' : ''} aria-hidden="true" />
+        </span>
+      </button>
+      <div id={id} hidden={!expanded}>
+        {state === 'loading' ? (
+          <p className="explore-community-state" role="status">{t('explore_stats_loading')}</p>
+        ) : state === 'error' || !stats ? (
+          <div className="explore-community-state">
+            <p>{t('explore_stats_error')}</p>
+            <button type="button" onClick={load}>{t('explore_retry')}</button>
+          </div>
+        ) : (
+          <>
+            <dl>
+              {STAT_ROWS.filter(([key]) => stats[key] != null).map(([key, label]) => (
+                <div key={key}>
+                  <dt>{t(label)}</dt>
+                  <dd>{nf.format(stats[key] as number)}</dd>
+                </div>
+              ))}
+            </dl>
+            {itemCount > 0 && setCount > 0 && (
+              <p className="explore-catalog-count">{t('explore_stat_catalog', { items: nf.format(itemCount), sets: nf.format(setCount) })}</p>
+            )}
+          </>
+        )}
+      </div>
+    </section>
   )
 }
 
-function CommunityStatsBar({ initial, catalog }: { initial: CommunityStats | null; catalog: { items: number; sets: number } | null }) {
+function ClassOptions() {
+  return CLASS_DATA.map(c => <ClassOption key={c.id} id={c.id} />)
+}
+function ClassOption({ id }: { id: string }) {
+  return <option value={id}>{useClassName(id)}</option>
+}
+
+function ClassChoice({ id, value, onChange }: { id: string; value: string; onChange: (value: string) => void }) {
   const { t } = useTranslation()
-  const [stats, setStats] = useState<CommunityStats | null>(initial)
-  // Catalog size costs no query at all — Explore already loads game data
-  // via useLoadGameData() for the build cards' equipment icons.
-  const itemCount = useDataStore(s => s.index?.length ?? 0) || (catalog?.items ?? 0)
-  const setCount  = useDataStore(s => s.sets?.length ?? 0) || (catalog?.sets ?? 0)
-
-  useEffect(() => {
-    let cancelled = false
-    fetchCommunityStats().then(({ data, error }) => { if (!cancelled && !error) setStats(data) })
-    return () => { cancelled = true }
-  }, [])
-
-  if (!stats) return null
   return (
-    <div className="flex flex-wrap gap-2">
-      {STAT_ITEMS.filter(({ key }) => stats[key] != null).map(({ key, labelKey, Icon }) => (
-        <StatChip key={key} Icon={Icon}>{t(labelKey, { count: stats[key] ?? 0 })}</StatChip>
-      ))}
-      {itemCount > 0 && setCount > 0 && (
-        <StatChip Icon={Layers}>{t('explore_stat_catalog', { items: itemCount, sets: setCount })}</StatChip>
-      )}
+    <div className="explore-select">
+      <label htmlFor={id}>{t('class')}</label>
+      <select id={id} value={value} onChange={e => onChange(e.target.value)}>
+        <option value="">{t('explore_all_classes')}</option>
+        <ClassOptions />
+      </select>
     </div>
   )
 }
 
-const SORT_ITEMS: TabItem[] = [
-  { id: 'rating', label: 'sort_rating', Icon: Star },
-  { id: 'likes',  label: 'sort_likes',  Icon: Heart },
-  { id: 'recent', label: 'sort_recent', Icon: Clock },
-  { id: 'views',  label: 'sort_views',  Icon: Eye },
-]
-
-function ClassLabel({ id }: { id: string | null }) {
+/** Class and tag, chosen together and applied at once (phones read the list behind it). */
+function FilterDialog({ filters, tags, onApply, onClose }: { filters: Filters; tags: Tag[] | null; onApply: (next: Partial<Filters>) => void; onClose: () => void }) {
   const { t } = useTranslation()
-  const classLabel = useClassName(id)
-  return <>{id ? classLabel : t('explore_all_classes')}</>
+  const id = useId()
+  const [classId, setClassId] = useState(filters.classId)
+  const [tag, setTag] = useState(filters.tag)
+  return (
+    <Modal open onClose={onClose} title={t('explore_filter_title')} size="lg" className="explore-filter-dialog">
+      <form onSubmit={e => { e.preventDefault(); onApply({ classId, tag }); onClose() }}>
+        <div className="explore-filter-scroll">
+          <ClassChoice id={`${id}-class`} value={classId} onChange={setClassId} />
+          <p className="explore-filter-hint">{t('explore_filter_hint')}</p>
+          {tags == null ? (
+            <p role="status">{t('explore_tags_loading')}</p>
+          ) : tags.length === 0 ? (
+            <p className="explore-inline-error">{t('explore_tags_error')}</p>
+          ) : (
+            <fieldset className="explore-tag-options">
+              <legend>{t('explore_tags_label')}</legend>
+              <label className={!tag ? 'is-selected' : ''}>
+                <input type="radio" name={`${id}-tag`} checked={!tag} onChange={() => setTag('')} />
+                <span>{t('explore_tag_all')}</span>
+              </label>
+              {TAG_CATEGORIES.map(category => (
+                <div key={category}>
+                  <p className="explore-tag-category">{t(`tag_category_${category}`)}</p>
+                  <div>
+                    {tags.filter(option => option.category === category).map(option => (
+                      <label key={option.id} className={tag === option.name ? 'is-selected' : ''}>
+                        <input type="radio" name={`${id}-tag`} checked={tag === option.name} onChange={() => setTag(option.name)} />
+                        <span>{t(`tag_${option.name}`)}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </fieldset>
+          )}
+        </div>
+        <div className="explore-filter-actions">
+          <button type="button" onClick={() => { setClassId(''); setTag('') }}>{t('explore_clear_selection')}</button>
+          <button type="submit" className="site-primary">{t('explore_apply')}<ArrowRight size={16} aria-hidden="true" /></button>
+        </div>
+      </form>
+    </Modal>
+  )
+}
+
+function ExploreEmpty({ title, body, children }: { title: string; body: string; children?: ReactNode }) {
+  return (
+    <div className="explore-empty">
+      <Compass size={30} aria-hidden="true" />
+      <h2>{title}</h2>
+      <p>{body}</p>
+      {children}
+    </div>
+  )
+}
+
+function ActiveClass({ id }: { id: string }) {
+  return <>{useClassName(id)}</>
 }
 
 export function ExplorePage() {
@@ -109,154 +211,213 @@ export function ExplorePage() {
     title: t('explore_seo_title'),
     description: t('explore_seo_description'),
   })
-  const [sort, setSort]           = useState<ExploreSort>('rating')
-  const [classSlug, setClassSlug] = useState<string | null>(null)
-  const [searchParams, setSearchParams] = useSearchParams()
+  const id = useId()
+  const prefix = langPathPrefix(i18n.language)
+  const nf = new Intl.NumberFormat(i18n.language)
   const tagList = useTags(seed?.tags ?? null)
-  const tags    = tagList ?? []
-  // The prerendered HTML has no selected tag (it has no query string), so a
-  // ?tag= link selects it right after hydration rather than during it.
-  const hydrated = useSyncExternalStore(noSubscription, () => true, () => false)
-  const tagParam = searchParams.get('tag')
-  const tagName = hydrated ? tagParam : null
-  const tagId   = tags.find(tag => tag.name === tagName)?.id ?? null
-  const selectTag = (name: string | null) => {
-    const next = new URLSearchParams(searchParams)
-    if (name) next.set('tag', name)
-    else next.delete('tag')
-    setSearchParams(next, { replace: true })
-  }
-  const [search, setSearch]       = useState('')
-  const [debouncedSearch, setDebouncedSearch] = useState('')
-  const [builds, setBuilds]       = useState<BuildRow[]>(seed?.builds ?? [])
-  const [page, setPage]           = useState(0)
-  const [total, setTotal]         = useState(seed?.total ?? 0)
-  const [loading, setLoading]     = useState(!seed)
-  const [error, setError]         = useState(false)
+  // The prerendered HTML has no query string, so the filters in the URL
+  // apply right after hydration rather than during it.
+  const hydrated = useHydrated()
+  const [params, setParams] = useSearchParams()
+  const filters: Filters = hydrated ? {
+    search: params.get('q') ?? '',
+    classId: params.get('class') ?? '',
+    tag: params.get('tag') ?? '',
+    sort: SORTS.includes(params.get('sort') as ExploreSort) ? params.get('sort') as ExploreSort : 'rating',
+  } : { search: '', classId: '', tag: '', sort: 'rating' }
+  const setFilters = useCallback((next: Partial<Filters>) => {
+    setParams(prev => {
+      const out = new URLSearchParams(prev)
+      const keys: [keyof Filters, string][] = [['search', 'q'], ['classId', 'class'], ['tag', 'tag'], ['sort', 'sort']]
+      for (const [key, param] of keys) {
+        if (!(key in next)) continue
+        const value = next[key]
+        if (value && !(key === 'sort' && value === 'rating')) out.set(param, value)
+        else out.delete(param)
+      }
+      return out
+    }, { replace: true })
+  }, [setParams])
 
-  // Debounced so typing doesn't fire a network request (and a full-text
-  // query against builds) on every keystroke.
+  const [search, setSearch] = useState('')
+  useEffect(() => { if (hydrated) setSearch(params.get('q') ?? '') }, [hydrated]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const id = setTimeout(() => setDebouncedSearch(search), 350)
-    return () => clearTimeout(id)
-  }, [search])
+    if (search === filters.search) return
+    const timer = setTimeout(() => setFilters({ search }), 350)
+    return () => clearTimeout(timer)
+  }, [search]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Only the latest request may update the list: changing tag / class / sort
-  // quickly must not leave an older, slower result set on screen.
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [builds, setBuilds] = useState<BuildRow[]>(seed?.builds ?? [])
+  const [page, setPage]     = useState(0)
+  const [total, setTotal]   = useState(seed?.total ?? 0)
+  const [loading, setLoading] = useState(!seed)
+  const [error, setError]   = useState<'initial' | 'more' | null>(null)
+
+  const tagId = tagList?.find(tag => tag.name === filters.tag)?.id ?? null
+  const unknownTag = !!filters.tag && tagList != null && tagList.length > 0 && tagId == null
+  // A ?tag= link waits for the tag catalog, so it doesn't first list everything.
+  const tagPending = !hydrated || (!!filters.tag && tagList == null)
+
+  // Only the latest request may update the list: changing filters quickly
+  // must not leave an older, slower result set on screen.
   const requestRef = useRef(0)
-  const load = useCallback(async (nextPage: number, reset: boolean) => {
+  const firstNew = useRef<string | null>(null)
+  const load = useCallback(async (nextPage: number) => {
     const request = ++requestRef.current
     setLoading(true)
-    setError(false)
-    const { data, error: err, count } = await fetchPublicBuilds({ classSlug, tagId, sort, search: debouncedSearch, page: nextPage })
+    setError(null)
+    const { data, error: err, count } = await fetchPublicBuilds({
+      classSlug: filters.classId || null, tagId: unknownTag ? null : tagId, sort: filters.sort, search: filters.search, page: nextPage,
+    })
     if (request !== requestRef.current) return
     setLoading(false)
-    if (err) { setError(true); return }
+    if (err) { setError(nextPage === 0 ? 'initial' : 'more'); return }
     if (count != null) setTotal(count)
-    setBuilds(prev => reset ? data : [...prev, ...data])
-  }, [classSlug, tagId, sort, debouncedSearch])
+    setPage(nextPage)
+    firstNew.current = nextPage > 0 ? data[0]?.id ?? null : null
+    setBuilds(prev => (nextPage === 0 ? data : [...prev, ...data]))
+  }, [filters.classId, filters.sort, filters.search, tagId, unknownTag])
 
-  // A ?tag= link waits for hydration and the tag catalog, so it doesn't first list
-  // everything; if the catalog fails to load it gives up and lists all.
-  const tagPending = (tagParam != null && !hydrated) || (tagName != null && tagList == null)
-
+  // Skipped while the prerendered first page is still what the URL asks for.
+  const seeded = useRef(seed != null)
   useEffect(() => {
     if (tagPending) return
-    setPage(0)
-    load(0, true)
-  }, [load, tagPending])
+    const isDefault = !filters.search && !filters.classId && !filters.tag && filters.sort === 'rating'
+    if (seeded.current && isDefault) { seeded.current = false; return }
+    seeded.current = false
+    load(0)
+  }, [load, tagPending]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const sortLabels = SORT_ITEMS.map(item => ({ ...item, label: t(item.label) }))
+  // After "load more", the first new card takes focus so the keyboard continues there.
+  useEffect(() => {
+    if (!firstNew.current) return
+    document.getElementById(`card-${firstNew.current}`)?.focus({ preventScroll: true })
+    firstNew.current = null
+  }, [builds])
+
+  function clear() {
+    setSearch('')
+    setFilters({ search: '', classId: '', tag: '' })
+  }
+  const active = !!filters.search || !!filters.classId || !!filters.tag
+  const filterCount = Number(!!filters.classId) + Number(!!filters.tag)
+  const searchPending = search !== filters.search
+  const showing = t('explore_showing', { shown: nf.format(builds.length), total: nf.format(total) })
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
-
-      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-6xl mx-auto space-y-4">
-        <h1 className="font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
-          {t('explore_title')}
-        </h1>
-
-        <CommunityStatsBar initial={seed?.stats ?? null} catalog={seed?.catalog ?? null} />
-
-        <div className="flex flex-wrap items-center gap-3 justify-between">
-          <Tabs items={sortLabels} active={sort} onChange={id => setSort(id as ExploreSort)} variant="segment" />
-
-          <div className="relative">
-            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-            <input
-              type="text"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder={t('explore_search_placeholder')}
-              aria-label={t('explore_search_placeholder')}
-              className="text-xs rounded-md pl-7 pr-2.5 py-1.5 w-40 sm:w-56"
-              style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-            />
+      <main id="main-content" className="explore-page">
+        <div className="explore-study">
+          <div className="explore-heading">
+            <div>
+              <p className="account-eyebrow">{t('explore_eyebrow')}</p>
+              <h1>{t('explore_title')}</h1>
+              <p>{t('explore_intro')}</p>
+            </div>
+            <Link to={`/${prefix}`}>
+              {t('lib_workshop')}
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </Link>
           </div>
-
-          <select
-            value={classSlug ?? ''}
-            aria-label={t('class')}
-            onChange={e => setClassSlug(e.target.value || null)}
-            className="text-xs rounded-md px-2.5 py-1.5"
-            style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-          >
-            <option value=""><ClassLabel id={null} /></option>
-            {CLASS_DATA.map(c => (
-              <option key={c.id} value={c.id}><ClassLabel id={c.id} /></option>
-            ))}
-          </select>
+          <CommunitySummary initial={seed?.stats ?? null} catalog={seed?.catalog ?? null} />
+          <section className="explore-controls" aria-label={t('explore_controls')}>
+            <div className="explore-toolbar">
+              <form className="explore-search" role="search" onSubmit={e => { e.preventDefault(); setFilters({ search }) }}>
+                <Search size={18} aria-hidden="true" />
+                <label className="sr-only" htmlFor={`${id}-search`}>{t('explore_search_placeholder')}</label>
+                <input id={`${id}-search`} type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder={t('explore_search_placeholder')} />
+                {search && (
+                  <button type="button" aria-label={t('lib_clear')} onClick={() => { setSearch(''); setFilters({ search: '' }) }}>
+                    <X size={16} aria-hidden="true" />
+                  </button>
+                )}
+              </form>
+              <div className="explore-desktop-class">
+                <ClassChoice id={`${id}-class`} value={filters.classId} onChange={classId => setFilters({ classId })} />
+              </div>
+              <div className="explore-select explore-sort">
+                <label htmlFor={`${id}-sort`}>{t('lib_sort')}</label>
+                <select id={`${id}-sort`} value={filters.sort} onChange={e => setFilters({ sort: e.target.value as ExploreSort })}>
+                  {SORTS.map(sort => <option key={sort} value={sort}>{t(`sort_${sort}`)}</option>)}
+                </select>
+              </div>
+              <button type="button" className="explore-filter-trigger" aria-haspopup="dialog" onClick={() => setFiltersOpen(true)}>
+                <SlidersHorizontal size={17} aria-hidden="true" />
+                {t('explore_filters')}
+                {filterCount > 0 && <span>{filterCount}</span>}
+              </button>
+            </div>
+            {active && (
+              <div className="explore-active-filters" role="group" aria-label={t('explore_active')}>
+                {filters.search && (
+                  <button type="button" onClick={() => { setSearch(''); setFilters({ search: '' }) }} aria-label={t('explore_remove_search')}>
+                    <span>“{filters.search}”</span><X size={13} aria-hidden="true" />
+                  </button>
+                )}
+                {filters.classId && (
+                  <button type="button" onClick={() => setFilters({ classId: '' })} aria-label={t('explore_remove_class')}>
+                    <span><ActiveClass id={filters.classId} /></span><X size={13} aria-hidden="true" />
+                  </button>
+                )}
+                {filters.tag && (
+                  <button type="button" onClick={() => setFilters({ tag: '' })} aria-label={t('explore_remove_tag')}>
+                    <span>{unknownTag ? filters.tag : t(`tag_${filters.tag}`)}</span><X size={13} aria-hidden="true" />
+                  </button>
+                )}
+                <button type="button" className="explore-clear" onClick={clear}>{t('lib_reset')}</button>
+              </div>
+            )}
+          </section>
+          {unknownTag && <p className="explore-inline-notice" role="status">{t('explore_unknown_tag', { tag: filters.tag })}</p>}
+          <div className="explore-results-heading">
+            <h2>{t('explore_results')}</h2>
+            <p role="status" aria-live="polite">
+              {(loading && !builds.length) || searchPending ? t('explore_searching')
+                : error === 'initial' ? t('explore_load_error') : showing}
+            </p>
+          </div>
+          <div className="explore-results" aria-busy={loading || searchPending}>
+            {loading && !builds.length ? (
+              <div className="explore-loading" role="status">
+                <span>{t('auth_loading')}</span>
+                <div className="build-grid" aria-hidden="true">
+                  {[0, 1, 2].map(i => <div key={i} className="explore-skeleton"><span /><span /><span /></div>)}
+                </div>
+              </div>
+            ) : error === 'initial' ? (
+              <ExploreEmpty title={t('explore_load_error')} body={t('explore_load_error_hint')}>
+                <button type="button" onClick={() => load(0)}>{t('explore_retry')}</button>
+              </ExploreEmpty>
+            ) : !builds.length ? (
+              <ExploreEmpty title={t(active ? 'explore_no_results' : 'explore_no_builds')} body={t(active ? 'explore_no_results_hint' : 'explore_no_builds_hint')}>
+                {active
+                  ? <button type="button" onClick={clear}>{t('lib_reset')}</button>
+                  : <Link className="site-primary" to={`/${prefix}`}>{t('lib_workshop')}<ArrowRight size={16} aria-hidden="true" /></Link>}
+              </ExploreEmpty>
+            ) : (
+              <div className="build-grid explore-grid">
+                {builds.map(build => (
+                  <BuildCard key={build.id} build={build} activeTag={filters.tag || null} onTag={tag => setFilters({ tag })} />
+                ))}
+              </div>
+            )}
+          </div>
+          {builds.length > 0 && builds.length < total && (
+            <div className="explore-pagination">
+              {error === 'more' && <p role="alert">{t('explore_more_error')}</p>}
+              <button type="button" className="explore-more" disabled={loading} onClick={() => load(page + 1)}>
+                {t(loading ? 'auth_loading' : error === 'more' ? 'explore_retry_more' : 'explore_load_more')}
+                <ArrowRight size={16} aria-hidden="true" />
+              </button>
+              <span>{showing}</span>
+            </div>
+          )}
+          {builds.length > 0 && builds.length >= total && !loading && <p className="explore-end">{t('explore_end')}</p>}
         </div>
-
-        {tags.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label={t('explore_tags_label')}>
-            <button
-              type="button"
-              onClick={() => selectTag(null)}
-              aria-pressed={tagId == null}
-              className="text-[11px] font-semibold rounded-full px-2 py-0.5 transition-colors"
-              style={tagId == null
-                ? { color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 14%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 50%, transparent)' }
-                : { color: 'var(--ink-faint)', background: 'transparent', border: '1px solid var(--metal-edge)' }}
-            >
-              {t('explore_tag_all')}
-            </button>
-            {tags.map(tag => (
-              <TagChip key={tag.id} tag={tag} active={tag.id === tagId} onClick={() => selectTag(tag.id === tagId ? null : tag.name)} />
-            ))}
-          </div>
-        )}
-
-        {error && (
-          <p className="text-sm text-center py-10" style={{ color: 'var(--negative)' }}>{t('explore_error')}</p>
-        )}
-
-        {!error && !loading && builds.length === 0 && (
-          <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('explore_empty')}</p>
-        )}
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {builds.map(b => <BuildCard key={b.id} build={b} />)}
-        </div>
-
-        {loading && (
-          <p className="text-sm text-center py-6" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
-        )}
-
-        {!loading && builds.length < total && (
-          <div className="flex justify-center pt-2">
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => { const next = page + 1; setPage(next); load(next, false) }}
-            >
-              {t('explore_load_more')}
-            </Button>
-          </div>
-        )}
       </main>
-
+      {filtersOpen && <FilterDialog filters={filters} tags={tagList} onApply={setFilters} onClose={() => setFiltersOpen(false)} />}
       <SiteFooter />
     </div>
   )

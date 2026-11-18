@@ -289,7 +289,7 @@ export function UserProfilePage() {
           {builds.length === 0 && !buildsLoading ? (
             <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('profile_no_builds')}</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="build-grid">
               {builds.map(b => <BuildCard key={b.id} build={b} />)}
             </div>
           )}

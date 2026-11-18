@@ -311,7 +311,7 @@ export function MyBuildsPage() {
                   <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('no_saved_builds')}</p>
                 )}
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="build-grid">
                   {builds.map(b => (
                     <MyBuildCard
                       key={b.id}
@@ -332,7 +332,7 @@ export function MyBuildsPage() {
                   <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('my_builds_no_bookmarks')}</p>
                 )}
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="build-grid">
                   {bookmarked.map(b => <BuildCard key={b.id} build={b} />)}
                 </div>
               </>

@@ -1,0 +1,293 @@
+/* Build cards (Explore, libraries, guides): the study's card, on production data. */
+.build-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.product-build {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 120ms;
+}
+.product-build:hover {
+  border-color: var(--muted);
+}
+.build-card-open {
+  width: 100%;
+  border: 0;
+  padding: 16px 20px 18px;
+  text-align: left;
+  display: block;
+  background: none;
+  border-radius: 0;
+  font-weight: 400;
+}
+.build-card-open:hover {
+  background: var(--stage);
+  border: 0;
+}
+.build-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.build-element {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+.build-element img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+.build-level {
+  margin-left: auto;
+  font: 11px "IBM Plex Mono";
+  color: var(--text);
+}
+.build-card-open h2 {
+  font: 600 22px Alegreya;
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+.card-author {
+  color: var(--muted);
+  font-size: 12px;
+}
+.build-card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 20px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+}
+.build-vitals {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.build-vitals li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.build-vitals img {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+.build-vitals strong {
+  font: 500 13px "IBM Plex Mono";
+  color: var(--text);
+}
+.build-rating {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.build-card-bottom button {
+  border: 0;
+  min-height: 36px;
+  width: 36px;
+  padding: 4px;
+  margin-left: auto;
+}
+.build-activity {
+  padding: 16px 20px 18px;
+  border-top: 1px solid var(--line);
+}
+.build-activity-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.build-activity-rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.build-activity-rating > svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.build-activity-rating strong {
+  color: var(--text);
+  font: 400 13px "IBM Plex Mono";
+}
+.build-activity-date {
+  white-space: nowrap;
+}
+.build-activity-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.build-activity-counts > div {
+  min-width: 0;
+}
+.build-activity-counts dt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.build-activity-counts dt svg {
+  flex-shrink: 0;
+}
+.build-activity-counts dd {
+  margin: 7px 0 0;
+  font: 400 15px/1.5 "IBM Plex Mono";
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .build-activity {
+    padding-inline: 16px;
+  }
+  .build-activity-counts {
+    gap: 10px;
+  }
+}
+.explore-card {
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+.explore-card-author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 16px 0;
+  min-height: 48px;
+}
+.explore-card-author > a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 4px 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.explore-card-author > a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.explore-card-author > a > span {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+  background: var(--hover);
+  border-radius: 50%;
+  font: 500 14px Alegreya;
+  color: var(--text);
+}
+.explore-featured {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.explore-card-open {
+  color: var(--text);
+  text-decoration: none;
+  scroll-margin-top: 180px;
+  display: block;
+}
+.explore-card-open h2 {
+  font: 600 28px/1.15 Alegreya;
+  overflow-wrap: anywhere;
+  margin: 8px 0 0;
+}
+.explore-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 18px 16px;
+  margin-top: auto;
+  min-height: 56px;
+  align-items: flex-start;
+}
+.explore-card-tags button,
+.explore-card-tags span {
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 4px 8px;
+  min-height: 34px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.explore-card-tags button[aria-pressed="true"] {
+  background: var(--hover);
+  border-color: var(--accent);
+  color: var(--text);
+}
+.explore-card .build-card-bottom {
+  min-height: 58px;
+}
+.explore-card .build-card-bottom .explore-save {
+  width: 44px;
+  min-height: 44px;
+}
+.explore-card-author > a > img {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.explore-card-tags span {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+}
+@media (max-width: 800px) {
+  .build-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .build-card-open {
+    padding: 14px 16px 16px;
+  }
+  .build-card-bottom {
+    padding: 8px 8px 8px 16px;
+  }
+}
+@media (max-width: 600px) {
+  .build-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
