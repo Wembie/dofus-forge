@@ -103,8 +103,8 @@ describe('set pages wiring', () => {
   it('are routed, prerendered and linked from the site navigation', () => {
     expect(read('src/routes.ts')).toContain("['sets/:slug', ")
     expect(read('react-router.config.ts')).toContain('SET_SLUGS.map(slug => `sets/${slug}`)')
-    expect(read('src/components/SiteFooter.tsx')).toContain('sets`')
-    expect(read('src/components/SiteHeader.tsx')).toContain('sets`')
+    expect(read('src/components/SiteFooter.tsx')).toContain("page('sets', 'nav_sets')")
+    expect(read('src/components/SiteHeader.tsx')).toContain("['sets', 'nav_sets', Library]")
     expect(read('src/pages/BuilderPage.tsx')).toContain("navToLangPath('sets')")
   })
 })

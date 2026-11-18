@@ -1,4 +1,5 @@
 @import "./ui/design-v04.css";
+@import "./ui/shell.css";
 /* Font loaded via non-blocking <link> in index.html — a CSS @import here
    would chain HTML -> CSS -> Google Fonts CSS -> font files serially,
    blocking first paint (measured ~380-1650ms render-blocking cost). */

@@ -12,7 +12,7 @@ html:root{
  --positive:#aec88b;--negative:#e79a92;--warning:#e4b28b;--info:#8fc6d5;
  --shadow-frame:0 12px 40px #0003;--inset-bevel:0 0 transparent;--well-inset:0 0 transparent;--glow-gold:0 0 0 1px var(--gold-deep);
  --shadow-vitality:0 0 transparent;--shadow-earth:0 0 transparent;--shadow-fire:0 0 transparent;--shadow-water:0 0 transparent;--shadow-air:0 0 transparent;--shadow-crit:0 0 transparent;
- --canvas:var(--surface-void);--surface:var(--surface-panel);--stage:var(--surface-stone);--text:var(--ink);--muted:var(--ink-muted);--line:var(--metal-edge);--accent:var(--gold);--accent-ink:var(--ink-invert);--hover:var(--surface-raised);
+ --canvas:var(--surface-void);--surface:var(--surface-panel);--stage:var(--surface-stone);--text:var(--ink);--muted:var(--ink-muted);--line:var(--metal-edge);--accent:var(--gold);--accent-ink:var(--ink-invert);--hover:var(--surface-raised);--subtle:#272e29;
 }
 html:root.light{
  --surface-void:#eeeae0;--surface-stone:#e8e5db;--surface-panel:#faf8f0;--surface-parchment:#faf8f0;--surface-raised:#e3e6dc;
@@ -20,7 +20,7 @@ html:root.light{
  --ink:#202b28;--ink-muted:#59655f;--ink-faint:#59655f;--ink-invert:#fffaf0;
  --earth:#805024;--fire:#a7392c;--water:#1d667f;--air:#43612e;--neutral:#59655f;
  --vitality:#a23944;--wisdom:#745082;--ap:#1d667f;--mp:#43612e;--crit:#8c482e;
- --positive:#386148;--negative:#a6373b;--warning:#8c482e;--info:#1d667f;
+ --positive:#386148;--negative:#a6373b;--warning:#8c482e;--info:#1d667f; --subtle:#deded3;
 }
 html body{font-family:'Source Sans 3',Arial,sans-serif;background-image:none;line-height:1.5}
 html .font-display{font-family:Alegreya,Georgia,serif;text-transform:none;letter-spacing:normal;font-weight:600;text-shadow:none}

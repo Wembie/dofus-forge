@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { Bell, Heart, MessageSquare, Star, GitFork, UserPlus } from 'lucide-react'
@@ -44,6 +44,15 @@ export function NotificationBell() {
   const [active, setActive] = useState(() => typeof document === 'undefined' || document.visibilityState === 'visible')
   const [live, setLive]     = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const panelId = useId()
+
+  // Back to the bell when the panel closes, never on first render.
+  const wasOpen = useRef(open)
+  useEffect(() => {
+    if (wasOpen.current && !open) buttonRef.current?.focus({ preventScroll: true })
+    wasOpen.current = open
+  }, [open])
 
   const refreshCount = useCallback(() => {
     if (!userId || document.visibilityState !== 'visible') return
@@ -125,70 +134,55 @@ export function NotificationBell() {
   }
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className="site-bell">
       <button
+        ref={buttonRef}
         type="button"
         onClick={toggle}
-        aria-label={t('notif_title')}
+        aria-label={t('notif_title') + (unread > 0 ? ` · ${t('notif_unread', { count: unread })}` : '')}
         aria-expanded={open}
-        className="relative w-8 h-8 rounded-md flex items-center justify-center transition-colors hover:text-gold"
-        style={{ color: 'var(--ink-muted)', border: '1px solid var(--metal-edge)', background: 'var(--surface-raised)' }}
+        aria-controls={panelId}
+        className="site-icon"
       >
-        <Bell size={14} />
-        {unread > 0 && (
-          <span
-            className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center"
-            style={{ background: 'var(--negative)', color: 'white' }}
-            aria-label={t('notif_unread', { count: unread })}
-          >
-            {unread > 9 ? '9+' : unread}
-          </span>
-        )}
+        <Bell size={18} />
+        {unread > 0 && <span className="site-badge" aria-hidden="true">{unread > 9 ? '9+' : unread}</span>}
       </button>
 
       {open && (
-        <div
-          className="absolute right-0 top-[calc(100%+6px)] z-50 w-80 max-w-[calc(100vw-2rem)] rounded-lg overflow-hidden"
-          style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame)' }}
-          role="dialog"
-          aria-label={t('notif_title')}
-        >
-          <div className="flex items-center justify-between px-3 py-2" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
-            <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>{t('notif_title')}</span>
+        <div id={panelId} className="site-popover site-notifications" role="dialog" aria-label={t('notif_title')}>
+          <header>
+            <h2>{t('notif_title')}</h2>
             {items?.some(n => !n.read) && (
-              <button type="button" onClick={markAll} className="text-[10px] hover:text-gold transition-colors" style={{ color: 'var(--ink-faint)' }}>
-                {t('notif_mark_all')}
-              </button>
+              <button type="button" onClick={markAll}>{t('notif_mark_all')}</button>
             )}
-          </div>
-          <ul className="max-h-96 overflow-y-auto">
-            {items == null ? (
-              <li className="px-3 py-6 text-center text-xs" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</li>
-            ) : items.length === 0 ? (
-              <li className="px-3 py-6 text-center text-xs" style={{ color: 'var(--ink-faint)' }}>{t('notif_empty')}</li>
-            ) : items.map(n => {
-              const Icon = TYPE_ICON[n.type]
-              return (
-                <li key={n.id}>
-                  <button
-                    type="button"
-                    onClick={() => openItem(n)}
-                    className="w-full flex items-start gap-2.5 px-3 py-2.5 text-left transition-colors hover:brightness-125"
-                    style={{ background: n.read ? 'transparent' : 'color-mix(in srgb, var(--gold) 6%, transparent)', borderBottom: '1px solid var(--metal-edge)' }}
-                  >
-                    <Icon size={14} className="mt-0.5 flex-shrink-0" style={{ color: n.type === 'build_liked' || n.type === 'comment_liked' ? 'var(--negative)' : 'var(--gold)' }} />
-                    <span className="flex-1 min-w-0">
-                      <span className="block text-xs" style={{ color: 'var(--ink)' }}>
-                        {t(`notif_${n.type}`, { user: n.actor?.username ?? t('notif_someone'), build: n.build?.name ?? '' })}
+          </header>
+          {items == null ? (
+            <p className="site-empty" role="status">{t('auth_loading')}</p>
+          ) : items.length === 0 ? (
+            <div className="site-empty">
+              <Bell size={22} aria-hidden="true" />
+              <p>{t('notif_empty')}</p>
+              <small>{t('notif_empty_hint')}</small>
+            </div>
+          ) : (
+            <ul>
+              {items.map(n => {
+                const Icon = TYPE_ICON[n.type]
+                return (
+                  <li key={n.id}>
+                    <button type="button" onClick={() => openItem(n)} className={n.read ? undefined : 'is-unread'}>
+                      <span className={`site-notif-icon is-${n.type}`}><Icon size={15} aria-hidden="true" /></span>
+                      <span>
+                        <span>{t(`notif_${n.type}`, { user: n.actor?.username ?? t('notif_someone'), build: n.build?.name ?? '' })}</span>
+                        <time dateTime={n.created_at}>{timeAgo(n.created_at, i18n.language)}</time>
                       </span>
-                      <span className="block text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>{timeAgo(n.created_at, i18n.language)}</span>
-                    </span>
-                    {!n.read && <span className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ background: 'var(--gold)' }} />}
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
+                      {!n.read && <span className="sr-only">{t('notif_unread_item')}</span>}
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
         </div>
       )}
     </div>

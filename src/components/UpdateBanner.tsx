@@ -62,31 +62,17 @@ export function UpdateBanner() {
   if (!newVersion || dismissed) return null
 
   return (
-    <div
-      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2.5 rounded-xl"
-      style={{
-        background:  'var(--surface-raised)',
-        border:      '1px solid var(--gold-deep)',
-        boxShadow:   'var(--shadow-frame), 0 0 24px color-mix(in srgb, var(--gold) 20%, transparent)',
-      }}
-      role="status"
-    >
-      <RefreshCw size={14} style={{ color: 'var(--gold)' }} />
-      <span className="text-xs" style={{ color: 'var(--ink)' }}>{t('update_available')}</span>
-      <button
-        onClick={() => window.location.reload()}
-        className="px-2.5 py-1 rounded-lg text-xs font-semibold"
-        style={{ background: 'var(--gold)', color: 'var(--surface-void)' }}
-      >
+    <div className="site-update" role="status">
+      <RefreshCw size={17} aria-hidden="true" />
+      <span>
+        <b>{t('update_available')}</b>
+        <small>{t('update_hint')}</small>
+      </span>
+      <button type="button" className="site-primary" onClick={() => window.location.reload()}>
         {t('update_reload')}
       </button>
-      <button
-        onClick={() => setDismissed(true)}
-        aria-label={t('dismiss')}
-        className="p-0.5 rounded"
-        style={{ color: 'var(--ink-faint)' }}
-      >
-        <X size={14} />
+      <button type="button" className="site-icon" onClick={() => setDismissed(true)} aria-label={t('dismiss')}>
+        <X size={17} />
       </button>
     </div>
   )

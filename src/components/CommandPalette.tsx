@@ -13,6 +13,13 @@ export type Command = {
   disabled?: boolean
 }
 
+const OPEN_EVENT = 'forge:open-palette'
+
+/** Opens the mounted palette, for a visible header button next to the shortcut. */
+export function openCommandPalette() {
+  window.dispatchEvent(new Event(OPEN_EVENT))
+}
+
 /** Ctrl/Cmd+K power-user shortcut — a flat list of the same actions already
  * reachable through the header/menu buttons, just faster to reach without
  * hunting through toolbars. Each page passes its own relevant command set;
@@ -37,8 +44,13 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
         setOpen(o => !o)
       }
     }
+    const onOpen = () => setOpen(true)
     window.addEventListener('keydown', onGlobalKey)
-    return () => window.removeEventListener('keydown', onGlobalKey)
+    window.addEventListener(OPEN_EVENT, onOpen)
+    return () => {
+      window.removeEventListener('keydown', onGlobalKey)
+      window.removeEventListener(OPEN_EVENT, onOpen)
+    }
   }, [])
 
   useEffect(() => {

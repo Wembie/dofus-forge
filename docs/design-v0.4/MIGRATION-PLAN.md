@@ -23,6 +23,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 | `32825c2a` | Previews de enlace y ficha exportada |
 | `d3547af6` | Tarjetas de build con el personaje entre su equipo |
 | `3b03c7e6` | Paso intermedio del taller y ficha completa (el equipo se rehace en S3; la ficha completa se conserva) |
+| S1 | Armazón: cabecera, menú del sitio, cuenta, campana, preferencias, aviso de versión y pie en todas las páginas salvo el taller (el taller lo adopta en S2). Capturas en `captures/migracion/s1-armazon/` |
 
 ## Secciones, en orden
 
@@ -67,7 +68,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 
 ## Decisiones pendientes
 
-- **Google Analytics.** Hoy no hay: se mide con Cloudflare Web Analytics (agregado, sin cookies) y se muestra AdSense con el mensaje de consentimiento de Google en el EEE, Reino Unido y Suiza. Añadir GA4 requiere el ID de medición (`G-…`), el modo de consentimiento de Google y cambiar la política de privacidad en los cuatro idiomas.
+- **Google Analytics — decidido (18-11-2026): GA4 con modo de consentimiento v2**, usando el mensaje de consentimiento de Google que ya muestra AdSense. Cloudflare Web Analytics se mantiene. Eventos clave: equipar, ejecutar la Forjadora, publicar, compartir, exportar (cada sección añade los suyos). La política de privacidad se actualiza en los cuatro idiomas y la CSP permite los dominios de GA. Falta el ID de medición (`G-…`).
 - **Administración (S27):** diseñar en el estudio antes de migrar.
 
 ## Huecos encontrados
@@ -76,5 +77,9 @@ Se anotan aquí durante la migración: lo que falta, la sección y si bloquea.
 
 | Sección | Hueco | Bloquea |
 |---|---|---|
+| S1 | La barra lateral «Mi taller / Aprender» de las páginas del estudio no se migró: no figura en la especificación del armazón y repite la navegación de la cabecera y del menú. Confirmar si se quiere | No |
+| S1 | El tema se llama «Oscuro / Claro» en lugar de «Tinta / Mineral» (nombres internos de la paleta que un jugador no reconoce) | No |
+| S1 | Campana y menú de cuenta con sesión iniciada no se pudieron ver en local (sin sesión); su lógica no cambió, solo el marcado | No |
+| S2 | El taller conserva su cabecera vieja y `HeaderMenuButton` hasta S2 | No |
 | S3 | En móvil, las tarjetas de «Sets activos» quedan en dos columnas apretadas (ya era así) | No |
 | S24 | `useAuthFlow.ts` usa `auth_v4_password_hint` y `auth_v4_connection_error` | No |

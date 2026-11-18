@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ElementType, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Languages, Moon, SunMedium, Volume2, VolumeX, MousePointer2, Sparkles, PanelLeft, PanelRight, PersonStanding } from 'lucide-react'
 import { Modal } from '@/ui'
-import { LanguageSwitcher } from '@/ui/LanguageSwitcher.tsx'
+import { LANGUAGES, useLanguageChange } from '@/ui/LanguageSwitcher.tsx'
 import { getCurrentTheme, toggleTheme, THEME_EVENT_NAME } from '@/ui/ThemeToggle.tsx'
 import { isSoundEnabled, toggleSound, SOUND_EVENT_NAME } from '@/lib/sound.ts'
 import {
@@ -13,105 +13,50 @@ import {
 } from '@/lib/motionSettings.ts'
 import { getSidebarSide, setSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
 
-function Switch({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
+function Row({ Icon, title, hint, children }: { Icon: ElementType; title: string; hint?: string; children: ReactNode }) {
   return (
-    <button
-      role="switch"
-      aria-checked={on}
-      aria-label={label}
-      onClick={onToggle}
-      className="relative flex-shrink-0 rounded-full transition-colors"
-      style={{
-        width: 40, height: 22,
-        background: on ? 'var(--gold)' : 'var(--surface-void)',
-        border: `1px solid ${on ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
-      }}
-    >
-      <span
-        className="absolute rounded-full transition-transform"
-        style={{
-          top: 2, left: 2, width: 16, height: 16,
-          background: on ? 'var(--ink-invert)' : 'var(--ink-faint)',
-          transform: on ? 'translateX(18px)' : 'translateX(0)',
-        }}
-      />
-    </button>
-  )
-}
-
-function SideToggle({ side, onChange }: { side: SidebarSide; onChange: (side: SidebarSide) => void }) {
-  const { t } = useTranslation()
-  const options: { id: SidebarSide; label: string; Icon: React.ElementType }[] = [
-    { id: 'left',  label: t('sidebar_side_left'),  Icon: PanelLeft },
-    { id: 'right', label: t('sidebar_side_right'), Icon: PanelRight },
-  ]
-  return (
-    <div className="flex gap-1 flex-shrink-0">
-      {options.map(({ id, label, Icon }) => (
-        <button
-          key={id}
-          onClick={() => onChange(id)}
-          aria-pressed={side === id}
-          aria-label={label}
-          title={label}
-          className="flex items-center justify-center rounded-md border transition-colors"
-          style={{
-            width: 30, height: 30,
-            background: side === id ? 'color-mix(in srgb, var(--gold) 15%, transparent)' : 'var(--surface-void)',
-            borderColor: side === id ? 'var(--gold-deep)' : 'var(--metal-edge)',
-            color: side === id ? 'var(--gold)' : 'var(--ink-faint)',
-          }}
-        >
-          <Icon size={15} />
-        </button>
-      ))}
-    </div>
-  )
-}
-
-function ModeToggle({ mode, onChange }: { mode: CharacterMode; onChange: (mode: CharacterMode) => void }) {
-  return (
-    <div className="flex gap-1 flex-shrink-0">
-      {(['2d', '3d'] as const).map(id => (
-        <button
-          key={id}
-          onClick={() => onChange(id)}
-          aria-pressed={mode === id}
-          className="flex items-center justify-center rounded-md border transition-colors text-[11px] font-bold"
-          style={{
-            width: 34, height: 30,
-            background: mode === id ? 'color-mix(in srgb, var(--gold) 15%, transparent)' : 'var(--surface-void)',
-            borderColor: mode === id ? 'var(--gold-deep)' : 'var(--metal-edge)',
-            color: mode === id ? 'var(--gold)' : 'var(--ink-faint)',
-          }}
-        >
-          {id.toUpperCase()}
-        </button>
-      ))}
-    </div>
-  )
-}
-
-function SettingRow({ Icon, title, hint, children }: { Icon: React.ElementType; title: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 py-3 border-b last:border-b-0" style={{ borderColor: 'var(--metal-edge)' }}>
-      <div
-        className="flex items-center justify-center flex-shrink-0 rounded-lg"
-        style={{ width: 32, height: 32, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', color: 'var(--gold)' }}
-      >
-        <Icon size={15} />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[13px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</p>
-        {hint && <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{hint}</p>}
-      </div>
+    <div className="site-setting">
+      <Icon size={18} aria-hidden="true" />
+      <span>
+        <b>{title}</b>
+        {hint && <small>{hint}</small>}
+      </span>
       {children}
     </div>
   )
 }
 
+function Switch({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
+  return (
+    <button type="button" role="switch" aria-checked={on} aria-label={label} className="site-switch" onClick={onToggle}>
+      <i />
+    </button>
+  )
+}
+
+function Segmented<T extends string>({ value, options, onChange, label }: {
+  value: T
+  options: { id: T; label: string; Icon?: ElementType }[]
+  onChange: (value: T) => void
+  label: string
+}) {
+  return (
+    <div className="site-segmented" role="radiogroup" aria-label={label}>
+      {options.map(({ id, label: text, Icon }) => (
+        <button key={id} type="button" role="radio" aria-checked={value === id} onClick={() => onChange(id)}>
+          {Icon && <Icon size={15} aria-hidden="true" />}
+          {text}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/** Preferences, saved on this device: language, theme, sound, cursor,
+ * particles, 2D/3D character and the side of the stats sheet. */
 export function SettingsModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation()
+  const [lang, changeLanguage] = useLanguageChange()
   const [theme, setTheme]         = useState(getCurrentTheme)
   const [sound, setSound]         = useState(isSoundEnabled)
   const [cursor, setCursor]       = useState(isCursorEnabled)
@@ -120,10 +65,10 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
   const [sidebarSide, setSidebarSideState] = useState(getSidebarSide)
 
   useEffect(() => {
-    const syncTheme     = () => setTheme(getCurrentTheme())
-    const syncSound     = () => setSound(isSoundEnabled())
-    const syncMotion    = () => { setCursor(isCursorEnabled()); setParticles(isParticlesEnabled()); setCharacterModeState(getCharacterMode()) }
-    const syncLayout    = () => setSidebarSideState(getSidebarSide())
+    const syncTheme  = () => setTheme(getCurrentTheme())
+    const syncSound  = () => setSound(isSoundEnabled())
+    const syncMotion = () => { setCursor(isCursorEnabled()); setParticles(isParticlesEnabled()); setCharacterModeState(getCharacterMode()) }
+    const syncLayout = () => setSidebarSideState(getSidebarSide())
     window.addEventListener(THEME_EVENT_NAME, syncTheme)
     window.addEventListener(SOUND_EVENT_NAME, syncSound)
     window.addEventListener(MOTION_SETTINGS_EVENT, syncMotion)
@@ -137,47 +82,58 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
   }, [])
 
   return (
-    <Modal open={open} onClose={onClose} title={t('settings_title')} size="sm">
-      <div className="p-4">
-        <SettingRow Icon={Languages} title={t('settings_language')}>
-          <LanguageSwitcher />
-        </SettingRow>
-
-        <SettingRow
-          Icon={theme === 'dark' ? Moon : SunMedium}
-          title={t('settings_theme')}
-          hint={theme === 'dark' ? t('theme_label_dark') : t('theme_label_light')}
-        >
-          <Switch on={theme === 'light'} onToggle={toggleTheme} label={t('settings_theme')} />
-        </SettingRow>
-
-        <SettingRow
-          Icon={sound ? Volume2 : VolumeX}
-          title={t('settings_sound')}
-          hint={sound ? t('sound_unmute') : t('sound_mute')}
-        >
+    <Modal open={open} onClose={onClose} title={t('settings_title')} size="md">
+      <div className="site-settings">
+        <h3>{t('settings_group_general')}</h3>
+        <Row Icon={Languages} title={t('settings_language')}>
+          <select aria-label={t('settings_language')} value={lang} onChange={e => changeLanguage(e.target.value)}>
+            {LANGUAGES.map(({ code, label }) => <option key={code} value={code}>{label}</option>)}
+          </select>
+        </Row>
+        <Row Icon={theme === 'dark' ? Moon : SunMedium} title={t('settings_theme')} hint={t(theme === 'dark' ? 'theme_label_dark' : 'theme_label_light')}>
+          <Segmented
+            label={t('settings_theme')}
+            value={theme}
+            onChange={next => { if (next !== theme) toggleTheme() }}
+            options={[
+              { id: 'dark', label: t('theme_dark'), Icon: Moon },
+              { id: 'light', label: t('theme_light'), Icon: SunMedium },
+            ]}
+          />
+        </Row>
+        <Row Icon={sound ? Volume2 : VolumeX} title={t('settings_sound')} hint={t(sound ? 'sound_on' : 'sound_off')}>
           <Switch on={sound} onToggle={toggleSound} label={t('settings_sound')} />
-        </SettingRow>
+        </Row>
 
-        <SettingRow Icon={MousePointer2} title={t('settings_cursor')} hint={t('settings_cursor_hint')}>
+        <h3>{t('settings_group_motion')}</h3>
+        <Row Icon={MousePointer2} title={t('settings_cursor')} hint={t('settings_cursor_hint')}>
           <Switch on={cursor} onToggle={() => setCursorEnabled(!cursor)} label={t('settings_cursor')} />
-        </SettingRow>
-
-        <SettingRow Icon={Sparkles} title={t('settings_particles')} hint={t('settings_particles_hint')}>
+        </Row>
+        <Row Icon={Sparkles} title={t('settings_particles')} hint={t('settings_particles_hint')}>
           <Switch on={particles} onToggle={() => setParticlesEnabled(!particles)} label={t('settings_particles')} />
-        </SettingRow>
+        </Row>
+        <Row Icon={PersonStanding} title={t('settings_character')} hint={t('settings_character_hint')}>
+          <Segmented<CharacterMode>
+            label={t('settings_character')}
+            value={characterMode}
+            onChange={setCharacterMode}
+            options={[{ id: '3d', label: '3D' }, { id: '2d', label: '2D' }]}
+          />
+        </Row>
 
-        <SettingRow Icon={PersonStanding} title={t('settings_character')} hint={t('settings_character_hint')}>
-          <ModeToggle mode={characterMode} onChange={setCharacterMode} />
-        </SettingRow>
-
-        <SettingRow
-          Icon={sidebarSide === 'left' ? PanelLeft : PanelRight}
-          title={t('settings_sidebar_side')}
-          hint={t('settings_sidebar_side_hint')}
-        >
-          <SideToggle side={sidebarSide} onChange={setSidebarSide} />
-        </SettingRow>
+        <h3>{t('settings_group_layout')}</h3>
+        <Row Icon={sidebarSide === 'left' ? PanelLeft : PanelRight} title={t('settings_sidebar_side')} hint={t('settings_sidebar_side_hint')}>
+          <Segmented<SidebarSide>
+            label={t('settings_sidebar_side')}
+            value={sidebarSide}
+            onChange={setSidebarSide}
+            options={[
+              { id: 'left', label: t('sidebar_side_left'), Icon: PanelLeft },
+              { id: 'right', label: t('sidebar_side_right'), Icon: PanelRight },
+            ]}
+          />
+        </Row>
+        <p className="site-muted">{t('settings_saved_hint')}</p>
       </div>
     </Modal>
   )

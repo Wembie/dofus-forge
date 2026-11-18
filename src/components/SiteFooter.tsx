@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { Coffee, Mountain } from 'lucide-react'
+import { BrandMark } from '@/ui'
 import { ColombianMark } from '@/components/ColombianMark.tsx'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 
@@ -9,10 +10,22 @@ import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 const FOUNDED_AT = Date.UTC(2026, 7, 4)
 const FOUNDED_YEAR = 2026
 
-/** Shared across every page (planner, Explore, My Builds, build detail,
- * About, How to Use) — gives every page the same internal-linking surface
- * (helps crawl discovery of About/How to Use/Explore) instead of each page
- * reinventing its own footer or having none at all. */
+function Cyclist() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="m9 14-4 7m6-6-1 6m3-6 1 6" stroke="#003893" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 13c0-2.9 2-5 4.8-5 2.3 0 4.3 1.8 4.3 4.1 0 2.7-2.1 4.9-4.9 4.9-2.2 0-3.7-1.3-4.2-4Z" stroke="var(--air)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10.3 11.9c1.4-1 3.4-1 4.9-.2" stroke="#003893" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="16.1" cy="5.5" r="3.1" stroke="#CE1126" strokeWidth="2" />
+      <path d="m19 5.6 2.8 1.2L19 8.3" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="16.3" cy="5.2" r=".4" fill="var(--ink)" />
+    </svg>
+  )
+}
+
+/** Shared by every page: the same internal links everywhere (crawl discovery
+ * of the reading pages, Explore and Sets), credits, community, legal links,
+ * Ankama's disclaimer and the age of the project. */
 export function SiteFooter() {
   const { t, i18n } = useTranslation()
   const prefix = langPathPrefix(i18n.language)
@@ -24,68 +37,74 @@ export function SiteFooter() {
   const nowYear = now === null ? null : new Date(now).getUTCFullYear()
   const daysOnline = now === null ? null : Math.floor((now - FOUNDED_AT) / 86_400_000)
   const foundedLabel = new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(FOUNDED_AT)
+  const page = (segment: string, label: string) => <Link to={`/${prefix}${segment}`}>{t(label)}</Link>
 
   return (
-    <footer className="border-t border-forge-border mt-8 py-5 px-4 text-center space-y-3">
-      <nav className="flex flex-wrap justify-center gap-x-4 text-[11px] font-semibold text-ink-muted [&>a]:inline-flex [&>a]:items-center [&>a]:min-h-6" aria-label={t('a11y_site_nav')}>
-        <Link to={homePath} className="hover:text-gold transition-colors">{t('app_title')}</Link>
-        <Link to={`/${prefix}about`} className="hover:text-gold transition-colors">{t('nav_about')}</Link>
-        <Link to={`/${prefix}how-to-use`} className="hover:text-gold transition-colors">{t('nav_how_to_use')}</Link>
-        <Link to={`/${prefix}forge-guide`} className="hover:text-gold transition-colors">{t('nav_forge_guide')}</Link>
-        <Link to={`/${prefix}shortcuts`} className="hover:text-gold transition-colors">{t('nav_shortcuts')}</Link>
-        <Link to={`/${prefix}sets`} className="hover:text-gold transition-colors">{t('nav_sets')}</Link>
-        <Link to={`/${prefix}explore`} className="hover:text-gold transition-colors">{t('explore_open')}</Link>
-        <Link to={`/${prefix}my-builds`} className="hover:text-gold transition-colors">{t('my_builds')}</Link>
-      </nav>
-      <div
-        role="img"
-        aria-label={t('colombia_badge')}
-        className="flex items-center justify-center gap-2"
-        style={{ color: 'var(--ink-faint)' }}
-      >
-        <ColombianMark />
-        <span className="text-[10px] font-medium tracking-wide" style={{ color: 'var(--ink-muted)' }}>
-          {t('colombia_badge')}
-        </span>
-        <Coffee size={13} aria-hidden="true" style={{ color: 'var(--gold)' }} />
-        <Mountain size={14} aria-hidden="true" style={{ color: 'var(--air)' }} />
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="flex-shrink-0">
-          <path d="m9 14-4 7m6-6-1 6m3-6 1 6" stroke="#003893" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M9 13c0-2.9 2-5 4.8-5 2.3 0 4.3 1.8 4.3 4.1 0 2.7-2.1 4.9-4.9 4.9-2.2 0-3.7-1.3-4.2-4Z" stroke="var(--air)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M10.3 11.9c1.4-1 3.4-1 4.9-.2" stroke="#003893" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="16.1" cy="5.5" r="3.1" stroke="#CE1126" strokeWidth="2" />
-          <path d="m19 5.6 2.8 1.2L19 8.3" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="16.3" cy="5.2" r=".4" fill="var(--ink)" />
-        </svg>
+    <footer className="site-footer">
+      <div className="site-footer-top">
+        <div className="site-footer-brand">
+          <Link to={homePath} className="site-brand">
+            <BrandMark size={26} />
+            <span className="brand-wordmark">{t('app_title')}</span>
+          </Link>
+          <p>{t('footer_tagline')}</p>
+          <p className="site-colombia" role="img" aria-label={t('colombia_badge')}>
+            <ColombianMark />
+            <span aria-hidden="true">{t('colombia_badge')}</span>
+            <Coffee size={14} aria-hidden="true" style={{ color: 'var(--gold)' }} />
+            <Mountain size={14} aria-hidden="true" style={{ color: 'var(--air)' }} />
+            <Cyclist />
+          </p>
+        </div>
+        <nav aria-label={t('a11y_site_nav')}>
+          <h2>{t('footer_group_product')}</h2>
+          <Link to={homePath}>{t('nav_workshop')}</Link>
+          {page('explore', 'explore_open')}
+          {page('my-builds', 'my_builds')}
+          {page('sets', 'nav_sets')}
+        </nav>
+        <nav aria-label={t('footer_group_learn')}>
+          <h2>{t('footer_group_learn')}</h2>
+          {page('how-to-use', 'nav_how_to_use')}
+          {page('forge-guide', 'nav_forge_guide')}
+          {page('shortcuts', 'nav_shortcuts')}
+          {page('about', 'nav_about')}
+        </nav>
+        <div className="site-footer-credits">
+          <h2>{t('footer_group_credits')}</h2>
+          <dl>
+            <div><dt>{t('credits_server')}</dt><dd>Tal Kasha</dd></div>
+            <div><dt>{t('credits_creator')}</dt><dd>Juan / Wembie</dd></div>
+            <div><dt>{t('credits_ingame')}</dt><dd>Raik-Luck</dd></div>
+            <div>
+              <dt>{t('credits_community')}</dt>
+              <dd>
+                <a href="https://discord.gg/Rv8q4C8C5j" target="_blank" rel="noopener noreferrer">Discord</a>
+                <a href="https://x.com/DofusForgeApp" target="_blank" rel="noopener noreferrer" aria-label={t('a11y_on_x')}>X</a>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
-      <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-4 gap-y-0.5" style={{ color: 'var(--ink-faint)' }}>
-        <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_server')}: </span>Tal Kasha</span>
-        <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_creator')}: </span>Juan / Wembie</span>
-        <span><span style={{ color: 'var(--ink-muted)' }}>{t('credits_ingame')}: </span>Raik-Luck</span>
-      </p>
-      <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-        <span style={{ color: 'var(--ink-muted)' }}>{t('credits_community')}: </span>
-        <a href="https://discord.gg/Rv8q4C8C5j" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors underline-offset-2 hover:underline">Discord</a>
-        <span aria-hidden="true"> · </span>
-        <a href="https://x.com/DofusForgeApp" target="_blank" rel="noopener noreferrer" aria-label={t('a11y_on_x')} className="hover:text-gold transition-colors underline-offset-2 hover:underline">X</a>
-      </p>
-      <nav className="flex flex-wrap justify-center gap-x-4 text-[10px] [&>a]:inline-flex [&>a]:items-center [&>a]:min-h-6" style={{ color: 'var(--ink-faint)' }} aria-label={t('a11y_legal_nav')}>
-        <Link to={`/${prefix}privacy`} className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_privacy')}</Link>
-        <Link to={`/${prefix}terms`} className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_terms')}</Link>
-        <a href="mailto:contact@dofusforge.com" className="hover:text-gold transition-colors underline-offset-2 hover:underline">{t('legal_contact')}</a>
-      </nav>
-      <p className="text-[10px] max-w-xl mx-auto" style={{ color: 'var(--ink-faint)' }}>{t('legal_ankama_disclaimer')}</p>
-      <p className="text-[10px] max-w-xl mx-auto flex flex-wrap justify-center gap-x-1.5" style={{ color: 'var(--ink-faint)' }}>
-        <span>© {FOUNDED_YEAR}{nowYear && nowYear > FOUNDED_YEAR ? `–${nowYear}` : ''} {t('app_title')}</span>
-        <span aria-hidden="true">·</span>
-        <span>{t('footer_founded', { date: foundedLabel })}</span>
-        {daysOnline !== null && (
-          <>
-            <span aria-hidden="true">·</span>
-            <span>{t('footer_days_online', { count: daysOnline })}</span>
-          </>
-        )}
-      </p>
+      <div className="site-footer-legal">
+        <nav aria-label={t('a11y_legal_nav')}>
+          {page('privacy', 'legal_privacy')}
+          {page('terms', 'legal_terms')}
+          <a href="mailto:contact@dofusforge.com">{t('legal_contact')}</a>
+        </nav>
+        <p>{t('legal_ankama_disclaimer')}</p>
+        <p className="site-footer-age">
+          <span>© {FOUNDED_YEAR}{nowYear && nowYear > FOUNDED_YEAR ? `–${nowYear}` : ''} {t('app_title')}</span>
+          <span aria-hidden="true">·</span>
+          <span>{t('footer_founded', { date: foundedLabel })}</span>
+          {daysOnline !== null && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{t('footer_days_online', { count: daysOnline })}</span>
+            </>
+          )}
+        </p>
+      </div>
     </footer>
   )
 }

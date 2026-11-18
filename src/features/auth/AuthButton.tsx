@@ -1,12 +1,13 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
-import { User, LogOut, Pencil } from 'lucide-react'
+import { Link, useNavigate } from 'react-router'
+import { LogIn, LogOut, Settings, User } from 'lucide-react'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { AuthModal } from './AuthModal.tsx'
 import { ResetPasswordModal } from './ResetPasswordModal.tsx'
 
+/** Sign-in button, or the player's menu: public profile, account, sign out. */
 export function AuthButton() {
   const { t, i18n } = useTranslation()
   const navigate   = useNavigate()
@@ -14,18 +15,20 @@ export function AuthButton() {
   const profile    = useAuthStore(s => s.profile)
   const loading    = useAuthStore(s => s.loading)
   const signOut    = useAuthStore(s => s.signOut)
+  const prefix     = langPathPrefix(i18n.language)
+  const menuId     = useId()
 
-  const [showAuth, setShowAuth]       = useState(false)
-  const [showMenu, setShowMenu]       = useState(false)
+  const [showAuth, setShowAuth] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!showMenu) return
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setShowMenu(false)
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
+    const onDown = (e: MouseEvent) => { if (!menuRef.current?.contains(e.target as Node)) setShowMenu(false) }
+    const onKey  = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowMenu(false) }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => { document.removeEventListener('mousedown', onDown); document.removeEventListener('keydown', onKey) }
   }, [showMenu])
 
   if (loading) return null
@@ -33,14 +36,9 @@ export function AuthButton() {
   if (!session) {
     return (
       <>
-        <button
-          onClick={() => setShowAuth(true)}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-          style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-          title={t('auth_signin_title')}
-        >
-          <User size={13} />
-          <span className="hidden lg:inline">{t('auth_signin_btn')}</span>
+        <button type="button" className="site-signin" onClick={() => setShowAuth(true)} title={t('auth_signin_title')}>
+          <LogIn size={16} aria-hidden="true" />
+          <span>{t('auth_signin_btn')}</span>
         </button>
         <AuthModal open={showAuth} onClose={() => setShowAuth(false)} />
         <ResetPasswordModal />
@@ -53,41 +51,41 @@ export function AuthButton() {
   // everywhere, display_name is just optional flavor text, never primary.
   const label    = profile?.username || session.user.email || ''
   const realName = profile?.display_name
+  const avatar   = isSafeImageUrl(profile?.avatar_url) ? profile.avatar_url : null
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="site-account" ref={menuRef}>
       <button
+        type="button"
+        className="site-avatar"
         onClick={() => setShowMenu(v => !v)}
-        className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-        style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
+        aria-label={t('account_menu_label', { name: label })}
+        aria-expanded={showMenu}
+        aria-controls={menuId}
         title={realName ? `${label} (${realName})` : label}
       >
-        {isSafeImageUrl(profile?.avatar_url)
-          ? <img src={profile.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
-          : <User size={13} />
-        }
-        <span className="hidden lg:inline max-w-[100px] truncate">{label}</span>
+        {avatar ? <img src={avatar} alt="" width={36} height={36} /> : label.slice(0, 1).toUpperCase()}
       </button>
 
       {showMenu && (
-        <div
-          className="absolute right-0 top-full mt-1 rounded-lg overflow-hidden z-50 min-w-[160px]"
-          style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame)' }}
-        >
-          <button
-            onClick={() => { setShowMenu(false); navigate(`/${langPathPrefix(i18n.language)}account`) }}
-            className="w-full flex items-center gap-2 px-3 py-2 text-[11px] text-left transition-colors hover:bg-surface-raised"
-            style={{ color: 'var(--ink-muted)' }}
-          >
-            <Pencil size={13} />
+        <div id={menuId} className="site-popover site-account-menu">
+          <p>
+            <b>{label}</b>
+            {realName && <span>{realName}</span>}
+            <small>{t('account_signed_in')}</small>
+          </p>
+          {profile?.username && (
+            <Link to={`/${prefix}u/${profile.username}`} onClick={() => setShowMenu(false)}>
+              <User size={16} aria-hidden="true" />
+              {t('account_public_profile')}
+            </Link>
+          )}
+          <button type="button" onClick={() => { setShowMenu(false); navigate(`/${prefix}account`) }}>
+            <Settings size={16} aria-hidden="true" />
             {t('auth_profile_title')}
           </button>
-          <button
-            onClick={() => { setShowMenu(false); signOut() }}
-            className="w-full flex items-center gap-2 px-3 py-2 text-[11px] text-left transition-colors hover:bg-surface-raised"
-            style={{ color: 'var(--ink-muted)', borderTop: '1px solid var(--metal-edge)' }}
-          >
-            <LogOut size={13} />
+          <button type="button" className="is-quiet" onClick={() => { setShowMenu(false); signOut() }}>
+            <LogOut size={16} aria-hidden="true" />
             {t('auth_signout')}
           </button>
         </div>
