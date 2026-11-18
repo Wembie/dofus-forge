@@ -101,6 +101,7 @@ Se anotan aquí durante la migración: lo que falta, la sección y si bloquea.
 | S2 | Las herramientas de la barra llevan al panel actual de la página (características, pasivos, hechizos, combate, bonus de set) hasta que cada una tenga su diálogo (S7–S12); «Compartir y exportar» se añade en S14 | No |
 | S14 | «Exportar» deja de ser un botón aparte en la cabecera: «Compartir» abre el diálogo, donde están copiar y descargar (un clic más que antes para copiar) | No |
 | S15 | `ForgeItemsPanel`, `ForgePassivesBlock` y `BuildResultCard` se eliminan; sus pruebas de interfaz pasan a `OptimizerModal.test` (fijar/vetar, equipo puesto, secciones de pasivos) y la de `searchItems` a su propio archivo | No |
+| S7 | «Ver set» desde un objeto, una ranura o los bonus vuelve a abrir una ventana propia del set (piezas con equipar/quitar, bonus por tramo, cambio en la build, equipar todo) en vez del catálogo de sets completo | No |
 | S2 | El `<h1>` de la página principal pasa de «Dofus Forge» al título de la build o, sin clase, a «Planificador de builds de Dofus 3» (en cada idioma), que es lo que Google ve en el HTML prerenderizado | No |
 | S3 | En móvil, las tarjetas de «Sets activos» quedan en dos columnas apretadas (ya era así) | No |
 | S3 | El botón «reiniciar equipo» del estudio no se migró: el store no tiene una acción que quite todo el equipo y sus runas en un paso deshacible; crearla es una función nueva | Decidir |

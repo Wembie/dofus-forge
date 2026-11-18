@@ -33,8 +33,9 @@ const levelOf = (e: Entry) => (e.minLevel === e.maxLevel ? e.minLevel : `${e.min
 /** Set cards that show every piece and the full-set bonus without a click,
  * equip in one press, and open a panel with where each piece goes, the tier
  * reached and what the build gains. `open` starts on that set (links from an
- * item, a slot or the bonuses). */
-export function SetsCatalog({ onClose, open, onEquipped = onClose }: { onClose: () => void; open?: number; onEquipped?: () => void }) {
+ * item, a slot or the bonuses). With `single`, only that set's detail opens,
+ * in its own smaller window. */
+export function SetsCatalog({ onClose, open, onEquipped = onClose, single = false }: { onClose: () => void; open?: number; onEquipped?: () => void; single?: boolean }) {
   const { t, i18n } = useTranslation()
   const equipment    = useDataStore(s => s.equipment)
   const sets         = useDataStore(s => s.sets)
@@ -129,6 +130,99 @@ export function SetsCatalog({ onClose, open, onEquipped = onClose }: { onClose: 
   const replaced = plan.filter(p => equipped[p.slot]).length
   const tiers = selected ? Object.keys(selected.set.bonuses).map(Number).sort((a, b) => a - b) : []
   const slug = selected ? slugs.get(selected.set.ankama_id) : undefined
+
+  // On its own the set's window title is the h2, so the sections step down to h3.
+  const Sub = single ? 'h3' : 'h4'
+  const detail = selected && (
+  <>
+    <div className="catalog-item-heading set-heading">
+      <div>
+        <span>{t('catalog_level_upper', { level: levelOf(selected) })}</span>
+        {!single && <h3 tabIndex={-1} ref={detailRef}>{selected.set.name}</h3>}
+        <p>{t('setcat_pieces_worn', { count: selected.items.length, have })}</p>
+        {slug && (
+          <Link className="set-page-link" to={setPath(i18n.language, slug)} onClick={onClose}>
+            {t('setcat_open_page')}
+            <ArrowRight size={13} aria-hidden="true" />
+          </Link>
+        )}
+      </div>
+    </div>
+    <Sub>{t('sets_sort_pieces')} <span>{t('setcat_where_each')}</span></Sub>
+    <ul className="set-pieces-plan">
+      {selected.items.map(it => {
+        const target = plan.find(p => p.item.ankama_id === it.ankama_id)
+        const out = target && byId.get(equipped[target.slot] ?? -1)
+        const isWorn = worn.has(it.ankama_id)
+        return (
+          <li key={it.ankama_id}>
+            <ItemPeek item={it}>
+              <span className="set-card-piece" tabIndex={0}>{it.image_url && <img src={it.image_url} alt="" />}</span>
+            </ItemPeek>
+            <span>
+              <b>{it.name}</b>
+              <small>
+                {isWorn ? <><Check size={12} /> {t('setcat_already_worn')}</>
+                  : !target ? t('setcat_no_room_piece')
+                  : out ? t('setcat_slot_replaces', { slot: t(`slot_${target.slot}`), name: out.name })
+                  : t('setcat_slot_empty', { slot: t(`slot_${target.slot}`) })}
+              </small>
+              <em>{t('catalog_level_short', { level: it.level })}</em>
+            </span>
+            {isWorn ? (
+              <button type="button" className="set-piece-action" aria-label={t('setcat_remove_named', { name: it.name })} onClick={() => removePiece(it)}>
+                {t('unequip_btn')}
+              </button>
+            ) : (
+              <button type="button" className="set-piece-action" aria-label={t('setcat_equip_only', { name: it.name })} onClick={() => equipPiece(it)}>
+                {t('equip_item')}
+              </button>
+            )}
+          </li>
+        )
+      })}
+    </ul>
+    <Sub>{t('setcat_bonuses')} <span>{t('setcat_by_worn')}</span></Sub>
+    <ol className="set-tiers">
+      {tiers.map(n => (
+        <li key={n} className={n === after ? 'is-reached' : n === have ? 'is-current' : ''}>
+          <span className="set-tier-count">{n} <small>{t('setcat_tier_pieces', { count: n })}</small></span>
+          <span className="set-tier-effects"><SetBonusEffects effects={selected.set.bonuses[n].filter(e => !isIgnored(e.stat))} /></span>
+          {n === after && plan.length > 0 && <span className="set-tier-note">{t('setcat_with_change')}</span>}
+          {n === have && !(n === after && plan.length > 0) && <span className="set-tier-note">{t('setcat_now')}</span>}
+        </li>
+      ))}
+    </ol>
+    {preview && (
+      <>
+        <Sub>{t('catalog_in_build')} <span>{t('setcat_now_with_set')}</span></Sub>
+        <ImpactDeltas preview={preview} />
+        <p className="catalog-footnote">{t('setcat_footnote')}</p>
+      </>
+    )}
+    <div className="catalog-equip">
+      <p>
+        {!plan.length ? (have ? t('setcat_all_worn') : t('setcat_no_room_any'))
+          : replaced ? t('setcat_equip_replace', { count: plan.length, replaced })
+          : t('setcat_equip_empty', { count: plan.length })}
+      </p>
+      <button type="button" className="site-primary" disabled={!plan.length} onClick={() => equipSet(selected)}>
+        {plan.length ? t('setcat_equip_btn', { count: plan.length }) : t('setcat_equipped')}
+        <ArrowRight size={17} />
+      </button>
+    </div>
+  </>
+  )
+
+  if (single) {
+    return (
+      <Modal open onClose={onClose} title={selected?.set.name ?? t('nav_sets')} size="2xl">
+        <div className="catalog-composition has-selection set-single">
+          <div className="catalog-inspection">{detail}</div>
+        </div>
+      </Modal>
+    )
+  }
 
   return (
     <Modal open onClose={onClose} title={t('nav_sets')} size="full" className="catalog-dialog">
@@ -273,82 +367,7 @@ export function SetsCatalog({ onClose, open, onEquipped = onClose }: { onClose: 
                 <ArrowLeft size={17} />
                 {t('setcat_back')}
               </button>
-              <div className="catalog-item-heading set-heading">
-                <div>
-                  <span>{t('catalog_level_upper', { level: levelOf(selected) })}</span>
-                  <h3 tabIndex={-1} ref={detailRef}>{selected.set.name}</h3>
-                  <p>{t('setcat_pieces_worn', { count: selected.items.length, have })}</p>
-                  {slug && (
-                    <Link className="set-page-link" to={setPath(i18n.language, slug)} onClick={onClose}>
-                      {t('setcat_open_page')}
-                      <ArrowRight size={13} aria-hidden="true" />
-                    </Link>
-                  )}
-                </div>
-              </div>
-              <h4>{t('sets_sort_pieces')} <span>{t('setcat_where_each')}</span></h4>
-              <ul className="set-pieces-plan">
-                {selected.items.map(it => {
-                  const target = plan.find(p => p.item.ankama_id === it.ankama_id)
-                  const out = target && byId.get(equipped[target.slot] ?? -1)
-                  const isWorn = worn.has(it.ankama_id)
-                  return (
-                    <li key={it.ankama_id}>
-                      <ItemPeek item={it}>
-                        <span className="set-card-piece" tabIndex={0}>{it.image_url && <img src={it.image_url} alt="" />}</span>
-                      </ItemPeek>
-                      <span>
-                        <b>{it.name}</b>
-                        <small>
-                          {isWorn ? <><Check size={12} /> {t('setcat_already_worn')}</>
-                            : !target ? t('setcat_no_room_piece')
-                            : out ? t('setcat_slot_replaces', { slot: t(`slot_${target.slot}`), name: out.name })
-                            : t('setcat_slot_empty', { slot: t(`slot_${target.slot}`) })}
-                        </small>
-                        <em>{t('catalog_level_short', { level: it.level })}</em>
-                      </span>
-                      {isWorn ? (
-                        <button type="button" className="set-piece-action" aria-label={t('setcat_remove_named', { name: it.name })} onClick={() => removePiece(it)}>
-                          {t('unequip_btn')}
-                        </button>
-                      ) : (
-                        <button type="button" className="set-piece-action" aria-label={t('setcat_equip_only', { name: it.name })} onClick={() => equipPiece(it)}>
-                          {t('equip_item')}
-                        </button>
-                      )}
-                    </li>
-                  )
-                })}
-              </ul>
-              <h4>{t('setcat_bonuses')} <span>{t('setcat_by_worn')}</span></h4>
-              <ol className="set-tiers">
-                {tiers.map(n => (
-                  <li key={n} className={n === after ? 'is-reached' : n === have ? 'is-current' : ''}>
-                    <span className="set-tier-count">{n} <small>{t('setcat_tier_pieces', { count: n })}</small></span>
-                    <span className="set-tier-effects"><SetBonusEffects effects={selected.set.bonuses[n].filter(e => !isIgnored(e.stat))} /></span>
-                    {n === after && plan.length > 0 && <span className="set-tier-note">{t('setcat_with_change')}</span>}
-                    {n === have && !(n === after && plan.length > 0) && <span className="set-tier-note">{t('setcat_now')}</span>}
-                  </li>
-                ))}
-              </ol>
-              {preview && (
-                <>
-                  <h4>{t('catalog_in_build')} <span>{t('setcat_now_with_set')}</span></h4>
-                  <ImpactDeltas preview={preview} />
-                  <p className="catalog-footnote">{t('setcat_footnote')}</p>
-                </>
-              )}
-              <div className="catalog-equip">
-                <p>
-                  {!plan.length ? (have ? t('setcat_all_worn') : t('setcat_no_room_any'))
-                    : replaced ? t('setcat_equip_replace', { count: plan.length, replaced })
-                    : t('setcat_equip_empty', { count: plan.length })}
-                </p>
-                <button type="button" className="site-primary" disabled={!plan.length} onClick={() => equipSet(selected)}>
-                  {plan.length ? t('setcat_equip_btn', { count: plan.length }) : t('setcat_equipped')}
-                  <ArrowRight size={17} />
-                </button>
-              </div>
+              {detail}
             </>
           )}
         </aside>

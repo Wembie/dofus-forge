@@ -314,3 +314,16 @@
   .bonus-sets header { flex-wrap: wrap; }
   .bonus-sets header p { margin-left: 0; }
 }
+
+/* A set opened on its own (from an item, a slot or the bonuses). */
+.catalog-composition.set-single {
+  display: block;
+  height: auto;
+  min-height: 0;
+  overflow: auto;
+}
+.catalog-composition.set-single .catalog-inspection {
+  display: block;
+  overflow: visible;
+  grid-area: auto;
+}

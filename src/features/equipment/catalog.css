@@ -648,7 +648,8 @@
 .catalog-mobile-facts {
   display: none;
 }
-.catalog-inspection h4 {
+.catalog-inspection h4,
+.set-single .catalog-inspection h3 {
   font-size: 14px;
   font-weight: 600;
   margin: 20px 0 8px;
@@ -656,7 +657,8 @@
   justify-content: space-between;
   gap: 12px;
 }
-.catalog-inspection h4 span {
+.catalog-inspection h4 span,
+.set-single .catalog-inspection h3 span {
   font-size: 10px;
   color: var(--muted);
   font-weight: 400;
