@@ -1,12 +1,14 @@
 import { useMemo, useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Eye } from 'lucide-react'
+import { ArrowRight, Eye } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { IconButton, Frame } from '@/ui'
 
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
-import { STAT_META, statIconUrl } from './statDisplay.ts'
+import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
+import { SetBonusEffects } from './ItemFacts.tsx'
+import './sets.css'
 
 // ── Piece progress dots ───────────────────────────────────────────────────────
 
@@ -204,34 +206,72 @@ export function ActiveSetsGrid({ activeSets, onOpenSet }: {
   )
 }
 
-// ── Live panel — equips/unequips through the current buildStore, so it's the
-// only place that also wires up the interactive SetDetailModal ────────────
+// ── Workshop panel: each set you wear, its pieces and every tier ─────────────
 
 export function SetBonusesPanel() {
+  const { t } = useTranslation()
   const equipped   = useBuildStore(s => s.equipped)
   const _equipment = useBuildStore(s => s._equipment)
   const _sets      = useBuildStore(s => s._sets)
-
   const [openSet, setOpenSet] = useState<AppSet | null>(null)
 
-  const activeSets = useMemo(
-    () => computeActiveSets(equipped, _equipment, _sets),
-    [equipped, _equipment, _sets],
-  )
-
-  if (activeSets.length === 0) return null
+  const activeSets = useMemo(() => computeActiveSets(equipped, _equipment, _sets), [equipped, _equipment, _sets])
+  const byId = useMemo(() => new Map(_equipment.map(it => [it.ankama_id, it])), [_equipment])
+  const worn = new Set(Object.values(equipped))
 
   return (
-    <>
-      <div className="px-3 pb-4">
-        <ActiveSetsGrid activeSets={activeSets} onOpenSet={setOpenSet} />
-      </div>
-
+    <section className="bonus-panel" aria-labelledby="bonus-panel-title">
+      <header className="bonus-panel-head">
+        <h3 id="bonus-panel-title">{t('active_sets')}</h3>
+        {activeSets.length > 0 && <span>{t('setcat_count', { count: activeSets.length })}</span>}
+      </header>
+      {activeSets.length === 0 ? (
+        <p className="bonus-empty"><b>{t('setcat_none_title')}</b> {t('setcat_none_body')}</p>
+      ) : (
+        <div className="bonus-sets">
+          {activeSets.map(({ set, count }) => {
+            const pieces = set.items.flatMap(id => byId.get(id) ?? [])
+            const tiers = Object.keys(set.bonuses).map(Number).sort((x, y) => x - y)
+            const inForce = tiers.filter(n => n <= count).at(-1)
+            return (
+              <section key={set.ankama_id} aria-label={set.name}>
+                <header>
+                  <h4>{set.name}</h4>
+                  <p><strong>{count}</strong> {t('setcat_of_pieces', { count: pieces.length })}{inForce ? '' : t('setcat_no_bonus_yet')}</p>
+                  <button type="button" className="bonus-open" onClick={() => setOpenSet(set)}>
+                    {t('setcat_see_set')}
+                    <ArrowRight size={14} aria-hidden="true" />
+                  </button>
+                </header>
+                <ul className="bonus-pieces">
+                  {pieces.map(it => (
+                    <li key={it.ankama_id} className={worn.has(it.ankama_id) ? '' : 'is-missing'}
+                      title={worn.has(it.ankama_id) ? it.name : t('setcat_piece_unworn_title', { name: it.name })}>
+                      {it.image_url && <img src={it.image_url} alt="" />}
+                      <span className="sr-only">{t(worn.has(it.ankama_id) ? 'setcat_piece_worn_sr' : 'setcat_piece_unworn_sr', { name: it.name })}</span>
+                    </li>
+                  ))}
+                </ul>
+                <ol className="set-tiers">
+                  {tiers.map(n => (
+                    <li key={n} className={n === inForce ? 'is-reached' : ''}>
+                      <span className="set-tier-count">{n} <small>{t('setcat_tier_pieces', { count: n })}</small></span>
+                      <span className="set-tier-effects"><SetBonusEffects effects={set.bonuses[n].filter(e => !isIgnored(e.stat))} /></span>
+                      {n === inForce && <span className="set-tier-note">{t('passives_on')}</span>}
+                      {n === count + 1 && <span className="set-tier-note is-next">{t('setcat_one_more')}</span>}
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )
+          })}
+        </div>
+      )}
       {openSet && (
         <Suspense fallback={null}>
           <SetDetailModal set={openSet} onClose={() => setOpenSet(null)} />
         </Suspense>
       )}
-    </>
+    </section>
   )
 }

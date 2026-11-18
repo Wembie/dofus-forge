@@ -1,487 +1,358 @@
-import { useState, useMemo, useEffect, useRef, useCallback, memo, Suspense, lazy } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Eye } from 'lucide-react'
+import { Link } from 'react-router'
+import { ArrowLeft, ArrowRight, ChartNoAxesColumn, Check, Search } from 'lucide-react'
+import { recompute, useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import { useBuildStore } from '@/store/buildStore.ts'
-import type { AppSet, AppItem, AppEffect } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, statIconUrl } from './statDisplay.ts'
-import { ItemHoverTooltip } from './ItemHoverTooltip.tsx'
-import { assignSetSlots } from './setSlots.ts'
-import { levelCap, changeLevelRange, NO_LEVEL_CAP } from './catalogFilters.ts'
-import { useFocusTrap } from '@/ui/useFocusTrap.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { normalizeSearch, slotToastIcon } from '@/ui'
+import { Modal, normalizeSearch, slotToastIcon } from '@/ui'
+import { playEquip, playUnequip } from '@/lib/sound.ts'
+import { setPath } from '@/features/set-guide/setGuideLinks.ts'
+import type { AppEffect, AppItem, AppSet } from '@/data/loaders.ts'
+import { levelCap, changeLevelRange } from './catalogFilters.ts'
+import { isIgnored } from './statDisplay.ts'
+import { assignSetSlots } from './setSlots.ts'
+import { SLOT_CONFIGS } from './slotConfig.ts'
+import { ImpactDeltas, ItemPeek, SetBonusEffects, useHoverIntent } from './ItemFacts.tsx'
+import { useInfiniteList } from './useInfiniteList.ts'
+import './catalog.css'
+import './sets.css'
 
-const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
-
-type Props = { onClose: () => void }
-
-type SortKey = 'level-desc' | 'level-asc' | 'name-az' | 'pieces-desc'
-
-const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
-
-type EnrichedSet = {
-  set:        AppSet
-  items:      AppItem[]
-  minLevel:   number
-  maxLevel:   number
-  topBonus:   AppEffect[]
+interface Entry {
+  set: AppSet
+  items: AppItem[]
+  minLevel: number
+  maxLevel: number
+  top: number
+  topBonus: AppEffect[]
 }
+const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+const PAGE_SIZE = 20
+const levelOf = (e: Entry) => (e.minLevel === e.maxLevel ? e.minLevel : `${e.minLevel}–${e.maxLevel}`)
 
-// Same render cost as ItemCatalog's cards: memoized with stable callbacks so
-// a keystroke in the search box doesn't re-render every visible card.
-const SetCard = memo(function SetCard({
-  entry, equippedCount, onEquipAll, onViewDetail,
-}: { entry: EnrichedSet; equippedCount: number; onEquipAll: (entry: EnrichedSet) => void; onViewDetail: (set: AppSet) => void }) {
-  const { t } = useTranslation()
-  const { set, items, minLevel, maxLevel, topBonus } = entry
-  const total = items.length
-  const complete = equippedCount === total && total > 0
-  const [hovered, setHovered] = useState<{ item: AppItem; rect: DOMRect } | null>(null)
+/** Set cards that show every piece and the full-set bonus without a click,
+ * equip in one press, and open a panel with where each piece goes, the tier
+ * reached and what the build gains. `open` starts on that set (links from an
+ * item, a slot or the bonuses). */
+export function SetsCatalog({ onClose, open, onEquipped = onClose }: { onClose: () => void; open?: number; onEquipped?: () => void }) {
+  const { t, i18n } = useTranslation()
+  const equipment    = useDataStore(s => s.equipment)
+  const sets         = useDataStore(s => s.sets)
+  const slugs        = useDataStore(s => s.setSlugs)
+  const equipped     = useBuildStore(s => s.equipped)
+  const equipItem    = useBuildStore(s => s.equipItem)
+  const unequipItem  = useBuildStore(s => s.unequipItem)
+  const equipMultiple = useBuildStore(s => s.equipMultiple)
+  const addToast     = useToastStore(s => s.addToast)
+
+  const [query, setQuery]   = useState('')
+  const [range, setRange]   = useState({ min: 0, max: 200 })
+  const [pieces, setPieces] = useState(0)
+  const [sort, setSort]     = useState('level-desc')
+  const [picked, setPicked] = useState<Entry | null | undefined>(undefined)
+  const detailRef = useRef<HTMLHeadingElement>(null)
+  const lastRow   = useRef<HTMLButtonElement | null>(null)
+  const scroller  = useRef<HTMLDivElement>(null)
+
+  const byId = useMemo(() => new Map((equipment ?? []).map(it => [it.ankama_id, it])), [equipment])
+  const entries = useMemo(() => (sets ?? []).flatMap((set): Entry[] => {
+    const items = set.items.flatMap(id => byId.get(id) ?? [])
+    if (set.items.length < 2 || !items.length) return []
+    const levels = items.map(it => it.level)
+    const top = Math.max(...Object.keys(set.bonuses).map(Number))
+    return [{ set, items, minLevel: Math.min(...levels), maxLevel: Math.max(...levels), top, topBonus: (set.bonuses[top] ?? []).filter(e => !isIgnored(e.stat)) }]
+  }), [sets, byId])
+  const selected = picked === undefined ? entries.find(e => e.set.ankama_id === open) ?? null : picked
+  const sizes = useMemo(() => [...new Set(entries.map(e => e.items.length))].sort((a, b) => a - b), [entries])
+  const list = useMemo(() => entries
+    .filter(e =>
+      e.maxLevel >= range.min && e.minLevel <= levelCap(range.max) &&
+      (!pieces || e.items.length === pieces) &&
+      (!query || normalizeSearch(e.set.name).includes(normalizeSearch(query))))
+    .sort((a, b) =>
+      sort === 'name-az' ? a.set.name.localeCompare(b.set.name)
+      : sort === 'level-asc' ? a.minLevel - b.minLevel
+      : sort === 'pieces' ? b.items.length - a.items.length
+      : b.maxLevel - a.maxLevel),
+  [entries, query, range, pieces, sort])
+  const { visible, sentinel, more } = useInfiniteList(list, scroller, PAGE_SIZE)
+
+  const worn = useMemo(() => new Set(Object.values(equipped)), [equipped])
+  const count = (e: Entry) => e.items.filter(it => worn.has(it.ankama_id)).length
+  const wornSets = entries.map(e => ({ e, n: count(e) })).filter(x => x.n > 0).sort((a, b) => b.n - a.n)
+  const plan = useMemo(() => (selected ? assignSetSlots(selected.items, equipped) : []), [selected, equipped])
+  const preview = useMemo(() => {
+    if (!plan.length) return null
+    const b = useBuildStore.getState()
+    const nextEquipped = { ...b.equipped }
+    const runes = { ...b.runes }
+    for (const { slot, item } of plan) {
+      if (nextEquipped[slot] !== item.ankama_id) runes[slot] = {}
+      nextEquipped[slot] = item.ankama_id
+    }
+    return recompute(b.selectedClass, b.level, b.allocated, b.scrolled, nextEquipped, b._equipment, b._sets, runes)
+  }, [plan])
+
+  useEffect(() => { if (selected && innerWidth <= 700) detailRef.current?.focus() }, [selected])
+  const hover = useHoverIntent<Entry>(setPicked)
+
+  function clear() { setQuery(''); setRange({ min: 0, max: 200 }); setPieces(0) }
+  function back() {
+    setPicked(null)
+    requestAnimationFrame(() => lastRow.current?.focus())
+  }
+  /** One piece on its own: the first empty slot that takes it, else the first one. */
+  function equipPiece(item: AppItem) {
+    const slots = SLOT_CONFIGS.filter(c => (Array.isArray(c.apiSlot) ? c.apiSlot : [c.apiSlot]).includes(item.slot)).map(c => c.id)
+    const target = slots.find(slot => equipped[slot] == null) ?? slots[0]
+    if (!target) return
+    equipItem(target, item.ankama_id)
+    playEquip()
+    addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), slotToastIcon(target))
+  }
+  function removePiece(item: AppItem) {
+    const slot = (Object.entries(equipped) as [SlotId, number][]).find(([, id]) => id === item.ankama_id)?.[0]
+    if (slot) { unequipItem(slot); playUnequip() }
+  }
+  /** The whole set in one store update, so a single undo reverts it. */
+  function equipSet(entry: Entry) {
+    const placed = assignSetSlots(entry.items, equipped)
+    if (!placed.length) return
+    equipMultiple(placed.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
+    playEquip()
+    for (const { slot, item } of placed) addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotToastIcon(slot))
+    onEquipped()
+  }
+
+  const have = selected ? count(selected) : 0
+  const after = have + plan.length
+  const replaced = plan.filter(p => equipped[p.slot]).length
+  const tiers = selected ? Object.keys(selected.set.bonuses).map(Number).sort((a, b) => a - b) : []
+  const slug = selected ? slugs.get(selected.set.ankama_id) : undefined
 
   return (
-    <div
-      className="text-left relative rounded-xl overflow-hidden w-full group flex flex-col cursor-pointer"
-      role="button"
-      tabIndex={0}
-      onClick={() => onEquipAll(entry)}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEquipAll(entry) } }}
-      style={{
-        background: complete
-          ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
-          : 'var(--surface-void)',
-        border: complete
-          ? '1px solid color-mix(in srgb, var(--gold) 45%, transparent)'
-          : '1px solid var(--metal-edge)',
-        transition: 'border-color 0.15s, background 0.15s',
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget
-        if (complete) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
-        else el.style.background = 'var(--surface-panel)'
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget
-        if (complete) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
-        else el.style.background = 'var(--surface-void)'
-      }}
-    >
-      {/* Header: name + level + piece badge + view-detail */}
-      <div className="flex items-start justify-between gap-2 px-4 pt-3.5 pb-2">
-        <div className="min-w-0">
-          <p
-            className="font-semibold text-[15px] leading-tight truncate"
-            style={{ color: complete ? 'var(--gold)' : 'var(--ink)' }}
-          >
-            {set.name}
-            {complete && <span className="ml-1.5 text-[10px]" style={{ color: 'var(--gold)', opacity: 0.7 }}>✓</span>}
-          </p>
-          <p className="text-[11px] mt-0.5 font-mono" style={{ color: 'var(--ink-faint)' }}>
-            Lv {minLevel === maxLevel ? minLevel : `${minLevel}–${maxLevel}`}
-          </p>
-        </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
-          <span
-            className="font-mono text-[11px] font-bold px-2 py-0.5 rounded"
-            style={{
-              background: 'color-mix(in srgb, var(--gold) 12%, transparent)',
-              color:      'var(--gold)',
-              border:     '1px solid color-mix(in srgb, var(--gold) 22%, transparent)',
-            }}
-          >
-            {equippedCount}/{total}
-          </span>
-          <button
-            onClick={e => { e.stopPropagation(); onViewDetail(set) }}
-            title={t('view_set')}
-            aria-label={t('view_set')}
-            className="w-6 h-6 rounded flex items-center justify-center transition-colors text-ink-faint hover:text-gold"
-            style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
-          >
-            <Eye size={12} />
-          </button>
-        </div>
-      </div>
-
-      {/* Item thumbnail strip — hover shows full item tooltip */}
-      <div className="flex gap-1.5 px-4 pb-3 flex-wrap">
-        {items.slice(0, 6).map(it => (
-          <div
-            key={it.ankama_id}
-            className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
-            style={{ background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))', border: '1px solid var(--metal-edge)' }}
-            onMouseEnter={e => { e.stopPropagation(); setHovered({ item: it, rect: e.currentTarget.getBoundingClientRect() }) }}
-            onMouseLeave={e => { e.stopPropagation(); setHovered(null) }}
-          >
-            {it.image_url
-              ? <img src={it.image_url} alt={it.name} className="w-full h-full object-contain p-1" loading="lazy" />
-              : <span className="text-ink-faint text-[11px]">?</span>}
+    <Modal open onClose={onClose} title={t('nav_sets')} size="full" className="catalog-dialog">
+      <div className={'catalog-composition' + (selected ? ' has-selection' : '')}>
+        <div className="catalog-toolbar">
+          <div className="catalog-toolbar-main">
+            <label className="catalog-search">
+              <Search size={18} aria-hidden="true" />
+              <span className="sr-only">{t('setcat_search')}</span>
+              <input type="search" autoFocus placeholder={t('setcat_name')} value={query} onChange={e => setQuery(e.target.value)} />
+            </label>
           </div>
-        ))}
-        {items.length > 6 && (
-          <div
-            className="w-14 h-14 rounded-lg flex-shrink-0 flex items-center justify-center text-[11px] font-mono"
-            style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
-          >
-            +{items.length - 6}
+          <div className="catalog-filters">
+            <label>
+              {t('a11y_level_min')}
+              <select value={range.min} onChange={e => setRange(changeLevelRange(range, 'min', Number(e.target.value)))}>
+                {LEVELS.map(n => <option key={n} value={n}>{n}</option>)}
+              </select>
+            </label>
+            <label>
+              {t('a11y_level_max')}
+              <select value={range.max} onChange={e => setRange(changeLevelRange(range, 'max', Number(e.target.value)))}>
+                {LEVELS.map(n => <option key={n} value={n}>{n || t('catalog_level_any')}</option>)}
+              </select>
+            </label>
+            <label>
+              {t('catalog_sort')}
+              <select value={sort} onChange={e => setSort(e.target.value)}>
+                <option value="level-desc">{t('sort_level_desc')}</option>
+                <option value="level-asc">{t('sort_level_asc')}</option>
+                <option value="pieces">{t('setcat_sort_pieces')}</option>
+                <option value="name-az">{t('sort_name_az')}</option>
+              </select>
+            </label>
           </div>
-        )}
-      </div>
+          <div className="catalog-types" role="group" aria-label={t('setcat_piece_count_label')}>
+            <button type="button" aria-pressed={!pieces} onClick={() => setPieces(0)}>{t('explore_tag_all')}</button>
+            {sizes.map(n => (
+              <button type="button" key={n} aria-pressed={pieces === n} onClick={() => setPieces(pieces === n ? 0 : n)}>
+                {t('setcat_pieces', { count: n })}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {/* Top-tier bonus preview */}
-      {topBonus.length > 0 && (
-        <div
-          className="flex items-center gap-2.5 px-4 py-2 flex-wrap mt-auto"
-          style={{ borderTop: '1px solid var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-panel) 60%, transparent)' }}
-        >
-          <span className="text-[9px] uppercase tracking-wider font-semibold flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
-            {t('set_tier', { n: total })}
-          </span>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {topBonus.slice(0, 5).map((e, i) => {
-              const meta = STAT_META[e.stat]
-              if (!meta?.icon) return null
+        <section className="catalog-browse" aria-label={t('setcat_results')} ref={scroller}>
+          <div className="catalog-results-heading">
+            <span>{t('setcat_count', { count: list.length })}</span>
+            <span>{t('setcat_hint')}</span>
+          </div>
+          <div className="catalog-grid is-sets">
+            {visible.map(e => {
+              const mine = count(e)
+              const active = selected?.set.ankama_id === e.set.ankama_id
+              const placeable = assignSetSlots(e.items, equipped).length
+              const complete = mine === e.items.length
               return (
-                <img
-                  key={i}
-                  src={statIconUrl(meta.icon)}
-                  alt={t(meta.tKey)}
-                  title={t(meta.tKey)}
-                  width={14} height={14}
-                  className="object-contain opacity-80"
-                />
+                <article key={e.set.ankama_id}
+                  className={'catalog-card set-card' + (active ? ' is-selected' : '') + (complete ? ' is-equipped' : '')}
+                  onMouseEnter={() => hover.enter(e)} onMouseLeave={hover.leave}>
+                  <div className="set-card-head">
+                    <div>
+                      <button type="button" className="catalog-result-open"
+                        aria-label={placeable ? t('setcat_card_equip', { name: e.set.name, count: placeable })
+                          : complete ? t('setcat_card_equipped', { name: e.set.name }) : t('setcat_card_no_room', { name: e.set.name })}
+                        aria-disabled={!placeable}
+                        onClick={() => equipSet(e)}
+                        onFocus={event => { if (event.currentTarget.matches(':focus-visible')) setPicked(e) }}>
+                        {e.set.name}
+                      </button>
+                      <small>{t('setcat_level_pieces', { level: levelOf(e), count: e.items.length })}</small>
+                    </div>
+                    <span className="catalog-card-tools">
+                      <span className="set-card-count" aria-label={t('setcat_worn_of', { worn: mine, total: e.items.length })}>
+                        {complete && <Check size={12} aria-hidden="true" />}
+                        {mine}/{e.items.length}
+                      </span>
+                      <button type="button" className="catalog-card-inspect" aria-label={t('setcat_see_detail', { name: e.set.name })}
+                        title={t('setcat_see_detail_title')}
+                        onClick={event => { lastRow.current = event.currentTarget; setPicked(e) }}>
+                        <ChartNoAxesColumn size={16} />
+                      </button>
+                    </span>
+                  </div>
+                  <ul className="set-card-pieces" aria-label={t('sets_sort_pieces')}>
+                    {e.items.map(it => (
+                      <li key={it.ankama_id} className={worn.has(it.ankama_id) ? 'is-worn' : undefined}>
+                        <ItemPeek item={it}>
+                          <span className="set-card-piece" tabIndex={0}>
+                            {it.image_url && <img src={it.image_url} alt={it.name} loading="lazy" />}
+                          </span>
+                        </ItemPeek>
+                      </li>
+                    ))}
+                  </ul>
+                  {e.topBonus.length > 0 && (
+                    <div className="set-card-bonus">
+                      <p className="set-card-bonus-title">{t('setcat_with_pieces', { count: e.top })}</p>
+                      <p className="set-tier-effects"><SetBonusEffects effects={e.topBonus} /></p>
+                    </div>
+                  )}
+                  <footer className="catalog-card-cta" aria-hidden="true">
+                    {placeable ? <>{t('setcat_equip_pieces', { count: placeable })} <ArrowRight size={13} /></>
+                      : complete ? t('setcat_equipped') : t('setcat_no_room')}
+                  </footer>
+                </article>
               )
             })}
-            {topBonus.length > 5 && (
-              <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{topBonus.length - 5}</span>
-            )}
           </div>
-        </div>
-      )}
+          {!list.length && (
+            <div className="catalog-empty">
+              <h3>{t('setcat_no_matches')}</h3>
+              <p>{t('setcat_empty_hint')}</p>
+              <button type="button" onClick={clear}>{t('catalog_reset_filters')}</button>
+            </div>
+          )}
+          {more && <div ref={sentinel} className="catalog-sentinel" aria-hidden="true" />}
+        </section>
 
-      {hovered && <ItemHoverTooltip item={hovered.item} anchor={hovered.rect} />}
-    </div>
-  )
-})
-
-const PAGE_SIZE = 24
-
-export function SetsCatalog({ onClose }: Props) {
-  const { t }         = useTranslation()
-  const equipment     = useDataStore(s => s.equipment)
-  const sets          = useDataStore(s => s.sets)
-  const equipped      = useBuildStore(s => s.equipped)
-  const equipMultiple = useBuildStore(s => s.equipMultiple)
-  const addToast      = useToastStore(s => s.addToast)
-
-  const [search, setSearch]       = useState('')
-  const [minLevel, setMinLevel]   = useState(0)
-  const [maxLevel, setMaxLevel]   = useState(200)
-  const [pieces, setPieces]       = useState<number | null>(null)
-  const [sort, setSort]           = useState<SortKey>('level-desc')
-  const [openSet, setOpenSet]     = useState<AppSet | null>(null)
-  const dialogRef = useRef<HTMLDivElement>(null)
-  useFocusTrap(dialogRef)
-
-  function setLevelRange(which: 'min' | 'max', value: number) {
-    const next = changeLevelRange({ min: minLevel, max: maxLevel }, which, value)
-    setMinLevel(next.min)
-    setMaxLevel(next.max)
-  }
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => { if (e.key === 'Escape' && !openSet) onClose() }
-    window.addEventListener('keydown', down)
-    return () => window.removeEventListener('keydown', down)
-  }, [onClose, openSet])
-
-  const equippedIds = useMemo(
-    () => new Set(Object.values(equipped).filter((v): v is number => v != null)),
-    [equipped],
-  )
-
-  const enriched = useMemo<EnrichedSet[]>(() => {
-    if (!equipment || !sets) return []
-    const byId = new Map(equipment.map(it => [it.ankama_id, it]))
-    return sets
-      .filter(s => s.items.length > 1)  // hide single-item "sets" (API quirk)
-      .map(set => {
-        const items = set.items
-          .map(id => byId.get(id))
-          .filter((it): it is AppItem => it != null)
-        if (items.length === 0) return null
-        const levels   = items.map(it => it.level)
-        const topTier  = Math.max(...Object.keys(set.bonuses).map(Number))
-        const topBonus = (set.bonuses[topTier] ?? []).filter(e => !isIgnored(e.stat))
-        return {
-          set, items,
-          minLevel: Math.min(...levels),
-          maxLevel: Math.max(...levels),
-          topBonus,
-        } satisfies EnrichedSet
-      })
-      .filter((e): e is EnrichedSet => e !== null)
-  }, [equipment, sets])
-
-  const pieceOptions = useMemo(
-    () => [...new Set(enriched.map(e => e.items.length))].sort((a, b) => a - b),
-    [enriched],
-  )
-
-  const filtered = useMemo(() => {
-    let list = enriched
-    if (search.trim()) {
-      const lq = normalizeSearch(search)
-      list = list.filter(e => normalizeSearch(e.set.name).includes(lq))
-    }
-    list = list.filter(e => e.maxLevel >= minLevel && e.minLevel <= levelCap(maxLevel))
-    if (pieces != null) list = list.filter(e => e.items.length === pieces)
-
-    const sorted = [...list]
-    if (sort === 'level-desc')  sorted.sort((a, b) => b.maxLevel - a.maxLevel)
-    else if (sort === 'level-asc') sorted.sort((a, b) => a.minLevel - b.minLevel)
-    else if (sort === 'pieces-desc') sorted.sort((a, b) => b.items.length - a.items.length)
-    else sorted.sort((a, b) => a.set.name.localeCompare(b.set.name))
-    return sorted
-  }, [enriched, search, minLevel, maxLevel, pieces, sort])
-
-  // Infinite scroll, as in ItemCatalog: ~930 sets match with no filter, and
-  // mounting every card (each with its item strip) in one commit froze the
-  // modal on open. Render PAGE_SIZE at a time as the sentinel nears view.
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
-  const [loadingMore,  setLoadingMore]  = useState(false)
-  const scrollRef   = useRef<HTMLDivElement>(null)
-  const sentinelRef = useRef<HTMLDivElement>(null)
-  const bumpingRef  = useRef(false)
-  const bumpTimer   = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-
-  useEffect(() => {
-    // A page bump still pending from the old list would grow the fresh one.
-    clearTimeout(bumpTimer.current)
-    bumpingRef.current = false
-    setLoadingMore(false)
-    setVisibleCount(PAGE_SIZE)
-    scrollRef.current?.scrollTo({ top: 0 })
-  }, [search, minLevel, maxLevel, pieces, sort])
-
-  useEffect(() => () => clearTimeout(bumpTimer.current), [])
-
-  const visibleSets = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount])
-  const hasMore = visibleCount < filtered.length
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current
-    const root     = scrollRef.current
-    if (!sentinel || !root || !hasMore) return
-    const observer = new IntersectionObserver(
-      entries => {
-        if (!entries[0].isIntersecting || bumpingRef.current) return
-        bumpingRef.current = true
-        setLoadingMore(true)
-        bumpTimer.current = setTimeout(() => {
-          setVisibleCount(v => Math.min(v + PAGE_SIZE, filtered.length))
-          setLoadingMore(false)
-          bumpingRef.current = false
-        }, 150)
-      },
-      { root, rootMargin: '600px 0px' },
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [hasMore, filtered.length])
-
-  const SORT_LABELS: Record<SortKey, string> = {
-    'level-desc':  t('sort_level_desc'),
-    'level-asc':   t('sort_level_asc'),
-    'name-az':     t('sort_name_az'),
-    'pieces-desc': t('sets_sort_pieces'),
-  }
-
-  // Equip every not-yet-equipped item of a set in one atomic update — same
-  // logic as SetDetailModal's handleEquipAll, kept in sync with it.
-  const handleEquipAll = useCallback((entry: EnrichedSet) => {
-    const equippedItems = assignSetSlots(entry.items, equipped)
-    if (equippedItems.length === 0) return
-    equipMultiple(equippedItems.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
-    for (const { slot, item } of equippedItems) {
-      addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotToastIcon(slot))
-    }
-    // Equipping a whole set from a card click means "I'm done browsing" —
-    // same as SetDetailModal's own "Equip All" button, drop the user back
-    // on the planner instead of leaving the catalog open behind the result.
-    onClose()
-  }, [equipped, equipMultiple, addToast, t, onClose])
-
-  return (
-    <>
-      <div
-        ref={dialogRef}
-        tabIndex={-1}
-        className="fixed inset-0 z-50 focus:outline-none"
-        style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(4px)' }}
-        role="dialog"
-        aria-modal
-        aria-label={t('sets_catalog_title')}
-        onClick={e => { if (e.target === e.currentTarget) onClose() }}
-      >
-        <div
-          className="catalog-panel flex flex-col rounded-xl shadow-2xl overflow-hidden"
-          style={{ position: 'fixed', top: 32, left: 48, right: 48, bottom: 32, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-        >
-          {/* Header */}
-          <div
-            className="flex items-center justify-between px-5 py-3.5"
-            style={{ background: 'var(--surface-panel)', borderBottom: '1px solid var(--metal-edge)' }}
-          >
-            <h3 className="font-display text-forge-gold font-bold text-base tracking-wide">
-              {t('sets_catalog_title')}
-            </h3>
-            <button
-              onClick={onClose}
-              className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none text-ink-muted hover:text-ink"
-              style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
-              aria-label={t('modal_close')}
-            >×</button>
-          </div>
-
-          {/* Filters */}
-          <div className="px-4 py-3 space-y-2.5" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
-            <input
-              type="search"
-              placeholder={t('sets_catalog_search')}
-              aria-label={t('sets_catalog_search')}
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              autoFocus
-              className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-ink-faint focus:outline-none transition-colors"
-              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
-              onBlur={e =>  (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-            />
-
-            <div className="flex items-center gap-1 flex-wrap">
-              {pieceOptions.length > 0 && (
-                <>
-                  <button
-                    onClick={() => setPieces(null)}
-                    aria-pressed={pieces === null}
-                    className={[
-                      'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                      pieces === null ? 'filter-btn-active' : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                    ].join(' ')}
-                  >{t('elem_all')}</button>
-                  {pieceOptions.map(n => (
-                    <button
-                      key={n}
-                      onClick={() => setPieces(pieces === n ? null : n)}
-                      aria-pressed={pieces === n}
-                      className={[
-                        'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                        pieces === n ? 'filter-btn-active' : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                      ].join(' ')}
-                    >{t('sets_catalog_pieces', { count: n })}</button>
+        <aside className="catalog-inspection" aria-label={t('setcat_panel')}>
+          {!selected ? (
+            <div className="catalog-now">
+              <span className="catalog-kicker">{t('setcat_in_build')}</span>
+              {wornSets.length ? (
+                <ul className="set-worn">
+                  {wornSets.map(({ e, n }) => (
+                    <li key={e.set.ankama_id}>
+                      <button type="button" onClick={event => { lastRow.current = event.currentTarget; setPicked(e) }}>
+                        <b>{e.set.name}</b>
+                        <span>{n}/{e.items.length}</span>
+                        <ArrowRight size={14} aria-hidden="true" />
+                      </button>
+                    </li>
                   ))}
+                </ul>
+              ) : <p className="catalog-now-empty">{t('setcat_no_piece')}</p>}
+              <p>{t('setcat_intro')}</p>
+            </div>
+          ) : (
+            <>
+              <button type="button" className="catalog-back" onClick={back}>
+                <ArrowLeft size={17} />
+                {t('setcat_back')}
+              </button>
+              <div className="catalog-item-heading set-heading">
+                <div>
+                  <span>{t('catalog_level_upper', { level: levelOf(selected) })}</span>
+                  <h3 tabIndex={-1} ref={detailRef}>{selected.set.name}</h3>
+                  <p>{t('setcat_pieces_worn', { count: selected.items.length, have })}</p>
+                  {slug && (
+                    <Link className="set-page-link" to={setPath(i18n.language, slug)} onClick={onClose}>
+                      {t('setcat_open_page')}
+                      <ArrowRight size={13} aria-hidden="true" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+              <h4>{t('sets_sort_pieces')} <span>{t('setcat_where_each')}</span></h4>
+              <ul className="set-pieces-plan">
+                {selected.items.map(it => {
+                  const target = plan.find(p => p.item.ankama_id === it.ankama_id)
+                  const out = target && byId.get(equipped[target.slot] ?? -1)
+                  const isWorn = worn.has(it.ankama_id)
+                  return (
+                    <li key={it.ankama_id}>
+                      <ItemPeek item={it}>
+                        <span className="set-card-piece" tabIndex={0}>{it.image_url && <img src={it.image_url} alt="" />}</span>
+                      </ItemPeek>
+                      <span>
+                        <b>{it.name}</b>
+                        <small>
+                          {isWorn ? <><Check size={12} /> {t('setcat_already_worn')}</>
+                            : !target ? t('setcat_no_room_piece')
+                            : out ? t('setcat_slot_replaces', { slot: t(`slot_${target.slot}`), name: out.name })
+                            : t('setcat_slot_empty', { slot: t(`slot_${target.slot}`) })}
+                        </small>
+                        <em>{t('catalog_level_short', { level: it.level })}</em>
+                      </span>
+                      {isWorn ? (
+                        <button type="button" className="set-piece-action" aria-label={t('setcat_remove_named', { name: it.name })} onClick={() => removePiece(it)}>
+                          {t('unequip_btn')}
+                        </button>
+                      ) : (
+                        <button type="button" className="set-piece-action" aria-label={t('setcat_equip_only', { name: it.name })} onClick={() => equipPiece(it)}>
+                          {t('equip_item')}
+                        </button>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+              <h4>{t('setcat_bonuses')} <span>{t('setcat_by_worn')}</span></h4>
+              <ol className="set-tiers">
+                {tiers.map(n => (
+                  <li key={n} className={n === after ? 'is-reached' : n === have ? 'is-current' : ''}>
+                    <span className="set-tier-count">{n} <small>{t('setcat_tier_pieces', { count: n })}</small></span>
+                    <span className="set-tier-effects"><SetBonusEffects effects={selected.set.bonuses[n].filter(e => !isIgnored(e.stat))} /></span>
+                    {n === after && plan.length > 0 && <span className="set-tier-note">{t('setcat_with_change')}</span>}
+                    {n === have && !(n === after && plan.length > 0) && <span className="set-tier-note">{t('setcat_now')}</span>}
+                  </li>
+                ))}
+              </ol>
+              {preview && (
+                <>
+                  <h4>{t('catalog_in_build')} <span>{t('setcat_now_with_set')}</span></h4>
+                  <ImpactDeltas preview={preview} />
+                  <p className="catalog-footnote">{t('setcat_footnote')}</p>
                 </>
               )}
-
-              <div className="ml-auto flex gap-1">
-                {(Object.keys(SORT_LABELS) as SortKey[]).map(sk => (
-                  <button
-                    key={sk}
-                    onClick={() => setSort(sk)}
-                    aria-pressed={sort === sk}
-                    className={[
-                      'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                      sort === sk ? 'filter-btn-active' : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                    ].join(' ')}
-                  >{SORT_LABELS[sk]}</button>
-                ))}
+              <div className="catalog-equip">
+                <p>
+                  {!plan.length ? (have ? t('setcat_all_worn') : t('setcat_no_room_any'))
+                    : replaced ? t('setcat_equip_replace', { count: plan.length, replaced })
+                    : t('setcat_equip_empty', { count: plan.length })}
+                </p>
+                <button type="button" className="site-primary" disabled={!plan.length} onClick={() => equipSet(selected)}>
+                  {plan.length ? t('setcat_equip_btn', { count: plan.length }) : t('setcat_equipped')}
+                  <ArrowRight size={17} />
+                </button>
               </div>
-            </div>
-
-            <div className="flex gap-2 text-xs text-forge-muted items-center flex-wrap">
-              <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
-              <select
-                value={minLevel}
-                aria-label={t('a11y_level_min')}
-                onChange={e => setLevelRange('min', Number(e.target.value))}
-                className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
-                style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-              >
-                {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-              <span className="text-ink-faint">–</span>
-              <select
-                value={maxLevel}
-                aria-label={t('a11y_level_max')}
-                onChange={e => setLevelRange('max', Number(e.target.value))}
-                className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
-                style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-              >
-                {LEVELS.map(l => <option key={l} value={l}>{l === NO_LEVEL_CAP ? '—' : l}</option>)}
-              </select>
-            </div>
-
-            <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('sets_catalog_hint')}</p>
-          </div>
-
-          {/* Card grid */}
-          <div ref={scrollRef} className="overflow-y-auto flex-1 p-4">
-            {filtered.length === 0 ? (
-              <div className="flex items-center justify-center py-16">
-                <p className="text-forge-muted text-sm">{t('no_sets')}</p>
-              </div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {visibleSets.map(entry => (
-                    <SetCard
-                      key={entry.set.ankama_id}
-                      entry={entry}
-                      equippedCount={entry.items.filter(it => equippedIds.has(it.ankama_id)).length}
-                      onEquipAll={handleEquipAll}
-                      onViewDetail={setOpenSet}
-                    />
-                  ))}
-                </div>
-                {hasMore && (
-                  <div ref={sentinelRef} className="flex items-center justify-center py-6">
-                    {loadingMore && (
-                      <div
-                        className="w-6 h-6 rounded-full border-[3px] animate-spin"
-                        style={{ borderColor: 'var(--gold)', borderTopColor: 'transparent' }}
-                      />
-                    )}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-
-          {/* Footer */}
-          <div
-            className="flex items-center justify-between px-4 py-2 text-[10px]"
-            style={{ borderTop: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
-          >
-            <span>{t('catalog_esc_hint')}</span>
-            <span>{t('set_count', { count: filtered.length })}</span>
-          </div>
-        </div>
+            </>
+          )}
+        </aside>
       </div>
-
-      {openSet && (
-        <Suspense fallback={null}>
-          <SetDetailModal
-            set={openSet}
-            onClose={() => setOpenSet(null)}
-            // Same cascade as ItemCatalog: "Equip All" inside the detail
-            // view should drop the user back on the planner, not leave this
-            // catalog open behind it. Closing via X/Escape (just browsing)
-            // only closes the detail view as usual.
-            onEquipAll={onClose}
-          />
-        </Suspense>
-      )}
-    </>
+    </Modal>
   )
 }

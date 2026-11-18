@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { ArrowRight, Crosshair, EyeOff, Repeat2, Sparkles, Timer } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -110,6 +111,43 @@ export function useHoverIntent<T>(show: (value: T) => void, delay = 160) {
   }
 }
 
+/** Hover or focus peek of a piece: its card above everything, placed so it fits the viewport. */
+export function ItemPeek({ item, children }: { item: AppItem; children: ReactNode }) {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+  const anchor = useRef<HTMLSpanElement>(null)
+  const card = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    if (!open || !anchor.current || !card.current) return
+    const a = anchor.current.getBoundingClientRect()
+    const c = card.current.getBoundingClientRect()
+    const left = Math.min(Math.max(8, a.left + a.width / 2 - c.width / 2), innerWidth - c.width - 8)
+    const below = a.bottom + 8 + c.height < innerHeight
+    Object.assign(card.current.style, {
+      left: left + 'px',
+      top: (below ? a.bottom + 8 : Math.max(8, a.top - c.height - 8)) + 'px',
+      visibility: 'visible',
+    })
+  }, [open])
+  return (
+    <span ref={anchor} className="peek-anchor"
+      onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)} onBlur={() => setOpen(false)}>
+      {children}
+      {open && createPortal(
+        <div ref={card} className="item-peek" role="tooltip">
+          <header>
+            {item.image_url && <img src={item.image_url} alt="" />}
+            <span><b>{item.name}</b><small>{t('catalog_level_short', { level: item.level })}</small></span>
+          </header>
+          <ItemFactsList item={item} lore={false} />
+        </div>,
+        document.body,
+      )}
+    </span>
+  )
+}
+
 const DELTA_KEYS = ['maxHp', 'ap', 'mp', 'range', 'strength', 'intelligence', 'chance', 'agility', 'power', 'critChance'] as const
 
 /** Current build → build with the change, the same ten totals in every picker. */
@@ -133,5 +171,24 @@ export function ImpactDeltas({ preview }: { preview: StatBlock }) {
         )
       })}
     </dl>
+  )
+}
+
+/** A tier's effects, with production's names and icons. */
+export function SetBonusEffects({ effects }: { effects: AppEffect[] }) {
+  const { t } = useTranslation()
+  if (!effects.length) return <span>{t('setcat_no_effects')}</span>
+  return (
+    <>
+      {effects.map((e, i) => {
+        const meta = STAT_META[e.stat]
+        return (
+          <span key={i} className={e.min < 0 ? 'is-negative' : undefined}>
+            {meta?.icon && <img src={statIconUrl(meta.icon)} alt="" />}
+            <b>{fmtValue(e.min, e.max)}</b> {meta ? t(meta.tKey) : e.stat}
+          </span>
+        )
+      })}
+    </>
   )
 }
