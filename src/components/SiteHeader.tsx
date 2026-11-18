@@ -38,9 +38,9 @@ export function SiteHeader() {
     <header
       className="sticky top-0 z-40 px-3 sm:px-6 h-[52px] flex items-center gap-2 sm:gap-4"
       style={{
-        background:   'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))',
+        background:   'var(--surface-void)',
         borderBottom: '1px solid var(--metal-edge)',
-        boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
+        boxShadow:    'none',
       }}
     >
       <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
@@ -51,8 +51,7 @@ export function SiteHeader() {
             detail, About, How to Use), each of which has its own real <h1>.
             An <h1> here duplicated that on every one of them. */}
         <span
-          className="font-display font-bold uppercase"
-          style={{ fontSize: '0.82rem', color: 'var(--gold)', textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)', letterSpacing: '0.2em' }}
+          className="brand-wordmark"
         >
           {t('app_title')}
         </span>

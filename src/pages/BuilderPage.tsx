@@ -80,8 +80,7 @@ function BrandLink({ onReset }: { onReset: () => void }) {
       {/* Live text, not the wordmark image: same flat --gold as every heading
           in the UI, and it follows the light theme. */}
       <h1
-        className="font-display font-bold uppercase"
-        style={{ fontSize: '0.82rem', color: 'var(--gold)', textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)', letterSpacing: '0.2em' }}
+        className="brand-wordmark"
       >
         {t('app_title')}
       </h1>
@@ -239,9 +238,9 @@ function BuilderContent() {
         className="sticky top-0 z-40"
         style={{
           height:       52,
-          background:   'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))',
+          background:   'var(--surface-void)',
           borderBottom: '1px solid var(--metal-edge)',
-          boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
+          boxShadow:    'none',
         }}
       >
         <div className="px-3 sm:px-6 h-full flex items-center gap-2 sm:gap-4">

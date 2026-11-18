@@ -14,7 +14,6 @@ import { BRAND } from './data/brand.ts'
 
 export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 
-const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap'
 
 // These run before hydration, in this order, so they are plain inline
 // scripts rather than effects.
@@ -201,14 +200,10 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="apple-mobile-web-app-title" content="Dofus Forge" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#0a0d13" />
+        <meta name="theme-color" content="#111615" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* Never render-blocking: fetched as print media, switched to all once loaded (BOOT_SCRIPT). */}
-        <link rel="preload" as="style" href={FONTS_URL} />
-        <link rel="stylesheet" href={FONTS_URL} media="print" data-swap-media="all" suppressHydrationWarning />
-        <noscript><link rel="stylesheet" href={FONTS_URL} /></noscript>
+        <link rel="preload" as="font" type="font/woff" href="/fonts/sourcesans3/SourceSans3-v04.woff" crossOrigin="anonymous" />
         <Links />
       </head>
       <body>

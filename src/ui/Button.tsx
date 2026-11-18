@@ -11,17 +11,17 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const variantCls: Record<ButtonVariant, string> = {
-  primary:   'bg-gold text-ink-invert border-transparent hover:bg-gold-bright active:bg-gold-deep',
-  secondary: 'bg-surface-raised text-ink border-metal-edge hover:bg-surface-parchment hover:border-metal-strong active:bg-surface-stone',
+  primary:   'bg-gold text-ink-invert border-gold hover:bg-gold-bright active:bg-gold',
+  secondary: 'bg-transparent text-ink border-metal-edge hover:bg-surface-raised hover:border-metal-strong active:bg-surface-stone',
   ghost:     'bg-transparent text-ink-muted border-transparent hover:text-ink hover:bg-surface-raised active:bg-surface-panel',
   danger:    'bg-transparent text-bad border-metal-edge hover:bg-bad/10 active:bg-bad/20',
 }
 
 const sizeCls: Record<ButtonSize, string> = {
-  xs: 'px-2 py-0.5 text-[10px] rounded-xs gap-1',
-  sm: 'px-2.5 py-1 text-[11px] rounded-sm gap-1',
-  md: 'px-4 py-1.5 text-xs rounded-md gap-1.5',
-  lg: 'px-5 py-2 text-sm rounded-md gap-2',
+  xs: 'min-h-7 px-2 py-1 text-[11px] rounded-xs gap-1',
+  sm: 'min-h-9 px-3 py-1.5 text-[13px] rounded-sm gap-1.5',
+  md: 'min-h-11 px-4 py-2 text-sm rounded-sm gap-2',
+  lg: 'min-h-12 px-5 py-3 text-base rounded-sm gap-2',
 }
 
 export function Button({ variant = 'secondary', size = 'md', className, children, ...props }: ButtonProps) {
