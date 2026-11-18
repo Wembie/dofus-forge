@@ -15,7 +15,11 @@ import './buildCard.css'
 
 const CollectionPicker = lazy(() => import('@/features/collections/Collections.tsx').then(m => ({ default: m.CollectionPicker })))
 
-const VITALS = [['ap', 'lib_ap'], ['mp', 'lib_mp'], ['range', 'lib_range']] as const
+// The workshop's main stats, with production's names and icons.
+const VITALS = [
+  ['maxHp', 'badge_hp', 'vitality'], ['ap', 'badge_ap', 'ap'], ['mp', 'badge_mp', 'mp'],
+  ['range', 'badge_range', 'range'], ['critChance', 'stat_crit_chance', 'crit'], ['summons', 'stat_summons', 'summons'],
+] as const
 
 /** A published build: who made it, the workshop in miniature, its tags, AP/MP/range,
  * a way to keep it in a collection and its activity. `onTag` makes the tags filters. */
@@ -67,11 +71,11 @@ export function BuildCard({ build, onTag, activeTag }: { build: BuildRow; onTag?
       <div className="build-card-bottom">
         {stats && (
           <ul className="build-vitals" aria-label={t('lib_vitals')}>
-            {VITALS.map(([key, label]) => (
+            {VITALS.map(([key, label, icon]) => (
               <li key={key}>
-                <img src={statIconUrl(key)} alt="" />
-                <strong>{stats[key]}</strong>
-                {t(label)}
+                <img src={statIconUrl(icon)} alt="" />
+                <strong>{new Intl.NumberFormat(i18n.language === 'es' ? 'es-CO' : i18n.language).format(stats[key])}</strong>
+                <span>{t(label)}</span>
               </li>
             ))}
           </ul>

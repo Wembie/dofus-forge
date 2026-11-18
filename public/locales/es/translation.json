@@ -2959,9 +2959,6 @@
   "lib_sort": "Ordenar",
   "lib_reset": "Limpiar filtros",
   "lib_vitals": "Puntos de acción, movimiento y alcance",
-  "lib_ap": "PA",
-  "lib_mp": "PM",
-  "lib_range": "AL",
   "lib_save_named": "Guardar {{name}} en colección",
   "lib_open_author": "Ver perfil de {{name}}",
   "explore_community_hint": "Actividad de todo Dofus Forge"

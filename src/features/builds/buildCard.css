@@ -291,3 +291,20 @@
     gap: 16px;
   }
 }
+/* Six main stats on the card: two rows of three. */
+.explore-card .build-vitals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 12px;
+  flex: 1;
+  min-width: 0;
+  padding: 6px 0;
+}
+.explore-card .build-vitals li {
+  min-width: 0;
+}
+.explore-card .build-vitals span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

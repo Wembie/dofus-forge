@@ -2959,9 +2959,6 @@
   "lib_sort": "Sort",
   "lib_reset": "Clear filters",
   "lib_vitals": "Action points, movement and range",
-  "lib_ap": "AP",
-  "lib_mp": "MP",
-  "lib_range": "Range",
   "lib_save_named": "Save {{name}} to a collection",
   "lib_open_author": "View {{name}}’s profile",
   "explore_community_hint": "Activity across Dofus Forge"
