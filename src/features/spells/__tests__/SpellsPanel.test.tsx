@@ -62,11 +62,11 @@ describe('SpellsPanel item modifiers', () => {
     // The mobile (single column) and desktop (two columns) layouts both
     // render in the DOM — CSS picks which is visible — so each spell appears
     // twice; either copy carries the same content.
-    const spellCard = screen.getAllByText('Tyrannical Arrow')[0].closest('.rounded-lg')!
+    const spellCard = screen.getAllByText('Tyrannical Arrow')[0].closest('article')!
     expect(spellCard.textContent).toContain('1–11')
     expect(spellCard.textContent).toContain('Tyrannical Arrow: +3 Maximum Range')
 
-    const weaponCard = screen.getByText('Iron Knight Ice Blade').closest('.rounded-lg')!
+    const weaponCard = screen.getByText('Iron Knight Ice Blade').closest('article')!
     const iconSources = [...weaponCard.querySelectorAll('img')].map(image => image.getAttribute('src'))
     expect(iconSources.some(src => src?.endsWith('/data/stats/ap.webp'))).toBe(true)
     expect(iconSources.some(src => src?.endsWith('/data/stats/range.webp'))).toBe(true)

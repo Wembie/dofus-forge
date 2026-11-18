@@ -1,967 +1,655 @@
-import { useEffect, useState, useMemo, Fragment } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Sword } from 'lucide-react'
-import { useBuildStore } from '@/store/buildStore.ts'
-import { useDataStore } from '@/store/dataStore.ts'
-import type { AppSpell, AppSpellElement, AppSpellCondition } from '@/data/spellLoaders.ts'
-import type { AppEffect, AppItem } from '@/data/loaders.ts'
-import { DamageHover } from './DamageHover.tsx'
-import { useCombatStats } from '@/store/useCombatStats.ts'
-import type { StatBlock } from '@/engine/types.ts'
-import { statIconUrl, runeIconUrl } from '../equipment/statDisplay.ts'
-import { spellGrade, ELEM_COLOR, fmtRange, conditionKey } from './spellCalc.ts'
-import { spellView, weaponView, rollOf, type SpellGroup, type SpellHit } from './spellView.ts'
-import { PvpArena } from '../pvp/PvpArena.tsx'
-import { SPELL_ITEM_EFFECT_IDS } from '@/data/effectIds.ts'
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { RotateCcw, Sword } from "lucide-react";
+import { ALL_SLOTS, useBuildStore } from "@/store/buildStore.ts";
+import { useDataStore } from "@/store/dataStore.ts";
+import { useCombatStats } from "@/store/useCombatStats.ts";
+import type { AppSpell, AppSpellCondition, AppSpellElement } from "@/data/spellLoaders.ts";
+import type { AppEffect } from "@/data/loaders.ts";
+import type { StatBlock } from "@/engine/types.ts";
+import { SPELL_ITEM_EFFECT_IDS } from "@/data/effectIds.ts";
+import { DamageHover } from "@/features/spells/DamageHover.tsx";
+import { fmtRange, spellGrade, conditionKey } from "@/features/spells/spellCalc.ts";
+import {
+  rollOf,
+  spellView,
+  weaponView,
+  type SpellGroup,
+  type SpellHit,
+  type SpellView,
+} from "@/features/spells/spellView.ts";
+import { runeIconUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
+import { PvpArena } from "@/features/pvp/PvpArena.tsx";
+import "./spells.css";
 
-/** Human label for a condition group's header. `state` already carries its own real,
- * per-language name (resolved at build time from the game's own data) — everything else
- * routes through `t()` like any other UI string. */
-function conditionLabel(t: (key: string, opts?: Record<string, unknown>) => string, condition: AppSpellCondition): string {
-  if (condition.kind === 'shield') return t('spell_condition_shield')
-  if (condition.kind === 'low_target_hp') return t('spell_condition_low_target_hp', { threshold: condition.threshold })
-  return condition.label
+type Filter = AppSpellElement | "all";
+const FILTERS: [Filter, string][] = [
+  ["all", "elem_all"],
+  ["earth", "elem_earth"],
+  ["fire", "elem_fire"],
+  ["water", "elem_water"],
+  ["air", "elem_air"],
+  ["neutral", "elem_neutral"],
+];
+const ELEMENT_NAME: Record<string, string> = {
+  earth: "elem_earth",
+  fire: "elem_fire",
+  water: "elem_water",
+  air: "elem_air",
+  neutral: "elem_neutral",
+  mixed: "elem_mixed",
+};
+const range = (r: [number, number]) => fmtRange(r[0], r[1]);
+
+function conditionLabel(
+  t: (key: string, opts?: Record<string, unknown>) => string,
+  condition: AppSpellCondition,
+) {
+  if (condition.kind === "shield") return t("spell_condition_shield");
+  if (condition.kind === "low_target_hp")
+    return t("spell_condition_low_target_hp", { threshold: condition.threshold });
+  return condition.label;
 }
 
-type ElemFilter = AppSpellElement | 'all'
-
-const FILTERS: ElemFilter[] = ['all', 'earth', 'fire', 'water', 'air', 'neutral']
-
-function SpellCard({ spell, grade, stats, spellNameMap, itemEffects }: {
-  spell: AppSpell
-  grade: number
-  stats: StatBlock | null
-  spellNameMap: Map<number, string>
-  itemEffects: AppEffect[]
+/** Normal and critical value of one line, each with its step-by-step breakdown on hover. */
+function Values({
+  hit,
+  view,
+  stats,
+  showCrit,
+}: {
+  hit: SpellHit;
+  view: SpellView;
+  stats: StatBlock | null;
+  showCrit: boolean;
 }) {
-  const { t }     = useTranslation()
-  const charLevel = useBuildStore(s => s.level)
-  const view      = useMemo(
-    () => spellView({ spell, grade, stats, itemEffects, characterLevel: charLevel }),
-    [spell, grade, stats, itemEffects, charLevel],
-  )
-  const { level: lvl, mods } = view
-  const color    = ELEM_COLOR[spell.element]
-  const showCalc = view.calculated
-
-  function hitRows(key: string, hit: SpellHit, dmgCols: string, showCritCol: boolean) {
-    const { effect: e, crit } = hit
-    const c = ELEM_COLOR[e.element]
-    return (
-      <div key={key} className="space-y-px">
-        <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-          <span className="w-2 h-2 rounded-full flex-shrink-0 justify-self-center" style={{ background: c }} />
-          <span
-            className={`text-[13px] font-mono tabular-nums text-right${showCalc ? ' font-bold' : ''}`}
-            style={{ color: showCalc ? c : 'var(--ink-muted)' }}
-          >
-            <DamageHover roll={rollOf(e)} elem={e.element} stats={stats} mods={mods} kind="spell">
-              {fmtRange(e.calcMin, e.calcMax)}
-            </DamageHover>
-          </span>
-          {showCritCol && (
-            <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
-              {crit
-                ? <DamageHover roll={rollOf(crit)} elem={crit.element} stats={stats} mods={mods} extraFlat={stats?.critDamage ?? 0} kind="spell" crit>{fmtRange(crit.calcMin, crit.calcMax)}</DamageHover>
-                : '—'}
-            </span>
-          )}
-        </div>
-        {hit.heal && (
-          <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-            <span className="flex items-center justify-center">
-              <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-            </span>
-            <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
-              {fmtRange(hit.heal[0], hit.heal[1])}
-            </span>
-            {showCritCol && (
-              <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
-                {hit.critHeal ? fmtRange(hit.critHeal[0], hit.critHeal[1]) : '—'}
-              </span>
-            )}
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  function renderEffectGroup(group: SpellGroup) {
-    const showCritCol = group.showCritColumn
-    // Fixed widths (not 1fr) — with only short numbers in these columns, fr
-    // tracks stretched to the row's full width, pushing Normal and Crítico
-    // apart with a lot of dead space between them instead of sitting close
-    // together like a real table.
-    const dmgCols = showCritCol ? '13px 56px 56px' : '13px 56px'
-    const rows: React.ReactNode[] = []
-
-    // Column headers — only when there are damage rows
-    if (group.hasDamage) {
-      rows.push(
-        <div key="col-hdr" className="grid mb-0.5" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-          <span />
-          <span className="text-[9px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--ink-faint)' }}>
-            {t('weapon_normal')}
-          </span>
-          {showCritCol && (
-            <span className="text-[9px] uppercase tracking-wider font-semibold text-right" style={{ color: 'var(--crit)' }}>
-              {t('weapon_crit_col')} ✦
-            </span>
-          )}
-        </div>
-      )
-    }
-
-    const chip = (key: string, tone: string, icon: string, text: React.ReactNode) => (
-      <div key={key}>
-        <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
-          style={{ background: `color-mix(in srgb, ${tone} 10%, transparent)`, border: `1px solid color-mix(in srgb, ${tone} 25%, transparent)`, color: tone }}>
-          <img src={statIconUrl(icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-          {text}
-        </span>
-      </div>
-    )
-
-    for (const entry of group.entries) {
-      switch (entry.kind) {
-        case 'section':
-          rows.push(
-            <div key={entry.section === 'discharge' ? 'descarga' : 'poison-lbl'} className="pt-0.5" style={{ borderTop: '1px solid color-mix(in srgb, var(--fire) 20%, transparent)' }}>
-              <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'color-mix(in srgb, var(--fire) 70%, var(--gold))' }}>
-                {entry.section === 'discharge' ? t('spell_discharge') : t('spell_poison', { turns: entry.turns })}
-              </span>
-            </div>
-          )
-          break
-        case 'push':
-          rows.push(
-            <div key={`p${entry.index}`} className="flex items-center gap-1 flex-wrap">
-              <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
-                style={{ background: 'color-mix(in srgb, var(--ink-muted) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--ink-muted) 25%, transparent)', color: 'var(--ink-muted)' }}>
-                <img src={statIconUrl('push_damage')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                {t('spell_push', { cells: entry.cells })}
-                {entry.collision != null && <span style={{ color: 'var(--ink-faint)' }}>{t('spell_push_collision', { dmg: String(entry.collision) })}</span>}
-              </span>
-            </div>
-          )
-          break
-        case 'ap':
-          rows.push(chip(`a${entry.index}`, 'var(--gold)', 'ap_reduction', t('spell_steal_ap', { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })))
-          break
-        case 'mp':
-          rows.push(chip(`m${entry.index}`, 'var(--air)', 'mp_reduction', t('spell_steal_mp', { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })))
-          break
-        case 'ap_gain':
-          rows.push(chip(`ag${entry.index}`, 'var(--gold)', 'ap', t('spell_gain_ap', { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })))
-          break
-        case 'mp_gain':
-          rows.push(chip(`mg${entry.index}`, 'var(--air)', 'mp', t('spell_gain_mp', { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })))
-          break
-        case 'erosion':
-          rows.push(chip(`er${entry.index}`, 'var(--fire)', 'erosion', t('spell_erosion', { pct: entry.pct, turns: entry.turns })))
-          break
-        case 'heal_mod':
-          rows.push(chip(`hm${entry.index}`, 'var(--vitality)', 'heals', t('spell_heal_mod', { pct: entry.pct })))
-          break
-        case 'spell_buff': {
-          const spellName = spellNameMap.get(entry.spellId ?? 0) ?? `#${entry.spellId ?? '?'}`
-          const turnsStr  = entry.turns > 0 ? ` · ${entry.turns}t` : ''
-          const deathStr  = entry.deathReset ? ' 💀' : ''
-          rows.push(
-            <div key={`sb${entry.index}`}>
-              <span className="rounded px-1.5 py-px text-[10px] font-mono leading-snug inline-flex items-center gap-1"
-                style={{ background: 'color-mix(in srgb, var(--gold-deep) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold-deep) 25%, transparent)', color: 'var(--gold-muted)' }}>
-                ⭐ {spellName}: +{entry.base} base{turnsStr}{deathStr}
-              </span>
-            </div>
-          )
-          break
-        }
-        case 'hit':
-          rows.push(hitRows(`e${entry.index}`, entry, dmgCols, showCritCol))
-          break
-      }
-    }
-
-    for (const { label, hits } of group.charges) {
-      rows.push(
-        <div key={`cs-${label}`} className="pt-0.5" style={{ borderTop: '1px solid color-mix(in srgb, var(--gold) 18%, transparent)' }}>
-          <span className="text-[9px] uppercase tracking-wide font-semibold" style={{ color: 'var(--gold-muted)' }}>
-            {t('spell_charge_n', { n: label })}
-          </span>
-        </div>
-      )
-      hits.forEach((hit, i) => {
-        const c = ELEM_COLOR[hit.effect.element]
-        const { effect: e, crit } = hit
-        rows.push(
-          <div key={`cd-${label}-${i}`} className="space-y-px">
-            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-              <span className="w-2 h-2 rounded-full flex-shrink-0 justify-self-center" style={{ background: c }} />
-              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: showCalc ? c : 'var(--ink-muted)' }}>
-                <DamageHover roll={rollOf(e)} elem={e.element} stats={stats} mods={mods} kind="spell">
-                  {fmtRange(e.calcMin, e.calcMax)}
-                </DamageHover>
-              </span>
-              {showCritCol && (
-                <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
-                  {crit
-                    ? <DamageHover roll={rollOf(crit)} elem={crit.element} stats={stats} mods={mods} extraFlat={stats?.critDamage ?? 0} kind="spell" crit>{fmtRange(crit.calcMin, crit.calcMax)}</DamageHover>
-                    : '—'}
-                </span>
-              )}
-            </div>
-            {hit.heal && (
-              <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-                <span className="flex items-center justify-center">
-                  <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                </span>
-                <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
-                  {fmtRange(hit.heal[0], hit.heal[1])}
-                </span>
-                {showCritCol && (
-                  <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
-                    {hit.critHeal ? fmtRange(hit.critHeal[0], hit.critHeal[1]) : '—'}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-        )
-      })
-    }
-
-    if (group.total || group.pushTotal) {
-      rows.push(
-        <div key="sigma" className="pt-0.5 space-y-px" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          {group.total && (
-            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-              <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ</span>
-              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
-                {fmtRange(group.total.normal[0], group.total.normal[1])}
-              </span>
-              {showCritCol && (
-                <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
-                  {fmtRange(group.total.crit[0], group.total.crit[1])}
-                </span>
-              )}
-            </div>
-          )}
-          {group.total?.heal && (
-            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-              <span className="flex items-center justify-center">
-                <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-              </span>
-              <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
-                {fmtRange(group.total.heal.normal[0], group.total.heal.normal[1])}
-              </span>
-              {showCritCol && (
-                <span className="text-[10px] font-mono tabular-nums text-right" style={{ color: 'var(--vitality)' }}>
-                  {fmtRange(group.total.heal.crit[0], group.total.heal.crit[1])}
-                </span>
-              )}
-            </div>
-          )}
-          {group.pushTotal && (
-            <div className="grid items-center" style={{ gridTemplateColumns: dmgCols, gap: 4 }}>
-              <span className="text-[9px] font-bold leading-none justify-self-center" style={{ color: 'var(--ink-faint)' }}>Σ↷</span>
-              <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--ink-muted)' }}>
-                {fmtRange(group.pushTotal.normal[0], group.pushTotal.normal[1])}
-              </span>
-              {showCritCol && (
-                <span className="text-[13px] font-mono tabular-nums font-bold text-right" style={{ color: 'var(--crit)' }}>
-                  {fmtRange(group.pushTotal.crit[0], group.pushTotal.crit[1])}
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-      )
-    }
-
-    return rows
-  }
-
-  const rangeStr = view.range.melee
-    ? t('spell_melee')
-    : view.range.min === view.range.max
-      ? String(view.range.max)
-      : `${view.range.min}–${view.range.max}`
-  const effectiveCrit = view.crit
-  const [baseGroup, ...conditionGroups] = view.groups
-
+  const { t } = useTranslation(),
+    { effect, crit } = hit;
   return (
-    <div
-      className="rounded-lg overflow-hidden"
-      style={{
-        background:  `color-mix(in srgb, ${color} 6%, var(--surface-void))`,
-        border:      `1px solid color-mix(in srgb, ${color} 18%, transparent)`,
-        borderLeft:  `3px solid color-mix(in srgb, ${color} 75%, transparent)`,
-        transition:  'transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out)',
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget as HTMLDivElement
-        el.style.transform   = 'translateY(-1px)'
-        el.style.boxShadow   = `0 4px 16px rgba(0,0,0,.5), 0 0 0 1px color-mix(in srgb, ${color} 25%, transparent)`
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget as HTMLDivElement
-        el.style.transform   = ''
-        el.style.boxShadow   = ''
-      }}
-    >
-      <div className="flex gap-3 p-3">
-      <div
-        className="flex-shrink-0 rounded-md overflow-hidden flex items-center justify-center"
-        style={{
-          width: 52, height: 52,
-          background: 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))',
-          border: `1px solid color-mix(in srgb, ${color} 28%, transparent)`,
-        }}
-      >
-        {spell.image_url
-          ? <img src={spell.image_url} alt="" width={52} height={52} loading="lazy" className="object-contain" />
-          : <span className="text-xl" style={{ color }}>✦</span>
-        }
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5 mb-1">
-          <p className="text-[13px] font-semibold truncate leading-tight" style={{ color, textShadow: `0 0 12px color-mix(in srgb, ${color} 40%, transparent)` }}>
-            {spell.name}
-          </p>
-          {spell.is_variant && (
-            <span
-              className="sm:hidden flex-shrink-0 px-1 py-px rounded text-[8px] uppercase tracking-wider font-semibold"
-              style={{ background: 'var(--surface-void)', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }}
-            >
-              {t('spell_variant_badge')}
-            </span>
-          )}
-        </div>
-
-        {lvl && (
-          <div className="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1">
-            <span className="flex items-center gap-0.5">
-              <img src={statIconUrl('ap')} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
-              <span className="text-[12px] font-bold font-mono" style={{ color: 'var(--gold)' }}>{lvl.ap}</span>
-            </span>
-            <span className="flex items-center gap-0.5">
-              <img src={statIconUrl('range')} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
-              <span className="text-[12px] font-mono" style={{ color: lvl.maxRange === 0 ? 'var(--ink-faint)' : 'var(--ink-muted)' }}>
-                {rangeStr}
-              </span>
-            </span>
-            {effectiveCrit > 0 && (
-              <span className="flex items-center gap-0.5">
-                <img src={statIconUrl('crit')} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
-                <span className="text-[12px]" style={{ color: 'var(--crit)' }}>{effectiveCrit}%</span>
-              </span>
-            )}
-            {lvl.maxPerTurn > 0 && (
-              <span className="text-[12px]" style={{ color: 'var(--ink-faint)' }}>
-                {t('spell_max_per_turn', { count: lvl.maxPerTurn })}
-              </span>
-            )}
-          </div>
-        )}
-
-        {baseGroup ? (
-          <div className="space-y-0.5">
-            {renderEffectGroup(baseGroup)}
-            {conditionGroups.map(group => (
-              <Fragment key={conditionKey(group.condition!)}>
-                <div className="pt-0.5 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-                  <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
-                    {conditionLabel(t, group.condition!)}
-                  </span>
-                </div>
-                {renderEffectGroup(group)}
-              </Fragment>
-            ))}
-          </div>
-        ) : (
-          <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>
-            {t('spell_support')}
-          </span>
-        )}
-
-        {view.buffs.length > 0 && (
-          <div className="mt-1.5 space-y-0.5">
-            {view.buffs.map(({ text: buff, icon, tone }, i) => {
-              const neg  = tone === 'negative'
-              const pos  = tone === 'positive'
-              const clr  = neg ? 'var(--fire)' : pos ? 'var(--air)' : 'var(--gold)'
-              return (
-                <div key={i} className="flex items-center gap-1 flex-wrap">
-                  <span
-                    className="rounded px-1 py-px text-[10px] font-mono leading-snug flex items-center gap-1"
-                    style={{
-                      background: `color-mix(in srgb, ${clr} 10%, transparent)`,
-                      border:     `1px solid color-mix(in srgb, ${clr} 25%, transparent)`,
-                      color:      clr,
-                    }}
-                  >
-                    {icon
-                      ? <img src={statIconUrl(icon)} alt="" width={10} height={10} className="object-contain flex-shrink-0" />
-                      : <span style={{ fontSize: 8 }}>{neg ? '▼' : pos ? '▲' : '◆'}</span>
-                    }
-                    {buff}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        )}
-
-        {view.itemEffects.length > 0 && (
-          <div className="mt-1.5 space-y-0.5">
-            <p className="text-[9px] uppercase tracking-wider font-semibold" style={{ color: 'var(--gold)' }}>
-              {t('item_spell_effects')}
-            </p>
-            {view.itemEffects.map((effect, i) => (
-              <p key={`${effect.effect_id}-${i}`} className="text-[10px] leading-snug" style={{ color: 'var(--gold)' }}>
-                {effect.formatted}
-              </p>
-            ))}
-          </div>
-        )}
-
-        {spell.description && (
-          <div className="mt-1.5 text-[9px] leading-snug italic" style={{ color: 'var(--ink-faint)' }}>
-            {spell.description}
-          </div>
-        )}
-      </div>
-      </div>
-    </div>
-  )
-}
-
-function WeaponCard({ weapon, stats }: { weapon: AppItem | null; stats: StatBlock | null }) {
-  const { t } = useTranslation()
-  const [dominioActive, setDominioActive] = useState(false)
-  const [dominioNorm, setDominioNorm]     = useState(300)
-  const [dominioCrit, setDominioCrit]     = useState(360)
-
-  const weaponTransform = useBuildStore(s => s.weaponTransforms['weapon'] ?? null)
-
-  if (!weapon) {
-    return (
-      <div
-        className="rounded-lg p-2.5 flex gap-2.5"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-      >
-        <div
-          className="flex-shrink-0 rounded flex items-center justify-center"
-          style={{ width: 44, height: 44, background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-        >
-          <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-[11px] font-semibold truncate leading-tight mb-1" style={{ color: 'var(--ink-faint)' }}>
-            {t('weapon_fist')}
-          </p>
-          <div className="flex items-center gap-x-2">
-            <span className="text-[10px] font-bold font-mono px-1 rounded" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}>1AP</span>
-            <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{t('spell_melee')}</span>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  const view = weaponView({
-    weapon,
-    stats,
-    transform: weaponTransform,
-    mastery: { active: dominioActive, normal: dominioNorm, crit: dominioCrit },
-  })
-  const { ap, crit: effectiveCrit, critBonus: critBon, level: wLevel, hasCrit, normalMods, critMods } = view
-  const rangeStr = view.range.melee
-    ? t('spell_melee')
-    : view.range.min === view.range.max ? String(view.range.min) : `${view.range.min}–${view.range.max}`
-  const withColor = <T extends { elem?: AppSpellElement | null }>(r: T) => ({ ...r, c: r.elem ? ELEM_COLOR[r.elem] : ELEM_COLOR.mixed })
-  const dmgRows   = view.damage.map(withColor)
-  const stealRows = view.steal.map(withColor)
-  const rows      = [...dmgRows, ...stealRows]
-  const cols      = hasCrit ? '1fr 1fr 1fr' : '1fr 1fr'
-  const shownTransform = view.transform
-
-  const RangeCell = ({ min, max, color, bold = false }: { min: number; max: number; color: string; bold?: boolean }) => (
-    <span className="text-[11px] font-mono tabular-nums" style={{ color, fontWeight: bold ? 700 : 400 }}>
-      {fmtRange(min, max)}
-    </span>
-  )
-  const WeaponCells = ({ row, color }: { row: (typeof rows)[number]; color: string }) => (
     <>
-      <span className="text-[11px] font-mono tabular-nums" style={{ color, fontWeight: stats ? 700 : 400 }}>
-        <DamageHover roll={[row.baseLow, row.baseHigh]} elem={row.elem} stats={stats} mods={normalMods} kind="weapon">
-          {fmtRange(row.low, row.high)}
-        </DamageHover>
-      </span>
-      {hasCrit && (
-        <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>
-          <DamageHover roll={[row.baseLow + critBon, row.baseHigh + critBon]} elem={row.elem} stats={stats} mods={critMods} extraFlat={stats?.critDamage ?? 0} kind="weapon" crit>
-            {fmtRange(row.critLow, row.critHigh)}
+      <div className="sp-line">
+        <i className={"sp-dot " + effect.element} aria-hidden="true" />
+        <span className="sp-label">
+          {ELEMENT_NAME[effect.element] ? t(ELEMENT_NAME[effect.element]) : effect.element}
+        </span>
+        <span className="sp-normal">
+          <DamageHover roll={rollOf(effect)} elem={effect.element} stats={stats} mods={view.mods} kind="spell">
+            {fmtRange(effect.calcMin, effect.calcMax)}
           </DamageHover>
         </span>
-      )}
-    </>
-  )
-
-  return (
-    <div className="rounded-lg overflow-hidden" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-      {/* Header */}
-      <div className="flex items-center gap-3 px-3 py-2.5" style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-stone)' }}>
-        <div className="relative flex-shrink-0" style={{ width: 44, height: 44 }}>
-          <div
-            className="rounded overflow-hidden flex items-center justify-center w-full h-full"
-            style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-          >
-            {weapon.image_url
-              ? <img src={weapon.image_url} alt="" width={44} height={44} loading="lazy" className="object-contain" />
-              : <Sword size={20} style={{ color: 'var(--ink-faint)' }} />
-            }
-          </div>
-          {shownTransform && (() => {
-            const potionUrl = runeIconUrl(`transform_${shownTransform.element}`)
-            const elemColor = ELEM_COLOR[shownTransform.element]
-            return potionUrl ? (
-              <div
-                className="absolute bottom-0 right-0 rounded-tl"
-                style={{
-                  background: `color-mix(in srgb, var(--surface-void) 80%, ${elemColor} 20%)`,
-                  border: `1px solid color-mix(in srgb, ${elemColor} 50%, transparent)`,
-                  padding: 2,
-                }}
+        {showCrit && (
+          <span className="sp-crit">
+            {crit ? (
+              <DamageHover
+                roll={rollOf(crit)}
+                elem={crit.element}
+                stats={stats}
+                mods={view.mods}
+                extraFlat={stats?.critDamage ?? 0}
+                kind="spell"
+                crit
               >
-                <img src={potionUrl} alt="" width={18} height={18} className="object-contain" />
-              </div>
-            ) : null
-          })()}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-baseline justify-between gap-2">
-            <p className="text-sm font-semibold truncate" style={{ color: 'var(--ink)' }}>{weapon.name}</p>
-            <div className="flex items-center gap-1.5 flex-shrink-0">
-              {shownTransform && (() => {
-                const elemColor = ELEM_COLOR[shownTransform.element]
-                return (
-                  <span
-                    className="text-[9px] font-bold font-mono px-1.5 py-0.5 rounded"
-                    style={{
-                      background: `color-mix(in srgb, ${elemColor} 15%, transparent)`,
-                      border:     `1px solid color-mix(in srgb, ${elemColor} 40%, transparent)`,
-                      color:       elemColor,
-                    }}
-                  >
-                    {t(`elem_${shownTransform.element}`)} {shownTransform.ratio}%
-                  </span>
-                )
-              })()}
-              {wLevel > 0 && <span className="text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>{t('level_range')}.{wLevel}</span>}
-            </div>
-          </div>
-          <div className="flex items-center flex-wrap gap-x-3 mt-0.5">
-            {ap > 0 && (
-              <span className="flex items-center gap-0.5 text-[10px] font-bold font-mono" style={{ color: 'var(--gold)' }}>
-                <img src={statIconUrl('ap')} alt="" aria-hidden="true" width={12} height={12} className="object-contain" />
-                {t('badge_ap')} {ap}
-              </span>
+                {fmtRange(crit.calcMin, crit.calcMax)}
+              </DamageHover>
+            ) : (
+              "—"
             )}
-            <span className="flex items-center gap-0.5 text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-              <img src={statIconUrl('range')} alt="" aria-hidden="true" width={12} height={12} className="object-contain" />
-              {t('weapon_range_label')} {rangeStr}
-            </span>
-            {effectiveCrit > 0 && (
-              <span className="flex items-center gap-0.5 text-[10px] font-mono" style={{ color: 'var(--crit)' }}>
-                <img src={statIconUrl('crit')} alt="" aria-hidden="true" width={12} height={12} className="object-contain" />
-                {t('weapon_crit_label')} {effectiveCrit}%{critBon > 0 ? ` (+${critBon})` : ''}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Dominio del Arma toggle */}
-      <div
-        className="flex items-center gap-2 px-3 py-1.5"
-        style={{ borderBottom: '1px solid var(--metal-edge)', background: 'var(--surface-void)' }}
-      >
-        <input
-          type="checkbox"
-          id="dominio-toggle"
-          checked={dominioActive}
-          onChange={e => setDominioActive(e.target.checked)}
-          className="flex-shrink-0 cursor-pointer"
-          style={{ width: 13, height: 13, accentColor: 'var(--gold)' }}
-        />
-        <label
-          htmlFor="dominio-toggle"
-          className="text-[10px] font-medium flex-shrink-0 cursor-pointer"
-          style={{ color: dominioActive ? 'var(--gold)' : 'var(--ink-faint)' }}
-          title={t('weapon_mastery_tip')}
-        >
-          {t('weapon_mastery')}
-        </label>
-
-        {dominioActive && (
-          <div className="flex items-center gap-1.5 ml-1">
-            <input
-              type="number"
-              min={0}
-              value={dominioNorm}
-              aria-label={t('weapon_mastery')}
-              onChange={e => setDominioNorm(Math.max(0, parseInt(e.target.value, 10) || 0))}
-              className="w-14 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border"
-              style={{ background: 'var(--surface-panel)', border: '1px solid color-mix(in srgb, var(--gold) 40%, transparent)', color: 'var(--gold)' }}
-            />
-            <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>/</span>
-            <span className="text-[9px]" style={{ color: 'var(--crit)' }}>✦</span>
-            <input
-              type="number"
-              min={0}
-              value={dominioCrit}
-              aria-label={`${t('weapon_mastery')} (${t('weapon_crit_col')})`}
-              onChange={e => setDominioCrit(Math.max(0, parseInt(e.target.value, 10) || 0))}
-              className="w-14 text-center text-[11px] font-mono font-bold rounded px-1 py-0.5 focus:outline-none border"
-              style={{ background: 'var(--surface-panel)', border: '1px solid color-mix(in srgb, var(--crit) 40%, transparent)', color: 'var(--crit)' }}
-            />
-          </div>
+          </span>
         )}
       </div>
-
-      {/* Damage table */}
-      {(rows.length > 0 || view.mpRemoval.length > 0) && (
-        <div className="px-3 py-2.5 space-y-1">
-          {/* Column headers */}
-          <div className="grid mb-1.5" style={{ gridTemplateColumns: cols, gap: 8 }}>
-            <span />
-            <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>{t('weapon_normal')}</span>
-            {hasCrit && <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--crit)' }}>{t('weapon_crit_col')}</span>}
-          </div>
-
-          {/* Damage rows */}
-          {dmgRows.map((row, i) => (
-            <div key={`d${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: row.c }} />
-                <span className="text-[10px] font-medium" style={{ color: row.c }}>{row.best ? t('stat_best_elem_dmg') : t(`elem_${row.elem}`)}</span>
-              </span>
-              <WeaponCells row={row} color={row.c} />
-            </div>
-          ))}
-
-          {/* MP removed on hit (effect_id 238) — flat value, not elemental damage, no crit/heal math */}
-          {view.mpRemoval.map(([min, max], i) => (
-            <div key={`mp${i}`} className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-              <span className="flex items-center gap-1.5">
-                <img src={statIconUrl('mp_reduction')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                <span className="text-[10px] font-medium" style={{ color: 'var(--wisdom)' }}>{t('stat_mp_removal')}</span>
-              </span>
-              <RangeCell min={min} max={max} color="var(--wisdom)" />
-              {hasCrit && <span />}
-            </div>
-          ))}
-
-          {/* Steal rows */}
-          {stealRows.map((row, i) => {
-            const { c, heal, critHeal } = row
-            return (
-            <div key={`s${i}`} className="space-y-0.5">
-              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: c }} />
-                  <span className="text-[10px] font-medium" style={{ color: c }}>{t('weapon_steal_label')}</span>
-                </span>
-                <WeaponCells row={row} color={c} />
-              </div>
-              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-                <span className="pl-3 flex items-center">
-                  <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                </span>
-                <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
-                  {fmtRange(heal![0], heal![1])}
-                </span>
-                {hasCrit && (
-                  <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>
-                    {fmtRange(critHeal![0], critHeal![1])}
-                  </span>
-                )}
-              </div>
-            </div>
-            )
-          })}
-
-          {/* Total row */}
-          {view.total && (
-            <div className="pt-1.5 space-y-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-              <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-                <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>{t('weapon_total')}</span>
-                <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--ink-muted)' }}>{fmtRange(view.total.normal[0], view.total.normal[1])}</span>
-                {hasCrit && <span className="text-[11px] font-mono tabular-nums font-bold" style={{ color: 'var(--crit)' }}>{fmtRange(view.total.crit[0], view.total.crit[1])}</span>}
-              </div>
-              {view.total.heal && (
-                <div className="grid items-center" style={{ gridTemplateColumns: cols, gap: 8 }}>
-                  <span className="flex items-center">
-                    <img src={statIconUrl('heals')} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-                  </span>
-                  <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(view.total.heal.normal[0], view.total.heal.normal[1])}</span>
-                  {hasCrit && <span className="text-[10px] font-mono tabular-nums" style={{ color: 'var(--vitality)' }}>{fmtRange(view.total.heal.crit[0], view.total.heal.crit[1])}</span>}
-                </div>
-              )}
-            </div>
-          )}
+      {hit.heal && (
+        <div className="sp-line is-heal">
+          <img src={statIconUrl("heals")} alt="" />
+          <span className="sp-label">{t("spells_heal")}</span>
+          <span className="sp-normal">{range(hit.heal)}</span>
+          {showCrit && <span className="sp-crit">{hit.critHeal ? range(hit.critHeal) : "—"}</span>}
         </div>
       )}
-    </div>
-  )
+    </>
+  );
 }
 
-export function SpellsPanel() {
-  const { t }         = useTranslation()
-  const selectedClass = useBuildStore(s => s.selectedClass)
-  const level         = useBuildStore(s => s.level)
-  // Damage uses the in-combat stats: gear plus the active item passives.
-  const stats         = useCombatStats()
-  const equipped      = useBuildStore(s => s.equipped)
-  const _equipment    = useBuildStore(s => s._equipment)
-  const lang          = useDataStore(s => s.lang)
-  const loadSpells    = useDataStore(s => s.loadSpells)
-  const spells        = useDataStore(s => s.spells)
-
-  const autoGrade                = spellGrade(level)
-  const [manualGrade, setManual] = useState<number | null>(null)
-  const grade                    = manualGrade ?? autoGrade
-  const [elemFilter, setElemFilter] = useState<ElemFilter>('all')
-
-  useEffect(() => { setManual(null) }, [selectedClass])
-
-  useEffect(() => {
-    if (selectedClass) loadSpells(lang, selectedClass)
-  }, [loadSpells, lang, selectedClass])
-
-  const equippedWeapon = useMemo((): AppItem | null => {
-    const weaponId = equipped.weapon
-    if (weaponId == null) return null
-    return _equipment.find(it => it.ankama_id === weaponId) ?? null
-  }, [equipped.weapon, _equipment])
-
-  const equippedSpellEffects = useMemo(() => {
-    const equippedIds = new Set(Object.values(equipped).filter((id): id is number => id != null))
-    return _equipment
-      .filter(item => equippedIds.has(item.ankama_id))
-      .flatMap(item => item.effects.filter(effect =>
-        effect.formatted && SPELL_ITEM_EFFECT_IDS.has(effect.effect_id ?? -1)
-      ))
-  }, [equipped, _equipment])
-
-  const classData      = selectedClass ? spells.get(selectedClass) : null
-  const commonData     = spells.get('common')
-  const allClassSpells = classData?.spells ?? []
-  const allCommonSpells = commonData?.spells ?? []
-
-  const spellNameMap = useMemo((): Map<number, string> => {
-    const map = new Map<number, string>()
-    for (const cs of spells.values()) {
-      for (const sp of cs.spells) map.set(sp.id, sp.name)
+function Group({
+  group,
+  view,
+  stats,
+  names,
+}: {
+  group: SpellGroup;
+  view: SpellView;
+  stats: StatBlock | null;
+  names: Map<number, string>;
+}) {
+  const { t } = useTranslation();
+  const showCrit = group.showCritColumn;
+  const note = (key: string, icon: string, text: ReactNode) => (
+    <p key={key} className="sp-note">
+      <img src={statIconUrl(icon)} alt="" />
+      {text}
+    </p>
+  );
+  const rows: ReactNode[] = [];
+  for (const entry of group.entries) {
+    switch (entry.kind) {
+      case "section":
+        rows.push(
+          <p className="sp-sub" key={entry.section}>
+            {entry.section === "discharge"
+              ? t("spell_discharge")
+              : t("spell_poison", { turns: entry.turns })}
+          </p>,
+        );
+        break;
+      case "push":
+        rows.push(
+          note(
+            `p${entry.index}`,
+            "push_damage",
+            <>
+              {t("spell_push", { cells: entry.cells })}
+              {entry.collision != null && (
+                <small> {t("spell_push_collision", { dmg: String(entry.collision) })}</small>
+              )}
+            </>,
+          ),
+        );
+        break;
+      case "ap":
+        rows.push(note(`a${entry.index}`, "ap_reduction", t("spell_steal_ap", { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })));
+        break;
+      case "mp":
+        rows.push(note(`m${entry.index}`, "mp_reduction", t("spell_steal_mp", { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })));
+        break;
+      case "ap_gain":
+        rows.push(note(`ag${entry.index}`, "ap", t("spell_gain_ap", { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })));
+        break;
+      case "mp_gain":
+        rows.push(note(`mg${entry.index}`, "mp", t("spell_gain_mp", { n: fmtRange(entry.effect.calcMin, entry.effect.calcMax) })));
+        break;
+      case "erosion":
+        rows.push(note(`er${entry.index}`, "erosion", t("spell_erosion", { pct: entry.pct, turns: entry.turns })));
+        break;
+      case "heal_mod":
+        rows.push(note(`hm${entry.index}`, "heals", t("spell_heal_mod", { pct: entry.pct })));
+        break;
+      case "spell_buff":
+        rows.push(
+          <p key={`sb${entry.index}`} className="sp-note">
+            <span aria-hidden="true">★</span>
+            {t("spells_buff_base", {
+              name: names.get(entry.spellId ?? 0) ?? `#${entry.spellId ?? "?"}`,
+              base: entry.base,
+            })}
+            {entry.turns > 0 && " · " + t("spells_buff_turns", { count: entry.turns })}
+            {entry.deathReset && " · " + t("spells_death_reset")}
+          </p>,
+        );
+        break;
+      case "hit":
+        rows.push(<Values key={`e${entry.index}`} hit={entry} view={view} stats={stats} showCrit={showCrit} />);
+        break;
     }
-    return map
-  }, [spells])
-
-  const normalSpells  = allClassSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
-  const variantSpells = allClassSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
-  const normalCommon  = allCommonSpells.filter(sp => !sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
-  const variantCommon = allCommonSpells.filter(sp =>  sp.is_variant && (elemFilter === 'all' || sp.element === elemFilter))
-  // Narrow screens: one column, spell immediately followed by its own variant
-  // (source data is always ordered normal,variant,normal,variant…) instead of
-  // two side-by-side columns that squeeze each card's content.
-  const classSpellsOrdered  = allClassSpells.filter(sp => elemFilter === 'all' || sp.element === elemFilter)
-  const commonSpellsOrdered = allCommonSpells.filter(sp => elemFilter === 'all' || sp.element === elemFilter)
-
-  const ELEM_KEYS: Record<AppSpellElement, string> = {
-    earth:   'elem_earth',
-    fire:    'elem_fire',
-    water:   'elem_water',
-    air:     'elem_air',
-    neutral: 'elem_neutral',
-    mixed:   'elem_mixed',
   }
-
   return (
-    <div className="space-y-3">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-2">
-        <h3 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
-          {t('spells')}
-        </h3>
-
-        {/* Grade selector */}
-        <div className="flex items-center gap-0.5" role="group" aria-label={t('a11y_spell_grade')}>
-          {[1,2,3,4,5,6].map(g => {
-            const isAuto   = g === autoGrade && manualGrade == null
-            const isActive = g === grade
-            return (
-              <button
-                key={g}
-                onClick={() => setManual(g === autoGrade && manualGrade === g ? null : g)}
-                title={`${t('spell_grade', { grade: g })}${g === autoGrade ? ` ${t('spell_grade_auto')}` : ''}`}
-                aria-label={`${t('spell_grade', { grade: g })}${g === autoGrade ? ` ${t('spell_grade_auto')}` : ''}`}
-                aria-pressed={isActive}
-                className="w-6 h-6 rounded text-[10px] font-bold font-mono transition-colors"
-                style={{
-                  background:  isActive ? 'var(--gold)' : isAuto ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'transparent',
-                  color:       isActive ? 'var(--ink-invert)' : isAuto ? 'var(--gold)' : 'var(--ink-faint)',
-                  border:      isActive ? '1px solid var(--gold)' : '1px solid var(--metal-edge)',
-                }}
-              >{g}</button>
-            )
-          })}
-          {manualGrade != null && (
-            <button
-              onClick={() => setManual(null)}
-              className="ml-0.5 text-[9px] transition-colors"
-              style={{ color: 'var(--ink-faint)' }}
-              title={t('spell_reset_grade')}
-              aria-label={t('spell_reset_grade')}
-            >↺</button>
-          )}
+    <div className={"sp-group" + (showCrit ? " has-crit" : "")}>
+      {group.condition && <h4>{conditionLabel(t, group.condition)}</h4>}
+      {group.hasDamage && (
+        <div className="sp-line is-head" aria-hidden="true">
+          <span />
+          <span />
+          <span className="sp-normal">{t("weapon_normal")}</span>
+          {showCrit && <span className="sp-crit">{t("weapon_crit_col")}</span>}
         </div>
-      </div>
-
-      {/* Element filter */}
-      <div className="flex flex-wrap gap-1">
-        {FILTERS.map(f => (
-          <button
-            key={f}
-            onClick={() => setElemFilter(f)}
-            className="px-2 py-0.5 rounded text-[10px] font-medium transition-colors border"
-            style={elemFilter === f ? {
-              background:  f === 'all' ? 'var(--metal-edge)' : `color-mix(in srgb, ${ELEM_COLOR[f as AppSpellElement]} 13%, transparent)`,
-              borderColor: f === 'all' ? 'var(--ink-muted)' : ELEM_COLOR[f as AppSpellElement],
-              color:       f === 'all' ? 'var(--ink)' : ELEM_COLOR[f as AppSpellElement],
-            } : {
-              background:  'transparent',
-              borderColor: 'var(--metal-edge)',
-              color:       'var(--ink-faint)',
-            }}
-          >
-            {f === 'all' ? t('elem_all') : t(ELEM_KEYS[f as AppSpellElement])}
-          </button>
-        ))}
-      </div>
-
-      {stats && (
-        <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>
-          ★ {t('spell_calculated')}
-        </p>
       )}
-
-      <div data-tool="pvp"><PvpArena /></div>
-
-      {/* Weapon attack */}
-      <div className="space-y-1">
-        <div className="flex items-center gap-2">
-          <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1, flexShrink: 0 }} />
-          <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-            {t('weapon_attack')}
-          </p>
+      {rows}
+      {group.charges.map(({ label, hits }) => (
+        <div key={label} className="sp-charge">
+          <p className="sp-sub">{t("spell_charge_n", { n: label })}</p>
+          {hits.map((hit, i) => (
+            <Values key={i} hit={hit} view={view} stats={stats} showCrit={showCrit} />
+          ))}
         </div>
-        <WeaponCard weapon={equippedWeapon} stats={stats} />
-      </div>
-
-      {/* Class spells */}
-      {selectedClass && (
-        !classData ? (
-          <p className="text-forge-muted text-xs animate-pulse py-2">{t('loading_data')}</p>
-        ) : (
-          <>
-            <div className="sm:hidden space-y-2">
-              {classSpellsOrdered.length === 0 ? (
-                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-              ) : classSpellsOrdered.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-              ))}
-            </div>
-            <div className="hidden sm:grid grid-cols-2 gap-x-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                  <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-                    {t('spell_col_normal')}
-                  </p>
-                </div>
-                {normalSpells.length === 0 ? (
-                  <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-                ) : normalSpells.map(spell => (
-                  <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-                ))}
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-                  <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-                    {t('spell_col_variant')}
-                  </p>
-                </div>
-                {variantSpells.length === 0 ? (
-                  <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-                ) : variantSpells.map(spell => (
-                  <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-                ))}
-              </div>
-            </div>
-          </>
-        )
+      ))}
+      {group.total && (
+        <div className="sp-line is-total">
+          <span />
+          <span className="sp-label">{t("weapon_total")}</span>
+          <span className="sp-normal">{range(group.total.normal)}</span>
+          {showCrit && <span className="sp-crit">{range(group.total.crit)}</span>}
+        </div>
       )}
-
-      {/* Common spells */}
-      {commonData && (normalCommon.length > 0 || variantCommon.length > 0) && (
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-            <div style={{ width: 2, height: 10, background: 'var(--gold-deep)', borderRadius: 1 }} />
-            <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-              {t('common_spells')}
-            </p>
-          </div>
-          <div className="sm:hidden space-y-2">
-            {commonSpellsOrdered.length === 0 ? (
-              <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-            ) : commonSpellsOrdered.map(spell => (
-              <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-            ))}
-          </div>
-          <div className="hidden sm:grid grid-cols-2 gap-x-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5 mb-2">
-                <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />
-                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
-                  {t('spell_col_normal')}
-                </p>
-              </div>
-              {normalCommon.length === 0 ? (
-                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-              ) : normalCommon.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-              ))}
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5 mb-2">
-                <div style={{ width: 2, height: 10, background: 'color-mix(in srgb, var(--gold-deep) 50%, transparent)', borderRadius: 1 }} />
-                <p className="text-[12px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
-                  {t('spell_col_variant')}
-                </p>
-              </div>
-              {variantCommon.length === 0 ? (
-                <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('no_spells_filter')}</p>
-              ) : variantCommon.map(spell => (
-                <SpellCard key={spell.id} spell={spell} grade={grade} stats={stats} spellNameMap={spellNameMap} itemEffects={equippedSpellEffects} />
-              ))}
-            </div>
-          </div>
+      {group.total?.heal && (
+        <div className="sp-line is-heal">
+          <img src={statIconUrl("heals")} alt="" />
+          <span className="sp-label">{t("spells_total_heal")}</span>
+          <span className="sp-normal">{range(group.total.heal.normal)}</span>
+          {showCrit && <span className="sp-crit">{range(group.total.heal.crit)}</span>}
+        </div>
+      )}
+      {group.pushTotal && (
+        <div className="sp-line is-total">
+          <span />
+          <span className="sp-label">{t("spells_total_collision")}</span>
+          <span className="sp-normal">{range(group.pushTotal.normal)}</span>
+          {showCrit && <span className="sp-crit">{range(group.pushTotal.crit)}</span>}
         </div>
       )}
     </div>
-  )
+  );
+}
+
+function Spell({
+  spell,
+  grade,
+  stats,
+  itemEffects,
+  names,
+}: {
+  spell: AppSpell;
+  grade: number;
+  stats: StatBlock | null;
+  itemEffects: AppEffect[];
+  names: Map<number, string>;
+}) {
+  const { t } = useTranslation(),
+    level = useBuildStore((s) => s.level);
+  const view = useMemo(
+    () => spellView({ spell, grade, stats, itemEffects, characterLevel: level }),
+    [spell, grade, stats, itemEffects, level],
+  );
+  const [base, ...conditions] = view.groups;
+  return (
+    <article className={"sp-spell " + spell.element} aria-label={spell.name}>
+      <header>
+        {spell.image_url ? <img src={spell.image_url} alt="" loading="lazy" /> : <i />}
+        <div>
+          <h3>
+            {spell.name}
+            {spell.is_variant && <small>{t("spell_variant_badge")}</small>}
+          </h3>
+          {view.level && (
+            <p className="sp-meta">
+              <span>
+                <img src={statIconUrl("ap")} alt="" />
+                <b>{view.ap}</b> {t("badge_ap")}
+              </span>
+              <span>
+                <img src={statIconUrl("range")} alt="" />
+                {view.range.melee
+                  ? t("spell_melee")
+                  : view.range.min === view.range.max
+                    ? view.range.max
+                    : `${view.range.min}–${view.range.max}`}
+              </span>
+              {view.crit > 0 && (
+                <span>
+                  <img src={statIconUrl("crit")} alt="" />
+                  {view.crit} %
+                </span>
+              )}
+              {view.maxPerTurn > 0 && <span>{t("spells_per_turn", { n: view.maxPerTurn })}</span>}
+            </p>
+          )}
+        </div>
+      </header>
+      {base ? (
+        <>
+          <Group group={base} view={view} stats={stats} names={names} />
+          {conditions.map((group) => (
+            <Group key={conditionKey(group.condition!)} group={group} view={view} stats={stats} names={names} />
+          ))}
+        </>
+      ) : (
+        <p className="sp-support">{t("spell_support")}</p>
+      )}
+      {view.buffs.length > 0 && (
+        <ul className="sp-buffs">
+          {view.buffs.map((buff, i) => (
+            <li key={i} className={buff.tone}>
+              {buff.icon ? (
+                <img src={statIconUrl(buff.icon)} alt="" />
+              ) : (
+                <span aria-hidden="true">{buff.tone === "negative" ? "▼" : buff.tone === "positive" ? "▲" : "◆"}</span>
+              )}
+              {buff.text}
+            </li>
+          ))}
+        </ul>
+      )}
+      {view.itemEffects.length > 0 && (
+        <div className="sp-items">
+          <p className="sp-sub">{t("spells_gear_effects")}</p>
+          {view.itemEffects.map((effect, i) => (
+            <p key={`${effect.effect_id}-${i}`}>{effect.formatted}</p>
+          ))}
+        </div>
+      )}
+      {view.description && <p className="sp-description">{view.description}</p>}
+    </article>
+  );
+}
+
+function Weapon({ stats }: { stats: StatBlock | null }) {
+  const { t } = useTranslation(),
+    equipped = useBuildStore((s) => s.equipped.weapon),
+    transform = useBuildStore((s) => s.weaponTransforms.weapon ?? null),
+    items = useBuildStore((s) => s._equipment),
+    weapon = (items ?? []).find((it) => it.ankama_id === equipped) ?? null;
+  const [mastery, setMastery] = useState({ active: false, normal: 300, crit: 360 });
+  if (!weapon)
+    return (
+      <article className="sp-spell sp-weapon">
+        <header>
+          <i className="sp-fist">
+            <Sword size={20} />
+          </i>
+          <div>
+            <h3>{t("weapon_fist")}</h3>
+            <p className="sp-meta">
+              <span>
+                <b>1</b> {t("badge_ap")}
+              </span>
+              <span>{t("spell_melee")}</span>
+            </p>
+          </div>
+        </header>
+      </article>
+    );
+  const view = weaponView({ weapon, stats, transform, mastery });
+  const showCrit = view.hasCrit;
+  const line = (
+    key: string,
+    label: string,
+    elem: string | null,
+    row: (typeof view.damage)[number],
+  ) => (
+    <div key={key}>
+      <div className="sp-line">
+        <i className={"sp-dot " + (elem ?? "mixed")} aria-hidden="true" />
+        <span className="sp-label">{label}</span>
+        <span className="sp-normal">
+          <DamageHover roll={[row.baseLow, row.baseHigh]} elem={row.elem} stats={stats} mods={view.normalMods} kind="weapon">
+            {fmtRange(row.low, row.high)}
+          </DamageHover>
+        </span>
+        {showCrit && (
+          <span className="sp-crit">
+            <DamageHover
+              roll={[row.baseLow + view.critBonus, row.baseHigh + view.critBonus]}
+              elem={row.elem}
+              stats={stats}
+              mods={view.critMods}
+              extraFlat={stats?.critDamage ?? 0}
+              kind="weapon"
+              crit
+            >
+              {fmtRange(row.critLow, row.critHigh)}
+            </DamageHover>
+          </span>
+        )}
+      </div>
+      {row.heal && (
+        <div className="sp-line is-heal">
+          <img src={statIconUrl("heals")} alt="" />
+          <span className="sp-label">{t("spells_heal")}</span>
+          <span className="sp-normal">{range(row.heal)}</span>
+          {showCrit && <span className="sp-crit">{row.critHeal ? range(row.critHeal) : "—"}</span>}
+        </div>
+      )}
+    </div>
+  );
+  return (
+    <article className="sp-spell sp-weapon" aria-label={weapon.name}>
+      <header>
+        <span className="sp-weapon-art">
+          {weapon.image_url ? <img src={weapon.image_url} alt="" /> : <Sword size={20} />}
+          {view.transform && (
+            <img className="sp-potion" src={runeIconUrl(`transform_${view.transform.element}`) ?? ""} alt="" />
+          )}
+        </span>
+        <div>
+          <h3>
+            {weapon.name}
+            {view.level > 0 && <small>{t("level")} {view.level}</small>}
+          </h3>
+          <p className="sp-meta">
+            {view.ap > 0 && (
+              <span>
+                <img src={statIconUrl("ap")} alt="" />
+                <b>{view.ap}</b> {t("badge_ap")}
+              </span>
+            )}
+            <span>
+              <img src={statIconUrl("range")} alt="" />
+              {view.range.melee
+                ? t("spell_melee")
+                : view.range.min === view.range.max
+                  ? view.range.min
+                  : `${view.range.min}–${view.range.max}`}
+            </span>
+            {view.crit > 0 && (
+              <span>
+                <img src={statIconUrl("crit")} alt="" />
+                {view.crit} %{view.critBonus > 0 && ` (+${view.critBonus})`}
+              </span>
+            )}
+            {view.transform && (
+              <span className={"sp-transform " + view.transform.element}>
+                {t(ELEMENT_NAME[view.transform.element])} {view.transform.ratio} %
+              </span>
+            )}
+          </p>
+        </div>
+      </header>
+      <div className="sp-mastery">
+        <label>
+          <input
+            type="checkbox"
+            checked={mastery.active}
+            onChange={(e) => setMastery({ ...mastery, active: e.target.checked })}
+          />
+          {t("spells_mastery")}
+        </label>
+        {mastery.active && (
+          <>
+            <label>
+              {t("spells_mastery_normal")}
+              <input
+                inputMode="numeric"
+                value={mastery.normal}
+                onChange={(e) => setMastery({ ...mastery, normal: Math.max(0, parseInt(e.target.value, 10) || 0) })}
+              />
+            </label>
+            <label>
+              {t("spells_mastery_crit")}
+              <input
+                inputMode="numeric"
+                value={mastery.crit}
+                onChange={(e) => setMastery({ ...mastery, crit: Math.max(0, parseInt(e.target.value, 10) || 0) })}
+              />
+            </label>
+          </>
+        )}
+      </div>
+      {(view.damage.length > 0 || view.mpRemoval.length > 0 || view.steal.length > 0) && (
+        <div className={"sp-group" + (showCrit ? " has-crit" : "")}>
+          <div className="sp-line is-head" aria-hidden="true">
+            <span />
+            <span />
+            <span className="sp-normal">{t("weapon_normal")}</span>
+            {showCrit && <span className="sp-crit">{t("weapon_crit_col")}</span>}
+          </div>
+          {view.damage.map((row, i) =>
+            line(
+              `d${i}`,
+              row.best ? t("spells_best_element") : t(ELEMENT_NAME[row.elem ?? "mixed"]),
+              row.elem,
+              row,
+            ),
+          )}
+          {view.mpRemoval.map((r, i) => (
+            <div key={`mp${i}`} className="sp-line">
+              <img src={statIconUrl("mp_reduction")} alt="" />
+              <span className="sp-label">{t("stat_mp_removal")}</span>
+              <span className="sp-normal">{range(r)}</span>
+              {showCrit && <span className="sp-crit" />}
+            </div>
+          ))}
+          {view.steal.map((row, i) =>
+            line(
+              `s${i}`,
+              t("spells_steal", {
+                element: t(ELEMENT_NAME[row.elem ?? "mixed"]).toLowerCase(),
+              }),
+              row.elem,
+              row,
+            ),
+          )}
+          {view.total && (
+            <div className="sp-line is-total">
+              <span />
+              <span className="sp-label">{t("weapon_total")}</span>
+              <span className="sp-normal">{range(view.total.normal)}</span>
+              {showCrit && <span className="sp-crit">{range(view.total.crit)}</span>}
+            </div>
+          )}
+          {view.total?.heal && (
+            <div className="sp-line is-heal">
+              <img src={statIconUrl("heals")} alt="" />
+              <span className="sp-label">{t("spells_total_heal")}</span>
+              <span className="sp-normal">{range(view.total.heal.normal)}</span>
+              {showCrit && <span className="sp-crit">{range(view.total.heal.crit)}</span>}
+            </div>
+          )}
+        </div>
+      )}
+    </article>
+  );
+}
+
+/** Pairs each spell with the variant that replaces it; the data lists them in that order. */
+function pairs(list: AppSpell[]) {
+  const out: [AppSpell | null, AppSpell | null][] = [];
+  for (const spell of list) {
+    if (!spell.is_variant) out.push([spell, null]);
+    else if (out.length && !out[out.length - 1][1]) out[out.length - 1][1] = spell;
+    else out.push([null, spell]);
+  }
+  return out;
+}
+
+/** The weapon attack, then each spell next to its variant, with damage for the build's stats. */
+export function SpellsPanel() {
+  const { t } = useTranslation(),
+    b = useBuildStore(),
+    stats = useCombatStats(),
+    spells = useDataStore((s) => s.spells),
+    lang = useDataStore((s) => s.lang),
+    loadSpells = useDataStore((s) => s.loadSpells),
+    items = useBuildStore((s) => s._equipment);
+  const auto = spellGrade(b.level),
+    [manual, setManual] = useState<number | null>(null),
+    grade = manual ?? auto,
+    [filter, setFilter] = useState<Filter>("all");
+  useEffect(() => setManual(null), [b.selectedClass]);
+  useEffect(() => {
+    if (b.selectedClass) loadSpells(lang, b.selectedClass);
+  }, [loadSpells, lang, b.selectedClass]);
+  const itemEffects = useMemo(
+    () =>
+      ALL_SLOTS.flatMap((slot) =>
+        ((items ?? []).find((it) => it.ankama_id === b.equipped[slot])?.effects ?? []).filter(
+          (e) => e.formatted && SPELL_ITEM_EFFECT_IDS.has(e.effect_id ?? -1),
+        ),
+      ),
+    [b.equipped, items],
+  );
+  const names = useMemo(() => {
+    const map = new Map<number, string>();
+    for (const set of spells.values()) for (const sp of set.spells) map.set(sp.id, sp.name);
+    return map;
+  }, [spells]);
+  const own = b.selectedClass ? spells.get(b.selectedClass) : null,
+    common = spells.get("common");
+  const keep = (sp: AppSpell | null) => sp && (filter === "all" || sp.element === filter) ? sp : null;
+  const section = (title: string, list: AppSpell[]) => {
+    const shown = pairs(list)
+      .map(([a, z]) => [keep(a), keep(z)] as const)
+      .filter(([a, z]) => a || z);
+    return (
+      <section className="sp-section" aria-label={title}>
+        <h3 className="sp-section-title">
+          {title}
+          <span>{t("spells_section_cols")}</span>
+        </h3>
+        {!shown.length && <p className="sp-empty">{t("spells_none_element")}</p>}
+        {shown.map(([a, z], i) => (
+          <div className="sp-pair" key={(a ?? z)!.id + "-" + i}>
+            {a ? <Spell spell={a} grade={grade} stats={stats} itemEffects={itemEffects} names={names} /> : <div />}
+            {z ? <Spell spell={z} grade={grade} stats={stats} itemEffects={itemEffects} names={names} /> : <div />}
+          </div>
+        ))}
+      </section>
+    );
+  };
+  return (
+    <div className="sp">
+      <h2 className="sp-title">{t("tool_spells")}</h2>
+      <div className="sp-controls">
+        <div role="group" aria-label={t("spells_grades")} className="sp-grades">
+          <span>{t("spells_grade")}</span>
+          {[1, 2, 3, 4, 5, 6].map((g) => (
+            <button
+              key={g}
+              aria-pressed={g === grade}
+              className={g === auto ? "is-auto" : ""}
+              aria-label={
+                t("spells_grade_n", { grade: g }) +
+                (g === auto ? " " + t("spells_grade_yours") : "")
+              }
+              onClick={() => setManual(g === auto ? null : g)}
+            >
+              {g}
+            </button>
+          ))}
+          {manual != null && (
+            <button className="sp-reset" aria-label={t("spells_grade_reset")} onClick={() => setManual(null)}>
+              <RotateCcw size={14} />
+            </button>
+          )}
+        </div>
+        <div role="radiogroup" aria-label={t("element_header")} className="sp-filters">
+          {FILTERS.map(([key, labelKey]) => (
+            <button
+              key={key}
+              role="radio"
+              aria-checked={filter === key}
+              className={key}
+              onClick={() => setFilter(key)}
+            >
+              {t(labelKey)}
+            </button>
+          ))}
+        </div>
+      </div>
+      <p className="sp-hint">
+        {stats
+          ? t("spells_hint_stats")
+          : t("spells_hint_base")}{" "}
+        {t("spells_hint_simulation")}
+      </p>
+      <section className="sp-section" aria-label={t("spells_weapon_attack")}>
+        <h3 className="sp-section-title">{t("spells_weapon_attack")}</h3>
+        <Weapon stats={stats} />
+      </section>
+      {b.selectedClass &&
+        (own ? (
+          section(t("spells_class"), own.spells)
+        ) : (
+          <p className="sp-empty">{t("spells_loading")}</p>
+        ))}
+      {common && common.spells.length > 0 && section(t("spells_common"), common.spells)}
+      <div data-tool="pvp"><PvpArena /></div>
+    </div>
+  );
 }
