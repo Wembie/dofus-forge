@@ -119,7 +119,8 @@ describe('plainText (item text markup)', () => {
     const DOFUSTEUSE = item(958, 'Dofusteuse', 'Dofus Blessing: • Increases one characteristic per turn: • <sprite name="eau"> 400 Chance > <sprite name="terre"> 400 Strength')
     render(<PassivesPanel items={[DOFUSTEUSE]} state={{}} onChange={() => {}} />)
     fireEvent.click(screen.getByRole('button', { name: /passives_show_text/ }))
-    const list = screen.getByRole('list')
+    // The item's text list (the passives themselves are a list too).
+    const list = screen.getAllByRole('list').at(-1)!
     expect(list.textContent).toContain('400 Chance')
     expect(list.textContent).not.toMatch(/[<>]/)
   })

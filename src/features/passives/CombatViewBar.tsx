@@ -4,6 +4,7 @@ import { ITEM_PASSIVES } from '@/engine/passives.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { setCombatView, useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { scrollBehavior } from '@/lib/motionSettings.ts'
+import './passives.css'
 
 /** Equipped items with at least one active passive control. */
 function useActivePassiveCount(): number {
@@ -31,74 +32,28 @@ export function CombatViewBar({ showEdit = false }: { showEdit?: boolean }) {
   const active = useActivePassiveCount()
   if (!hasPassives) return null
 
-  const option = (on: boolean, label: React.ReactNode, Icon: typeof Shield, onClick: () => void) => (
-    <button
-      type="button"
-      role="radio"
-      aria-checked={on}
-      onClick={onClick}
-      className="flex-1 min-w-0 flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] font-semibold transition-colors"
-      style={{
-        background: on ? 'color-mix(in srgb, var(--gold) 16%, var(--surface-void))' : 'transparent',
-        color:      on ? 'var(--gold)' : 'var(--ink-muted)',
-        boxShadow:  on ? 'inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent)' : undefined,
-      }}
-    >
-      <Icon size={13} className="flex-shrink-0" />
-      <span className="truncate">{label}</span>
-    </button>
-  )
-
   return (
-    <section
-      aria-label={t('combat_view_title')}
-      className="rounded-xl px-3 py-2.5 space-y-2"
-      style={{
-        background: combat
-          ? 'linear-gradient(155deg, color-mix(in srgb, var(--gold) 9%, var(--surface-stone)) 0%, var(--surface-void) 100%)'
-          : 'var(--surface-stone)',
-        border: `1px solid ${combat ? 'color-mix(in srgb, var(--gold) 40%, var(--metal-edge))' : 'var(--metal-edge)'}`,
-      }}
-    >
-      <div className="flex items-center gap-2">
-        <span className="text-[10px] font-display uppercase tracking-[0.2em] font-bold flex-1" style={{ color: 'var(--gold)' }}>
-          {t('combat_view_title')}
-        </span>
+    <section aria-label={t('combat_view_title')} className={'view-switch' + (combat ? ' is-combat' : '')}>
+      <header>
+        <span>{t('combat_view_title')}</span>
         {showEdit && (
-          <button
-            type="button"
-            onClick={goToPassives}
-            className="flex items-center gap-1 text-[10px] transition-colors hover:text-gold"
-            style={{ color: 'var(--ink-faint)' }}
-          >
-            <SlidersHorizontal size={11} /> {t('combat_view_edit')}
+          <button type="button" className="view-switch-edit" onClick={goToPassives}>
+            <SlidersHorizontal size={13} aria-hidden="true" /> {t('combat_view_edit')}
           </button>
         )}
+      </header>
+      <div role="radiogroup" aria-label={t('combat_view_title')}>
+        <button type="button" role="radio" aria-checked={!combat} onClick={() => setCombatView(false)}>
+          <Shield size={14} aria-hidden="true" />
+          {t('combat_view_gear')}
+        </button>
+        <button type="button" role="radio" aria-checked={combat} onClick={() => setCombatView(true)}>
+          <Swords size={14} aria-hidden="true" />
+          {t('combat_view_combat')}
+          <span className="view-count">{active}</span>
+        </button>
       </div>
-
-      <div
-        role="radiogroup"
-        aria-label={t('combat_view_title')}
-        className="flex gap-1 rounded-lg p-0.5"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-      >
-        {option(!combat, t('combat_view_gear'), Shield, () => setCombatView(false))}
-        {option(combat, (
-          <>
-            {t('combat_view_combat')}
-            <span
-              className="ml-1 font-mono text-[9px] rounded px-1 py-px"
-              style={{ background: 'color-mix(in srgb, var(--gold) 14%, transparent)', color: 'var(--gold)' }}
-            >
-              {active}
-            </span>
-          </>
-        ), Swords, () => setCombatView(true))}
-      </div>
-
-      <p className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>
-        {!combat ? t('combat_view_gear_hint') : active === 0 ? t('combat_view_none') : t('stats_combat_hint')}
-      </p>
+      <p>{!combat ? t('combat_view_gear_hint') : active === 0 ? t('combat_view_none') : t('stats_combat_hint')}</p>
     </section>
   )
 }
