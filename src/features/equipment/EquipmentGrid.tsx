@@ -25,7 +25,7 @@ import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { WEAPON_ATTACK_STAT, IS_STEAL } from '@/features/spells/spellCalc.ts'
-import { ElementGem, SlotIcon } from '@/ui'
+import { SlotIcon } from '@/ui'
 import { playUnequip, playEquip } from '@/lib/sound.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
@@ -129,12 +129,12 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           useForgePicks.getState().toggleRequired(item.ankama_id)
         }}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
-        className={`rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
+        className={`workshop-slot rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
         style={{
           width:  px,
           height: px,
           background: item
-            ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
+            ? 'var(--surface-panel)'
             : 'var(--surface-void)',
           border: isDragOver
             ? '2px solid var(--gold)'
@@ -142,7 +142,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             ? setName
               ? '1.5px solid color-mix(in srgb, var(--water) 55%, var(--gold) 45%)'
               : '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
-            : '1px dashed rgba(60,80,130,0.55)',
+            : '1px dashed var(--metal-edge-strong)',
           boxShadow: isDragOver
             ? 'inset 0 0 28px color-mix(in srgb, var(--gold) 30%, transparent), 0 0 12px color-mix(in srgb, var(--gold) 40%, transparent)'
             : item
@@ -165,7 +165,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
         onMouseLeave={e => {
           const el = e.currentTarget as HTMLButtonElement
           if (!item) {
-            el.style.borderColor = 'rgba(60,80,130,0.55)'
+            el.style.borderColor = 'var(--metal-edge-strong)'
             el.style.borderStyle = 'dashed'
           } else {
             el.style.boxShadow = setName
@@ -578,25 +578,8 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   )
 }
 
-// ── Character center (The Crucible) ──────────────────────────────────────────
+// ── Character center ─────────────────────────────────────────────────────────
 
-// Gem ring at radius 68px from portrait center; earth=top, clockwise
-const GEM_RING = [
-  { element: 'earth',    dx:   0, dy: -68 },
-  { element: 'fire',     dx:  59, dy: -34 },
-  { element: 'air',      dx:  59, dy:  34 },
-  { element: 'neutral',  dx:   0, dy:  68 },
-  { element: 'water',    dx: -59, dy:  34 },
-  { element: 'vitality', dx: -59, dy: -34 },
-] as const
-
-function elemVar(elem: string | null | undefined): string {
-  if (!elem || elem === 'multi') return 'var(--gold)'
-  return `var(--${elem})`
-}
-
-const STAGE_HEIGHT        = 340
-const MOBILE_STAGE_HEIGHT = 240
 const DESKTOP_QUERY       = '(min-width: 1024px)' // Tailwind lg
 
 function subscribeDesktop(onChange: () => void) {
@@ -611,199 +594,43 @@ function useIsDesktop() {
   return useSyncExternalStore(subscribeDesktop, () => window.matchMedia(DESKTOP_QUERY).matches, () => true)
 }
 
-function MobileCharacter() {
-  const stage         = useCharacterStage()
+// One stage for both layouts, so a single WebGL context runs.
+function CharacterCenter({ compact }: { compact: boolean }) {
+  const { t } = useTranslation()
+  const stage = useCharacterStage()
+  const companion = useBuildStore(s => s.equipped.companion)
   const selectedClass = useBuildStore(s => s.selectedClass)
-  const gender        = useBuildStore(s => s.gender)
-  const companion     = useBuildStore(s => s.equipped.companion)
-  const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
-  if (!stage.show || !classInfo) return null
+  const gender = useBuildStore(s => s.gender)
+  const level = useBuildStore(s => s.level)
+  const info = CLASS_DATA.find(c => c.id === selectedClass)
+  const name = useClassName(selectedClass)
+  const width = compact ? 150 : 210
+  const height = compact ? 230 : 320
   return (
-    <div className="flex justify-center">
-      <Suspense fallback={<div style={{ height: MOBILE_STAGE_HEIGHT + 28 }} />}>
-        <CharacterStage
-          breed={classInfo.breed}
-          gender={gender}
-          companion={companion}
-          width={220}
-          height={MOBILE_STAGE_HEIGHT}
-          onError={stage.fail}
-        />
-      </Suspense>
-    </div>
-  )
-}
-
-// Only the visible layout mounts the stage, so a single WebGL context runs.
-function CharacterCenter({ stageEnabled }: { stageEnabled: boolean }) {
-  const { t }         = useTranslation()
-  const stage         = useCharacterStage()
-  const showStage     = stage.show && stageEnabled
-  const companion     = useBuildStore(s => s.equipped.companion)
-  const selectedClass = useBuildStore(s => s.selectedClass)
-  const gender        = useBuildStore(s => s.gender)
-  const level         = useBuildStore(s => s.level)
-  const classInfo     = selectedClass ? CLASS_DATA.find(c => c.id === selectedClass) : null
-  const classDisplayName = useClassName(selectedClass)
-  const classElem     = classInfo?.element ?? null
-  const primaryColor  = elemVar(classElem)
-
-  const portrait = classInfo
-    ? (gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl)
-    : null
-
-  function gemIntensity(element: string): number {
-    if (!classElem)            return 0.12
-    if (classElem === 'multi') return 0.80
-    return classElem === element ? 1.0 : 0.20
-  }
-
-  return (
-    <div
-      className="relative flex flex-col items-center flex-shrink-0"
-      style={{
-        width:     200,
-        minHeight: 480,
-        background: `radial-gradient(ellipse at 50% 28%, color-mix(in srgb, ${primaryColor} 16%, transparent) 0%, transparent 58%), var(--surface-void)`,
-      }}
-    >
-      {showStage && classInfo ? (
-        /* Animated character — fills the column, no gem ring over it */
-        <div className="flex justify-center mt-4" style={{ width: 196 }}>
-          <Suspense fallback={<div style={{ width: 196, height: STAGE_HEIGHT + 28 }} />}>
-            <CharacterStage
-              breed={classInfo.breed}
-              gender={gender}
-              companion={companion}
-              width={196}
-              height={STAGE_HEIGHT}
-              onError={stage.fail}
-            />
+    <div className="workshop-character" style={{ width }}>
+      <div className="workshop-figure" style={{ minHeight: height + 28 }}>
+        <div className="workshop-arch" aria-hidden="true" />
+        {stage.show && info ? (
+          <Suspense fallback={<div style={{ width, height: height + 28 }} />}>
+            <CharacterStage breed={info.breed} gender={gender} companion={companion}
+              width={width} height={height} onError={stage.fail} />
           </Suspense>
-        </div>
-      ) : (
-      /* Portrait + gem ring */
-      <div
-        className="relative flex items-center justify-center mt-6"
-        style={{ width: 180, height: 250 }}
-      >
-        {/* Dashed ring guide */}
-        <svg
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-          viewBox="0 0 180 250"
-        >
-          <circle
-            cx="90" cy="125"
-            r="80"
-            fill="none"
-            stroke={primaryColor}
-            strokeOpacity="0.16"
-            strokeWidth="1"
-            strokeDasharray="3 8"
-          />
-          <circle
-            cx="90" cy="125"
-            r="87"
-            fill="none"
-            stroke={primaryColor}
-            strokeOpacity="0.06"
-            strokeWidth="1"
-          />
-        </svg>
-
-        {/* Class portrait */}
-        <div
-          className="flex-shrink-0 overflow-hidden"
-          style={{
-            width:        130,
-            height:       130,
-            position:     'relative',
-            zIndex:       1,
-            borderRadius: 14,
-            border:       `2px solid color-mix(in srgb, ${primaryColor} 45%, transparent)`,
-            boxShadow:    `0 0 40px color-mix(in srgb, ${primaryColor} 40%, transparent), 0 0 10px color-mix(in srgb, ${primaryColor} 18%, transparent)`,
-            background:   'var(--surface-void)',
-          }}
-        >
-          {portrait ? (
-            <img
-              src={portrait}
-              alt={classDisplayName}
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              draggable={false}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-4xl" style={{ color: 'var(--ink-faint)' }}>?</span>
-            </div>
-          )}
-        </div>
-
-        {/* Gem ring — on top of character viewer (zIndex 2 > viewer zIndex 1) */}
-        {GEM_RING.map(({ element, dx, dy }) => (
-          <div
-            key={element}
-            style={{
-              position:  'absolute',
-              left:      '50%',
-              top:       '50%',
-              transform: `translate(calc(-50% + ${Math.round(dx * 1.18)}px), calc(-50% + ${Math.round(dy * 1.18)}px))`,
-              zIndex:    2,
-            }}
-          >
-            <ElementGem element={element} intensity={gemIntensity(element)} size={15} />
-          </div>
-        ))}
-      </div>
-      )}
-
-      {/* Class name + level + separator */}
-      <div className="flex flex-col items-center gap-1.5 mt-3">
-        {classInfo ? (
-          <>
-            <span
-              className="font-display text-[14px] tracking-[0.28em] uppercase"
-              style={{ color: 'var(--gold)', textShadow: '0 0 20px rgba(201,162,75,0.45)' }}
-            >
-              {classDisplayName}
-            </span>
-            <div className="flex items-center gap-2">
-              <div style={{
-                width:      40,
-                height:     1,
-                background: 'linear-gradient(to right, transparent, var(--gold-deep))',
-                opacity:    0.7,
-              }} />
-              <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: 'var(--ink-muted)' }}>
-                {t('level_range')}.{level}
-              </span>
-              <div style={{
-                width:      40,
-                height:     1,
-                background: 'linear-gradient(to left, transparent, var(--gold-deep))',
-                opacity:    0.7,
-              }} />
-            </div>
-          </>
+        ) : info ? (
+          <img className="workshop-portrait" src={gender === 'female' ? info.imageFUrl : info.imageUrl} alt={name} draggable={false} />
         ) : (
-          <>
-            <span className="font-display text-[9px] tracking-widest text-center px-4" style={{ color: 'var(--ink-faint)' }}>
-              {t('select_class_prompt')}
-            </span>
-            <div style={{
-              width:      100,
-              height:     1,
-              background: 'linear-gradient(to right, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent)',
-              opacity:    0.4,
-            }} />
-          </>
+          <p className="workshop-character-prompt">{t('select_class_prompt')}</p>
         )}
       </div>
+      {info && (
+        <p className="workshop-character-name">
+          <span>{name}</span>
+          <span className="workshop-character-level">{t('level_range')}.{level}</span>
+        </p>
+      )}
     </div>
   )
 }
 
-// ── EquipmentGrid ─────────────────────────────────────────────────────────────
 export function EquipmentGrid() {
   const { t }       = useTranslation()
   const isDesktop   = useIsDesktop()
@@ -903,77 +730,31 @@ export function EquipmentGrid() {
     )
   }
 
-  // Mobile slot groups (< lg): two rows of 5, animated character above them when enabled
-  const MOBILE_ROW1: SlotId[] = ['hat',    'amulet', 'ring1', 'weapon',    'shield'   ]
-  const MOBILE_ROW2: SlotId[] = ['cape',   'ring2',  'belt',  'boots',     'companion']
+  const dofusWorn = DOFUS_SLOTS.filter(id => equipped[id] != null).length
 
   return (
-    <div style={{
-      // A single `background` shorthand (gradients + solid fallback as the
-      // last comma-separated layer) — a separate `background` +
-      // `backgroundImage` pair on the same element triggers a React
-      // dev-mode warning on re-render ("mix shorthand and non-shorthand
-      // properties"), since the two can clobber each other in the CSSOM.
-      background: [
-        'radial-gradient(ellipse 72% 50% at 50% 44%, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 65%)',
-        'radial-gradient(ellipse 40% 28% at 16% 85%, color-mix(in srgb, var(--water) 5%, transparent) 0%, transparent 70%)',
-        'radial-gradient(ellipse 40% 28% at 84% 85%, color-mix(in srgb, var(--earth) 5%, transparent) 0%, transparent 70%)',
-        'var(--surface-void)',
-      ].join(', '),
-    }}>
-
-      {/* ── Mobile layout: flat grid, no character center (< lg) ── */}
-      <div className="lg:hidden px-3 pt-4 pb-2 space-y-2">
-        {!isDesktop && <MobileCharacter />}
-        {/* Row 1 */}
-        <div className="grid grid-cols-5 gap-2">
-          {MOBILE_ROW1.map(id => makeSlot(id, { small: true, size: 56 }))}
+    <div className="workshop-equipment-surface">
+      <div className="workshop-gear-stage">
+        <div className="workshop-gear-column">
+          {LEFT_SLOTS.map(id => makeSlot(id, { small: !isDesktop, size: isDesktop ? 64 : 48, tooltipSide: 'right' }))}
         </div>
-        {/* Row 2 */}
-        <div className="grid grid-cols-5 gap-2">
-          {MOBILE_ROW2.map(id => makeSlot(id, { small: true, size: 56 }))}
-        </div>
-        {/* Extras row */}
-        {EXTRAS_SLOTS.length > 0 && (
-          <div className="flex justify-center gap-2">
-            {EXTRAS_SLOTS.map(id => makeSlot(id, { small: true, size: 52 }))}
-          </div>
-        )}
-        {/* Dofus row */}
-        <div className="grid grid-cols-6 gap-1.5 pt-1">
-          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, size: 46 }))}
+        <CharacterCenter compact={!isDesktop} />
+        <div className="workshop-gear-column">
+          {RIGHT_SLOTS.map(id => makeSlot(id, { small: !isDesktop, size: isDesktop ? 64 : 48, tooltipSide: 'left' }))}
         </div>
       </div>
-
-      {/* ── Desktop layout: character center + left/right columns (lg+) ── */}
-      <div className="hidden lg:block">
-        {/* Main character screen */}
-        <div className="flex items-start justify-center pt-5 pb-2 px-3">
-
-          {/* Left column — tooltip to the right to avoid overflow-hidden clip */}
-          <div className="flex flex-col gap-2">
-            {LEFT_SLOTS.map(id => makeSlot(id, { tooltipSide: 'right' }))}
-          </div>
-
-          {/* Character center */}
-          <CharacterCenter stageEnabled={isDesktop} />
-
-          {/* Right column — tooltip to the left */}
-          <div className="flex flex-col gap-2">
-            {RIGHT_SLOTS.map(id => makeSlot(id, { tooltipSide: 'left' }))}
-          </div>
-        </div>
-
-        {/* Extras row: Petsmount, Mount, Sidekick */}
-        <div className="flex justify-center gap-2 pb-2">
-          {EXTRAS_SLOTS.map(id => makeSlot(id, { small: true, tooltipSide: 'top' }))}
-        </div>
-
-        {/* Dofus row — tooltip above, enough vertical space */}
-        <div className="flex justify-center gap-2 pb-5">
-          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, tooltipSide: 'top' }))}
-        </div>
+      <div className="workshop-extras">
+        {EXTRAS_SLOTS.map(id => makeSlot(id, { small: true, size: isDesktop ? 52 : 48, tooltipSide: 'top' }))}
       </div>
+      <section className="workshop-dofus" aria-labelledby="workshop-dofus-title">
+        <header>
+          <h3 id="workshop-dofus-title">{t('dofus_trophies')}</h3>
+          <span>{t('dofus_trophies_count', { worn: dofusWorn, total: DOFUS_SLOTS.length })}</span>
+        </header>
+        <div className="workshop-dofus-row">
+          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, size: isDesktop ? 52 : 44, tooltipSide: 'top' }))}
+        </div>
+      </section>
 
       <SetBonusesPanel />
       <BuilderPassivesPanel />

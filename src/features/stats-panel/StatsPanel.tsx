@@ -10,6 +10,7 @@ import { useCombatStats } from '@/store/useCombatStats.ts'
 import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
+import { StatsSheetButton } from './StatsSheet.tsx'
 
 function icon(name: string, size = 16) {
   return (
@@ -512,6 +513,7 @@ export function StatsPanel() {
         <CombatViewTag />
       </div>
       <StatsFromBlock s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} />
+      <StatsSheetButton stats={combat ? combatStats! : stats} />
     </div>
   )
 }
