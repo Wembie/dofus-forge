@@ -1,3 +1,7 @@
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CLASS_DATA } from '@/features/class-picker/classData.ts'
+import type { SlotId } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
 import { SlotIcon } from '@/ui'
 import type { AppItem } from '@/data/loaders.ts'
@@ -18,60 +22,64 @@ function itemIndex(equipment: AppItem[] | null): Map<number, AppItem> {
   return index
 }
 
-/** Read-only equipment grid — same slot set/order and visual treatment as
- * the real EquipmentGrid slot buttons (gradient, gold glow, inset shadow),
- * just without the click/drag handlers. Used to preview a build on the
- * Explore card / build detail page / My Builds card. */
-export function BuildEquipmentPreview({ snapshot, equipment, size = 44, hideEmpty = false }: {
-  snapshot:  BuildSnapshot
-  equipment: AppItem[] | null
-  size?:     number
-  /** Compact mode for small cards (Explore/My Builds) — skip empty slots
-   * entirely instead of showing a dashed placeholder for all 17. */
-  hideEmpty?: boolean
-}) {
-  const map = itemIndex(equipment)
+const LEFT: SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
+const RIGHT: SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
+const DOFUS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
-  return (
-    <div className="flex flex-wrap gap-2">
-      {ALL_SLOTS.map((slot, i) => {
-        const id   = snapshot.e[i]
-        const item = id != null ? map.get(id) : undefined
-        // An equipped slot keeps its tile while the catalog loads, so the
-        // card doesn't grow (layout shift) when the icons arrive.
-        if (hideEmpty && (id == null || (equipment && !item))) return null
-        return (
-          <div
-            key={slot}
-            title={item?.name}
-            className="relative rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden"
-            style={{
-              width:  size,
-              height: size,
-              background: item
-                ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
-                : 'var(--surface-void)',
-              border: item
-                ? '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
-                : '1px dashed rgba(60,80,130,0.55)',
-              boxShadow: item
-                ? 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-                : 'var(--well-inset)',
-            }}
-          >
-            {item?.image_url
-              ? <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
-              : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}><SlotIcon slot={slot} /></span>
-            }
-            {item && (
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 55%)' }}
-              />
-            )}
-          </div>
-        )
-      })}
-    </div>
-  )
+export function BuildEquipmentPreview({ snapshot, equipment, classSlug, gender }: {
+  snapshot: BuildSnapshot
+  equipment: AppItem[] | null
+  classSlug?: string
+  gender?: 'male' | 'female'
+}) {
+  const { t } = useTranslation()
+  const map = itemIndex(equipment)
+  const info = CLASS_DATA.find(c => c.id === (classSlug || snapshot.c))
+  const sex = gender ?? (snapshot.g === 'f' ? 'female' : 'male')
+  const companion = snapshot.e[ALL_SLOTS.indexOf('companion')] ?? 0
+  const root = useRef<HTMLSpanElement>(null)
+  const [still, setStill] = useState<{ key: string; url: string; ground: number } | null>(null)
+  const key = `${info?.breed}:${sex}:${companion}`
+
+  useEffect(() => {
+    if (!info || !root.current) return
+    let live = true
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(e => e.isIntersecting)) return
+      observer.disconnect()
+      import('./characterStill.ts').then(m => m.characterStill(info.breed, sex, companion))
+        .then(image => { if (live) setStill({ ...image, key }) })
+        .catch(() => undefined)
+    }, { rootMargin: '160px' })
+    observer.observe(root.current)
+    return () => { live = false; observer.disconnect() }
+  }, [info, sex, companion, key])
+
+  const figure = still?.key === key ? still : null
+  const tile = (slot: SlotId, extra = '') => {
+    const id = snapshot.e[ALL_SLOTS.indexOf(slot)]
+    const item = id != null ? map.get(id) : undefined
+    const name = t(`slot_${slot.replace(/\d+$/, '')}`)
+    return <span key={slot} className={`sheet-tile${item ? '' : ' is-empty'}${extra}`} title={item?.name ?? name}>
+      {item?.image_url
+        ? <img src={item.image_url} alt={item.name} loading="lazy" decoding="async" />
+        : <SlotIcon slot={slot} className="sheet-tile-icon" />}
+    </span>
+  }
+
+  return <span ref={root} className="build-sheet" aria-label={t('equipment')}>
+    <span className="sheet-column">{LEFT.map(slot => tile(slot))}</span>
+    <span className="sheet-stage">
+      <span className="sheet-arch" /><span className="sheet-floor" />
+      {info && <img
+        className={`sheet-figure${figure ? '' : ' is-portrait'}`}
+        src={figure?.url ?? (sex === 'female' ? info.imageFUrl : info.imageUrl)}
+        style={figure ? { bottom: `${Math.max(0, 9.25 - figure.ground * 90)}%` } : undefined}
+        alt="" loading="lazy" decoding="async"
+      />}
+      {tile('sidekick', ' sheet-sidekick')}
+    </span>
+    <span className="sheet-column">{RIGHT.map(slot => tile(slot))}</span>
+    <span className="sheet-dofus">{DOFUS.map(slot => tile(slot))}</span>
+  </span>
 }

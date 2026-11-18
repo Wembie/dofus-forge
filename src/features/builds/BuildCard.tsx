@@ -31,7 +31,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
 
   return (
     <div
-      className="flex flex-col gap-2 p-3 rounded-xl transition-shadow"
+      className="build-card flex flex-col gap-3 p-4 rounded-frame transition-colors"
       style={{
         background:   'var(--surface-panel)',
         borderTop:    `1px solid ${buildHover ? 'var(--gold)' : 'var(--gold-deep)'}`,
@@ -80,7 +80,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
             <img src={portrait} alt="" width={40} height={40} loading="lazy" decoding="async" className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
           )}
           <div className="min-w-0 flex-1">
-            <p className="flex items-center gap-1 text-sm font-bold min-w-0" style={{ color: 'var(--gold)' }}>
+            <p className="flex items-center gap-1 font-display text-2xl min-w-0" style={{ color: 'var(--gold)' }}>
               {build.is_featured && <Award size={13} className="flex-shrink-0" aria-label={t('build_featured')}><title>{t('build_featured')}</title></Award>}
               <span className="truncate">{build.name}</span>
             </p>
@@ -94,7 +94,7 @@ export function BuildCard({ build }: { build: BuildRow }) {
           </div>
         )}
 
-        <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
+        <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} classSlug={build.class_slug} gender={build.gender} />
 
         {/* flex-wrap, not a forced single line: a long localized date (e.g.
             Spanish "30 sept 2026" is wider than "3 oct 2026" since month

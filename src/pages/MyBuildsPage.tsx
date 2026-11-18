@@ -99,7 +99,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
 
   return (
     <div
-      className="flex flex-col gap-2.5 p-3 rounded-xl transition-shadow"
+      className="build-card flex flex-col gap-3 p-4 rounded-frame transition-colors"
       style={{
         background:   'var(--surface-panel)',
         borderTop:    '1px solid var(--gold-deep)',
@@ -117,7 +117,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
           <img src={portrait} alt="" width={44} height={44} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
         )}
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
+          <p className="font-display text-2xl truncate" style={{ color: 'var(--gold)' }}>{build.name}</p>
           <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{classLabel} · {t('level_short', { level: build.level })}</p>
         </div>
       </button>
@@ -129,7 +129,7 @@ function MyBuildCard({ build, onChanged, onDeleted }: {
         <span className="flex items-center gap-1"><MessageSquare size={11} />{build.comment_count}</span>
       </div>
 
-      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} size={34} hideEmpty />
+      <BuildEquipmentPreview snapshot={build.snapshot} equipment={equipment} classSlug={build.class_slug} gender={build.gender} />
 
       <div className="flex items-center gap-1.5 pt-1.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>
         <div ref={visMenuRef} className="relative">
