@@ -19,7 +19,7 @@ import {
   isIgnored,
   statIconUrl,
 } from "../../../src/features/equipment/statDisplay";
-import labels from "./stat-labels.json";
+import { useStatLabel } from "./stat-labels";
 import type { AppEffect, AppItem } from "../../../src/data/loaders";
 
 /** Effects production shows on an item card: no display-only junk, attacks apart for weapons. */
@@ -81,7 +81,8 @@ function EffectRow({ effect, attack }: { effect: AppEffect; attack?: boolean }) 
 
 /** Everything the old card showed, so an item reads without opening it. */
 export function ItemFactsList({ item }: { item: AppItem }) {
-  const { attack, stats, spells } = itemFacts(item);
+  const { t } = useTranslation(),
+    { attack, stats, spells } = itemFacts(item);
   return (
     <>
       {item.ability && (
@@ -95,8 +96,8 @@ export function ItemFactsList({ item }: { item: AppItem }) {
         </div>
       )}
       {attack.length > 0 && (
-        <section className="facts-group" aria-label="Ataque del arma">
-          <h5>Ataque</h5>
+        <section className="facts-group" aria-label={t("cat_v4_weapon_attack")}>
+          <h5>{t("cat_v4_attack")}</h5>
           <ul className="facts-effects is-attack">
             {attack.map((e, i) => (
               <EffectRow key={i} effect={e} attack />
@@ -105,8 +106,8 @@ export function ItemFactsList({ item }: { item: AppItem }) {
         </section>
       )}
       {stats.length > 0 && (
-        <section className="facts-group" aria-label="Efectos">
-          {attack.length > 0 && <h5>Efectos</h5>}
+        <section className="facts-group" aria-label={t("effects")}>
+          {attack.length > 0 && <h5>{t("effects")}</h5>}
           <ul className="facts-effects">
             {stats.map((e, i) => (
               <EffectRow key={i} effect={e} />
@@ -115,9 +116,9 @@ export function ItemFactsList({ item }: { item: AppItem }) {
         </section>
       )}
       {spells.length > 0 && (
-        <section className="facts-group" aria-label="Efectos sobre hechizos">
+        <section className="facts-group" aria-label={t("cat_v4_spell_effects")}>
           <h5>
-            <Sparkles size={11} aria-hidden="true" /> Efectos sobre hechizos
+            <Sparkles size={11} aria-hidden="true" /> {t("cat_v4_spell_effects")}
           </h5>
           <ul className="facts-spells">
             {spells.map((e, i) => {
@@ -178,7 +179,8 @@ export function ItemPeek({
   item: AppItem;
   children: ReactNode;
 }) {
-  const [open, setOpen] = useState(false),
+  const { t } = useTranslation(),
+    [open, setOpen] = useState(false),
     anchor = useRef<HTMLSpanElement>(null),
     card = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
@@ -210,7 +212,7 @@ export function ItemPeek({
             <img src={item.image_url || "/design-assets/forge-mark.svg"} alt="" />
             <span>
               <b>{item.name}</b>
-              <small>Niv. {item.level}</small>
+              <small>{t("cat_v4_level_short", { level: item.level })}</small>
             </span>
           </header>
           <ItemFactsList item={{ ...item, description: undefined }} />
@@ -241,7 +243,8 @@ export function ImpactDeltas({
 }: {
   preview: Partial<Record<(typeof DELTA_KEYS)[number], number>>;
 }) {
-  const stats = useBuildStore((s) => s.stats);
+  const stats = useBuildStore((s) => s.stats),
+    label = useStatLabel();
   return (
     <dl className="catalog-deltas">
       {DELTA_KEYS.map((key) => {
@@ -250,7 +253,7 @@ export function ImpactDeltas({
           diff = after - before;
         return (
           <div key={key} className={diff ? "has-change" : undefined}>
-            <dt>{labels[key]}</dt>
+            <dt>{label(key)}</dt>
             <dd>
               {before} <ArrowRight size={12} aria-hidden="true" /> <b>{after}</b>
               <em className={diff < 0 ? "negative" : diff > 0 ? "positive" : ""}>

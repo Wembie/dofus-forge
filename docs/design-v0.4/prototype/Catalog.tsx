@@ -183,7 +183,7 @@ export function Catalog({
       if (next) {
         setSlot(next);
         setSelected(null);
-        setNotice(`${item.name} equipado. Elige el siguiente Dofus.`);
+        setNotice(t("cat_v4_equipped_next", { name: item.name }));
         return;
       }
     }
@@ -211,7 +211,9 @@ export function Catalog({
     <Modal
       open
       onClose={onClose}
-      title={`Elegir ${slotLabel.toLocaleLowerCase()}`}
+      title={t("cat_v4_choose_slot", {
+        slot: slotLabel.toLocaleLowerCase(),
+      })}
       size="4xl"
       className="catalog-study"
     >
@@ -226,10 +228,10 @@ export function Catalog({
           <div className="catalog-toolbar-main">
             <label className="catalog-search">
               <Search size={18} aria-hidden="true" />
-              <span className="sr-only">Buscar objetos</span>
+              <span className="sr-only">{t("cat_v4_search_items")}</span>
               <input
                 autoFocus
-                placeholder="Nombre del objeto…"
+                placeholder={t("cat_v4_item_name")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -240,7 +242,7 @@ export function Catalog({
               onClick={() => setShowFilters(!showFilters)}
             >
               <SlidersHorizontal size={16} aria-hidden="true" />
-              Filtros
+              {t("cat_v4_filters")}
               {activeFilters > 0 && (
                 <span className="catalog-flag-count">{activeFilters}</span>
               )}
@@ -248,7 +250,7 @@ export function Catalog({
           </div>
           <div className="catalog-filters">
             <label>
-              Nivel mínimo
+              {t("a11y_level_min")}
               <select
                 value={range.min}
                 onChange={(e) =>
@@ -263,7 +265,7 @@ export function Catalog({
               </select>
             </label>
             <label>
-              Nivel máximo
+              {t("a11y_level_max")}
               <select
                 value={range.max}
                 onChange={(e) =>
@@ -274,23 +276,23 @@ export function Catalog({
               >
                 {LEVELS.map((n) => (
                   <option key={n} value={n}>
-                    {n || "Sin límite"}
+                    {n || t("cat_v4_level_any")}
                   </option>
                 ))}
               </select>
             </label>
             <label>
-              Orden
+              {t("cat_v4_sort")}
               <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option value="desc">Mayor nivel</option>
-                <option value="asc">Menor nivel</option>
-                <option value="name">Nombre A–Z</option>
+                <option value="desc">{t("cat_v4_sort_desc")}</option>
+                <option value="asc">{t("cat_v4_sort_asc")}</option>
+                <option value="name">{t("cat_v4_sort_name")}</option>
               </select>
             </label>
             <label className="catalog-filter-wide">
-              Panoplia
+              {t("cat_v4_set")}
               <select value={setId} onChange={(e) => setSetId(e.target.value)}>
-                <option value="">Todas</option>
+                <option value="">{t("explore_tag_all")}</option>
                 {options.sets.map((s) => (
                   <option key={s.ankama_id} value={s.ankama_id}>
                     {s.name}
@@ -302,11 +304,11 @@ export function Catalog({
           <div className="catalog-flags">
             <button
               aria-pressed={onlyFav}
-              aria-label={`Solo favoritos (${favCount})`}
+              aria-label={t("cat_v4_fav_only", { count: favCount })}
               onClick={() => setOnlyFav(!onlyFav)}
             >
               <Star size={15} aria-hidden="true" />
-              Favoritos
+              {t("cat_v4_favorites")}
               {favCount > 0 && <span className="catalog-flag-count">{favCount}</span>}
             </button>
             {options.legendary && (
@@ -315,7 +317,7 @@ export function Catalog({
                 onClick={() => setLegendary(!legendary)}
               >
                 <Crown size={14} aria-hidden="true" />
-                Legendarios
+                {t("catalog_legendary_only")}
               </button>
             )}
             <StatFilter
@@ -323,12 +325,12 @@ export function Catalog({
               selected={stats}
               onSelect={setStats}
             />
-            <button onClick={clear}>Limpiar</button>
+            <button onClick={clear}>{t("compare_clear_b")}</button>
           </div>
           {options.types.length > 1 && (
-            <div className="catalog-types" role="group" aria-label="Tipo de objeto">
+            <div className="catalog-types" role="group" aria-label={t("cat_v4_item_type")}>
               <button aria-pressed={!type} onClick={() => setType("")}>
-                Todos
+                {t("elem_all")}
               </button>
               {options.types.map((v) => (
                 <button
@@ -340,19 +342,19 @@ export function Catalog({
                 </button>
               ))}
               {query && type && (
-                <span>La búsqueda por nombre incluye todos los tipos</span>
+                <span>{t("cat_v4_name_all_types")}</span>
               )}
             </div>
           )}
         </header>
         <section
           className="catalog-browse"
-          aria-label="Resultados del catálogo"
+          aria-label={t("cat_v4_results")}
           ref={scroller}
         >
           <div className="catalog-results-heading">
-            <span>{list.length} objetos</span>
-            <span>Clic para equipar · pasa por encima para ver el cambio</span>
+            <span>{t("cat_v4_items_count", { count: list.length })}</span>
+            <span>{t("cat_v4_items_hint")}</span>
           </div>
           {notice && (
             <p className="catalog-notice" role="status">
@@ -389,7 +391,13 @@ export function Catalog({
                     <div>
                       <button
                         className="catalog-result-open"
-                        aria-label={`${it.name}: ${equipped ? "equipado" : blocked ? `ya en ${blocked}` : "equipar"}`}
+                        aria-label={
+                          equipped
+                            ? t("cat_v4_card_equipped", { name: it.name })
+                            : blocked
+                              ? t("cat_v4_card_in", { name: it.name, slot: blocked })
+                              : t("cat_v4_card_equip", { name: it.name })
+                        }
                         aria-disabled={equipped || !!blocked}
                         onClick={() => equip(it)}
                         onFocus={(e) =>
@@ -400,7 +408,8 @@ export function Catalog({
                         {it.name}
                       </button>
                       <small>
-                        Niv. {it.level} · {typeLabel(it.type)}
+                        {t("cat_v4_level_short", { level: it.level })} ·{" "}
+                        {typeLabel(it.type)}
                       </small>
                       {set && (
                         <button
@@ -414,14 +423,18 @@ export function Catalog({
                       {(equipped || blocked) && (
                         <span className="catalog-card-status">
                           <Check size={12} aria-hidden="true" />
-                          {equipped ? "Equipado" : `Ya en ${blocked}`}
+                          {equipped
+                            ? t("cat_v4_equipped")
+                            : t("cat_v4_already_in", { slot: blocked })}
                         </span>
                       )}
                     </div>
                     <span className="catalog-card-tools">
                       <button
                         className="catalog-favorite"
-                        aria-label={`${fav ? "Quitar de" : "Añadir a"} favoritos: ${it.name}`}
+                        aria-label={t(fav ? "cat_v4_fav_remove" : "cat_v4_fav_add", {
+                          name: it.name,
+                        })}
                         aria-pressed={fav}
                         onClick={() => favorites.toggle(it.ankama_id)}
                       >
@@ -429,8 +442,8 @@ export function Catalog({
                       </button>
                       <button
                         className="catalog-card-inspect"
-                        aria-label={`Ver el cambio de ${it.name}`}
-                        title="Ver qué cambia en tu build"
+                        aria-label={t("cat_v4_see_change", { name: it.name })}
+                        title={t("cat_v4_see_change_title")}
                         onClick={(e) => inspect(it, e.currentTarget)}
                       >
                         <ChartNoAxesColumn size={16} />
@@ -442,10 +455,10 @@ export function Catalog({
                   </div>
                   <footer className="catalog-card-cta" aria-hidden="true">
                     {equipped
-                      ? "Equipado"
+                      ? t("cat_v4_equipped")
                       : blocked
-                        ? `Ya equipado en ${blocked}`
-                        : <>Equipar <ArrowRight size={13} /></>}
+                        ? t("cat_v4_already_equipped_in", { slot: blocked })
+                        : <>{t("equip_item")} <ArrowRight size={13} /></>}
                   </footer>
                 </article>
               );
@@ -453,9 +466,9 @@ export function Catalog({
           </div>
           {!list.length && (
             <div className="catalog-empty">
-              <h3>No hay coincidencias</h3>
-              <p>Combina menos filtros o busca otro nombre.</p>
-              <button onClick={clear}>Restablecer filtros</button>
+              <h3>{t("cat_v4_no_matches")}</h3>
+              <p>{t("cat_v4_items_empty_hint")}</p>
+              <button onClick={clear}>{t("cat_v4_reset_filters")}</button>
             </div>
           )}
           {more && (
@@ -464,34 +477,32 @@ export function Catalog({
         </section>
         <aside
           className="catalog-inspection"
-          aria-label="Cambio en el equipo"
+          aria-label={t("cat_v4_build_change")}
         >
           {!selected ? (
             <div className="catalog-now">
-              <span className="catalog-kicker">Ahora en {slotLabel.toLowerCase()}</span>
+              <span className="catalog-kicker">
+                {t("cat_v4_now_in", { slot: slotLabel.toLowerCase() })}
+              </span>
               {worn ? (
                 <div className="catalog-item-heading is-small">
                   <img src={worn.image_url || "/design-assets/forge-mark.svg"} alt="" />
                   <div>
-                    <span>NIVEL {worn.level}</span>
+                    <span>{t("cat_v4_level_upper", { level: worn.level })}</span>
                     <h3>{worn.name}</h3>
                     <p>{typeLabel(worn.type)}</p>
                   </div>
                 </div>
               ) : (
-                <p className="catalog-now-empty">Espacio vacío</p>
+                <p className="catalog-now-empty">{t("cat_v4_empty_slot")}</p>
               )}
-              <p>
-                Cada tarjeta muestra todos sus efectos y se equipa con un clic.
-                Pasa el cursor por una pieza para ver aquí vida, PA, PM,
-                alcance, características y potencia antes y después.
-              </p>
+              <p>{t("cat_v4_items_intro")}</p>
             </div>
           ) : (
             <>
               <button className="catalog-back" onClick={back}>
                 <ArrowLeft size={17} />
-                Volver a los resultados
+                {t("cat_v4_back_results")}
               </button>
               <div className="catalog-item-heading">
                 <img
@@ -499,7 +510,7 @@ export function Catalog({
                   alt=""
                 />
                 <div>
-                  <span>NIVEL {selected.level}</span>
+                  <span>{t("cat_v4_level_upper", { level: selected.level })}</span>
                   <h3 tabIndex={-1} ref={detailRef}>
                     {selected.name}
                   </h3>
@@ -508,17 +519,19 @@ export function Catalog({
               </div>
               <p className="catalog-replaces">
                 {current
-                  ? "Es la pieza que llevas."
+                  ? t("cat_v4_is_worn")
                   : worn
-                    ? `Reemplaza ${worn.name}`
-                    : "Ocupa un espacio vacío"}
+                    ? t("cat_v4_replaces", { name: worn.name })
+                    : t("cat_v4_fills_empty")}
               </p>
               {selected.set_id != null && setById.get(selected.set_id) && (
                 <button
                   className="catalog-panel-set"
                   onClick={() => setSetDetail(setById.get(selected.set_id!)!)}
                 >
-                  Panoplia: {setById.get(selected.set_id)!.name}
+                  {t("cat_v4_set_named", {
+                    name: setById.get(selected.set_id)!.name,
+                  })}
                   <ArrowRight size={13} aria-hidden="true" />
                 </button>
               )}
@@ -526,16 +539,13 @@ export function Catalog({
                 <ItemFactsList item={selected} />
               </div>
               <h4>
-                En tu equipo <span>Actual → con esta pieza</span>
+                {t("cat_v4_in_build")} <span>{t("cat_v4_now_with_piece")}</span>
               </h4>
               {preview && <ImpactDeltas preview={preview} />}
-              <p className="catalog-footnote">
-                Incluye las bonificaciones de panoplia. Cambiar la pieza retira
-                las runas del espacio.
-              </p>
+              <p className="catalog-footnote">{t("cat_v4_item_footnote")}</p>
               {!!selected.conditions?.length && (
                 <div className="catalog-conditions">
-                  <h4>Condiciones para equipar</h4>
+                  <h4>{t("cat_v4_equip_conditions")}</h4>
                   {selected.conditions.map((c, i) => (
                     <p key={i}>
                       {STAT_META[c.stat] ? t(STAT_META[c.stat].tKey) : c.stat}{" "}
@@ -547,12 +557,12 @@ export function Catalog({
               <div className="catalog-equip">
                 <p>
                   {current
-                    ? "Este objeto ya está equipado."
+                    ? t("cat_v4_already_equipped")
                     : block
-                      ? `Ya ocupado en ${t("slot_" + block.slot)}. Revisa ese espacio antes de continuar.`
+                      ? t("cat_v4_occupied_in", { slot: t("slot_" + block.slot) })
                       : selected.level > build.level
-                        ? "El nivel de este objeto supera el nivel de tu personaje."
-                        : `Reemplaza el objeto del espacio ${slotLabel.toLowerCase()}.`}
+                        ? t("cat_v4_level_over")
+                        : t("cat_v4_replaces_slot", { slot: slotLabel.toLowerCase() })}
                 </p>
                 {slot.startsWith("dofus") && (
                   <label>
@@ -561,7 +571,7 @@ export function Catalog({
                       checked={continueDofus}
                       onChange={(e) => setContinueDofus(e.target.checked)}
                     />
-                    Continuar al siguiente espacio vacío
+                    {t("cat_v4_continue_next")}
                   </label>
                 )}
                 <button
@@ -570,8 +580,8 @@ export function Catalog({
                   onClick={() => equip(selected)}
                 >
                   {current
-                    ? "Equipado"
-                    : `Equipar en ${slotLabel.toLowerCase()}`}
+                    ? t("cat_v4_equipped")
+                    : t("cat_v4_equip_in", { slot: slotLabel.toLowerCase() })}
                   <ArrowRight size={17} />
                 </button>
               </div>

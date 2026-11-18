@@ -7,7 +7,7 @@ import { useClassName } from "../../../src/features/class-picker/useClassName";
 import { langPathRootSegment } from "../../../src/i18n/langPath";
 import { useAccountLocale } from "./Account";
 import { equipment, visibleSlots } from "./model";
-import labels from "./stat-labels.json";
+import { STAT_LABEL_KEYS, useStatLabel } from "./stat-labels";
 import type { StatBlock } from "../../../src/engine/types";
 import type { SlotId } from "../../../src/store/buildStore";
 
@@ -24,7 +24,8 @@ export function SharePanel() {
     ref = useRef<HTMLDivElement>(null),
     [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null),
     [busy, setBusy] = useState(false),
-    [show, setShow] = useState(false);
+    [show, setShow] = useState(false),
+    label = useStatLabel();
   const ready = Boolean(b.selectedClass && b.stats),
     url = b.selectedClass ? shareUrl(i18n.language) : "";
   const slotName = (slot: SlotId) =>
@@ -67,7 +68,7 @@ export function SharePanel() {
       </div>
     );
   const stats = b.stats!,
-    entries = Object.entries(labels) as [keyof StatBlock, string][];
+    entries = STAT_LABEL_KEYS.map((key) => [key, label(key)] as [keyof StatBlock, string]);
   return (
     <div className="surface-form">
       <p>{t("share_v4_intro")}</p>
@@ -187,7 +188,7 @@ export function SharePanel() {
               >
                 {(["maxHp", "ap", "mp", "range", "critChance", "power"] as const).map((key) => (
                   <div key={key}>
-                    <span style={{ fontSize: 13, color: "#a1aaa0" }}>{labels[key]}</span>
+                    <span style={{ fontSize: 13, color: "#a1aaa0" }}>{label(key)}</span>
                     <strong
                       style={{
                         display: "block",

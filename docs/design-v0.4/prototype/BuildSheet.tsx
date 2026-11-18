@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import i18n from "i18next";
+import { useTranslation } from "react-i18next";
 import {
   CharacterRenderer,
   type Entity,
@@ -31,18 +33,19 @@ const DOFUS: SlotId[] = [
   "dofus5",
   "dofus6",
 ];
+/** Translation keys of the slot names in tile tooltips. */
 const SLOT_NAMES: Record<string, string> = {
-  hat: "Sombrero",
-  cape: "Capa",
-  weapon: "Arma",
-  shield: "Escudo",
-  companion: "Mascota o montura",
-  amulet: "Amuleto",
-  ring1: "Anillo I",
-  ring2: "Anillo II",
-  belt: "Cinturón",
-  boots: "Botas",
-  sidekick: "Multiman",
+  hat: "slot_hat",
+  cape: "slot_cape",
+  weapon: "slot_weapon",
+  shield: "slot_shield",
+  companion: "cat_v4_slot_companion",
+  amulet: "slot_amulet",
+  ring1: "cat_v4_slot_ring1",
+  ring2: "cat_v4_slot_ring2",
+  belt: "slot_belt",
+  boots: "slot_boots",
+  sidekick: "cat_v4_slot_sidekick",
 };
 
 type Box = [number, number, number, number];
@@ -233,10 +236,10 @@ export interface SheetBuild {
   >;
 }
 const ELEMENTS = [
-  ["strength", "earth", "Tierra"],
-  ["intelligence", "fire", "Fuego"],
-  ["chance", "water", "Agua"],
-  ["agility", "air", "Aire"],
+  ["strength", "earth", "elem_earth"],
+  ["intelligence", "fire", "elem_fire"],
+  ["chance", "water", "elem_water"],
+  ["agility", "air", "elem_air"],
 ] as const;
 
 /** PA, PM, range and leading element of an example, computed by the product's engine. */
@@ -271,10 +274,19 @@ export function sheetStats(build: SheetBuild) {
 export function sheetVitals(build: SheetBuild) {
   const stats = sheetStats(build);
   if (!stats) return null;
-  const [, element, label] = ELEMENTS.reduce((best, next) =>
+  const [, element, labelKey] = ELEMENTS.reduce((best, next) =>
     stats[next[0]] > stats[best[0]] ? next : best,
   );
-  return { ap: stats.ap, mp: stats.mp, range: stats.range, element, label };
+  return {
+    ap: stats.ap,
+    mp: stats.mp,
+    range: stats.range,
+    element,
+    /** Read at render, so a stored result follows the page's language. */
+    get label() {
+      return i18n.t(labelKey);
+    },
+  };
 }
 
 export function BuildSheet({
@@ -284,6 +296,7 @@ export function BuildSheet({
   build: SheetBuild;
   items: Map<number, AppItem>;
 }) {
+  const { t } = useTranslation();
   const info = CLASS_DATA.find((c) => c.id === build.classId)!;
   const companion = build.slots.companion || 0;
   const key = `${info.breed}:${build.gender}:${companion}`;
@@ -302,14 +315,14 @@ export function BuildSheet({
   const tile = (slot: SlotId, extra = "") => {
     const id = build.slots[slot];
     const item = id ? items.get(id) : undefined;
-    const place = slot.startsWith("dofus")
-      ? "Dofus o trofeo"
-      : SLOT_NAMES[slot];
+    const place = t(
+      slot.startsWith("dofus") ? "cat_v4_slot_dofus" : SLOT_NAMES[slot],
+    );
     return (
       <span
         key={slot}
         className={"sheet-tile" + (item ? "" : " is-empty") + extra}
-        title={item ? item.name : place + " · vacío"}
+        title={item ? item.name : t("cat_v4_tile_empty", { slot: place })}
       >
         {item?.image_url ? (
           <img src={item.image_url} alt="" loading="lazy" decoding="async" />
@@ -324,7 +337,9 @@ export function BuildSheet({
   ).length;
   return (
     <span className="build-sheet">
-      <span className="sr-only">{worn} de 16 espacios equipados.</span>
+      <span className="sr-only">
+        {t("cat_v4_slots_worn", { count: worn })}
+      </span>
       <span className="sheet-column">{LEFT.map((slot) => tile(slot))}</span>
       <span className="sheet-stage">
         <span className="sheet-arch" />

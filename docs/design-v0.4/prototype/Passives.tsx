@@ -23,7 +23,8 @@ import "./tools.css";
 
 /** Which numbers the workshop shows: the gear alone, or the gear with the passives you switch on. */
 export function CombatSwitch() {
-  const combat = useCombatView(),
+  const { t } = useTranslation(),
+    combat = useCombatView(),
     active = useBuildStore(
       (s) =>
         Object.values(s.equipped).filter(
@@ -36,29 +37,32 @@ export function CombatSwitch() {
     );
   return (
     <div className="view-switch">
-      <div role="radiogroup" aria-label="Estadísticas que muestra el taller">
+      <div role="radiogroup" aria-label={t("tool_v4_passives_switch")}>
         <button
           role="radio"
           aria-checked={!combat}
           onClick={() => setCombatView(false)}
         >
-          Equipo
+          {t("combat_view_gear")}
         </button>
         <button
           role="radio"
           aria-checked={combat}
           onClick={() => setCombatView(true)}
         >
-          En combate
-          <span className="view-count" aria-label={`${active} pasivos activos`}>
+          {t("combat_view_combat")}
+          <span
+            className="view-count"
+            aria-label={t("tool_v4_passives_active_count", { count: active })}
+          >
             {active}
           </span>
         </button>
       </div>
       <p>
         {combat
-          ? "La ficha y las características del taller suman los pasivos que actives aquí."
-          : "La ficha del taller muestra solo tu equipo. Hechizos y combate cuentan siempre los pasivos activos."}
+          ? t("tool_v4_passives_combat_hint")
+          : t("tool_v4_passives_gear_hint")}
       </p>
     </div>
   );
@@ -85,7 +89,8 @@ function Control({
   control: PassiveControl;
   item: AppItem;
 }) {
-  const state = useBuildStore((s) => s.passives),
+  const { t } = useTranslation(),
+    state = useBuildStore((s) => s.passives),
     setPassive = useBuildStore((s) => s.setPassive),
     value = state[control.id] ?? 0,
     set = (next: number) => setPassive(control.id, next);
@@ -95,11 +100,11 @@ function Control({
       <div className="passive-stacks">
         <p>
           <Bonus bonus={control.perStack} />
-          <span>por acumulación</span>
+          <span>{t("passives_per_stack")}</span>
         </p>
         <div>
           <button
-            aria-label={`Quitar una acumulación de ${item.name}`}
+            aria-label={t("tool_v4_passives_stack_less", { name: item.name })}
             disabled={value <= 0}
             onClick={() => set(value - 1)}
           >
@@ -110,12 +115,12 @@ function Control({
             min={0}
             max={control.max}
             value={value}
-            aria-label={`Acumulaciones de ${item.name}`}
-            aria-valuetext={`${value} de ${control.max}`}
+            aria-label={t("tool_v4_passives_stacks_of", { name: item.name })}
+            aria-valuetext={t("tool_v4_passives_stacks_value", { value, max: control.max })}
             onChange={(e) => set(Math.min(Number(e.target.value), room))}
           />
           <button
-            aria-label={`Añadir una acumulación a ${item.name}`}
+            aria-label={t("tool_v4_passives_stack_more", { name: item.name })}
             disabled={value >= room}
             onClick={() => set(value + 1)}
           >
@@ -140,7 +145,7 @@ function Control({
         <i />
         <span>
           {control.options[0].turn != null && (
-            <em>Turno {control.options[0].turn}</em>
+            <em>{t("passives_turn", { n: control.options[0].turn })}</em>
           )}
           <Bonus bonus={control.options[0].bonus} />
         </span>
@@ -151,10 +156,10 @@ function Control({
     <div
       className="passive-options"
       role="radiogroup"
-      aria-label={`Caso activo de ${item.name}`}
+      aria-label={t("tool_v4_passives_case", { name: item.name })}
     >
       <button role="radio" aria-checked={value === 0} onClick={() => set(0)}>
-        Sin activar
+        {t("tool_v4_passives_off")}
       </button>
       {control.options.map((option, i) => (
         <button
@@ -163,7 +168,7 @@ function Control({
           aria-checked={value === i + 1}
           onClick={() => set(i + 1)}
         >
-          {option.turn != null && <em>Turno {option.turn}</em>}
+          {option.turn != null && <em>{t("passives_turn", { n: option.turn })}</em>}
           <Bonus bonus={option.bonus} />
         </button>
       ))}
@@ -172,7 +177,8 @@ function Control({
 }
 
 function Passive({ item }: { item: AppItem }) {
-  const state = useBuildStore((s) => s.passives),
+  const { t } = useTranslation(),
+    state = useBuildStore((s) => s.passives),
     [open, setOpen] = useState(false);
   const controls = ITEM_PASSIVES.get(item.ankama_id) ?? [],
     active = controls.some((c) => (state[c.id] ?? 0) > 0),
@@ -191,10 +197,10 @@ function Passive({ item }: { item: AppItem }) {
           <small>
             {ability && ability !== item.name ? ability + " · " : ""}
             {!controls.length
-              ? "sin efecto en estadísticas"
+              ? t("tool_v4_passives_no_stats")
               : active
-                ? "activo"
-                : "sin activar"}
+                ? t("tool_v4_passives_on_state")
+                : t("tool_v4_passives_off_state")}
           </small>
         </span>
       </div>
@@ -203,13 +209,11 @@ function Passive({ item }: { item: AppItem }) {
           <Control key={control.id} control={control} item={item} />
         ))}
         {!controls.length && (
-          <p className="passive-plain">
-            Da escudos, curas o estados: no cambia las cifras del taller.
-          </p>
+          <p className="passive-plain">{t("tool_v4_passives_text_only")}</p>
         )}
         {cap != null && (
           <p className="passive-plain">
-            Acumulaciones compartidas: {used} de {cap}.
+            {t("tool_v4_passives_shared", { used, cap })}
           </p>
         )}
         {bullets.some(Boolean) && (
@@ -220,7 +224,7 @@ function Passive({ item }: { item: AppItem }) {
               onClick={() => setOpen(!open)}
             >
               <ChevronDown size={14} />
-              {open ? "Ocultar texto del juego" : "Ver texto del juego"}
+              {open ? t("tool_v4_passives_hide_text") : t("tool_v4_passives_show_text")}
             </button>
             {open && (
               <ul>
@@ -238,7 +242,8 @@ function Passive({ item }: { item: AppItem }) {
 
 /** One row per equipped item with a passive: what it gives, set to the state you want to read. */
 export function Passives() {
-  const equipped = useBuildStore((s) => s.equipped),
+  const { t } = useTranslation(),
+    equipped = useBuildStore((s) => s.equipped),
     state = useBuildStore((s) => s.passives),
     setPassive = useBuildStore((s) => s.setPassive);
   const items = visibleSlots
@@ -258,25 +263,22 @@ export function Passives() {
       <CombatSwitch />
       {!items.length ? (
         <div className="tool-empty">
-          <h3>Tu equipo no tiene pasivos de combate</h3>
-          <p>
-            Aparecen al equipar Dofus, prismaraditas u objetos legendarios con
-            un efecto que se activa durante el combate.
-          </p>
+          <h3>{t("tool_v4_passives_empty_title")}</h3>
+          <p>{t("tool_v4_passives_empty_body")}</p>
         </div>
       ) : (
         <>
           <div className="passive-total" aria-live="polite">
-            <span>Suma de pasivos activos</span>
+            <span>{t("tool_v4_passives_total")}</span>
             {any ? (
               <Bonus bonus={total} />
             ) : (
-              <em>Ninguno activo todavía</em>
+              <em>{t("tool_v4_passives_none_active")}</em>
             )}
             {activeIds.length > 0 && (
               <button onClick={() => activeIds.forEach((id) => setPassive(id, 0))}>
                 <RotateCcw size={14} />
-                Restablecer
+                {t("tool_v4_passives_reset")}
               </button>
             )}
           </div>
@@ -285,10 +287,7 @@ export function Passives() {
               <Passive key={it.ankama_id} item={it} />
             ))}
           </ul>
-          <p className="passive-plain">
-            Actívalos según cómo va el combate. Se suman al daño de hechizos y
-            armas y a la simulación de combate.
-          </p>
+          <p className="passive-plain">{t("tool_v4_passives_note")}</p>
         </>
       )}
     </div>

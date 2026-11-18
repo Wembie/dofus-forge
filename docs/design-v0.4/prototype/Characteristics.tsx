@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useBuildStore } from "../../../src/store/buildStore";
 import { useCombatStats } from "../../../src/store/useCombatStats";
 import {
@@ -18,13 +19,13 @@ import {
 import { statIconUrl } from "../../../src/features/equipment/statDisplay";
 import "./tools.css";
 
-const NAMES: Record<Characteristic, string> = {
-  vitality: "Vitalidad",
-  wisdom: "Sabiduría",
-  strength: "Fuerza",
-  intelligence: "Inteligencia",
-  chance: "Suerte",
-  agility: "Agilidad",
+const NAME_KEYS: Record<Characteristic, string> = {
+  vitality: "char_vitality",
+  wisdom: "char_wisdom",
+  strength: "char_strength",
+  intelligence: "char_intelligence",
+  chance: "char_chance",
+  agility: "char_agility",
 };
 const ELEMENTAL = new Set<Characteristic>([
   "strength",
@@ -32,11 +33,12 @@ const ELEMENTAL = new Set<Characteristic>([
   "chance",
   "agility",
 ]);
-/** Thousands are always grouped, as in the workshop sheet (the "es" locale skips four-digit numbers). */
-const number = {
-  format: (n: number) =>
-    String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-};
+/** Thousands are always grouped, as in the workshop sheet (the "es" locale skips four-digit numbers by default). */
+const formatNumber = (n: number, lang: string) =>
+  new Intl.NumberFormat(lang, {
+    useGrouping: "always" as unknown as boolean,
+    maximumFractionDigits: 0,
+  }).format(Math.round(n));
 
 /** Step size as in production: Shift = 5, Ctrl/⌘ = 20, otherwise 1. */
 const step = (e: { shiftKey: boolean; ctrlKey: boolean; metaKey: boolean }) =>
@@ -95,7 +97,8 @@ function Points({
   value: number;
   onCommit: (target: number) => void;
 }) {
-  const [text, setText] = useState(String(value)),
+  const { t } = useTranslation(),
+    [text, setText] = useState(String(value)),
     editing = useRef(false);
   useEffect(() => {
     if (!editing.current) setText(String(value));
@@ -103,7 +106,7 @@ function Points({
   return (
     <input
       inputMode="numeric"
-      aria-label={"Puntos en " + NAMES[char]}
+      aria-label={t("tool_v4_chars_points_in", { name: t(NAME_KEYS[char]) })}
       value={text}
       onFocus={(e) => {
         editing.current = true;
@@ -121,8 +124,8 @@ function Points({
   );
 }
 
-const signedDelta = (n: number) =>
-  (n > 0 ? "+" : "−") + number.format(Math.abs(n));
+const signedDelta = (n: number, lang: string) =>
+  (n > 0 ? "+" : "−") + formatNumber(Math.abs(n), lang);
 
 function Step({
   label,
@@ -135,11 +138,12 @@ function Step({
   apply: (n: number) => void;
   children: React.ReactNode;
 }) {
-  const hold = useHold(apply);
+  const { t } = useTranslation(),
+    hold = useHold(apply);
   return (
     <button
       aria-label={label}
-      title={label + " (Mayús ×5, Ctrl ×20, mantener para repetir)"}
+      title={t("tool_v4_chars_step_title", { label })}
       disabled={disabled}
       {...hold}
     >
@@ -150,7 +154,11 @@ function Step({
 
 /** One row per characteristic: scroll, points and the resulting total, read left to right. */
 export function Characteristics() {
-  const b = useBuildStore(),
+  const { t, i18n } = useTranslation(),
+    lang = i18n.language,
+    number = { format: (n: number) => formatNumber(n, lang) },
+    name = (char: Characteristic) => t(NAME_KEYS[char]),
+    b = useBuildStore(),
     gear = b.stats,
     combatStats = useCombatStats(),
     combatView = useCombatView(),
@@ -176,30 +184,33 @@ export function Characteristics() {
       <div className="chars-budget">
         <p>
           <strong>{number.format(left)}</strong>
-          {left === 1 ? " punto por repartir" : " puntos por repartir"}
+          {" " + t("tool_v4_chars_left", { count: left })}
           <span>
-            {number.format(spent)} de {number.format(budget)} usados · nivel{" "}
-            {b.level}
+            {t("tool_v4_chars_used", {
+              spent: number.format(spent),
+              budget: number.format(budget),
+              level: b.level,
+            })}
           </span>
         </p>
         <div
           className="chars-meter"
           role="img"
-          aria-label={`${spent} de ${budget} puntos usados`}
+          aria-label={t("tool_v4_chars_meter", { spent, budget })}
         >
           <i style={{ width: (budget ? (spent / budget) * 100 : 0) + "%" }} />
         </div>
       </div>
       {combat && (
         <p className="chars-note">
-          Vista en combate: los totales incluyen tus pasivos activos.
+          {t("tool_v4_chars_combat_note")}
         </p>
       )}
       <div className="chars-head" aria-hidden="true">
-        <span>Característica</span>
-        <span>Pergamino</span>
-        <span>Puntos</span>
-        <span>Total</span>
+        <span>{t("tool_v4_chars_col_characteristic")}</span>
+        <span>{t("tool_v4_chars_col_scroll")}</span>
+        <span>{t("tool_v4_chars_col_points")}</span>
+        <span>{t("weapon_total")}</span>
       </div>
       {CHARACTERISTICS.map((char) => {
         const points = b.allocated[char],
@@ -214,29 +225,30 @@ export function Characteristics() {
           <div
             className={"chars-row" + (char === "strength" ? " starts-group" : "")}
             role="group"
-            aria-label={NAMES[char]}
+            aria-label={name(char)}
             key={char}
           >
             <div className="chars-name">
               <img src={statIconUrl(char)} alt="" />
               <span>
-                <b>{NAMES[char]}</b>
-                <small>
-                  {next === 1 ? "1 punto" : `${next} puntos`} por unidad
-                </small>
+                <b>{name(char)}</b>
+                <small>{t("tool_v4_chars_per_unit", { count: next })}</small>
               </span>
             </div>
             <button
               className="chars-scroll"
               aria-pressed={b.scrolled[char]}
-              aria-label={`Pergamino de ${NAMES[char]}, +${SCROLL_BONUS}`}
+              aria-label={t("tool_v4_chars_scroll_label", {
+                name: name(char),
+                bonus: SCROLL_BONUS,
+              })}
               onClick={() => b.toggleScroll(char)}
             >
               +{SCROLL_BONUS}
             </button>
             <div className="chars-points">
               <Step
-                label={`Quitar puntos de ${NAMES[char]}`}
+                label={t("tool_v4_chars_remove", { name: name(char) })}
                 disabled={points <= 0}
                 apply={(n) => b.removePoints(char, n)}
               >
@@ -248,7 +260,7 @@ export function Characteristics() {
                 onCommit={(target) => commit(char, target)}
               />
               <Step
-                label={`Añadir puntos a ${NAMES[char]}`}
+                label={t("tool_v4_chars_add", { name: name(char) })}
                 disabled={left < next}
                 apply={(n) => b.addPoints(char, n)}
               >
@@ -256,27 +268,27 @@ export function Characteristics() {
               </Step>
               <button
                 className="chars-max"
-                aria-label={`Asignar el máximo posible a ${NAMES[char]}`}
+                aria-label={t("tool_v4_chars_max_label", { name: name(char) })}
                 disabled={most <= points}
                 onClick={() => commit(char, most)}
               >
-                Máx.
+                {t("tool_v4_chars_max")}
               </button>
             </div>
             <div className="chars-total">
               <strong>
                 {number.format(total)}
                 {combat && gear && total !== (char === "vitality" ? gear.maxHp : gear[char]) && (
-                  <em title="Lo que suman tus pasivos de combate">
-                    {signedDelta(total - (char === "vitality" ? gear.maxHp : gear[char]))}
+                  <em title={t("tool_v4_chars_passive_delta")}>
+                    {signedDelta(total - (char === "vitality" ? gear.maxHp : gear[char]), lang)}
                   </em>
                 )}
               </strong>
               <small>
                 {char === "vitality"
-                  ? "puntos de vida"
+                  ? t("tool_v4_chars_hp")
                   : ELEMENTAL.has(char) && power > 0
-                    ? `${number.format(total + power)} con potencia`
+                    ? t("tool_v4_chars_with_power", { value: number.format(total + power) })
                     : " "}
               </small>
             </div>
@@ -285,14 +297,20 @@ export function Characteristics() {
       })}
       <div className="chars-foot">
         <p>
-          Mantén pulsado − o + para repetir; con Mayús suma de 5 en 5 y con
-          Ctrl de 20 en 20.{" "}
+          {t("tool_v4_chars_hint")}{" "}
           {power > 0
-            ? `Tu potencia (+${number.format(power)}${powerFromPassives ? `, ${signedDelta(powerFromPassives)} por pasivos` : ""}) se suma a Fuerza, Inteligencia, Suerte y Agilidad al calcular daños.`
-            : "La potencia de tu equipo se suma a las cuatro características elementales al calcular daños."}
+            ? t("tool_v4_chars_power", {
+                power: number.format(power),
+                passives: powerFromPassives
+                  ? t("tool_v4_chars_power_passives", {
+                      delta: signedDelta(powerFromPassives, lang),
+                    })
+                  : "",
+              })
+            : t("tool_v4_chars_power_gear")}
         </p>
         <button onClick={() => b.setAllScrolls(!everyScroll)}>
-          {everyScroll ? "Quitar todos los pergaminos" : "Usar todos los pergaminos"}
+          {everyScroll ? t("tool_v4_chars_scrolls_off") : t("tool_v4_chars_scrolls_on")}
         </button>
       </div>
     </div>

@@ -46,7 +46,7 @@ const level = (e: Entry) =>
 
 function Bonus({ effects }: { effects: AppEffect[] }) {
   const { t } = useTranslation();
-  if (!effects.length) return <span>Sin efectos de combate</span>;
+  if (!effects.length) return <span>{t("cat_v4_no_effects")}</span>;
   return (
     <>
       {effects.map((e, i) => {
@@ -218,7 +218,7 @@ export function Sets({
     <Modal
       open
       onClose={onClose}
-      title="Panoplias"
+      title={t("cat_v4_sets")}
       size="4xl"
       className="catalog-study"
     >
@@ -229,10 +229,10 @@ export function Sets({
           <div className="catalog-toolbar-main">
             <label className="catalog-search">
               <Search size={18} aria-hidden="true" />
-              <span className="sr-only">Buscar panoplias</span>
+              <span className="sr-only">{t("cat_v4_search_sets")}</span>
               <input
                 autoFocus
-                placeholder="Nombre de la panoplia…"
+                placeholder={t("cat_v4_set_name")}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -240,7 +240,7 @@ export function Sets({
           </div>
           <div className="catalog-filters">
             <label>
-              Nivel mínimo
+              {t("a11y_level_min")}
               <select
                 value={range.min}
                 onChange={(e) =>
@@ -255,7 +255,7 @@ export function Sets({
               </select>
             </label>
             <label>
-              Nivel máximo
+              {t("a11y_level_max")}
               <select
                 value={range.max}
                 onChange={(e) =>
@@ -266,24 +266,24 @@ export function Sets({
               >
                 {LEVELS.map((n) => (
                   <option key={n} value={n}>
-                    {n || "Sin límite"}
+                    {n || t("cat_v4_level_any")}
                   </option>
                 ))}
               </select>
             </label>
             <label>
-              Orden
+              {t("cat_v4_sort")}
               <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option value="desc">Mayor nivel</option>
-                <option value="asc">Menor nivel</option>
-                <option value="pieces">Más piezas</option>
-                <option value="name">Nombre A–Z</option>
+                <option value="desc">{t("cat_v4_sort_desc")}</option>
+                <option value="asc">{t("cat_v4_sort_asc")}</option>
+                <option value="pieces">{t("cat_v4_sort_pieces")}</option>
+                <option value="name">{t("cat_v4_sort_name")}</option>
               </select>
             </label>
           </div>
-          <div className="catalog-types" role="group" aria-label="Número de piezas">
+          <div className="catalog-types" role="group" aria-label={t("cat_v4_piece_count_label")}>
             <button aria-pressed={!pieces} onClick={() => setPieces(0)}>
-              Todas
+              {t("explore_tag_all")}
             </button>
             {sizes.map((n) => (
               <button
@@ -291,19 +291,19 @@ export function Sets({
                 aria-pressed={pieces === n}
                 onClick={() => setPieces(pieces === n ? 0 : n)}
               >
-                {n} piezas
+                {t("cat_v4_pieces", { count: n })}
               </button>
             ))}
           </div>
         </header>
         <section
           className="catalog-browse"
-          aria-label="Panoplias del catálogo"
+          aria-label={t("cat_v4_sets_results")}
           ref={scroller}
         >
           <div className="catalog-results-heading">
-            <span>{list.length} panoplias</span>
-            <span>Clic para equipar · pasa por encima para ver el detalle</span>
+            <span>{t("cat_v4_sets_count", { count: list.length })}</span>
+            <span>{t("cat_v4_sets_hint")}</span>
           </div>
           <div className="catalog-grid is-sets">
             {visible.map((e) => {
@@ -326,7 +326,16 @@ export function Sets({
                     <div>
                       <button
                         className="catalog-result-open"
-                        aria-label={`${e.set.name}: ${placeable ? `equipar ${placeable} ${placeable === 1 ? "pieza" : "piezas"}` : complete ? "equipada" : "sin espacio libre"}`}
+                        aria-label={
+                          placeable
+                            ? t("cat_v4_set_card_equip", {
+                                name: e.set.name,
+                                count: placeable,
+                              })
+                            : complete
+                              ? t("cat_v4_set_card_equipped", { name: e.set.name })
+                              : t("cat_v4_set_card_no_room", { name: e.set.name })
+                        }
                         aria-disabled={!placeable}
                         onClick={() => equipSet(e)}
                         onFocus={(event) =>
@@ -337,21 +346,27 @@ export function Sets({
                         {e.set.name}
                       </button>
                       <small>
-                        Niv. {level(e)} · {e.items.length} piezas
+                        {t("cat_v4_level_pieces", {
+                          level: level(e),
+                          count: e.items.length,
+                        })}
                       </small>
                     </div>
                     <span className="catalog-card-tools">
                       <span
                         className="set-card-count"
-                        aria-label={`${mine} de ${e.items.length} en tu equipo`}
+                        aria-label={t("cat_v4_worn_of", {
+                          worn: mine,
+                          total: e.items.length,
+                        })}
                       >
                         {complete && <Check size={12} aria-hidden="true" />}
                         {mine}/{e.items.length}
                       </span>
                       <button
                         className="catalog-card-inspect"
-                        aria-label={`Ver el detalle de ${e.set.name}`}
-                        title="Ver dónde va cada pieza"
+                        aria-label={t("cat_v4_see_detail", { name: e.set.name })}
+                        title={t("cat_v4_see_detail_title")}
                         onClick={(event) => {
                           lastRow.current = event.currentTarget;
                           setSelected(e);
@@ -361,7 +376,7 @@ export function Sets({
                       </button>
                     </span>
                   </header>
-                  <ul className="set-card-pieces" aria-label="Piezas">
+                  <ul className="set-card-pieces" aria-label={t("sets_sort_pieces")}>
                     {e.items.map((it) => (
                       <li
                         key={it.ankama_id}
@@ -381,7 +396,7 @@ export function Sets({
                   </ul>
                   {e.topBonus.length > 0 && (
                     <div className="set-card-bonus">
-                      <h5>Con {e.top} piezas</h5>
+                      <h5>{t("cat_v4_with_pieces", { count: e.top })}</h5>
                       <p className="set-tier-effects">
                         <Bonus effects={e.topBonus} />
                       </p>
@@ -390,13 +405,13 @@ export function Sets({
                   <footer className="catalog-card-cta" aria-hidden="true">
                     {placeable ? (
                       <>
-                        Equipar {placeable} {placeable === 1 ? "pieza" : "piezas"}
+                        {t("cat_v4_equip_pieces", { count: placeable })}
                         <ArrowRight size={13} />
                       </>
                     ) : complete ? (
-                      "Panoplia equipada"
+                      t("cat_v4_set_equipped")
                     ) : (
-                      "Sin espacio libre"
+                      t("cat_v4_no_room")
                     )}
                   </footer>
                 </article>
@@ -405,9 +420,9 @@ export function Sets({
           </div>
           {!list.length && (
             <div className="catalog-empty">
-              <h3>No hay coincidencias</h3>
-              <p>Amplía el rango de nivel o busca otro nombre.</p>
-              <button onClick={clear}>Restablecer filtros</button>
+              <h3>{t("cat_v4_no_matches")}</h3>
+              <p>{t("cat_v4_sets_empty_hint")}</p>
+              <button onClick={clear}>{t("cat_v4_reset_filters")}</button>
             </div>
           )}
           {more && (
@@ -416,11 +431,11 @@ export function Sets({
         </section>
         <aside
           className="catalog-inspection"
-          aria-label="Piezas, bonificaciones y cambio en el equipo"
+          aria-label={t("cat_v4_sets_panel")}
         >
           {!selected ? (
             <div className="catalog-now">
-              <span className="catalog-kicker">Panoplias en tu equipo</span>
+              <span className="catalog-kicker">{t("cat_v4_sets_in_build")}</span>
               {wornSets.length ? (
                 <ul className="set-worn">
                   {wornSets.map(({ e, n }) => (
@@ -441,29 +456,27 @@ export function Sets({
                   ))}
                 </ul>
               ) : (
-                <p className="catalog-now-empty">Ninguna pieza de panoplia</p>
+                <p className="catalog-now-empty">{t("cat_v4_no_set_piece")}</p>
               )}
-              <p>
-                Cada tarjeta muestra sus piezas y la bonificación completa, y
-                se equipa con un clic. Pasa el cursor por una para ver aquí
-                dónde va cada pieza, qué bonificación alcanzas y cómo cambia
-                tu build.
-              </p>
+              <p>{t("cat_v4_sets_intro")}</p>
             </div>
           ) : (
             <>
               <button className="catalog-back" onClick={back}>
                 <ArrowLeft size={17} />
-                Volver a las panoplias
+                {t("cat_v4_back_sets")}
               </button>
               <div className="catalog-item-heading set-heading">
                 <div>
-                  <span>NIVEL {level(selected)}</span>
+                  <span>{t("cat_v4_level_upper", { level: level(selected) })}</span>
                   <h3 tabIndex={-1} ref={detailRef}>
                     {selected.set.name}
                   </h3>
                   <p>
-                    {selected.items.length} piezas · {have} en tu equipo
+                    {t("cat_v4_pieces_worn", {
+                      count: selected.items.length,
+                      have,
+                    })}
                   </p>
                   {slugs.get(selected.set.ankama_id) && (
                     <a
@@ -475,14 +488,14 @@ export function Sets({
                       target="_blank"
                       rel="noopener"
                     >
-                      Abrir la página de la panoplia
+                      {t("cat_v4_open_set_page")}
                       <ExternalLink size={13} aria-hidden="true" />
                     </a>
                   )}
                 </div>
               </div>
               <h4>
-                Piezas <span>Dónde va cada una</span>
+                {t("sets_sort_pieces")} <span>{t("cat_v4_where_each")}</span>
               </h4>
               <ul className="set-pieces-plan">
                 {selected.items.map((it) => {
@@ -504,33 +517,36 @@ export function Sets({
                         <small>
                           {worn.has(it.ankama_id) ? (
                             <>
-                              <Check size={12} /> Ya equipada
+                              <Check size={12} /> {t("cat_v4_already_worn")}
                             </>
                           ) : !target ? (
-                            "Sin espacio libre para esta pieza"
+                            t("cat_v4_no_room_piece")
                           ) : out ? (
-                            `${t("slot_" + target.slot)} · reemplaza ${out.name}`
+                            t("cat_v4_slot_replaces", {
+                              slot: t("slot_" + target.slot),
+                              name: out.name,
+                            })
                           ) : (
-                            `${t("slot_" + target.slot)} · espacio vacío`
+                            t("cat_v4_slot_empty", { slot: t("slot_" + target.slot) })
                           )}
                         </small>
-                        <em>Niv. {it.level}</em>
+                        <em>{t("cat_v4_level_short", { level: it.level })}</em>
                       </span>
                       {worn.has(it.ankama_id) ? (
                         <button
                           className="set-piece-action"
-                          aria-label={`Quitar ${it.name}`}
+                          aria-label={t("cat_v4_remove_named", { name: it.name })}
                           onClick={() => removePiece(it)}
                         >
-                          Quitar
+                          {t("unequip_btn")}
                         </button>
                       ) : (
                         <button
                           className="set-piece-action"
-                          aria-label={`Equipar solo ${it.name}`}
+                          aria-label={t("cat_v4_equip_only", { name: it.name })}
                           onClick={() => equipPiece(it)}
                         >
-                          Equipar
+                          {t("equip_item")}
                         </button>
                       )}
                     </li>
@@ -538,7 +554,7 @@ export function Sets({
                 })}
               </ul>
               <h4>
-                Bonificaciones <span>Según las piezas equipadas</span>
+                {t("cat_v4_bonuses")} <span>{t("cat_v4_by_worn")}</span>
               </h4>
               <ol className="set-tiers">
                 {tiers.map((n) => (
@@ -549,7 +565,7 @@ export function Sets({
                     }
                   >
                     <span className="set-tier-count">
-                      {n} <small>piezas</small>
+                      {n} <small>{t("cat_v4_tier_pieces", { count: n })}</small>
                     </span>
                     <span className="set-tier-effects">
                       <Bonus
@@ -559,10 +575,10 @@ export function Sets({
                       />
                     </span>
                     {n === after && plan.length > 0 && (
-                      <span className="set-tier-note">Con este cambio</span>
+                      <span className="set-tier-note">{t("cat_v4_with_change")}</span>
                     )}
                     {n === have && !(n === after && plan.length > 0) && (
-                      <span className="set-tier-note">Ahora</span>
+                      <span className="set-tier-note">{t("cat_v4_now")}</span>
                     )}
                   </li>
                 ))}
@@ -570,24 +586,21 @@ export function Sets({
               {preview && (
                 <>
                   <h4>
-                    En tu equipo <span>Actual → con la panoplia</span>
+                    {t("cat_v4_in_build")} <span>{t("cat_v4_now_with_set")}</span>
                   </h4>
                   <ImpactDeltas preview={preview} />
-                  <p className="catalog-footnote">
-                    Incluye las bonificaciones de panoplia que ganas y las que
-                    pierdes. Cambiar una pieza retira las runas de su espacio.
-                  </p>
+                  <p className="catalog-footnote">{t("cat_v4_set_footnote")}</p>
                 </>
               )}
               <div className="catalog-equip">
                 <p>
                   {!plan.length
                     ? have
-                      ? "Ya llevas todas las piezas que caben en tu equipo."
-                      : "Ninguna pieza tiene espacio disponible."
+                      ? t("cat_v4_all_worn")
+                      : t("cat_v4_no_room_any")
                     : replaced
-                      ? `Equipa ${plan.length} piezas y reemplaza ${replaced} de tus objetos. Se deshace en un paso.`
-                      : `Equipa ${plan.length} piezas en espacios vacíos. Se deshace en un paso.`}
+                      ? t("cat_v4_equip_replace", { count: plan.length, replaced })
+                      : t("cat_v4_equip_empty", { count: plan.length })}
                 </p>
                 <button
                   className="primary"
@@ -595,8 +608,8 @@ export function Sets({
                   onClick={() => equipSet(selected)}
                 >
                   {plan.length
-                    ? `Equipar ${plan.length} piezas`
-                    : "Panoplia equipada"}
+                    ? t("cat_v4_equip_pieces_btn", { count: plan.length })
+                    : t("cat_v4_set_equipped")}
                   <ArrowRight size={17} />
                 </button>
               </div>

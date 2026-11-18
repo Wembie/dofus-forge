@@ -25,20 +25,20 @@ import "./tools.css";
 
 type Filter = AppSpellElement | "all";
 const FILTERS: [Filter, string][] = [
-  ["all", "Todos"],
-  ["earth", "Tierra"],
-  ["fire", "Fuego"],
-  ["water", "Agua"],
-  ["air", "Aire"],
-  ["neutral", "Neutro"],
+  ["all", "elem_all"],
+  ["earth", "elem_earth"],
+  ["fire", "elem_fire"],
+  ["water", "elem_water"],
+  ["air", "elem_air"],
+  ["neutral", "elem_neutral"],
 ];
 const ELEMENT_NAME: Record<string, string> = {
-  earth: "Tierra",
-  fire: "Fuego",
-  water: "Agua",
-  air: "Aire",
-  neutral: "Neutro",
-  mixed: "Mixto",
+  earth: "elem_earth",
+  fire: "elem_fire",
+  water: "elem_water",
+  air: "elem_air",
+  neutral: "elem_neutral",
+  mixed: "elem_mixed",
 };
 const range = (r: [number, number]) => fmtRange(r[0], r[1]);
 
@@ -64,12 +64,15 @@ function Values({
   stats: StatBlock | null;
   showCrit: boolean;
 }) {
-  const { effect, crit } = hit;
+  const { t } = useTranslation(),
+    { effect, crit } = hit;
   return (
     <>
       <div className="sp-line">
         <i className={"sp-dot " + effect.element} aria-hidden="true" />
-        <span className="sp-label">{ELEMENT_NAME[effect.element] ?? effect.element}</span>
+        <span className="sp-label">
+          {ELEMENT_NAME[effect.element] ? t(ELEMENT_NAME[effect.element]) : effect.element}
+        </span>
         <span className="sp-normal">
           <DamageHover roll={rollOf(effect)} elem={effect.element} stats={stats} mods={view.mods} kind="spell">
             {fmtRange(effect.calcMin, effect.calcMax)}
@@ -98,7 +101,7 @@ function Values({
       {hit.heal && (
         <div className="sp-line is-heal">
           <img src={statIconUrl("heals")} alt="" />
-          <span className="sp-label">Cura</span>
+          <span className="sp-label">{t("tool_v4_spells_heal")}</span>
           <span className="sp-normal">{range(hit.heal)}</span>
           {showCrit && <span className="sp-crit">{hit.critHeal ? range(hit.critHeal) : "—"}</span>}
         </div>
@@ -174,9 +177,12 @@ function Group({
         rows.push(
           <p key={`sb${entry.index}`} className="sp-note">
             <span aria-hidden="true">★</span>
-            {names.get(entry.spellId ?? 0) ?? `#${entry.spellId ?? "?"}`}: +{entry.base} de base
-            {entry.turns > 0 && ` · ${entry.turns} turnos`}
-            {entry.deathReset && " · se reinicia al morir"}
+            {t("tool_v4_spells_buff_base", {
+              name: names.get(entry.spellId ?? 0) ?? `#${entry.spellId ?? "?"}`,
+              base: entry.base,
+            })}
+            {entry.turns > 0 && " · " + t("tool_v4_spells_buff_turns", { count: entry.turns })}
+            {entry.deathReset && " · " + t("tool_v4_spells_death_reset")}
           </p>,
         );
         break;
@@ -192,8 +198,8 @@ function Group({
         <div className="sp-line is-head" aria-hidden="true">
           <span />
           <span />
-          <span className="sp-normal">Normal</span>
-          {showCrit && <span className="sp-crit">Crítico</span>}
+          <span className="sp-normal">{t("weapon_normal")}</span>
+          {showCrit && <span className="sp-crit">{t("weapon_crit_col")}</span>}
         </div>
       )}
       {rows}
@@ -208,7 +214,7 @@ function Group({
       {group.total && (
         <div className="sp-line is-total">
           <span />
-          <span className="sp-label">Total</span>
+          <span className="sp-label">{t("weapon_total")}</span>
           <span className="sp-normal">{range(group.total.normal)}</span>
           {showCrit && <span className="sp-crit">{range(group.total.crit)}</span>}
         </div>
@@ -216,7 +222,7 @@ function Group({
       {group.total?.heal && (
         <div className="sp-line is-heal">
           <img src={statIconUrl("heals")} alt="" />
-          <span className="sp-label">Cura total</span>
+          <span className="sp-label">{t("tool_v4_spells_total_heal")}</span>
           <span className="sp-normal">{range(group.total.heal.normal)}</span>
           {showCrit && <span className="sp-crit">{range(group.total.heal.crit)}</span>}
         </div>
@@ -224,7 +230,7 @@ function Group({
       {group.pushTotal && (
         <div className="sp-line is-total">
           <span />
-          <span className="sp-label">Total con colisión</span>
+          <span className="sp-label">{t("tool_v4_spells_total_collision")}</span>
           <span className="sp-normal">{range(group.pushTotal.normal)}</span>
           {showCrit && <span className="sp-crit">{range(group.pushTotal.crit)}</span>}
         </div>
@@ -260,13 +266,13 @@ function Spell({
         <div>
           <h3>
             {spell.name}
-            {spell.is_variant && <small>Variante</small>}
+            {spell.is_variant && <small>{t("spell_variant_badge")}</small>}
           </h3>
           {view.level && (
             <p className="sp-meta">
               <span>
                 <img src={statIconUrl("ap")} alt="" />
-                <b>{view.ap}</b> PA
+                <b>{view.ap}</b> {t("badge_ap")}
               </span>
               <span>
                 <img src={statIconUrl("range")} alt="" />
@@ -282,7 +288,7 @@ function Spell({
                   {view.crit} %
                 </span>
               )}
-              {view.maxPerTurn > 0 && <span>{view.maxPerTurn} por turno</span>}
+              {view.maxPerTurn > 0 && <span>{t("tool_v4_spells_per_turn", { n: view.maxPerTurn })}</span>}
             </p>
           )}
         </div>
@@ -313,7 +319,7 @@ function Spell({
       )}
       {view.itemEffects.length > 0 && (
         <div className="sp-items">
-          <h5>Efectos de tu equipo</h5>
+          <h5>{t("tool_v4_spells_gear_effects")}</h5>
           {view.itemEffects.map((effect, i) => (
             <p key={`${effect.effect_id}-${i}`}>{effect.formatted}</p>
           ))}
@@ -341,7 +347,7 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
             <h3>{t("weapon_fist")}</h3>
             <p className="sp-meta">
               <span>
-                <b>1</b> PA
+                <b>1</b> {t("badge_ap")}
               </span>
               <span>{t("spell_melee")}</span>
             </p>
@@ -385,7 +391,7 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
       {row.heal && (
         <div className="sp-line is-heal">
           <img src={statIconUrl("heals")} alt="" />
-          <span className="sp-label">Cura</span>
+          <span className="sp-label">{t("tool_v4_spells_heal")}</span>
           <span className="sp-normal">{range(row.heal)}</span>
           {showCrit && <span className="sp-crit">{row.critHeal ? range(row.critHeal) : "—"}</span>}
         </div>
@@ -404,13 +410,13 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
         <div>
           <h3>
             {weapon.name}
-            {view.level > 0 && <small>Nivel {view.level}</small>}
+            {view.level > 0 && <small>{t("level")} {view.level}</small>}
           </h3>
           <p className="sp-meta">
             {view.ap > 0 && (
               <span>
                 <img src={statIconUrl("ap")} alt="" />
-                <b>{view.ap}</b> PA
+                <b>{view.ap}</b> {t("badge_ap")}
               </span>
             )}
             <span>
@@ -429,7 +435,7 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
             )}
             {view.transform && (
               <span className={"sp-transform " + view.transform.element}>
-                {ELEMENT_NAME[view.transform.element]} {view.transform.ratio} %
+                {t(ELEMENT_NAME[view.transform.element])} {view.transform.ratio} %
               </span>
             )}
           </p>
@@ -442,12 +448,12 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
             checked={mastery.active}
             onChange={(e) => setMastery({ ...mastery, active: e.target.checked })}
           />
-          Dominio del arma
+          {t("tool_v4_spells_mastery")}
         </label>
         {mastery.active && (
           <>
             <label>
-              Potencia normal
+              {t("tool_v4_spells_mastery_normal")}
               <input
                 inputMode="numeric"
                 value={mastery.normal}
@@ -455,7 +461,7 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
               />
             </label>
             <label>
-              En crítico
+              {t("tool_v4_spells_mastery_crit")}
               <input
                 inputMode="numeric"
                 value={mastery.crit}
@@ -470,25 +476,39 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
           <div className="sp-line is-head" aria-hidden="true">
             <span />
             <span />
-            <span className="sp-normal">Normal</span>
-            {showCrit && <span className="sp-crit">Crítico</span>}
+            <span className="sp-normal">{t("weapon_normal")}</span>
+            {showCrit && <span className="sp-crit">{t("weapon_crit_col")}</span>}
           </div>
           {view.damage.map((row, i) =>
-            line(`d${i}`, row.best ? "Mejor elemento" : ELEMENT_NAME[row.elem ?? "mixed"], row.elem, row),
+            line(
+              `d${i}`,
+              row.best ? t("tool_v4_spells_best_element") : t(ELEMENT_NAME[row.elem ?? "mixed"]),
+              row.elem,
+              row,
+            ),
           )}
           {view.mpRemoval.map((r, i) => (
             <div key={`mp${i}`} className="sp-line">
               <img src={statIconUrl("mp_reduction")} alt="" />
-              <span className="sp-label">Retira PM</span>
+              <span className="sp-label">{t("stat_mp_removal")}</span>
               <span className="sp-normal">{range(r)}</span>
               {showCrit && <span className="sp-crit" />}
             </div>
           ))}
-          {view.steal.map((row, i) => line(`s${i}`, `Robo ${ELEMENT_NAME[row.elem ?? "mixed"]?.toLowerCase()}`, row.elem, row))}
+          {view.steal.map((row, i) =>
+            line(
+              `s${i}`,
+              t("tool_v4_spells_steal", {
+                element: t(ELEMENT_NAME[row.elem ?? "mixed"]).toLowerCase(),
+              }),
+              row.elem,
+              row,
+            ),
+          )}
           {view.total && (
             <div className="sp-line is-total">
               <span />
-              <span className="sp-label">Total</span>
+              <span className="sp-label">{t("weapon_total")}</span>
               <span className="sp-normal">{range(view.total.normal)}</span>
               {showCrit && <span className="sp-crit">{range(view.total.crit)}</span>}
             </div>
@@ -496,7 +516,7 @@ function Weapon({ stats }: { stats: StatBlock | null }) {
           {view.total?.heal && (
             <div className="sp-line is-heal">
               <img src={statIconUrl("heals")} alt="" />
-              <span className="sp-label">Cura total</span>
+              <span className="sp-label">{t("tool_v4_spells_total_heal")}</span>
               <span className="sp-normal">{range(view.total.heal.normal)}</span>
               {showCrit && <span className="sp-crit">{range(view.total.heal.crit)}</span>}
             </div>
@@ -520,7 +540,8 @@ function pairs(list: AppSpell[]) {
 
 /** The weapon attack, then each spell next to its variant, with damage for the build's stats. */
 export function Spells() {
-  const b = useBuildStore(),
+  const { t } = useTranslation(),
+    b = useBuildStore(),
     stats = useCombatStats(),
     spells = useDataStore((s) => s.spells);
   const auto = spellGrade(b.level),
@@ -553,9 +574,9 @@ export function Spells() {
       <section className="sp-section" aria-label={title}>
         <h3 className="sp-section-title">
           {title}
-          <span>Hechizo · variante</span>
+          <span>{t("tool_v4_spells_section_cols")}</span>
         </h3>
-        {!shown.length && <p className="sp-empty">No hay hechizos de este elemento.</p>}
+        {!shown.length && <p className="sp-empty">{t("tool_v4_spells_none_element")}</p>}
         {shown.map(([a, z], i) => (
           <div className="sp-pair" key={(a ?? z)!.id + "-" + i}>
             {a ? <Spell spell={a} grade={grade} stats={stats} itemEffects={itemEffects} names={names} /> : <div />}
@@ -569,27 +590,30 @@ export function Spells() {
     <div className="sp">
       <CombatSwitch />
       <div className="sp-controls">
-        <div role="group" aria-label="Grado de los hechizos" className="sp-grades">
-          <span>Grado</span>
+        <div role="group" aria-label={t("tool_v4_spells_grades")} className="sp-grades">
+          <span>{t("tool_v4_spells_grade")}</span>
           {[1, 2, 3, 4, 5, 6].map((g) => (
             <button
               key={g}
               aria-pressed={g === grade}
               className={g === auto ? "is-auto" : ""}
-              aria-label={`Grado ${g}${g === auto ? " (el de tu nivel)" : ""}`}
+              aria-label={
+                t("tool_v4_spells_grade_n", { grade: g }) +
+                (g === auto ? " " + t("tool_v4_spells_grade_yours") : "")
+              }
               onClick={() => setManual(g === auto ? null : g)}
             >
               {g}
             </button>
           ))}
           {manual != null && (
-            <button className="sp-reset" aria-label="Volver al grado de tu nivel" onClick={() => setManual(null)}>
+            <button className="sp-reset" aria-label={t("tool_v4_spells_grade_reset")} onClick={() => setManual(null)}>
               <RotateCcw size={14} />
             </button>
           )}
         </div>
-        <div role="radiogroup" aria-label="Elemento" className="sp-filters">
-          {FILTERS.map(([key, label]) => (
+        <div role="radiogroup" aria-label={t("element_header")} className="sp-filters">
+          {FILTERS.map(([key, labelKey]) => (
             <button
               key={key}
               role="radio"
@@ -597,24 +621,28 @@ export function Spells() {
               className={key}
               onClick={() => setFilter(key)}
             >
-              {label}
+              {t(labelKey)}
             </button>
           ))}
         </div>
       </div>
       <p className="sp-hint">
         {stats
-          ? "Daño calculado con tus estadísticas y tus pasivos activos. Pasa el cursor por un valor para ver cómo se obtiene."
-          : "Valores base de cada hechizo: elige una clase para calcular el daño de tu build."}{" "}
-        La simulación contra un objetivo está en «Simular un combate».
+          ? t("tool_v4_spells_hint_stats")
+          : t("tool_v4_spells_hint_base")}{" "}
+        {t("tool_v4_spells_hint_simulation")}
       </p>
-      <section className="sp-section" aria-label="Ataque con arma">
-        <h3 className="sp-section-title">Ataque con arma</h3>
+      <section className="sp-section" aria-label={t("tool_v4_spells_weapon_attack")}>
+        <h3 className="sp-section-title">{t("tool_v4_spells_weapon_attack")}</h3>
         <Weapon stats={stats} />
       </section>
       {b.selectedClass &&
-        (own ? section("Hechizos de clase", own.spells) : <p className="sp-empty">Cargando hechizos…</p>)}
-      {common && common.spells.length > 0 && section("Hechizos comunes", common.spells)}
+        (own ? (
+          section(t("tool_v4_spells_class"), own.spells)
+        ) : (
+          <p className="sp-empty">{t("tool_v4_spells_loading")}</p>
+        ))}
+      {common && common.spells.length > 0 && section(t("tool_v4_spells_common"), common.spells)}
     </div>
   );
 }

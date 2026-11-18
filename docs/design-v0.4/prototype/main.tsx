@@ -58,7 +58,7 @@ import {
   Menu,
 } from "lucide-react";
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import es from "../../../public/locales/es/translation.json";
 import { CharacterStage } from "../../../src/components/CharacterStage";
 import { useBuildStore } from "../../../src/store/buildStore";
@@ -90,7 +90,7 @@ import {
 } from "./model";
 import type { StatBlock } from "../../../src/engine/types";
 
-import labels from "./stat-labels.json";
+import { STAT_LABEL_KEYS, useStatLabel, type StatLabelKey } from "./stat-labels";
 import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import "./style.css";
 import "./forge.css";
@@ -109,22 +109,23 @@ const ready = i18n
     resources: { es: { translation: es } },
     interpolation: { escapeValue: false },
   });
+// Slot labels are translation keys.
 const slots = [
-  ["Sombrero", 9461],
-  ["Capa", 958],
-  ["Arma", 8098],
-  ["Escudo", 18670],
-  ["Amuleto", 9464],
-  ["Anillo I", 8877],
-  ["Anillo II", 8991],
-  ["Cinturón", 9143],
-  ["Botas", 8861],
+  ["slot_hat", 9461],
+  ["slot_cape", 958],
+  ["slot_weapon", 8098],
+  ["slot_shield", 18670],
+  ["slot_amulet", 9464],
+  ["ws_v4_ring_1", 8877],
+  ["ws_v4_ring_2", 8991],
+  ["slot_belt", 9143],
+  ["slot_boots", 8861],
 ] as const;
 const eggs = [694, 737, 739, 972, 6980, 7043],
   initial: number[] = seedItems;
 const groups: [string, string[]][] = [
   [
-    "Combate",
+    "stats_combat",
     [
       "initiative",
       "critDamage",
@@ -135,17 +136,17 @@ const groups: [string, string[]][] = [
     ],
   ],
   [
-    "Control",
+    "ws_v4_group_control",
     ["lock", "dodge", "apReduction", "mpReduction", "apParry", "mpParry"],
   ],
   [
-    "Bonificaciones",
+    "ws_v4_group_bonuses",
     ["vitality", "wisdom", "damage", "prospecting", "summons", "pods"],
   ],
 ];
-const sheetGroups: [string, (keyof typeof labels)[]][] = [
+const sheetGroups: [string, StatLabelKey[]][] = [
   [
-    "Personaje",
+    "character",
     [
       "maxHp",
       "ap",
@@ -167,7 +168,7 @@ const sheetGroups: [string, (keyof typeof labels)[]][] = [
     ],
   ],
   [
-    "Daños",
+    "section_damage",
     [
       "damage",
       "neutralDamage",
@@ -196,7 +197,7 @@ const sheetGroups: [string, (keyof typeof labels)[]][] = [
     ],
   ],
   [
-    "Resistencias",
+    "section_resistances",
     [
       "neutralResFixed",
       "earthResFixed",
@@ -221,7 +222,7 @@ const sheetGroups: [string, (keyof typeof labels)[]][] = [
     ],
   ],
   [
-    "Control y límites",
+    "ws_v4_group_control_limits",
     [
       "apReduction",
       "mpReduction",
@@ -255,13 +256,18 @@ const art = (id: number) =>
   equipment.get(id)?.image_url || "/design-assets/forge-mark.svg";
 const fmt = (s: StatBlock, key: string) =>
   typeof s[key as keyof StatBlock] === "number"
-    ? Number(s[key as keyof StatBlock]).toLocaleString("es-CO")
+    ? Number(s[key as keyof StatBlock]).toLocaleString(
+        // "es" alone drops the thousands dot on four-digit values; es-CO keeps the sheet's figures.
+        i18n.language === "es" ? "es-CO" : i18n.language,
+      )
     : Object.keys(s.unknownStats).length
       ? Object.entries(s.unknownStats)
           .map(([name, value]) => name + ": " + value)
-          .join(" ? ")
-      : "Ninguno";
+          .join(" · ")
+      : i18n.t("share_v4_none");
 function App() {
+  const { t, i18n } = useTranslation(),
+    statLabel = useStatLabel();
   const [tool, setTool] = useState<WorkspaceTool | null>(null),
     [toolSlot, setToolSlot] = useState<SlotId>("hat");
   function openTool(next: WorkspaceTool, slot: SlotId = "hat") {
@@ -384,37 +390,41 @@ function App() {
   }
   const page = (view: string) => () =>
     location.assign("/surfaces.html?view=" + view);
+  const tools = t("ws_v4_cmd_tools"),
+    buildGroup = t("ws_v4_cmd_build"),
+    goTo = t("shell_v4_nav_title"),
+    prefs = t("ws_v4_cmd_preferences");
   const commands: PaletteCommand[] = [
-    { key: "forge", group: "Herramientas", label: "La Forjadora", Icon: PaletteForge, onRun: () => setForge(true) },
-    { key: "sets", group: "Herramientas", label: "Panoplias", Icon: PaletteSets, onRun: () => openTool("sets") },
-    { key: "compare", group: "Herramientas", label: "Comparar dos builds", Icon: PaletteCompare, onRun: () => openTool("compare") },
+    { key: "forge", group: tools, label: t("optimizer_title"), Icon: PaletteForge, onRun: () => setForge(true) },
+    { key: "sets", group: tools, label: t("ws_v4_cmd_sets"), Icon: PaletteSets, onRun: () => openTool("sets") },
+    { key: "compare", group: tools, label: t("ws_v4_cmd_compare_builds"), Icon: PaletteCompare, onRun: () => openTool("compare") },
     ...(Object.entries(toolNames) as [WorkspaceTool, string][])
       .filter(([key]) => key !== "sets" && key !== "compare")
-      .map(([key, label]) => ({ key, group: "Herramientas", label, Icon: PaletteTool, onRun: () => openTool(key) })),
-    { key: "undo", group: "Build", label: "Deshacer", Icon: PaletteUndo, hint: "Ctrl Z", disabled: !historyState.canUndo, onRun: undo },
-    { key: "redo", group: "Build", label: "Rehacer", Icon: Redo2, hint: "Ctrl Y", disabled: !historyState.canRedo, onRun: redo },
-    { key: "save", group: "Build", label: "Guardar borrador", Icon: PaletteSave, onRun: save },
-    { key: "signin", group: "Build", label: i18n.t("auth_signin_btn"), Icon: PalettePublish, onRun: () => setSurface("signin") },
-    { key: "publish", group: "Build", label: "Publicar build", Icon: PalettePublish, disabled: !build.selectedClass, onRun: () => setSurface("publish") },
-    { key: "reset", group: "Build", label: "Empezar una build nueva", Icon: PaletteReset, onRun: resetBuild },
-    { key: "my-builds", group: "Ir a", label: "Mis builds", Icon: PaletteMine, onRun: page("my-builds") },
-    { key: "explore", group: "Ir a", label: "Explorar builds", Icon: PaletteExplore, onRun: page("explore") },
-    { key: "sets-page", group: "Ir a", label: "Páginas de panoplias", Icon: PaletteSetPages, onRun: page("sets") },
-    { key: "how-to-use", group: "Ir a", label: "Guía del taller", Icon: PaletteGuide, onRun: page("how-to-use") },
-    { key: "shortcuts", group: "Ir a", label: "Atajos y accesibilidad", Icon: PaletteKeys, onRun: page("shortcuts") },
-    { key: "about", group: "Ir a", label: "Acerca de Dofus Forge", Icon: PaletteAbout, onRun: page("about") },
-    ...(isAdmin ? [{ key: "admin", group: "Ir a", label: "Administración", Icon: PaletteAdmin, onRun: page("admin") }] : []),
-    { key: "settings", group: "Preferencias", label: "Preferencias del taller", Icon: PaletteSettings, onRun: () => setSurface("settings") },
-    { key: "theme", group: "Preferencias", label: dark ? "Cambiar al tema Mineral" : "Cambiar al tema Tinta", Icon: PaletteTheme, onRun: () => setDark(!dark) },
-    { key: "sound", group: "Preferencias", label: "Activar o silenciar sonidos", Icon: PaletteSound, onRun: toggleSound },
+      .map(([key, label]) => ({ key, group: tools, label: t(label), Icon: PaletteTool, onRun: () => openTool(key) })),
+    { key: "undo", group: buildGroup, label: t("undo"), Icon: PaletteUndo, hint: "Ctrl Z", disabled: !historyState.canUndo, onRun: undo },
+    { key: "redo", group: buildGroup, label: t("redo"), Icon: Redo2, hint: "Ctrl Y", disabled: !historyState.canRedo, onRun: redo },
+    { key: "save", group: buildGroup, label: t("ws_v4_save_draft"), Icon: PaletteSave, onRun: save },
+    { key: "signin", group: buildGroup, label: t("auth_signin_btn"), Icon: PalettePublish, onRun: () => setSurface("signin") },
+    { key: "publish", group: buildGroup, label: t("publish_title"), Icon: PalettePublish, disabled: !build.selectedClass, onRun: () => setSurface("publish") },
+    { key: "reset", group: buildGroup, label: t("ws_v4_cmd_new_build"), Icon: PaletteReset, onRun: resetBuild },
+    { key: "my-builds", group: goTo, label: t("ws_v4_my_builds"), Icon: PaletteMine, onRun: page("my-builds") },
+    { key: "explore", group: goTo, label: t("explore_title"), Icon: PaletteExplore, onRun: page("explore") },
+    { key: "sets-page", group: goTo, label: t("ws_v4_cmd_set_pages"), Icon: PaletteSetPages, onRun: page("sets") },
+    { key: "how-to-use", group: goTo, label: t("ws_v4_workshop_guide"), Icon: PaletteGuide, onRun: page("how-to-use") },
+    { key: "shortcuts", group: goTo, label: t("ws_v4_cmd_shortcuts"), Icon: PaletteKeys, onRun: page("shortcuts") },
+    { key: "about", group: goTo, label: t("about_title"), Icon: PaletteAbout, onRun: page("about") },
+    ...(isAdmin ? [{ key: "admin", group: goTo, label: t("shell_v4_nav_admin"), Icon: PaletteAdmin, onRun: page("admin") }] : []),
+    { key: "settings", group: prefs, label: t("ws_v4_workshop_preferences"), Icon: PaletteSettings, onRun: () => setSurface("settings") },
+    { key: "theme", group: prefs, label: dark ? t("ws_v4_cmd_theme_mineral") : t("ws_v4_cmd_theme_ink"), Icon: PaletteTheme, onRun: () => setDark(!dark) },
+    { key: "sound", group: prefs, label: t("ws_v4_cmd_sound"), Icon: PaletteSound, onRun: toggleSound },
   ];
   function save() {
     try {
       saveModel();
       setSaved(true);
-      setNotice("Build guardada en este dispositivo.");
+      setNotice(t("ws_v4_saved_notice"));
     } catch {
-      setNotice("No se pudo guardar. Tu build sigue abierta.");
+      setNotice(t("ws_v4_save_error"));
     }
   }
   function close() {
@@ -426,12 +436,12 @@ function App() {
     setFull(false);
   }
   function itemSlot(index: number) {
-    const label = slots[index][0],
+    const label = t(slots[index][0]),
       id = items[index] || seedItems[index];
     return (
       <button
         className={"slot " + (items[index] === 0 ? "empty" : "")}
-        key={label}
+        key={slots[index][0]}
         onClick={() => setSelected(index)}
         aria-label={label + ": " + names.get(id)}
         title={names.get(id)}
@@ -441,7 +451,7 @@ function App() {
         </span>
         <span className="slot-copy">
           <small>{label}</small>
-          <span>{items[index] ? names.get(id) : "Espacio vacío"}</span>
+          <span>{items[index] ? names.get(id) : t("share_v4_empty_slot")}</span>
         </span>
         <span className="slot-corner" />
       </button>
@@ -451,17 +461,17 @@ function App() {
     return (
       <div className="summary">
         {[
-          ["maxHp", "Puntos de vida"],
-          ["ap", "PA"],
-          ["mp", "PM"],
-          ["range", "Alcance"],
-          ["critChance", "Críticos"],
-          ["power", "Potencia"],
+          ["maxHp", "stat_v4_maxHp"],
+          ["ap", "stat_ap"],
+          ["mp", "stat_mp"],
+          ["range", "stat_range"],
+          ["critChance", "ws_v4_crits"],
+          ["power", "stat_power"],
         ].map(([key, label]) => (
           <div className={"metric " + key} key={key}>
             <span className="metric-label">
               <img src={"/data/stats/" + icons[key]} alt="" />
-              {label}
+              {t(label)}
             </span>
             <strong>
               {fmt(stats, key)}
@@ -515,50 +525,50 @@ function App() {
         <div className="global-links">
           <button className="current" onClick={() => navigate("Equipo")}>
             <Hammer size={15} />
-            Taller
+            {t("shell_v4_workshop")}
           </button>
           <button onClick={() => shellNavigate("explore")}>
             <Compass size={15} />
-            {i18n.t("explore_open")}
+            {t("explore_open")}
           </button>
           <button onClick={() => shellNavigate("my-builds")}>
             <FolderOpen size={15} />
-            {i18n.t("my_builds")}
+            {t("my_builds")}
           </button>
           <button onClick={() => setOverlay("saved")}>
             <Columns2 size={15} />
-            Borradores
+            {t("ws_v4_drafts")}
           </button>
           <button onClick={() => setOverlay("guide")}>
             <BookOpen size={15} />
-            Guía de uso
+            {t("ws_v4_usage_guide")}
           </button>
         </div>
         <div className="global-end">
           <a className="study-link" href="/surfaces.html">
-            Ver todas las vistas
+            {t("ws_v4_all_views")}
           </a>
           <span className="version">
-            0.4.0 <span>ESTUDIO</span>
+            0.4.0 <span>{t("ws_v4_study")}</span>
           </span>
           <button
             className="icon-button"
-            aria-label="Todas las acciones (Ctrl K)"
-            title="Todas las acciones · Ctrl K"
+            aria-label={t("ws_v4_all_actions_label")}
+            title={t("ws_v4_all_actions_title")}
             onClick={openPalette}
           >
             <PaletteSearch size={18} />
           </button>
           <button
             className="icon-button wide-only"
-            aria-label="Preferencias del taller"
+            aria-label={t("ws_v4_workshop_preferences")}
             onClick={() => setSurface("settings")}
           >
             <PaletteSettings size={18} />
           </button>
           <button
             className="icon-button"
-            aria-label={dark ? "Tema mineral" : "Tema tinta"}
+            aria-label={dark ? t("ws_v4_theme_mineral") : t("ws_v4_theme_ink")}
             onClick={() => setDark(!dark)}
           >
             {dark ? <Sun size={18} /> : <Moon size={18} />}
@@ -571,7 +581,7 @@ function App() {
           />
           <button
             className="icon-button workshop-menu"
-            aria-label={i18n.t("shell_v4_nav_title")}
+            aria-label={t("shell_v4_nav_title")}
             onClick={() => setSurface("navigation")}
           >
             <Menu size={22} />
@@ -581,29 +591,29 @@ function App() {
       <div className="build-bar">
         <div>
           <span className="build-breadcrumb">
-            Mi taller <span>/</span> Borrador local
+            {t("ws_v4_my_workshop")} <span>/</span> {t("ws_v4_local_draft")}
           </span>
           <div className="build-name">
             <h1>
-              {build.buildName || cls} <span>·</span> Tierra
+              {build.buildName || cls} <span>·</span> {t("elem_earth")}
             </h1>
             <button
               className="level-tag"
-              aria-label="Editar nombre y nivel"
+              aria-label={t("ws_v4_edit_identity")}
               onClick={() => openTool("identity")}
             >
               {build.level}
             </button>
             <span className="save-state">
               <i />
-              {saved ? "Guardado" : "En este dispositivo"}
+              {saved ? t("ws_v4_saved") : t("ws_v4_on_device")}
             </span>
           </div>
         </div>
         <div className="build-actions">
           <button
             className="icon-button"
-            aria-label="Deshacer"
+            aria-label={t("undo")}
             disabled={!historyState.canUndo}
             onClick={undo}
           >
@@ -611,7 +621,7 @@ function App() {
           </button>
           <button
             className="icon-button"
-            aria-label="Rehacer"
+            aria-label={t("redo")}
             disabled={!historyState.canRedo}
             onClick={redo}
           >
@@ -619,18 +629,18 @@ function App() {
           </button>
           <button
             className="forge-action"
-            aria-label="La Forjadora"
+            aria-label={t("optimizer_title")}
             onClick={() => setForge(true)}
           >
             <Hammer size={16} />
-            <span>La Forjadora</span>
+            <span>{t("optimizer_title")}</span>
           </button>
           <button
             className="compare-action"
             onClick={() => setOverlay("compare")}
           >
             <Columns2 size={16} />
-            Comparar
+            {t("compare")}
           </button>
           <button
             className="compare-action"
@@ -638,19 +648,19 @@ function App() {
             onClick={() => setSurface("publish")}
           >
             <PalettePublish size={16} />
-            {build.linkedBuildId ? "Actualizar" : "Publicar"}
+            {build.linkedBuildId ? t("publish_update_open") : t("publish_open")}
           </button>
           <button
             className="primary"
-            aria-label="Guardar borrador"
+            aria-label={t("ws_v4_save_draft")}
             onClick={save}
           >
             {saved ? <Check size={16} /> : <Save size={16} />}
-            <span>{saved ? "Guardado" : "Guardar borrador"}</span>
+            <span>{saved ? t("ws_v4_saved") : t("ws_v4_save_draft")}</span>
           </button>
         </div>
       </div>
-      <nav className="workspace-tools" aria-label="Herramientas del build">
+      <nav className="workspace-tools" aria-label={t("ws_v4_build_tools")}>
         {(
           [
             "characteristics",
@@ -664,7 +674,7 @@ function App() {
           ] as WorkspaceTool[]
         ).map((key) => (
           <button key={key} onClick={() => openTool(key)}>
-            {toolNames[key]}
+            {t(toolNames[key])}
           </button>
         ))}
       </nav>
@@ -676,16 +686,16 @@ function App() {
               "equipment-panel " +
               (mobile && tab !== "Equipo" ? "mobile-hidden" : "")
             }
-            aria-label="Equipamiento y personaje"
+            aria-label={t("ws_v4_gear_and_character")}
           >
             <div className="section-head">
               <div>
-                <h2>Equipamiento</h2>
-                <span>{items.filter(Boolean).length} / 17 espacios</span>
+                <h2>{t("ws_v4_gear_heading")}</h2>
+                <span>{items.filter(Boolean).length} / 17 {t("ws_v4_slots_word")}</span>
               </div>
               <button
                 className="icon-button"
-                aria-label="Restablecer equipo"
+                aria-label={t("ws_v4_reset_gear")}
                 onClick={() => change(initial)}
               >
                 <RotateCcw size={16} />
@@ -711,7 +721,7 @@ function App() {
                   ) : (
                     <Cat size={22} />
                   )}
-                  <span>Mascota / montura</span>
+                  <span>{t("ws_v4_pet_mount")}</span>
                 </button>
               </div>
               <div className="character-center">
@@ -730,13 +740,13 @@ function App() {
                         src={"/data/classes/" + build.selectedClass + ".webp"}
                         alt={cls}
                       />
-                      <p>Visor no disponible</p>
+                      <p>{t("ws_v4_viewer_unavailable")}</p>
                       <button
                         onClick={() => {
                           setFailed(false);
                         }}
                       >
-                        Reintentar
+                        {t("account_v4_retry")}
                       </button>
                     </div>
                   ) : (
@@ -753,7 +763,7 @@ function App() {
                 </div>
                 <div className="character-controls">
                   <label>
-                    <span className="sr-only">Clase</span>
+                    <span className="sr-only">{t("class")}</span>
                     <select
                       value={breed}
                       onChange={(e) => {
@@ -763,7 +773,7 @@ function App() {
                     >
                       {CLASS_DATA.map((c) => (
                         <option key={c.id} value={c.breed}>
-                          {resolveClassName(c.id, "es", null)}
+                          {resolveClassName(c.id, i18n.language, null)}
                         </option>
                       ))}
                     </select>
@@ -773,7 +783,7 @@ function App() {
                       setGender(gender === "male" ? "female" : "male")
                     }
                   >
-                    {gender === "male" ? "Masculino" : "Femenino"}
+                    {gender === "male" ? t("gender_male") : t("gender_female")}
                     <ChevronDown size={12} />
                   </button>
                 </div>
@@ -781,7 +791,7 @@ function App() {
               <div className="gear-column">{[4, 5, 6, 7, 8].map(itemSlot)}</div>
             </div>
             <div className="dofus-heading">
-              <h3>Dofus & trofeos</h3>
+              <h3>{t("ws_v4_dofus_trophies")}</h3>
               <span>{items.slice(9, 15).filter(Boolean).length} / 6</span>
             </div>
             <div className="dofus-row">
@@ -816,12 +826,12 @@ function App() {
                 <Users size={15} />
                 {build.equipped.sidekick
                   ? names.get(build.equipped.sidekick)
-                  : "Multiman"}
+                  : t("ws_v4_sidekick")}
                 <Plus size={13} />
               </button>
               <span>
                 <span className="small-dot" />
-                Giro y animación activos
+                {t("ws_v4_animation_on")}
               </span>
             </div>
           </section>
@@ -831,16 +841,16 @@ function App() {
             "stats-panel " +
             (mobile && tab === "Equipo" && !full ? "mobile-hidden" : "")
           }
-          aria-label="Ficha de estadísticas"
+          aria-label={t("ws_v4_stat_sheet")}
         >
           <div className="section-head">
             <div>
-              <h2>{full ? "Ficha completa" : "Estadísticas"}</h2>
-              <span>{inCombat ? "En combate" : "Equipo"}</span>
+              <h2>{full ? t("ws_v4_full_sheet") : t("stats")}</h2>
+              <span>{inCombat ? t("combat_view_combat") : t("combat_view_gear")}</span>
             </div>
             <button
               className="icon-button"
-              aria-label={full ? "Volver al taller" : "Ficha completa"}
+              aria-label={full ? t("ws_v4_back_to_workshop") : t("ws_v4_full_sheet")}
               onClick={() => {
                 setFull(!full);
                 setSearch("");
@@ -855,30 +865,30 @@ function App() {
               <div className="sheet-controls">
                 <label>
                   <SlidersHorizontal size={15} />
-                  <span className="sr-only">Buscar una estadística</span>
+                  <span className="sr-only">{t("ws_v4_search_stat_label")}</span>
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Buscar una estadística…"
+                    placeholder={t("ws_v4_search_stat_placeholder")}
                   />
                 </label>
-                <span>73 campos · valores en cero incluidos</span>
+                <span>{t("ws_v4_sheet_fields")}</span>
               </div>
               <div className="all-stats">
                 {sheetGroups.map(([title, keys]) => {
                   const matches = keys.filter((key) =>
-                    labels[key]
+                    statLabel(key)
                       .toLocaleLowerCase()
                       .includes(search.toLocaleLowerCase()),
                   );
                   return (
                     matches.length > 0 && (
-                      <section key={title} aria-label={title}>
-                        <h3>{title}</h3>
+                      <section key={title} aria-label={t(title)}>
+                        <h3>{t(title)}</h3>
                         <dl>
                           {matches.map((key) => (
                             <div className="stat-entry" key={key}>
-                              <dt>{labels[key]}</dt>
+                              <dt>{statLabel(key)}</dt>
                               <dd>{fmt(stats, key)}</dd>
                             </div>
                           ))}
@@ -893,7 +903,7 @@ function App() {
             <>
               <div
                 className="characteristic-strip"
-                aria-label="Características"
+                aria-label={t("characteristics")}
               >
                 {(
                   [
@@ -906,30 +916,30 @@ function App() {
                   ] as const
                 ).map((key) => (
                   <div key={key}>
-                    <span>{labels[key]}</span>
+                    <span>{statLabel(key)}</span>
                     <b>{fmt(stats, key)}</b>
                   </div>
                 ))}
               </div>
               <table className="elements">
                 <caption className="sr-only">
-                  Daños y resistencias por elemento
+                  {t("ws_v4_elements_caption")}
                 </caption>
                 <thead>
                   <tr>
-                    <th>ELEMENTO</th>
-                    <th>DAÑOS</th>
-                    <th>RES. FIJA</th>
-                    <th>RES. %</th>
+                    <th>{t("ws_v4_col_element")}</th>
+                    <th>{t("ws_v4_col_damage")}</th>
+                    <th>{t("ws_v4_col_res_fixed")}</th>
+                    <th>{t("ws_v4_col_res_percent")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    ["Neutral", "neutral", "neutral"],
-                    ["Tierra", "earth", "strength"],
-                    ["Fuego", "fire", "intelligence"],
-                    ["Agua", "water", "chance"],
-                    ["Aire", "air", "agility"],
+                    ["ws_v4_elem_neutral", "neutral", "neutral"],
+                    ["elem_earth", "earth", "strength"],
+                    ["elem_fire", "fire", "intelligence"],
+                    ["elem_water", "water", "chance"],
+                    ["elem_air", "air", "agility"],
                   ].map(([name, key, stat]) => (
                     <tr key={key}>
                       <th className={key}>
@@ -940,7 +950,7 @@ function App() {
                           }
                           alt=""
                         />
-                        {name}
+                        {t(name)}
                       </th>
                       <td>{fmt(stats, key + "Damage")}</td>
                       <td>{fmt(stats, key + "ResFixed")}</td>
@@ -972,10 +982,10 @@ function App() {
               <div className="stat-groups">
                 {groups.map(([name, keys]) => (
                   <section key={name}>
-                    <h3>{name}</h3>
+                    <h3>{t(name)}</h3>
                     {keys.map((key) => (
                       <div className="stat-row" key={key}>
-                        <span>{labels[key as keyof typeof labels]}</span>
+                        <span>{statLabel(key)}</span>
                         <b>{fmt(stats, key)}</b>
                       </div>
                     ))}
@@ -985,15 +995,15 @@ function App() {
               <div className="stat-note">
                 <Shield size={15} />
                 <span>
-                  Daños generales incluidos en los totales elementales.{" "}
+                  {t("ws_v4_general_damage_note")}{" "}
                   {inCombat
-                    ? "Vista en combate: suma tus pasivos activos."
-                    : "Vista de equipo."}
+                    ? t("ws_v4_combat_view_note")
+                    : t("ws_v4_gear_view_note")}
                 </span>
               </div>
               <button className="sheet-link" onClick={() => setFull(true)}>
                 <span>
-                  Ver ficha completa <small>73 estadísticas y límites</small>
+                  {t("ws_v4_see_full_sheet")} <small>{t("ws_v4_full_sheet_hint")}</small>
                 </span>
                 <ArrowRight size={17} />
               </button>
@@ -1004,44 +1014,44 @@ function App() {
       <footer className="app-footer">
         <span>
           <span className="small-dot" />
-          Borrador local
+          {t("ws_v4_local_draft")}
         </span>
-        <span>Datos del juego · Combinación de estudio</span>
+        <span>{t("ws_v4_footer_data")}</span>
         <span className="app-footer-links">
-          <button onClick={() => openTool("changelog")}>Novedades</button>
+          <button onClick={() => openTool("changelog")}>{t("changelog_title")}</button>
           <button onClick={() => setOverlay("guide")}>
-            Ayuda y atajos <BookOpen size={13} />
+            {t("ws_v4_help_shortcuts")} <BookOpen size={13} />
           </button>
         </span>
       </footer>
       <SiteFooter onNavigate={shellNavigate} />
       <UpdateBanner />
-      <nav className="mobile-nav" aria-label="Vistas del taller">
+      <nav className="mobile-nav" aria-label={t("ws_v4_workshop_views")}>
         <button onClick={() => setForge(true)}>
           <Hammer size={20} />
-          Forjar
+          {t("ws_v4_forge")}
         </button>
         <button
           aria-current={tab === "Equipo" && !full ? "page" : undefined}
           onClick={() => navigate("Equipo")}
         >
           <Swords size={20} />
-          Equipo
+          {t("equipment")}
         </button>
         <button
           aria-current={tab === "Estadísticas" || full ? "page" : undefined}
           onClick={() => navigate("Estadísticas")}
         >
           <SlidersHorizontal size={20} />
-          Estadísticas
+          {t("stats")}
         </button>
         <button onClick={() => setOverlay("compare")}>
           <Columns2 size={20} />
-          Comparar
+          {t("compare")}
         </button>
-        <button onClick={save} aria-label="Guardar borrador">
+        <button onClick={save} aria-label={t("ws_v4_save_draft")}>
           <Save size={20} />
-          Guardar
+          {t("save")}
         </button>
       </nav>
       <WorkspaceTools
@@ -1056,7 +1066,7 @@ function App() {
           {notice}
           <button
             className="icon-button"
-            aria-label="Cerrar aviso"
+            aria-label={t("ws_v4_close_notice")}
             onClick={() => setNotice("")}
           >
             <X size={16} />
@@ -1073,19 +1083,19 @@ function App() {
           }}
           aria-label={
             selected !== null
-              ? "Objeto seleccionado"
+              ? t("ws_v4_selected_item")
               : overlay === "compare"
-                ? "Comparación"
+                ? t("ws_v4_comparison")
                 : overlay === "saved"
-                  ? "Mis builds"
-                  : "Guía del taller"
+                  ? t("ws_v4_my_builds")
+                  : t("ws_v4_workshop_guide")
           }
         >
           <div className="dialog-content">
             <button
               className="close icon-button"
               onClick={close}
-              aria-label="Cerrar"
+              aria-label={t("modal_close")}
             >
               <X size={20} />
             </button>
@@ -1096,28 +1106,28 @@ function App() {
                   <div>
                     <span className="eyebrow">
                       {selected < 9
-                        ? slots[selected][0]
+                        ? t(slots[selected][0])
                         : selected === 15
-                          ? "Mascota / montura"
+                          ? t("ws_v4_pet_mount")
                           : selected === 16
-                            ? "Multiman"
-                            : "Dofus / trofeo"}
+                            ? t("ws_v4_sidekick")
+                            : t("ws_v4_dofus_trophy")}
                     </span>
                     <h2>{names.get(items[selected] || initial[selected])}</h2>
                     <p>
-                      Nivel{" "}
+                      {t("level")}{" "}
                       {
                         equipment.get(items[selected] || initial[selected])
                           ?.level
                       }{" "}
-                      · {items[selected] ? "Equipado" : "Sin equipar"}
+                      · {items[selected] ? t("ws_v4_equipped") : t("ws_v4_unequipped")}
                     </p>
                   </div>
                 </div>
                 <h3>
                   {items[selected]
-                    ? "Impacto de retirar esta pieza"
-                    : "Impacto de equipar esta pieza"}
+                    ? t("ws_v4_impact_remove")
+                    : t("ws_v4_impact_equip")}
                 </h3>
                 <div className="delta-table">
                   {[
@@ -1134,7 +1144,7 @@ function App() {
                       Number(stats[key as keyof StatBlock]);
                     return (
                       <div key={key}>
-                        <span>{labels[key as keyof typeof labels]}</span>
+                        <span>{statLabel(key)}</span>
                         <b>
                           {fmt(stats, key)}
                           <ArrowRight size={12} />
@@ -1152,21 +1162,18 @@ function App() {
                     );
                   })}
                 </div>
-                <p className="dialog-note">
-                  La comparación incluye los cambios de bonificación de
-                  panoplia.
-                </p>
+                <p className="dialog-note">{t("ws_v4_set_bonus_note")}</p>
                 {equipment.get(items[selected] || initial[selected])?.conditions
                   ?.length ? (
                   <div className="item-conditions">
-                    <h3>Condiciones del objeto</h3>
+                    <h3>{t("ws_v4_item_conditions")}</h3>
                     <ul>
                       {equipment
                         .get(items[selected] || initial[selected])!
                         .conditions!.map((c, i) => (
                           <li key={i}>
                             {STAT_META[c.stat]
-                              ? i18n.t(STAT_META[c.stat].tKey)
+                              ? t(STAT_META[c.stat].tKey)
                               : c.stat}{" "}
                             {c.operator} {c.value}
                           </li>
@@ -1181,7 +1188,7 @@ function App() {
                       close();
                     }}
                   >
-                    Cambiar objeto
+                    {t("ws_v4_change_item")}
                   </button>
                   {items[selected] > 0 && (
                     <button
@@ -1190,12 +1197,12 @@ function App() {
                         close();
                       }}
                     >
-                      Editar runas
+                      {t("ws_v4_edit_runes")}
                     </button>
                   )}
                 </div>
                 <div className="dialog-actions">
-                  <button onClick={close}>Conservar equipo</button>
+                  <button onClick={close}>{t("ws_v4_keep_gear")}</button>
                   <button
                     className="primary"
                     onClick={() => {
@@ -1209,33 +1216,31 @@ function App() {
                         ),
                       );
                       close();
-                      setNotice(
-                        "Equipo actualizado. Puedes deshacer el cambio.",
-                      );
+                      setNotice(t("ws_v4_gear_updated"));
                     }}
                   >
                     {items[selected]
-                      ? "Quitar y ver el cambio"
-                      : "Volver a equipar"}
+                      ? t("ws_v4_remove_and_compare")
+                      : t("ws_v4_re_equip")}
                   </button>
                 </div>
               </>
             ) : overlay === "compare" ? (
               <>
-                <span className="eyebrow">COMPARACIÓN</span>
-                <h2>Antes y después.</h2>
-                <p>Tu última modificación, frente al equipo actual.</p>
+                <span className="eyebrow">{t("ws_v4_compare_kicker")}</span>
+                <h2>{t("ws_v4_compare_title")}</h2>
+                <p>{t("ws_v4_compare_intro")}</p>
                 <div className="delta-table">
-                  {Object.entries(labels)
+                  {STAT_LABEL_KEYS
                     .filter(
-                      ([key]) =>
+                      (key) =>
                         typeof stats[key as keyof StatBlock] === "number" &&
                         stats[key as keyof StatBlock] !==
                           baseline[key as keyof StatBlock],
                     )
-                    .map(([key, label]) => (
+                    .map((key) => (
                       <div key={key}>
-                        <span>{label}</span>
+                        <span>{statLabel(key)}</span>
                         <b>
                           {fmt(baseline, key)}
                           <ArrowRight size={12} />
@@ -1247,34 +1252,31 @@ function App() {
                 {JSON.stringify(stats) === JSON.stringify(baseline) && (
                   <div className="empty-state">
                     <Columns2 size={32} />
-                    <h3>Aún no hay diferencias</h3>
-                    <p>Cambia una pieza del equipo para comparar su impacto.</p>
+                    <h3>{t("ws_v4_no_diff")}</h3>
+                    <p>{t("ws_v4_no_diff_hint")}</p>
                   </div>
                 )}
-                <button onClick={close}>Volver al equipo</button>
+                <button onClick={close}>{t("ws_v4_back_to_gear")}</button>
               </>
             ) : overlay === "saved" ? (
               <>
-                <span className="eyebrow">MIS BUILDS</span>
-                <h2>Tu borrador local</h2>
+                <span className="eyebrow">{t("ws_v4_my_builds_kicker")}</span>
+                <h2>{t("ws_v4_your_local_draft")}</h2>
                 <div className="saved-build">
                   <img
                     src={"/data/classes/" + build.selectedClass + ".webp"}
                     alt=""
                   />
                   <div>
-                    <h3>{cls} · Tierra</h3>
+                    <h3>{cls} · {t("elem_earth")}</h3>
                     <p>
-                      Nivel {build.level} · {items.filter(Boolean).length}{" "}
-                      objetos
+                      {t("level")} {build.level} · {items.filter(Boolean).length}{" "}
+                      {t("ws_v4_items", { count: items.filter(Boolean).length })}
                     </p>
                   </div>
-                  <span>{saved ? "Guardado" : "En edición"}</span>
+                  <span>{saved ? t("ws_v4_saved") : t("ws_v4_editing")}</span>
                 </div>
-                <p>
-                  Este estudio permite guardar un borrador en el navegador y
-                  recuperarlo al volver a abrirlo.
-                </p>
+                <p>{t("ws_v4_saved_intro")}</p>
                 <button
                   className="primary"
                   onClick={() => {
@@ -1283,37 +1285,23 @@ function App() {
                   }}
                 >
                   <Save size={16} />
-                  Guardar borrador
+                  {t("ws_v4_save_draft")}
                 </button>
               </>
             ) : (
               <>
-                <span className="eyebrow">GUÍA DEL TALLER</span>
-                <h2>Cada decisión, en contexto.</h2>
+                <span className="eyebrow">{t("ws_v4_guide_kicker")}</span>
+                <h2>{t("ws_v4_guide_title")}</h2>
                 <ol>
-                  <li>
-                    <b>Inspecciona una pieza.</b> Toca su imagen para ver el
-                    cambio que produciría retirarla.
-                  </li>
-                  <li>
-                    <b>Compara.</b> Las diferencias de tu última acción están en
-                    Comparar; Deshacer recupera el equipo anterior.
-                  </li>
-                  <li>
-                    <b>Consulta toda la ficha.</b> El botón de expansión reúne
-                    73 campos y permite buscar por nombre.
-                  </li>
-                  <li>
-                    <b>Conserva tu trabajo.</b> Guarda un borrador para
-                    recuperarlo en este navegador.
-                  </li>
+                  {[1, 2, 3, 4].map((step) => (
+                    <li key={step}>
+                      <b>{t(`ws_v4_guide_${step}_title`)}</b>{" "}
+                      {t(`ws_v4_guide_${step}_body`)}
+                    </li>
+                  ))}
                 </ol>
-                <p>
-                  Las herramientas del build abren los controles actuales de
-                  características, runas, panoplias, pasivos, hechizos y
-                  combate.
-                </p>
-                <button onClick={close}>Volver al taller</button>
+                <p>{t("ws_v4_guide_tools")}</p>
+                <button onClick={close}>{t("ws_v4_back_to_workshop")}</button>
               </>
             )}
           </div>
@@ -1333,5 +1321,5 @@ void ready
   )
   .catch((error) => {
     document.getElementById("root")!.textContent =
-      "No se pudo abrir el estudio: " + String(error);
+      i18n.t("ws_v4_open_error") + String(error);
   });

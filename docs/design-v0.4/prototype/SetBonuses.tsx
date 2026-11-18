@@ -29,18 +29,15 @@ export function SetBonuses() {
   if (!active.length)
     return (
       <div className="tool-empty">
-        <h3>Ninguna panoplia en tu equipo</h3>
-        <p>
-          Las bonificaciones aparecen cuando llevas dos o más piezas de la misma
-          panoplia. Puedes buscarlas desde «Panoplias» en el taller.
-        </p>
+        <h3>{t("cat_v4_no_sets_title")}</h3>
+        <p>{t("cat_v4_no_sets_body")}</p>
       </div>
     );
   return (
     <div
       className="bonus-sets"
       role="group"
-      aria-label="Panoplias en tu equipo"
+      aria-label={t("cat_v4_sets_in_build")}
       tabIndex={0}
     >
       {active.map(({ set, count }) => {
@@ -54,14 +51,15 @@ export function SetBonuses() {
             <header>
               <h3>{set.name}</h3>
               <p>
-                <strong>{count}</strong> de {pieces.length} piezas
-                {inForce ? "" : " · aún sin bonificación"}
+                <strong>{count}</strong>{" "}
+                {t("cat_v4_of_pieces", { count: pieces.length })}
+                {inForce ? "" : t("cat_v4_no_bonus_yet")}
               </p>
               <button
                 className="bonus-open"
                 onClick={() => setOpen(set.ankama_id)}
               >
-                Ver la panoplia
+                {t("cat_v4_see_set")}
                 <ArrowRight size={14} />
               </button>
             </header>
@@ -71,7 +69,9 @@ export function SetBonuses() {
                   key={it.ankama_id}
                   className={worn.has(it.ankama_id) ? "" : "is-missing"}
                   title={
-                    it.name + (worn.has(it.ankama_id) ? "" : " · sin equipar")
+                    worn.has(it.ankama_id)
+                      ? it.name
+                      : t("cat_v4_piece_unworn_title", { name: it.name })
                   }
                 >
                   <img
@@ -79,8 +79,12 @@ export function SetBonuses() {
                     alt=""
                   />
                   <span className="sr-only">
-                    {it.name}
-                    {worn.has(it.ankama_id) ? ", equipada" : ", sin equipar"}
+                    {t(
+                      worn.has(it.ankama_id)
+                        ? "cat_v4_piece_worn_sr"
+                        : "cat_v4_piece_unworn_sr",
+                      { name: it.name },
+                    )}
                   </span>
                 </li>
               ))}
@@ -91,7 +95,7 @@ export function SetBonuses() {
                 return (
                   <li key={n} className={n === inForce ? "is-reached" : ""}>
                     <span className="set-tier-count">
-                      {n} <small>piezas</small>
+                      {n} <small>{t("cat_v4_tier_pieces", { count: n })}</small>
                     </span>
                     <span className="set-tier-effects">
                       {effects.map((e, i) => {
@@ -106,14 +110,14 @@ export function SetBonuses() {
                           </span>
                         );
                       })}
-                      {!effects.length && <span>Sin efectos de combate</span>}
+                      {!effects.length && <span>{t("cat_v4_no_effects")}</span>}
                     </span>
                     {n === inForce && (
-                      <span className="set-tier-note">Activa</span>
+                      <span className="set-tier-note">{t("passives_on")}</span>
                     )}
                     {n === count + 1 && (
                       <span className="set-tier-note is-next">
-                        Con una pieza más
+                        {t("cat_v4_one_more")}
                       </span>
                     )}
                   </li>
@@ -130,21 +134,25 @@ export function SetBonuses() {
   );
 }
 
-const day = new Intl.DateTimeFormat("es", {
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-  timeZone: "UTC",
-});
-
 /** Release notes as a dated reading list, newest first, a page at a time. */
 export function Changelog() {
-  const [shown, setShown] = useState(12);
+  const { t, i18n } = useTranslation(),
+    [shown, setShown] = useState(12);
+  const day = useMemo(
+    () =>
+      new Intl.DateTimeFormat(i18n.language, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      }),
+    [i18n.language],
+  );
   return (
     <div className="notes">
       <p className="notes-data">
-        Datos del juego <strong>{DOFUS_GAME_VERSION}</strong>
-        <span>{CHANGELOG.length} versiones publicadas</span>
+        {t("cat_v4_game_data")} <strong>{DOFUS_GAME_VERSION}</strong>
+        <span>{t("cat_v4_versions", { count: CHANGELOG.length })}</span>
       </p>
       <ol>
         {CHANGELOG.slice(0, shown).map((entry, i) => (
@@ -154,7 +162,7 @@ export function Changelog() {
               <time dateTime={entry.date}>
                 {day.format(new Date(entry.date + "T00:00:00Z"))}
               </time>
-              {i === 0 && <em>Actual</em>}
+              {i === 0 && <em>{t("cat_v4_current")}</em>}
             </div>
             <ul>
               {entry.notes.map((note, n) => (
@@ -166,7 +174,7 @@ export function Changelog() {
       </ol>
       {shown < CHANGELOG.length && (
         <button onClick={() => setShown(shown + 24)}>
-          Ver versiones anteriores
+          {t("cat_v4_older_versions")}
         </button>
       )}
     </div>

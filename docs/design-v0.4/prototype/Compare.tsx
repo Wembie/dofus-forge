@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { useBuildStore, type BuildSnapshot } from "@/store/buildStore.ts";
 import { useCompareStore } from "@/store/compareStore.ts";
 import { useDataStore } from "@/store/dataStore.ts";
@@ -24,21 +24,32 @@ import { statIconUrl } from "@/features/equipment/statDisplay.ts";
 import { equipment, visibleSlots } from "./model";
 import "./tools.css";
 
+/** Section id and the translation key of its title. */
 const SECTIONS: [string, string][] = [
-  ["core", "Lo esencial"],
-  ["chars", "Características"],
-  ["damage", "Daños"],
-  ["steal", "Robos"],
-  ["res_fixed", "Resistencias fijas"],
-  ["res_pct", "Resistencias %"],
-  ["combat", "Combate"],
-  ["mods", "Modificadores %"],
+  ["core", "fx_v4_cmp_section_core"],
+  ["chars", "compare_section_chars"],
+  ["damage", "stat_group_damage"],
+  ["steal", "fx_v4_cmp_section_steal"],
+  ["res_fixed", "fx_v4_cmp_section_res_fixed"],
+  ["res_pct", "fx_v4_cmp_section_res_pct"],
+  ["combat", "stats_combat"],
+  ["mods", "compare_section_mods"],
 ];
-const group = (n: number) =>
-  String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-const signed = (n: number) =>
-  (n > 0 ? "+" : n < 0 ? "−" : "") + group(Math.abs(n));
-const day = new Intl.DateTimeFormat("es", { day: "numeric", month: "short" });
+const separators = new Map<string, string>();
+/** Thousands always grouped, with the language's own separator (es: 1.234). */
+const group = (n: number, lang: string) => {
+  let sep = separators.get(lang);
+  if (sep === undefined) {
+    sep =
+      new Intl.NumberFormat(lang)
+        .formatToParts(10000)
+        .find((p) => p.type === "group")?.value ?? ".";
+    separators.set(lang, sep);
+  }
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+};
+const signed = (n: number, lang: string) =>
+  (n > 0 ? "+" : n < 0 ? "−" : "") + group(Math.abs(n), lang);
 
 /** Your build against a reference: who is ahead on each stat, by how much, and which pieces differ. */
 export function Compare() {
@@ -46,7 +57,12 @@ export function Compare() {
     b = useBuildStore(),
     ref = useCompareStore(),
     data = useDataStore(),
-    session = useAuthStore((s) => s.session);
+    session = useAuthStore((s) => s.session),
+    lang = i18n.language,
+    day = useMemo(
+      () => new Intl.DateTimeFormat(lang, { day: "numeric", month: "short" }),
+      [lang],
+    );
   const [onlyChanges, setOnlyChanges] = useState(true),
     [code, setCode] = useState(""),
     [error, setError] = useState(""),
@@ -68,9 +84,7 @@ export function Compare() {
   }, [session]);
   function load(snapshot: BuildSnapshot | null, name: string) {
     if (!snapshot)
-      return setError(
-        "No reconocemos ese enlace o código. Copia el enlace completo desde «Compartir y exportar».",
-      );
+      return setError(t("fx_v4_cmp_err_code"));
     ref.loadBuild(snapshot, name, data.equipment || [], data.sets || []);
     setCode("");
     setError("");
@@ -85,9 +99,7 @@ export function Compare() {
     if (id) {
       const { data: found } = await fetchBuildById(id[0]);
       if (found) return load(found.snapshot, found.name);
-      return setError(
-        "No encontramos esa build publicada. Puede ser privada o haberse retirado.",
-      );
+      return setError(t("fx_v4_cmp_err_missing"));
     }
     let encoded = raw;
     try {
@@ -103,7 +115,7 @@ export function Compare() {
     } catch {
       /* Not a link: treat it as the build code itself. */
     }
-    load(decodeBuild(encoded), "Build pegada");
+    load(decodeBuild(encoded), t("fx_v4_cmp_pasted"));
   }
   function share() {
     const base = `${location.origin}${import.meta.env.BASE_URL}${langPathRootSegment(i18n.language)}`,
@@ -119,12 +131,12 @@ export function Compare() {
   if (!mine || !theirs)
     return (
       <div className="tool-empty">
-        <h3>Falta una build para comparar</h3>
-        <p>Elige una clase en el taller para poder comparar tu equipo.</p>
+        <h3>{t("fx_v4_cmp_none_title")}</h3>
+        <p>{t("fx_v4_cmp_none_body")}</p>
       </div>
     );
-  const sections = SECTIONS.map(([id, title]) => ({
-    title,
+  const sections = SECTIONS.map(([id, titleKey]) => ({
+    title: t(titleKey),
     rows: COMPARE_STATS.filter((def) => def.section === id)
       .map((def) => {
         const a = Number(mine[def.key]) || 0,
@@ -153,10 +165,13 @@ export function Compare() {
     <div className="cmp">
       <header className="cmp-head">
         <div>
-          <span>Referencia</span>
-          <strong>{ref.nameB || "Sin nombre"}</strong>
+          <span>{t("fx_v4_cmp_reference")}</span>
+          <strong>{ref.nameB || t("fx_v4_cmp_unnamed")}</strong>
           <small>
-            {resolveClassName(ref.classB, "es", null)} · nivel {ref.levelB}
+            {t("fx_v4_cmp_name_level", {
+              name: resolveClassName(ref.classB, lang, null),
+              level: ref.levelB,
+            })}
           </small>
         </div>
         <figure>
@@ -164,23 +179,29 @@ export function Compare() {
           <figcaption aria-live="polite">
             {ahead || behind || swapped.length ? (
               <>
-                Tu build gana en <b className="positive">{ahead}</b> y pierde
-                en <b className="negative">{behind}</b> estadísticas ·{" "}
-                {swapped.length === 1
-                  ? "1 pieza distinta"
-                  : `${swapped.length} piezas distintas`}
+                <Trans
+                  i18nKey="fx_v4_cmp_summary"
+                  values={{ ahead, behind }}
+                  components={{
+                    win: <b className="positive" />,
+                    lose: <b className="negative" />,
+                  }}
+                />{" "}
+                {t("fx_v4_cmp_pieces", { count: swapped.length })}
               </>
             ) : (
-              "Las dos builds son iguales. Cambia una pieza en el taller y vuelve aquí."
+              t("fx_v4_cmp_same")
             )}
           </figcaption>
         </figure>
         <div>
-          <span>Tu build</span>
-          <strong>{b.buildName || "Borrador"}</strong>
+          <span>{t("fx_v4_cmp_yours")}</span>
+          <strong>{b.buildName || t("fx_v4_cmp_draft")}</strong>
           <small>
-            {resolveClassName(b.selectedClass || "", "es", null)} · nivel{" "}
-            {b.level}
+            {t("fx_v4_cmp_name_level", {
+              name: resolveClassName(b.selectedClass || "", lang, null),
+              level: b.level,
+            })}
           </small>
         </div>
       </header>
@@ -191,23 +212,23 @@ export function Compare() {
             checked={onlyChanges}
             onChange={(e) => setOnlyChanges(e.target.checked)}
           />
-          Solo diferencias
+          {t("fx_v4_cmp_only_diff")}
         </label>
         <button onClick={share} aria-live="polite">
-          {copied ? "Enlace copiado" : "Copiar enlace de la comparación"}
+          {copied ? t("fx_v4_cmp_copied") : t("fx_v4_cmp_copy")}
         </button>
         <button
           onClick={() =>
             load(
               buildSnapshotFromState(useBuildStore.getState()),
-              "Mi build al fijarla",
+              t("fx_v4_cmp_pinned_name"),
             )
           }
         >
-          Fijar mi build actual como referencia
+          {t("fx_v4_cmp_pin_current")}
         </button>
         <button aria-expanded={picking} onClick={() => setPicking(!picking)}>
-          Usar otra build…
+          {t("fx_v4_cmp_use_other")}
         </button>
       </div>
       {picking && (
@@ -219,12 +240,12 @@ export function Compare() {
             }}
           >
             <label>
-              Enlace o código de una build
+              {t("fx_v4_cmp_code_label")}
               <input
                 value={code}
                 aria-invalid={!!error}
                 aria-describedby={error ? "cmp-paste-error" : undefined}
-                placeholder="https://dofusforge.com/es/?b=…"
+                placeholder={`https://dofusforge.com/${langPathRootSegment(lang) ? langPathRootSegment(lang) + "/" : ""}?b=…`}
                 onChange={(e) => {
                   setCode(e.target.value);
                   setError("");
@@ -232,7 +253,7 @@ export function Compare() {
               />
             </label>
             <button className="primary" disabled={!code.trim()}>
-              Comparar
+              {t("compare")}
             </button>
             {error && (
               <p id="cmp-paste-error" role="alert">
@@ -240,14 +261,14 @@ export function Compare() {
               </p>
             )}
           </form>
-          <section aria-label="Builds de tu cuenta">
-            <h4>De tu cuenta</h4>
+          <section aria-label={t("fx_v4_cmp_account_aria")}>
+            <h4>{t("fx_v4_cmp_account")}</h4>
             {!session ? (
-              <p>Inicia sesión para elegir entre las builds que has guardado.</p>
+              <p>{t("fx_v4_cmp_signin")}</p>
             ) : !account ? (
-              <p>Cargando tus builds…</p>
+              <p>{t("fx_v4_cmp_loading")}</p>
             ) : !account.length ? (
-              <p>Todavía no has guardado ninguna build en tu cuenta.</p>
+              <p>{t("fx_v4_cmp_account_empty")}</p>
             ) : (
               <ul>
                 {account.map((row) => (
@@ -255,8 +276,10 @@ export function Compare() {
                     <button onClick={() => load(row.snapshot, row.name)}>
                       <b>{row.name}</b>
                       <small>
-                        {resolveClassName(row.class_slug, "es", null)} · nivel{" "}
-                        {row.level}
+                        {t("fx_v4_cmp_name_level", {
+                          name: resolveClassName(row.class_slug, lang, null),
+                          level: row.level,
+                        })}
                       </small>
                     </button>
                   </li>
@@ -264,10 +287,10 @@ export function Compare() {
               </ul>
             )}
           </section>
-          <section aria-label="Builds guardadas en este dispositivo">
-            <h4>En este dispositivo</h4>
+          <section aria-label={t("fx_v4_cmp_device_aria")}>
+            <h4>{t("fx_v4_cmp_device")}</h4>
             {!local.length ? (
-              <p>No hay builds guardadas en este navegador.</p>
+              <p>{t("fx_v4_cmp_device_empty")}</p>
             ) : (
               <ul>
                 {local.map((row) => (
@@ -276,7 +299,7 @@ export function Compare() {
                       onClick={() => load(decodeBuild(row.encoded), row.name)}
                     >
                       <b>{row.name}</b>
-                      <small>Guardada el {day.format(row.savedAt)}</small>
+                      <small>{t("fx_v4_cmp_saved_on", { date: day.format(row.savedAt) })}</small>
                     </button>
                   </li>
                 ))}
@@ -300,7 +323,7 @@ export function Compare() {
                     {t(def.tKey)}
                   </span>
                   <span className="cmp-z">
-                    {group(z)}
+                    {group(z, lang)}
                     {def.suffix}
                   </span>
                   <span
@@ -308,10 +331,10 @@ export function Compare() {
                     role="img"
                     aria-label={
                       diff > 0
-                        ? "tu build por delante"
+                        ? t("fx_v4_cmp_ahead")
                         : diff < 0
-                          ? "la referencia por delante"
-                          : "iguales"
+                          ? t("fx_v4_cmp_behind")
+                          : t("fx_v4_cmp_even")
                     }
                   >
                     <i
@@ -324,7 +347,7 @@ export function Compare() {
                     />
                   </span>
                   <span className="cmp-a">
-                    {group(a)}
+                    {group(a, lang)}
                     {def.suffix}
                   </span>
                   <span
@@ -333,7 +356,7 @@ export function Compare() {
                       (diff > 0 ? "positive" : diff < 0 ? "negative" : "")
                     }
                   >
-                    {diff ? signed(diff) : "="}
+                    {diff ? signed(diff, lang) : "="}
                   </span>
                 </li>
               );
@@ -342,14 +365,11 @@ export function Compare() {
         </section>
       ))}
       {!sections.length && onlyChanges && (
-        <p className="cmp-none">
-          Ninguna estadística cambia. Desmarca «Solo diferencias» para ver la
-          ficha completa de las dos builds.
-        </p>
+        <p className="cmp-none">{t("fx_v4_cmp_no_change")}</p>
       )}
       {shownGear.length > 0 && (
-        <section aria-label="Equipo">
-          <h3>Equipo</h3>
+        <section aria-label={t("compare_equipment")}>
+          <h3>{t("compare_equipment")}</h3>
           <ul className="cmp-gear">
             {shownGear.map(({ slot, a, z }) => {
               const same = a?.ankama_id === z?.ankama_id;
@@ -363,7 +383,7 @@ export function Compare() {
                         {z.name}
                       </>
                     ) : (
-                      <em>Vacío</em>
+                      <em>{t("fx_v4_cmp_empty")}</em>
                     )}
                   </span>
                   <span className="cmp-piece">
@@ -373,7 +393,7 @@ export function Compare() {
                         {a.name}
                       </>
                     ) : (
-                      <em>Vacío</em>
+                      <em>{t("fx_v4_cmp_empty")}</em>
                     )}
                   </span>
                 </li>

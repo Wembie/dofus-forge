@@ -34,10 +34,10 @@ import { Modal } from "./SurfaceModal";
 import "./tools.css";
 
 const ELEMENT_NAMES = {
-  fire: "Fuego",
-  earth: "Tierra",
-  water: "Agua",
-  air: "Aire",
+  fire: "elem_fire",
+  earth: "elem_earth",
+  water: "elem_water",
+  air: "elem_air",
 } as const;
 const EMPTY: Record<string, number> = {};
 
@@ -135,7 +135,7 @@ export function Runes({
     <Modal
       open
       onClose={onClose}
-      title="Forjamagia"
+      title={t("magesmithy")}
       size="4xl"
       className="runes-study"
     >
@@ -145,24 +145,24 @@ export function Runes({
           <p>
             <b>{item.name}</b>
             <span>
-              {t("slot_" + slot)} · nivel {item.level}
+              {t("tool_v4_runes_slot_level", { slot: t("slot_" + slot), level: item.level })}
             </span>
           </p>
           {forgeable && (
-            <div className="view-switch-control" role="tablist" aria-label="Tipo de runa">
+            <div className="view-switch-control" role="tablist" aria-label={t("tool_v4_runes_kind")}>
               <button
                 role="tab"
                 aria-selected={mode === "normal"}
                 onClick={() => setMode("normal")}
               >
-                Runas <span className="view-count">{normal.length}</span>
+                {t("rune_tab_normal")} <span className="view-count">{normal.length}</span>
               </button>
               <button
                 role="tab"
                 aria-selected={mode === "exotic"}
                 onClick={() => setMode("exotic")}
               >
-                Trascendencia{" "}
+                {t("tool_v4_runes_transcendence")}{" "}
                 <span className="view-count">{exotic ? "1/1" : "0/1"}</span>
               </button>
             </div>
@@ -170,19 +170,19 @@ export function Runes({
         </header>
         <div className="runes-layout">
           {mode === "normal" ? (
-            <section className="runes-pick" aria-label="Elegir runa">
+            <section className="runes-pick" aria-label={t("rune_picker")}>
               <label className="runes-search">
                 <Search size={16} aria-hidden="true" />
                 <input
                   type="search"
-                  placeholder="Buscar una runa…"
-                  aria-label="Buscar una runa"
+                  placeholder={t("tool_v4_runes_search_placeholder")}
+                  aria-label={t("tool_v4_runes_search")}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
               </label>
               {!sections.length && (
-                <p className="runes-note">Ninguna runa coincide con «{query}».</p>
+                <p className="runes-note">{t("tool_v4_runes_no_match", { query })}</p>
               )}
               {sections.map(({ section, stats }) => (
                 <div key={section.labelKey} role="group" aria-label={t(section.labelKey)}>
@@ -205,12 +205,8 @@ export function Runes({
               ))}
             </section>
           ) : (
-            <section className="runes-pick" aria-label="Elegir runa de trascendencia">
-              <p className="runes-note">
-                Cada objeto admite una sola runa de trascendencia, además de sus
-                runas normales. Al elegir una característica se aplica el rango
-                más alto que admite este objeto; elegir otra reemplaza la actual.
-              </p>
+            <section className="runes-pick" aria-label={t("tool_v4_runes_pick_transcendence")}>
+              <p className="runes-note">{t("tool_v4_runes_transcendence_note")}</p>
               <div className="runes-grid">
                 {TRANSCENDENCE.map(({ stat }) => {
                   const best = bestRank(item, stat);
@@ -233,17 +229,17 @@ export function Runes({
               </div>
             </section>
           )}
-          <section className="runes-piece" aria-label="Runas de la pieza">
+          <section className="runes-piece" aria-label={t("tool_v4_runes_piece")}>
             {mode === "normal" ? (
               <div className="runes-add">
                 <p>
                   <RuneArt stat={selected} />
                   <b>{label(selected)}</b>
                   {(runes[selected] ?? 0) > 0 && (
-                    <span>lleva +{runes[selected]}</span>
+                    <span>{t("tool_v4_runes_carries", { value: runes[selected] })}</span>
                   )}
                 </p>
-                <div className="runes-amounts" role="group" aria-label="Cantidad">
+                <div className="runes-amounts" role="group" aria-label={t("tool_v4_runes_amount")}>
                   {quickValuesFor(selected).map((v) => (
                     <button
                       key={v}
@@ -256,14 +252,14 @@ export function Runes({
                 </div>
                 <div className="runes-value">
                   <button
-                    aria-label="Restar uno"
+                    aria-label={t("tool_v4_runes_minus_one")}
                     onClick={() => setAmount((v) => Math.max(0, (v === "" ? 0 : v) - 1))}
                   >
                     <Minus size={15} />
                   </button>
                   <input
                     inputMode="numeric"
-                    aria-label="Cantidad a añadir"
+                    aria-label={t("tool_v4_runes_amount_input")}
                     value={amount}
                     onChange={(e) => {
                       const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
@@ -271,30 +267,28 @@ export function Runes({
                     }}
                   />
                   <button
-                    aria-label="Sumar uno"
+                    aria-label={t("tool_v4_runes_plus_one")}
                     onClick={() => setAmount((v) => (v === "" ? 0 : v) + 1)}
                   >
                     <Plus size={15} />
                   </button>
                   <button className="primary" disabled={n <= 0} onClick={add}>
-                    Añadir +{n}
+                    {t("tool_v4_runes_add", { n })}
                   </button>
                 </div>
               </div>
             ) : (
               <div className="runes-add">
                 {!focus ? (
-                  <p className="runes-note">
-                    Elige una característica para ver sus rangos en este objeto.
-                  </p>
+                  <p className="runes-note">{t("tool_v4_runes_pick_hint")}</p>
                 ) : (
                   <>
                     <p>
                       <RuneArt stat={focus} exotic />
                       <b>{label(focus)}</b>
-                      <span>peso de la línea {lineWeight(item, focus)}</span>
+                      <span>{t("tool_v4_runes_line_weight", { weight: lineWeight(item, focus) })}</span>
                     </p>
-                    <div className="runes-ranks" role="group" aria-label="Rango">
+                    <div className="runes-ranks" role="group" aria-label={t("tool_v4_runes_rank_group")}>
                       {options.map((o) => (
                         <button
                           key={o.rank}
@@ -303,21 +297,26 @@ export function Runes({
                           title={
                             o.allowed
                               ? undefined
-                              : `La línea pesa ${lineWeight(item, focus)}; este rango solo entra hasta ${o.limit}`
+                              : t("tool_v4_runes_rank_blocked", {
+                                  weight: lineWeight(item, focus),
+                                  limit: o.limit,
+                                })
                           }
                           onClick={() =>
                             startTransition(() => b.setExotic(slot, focus, o.value))
                           }
                         >
                           <b>+{o.value}</b>
-                          <span>Rango {o.rank}</span>
+                          <span>{t("rune_rank", { rank: o.rank })}</span>
                         </button>
                       ))}
                     </div>
                     {options.length > 0 && !options.some((o) => o.allowed) && (
                       <p className="runes-error">
-                        La línea del objeto pesa {lineWeight(item, focus)}: ningún
-                        rango entra (el mínimo admite hasta {options[0].limit}).
+                        {t("tool_v4_runes_no_rank", {
+                          weight: lineWeight(item, focus),
+                          limit: options[0].limit,
+                        })}
                       </p>
                     )}
                   </>
@@ -326,12 +325,12 @@ export function Runes({
             )}
             <div className="runes-carried">
               <h3>
-                En esta pieza
+                {t("tool_v4_runes_on_piece")}
                 {entries.length > 0 && (
                   <button
                     onClick={() => startTransition(() => b.clearAllRunes(slot))}
                   >
-                    Quitar todas
+                    {t("tool_v4_runes_clear_all")}
                   </button>
                 )}
               </h3>
@@ -345,24 +344,24 @@ export function Runes({
                           +{exotic.value} {label(exotic.stat)}
                         </b>
                         <small>
-                          Trascendencia
+                          {t("tool_v4_runes_transcendence")}
                           {(() => {
                             const rank = rankOptions(item, exotic.stat).find(
                               (o) => o.value === exotic.value,
                             )?.rank;
-                            return rank ? ` · rango ${rank}` : "";
+                            return rank ? " · " + t("tool_v4_runes_rank_lower", { rank }) : "";
                           })()}
                         </small>
                       </span>
                       <button
-                        aria-label="Quitar la runa de trascendencia"
+                        aria-label={t("tool_v4_runes_remove_transcendence")}
                         onClick={() => startTransition(() => b.clearExotic(slot))}
                       >
                         <X size={15} />
                       </button>
                     </>
                   ) : (
-                    <small>Sin runa de trascendencia.</small>
+                    <small>{t("tool_v4_runes_no_transcendence")}</small>
                   )}
                 </div>
               )}
@@ -376,7 +375,7 @@ export function Runes({
                         <span>{label(stat)}</span>
                         <b>+{value}</b>
                         <button
-                          aria-label={`Quitar la runa de ${label(stat)}`}
+                          aria-label={t("tool_v4_runes_remove_rune", { stat: label(stat) })}
                           onClick={() => startTransition(() => b.clearRune(slot, key))}
                         >
                           <X size={15} />
@@ -386,28 +385,26 @@ export function Runes({
                   })}
                 </ul>
               ) : (
-                <p className="runes-note">Sin runas normales todavía.</p>
+                <p className="runes-note">{t("tool_v4_runes_no_normal")}</p>
               )}
             </div>
             {weapon && mode === "normal" && (
-              <div className="runes-transform" role="group" aria-label="Transformación elemental">
+              <div className="runes-transform" role="group" aria-label={t("tool_v4_runes_transform")}>
                 <h3>
-                  Transformación elemental
+                  {t("tool_v4_runes_transform")}
                   {transform && transformable && (
                     <button
-                      aria-label="Quitar la transformación elemental"
+                      aria-label={t("tool_v4_runes_remove_transform")}
                       onClick={() =>
                         startTransition(() => b.setWeaponTransform(slot, null))
                       }
                     >
-                      Quitar
+                      {t("weapon_transform_clear")}
                     </button>
                   )}
                 </h3>
                 {!transformable ? (
-                  <p className="runes-note">
-                    El arma no tiene daño neutro: no se puede transformar.
-                  </p>
+                  <p className="runes-note">{t("tool_v4_runes_no_neutral")}</p>
                 ) : (
                   <>
                     <div className="runes-elements">
@@ -415,7 +412,7 @@ export function Runes({
                         <button
                           key={element}
                           className={element}
-                          aria-label={`Transformar a ${ELEMENT_NAMES[element]}`}
+                          aria-label={t("tool_v4_runes_transform_to", { element: t(ELEMENT_NAMES[element]) })}
                           aria-pressed={transform?.element === element}
                           onClick={() =>
                             startTransition(() =>
@@ -427,16 +424,16 @@ export function Runes({
                           }
                         >
                           <img src={runeIconUrl(`transform_${element}`) ?? ""} alt="" />
-                          {ELEMENT_NAMES[element]}
+                          {t(ELEMENT_NAMES[element])}
                         </button>
                       ))}
                     </div>
                     {transform && (
-                      <div className="runes-ratios" role="group" aria-label="Proporción">
+                      <div className="runes-ratios" role="group" aria-label={t("tool_v4_runes_ratio")}>
                         {TRANSFORM_RATIOS.map((ratio) => (
                           <button
                             key={ratio}
-                            aria-label={`Convertir el ${ratio} % del daño neutro`}
+                            aria-label={t("tool_v4_runes_ratio_label", { ratio })}
                             aria-pressed={transform.ratio === ratio}
                             onClick={() =>
                               startTransition(() =>
@@ -457,10 +454,10 @@ export function Runes({
               </div>
             )}
             <label className="runes-signature">
-              Firma del forjamago
+              {t("tool_v4_runes_signature")}
               <input
                 value={signature}
-                placeholder="Tu nombre de forjamago…"
+                placeholder={t("forjamago_name_placeholder")}
                 onChange={(e) => b.setForjamagoName(slot, e.target.value)}
               />
             </label>

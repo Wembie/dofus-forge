@@ -8,6 +8,7 @@ import {
   type ElementType,
 } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 import { CornerDownLeft, Search } from "lucide-react";
 import { normalizeSearch } from "@/ui/normalize.ts";
 import "./tools.css";
@@ -33,6 +34,7 @@ export type PaletteCommand = {
  * Enter, closes with Escape or a click outside; disabled actions stay listed.
  */
 export function Palette({ commands }: { commands: PaletteCommand[] }) {
+  const { t } = useTranslation();
   const [open, setOpenState] = useState(false),
     [query, setQuery] = useState(""),
     [active, setActive] = useState(0),
@@ -103,7 +105,7 @@ export function Palette({ commands }: { commands: PaletteCommand[] }) {
     <dialog
       ref={ref}
       className="palette"
-      aria-label="Buscar una acción"
+      aria-label={t("fx_v4_pal_search")}
       onCancel={(e) => {
         e.preventDefault();
         setOpen(false);
@@ -132,16 +134,18 @@ export function Palette({ commands }: { commands: PaletteCommand[] }) {
           aria-expanded="true"
           aria-controls={listId}
           aria-activedescendant={order.length ? `${listId}-${active}` : undefined}
-          aria-label="Buscar una acción"
-          placeholder="Buscar una acción…"
+          aria-label={t("fx_v4_pal_search")}
+          placeholder={t("fx_v4_pal_search_placeholder")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         <kbd>Esc</kbd>
       </label>
-      <div className="palette-list" id={listId} role="listbox" aria-label="Acciones">
+      <div className="palette-list" id={listId} role="listbox" aria-label={t("fx_v4_pal_actions")}>
         {!order.length && (
-          <p className="palette-empty">Ninguna acción coincide con «{query}».</p>
+          <p className="palette-empty">
+            {t("fx_v4_pal_empty", { query, interpolation: { escapeValue: false } })}
+          </p>
         )}
         {groups.map(({ group, items }) => (
           <div key={group} role="group" aria-label={group}>
@@ -162,7 +166,7 @@ export function Palette({ commands }: { commands: PaletteCommand[] }) {
                   <c.Icon size={16} aria-hidden="true" />
                   <span>{c.label}</span>
                   {c.disabled ? (
-                    <small>No disponible</small>
+                    <small>{t("fx_v4_pal_unavailable")}</small>
                   ) : c.hint ? (
                     <kbd>{c.hint}</kbd>
                   ) : null}
@@ -178,14 +182,14 @@ export function Palette({ commands }: { commands: PaletteCommand[] }) {
       <footer className="palette-foot" aria-hidden="true">
         <span>
           <kbd>↑</kbd>
-          <kbd>↓</kbd> moverse
+          <kbd>↓</kbd> {t("fx_v4_pal_move")}
         </span>
         <span>
-          <kbd>Enter</kbd> ejecutar
+          <kbd>Enter</kbd> {t("fx_v4_pal_run")}
         </span>
         <span>
           <kbd>Ctrl</kbd>
-          <kbd>K</kbd> abrir o cerrar
+          <kbd>K</kbd> {t("fx_v4_pal_toggle")}
         </span>
       </footer>
     </dialog>,

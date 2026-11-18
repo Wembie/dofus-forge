@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Dices } from "lucide-react";
 import { useBuildStore } from "../../../src/store/buildStore";
 import { useDataStore } from "../../../src/store/dataStore";
@@ -20,11 +21,11 @@ import { equipment } from "./model";
 import "./tools.css";
 
 const ELEMENTS: [PvpElement, string][] = [
-  ["neutral", "Neutro"],
-  ["earth", "Tierra"],
-  ["fire", "Fuego"],
-  ["water", "Agua"],
-  ["air", "Aire"],
+  ["neutral", "elem_neutral"],
+  ["earth", "elem_earth"],
+  ["fire", "elem_fire"],
+  ["water", "elem_water"],
+  ["air", "elem_air"],
 ];
 /** Mirrors the production picker: effects that hit a plain target, without a condition. */
 const HITS = new Set(["damage", "steal", "poison"]);
@@ -44,7 +45,8 @@ const span = (lo: number, hi: number) => (hi > lo ? `${lo} – ${hi}` : String(l
 
 /** Every attack of the build against one target: the normal and critical range, side by side. */
 export function Combat() {
-  const b = useBuildStore(),
+  const { t } = useTranslation(),
+    b = useBuildStore(),
     stats = useCombatStats(),
     spells = useDataStore((s) => s.spells),
     resist = usePvpStore((s) => s.resist),
@@ -85,7 +87,7 @@ export function Combat() {
       common = spells.get("common")?.spells ?? [];
     return [
       {
-        title: "Arma",
+        titleKey: "slot_weapon",
         rows: weapon
           ? [
               {
@@ -98,9 +100,9 @@ export function Combat() {
             ]
           : [],
       },
-      { title: "Hechizos", rows: rows(own.filter((s) => !s.is_variant)) },
-      { title: "Variantes", rows: rows(own.filter((s) => s.is_variant)) },
-      { title: "Hechizos comunes", rows: rows(common) },
+      { titleKey: "spells", rows: rows(own.filter((s) => !s.is_variant)) },
+      { titleKey: "spell_col_variant", rows: rows(own.filter((s) => s.is_variant)) },
+      { titleKey: "tool_v4_spells_common", rows: rows(common) },
     ].filter((g) => g.rows.length);
   }, [stats, spells, resist, weapon, transform, grade, b.selectedClass]);
   const [last, setLast] = useState<{
@@ -128,28 +130,28 @@ export function Combat() {
   return (
     <div className="combat">
       <div className="combat-layout">
-        <section className="combat-target" aria-label="Objetivo">
+        <section className="combat-target" aria-label={t("tool_v4_combat_target")}>
           <header>
-            <h3>Objetivo</h3>
+            <h3>{t("tool_v4_combat_target")}</h3>
             <button disabled={untouched} onClick={reset}>
-              Reiniciar
+              {t("pvp_dummy_reset")}
             </button>
           </header>
-          <div className="combat-resist" role="group" aria-label="Resistencias">
-            <span>Resistencia</span>
-            <span>Fija</span>
+          <div className="combat-resist" role="group" aria-label={t("section_resistances")}>
+            <span>{t("tool_v4_combat_resistance")}</span>
+            <span>{t("tool_v4_combat_fixed")}</span>
             <span>%</span>
-            {ELEMENTS.map(([el, name]) => (
+            {ELEMENTS.map(([el, nameKey]) => (
               <div key={el}>
                 <span className={el}>
                   <img src={statIconUrl(el + "_resistance")} alt="" />
-                  {name}
+                  {t(nameKey)}
                 </span>
                 <input
                   type="number"
                   inputMode="numeric"
                   min={0}
-                  aria-label={`Resistencia fija a ${name}`}
+                  aria-label={t("tool_v4_combat_fixed_label", { element: t(nameKey) })}
                   value={resist[el].fixed}
                   onFocus={(e) => e.currentTarget.select()}
                   onChange={(e) =>
@@ -165,7 +167,7 @@ export function Combat() {
                   inputMode="numeric"
                   min={0}
                   max={100}
-                  aria-label={`Resistencia porcentual a ${name}`}
+                  aria-label={t("tool_v4_combat_percent_label", { element: t(nameKey) })}
                   value={resist[el].percent}
                   onFocus={(e) => e.currentTarget.select()}
                   onChange={(e) =>
@@ -184,58 +186,53 @@ export function Combat() {
           </div>
           <p>
             {untouched
-              ? "Sin resistencias: verás el daño de tu build tal cual."
-              : "El daño de la tabla ya descuenta estas resistencias."}{" "}
-            Siempre cuenta tus pasivos de combate activos.
+              ? t("tool_v4_combat_untouched")
+              : t("tool_v4_combat_applied")}{" "}
+            {t("tool_v4_combat_passives")}
           </p>
           <div className="combat-roll" aria-live="polite">
-            <span>Último golpe</span>
+            <span>{t("tool_v4_combat_last_hit")}</span>
             {last ? (
               <>
                 <strong className={last.crit ? "is-crit" : ""}>
                   {last.value}
                 </strong>
                 <small>
-                  {last.name} · {last.crit ? "golpe crítico" : "golpe normal"}
+                  {last.name} ·{" "}
+                  {last.crit
+                    ? t("tool_v4_combat_crit_hit")
+                    : t("tool_v4_combat_normal_hit")}
                 </small>
               </>
             ) : (
-              <small>
-                Usa el dado de un ataque para tirar un golpe al azar dentro de
-                su rango.
-              </small>
+              <small>{t("tool_v4_combat_roll_hint")}</small>
             )}
           </div>
         </section>
-        <section className="combat-damage" aria-label="Daño de tus ataques">
+        <section className="combat-damage" aria-label={t("tool_v4_combat_damage")}>
           {!groups.length ? (
             <div className="tool-empty">
-              <h3>Aún no hay ataques que calcular</h3>
-              <p>
-                Elige una clase o equipa un arma para ver cuánto daño hace cada
-                ataque contra este objetivo.
-              </p>
+              <h3>{t("tool_v4_combat_empty_title")}</h3>
+              <p>{t("tool_v4_combat_empty_body")}</p>
             </div>
           ) : (
             <table>
-              <caption className="sr-only">
-                Daño por ataque contra el objetivo
-              </caption>
+              <caption className="sr-only">{t("tool_v4_combat_caption")}</caption>
               <thead>
                 <tr>
-                  <th scope="col">Ataque</th>
-                  <th scope="col">Golpe normal</th>
-                  <th scope="col">Crítico</th>
+                  <th scope="col">{t("tool_v4_combat_attack")}</th>
+                  <th scope="col">{t("tool_v4_combat_normal_col")}</th>
+                  <th scope="col">{t("weapon_crit_col")}</th>
                   <th scope="col">
-                    <span className="sr-only">Tirar un golpe</span>
+                    <span className="sr-only">{t("tool_v4_combat_roll")}</span>
                   </th>
                 </tr>
               </thead>
               {groups.map((group) => (
-                <tbody key={group.title}>
+                <tbody key={group.titleKey}>
                   <tr className="combat-group">
                     <th scope="colgroup" colSpan={4}>
-                      {group.title}
+                      {t(group.titleKey)}
                     </th>
                   </tr>
                   {group.rows.map((row) => (
@@ -250,8 +247,8 @@ export function Combat() {
                         </span>
                         {last?.key === row.key && (
                           <small className="combat-hit">
-                            Golpe: <b>{last.value}</b>
-                            {last.crit ? " · crítico" : ""}
+                            {t("tool_v4_combat_hit")} <b>{last.value}</b>
+                            {last.crit ? " · " + t("tool_v4_combat_crit_lower") : ""}
                           </small>
                         )}
                       </th>
@@ -259,14 +256,14 @@ export function Combat() {
                       <td className={row.hit.hasCrit ? "is-crit" : "is-none"}>
                         {row.hit.hasCrit
                           ? span(row.hit.critMin, row.hit.critMax)
-                          : "sin crítico"}
+                          : t("tool_v4_combat_no_crit")}
                         {row.hit.hasCrit && row.crit > 0 && (
-                          <small>{row.crit} % de probabilidad</small>
+                          <small>{t("tool_v4_combat_chance", { chance: row.crit })}</small>
                         )}
                       </td>
                       <td className="combat-dice">
                         <button
-                          aria-label={`Tirar un golpe de ${row.name}`}
+                          aria-label={t("tool_v4_combat_roll_label", { name: row.name })}
                           onClick={() => roll(row)}
                         >
                           <Dices size={16} />

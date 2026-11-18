@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
   AlertTriangle,
   Anvil,
@@ -65,7 +65,7 @@ import { bonusParts } from "@/features/passives/passiveLabels.ts";
 import { runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
 import "./tools.css";
 
-const group = (n: number) => Math.round(n).toLocaleString("es");
+const group = (n: number, lang: string) => Math.round(n).toLocaleString(lang);
 
 /** Number typed freely and committed on blur or Enter, like the production order fields. */
 function NumberInput({
@@ -120,7 +120,7 @@ function GoalRow({
         <img src={statIconUrl(meta.icon)} alt="" />
         <span>{name}</span>
         <button
-          aria-label={`Añadir ${name} al encargo`}
+          aria-label={t("fx_v4_fg_add", { name })}
           title={t("optimizer_activate_hint")}
           onClick={() => onChange({ ...req, weight: leyPreset(meta.key, 2), cap: suggestedCap(meta.key) })}
         >
@@ -141,19 +141,19 @@ function GoalRow({
         )}
       </span>
       <label className="fg-num">
-        <span>Mínimo</span>
+        <span>{t("optimizer_min_val_label")}</span>
         <NumberInput
           value={req.minimum}
-          label={`Mínimo de ${name}`}
+          label={t("fx_v4_fg_min_of", { name })}
           placeholder="—"
           onCommit={(v) => onChange({ ...req, minimum: v ?? 0 })}
         />
       </label>
       <label className="fg-num">
-        <span>Tope</span>
+        <span>{t("fx_v4_fg_cap")}</span>
         <NumberInput
           value={req.cap}
-          label={`Tope de ${name}`}
+          label={t("fx_v4_fg_cap_of", { name })}
           placeholder="∞"
           onCommit={(v) => onChange({ ...req, cap: normalizeCap(v) })}
         />
@@ -161,23 +161,23 @@ function GoalRow({
       <button
         className={"fg-lock" + (req.strictCap ? " is-strict" : "")}
         aria-pressed={req.strictCap}
-        aria-label={`Tope estricto de ${name}`}
+        aria-label={t("fx_v4_fg_strict_of", { name })}
         title={req.strictCap ? t("optimizer_cap_strict_hint") : t("optimizer_cap_soft_hint")}
         onClick={() => onChange({ ...req, strictCap: !req.strictCap })}
       >
         {req.strictCap ? <Lock size={14} /> : <Unlock size={14} />}
       </button>
       <label className="fg-num">
-        <span>Ley</span>
+        <span>{t("optimizer_ley")}</span>
         <NumberInput
           value={req.weight}
-          label={`Ley de ${name}`}
+          label={t("fx_v4_fg_ley_of", { name })}
           placeholder="0"
           max={10000}
           onCommit={(v) => onChange({ ...req, weight: v ?? 0 })}
         />
       </label>
-      <div className="fg-presets" role="group" aria-label={`Niveles de Ley de ${name}`}>
+      <div className="fg-presets" role="group" aria-label={t("fx_v4_fg_ley_levels_of", { name })}>
         {LEY_PRESETS.map((_, level) => (
           <button
             key={level}
@@ -190,7 +190,7 @@ function GoalRow({
       </div>
       <button
         className="fg-remove"
-        aria-label={`Quitar ${name} del encargo`}
+        aria-label={t("fx_v4_fg_remove", { name })}
         onClick={() => onChange(emptyReq(meta.key))}
       >
         <X size={15} />
@@ -240,7 +240,7 @@ function Goals({ forge }: { forge: ForgeState }) {
     <section className="fg-goals" aria-labelledby="fg-goals-title">
       <header className="fg-step">
         <span>01</span>
-        <h3 id="fg-goals-title">Qué quieres mejorar</h3>
+        <h3 id="fg-goals-title">{t("fx_v4_fg_goals_title")}</h3>
         <button
           className="fg-link is-danger"
           onClick={() =>
@@ -251,10 +251,7 @@ function Goals({ forge }: { forge: ForgeState }) {
         </button>
       </header>
       <p className="fg-lead">
-        <b>Mínimo</b>: lo que la pieza debe tener sí o sí. <b>Ley</b>: cuánto
-        vale cada punto. <b>Tope</b>: hasta dónde cuenta; con candado, se
-        descarta lo que lo pase. El Poder cuenta para Fuerza, Inteligencia,
-        Suerte y Agilidad.
+        <Trans i18nKey="fx_v4_fg_lead" components={{ b: <b /> }} />
       </p>
       {STAT_GROUPS.map((g) => {
         const active = g.statKeys.filter((k) => {
@@ -328,11 +325,8 @@ function Picks({ forge }: { forge: ForgeState }) {
   }
   return (
     <section className="fg-rule" aria-label={t("optimizer_items_title")}>
-      <h4>Objetos fijados y vetados</h4>
-      <p>
-        Fija los que toda build debe llevar: la Forjadora busca el resto
-        alrededor y aún puede forjamagearlos. Veta los que nunca quieres ver.
-      </p>
+      <h4>{t("fx_v4_fg_picks_title")}</h4>
+      <p>{t("fx_v4_fg_picks_hint")}</p>
       <label className="fg-search">
         <Search size={15} aria-hidden="true" />
         <input
@@ -341,7 +335,7 @@ function Picks({ forge }: { forge: ForgeState }) {
           aria-expanded={query.trim().length >= 2}
           aria-controls={listId}
           aria-label={t("optimizer_items_search")}
-          placeholder="Buscar un objeto o panoplia…"
+          placeholder={t("fx_v4_fg_search_placeholder")}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -365,7 +359,7 @@ function Picks({ forge }: { forge: ForgeState }) {
         />
       </label>
       {query.trim().length >= 2 && (
-        <ul id={listId} className="fg-results-list" role="listbox" aria-label="Objetos encontrados">
+        <ul id={listId} className="fg-results-list" role="listbox" aria-label={t("fx_v4_fg_found")}>
           {!results.length && <li className="fg-muted">{t("optimizer_items_no_match")}</li>}
           {results.map((item, i) => {
             const isPinned = required.includes(item.ankama_id),
@@ -377,24 +371,24 @@ function Picks({ forge }: { forge: ForgeState }) {
                 <span>
                   <b>{item.name}</b>
                   <small>
-                    Nivel {item.level} · {t(slotNameKey(slotsFor(item)[0]))}
+                    {t("sets_bracket_single", { level: item.level })} · {t(slotNameKey(slotsFor(item)[0]))}
                     {set && ` · ${set}`}
                   </small>
                 </span>
                 <button
                   aria-pressed={isPinned}
-                  aria-label={isPinned ? `Soltar ${item.name}` : `Fijar ${item.name}`}
+                  aria-label={isPinned ? t("fx_v4_fg_unpin_item", { name: item.name }) : t("fx_v4_fg_pin_item", { name: item.name })}
                   onClick={() => (isPinned ? release(item.ankama_id) : pin(item))}
                 >
-                  <Pin size={14} /> Fijar
+                  <Pin size={14} /> {t("optimizer_items_pin")}
                 </button>
                 <button
                   className="is-danger"
                   aria-pressed={isBanned}
-                  aria-label={isBanned ? `Permitir ${item.name}` : `Vetar ${item.name}`}
+                  aria-label={isBanned ? t("fx_v4_fg_allow_item", { name: item.name }) : t("fx_v4_fg_ban_item", { name: item.name })}
                   onClick={() => (isBanned ? release(item.ankama_id) : ban(item.ankama_id))}
                 >
-                  <Ban size={14} /> Vetar
+                  <Ban size={14} /> {t("fx_v4_fg_ban")}
                 </button>
               </li>
             );
@@ -402,15 +396,15 @@ function Picks({ forge }: { forge: ForgeState }) {
         </ul>
       )}
       {worn.length > 0 && (
-        <div className="fg-worn" role="group" aria-label="Fijar una pieza de tu equipo">
-          <span>De tu equipo</span>
+        <div className="fg-worn" role="group" aria-label={t("fx_v4_fg_worn_aria")}>
+          <span>{t("fx_v4_fg_worn")}</span>
           {worn.map((item) => {
             const on = required.includes(item.ankama_id);
             return (
               <button
                 key={item.ankama_id}
                 aria-pressed={on}
-                aria-label={on ? `Soltar ${item.name}` : `Fijar ${item.name}`}
+                aria-label={on ? t("fx_v4_fg_unpin_item", { name: item.name }) : t("fx_v4_fg_pin_item", { name: item.name })}
                 title={item.name}
                 onClick={() => toggleRequired(item.ankama_id)}
               >
@@ -424,7 +418,7 @@ function Picks({ forge }: { forge: ForgeState }) {
       {forge.placements.length > 0 && (
         <div className="fg-picked">
           <h5>
-            Fijados · {forge.placements.length}
+            {t("fx_v4_fg_pinned_count", { n: forge.placements.length })}
             <button className="fg-link" onClick={clearRequired}>
               {t("optimizer_items_clear")}
             </button>
@@ -453,7 +447,7 @@ function Picks({ forge }: { forge: ForgeState }) {
                       )}
                     </small>
                   </span>
-                  <button aria-label={`Soltar ${name}`} onClick={() => release(p.id)}>
+                  <button aria-label={t("fx_v4_fg_unpin_item", { name })} onClick={() => release(p.id)}>
                     <X size={14} />
                   </button>
                 </li>
@@ -465,7 +459,7 @@ function Picks({ forge }: { forge: ForgeState }) {
       {banned.length > 0 && (
         <div className="fg-picked is-banned">
           <h5>
-            Vetados · {banned.length}
+            {t("fx_v4_fg_banned_count", { n: banned.length })}
             <button className="fg-link" onClick={clearBanned}>
               {t("optimizer_items_clear")}
             </button>
@@ -480,7 +474,7 @@ function Picks({ forge }: { forge: ForgeState }) {
                   <span>
                     <b>{name}</b>
                   </span>
-                  <button aria-label={`Permitir ${name}`} onClick={() => release(id)}>
+                  <button aria-label={t("fx_v4_fg_allow_item", { name })} onClick={() => release(id)}>
                     <X size={14} />
                   </button>
                 </li>
@@ -520,13 +514,13 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
   const setMode = (passives: ForgePassiveMode) => forge.setConfig((c) => ({ ...c, passives }));
   return (
     <section className="fg-rule" aria-label={t("optimizer_passives")}>
-      <h4>Pasivos de combate</h4>
+      <h4>{t("fx_v4_tool_passives")}</h4>
       <label className="fg-check">
         <input type="checkbox" checked={on} onChange={(e) => setMode(e.target.checked ? "max" : "off")} />
         {t("optimizer_passives_count")}
       </label>
       {on && (
-        <div className="fg-segment" role="radiogroup" aria-label="Cómo contar los pasivos">
+        <div className="fg-segment" role="radiogroup" aria-label={t("fx_v4_fg_passive_mode")}>
           {PASSIVE_MODES.filter((m): m is Exclude<ForgePassiveMode, "off"> => m !== "off").map((m) => (
             <button key={m} role="radio" aria-checked={mode === m} onClick={() => setMode(m)}>
               {t(`optimizer_passives_${m}`)}
@@ -558,9 +552,7 @@ function PassivesRule({ forge }: { forge: ForgeState }) {
                     />
                     {label}
                   </label>
-                  <small>
-                    {count} de {ids.length}
-                  </small>
+                  <small>{t("fx_v4_fg_of", { n: count, total: ids.length })}</small>
                   <button
                     aria-expanded={open}
                     aria-label={t("optimizer_passive_section_configure", { section: label })}
@@ -615,10 +607,10 @@ function Rules({ forge }: { forge: ForgeState }) {
     <section className="fg-rules" aria-labelledby="fg-rules-title">
       <header className="fg-step">
         <span>02</span>
-        <h3 id="fg-rules-title">Con qué reglas buscar</h3>
+        <h3 id="fg-rules-title">{t("fx_v4_fg_rules_title")}</h3>
       </header>
       <section className="fg-rule" aria-label={t("optimizer_intensity")}>
-        <h4>Intensidad de la fragua</h4>
+        <h4>{t("forgeguide_intensity_title")}</h4>
         <div className="fg-segment" role="radiogroup" aria-label={t("optimizer_intensity")}>
           {(Object.keys(INTENSITY) as ForgeIntensity[]).map((k) => (
             <button
@@ -635,8 +627,8 @@ function Rules({ forge }: { forge: ForgeState }) {
         </div>
         <p>{t(`optimizer_intensity_${config.intensity}_hint`)}</p>
       </section>
-      <section className="fg-rule" aria-label="Nivel y características">
-        <h4>Nivel y características</h4>
+      <section className="fg-rule" aria-label={t("fx_v4_fg_level_chars")}>
+        <h4>{t("fx_v4_fg_level_chars")}</h4>
         <div className="fg-inline">
           <label className="fg-num">
             <span>{t("optimizer_max_level")}</span>
@@ -660,9 +652,9 @@ function Rules({ forge }: { forge: ForgeState }) {
       </section>
       <section className="fg-rule" aria-label={t("optimizer_slots")}>
         <h4>
-          Ranuras que puede cambiar
+          {t("fx_v4_fg_slots_title")}
           <button className="fg-link" aria-expanded={forge.showSlots} onClick={() => forge.setShowSlots((s) => !s)}>
-            {forge.activeSlots} de {ALL_SLOTS.length}
+            {t("fx_v4_fg_of", { n: forge.activeSlots, total: ALL_SLOTS.length })}
             <ChevronDown size={14} />
           </button>
         </h4>
@@ -692,7 +684,7 @@ function Rules({ forge }: { forge: ForgeState }) {
         )}
       </section>
       <section className="fg-rule" aria-label={t("optimizer_forgemagie")}>
-        <h4>Forjamagia</h4>
+        <h4>{t("magesmithy")}</h4>
         <label className="fg-check" title={t("optimizer_transcendence_hint")}>
           <input
             type="checkbox"
@@ -760,7 +752,7 @@ function ResultCard({
   ribbon?: string;
   actions?: boolean;
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(rank === 1 && actions);
   const runeLabel = (stat: string) => {
     const k = runeStatLabelKey(stat);
@@ -791,13 +783,13 @@ function ResultCard({
           <small>
             {goals.length > 0 &&
               (result.meetsRequired
-                ? "Cumple todos los mínimos"
-                : `Cumple ${result.requirementsMet} de ${result.requirementsTotal} mínimos`)}
+                ? t("fx_v4_fg_meets_all")
+                : t("fx_v4_fg_meets_some", { met: result.requirementsMet, count: result.requirementsTotal }))}
             {passives && ` · ${t("optimizer_with_passives")}`}
           </small>
         </span>
         <span className="fg-quality" title={t("optimizer_quality_hint")}>
-          Calidad <b className={result.score < 0 ? "is-negative" : ""}>{group(result.score)}</b>
+          {t("optimizer_quality")} <b className={result.score < 0 ? "is-negative" : ""}>{group(result.score, i18n.language)}</b>
         </span>
       </header>
       <div className="fg-pieces" aria-hidden="true">
@@ -850,7 +842,7 @@ function ResultCard({
       )}
       <button className="fg-disclosure" aria-expanded={open} onClick={() => setOpen(!open)}>
         <ChevronDown size={15} />
-        {open ? "Ocultar piezas" : `Ver las ${pieces.length} piezas`}
+        {open ? t("fx_v4_fg_hide_pieces") : t("fx_v4_fg_show_pieces", { count: pieces.length })}
       </button>
       {open && (
         <ul className="fg-piece-list">
@@ -867,23 +859,23 @@ function ResultCard({
                 <span>
                   <b>{item.name}</b>
                   <small>
-                    {t(SLOT_LABEL_KEY[slot])} · nivel {item.level}
-                    {pinned && " · fijado"}
-                    {locked && " · ranura conservada"}
-                    {forged(slot) && " · con tus runas"}
+                    {t("fx_v4_cmp_name_level", { name: t(SLOT_LABEL_KEY[slot]), level: item.level })}
+                    {pinned && ` · ${t("fx_v4_fg_tag_pinned")}`}
+                    {locked && ` · ${t("fx_v4_fg_tag_kept")}`}
+                    {forged(slot) && ` · ${t("fx_v4_fg_tag_runes")}`}
                     {exo && ` · ${t(`optimizer_exo_${exo}`)}`}
                     {rune && ` · ${t("optimizer_rune_badge", { value: rune.value, stat: runeLabel(rune.stat) })}`}
                     {passive && ` · ${t("optimizer_passive_badge")}`}
                   </small>
                 </span>
                 {actions && !pinned && !locked && (
-                  <button aria-label={`Fijar ${item.name} en la próxima búsqueda`} onClick={() => forge.pinItem(item.ankama_id)}>
-                    <Pin size={14} /> Fijar
+                  <button aria-label={t("fx_v4_fg_pin_next", { name: item.name })} onClick={() => forge.pinItem(item.ankama_id)}>
+                    <Pin size={14} /> {t("optimizer_items_pin")}
                   </button>
                 )}
                 {actions && !pinned && !locked && !banned && (
-                  <button className="is-danger" aria-label={`Vetar ${item.name}`} onClick={() => forge.banItem(item.ankama_id)}>
-                    <Ban size={14} /> Vetar
+                  <button className="is-danger" aria-label={t("fx_v4_fg_ban_item", { name: item.name })} onClick={() => forge.banItem(item.ankama_id)}>
+                    <Ban size={14} /> {t("fx_v4_fg_ban")}
                   </button>
                 )}
               </li>
@@ -906,10 +898,10 @@ function Checklist({ forge, result }: { forge: ForgeState; result: BuildResult }
   const checks = requirementChecks(forge.activeReqs, result);
   if (!checks.length) return null;
   return (
-    <ul className="fg-checklist" aria-label="Mínimos del encargo">
+    <ul className="fg-checklist" aria-label={t("fx_v4_fg_checklist")}>
       {checks.map(({ requirement: r, meta, value, ok }) => (
         <li key={r.stat} className={ok ? "is-ok" : "is-missing"}>
-          {ok ? <Check size={14} aria-label="cumplido" /> : <X size={14} aria-label="falta" />}
+          {ok ? <Check size={14} aria-label={t("fx_v4_fg_met")} /> : <X size={14} aria-label={t("fx_v4_fg_missing")} />}
           <img src={statIconUrl(meta.icon)} alt="" />
           <span>{t(meta.tKey)}</span>
           <b>
@@ -923,14 +915,14 @@ function Checklist({ forge, result }: { forge: ForgeState; result: BuildResult }
 }
 
 function Surplus({ forge, result }: { forge: ForgeState; result: BuildResult }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { rows, total } = surplusRows(forge.activeReqs, result);
   if (!rows.length) return null;
   return (
     <section className="fg-surplus" aria-label={t("optimizer_surplus_title")}>
       <h4>
-        Lo que sobra de cada mínimo
-        <span>{group(total)} de Ley</span>
+        {t("fx_v4_fg_surplus_title")}
+        <span>{t("fx_v4_fg_surplus_total", { n: group(total, i18n.language) })}</span>
       </h4>
       <p>{t("optimizer_surplus_hint")}</p>
       <ul>
@@ -945,7 +937,7 @@ function Surplus({ forge, result }: { forge: ForgeState; result: BuildResult }) 
                 +{extra}
                 {capped && <small> ({t("optimizer_surplus_capped")})</small>}
               </b>
-              <em>{group(worth)}</em>
+              <em>{group(worth, i18n.language)}</em>
             </li>
           );
         })}
@@ -955,7 +947,7 @@ function Surplus({ forge, result }: { forge: ForgeState; result: BuildResult }) 
 }
 
 function Forging({ forge }: { forge: ForgeState }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const best = forge.results[0],
     eternal = forge.config.intensity === "eternal";
   const stage = forge.tempering
@@ -970,7 +962,7 @@ function Forging({ forge }: { forge: ForgeState }) {
   const pct = Math.round(Math.max(0.04, Math.min(1, forge.tempering ? 0 : forge.heat)) * 100);
   return (
     <div className="fg-forging">
-      <section className="fg-furnace" aria-label="Estado de la fragua">
+      <section className="fg-furnace" aria-label={t("fx_v4_fg_furnace")}>
         <ForgeScene heat={forge.tempering ? 0.2 : Math.max(0.1, forge.heat)} burst={forge.burst} tempering={forge.tempering} />
         <div className="fg-heat">
           <p aria-live="polite">
@@ -985,16 +977,16 @@ function Forging({ forge }: { forge: ForgeState }) {
         </div>
         <dl className="fg-counters">
           <div>
-            <dt>Tiempo</dt>
+            <dt>{t("fx_v4_fg_time")}</dt>
             <dd>{forge.elapsed} s</dd>
           </div>
           <div title={t("optimizer_strikes_hint")}>
-            <dt>Piezas probadas</dt>
+            <dt>{t("fx_v4_fg_tried")}</dt>
             <dd>{formatCount(forge.strikes)}</dd>
           </div>
           <div title={t("optimizer_quality_hint")}>
-            <dt>Calidad</dt>
-            <dd className={best && best.score < 0 ? "is-negative" : ""}>{best ? group(best.score) : "—"}</dd>
+            <dt>{t("optimizer_quality")}</dt>
+            <dd className={best && best.score < 0 ? "is-negative" : ""}>{best ? group(best.score, i18n.language) : "—"}</dd>
           </div>
         </dl>
         {forge.settled && !forge.tempering && <p className="fg-note">{t("optimizer_plateau_hint")}</p>}
@@ -1012,7 +1004,7 @@ function Forging({ forge }: { forge: ForgeState }) {
           <button onClick={forge.extinguish}>{t("optimizer_extinguish")}</button>
         </div>
       </section>
-      <section className="fg-progress" aria-label="Progreso de la búsqueda">
+      <section className="fg-progress" aria-label={t("fx_v4_fg_progress")}>
         {best && <Checklist forge={forge} result={best} />}
         <section className="fg-log" aria-label={t("optimizer_log_title")}>
           <h4>{t("optimizer_log_title")}</h4>
@@ -1100,8 +1092,8 @@ function Order({ forge }: { forge: ForgeState }) {
       )}
       <div className="fg-context">
         <span>
-          Base: nivel {forge.level}
-          {CHARACTERISTICS.filter((c) => forge.scrolled[c]).length > 0 && " · pergaminos en "}
+          {t("fx_v4_fg_base", { level: forge.level })}
+          {CHARACTERISTICS.filter((c) => forge.scrolled[c]).length > 0 && ` · ${t("fx_v4_fg_scrolled_in")} `}
           {CHARACTERISTICS.filter((c) => forge.scrolled[c]).map((c) => {
             const meta = META_MAP.get(c);
             return meta ? <img key={c} src={statIconUrl(meta.icon)} alt={t(meta.tKey)} title={t(meta.tKey)} /> : null;
@@ -1119,8 +1111,8 @@ function Order({ forge }: { forge: ForgeState }) {
       <footer className="fg-footer">
         <span>
           {forge.activeReqs.length
-            ? `${forge.activeReqs.length} objetivos · ${forge.activeSlots} ranuras · ${t(`optimizer_intensity_${forge.config.intensity}`)}`
-            : "Añade al menos un objetivo para encender la fragua."}
+            ? `${t("fx_v4_fg_goals", { count: forge.activeReqs.length })} · ${t("fx_v4_fg_slots", { count: forge.activeSlots })} · ${t(`optimizer_intensity_${forge.config.intensity}`)}`
+            : t("fx_v4_fg_empty_order")}
         </span>
         <button onClick={forge.handleClose}>{t("optimizer_cancel")}</button>
         <button
@@ -1173,18 +1165,18 @@ export function Forge({ onClose }: { onClose: () => void }) {
       }}
     >
       <header className="fg-header">
-        <button onClick={forge.handleClose} aria-label="Volver al taller">
+        <button onClick={forge.handleClose} aria-label={t("fx_v4_fg_back")}>
           <ArrowLeft size={18} />
-          <span>Volver al taller</span>
+          <span>{t("fx_v4_fg_back")}</span>
         </button>
         <div>
           <span>DOFUS FORGE</span>
           <h2>{t("optimizer_title")}</h2>
         </div>
-        <ol className="fg-phases" aria-label="Pasos">
-          <li aria-current={forge.phase === "order" || forge.phase === "locked" ? "step" : undefined}>Encargo</li>
-          <li aria-current={forge.phase === "forging" ? "step" : undefined}>Búsqueda</li>
-          <li aria-current={forge.phase === "forged" ? "step" : undefined}>Resultados</li>
+        <ol className="fg-phases" aria-label={t("fx_v4_fg_steps")}>
+          <li aria-current={forge.phase === "order" || forge.phase === "locked" ? "step" : undefined}>{t("fx_v4_fg_step_order")}</li>
+          <li aria-current={forge.phase === "forging" ? "step" : undefined}>{t("fx_v4_fg_step_search")}</li>
+          <li aria-current={forge.phase === "forged" ? "step" : undefined}>{t("fx_v4_fg_step_results")}</li>
         </ol>
       </header>
       <div className="fg-body">{body}</div>
