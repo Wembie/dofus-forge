@@ -1,5 +1,6 @@
 import type { SyntheticEvent } from 'react'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
+import type { StatBlock } from '@/engine/types.ts'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -274,3 +275,30 @@ export const STAT_FIELDS: Record<string, { tKey: string; icon: string }> = {
   mpSteal:      { tKey: 'stat_mp_steal',     icon: 'mp_reduction' },
   heals:        { tKey: 'stat_heals',        icon: 'heals' },
 }
+
+export type SheetKey = Exclude<keyof StatBlock, 'unknownStats'> | 'unknownStats'
+
+/** Every field of the StatBlock, grouped as the character sheet reads them.
+ * Vitality is left out: its effect is already the HP. */
+export const STAT_SHEET_GROUPS: [string, SheetKey[]][] = [
+  ['character', [
+    'maxHp', 'ap', 'mp', 'range', 'wisdom', 'strength', 'intelligence', 'chance', 'agility',
+    'power', 'initiative', 'prospecting', 'summons', 'pods', 'pointsBudget', 'pointsSpent',
+  ]],
+  ['section_damage', [
+    'damage', 'neutralDamage', 'earthDamage', 'fireDamage', 'waterDamage', 'airDamage', 'critChance', 'critDamage',
+    'meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'weaponDamagePercent', 'finalDamagePercent',
+    'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage', 'neutralSteal', 'earthSteal', 'fireSteal',
+    'waterSteal', 'airSteal', 'bestElemSteal', 'bestElemDamage',
+  ]],
+  ['section_resistances', [
+    'neutralResFixed', 'earthResFixed', 'fireResFixed', 'waterResFixed', 'airResFixed',
+    'neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent',
+    'neutralResPercentRaw', 'earthResPercentRaw', 'fireResPercentRaw', 'waterResPercentRaw', 'airResPercentRaw',
+    'critResistance', 'pushbackResist', 'meleeResistPercent', 'rangedResistPercent', 'targetVulnerabilityPercent',
+  ]],
+  ['stats_group_control', [
+    'apReduction', 'mpReduction', 'apParry', 'mpParry', 'lock', 'dodge', 'mpSteal', 'heals',
+    'apRaw', 'mpRaw', 'rangeRaw', 'unknownStats',
+  ]],
+]

@@ -2839,5 +2839,20 @@
   "cmp_behind": "the reference ahead",
   "cmp_even": "even",
   "cmp_no_change": "No stat changes. Untick “Differences only” to see the full sheet of both builds.",
-  "cmp_empty": "Empty"
+  "cmp_empty": "Empty",
+  "share_intro": "The link keeps gear, runes, characteristics, name and passives. It opens the build in Dofus Forge.",
+  "share_link_label": "Your build’s link",
+  "share_copy": "Copy link",
+  "share_copy_error": "Couldn’t copy. Select the link and copy it yourself.",
+  "share_download": "Download sheet",
+  "share_downloaded": "Image ready.",
+  "share_download_error": "The image couldn’t be made. You can try again.",
+  "share_preview_show": "Show preview",
+  "share_preview_hide": "Hide preview",
+  "share_no_class": "Pick a class to share your build.",
+  "share_sheet_kicker": "GEAR SHEET",
+  "share_empty_slot": "Empty slot",
+  "share_none": "None",
+  "share_sheet_footer": "Gear stats, without combat passives",
+  "share_preview_label": "Image preview"
 }

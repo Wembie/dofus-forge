@@ -1,257 +1,131 @@
-import { PREVIEW_COLORS as P } from '../../data/visual.ts'
-import { createRoot } from 'react-dom/client'
-import { flushSync } from 'react-dom'
-import { toPng } from 'html-to-image'
-import i18next from 'i18next'
+import { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { AppItem } from '@/data/loaders.ts'
 import type { StatBlock } from '@/engine/types.ts'
-import type { SlotId } from '@/store/buildStore.ts'
-import { ALL_SLOTS } from '@/store/buildStore.ts'
-import { statIconUrl } from '../equipment/statDisplay.ts'
+import { ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
+import { statIconUrl, STAT_FIELDS, STAT_SHEET_GROUPS, type SheetKey } from '@/features/equipment/statDisplay.ts'
 import { BRAND } from '@/data/brand.ts'
 
 const BASE = import.meta.env.BASE_URL
 
-const C = {bg:P.bg,surface:P.surface,border:P.border,gold:P.accent,text:P.text,muted:P.muted,dim:P.muted} as const
+/** The sheet keeps its own dark palette in both themes: it is an image, not the page. */
+const C = { bg: '#111615', text: '#e9e8df', muted: '#a1aaa0', line: '#343c35', soft: '#272e29', accent: '#e4b28b', negative: '#e79a92' } as const
 
-function slotLabel(id: SlotId): string {
-  const t = i18next.t.bind(i18next)
-  if (id === 'ring1')  return t('slot_ring1')
-  if (id === 'ring2')  return t('slot_ring2')
-  if (id.startsWith('dofus')) return t(`slot_${id}` as never)
-  return t(`slot_${id}` as never)
-}
+const HEADLINE = ['maxHp', 'ap', 'mp', 'range', 'critChance', 'power'] as const
+const HEADLINE_SET = new Set<string>(HEADLINE)
+/** Bookkeeping fields of the sheet; they say nothing to whoever reads the image. */
+const LEFT_OUT = new Set<string>(['pointsBudget', 'pointsSpent', 'apRaw', 'mpRaw', 'rangeRaw'])
 
 export type ExportData = {
+  name:       string
   classLabel: string
   classSlug:  string
   level:      number
   gender:     'male' | 'female'
-  equipped:   Partial<Record<SlotId, string>>
+  equipped:   Partial<Record<SlotId, AppItem | undefined>>
   stats:      StatBlock
 }
 
-function StatIcon({ name, size = 14 }: { name: string; size?: number }) {
-  return (
-    <img
-      src={statIconUrl(name)}
-      width={size} height={size}
-      style={{ objectFit: 'contain', display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 }}
-      alt=""
-    />
-  )
+function Icon({ name, size }: { name: string; size: number }) {
+  return <img src={statIconUrl(name)} width={size} height={size} alt="" style={{ objectFit: 'contain', display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 }} />
 }
 
-function fmt(v: number, suffix = '') {
-  if (v === 0) return '—'
-  return `${v > 0 ? '+' : ''}${v}${suffix}`
-}
-
-const SECTION_STYLE: React.CSSProperties = {
-  color: C.gold, fontSize: 9,
-  fontFamily: "'Alegreya', Georgia, serif",
-  textTransform: 'uppercase', letterSpacing: '0.2em',
-  marginBottom: 8,
-}
-
-function ExportCard({ classLabel, classSlug, level, gender, equipped, stats }: ExportData) {
-  const t           = i18next.t.bind(i18next)
-  const portrait    = `${BASE}data/classes/${classSlug}${gender === 'female' ? '-f' : ''}.png`
-  const equippedSlots = ALL_SLOTS.filter(s => equipped[s])
-
-  const chars = [
-    { icon: 'vitality',     label: t('char_vitality'),     value: stats.vitality,     color: '#e05252' },
-    { icon: 'wisdom',       label: t('char_wisdom'),       value: stats.wisdom,       color: '#9b6dff' },
-    { icon: 'strength',     label: t('char_strength'),     value: stats.strength,     color: '#c49a2a' },
-    { icon: 'intelligence', label: t('char_intelligence'), value: stats.intelligence, color: '#dc4e22' },
-    { icon: 'chance',       label: t('char_chance'),       value: stats.chance,       color: '#2a8fd4' },
-    { icon: 'agility',      label: t('char_agility'),      value: stats.agility,      color: '#6ab04c' },
-  ].filter(c => c.value !== 0)
-
-  const elems = [
-    { icon: 'strength',     label: t('elem_earth_label'), color: '#c49a2a', dmg: stats.earthDamage,   res: stats.earthResFixed,   pct: stats.earthResPercent   },
-    { icon: 'intelligence', label: t('elem_fire_label'),  color: '#dc4e22', dmg: stats.fireDamage,    res: stats.fireResFixed,    pct: stats.fireResPercent    },
-    { icon: 'chance',       label: t('elem_water_label'), color: '#2a8fd4', dmg: stats.waterDamage,   res: stats.waterResFixed,   pct: stats.waterResPercent   },
-    { icon: 'agility',      label: t('elem_air_label'),   color: '#6ab04c', dmg: stats.airDamage,     res: stats.airResFixed,     pct: stats.airResPercent     },
-    { icon: 'neutral',      label: t('elem_neutral_label'),color:'#9b9b9b', dmg: stats.neutralDamage, res: stats.neutralResFixed, pct: stats.neutralResPercent },
-  ].filter(e => e.dmg !== 0 || e.res !== 0 || e.pct !== 0)
-
-  const combatStats: { icon: string; label: string; value: number; color: string; suffix?: string }[] = [
-    { icon: 'initiative',  label: t('combat_initiative'), value: stats.initiative,  color: '#c9a84c'           },
-    { icon: 'lock',        label: t('combat_lock'),       value: stats.lock,        color: '#b8860b'           },
-    { icon: 'dodge',       label: t('combat_dodge'),      value: stats.dodge,       color: '#6ab04c'           },
-    { icon: 'crit',        label: t('combat_crit'),       value: stats.critChance,  color: '#f5a623', suffix: '%' },
-    { icon: 'heals',       label: t('combat_heals'),      value: stats.heals,       color: '#e05252'           },
-    { icon: 'prospecting', label: t('combat_pp'),         value: stats.prospecting, color: '#c9a84c'           },
-    { icon: 'summons',     label: t('combat_summons'),    value: stats.summons,     color: '#9b6dff'           },
-  ].filter(c => c.value !== 0)
-
-  const badges = [
-    { icon: 'ap',       label: t('badge_ap'),    value: stats.ap,    color: stats.ap < 0 ? '#e05252' : '#f5c518' },
-    { icon: 'mp',       label: t('badge_mp'),    value: stats.mp,    color: stats.mp < 0 ? '#e05252' : '#6ab04c' },
-    { icon: 'vitality', label: t('badge_hp'),    value: stats.maxHp, color: '#e05252' },
-    // A weapon/item penalty can push Range below 0 — used to only show the
-    // badge when > 0, silently hiding a real penalty instead of warning
-    // about it.
-    ...(stats.range !== 0 ? [{ icon: 'range', label: t('badge_range'), value: stats.range, color: stats.range < 0 ? '#e05252' : '#2a8fd4' }] : []),
-  ]
+/** The build as one image: gear per slot on the left, the headline stats and
+ * every other non-zero field of the sheet on the right. Vitality is left out:
+ * its effect is already the HP. */
+export const ExportCard = forwardRef<HTMLDivElement, ExportData>(function ExportCard({ name, classLabel, classSlug, level, gender, equipped, stats }, ref) {
+  const { t } = useTranslation()
+  const label = (key: SheetKey) => (STAT_FIELDS[key] ? t(STAT_FIELDS[key].tKey) : t(`sheet_stat_${key}`))
+  const slots = ALL_SLOTS.filter(slot => slot !== 'sidekick' || equipped[slot])
+  const rows = STAT_SHEET_GROUPS.flatMap(([, keys]) => keys).filter(key =>
+    key === 'unknownStats' ? Object.keys(stats.unknownStats).length > 0 : !HEADLINE_SET.has(key) && !LEFT_OUT.has(key) && stats[key] !== 0)
 
   return (
-    <div style={{
-      width: 720, background: C.bg,
-      border: `1px solid ${C.border}`, borderRadius: 12,
-      overflow: 'hidden',
-      fontFamily: "'Source Sans 3', system-ui, sans-serif",
-    }}>
-      {/* ── Header ── */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 16,
-        padding: '16px 20px', background: C.surface,
-        borderBottom: `1px solid ${C.border}`,
-      }}>
-        <div style={{ width: 60, height: 60, borderRadius: 8, overflow: 'hidden', border: `1px solid ${C.border}`, flexShrink: 0 }}>
-          <img src={portrait} width={60} height={60} style={{ objectFit: 'cover', display: 'block' }} alt="" />
+    <div ref={ref} className="export-sheet" style={{ background: C.bg, color: C.text, width: 1200, padding: 44, fontFamily: "'Source Sans 3', sans-serif" }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 28, borderBottom: `1px solid ${C.line}` }}>
+        <div>
+          <p style={{ font: "12px 'IBM Plex Mono', monospace", color: C.accent, letterSpacing: 2, margin: '0 0 12px' }}>{t('share_sheet_kicker')}</p>
+          <p style={{ font: '600 44px Alegreya, Georgia, serif', margin: 0, lineHeight: 1.1 }}>{name || classLabel}</p>
+          <p style={{ fontSize: 16, color: C.muted, margin: '12px 0 0' }}>
+            {t('export_level')} {level} · {classLabel} · {t(gender === 'male' ? 'gender_male' : 'gender_female')}
+          </p>
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ color: C.gold, fontSize: 18, fontWeight: 700, fontFamily: "'Alegreya', Georgia, serif", letterSpacing: '0.05em' }}>
-            {classLabel}
-          </div>
-          <div style={{ color: C.muted, fontSize: 12, marginTop: 2 }}>
-            {gender === 'female' ? '♀' : '♂'} · {t('export_level')} {level}
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           {/* PNG, not the SVG mark: html-to-image rasterizes it reliably */}
-          <img src={BRAND.mark256} width={34} height={34} style={{ display: 'block' }} alt="" />
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ color: C.gold, fontSize: 18, fontWeight: 600, letterSpacing: '0.05em', fontFamily: "'Barlow Condensed', sans-serif" }}>DOFUS FORGE</div>
-            <div style={{ color: C.dim, fontSize: 9, marginTop: 3 }}>Dofus 3</div>
+          <img src={BRAND.mark256} width={56} height={56} alt="" style={{ display: 'block' }} />
+          <b style={{ font: "600 28px 'Barlow Condensed', sans-serif", letterSpacing: 1 }}>DOFUS FORGE</b>
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 36, paddingTop: 28 }}>
+        <div>
+          <img src={`${BASE}data/classes/${classSlug}${gender === 'female' ? '-f' : ''}.webp`} width={144} height={160} alt=""
+            style={{ objectFit: 'contain', display: 'block', margin: '0 auto 24px' }} />
+          {slots.map(slot => {
+            const item = equipped[slot]
+            return (
+              <div key={slot} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: `1px solid ${C.line}`, minHeight: 49 }}>
+                {item?.image_url
+                  ? <img src={item.image_url} width={30} height={34} alt="" style={{ objectFit: 'contain', flexShrink: 0 }} />
+                  : <span style={{ width: 30, flexShrink: 0 }} />}
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ font: "10px 'IBM Plex Mono', monospace", color: C.muted, letterSpacing: 0.5 }}>{t(`slot_${slot}`)}</span>
+                  <span style={{ fontSize: 13, lineHeight: 1.35, color: item ? C.text : C.muted }}>{item?.name || t('share_empty_slot')}</span>
+                </span>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18, paddingBottom: 26, borderBottom: `1px solid ${C.line}` }}>
+            {HEADLINE.map(key => (
+              <div key={key}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: C.muted }}>
+                  <Icon name={STAT_FIELDS[key]?.icon ?? key} size={16} />{label(key)}
+                </span>
+                {/* A penalty that pushes AP, MP or range below zero shows in red. */}
+                <strong style={{ display: 'block', font: "400 32px 'IBM Plex Mono', monospace", marginTop: 6, color: stats[key] < 0 ? C.negative : undefined }}>
+                  {stats[key]}
+                </strong>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 28px', paddingTop: 20 }}>
+            {rows.map(key => (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: `1px solid ${C.soft}`, fontSize: 12 }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: C.muted }}>
+                  {STAT_FIELDS[key] && <Icon name={STAT_FIELDS[key].icon} size={14} />}{label(key)}
+                </span>
+                <b style={{ font: "400 12px 'IBM Plex Mono', monospace", textAlign: 'right' }}>
+                  {key === 'unknownStats'
+                    ? Object.entries(stats.unknownStats).map(([k, v]) => `${k}: ${v}`).join(', ')
+                    : stats[key]}
+                </b>
+              </div>
+            ))}
+            {rows.length === 0 && <p style={{ color: C.muted, fontSize: 12, margin: '8px 0' }}>{t('share_none')}</p>}
           </div>
         </div>
       </div>
-
-      {/* ── AP / MP / HP ── */}
-      <div style={{ display: 'flex', gap: 8, padding: '12px 20px', borderBottom: `1px solid ${C.border}` }}>
-        {badges.map(b => (
-          <div key={b.label} style={{
-            display: 'flex', alignItems: 'center', gap: 6,
-            flex: 1, padding: '8px 12px',
-            background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
-          }}>
-            <StatIcon name={b.icon} size={18} />
-            <span style={{ color: b.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 20, lineHeight: 1 }}>{b.value}</span>
-            <span style={{ color: C.dim, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{b.label}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Body ── */}
-      <div style={{ display: 'flex' }}>
-        {/* Equipment column */}
-        <div style={{ width: 240, padding: '16px', borderRight: `1px solid ${C.border}`, flexShrink: 0 }}>
-          <div style={SECTION_STYLE}>{t('export_section_equipment')}</div>
-          {equippedSlots.length === 0
-            ? <div style={{ color: C.dim, fontSize: 11 }}>{t('export_no_equipment')}</div>
-            : equippedSlots.map(slot => (
-              <div key={slot} style={{ display: 'flex', gap: 6, marginBottom: 5, alignItems: 'flex-start' }}>
-                <span style={{ color: C.muted, fontSize: 10, width: 52, flexShrink: 0, paddingTop: 1 }}>{slotLabel(slot)}</span>
-                <span style={{ color: C.text, fontSize: 11, lineHeight: 1.35 }}>{equipped[slot]}</span>
-              </div>
-            ))
-          }
-        </div>
-
-        {/* Stats column */}
-        <div style={{ flex: 1, padding: '16px' }}>
-          {chars.length > 0 && (
-            <div style={{ marginBottom: 14 }}>
-              <div style={SECTION_STYLE}>{t('export_section_characteristics')}</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
-                {chars.map(c => (
-                  <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '2px 0' }}>
-                    <StatIcon name={c.icon} size={13} />
-                    <span style={{ color: C.muted, fontSize: 10, flex: 1 }}>{c.label}</span>
-                    <span style={{ color: c.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11 }}>{fmt(c.value)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {elems.length > 0 && (
-            <div style={{ marginBottom: 14 }}>
-              <div style={SECTION_STYLE}>{t('export_section_elements')}</div>
-              <div style={{ display: 'flex', marginBottom: 4 }}>
-                <div style={{ flex: 1 }} />
-                {[t('header_dmg'), t('header_res'), t('header_res_pct')].map(h => (
-                  <div key={h} style={{ width: 48, textAlign: 'right', color: C.dim, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</div>
-                ))}
-              </div>
-              {elems.map(e => (
-                <div key={e.label} style={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
-                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <StatIcon name={e.icon} size={13} />
-                    <span style={{ color: e.color, fontSize: 11, fontWeight: 600 }}>{e.label}</span>
-                  </div>
-                  <div style={{ width: 48, textAlign: 'right', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11, color: e.dmg !== 0 ? e.color : C.dim }}>{fmt(e.dmg)}</div>
-                  <div style={{ width: 48, textAlign: 'right', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11, color: e.res !== 0 ? e.color : C.dim }}>{fmt(e.res)}</div>
-                  <div style={{ width: 48, textAlign: 'right', fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11, color: e.pct !== 0 ? e.color : C.dim }}>{fmt(e.pct, '%')}</div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {combatStats.length > 0 && (
-            <div>
-              <div style={SECTION_STYLE}>{t('export_section_combat')}</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                {combatStats.map(c => (
-                  <div key={c.label} style={{
-                    display: 'flex', alignItems: 'center', gap: 4,
-                    padding: '3px 7px',
-                    background: C.surface, border: `1px solid ${C.border}`, borderRadius: 4,
-                  }}>
-                    <StatIcon name={c.icon} size={12} />
-                    <span style={{ color: c.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, fontSize: 11 }}>{fmt(c.value, c.suffix)}</span>
-                    <span style={{ color: C.muted, fontSize: 10 }}>{c.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── Footer ── */}
-      <div style={{ padding: '8px 20px', borderTop: `1px solid ${C.border}`, textAlign: 'center' }}>
-        <span style={{ color: C.dim, fontSize: 9 }}>{t('export_footer')}</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: C.muted, paddingTop: 24, marginTop: 28, borderTop: `1px solid ${C.line}` }}>
+        <span>{t('share_sheet_footer')}</span>
+        <span>dofusforge.com</span>
       </div>
     </div>
   )
+})
+
+/** Production's file name: dofus-<class>-lv<level>.png */
+export function exportFileName(classLabel: string, level: number) {
+  return `dofus-${classLabel.toLowerCase().replace(/\s+/g, '-')}-lv${level}.png`
 }
 
-export async function triggerExport(data: ExportData): Promise<void> {
-  const container = document.createElement('div')
-  container.style.cssText = 'position:fixed;left:-9999px;top:-9999px;pointer-events:none;z-index:-1'
-  document.body.appendChild(container)
-
-  const root = createRoot(container)
-  flushSync(() => root.render(<ExportCard {...data} />))
-
-  const card = container.firstElementChild as HTMLElement
-
-  // Wait for all images to load before capturing
-  const imgs = Array.from(card.querySelectorAll('img'))
-  await Promise.all(imgs.map(img =>
-    img.complete ? Promise.resolve() : new Promise<void>(r => { img.onload = img.onerror = () => r() })
-  ))
-
-  const png = await toPng(card, { pixelRatio: 2 })
-
-  root.unmount()
-  document.body.removeChild(container)
-
+export async function downloadSheet(node: HTMLElement, fileName: string): Promise<void> {
+  const { toPng } = await import('html-to-image')
+  await document.fonts.ready
+  await Promise.all([...node.querySelectorAll('img')].map(img => img.decode().catch(() => {})))
+  const png = await toPng(node, { pixelRatio: 2, backgroundColor: C.bg })
   const link = document.createElement('a')
-  link.download = `dofus-${data.classLabel.toLowerCase().replace(/\s+/g, '-')}-lv${data.level}.png`
+  link.download = fileName
   link.href = png
   link.click()
 }

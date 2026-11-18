@@ -2839,5 +2839,20 @@
   "cmp_behind": "a referência à frente",
   "cmp_even": "empatadas",
   "cmp_no_change": "Nenhuma estatística muda. Desmarque “Só diferenças” para ver a ficha completa das duas builds.",
-  "cmp_empty": "Vazio"
+  "cmp_empty": "Vazio",
+  "share_intro": "O link guarda equipamento, runas, características, nome e passivos. Abre o conjunto no Dofus Forge.",
+  "share_link_label": "Link do seu conjunto",
+  "share_copy": "Copiar link",
+  "share_copy_error": "Não foi possível copiar. Selecione o link e copie manualmente.",
+  "share_download": "Baixar ficha",
+  "share_downloaded": "Imagem pronta.",
+  "share_download_error": "Não foi possível gerar a imagem. Você pode tentar de novo.",
+  "share_preview_show": "Ver prévia",
+  "share_preview_hide": "Ocultar prévia",
+  "share_no_class": "Escolha uma classe para compartilhar seu conjunto.",
+  "share_sheet_kicker": "FICHA DE EQUIPAMENTO",
+  "share_empty_slot": "Espaço vazio",
+  "share_none": "Nenhum",
+  "share_sheet_footer": "Stats do equipamento, sem passivos de combate",
+  "share_preview_label": "Prévia da imagem"
 }

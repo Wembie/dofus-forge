@@ -2839,5 +2839,20 @@
   "cmp_behind": "la référence devant",
   "cmp_even": "à égalité",
   "cmp_no_change": "Aucune statistique ne change. Décochez « Différences uniquement » pour voir la fiche complète des deux builds.",
-  "cmp_empty": "Vide"
+  "cmp_empty": "Vide",
+  "share_intro": "Le lien conserve l’équipement, les runes, les caractéristiques, le nom et les passifs. Il ouvre l’équipement dans Dofus Forge.",
+  "share_link_label": "Lien de votre équipement",
+  "share_copy": "Copier le lien",
+  "share_copy_error": "Impossible de copier. Sélectionnez le lien et copiez-le vous-même.",
+  "share_download": "Télécharger la fiche",
+  "share_downloaded": "Image prête.",
+  "share_download_error": "L’image n’a pas pu être générée. Vous pouvez réessayer.",
+  "share_preview_show": "Afficher l’aperçu",
+  "share_preview_hide": "Masquer l’aperçu",
+  "share_no_class": "Choisissez une classe pour partager votre équipement.",
+  "share_sheet_kicker": "FICHE D’ÉQUIPEMENT",
+  "share_empty_slot": "Emplacement vide",
+  "share_none": "Aucun",
+  "share_sheet_footer": "Stats d’équipement, sans passifs de combat",
+  "share_preview_label": "Aperçu de l’image"
 }

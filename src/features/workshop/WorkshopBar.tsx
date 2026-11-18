@@ -1,24 +1,23 @@
 import { useEffect, useRef, useState, type ElementType } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { BarChart3, BookOpen, Columns2, Hammer, Redo2, Swords, Undo2 } from 'lucide-react'
+import { BarChart3, BookOpen, Columns2, Hammer, Redo2, Share2, Swords, Undo2 } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
 import { useClassName } from '@/features/class-picker/useClassName.ts'
-import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import { Modal } from '@/ui'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 
-export type WorkshopTool = 'characteristics' | 'passives' | 'spells' | 'pvp' | 'sets' | 'bonuses' | 'compare'
+export type WorkshopTool = 'characteristics' | 'passives' | 'spells' | 'pvp' | 'sets' | 'bonuses' | 'compare' | 'share'
 
-const TOOLS: WorkshopTool[] = ['characteristics', 'passives', 'spells', 'pvp', 'sets', 'bonuses', 'compare']
+const TOOLS: WorkshopTool[] = ['characteristics', 'passives', 'spells', 'pvp', 'sets', 'bonuses', 'compare', 'share']
 
 /** The workshop's heading: where the build lives, its name, class element and
  * level, that it is kept on this device, and the build-wide actions. */
-export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publishLabel, PublishIcon, onIdentity }: {
+export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publishLabel, PublishIcon, onIdentity, onShare }: {
   onForge: () => void
   onCompare: () => void
   compareActive: boolean
@@ -26,6 +25,7 @@ export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publ
   publishLabel: string
   PublishIcon: ElementType
   onIdentity: () => void
+  onShare: () => void
 }) {
   const { t } = useTranslation()
   const selectedClass = useBuildStore(s => s.selectedClass)
@@ -81,7 +81,10 @@ export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publ
           <PublishIcon size={16} aria-hidden="true" />
           <span>{publishLabel}</span>
         </button>
-        <ShareBar />
+        <button type="button" className="workshop-action" onClick={onShare} disabled={!selectedClass} title={t('copy_url_title')}>
+          <Share2 size={16} aria-hidden="true" />
+          <span>{t('share')}</span>
+        </button>
       </div>
     </div>
   )

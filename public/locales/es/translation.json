@@ -2839,5 +2839,20 @@
   "cmp_behind": "la referencia por delante",
   "cmp_even": "iguales",
   "cmp_no_change": "Ninguna estadística cambia. Desmarca «Solo diferencias» para ver la ficha completa de las dos builds.",
-  "cmp_empty": "Vacío"
+  "cmp_empty": "Vacío",
+  "share_intro": "El enlace conserva equipo, runas, características, nombre y pasivos. Abre la build en Dofus Forge.",
+  "share_link_label": "Enlace de tu build",
+  "share_copy": "Copiar enlace",
+  "share_copy_error": "No se pudo copiar. Selecciona el enlace y cópialo a mano.",
+  "share_download": "Descargar ficha",
+  "share_downloaded": "Imagen preparada.",
+  "share_download_error": "No se pudo generar la imagen. Puedes volver a intentarlo.",
+  "share_preview_show": "Ver vista previa",
+  "share_preview_hide": "Ocultar vista previa",
+  "share_no_class": "Elige una clase para compartir tu build.",
+  "share_sheet_kicker": "FICHA DE EQUIPO",
+  "share_empty_slot": "Espacio vacío",
+  "share_none": "Ninguno",
+  "share_sheet_footer": "Estadísticas del equipo, sin pasivos de combate",
+  "share_preview_label": "Vista previa de la imagen"
 }

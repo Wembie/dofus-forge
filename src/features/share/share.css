@@ -1,0 +1,95 @@
+.share-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+.share-panel > p,
+.share-panel-empty {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+.share-panel-empty {
+  padding: 24px;
+}
+.share-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+}
+.share-panel input {
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--canvas);
+  font: inherit;
+  font-weight: 400;
+  color: var(--text);
+  width: 100%;
+  min-width: 0;
+}
+.share-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+:where(.share-actions) button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+:where(.share-actions) button:where(:hover:not(:disabled)) {
+  border-color: var(--accent);
+}
+.share-actions button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.share-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--success);
+}
+.share-message.is-error {
+  border-left: 2px solid var(--negative);
+  padding: 12px 16px;
+  color: var(--negative);
+  background: var(--canvas);
+}
+.share-preview {
+  width: 100%;
+  overflow: auto;
+  max-height: 480px;
+  border: 1px solid var(--line);
+  overscroll-behavior: contain;
+}
+.share-offscreen {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  pointer-events: none;
+  width: 1200px;
+}
+.export-sheet * {
+  box-sizing: border-box;
+}
+.export-sheet b {
+  overflow-wrap: anywhere;
+}
+.export-sheet img {
+  max-width: none;
+}

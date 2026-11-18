@@ -4,34 +4,7 @@ import { ArrowRight, Search } from 'lucide-react'
 import type { StatBlock } from '@/engine/types.ts'
 import { Modal } from '@/ui'
 import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
-import { statIconUrl, STAT_FIELDS } from '@/features/equipment/statDisplay.ts'
-
-type SheetKey = Exclude<keyof StatBlock, 'unknownStats'> | 'unknownStats'
-
-/** Every field of the StatBlock, grouped as the character sheet reads them.
- * Vitality is left out: its effect is already the HP. */
-const STAT_SHEET_GROUPS: [string, SheetKey[]][] = [
-  ['character', [
-    'maxHp', 'ap', 'mp', 'range', 'wisdom', 'strength', 'intelligence', 'chance', 'agility',
-    'power', 'initiative', 'prospecting', 'summons', 'pods', 'pointsBudget', 'pointsSpent',
-  ]],
-  ['section_damage', [
-    'damage', 'neutralDamage', 'earthDamage', 'fireDamage', 'waterDamage', 'airDamage', 'critChance', 'critDamage',
-    'meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'weaponDamagePercent', 'finalDamagePercent',
-    'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage', 'neutralSteal', 'earthSteal', 'fireSteal',
-    'waterSteal', 'airSteal', 'bestElemSteal', 'bestElemDamage',
-  ]],
-  ['section_resistances', [
-    'neutralResFixed', 'earthResFixed', 'fireResFixed', 'waterResFixed', 'airResFixed',
-    'neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent',
-    'neutralResPercentRaw', 'earthResPercentRaw', 'fireResPercentRaw', 'waterResPercentRaw', 'airResPercentRaw',
-    'critResistance', 'pushbackResist', 'meleeResistPercent', 'rangedResistPercent', 'targetVulnerabilityPercent',
-  ]],
-  ['stats_group_control', [
-    'apReduction', 'mpReduction', 'apParry', 'mpParry', 'lock', 'dodge', 'mpSteal', 'heals',
-    'apRaw', 'mpRaw', 'rangeRaw', 'unknownStats',
-  ]],
-]
+import { statIconUrl, STAT_FIELDS, STAT_SHEET_GROUPS, type SheetKey } from '@/features/equipment/statDisplay.ts'
 
 function StatsSheet({ stats }: { stats: StatBlock }) {
   const { t, i18n } = useTranslation()

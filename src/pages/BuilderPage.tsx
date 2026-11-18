@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router'
-import { User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library, Sparkles } from 'lucide-react'
+import { User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library, Sparkles, Share2 } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { WorkshopBar, WorkshopIdentity, WorkshopMobileNav, WorkshopStatus, WorkshopTools, type WorkshopTool, type WorkshopView } from '@/features/workshop/WorkshopBar.tsx'
 import { StatsQuick } from '@/features/stats-panel/StatsOverview.tsx'
@@ -39,6 +39,7 @@ const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx')
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
 const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
+const SharePanel      = lazy(() => import('@/features/share/SharePanel.tsx').then(m => ({ default: m.SharePanel })))
 const PublishModal    = lazy(() => import('@/features/publish/PublishModal.tsx').then(m => ({ default: m.PublishModal })))
 
 
@@ -112,6 +113,7 @@ function BuilderContent() {
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [showCharacteristics, setShowCharacteristics] = useState(false)
+  const [showShare, setShowShare] = useState(false)
   const [showIdentity, setShowIdentity] = useState(false)
   // The saved side is applied after mount; the prerendered page uses the default.
   const [sidebarSide, setSidebarSideState] = useState<SidebarSide>('right')
@@ -218,6 +220,7 @@ function BuilderContent() {
     if (tool === 'sets') return setShowSetsCatalog(true)
     if (tool === 'characteristics') return setShowCharacteristics(true)
     if (tool === 'compare') return toggleCompare()
+    if (tool === 'share') return setShowShare(true)
     // Until each tool gets its own panel, the bar reaches the one on the page.
     if (!window.matchMedia('(min-width: 1024px)').matches) setActiveTab('equipment')
     setTimeout(() => {
@@ -238,6 +241,7 @@ function BuilderContent() {
           { key: 'optimizer', label: t('optimizer_open'),    Icon: Wand2,       onRun: () => setShowOptimizer(true) },
           { key: 'sets',      label: t('sets_catalog_open'), Icon: Layers,      onRun: () => setShowSetsCatalog(true) },
           { key: 'compare',   label: t('compare'),           Icon: BarChart2,   onRun: toggleCompare },
+          { key: 'share',     label: t('tool_share'),        Icon: Share2,      disabled: !hasClass, onRun: () => setShowShare(true) },
           { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
           { key: 'characteristics', label: t('tool_characteristics'), Icon: User, disabled: !hasClass, onRun: () => setShowCharacteristics(true) },
@@ -262,10 +266,14 @@ function BuilderContent() {
         publishLabel={publishLabel}
         PublishIcon={PublishIcon}
         onIdentity={() => setShowIdentity(true)}
+        onShare={() => setShowShare(true)}
       />
       <WorkshopIdentity open={showIdentity} onClose={() => setShowIdentity(false)} />
       <Modal open={showCharacteristics} onClose={() => setShowCharacteristics(false)} title={t('tool_characteristics')} size="2xl">
         <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel /></div>
+      </Modal>
+      <Modal open={showShare} onClose={() => setShowShare(false)} title={t('tool_share')} size="xl">
+        {showShare && <Suspense fallback={null}><SharePanel /></Suspense>}
       </Modal>
       <WorkshopTools onSelect={selectTool} compareActive={compareActive} />
       {hasClass && <div className="lg:hidden"><StatsQuick /></div>}
