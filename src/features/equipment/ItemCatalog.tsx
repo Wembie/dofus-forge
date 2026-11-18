@@ -10,7 +10,7 @@ import { playEquip } from '@/lib/sound.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotConfig } from './slotConfig.ts'
 import { matchesSlot, matchesStatFilter, levelCap, changeLevelRange, catalogBlock, isAttackEffect } from './catalogFilters.ts'
-import { STAT_META } from './statDisplay.ts'
+import { STAT_META, isIgnored } from './statDisplay.ts'
 import { ImpactDeltas, ItemFactsList, useHoverIntent } from './ItemFacts.tsx'
 import { useInfiniteList } from './useInfiniteList.ts'
 import { SetDetailModal } from './SetDetailModal.tsx'
@@ -40,6 +40,9 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const equipItem = useBuildStore(s => s.equipItem)
   const addToast  = useToastStore(s => s.addToast)
   const favorites = useFavorites()
+  // useFavorites returns a new object every render; the list must only follow isFav, or every
+  // render (a hover, a toast) rebuilds it and the infinite list jumps back to the top.
+  const isFav = favorites.isFav
 
   const [query, setQuery]         = useState('')
   const [range, setRange]         = useState({ min: 0, max: 200 })
@@ -62,7 +65,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   const candidates = useMemo(() => (equipment ?? []).filter(it => matchesSlot(it, slot)), [equipment, slot])
   const options = useMemo(() => ({
     types: [...new Set(candidates.map(it => it.type))].sort(),
-    stats: [...new Set(candidates.flatMap(it => it.effects.filter(e => !isAttackEffect(e)).map(e => e.stat)))].sort(),
+    stats: [...new Set(candidates.flatMap(it => it.effects.filter(e => !isAttackEffect(e) && !isIgnored(e.stat)).map(e => e.stat)))].sort(),
     sets: (sets ?? []).filter(s => candidates.some(it => it.set_id === s.ankama_id)).sort((a, b) => a.name.localeCompare(b.name)),
     legendary: candidates.some(it => it.legendary === true),
   }), [candidates, sets])
@@ -72,13 +75,13 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       it.level >= range.min && it.level <= levelCap(range.max) &&
       (!setId || String(it.set_id) === setId) &&
       matchesStatFilter(it, stats) &&
-      (!onlyFav || favorites.isFav(it.ankama_id)) &&
+      (!onlyFav || isFav(it.ankama_id)) &&
       (!legendary || it.legendary === true) &&
       (!query || normalizeSearch(it.name).includes(normalizeSearch(query))) &&
       // A name search looks across every type of the slot.
       (query || !type || it.type === type))
     .sort((a, b) => sort === 'name-az' ? a.name.localeCompare(b.name) : sort === 'level-asc' ? a.level - b.level : b.level - a.level),
-  [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, favorites])
+  [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, isFav])
   const { visible, sentinel, more } = useInfiniteList(list, scroller, PAGE_SIZE)
 
   const worn    = byId.get(equipped[slotId] ?? -1)
