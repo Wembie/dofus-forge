@@ -1898,5 +1898,14 @@
   "shell_v4_footer_learn": "Learn",
   "shell_v4_footer_credits": "Credits",
   "shell_v4_more": "More",
-  "shell_v4_mobile_nav": "Mobile navigation"
+  "shell_v4_mobile_nav": "Mobile navigation",
+  "sets_v4_eyebrow": "ENCYCLOPEDIA",
+  "sets_v4_controls": "Search and filter sets",
+  "sets_v4_full_set": "Full set",
+  "sets_v4_missing_title": "We couldn’t find this set",
+  "sets_v4_try": "Try it in the workshop",
+  "sets_v4_review": "Local sets review",
+  "sets_v4_scene_normal": "With builds using it",
+  "sets_v4_scene_no-builds": "No builds use it",
+  "sets_v4_description": "Description"
 }

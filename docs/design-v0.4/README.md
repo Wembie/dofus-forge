@@ -74,6 +74,7 @@ La actividad de las tarjetas tiene 44 comprobaciones en `checks/build-activity.j
 | [`captures/detalle-build`](captures/detalle-build) | Detalle de build: visitante, dueño, sin sesión, administración, reportar, restaurar versión, remix, remix retirado, sin actividad, no disponible y cargando; ambos temas, escritorio y móvil, cuatro idiomas | `check-build-detail.mjs` |
 | [`captures/publicar`](captures/publicar) | Publicar y actualizar build: nueva, actualizar, remix, etiquetas completas, error, límite, etiquetas no disponibles, cargando la publicación y sin sesión; ambos temas, escritorio y móvil, cuatro idiomas | `check-publish.mjs` |
 | [`captures/armazon`](captures/armazon) | Armazón compartido: notificaciones (con actividad y vacías), menú de cuenta, preferencias, menú del sitio, pie con aviso de versión y cabecera del taller; ambos temas, escritorio y móvil, cuatro idiomas | `check-shell.mjs` |
+| [`captures/sets`](captures/sets) | Páginas de sets: índice, filtrado, vacío, set, set de clase, sin builds y no encontrado; ambos temas, escritorio y móvil, cuatro idiomas | `check-set-pages.mjs` |
 | [`captures/identidad`](captures/identidad) | Exploración de marca | — |
 
 [Decisiones y validación](DESIGN-REVIEW.md)

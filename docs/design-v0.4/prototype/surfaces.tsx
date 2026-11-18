@@ -1,5 +1,6 @@
 import { Explore } from "./Explore";
 import { BuildDetail } from "./BuildDetail";
+import { SetGuidePage, SetsIndex } from "./SetPages";
 import {
   AccountButton,
   NotificationBell,
@@ -68,8 +69,6 @@ import { useDataStore } from "../../../src/store/dataStore";
 import { CLASS_DATA } from "../../../src/features/class-picker/classData";
 import { resolveClassName } from "../../../src/features/class-picker/useClassName";
 import { LegalBody } from "../../../src/components/LegalBody";
-import { Sets } from "./Sets";
-import { STAT_META } from "../../../src/features/equipment/statDisplay";
 import { prepareModel, equipment, seedItems, visibleSlots } from "./model";
 import {
   BuildSheet,
@@ -358,6 +357,14 @@ function App() {
     if (target === "workshop") location.assign("/");
     else go(target);
   };
+  const [setSlug, setSetSlug] = useState(
+    () => new URLSearchParams(location.search).get("slug") || "",
+  );
+  function openSet(slug: string) {
+    setSetSlug(slug);
+    go("set");
+    history.replaceState(null, "", "?view=set&slug=" + slug);
+  }
   function leaveAccount() {
     const next = pendingNavigation;
     setPendingNavigation(null);
@@ -381,16 +388,9 @@ function App() {
     [filter, setFilter] = useState("Todos"),
     [tab, setTab] = useState(""),
     [notice, setNotice] = useState(""),
-    [selectedSet, setSelectedSet] = useState(0),
-    [setOpen, setSetOpen] = useState(false),
     [classId, setClassId] = useState("iop");
   const data = useDataStore(),
     heading = pages.find((p) => p[0] === view)![1];
-  const sets = data.sets || [],
-    chosenSet =
-      sets.find((s) => s.ankama_id === selectedSet) ||
-      sets.find((s) => s.ankama_id === equipment.get(seedItems[0])?.set_id) ||
-      sets[0];
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "tinta" : "mineral";
   }, [dark]);
@@ -859,94 +859,20 @@ function App() {
           }}
         />
       );
-    if (view === "sets") {
-      const results = sets
-        .filter((s) => s.name.toLowerCase().includes(query.toLowerCase()))
-        .slice(0, 24);
+    if (view === "sets") return <SetsIndex onOpen={openSet} />;
+    if (view === "set")
       return (
-        <>
-          {hero(
-            "ENCICLOPEDIA",
-            "El conjunto cambia la pieza.",
-            "Explora las panoplias del catálogo y compara sus bonificaciones.",
-            <Action onClick={() => setTool("sets")}>
-              Abrir catálogo avanzado
-            </Action>,
-          )}
-          {search("Buscar una panoplia")}
-          <div className="set-directory">
-            {results.map((s) => (
-              <button
-                key={s.ankama_id}
-                onClick={() => {
-                  setSelectedSet(s.ankama_id);
-                  go("set");
-                }}
-              >
-                <div>
-                  {[...equipment.values()]
-                    .filter((it) => it.set_id === s.ankama_id)
-                    .slice(0, 4)
-                    .map((it) => (
-                      <img src={it.image_url || ""} alt="" key={it.ankama_id} />
-                    ))}
-                </div>
-                <h2>{s.name}</h2>
-                <span>
-                  Ver piezas y bonificaciones <ArrowRight size={16} />
-                </span>
-              </button>
-            ))}
-          </div>
-          {!results.length &&
-            empty("No encontramos esa panoplia", "Busca por otra palabra.")}
-        </>
+        <SetGuidePage
+          slug={setSlug}
+          onIndex={() => go("sets")}
+          onOpen={openSet}
+          onBuild={(id) => shellNavigate({ build: id })}
+          onClass={(id) => {
+            setClassId(id);
+            go("class");
+          }}
+        />
       );
-    }
-    if (view === "set") {
-      const items = [...equipment.values()].filter(
-        (it) => it.set_id === chosenSet?.ankama_id,
-      );
-      return (
-        <>
-          {hero(
-            "PANOPLIA",
-            chosenSet?.name || "Panoplia",
-            "Cada pieza cuenta. Revisa los bonos por cantidad antes de equipar.",
-            <Action primary onClick={() => setSetOpen(true)}>
-              Ver bonos y equipar
-            </Action>,
-          )}
-          <div className="set-pieces">
-            {items.map((it) => (
-              <article key={it.ankama_id}>
-                <img src={it.image_url || ""} alt="" />
-                <h2>{it.name}</h2>
-                <p>Nivel {it.level}</p>
-                <dl>
-                  {it.effects.slice(0, 8).map((e, i) => (
-                    <div key={i}>
-                      <dt>
-                        {STAT_META[e.stat]
-                          ? i18n.t(STAT_META[e.stat].tKey)
-                          : e.stat}
-                      </dt>
-                      <dd>
-                        {e.min}
-                        {e.max && e.max !== e.min ? " – " + e.max : ""}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </article>
-            ))}
-          </div>
-          <button onClick={() => setSetOpen(true)}>
-            Consultar condiciones y bonos por tier
-          </button>
-        </>
-      );
-    }
     if (view === "class") {
       const current = CLASS_DATA.find((c) => c.id === classId)!,
         spells = data.spells.get(classId)?.spells || [];
@@ -1499,9 +1425,6 @@ function App() {
         />
       )}
       <WorkspaceTools tool={tool} onClose={() => setTool(null)} />
-      {setOpen && chosenSet && (
-        <Sets open={chosenSet.ankama_id} onClose={() => setSetOpen(false)} />
-      )}
       <details className="tool-directory">
         <summary>Herramientas y subpaneles del equipo</summary>
         {Object.entries(toolNames).map(([key, label]) => (

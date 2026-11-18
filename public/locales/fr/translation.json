@@ -1898,5 +1898,14 @@
   "shell_v4_footer_learn": "Apprendre",
   "shell_v4_footer_credits": "Crédits",
   "shell_v4_more": "Plus",
-  "shell_v4_mobile_nav": "Navigation mobile"
+  "shell_v4_mobile_nav": "Navigation mobile",
+  "sets_v4_eyebrow": "ENCYCLOPÉDIE",
+  "sets_v4_controls": "Rechercher et filtrer les panoplies",
+  "sets_v4_full_set": "Panoplie complète",
+  "sets_v4_missing_title": "Panoplie introuvable",
+  "sets_v4_try": "Essayer dans l’atelier",
+  "sets_v4_review": "Revue locale des panoplies",
+  "sets_v4_scene_normal": "Avec des équipements qui l’utilisent",
+  "sets_v4_scene_no-builds": "Aucun équipement ne l’utilise",
+  "sets_v4_description": "Description"
 }

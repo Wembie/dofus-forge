@@ -16,8 +16,8 @@ Inventario basado en `src/routes.ts`, `src/pages` y `src/features`. «Plantilla�
 | PrivacyPolicyPage `/privacy` | Plantilla de lectura pendiente | Mantener texto y fecha; índice y ancho de lectura |
 | TermsPage `/terms` | Plantilla de lectura pendiente | Mantener texto y enlaces; tipografía accesible |
 | ClassGuidePage `/classes/:classId` | Plantilla editorial 09 | 19 clases, roles y hechizos, datos del juego |
-| SetsPage `/sets` | Derivación de catálogo pendiente | Índice, filtros, piezas, nivel y SEO |
-| SetPage `/sets/:slug` | Derivación de catálogo pendiente | Bonos por piezas, condiciones, equipar y comparación |
+| SetsPage `/sets` | Composición local propia: búsqueda, elemento, nivel, grupos por rango, tarjetas con piezas y bonus completo, vacío; cuatro idiomas y cinco tamaños | Integrar el loader prerenderizado (`loadSetsIndex`), el SEO y las migas de pan con JSON-LD. Los slugs del estudio salen del catálogo en español; producción los saca del inglés |
+| SetPage `/sets/:slug` | Composición local propia: piezas, chips, set de clase, probar en el taller, totales, tramos, piezas con efectos, builds que lo usan, similares y no encontrado | Integrar `loadSetPage`, el SEO, la imagen OG y el JSON-LD; las builds vienen de `fetchPublicBuilds` en el prerender |
 | UserProfilePage `/u/:username` | Composición local propia; [revisión](ACCOUNT-REVIEW.md) | Integrar perfil, seguimiento, builds y colecciones reales |
 | AccountPage `/account` | Composición local propia de perfil, seguridad y sesión; [revisión](ACCOUNT-REVIEW.md) | Integrar servicios y sesión reales, conservando guardado parcial y cambios pendientes |
 | AdminDashboardPage `/admin` | Pantalla pendiente | Resumen real, permisos, navegación operativa |

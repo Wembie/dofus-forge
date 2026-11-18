@@ -1898,5 +1898,14 @@
   "shell_v4_footer_learn": "Aprender",
   "shell_v4_footer_credits": "Créditos",
   "shell_v4_more": "Más",
-  "shell_v4_mobile_nav": "Navegación móvil"
+  "shell_v4_mobile_nav": "Navegación móvil",
+  "sets_v4_eyebrow": "ENCICLOPEDIA",
+  "sets_v4_controls": "Buscar y filtrar sets",
+  "sets_v4_full_set": "Set completo",
+  "sets_v4_missing_title": "No encontramos este set",
+  "sets_v4_try": "Probar en el taller",
+  "sets_v4_review": "Revisión local de sets",
+  "sets_v4_scene_normal": "Con builds que lo usan",
+  "sets_v4_scene_no-builds": "Sin builds que lo usen",
+  "sets_v4_description": "Descripción"
 }

@@ -1898,5 +1898,14 @@
   "shell_v4_footer_learn": "Aprender",
   "shell_v4_footer_credits": "Créditos",
   "shell_v4_more": "Mais",
-  "shell_v4_mobile_nav": "Navegação móvel"
+  "shell_v4_mobile_nav": "Navegação móvel",
+  "sets_v4_eyebrow": "ENCICLOPÉDIA",
+  "sets_v4_controls": "Buscar e filtrar conjuntos",
+  "sets_v4_full_set": "Conjunto completo",
+  "sets_v4_missing_title": "Não encontramos este conjunto",
+  "sets_v4_try": "Testar na oficina",
+  "sets_v4_review": "Revisão local dos conjuntos",
+  "sets_v4_scene_normal": "Com conjuntos que o usam",
+  "sets_v4_scene_no-builds": "Nenhum conjunto o usa",
+  "sets_v4_description": "Descrição"
 }

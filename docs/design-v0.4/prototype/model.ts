@@ -1,3 +1,4 @@
+import { assignSetSlots } from "../../../src/features/equipment/setSlots";
 import {
   useBuildStore,
   ALL_SLOTS,
@@ -38,6 +39,8 @@ export const seedItems = [
 export let equipment = new Map<number, AppItem>();
 export let names = new Map<number, string>();
 const key = "forge-design-v3-draft";
+/** Name of the set a set page sent to the workshop, for its notice; empty otherwise. */
+export let equippedSetName = "";
 export async function prepareModel() {
   await useDataStore.getState().load("es");
   const data = useDataStore.getState();
@@ -79,6 +82,33 @@ export async function prepareModel() {
     }
   } catch {
     /* Default build remains available. */
+  }
+  // As BuilderPage: ?set=<id> (a set page's "try it") equips the whole set once, then the
+  // param is dropped so a reload never re-equips it. Ignored when a build link (?b=) is open.
+  try {
+    const url = new URL(location.href),
+      id = Number(url.searchParams.get("set"));
+    if (url.searchParams.has("set")) {
+      url.searchParams.delete("set");
+      history.replaceState(history.state, "", url);
+    }
+    const set = Number.isInteger(id) && id > 0 && !url.searchParams.has("b")
+      ? data.sets.find((s) => s.ankama_id === id)
+      : undefined;
+    if (set) {
+      const items = set.items
+        .flatMap((itemId) => equipment.get(itemId) ?? [])
+        .sort((a, b) => b.level - a.level);
+      const assigned = assignSetSlots(items, useBuildStore.getState().equipped);
+      if (assigned.length) {
+        useBuildStore
+          .getState()
+          .equipMultiple(assigned.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })));
+        equippedSetName = set.name;
+      }
+    }
+  } catch {
+    /* The build stays as it was. */
   }
   useHistoryStore.getState().clear();
   trackBuildChange(useBuildStore.getState());

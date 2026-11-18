@@ -86,6 +86,7 @@ import {
   equipment,
   names,
   seedItems,
+  equippedSetName,
 } from "./model";
 import type { StatBlock } from "../../../src/engine/types";
 
@@ -330,6 +331,9 @@ function App() {
     }
     dialog.current?.close();
   }, [selected, overlay]);
+  useEffect(() => {
+    if (equippedSetName) setNotice(i18n.t("set_page_equipped_toast", { name: equippedSetName }));
+  }, []);
   useEffect(() => {
     if (!notice) return;
     const id = setTimeout(() => setNotice(""), 4500);
