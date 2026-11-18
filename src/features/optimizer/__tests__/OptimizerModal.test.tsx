@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import '@/test/i18n.ts'
 import type { AppItem } from '@/data/loaders.ts'
@@ -99,5 +99,89 @@ describe('OptimizerModal', () => {
     expect(initMessages[0].config.requiredItems).toEqual(locked ? [] : DOFUS.map(item => item.ankama_id))
     expect(initMessages[0].base.equipped).toEqual(equipped)
     expect(localStorage.getItem(STORAGE_KEY)).not.toBeNull()
+  })
+})
+
+const gear = (ankama_id: number, name: string, slot: string, level = 200): AppItem =>
+  ({ ankama_id, name, level, type: 'Misc', slot, effects: [], set_id: null, image_url: null }) as AppItem
+
+describe('OptimizerModal picks', () => {
+  const WAND = gear(1, 'Anomalous Wand', 'weapon')
+  const HAT  = gear(2, 'Wandering Hat', 'hat', 150)
+  const LOW  = gear(4, 'Wand of Dawn', 'weapon', 20)
+
+  function open(equipped: Partial<Record<SlotId, number>> = {}) {
+    useBuildStore.setState({ selectedClass: 'iop', equipped })
+    useDataStore.setState({ equipment: [WAND, HAT, LOW], sets: [] })
+    render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
+    return screen.getByRole('combobox', { name: 'optimizer_items_search' })
+  }
+
+  it('pins the result the arrow keys reach with Enter, and clears the search', () => {
+    const search = open()
+    fireEvent.change(search, { target: { value: 'wand' } })
+    expect(within(screen.getByRole('listbox', { name: 'fg_found' })).getAllByRole('option').map(o => o.textContent)).toEqual([
+      expect.stringContaining('Anomalous Wand'), expect.stringContaining('Wand of Dawn'), expect.stringContaining('Wandering Hat'),
+    ])
+    fireEvent.keyDown(search, { key: 'ArrowDown' })
+    fireEvent.keyDown(search, { key: 'Enter' })
+    expect(useForgePicks.getState().required).toEqual([4])
+    expect((search as HTMLInputElement).value).toBe('')
+  })
+
+  it('bans from the search and releases from the banned list', () => {
+    const search = open()
+    fireEvent.change(search, { target: { value: 'wand' } })
+    fireEvent.click(screen.getAllByRole('button', { name: 'fg_ban_item' })[2])
+    expect(useForgePicks.getState().banned).toEqual([2])
+    fireEvent.change(search, { target: { value: '' } })
+    fireEvent.click(screen.getByRole('button', { name: 'fg_allow_item' }))
+    expect(useForgePicks.getState().banned).toEqual([])
+  })
+
+  it('pins the planner gear in one tap', () => {
+    open({ weapon: 1 })
+    const worn = screen.getByRole('group', { name: 'fg_worn_aria' })
+    fireEvent.click(within(worn).getByRole('button', { name: 'fg_pin_item' }))
+    expect(useForgePicks.getState().required).toEqual([1])
+  })
+})
+
+describe('OptimizerModal passives', () => {
+  const ABYSSAL  = gear(18043, 'Abyssal Dofus', 'dofus')
+  const OCHRE    = gear(7754, 'Ochre Dofus', 'dofus')
+  const PRYSM    = { ...gear(22012, 'Shiny Prysipitate', 'dofus'), type: 'Prysmaradite' } as AppItem
+  const BRUMAIRE = gear(20355, "Brumaire's Shiver", 'weapon')
+
+  function open() {
+    useBuildStore.setState({ selectedClass: 'iop', equipped: {} })
+    useDataStore.setState({ equipment: [{ ...ABYSSAL, type: 'Dofus' }, { ...OCHRE, type: 'Dofus' }, PRYSM, BRUMAIRE] as AppItem[], sets: [] })
+    render(<MemoryRouter><OptimizerModal open onClose={() => {}} /></MemoryRouter>)
+    const rule = screen.getByRole('region', { name: 'optimizer_passives' })
+    const count = within(rule).getByRole('checkbox', { name: 'optimizer_passives_count' }) as HTMLInputElement
+    if (!count.checked) fireEvent.click(count)
+    return rule
+  }
+
+  it('splits the passive items into sections that can be left out whole or item by item', () => {
+    const rule = open()
+    const prysm = within(rule).getByRole('checkbox', { name: 'optimizer_passive_section_prysmaradite' }) as HTMLInputElement
+    expect(prysm.checked).toBe(true)
+    fireEvent.click(prysm)
+    expect(prysm.checked).toBe(false)
+    const configure = within(rule).getAllByRole('button', { name: 'optimizer_passive_section_configure' })[0]
+    expect(configure.getAttribute('aria-expanded')).toBe('false')
+    fireEvent.click(configure)
+    expect(configure.getAttribute('aria-expanded')).toBe('true')
+    const items = within(rule).getAllByRole('checkbox').filter(box => box.closest('li ul'))
+    expect(items.length).toBeGreaterThan(0)
+    fireEvent.click(items[0])
+    expect((items[0] as HTMLInputElement).checked).toBe(false)
+  })
+
+  it('lists no section while passives are off', () => {
+    const rule = open()
+    fireEvent.click(within(rule).getByRole('checkbox', { name: 'optimizer_passives_count' }))
+    expect(within(rule).queryAllByRole('button', { name: 'optimizer_passive_section_configure' })).toHaveLength(0)
   })
 })

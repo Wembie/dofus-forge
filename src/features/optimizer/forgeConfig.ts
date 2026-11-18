@@ -80,7 +80,8 @@ export function loadSavedConfig(): OptimizerConfig {
       intensity:           INTENSITIES.includes(parsed.intensity) ? parsed.intensity : defaults.intensity,
       passives:            PASSIVE_MODES.includes(parsed.passives) ? parsed.passives : defaults.passives,
       passiveExcluded:     sanitizeExcluded(parsed.passiveExcluded),
-      stats:               OPTIMIZER_STATS.map(s => migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
+      // Vitality is no longer offered as a goal (HP covers it); an old order drops it.
+      stats:               OPTIMIZER_STATS.map(s => s.key === 'vitality' ? emptyReq(s.key) : migrateReq(s.key, savedStats.find(ss => ss.stat === s.key))),
     }
   } catch {
     return defaults
