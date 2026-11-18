@@ -1,65 +1,20 @@
-import { useState, useMemo, useCallback, useEffect, useRef, memo, startTransition } from 'react'
+import { startTransition, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ArrowLeft, ArrowRight, ChartNoAxesColumn, Check, Crown, Search, SlidersHorizontal, Star } from 'lucide-react'
+import { recompute, useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
-import { useBuildStore } from '@/store/buildStore.ts'
-import type { SlotId } from '@/store/buildStore.ts'
-import type { SlotConfig } from './slotConfig.ts'
-import type { AppItem, AppSet } from '@/data/loaders.ts'
-import { STAT_META, isIgnored, fmtValue, statIconUrl } from './statDisplay.ts'
-import { IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
-import { isAttackEffect, matchesStatFilter, levelCap, changeLevelRange, NO_LEVEL_CAP, catalogBlock, matchesSlot } from './catalogFilters.ts'
-import { useFavorites } from '@/store/useFavorites.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { StatFilter, normalizeSearch, SlotIcon, slotToastIcon } from '@/ui'
-import { useFocusTrap } from '@/ui/useFocusTrap.ts'
-import { SetDetailModal } from './SetDetailModal.tsx'
-import { ItemSpellEffects } from './ItemSpellEffects.tsx'
+import { useFavorites } from '@/store/useFavorites.ts'
+import { Modal, StatFilter, normalizeSearch, slotToastIcon } from '@/ui'
 import { playEquip } from '@/lib/sound.ts'
-import { Check, Crown } from 'lucide-react'
-
-type SlotIndex = { setIds: number[]; statKeys: string[]; types: string[]; hasLegendary: boolean }
-
-// Keyed by the `equipment` array reference (a fresh one per loaded language,
-// stable otherwise) so re-opening the catalog for a slot you already browsed
-// this session reuses the scan instead of re-filtering the full ~4300-item
-// catalog every single open. Entries get GC'd automatically when `equipment`
-// itself is replaced (language switch re-fetches the data).
-const slotIndexCache = new WeakMap<AppItem[], Map<SlotId, SlotIndex>>()
-
-function getSlotIndex(equipment: AppItem[], slot: SlotConfig, slotId: SlotId): SlotIndex {
-  let perEquipment = slotIndexCache.get(equipment)
-  if (!perEquipment) { perEquipment = new Map(); slotIndexCache.set(equipment, perEquipment) }
-  const cached = perEquipment.get(slotId)
-  if (cached) return cached
-
-  const setIds  = new Set<number>()
-  const types   = new Set<string>()
-  const seenTKeys = new Set<string>()
-  const statKeys: string[] = []
-  let hasLegendary = false
-  for (const it of equipment) {
-    if (!matchesSlot(it, slot)) continue
-    if (it.set_id != null) setIds.add(it.set_id)
-    types.add(it.type)
-    if (it.legendary) hasLegendary = true
-    for (const e of it.effects) {
-      if (isIgnored(e.stat) || isAttackEffect(e)) continue
-      const tKey = STAT_META[e.stat]?.tKey ?? e.stat
-      if (!seenTKeys.has(tKey)) { seenTKeys.add(tKey); statKeys.push(e.stat) }
-    }
-  }
-  const index: SlotIndex = { setIds: [...setIds], statKeys, types: [...types], hasLegendary }
-  perEquipment.set(slotId, index)
-  return index
-}
-
-function slotTKey(id: SlotId): string {
-  if (id.startsWith('ring'))  return 'slot_ring'
-  if (id.startsWith('dofus')) return 'slot_dofus'
-  return `slot_${id}`
-}
-
-type SortKey = 'level-desc' | 'level-asc' | 'name-az'
+import type { AppItem, AppSet } from '@/data/loaders.ts'
+import type { SlotConfig } from './slotConfig.ts'
+import { matchesSlot, matchesStatFilter, levelCap, changeLevelRange, catalogBlock, isAttackEffect } from './catalogFilters.ts'
+import { STAT_META } from './statDisplay.ts'
+import { ImpactDeltas, ItemFactsList, useHoverIntent } from './ItemFacts.tsx'
+import { useInfiniteList } from './useInfiniteList.ts'
+import { SetDetailModal } from './SetDetailModal.tsx'
+import './catalog.css'
 
 type Props = {
   slot:           SlotConfig
@@ -69,718 +24,331 @@ type Props = {
 }
 
 const LEVELS = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+const PAGE_SIZE = 20
+type SortKey = 'level-desc' | 'level-asc' | 'name-az'
 
-function SetSearch({
-  sets, selected, onSelect,
-}: { sets: AppSet[]; selected: AppSet | null; onSelect: (s: AppSet | null) => void }) {
-  const { t }           = useTranslation()
-  const [q, setQ]       = useState('')
-  const [open, setOpen] = useState(false)
-  const inputRef        = useRef<HTMLInputElement>(null)
-
-  const matches = useMemo(() => {
-    if (!q) return sets.slice(0, 12)
-    const lq = normalizeSearch(q)
-    return sets.filter(s => normalizeSearch(s.name).includes(lq)).slice(0, 12)
-  }, [sets, q])
-
-  function pick(s: AppSet | null) {
-    onSelect(s)
-    setOpen(false)
-    setQ('')
-  }
-
-  return (
-    <div className="relative flex-1 min-w-0">
-      {selected ? (
-        <button
-          type="button"
-          className="w-full flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border font-medium cursor-pointer filter-btn-active text-left"
-          onClick={() => pick(null)}
-          aria-label={t('a11y_remove_filter', { name: selected.name })}
-        >
-          <span className="truncate">{selected.name}</span>
-          <span className="ml-auto flex-shrink-0 opacity-60 hover:opacity-100" aria-hidden="true">✕</span>
-        </button>
-      ) : (
-        <div className="relative">
-          <input
-            ref={inputRef}
-            type="text"
-            value={q}
-            placeholder={t('set_search_placeholder')}
-            aria-label={t('set_search_placeholder')}
-            onChange={e => { setQ(e.target.value); setOpen(true) }}
-            onFocus={() => setOpen(true)}
-            onBlur={() => setTimeout(() => setOpen(false), 150)}
-            className="w-full rounded-md px-2.5 py-1 text-[11px] text-forge-text placeholder:text-ink-faint focus:outline-none"
-            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-          />
-          {open && matches.length > 0 && (
-            <ul
-              className="absolute left-0 right-0 top-full mt-1 rounded-lg overflow-hidden z-50 shadow-xl"
-              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', maxHeight: 220, overflowY: 'auto' }}
-            >
-              {matches.map(s => (
-                <li key={s.ankama_id}>
-                  <button
-                    className="w-full text-left px-3 py-1.5 text-[11px] text-forge-text hover:bg-white/5 transition-colors"
-                    onMouseDown={() => pick(s)}
-                  >
-                    <span className="font-medium">{s.name}</span>
-                    <span className="ml-1.5 text-ink-faint text-[10px]">{t('set_tier', { n: s.items.length })}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
-
-type ItemCardProps = {
-  item:        AppItem
-  slotId:      SlotId
-  isEquipped:  boolean
-  /** Set when the item can't be picked here (already worn elsewhere, or rule conflict) — the badge text. */
-  blockedLabel: string | null
-  itemSet:     AppSet | undefined
-  isFavItem:   boolean
-  t:           ReturnType<typeof useTranslation>['t']
-  onPick:      (item: AppItem) => void
-  onToggleFav: (id: number) => void
-  onOpenSet:   (set: AppSet) => void
-}
-
-// Memoized and pulled out of the grid's .map so toggling one card's favorite
-// star, or hovering it, doesn't re-render every other visible card — each
-// only re-renders when ITS OWN props actually change.
-const ItemCard = memo(function ItemCard({
-  item, slotId, isEquipped, blockedLabel, itemSet, isFavItem, t, onPick, onToggleFav, onOpenSet,
-}: ItemCardProps) {
-  const isAlreadyEquipped = blockedLabel !== null
-  const highlighted = isEquipped || isAlreadyEquipped
-  const isWeapon = item.slot === 'weapon' || item.ap_cost != null
-  const isAtk    = isAttackEffect
-  const allFx    = item.effects.filter(e =>
-    !isIgnored(e.stat) && (e.effect_id == null || !IGNORED_EFFECT_IDS.has(e.effect_id))
-  )
-  const atkFx    = isWeapon ? allFx.filter(isAtk) : []
-  const statFx   = isWeapon ? allFx.filter(e => !isAtk(e)) : allFx
-  const effects  = allFx
-
-  // The item name is the card's real button, stretched over the whole card
-  // (::after), so the set link and favorite star can be sibling buttons
-  // instead of controls nested inside another button.
-  return (
-    <div
-      title={blockedLabel ?? undefined}
-      className={`text-left relative rounded-xl overflow-hidden w-full group cursor-pointer ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
-      style={{
-        background: highlighted
-          ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
-          : 'var(--surface-void)',
-        border: highlighted
-          ? '1px solid color-mix(in srgb, var(--gold) 45%, transparent)'
-          : '1px solid var(--metal-edge)',
-        transition: 'border-color 0.15s, background 0.15s',
-        // Lets the browser skip layout/paint for cards scrolled out of view
-        // (they stay mounted once loaded by infinite scroll below) — a cheap
-        // win that costs nothing for the ~20 cards on screen at a time.
-        contentVisibility: 'auto',
-        containIntrinsicSize: '0 340px',
-      } as React.CSSProperties}
-      onMouseEnter={e => {
-        const el = e.currentTarget
-        if (highlighted) el.style.borderColor = 'color-mix(in srgb, var(--gold) 70%, transparent)'
-        else el.style.background = 'var(--surface-panel)'
-      }}
-      onMouseLeave={e => {
-        const el = e.currentTarget
-        if (highlighted) el.style.borderColor = 'color-mix(in srgb, var(--gold) 45%, transparent)'
-        else el.style.background = 'var(--surface-void)'
-      }}
-    >
-      {/* Card header: image + name + level + fav */}
-      <div className="flex gap-3 p-4 pb-3">
-        <div
-          className="w-24 h-24 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden"
-          style={{
-            background: 'linear-gradient(145deg, var(--surface-panel), var(--surface-stone))',
-            border: isEquipped
-              ? '1px solid color-mix(in srgb, var(--gold) 40%, transparent)'
-              : '1px solid var(--metal-edge)',
-            boxShadow: isEquipped
-              ? 'inset 0 0 12px color-mix(in srgb, var(--gold) 8%, transparent)'
-              : 'none',
-          }}
-        >
-          {item.image_url
-            ? <img src={item.image_url} alt="" className="w-full h-full object-contain p-1" loading="lazy" decoding="async" />
-            : <span className="text-ink-faint"><SlotIcon slot={slotId} className="w-7 h-7" /></span>
-          }
-        </div>
-
-        <div className="flex-1 min-w-0 pt-0.5">
-          <button
-            type="button"
-            onClick={() => { if (!isAlreadyEquipped) onPick(item) }}
-            aria-disabled={isAlreadyEquipped}
-            className={`block w-full text-left font-semibold text-base leading-tight focus-visible:outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-gold/60 ${isAlreadyEquipped ? 'cursor-not-allowed' : ''}`}
-            style={{ color: highlighted ? 'var(--gold)' : 'var(--ink)' }}
-          >
-            <span
-              style={{
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              } as React.CSSProperties}
-            >
-              {item.name}
-              {isEquipped && !isAlreadyEquipped && <span className="ml-1 text-[10px]" aria-hidden="true" style={{ color: 'var(--gold)', opacity: 0.6 }}>✓</span>}
-            </span>
-          </button>
-          {isAlreadyEquipped && (
-            <span
-              className="inline-flex items-center gap-1 mt-1 px-1.5 py-0.5 rounded text-[10px] font-semibold"
-              style={{
-                color: 'var(--positive)',
-                background: 'color-mix(in srgb, var(--positive) 12%, transparent)',
-                border: '1px solid color-mix(in srgb, var(--positive) 30%, transparent)',
-              }}
-            >
-              <Check size={12} strokeWidth={2.5} aria-hidden="true" />
-              {blockedLabel}
-            </span>
-          )}
-          <p className="text-[12px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
-            Lv {item.level}
-          </p>
-          {itemSet && (
-            <button
-              type="button"
-              className="relative z-10 max-w-full text-left text-[12px] font-medium truncate block cursor-pointer hover:underline"
-              style={{ color: 'var(--water)' }}
-              onClick={e => { e.stopPropagation(); onOpenSet(itemSet) }}
-            >
-              {itemSet.name}
-            </button>
-          )}
-        </div>
-
-        {/* Fav star */}
-        <button
-          type="button"
-          aria-pressed={isFavItem}
-          aria-label={t('a11y_favorite', { name: item.name })}
-          className="relative z-10 self-start text-[18px] leading-none flex-shrink-0 transition-colors select-none mt-0.5 cursor-pointer"
-          style={{ color: isFavItem ? 'var(--gold)' : 'var(--ink-faint)' }}
-          onMouseEnter={e => {
-            if (!isFavItem) (e.currentTarget as HTMLElement).style.color = 'var(--gold-deep)'
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.color = isFavItem ? 'var(--gold)' : 'var(--ink-faint)'
-          }}
-          onClick={e => { e.stopPropagation(); onToggleFav(item.ankama_id) }}
-        >★</button>
-      </div>
-
-      {/* Special passive ability */}
-      {item.ability && (
-        <div className="px-3 pb-2">
-          <div style={{
-            background:   'color-mix(in srgb, var(--gold) 10%, transparent)',
-            border:       '1px solid color-mix(in srgb, var(--gold) 35%, transparent)',
-            borderRadius: 6,
-            padding:      '6px 8px',
-          }}>
-            {item.ability.split('\n').filter(Boolean).map((line, i) => (
-              <p key={i} style={{ fontSize: 12, color: i === 0 ? 'var(--gold)' : 'var(--gold-muted)', lineHeight: 1.5, margin: i > 0 ? '2px 0 0' : 0 }}>
-                {line}
-              </p>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Stats — weapon attack damage separated from passive stats */}
-      {effects.length > 0 && (
-        <>
-          {atkFx.length > 0 && (
-            <div className="px-3 pb-2" style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: 8 }}>
-              <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                {t('weapon_attack')}
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {atkFx.map((e, i) => {
-                  const meta  = STAT_META[e.stat]
-                  const clr   = meta?.color ?? 'var(--ink-faint)'
-                  const val   = e.min === e.max || e.max === 0 ? String(e.min) : `${e.min} ${t('range_sep_neg')} ${e.max}`
-                  return (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      {meta?.icon
-                        ? <img src={statIconUrl(meta.icon)} alt="" width={15} height={15} style={{ objectFit: 'contain', flexShrink: 0 }} loading="lazy" />
-                        : <span style={{ width: 15, flexShrink: 0 }} />
-                      }
-                      <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>{val}</span>
-                      <span style={{ color: clr, fontSize: 13, lineHeight: 1.3 }}>{meta ? t(meta.tKey) : e.stat}</span>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-          {statFx.length > 0 && (
-            <div
-              className="px-3 pb-2"
-              style={{ borderTop: '1px solid var(--metal-edge)', paddingTop: atkFx.length > 0 ? 8 : 10, display: 'flex', flexDirection: 'column', gap: 5 }}
-            >
-              {atkFx.length > 0 && (
-                <p className="text-[9px] tracking-[0.18em] uppercase font-semibold mb-0.5" style={{ color: 'var(--ink-faint)' }}>
-                  {t('effects')}
-                </p>
-              )}
-              {statFx.map((e, i) => {
-                const meta  = STAT_META[e.stat]
-                const isNeg = e.min < 0
-                const clr   = isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)')
-                const val   = fmtValue(e.min, e.max, t('range_sep_neg'))
-                return (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    {meta?.icon
-                      ? <img src={statIconUrl(meta.icon)} alt="" width={15} height={15} style={{ objectFit: 'contain', flexShrink: 0 }} loading="lazy" />
-                      : <span style={{ width: 15, flexShrink: 0 }} />
-                    }
-                    <span style={{ color: clr, fontSize: 13, fontWeight: 700, fontFamily: 'monospace', flexShrink: 0 }}>{val}</span>
-                    <span style={{ color: isNeg ? 'var(--negative)' : (meta?.color ?? 'var(--ink-faint)'), fontSize: 13, lineHeight: 1.3 }}>
-                      {meta ? t(meta.tKey) : e.stat}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </>
-      )}
-
-      <ItemSpellEffects effects={item.effects} compact />
-
-      {/* Lore description */}
-      {item.description && (
-        <div
-          className="px-3 pb-3"
-          style={{
-            borderTop:  (allFx.length > 0 || item.ability) ? '1px solid var(--metal-edge)' : undefined,
-            paddingTop: (allFx.length > 0 || item.ability) ? 7 : 4,
-          }}
-        >
-          <p style={{ fontSize: 12, color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
-            {item.description}
-          </p>
-        </div>
-      )}
-    </div>
-  )
-})
-
+/** Picks a piece for one slot. Cards read in full without a click (effects,
+ * weapon attack, spell effects, ability, lore, set, favourite) and equip on
+ * click; beside them, what the hovered or inspected piece changes in the
+ * build before equipping it. */
 export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
-  const { t }      = useTranslation()
-  const equipment  = useDataStore(s => s.equipment)
-  const setsData   = useDataStore(s => s.sets)
-  const equipItem   = useBuildStore(s => s.equipItem)
-  const currentId   = useBuildStore(s => s.equipped[slotId])
-  const equipped    = useBuildStore(s => s.equipped)
-  const equipmentById = useMemo(
-    () => new Map((equipment ?? []).map(it => [it.ankama_id, it])),
-    [equipment],
-  )
-  const blockedLabel = useCallback((item: AppItem): string | null => {
-    const block = catalogBlock(item, slotId, equipped, equipmentById)
-    if (!block) return null
-    if (block.kind === 'dofus') return t('already_equipped', { slot: Number(block.slot.slice('dofus'.length)) })
-    if (block.kind === 'ring')  return t(`slot_${block.slot}`)
-    return `${t('item_type_Prysmaradite')} · ${t(`slot_${block.slot}`)}`
-  }, [slotId, equipped, equipmentById, t])
-  const addToast    = useToastStore(s => s.addToast)
+  const { t } = useTranslation()
+  const equipment = useDataStore(s => s.equipment)
+  const sets      = useDataStore(s => s.sets)
+  const equipped  = useBuildStore(s => s.equipped)
+  const level     = useBuildStore(s => s.level)
+  const equipItem = useBuildStore(s => s.equipItem)
+  const addToast  = useToastStore(s => s.addToast)
+  const favorites = useFavorites()
 
-  const slotLabel = t(slotTKey(slotId))
+  const [query, setQuery]         = useState('')
+  const [range, setRange]         = useState({ min: 0, max: 200 })
+  const [sort, setSort]           = useState<SortKey>('level-desc')
+  const [setId, setSetId]         = useState('')
+  const [type, setType]           = useState('')
+  const [stats, setStats]         = useState<string[]>([])
+  const [onlyFav, setOnlyFav]     = useState(false)
+  const [legendary, setLegendary] = useState(false)
+  const [selected, setSelected]   = useState<AppItem | null>(null)
+  const [setModal, setSetModal]   = useState<AppSet | null>(null)
+  const [continueDofus, setContinueDofus] = useState(true)
+  const [showFilters, setShowFilters]     = useState(false)
+  const detailRef = useRef<HTMLHeadingElement>(null)
+  const lastItem  = useRef<HTMLButtonElement | null>(null)
+  const scroller  = useRef<HTMLDivElement>(null)
 
-  const { setMap, itemSetMap } = useMemo(() => {
-    const setMap     = new Map<number, AppSet>()
-    const itemSetMap = new Map<number, AppSet>()
-    for (const s of setsData ?? []) {
-      setMap.set(s.ankama_id, s)
-      for (const id of s.items) itemSetMap.set(id, s)
-    }
-    return { setMap, itemSetMap }
-  }, [setsData])
+  const byId       = useMemo(() => new Map((equipment ?? []).map(it => [it.ankama_id, it])), [equipment])
+  const setById    = useMemo(() => new Map((sets ?? []).map(s => [s.ankama_id, s])), [sets])
+  const candidates = useMemo(() => (equipment ?? []).filter(it => matchesSlot(it, slot)), [equipment, slot])
+  const options = useMemo(() => ({
+    types: [...new Set(candidates.map(it => it.type))].sort(),
+    stats: [...new Set(candidates.flatMap(it => it.effects.filter(e => !isAttackEffect(e)).map(e => e.stat)))].sort(),
+    sets: (sets ?? []).filter(s => candidates.some(it => it.set_id === s.ankama_id)).sort((a, b) => a.name.localeCompare(b.name)),
+    legendary: candidates.some(it => it.legendary === true),
+  }), [candidates, sets])
 
-  const slotIndex = useMemo(
-    () => equipment ? getSlotIndex(equipment, slot, slotId) : { setIds: [], statKeys: [], types: [], hasLegendary: false },
-    [equipment, slot, slotId],
-  )
+  const list = useMemo(() => candidates
+    .filter(it =>
+      it.level >= range.min && it.level <= levelCap(range.max) &&
+      (!setId || String(it.set_id) === setId) &&
+      matchesStatFilter(it, stats) &&
+      (!onlyFav || favorites.isFav(it.ankama_id)) &&
+      (!legendary || it.legendary === true) &&
+      (!query || normalizeSearch(it.name).includes(normalizeSearch(query))) &&
+      // A name search looks across every type of the slot.
+      (query || !type || it.type === type))
+    .sort((a, b) => sort === 'name-az' ? a.name.localeCompare(b.name) : sort === 'level-asc' ? a.level - b.level : b.level - a.level),
+  [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, favorites])
+  const { visible, sentinel, more } = useInfiniteList(list, scroller, PAGE_SIZE)
 
-  const slotSets = useMemo(() => {
-    const out: AppSet[] = []
-    for (const id of slotIndex.setIds) {
-      const s = setMap.get(id)
-      if (s) out.push(s)
-    }
-    return out.sort((a, b) => a.name.localeCompare(b.name))
-  }, [slotIndex, setMap])
+  const worn    = byId.get(equipped[slotId] ?? -1)
+  const block   = selected ? catalogBlock(selected, slotId, equipped, byId) : null
+  const current = selected != null && equipped[slotId] === selected.ankama_id
+  const preview = useMemo(() => {
+    if (!selected) return null
+    const b = useBuildStore.getState()
+    const nextEquipped = { ...b.equipped, [slotId]: selected.ankama_id }
+    // Changing the piece drops the runes of that slot.
+    const runes = b.equipped[slotId] === selected.ankama_id ? b.runes : { ...b.runes, [slotId]: {} }
+    return recompute(b.selectedClass, b.level, b.allocated, b.scrolled, nextEquipped, b._equipment, b._sets, runes)
+  }, [selected, slotId])
 
-  const slotStats = useMemo(() => {
-    return [...slotIndex.statKeys].sort((a, b) => {
-      const la = STAT_META[a] ? t(STAT_META[a].tKey) : a
-      const lb = STAT_META[b] ? t(STAT_META[b].tKey) : b
-      return la.localeCompare(lb)
-    })
-  }, [slotIndex, t])
+  useEffect(() => { if (selected && innerWidth <= 700) detailRef.current?.focus() }, [selected])
+  const hover = useHoverIntent<AppItem>(setSelected)
 
-  const { isFav, toggle: toggleFav, favCount } = useFavorites()
-
-  const [search,     setSearch]     = useState('')
-  const [minLevel,   setMinLevel]   = useState(0)
-  const [maxLevel,   setMaxLevel]   = useState(200)
-  const [sort,       setSort]       = useState<SortKey>('level-desc')
-  const [setFilter,  setSetFilter]  = useState<AppSet | null>(null)
-  const [statFilter, setStatFilter] = useState<string[]>([])
-  const [favsOnly,   setFavsOnly]   = useState(false)
-  const [legendaryOnly, setLegendaryOnly] = useState(false)
-  const [typeFilter, setTypeFilter] = useState<string | null>(null)
-  const [setModal,   setSetModal]   = useState<AppSet | null>(null)
-
-  function setLevelRange(which: 'min' | 'max', value: number) {
-    const next = changeLevelRange({ min: minLevel, max: maxLevel }, which, value)
-    setMinLevel(next.min)
-    setMaxLevel(next.max)
+  const slotName  = t(`slot_${slotId}`)
+  const typeLabel = (v: string) => t(`item_type_${v}`, { defaultValue: v })
+  const blockedIn = (item: AppItem) => {
+    const b = catalogBlock(item, slotId, equipped, byId)
+    return b ? t(`slot_${b.slot}`) : null
   }
 
-  const availableTypes = useMemo(
-    () => slotIndex.types.length > 1 ? [...slotIndex.types].sort() : [],
-    [slotIndex],
-  )
-
-  const hasTypeFilter = availableTypes.length > 0
-
-  const items = useMemo<AppItem[]>(() => {
-    if (!equipment) return []
-    const nameSearch = normalizeSearch(search.trim())
-    const filtered = equipment.filter(it =>
-      matchesSlot(it, slot) &&
-      it.level >= minLevel &&
-      it.level <= levelCap(maxLevel) &&
-      (setFilter  == null || it.set_id === setFilter.ankama_id) &&
-      matchesStatFilter(it, statFilter) &&
-      (!favsOnly  || isFav(it.ankama_id)) &&
-      (!legendaryOnly || it.legendary === true) &&
-      (nameSearch === '' || normalizeSearch(it.name).includes(nameSearch)) &&
-      (nameSearch !== '' || !hasTypeFilter || typeFilter == null || it.type === typeFilter)
-    )
-    if (sort === 'level-desc') return [...filtered].sort((a, b) => b.level - a.level)
-    if (sort === 'level-asc')  return [...filtered].sort((a, b) => a.level - b.level)
-    return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-  }, [equipment, slot, minLevel, maxLevel, search, sort, setFilter, statFilter, favsOnly, legendaryOnly, isFav, typeFilter, hasTypeFilter])
-
-  // Infinite scroll: a slot can have 700+ matching items (e.g. weapon), and
-  // mounting every card at once on open was the actual freeze on low-end
-  // PCs — real DOM nodes + hover-handler closures for everything, all in
-  // one synchronous commit. Render only the first PAGE_SIZE, growing as the
-  // sentinel at the bottom of the grid scrolls into view.
-  const PAGE_SIZE = 20
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
-  const [loadingMore,  setLoadingMore]  = useState(false)
-  const dialogRef   = useRef<HTMLDivElement>(null)
-  useFocusTrap(dialogRef)
-  const scrollRef   = useRef<HTMLDivElement>(null)
-  const sentinelRef = useRef<HTMLDivElement>(null)
-  const bumpingRef  = useRef(false)
-  const bumpTimer   = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
-
-  // Any filter/sort change produces a new `items` array — re-page from the
-  // top rather than keep scrolling further into a now-different list. A page
-  // bump still pending from the old list would grow the fresh one, so drop it.
-  useEffect(() => {
-    clearTimeout(bumpTimer.current)
-    bumpingRef.current = false
-    setLoadingMore(false)
-    setVisibleCount(PAGE_SIZE)
-  }, [search, minLevel, maxLevel, sort, setFilter, statFilter, favsOnly, legendaryOnly, typeFilter])
-
-  useEffect(() => () => clearTimeout(bumpTimer.current), [])
-
-  const visibleItems = useMemo(() => items.slice(0, visibleCount), [items, visibleCount])
-  const hasMore = visibleCount < items.length
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current
-    const root     = scrollRef.current
-    if (!sentinel || !root || !hasMore) return
-    const observer = new IntersectionObserver(
-      entries => {
-        if (!entries[0].isIntersecting || bumpingRef.current) return
-        bumpingRef.current = true
-        setLoadingMore(true)
-        // Small delay so the "loading" spinner is actually perceivable —
-        // the slice itself is instant, this is purely a feedback cue.
-        bumpTimer.current = setTimeout(() => {
-          setVisibleCount(v => Math.min(v + PAGE_SIZE, items.length))
-          setLoadingMore(false)
-          bumpingRef.current = false
-        }, 150)
-      },
-      { root, rootMargin: '600px 0px' },
-    )
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [hasMore, items.length])
-
-  const handlePick = useCallback((item: AppItem) => {
+  function equip(item: AppItem) {
+    if (catalogBlock(item, slotId, equipped, byId) || equipped[slotId] === item.ankama_id) return
     playEquip()
-    addToast(t('toast_equipped', { slot: t(`slot_${slotId}`), item: item.name }), slotToastIcon(slotId))
-    if (onAfterEquip) onAfterEquip(slotId)
+    addToast(t('toast_equipped', { slot: slotName, item: item.name }), slotToastIcon(slotId))
+    if (onAfterEquip && (continueDofus || !slotId.startsWith('dofus'))) onAfterEquip(slotId)
     else onClose()
-    // equipItem triggers a full build-stats recompute plus a re-render of every
-    // panel subscribed to it (stats/spells/passives/equipment) — deferring it
-    // as a transition lets the modal-close paint happen first instead of the
-    // click blocking on that whole cascade (this was the top INP offender in
-    // Cloudflare's Web Vitals debug view: clicking an item image to equip it).
+    // Equipping recomputes the whole build and re-renders every panel; as a
+    // transition the catalog closes first instead of the click blocking on it.
     startTransition(() => { equipItem(slotId, item.ankama_id) })
-  }, [equipItem, slotId, onClose, onAfterEquip, addToast, t])
-
-  useEffect(() => {
-    // The set modal on top handles its own Escape; only the topmost layer closes.
-    const down = (e: KeyboardEvent) => { if (e.key === 'Escape' && !setModal) onClose() }
-    window.addEventListener('keydown', down)
-    return () => window.removeEventListener('keydown', down)
-  }, [onClose, setModal])
-
-  const SORT_LABELS: Record<SortKey, string> = { 'level-desc': t('sort_level_desc'), 'level-asc': t('sort_level_asc'), 'name-az': t('sort_name_az') }
+  }
+  function inspect(item: AppItem, button: HTMLButtonElement) {
+    lastItem.current = button
+    setSelected(item)
+  }
+  function back() {
+    setSelected(null)
+    requestAnimationFrame(() => lastItem.current?.focus())
+  }
+  function clear() {
+    setQuery(''); setRange({ min: 0, max: 200 }); setSetId(''); setType(''); setStats([]); setOnlyFav(false); setLegendary(false)
+  }
+  const favCount = candidates.filter(it => favorites.isFav(it.ankama_id)).length
+  const activeFilters = Number(range.min > 0 || range.max !== 200) + Number(!!setId) + stats.length + Number(onlyFav) + Number(legendary)
 
   return (
-    <>
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      className="fixed inset-0 z-50 focus:outline-none"
-      style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(4px)' }}
-      role="dialog"
-      aria-modal
-      aria-label={slotLabel}
-      onClick={e => { if (e.target === e.currentTarget) onClose() }}
-    >
-      <div
-        className="catalog-panel flex flex-col rounded-xl shadow-2xl overflow-hidden"
-        style={{ position: 'fixed', top: 32, left: 48, right: 48, bottom: 32, background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-      >
-        {/* Header */}
-        <div
-          className="flex items-center justify-between px-5 py-3.5"
-          style={{ background: 'var(--surface-panel)', borderBottom: '1px solid var(--metal-edge)' }}
-        >
-          <h3 className="font-display text-forge-gold font-bold text-base tracking-wide">
-            {slotLabel}
-          </h3>
-          <div className="flex items-center gap-3">
-            <span className="text-[11px] text-ink-faint font-mono">
-              {items.length} {t('item_count', { count: items.length }).replace(/\d+\s*/, '')}
-            </span>
-            <button
-              onClick={onClose}
-              className="w-7 h-7 rounded flex items-center justify-center transition-colors text-lg leading-none text-ink-muted hover:text-ink"
-              style={{ background: 'var(--surface-raised)', border: '1px solid var(--metal-edge)' }}
-              aria-label={t('modal_close')}
-            >×</button>
+    <Modal open onClose={() => { if (!setModal) onClose() }} title={t('catalog_title', { slot: slotName.toLocaleLowerCase() })} size="full" className="catalog-dialog">
+      <div className={'catalog-composition' + (selected ? ' has-selection' : '')}>
+        <div className={'catalog-toolbar has-toggle' + (showFilters ? ' filters-open' : '')}>
+          <div className="catalog-toolbar-main">
+            <label className="catalog-search">
+              <Search size={18} aria-hidden="true" />
+              <span className="sr-only">{t('catalog_search_label')}</span>
+              <input type="search" autoFocus placeholder={t('search_items')} value={query} onChange={e => setQuery(e.target.value)} />
+            </label>
+            <button type="button" className="catalog-filter-toggle" aria-expanded={showFilters} onClick={() => setShowFilters(!showFilters)}>
+              <SlidersHorizontal size={16} aria-hidden="true" />
+              {t('catalog_filters')}
+              {activeFilters > 0 && <span className="catalog-flag-count">{activeFilters}</span>}
+            </button>
           </div>
-        </div>
-
-        {/* Filters */}
-        <div className="px-4 py-3 space-y-2.5" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
-          <input
-            type="search"
-            placeholder={t('search_items')}
-            aria-label={t('search_items')}
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            autoFocus
-            className="w-full rounded-lg px-3 py-2 text-sm text-forge-text placeholder:text-ink-faint focus:outline-none transition-colors"
-            style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-            onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
-            onBlur={e =>  (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-          />
-
-          <div className="flex items-center gap-1 flex-wrap">
-            {slotSets.length > 0 && (
-              <SetSearch sets={slotSets} selected={setFilter} onSelect={setSetFilter} />
+          <div className="catalog-filters">
+            <label>
+              {t('a11y_level_min')}
+              <select value={range.min} onChange={e => setRange(changeLevelRange(range, 'min', Number(e.target.value)))}>
+                {LEVELS.map(n => <option key={n} value={n}>{n}</option>)}
+              </select>
+            </label>
+            <label>
+              {t('a11y_level_max')}
+              <select value={range.max} onChange={e => setRange(changeLevelRange(range, 'max', Number(e.target.value)))}>
+                {LEVELS.map(n => <option key={n} value={n}>{n || t('catalog_level_any')}</option>)}
+              </select>
+            </label>
+            <label>
+              {t('catalog_sort')}
+              <select value={sort} onChange={e => setSort(e.target.value as SortKey)}>
+                <option value="level-desc">{t('sort_level_desc')}</option>
+                <option value="level-asc">{t('sort_level_asc')}</option>
+                <option value="name-az">{t('sort_name_az')}</option>
+              </select>
+            </label>
+            <label className="catalog-filter-wide">
+              {t('catalog_set')}
+              <select value={setId} onChange={e => setSetId(e.target.value)}>
+                <option value="">{t('elem_all')}</option>
+                {options.sets.map(s => <option key={s.ankama_id} value={s.ankama_id}>{s.name}</option>)}
+              </select>
+            </label>
+          </div>
+          <div className="catalog-flags">
+            <button type="button" aria-pressed={onlyFav} aria-label={t('a11y_favorites_only')} onClick={() => setOnlyFav(!onlyFav)}>
+              <Star size={15} aria-hidden="true" />
+              {t('catalog_favorites')}
+              {favCount > 0 && <span className="catalog-flag-count">{favCount}</span>}
+            </button>
+            {options.legendary && (
+              <button type="button" aria-pressed={legendary} onClick={() => setLegendary(!legendary)}>
+                <Crown size={14} aria-hidden="true" />
+                {t('catalog_legendary_only')}
+              </button>
             )}
-
-            <div className="ml-auto flex gap-1">
-              <button
-                onClick={() => setFavsOnly(v => !v)}
-                aria-pressed={favsOnly}
-                aria-label={t('a11y_favorites_only')}
-                className={[
-                  'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
-                  favsOnly
-                    ? 'filter-btn-active'
-                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                ].join(' ')}
-              >
-                ★{favCount > 0 && <span className="font-mono">{favCount}</span>}
-              </button>
-              {slotIndex.hasLegendary && (
-                <button
-                  onClick={() => setLegendaryOnly(v => !v)}
-                  aria-pressed={legendaryOnly}
-                  className={[
-                    'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium flex items-center gap-1',
-                    legendaryOnly
-                      ? 'filter-btn-active'
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                  ].join(' ')}
-                >
-                  <Crown size={12} /> {t('catalog_legendary_only')}
-                </button>
-              )}
-              {(Object.keys(SORT_LABELS) as SortKey[]).map(sk => (
-                <button
-                  key={sk}
-                  onClick={() => setSort(sk)}
-                  aria-pressed={sort === sk}
-                  className={[
-                    'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                    sort === sk
-                      ? 'filter-btn-active'
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                  ].join(' ')}
-                >{SORT_LABELS[sk]}</button>
-              ))}
-            </div>
+            <StatFilter stats={options.stats} selected={stats} onSelect={setStats} />
+            <button type="button" onClick={clear}>{t('catalog_reset_filters')}</button>
           </div>
-
-          {hasTypeFilter && (
-            <div className="flex items-center gap-1 flex-wrap">
-              <button
-                onClick={() => setTypeFilter(null)}
-                className={[
-                  'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                  typeFilter === null
-                    ? 'filter-btn-active'
-                    : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                ].join(' ')}
-              >
-                {t('elem_all')}
-              </button>
-              {availableTypes.map(type => (
-                <button
-                  key={type}
-                  onClick={() => setTypeFilter(typeFilter === type ? null : type)}
-                  className={[
-                    'px-2.5 py-1 rounded-md text-[11px] border transition-colors font-medium',
-                    typeFilter === type
-                      ? 'filter-btn-active'
-                      : 'border-forge-border text-forge-muted hover:text-forge-text hover:border-gold-deep',
-                  ].join(' ')}
-                >
-                  {t(`item_type_${type}`, { defaultValue: type })}
-                </button>
+          {options.types.length > 1 && (
+            <div className="catalog-types" role="group" aria-label={t('catalog_item_type')}>
+              <button type="button" aria-pressed={!type} onClick={() => setType('')}>{t('elem_all')}</button>
+              {options.types.map(v => (
+                <button type="button" key={v} aria-pressed={type === v} onClick={() => setType(type === v ? '' : v)}>{typeLabel(v)}</button>
               ))}
-              {search.trim() !== '' && typeFilter !== null && (
-                <span className="text-[10px] text-ink-faint ml-1">· {t('elem_all')}</span>
-              )}
+              {query && type && <span>{t('catalog_name_all_types')}</span>}
             </div>
           )}
-
-          <div className="flex gap-2 text-xs text-forge-muted items-center flex-wrap">
-            {slotStats.length > 0 && (
-              <StatFilter stats={slotStats} selected={statFilter} onSelect={setStatFilter} />
-            )}
-            <span className="text-ink-faint flex-shrink-0">{t('level_range')}</span>
-            <select
-              value={minLevel}
-              aria-label={t('a11y_level_min')}
-              onChange={e => setLevelRange('min', Number(e.target.value))}
-              className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
-              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-            >
-              {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
-            </select>
-            <span className="text-ink-faint">–</span>
-            <select
-              value={maxLevel}
-              aria-label={t('a11y_level_max')}
-              onChange={e => setLevelRange('max', Number(e.target.value))}
-              className="rounded px-2 py-1 text-forge-text text-xs focus:outline-none"
-              style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-            >
-              {LEVELS.map(l => <option key={l} value={l}>{l === NO_LEVEL_CAP ? '—' : l}</option>)}
-            </select>
-          </div>
         </div>
 
-        {/* Card grid */}
-        <div ref={scrollRef} className="overflow-y-auto flex-1 p-4">
-          {items.length === 0 ? (
-            <div className="flex items-center justify-center py-16">
-              <p className="text-forge-muted text-sm">{t('no_items')}</p>
+        <section className="catalog-browse" aria-label={t('catalog_results')} ref={scroller}>
+          <div className="catalog-results-heading">
+            <span>{t('item_count', { count: list.length })}</span>
+            <span>{t('catalog_items_hint')}</span>
+          </div>
+          <div className="catalog-grid">
+            {visible.map(it => {
+              const blocked = blockedIn(it)
+              const isWorn  = equipped[slotId] === it.ankama_id
+              const active  = selected?.ankama_id === it.ankama_id
+              const set     = it.set_id != null ? setById.get(it.set_id) : undefined
+              const fav     = favorites.isFav(it.ankama_id)
+              return (
+                <article
+                  key={it.ankama_id}
+                  className={'catalog-card' + (active ? ' is-selected' : '') + (isWorn ? ' is-equipped' : '') + (blocked ? ' is-blocked' : '')}
+                  onMouseEnter={() => hover.enter(it)}
+                  onMouseLeave={hover.leave}
+                >
+                  <header className="catalog-card-head">
+                    <span className="catalog-card-art">
+                      {it.image_url && <img src={it.image_url} alt="" loading="lazy" />}
+                    </span>
+                    <div>
+                      <button
+                        type="button"
+                        className="catalog-result-open"
+                        aria-label={isWorn ? t('catalog_card_equipped', { name: it.name }) : blocked ? t('catalog_card_in', { name: it.name, slot: blocked }) : t('catalog_card_equip', { name: it.name })}
+                        aria-disabled={isWorn || !!blocked}
+                        onClick={() => equip(it)}
+                        onFocus={e => { if (e.currentTarget.matches(':focus-visible')) setSelected(it) }}
+                      >
+                        {it.name}
+                      </button>
+                      <small>{t('catalog_level_short', { level: it.level })} · {typeLabel(it.type)}</small>
+                      {set && (
+                        <button type="button" className="catalog-set-link" onClick={() => setSetModal(set)}>
+                          {set.name}
+                          <ArrowRight size={12} aria-hidden="true" />
+                        </button>
+                      )}
+                      {(isWorn || blocked) && (
+                        <span className="catalog-card-status">
+                          <Check size={12} aria-hidden="true" />
+                          {isWorn ? t('catalog_equipped') : t('catalog_already_in', { slot: blocked })}
+                        </span>
+                      )}
+                    </div>
+                    <span className="catalog-card-tools">
+                      <button type="button" className="catalog-favorite" aria-label={t('a11y_favorite', { name: it.name })} aria-pressed={fav}
+                        onClick={() => favorites.toggle(it.ankama_id)}>
+                        <Star size={16} />
+                      </button>
+                      <button type="button" className="catalog-card-inspect" aria-label={t('catalog_see_change', { name: it.name })}
+                        title={t('catalog_see_change_title')} onClick={e => inspect(it, e.currentTarget)}>
+                        <ChartNoAxesColumn size={16} />
+                      </button>
+                    </span>
+                  </header>
+                  <div className="catalog-card-facts"><ItemFactsList item={it} /></div>
+                  <footer className="catalog-card-cta" aria-hidden="true">
+                    {isWorn ? t('catalog_equipped') : blocked ? t('catalog_already_equipped_in', { slot: blocked }) : <>{t('equip_item')} <ArrowRight size={13} /></>}
+                  </footer>
+                </article>
+              )
+            })}
+          </div>
+          {!list.length && (
+            <div className="catalog-empty">
+              <h3>{t('no_items')}</h3>
+              <p>{t('catalog_empty_hint')}</p>
+              <button type="button" onClick={clear}>{t('catalog_reset_filters')}</button>
+            </div>
+          )}
+          {more && <div ref={sentinel} className="catalog-sentinel" aria-hidden="true" />}
+        </section>
+
+        <aside className="catalog-inspection" aria-label={t('catalog_build_change')}>
+          {!selected ? (
+            <div className="catalog-now">
+              <span className="catalog-kicker">{t('catalog_now_in', { slot: slotName.toLowerCase() })}</span>
+              {worn ? (
+                <div className="catalog-item-heading is-small">
+                  {worn.image_url && <img src={worn.image_url} alt="" />}
+                  <div>
+                    <span>{t('catalog_level_upper', { level: worn.level })}</span>
+                    <h3>{worn.name}</h3>
+                    <p>{typeLabel(worn.type)}</p>
+                  </div>
+                </div>
+              ) : <p className="catalog-now-empty">{t('catalog_empty_slot')}</p>}
+              <p>{t('catalog_intro')}</p>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {visibleItems.map(item => (
-                  <ItemCard
-                    key={item.ankama_id}
-                    item={item}
-                    slotId={slotId}
-                    isEquipped={item.ankama_id === currentId}
-                    blockedLabel={blockedLabel(item)}
-                    itemSet={item.set_id != null ? itemSetMap.get(item.ankama_id) : undefined}
-                    isFavItem={isFav(item.ankama_id)}
-                    t={t}
-                    onPick={handlePick}
-                    onToggleFav={toggleFav}
-                    onOpenSet={setSetModal}
-                  />
-                ))}
+              <button type="button" className="catalog-back" onClick={back}>
+                <ArrowLeft size={17} />
+                {t('catalog_back')}
+              </button>
+              <div className="catalog-item-heading">
+                {selected.image_url && <img src={selected.image_url} alt="" />}
+                <div>
+                  <span>{t('catalog_level_upper', { level: selected.level })}</span>
+                  <h3 tabIndex={-1} ref={detailRef}>{selected.name}</h3>
+                  <p>{typeLabel(selected.type)}</p>
+                </div>
               </div>
-              {hasMore && (
-                <div ref={sentinelRef} className="flex items-center justify-center py-6">
-                  {loadingMore && (
-                    <div
-                      className="w-6 h-6 rounded-full border-[3px] animate-spin"
-                      style={{ borderColor: 'var(--gold)', borderTopColor: 'transparent' }}
-                    />
-                  )}
+              <p className="catalog-replaces">
+                {current ? t('catalog_is_worn') : worn ? t('catalog_replaces', { name: worn.name }) : t('catalog_fills_empty')}
+              </p>
+              {selected.set_id != null && setById.get(selected.set_id) && (
+                <button type="button" className="catalog-panel-set" onClick={() => setSetModal(setById.get(selected.set_id!)!)}>
+                  {t('catalog_set_named', { name: setById.get(selected.set_id)!.name })}
+                  <ArrowRight size={13} aria-hidden="true" />
+                </button>
+              )}
+              <div className="catalog-mobile-facts"><ItemFactsList item={selected} /></div>
+              <h4>{t('catalog_in_build')} <span>{t('catalog_now_with_piece')}</span></h4>
+              {preview && <ImpactDeltas preview={preview} />}
+              <p className="catalog-footnote">{t('catalog_footnote')}</p>
+              {!!selected.conditions?.length && (
+                <div className="catalog-conditions">
+                  <h4>{t('catalog_conditions')}</h4>
+                  {selected.conditions.map((c, i) => (
+                    <p key={i}>{STAT_META[c.stat] ? t(STAT_META[c.stat].tKey) : c.stat} {c.operator} {c.value}</p>
+                  ))}
                 </div>
               )}
+              <div className="catalog-equip">
+                <p>
+                  {current ? t('catalog_already_equipped')
+                    : block ? t('catalog_occupied_in', { slot: t(`slot_${block.slot}`) })
+                    : selected.level > level ? t('catalog_level_over')
+                    : t('catalog_replaces_slot', { slot: slotName.toLowerCase() })}
+                </p>
+                {slotId.startsWith('dofus') && onAfterEquip && (
+                  <label>
+                    <input type="checkbox" checked={continueDofus} onChange={e => setContinueDofus(e.target.checked)} />
+                    {t('catalog_continue_next')}
+                  </label>
+                )}
+                <button type="button" className="site-primary" disabled={!!block || current} onClick={() => equip(selected)}>
+                  {current ? t('catalog_equipped') : t('catalog_equip_in', { slot: slotName.toLowerCase() })}
+                  <ArrowRight size={17} />
+                </button>
+              </div>
             </>
           )}
-        </div>
-
-        {/* Footer */}
-        <div
-          className="flex items-center justify-between px-4 py-2 text-[10px]"
-          style={{ borderTop: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
-        >
-          <span>{t('catalog_esc_hint')}</span>
-          <span>{t('item_count', { count: items.length })}</span>
-        </div>
+        </aside>
       </div>
-    </div>
-    {setModal && (
-      <SetDetailModal
-        set={setModal}
-        onClose={() => setSetModal(null)}
-        // "Equip All" is meant to drop the user back on the main planner,
-        // not just peel this modal off and leave the item catalog
-        // underneath still open — closing it with X/Escape instead (just
-        // browsing the set, not equipping) leaves the catalog open as usual.
-        onEquipAll={onClose}
-      />
-    )}
-    </>
+      {setModal && <SetDetailModal set={setModal} onClose={() => setSetModal(null)} onEquipAll={onClose} />}
+    </Modal>
   )
 }

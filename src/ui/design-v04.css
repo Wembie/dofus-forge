@@ -12,7 +12,7 @@ html:root{
  --positive:#aec88b;--negative:#e79a92;--warning:#e4b28b;--info:#8fc6d5;
  --shadow-frame:0 12px 40px #0003;--inset-bevel:0 0 transparent;--well-inset:0 0 transparent;--glow-gold:0 0 0 1px var(--gold-deep);
  --shadow-vitality:0 0 transparent;--shadow-earth:0 0 transparent;--shadow-fire:0 0 transparent;--shadow-water:0 0 transparent;--shadow-air:0 0 transparent;--shadow-crit:0 0 transparent;
- --canvas:var(--surface-void);--surface:var(--surface-panel);--stage:var(--surface-stone);--text:var(--ink);--muted:var(--ink-muted);--line:var(--metal-edge);--accent:var(--gold);--accent-ink:var(--ink-invert);--hover:var(--surface-raised);--subtle:#272e29;
+ --canvas:var(--surface-void);--surface:var(--surface-panel);--stage:var(--surface-stone);--text:var(--ink);--muted:var(--ink-muted);--line:var(--metal-edge);--accent:var(--gold);--accent-ink:var(--ink-invert);--hover:var(--surface-raised);--subtle:#272e29;--success:var(--positive);
 }
 html:root.light{
  --surface-void:#eeeae0;--surface-stone:#e8e5db;--surface-panel:#faf8f0;--surface-parchment:#faf8f0;--surface-raised:#e3e6dc;
