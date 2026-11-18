@@ -19,14 +19,16 @@ const RuneModal      = lazy(() => import('./RuneModal.tsx').then(m => ({ default
 const SetDetailModal = lazy(() => import('./SetDetailModal.tsx').then(m => ({ default: m.SetDetailModal })))
 const CharacterStage = lazy(() => import('@/components/CharacterStage.tsx').then(m => ({ default: m.CharacterStage })))
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
-import { useClassName } from '@/features/class-picker/useClassName.ts'
+import { resolveClassName, useClassName } from '@/features/class-picker/useClassName.ts'
+import type { DofusClass } from '@/engine/types.ts'
+import type { Gender } from '@/store/buildStore.ts'
 import type { SlotId } from '@/store/buildStore.ts'
 import type { AppItem, AppCondition } from '@/data/loaders.ts'
 import { STAT_META, isIgnored, fmtValue, statIconUrl, runeKeyIconUrl, runeIconFallback, signatureRuneUrl } from './statDisplay.ts'
 import { WEAPON_ATTACK_IDS, IGNORED_EFFECT_IDS } from '@/engine/statMap.ts'
 import { WEAPON_ATTACK_STAT, IS_STEAL } from '@/features/spells/spellCalc.ts'
 import { SlotIcon } from '@/ui'
-import { playUnequip, playEquip } from '@/lib/sound.ts'
+import { playUnequip, playEquip, playSelect } from '@/lib/sound.ts'
 import { useCharacterStage } from '@/components/useCharacterStage.ts'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 
@@ -64,6 +66,8 @@ type SlotButtonProps = {
   slotRunes?:   Record<string, number>
   small?:       boolean
   size?:        number   // explicit pixel override (bypasses small ? 62 : 80)
+  /** Tile width: the slot shows its art, the slot name and the item name side by side. */
+  wide?:        number
   setName?:     string
   setCount?:    number
   setMax?:      number
@@ -77,7 +81,7 @@ type SlotButtonProps = {
   onDrop?:      React.DragEventHandler<HTMLDivElement>
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, wide, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
   const { t }         = useTranslation()
   const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
@@ -129,9 +133,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           useForgePicks.getState().toggleRequired(item.ankama_id)
         }}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
-        className={`workshop-slot rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
+        className={`workshop-slot${wide ? ' is-wide' : ''} rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
         style={{
-          width:  px,
+          width:  wide ?? px,
           height: px,
           background: item
             ? 'var(--surface-panel)'
@@ -174,17 +178,33 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           }
         }}
       >
-        {item ? (
-          item.image_url
-            ? <img src={item.image_url} alt={item.name}
-                className="w-full h-full object-contain p-1.5" loading="lazy" />
-            : <span className="opacity-80" style={{ color: 'var(--gold)' }}>
-                <SlotIcon slot={slotId} />
-              </span>
+        {wide ? (
+          <>
+            <span className="slot-art" style={{ width: px - 14, height: px - 14 }}>
+              {item?.image_url
+                ? <img src={item.image_url} alt="" className="w-full h-full object-contain" loading="lazy" />
+                : <span style={{ color: item ? 'var(--gold)' : 'var(--ink-muted)', opacity: item ? 0.8 : 0.35 }}><SlotIcon slot={slotId} /></span>}
+            </span>
+            <span className="slot-copy">
+              <small>{slotLabel}</small>
+              <span>{item ? item.name : t('empty_slot')}</span>
+            </span>
+          </>
         ) : (
-          <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>
-            <SlotIcon slot={slotId} />
-          </span>
+          <>
+          {item ? (
+            item.image_url
+              ? <img src={item.image_url} alt={item.name}
+                  className="w-full h-full object-contain p-1.5" loading="lazy" />
+              : <span className="opacity-80" style={{ color: 'var(--gold)' }}>
+                  <SlotIcon slot={slotId} />
+                </span>
+          ) : (
+            <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>
+              <SlotIcon slot={slotId} />
+            </span>
+          )}
+          </>
         )}
 
         {item && (
@@ -195,7 +215,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       </button>
 
       {/* Slot label (tiny, below slot) */}
-      {!small && (
+      {!small && !wide && (
         <span className="text-[8px] font-medium tracking-wide select-none" style={{ color: 'var(--ink-faint)' }}>
           {slotLabel.toUpperCase()}
         </span>
@@ -266,7 +286,7 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
             style={{
               top:       3,
               left:      '50%',
-              transform: `translateX(${Math.floor(px / 2) - 16}px)`,
+              transform: `translateX(${Math.floor((wide ?? px) / 2) - 16}px)`,
             }}
           >
             {active.slice(0, 3).map(([stat]) => {
@@ -596,15 +616,19 @@ function useIsDesktop() {
 
 // One stage for both layouts, so a single WebGL context runs.
 function CharacterCenter({ compact }: { compact: boolean }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const stage = useCharacterStage()
   const companion = useBuildStore(s => s.equipped.companion)
   const selectedClass = useBuildStore(s => s.selectedClass)
   const gender = useBuildStore(s => s.gender)
   const level = useBuildStore(s => s.level)
+  const setClass = useBuildStore(s => s.setClass)
+  const setGender = useBuildStore(s => s.setGender)
+  const classNames = useDataStore(s => s.classNames)
   const info = CLASS_DATA.find(c => c.id === selectedClass)
   const name = useClassName(selectedClass)
-  const width = compact ? 150 : 210
+  const lang = i18n.language.slice(0, 2)
+  const width = compact ? 150 : 220
   const height = compact ? 230 : 320
   return (
     <div className="workshop-character" style={{ width }}>
@@ -622,10 +646,22 @@ function CharacterCenter({ compact }: { compact: boolean }) {
         )}
       </div>
       {info && (
-        <p className="workshop-character-name">
-          <span>{name}</span>
-          <span className="workshop-character-level">{t('level_range')}.{level}</span>
-        </p>
+        <div className="workshop-character-controls">
+          <label>
+            <span className="sr-only">{t('class')}</span>
+            <select value={info.id} onChange={e => { setClass(e.target.value as DofusClass); playSelect() }}>
+              {CLASS_DATA.map(c => <option key={c.id} value={c.id}>{resolveClassName(c.id, lang, classNames)}</option>)}
+            </select>
+          </label>
+          <label>
+            <span className="sr-only">{t('gender')}</span>
+            <select value={gender} onChange={e => setGender(e.target.value as Gender)}>
+              <option value="male">{t('gender_male')}</option>
+              <option value="female">{t('gender_female')}</option>
+            </select>
+          </label>
+          <span className="workshop-character-level" title={t('level')}>{t('level_range')}.{level}</span>
+        </div>
       )}
     </div>
   )
@@ -633,6 +669,7 @@ function CharacterCenter({ compact }: { compact: boolean }) {
 
 export function EquipmentGrid() {
   const { t }       = useTranslation()
+  const stageOn     = useCharacterStage().show
   const isDesktop   = useIsDesktop()
   const equipped    = useBuildStore(s => s.equipped)
   const _sets       = useBuildStore(s => s._sets)
@@ -731,20 +768,20 @@ export function EquipmentGrid() {
   }
 
   const dofusWorn = DOFUS_SLOTS.filter(id => equipped[id] != null).length
+  const worn = ALL_SLOTS.filter(id => equipped[id] != null).length
+  const gear = (id: SlotId, side: 'right' | 'left') =>
+    makeSlot(id, isDesktop ? { size: 64, wide: 156, tooltipSide: side } : { small: true, size: 48, tooltipSide: side })
 
   return (
     <div className="workshop-equipment-surface">
+      <header className="workshop-panel-head">
+        <h2>{t('workshop_gear')}</h2>
+        <span>{t('workshop_slots_count', { worn, total: ALL_SLOTS.length })}</span>
+      </header>
       <div className="workshop-gear-stage">
-        <div className="workshop-gear-column">
-          {LEFT_SLOTS.map(id => makeSlot(id, { small: !isDesktop, size: isDesktop ? 64 : 48, tooltipSide: 'right' }))}
-        </div>
+        <div className="workshop-gear-column">{LEFT_SLOTS.map(id => gear(id, 'right'))}</div>
         <CharacterCenter compact={!isDesktop} />
-        <div className="workshop-gear-column">
-          {RIGHT_SLOTS.map(id => makeSlot(id, { small: !isDesktop, size: isDesktop ? 64 : 48, tooltipSide: 'left' }))}
-        </div>
-      </div>
-      <div className="workshop-extras">
-        {EXTRAS_SLOTS.map(id => makeSlot(id, { small: true, size: isDesktop ? 52 : 48, tooltipSide: 'top' }))}
+        <div className="workshop-gear-column">{RIGHT_SLOTS.map(id => gear(id, 'left'))}</div>
       </div>
       <section className="workshop-dofus" aria-labelledby="workshop-dofus-title">
         <header>
@@ -752,9 +789,13 @@ export function EquipmentGrid() {
           <span>{t('dofus_trophies_count', { worn: dofusWorn, total: DOFUS_SLOTS.length })}</span>
         </header>
         <div className="workshop-dofus-row">
-          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, size: isDesktop ? 52 : 44, tooltipSide: 'top' }))}
+          {DOFUS_SLOTS.map(id => makeSlot(id, { small: true, size: isDesktop ? 76 : 44, tooltipSide: 'top' }))}
         </div>
       </section>
+      <div className="workshop-gear-footer">
+        {EXTRAS_SLOTS.map(id => makeSlot(id, isDesktop ? { size: 48, wide: 210, tooltipSide: 'top' } : { size: 48, wide: 190, tooltipSide: 'top' }))}
+        <span className="workshop-stage-state"><i aria-hidden="true" />{t(stageOn ? 'workshop_animation_on' : 'workshop_animation_off')}</span>
+      </div>
 
       <div data-tool="bonuses"><SetBonusesPanel /></div>
       <BuilderPassivesPanel />

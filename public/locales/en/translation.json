@@ -2626,5 +2626,9 @@
   "workshop_linked": "Published build",
   "workshop_saved_device": "Saved on this device",
   "workshop_heading_empty": "Dofus 3 build planner",
-  "workshop_game_data": "Dofus {{version}} data"
+  "workshop_game_data": "Dofus {{version}} data",
+  "workshop_gear": "Gear",
+  "workshop_animation_on": "Rotation and animation on",
+  "workshop_slots_count": "{{worn}} / {{total}} slots",
+  "workshop_animation_off": "Static portrait"
 }

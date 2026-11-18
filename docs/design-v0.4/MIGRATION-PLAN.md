@@ -25,6 +25,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 | `3b03c7e6` | Paso intermedio del taller y ficha completa (el equipo se rehace en S3; la ficha completa se conserva) |
 | S1 | Armazón: cabecera, menú del sitio, cuenta, campana, preferencias, aviso de versión y pie en todas las páginas salvo el taller (el taller lo adopta en S2). Capturas en `captures/migracion/s1-armazon/` |
 | S2 | Taller: armazón compartido, barra con miga, título de la build (nombre o clase · elemento), nivel, deshacer/rehacer, la Forjadora destacada, Comparar, Publicar/Actualizar, Exportar, Compartir; barra de herramientas; franja inferior con el guardado en el dispositivo, versión de datos, novedades y atajos. Capturas en `captures/migracion/s2-taller-cabecera/` |
+| S3 | Panel de equipo: cabecera con espacios ocupados, casillas con nombre del espacio y del objeto en escritorio (cuadradas en móvil), clase y género bajo el personaje, Dofus y trofeos con recuento, compañero y estado de la animación. Conserva tooltip, runas, set, fijar para la Forjadora, quitar, arrastrar entre espacios y continuar al siguiente Dofus. Capturas en `captures/migracion/s3-taller-equipo/` |
 
 ## Secciones, en orden
 
@@ -87,4 +88,7 @@ Se anotan aquí durante la migración: lo que falta, la sección y si bloquea.
 | S2 | Las herramientas de la barra llevan al panel actual de la página (características, pasivos, hechizos, combate, bonus de set) hasta que cada una tenga su diálogo (S7–S12); «Compartir y exportar» se añade en S14 | No |
 | S2 | El `<h1>` de la página principal pasa de «Dofus Forge» al título de la build o, sin clase, a «Planificador de builds de Dofus 3» (en cada idioma), que es lo que Google ve en el HTML prerenderizado | No |
 | S3 | En móvil, las tarjetas de «Sets activos» quedan en dos columnas apretadas (ya era así) | No |
+| S3 | El botón «reiniciar equipo» del estudio no se migró: el store no tiene una acción que quite todo el equipo y sus runas en un paso deshacible; crearla es una función nueva | Decidir |
+| S3 | El compañero conserva el nombre de producción («Compañero») en lugar de «Multiman» del estudio | No |
+| S7 / S10 | Los paneles viejos de bonus de set y pasivos fallan axe con equipo puesto (38–42 contrastes por el texto de bonus inactivos y un `aria-label` no permitido); se corrigen al migrarlos | No |
 | S24 | `useAuthFlow.ts` usa `auth_v4_password_hint` y `auth_v4_connection_error` | No |
