@@ -331,6 +331,14 @@ function App() {
     }
     dialog.current?.close();
   }, [selected, overlay]);
+  // As BuilderPage: ?forge=1 (the Forger guide's button) opens it once, then the param goes.
+  useEffect(() => {
+    const url = new URL(location.href);
+    if (!url.searchParams.has("forge")) return;
+    if (url.searchParams.get("forge") === "1") setForge(true);
+    url.searchParams.delete("forge");
+    window.history.replaceState(window.history.state, "", url);
+  }, []);
   useEffect(() => {
     if (equippedSetName) setNotice(i18n.t("set_page_equipped_toast", { name: equippedSetName }));
   }, []);

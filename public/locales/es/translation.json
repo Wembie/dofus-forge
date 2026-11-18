@@ -1907,5 +1907,11 @@
   "sets_v4_review": "Revisión local de sets",
   "sets_v4_scene_normal": "Con builds que lo usan",
   "sets_v4_scene_no-builds": "Sin builds que lo usen",
-  "sets_v4_description": "Descripción"
+  "sets_v4_description": "Descripción",
+  "rd_v4_kicker_guide": "CUADERNO DEL TALLER",
+  "rd_v4_kicker_about": "EL PROYECTO",
+  "rd_v4_kicker_legal": "INFORMACIÓN LEGAL",
+  "rd_v4_kicker_class": "GUÍA DE CLASE",
+  "rd_v4_about_project": "El proyecto",
+  "rd_v4_other_classes": "Otras clases"
 }

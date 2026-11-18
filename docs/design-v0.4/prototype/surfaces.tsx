@@ -2,6 +2,15 @@ import { Explore } from "./Explore";
 import { BuildDetail } from "./BuildDetail";
 import { SetGuidePage, SetsIndex } from "./SetPages";
 import {
+  About,
+  ClassGuide,
+  ForgeGuide,
+  HowToUse,
+  Legal,
+  Shortcuts,
+  type ReadingTarget,
+} from "./Reading";
+import {
   AccountButton,
   NotificationBell,
   ShellReview,
@@ -65,10 +74,7 @@ import {
   X,
 } from "lucide-react";
 import es from "../../../public/locales/es/translation.json";
-import { useDataStore } from "../../../src/store/dataStore";
-import { CLASS_DATA } from "../../../src/features/class-picker/classData";
 import { resolveClassName } from "../../../src/features/class-picker/useClassName";
-import { LegalBody } from "../../../src/components/LegalBody";
 import { prepareModel, equipment, seedItems, visibleSlots } from "./model";
 import {
   BuildSheet,
@@ -94,7 +100,6 @@ import "./forge.css";
 import "./surfaces.css";
 import "./product.css";
 
-const translations = es as Record<string, string>;
 /** Example compositions from real catalogue pieces; nothing here is a recommendation. */
 const seedSlots = () =>
   Object.fromEntries(
@@ -365,6 +370,22 @@ function App() {
     go("set");
     history.replaceState(null, "", "?view=set&slug=" + slug);
   }
+  const readingGo = (target: ReadingTarget) => {
+    if (typeof target === "string") {
+      if (target === "workshop") location.assign("/");
+      else if (target === "forge") location.assign("/?forge=1");
+      else go(target);
+      return;
+    }
+    if ("class" in target) {
+      setClassId(target.class);
+      go("class");
+      history.replaceState(null, "", "?view=class&class=" + target.class);
+      window.scrollTo(0, 0);
+    } else if ("set" in target) openSet(target.set);
+    else if ("build" in target) shellNavigate({ build: target.build });
+    else location.assign("/?class=" + target.workshopClass);
+  };
   function leaveAccount() {
     const next = pendingNavigation;
     setPendingNavigation(null);
@@ -388,14 +409,14 @@ function App() {
     [filter, setFilter] = useState("Todos"),
     [tab, setTab] = useState(""),
     [notice, setNotice] = useState(""),
-    [classId, setClassId] = useState("iop");
-  const data = useDataStore(),
-    heading = pages.find((p) => p[0] === view)![1];
+    [classId, setClassId] = useState(
+      () => new URLSearchParams(location.search).get("class") || "iop",
+    );
+  const heading = pages.find((p) => p[0] === view)![1];
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "tinta" : "mineral";
   }, [dark]);
   useEffect(() => {
-    if (view === "class") void data.loadSpells("es", classId);
   }, [view, classId]);
   useEffect(() => {
     if (view !== "build") return;
@@ -633,106 +654,6 @@ function App() {
       </div>
     );
   }
-  function Editorial() {
-    let sections: { id: string; title: string; body: string }[] = [];
-    if (view === "privacy" || view === "terms")
-      sections = Array.from(
-        { length: view === "privacy" ? 12 : 15 },
-        (_, i) => ({
-          id: "s" + (i + 1),
-          title: t(`${view}_s${i + 1}_title`),
-          body: t(`${view}_s${i + 1}_body`),
-        }),
-      );
-    else if (view === "how-to-use")
-      sections = Array.from({ length: 8 }, (_, i) => ({
-        id: "step" + (i + 1),
-        title: t(`howto_step${i + 1}_title`),
-        body: t(`howto_step${i + 1}_body`),
-      }));
-    else if (view === "forge-guide")
-      sections = [
-        "start",
-        "order",
-        "intensity",
-        "items",
-        "slots",
-        "forgemagic",
-        "forging",
-        "results",
-        "faq",
-      ].map((id) => ({
-        id,
-        title: t(`forgeguide_${id}_title`),
-        body: [
-          t(`forgeguide_${id}_intro`),
-          ...Object.entries(translations)
-            .filter(([k]) =>
-              new RegExp(`^forgeguide_${id}_[0-9]+_(title|body)$`).test(k),
-            )
-            .map(([, v]) => v),
-        ].join("\n\n"),
-      }));
-    else {
-      const prefix = view === "about" ? "about_" : "shortcuts_";
-      sections = Object.entries(translations)
-        .filter(([k]) => k.startsWith(prefix) && k.endsWith("_body"))
-        .map(([k, body]) => ({
-          id: k,
-          title: t(k.replace("_body", "_title")),
-          body,
-        }));
-    }
-    const introKey =
-      view === "how-to-use"
-        ? "howto_intro"
-        : view === "forge-guide"
-          ? "forgeguide_intro"
-          : `${view}_intro`;
-    return (
-      <>
-        {hero(
-          view === "privacy" || view === "terms"
-            ? "INFORMACIÓN LEGAL"
-            : "CUADERNO DEL TALLER",
-          heading,
-          translations[introKey] ||
-            "Consulta el funcionamiento del taller y sus herramientas.",
-        )}
-        {(view === "privacy" || view === "terms") && (
-          <p className="legal-date">{t("legal_effective")}</p>
-        )}
-        <div className="reading-layout">
-          <aside>
-            <nav aria-label="Contenido de la guía">
-              {sections.map((s) => (
-                <a key={s.id} href={"#" + s.id}>
-                  {s.title}
-                </a>
-              ))}
-            </nav>
-          </aside>
-          <article className="reading-content">
-            {sections.map((s, i) => (
-              <section key={s.id} id={s.id}>
-                <span className="reading-index">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h2>{s.title}</h2>
-                <LegalBody text={s.body} />
-              </section>
-            ))}
-            {(view === "terms" || view === "privacy") && (
-              <LegalBody text={t(`${view}_contact`)} />
-            )}
-            <a className="reading-cta" href="/">
-              Llevarlo a mi build <ArrowRight size={18} />
-            </a>
-          </article>
-        </div>
-      </>
-    );
-  }
   function Content() {
     if (view === "builder")
       return (
@@ -752,17 +673,11 @@ function App() {
           />
         </>
       );
-    if (
-      [
-        "about",
-        "how-to-use",
-        "forge-guide",
-        "shortcuts",
-        "privacy",
-        "terms",
-      ].includes(view)
-    )
-      return <Editorial />;
+    if (view === "about") return <About go={readingGo} />;
+    if (view === "how-to-use") return <HowToUse go={readingGo} />;
+    if (view === "forge-guide") return <ForgeGuide go={readingGo} />;
+    if (view === "shortcuts") return <Shortcuts go={readingGo} />;
+    if (view === "privacy" || view === "terms") return <Legal kind={view} />;
     if (view === "explore")
       return (
         <Explore
@@ -873,66 +788,7 @@ function App() {
           }}
         />
       );
-    if (view === "class") {
-      const current = CLASS_DATA.find((c) => c.id === classId)!,
-        spells = data.spells.get(classId)?.spells || [];
-      return (
-        <>
-          {hero(
-            "CLASES DEL MUNDO DE LOS DOCE",
-            resolveClassName(classId, "es", null),
-            "Consulta hechizos, variantes y efectos base de la clase.",
-            <img className="hero-portrait" src={current.imageUrl} alt="" />,
-          )}
-          <label className="class-choice">
-            Clase
-            <select
-              value={classId}
-              onChange={(e) => setClassId(e.target.value)}
-            >
-              {CLASS_DATA.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {resolveClassName(c.id, "es", null)}
-                </option>
-              ))}
-            </select>
-          </label>
-          {search("Buscar hechizo")}
-          <div className="spell-directory">
-            {spells
-              .filter((s) => s.name.toLowerCase().includes(query.toLowerCase()))
-              .map((s) => {
-                const level = s.levels.at(-1);
-                return (
-                  <details key={s.id}>
-                    <summary>
-                      {s.image_url && <img src={s.image_url} alt="" />}
-                      <span>
-                        <b>{s.name}</b>
-                        <small>
-                          {s.is_variant ? "Variante" : "Hechizo"} · {level?.ap}{" "}
-                          PA · {level?.minRange}–{level?.maxRange} alcance
-                        </small>
-                      </span>
-                      <Plus size={16} />
-                    </summary>
-                    <p>{s.description}</p>
-                    <p>
-                      Grado {level?.grade} · {level?.critChance}% crítico ·{" "}
-                      {level?.maxPerTurn} por turno
-                    </p>
-                    {level?.effects.map((e, i) => (
-                      <p key={i}>
-                        {e.min}–{e.max} · {e.element} · {e.kind}
-                      </p>
-                    ))}
-                  </details>
-                );
-              })}
-          </div>
-        </>
-      );
-    }
+    if (view === "class") return <ClassGuide classId={classId} go={readingGo} />;
     if (view === "account")
       return (
         <Account

@@ -1,3 +1,5 @@
+import { CLASS_DATA } from "../../../src/features/class-picker/classData";
+import type { DofusClass } from "../../../src/engine/types";
 import { assignSetSlots } from "../../../src/features/equipment/setSlots";
 import {
   useBuildStore,
@@ -82,6 +84,15 @@ export async function prepareModel() {
     }
   } catch {
     /* Default build remains available. */
+  }
+  // As BuilderPage: ?class=<id> (a class guide's "build a …") picks that class when no build link is open.
+  try {
+    const params = new URLSearchParams(location.search),
+      cls = params.get("class");
+    if (cls && !params.get("b") && CLASS_DATA.some((c) => c.id === cls))
+      useBuildStore.getState().setClass(cls as DofusClass);
+  } catch {
+    /* The default class stays. */
   }
   // As BuilderPage: ?set=<id> (a set page's "try it") equips the whole set once, then the
   // param is dropped so a reload never re-equips it. Ignored when a build link (?b=) is open.

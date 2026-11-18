@@ -1907,5 +1907,11 @@
   "sets_v4_review": "Revue locale des panoplies",
   "sets_v4_scene_normal": "Avec des équipements qui l’utilisent",
   "sets_v4_scene_no-builds": "Aucun équipement ne l’utilise",
-  "sets_v4_description": "Description"
+  "sets_v4_description": "Description",
+  "rd_v4_kicker_guide": "CARNET DE L’ATELIER",
+  "rd_v4_kicker_about": "LE PROJET",
+  "rd_v4_kicker_legal": "INFORMATIONS LÉGALES",
+  "rd_v4_kicker_class": "GUIDE DE CLASSE",
+  "rd_v4_about_project": "Le projet",
+  "rd_v4_other_classes": "Autres classes"
 }

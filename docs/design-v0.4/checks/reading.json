@@ -1,0 +1,1506 @@
+[
+  {
+    "id": "how-to-use",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "how-to-use",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "forge-guide",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "shortcuts",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "about",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "privacy",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "terms",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "class",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clipped": 0,
+      "smallTargets": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "flows",
+    "howToSteps": true,
+    "forgeSectionsHeatExamples": true,
+    "tocFollowsReading": true,
+    "faqFolds": true,
+    "workshopOpensForge": true,
+    "shortcutCombos": true,
+    "aboutCountFeaturesClassesFaq": true,
+    "legalSections": true,
+    "classElementsOwnFirst": true,
+    "classSetChips": true,
+    "classSets": true,
+    "classBuilds": true,
+    "classMoreBuilds": true,
+    "classSwitch": true,
+    "workshopPicksClass": true,
+    "missingClass": true,
+    "errors": []
+  }
+]
