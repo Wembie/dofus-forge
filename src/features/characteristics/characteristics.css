@@ -1,6 +1,6 @@
 /* Characteristics allocation (0.4): budget, one row per characteristic, scrolls. */
 :where(.chars) button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 5px; background: transparent; color: var(--text); font: 600 14px 'Source Sans 3', sans-serif; cursor: pointer; }
-:where(.chars) button:hover:not(:disabled) { background: var(--hover); border-color: var(--muted); }
+:where(.chars) button:where(:hover:not(:disabled)) { background: var(--hover); border-color: var(--muted); }
 :where(.chars) button:disabled { opacity: 0.35; cursor: default; }
 :where(.chars) input { font: 500 15px 'IBM Plex Mono', ui-monospace, monospace; color: var(--text); background: var(--canvas); border: 1px solid var(--line); border-radius: 5px; }
 :where(.chars) :is(button, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
