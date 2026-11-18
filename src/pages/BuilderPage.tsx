@@ -1,9 +1,10 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library, Sparkles } from 'lucide-react'
+import { User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library, Sparkles } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
-import { WorkshopBar, WorkshopIdentity, WorkshopStatus, WorkshopTools, type WorkshopTool } from '@/features/workshop/WorkshopBar.tsx'
+import { WorkshopBar, WorkshopIdentity, WorkshopMobileNav, WorkshopStatus, WorkshopTools, type WorkshopTool, type WorkshopView } from '@/features/workshop/WorkshopBar.tsx'
+import { StatsQuick } from '@/features/stats-panel/StatsOverview.tsx'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -21,7 +22,7 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { assignSetSlots } from '@/features/equipment/setSlots.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
-import { BrandMark, Tabs, Frame, Modal, type TabItem } from '@/ui'
+import { BrandMark, Frame, Modal } from '@/ui'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -40,7 +41,6 @@ const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.t
 const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
 const PublishModal    = lazy(() => import('@/features/publish/PublishModal.tsx').then(m => ({ default: m.PublishModal })))
 
-type MobileTab = 'equipment' | 'character' | 'stats'
 
 // Isolated in its own component because its href has to encode the FULL
 // build state (so right-click/middle-click "open in new tab" carries the
@@ -89,7 +89,7 @@ function BuilderContent() {
   const PublishIcon  = isPublished ? RefreshCw : UploadCloud
   const isAdmin   = useAuthStore(s => s.profile?.role === 'admin')
   const setClass  = useBuildStore(s => s.setClass)
-  const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
+  const [activeTab, setActiveTab] = useState<WorkshopView>('equipment')
   const load      = useDataStore(s => s.load)
   const canUndo   = useHistoryStore(s => s.canUndo)
   const canRedo   = useHistoryStore(s => s.canRedo)
@@ -213,19 +213,13 @@ function BuilderContent() {
     useToastStore.getState().addToast(t('set_page_equipped_toast', { name: set.name }))
   }, [_compEquip, _compSets, t])
 
-  const mobileTabItems: TabItem[] = [
-    { id: 'equipment', label: t('equipment'), Icon: Swords },
-    { id: 'character', label: t('character'), Icon: User },
-    { id: 'stats',     label: t('stats'),     Icon: BarChart2 },
-  ]
 
   function selectTool(tool: WorkshopTool) {
     if (tool === 'sets') return setShowSetsCatalog(true)
     if (tool === 'characteristics') return setShowCharacteristics(true)
     if (tool === 'compare') return toggleCompare()
     // Until each tool gets its own panel, the bar reaches the one on the page.
-    const inCharacterTab = tool === 'spells' || tool === 'pvp'
-    if (!window.matchMedia('(min-width: 1024px)').matches) setActiveTab(inCharacterTab ? 'character' : 'equipment')
+    if (!window.matchMedia('(min-width: 1024px)').matches) setActiveTab('equipment')
     setTimeout(() => {
       const target = [...document.querySelectorAll<HTMLElement>(`[data-tool="${tool}"]`)].find(el => el.offsetParent !== null)
       target?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
@@ -274,6 +268,7 @@ function BuilderContent() {
         <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel /></div>
       </Modal>
       <WorkshopTools onSelect={selectTool} compareActive={compareActive} />
+      {hasClass && <div className="lg:hidden"><StatsQuick /></div>}
 
       {/* Changelog modal */}
       {showChangelog && (
@@ -305,20 +300,16 @@ function BuilderContent() {
 
       {/* Main content */}
       <main id="main-content" className="px-4 py-6 pb-24 lg:pb-6">
-        {/* Mobile: single active tab panel (< lg) */}
-        <div className="lg:hidden">
+        {/* Mobile: one view at a time (< lg), chosen in the bottom bar */}
+        <div className="lg:hidden space-y-4">
           {activeTab === 'equipment' && (
-            <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
-              <EquipmentGrid />
-            </section>
-          )}
-          {activeTab === 'character' && (
-            <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
-              <Frame><ClassPicker /></Frame>
-              <CombatViewBar />
-              <div data-tool="characteristics"><Frame><CharacteristicsPanel /></Frame></div>
+            <>
+              {!hasClass && <Frame><ClassPicker /></Frame>}
+              <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
+                <EquipmentGrid />
+              </section>
               {hasClass && <div data-tool="spells"><Frame><Suspense fallback={null}><SpellsPanel /></Suspense></Frame></div>}
-            </aside>
+            </>
           )}
           {activeTab === 'stats' && (
             <aside aria-label={t('stats')} aria-live="polite" className="space-y-4">
@@ -364,14 +355,17 @@ function BuilderContent() {
         </div>
       </main>
 
-      {/* Mobile bottom tab bar (< lg) */}
-      <Tabs
-        items={mobileTabItems}
-        active={activeTab}
-        onChange={id => setActiveTab(id as MobileTab)}
-        variant="bottom-bar"
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-40"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      {/* Mobile bottom bar (< lg) */}
+      <WorkshopMobileNav
+        view={activeTab}
+        onView={setActiveTab}
+        onForge={() => setShowOptimizer(true)}
+        onCompare={toggleCompare}
+        compareActive={compareActive}
+        onPublish={() => setShowPublish(true)}
+        publishLabel={publishLabel}
+        PublishIcon={PublishIcon}
+        canPublish={hasClass}
       />
 
       {/* Compare panel — full width below main grid */}

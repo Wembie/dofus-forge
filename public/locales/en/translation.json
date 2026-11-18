@@ -2503,9 +2503,9 @@
   "fx_v4_fg_step_search": "Search",
   "fx_v4_fg_step_results": "Results",
   "stats_sheet_open": "See the full sheet",
-  "stats_sheet_open_hint": "73 stats and limits",
+  "stats_sheet_open_hint": "72 stats and limits",
   "stats_sheet_title": "Full sheet",
-  "stats_sheet_fields": "73 fields · zero values included",
+  "stats_sheet_fields": "72 fields · zero values included",
   "stats_sheet_search": "Search for a stat",
   "stats_sheet_search_placeholder": "Search for a stat…",
   "stats_group_control": "Control and limits",
@@ -2579,5 +2579,7 @@
   "stats_combat_view_note": "Combat view: adds your active passives.",
   "identity_edit": "Name and level (level {{level}})",
   "stats_over_cap": "Above the cap of {{cap}}: the excess does not count",
-  "stats_with_power": "{{value}} own + {{power}} from power"
+  "stats_with_power": "{{value}} own + {{power}} from power",
+  "workshop_views": "Workshop views",
+  "workshop_forge_short": "Forge"
 }

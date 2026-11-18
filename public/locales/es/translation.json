@@ -2503,9 +2503,9 @@
   "fx_v4_fg_step_search": "Búsqueda",
   "fx_v4_fg_step_results": "Resultados",
   "stats_sheet_open": "Ver ficha completa",
-  "stats_sheet_open_hint": "73 estadísticas y límites",
+  "stats_sheet_open_hint": "72 estadísticas y límites",
   "stats_sheet_title": "Ficha completa",
-  "stats_sheet_fields": "73 campos · valores en cero incluidos",
+  "stats_sheet_fields": "72 campos · valores en cero incluidos",
   "stats_sheet_search": "Buscar una estadística",
   "stats_sheet_search_placeholder": "Buscar una estadística…",
   "stats_group_control": "Control y límites",
@@ -2579,5 +2579,7 @@
   "stats_combat_view_note": "Vista en combate: suma tus pasivos activos.",
   "identity_edit": "Nombre y nivel (nivel {{level}})",
   "stats_over_cap": "Por encima del tope de {{cap}}: el exceso no cuenta",
-  "stats_with_power": "{{value}} propios + {{power}} de potencia"
+  "stats_with_power": "{{value}} propios + {{power}} de potencia",
+  "workshop_views": "Vistas del taller",
+  "workshop_forge_short": "Forjar"
 }

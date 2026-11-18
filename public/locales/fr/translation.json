@@ -2503,9 +2503,9 @@
   "fx_v4_fg_step_search": "Recherche",
   "fx_v4_fg_step_results": "Résultats",
   "stats_sheet_open": "Voir la fiche complète",
-  "stats_sheet_open_hint": "73 stats et limites",
+  "stats_sheet_open_hint": "72 stats et limites",
   "stats_sheet_title": "Fiche complète",
-  "stats_sheet_fields": "73 champs · valeurs nulles incluses",
+  "stats_sheet_fields": "72 champs · valeurs nulles incluses",
   "stats_sheet_search": "Rechercher une stat",
   "stats_sheet_search_placeholder": "Rechercher une stat…",
   "stats_group_control": "Contrôle et limites",
@@ -2579,5 +2579,7 @@
   "stats_combat_view_note": "Vue en combat : ajoute vos passifs actifs.",
   "identity_edit": "Nom et niveau (niveau {{level}})",
   "stats_over_cap": "Au-dessus du plafond de {{cap}} : l’excédent ne compte pas",
-  "stats_with_power": "{{value}} propres + {{power}} de puissance"
+  "stats_with_power": "{{value}} propres + {{power}} de puissance",
+  "workshop_views": "Vues de l’atelier",
+  "workshop_forge_short": "Forger"
 }

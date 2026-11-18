@@ -2503,9 +2503,9 @@
   "fx_v4_fg_step_search": "Busca",
   "fx_v4_fg_step_results": "Resultados",
   "stats_sheet_open": "Ver ficha completa",
-  "stats_sheet_open_hint": "73 estatísticas e limites",
+  "stats_sheet_open_hint": "72 estatísticas e limites",
   "stats_sheet_title": "Ficha completa",
-  "stats_sheet_fields": "73 campos · valores zerados incluídos",
+  "stats_sheet_fields": "72 campos · valores zerados incluídos",
   "stats_sheet_search": "Buscar uma estatística",
   "stats_sheet_search_placeholder": "Buscar uma estatística…",
   "stats_group_control": "Controle e limites",
@@ -2579,5 +2579,7 @@
   "stats_combat_view_note": "Visão em combate: soma suas passivas ativas.",
   "identity_edit": "Nome e nível (nível {{level}})",
   "stats_over_cap": "Acima do limite de {{cap}}: o excesso não conta",
-  "stats_with_power": "{{value}} próprios + {{power}} de potência"
+  "stats_with_power": "{{value}} próprios + {{power}} de potência",
+  "workshop_views": "Telas da oficina",
+  "workshop_forge_short": "Forjar"
 }

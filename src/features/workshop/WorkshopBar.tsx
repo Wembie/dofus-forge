@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ElementType } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { BookOpen, Columns2, Hammer, Redo2, Undo2 } from 'lucide-react'
+import { BarChart3, BookOpen, Columns2, Hammer, Redo2, Swords, Undo2 } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -162,5 +162,46 @@ export function WorkshopIdentity({ open, onClose }: { open: boolean; onClose: ()
         <button type="submit" className="site-primary">{t('identity_done')}</button>
       </form>
     </Modal>
+  )
+}
+
+export type WorkshopView = 'equipment' | 'stats'
+
+/** Mobile bottom bar: The Forger, the two views, compare, publish. */
+export function WorkshopMobileNav({ view, onView, onForge, onCompare, compareActive, onPublish, publishLabel, PublishIcon, canPublish }: {
+  view: WorkshopView
+  onView: (view: WorkshopView) => void
+  onForge: () => void
+  onCompare: () => void
+  compareActive: boolean
+  onPublish: () => void
+  publishLabel: string
+  PublishIcon: ElementType
+  canPublish: boolean
+}) {
+  const { t } = useTranslation()
+  return (
+    <nav className="workshop-mobile-nav" aria-label={t('workshop_views')}>
+      <button type="button" className="is-forge" onClick={onForge}>
+        <Hammer size={20} aria-hidden="true" />
+        {t('workshop_forge_short')}
+      </button>
+      <button type="button" aria-current={view === 'equipment' ? 'page' : undefined} onClick={() => onView('equipment')}>
+        <Swords size={20} aria-hidden="true" />
+        {t('equipment')}
+      </button>
+      <button type="button" aria-current={view === 'stats' ? 'page' : undefined} onClick={() => onView('stats')}>
+        <BarChart3 size={20} aria-hidden="true" />
+        {t('stats')}
+      </button>
+      <button type="button" aria-pressed={compareActive} onClick={onCompare}>
+        <Columns2 size={20} aria-hidden="true" />
+        {t('compare')}
+      </button>
+      <button type="button" onClick={onPublish} disabled={!canPublish}>
+        <PublishIcon size={20} aria-hidden="true" />
+        {publishLabel}
+      </button>
+    </nav>
   )
 }

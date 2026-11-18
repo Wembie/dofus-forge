@@ -8,6 +8,9 @@ import { statIconUrl, STAT_FIELDS, STAT_META } from '../equipment/statDisplay.ts
 import { Tooltip } from '@/ui/Tooltip.tsx'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
 import { StatsSheetButton } from './StatsSheet.tsx'
+import { useBuildStore } from '@/store/buildStore.ts'
+import { useCombatStats } from '@/store/useCombatStats.ts'
+import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 
 type Key = Exclude<keyof StatBlock, 'unknownStats'>
 
@@ -234,5 +237,27 @@ export function StatsOverview({ s, base, runes, inCombat }: {
       </p>
       <StatsSheetButton stats={s} />
     </div>
+  )
+}
+
+/** Mobile strip under the workshop heading: HP, AP, MP and range at a glance. */
+export function StatsQuick() {
+  const { t, i18n } = useTranslation()
+  const base = useBuildStore(st => st.stats)
+  const combatStats = useCombatStats()
+  const combatView = useCombatView()
+  const hasPassives = useHasPassives()
+  const s = combatView && hasPassives && combatStats ? combatStats : base
+  if (!s) return null
+  const fmt = new Intl.NumberFormat(i18n.language === 'es' ? 'es-CO' : i18n.language)
+  return (
+    <dl className="stats-quick">
+      {SUMMARY.slice(0, 4).map(({ key, label }) => (
+        <div key={key} className={`is-${key}${(s[key] as number) < 0 ? ' is-negative' : ''}`}>
+          <dt><img src={statIconUrl(STAT_FIELDS[key].icon)} alt="" width={13} height={13} />{t(label)}</dt>
+          <dd>{fmt.format(s[key] as number)}</dd>
+        </div>
+      ))}
+    </dl>
   )
 }

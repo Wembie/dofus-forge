@@ -8,10 +8,11 @@ import { statIconUrl, STAT_FIELDS } from '@/features/equipment/statDisplay.ts'
 
 type SheetKey = Exclude<keyof StatBlock, 'unknownStats'> | 'unknownStats'
 
-/** Every field of the StatBlock, grouped as the character sheet reads them. */
+/** Every field of the StatBlock, grouped as the character sheet reads them.
+ * Vitality is left out: its effect is already the HP. */
 const STAT_SHEET_GROUPS: [string, SheetKey[]][] = [
   ['character', [
-    'maxHp', 'ap', 'mp', 'range', 'vitality', 'wisdom', 'strength', 'intelligence', 'chance', 'agility',
+    'maxHp', 'ap', 'mp', 'range', 'wisdom', 'strength', 'intelligence', 'chance', 'agility',
     'power', 'initiative', 'prospecting', 'summons', 'pods', 'pointsBudget', 'pointsSpent',
   ]],
   ['section_damage', [
@@ -82,7 +83,7 @@ function StatsSheet({ stats }: { stats: StatBlock }) {
   )
 }
 
-/** Opens the full sheet: all 73 fields of the StatBlock, zero values included. */
+/** Opens the full sheet: every StatBlock field but vitality (shown as HP), zero values included. */
 export function StatsSheetButton({ stats }: { stats: StatBlock }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)

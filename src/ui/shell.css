@@ -1221,3 +1221,81 @@ button.workshop-level:hover {
   font-size: 12px;
   color: var(--accent);
 }
+
+/* Workshop on mobile: quick stats and the bottom bar. */
+.stats-quick {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 16px 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+.stats-quick > div + div {
+  padding-left: 8px;
+  border-left: 1px solid var(--subtle);
+}
+.stats-quick dt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.stats-quick dd {
+  margin: 2px 0 0;
+  font: 500 20px 'IBM Plex Mono', ui-monospace, monospace;
+  color: var(--text);
+}
+.stats-quick .is-maxHp dd {
+  color: var(--accent);
+}
+.stats-quick .is-negative dd {
+  color: var(--negative);
+}
+.workshop-mobile-nav {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .workshop-mobile-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .workshop-mobile-nav button {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 4px 2px;
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .workshop-mobile-nav [aria-current="page"],
+  .workshop-mobile-nav [aria-pressed="true"] {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .workshop-mobile-nav .is-forge svg {
+    color: var(--accent);
+  }
+  .workshop-mobile-nav button:disabled {
+    opacity: 0.35;
+  }
+}
