@@ -264,7 +264,7 @@ function BuilderContent() {
         onIdentity={() => setShowIdentity(true)}
       />
       <WorkshopIdentity open={showIdentity} onClose={() => setShowIdentity(false)} />
-      <Modal open={showCharacteristics} onClose={() => setShowCharacteristics(false)} title={t('tool_characteristics')} size="lg">
+      <Modal open={showCharacteristics} onClose={() => setShowCharacteristics(false)} title={t('tool_characteristics')} size="2xl">
         <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel /></div>
       </Modal>
       <WorkshopTools onSelect={selectTool} compareActive={compareActive} />

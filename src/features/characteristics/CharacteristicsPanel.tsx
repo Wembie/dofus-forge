@@ -1,405 +1,196 @@
-import { useState, useCallback, useEffect, useRef, startTransition } from 'react'
+import { startTransition, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useCombatStats } from '@/store/useCombatStats.ts'
 import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
-import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
-import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
-import { pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
+import { maxPointsForBudget, pointCost, statBudget, SCROLL_BONUS } from '@/engine/characteristics.ts'
 import { CHARACTERISTICS, type Characteristic } from '@/engine/types.ts'
-import { statIconUrl } from '../equipment/statDisplay.ts'
+import { statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
+import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
+import './characteristics.css'
 
-const CHAR_COLOR: Record<Characteristic, string> = {
-  vitality:     'var(--vitality)',
-  wisdom:       'var(--wisdom)',
-  strength:     'var(--earth)',
-  intelligence: 'var(--fire)',
-  chance:       'var(--water)',
-  agility:      'var(--air)',
-}
+const ELEMENTAL = new Set<Characteristic>(['strength', 'intelligence', 'chance', 'agility'])
 
+/** Thousands are always grouped (the "es" locale skips four-digit numbers by default). */
+const formatNumber = (n: number, lang: string) =>
+  new Intl.NumberFormat(lang, { useGrouping: 'always' as unknown as boolean, maximumFractionDigits: 0 }).format(Math.round(n))
 
-function StatIcon({ name, size = 14 }: { name: string; size?: number }) {
-  return (
-    <img src={statIconUrl(name)} alt="" width={size} height={size}
-      style={{ objectFit: 'contain', flexShrink: 0 }} draggable={false} />
-  )
-}
+/** Step size: Shift = 5, Ctrl/⌘ = 20, otherwise 1. */
+const step = (e: { shiftKey: boolean; ctrlKey: boolean; metaKey: boolean }) => (e.shiftKey ? 5 : e.ctrlKey || e.metaKey ? 20 : 1)
 
-// ── Hold-to-repeat ────────────────────────────────────────────────────────────
-function useHoldRepeat(onAdd: (n: number) => void, onRemove: (n: number) => void) {
-  const timerRef    = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const intervalRef = useRef<ReturnType<typeof setInterval>>(undefined)
-  const countRef    = useRef(0)
-  const addRef      = useRef(onAdd)
-  const removeRef   = useRef(onRemove)
-  addRef.current    = onAdd
-  removeRef.current = onRemove
-
-  const stop = useCallback(() => {
-    clearTimeout(timerRef.current)
-    clearInterval(intervalRef.current)
-  }, [])
-
+/** Press and hold: one step on press, then after 350 ms a repeat every 80 ms
+ * that speeds up to 5 per tick after 15 ticks. Pointer events cover mouse and
+ * touch; a keyboard click still does a single step. */
+function useHold(apply: (n: number) => void) {
+  const fn = useRef(apply)
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const tick = useRef<ReturnType<typeof setInterval>>(undefined)
+  const pressed = useRef(false)
+  fn.current = apply
+  const stop = useCallback(() => { clearTimeout(timer.current); clearInterval(tick.current) }, [])
   useEffect(() => stop, [stop])
-
-  const startAdd = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    if (e.shiftKey)             { addRef.current(5);  return }
-    if (e.ctrlKey || e.metaKey) { addRef.current(20); return }
-    addRef.current(1)
-    countRef.current = 0
-    timerRef.current = setTimeout(() => {
-      intervalRef.current = setInterval(() => {
-        countRef.current++
-        addRef.current(countRef.current >= 15 ? 5 : 1)
-      }, 80)
-    }, 350)
-  }, [])
-
-  const startRemove = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    if (e.shiftKey)             { removeRef.current(5);  return }
-    if (e.ctrlKey || e.metaKey) { removeRef.current(20); return }
-    removeRef.current(1)
-    countRef.current = 0
-    timerRef.current = setTimeout(() => {
-      intervalRef.current = setInterval(() => {
-        countRef.current++
-        removeRef.current(countRef.current >= 15 ? 5 : 1)
-      }, 80)
-    }, 350)
-  }, [])
-
   return {
-    addProps:    { onMouseDown: startAdd,    onMouseUp: stop, onMouseLeave: stop },
-    removeProps: { onMouseDown: startRemove, onMouseUp: stop, onMouseLeave: stop },
+    onPointerDown: (e: React.PointerEvent) => {
+      if (e.button !== 0) return
+      pressed.current = true
+      fn.current(step(e))
+      if (e.shiftKey || e.ctrlKey || e.metaKey) return
+      let count = 0
+      timer.current = setTimeout(() => {
+        tick.current = setInterval(() => { count++; fn.current(count >= 15 ? 5 : 1) }, 80)
+      }, 350)
+    },
+    onPointerUp: stop,
+    onPointerLeave: stop,
+    onPointerCancel: stop,
+    onContextMenu: (e: React.MouseEvent) => e.preventDefault(),
+    onClick: (e: React.MouseEvent) => {
+      if (pressed.current) { pressed.current = false; return }
+      fn.current(step(e))
+    },
   }
 }
 
-// ── Non-elemental stat row (Vitality, Wisdom) — just total ───────────────────
-function CompactRow({ char, total }: { char: Characteristic; total: number }) {
+function Step({ label, disabled, apply, children }: { label: string; disabled: boolean; apply: (n: number) => void; children: ReactNode }) {
   const { t } = useTranslation()
-  const color = CHAR_COLOR[char]
+  const hold = useHold(apply)
   return (
-    <div
-      className="flex items-center gap-1.5 px-2 py-1 rounded-md"
-      style={{ borderLeft: `2px solid color-mix(in srgb, ${color} 30%, transparent)` }}
-    >
-      <StatIcon name={char} size={15} />
-      <span className="text-xs font-medium flex-1 select-none truncate" style={{ color }}>
-        {t(`stat_${char}`)}
-      </span>
-      <span className="font-mono font-bold text-sm tabular-nums flex-shrink-0" style={{ color }}>
-        {total.toLocaleString()}
-      </span>
-    </div>
+    <button type="button" aria-label={label} title={t('chars_step_title', { label })} disabled={disabled} {...hold}>
+      {children}
+    </button>
   )
 }
 
-// ── Elemental stat row (Str/Int/Cha/Agi) — base | +power | =effective ────────
-function ElemRow({ char, base, power, delta }: { char: Characteristic; base: number; power: number; delta?: number }) {
+/** Typed points, buffered while editing and committed on blur or Enter. */
+function Points({ name, value, onCommit }: { name: string; value: number; onCommit: (target: number) => void }) {
   const { t } = useTranslation()
-  const color     = CHAR_COLOR[char]
-  const effective = base + power
+  const [text, setText] = useState(String(value))
+  const editing = useRef(false)
+  useEffect(() => { if (!editing.current) setText(String(value)) }, [value])
   return (
-    <div
-      className="flex items-center gap-1.5 px-2 py-1 rounded-md"
-      style={{ borderLeft: `2px solid color-mix(in srgb, ${color} 30%, transparent)` }}
-    >
-      <StatIcon name={char} size={15} />
-      <span className="text-xs font-medium flex-1 select-none truncate" style={{ color }}>
-        {t(`stat_${char}`)}
-      </span>
-      <DeltaChip delta={delta} />
-      {power > 0 ? (
-        <div className="flex items-center gap-1 flex-shrink-0 font-mono tabular-nums leading-none">
-          <span className="text-[11px]" style={{ color: 'var(--ink-muted)' }}>
-            {base.toLocaleString()}
-          </span>
-          <span className="text-[10px] font-bold" style={{ color: 'color-mix(in srgb, var(--gold) 80%, white)' }}>
-            +{power}
-          </span>
-          <span className="text-sm font-bold" style={{ color }}>
-            {effective.toLocaleString()}
-          </span>
-        </div>
-      ) : (
-        <span className="font-mono font-bold text-sm tabular-nums flex-shrink-0" style={{ color }}>
-          {base.toLocaleString()}
-        </span>
-      )}
-    </div>
+    <input
+      inputMode="numeric"
+      aria-label={t('chars_points_in', { name })}
+      value={text}
+      onFocus={e => { editing.current = true; e.currentTarget.select() }}
+      onChange={e => setText(e.target.value.replace(/\D/g, '').slice(0, 4))}
+      onBlur={() => { editing.current = false; onCommit(Number(text) || 0) }}
+      onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
+    />
   )
 }
 
-// ── Single allocator control (used inside AllocationGrid) ─────────────────────
-function AllocatorControl({
-  char, allocated, remaining, onAdd, onRemove,
-}: {
-  char: Characteristic; allocated: number; remaining: number;
-  onAdd: (n: number) => void; onRemove: (n: number) => void;
-}) {
-  const { t }    = useTranslation()
-  const color    = CHAR_COLOR[char]
-  const focused  = useRef(false)
-  const [inputVal, setInputVal] = useState(String(allocated))
-
-  useEffect(() => {
-    if (!focused.current) setInputVal(String(allocated))
-  }, [allocated])
-
-  function commitInput(raw: string) {
-    const target = Math.max(0, parseInt(raw, 10) || 0)
-    if (target > allocated) onAdd(target - allocated)
-    else if (target < allocated) onRemove(allocated - target)
-  }
-
-  const nextCost = pointCost(char, allocated + 1) - pointCost(char, allocated)
-  const canAdd   = remaining >= nextCost
-  const { addProps, removeProps } = useHoldRepeat(onAdd, onRemove)
-
-  const btn: React.CSSProperties = {
-    border: '1px solid var(--metal-edge)', borderRadius: 3,
-    width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontWeight: 700, fontSize: 12, cursor: 'pointer', userSelect: 'none', flexShrink: 0,
-    background: 'transparent',
-  }
-
-  return (
-    <div className="flex items-center gap-1">
-      <StatIcon name={char} size={13} />
-      <button
-        {...removeProps}
-        aria-label={t('a11y_char_remove', { stat: t(`char_${char}`) })}
-        disabled={allocated <= 0}
-        style={{ ...btn, color: 'var(--ink-muted)', opacity: allocated <= 0 ? 0.25 : 1 }}
-      >−</button>
-      <input
-        type="number" min={0} value={inputVal}
-        onChange={e => setInputVal(e.target.value)}
-        onFocus={e => { focused.current = true; e.target.select() }}
-        onBlur={e => { focused.current = false; commitInput(e.target.value) }}
-        onKeyDown={e => {
-          if (e.key === 'Enter')  { commitInput(inputVal); (e.target as HTMLInputElement).blur() }
-          if (e.key === 'Escape') { focused.current = false; setInputVal(String(allocated)) }
-        }}
-        aria-label={t(`char_${char}`)}
-        className="text-center font-mono font-bold text-xs focus:outline-none rounded-sm"
-        style={{
-          width: 36, background: 'var(--surface-void)', color,
-          border: '1px solid var(--metal-edge)', padding: '1px 2px',
-          MozAppearance: 'textfield',
-        }}
-      />
-      <button
-        {...addProps}
-        aria-label={t('a11y_char_add', { stat: t(`char_${char}`) })}
-        disabled={!canAdd}
-        style={{ ...btn, color: 'var(--ink-muted)', opacity: !canAdd ? 0.25 : 1 }}
-      >+</button>
-    </div>
-  )
-}
-
-// ── All-in-one allocation grid ────────────────────────────────────────────────
-function AllocationGrid({ remaining }: { remaining: number }) {
+/** One row per characteristic — scroll, points and the resulting total, read
+ * left to right — under the points left of the level's budget. */
+export function CharacteristicsPanel() {
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language
+  const fmt = (n: number) => formatNumber(n, lang)
+  const name = (char: Characteristic) => t(`stat_${char}`)
+  const level        = useBuildStore(s => s.level)
   const allocated    = useBuildStore(s => s.allocated)
+  const scrolled     = useBuildStore(s => s.scrolled)
+  const gear         = useBuildStore(s => s.stats)
   const addPoints    = useBuildStore(s => s.addPoints)
   const removePoints = useBuildStore(s => s.removePoints)
+  const toggleScroll = useBuildStore(s => s.toggleScroll)
+  const setAllScrolls = useBuildStore(s => s.setAllScrolls)
+  const combatStats  = useCombatStats()
+  const combatView   = useCombatView()
+  const hasPassives  = useHasPassives()
+  const combat = combatView && hasPassives && combatStats != null
+  const stats = combat ? combatStats : gear
+
+  const budget = statBudget(level)
+  const spent = CHARACTERISTICS.reduce((sum, c) => sum + pointCost(c, allocated[c]), 0)
+  const left = budget - spent
+  const everyScroll = CHARACTERISTICS.every(c => scrolled[c])
+  const power = stats?.power ?? 0
+  const powerFromPassives = combat && gear ? power - gear.power : 0
+  // As a transition: each change recomputes the build and every panel.
+  const add = (char: Characteristic, n: number) => startTransition(() => addPoints(char, n))
+  const remove = (char: Characteristic, n: number) => startTransition(() => removePoints(char, n))
+  function commit(char: Characteristic, target: number) {
+    const now = allocated[char]
+    if (target > now) add(char, target - now)
+    else if (target < now) remove(char, now - target)
+  }
 
   return (
-    <div
-      className="grid grid-cols-2 gap-x-3 gap-y-2 pt-2 mt-1"
-      style={{ borderTop: '1px solid var(--metal-edge)' }}
-    >
-      {CHARACTERISTICS.map(char => (
-        <AllocatorControl
-          key={char}
-          char={char}
-          allocated={allocated[char]}
-          remaining={remaining}
-          onAdd={n    => startTransition(() => addPoints(char, n))}
-          onRemove={n => startTransition(() => removePoints(char, n))}
-        />
-      ))}
-    </div>
-  )
-}
-
-// ── Unified scroll toggles ────────────────────────────────────────────────────
-function ScrollToggles() {
-  const { t }          = useTranslation()
-  const scrolled       = useBuildStore(s => s.scrolled)
-  const toggleScroll   = useBuildStore(s => s.toggleScroll)
-  const setAllScrolls  = useBuildStore(s => s.setAllScrolls)
-
-  const allActive = CHARACTERISTICS.every(c => scrolled[c])
-
-  return (
-    <div className="mt-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: 'var(--ink-faint)' }}>
-          {t('scrolls_title')}
-        </span>
-        <div className="flex items-center gap-1.5">
-          <span className="text-[9px] font-mono" style={{ color: 'var(--ink-faint)' }}>+{SCROLL_BONUS} {t('scroll_each')}</span>
-          <button
-            onClick={() => startTransition(() => setAllScrolls(!allActive))}
-            title={t('scroll_all')}
-            className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded transition-all"
-            style={allActive ? {
-              background: 'color-mix(in srgb, var(--gold) 20%, transparent)',
-              border: '1px solid color-mix(in srgb, var(--gold) 50%, transparent)',
-              color: 'var(--gold)',
-            } : {
-              background: 'transparent',
-              border: '1px solid var(--metal-edge)',
-              color: 'var(--ink-faint)',
-            }}
-          >
-            {t('scroll_all')}
-          </button>
+    <div className="chars">
+      <div className="chars-budget">
+        <p>
+          <strong>{fmt(left)}</strong>
+          {' ' + t('chars_left', { count: left })}
+          <span>{t('chars_used', { spent: fmt(spent), budget: fmt(budget), level })}</span>
+        </p>
+        <CombatViewTag />
+        <div className="chars-meter" role="img" aria-label={t('chars_meter', { spent, budget })}>
+          <i style={{ width: `${budget ? Math.min(100, (spent / budget) * 100) : 0}%` }} />
         </div>
       </div>
-      <div className="flex gap-1">
-        {CHARACTERISTICS.map(char => {
-          const active = scrolled[char]
-          const color  = CHAR_COLOR[char]
-          return (
-            <button
-              key={char}
-              onClick={() => startTransition(() => toggleScroll(char))}
-              title={`${t(`stat_${char}`)} +${SCROLL_BONUS}`}
-              className="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-md transition-all"
-              style={active ? {
-                background: `color-mix(in srgb, ${color} 18%, transparent)`,
-                border: `1px solid color-mix(in srgb, ${color} 55%, transparent)`,
-              } : {
-                background: 'transparent',
-                border: '1px solid var(--metal-edge)',
-              }}
-              aria-pressed={active}
-            >
-              <StatIcon name={char} size={13} />
-              <span className="text-[8px] font-mono font-bold leading-none" style={{ color: active ? color : 'var(--ink-faint)' }}>
-                {active ? `+${SCROLL_BONUS}` : 'P'}
-              </span>
-            </button>
-          )
-        })}
+      {combat && <p className="chars-note">{t('chars_combat_note')}</p>}
+      <div className="chars-head" aria-hidden="true">
+        <span>{t('chars_col_characteristic')}</span>
+        <span>{t('chars_col_scroll')}</span>
+        <span>{t('chars_col_points')}</span>
+        <span>{t('weapon_total')}</span>
       </div>
-    </div>
-  )
-}
-
-// ── CharacteristicsPanel ──────────────────────────────────────────────────────
-export function CharacteristicsPanel() {
-  const { t }     = useTranslation()
-  const level     = useBuildStore(s => s.level)
-  const allocated = useBuildStore(s => s.allocated)
-  const gear      = useBuildStore(s => s.stats)
-  // Combat view (chosen in CombatViewBar): characteristics and Power
-  // in combat, with what the passives add (e.g. Dofusteuse +400 Strength).
-  const combatStats = useCombatStats()
-  const combatView  = useCombatView()
-  const hasPassives = useHasPassives()
-  const combat    = combatView && hasPassives && combatStats != null
-  const stats     = combat ? combatStats : gear
-  const delta     = (k: 'strength' | 'intelligence' | 'chance' | 'agility' | 'power') =>
-    combat && gear ? combatStats![k] - gear[k] : 0
-
-  const budget    = statBudget(level)
-  const spent     = CHARACTERISTICS.reduce((acc, c) => acc + pointCost(c, allocated[c]), 0)
-  const remaining = budget - spent
-  const pct       = budget > 0 ? Math.min(100, (spent / budget) * 100) : 0
-
-  return (
-    <div>
-
-      {/* Header + budget */}
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="font-display text-sm uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
-          {t('characteristics')}
-        </h2>
-        <span className="flex-1" />
-        <span className="mr-2"><CombatViewTag /></span>
-        <span className="text-xs font-mono tabular-nums" style={{ color: remaining <= 0 ? 'var(--ink-faint)' : 'var(--gold)' }}>
-          {remaining} <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>/ {budget}</span>
-        </span>
-      </div>
-
-      <div className="h-1 rounded-full overflow-hidden mb-2" style={{ background: 'var(--metal-edge)' }}>
-        <div
-          className="h-full rounded-full transition-all duration-300"
-          style={{
-            width: `${pct}%`,
-            background: remaining === 0
-              ? 'linear-gradient(to right, var(--gold), var(--gold-bright))'
-              : 'linear-gradient(to right, color-mix(in srgb, var(--gold) 55%, transparent), var(--gold))',
-          }}
-        />
-      </div>
-
-      {/* Vitalidad + Sabiduría — no se ven afectadas por Potencia */}
-      <div className="space-y-0.5" role="group">
-        {(['vitality', 'wisdom'] as Characteristic[]).map(char => (
-          <CompactRow
-            key={char}
-            char={char}
-            total={stats ? (char === 'vitality' ? stats.maxHp : stats[char]) : allocated[char]}
-          />
-        ))}
-      </div>
-
-      {/* Separador: Potencia */}
-      {(() => {
-        const power = stats?.power ?? 0
+      {CHARACTERISTICS.map(char => {
+        const points = allocated[char]
+        const next = pointCost(char, points + 1) - pointCost(char, points)
+        const most = maxPointsForBudget(char, left + pointCost(char, points))
+        const total = stats ? (char === 'vitality' ? stats.maxHp : stats[char]) : points
+        const gearTotal = gear ? (char === 'vitality' ? gear.maxHp : gear[char]) : total
         return (
-          <div className="flex items-center gap-2 my-1.5">
-            <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
-            <div
-              className="flex items-center gap-1 px-1.5 py-0.5 rounded"
-              style={{
-                background: power > 0 ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'transparent',
-                border: power > 0
-                  ? '1px solid color-mix(in srgb, var(--gold) 35%, transparent)'
-                  : '1px solid var(--metal-edge)',
-              }}
-            >
-              <StatIcon name="power" size={11} />
-              <span
-                className="text-[10px] font-mono font-bold select-none"
-                style={{ color: power > 0 ? 'var(--gold)' : 'var(--ink-faint)' }}
-              >
-                {t('stat_power')}&nbsp;{power > 0 ? `+${power}` : '0'}
+          <div className={'chars-row' + (char === 'strength' ? ' starts-group' : '')} role="group" aria-label={name(char)} key={char}>
+            <div className="chars-name">
+              <img src={statIconUrl(char)} alt="" />
+              <span>
+                <b>{name(char)}</b>
+                <small>{t('chars_per_unit', { count: next })}</small>
               </span>
-              <DeltaChip delta={delta('power')} />
             </div>
-            <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
+            <button type="button" className="chars-scroll" aria-pressed={scrolled[char]}
+              aria-label={t('chars_scroll_label', { name: name(char), bonus: SCROLL_BONUS })}
+              onClick={() => startTransition(() => toggleScroll(char))}>
+              +{SCROLL_BONUS}
+            </button>
+            <div className="chars-points">
+              <Step label={t('chars_remove', { name: name(char) })} disabled={points <= 0} apply={n => remove(char, n)}>−</Step>
+              <Points name={name(char)} value={points} onCommit={target => commit(char, target)} />
+              <Step label={t('chars_add', { name: name(char) })} disabled={left < next} apply={n => add(char, n)}>+</Step>
+              <button type="button" className="chars-max" aria-label={t('chars_max_label', { name: name(char) })}
+                disabled={most <= points} onClick={() => commit(char, most)}>
+                {t('chars_max')}
+              </button>
+            </div>
+            <div className="chars-total">
+              <strong>
+                {fmt(total)}
+                {combat && total !== gearTotal && <em title={t('chars_passive_delta')}>{total > gearTotal ? '+' : '−'}{fmt(Math.abs(total - gearTotal))}</em>}
+              </strong>
+              <small>
+                {char === 'vitality' ? t('badge_hp')
+                  : ELEMENTAL.has(char) && power > 0 ? <>{fmt(total + power)} {t('chars_with_power')}</>
+                  : ' '}
+              </small>
+            </div>
           </div>
         )
-      })()}
-
-      {/* Fuerza / Int / Suerte / Agil — base | +potencia | = total */}
-      <div className="space-y-0.5" role="group">
-        {(['strength', 'intelligence', 'chance', 'agility'] as Characteristic[]).map(char => (
-          <ElemRow
-            key={char}
-            char={char}
-            base={stats ? stats[char] : allocated[char]}
-            power={stats?.power ?? 0}
-            delta={delta(char as 'strength' | 'intelligence' | 'chance' | 'agility')}
-          />
-        ))}
+      })}
+      <div className="chars-foot">
+        <p>
+          <span className="chars-power"><img src={statIconUrl('power')} alt="" />{t('stat_power')}</span>{' '}
+          <b>{fmt(power)}</b> <DeltaChip delta={powerFromPassives} />
+          {' · '}
+          {t('chars_hint')}
+        </p>
+        <button type="button" onClick={() => startTransition(() => setAllScrolls(!everyScroll))}>
+          {everyScroll ? t('chars_scrolls_off') : t('chars_scrolls_on')}
+        </button>
       </div>
-
-      {/* Allocation grid — always visible */}
-      <AllocationGrid remaining={remaining} />
-
-      {/* Scroll toggles — always visible */}
-      <ScrollToggles />
-
     </div>
   )
 }
