@@ -52,9 +52,17 @@ for (const [name, width, height] of [
     .getByRole("button", { name: "Ficha completa", exact: true })
     .click();
   const statCount = await page.locator(".all-stats .stat-entry").count();
-  const sheetHeight = await page.evaluate(
-    () => document.documentElement.scrollHeight,
-  );
+  // The workshop with the sheet open, up to where the site footer starts: the footer sits
+  // below the fold on purpose (as in production) and is not part of "no scroll".
+  const sheetHeight = await page.evaluate(() => {
+    const footer = document.querySelector(".shell-footer");
+    if (!footer) return document.documentElement.scrollHeight;
+    return Math.round(
+      footer.getBoundingClientRect().top +
+        scrollY -
+        parseFloat(getComputedStyle(footer).marginTop),
+    );
+  });
   await page.screenshot({
     path: `docs/design-v0.4/evidence/all-stats-${name}.png`,
     fullPage: true,
