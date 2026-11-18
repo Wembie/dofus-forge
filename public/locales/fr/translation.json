@@ -2610,5 +2610,21 @@
   "theme_dark": "Sombre",
   "theme_light": "Clair",
   "palette_open": "Toutes les actions",
-  "theme_switch": "Changer de thème"
+  "theme_switch": "Changer de thème",
+  "workshop_my_workshop": "Mon atelier",
+  "workshop_local": "Brouillon local",
+  "workshop_tools": "Outils du build",
+  "workshop_help_shortcuts": "Aide et raccourcis",
+  "tool_characteristics": "Répartir les caractéristiques",
+  "tool_passives": "Passifs de combat",
+  "tool_spells": "Sorts et arme",
+  "tool_pvp": "Simuler un combat",
+  "tool_sets": "Panoplies",
+  "tool_bonuses": "Bonus de panoplie",
+  "tool_compare": "Comparer deux builds",
+  "tool_share": "Partager et exporter",
+  "workshop_linked": "Build publiée",
+  "workshop_saved_device": "Enregistré sur cet appareil",
+  "workshop_heading_empty": "Planificateur de builds Dofus 3",
+  "workshop_game_data": "Données de Dofus {{version}}"
 }

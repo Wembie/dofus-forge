@@ -1,11 +1,11 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { BookOpen, Compass, FolderOpen, Hammer, Home, Info, Keyboard, Library, Menu, Moon, Search, Settings, ShieldCheck, SunMedium, SunMoon, Volume2 } from 'lucide-react'
 import { getCurrentTheme, toggleTheme, THEME_EVENT_NAME } from '@/ui/ThemeToggle.tsx'
 import { BrandMark } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
-import { CommandPalette, openCommandPalette } from '@/components/CommandPalette.tsx'
+import { CommandPalette, openCommandPalette, type Command } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
 import { SiteNavSheet } from '@/components/SiteNavSheet.tsx'
 import { toggleSound } from '@/lib/sound.ts'
@@ -31,10 +31,15 @@ export function ThemeButton() {
   )
 }
 
-/** The site header shared by every page except the workshop: brand, main
- * destinations as real links (crawlable), all-actions palette, theme,
- * preferences, notifications, account and, on narrow screens, the full menu. */
-export function SiteHeader() {
+/** The site header shared by every page: brand, main destinations as real
+ * links (crawlable), all-actions palette, theme, preferences, notifications,
+ * account and, on narrow screens, the full menu. The workshop passes its own
+ * brand link (reset on click, full build in the href) and its command list. */
+export function SiteHeader({ brand, commands, workshop = false }: {
+  brand?: ReactNode
+  commands?: (openSettings: () => void) => Command[]
+  workshop?: boolean
+} = {}) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -56,13 +61,15 @@ export function SiteHeader() {
     <header className="site-header">
       <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
       {/* Persistent brand, not a heading: each page has its own <h1>. */}
-      <Link to={homePath} className="site-brand">
-        <BrandMark />
-        <span className="brand-wordmark">{t('app_title')}</span>
-      </Link>
+      {brand ?? (
+        <Link to={homePath} className="site-brand">
+          <BrandMark />
+          <span className="brand-wordmark">{t('app_title')}</span>
+        </Link>
+      )}
 
       <nav className="site-nav" aria-label={t('a11y_main_nav')}>
-        <Link to={homePath}>
+        <Link to={homePath} aria-current={workshop ? 'page' : undefined}>
           <Hammer size={15} aria-hidden="true" />
           {t('nav_workshop')}
         </Link>
@@ -90,7 +97,7 @@ export function SiteHeader() {
       </div>
 
       <CommandPalette
-        commands={[
+        commands={commands ? commands(() => setShowSettings(true)) : [
           { key: 'home',       label: t('app_title'),      Icon: Home,       onRun: () => navigate(homePath) },
           { key: 'explore',    label: t('explore_open'),   Icon: Compass,    onRun: () => navigate(`/${prefix}explore`) },
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },

@@ -756,7 +756,7 @@ export function EquipmentGrid() {
         </div>
       </section>
 
-      <SetBonusesPanel />
+      <div data-tool="bonuses"><SetBonusesPanel /></div>
       <BuilderPassivesPanel />
 
       {openSlot && createPortal(
@@ -813,7 +813,7 @@ function BuilderPassivesPanel() {
   // One store update, so turning everything off is a single undo step.
   const reset = () => useBuildStore.setState({ passives: {} })
   return (
-    <div className="px-3 pb-4">
+    <div className="px-3 pb-4" data-tool="passives">
       <PassivesPanel items={items} state={passives} onChange={setPassive} onReset={reset} />
     </div>
   )

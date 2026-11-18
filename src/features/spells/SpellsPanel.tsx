@@ -858,7 +858,7 @@ export function SpellsPanel() {
         </p>
       )}
 
-      <PvpArena />
+      <div data-tool="pvp"><PvpArena /></div>
 
       {/* Weapon attack */}
       <div className="space-y-1">

@@ -24,6 +24,7 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 | `d3547af6` | Tarjetas de build con el personaje entre su equipo |
 | `3b03c7e6` | Paso intermedio del taller y ficha completa (el equipo se rehace en S3; la ficha completa se conserva) |
 | S1 | Armazón: cabecera, menú del sitio, cuenta, campana, preferencias, aviso de versión y pie en todas las páginas salvo el taller (el taller lo adopta en S2). Capturas en `captures/migracion/s1-armazon/` |
+| S2 | Taller: armazón compartido, barra con miga, título de la build (nombre o clase · elemento), nivel, deshacer/rehacer, la Forjadora destacada, Comparar, Publicar/Actualizar, Exportar, Compartir; barra de herramientas; franja inferior con el guardado en el dispositivo, versión de datos, novedades y atajos. Capturas en `captures/migracion/s2-taller-cabecera/` |
 
 ## Secciones, en orden
 
@@ -80,6 +81,10 @@ Se anotan aquí durante la migración: lo que falta, la sección y si bloquea.
 | S1 | La barra lateral «Mi taller / Aprender» de las páginas del estudio no se migró: no figura en la especificación del armazón y repite la navegación de la cabecera y del menú. Confirmar si se quiere | No |
 | S1 | El tema se llama «Oscuro / Claro» en lugar de «Tinta / Mineral» (nombres internos de la paleta que un jugador no reconoce) | No |
 | S1 | Campana y menú de cuenta con sesión iniciada no se pudieron ver en local (sin sesión); su lógica no cambió, solo el marcado | No |
-| S2 | El taller conserva su cabecera vieja y `HeaderMenuButton` hasta S2 | No |
+| S2 | «Guardar borrador» y «Borradores» del estudio no se migraron: el producto guarda la build sola en el dispositivo y no tiene borradores con nombre. La barra muestra «Guardado en este dispositivo». Si se quieren borradores, es una función nueva | Decidir |
+| S2 | La etiqueta «Nuevo» de la Forjadora se quitó: ahora es el botón destacado de la barra | No |
+| S2 | El nivel de la barra todavía no abre «Nombre y nivel»; llega con la clase y el personaje (S4) | No |
+| S2 | Las herramientas de la barra llevan al panel actual de la página (características, pasivos, hechizos, combate, bonus de set) hasta que cada una tenga su diálogo (S7–S12); «Compartir y exportar» se añade en S14 | No |
+| S2 | El `<h1>` de la página principal pasa de «Dofus Forge» al título de la build o, sin clase, a «Planificador de builds de Dofus 3» (en cada idioma), que es lo que Google ve en el HTML prerenderizado | No |
 | S3 | En móvil, las tarjetas de «Sets activos» quedan en dos columnas apretadas (ya era así) | No |
 | S24 | `useAuthFlow.ts` usa `auth_v4_password_hint` y `auth_v4_connection_error` | No |

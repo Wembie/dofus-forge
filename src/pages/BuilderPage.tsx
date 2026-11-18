@@ -1,10 +1,9 @@
 import { useEffect, useRef, useMemo, Suspense, useState, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router'
-import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library } from 'lucide-react'
-import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
-import { CommandPalette } from '@/components/CommandPalette.tsx'
-import { SettingsModal } from '@/components/SettingsModal.tsx'
+import { Swords, User, BarChart2, Undo2, Redo2, Wand2, Layers, UploadCloud, RefreshCw, Compass, FolderOpen, SunMoon, RotateCcw, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library, Sparkles } from 'lucide-react'
+import { SiteHeader } from '@/components/SiteHeader.tsx'
+import { WorkshopBar, WorkshopStatus, WorkshopTools, type WorkshopTool } from '@/features/workshop/WorkshopBar.tsx'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useDataStore } from '@/store/dataStore.ts'
@@ -14,7 +13,6 @@ import { CharacteristicsPanel } from '@/features/characteristics/Characteristics
 import { EquipmentGrid } from '@/features/equipment/EquipmentGrid.tsx'
 import { StatsPanel } from '@/features/stats-panel/StatsPanel.tsx'
 import { CombatViewBar } from '@/features/passives/CombatViewBar.tsx'
-import { ShareBar } from '@/features/share/ShareBar.tsx'
 import { useBuildUrl } from '@/features/share/useBuildUrl.ts'
 import { useCompareUrl } from '@/features/share/useCompareUrl.ts'
 import { encodeBuild } from '@/features/share/codec.ts'
@@ -23,8 +21,7 @@ import { useToastStore } from '@/store/toastStore.ts'
 import { assignSetSlots } from '@/features/equipment/setSlots.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useHistory } from '@/store/useHistory.ts'
-import { BrandMark, IconButton, Tabs, Frame, type TabItem } from '@/ui'
-import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
+import { BrandMark, Tabs, Frame, type TabItem } from '@/ui'
 import { useCompareStore } from '@/store/compareStore.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
@@ -40,8 +37,6 @@ const SpellsPanel     = lazy(() => import('@/features/spells/SpellsPanel.tsx').t
 const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx').then(m => ({ default: m.ComparePanel })))
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
-const AuthButton      = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
-const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
 const SetsCatalog     = lazy(() => import('@/features/equipment/SetsCatalog.tsx').then(m => ({ default: m.SetsCatalog })))
 const PublishModal    = lazy(() => import('@/features/publish/PublishModal.tsx').then(m => ({ default: m.PublishModal })))
 
@@ -67,8 +62,7 @@ function BrandLink({ onReset }: { onReset: () => void }) {
   return (
     <a
       href={brandHref}
-      className="flex items-center gap-2 flex-shrink-0"
-      style={{ textDecoration: 'none', cursor: 'pointer' }}
+      className="site-brand"
       onClick={e => {
         if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return
         e.preventDefault()
@@ -77,13 +71,8 @@ function BrandLink({ onReset }: { onReset: () => void }) {
       title={t('reset_build')}
     >
       <BrandMark />
-      {/* Live text, not the wordmark image: same flat --gold as every heading
-          in the UI, and it follows the light theme. */}
-      <h1
-        className="brand-wordmark"
-      >
-        {t('app_title')}
-      </h1>
+      {/* Not a heading: the workshop's <h1> is the build title. */}
+      <span className="brand-wordmark">{t('app_title')}</span>
     </a>
   )
 }
@@ -102,8 +91,6 @@ function BuilderContent() {
   const setClass  = useBuildStore(s => s.setClass)
   const [activeTab, setActiveTab] = useState<MobileTab>('equipment')
   const load      = useDataStore(s => s.load)
-  const loading   = useDataStore(s => s.loading)
-  const error     = useDataStore(s => s.error)
   const canUndo   = useHistoryStore(s => s.canUndo)
   const canRedo   = useHistoryStore(s => s.canRedo)
   const undo      = useHistoryStore(s => s.undo)
@@ -124,7 +111,6 @@ function BuilderContent() {
   }, [])
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
-  const [showSettings, setShowSettings] = useState(false)
   // The saved side is applied after mount; the prerendered page uses the default.
   const [sidebarSide, setSidebarSideState] = useState<SidebarSide>('right')
 
@@ -231,207 +217,24 @@ function BuilderContent() {
     { id: 'stats',     label: t('stats'),     Icon: BarChart2 },
   ]
 
+  function selectTool(tool: WorkshopTool) {
+    if (tool === 'sets') return setShowSetsCatalog(true)
+    if (tool === 'compare') return toggleCompare()
+    // Until each tool gets its own panel, the bar reaches the one on the page.
+    const inCharacterTab = tool === 'characteristics' || tool === 'spells' || tool === 'pvp'
+    if (!window.matchMedia('(min-width: 1024px)').matches) setActiveTab(inCharacterTab ? 'character' : 'equipment')
+    setTimeout(() => {
+      const target = [...document.querySelectorAll<HTMLElement>(`[data-tool="${tool}"]`)].find(el => el.offsetParent !== null)
+      target?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
+    }, 60)
+  }
+
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
-      {/* Header */}
-      <header
-        className="sticky top-0 z-40"
-        style={{
-          height:       52,
-          background:   'var(--surface-void)',
-          borderBottom: '1px solid var(--metal-edge)',
-          boxShadow:    'none',
-        }}
-      >
-        <div className="px-3 sm:px-6 h-full flex items-center gap-2 sm:gap-4">
-          <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
-
-          {/* Brand — left-click resets, right-click/middle-click opens new tab with current build */}
-          <BrandLink onReset={resetBuild} />
-          <button
-            onClick={() => setShowChangelog(true)}
-            className="font-mono text-[9px] hidden lg:flex items-center gap-1 px-1.5 py-0.5 rounded transition-colors"
-            style={{
-              color:      'var(--ink-faint)',
-              background: 'var(--surface-void)',
-              border:     '1px solid var(--metal-edge)',
-              flexShrink: 0,
-            }}
-            title={t('open_changelog')}
-          >
-            <span>v{__APP_VERSION__}</span>
-            <span style={{ color: 'var(--metal-edge)' }}>·</span>
-            <span style={{ color: 'color-mix(in srgb, var(--gold) 55%, var(--ink-faint))' }}>Dofus {DOFUS_GAME_VERSION}</span>
-          </button>
-
-          {/* Explore + My builds, next to the version — hidden on mobile */}
-          <div className="hidden lg:flex items-center gap-1.5">
-            <button
-              onClick={() => navToLangPath('explore')}
-              title={t('explore_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-            >
-              <Compass size={13} />
-              {/* Icon-only below 1440px, where the full header would not fit. */}
-              <span className="hidden min-[1440px]:inline">{t('explore_open')}</span>
-            </button>
-            {/* My builds */}
-            <button
-              onClick={() => navToLangPath('my-builds')}
-              title={t('my_builds')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-            >
-              <FolderOpen size={13} />
-              <span className="hidden min-[1440px]:inline">{t('my_builds')}</span>
-            </button>
-            {isAdmin && (
-              <button
-                onClick={() => navToLangPath('admin')}
-                title={t('admin_nav')}
-                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-                style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-              >
-                <ShieldCheck size={13} />
-                <span className="hidden min-[1440px]:inline">{t('admin_nav')}</span>
-              </button>
-            )}
-          </div>
-
-          {/* Status indicators */}
-          {loading && (
-            <span className="text-[11px] font-mono animate-pulse hidden lg:inline" style={{ color: 'var(--ink-faint)' }} role="status" aria-live="polite">
-              {t('loading_data')}
-            </span>
-          )}
-          {error && (
-            <span className="text-[11px]" role="alert" style={{ color: 'var(--negative)' }}>{t('error_loading')}</span>
-          )}
-
-          <div className="ml-auto flex items-center gap-1.5">
-            <IconButton label={t('settings_title')} variant="subtle" size="md" onClick={() => setShowSettings(true)}>
-              <Settings size={14} />
-            </IconButton>
-            {/* Divider — hidden on mobile */}
-            <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
-            {/* Undo / Redo — hidden on mobile */}
-            <IconButton
-              label={t('undo')}
-              variant="subtle"
-              size="md"
-              onClick={undo}
-              disabled={!canUndo}
-              title={t('undo_title')}
-              className="hidden lg:flex"
-            >
-              <Undo2 size={14} />
-            </IconButton>
-            <IconButton
-              label={t('redo')}
-              variant="subtle"
-              size="md"
-              onClick={redo}
-              disabled={!canRedo}
-              title={t('redo_title')}
-              className="hidden lg:flex"
-            >
-              <Redo2 size={14} />
-            </IconButton>
-            {/* La Forjadora — optimizer — hidden on mobile */}
-            <button
-              onClick={() => setShowOptimizer(true)}
-              title={t('optimizer_open')}
-              className="relative hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-              style={{
-                background:  'transparent',
-                borderColor: 'color-mix(in srgb, var(--gold) 45%, var(--metal-edge))',
-                color:       'var(--ink-faint)',
-              }}
-            >
-              <Wand2 size={13} />
-              <span className="hidden lg:inline">{t('optimizer_open')}</span>
-              {/* Floats over the corner so it adds no width to a full header. */}
-              <span
-                className="absolute -top-2 -right-2 text-[7px] leading-none font-bold uppercase tracking-wider px-1 py-0.5 rounded-full animate-pulse pointer-events-none"
-                style={{ color: 'var(--surface-void)', background: 'var(--gold)', boxShadow: '0 0 8px -1px var(--gold)' }}
-              >
-                {t('nav_new_badge')}
-              </span>
-            </button>
-            {/* Sets catalog — hidden on mobile */}
-            <button
-              onClick={() => setShowSetsCatalog(true)}
-              title={t('sets_catalog_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-              style={{
-                background:  'transparent',
-                borderColor: 'var(--metal-edge)',
-                color:       'var(--ink-faint)',
-              }}
-            >
-              <Layers size={13} />
-              <span className="hidden lg:inline">{t('sets_catalog_open')}</span>
-            </button>
-            {/* Publish current build — hidden on mobile */}
-            <button
-              onClick={() => setShowPublish(true)}
-              disabled={!hasClass}
-              title={t(isPublished ? 'publish_update_hint' : 'publish_open')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap disabled:opacity-30"
-              style={{ background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-            >
-              <PublishIcon size={13} />
-              <span className="hidden lg:inline">{publishLabel}</span>
-            </button>
-            {/* Compare toggle — hidden on mobile */}
-            <button
-              onClick={toggleCompare}
-              title={t('compare_mode')}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border whitespace-nowrap"
-              style={compareActive ? {
-                background:  'color-mix(in srgb, var(--gold) 12%, transparent)',
-                borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)',
-                color:       'var(--gold)',
-              } : {
-                background:  'transparent',
-                borderColor: 'var(--metal-edge)',
-                color:       'var(--ink-faint)',
-              }}
-            >
-              <span>⚖</span>
-              <span className="hidden lg:inline">{t('compare')}</span>
-            </button>
-            {/* Divider — hidden on mobile */}
-            <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
-            {/* Mobile/tablet fallback — everything above is hidden below lg with no other way to reach it */}
-            <HeaderMenuButton
-              className="lg:hidden"
-              items={[
-                { key: 'my-builds',  label: t('my_builds'),         Icon: FolderOpen, onClick: () => navToLangPath('my-builds') },
-                { key: 'explore',    label: t('explore_open'),      Icon: Compass,    onClick: () => navToLangPath('explore') },
-                { key: 'publish',    label: publishLabel,           Icon: PublishIcon, disabled: !hasClass, onClick: () => setShowPublish(true) },
-                { key: 'optimizer',  label: t('optimizer_open'),    Icon: Wand2,      onClick: () => setShowOptimizer(true) },
-                { key: 'sets',       label: t('sets_catalog_open'), Icon: Layers,     onClick: () => setShowSetsCatalog(true) },
-                { key: 'compare',    label: t('compare'),           Icon: BarChart2,  active: compareActive, onClick: toggleCompare },
-                { key: 'undo',       label: t('undo'),              Icon: Undo2,      disabled: !canUndo, onClick: undo },
-                { key: 'redo',       label: t('redo'),              Icon: Redo2,      disabled: !canRedo, onClick: redo },
-                { key: 'sets-page',  label: t('nav_sets'),          Icon: Library,    onClick: () => navToLangPath('sets') },
-                { key: 'how-to-use', label: t('nav_how_to_use'),    Icon: BookOpen,   onClick: () => navToLangPath('how-to-use') },
-                { key: 'shortcuts',  label: t('nav_shortcuts'),     Icon: Keyboard,   onClick: () => navToLangPath('shortcuts') },
-                { key: 'about',      label: t('nav_about'),         Icon: Info,       onClick: () => navToLangPath('about') },
-                ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onClick: () => navToLangPath('admin') }] : []),
-              ]}
-            />
-            <Suspense fallback={null}><NotificationBell /></Suspense>
-            <Suspense fallback={null}><AuthButton /></Suspense>
-            <ShareBar />
-          </div>
-        </div>
-      </header>
-
-      <CommandPalette
-        commands={[
+      <SiteHeader
+        workshop
+        brand={<BrandLink onReset={resetBuild} />}
+        commands={openSettings => [
           { key: 'my-builds', label: t('my_builds'),         Icon: FolderOpen,  onRun: () => navToLangPath('my-builds') },
           { key: 'explore',   label: t('explore_open'),      Icon: Compass,     onRun: () => navToLangPath('explore') },
           { key: 'publish',   label: publishLabel,           Icon: PublishIcon, disabled: !hasClass, onRun: () => setShowPublish(true) },
@@ -446,13 +249,21 @@ function BuilderContent() {
           { key: 'shortcuts',  label: t('nav_shortcuts'),     Icon: Keyboard,   onRun: () => navToLangPath('shortcuts') },
           { key: 'about',      label: t('nav_about'),         Icon: Info,       onRun: () => navToLangPath('about') },
           ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, onRun: () => navToLangPath('admin') }] : []),
-          { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: () => setShowSettings(true) },
+          { key: 'news',      label: t('changelog_title'),    Icon: Sparkles,   onRun: () => setShowChangelog(true) },
+          { key: 'settings',  label: t('settings_title'), Icon: Settings, onRun: openSettings },
           { key: 'theme',     label: t('theme_label_dark') + ' / ' + t('theme_label_light'), Icon: SunMoon, onRun: toggleTheme },
           { key: 'sound',     label: t('sound_mute') + ' / ' + t('sound_unmute'), Icon: Volume2, onRun: toggleSound },
         ]}
       />
-
-      <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
+      <WorkshopBar
+        onForge={() => setShowOptimizer(true)}
+        onCompare={toggleCompare}
+        compareActive={compareActive}
+        onPublish={() => setShowPublish(true)}
+        publishLabel={publishLabel}
+        PublishIcon={PublishIcon}
+      />
+      <WorkshopTools onSelect={selectTool} compareActive={compareActive} />
 
       {/* Changelog modal */}
       {showChangelog && (
@@ -495,8 +306,8 @@ function BuilderContent() {
             <aside aria-label={`${t('class')} & ${t('characteristics')}`} className="space-y-4">
               <Frame><ClassPicker /></Frame>
               <CombatViewBar />
-              <Frame><CharacteristicsPanel /></Frame>
-              {hasClass && <Frame><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>}
+              <div data-tool="characteristics"><Frame><CharacteristicsPanel /></Frame></div>
+              {hasClass && <div data-tool="spells"><Frame><Suspense fallback={null}><SpellsPanel /></Suspense></Frame></div>}
             </aside>
           )}
           {activeTab === 'stats' && (
@@ -524,7 +335,7 @@ function BuilderContent() {
               <EquipmentGrid />
             </section>
             {hasClass && (
-              <div style={{ animation: 'page-rise 520ms var(--ease-out) 200ms both' }}>
+              <div data-tool="spells" style={{ animation: 'page-rise 520ms var(--ease-out) 200ms both' }}>
                 <Frame padding="lg"><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>
               </div>
             )}
@@ -540,7 +351,7 @@ function BuilderContent() {
             <Frame><ClassPicker /></Frame>
             {/* Applies to both panels below, so it sits above them. */}
             <CombatViewBar showEdit />
-            <Frame><CharacteristicsPanel /></Frame>
+            <div data-tool="characteristics"><Frame><CharacteristicsPanel /></Frame></div>
             <Frame material="parchment"><StatsPanel /></Frame>
           </aside>
 
@@ -566,6 +377,7 @@ function BuilderContent() {
         </div>
       )}
 
+      <WorkshopStatus onChangelog={() => setShowChangelog(true)} />
       <SiteFooter />
     </div>
   )

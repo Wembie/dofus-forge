@@ -684,3 +684,207 @@
     flex-wrap: wrap;
   }
 }
+
+/* Workshop heading: build identity, build-wide actions, tools and status strip. */
+.workshop-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding: 16px 28px;
+}
+.workshop-identity {
+  min-width: 0;
+}
+.workshop-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.workshop-breadcrumb > span[aria-hidden] {
+  opacity: 0.45;
+}
+.workshop-loading {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+.workshop-error {
+  color: var(--negative);
+}
+.workshop-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+  min-width: 0;
+}
+.workshop-title h1 {
+  margin: 0;
+  min-width: 0;
+  font: 600 32px/1.1 Alegreya, Georgia, serif;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.workshop-title h1 > span[aria-hidden] {
+  color: var(--muted);
+}
+.workshop-level {
+  flex-shrink: 0;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: 12px 'IBM Plex Mono', ui-monospace, monospace;
+  color: var(--muted);
+}
+.workshop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.workshop-action,
+.workshop-forge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.workshop-action:hover:not(:disabled) {
+  background: var(--hover);
+  border-color: var(--muted);
+}
+.workshop-action[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.workshop-action:disabled,
+.workshop-actions .site-icon:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.workshop-forge {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.workshop-forge:hover {
+  filter: brightness(1.05);
+}
+.workshop-tools {
+  display: flex;
+  gap: 4px;
+  padding: 0 28px 10px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border-bottom: 1px solid var(--subtle);
+}
+.workshop-tools button {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.workshop-tools button:hover,
+.workshop-tools button[aria-pressed="true"] {
+  color: var(--text);
+  background: var(--hover);
+}
+[data-tool] {
+  scroll-margin-top: 80px;
+}
+.workshop-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 24px;
+  padding: 10px 28px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.workshop-saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.workshop-saved i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--positive);
+}
+.workshop-status-end {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+}
+.workshop-status-end button,
+.workshop-status-end a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+.workshop-status-end button:hover,
+.workshop-status-end a:hover {
+  color: var(--accent);
+}
+.workshop-version {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@media (max-width: 1279px) {
+  .workshop-action > span {
+    display: none;
+  }
+  .workshop-action {
+    padding: 8px 10px;
+  }
+}
+@media (max-width: 860px) {
+  .workshop-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 14px 16px 10px;
+  }
+  .workshop-title h1 {
+    font-size: 26px;
+  }
+  .workshop-actions {
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .workshop-forge > span {
+    display: none;
+  }
+  .workshop-forge {
+    padding: 8px 12px;
+  }
+  .workshop-tools,
+  .workshop-status {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .workshop-status {
+    padding-bottom: 80px;
+  }
+  .workshop-status-end {
+    margin-left: 0;
+  }
+}

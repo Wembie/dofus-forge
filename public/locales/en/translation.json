@@ -2610,5 +2610,21 @@
   "theme_dark": "Dark",
   "theme_light": "Light",
   "palette_open": "All actions",
-  "theme_switch": "Switch theme"
+  "theme_switch": "Switch theme",
+  "workshop_my_workshop": "My workshop",
+  "workshop_local": "Local draft",
+  "workshop_tools": "Build tools",
+  "workshop_help_shortcuts": "Help and shortcuts",
+  "tool_characteristics": "Allocate characteristics",
+  "tool_passives": "Combat passives",
+  "tool_spells": "Spells and weapon",
+  "tool_pvp": "Simulate a fight",
+  "tool_sets": "Sets",
+  "tool_bonuses": "Set bonuses",
+  "tool_compare": "Compare two builds",
+  "tool_share": "Share and export",
+  "workshop_linked": "Published build",
+  "workshop_saved_device": "Saved on this device",
+  "workshop_heading_empty": "Dofus 3 build planner",
+  "workshop_game_data": "Dofus {{version}} data"
 }

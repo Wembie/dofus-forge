@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { Check, ImageDown, Link2, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
 import { useBuildStore } from '@/store/buildStore.ts'
@@ -64,28 +65,17 @@ export function ShareBar() {
   }, [stats, classLabel])
 
   return (
-    <div className="flex items-center gap-2">
-      {/* Export as image */}
-      <button
-        onClick={handleExport}
-        disabled={!hasClass || !stats || exporting}
-        title={t('export_btn_title')}
-        className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
-      >
-        <span>{exporting ? '⏳' : '🖼'}</span>
-        <span className="hidden sm:inline">{exporting ? t('exporting') : t('export_btn')}</span>
+    <>
+      <button type="button" className="workshop-action" onClick={handleExport} disabled={!hasClass || !stats || exporting}
+        title={t('export_btn_title')} aria-label={exporting ? t('exporting') : t('export_btn')}>
+        {exporting ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <ImageDown size={16} aria-hidden="true" />}
+        <span>{exporting ? t('exporting') : t('export_btn')}</span>
       </button>
-
-      {/* Copy URL */}
-      <button
-        onClick={handleCopy}
-        disabled={!hasClass}
-        title={t('copy_url_title')}
-        className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg border border-metal-edge bg-surface-stone text-ink-muted hover:text-ink hover:border-gold-deep disabled:opacity-30 text-xs transition-colors"
-      >
-        <span>{copied ? '✓' : '🔗'}</span>
-        <span className="hidden sm:inline">{copied ? t('copied') : t('share')}</span>
+      <button type="button" className="workshop-action" onClick={handleCopy} disabled={!hasClass}
+        title={t('copy_url_title')} aria-label={copied ? t('copied') : t('share')}>
+        {copied ? <Check size={16} aria-hidden="true" /> : <Link2 size={16} aria-hidden="true" />}
+        <span>{copied ? t('copied') : t('share')}</span>
       </button>
-    </div>
+    </>
   )
 }
