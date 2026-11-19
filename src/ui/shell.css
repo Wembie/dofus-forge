@@ -78,6 +78,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 40px;
   padding: 8px 14px;
   border: 1px solid var(--accent);

@@ -1,68 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
-import { FolderOpen, Globe, Lock, Plus, Check } from 'lucide-react'
-import { Modal, Button } from '@/ui'
-import { langPathPrefix } from '@/i18n/langPath.ts'
-import {
-  fetchUserCollections, fetchCollectionsWithBuild, setBuildInCollection, createCollection,
-  type CollectionRow,
-} from '@/features/builds/api.ts'
+import { ArrowLeft, Check, FolderOpen, Plus, Search } from 'lucide-react'
+import { Modal, normalizeSearch } from '@/ui'
+import { fetchUserCollections, fetchCollectionsWithBuild, setBuildInCollection, createCollection, type BuildVisibility, type CollectionRow } from '@/features/builds/api.ts'
+import { PrivacyChoices } from '@/features/builds/PrivacyChoices.tsx'
+import { COLLECTION_DESCRIPTION_MAX, COLLECTION_NAME_MAX, Notice, Visibility } from '@/features/library/LibraryParts.tsx'
 
-export const COLLECTION_NAME_MAX = 60
-
-/** Inline "new collection" form: name + public toggle. */
-export function NewCollectionForm({ userId, onCreated }: { userId: string; onCreated: (c: CollectionRow) => void }) {
-  const { t } = useTranslation()
-  const [name, setName]         = useState('')
-  const [isPublic, setIsPublic] = useState(false)
-  const [busy, setBusy]         = useState(false)
-  const [error, setError]       = useState(false)
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!name.trim()) return
-    setBusy(true)
-    setError(false)
-    const { data } = await createCollection(userId, { name: name.trim(), isPublic })
-    setBusy(false)
-    if (!data) { setError(true); return }
-    setName('')
-    onCreated(data)
-  }
-
-  return (
-    <form onSubmit={submit} className="space-y-1.5">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={name}
-          maxLength={COLLECTION_NAME_MAX}
-          onChange={e => setName(e.target.value)}
-          placeholder={t('collections_new_placeholder')}
-          aria-label={t('collections_new_placeholder')}
-          className="flex-1 min-w-0 text-xs rounded-lg px-2.5 py-1.5 focus:outline-none"
-          style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-        />
-        <Button type="submit" variant="secondary" size="sm" disabled={busy || !name.trim()}>
-          <Plus size={12} /> {t('collections_create')}
-        </Button>
-      </div>
-      <label className="flex items-center gap-1.5 text-[11px] cursor-pointer select-none" style={{ color: 'var(--ink-faint)' }}>
-        <input type="checkbox" checked={isPublic} onChange={e => setIsPublic(e.target.checked)} />
-        {t('collections_public_hint')}
-      </label>
-      {error && <p className="text-[11px]" style={{ color: 'var(--negative)' }}>{t('collections_save_error')}</p>}
-    </form>
-  )
-}
-
-/** Modal to add / remove one build from the user's collections. */
-export function CollectionPicker({ open, onClose, userId, buildId }: { open: boolean; onClose: () => void; userId: string; buildId: string }) {
+/** Add one build to your collections or take it out, or make a new collection with it. */
+export function CollectionPicker({ open, onClose, userId, buildId, buildName }: { open: boolean; onClose: () => void; userId: string; buildId: string; buildName?: string }) {
   const { t } = useTranslation()
   const [collections, setCollections] = useState<CollectionRow[] | null>(null)
   const [inIds, setInIds]             = useState<Set<string>>(new Set())
+  const [busyIds, setBusyIds]         = useState<Set<string>>(new Set())
   const [error, setError]             = useState(false)
+  const [notice, setNotice]           = useState('')
+  const [query, setQuery]             = useState('')
+  const [adding, setAdding]           = useState(false)
+  const [name, setName]               = useState('')
+  const [description, setDescription] = useState('')
+  const [visibility, setVisibility]   = useState<BuildVisibility>('private')
+  const [creating, setCreating]       = useState(false)
 
   useEffect(() => {
     if (!open) return
@@ -81,84 +38,117 @@ export function CollectionPicker({ open, onClose, userId, buildId }: { open: boo
     const apply = (inside: boolean) => setInIds(prev => { const next = new Set(prev); if (inside) next.add(id); else next.delete(id); return next })
     apply(!was)
     setError(false)
+    setNotice('')
+    setBusyIds(prev => new Set(prev).add(id))
     const { error: err } = await setBuildInCollection(id, buildId, !was)
+    setBusyIds(prev => { const next = new Set(prev); next.delete(id); return next })
     if (err) { apply(was); setError(true) }
+    else setCollections(prev => prev?.map(c => (c.id === id ? { ...c, build_count: c.build_count + (was ? -1 : 1) } : c)) ?? prev)
   }
 
-  async function onCreated(c: CollectionRow) {
-    setCollections(prev => [c, ...(prev ?? [])])
-    await toggle(c.id)
+  async function create(e: React.FormEvent) {
+    e.preventDefault()
+    if (!name.trim()) return
+    setCreating(true)
+    setError(false)
+    const { data } = await createCollection(userId, { name: name.trim(), description: description.trim() || null, isPublic: visibility === 'public' })
+    if (!data) { setCreating(false); setError(true); return }
+    const { error: err } = await setBuildInCollection(data.id, buildId, true)
+    setCreating(false)
+    setCollections(prev => [{ ...data, build_count: err ? 0 : 1 }, ...(prev ?? [])])
+    if (err) { setError(true); return }
+    setInIds(prev => new Set(prev).add(data.id))
+    setAdding(false)
+    setName('')
+    setDescription('')
+    setVisibility('private')
+    setNotice(t('lib_added'))
   }
+
+  const shown = (collections ?? []).filter(c => normalizeSearch(c.name).includes(normalizeSearch(query)))
 
   return (
-    <Modal open={open} onClose={onClose} title={t('collections_save')} size="sm">
-      <div className="p-4 space-y-3">
-        {collections == null ? (
-          <p className="text-xs text-center py-4" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
-        ) : collections.length === 0 ? (
-          <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('collections_empty')}</p>
-        ) : (
-          <ul className="space-y-1 max-h-64 overflow-y-auto">
-            {collections.map(c => {
-              const inside = inIds.has(c.id)
-              return (
-                <li key={c.id}>
-                  <button
-                    type="button"
-                    onClick={() => toggle(c.id)}
-                    aria-pressed={inside}
-                    className="w-full flex items-center gap-2 rounded-lg px-2.5 py-2 text-left transition-colors"
-                    style={{
-                      background: inside ? 'color-mix(in srgb, var(--gold) 10%, transparent)' : 'var(--surface-panel)',
-                      border: `1px solid ${inside ? 'color-mix(in srgb, var(--gold) 45%, transparent)' : 'var(--metal-edge)'}`,
-                    }}
-                  >
-                    <span
-                      className="w-4 h-4 rounded flex items-center justify-center flex-shrink-0"
-                      style={{ border: `1px solid ${inside ? 'var(--gold)' : 'var(--metal-edge)'}`, background: inside ? 'var(--gold)' : 'transparent' }}
-                    >
-                      {inside && <Check size={11} style={{ color: 'var(--surface-void)' }} />}
-                    </span>
-                    <span className="flex-1 min-w-0 text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>{c.name}</span>
-                    {c.is_public ? <Globe size={12} style={{ color: 'var(--ink-faint)' }} /> : <Lock size={12} style={{ color: 'var(--ink-faint)' }} />}
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-        {error && <p className="text-[11px]" style={{ color: 'var(--negative)' }}>{t('collections_save_error')}</p>}
-        <div className="pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          <NewCollectionForm userId={userId} onCreated={onCreated} />
+    <Modal open={open} onClose={() => !creating && onClose()} title={t('collections_save')} size="md">
+      {adding ? (
+        <form className="library-dialog-body" onSubmit={create} aria-busy={creating}>
+          <button type="button" className="library-back" disabled={creating} onClick={() => { setAdding(false); setError(false) }}>
+            <ArrowLeft size={16} aria-hidden="true" />
+            {t('lib_back_collections')}
+          </button>
+          <div className="library-field">
+            <label htmlFor="picker-name">{t('lib_collection_name')}</label>
+            <input id="picker-name" required maxLength={COLLECTION_NAME_MAX} value={name} disabled={creating} autoFocus onChange={e => setName(e.target.value)} />
+            <small>{name.length} / {COLLECTION_NAME_MAX}</small>
+          </div>
+          <div className="library-field">
+            <label htmlFor="picker-description">{t('collection_description_placeholder')}</label>
+            <textarea id="picker-description" rows={3} maxLength={COLLECTION_DESCRIPTION_MAX} value={description} disabled={creating} onChange={e => setDescription(e.target.value)} />
+            <small>{description.length} / {COLLECTION_DESCRIPTION_MAX}</small>
+          </div>
+          <PrivacyChoices value={visibility} onChange={setVisibility} collection disabled={creating} />
+          {error && <Notice error>{t('collections_save_error')}</Notice>}
+          <div className="library-dialog-actions">
+            <button type="button" disabled={creating} onClick={() => setAdding(false)}>{t('collection_cancel')}</button>
+            <button type="submit" className="site-primary" disabled={creating || !name.trim()}>
+              {creating ? t('lib_saving') : t('collections_create')}
+              {!creating && <Check size={16} aria-hidden="true" />}
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="library-dialog-body">
+          {buildName && (
+            <div className="library-dialog-subject">
+              <FolderOpen size={23} aria-hidden="true" />
+              <span>
+                <small>{t('lib_saving_build')}</small>
+                <b>{buildName}</b>
+              </span>
+            </div>
+          )}
+          <p>{t('lib_picker_hint')}</p>
+          {(collections?.length ?? 0) > 4 && (
+            <label className="library-search">
+              <Search size={17} aria-hidden="true" />
+              <span className="sr-only">{t('lib_search_collections')}</span>
+              <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder={t('lib_search_collections')} />
+            </label>
+          )}
+          {error && <Notice error>{t('collections_save_error')}</Notice>}
+          {notice && <Notice>{notice}</Notice>}
+          {collections == null ? (
+            <p role="status">{t('auth_loading')}</p>
+          ) : collections.length === 0 ? (
+            <p>{t('collections_empty')}</p>
+          ) : (
+            <ul className="library-picker-list">
+              {shown.map(c => {
+                const inside = inIds.has(c.id)
+                return (
+                  <li key={c.id}>
+                    <button type="button" onClick={() => void toggle(c.id)} aria-pressed={inside} disabled={busyIds.has(c.id)}>
+                      <span className="library-check">{inside && <Check size={16} aria-hidden="true" />}</span>
+                      <span>
+                        <b>{c.name}</b>
+                        <small>{t('collections_builds_count', { count: c.build_count })}</small>
+                      </span>
+                      <Visibility collection value={c.is_public ? 'public' : 'private'} />
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+          {query && collections != null && !shown.length && <p>{t('lib_no_matches')}</p>}
+          <div className="library-dialog-actions">
+            <button type="button" onClick={() => { setAdding(true); setError(false); setNotice('') }}>
+              <Plus size={17} aria-hidden="true" />
+              {t('lib_new_collection')}
+            </button>
+            <button type="button" className="site-primary" disabled={busyIds.size > 0} onClick={onClose}>{t('lib_done')}</button>
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
-  )
-}
-
-export function CollectionGrid({ collections }: { collections: CollectionRow[] }) {
-  const { t, i18n } = useTranslation()
-  const prefix = langPathPrefix(i18n.language)
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {collections.map(c => (
-        <Link
-          key={c.id}
-          to={`/${prefix}c/${c.id}`}
-          className="flex items-start gap-3 p-3 rounded-xl transition-colors hover:brightness-125"
-          style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-        >
-          <FolderOpen size={20} style={{ color: 'var(--gold)', flexShrink: 0 }} />
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm font-bold truncate" style={{ color: 'var(--gold)' }}>{c.name}</span>
-            {c.description && <span className="block text-[11px] truncate" style={{ color: 'var(--ink-muted)' }}>{c.description}</span>}
-            <span className="flex items-center gap-1.5 text-[10px] mt-0.5" style={{ color: 'var(--ink-faint)' }}>
-              {c.is_public ? <Globe size={10} /> : <Lock size={10} />}
-              {t(c.is_public ? 'collections_public' : 'collections_private')} · {t('collections_builds_count', { count: c.build_count })}
-            </span>
-          </span>
-        </Link>
-      ))}
-    </div>
   )
 }

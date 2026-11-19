@@ -11,7 +11,7 @@ import { useLoadGameData } from '@/data/useLoadGameData.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { useIsFollowing } from '@/features/builds/useIsFollowing.ts'
-import { CollectionGrid } from '@/features/collections/Collections.tsx'
+import { CollectionRowLink } from '@/features/library/LibraryParts.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
 import { fetchPublicCustomRank, parsePublicCustomRank } from '@/features/ranks/api.ts'
 import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
@@ -277,7 +277,7 @@ export function UserProfilePage() {
             <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
               {t('profile_collections_title', { username: name })}
             </h2>
-            <CollectionGrid collections={collections} />
+            <div className="library-collections">{collections.map(c => <CollectionRowLink key={c.id} collection={c} />)}</div>
           </div>
         )}
 
