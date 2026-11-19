@@ -3081,5 +3081,19 @@
   "reading_about_project": "Le projet",
   "reading_mobile_nav": "Navigation mobile",
   "reading_kicker_class": "GUIDE DE CLASSE",
-  "reading_other_classes": "Autres classes"
+  "reading_other_classes": "Autres classes",
+  "auth_eyebrow": "VOTRE ESPACE DANS L’ATELIER",
+  "auth_story_title": "Vos idées méritent une place.",
+  "auth_story_body": "Enregistrez vos builds, rassemblez des alternatives et retrouvez-les quand vous voulez.",
+  "auth_context": "Votre build reste ouvert",
+  "auth_signup_email": "Confirmez votre e-mail pour activer le compte. Vous pourrez ensuite vous connecter.",
+  "auth_sent_to": "Consultez la boîte de {{email}}.",
+  "auth_continue": "Revenir à mon build",
+  "auth_change_email": "Utiliser un autre e-mail",
+  "auth_signup_note": "Votre pseudo est public. Votre e-mail sert à accéder au compte.",
+  "auth_password_hint": "Au moins {{count}} caractères.",
+  "auth_return": "Reprendre mon activité",
+  "auth_signin_note": "Vous pouvez continuer sans compte.",
+  "auth_connection_error": "Connexion impossible. Vos informations sont conservées. Réessayez.",
+  "auth_consent_note": "Ouvrez chaque document pour le lire ; votre build reste dans cet onglet."
 }

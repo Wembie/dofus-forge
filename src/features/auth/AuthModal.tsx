@@ -1,213 +1,114 @@
-import { useId } from 'react'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Mail, Lock, User, MailCheck, Swords, X } from 'lucide-react'
-import { Modal, Button, PasswordInput } from '@/ui'
-import { useAuthFlow } from './useAuthFlow.ts'
+import { AlertCircle, ArrowLeft, ArrowRight, LoaderCircle, MailCheck } from 'lucide-react'
+import { Modal } from '@/ui'
+import { useAuthFlow, type AuthMode } from './useAuthFlow.ts'
 import { USERNAME_PATTERN, PASSWORD_MIN_LENGTH } from './authRules.ts'
 import { Turnstile } from '@/components/Turnstile.tsx'
-import { LegalConsentChecks } from './LegalConsentChecks.tsx'
 import { LEGAL_DOCS } from './legal.ts'
+import { AccessLayout, AccessLegalChecks, AccessPassword } from './AccessParts.tsx'
 
+/** Sign in, sign up or ask for a reset link, in one window that switches between them. */
 export function AuthModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation()
-  const {mode,email,setEmail,password,setPassword,username,setUsername,busy,error,signedUp,resetSent,captchaToken,setCaptchaToken,turnstileKey,accepted,setAccepted,legalOk,switchMode,close,submit} = useAuthFlow({onClose})
-  const ids = useId()
-  const titleId = ids+'-title', emailId=ids+'-email', usernameId=ids+'-username', passwordId=ids+'-password', errorId=ids+'-error'
+  const flow = useAuthFlow({ onClose })
+  const { mode, busy, error } = flow
+  const id = useId()
+  const titleId = `${id}-title`
+  const [changedEmail, setChangedEmail] = useState(false)
+  const sent = flow.signedUp || flow.resetSent
+
+  function switchMode(next: AuthMode) {
+    setChangedEmail(false)
+    flow.switchMode(next)
+  }
 
   return (
-    <Modal open={open} onClose={close} size="sm" labelledBy={titleId}>
-      {/* Branded header — Modal's own title bar is plain text, this gives it the
-          same gold-accent identity used across the rest of the app. */}
-      <div
-        className="relative flex flex-col items-center gap-2 px-6 pt-7 pb-5"
-        style={{ background: 'linear-gradient(180deg, var(--surface-stone), var(--surface-panel))', borderBottom: '1px solid var(--metal-edge)' }}
-      >
-        <button
-          onClick={close}
-          aria-label={t('modal_close')}
-          className="absolute top-3 right-3 flex items-center justify-center w-6 h-6 rounded-sm transition-colors"
-          style={{ color: 'var(--ink-faint)' }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--ink)')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--ink-faint)')}
-        >
-          <X size={14} />
-        </button>
-        <div
-          className="flex items-center justify-center w-11 h-11 rounded-full"
-          style={{ background: 'color-mix(in srgb, var(--gold) 14%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 35%, transparent)' }}
-        >
-          <Swords size={20} style={{ color: 'var(--gold)' }} />
-        </div>
-        <h2 id={titleId} className="font-display font-bold text-sm uppercase tracking-[0.15em]" style={{ color: 'var(--gold)' }}>
-          {t(
-            signedUp || resetSent ? 'auth_check_email_title'
-            : mode === 'signin' ? 'auth_signin_title'
-            : mode === 'signup' ? 'auth_signup_title'
-            : 'auth_forgot_title',
-          )}
-        </h2>
-        {!signedUp && !resetSent && (
-          <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
-            {t(mode === 'signin' ? 'auth_signin_subtitle' : mode === 'signup' ? 'auth_signup_subtitle' : 'auth_forgot_subtitle')}
-          </p>
-        )}
-      </div>
-
-      <div className="p-6">
-        {signedUp || resetSent ? (
-          <div className="text-center space-y-4 py-1">
-            <div className="flex justify-center">
-              <div
-                className="flex items-center justify-center w-14 h-14 rounded-full"
-                style={{ background: 'color-mix(in srgb, var(--gold) 12%, transparent)' }}
-              >
-                <MailCheck size={26} style={{ color: 'var(--gold)' }} />
-              </div>
-            </div>
-            <p role="status" className="text-sm" style={{ color: 'var(--ink)' }}>{t(resetSent ? 'auth_reset_sent' : 'auth_check_email')}</p>
-            <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('auth_check_spam')}</p>
-            <Button variant="secondary" size="sm" onClick={close} className="w-full justify-center">
-              {t('modal_close')}
-            </Button>
+    <Modal open={open} onClose={flow.close} size="4xl" labelledBy={titleId} className="auth-dialog">
+      <AccessLayout onClose={flow.close}>
+        {sent ? (
+          <div className="access-result">
+            <span className="access-result-icon"><MailCheck size={30} aria-hidden="true" /></span>
+            <h2 id={titleId}>{t('auth_check_email_title')}</h2>
+            <p role="status">{t(flow.resetSent ? 'auth_reset_sent' : 'auth_signup_email')}</p>
+            <p className="access-recipient">{t('auth_sent_to', { email: flow.email })}</p>
+            <p>{t('auth_check_spam')}</p>
+            <button type="button" className="site-primary" onClick={flow.close}>
+              {t('auth_continue')}
+              <ArrowRight size={17} aria-hidden="true" />
+            </button>
+            <button type="button" className="access-text-button" onClick={() => { switchMode(mode); setChangedEmail(true) }}>
+              {t('auth_change_email')}
+            </button>
           </div>
         ) : (
           <>
-            <form onSubmit={submit} className="space-y-3.5">
-              <div>
-                <label htmlFor={emailId} className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                  {t('auth_email')}
-                </label>
-                <div className="relative">
-                  <Mail size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-                  <input
-                    id={emailId}
-                    type="email"
-                    required
-                    autoComplete="email"
-                    autoFocus
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    aria-invalid={error ? true : undefined}
-                    aria-describedby={error ? errorId : undefined}
-                    className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
-                    style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                    onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
-                    onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                  />
-                </div>
+            <p className="access-eyebrow">DOFUS FORGE / {mode === 'signup' ? '02' : '01'}</p>
+            <h2 id={titleId}>{t(mode === 'signin' ? 'auth_signin_title' : mode === 'signup' ? 'auth_signup_title' : 'auth_forgot_title')}</h2>
+            <p className="access-intro">{t(mode === 'signin' ? 'auth_signin_subtitle' : mode === 'signup' ? 'auth_signup_note' : 'auth_forgot_subtitle')}</p>
+            {mode !== 'forgot' && (
+              <div className="access-mode" role="group" aria-label={t('auth_eyebrow')}>
+                <button type="button" aria-pressed={mode === 'signin'} onClick={() => switchMode('signin')}>{t('auth_signin_title')}</button>
+                <button type="button" aria-pressed={mode === 'signup'} onClick={() => switchMode('signup')}>{t('auth_signup_title')}</button>
+              </div>
+            )}
+            <form onSubmit={flow.submit} className="access-form" aria-busy={busy}>
+              <div className="access-field">
+                <label htmlFor={`${id}-email`}>{t('auth_email')}</label>
+                <input id={`${id}-email`} type="email" required autoComplete="email" autoCapitalize="none" spellCheck={false}
+                  autoFocus={!changedEmail} value={flow.email} onChange={e => flow.setEmail(e.target.value)}
+                  aria-invalid={error ? true : undefined} aria-describedby={error ? `${id}-error` : undefined} />
               </div>
               {mode === 'signup' && (
-                <div>
-                  <label htmlFor={usernameId} className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                    {t('auth_username')}
-                  </label>
-                  <div className="relative">
-                    <User size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-                    <input
-                      id={usernameId}
-                      type="text"
-                      required
-                      minLength={3}
-                      maxLength={30}
-                      pattern={USERNAME_PATTERN}
-                      autoComplete="username"
-                      value={username}
-                      onChange={e => setUsername(e.target.value)}
-                      aria-describedby={error ? `${usernameId}-hint ${errorId}` : `${usernameId}-hint`}
-                      className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
-                      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold)')}
-                      onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                    />
-                  </div>
-                  <p id={`${usernameId}-hint`} className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_username_hint')}</p>
+                <div className="access-field">
+                  <label htmlFor={`${id}-username`}>{t('auth_username')}</label>
+                  <input id={`${id}-username`} required minLength={3} maxLength={30} pattern={USERNAME_PATTERN} autoComplete="username"
+                    autoCapitalize="none" spellCheck={false} value={flow.username} onChange={e => flow.setUsername(e.target.value)}
+                    aria-describedby={`${id}-username-hint`} />
+                  <small id={`${id}-username-hint`}>{t('auth_username_hint')}</small>
                 </div>
               )}
               {mode !== 'forgot' && (
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label htmlFor={passwordId} className="block text-[10px] uppercase tracking-wider" style={{ color: 'var(--ink-faint)' }}>
-                      {t('auth_password')}
-                    </label>
-                    {mode === 'signin' && (
-                      <button
-                        type="button"
-                        onClick={() => switchMode('forgot')}
-                        className="text-[10px] underline underline-offset-2"
-                        style={{ color: 'var(--ink-faint)' }}
-                      >
-                        {t('auth_forgot_password')}
-                      </button>
-                    )}
-                  </div>
-                  <PasswordInput
-                    id={passwordId}
-                    describedBy={error ? errorId : undefined}
-                    leftIcon={<Lock size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />}
-                    required
-                    minLength={PASSWORD_MIN_LENGTH}
-                    autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                  />
+                <AccessPassword key={mode} id={`${id}-password`} label={t('auth_password')} value={flow.password} onChange={flow.setPassword}
+                  autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                  hint={mode === 'signup' ? t('auth_password_hint', { count: PASSWORD_MIN_LENGTH }) : undefined} />
+              )}
+              {mode === 'signin' && (
+                <button className="access-forgot" type="button" onClick={() => switchMode('forgot')}>{t('auth_forgot_password')}</button>
+              )}
+              {mode === 'signup' && (
+                <AccessLegalChecks docs={LEGAL_DOCS} accepted={flow.accepted} onChange={(doc, value) => flow.setAccepted(a => ({ ...a, [doc]: value }))} />
+              )}
+              {error && (
+                <div className="access-error" role="alert" id={`${id}-error`}>
+                  <AlertCircle size={18} aria-hidden="true" />
+                  <p>{error}</p>
                 </div>
               )}
-
-              {error && (
-                <p
-                  id={errorId}
-                  role="alert"
-                  className="text-[11px] rounded-md px-2.5 py-1.5"
-                  style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
-                >
-                  {error}
-                </p>
-              )}
-
-              {mode === 'signup' && (
-                <LegalConsentChecks docs={LEGAL_DOCS} checked={accepted} onChange={(doc, value) => setAccepted(a => ({ ...a, [doc]: value }))} />
-              )}
-
-              <div className="flex justify-center">
-                <Turnstile key={turnstileKey} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken(null)} />
+              <div className="access-turnstile">
+                <Turnstile key={flow.turnstileKey} onVerify={flow.setCaptchaToken} onExpire={() => flow.setCaptchaToken(null)} />
               </div>
-
-              <Button type="submit" variant="primary" size="md" disabled={busy || !captchaToken || !legalOk} className="w-full justify-center mt-1">
-                {busy ? t('auth_loading') : t(mode === 'signin' ? 'auth_signin_btn' : mode === 'signup' ? 'auth_signup_btn' : 'auth_forgot_btn')}
-              </Button>
+              <button className="site-primary access-submit" type="submit" disabled={busy || !flow.captchaToken || !flow.legalOk}>
+                {busy ? (
+                  <><LoaderCircle size={17} aria-hidden="true" />{t('auth_loading')}</>
+                ) : (
+                  <>
+                    {t(mode === 'signin' ? 'auth_signin_btn' : mode === 'signup' ? 'auth_signup_btn' : 'auth_forgot_btn')}
+                    <ArrowRight size={17} aria-hidden="true" />
+                  </>
+                )}
+              </button>
             </form>
-
-            <div className="flex items-center gap-2 my-4">
-              <div className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
+            <div className="access-footer">
+              <button type="button" onClick={mode === 'forgot' ? () => switchMode('signin') : flow.close}>
+                <ArrowLeft size={15} aria-hidden="true" />
+                {t(mode === 'forgot' ? 'auth_back_to_signin' : 'auth_return')}
+              </button>
+              <span>{t('auth_signin_note')}</span>
             </div>
-
-            {mode === 'forgot' ? (
-              <p className="text-[11px] text-center">
-                <button
-                  type="button"
-                  onClick={() => switchMode('signin')}
-                  className="font-semibold underline underline-offset-2"
-                  style={{ color: 'var(--gold)' }}
-                >
-                  {t('auth_back_to_signin')}
-                </button>
-              </p>
-            ) : (
-              <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
-                {mode === 'signin' ? t('auth_no_account') : t('auth_has_account')}{' '}
-                <button
-                  type="button"
-                  onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
-                  className="font-semibold underline underline-offset-2"
-                  style={{ color: 'var(--gold)' }}
-                >
-                  {t(mode === 'signin' ? 'auth_signup_btn' : 'auth_signin_btn')}
-                </button>
-              </p>
-            )}
           </>
         )}
-      </div>
+      </AccessLayout>
     </Modal>
   )
 }

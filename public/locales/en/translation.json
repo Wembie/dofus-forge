@@ -3081,5 +3081,19 @@
   "reading_about_project": "The project",
   "reading_mobile_nav": "Mobile navigation",
   "reading_kicker_class": "CLASS GUIDE",
-  "reading_other_classes": "Other classes"
+  "reading_other_classes": "Other classes",
+  "auth_eyebrow": "YOUR SPACE IN THE WORKSHOP",
+  "auth_story_title": "Your ideas deserve a home.",
+  "auth_story_body": "Save your builds, gather alternatives and return to them whenever you want.",
+  "auth_context": "Your build stays open",
+  "auth_signup_email": "Confirm your email to activate your account. You can then sign in.",
+  "auth_sent_to": "Check the inbox for {{email}}.",
+  "auth_continue": "Back to my build",
+  "auth_change_email": "Use another email",
+  "auth_signup_note": "Your username is public. Your email is used to access your account.",
+  "auth_password_hint": "At least {{count}} characters.",
+  "auth_return": "Back to what I was doing",
+  "auth_signin_note": "You can keep building without an account.",
+  "auth_connection_error": "We could not connect. Your entries are still here. Try again.",
+  "auth_consent_note": "Open each document to read it; your build stays in this tab."
 }

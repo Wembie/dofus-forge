@@ -3081,5 +3081,19 @@
   "reading_about_project": "El proyecto",
   "reading_mobile_nav": "Navegación móvil",
   "reading_kicker_class": "GUÍA DE CLASE",
-  "reading_other_classes": "Otras clases"
+  "reading_other_classes": "Otras clases",
+  "auth_eyebrow": "TU ESPACIO EN EL TALLER",
+  "auth_story_title": "Tus ideas merecen un lugar.",
+  "auth_story_body": "Guarda tus builds, reúne alternativas y vuelve a ellas cuando quieras.",
+  "auth_context": "Tu build sigue abierta",
+  "auth_signup_email": "Confirma tu correo para activar la cuenta. Después podrás iniciar sesión.",
+  "auth_sent_to": "Revisa el correo de {{email}}.",
+  "auth_continue": "Volver a mi build",
+  "auth_change_email": "Usar otro correo",
+  "auth_signup_note": "Tu usuario será público. Tu correo se usa para acceder a la cuenta.",
+  "auth_password_hint": "Al menos {{count}} caracteres.",
+  "auth_return": "Volver a lo que estaba haciendo",
+  "auth_signin_note": "Puedes seguir creando sin cuenta.",
+  "auth_connection_error": "No pudimos conectar. Tus datos siguen aquí. Vuelve a intentarlo.",
+  "auth_consent_note": "Abre cada documento para leerlo; tu build permanece en esta pestaña."
 }

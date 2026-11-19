@@ -38,7 +38,7 @@ export function useAuthFlow({ onClose, initialMode = 'signin', services }: {
     if (submitting.current || !captchaToken || !legalOk) return
     const normalizedUsername = username.trim().toLowerCase()
     if (mode === 'signup' && !USERNAME_RE.test(normalizedUsername)) { setError(t('auth_username_invalid')); return }
-    if (mode !== 'forgot' && password.length < PASSWORD_MIN_LENGTH) { setError(t('auth_v4_password_hint', { count: PASSWORD_MIN_LENGTH })); return }
+    if (mode !== 'forgot' && password.length < PASSWORD_MIN_LENGTH) { setError(t('auth_password_hint', { count: PASSWORD_MIN_LENGTH })); return }
     const mine = ++request.current
     submitting.current = true; setBusy(true); setError(null)
     try {
@@ -56,7 +56,7 @@ export function useAuthFlow({ onClose, initialMode = 'signin', services }: {
       if (mode === 'forgot') { setResetSent(true); return }
       close()
     } catch {
-      if (mine === request.current) { setError(t('auth_v4_connection_error')); refreshChallenge() }
+      if (mine === request.current) { setError(t('auth_connection_error')); refreshChallenge() }
     } finally {
       if (mine === request.current) { submitting.current = false; setBusy(false) }
     }
