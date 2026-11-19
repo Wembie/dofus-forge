@@ -1,15 +1,15 @@
 import { VISUAL_REVISION } from '../data/visual.ts'
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { useEffect, useState, useCallback, useId, useMemo, useRef, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
-import { Star, Heart, Eye, User, UploadCloud, Bookmark, ScrollText, Calendar, GitFork, History, RotateCcw, FolderPlus, Flag, Award } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Award, Bookmark, Compass, Eye, Flag, FolderPlus, GitFork, Heart, History, MessageSquare, RotateCcw, Star, UploadCloud } from 'lucide-react'
 import { CollectionPicker } from '@/features/collections/Collections.tsx'
 import { ReportModal } from '@/features/moderation/ReportModal.tsx'
 import type { ReportTarget } from '@/features/builds/api.ts'
-import { Button, Frame } from '@/ui'
+import { Modal } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { StatsFromBlock } from '@/features/stats-panel/StatsPanel.tsx'
+import { StatsOverview } from '@/features/stats-panel/StatsOverview.tsx'
 import { recompute, ALL_SLOTS, type SlotId, type RuneMap } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
@@ -21,23 +21,14 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { BuildCharacterView } from '@/features/builds/BuildCharacterView.tsx'
 import { PassivesPanel } from '@/features/passives/PassivesPanel.tsx'
 import { hasPassive } from '@/engine/passives.ts'
-import { statIconUrl } from '@/features/equipment/statDisplay.ts'
-import { ActiveSetsGrid, computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
+import { STAT_META, fmtValue, isIgnored, statIconUrl } from '@/features/equipment/statDisplay.ts'
+import { computeActiveSets } from '@/features/equipment/SetBonusesPanel.tsx'
+import { SetDetailModal } from '@/features/equipment/SetDetailModal.tsx'
 import { encodeSnapshot } from '@/features/share/codec.ts'
+import { requestSignIn } from '@/features/auth/requestSignIn.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
-import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics, type Characteristic } from '@/engine/types.ts'
-
-// Same mapping as CharacteristicsPanel.tsx's local CHAR_COLOR — kept as its
-// own copy rather than importing a planner-page component just for one
-// constant (that component isn't otherwise part of BuildDetailPage's chunk).
-const CHAR_COLOR: Record<Characteristic, string> = {
-  vitality:     'var(--vitality)',
-  wisdom:       'var(--wisdom)',
-  strength:     'var(--earth)',
-  intelligence: 'var(--fire)',
-  chance:       'var(--water)',
-  agility:      'var(--air)',
-}
+import { CHARACTERISTICS, type DofusClass, type AllocatedCharacteristics, type ScrolledCharacteristics } from '@/engine/types.ts'
+import type { AppItem, AppSet } from '@/data/loaders.ts'
 import {
   fetchBuildById, recordBuildView, fetchViewerState, toggleBuildLike,
   toggleBuildBookmark,
@@ -47,10 +38,11 @@ import {
   buildTags,
   type BuildDetailRow, type CommentRow, type BuildSummary, type BuildRow,
 } from '@/features/builds/api.ts'
-import { TagChip } from '@/features/builds/TagChips.tsx'
 import { SENTINEL_BUILD_ID } from '@/data/prerenderSentinels.ts'
 import { equippedCatalog } from '@/data/buildCatalog.server.ts'
-import { useDateFormatter } from '@/ui/useDateFormatter.ts'
+import './build-detail.css'
+
+const COMMENT_MAX = 2000
 
 // Runs only while prerendering public builds (react-router.config.ts), so
 // crawlers get the build and its comments in the HTML. A build that stopped
@@ -74,24 +66,131 @@ export async function clientLoader() {
   return null
 }
 
-function StarRating({ value, onRate, disabled }: { value: number; onRate: (n: number) => void; disabled: boolean }) {
+
+function StarRating({ value, onRate }: { value: number; onRate: (n: number) => void }) {
   const { t } = useTranslation()
   return (
-    <div className="flex items-center gap-0.5" role="group" aria-label={t('build_detail_your_rating')}>
+    <div className="detail-stars" role="group" aria-label={t('build_detail_your_rating')}>
       {[1, 2, 3, 4, 5].map(n => (
-        <button
-          key={n}
-          type="button"
-          disabled={disabled}
-          onClick={() => onRate(n)}
-          aria-label={t('a11y_rate_star', { count: n })}
-          aria-pressed={n === value}
-          className="disabled:cursor-not-allowed"
-        >
-          <Star size={18} fill={n <= value ? 'var(--gold)' : 'none'} style={{ color: 'var(--gold)' }} />
+        <button key={n} type="button" onClick={() => onRate(n)} aria-label={t('a11y_rate_star', { count: n })}
+          aria-pressed={n === value} className={n <= value ? 'is-on' : ''}>
+          <Star size={20} aria-hidden="true" />
         </button>
       ))}
     </div>
+  )
+}
+
+function Avatar({ name, url }: { name: string; url?: string | null }) {
+  return isSafeImageUrl(url)
+    ? <img className="detail-initial" src={url} alt="" width={24} height={24} />
+    : <span className="detail-initial" aria-hidden="true">{name.slice(0, 1).toUpperCase()}</span>
+}
+
+function Section({ id, title, aside, children, className = '' }: { id: string; title: ReactNode; aside?: ReactNode; children: ReactNode; className?: string }) {
+  return (
+    <section id={id} aria-labelledby={`${id}-title`} className={className}>
+      <div className="detail-section-head">
+        <h2 id={`${id}-title`}>{title}</h2>
+        {aside != null && <span>{aside}</span>}
+      </div>
+      {children}
+    </section>
+  )
+}
+
+function useWhen() {
+  const { i18n } = useTranslation()
+  return (iso: string) => new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(iso))
+}
+
+/** The build's sets under its gear: pieces worn or missing, each tier, the one in force. */
+function ActiveSets({ active, items, worn }: { active: { set: AppSet; count: number }[]; items: Map<number, AppItem>; worn: Set<number> }) {
+  const { t } = useTranslation()
+  const [open, setOpen] = useState<AppSet | null>(null)
+  if (!active.length) return null
+  return (
+    <section aria-labelledby="detail-sets-title" className="detail-sets">
+      <div className="detail-section-head">
+        <h2 id="detail-sets-title">{t('active_sets')}</h2>
+        <span>{t('build_sets_count', { count: active.length })}</span>
+      </div>
+      {active.map(({ set, count }) => {
+        const pieces = set.items.flatMap(id => items.get(id) ?? [])
+        const tiers = Object.keys(set.bonuses).map(Number).sort((a, b) => a - b)
+        const inForce = tiers.filter(n => n <= count).at(-1)
+        return (
+          <article key={set.ankama_id}>
+            <div className="detail-set-head">
+              <h3>{set.name}</h3>
+              <p>{t('build_set_pieces', { count, total: pieces.length })}</p>
+              <button type="button" onClick={() => setOpen(set)}>
+                {t('build_open_set')}
+                <ArrowUpRight size={14} aria-hidden="true" />
+              </button>
+            </div>
+            <ul className="detail-set-pieces">
+              {pieces.map(it => (
+                <li key={it.ankama_id}>
+                  <span className={worn.has(it.ankama_id) ? '' : 'is-missing'} title={it.name}>
+                    {it.image_url && <img src={it.image_url} alt={`${it.name}, ${t(worn.has(it.ankama_id) ? 'build_worn_piece' : 'build_missing_piece')}`} loading="lazy" />}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <ol className="detail-tiers">
+              {tiers.map(n => (
+                <li key={n} className={n === inForce ? 'is-reached' : n <= count ? 'is-passed' : ''}>
+                  <span className="detail-tier-count">
+                    {t('build_tier', { count: n })}
+                    {n === inForce && <em>{t('build_tier_active')}</em>}
+                  </span>
+                  <span className="detail-tier-effects">
+                    {set.bonuses[n].filter(e => !isIgnored(e.stat)).map((e, i) => {
+                      const meta = STAT_META[e.stat]
+                      return (
+                        <span key={i}>
+                          {meta?.icon && <img src={statIconUrl(meta.icon)} alt="" />}
+                          <b>{fmtValue(e.min, e.max)}</b> {meta ? t(meta.tKey) : e.stat}
+                        </span>
+                      )
+                    })}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </article>
+        )
+      })}
+      {open && <SetDetailModal set={open} onClose={() => setOpen(null)} />}
+    </section>
+  )
+}
+
+/** Restoring asks first, with which version and when; the current one is kept in the history. */
+function RestoreDialog({ version, name, busy, onConfirm, onClose }: { version: BuildVersion; name: string; busy: boolean; onConfirm: () => void; onClose: () => void }) {
+  const { t } = useTranslation()
+  const when = useWhen()
+  return (
+    <Modal open onClose={onClose} size="sm" title={t('build_restore_title')} className="detail-dialog">
+      <div className="detail-restore">
+        <div className="detail-restore-version">
+          <History size={20} aria-hidden="true" />
+          <span>
+            <b>{version.label || name}</b>
+            <small>{when(version.created_at)} · {t('level_short', { level: version.level })}</small>
+          </span>
+        </div>
+        <p>{t('build_history_restore_confirm')}</p>
+        <div className="detail-dialog-actions">
+          <button type="button" onClick={onClose}>{t('report_cancel')}</button>
+          <button type="button" className="site-primary" disabled={busy} onClick={onConfirm}>
+            <RotateCcw size={15} aria-hidden="true" />
+            {busy ? t('auth_loading') : t('build_restore_confirm')}
+          </button>
+        </div>
+      </div>
+    </Modal>
   )
 }
 
@@ -110,7 +209,6 @@ export function BuildDetailPage() {
   const equipmentData  = useDataStore(s => s.equipment) ?? seedCatalog?.items ?? null
   const setsData       = useDataStore(s => s.sets) ?? seedCatalog?.sets ?? null
 
-  const formatDate = useDateFormatter()
   // The first data load on mount refreshes a prerendered build in place
   // instead of blanking it, so the hydrated page doesn't flash to "loading".
   const seededId = useRef(seed ? id : null)
@@ -131,6 +229,10 @@ export function BuildDetailPage() {
   const [collectOpen, setCollectOpen]   = useState(false)
   const [reportTarget, setReportTarget] = useState<ReportTarget | null>(null)
   const [restoring, setRestoring]       = useState<string | null>(null)
+  const [restoreTarget, setRestoreTarget] = useState<BuildVersion | null>(null)
+  const commentId = useId()
+  const when = useWhen()
+  const prefix = langPathPrefix(i18n.language)
   // undefined = not loaded / not a remix, null = original no longer visible
   const [forkParent, setForkParent]     = useState<BuildSummary | null | undefined>(undefined)
   const [forks, setForks]               = useState<{ data: BuildRow[]; count: number }>({ data: [], count: 0 })
@@ -255,12 +357,11 @@ export function BuildDetailPage() {
 
   // Restoring updates the build to that version; updateBuild archives the
   // current one first, so a restore can itself be undone from the history.
-  async function restoreVersion(version: BuildVersion) {
-    if (!build || session?.user.id !== build.user_id) return
-    if (!window.confirm(t('build_history_restore_confirm'))) return
+  async function restoreVersion(version: BuildVersion): Promise<boolean> {
+    if (!build || session?.user.id !== build.user_id) return false
     setRestoring(version.id)
     const snap = await fetchVersionSnapshot(build.id, version.id)
-    if (!snap) { setRestoring(null); return }
+    if (!snap) { setRestoring(null); return false }
     const { error } = await updateBuild(build.id, {
       name:        build.name,
       visibility:  build.visibility,
@@ -276,6 +377,7 @@ export function BuildDetailPage() {
       setHistory(versions)
     }
     setRestoring(null)
+    return !error
   }
 
   function handleLoadIntoPlanner() {
@@ -348,184 +450,201 @@ export function BuildDetailPage() {
     return build.snapshot.e.flatMap(id => (id != null && hasPassive(id) && byId.has(id) ? [byId.get(id)!] : []))
   }, [build, equipmentData])
 
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-forge-bg flex items-center justify-center text-sm" style={{ color: 'var(--ink-faint)' }}>
-        {t('auth_loading')}
+      <div className="min-h-screen bg-forge-bg text-forge-text">
+        <SiteHeader />
+        <main id="main-content" className="detail-page">
+          <div className="detail-study" aria-busy="true">
+            <div className="detail-loading" role="status">
+              <span className="sr-only">{t('auth_loading')}</span>
+              <div className="detail-skel detail-skel-hero" />
+              <div className="detail-skel-body">
+                <div className="detail-skel detail-skel-stage" />
+                <div className="detail-skel detail-skel-stats" />
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     )
   }
 
   if (notFound || !build) {
     return (
-      <div className="min-h-screen bg-forge-bg flex flex-col items-center justify-center gap-3 text-sm" style={{ color: 'var(--ink-faint)' }}>
-        <p>{t('build_detail_not_found')}</p>
-        <Link to={`/${langPathPrefix(i18n.language)}explore`} className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>
-          {t('explore_title')}
-        </Link>
+      <div className="min-h-screen bg-forge-bg text-forge-text">
+        <SiteHeader />
+        <main id="main-content" className="detail-page">
+          <div className="detail-study">
+            <div className="detail-missing">
+              <Compass size={32} aria-hidden="true" />
+              <h1>{t('build_missing_title')}</h1>
+              <p>{t('build_detail_not_found')}</p>
+              <Link className="site-primary" to={`/${prefix}explore`}>
+                <ArrowLeft size={16} aria-hidden="true" />
+                {t('explore_title')}
+              </Link>
+            </div>
+          </div>
+        </main>
+        <SiteFooter />
       </div>
     )
   }
 
   const classInfo  = CLASS_DATA.find(c => c.id === build.class_slug)
   const portrait   = classInfo ? (build.gender === 'female' ? classInfo.imageFUrl : classInfo.imageUrl) : undefined
-  const owner      = build.profiles
   // Always the username, never display_name — see BuildCard.tsx for why.
-  const ownerLabel = owner?.username || ''
+  const ownerLabel = build.profiles?.username || ''
+  const own        = session?.user.id === build.user_id
+  const nonPublic  = build.visibility !== 'public'
+  const tags       = buildTags(build)
+  const nf         = new Intl.NumberFormat(i18n.language === 'es' ? 'es-CO' : i18n.language)
+  const ratingFmt  = new Intl.NumberFormat(i18n.language, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+  const created    = new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(build.created_at))
   const runesForDisplay = (build.snapshot.r ?? {}) as Partial<Record<SlotId, RuneMap>>
+  const itemsById  = new Map((equipmentData ?? []).map(it => [it.ankama_id, it]))
+  const worn       = new Set(build.snapshot.e.filter((id): id is number => id != null))
+  // Actions that need an account ask for it instead of doing nothing.
+  const gated = (action: () => void) => (session ? action() : requestSignIn())
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
 
-      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
-        <Frame padding="lg" className="space-y-3">
-          <div className="flex items-center gap-3">
-            {portrait && (
-              <img src={portrait} alt="" width={56} height={56} className="rounded-lg object-cover flex-shrink-0" style={{ background: 'var(--surface-void)' }} />
-            )}
-            <div className="min-w-0 flex-1">
-              <h1 className="flex items-center gap-1.5 text-lg font-bold min-w-0" style={{ color: 'var(--gold)' }}>
-                {build.is_featured && <Award size={17} className="flex-shrink-0" aria-label={t('build_featured')}><title>{t('build_featured')}</title></Award>}
-                <span className="truncate">{build.name}</span>
-              </h1>
-              <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{resolvedClassLabel} · {t('level_short', { level: build.level })}</p>
-            </div>
-            {session?.user.id === build.user_id || build.visibility !== 'public' ? (
-              <Button variant="primary" size="sm" onClick={handleLoadIntoPlanner} className="flex-shrink-0">
-                <UploadCloud size={13} />
-                {t('build_detail_load')}
-              </Button>
-            ) : (
-              <Button variant="primary" size="sm" onClick={handleLoadIntoPlanner} className="flex-shrink-0" title={t('build_detail_remix_hint')}>
-                <GitFork size={13} />
-                {t('build_detail_remix')}
-              </Button>
-            )}
-          </div>
+      <main id="main-content" className="detail-page">
+        <div className="detail-study">
+          <nav className="detail-crumbs" aria-label={t('build_breadcrumb')}>
+            <Link to={`/${prefix}explore`}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              {t('explore_title')}
+            </Link>
+          </nav>
 
-          {buildTags(build).length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {buildTags(build).map(tag => (
-                <Link key={tag.id} to={`/${langPathPrefix(i18n.language)}explore?tag=${tag.name}`} className="hover:brightness-125 transition">
-                  <TagChip tag={tag} />
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {build.fork_of && forkParent !== undefined && (
-            <p className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--ink-faint)' }}>
-              <GitFork size={12} style={{ color: 'var(--gold)', flexShrink: 0 }} />
-              {forkParent ? (
-                <>
-                  {t('build_detail_remix_of')}
-                  <Link to={`/${langPathPrefix(i18n.language)}build/${forkParent.id}`} className="font-semibold text-ink hover:text-gold hover:underline transition-colors truncate">
-                    {forkParent.name}
+          <div className="detail-hero">
+            {portrait && <img className="detail-portrait" src={portrait} alt="" />}
+            <div className="detail-identity">
+              <p className="detail-kicker">
+                {resolvedClassLabel}
+                <span>{t('level_short', { level: build.level })}</span>
+                {build.is_featured && (
+                  <span className="detail-featured"><Award size={14} aria-hidden="true" />{t('build_featured')}</span>
+                )}
+                {nonPublic && <span className="detail-visibility">{t(`publish_visibility_${build.visibility}`)}</span>}
+              </p>
+              <h1>{build.name}</h1>
+              <p className="detail-byline">
+                {ownerLabel ? (
+                  <Link to={`/${prefix}u/${ownerLabel}`}>
+                    <Avatar name={ownerLabel} url={build.profiles?.avatar_url} />
+                    {ownerLabel}
                   </Link>
-                  {forkParent.profiles?.username && <span>{t('build_detail_remix_by', { author: forkParent.profiles.username })}</span>}
-                </>
-              ) : t('build_detail_remix_unavailable')}
-            </p>
-          )}
-
-          <div className="flex flex-wrap items-center gap-4 text-xs pt-1" style={{ color: 'var(--ink-faint)' }}>
-            {owner?.username ? (
-              <Link to={`/${langPathPrefix(i18n.language)}u/${owner.username}`} className="flex items-center gap-1.5 hover:text-gold hover:underline transition-colors">
-                {isSafeImageUrl(owner.avatar_url)
-                  ? <img src={owner.avatar_url} alt="" width={16} height={16} className="rounded-full object-cover" />
-                  : <User size={13} />
-                }
-                {ownerLabel}
-              </Link>
-            ) : (
-              <span className="flex items-center gap-1.5">
-                <User size={13} />
-                {ownerLabel}
-              </span>
-            )}
-            <span className="flex items-center gap-1.5">
-              <Calendar size={13} />
-              {formatDate(build.created_at, { year: 'numeric', month: 'short', day: 'numeric' })}
-            </span>
-            <button
-              onClick={handleToggleLike}
-              aria-label={t('a11y_like_build', { count: likeCount })}
-              aria-pressed={liked}
-              disabled={!session}
-              className="flex items-center gap-1.5 disabled:cursor-not-allowed"
-              style={{ color: liked ? 'var(--negative)' : 'var(--ink-faint)' }}
-              title={session ? undefined : t('build_detail_signin_required')}
-            >
-              <Heart size={14} fill={liked ? 'var(--negative)' : 'none'} />
-              {likeCount}
-            </button>
-            <button
-              onClick={handleToggleBookmark}
-              disabled={!session}
-              className="flex items-center gap-1.5 disabled:cursor-not-allowed"
-              style={{ color: bookmarked ? 'var(--gold)' : 'var(--ink-faint)' }}
-              title={session ? t('build_detail_bookmark') : t('build_detail_signin_required')}
-              aria-label={t('build_detail_bookmark')}
-              aria-pressed={bookmarked}
-            >
-              <Bookmark size={14} fill={bookmarked ? 'var(--gold)' : 'none'} />
-            </button>
-            {(build.visibility !== 'private' || session?.user.id === build.user_id) && (
-              <button
-                onClick={() => setCollectOpen(true)}
-                disabled={!session}
-                className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-gold transition-colors"
-                title={session ? t('collections_save') : t('build_detail_signin_required')}
-                aria-label={t('collections_save')}
-              >
-                <FolderPlus size={14} />
+                ) : <span />}
+                <span aria-hidden="true">·</span>
+                <time dateTime={build.created_at}>{t('build_published', { date: created })}</time>
+              </p>
+              {build.fork_of && forkParent !== undefined && (
+                <p className="detail-parent">
+                  <GitFork size={14} aria-hidden="true" />
+                  {forkParent ? (
+                    <>
+                      {t('build_detail_remix_of')}{' '}
+                      <Link to={`/${prefix}build/${forkParent.id}`}>{forkParent.name}</Link>{' '}
+                      {forkParent.profiles?.username && t('build_detail_remix_by', { author: forkParent.profiles.username })}
+                    </>
+                  ) : t('build_detail_remix_unavailable')}
+                </p>
+              )}
+              {tags.length > 0 && (
+                <ul className="detail-tags" aria-label={t('publish_tags_label')}>
+                  {tags.map(tag => (
+                    <li key={tag.id}><Link to={`/${prefix}explore?tag=${tag.name}`}>{t(`tag_${tag.name}`)}</Link></li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="detail-cta">
+              <button type="button" className="site-primary" onClick={handleLoadIntoPlanner}>
+                {own || nonPublic ? <UploadCloud size={18} aria-hidden="true" /> : <GitFork size={18} aria-hidden="true" />}
+                {t(own || nonPublic ? 'build_load' : 'build_remix')}
               </button>
-            )}
-            {session?.user.id !== build.user_id && (
-              <button
-                onClick={() => setReportTarget({ kind: 'build', id: build.id })}
-                disabled={!session}
-                className="flex items-center gap-1.5 disabled:cursor-not-allowed hover:text-negative transition-colors"
-                title={session ? t('report_build_title') : t('build_detail_signin_required')}
-                aria-label={t('report_build_title')}
-              >
-                <Flag size={14} />
-              </button>
-            )}
-            {isAdmin && (build.visibility === 'public' || build.is_featured) && (
-              <button
-                onClick={handleToggleFeatured}
-                disabled={featureBusy}
-                className="flex items-center gap-1.5 disabled:opacity-50 hover:text-gold transition-colors"
-                style={{ color: build.is_featured ? 'var(--gold)' : 'var(--ink-faint)' }}
-                title={t(build.is_featured ? 'build_feature_off' : 'build_feature_on')}
-                aria-label={t(build.is_featured ? 'build_feature_off' : 'build_feature_on')}
-                aria-pressed={Boolean(build.is_featured)}
-              >
-                <Award size={14} />
-              </button>
-            )}
-            <span className="flex items-center gap-1.5"><Eye size={14} />{build.view_count}</span>
-            {forks.count > 0 && (
-              <a href="#remixes" className="flex items-center gap-1.5 hover:text-gold transition-colors" title={t('build_detail_remixes', { count: forks.count })}>
-                <GitFork size={14} />{forks.count}
-              </a>
-            )}
-            <span className="flex items-center gap-1.5"><Star size={14} style={{ color: 'var(--gold)' }} />{build.avg_rating.toFixed(1)} ({build.rating_count})</span>
+              <p>{t(own ? 'build_load_own_hint' : nonPublic ? 'build_load_hint' : 'build_remix_hint')}</p>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-1" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-            <p className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_your_rating')}</p>
-            <StarRating value={myRating ?? 0} onRate={handleRate} disabled={!session} />
-            {!session && <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>({t('build_detail_signin_required')})</p>}
+          <div className="detail-bar">
+            <div className="detail-social" role="group" aria-label={t('build_actions')}>
+              <button type="button" onClick={() => gated(handleToggleLike)} aria-pressed={session ? liked : undefined}
+                aria-label={t('a11y_like_build', { count: likeCount })} className={liked ? 'is-on is-like' : ''}>
+                <Heart size={17} aria-hidden="true" />
+                <b>{nf.format(likeCount)}</b>
+                <span aria-hidden="true">{t('build_like')}</span>
+              </button>
+              <button type="button" onClick={() => gated(handleToggleBookmark)} aria-pressed={session ? bookmarked : undefined} className={bookmarked ? 'is-on' : ''}>
+                <Bookmark size={17} aria-hidden="true" />
+                <span>{t(bookmarked ? 'build_bookmarked_label' : 'build_detail_bookmark')}</span>
+              </button>
+              {(build.visibility !== 'private' || own) && (
+                <button type="button" onClick={() => gated(() => setCollectOpen(true))}>
+                  <FolderPlus size={17} aria-hidden="true" />
+                  <span>{t('collections_save')}</span>
+                </button>
+              )}
+              {!own && (
+                <button type="button" className="is-quiet" onClick={() => gated(() => setReportTarget({ kind: 'build', id: build.id }))}>
+                  <Flag size={16} aria-hidden="true" />
+                  <span>{t('build_report')}</span>
+                </button>
+              )}
+              {isAdmin && (build.visibility === 'public' || build.is_featured) && (
+                <button type="button" onClick={handleToggleFeatured} disabled={featureBusy} aria-pressed={Boolean(build.is_featured)}
+                  className={'is-admin' + (build.is_featured ? ' is-on' : '')}>
+                  <Award size={17} aria-hidden="true" />
+                  <span>{t(build.is_featured ? 'build_feature_off' : 'build_feature_on')}</span>
+                </button>
+              )}
+            </div>
+            <dl className="detail-numbers">
+              <div>
+                <dt>{t('build_rating')}</dt>
+                <dd>
+                  <Star size={15} aria-hidden="true" />
+                  {build.rating_count ? (
+                    <><b>{ratingFmt.format(build.avg_rating)}</b><small>{t('build_ratings', { count: build.rating_count })}</small></>
+                  ) : <small>{t('build_no_ratings')}</small>}
+                </dd>
+              </div>
+              <div>
+                <dt>{t('build_views')}</dt>
+                <dd><Eye size={15} aria-hidden="true" /><b>{nf.format(build.view_count)}</b></dd>
+              </div>
+              <div>
+                <dt>{t('build_remixes')}</dt>
+                <dd>
+                  <GitFork size={15} aria-hidden="true" />
+                  {forks.count ? <a href="#remixes">{nf.format(forks.count)}</a> : <b>0</b>}
+                </dd>
+              </div>
+              <div>
+                <dt>{t('build_detail_comments')}</dt>
+                <dd><MessageSquare size={15} aria-hidden="true" /><a href="#comments">{nf.format(comments.length)}</a></dd>
+              </div>
+            </dl>
+            <div className="detail-rate">
+              <span>{t('build_detail_your_rating')}</span>
+              <StarRating value={myRating ?? 0} onRate={n => gated(() => handleRate(n))} />
+            </div>
+            {!session && (
+              <p className="detail-signin-note">
+                {t('build_signin_note')}{' '}
+                <button type="button" onClick={requestSignIn}>{t('auth_signin_btn')}</button>
+              </p>
+            )}
           </div>
-        </Frame>
 
-        {/* Equipment + full stats — same 2-column layout as the real planner */}
-        <div className="grid lg:grid-cols-[1fr_360px] gap-4 items-start">
-          <div className="space-y-4">
-            <Frame padding="lg">
+          <div className="detail-body">
+            <div className="detail-column">
               <BuildCharacterView
                 snapshot={build.snapshot}
                 equipment={equipmentData}
@@ -534,110 +653,145 @@ export function BuildDetailPage() {
                 level={build.level}
                 stage={classInfo ? { breed: classInfo.breed, gender: build.gender } : undefined}
               />
-            </Frame>
-
-            {activeSets.length > 0 && (
-              <Frame padding="lg">
-                <ActiveSetsGrid activeSets={activeSets} />
-              </Frame>
-            )}
-
-            {passiveItems.length > 0 && (
-              <Frame padding="lg">
-                <PassivesPanel items={passiveItems} state={build.snapshot.p ?? {}} />
-              </Frame>
-            )}
+              <ActiveSets active={activeSets} items={itemsById} worn={worn} />
+            </div>
+            <div className="detail-column">
+              {computedStats && (
+                <aside className="detail-stats" aria-labelledby="detail-stats-title">
+                  <div className="detail-section-head">
+                    <h2 id="detail-stats-title">{t('build_stats')}</h2>
+                    <span>{t('build_stats_hint')}</span>
+                  </div>
+                  <StatsOverview s={computedStats} runes={runesForDisplay} inCombat={false} />
+                </aside>
+              )}
+            </div>
           </div>
 
-          <div className="space-y-4">
-            {computedStats && (
-              <Frame padding="lg" material="parchment" className="space-y-4">
-                <div>
-                  <h2 className="text-[11px] font-display uppercase tracking-[0.22em] font-bold mb-1.5" style={{ color: 'var(--gold)' }}>
-                    {t('characteristics')}
-                  </h2>
-                  <div className="grid grid-cols-2 gap-1">
-                    {([
-                      ['vitality',     'char_vitality',     computedStats.vitality,     false],
-                      ['wisdom',       'char_wisdom',       computedStats.wisdom,       false],
-                      ['strength',     'char_strength',     computedStats.strength,     true],
-                      ['intelligence', 'char_intelligence', computedStats.intelligence, true],
-                      ['chance',       'char_chance',       computedStats.chance,       true],
-                      ['agility',      'char_agility',      computedStats.agility,      true],
-                    ] as const).map(([icon, labelKey, base, getsPower]) => {
-                      const color    = CHAR_COLOR[icon]
-                      const power    = getsPower ? computedStats.power : 0
-                      const total    = base + power
-                      // Power boosts these 4 (they double as the matching
-                      // element's damage stat in Dofus 3) — the planner shows
-                      // it as "980 +290 =1,270" inline since you're actively
-                      // tuning it; here it's just noise, so show one number
-                      // and put the breakdown in a hover tooltip instead.
-                      const tooltip  = power > 0
-                        ? t('build_detail_power_breakdown', { base, power, label: t('stat_power') })
-                        : undefined
-                      return (
-                        <div
-                          key={icon}
-                          className="flex items-center gap-1.5 px-2 py-1 rounded"
-                          title={tooltip}
-                          style={{
-                            background: `color-mix(in srgb, ${color} 5%, var(--surface-stone))`,
-                            borderLeft: `2px solid color-mix(in srgb, ${color} 50%, transparent)`,
-                          }}
-                        >
-                          <img src={statIconUrl(icon)} alt="" width={13} height={13} className="object-contain flex-shrink-0" />
-                          <span className="text-[11px] flex-1 truncate" style={{ color: 'var(--ink-muted)' }}>{t(labelKey)}</span>
-                          {scrolledMap?.[icon] && (
-                            <span title={t('build_detail_scrolled')}>
-                              <ScrollText size={11} style={{ color }} aria-label={t('build_detail_scrolled')} />
-                            </span>
-                          )}
-                          <span className="font-mono font-bold text-xs tabular-nums flex-shrink-0" style={{ color }}>{total.toLocaleString()}</span>
+          {passiveItems.length > 0 && (
+            <div className="detail-passives-panel">
+              <PassivesPanel items={passiveItems} state={build.snapshot.p ?? {}} />
+            </div>
+          )}
+
+          <div className="detail-community">
+            <Section id="comments" className="detail-comments" title={t('build_detail_comments')} aside={nf.format(comments.length)}>
+              {session ? (
+                <form className="detail-comment-form" onSubmit={handlePostComment}>
+                  <label htmlFor={commentId} className="sr-only">{t('build_detail_comment_placeholder')}</label>
+                  <textarea id={commentId} rows={3} maxLength={COMMENT_MAX} value={commentText}
+                    placeholder={t('build_comment_placeholder')} onChange={e => setCommentText(e.target.value)}
+                    aria-describedby={`${commentId}-count`} />
+                  <div>
+                    <small id={`${commentId}-count`} className="detail-count">{nf.format(commentText.length)} / {nf.format(COMMENT_MAX)}</small>
+                    <button type="submit" className="site-primary" disabled={postingComment || !commentText.trim()}>
+                      {postingComment ? t('build_detail_posting') : t('build_detail_comment_submit')}
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="detail-comment-signin">
+                  <p>{t('build_comment_signin')}</p>
+                  <button type="button" onClick={requestSignIn}>{t('auth_signin_btn')}</button>
+                </div>
+              )}
+              {comments.length ? (
+                <ul className="detail-comment-list">
+                  {comments.map(c => {
+                    const author = c.profiles?.username ?? ''
+                    const mine = session?.user.id === c.user_id
+                    const likedIt = likedComments.has(c.id)
+                    return (
+                      <li key={c.id} className="detail-comment">
+                        <Avatar name={author || '?'} url={c.profiles?.avatar_url} />
+                        <div>
+                          <p className="detail-comment-meta">
+                            {author ? <Link to={`/${prefix}u/${author}`}>{author}</Link> : <span />}
+                            {mine && <span className="detail-you">{t('build_you')}</span>}
+                            <time dateTime={c.created_at}>{when(c.created_at)}</time>
+                          </p>
+                          <p className="detail-comment-text">{c.content}</p>
+                          <div className="detail-comment-actions">
+                            <button type="button" onClick={() => gated(() => handleToggleCommentLike(c.id))} aria-pressed={likedIt}
+                              aria-label={t('comment_like') + (c.like_count ? ` (${c.like_count})` : '')} className={likedIt ? 'is-on' : ''}>
+                              <Heart size={14} aria-hidden="true" />
+                              {c.like_count > 0 && <span>{c.like_count}</span>}
+                            </button>
+                            {!mine && (
+                              <button type="button" onClick={() => gated(() => setReportTarget({ kind: 'comment', id: c.id }))}
+                                aria-label={t('build_report_comment_of', { name: author })}>
+                                <Flag size={13} aria-hidden="true" />
+                                {t('comment_report')}
+                              </button>
+                            )}
+                          </div>
                         </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : <p className="detail-empty">{t('build_detail_no_comments')}</p>}
+            </Section>
+            <div className="detail-side">
+              {history.length > 0 && (
+                <Section id="history" className="detail-history"
+                  title={<><History size={15} aria-hidden="true" />{t('build_history')}</>} aside={nf.format(history.length)}>
+                  <p className="detail-muted">{t('build_history_hint')}</p>
+                  <ol>
+                    {history.map(v => (
+                      <li key={v.id} onPointerEnter={() => void fetchVersionSnapshot(build.id, v.id)} onFocusCapture={() => void fetchVersionSnapshot(build.id, v.id)}>
+                        <span>
+                          <b>{v.label || build.name}</b>
+                          <small>
+                            <time dateTime={v.created_at}>{when(v.created_at)}</time>
+                            {' · '}{t('level_short', { level: v.level })}
+                          </small>
+                        </span>
+                        <button type="button" onClick={() => openVersion(v)}>
+                          <UploadCloud size={14} aria-hidden="true" />
+                          {t('build_history_open')}
+                        </button>
+                        {own && (
+                          <button type="button" onClick={() => setRestoreTarget(v)} disabled={restoring != null}>
+                            <RotateCcw size={14} aria-hidden="true" />
+                            {t('build_history_restore')}
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </Section>
+              )}
+              {forks.count > 0 && (
+                <Section id="remixes" className="detail-remixes"
+                  title={<><GitFork size={15} aria-hidden="true" />{t('build_remixes')}</>} aside={nf.format(forks.count)}>
+                  <ul>
+                    {forks.data.map(f => {
+                      const info = CLASS_DATA.find(c => c.id === f.class_slug)
+                      const img  = info ? (f.gender === 'female' ? info.imageFUrl : info.imageUrl) : undefined
+                      return (
+                        <li key={f.id}>
+                          <Link to={`/${prefix}build/${f.id}`}>
+                            {img && <img src={img} alt="" loading="lazy" />}
+                            <span>
+                              <b>{f.name}</b>
+                              <small>{f.profiles?.username ?? ''} · {t('level_short', { level: f.level })}</small>
+                            </span>
+                            <span className="detail-fork-likes">
+                              <Heart size={13} aria-hidden="true" />
+                              <span className="sr-only">{t('build_like')}: </span>
+                              {nf.format(f.like_count)}
+                            </span>
+                          </Link>
+                        </li>
                       )
                     })}
-                  </div>
-                </div>
-                <StatsFromBlock s={computedStats} runes={runesForDisplay} />
-              </Frame>
-            )}
+                  </ul>
+                </Section>
+              )}
+            </div>
           </div>
         </div>
-
-        {forks.count > 0 && (
-          <Frame padding="lg" className="space-y-3" id="remixes">
-            <h2 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>
-              <GitFork size={13} /> {t('build_detail_remixes', { count: forks.count })}
-            </h2>
-            <ul className="grid sm:grid-cols-2 gap-2">
-              {forks.data.map(f => {
-                const info = CLASS_DATA.find(c => c.id === f.class_slug)
-                const img  = info ? (f.gender === 'female' ? info.imageFUrl : info.imageUrl) : undefined
-                return (
-                  <li key={f.id}>
-                    <Link
-                      to={`/${langPathPrefix(i18n.language)}build/${f.id}`}
-                      className="flex items-center gap-2 rounded-lg px-2.5 py-2 transition-colors hover:brightness-125"
-                      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}
-                    >
-                      {img && <img src={img} alt="" width={28} height={28} loading="lazy" className="rounded-md object-cover flex-shrink-0" />}
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>{f.name}</span>
-                        <span className="block text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>
-                          {f.profiles?.username ?? ''} · {t('level_short', { level: f.level })}
-                        </span>
-                      </span>
-                      <span className="flex items-center gap-1 text-[10px] flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
-                        <Heart size={11} />{f.like_count}
-                      </span>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </Frame>
-        )}
 
         {session && (
           <>
@@ -645,126 +799,11 @@ export function BuildDetailPage() {
             <ReportModal target={reportTarget} reporterId={session.user.id} onClose={() => setReportTarget(null)} />
           </>
         )}
-
-        {history.length > 0 && (
-          <Frame padding="lg" className="space-y-3">
-            <h2 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>
-              <History size={13} /> {t('build_history_title', { count: history.length })}
-            </h2>
-            <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{t('build_history_hint')}</p>
-            <ul className="space-y-1.5">
-              {history.map(v => (
-                <li key={v.id} onPointerEnter={() => void fetchVersionSnapshot(build.id, v.id)} onFocusCapture={() => void fetchVersionSnapshot(build.id, v.id)} className="flex items-center gap-2 rounded-lg px-2.5 py-1.5" style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)' }}>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-xs font-semibold truncate" style={{ color: 'var(--ink)' }}>{v.label || build.name}</span>
-                    <span className="block text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-                      {new Date(v.created_at).toLocaleString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                      {' · '}{t('level_short', { level: v.level })}
-                    </span>
-                  </span>
-                  <Button variant="secondary" size="sm" onClick={() => openVersion(v)}>
-                    <UploadCloud size={12} /> {t('build_history_open')}
-                  </Button>
-                  {session?.user.id === build.user_id && (
-                    <Button variant="secondary" size="sm" onClick={() => restoreVersion(v)} disabled={restoring != null}>
-                      <RotateCcw size={12} /> {restoring === v.id ? t('auth_loading') : t('build_history_restore')}
-                    </Button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Frame>
+        {restoreTarget && (
+          <RestoreDialog version={restoreTarget} name={build.name} busy={restoring != null}
+            onClose={() => setRestoreTarget(null)}
+            onConfirm={async () => { if (await restoreVersion(restoreTarget)) setRestoreTarget(null) }} />
         )}
-
-        <Frame padding="lg" className="space-y-3">
-          <h2 className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--gold)' }}>
-            {t('build_detail_comments')} ({comments.length})
-          </h2>
-
-          {session ? (
-            <form onSubmit={handlePostComment} className="flex gap-2">
-              <input
-                type="text"
-                value={commentText}
-                onChange={e => setCommentText(e.target.value)}
-                maxLength={2000}
-                placeholder={t('build_detail_comment_placeholder')}
-                aria-label={t('build_detail_comment_placeholder')}
-                className="flex-1 text-sm rounded-lg px-3 py-2 transition-colors focus:outline-none"
-                style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-              />
-              <Button type="submit" variant="primary" size="sm" disabled={postingComment || !commentText.trim()}>
-                {postingComment ? t('build_detail_posting') : t('build_detail_comment_submit')}
-              </Button>
-            </form>
-          ) : (
-            <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_signin_required')}</p>
-          )}
-
-          <ul className="space-y-3">
-            {comments.length === 0 && (
-              <li className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('build_detail_no_comments')}</li>
-            )}
-            {comments.map(c => (
-              <li key={c.id} className="flex gap-2">
-                {isSafeImageUrl(c.profiles?.avatar_url)
-                  ? <img src={c.profiles.avatar_url} alt="" width={22} height={22} className="rounded-full object-cover flex-shrink-0" />
-                  : <div className="flex items-center justify-center w-[22px] h-[22px] rounded-full flex-shrink-0" style={{ background: 'var(--surface-panel)' }}><User size={11} style={{ color: 'var(--ink-faint)' }} /></div>
-                }
-                <div className="min-w-0">
-                  <div className="flex items-baseline gap-1.5 flex-wrap">
-                    {c.profiles?.username ? (
-                      <Link
-                        to={`/${langPathPrefix(i18n.language)}u/${c.profiles.username}`}
-                        className="text-[11px] font-semibold text-ink hover:text-gold hover:underline transition-colors"
-                      >
-                        {c.profiles.username}
-                      </Link>
-                    ) : (
-                      <p className="text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>
-                        {c.profiles?.username}
-                      </p>
-                    )}
-                    {/* Date + time (not just date) — comments can happen
-                        several times in the same day, a date alone wouldn't
-                        tell two same-day replies apart. */}
-                    <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-                      {formatDate(c.created_at, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                  <p className="text-xs break-words" style={{ color: 'var(--ink-muted)' }}>{c.content}</p>
-                  <div className="flex items-center gap-3 mt-0.5">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleCommentLike(c.id)}
-                      disabled={!session}
-                      aria-pressed={likedComments.has(c.id)}
-                      aria-label={t('comment_like')}
-                      title={session ? t('comment_like') : t('build_detail_signin_required')}
-                      className="flex items-center gap-1 text-[10px] disabled:cursor-not-allowed transition-colors"
-                      style={{ color: likedComments.has(c.id) ? 'var(--negative)' : 'var(--ink-faint)' }}
-                    >
-                      <Heart size={11} fill={likedComments.has(c.id) ? 'var(--negative)' : 'none'} />
-                      {c.like_count > 0 && c.like_count}
-                    </button>
-                    {session?.user.id !== c.user_id && (
-                      <button
-                        type="button"
-                        onClick={() => setReportTarget({ kind: 'comment', id: c.id })}
-                        disabled={!session}
-                        title={session ? undefined : t('build_detail_signin_required')}
-                        className="text-[10px] hover:text-gold hover:underline transition-colors disabled:cursor-not-allowed disabled:no-underline"
-                        style={{ color: 'var(--ink-faint)' }}
-                      >
-                        {t('comment_report')}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Frame>
       </main>
 
       <SiteFooter />

@@ -6,6 +6,7 @@ import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { AuthModal } from './AuthModal.tsx'
 import { ResetPasswordModal } from './ResetPasswordModal.tsx'
+import { SIGN_IN_EVENT } from './requestSignIn.ts'
 
 /** Sign-in button, or the player's menu: public profile, account, sign out. */
 export function AuthButton() {
@@ -30,6 +31,13 @@ export function AuthButton() {
     document.addEventListener('keydown', onKey)
     return () => { document.removeEventListener('mousedown', onDown); document.removeEventListener('keydown', onKey) }
   }, [showMenu])
+
+  // Actions that need an account (like, rate, comment) ask for it here.
+  useEffect(() => {
+    const open = () => setShowAuth(true)
+    window.addEventListener(SIGN_IN_EVENT, open)
+    return () => window.removeEventListener(SIGN_IN_EVENT, open)
+  }, [])
 
   if (loading) return null
 
