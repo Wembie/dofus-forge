@@ -1,7 +1,7 @@
 import { startTransition, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, ChartNoAxesColumn, Check, Crown, Search, SlidersHorizontal, Star } from 'lucide-react'
-import { recompute, useBuildStore, type SlotId } from '@/store/buildStore.ts'
+import { PRYSMA_SLOT, recompute, useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
@@ -71,8 +71,13 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     legendary: candidates.some(it => it.legendary === true),
   }), [candidates, sets])
 
+  // Only one Prysmaradite is worn, always in the first Dofus slot: the other
+  // slots stop offering them once one is on.
+  const prysmaWorn = Object.entries(equipped).some(([s, id]) => s.startsWith('dofus') && id != null && byId.get(id)?.type === 'Prysmaradite')
+  const hidePrysma = slotId.startsWith('dofus') && slotId !== PRYSMA_SLOT && prysmaWorn
   const list = useMemo(() => candidates
     .filter(it =>
+      !(hidePrysma && it.type === 'Prysmaradite') &&
       it.level >= range.min && it.level <= levelCap(range.max) &&
       (!setId || String(it.set_id) === setId) &&
       matchesStatFilter(it, stats) &&
@@ -82,7 +87,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
       // A name search looks across every type of the slot.
       (query || !type || it.type === type))
     .sort((a, b) => sort === 'name-az' ? a.name.localeCompare(b.name) : sort === 'level-asc' ? a.level - b.level : b.level - a.level),
-  [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, isFav])
+  [candidates, query, range, sort, setId, type, stats, onlyFav, legendary, isFav, hidePrysma])
   const { visible, sentinel, more } = useInfiniteList(list, scroller, PAGE_SIZE)
 
   const worn    = byId.get(equipped[slotId] ?? -1)

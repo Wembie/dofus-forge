@@ -250,13 +250,6 @@ body {
   from { transform: translateY(14px); }
   to   { transform: none; }
 }
-@keyframes dofus-pulse {
-  0%, 100% { box-shadow: 0 0 10px 1px color-mix(in srgb, var(--gold-bright) 35%, transparent), inset 0 0 10px color-mix(in srgb, var(--gold) 15%, transparent); }
-  50%      { box-shadow: 0 0 20px 4px color-mix(in srgb, var(--gold-bright) 55%, transparent), inset 0 0 16px color-mix(in srgb, var(--gold) 25%, transparent); }
-}
-.dofus-aura {
-  animation: dofus-pulse 3.2s var(--ease-inout) infinite;
-}
 /* ── La Forjadora ─────────────────────────────────────────────────────── */
 /* All four of the below share the same 1.1s cycle and the same 58% "impact"
    mark (0.58 * 1100ms = 638ms — the JS spark burst in ForgeScene uses a

@@ -166,6 +166,10 @@ export function recompute(
 }
 
 const DOFUS_SLOTS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
+/** The only Dofus slot a Prysmaradite can be worn in. */
+export const PRYSMA_SLOT: SlotId = 'dofus1'
+const isPrysmaId = (id: number | undefined, equipment: AppItem[]) =>
+  id != null && equipment.find(it => it.ankama_id === id)?.type === 'Prysmaradite'
 
 /**
  * Frees other slots that can't hold `id` alongside `slot`, as the game does:
@@ -273,10 +277,18 @@ export const useBuildStore = create<BuildState>((set) => {
       return update({ scrolled }, s)
     }),
 
-    equipItem: (slot, id) => set(s => {
+    equipItem: (requested, id) => set(s => {
+      const eq = { ...s.equipped }
+      // A Prysmaradite always goes to the first Dofus slot; what was there
+      // takes the slot that was asked for.
+      let slot = requested
+      if (requested.startsWith('dofus') && requested !== PRYSMA_SLOT && isPrysmaId(id, s._equipment)) {
+        slot = PRYSMA_SLOT
+        const moved = eq[PRYSMA_SLOT]
+        if (moved != null && !isPrysmaId(moved, s._equipment) && moved !== id) eq[requested] = moved
+      }
       // Re-picking the item already in the slot must not wipe its forgemagie.
       if (s.equipped[slot] === id) return s
-      const eq = { ...s.equipped }
       releaseConflicts(eq, slot, id, s._equipment)
       eq[slot] = id
       const runes             = { ...s.runes,            [slot]: {} }
@@ -336,6 +348,7 @@ export const useBuildStore = create<BuildState>((set) => {
     swapSlots: (slotA, slotB) => set(s => {
       const eA = s.equipped[slotA]
       const eB = s.equipped[slotB]
+      if ((isPrysmaId(eA, s._equipment) && slotB !== PRYSMA_SLOT) || (isPrysmaId(eB, s._equipment) && slotA !== PRYSMA_SLOT)) return s
       const equipped = { ...s.equipped }
       if (eA !== undefined) equipped[slotB] = eA; else delete equipped[slotB]
       if (eB !== undefined) equipped[slotA] = eB; else delete equipped[slotA]

@@ -43,13 +43,28 @@ describe('equipping follows the game rules', () => {
     expect(store().equipped.ring2).toBe(PLAIN_RING.ankama_id)
   })
 
-  it('only one Prysmaradite at a time', () => {
+  it('only one Prysmaradite at a time, always in the first Dofus slot', () => {
     store().equipItem('dofus1', PRYSMA_A.ankama_id)
     store().equipItem('dofus2', DOFUS.ankama_id)
     store().equipItem('dofus3', PRYSMA_B.ankama_id)
-    expect(store().equipped.dofus1).toBeUndefined()
+    expect(store().equipped.dofus1).toBe(PRYSMA_B.ankama_id)
     expect(store().equipped.dofus2).toBe(DOFUS.ankama_id)
-    expect(store().equipped.dofus3).toBe(PRYSMA_B.ankama_id)
+    expect(store().equipped.dofus3).toBeUndefined()
+  })
+
+  it('a Prysmaradite picked for another Dofus slot swaps into the first one', () => {
+    store().equipItem('dofus1', DOFUS.ankama_id)
+    store().equipItem('dofus4', PRYSMA_A.ankama_id)
+    expect(store().equipped.dofus1).toBe(PRYSMA_A.ankama_id)
+    expect(store().equipped.dofus4).toBe(DOFUS.ankama_id)
+  })
+
+  it('a Prysmaradite cannot be dragged out of the first Dofus slot', () => {
+    store().equipItem('dofus1', PRYSMA_A.ankama_id)
+    store().equipItem('dofus2', DOFUS.ankama_id)
+    store().swapSlots('dofus1', 'dofus2')
+    expect(store().equipped.dofus1).toBe(PRYSMA_A.ankama_id)
+    expect(store().equipped.dofus2).toBe(DOFUS.ankama_id)
   })
 
   it('equipMultiple applies the same rules', () => {
