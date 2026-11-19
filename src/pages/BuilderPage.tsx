@@ -332,7 +332,7 @@ function BuilderContent() {
           {activeTab === 'equipment' && (
             <>
               {!hasClass && <Frame><ClassPicker /></Frame>}
-              <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
+              <section aria-label={t('equipment')} className="rounded-frame" style={{ border: '1px solid var(--metal-edge)' }}>
                 <EquipmentGrid />
               </section>
             </>
@@ -347,10 +347,10 @@ function BuilderContent() {
 
         {/* Desktop: equipment and stats side by side (lg+); the side follows Settings */}
         <div className="hidden lg:grid gap-5 items-start lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-          <div className="flex flex-col gap-5" style={{ order: sidebarLeft ? 2 : 1 }}>
+          <div className="flex flex-col gap-5" style={{ order: sidebarLeft ? 2 : 1, position: 'relative', zIndex: 2 }}>
             <section
               aria-label={t('equipment')}
-              className="rounded-xl overflow-hidden"
+              className="rounded-xl"
               style={{ border: '1px solid var(--metal-edge)', animation: 'page-rise 520ms var(--ease-out) 0ms both' }}
             >
               <EquipmentGrid />

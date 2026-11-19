@@ -83,25 +83,22 @@ export function Toaster() {
         return (
           <div
             key={toast.id}
-            className="pointer-events-auto flex items-center gap-2 px-3 py-2 rounded-lg text-[13px] font-medium cursor-pointer select-none"
+            className="site-toast"
             style={{
-              background: 'var(--forge-surface)',
-              border:     '1px solid var(--forge-border)',
-              color:      'var(--forge-text)',
-              boxShadow:  '0 4px 16px rgba(0,0,0,0.5)',
               opacity:    shown ? 1 : 0,
-              transform:  shown ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.93)',
+              transform:  shown ? 'none' : 'translateY(10px)',
               transition: `opacity ${EXIT_MS}ms ease-out, transform ${EXIT_MS}ms ease-out`,
             }}
             onClick={() => removeToast(toast.id)}
           >
-            {toastSlot(toast.icon)
-              ? <span className="flex-shrink-0" style={{ color: 'var(--gold)' }}><SlotIcon slot={toastSlot(toast.icon)!} className="w-4 h-4" /></span>
-              : toast.icon.startsWith('/') || toast.icon.startsWith('http')
-              ? <img src={toast.icon} alt="" className="w-4 h-4 object-contain flex-shrink-0" />
-              : <span className="text-base leading-none" aria-hidden="true">{toast.icon}</span>
-            }
-            <span>{toast.message}</span>
+            <span className="site-toast-icon" aria-hidden="true">
+              {toastSlot(toast.icon)
+                ? <SlotIcon slot={toastSlot(toast.icon)!} className="w-4 h-4" />
+                : toast.icon.startsWith('/') || toast.icon.startsWith('http')
+                ? <img src={toast.icon} alt="" />
+                : toast.icon}
+            </span>
+            <span className="site-toast-text">{toast.message}</span>
           </div>
         )
       })}

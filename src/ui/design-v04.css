@@ -138,7 +138,7 @@ html [role=dialog] button[aria-label]{min-width:32px;min-height:32px}
 .build-card:focus-within{outline:2px solid var(--gold);outline-offset:3px}
 
 /* Workshop: gear in two columns around the character, then Dofus, sidekick. */
-.workshop-equipment-surface{background:var(--surface-void);padding:18px 20px 10px}
+.workshop-equipment-surface{border-radius:inherit;background:var(--surface-void);padding:18px 20px 10px}
 .workshop-panel-head{display:flex;align-items:baseline;gap:12px;margin:0 0 14px}
 .workshop-panel-head h2{margin:0;font:600 19px/1.2 Alegreya,Georgia,serif;color:var(--ink)}
 .workshop-panel-head span{font-size:12px;color:var(--muted)}
