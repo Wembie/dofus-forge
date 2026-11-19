@@ -248,7 +248,7 @@ export function SetBonusesPanel() {
   function equip(item: AppItem, slot: SlotId) {
     useBuildStore.getState().equipItem(slot, item.ankama_id)
     playEquip()
-    useToastStore.getState().addToast(t('toast_equipped', { slot: t(slotLabelKey(slot)), item: item.name }), slotToastIcon(slot))
+    useToastStore.getState().addToast(t('toast_equipped', { slot: t(slotLabelKey(slot)), item: item.name }), item.image_url ?? slotToastIcon(slot))
   }
 
   return (

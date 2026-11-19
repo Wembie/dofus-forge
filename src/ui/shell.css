@@ -1372,21 +1372,18 @@ button.workshop-level:hover {
   }
 }
 
-/* Toasts: flat cards bottom right, the icon in its own tile. */
+/* Toasts: a plain card bottom right; the item's own picture when there is one. */
 .site-toast {
   pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 10px;
   max-width: min(360px, calc(100vw - 32px));
-  min-height: 44px;
-  padding: 7px 14px 7px 7px;
+  padding: 8px 14px 8px 10px;
   border: 1px solid var(--line);
-  border-left: 2px solid var(--accent);
   border-radius: 5px;
   background: var(--surface);
   color: var(--text);
-  box-shadow: 0 6px 20px rgb(0 0 0 / 0.3);
   cursor: pointer;
   user-select: none;
 }
@@ -1394,22 +1391,18 @@ button.workshop-level:hover {
   display: grid;
   flex-shrink: 0;
   place-items: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  background: var(--canvas);
-  color: var(--accent);
+  width: 24px;
+  height: 24px;
+  color: var(--muted);
   font-size: 14px;
   line-height: 1;
 }
 .site-toast-icon img {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 .site-toast-text {
   font-size: 13px;
-  font-weight: 600;
   line-height: 1.35;
 }

@@ -116,7 +116,7 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
     if (equipped[slotId] === item.ankama_id) return
     if (catalogBlock(item, slotId, equipped, byId)) { playDenied(); return }
     playEquip()
-    addToast(t('toast_equipped', { slot: slotName, item: item.name }), slotToastIcon(slotId))
+    addToast(t('toast_equipped', { slot: slotName, item: item.name }), item.image_url ?? slotToastIcon(slotId))
     if (onAfterEquip && (continueDofus || !slotId.startsWith('dofus'))) onAfterEquip(slotId)
     else onClose()
     // Equipping recomputes the whole build and re-renders every panel; as a
@@ -316,8 +316,9 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
                   <p>{typeLabel(selected.type)}</p>
                 </div>
               </div>
-              <p className="catalog-replaces">
-                {current ? t('catalog_is_worn') : worn ? t('catalog_replaces', { name: worn.name }) : t('catalog_fills_empty')}
+              <p className={'catalog-replaces' + (!current && worn ? ' is-replacing' : '')}>
+                {!current && worn?.image_url && <img src={worn.image_url} alt="" width={22} height={22} />}
+                <span>{current ? t('catalog_is_worn') : worn ? t('catalog_replaces', { name: worn.name }) : t('catalog_fills_empty')}</span>
               </p>
               {selected.set_id != null && setById.get(selected.set_id) && (
                 <button type="button" className="catalog-panel-set" onClick={() => setSetModal(setById.get(selected.set_id!)!)}>

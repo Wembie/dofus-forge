@@ -111,7 +111,7 @@ export function SetsCatalog({ onClose, open, onEquipped = onClose, single = fals
     equipItem(target, item.ankama_id)
     track('equip_item', { slot: target })
     playEquip()
-    addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), slotToastIcon(target))
+    addToast(t('toast_equipped', { slot: t(`slot_${target}`), item: item.name }), item.image_url ?? slotToastIcon(target))
   }
   function removePiece(item: AppItem) {
     const slot = (Object.entries(equipped) as [SlotId, number][]).find(([, id]) => id === item.ankama_id)?.[0]
@@ -123,7 +123,7 @@ export function SetsCatalog({ onClose, open, onEquipped = onClose, single = fals
     if (!placed.length) return
     equipMultiple(placed.map(({ slot, item }) => ({ slot, ankama_id: item.ankama_id })))
     playEquip()
-    for (const { slot, item } of placed) addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), slotToastIcon(slot))
+    for (const { slot, item } of placed) addToast(t('toast_equipped', { slot: t(`slot_${slot}`), item: item.name }), item.image_url ?? slotToastIcon(slot))
     onEquipped()
   }
 
