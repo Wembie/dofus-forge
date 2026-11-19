@@ -17,10 +17,10 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import './publish.css'
 import { track } from '@/lib/analytics.ts'
-import { useDefaultBuildName } from '@/features/builds/defaultName.ts'
+import { BUILD_NAME_MAX, useDefaultBuildName } from '@/features/builds/defaultName.ts'
 import { playUiClick } from '@/lib/sound.ts'
 
-const NAME_MAX = 60
+const NAME_MAX = BUILD_NAME_MAX
 const CATEGORIES = ['playstyle', 'element', 'general'] as const
 const SLOTS_SHOWN = 16
 

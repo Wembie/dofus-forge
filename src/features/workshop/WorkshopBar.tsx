@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { BarChart3, BookOpen, Columns2, Hammer, Redo2, Share2, Swords, Undo2 } from 'lucide-react'
 import { useBuildStore } from '@/store/buildStore.ts'
+import { BUILD_NAME_MAX } from '@/features/builds/defaultName.ts'
 import { useHistoryStore } from '@/store/historyStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { CLASS_DATA } from '@/features/class-picker/classData.ts'
@@ -152,7 +153,7 @@ export function WorkshopIdentity({ open, onClose }: { open: boolean; onClose: ()
       <form className="workshop-identity-form" onSubmit={e => { e.preventDefault(); commit(); onClose() }}>
         <label>
           {t('build_name_label')}
-          <input value={buildName} maxLength={60} placeholder={t('build_name_placeholder')} onChange={e => setBuildName(e.target.value)} />
+          <input value={buildName} maxLength={BUILD_NAME_MAX} placeholder={t('build_name_placeholder')} onChange={e => setBuildName(e.target.value)} />
         </label>
         <label>
           {t('level')}
