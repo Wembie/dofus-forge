@@ -2788,7 +2788,7 @@
   "sim_last_hit": "Dernier coup",
   "sim_crit_hit": "coup critique",
   "sim_normal_hit": "coup normal",
-  "sim_roll_hint": "Utilisez le dé d’une attaque pour tirer un coup au hasard dans sa fourchette.",
+  "sim_roll_hint": "Clique sur une attaque pour lancer un coup au hasard dans sa plage.",
   "sim_damage": "Dommages de vos attaques",
   "sim_empty_title": "Aucune attaque à calculer pour l’instant",
   "sim_empty_body": "Choisissez une classe ou équipez une arme pour voir combien de dommages chaque attaque inflige à cette cible.",

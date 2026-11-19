@@ -26,7 +26,9 @@
   grid-template-columns: 280px minmax(0, 1fr);
   gap: 36px;
 }
-.combat-target {
+/* Stage and target share the left column, which stays in view while the
+   attack table scrolls. */
+.combat-side {
   align-self: start;
   position: sticky;
   top: 0;
@@ -136,10 +138,28 @@
   font-weight: 400;
   text-align: left;
 }
-.combat-damage tbody th[scope="row"] > span {
+.combat-cast {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.combat-attack {
+  cursor: pointer;
+}
+.combat-attack:hover > * {
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.combat-attack:hover .combat-cast {
+  color: var(--accent);
 }
 .combat-damage tbody img,
 .combat-damage tbody i {
@@ -163,19 +183,6 @@
   margin-top: 2px;
   font: 10px "Source Sans 3", sans-serif;
   color: var(--muted);
-}
-.combat-damage td.combat-dice {
-  width: 44px;
-}
-.combat-dice button {
-  min-width: 32px;
-  min-height: 32px;
-  padding: 0;
-  border: 0;
-  color: var(--muted);
-}
-.combat-dice button:hover {
-  color: var(--accent);
 }
 .combat-damage tr.is-rolled > * {
   background: color-mix(in srgb, var(--accent) 6%, transparent);
@@ -215,28 +222,29 @@
   font: 12px "Source Sans 3", sans-serif;
   color: var(--muted);
 }
-@media (max-width: 700px) {
+/* One column: the side wrapper steps aside so the stage alone pins to the
+   top of the window, over the whole attack list; the target scrolls by. */
+@media (max-width: 899px) {
   .combat-layout {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
   }
-  .combat-target {
-    position: static;
+  .combat-side {
+    display: contents;
   }
-  /* Phones: the stage pins to the top of the window while the attacks scroll. */
   .combat-stage {
     position: sticky;
-    top: -12px;
+    top: 0;
     z-index: 2;
-    margin: -12px -14px 0;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--line);
+    padding: 10px 0;
     background: var(--surface);
   }
   .combat-stage canvas {
     width: 96px !important;
     height: 104px !important;
   }
+}
+@media (max-width: 700px) {
   .combat-resist input,
   .combat-target header button {
     min-height: 44px;
@@ -249,24 +257,8 @@
     width: 88px;
     font-size: 13px;
   }
-  .combat-damage td.combat-dice {
-    width: 44px;
-  }
-  .combat-dice button {
-    min-width: 44px;
+  .combat-cast {
     min-height: 44px;
-  }
-  .combat-roll {
-    position: sticky;
-    bottom: 0;
-    margin: 18px -16px 0;
-    padding: 10px 16px;
-    background: var(--surface);
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 10px;
-    z-index: 1;
   }
   .combat-roll strong {
     font-size: 24px;
@@ -274,11 +266,6 @@
   .combat-damage tbody th[scope="row"] {
     font-size: 13px;
   }
-}
-/* In the workshop the simulator sits in the equipment column: target above, attacks below. */
-.combat-layout {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
 }
 .combat-damage {
   overflow-x: auto;

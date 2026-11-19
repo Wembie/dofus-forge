@@ -1,6 +1,5 @@
 import { useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Dices } from "lucide-react";
 import { CreatureStage, type CreatureStageHandle } from "@/components/CreatureStage.tsx";
 import { useCharacterStage } from "@/components/useCharacterStage.ts";
 import { useBuildStore } from "@/store/buildStore.ts";
@@ -13,7 +12,7 @@ import {
   spellMods,
 } from "@/features/spells/spellCalc.ts";
 import {
-  simulateSpellHit,
+  simulateSpellHits,
   simulateWeaponHit,
   type HitResult,
 } from "@/features/pvp/simulate.ts";
@@ -75,20 +74,19 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
           )
         )
           return [];
-        return [
-          {
-            key: "s" + spell.id,
-            name: spell.name,
-            art: spell.image_url,
-            hit: simulateSpellHit(
-              level,
-              stats,
-              spellMods(stats, level.minRange, level.maxRange),
-              resist,
-            ),
-            crit: critChance(level.critChance, stats.critChance),
-          },
-        ];
+        return simulateSpellHits(
+          spell.id,
+          level,
+          stats,
+          spellMods(stats, level.minRange, level.maxRange),
+          resist,
+        ).map((variant) => ({
+          key: "s" + spell.id + (variant.element ? "-" + variant.element : ""),
+          name: variant.element ? spell.name + " · " + t(`elem_${variant.element}`) : spell.name,
+          art: spell.image_url,
+          hit: variant.hit,
+          crit: critChance(level.critChance, stats.critChance),
+        }));
       });
     const own = spells.get(b.selectedClass)?.spells ?? [],
       common = spells.get("common")?.spells ?? [];
@@ -141,7 +139,7 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
     <div className="combat">
       {heading && <h2 className="combat-title">{t("tool_pvp")}</h2>}
       <div className="combat-layout">
-        <section className="combat-target" aria-label={t("sim_target")}>
+        <div className="combat-side">
           <div className={"combat-stage" + (stage.show ? "" : " is-flat")}>
             {stage.show && (
               <div className="combat-poutch">
@@ -167,6 +165,7 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
               )}
             </div>
           </div>
+          <section className="combat-target" aria-label={t("sim_target")}>
           <header>
             <h3>{t("sim_target")}</h3>
             <button disabled={untouched} onClick={reset}>
@@ -226,7 +225,8 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
               : t("sim_applied")}{" "}
             {t("sim_passives")}
           </p>
-        </section>
+          </section>
+        </div>
         <section className="combat-damage" aria-label={t("sim_damage")}>
           {!groups.length ? (
             <div className="tool-empty">
@@ -241,28 +241,28 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
                   <th scope="col">{t("sim_attack")}</th>
                   <th scope="col">{t("sim_normal_col")}</th>
                   <th scope="col">{t("weapon_crit_col")}</th>
-                  <th scope="col">
-                    <span className="sr-only">{t("sim_roll")}</span>
-                  </th>
                 </tr>
               </thead>
               {groups.map((group) => (
                 <tbody key={group.titleKey}>
                   <tr className="combat-group">
-                    <th scope="colgroup" colSpan={4}>
+                    <th scope="colgroup" colSpan={3}>
                       {t(group.titleKey)}
                     </th>
                   </tr>
                   {group.rows.map((row) => (
                     <tr
                       key={row.key}
-                      className={last?.key === row.key ? "is-rolled" : ""}
+                      className={"combat-attack" + (last?.key === row.key ? " is-rolled" : "")}
+                      onClick={() => roll(row)}
                     >
                       <th scope="row">
-                        <span>
+                        {/* The whole row rolls on click; this button is its keyboard way in. */}
+                        <button type="button" className="combat-cast" title={t("sim_roll_label", { name: row.name })}
+                          onClick={(e) => { e.stopPropagation(); roll(row); }}>
                           {row.art ? <img src={row.art} alt="" /> : <i />}
                           {row.name}
-                        </span>
+                        </button>
                         {last?.key === row.key && (
                           <small className="combat-hit">
                             {t("sim_hit")} <b>{last.value}</b>
@@ -278,14 +278,6 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
                         {row.hit.hasCrit && row.crit > 0 && (
                           <small>{t("sim_chance", { chance: row.crit })}</small>
                         )}
-                      </td>
-                      <td className="combat-dice">
-                        <button
-                          aria-label={t("sim_roll_label", { name: row.name })}
-                          onClick={() => roll(row)}
-                        >
-                          <Dices size={16} />
-                        </button>
                       </td>
                     </tr>
                   ))}

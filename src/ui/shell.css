@@ -1361,9 +1361,9 @@ button.workshop-level:hover {
 }
 
 /* Spells and combat simulation open as windows from the tool bar. */
+/* No overflow of its own: the window body scrolls, so sticky parts inside
+   (the combat stage) stick to it. */
 .tool-modal-body {
-  min-height: 0;
-  overflow-y: auto;
   padding: 18px 22px 22px;
 }
 @media (max-width: 640px) {

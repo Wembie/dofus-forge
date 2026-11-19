@@ -2788,7 +2788,7 @@
   "sim_last_hit": "Last hit",
   "sim_crit_hit": "critical hit",
   "sim_normal_hit": "normal hit",
-  "sim_roll_hint": "Use an attack’s die to roll a random hit within its range.",
+  "sim_roll_hint": "Click an attack to roll a random hit within its range.",
   "sim_damage": "Damage of your attacks",
   "sim_empty_title": "No attacks to work out yet",
   "sim_empty_body": "Choose a class or equip a weapon to see how much damage each attack deals to this target.",

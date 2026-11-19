@@ -2788,7 +2788,7 @@
   "sim_last_hit": "Último golpe",
   "sim_crit_hit": "golpe crítico",
   "sim_normal_hit": "golpe normal",
-  "sim_roll_hint": "Usa el dado de un ataque para tirar un golpe al azar dentro de su rango.",
+  "sim_roll_hint": "Toca un ataque para tirar un golpe al azar dentro de su rango.",
   "sim_damage": "Daño de tus ataques",
   "sim_empty_title": "Aún no hay ataques que calcular",
   "sim_empty_body": "Elige una clase o equipa un arma para ver cuánto daño hace cada ataque contra este objetivo.",
