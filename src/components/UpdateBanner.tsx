@@ -11,9 +11,7 @@ const MIN_GAP_MS = 60 * 1000
 
 /**
  * Detects a newer deploy and prompts the user to refresh, instead of
- * letting them hit it the hard way: GitHub Pages has no server-side
- * rewrites, dynamic routes like /build/:id rely on the 404.html
- * redirect trick, and Vite content-hashes every JS chunk on each build
+ * letting them hit it the hard way: Vite content-hashes every JS chunk on each build
  * (old chunk files aren't kept around) — a stale cached index.html from
  * before a deploy can end up referencing chunks that no longer exist,
  * which is what a report of getting stuck on a blank/stuck page after

@@ -1,6 +1,8 @@
 # Correos de acceso · Dofus Forge
 
-Las seis plantillas usan la identidad Mineral de 0.4.0: fondo mineral, cobre, titulares serif y tablas con estilos inline. La marca es texto y sigue siendo legible cuando el cliente bloquea imágenes. No dependen de fuentes externas, SVG, JavaScript ni recursos aún no publicados.
+Las seis plantillas usan el tema oscuro de 0.4.0, el mismo del sitio: fondo #111615, tarjeta #191e1c, texto #e9e8df, acento #e4b28b, titulares serif y tablas con estilos inline (`color-scheme: dark`). La cabecera lleva el logo (`{{ .SiteURL }}/brand/mark-256.png`, 28 px) junto al nombre en texto, que sigue legible si el cliente bloquea imágenes. No dependen de fuentes externas, SVG ni JavaScript.
+
+**Pegar en Supabase después de publicar 0.4.0 en producción:** el logo se carga de `/brand/mark-256.png` del sitio, y hasta ese deploy esa ruta sirve el logo anterior.
 
 | Archivo | Plantilla en Supabase | Asunto sugerido |
 |---|---|---|

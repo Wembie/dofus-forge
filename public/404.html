@@ -4,113 +4,52 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Dofus Forge</title>
+    <title>Page not found — Dofus Forge</title>
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
+      @font-face { font-family: Alegreya; src: url('/fonts/alegreya/Alegreya-v04.woff') format('woff'); font-weight: 400 900; font-display: swap; }
+      @font-face { font-family: 'Source Sans 3'; src: url('/fonts/sourcesans3/SourceSans3-v04.woff') format('woff'); font-weight: 300 900; font-display: swap; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body {
-        height: 100%;
-        background: #0a0d13;
-        font-family: 'Inter', system-ui, sans-serif;
-      }
+      html, body { height: 100%; }
       body {
         display: flex;
         align-items: center;
         justify-content: center;
+        background: #111615;
+        color: #e9e8df;
+        font-family: 'Source Sans 3', Arial, sans-serif;
       }
       .wrap {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 20px;
+        gap: 14px;
         padding: 32px;
         text-align: center;
       }
-      .emblem {
-        width: 64px;
-        height: 64px;
-        opacity: 0.92;
-        animation: pulse 1.6s ease-in-out infinite;
-      }
-      @keyframes pulse {
-        0%, 100% { opacity: 0.55; transform: scale(0.97); }
-        50%      { opacity: 1;    transform: scale(1); }
-      }
-      .brand {
-        font-family: Georgia, 'Times New Roman', serif;
-        font-weight: 700;
-        font-size: 22px;
-        letter-spacing: 0.02em;
-        color: #eccb78;
-      }
-      .status {
-        font-family: 'Courier New', monospace;
-        font-size: 12px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: #9aa0b0;
-      }
-      .fallback {
+      .emblem { width: 56px; height: 56px; }
+      h1 { font: 600 28px/1.2 Alegreya, Georgia, serif; }
+      p { max-width: 36ch; font-size: 15px; line-height: 1.5; color: #a1aaa0; }
+      a {
         margin-top: 6px;
-        font-size: 13px;
-        color: #626a7d;
-      }
-      .fallback a {
-        color: #c9a24b;
+        padding: 10px 16px;
+        border: 1px solid #343c35;
+        border-radius: 5px;
+        color: #e9e8df;
+        font-weight: 600;
         text-decoration: none;
-        border-bottom: 1px solid rgba(201,162,75,0.4);
       }
-      .fallback a:hover { border-bottom-color: #c9a24b; }
-      noscript .fallback { margin-top: 0; }
+      a:hover { border-color: #a1aaa0; }
+      a:focus-visible { outline: 2px solid #e4b28b; outline-offset: 3px; }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <!-- brand:emblem --><svg class="emblem" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t"><title id="t">Dofus Forge</title><g transform="translate(256 256) scale(1.02) translate(-256 -256)"><path d="M236 57.75 L236 232.67 L214 262 L219.88 269.84 L116.41 373.31 C102.17 348.3 94 319.14 94 288 C94 169.56 155.96 71.86 236 57.75 Z" fill="#eccb78"/><path d="M395.59 373.31 L292.12 269.84 L298 262 L276 232.67 L276 57.75 C356.04 71.86 418 169.56 418 288 C418 319.14 409.83 348.3 395.59 373.31 Z" fill="#c9a24b"/><path d="M140.49 405.79 L244.12 302.16 L256 318 L267.88 302.16 L371.51 405.79 C342.12 436.78 301.23 456 256 456 C210.77 456 169.88 436.78 140.49 405.79 Z" fill="#7f6428"/><path d="M256 234 L277 262 L256 290 L235 262 Z" fill="#fff1c9"/><path d="M256 15 L270 34 L256 53 L242 34 Z" fill="#fff1c9"/></g></svg><!-- /brand:emblem -->
-      <div class="brand">Dofus Forge</div>
-      <div class="status">Redirecting…</div>
-      <p class="fallback" id="stuck-fallback" style="display: none;">
-        Taking too long?
-        <a href="/">Go to Dofus Forge →</a>
-      </p>
-      <noscript>
-        <p class="fallback">
-          JavaScript is required.
-          <a href="/">Go to Dofus Forge →</a>
-        </p>
-      </noscript>
-    </div>
-
-    <script>
-      // Single Page Apps for GitHub Pages — https://github.com/rafgraph/spa-github-pages
-      // GitHub Pages has no server-side rewrites, so a deep link like
-      // /dofus-forge/es/ 404s on direct load (e.g. a search engine crawler,
-      // or a user refreshing the page). This encodes the real path into a
-      // query string and redirects to index.html, which decodes it back
-      // via history.replaceState before the app mounts (see index.html).
-      //
-      // l.replace() below should navigate away immediately, but a user
-      // reported getting stuck on this exact screen after a deploy (likely
-      // a cached copy of this file, or of the index.html it redirects to,
-      // misbehaving) with no way out except manually typing a URL. This
-      // timer is a visible escape hatch: if the redirect hasn't already
-      // navigated away within 2.5s, show a manual link instead of leaving
-      // the user staring at "Redirecting…" indefinitely.
-      setTimeout(function () {
-        var el = document.getElementById('stuck-fallback');
-        if (el) el.style.display = 'block';
-      }, 2500);
-
-      var pathSegmentsToKeep = 1; // keeps "/dofus-forge"
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
-    </script>
+    <main class="wrap">
+      <!-- brand:emblem --><svg class="emblem" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Dofus Forge"><path d="M18 60H52C52 77 62 90 79 90C96 90 106 77 106 60H142V79H112V91H129V104H107L102 117L124 129V136H37V129L57 116V98L36 86L18 68V60ZM91 96V119L98 113V96H91Z" fill="#e9e8df" fill-rule="evenodd"/><path d="M79 25C86 30 98 48 98 62C98 74 91 82 79 82C67 82 60 74 60 62C60 48 72 30 79 25ZM66 51L80 43L83 48L69 56L66 51ZM77 65L91 57L94 62L80 70L77 65Z" fill="#e4b28b" fill-rule="evenodd"/></svg><!-- /brand:emblem -->
+      <h1>Page not found</h1>
+      <p>This page does not exist or has moved.</p>
+      <a href="/">Go to Dofus Forge</a>
+    </main>
   </body>
 </html>
