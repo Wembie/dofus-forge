@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense } from 'react'
-import { ArrowLeftRight, Eye, Pin } from 'lucide-react'
+import { ArrowLeftRight, Layers, Pin, Sparkles, X } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
@@ -132,194 +132,63 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
           useForgePicks.getState().toggleRequired(item.ankama_id)
         }}
         aria-label={`${slotLabel}${item ? `: ${item.name}` : ` (${t('empty_slot')})`}`}
-        className={`workshop-slot${wide ? ' is-wide' : ''} rounded-lg flex items-center justify-center relative overflow-hidden transition-all duration-150 cursor-pointer${animating ? ' item-equip' : ''}`}
-        style={{
-          width:  wide ?? px,
-          height: px,
-          background: item
-            ? 'var(--surface-panel)'
-            : 'var(--surface-void)',
-          border: isDragOver
-            ? '2px solid var(--gold)'
-            : item
-            ? setName
-              ? '1.5px solid color-mix(in srgb, var(--water) 55%, var(--gold) 45%)'
-              : '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
-            : '1px dashed var(--metal-edge-strong)',
-          boxShadow: isDragOver
-            ? 'inset 0 0 28px color-mix(in srgb, var(--gold) 30%, transparent), 0 0 12px color-mix(in srgb, var(--gold) 40%, transparent)'
-            : item
-            ? setName
-              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-            : 'var(--well-inset)',
-        }}
-        onMouseEnter={e => {
-          const el = e.currentTarget as HTMLButtonElement
-          if (!item) {
-            el.style.borderColor = 'var(--gold-deep)'
-            el.style.borderStyle = 'solid'
-          } else {
-            el.style.boxShadow = setName
-              ? 'inset 0 0 22px color-mix(in srgb, var(--water) 20%, transparent), 0 0 14px color-mix(in srgb, var(--water) 30%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
-              : 'inset 0 0 22px color-mix(in srgb, var(--gold) 18%, transparent), 0 4px 12px rgba(0,0,0,0.6)'
-          }
-        }}
-        onMouseLeave={e => {
-          const el = e.currentTarget as HTMLButtonElement
-          if (!item) {
-            el.style.borderColor = 'var(--metal-edge-strong)'
-            el.style.borderStyle = 'dashed'
-          } else {
-            el.style.boxShadow = setName
-              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-          }
-        }}
+        className={['workshop-slot', wide && 'is-wide', item ? 'has-item' : 'is-empty', item && setName && 'in-set', isDragOver && 'is-dragover', animating && 'item-equip'].filter(Boolean).join(' ')}
+        style={{ width: wide ?? px, height: px }}
       >
         {wide ? (
           <>
             <span className="slot-art" style={{ width: px - 14, height: px - 14 }}>
               {item?.image_url
                 ? <img src={item.image_url} alt="" className="w-full h-full object-contain" loading="lazy" />
-                : <span style={{ color: item ? 'var(--gold)' : 'var(--ink-muted)', opacity: item ? 0.8 : 0.35 }}><SlotIcon slot={slotId} /></span>}
+                : <span className="slot-icon"><SlotIcon slot={slotId} /></span>}
             </span>
             <span className="slot-copy">
               <small>{slotLabel}</small>
               <span>{item ? item.name : t('empty_slot')}</span>
             </span>
           </>
+        ) : item?.image_url ? (
+          <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
         ) : (
-          <>
-          {item ? (
-            item.image_url
-              ? <img src={item.image_url} alt={item.name}
-                  className="w-full h-full object-contain p-1.5" loading="lazy" />
-              : <span className="opacity-80" style={{ color: 'var(--gold)' }}>
-                  <SlotIcon slot={slotId} />
-                </span>
-          ) : (
-            <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}>
-              <SlotIcon slot={slotId} />
-            </span>
-          )}
-          </>
+          <span className="slot-icon"><SlotIcon slot={slotId} /></span>
         )}
-
-        {item && (
-          <div className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 55%)' }} />
-        )}
-
       </button>
 
-      {/* Slot label (tiny, below slot) */}
-      {!small && !wide && (
-        <span className="text-[8px] font-medium tracking-wide select-none" style={{ color: 'var(--ink-faint)' }}>
-          {slotLabel.toUpperCase()}
-        </span>
-      )}
+      {!small && !wide && <span className="slot-under">{slotLabel}</span>}
 
-      {/* Unequip × — always visible on mobile (slot-unequip-btn), hover-only on desktop */}
+      {/* Actions sit in the tile's corners: shown on hover or keyboard focus,
+          and kept on screen while they hold a state (pinned, runes). */}
       {item && (
-        <button
-          onClick={e => { e.stopPropagation(); onUnequip() }}
-          className={`slot-unequip-btn absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[10px] leading-none items-center justify-center transition-colors z-10 text-ink-muted hover:text-red-400 ${hovered ? 'flex' : 'hidden'}`}
-          style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}
-          aria-label={t('unequip', { name: item.name })}
-        >×</button>
-      )}
-
-      {/* La Forjadora pin — always shown while pinned, on hover otherwise */}
-      {item && (
-        <button
-          onClick={e => { e.stopPropagation(); useForgePicks.getState().toggleRequired(item.ankama_id) }}
-          className={`absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full items-center justify-center transition-all z-10 ${forgePinned ? 'flex' : hovered ? 'flex' : 'hidden'}`}
-          style={{
-            background: forgePinned ? 'var(--gold)' : 'var(--surface-void)',
-            border:     `1px solid ${forgePinned ? 'var(--gold)' : 'var(--metal-edge)'}`,
-            color:      forgePinned ? 'var(--surface-void)' : 'var(--ink-faint)',
-            boxShadow:  forgePinned ? '0 0 8px -2px var(--gold)' : 'none',
-          }}
-          aria-pressed={forgePinned}
-          aria-label={`${t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}: ${item.name}`}
-          title={t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}
-        >
-          <Pin size={8} />
-        </button>
-      )}
-
-      {/* Magesmithy button — Signature_Rune when active, ✦ on hover when none */}
-      {item && onRune && (
-        <button
-          onClick={e => { e.stopPropagation(); onRune() }}
-          className={`absolute -bottom-1.5 -left-1.5 w-5 h-5 rounded-full text-[9px] leading-none flex items-center justify-center transition-all z-10 ${(runeCount ?? 0) > 0 ? 'opacity-100 slot-rune-active' : hovered ? 'opacity-100' : 'opacity-0'}`}
-          style={{
-            background: (runeCount ?? 0) > 0 ? 'color-mix(in srgb, var(--ap) 12%, var(--surface-void))' : 'var(--surface-void)',
-            border:     (runeCount ?? 0) > 0 ? '1px solid color-mix(in srgb, var(--ap) 60%, transparent)' : '1px solid var(--metal-edge)',
-            color:      (runeCount ?? 0) > 0 ? 'var(--ap)' : 'var(--ink-faint)',
-          }}
-          onMouseEnter={e => {
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--ap)'
-          }}
-          onMouseLeave={e => {
-            const active = (runeCount ?? 0) > 0
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = active ? 'color-mix(in srgb, var(--ap) 60%, transparent)' : 'var(--metal-edge)'
-          }}
-          aria-label={`${t('magesmithy')}: ${item.name}`}
-          title={t('magesmithy_title')}
-        >
-          {(runeCount ?? 0) > 0
-            ? <img src={signatureRuneUrl()} alt="" width={13} height={13} className="object-contain" />
-            : '✦'
-          }
-        </button>
-      )}
-
-      {/* Rune badge — top-right corner overlay, always visible when runes active */}
-      {item && (runeCount ?? 0) > 0 && slotRunes && (() => {
-        const active = Object.entries(slotRunes).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
-        return active.length > 0 ? (
-          <div
-            className="absolute pointer-events-none z-20 flex flex-col gap-0.5"
-            style={{
-              top:       3,
-              left:      '50%',
-              transform: `translateX(${Math.floor((wide ?? px) / 2) - 16}px)`,
-            }}
-          >
-            {active.slice(0, 3).map(([stat]) => {
-              const url = runeKeyIconUrl(stat)
-              return url ? (
-                <div
-                  key={stat}
-                  className="rounded flex items-center justify-center"
-                  style={{
-                    background: 'color-mix(in srgb, var(--surface-void) 85%, transparent)',
-                    border:     isExoticKey(stat) ? '1px solid var(--gold)' : '1px solid color-mix(in srgb, var(--ap) 55%, transparent)',
-                    boxShadow:  isExoticKey(stat) ? '0 0 5px color-mix(in srgb, var(--gold) 60%, transparent), 0 1px 4px rgba(0,0,0,0.7)' : '0 1px 4px rgba(0,0,0,0.7)',
-                    padding:    1,
-                  }}
-                >
-                  <img src={url} onError={runeIconFallback(stat)} alt="" width={13} height={13} className="object-contain block" />
-                </div>
-              ) : null
-            })}
-          </div>
-        ) : null
-      })()}
-
-      {/* Set detail button — bottom-right */}
-      {item && onViewSet && (
-        <button
-          onClick={e => { e.stopPropagation(); onViewSet() }}
-          className={`absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center transition-all z-10 hover:text-ap ${hovered ? 'opacity-100' : 'opacity-0'}`}
-          style={{ background: 'var(--surface-void)', border: '1px solid var(--water)', color: 'var(--water)' }}
-          title={t('view_set')}
-          aria-label={t('view_set')}
-        >
-          <Eye size={10} />
-        </button>
+        <div className={'slot-actions' + (hovered ? ' is-open' : '')} style={{ width: wide ?? px, height: px }}>
+          <button type="button" className={'slot-action is-pin' + (forgePinned ? ' is-on' : '')}
+            onClick={e => { e.stopPropagation(); useForgePicks.getState().toggleRequired(item.ankama_id) }}
+            aria-pressed={forgePinned}
+            aria-label={`${t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}: ${item.name}`}
+            title={t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}>
+            <Pin size={11} aria-hidden="true" />
+          </button>
+          <button type="button" className="slot-action is-remove"
+            onClick={e => { e.stopPropagation(); onUnequip() }}
+            aria-label={t('unequip', { name: item.name })} title={t('unequip', { name: item.name })}>
+            <X size={12} aria-hidden="true" />
+          </button>
+          {onRune && (
+            <button type="button" className={'slot-action is-rune' + ((runeCount ?? 0) > 0 ? ' is-on' : '')}
+              onClick={e => { e.stopPropagation(); onRune() }}
+              aria-label={`${t('magesmithy')}: ${item.name}`} title={t('magesmithy_title')}>
+              {(runeCount ?? 0) > 0
+                ? <img src={signatureRuneUrl()} alt="" width={12} height={12} />
+                : <Sparkles size={11} aria-hidden="true" />}
+            </button>
+          )}
+          {onViewSet && (
+            <button type="button" className="slot-action is-set"
+              onClick={e => { e.stopPropagation(); onViewSet() }}
+              aria-label={t('view_set')} title={t('view_set')}>
+              <Layers size={11} aria-hidden="true" />
+            </button>
+          )}
+        </div>
       )}
 
       {/* Tooltip — game-faithful style, side chosen per column */}

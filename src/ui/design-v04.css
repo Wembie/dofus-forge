@@ -144,6 +144,30 @@ html [role=dialog] button[aria-label]{min-width:32px;min-height:32px}
 .workshop-panel-head span{font-size:12px;color:var(--muted)}
 .workshop-gear-stage{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
 .workshop-gear-column{display:flex;flex-direction:column;align-items:center;gap:10px}
+/* Equipment slot: flat tile, dashed while empty; actions in its corners. */
+.workshop-slot{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:5px;border:1px dashed var(--line);background:var(--canvas);color:var(--ink);cursor:pointer;transition:border-color 120ms,background 120ms}
+.workshop-slot.is-empty:hover{border-style:solid;border-color:var(--muted)}
+.workshop-slot.has-item{border:1px solid color-mix(in srgb,var(--accent) 38%,var(--line));background:var(--surface)}
+.workshop-slot.has-item.in-set{border-color:color-mix(in srgb,var(--water) 50%,var(--line))}
+.workshop-slot.has-item:hover{border-color:var(--accent)}
+.workshop-slot.is-dragover{border:2px solid var(--accent)}
+.workshop-slot .slot-icon{display:grid;place-items:center;color:var(--muted);opacity:.45}
+.workshop-slot.has-item .slot-icon{color:var(--accent);opacity:.8}
+.slot-under{font-size:8px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);user-select:none}
+.slot-actions{position:absolute;top:0;left:50%;transform:translateX(-50%);pointer-events:none;z-index:10}
+.slot-action{position:absolute;display:grid;place-items:center;width:18px;height:18px;padding:0;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--muted);pointer-events:auto;opacity:0;transition:opacity 120ms,color 120ms,border-color 120ms,background 120ms}
+.slot-action img{display:block;width:12px;height:12px;object-fit:contain}
+.slot-action.is-pin{top:3px;left:3px}
+.slot-action.is-remove{top:3px;right:3px}
+.slot-action.is-rune{bottom:3px;left:3px}
+.slot-action.is-set{bottom:3px;right:3px}
+.slot-actions.is-open .slot-action,.slot-actions:focus-within .slot-action,.slot-action.is-on{opacity:1}
+.slot-action:hover{color:var(--text);border-color:var(--muted)}
+.slot-action.is-remove:hover{color:var(--danger,#d9534f);border-color:currentColor}
+.slot-action.is-pin.is-on{background:var(--accent);border-color:var(--accent);color:var(--canvas)}
+.slot-action.is-rune.is-on{border-color:color-mix(in srgb,var(--accent) 60%,var(--line))}
+.slot-action.is-set{color:var(--water)}
+@media (hover:none){.slot-action.is-remove{opacity:1}}
 .workshop-slot.is-wide{justify-content:flex-start;gap:10px;padding:0 10px 0 6px;text-align:left}
 .workshop-slot.is-wide .slot-art{display:grid;place-items:center;flex-shrink:0}
 .workshop-slot.is-wide .slot-copy{display:flex;flex-direction:column;gap:2px;min-width:0}

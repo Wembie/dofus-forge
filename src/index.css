@@ -478,11 +478,7 @@ input[type=number] { -moz-appearance: textfield; }
 }
 
 /* ── Mobile overrides ─────────────────────────────────────────────────── */
-/* Slot unequip × and rune ✦ buttons are hover-only on desktop.
-   On touch devices there is no hover, so force them visible. */
 @media (max-width: 1023px) {
-  .slot-unequip-btn  { display: flex !important; }
-  .slot-rune-active  { opacity: 1 !important; }
   /* iOS Safari auto-zooms inputs with font-size < 16px; prevent that */
   input, select, textarea { font-size: max(16px, 1em) !important; }
 }
