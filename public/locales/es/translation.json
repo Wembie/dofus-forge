@@ -683,7 +683,7 @@
   "sidebar_side_left": "Izquierda",
   "sidebar_side_right": "Derecha",
   "optimizer_locked_title": "Selecciona tu clase para desbloquear la Forjadora",
-  "optimizer_locked_hint": "La Forjadora necesita tu clase y nivel para calcular combinaciones válidas. Elegí (o confirmá) tu clase abajo para continuar.",
+  "optimizer_locked_hint": "La Forjadora necesita tu clase y tu nivel para calcular combinaciones válidas. Elige tu clase para empezar.",
   "optimizer_forgemagie": "Forgemagia",
   "optimizer_forgemagie_hint": "Una runa por ítem: un exo PA/PM/Alcance solo donde completa un mínimo, y si no, la mejor runa de transcendencia.",
   "optimizer_assume_scrolled": "Asumir todo pergaminado",

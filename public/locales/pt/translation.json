@@ -683,7 +683,7 @@
   "sidebar_side_left": "Esquerda",
   "sidebar_side_right": "Direita",
   "optimizer_locked_title": "Selecione sua classe para desbloquear a Forja",
-  "optimizer_locked_hint": "A Forja precisa da sua classe e nível para calcular combinações válidas. Escolha (ou confirme) sua classe abaixo para continuar.",
+  "optimizer_locked_hint": "A Forja precisa da sua classe e do seu nível para calcular combinações válidas. Escolha sua classe para começar.",
   "optimizer_forgemagie": "Forjamagia",
   "optimizer_forgemagie_hint": "Uma runa por item: um exo PA/PM/Alcance só onde completa um mínimo, senão a melhor runa de transcendência.",
   "optimizer_assume_scrolled": "Assumir tudo pergaminhado",

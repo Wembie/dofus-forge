@@ -683,7 +683,7 @@
   "sidebar_side_left": "Gauche",
   "sidebar_side_right": "Droite",
   "optimizer_locked_title": "Sélectionne ta classe pour débloquer la Forgeuse",
-  "optimizer_locked_hint": "La Forgeuse a besoin de ta classe et de ton niveau pour calculer des combinaisons valides. Choisis (ou confirme) ta classe ci-dessous pour continuer.",
+  "optimizer_locked_hint": "La Forgeuse a besoin de ta classe et de ton niveau pour calculer des combinaisons valides. Choisis ta classe pour commencer.",
   "optimizer_forgemagie": "Forgemagie",
   "optimizer_forgemagie_hint": "Une rune par objet : un exo PA/PM/PO seulement là où il complète un minimum, sinon la meilleure rune de transcendance.",
   "optimizer_assume_scrolled": "Supposer tout parcheminé",

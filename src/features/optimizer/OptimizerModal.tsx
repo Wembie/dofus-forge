@@ -1154,14 +1154,16 @@ function ForgeDialog({ onClose }: { onClose: () => void }) {
         <Lock size={20} />
         <h3>{t("optimizer_locked_title")}</h3>
         <p>{t("optimizer_locked_hint")}</p>
-        <ClassPicker />
+        <div className="fg-locked-picker">
+          <ClassPicker heading={false} />
+        </div>
       </div>
     );
   else if (forge.phase === "forging") body = <Forging forge={forge} />;
   else if (forge.phase === "forged") body = <Forged forge={forge} />;
   else body = <Order forge={forge} />;
   return createPortal(
-    <div className="fg-overlay">
+    <div className="fg-overlay" onClick={(e) => { if (e.target === e.currentTarget && forge.phase !== "forging") forge.handleClose(); }}>
       <div ref={ref} className="fg-dialog" role="dialog" aria-modal="true" aria-label={t("optimizer_title")} tabIndex={-1}>
         <div className="fg-header">
           <button type="button" onClick={forge.handleClose} aria-label={t("fg_back")}>
@@ -1169,7 +1171,6 @@ function ForgeDialog({ onClose }: { onClose: () => void }) {
             <span>{t("fg_back")}</span>
           </button>
           <div>
-            <span>DOFUS FORGE</span>
             <h2>{t("optimizer_title")}</h2>
           </div>
           <ol className="fg-phases" aria-label={t("fg_steps")}>

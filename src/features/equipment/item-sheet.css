@@ -95,13 +95,19 @@
   font: 600 13px 'IBM Plex Mono', ui-monospace, monospace;
   color: var(--accent);
 }
+.item-sheet-runes img {
+  box-sizing: content-box;
+  padding: 1px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
 .item-sheet-runes li.is-exotic img {
-  outline: 1px solid var(--accent);
-  border-radius: 2px;
+  border-color: var(--accent);
 }
 .item-sheet-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
   padding-top: 14px;
   border-top: 1px solid var(--line);
@@ -129,9 +135,6 @@
   border-color: var(--accent);
   color: var(--accent);
 }
-.item-sheet-actions .is-danger {
-  margin-left: auto;
-}
 .item-sheet-actions .is-danger:hover {
   border-color: var(--danger, #c9524b);
   color: var(--danger, #c9524b);
@@ -143,8 +146,5 @@
   .item-sheet-actions button {
     flex: 1 1 calc(50% - 4px);
     justify-content: center;
-  }
-  .item-sheet-actions .is-danger {
-    margin-left: 0;
   }
 }

@@ -683,7 +683,7 @@
   "sidebar_side_left": "Left",
   "sidebar_side_right": "Right",
   "optimizer_locked_title": "Select your class to unlock The Forger",
-  "optimizer_locked_hint": "The Forger needs your class and level to calculate valid combinations. Pick (or confirm) your class below to continue.",
+  "optimizer_locked_hint": "The Forger needs your class and level to calculate valid combinations. Pick your class to start.",
   "optimizer_forgemagie": "Forgemagic",
   "optimizer_forgemagie_hint": "One rune per item: an AP/MP/Range exo only where it completes a minimum, otherwise the best transcendence rune.",
   "optimizer_assume_scrolled": "Assume fully scrolled",

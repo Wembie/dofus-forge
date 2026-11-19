@@ -167,3 +167,24 @@
 .cp-modal {
   padding: 4px 16px 16px;
 }
+@media (max-width: 520px) {
+  .cp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .cp-class {
+    gap: 8px;
+    padding: 5px 8px 5px 5px;
+  }
+  .cp-portrait {
+    width: 42px;
+    height: 42px;
+  }
+  .cp-portrait img {
+    width: 40px;
+    height: 40px;
+  }
+  .cp-name {
+    font-size: 13px;
+  }
+}

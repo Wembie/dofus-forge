@@ -1061,9 +1061,20 @@ html.light .fg-dialog {
   font: 500 22px Alegreya;
 }
 .fg-locked p {
-  max-width: 46ch;
-  margin: 0 0 16px;
+  max-width: 52ch;
+  margin: 0 0 20px;
   color: var(--muted);
+}
+.fg-locked-picker {
+  width: min(100%, 980px);
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--canvas);
+  text-align: left;
+}
+.fg-locked-picker .cp-grid {
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
 }
 @media (max-width: 1079px) {
   .fg-columns,
@@ -1203,5 +1214,13 @@ html.light .fg-dialog {
   .fg-results-list li > span,
   .fg-piece-list li > span {
     flex-basis: calc(100% - 50px);
+  }
+}
+@media (max-width: 520px) {
+  .fg-locked-picker {
+    padding: 12px;
+  }
+  .fg-locked-picker .cp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

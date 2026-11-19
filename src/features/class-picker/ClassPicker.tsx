@@ -107,17 +107,19 @@ export function LevelStepper({ showMax = false }: { showMax?: boolean }) {
 }
 
 /** First choice of an empty workshop: class, gender and level. */
-export function ClassPicker() {
+export function ClassPicker({ heading = true }: { heading?: boolean } = {}) {
   const { t } = useTranslation()
   return (
     <div className="cp">
-      <div className="cp-head">
-        <div>
-          <p className="cp-eyebrow">{t('class')}</p>
-          <h2>{t('class_pick_title')}</h2>
-          <p>{t('class_pick_intro')}</p>
+      {heading && (
+        <div className="cp-head">
+          <div>
+            <p className="cp-eyebrow">{t('class')}</p>
+            <h2>{t('class_pick_title')}</h2>
+            <p>{t('class_pick_intro')}</p>
+          </div>
         </div>
-      </div>
+      )}
       <ClassGrid />
       <div className="cp-options">
         <div className="cp-option">
