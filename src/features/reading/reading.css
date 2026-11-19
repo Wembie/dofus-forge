@@ -540,14 +540,14 @@ kbd {
   gap: 6px;
   margin-bottom: 30px;
 }
-.rd-class-switch button {
+.rd-class-switch a {
   width: 44px;
   height: 44px;
   min-height: 44px;
   padding: 2px;
   border-radius: 50%;
 }
-.rd-class-switch button[aria-current="page"] {
+.rd-class-switch a[aria-current="page"] {
   border: 2px solid var(--accent);
 }
 .rd-class-switch img {
@@ -570,13 +570,13 @@ kbd {
   border-radius: 6px;
   background: var(--surface);
 }
-.rd-element-panel > header {
+.rd-element-panel > .rd-element-head {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
 }
-.rd-element-panel > header img {
+.rd-element-panel > .rd-element-head img {
   width: 20px;
   height: 20px;
 }
@@ -613,7 +613,7 @@ kbd {
   gap: 2px;
   margin: 0;
 }
-.rd-element-panel dd button {
+.rd-element-panel dd a {
   display: grid;
   grid-template-columns: 22px minmax(0, 1fr) auto;
   justify-items: start;
@@ -655,7 +655,7 @@ kbd {
   margin: 0 0 12px;
   padding: 0;
 }
-.rd-builds button {
+.rd-builds a {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -673,7 +673,7 @@ kbd {
   object-fit: cover;
   background: var(--stage);
 }
-.rd-builds button > span {
+.rd-builds a > span {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -710,13 +710,13 @@ kbd {
   border-radius: 6px;
   background: var(--surface);
 }
-.rd-spells header {
+.rd-spells .rd-spell-head {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 8px;
 }
-.rd-spells header img {
+.rd-spells .rd-spell-head img {
   width: 44px;
   height: 44px;
   border-radius: 6px;

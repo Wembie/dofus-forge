@@ -30,7 +30,9 @@ function useActive(ids: string[]) {
 export type TocEntry = { id: string; label: string; Icon?: LucideIcon }
 
 /** The reading layout: title block, contents beside the text on wide screens, folded on narrow ones. */
-export function Reading({ kicker, title, intro, toc, tocLabel, hero, children, className = '' }: {
+export function Reading({ kicker, title, intro, toc, tocLabel, hero, before, children, className = '' }: {
+  /** Above the title, e.g. breadcrumbs. */
+  before?: ReactNode
   kicker: string
   title: ReactNode
   intro?: ReactNode
@@ -60,6 +62,7 @@ export function Reading({ kicker, title, intro, toc, tocLabel, hero, children, c
       <SiteHeader />
       <main id="main-content" className="rd-page flex-1">
         <div className={`rd-study ${className}`}>
+          {before}
           <div className="rd-head">
             <div>
               <p className="account-eyebrow">{kicker}</p>
