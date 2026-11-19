@@ -3117,5 +3117,10 @@
   "account_session_intro": "Saia da conta neste navegador. O rascunho da oficina permanece neste dispositivo.",
   "account_signout_title": "Sair desta sessão?",
   "account_leave_body": "Continue editando ou saia e descarte as alterações. Sua build é mantida.",
-  "account_partial": "Seu nome de usuário mudou. O restante do perfil não foi salvo; as alterações continuam aqui."
+  "account_partial": "Seu nome de usuário mudou. O restante do perfil não foi salvo; as alterações continuam aqui.",
+  "changelog_game_data": "Dados do jogo",
+  "changelog_versions_one": "{{count}} versão publicada",
+  "changelog_versions_other": "{{count}} versões publicadas",
+  "changelog_current": "Atual",
+  "changelog_older": "Ver versões anteriores"
 }

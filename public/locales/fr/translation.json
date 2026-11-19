@@ -3117,5 +3117,10 @@
   "account_session_intro": "Déconnectez votre compte de ce navigateur. Le brouillon de l’atelier reste sur cet appareil.",
   "account_signout_title": "Fermer cette session ?",
   "account_leave_body": "Continuez à modifier ou quittez sans enregistrer. Votre build est conservé.",
-  "account_partial": "Votre pseudo a changé. Le reste du profil n’a pas été enregistré ; vos modifications sont conservées."
+  "account_partial": "Votre pseudo a changé. Le reste du profil n’a pas été enregistré ; vos modifications sont conservées.",
+  "changelog_game_data": "Données du jeu",
+  "changelog_versions_one": "{{count}} version publiée",
+  "changelog_versions_other": "{{count}} versions publiées",
+  "changelog_current": "Actuelle",
+  "changelog_older": "Voir les versions précédentes"
 }

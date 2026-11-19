@@ -3117,5 +3117,10 @@
   "account_session_intro": "Cierra el acceso a tu cuenta en este navegador. El borrador del taller permanece en este dispositivo.",
   "account_signout_title": "¿Cerrar esta sesión?",
   "account_leave_body": "Puedes seguir editando o salir y descartar estos cambios. Tu build no se modifica.",
-  "account_partial": "Tu usuario ya cambió. No pudimos guardar el resto del perfil; los cambios pendientes siguen aquí."
+  "account_partial": "Tu usuario ya cambió. No pudimos guardar el resto del perfil; los cambios pendientes siguen aquí.",
+  "changelog_game_data": "Datos del juego",
+  "changelog_versions_one": "{{count}} versión publicada",
+  "changelog_versions_other": "{{count}} versiones publicadas",
+  "changelog_current": "Actual",
+  "changelog_older": "Ver versiones anteriores"
 }

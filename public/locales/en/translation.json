@@ -3117,5 +3117,10 @@
   "account_session_intro": "Sign out of your account in this browser. Your workshop draft stays on this device.",
   "account_signout_title": "Sign out of this session?",
   "account_leave_body": "Keep editing or leave and discard these changes. Your build stays as it is.",
-  "account_partial": "Your username changed. The rest of your profile could not be saved; pending edits are still here."
+  "account_partial": "Your username changed. The rest of your profile could not be saved; pending edits are still here.",
+  "changelog_game_data": "Game data",
+  "changelog_versions_one": "{{count}} version released",
+  "changelog_versions_other": "{{count}} versions released",
+  "changelog_current": "Current",
+  "changelog_older": "See earlier versions"
 }
