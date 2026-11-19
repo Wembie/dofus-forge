@@ -91,67 +91,26 @@ export function ForgeScene({ heat, burst, tempering }: { heat: number; burst: nu
 
   return (
     <div className="relative w-[240px] h-[140px] select-none" aria-hidden="true">
-      {/* Furnace mouth glow, behind the anvil */}
-      <div
-        className="forge-ember absolute left-1/2 bottom-3 -translate-x-1/2 w-[200px] h-[90px] rounded-full"
-        style={{
-          '--heat': glow,
-          background: `radial-gradient(ellipse at center, color-mix(in srgb, var(--fire) ${Math.round(glow * 55)}%, transparent) 0%, color-mix(in srgb, var(--gold) ${Math.round(glow * 25)}%, transparent) 40%, transparent 72%)`,
-          filter: 'blur(14px)',
-        } as CSSProperties}
-      />
-      <div
-        className="forge-ember absolute left-1/2 bottom-1 -translate-x-1/2 w-[180px] h-[40px] rounded-full"
-        style={{
-          '--heat': glow,
-          background: `radial-gradient(ellipse at center, color-mix(in srgb, var(--fire) ${Math.round(glow * 85)}%, transparent) 0%, color-mix(in srgb, var(--gold) ${Math.round(glow * 40)}%, transparent) 45%, transparent 75%)`,
-          filter: 'blur(6px)',
-        } as CSSProperties}
-      />
       <svg viewBox="0 0 240 150" className="absolute inset-0 w-full h-full">
-        <defs>
-          <linearGradient id="forge-anvil" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="color-mix(in srgb, var(--ink-muted) 85%, white)" />
-            <stop offset="18%" stopColor="color-mix(in srgb, var(--ink-muted) 70%, var(--surface-stone))" />
-            <stop offset="100%" stopColor="var(--surface-void)" />
-          </linearGradient>
-          <linearGradient id="forge-hot" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--gold-bright)" />
-            <stop offset="100%" stopColor="var(--fire)" />
-          </linearGradient>
-          <linearGradient id="forge-steel" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="color-mix(in srgb, var(--ink-muted) 60%, white)" />
-            <stop offset="45%" stopColor="color-mix(in srgb, var(--ink-muted) 80%, var(--surface-stone))" />
-            <stop offset="100%" stopColor="var(--surface-void)" />
-          </linearGradient>
-          <radialGradient id="forge-flash" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="color-mix(in srgb, white 85%, var(--gold-bright))" stopOpacity="0.95" />
-            <stop offset="55%" stopColor="var(--gold-bright)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="var(--gold-bright)" stopOpacity="0" />
-          </radialGradient>
-        </defs>
 
         {/* Ground shadow */}
         <ellipse cx="124" cy="123" rx="78" ry="7" fill="black" opacity="0.35" />
 
         {/* Anvil, with a highlight along its top edge */}
         <g className={swinging ? 'forge-anvil-hit' : ''}>
-          <path d="M60 78 H182 Q198 78 204 68 L208 78 Q202 92 180 94 H162 L156 108 H172 V120 H70 V108 H86 L80 94 H68 Q56 92 60 78 Z" fill="url(#forge-anvil)" stroke="var(--metal-edge-strong)" strokeWidth="1.2" />
+          <path d="M60 78 H182 Q198 78 204 68 L208 78 Q202 92 180 94 H162 L156 108 H172 V120 H70 V108 H86 L80 94 H68 Q56 92 60 78 Z" fill="var(--stage)" stroke="var(--metal-edge-strong)" strokeWidth="1.2" />
           <path d="M64 80 H178 Q190 80 196 72" fill="none" stroke="color-mix(in srgb, white 35%, transparent)" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
         </g>
 
-        {/* Impact flash, timed to the hammer landing */}
-        <circle cx="113" cy="70" r="26" fill="url(#forge-flash)" className={swinging ? 'forge-impact-flash' : ''} style={{ opacity: 0 }} />
-
         {/* Glowing piece on the anvil */}
-        <rect x="104" y="71" width="34" height="7" rx="2" fill="url(#forge-hot)" opacity={0.45 + glow * 0.55}>
+        <rect x="104" y="71" width="34" height="7" rx="2" fill="var(--fire)" opacity={0.45 + glow * 0.55}>
           <animate attributeName="opacity" values={`${0.45 + glow * 0.4};${0.7 + glow * 0.3};${0.45 + glow * 0.4}`} dur="1.1s" repeatCount="indefinite" />
         </rect>
 
         {/* Hammer */}
-        <g className={swinging ? 'forge-hammer' : ''} style={{ transformBox: 'view-box', transformOrigin: '176px 66px', filter: 'drop-shadow(0 2px 3px rgba(0, 0, 0, .5))' } as CSSProperties}>
+        <g className={swinging ? 'forge-hammer' : ''} style={{ transformBox: 'view-box', transformOrigin: '176px 66px' } as CSSProperties}>
           <rect x="118" y="58" width="60" height="6" rx="3" fill="color-mix(in srgb, var(--gold-deep) 80%, var(--surface-stone))" />
-          <rect x="105" y="45" width="22" height="28" rx="3" fill="url(#forge-steel)" stroke="var(--metal-edge-strong)" strokeWidth="1" />
+          <rect x="105" y="45" width="22" height="28" rx="3" fill="var(--muted)" stroke="var(--metal-edge-strong)" strokeWidth="1" />
           <rect x="107" y="47" width="6" height="22" rx="2" fill="color-mix(in srgb, white 45%, transparent)" opacity="0.5" />
         </g>
       </svg>
@@ -193,14 +152,14 @@ export function HeatGauge({ heat, label, eternal }: { heat: number; label: strin
       </div>
       <div
         className="h-2.5 rounded-full overflow-hidden"
-        style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,.5)' }}
+        style={{ background: 'var(--canvas)', border: '1px solid var(--line)' }}
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={t('optimizer_heat')}
       >
-        <div className="forge-heat-fill h-full rounded-full transition-[width] duration-700 ease-out" style={{ width: `${pct}%`, boxShadow: `0 0 ${Math.round(pct / 8)}px var(--fire)` }} />
+        <div className="forge-heat-fill h-full rounded-full transition-[width] duration-700 ease-out" style={{ width: `${pct}%` }} />
       </div>
       <span className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{eternal ? t('optimizer_heat_eternal_hint') : t('optimizer_heat_hint')}</span>
     </div>

@@ -81,7 +81,7 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
   return createPortal(
     <div
       className="fixed inset-0 z-[60] flex items-start justify-center pt-[12vh] px-4"
-      style={{ background: 'rgba(10,13,19,.75)', backdropFilter: 'blur(3px)' }}
+      style={{ background: 'rgb(10 13 19 / 0.7)' }}
       onClick={e => { if (e.target === e.currentTarget) setOpen(false) }}
     >
       <div
@@ -90,7 +90,7 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
         aria-modal="true"
         aria-label={t('command_palette_title')}
         className="w-full max-w-lg rounded-frame overflow-hidden flex flex-col"
-        style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge-strong)', boxShadow: 'var(--shadow-frame), var(--inset-bevel)' }}
+        style={{ background: 'var(--surface)', border: '1px solid var(--line)', boxShadow: '0 12px 40px rgb(0 0 0 / 0.3)' }}
         onKeyDown={onKeyDown}
       >
         <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
@@ -117,14 +117,14 @@ export function CommandPalette({ commands }: { commands: Command[] }) {
               disabled={cmd.disabled}
               onClick={() => run(cmd)}
               onMouseEnter={() => setActive(i)}
-              className="w-full flex items-center gap-2.5 px-4 py-2 text-left text-[13px] font-medium transition-colors disabled:opacity-30"
+              className="w-full flex items-center gap-2.5 px-4 py-2 text-left text-[14px] transition-colors disabled:opacity-30"
               style={i === active
-                ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', color: 'var(--gold)' }
-                : { color: 'var(--ink-muted)' }}
+                ? { background: 'var(--hover)', color: 'var(--text)' }
+                : { color: 'var(--muted)' }}
             >
               <cmd.Icon size={14} />
               <span className="flex-1">{cmd.label}</span>
-              {i === active && <CornerDownLeft size={12} style={{ color: 'var(--gold)' }} />}
+              {i === active && <CornerDownLeft size={12} style={{ color: 'var(--muted)' }} />}
             </button>
           ))}
         </div>
