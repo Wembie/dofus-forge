@@ -275,3 +275,11 @@
 .combat-damage tr.is-rolled > td.is-none {
   color: var(--text);
 }
+
+/* The Poutch Ingball, the training target, drawn from the game's bones. */
+.combat-poutch {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 10px;
+  padding: 6px 0 0;
+}

@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Dices } from "lucide-react";
+import { CreatureStage, type CreatureStageHandle } from "@/components/CreatureStage.tsx";
+import { useCharacterStage } from "@/components/useCharacterStage.ts";
 import { useBuildStore } from "@/store/buildStore.ts";
 import { useDataStore } from "@/store/dataStore.ts";
 import { usePvpStore, type PvpElement } from "@/store/pvpStore.ts";
@@ -43,7 +45,12 @@ const critChance = (base: number, bonus: number) =>
 const span = (lo: number, hi: number) => (hi > lo ? `${lo} – ${hi}` : String(lo));
 
 /** Every attack of the build against one target: the normal and critical range, side by side. */
+// The Poutch Ingball's bone in the character assets (creatures.json).
+const POUTCH_BONE = "431";
+
 export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
+  const poutch = useRef<CreatureStageHandle>(null),
+    stage = useCharacterStage();
   const { t } = useTranslation(),
     b = useBuildStore(),
     stats = useCombatStats(),
@@ -117,6 +124,7 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
         row.hit.hasCrit && row.crit > 0 && Math.random() * 100 < row.crit,
       lo = crit ? row.hit.critMin : row.hit.min,
       hi = crit ? row.hit.critMax : row.hit.max;
+    poutch.current?.hit();
     setLast({
       key: row.key,
       name: row.name,
@@ -138,6 +146,11 @@ export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
               {t("pvp_dummy_reset")}
             </button>
           </header>
+          {stage.show && (
+            <div className="combat-poutch">
+              <CreatureStage ref={poutch} bone={POUTCH_BONE} width={160} height={170} onError={stage.fail} />
+            </div>
+          )}
           <div className="combat-resist" role="group" aria-label={t("section_resistances")}>
             <span>{t("sim_resistance")}</span>
             <span>{t("sim_fixed")}</span>
