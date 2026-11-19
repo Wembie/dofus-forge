@@ -10,8 +10,10 @@ on:
     # expensive build/test/security jobs don't rerun for a title-only edit.
     types: [opened, synchronize, reopened, edited]
 
+# A title/body edit gets its own group: it only re-checks the metadata, so
+# it must never cancel a full build/test/security run still in progress.
 concurrency:
-  group: pr-checks-${{ github.event.pull_request.number }}
+  group: pr-checks-${{ github.event.pull_request.number }}-${{ github.event.action == 'edited' && 'metadata' || 'full' }}
   cancel-in-progress: true
 
 permissions:
