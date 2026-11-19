@@ -2,12 +2,13 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNo
 import { Link, Navigate, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import {
-  Archive, ArrowUpRight, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert, Clock3, Infinity as InfinityIcon,
-  Crown, Eye, EyeOff, History, LockKeyhole, Palette, Plus, Search, ShieldCheck, Sparkles,
+  Archive, ArrowUpRight, Award, CalendarClock, Check, ChevronDown, CircleAlert, Clock3, Infinity as InfinityIcon,
+  Eye, EyeOff, History, LockKeyhole, Palette, Plus, Search, ShieldCheck, Sparkles,
   UserPlus, Users, X,
 } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
+import '@/features/admin/admin.css'
 import { Button, Frame, Modal, SectionHeader } from '@/ui'
 import { getSupabase } from '@/lib/supabase.ts'
 import { isSafeImageUrl, useAuthStore } from '@/store/authStore.ts'
@@ -364,36 +365,24 @@ export function AdminRanksPage() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
-      <main id="main-content" className="flex-1 max-w-6xl w-full mx-auto px-4 py-8 sm:py-10 space-y-6">
-        <nav aria-label={t('admin_hub_breadcrumb')} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-          <Link to={adminPath} className="hover:text-gold transition-colors inline-flex items-center gap-1.5">
-            <ShieldCheck size={12} /> {t('admin_nav')}
-          </Link>
-          <ChevronRight size={13} aria-hidden="true" />
-          <span aria-current="page" style={{ color: 'var(--gold)' }}>{t('admin_ranks_title')}</span>
+      <main id="main-content" className="admin-page flex-1">
+        <div className="admin-study">
+        <nav aria-label={t('admin_hub_breadcrumb')} className="admin-crumbs">
+          <Link to={adminPath}>{t('admin_nav')}</Link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{t('admin_ranks_title')}</span>
         </nav>
-        <div className="relative overflow-hidden rounded-xl p-5 sm:p-7" style={{
-          background: 'radial-gradient(ellipse at 88% 10%, color-mix(in srgb, var(--gold) 15%, transparent), transparent 36%), linear-gradient(135deg, var(--surface-panel), var(--surface-void))',
-          border: '1px solid var(--metal-edge)', borderTop: '2px solid color-mix(in srgb, var(--gold) 65%, transparent)',
-          boxShadow: 'var(--shadow-frame), var(--inset-bevel)',
-        }}>
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
-            <div className="max-w-2xl">
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--gold)' }}>
-                <ShieldCheck size={14} /> {t('admin_ranks_eyebrow')}
-              </div>
-              <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-wide" style={{ color: 'var(--ink)' }}>{t('admin_ranks_title')}</h1>
-              <p className="mt-2 text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_subtitle')}</p>
-            </div>
-            {isAdmin && (
-              <Button variant="primary" size="md" onClick={() => openRankModal()}>
-                <Plus size={14} /> {t('admin_ranks_new')}
-              </Button>
-            )}
+        <div className="admin-heading">
+          <div>
+            <p className="admin-eyebrow"><ShieldCheck size={12} aria-hidden="true" />{t('admin_ranks_eyebrow')}</p>
+            <h1>{t('admin_ranks_title')}</h1>
+            <p>{t('admin_ranks_subtitle')}</p>
           </div>
-          <div aria-hidden="true" className="absolute -right-7 -bottom-14 opacity-[0.055] rotate-12 pointer-events-none">
-            <Crown size={220} strokeWidth={0.8} />
-          </div>
+          {isAdmin && (
+            <Button variant="primary" size="md" onClick={() => openRankModal()}>
+              <Plus size={14} /> {t('admin_ranks_new')}
+            </Button>
+          )}
         </div>
 
         {notice && (
@@ -563,6 +552,7 @@ export function AdminRanksPage() {
             )}
           </>
         )}
+        </div>
       </main>
       <SiteFooter />
 

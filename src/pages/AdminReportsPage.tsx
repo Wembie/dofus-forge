@@ -4,7 +4,9 @@ import { Navigate, Link, useLocation } from 'react-router'
 import { Flag, EyeOff, Trash2, Check, X, MessageSquare, Layers, RotateCcw } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { Button, Frame, Tabs } from '@/ui'
+import { Modal } from '@/ui'
+import '@/features/admin/admin.css'
+import '@/features/moderation/report.css'
 import { useAuthStore } from '@/store/authStore.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
@@ -34,6 +36,7 @@ export function AdminReportsPage() {
   const [commentsMissing, setCommentsMissing] = useState(false)
   const [busy, setBusy]       = useState<string | null>(null)
   const [error, setError]     = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState<ReportRow | null>(null)
 
   // Switching tabs quickly must not let a slower, older response fill the
   // current tab (its buttons would then act on the wrong reports).
@@ -57,7 +60,6 @@ export function AdminReportsPage() {
 
   async function act(report: ReportRow, action: 'hide' | 'delete' | 'dismiss' | 'reviewed') {
     if (!session) return
-    if (action === 'delete' && !window.confirm(t('admin_reports_delete_confirm'))) return
     setBusy(report.id)
     setError(false)
     let failed = false
@@ -92,97 +94,109 @@ export function AdminReportsPage() {
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
-      <main id="main-content" className="px-4 sm:px-6 py-6 max-w-5xl mx-auto space-y-4">
-        <h1 className="flex items-center gap-2 font-display font-bold tracking-[0.15em] uppercase text-xs" style={{ color: 'var(--gold)' }}>
-          <Flag size={14} /> {t('admin_reports_title')}
-        </h1>
+      <main id="main-content" className="admin-page">
+        <div className="admin-study">
+          <nav aria-label={t('admin_hub_breadcrumb')} className="admin-crumbs">
+            <Link to={`/${prefix}admin`}>{t('admin_nav')}</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{t('admin_reports_title')}</span>
+          </nav>
+          <div className="admin-heading">
+            <div>
+              <p className="admin-eyebrow"><Flag size={12} aria-hidden="true" />{t('admin_hub_private')}</p>
+              <h1>{t('admin_reports_title')}</h1>
+              <p>{t('admin_hub_reports_description')}</p>
+            </div>
+          </div>
 
-        <Tabs
-          items={STATUS_TABS.map(({ id, Icon }) => ({ id, Icon, label: t(`admin_reports_status_${id}`) }))}
-          active={status}
-          onChange={id => setStatus(id as ReportStatus)}
-          variant="segment"
-        />
+          <nav className="admin-tabs" aria-label={t('admin_reports_title')}>
+            {STATUS_TABS.map(({ id, Icon }) => (
+              <button key={id} type="button" aria-current={status === id ? 'page' : undefined} onClick={() => setStatus(id)}>
+                <Icon size={14} aria-hidden="true" />
+                {t(`admin_reports_status_${id}`)}
+              </button>
+            ))}
+          </nav>
 
-        {commentsMissing && (
-          <p className="text-[11px] rounded-md px-2.5 py-1.5" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 25%, transparent)' }}>
-            {t('admin_reports_comments_missing')}
-          </p>
-        )}
-        {error && <p className="text-[11px]" style={{ color: 'var(--negative)' }}>{t('admin_reports_error')}</p>}
+          {commentsMissing && <p className="admin-alert">{t('admin_reports_comments_missing')}</p>}
+          {error && <p className="admin-alert is-error" role="alert">{t('admin_reports_error')}</p>}
 
-        {reports == null ? (
-          <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>
-        ) : reports.length === 0 ? (
-          <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('admin_reports_empty')}</p>
-        ) : (
-          <ul className="space-y-2">
-            {reports.map(r => {
-              const buildId = r.kind === 'build' ? r.build?.id : r.comment?.build_id
-              return (
-                <li key={`${r.kind}:${r.id}`}>
-                  <Frame padding="md" className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-                      {r.kind === 'build' ? <Layers size={12} /> : <MessageSquare size={12} />}
-                      <span className="font-semibold" style={{ color: 'var(--gold)' }}>{t(`report_reason_${r.reason}`)}</span>
-                      <span>·</span>
+          {reports == null ? (
+            <p className="admin-state" role="status">{t('auth_loading')}</p>
+          ) : reports.length === 0 ? (
+            <p className="admin-state">{t('admin_reports_empty')}</p>
+          ) : (
+            <ul className="admin-reports">
+              {reports.map(r => {
+                const buildId = r.kind === 'build' ? r.build?.id : r.comment?.build_id
+                return (
+                  <li key={`${r.kind}:${r.id}`} className="admin-report">
+                    <p className="admin-report-meta">
+                      {r.kind === 'build' ? <Layers size={13} aria-hidden="true" /> : <MessageSquare size={13} aria-hidden="true" />}
+                      <b>{t(`report_reason_${r.reason}`)}</b>
+                      <span aria-hidden="true">·</span>
                       <span>{t('admin_reports_by', { user: r.reporter?.username ?? '?' })}</span>
-                      <span>·</span>
-                      <span>{new Date(r.created_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</span>
-                    </div>
+                      <span aria-hidden="true">·</span>
+                      <time dateTime={r.created_at}>{new Date(r.created_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time>
+                    </p>
                     {r.kind === 'build' ? (
                       r.build
-                        ? <p className="text-sm font-semibold" style={{ color: 'var(--ink)' }}>{r.build.name} <span className="text-[10px] font-normal" style={{ color: 'var(--ink-faint)' }}>({t(`publish_visibility_${r.build.visibility}`)})</span></p>
-                        : <p className="text-xs italic" style={{ color: 'var(--ink-faint)' }}>{t('admin_reports_target_gone')}</p>
+                        ? <p className="admin-report-target">{r.build.name} <small>({t(`publish_visibility_${r.build.visibility}`)})</small></p>
+                        : <p className="admin-report-detail"><em>{t('admin_reports_target_gone')}</em></p>
                     ) : (
                       r.comment
-                        ? <p className="text-xs break-words" style={{ color: r.comment.deleted_at ? 'var(--ink-faint)' : 'var(--ink-muted)', textDecoration: r.comment.deleted_at ? 'line-through' : 'none' }}>“{r.comment.content}”</p>
-                        : <p className="text-xs italic" style={{ color: 'var(--ink-faint)' }}>{t('admin_reports_target_gone')}</p>
+                        ? <p className={'admin-report-quote' + (r.comment.deleted_at ? ' is-deleted' : '')}>“{r.comment.content}”</p>
+                        : <p className="admin-report-detail"><em>{t('admin_reports_target_gone')}</em></p>
                     )}
-                    {r.detail && <p className="text-[11px]" style={{ color: 'var(--ink-faint)' }}>{r.detail}</p>}
-                    <div className="flex flex-wrap gap-1.5">
+                    {r.detail && <p className="admin-report-detail">{r.detail}</p>}
+                    <div className="admin-report-actions">
                       {buildId && (
-                        <Link to={`/${prefix}build/${buildId}`} target="_blank" className="text-[11px] px-2 py-1 rounded-md hover:text-gold" style={{ color: 'var(--ink-muted)', border: '1px solid var(--metal-edge)' }}>
-                          {t('admin_reports_open')}
-                        </Link>
+                        <Link to={`/${prefix}build/${buildId}`} target="_blank">{t('admin_reports_open')}</Link>
                       )}
                       {status === 'pending' && (
                         <>
-                          <Button variant="secondary" size="sm" disabled={busy != null} onClick={() => act(r, 'hide')}>
-                            <EyeOff size={12} /> {t(r.kind === 'build' ? 'admin_reports_hide_build' : 'admin_reports_hide_comment')}
-                          </Button>
+                          <button type="button" disabled={busy != null} onClick={() => act(r, 'hide')}>
+                            <EyeOff size={14} aria-hidden="true" />{t(r.kind === 'build' ? 'admin_reports_hide_build' : 'admin_reports_hide_comment')}
+                          </button>
                           {r.kind === 'build' && (
-                            <Button variant="secondary" size="sm" disabled={busy != null} onClick={() => act(r, 'delete')}>
-                              <Trash2 size={12} /> {t('admin_reports_delete_build')}
-                            </Button>
+                            <button type="button" disabled={busy != null} onClick={() => setConfirmDelete(r)}>
+                              <Trash2 size={14} aria-hidden="true" />{t('admin_reports_delete_build')}
+                            </button>
                           )}
-                          <Button variant="secondary" size="sm" disabled={busy != null} onClick={() => act(r, 'reviewed')}>
-                            <Check size={12} /> {t('admin_reports_mark_reviewed')}
-                          </Button>
-                          <Button variant="secondary" size="sm" disabled={busy != null} onClick={() => act(r, 'dismiss')}>
-                            <X size={12} /> {t('admin_reports_dismiss')}
-                          </Button>
+                          <button type="button" disabled={busy != null} onClick={() => act(r, 'reviewed')}>
+                            <Check size={14} aria-hidden="true" />{t('admin_reports_mark_reviewed')}
+                          </button>
+                          <button type="button" disabled={busy != null} onClick={() => act(r, 'dismiss')}>
+                            <X size={14} aria-hidden="true" />{t('admin_reports_dismiss')}
+                          </button>
                         </>
                       )}
                       {status !== 'pending' && isRestorable(r) && (
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          disabled={busy != null}
-                          onClick={() => restore(r)}
-                          title={r.kind === 'build' ? t('admin_reports_restore_hint') : undefined}
-                        >
-                          <RotateCcw size={12} /> {t(r.kind === 'build' ? 'admin_reports_restore_build' : 'admin_reports_restore_comment')}
-                        </Button>
+                        <button type="button" disabled={busy != null} onClick={() => restore(r)} title={r.kind === 'build' ? t('admin_reports_restore_hint') : undefined}>
+                          <RotateCcw size={14} aria-hidden="true" />{t(r.kind === 'build' ? 'admin_reports_restore_build' : 'admin_reports_restore_comment')}
+                        </button>
                       )}
                     </div>
-                  </Frame>
-                </li>
-              )
-            })}
-          </ul>
-        )}
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
       </main>
+      {confirmDelete && (
+        <Modal open onClose={() => setConfirmDelete(null)} title={t('admin_reports_delete_build')} size="sm">
+          <div className="report-form">
+            <p className="report-muted">{t('admin_reports_delete_confirm')}</p>
+            <div className="report-actions">
+              <button type="button" onClick={() => setConfirmDelete(null)}>{t('report_cancel')}</button>
+              <button type="button" className="site-primary" onClick={() => { const r = confirmDelete; setConfirmDelete(null); void act(r, 'delete') }}>
+                {t('admin_reports_delete_build')}
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
       <SiteFooter />
     </div>
   )
