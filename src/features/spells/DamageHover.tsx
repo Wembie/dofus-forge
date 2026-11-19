@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next'
 import type { StatBlock } from '@/engine/types.ts'
 import { damageBreakdown, type DamageMods, type ElemKey } from './spellDamage.ts'
 import { fmtRange } from './spellCalc.ts'
+import './damage-hover.css'
 
 const CHAR_KEY: Record<ElemKey, string> = {
   neutral: 'char_strength', earth: 'char_strength', fire: 'char_intelligence', water: 'char_chance', air: 'char_agility',
 }
 
-const WIDTH = 270
+const WIDTH = 300
 
 type Props = {
   /** Roll range before any bonus (a weapon crit roll already includes its crit bonus). */
@@ -98,35 +99,27 @@ function BreakdownCard({ anchor, roll, elem, stats, mods, extraFlat, kind, crit 
     <div
       ref={ref}
       role="tooltip"
-      className="fixed z-[200] pointer-events-none rounded-md border p-2 text-[11px]"
+      className="dmg-breakdown"
       style={{
         left, width: WIDTH,
         top:         top ?? anchor.bottom + 6,
         visibility:  top === null ? 'hidden' : 'visible',
-        background:  'var(--surface-parchment)',
-        borderColor: 'var(--metal-edge)',
-        color:       'var(--ink)',
-        boxShadow:   'var(--shadow-frame), var(--inset-bevel)',
       }}
     >
-      <div className="text-[9px] uppercase tracking-widest font-semibold mb-1.5" style={{ color: crit ? 'var(--crit)' : 'var(--ink-faint)' }}>
-        {t(crit ? 'dmg_bd_crit_title' : 'dmg_bd_title')}
-      </div>
-      <div className="grid gap-x-2 gap-y-0.5 items-baseline" style={{ gridTemplateColumns: '1fr auto auto' }}>
+      <p className={'dmg-breakdown-title' + (crit ? ' is-crit' : '')}>{t(crit ? 'dmg_bd_crit_title' : 'dmg_bd_title')} · {t(`elem_${elem}`)}</p>
+      <div className="dmg-breakdown-rows">
         {rows.map(r => (
           <div key={r.label} className="contents">
-            <span className="truncate" style={{ color: 'var(--ink-muted)' }}>{r.label}</span>
-            <span className="font-mono tabular-nums text-right" style={{ color: 'var(--gold-muted)' }}>{r.factor}</span>
-            <span className="font-mono tabular-nums text-right">{r.value}</span>
+            <span className="dmg-breakdown-label">{r.label}</span>
+            <span className="dmg-breakdown-factor">{r.factor}</span>
+            <span className="dmg-breakdown-value">{r.value}</span>
           </div>
         ))}
-        <span className="font-bold pt-1 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }}>{t('dmg_bd_total')}</span>
-        <span className="pt-1 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)' }} />
-        <span className="font-mono tabular-nums font-bold text-right pt-1 mt-0.5" style={{ borderTop: '1px solid var(--metal-edge)', color: crit ? 'var(--crit)' : 'var(--ink)' }}>
-          {fmtRange(lo.total, hi.total)}
-        </span>
+        <i className="dmg-breakdown-rule" aria-hidden="true" />
+        <span className="dmg-breakdown-total">{t('dmg_bd_total')}</span>
+        <span className={'dmg-breakdown-value is-total' + (crit ? ' is-crit' : '')}>{fmtRange(lo.total, hi.total)}</span>
       </div>
-      <div className="mt-1.5 text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('dmg_bd_note')}</div>
+      <p className="dmg-breakdown-note">{t('dmg_bd_note')}</p>
     </div>
   )
 }
