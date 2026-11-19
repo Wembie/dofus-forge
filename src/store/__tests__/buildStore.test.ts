@@ -144,6 +144,17 @@ describe('applyForgeResult', () => {
     store().applyForgeResult(result, new Set(['hat']))
     expect(store().runes.hat).toEqual({ Vitality: 50 })
   })
+
+  it('moves a Prysmaradite the Forger put elsewhere into the first Dofus slot', () => {
+    store().applyForgeResult({ ...result, equipped: { dofus1: DOFUS.ankama_id, dofus3: PRYSMA_A.ankama_id } }, new Set())
+    expect(store().equipped.dofus1).toBe(PRYSMA_A.ankama_id)
+    expect(store().equipped.dofus3).toBe(DOFUS.ankama_id)
+  })
+
+  it('leaves it where it is when the first Dofus slot is locked', () => {
+    store().applyForgeResult({ ...result, equipped: { dofus1: DOFUS.ankama_id, dofus3: PRYSMA_A.ankama_id } }, new Set(['dofus1']))
+    expect(store().equipped.dofus1).toBe(DOFUS.ankama_id)
+  })
 })
 
 describe('combat passives', () => {

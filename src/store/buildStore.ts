@@ -194,6 +194,20 @@ function releaseConflicts(eq: Partial<Record<SlotId, number>>, slot: SlotId, id:
   }
 }
 
+/**
+ * Moves a Prysmaradite that landed in another Dofus slot (a Forger result,
+ * several items at once) into the first one, trading places with what was
+ * there, unless the first slot is kept as is. Mutates `eq`.
+ */
+function prysmaFirst(eq: Partial<Record<SlotId, number>>, equipment: AppItem[], locked?: ReadonlySet<SlotId>) {
+  if (locked?.has(PRYSMA_SLOT)) return
+  const at = DOFUS_SLOTS.find(ds => ds !== PRYSMA_SLOT && isPrysmaId(eq[ds], equipment))
+  if (!at || (locked?.has(at))) return
+  const first = eq[PRYSMA_SLOT]
+  eq[PRYSMA_SLOT] = eq[at]
+  if (first != null) eq[at] = first; else delete eq[at]
+}
+
 export const useBuildStore = create<BuildState>((set) => {
   function update(patch: Partial<BuildState>, state: BuildState): Partial<BuildState> {
     const next = { ...state, ...patch }
@@ -296,7 +310,10 @@ export const useBuildStore = create<BuildState>((set) => {
       const weaponTransforms  = { ...s.weaponTransforms, [slot]: null }
       return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
     }),
-    applyForgeResult: (result, lockedSlots) => set(s => {
+    applyForgeResult: (forged, lockedSlots) => set(s => {
+      const equipped = { ...forged.equipped }
+      prysmaFirst(equipped, s._equipment, lockedSlots)
+      const result = { ...forged, equipped }
       const runes            = { ...s.runes }
       const forjamagoNames   = { ...s.forjamagoNames }
       const weaponTransforms = { ...s.weaponTransforms }
@@ -333,6 +350,7 @@ export const useBuildStore = create<BuildState>((set) => {
         forjamagoNames[slot]   = ''
         weaponTransforms[slot] = null
       }
+      prysmaFirst(eq, s._equipment)
       return update({ equipped: eq, runes, forjamagoNames, weaponTransforms }, s)
     }),
 
