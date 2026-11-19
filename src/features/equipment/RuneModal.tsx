@@ -31,6 +31,7 @@ import {
 } from "@/features/equipment/runeRules.ts";
 import { normalizeSearch } from "@/ui/normalize.ts";
 import { Modal } from "@/ui";
+import { playRune } from "@/lib/sound.ts";
 import "./runes.css";
 
 const ELEMENT_NAMES = {
@@ -113,11 +114,12 @@ export function RuneModal({
     if (n <= 0) return;
     const value = (runes[selected] ?? 0) + n;
     startTransition(() => b.setRune(slot, selected, value));
+    playRune();
   }
   function transcend(stat: string) {
     setFocus(stat);
     const best = bestRank(item, stat);
-    if (best) startTransition(() => b.setExotic(slot, stat, best.value));
+    if (best) { startTransition(() => b.setExotic(slot, stat, best.value)); playRune(true); }
   }
   const q = normalizeSearch(query.trim()),
     sections = RUNE_SECTIONS.map((section) => ({
@@ -302,9 +304,10 @@ export function RuneModal({
                                   limit: o.limit,
                                 })
                           }
-                          onClick={() =>
-                            startTransition(() => b.setExotic(slot, focus, o.value))
-                          }
+                          onClick={() => {
+                            startTransition(() => b.setExotic(slot, focus, o.value));
+                            playRune(true);
+                          }}
                         >
                           <b>+{o.value}</b>
                           <span>{t("rune_rank", { rank: o.rank })}</span>

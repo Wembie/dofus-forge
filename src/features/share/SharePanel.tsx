@@ -8,6 +8,8 @@ import { encodeBuild } from './codec.ts'
 import { ExportCard, downloadSheet, exportFileName } from './ExportCard.tsx'
 import './share.css'
 import { track } from '@/lib/analytics.ts'
+import { playUiClick } from '@/lib/sound.ts'
+import { useDefaultBuildName } from '@/features/builds/defaultName.ts'
 
 /** The build link in the page's language (English has no prefix). */
 function shareUrl(lang: string) {
@@ -33,12 +35,14 @@ export function SharePanel() {
     return Object.fromEntries(Object.entries(b.equipped).map(([slot, id]) => [slot, byId.get(id as number)]))
   }, [b._equipment, b.equipped])
 
+  const defaultName = useDefaultBuildName()
   if (!b.selectedClass || !b.stats) return <p className="share-panel-empty">{t('share_no_class')}</p>
 
   async function copy() {
     try {
       await navigator.clipboard.writeText(url)
       setMessage({ ok: true, text: t('copied') })
+      playUiClick()
       track('share_link')
     } catch {
       setMessage({ ok: false, text: t('share_copy_error') })
@@ -88,7 +92,7 @@ export function SharePanel() {
       {/* Always rendered, so the image can be made with the preview closed. */}
       <div className={preview ? 'share-preview' : 'share-offscreen'} aria-hidden={!preview} inert={!preview}
         role={preview ? 'region' : undefined} aria-label={preview ? t('share_preview_label') : undefined} tabIndex={preview ? 0 : -1}>
-        <ExportCard ref={sheet} name={b.buildName} classLabel={classLabel || b.selectedClass} classSlug={b.selectedClass}
+        <ExportCard ref={sheet} name={b.buildName || defaultName} classLabel={classLabel || b.selectedClass} classSlug={b.selectedClass}
           level={b.level} gender={b.gender} equipped={equipped} stats={b.stats} />
       </div>
     </div>

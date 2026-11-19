@@ -1,7 +1,7 @@
 import { useState, useEffect, useId } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-import { AlertCircle, ArrowRight, GitFork, History, LogIn, Send } from 'lucide-react'
+import { AlertCircle, ArrowRight, GitFork, History, LogIn, Send, Check } from 'lucide-react'
 import { Modal } from '@/ui'
 import { useBuildStore } from '@/store/buildStore.ts'
 import { useAuthStore } from '@/store/authStore.ts'
@@ -17,6 +17,8 @@ import { langPathPrefix } from '@/i18n/langPath.ts'
 import { DOFUS_GAME_VERSION } from '@/data/gameVersion.ts'
 import './publish.css'
 import { track } from '@/lib/analytics.ts'
+import { useDefaultBuildName } from '@/features/builds/defaultName.ts'
+import { playUiClick } from '@/lib/sound.ts'
 
 const NAME_MAX = 60
 const CATEGORIES = ['playstyle', 'element', 'general'] as const
@@ -31,6 +33,7 @@ function Subject({ name }: { name: string }) {
   const equipped = useBuildStore(s => s.equipped)
   const stats = useBuildStore(s => s.stats)
   const classLabel = useClassName(selectedClass)
+  const fallbackName = useDefaultBuildName()
   const info = CLASS_DATA.find(c => c.id === selectedClass)
   if (!info) return null
   const worn = Object.entries(equipped).filter(([slot, id]) => id != null && slot !== 'sidekick').length
@@ -38,7 +41,7 @@ function Subject({ name }: { name: string }) {
     <div className="publish-subject">
       <img src={gender === 'female' ? info.imageFUrl : info.imageUrl} alt="" />
       <span>
-        <b>{name.trim() || t('untitled_build')}</b>
+        <b>{name.trim() || fallbackName || t('untitled_build')}</b>
         <small>{classLabel} · {t('level_short', { level })} · {t('build_worn', { count: Math.min(worn, SLOTS_SHOWN), total: SLOTS_SHOWN })}</small>
       </span>
       {stats && (
@@ -71,6 +74,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
   const tags = useTags()
 
   const [name, setName]             = useState(() => useBuildStore.getState().buildName || '')
+  const defaultName                 = useDefaultBuildName()
   const [visibility, setVisibility] = useState<BuildVisibility>('public')
   const [tagIds, setTagIds]         = useState<number[]>([])
   // Tags as loaded from the published build; null until that prefill lands
@@ -122,7 +126,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
     setError(null)
 
     const payload = {
-      name:        name.trim() || t('untitled_build'),
+      name:        name.trim() || defaultName || t('untitled_build'),
       visibility,
       classSlug:   store.selectedClass,
       gender:      store.gender,
@@ -152,6 +156,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
     }
 
     track('publish_build', { visibility })
+    playUiClick()
     store.setBuildName(payload.name)
     setLinkedBuildId(data.id)
     setForkOf(null)
@@ -197,7 +202,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
             <small id={`${id}-count`}>{name.length} / {NAME_MAX}</small>
           </div>
           <input id={`${id}-name`} type="text" maxLength={NAME_MAX} value={name} disabled={waiting} autoFocus
-            placeholder={t('untitled_build')} aria-describedby={`${id}-count`} onChange={e => setName(e.target.value)} />
+            placeholder={defaultName || t('untitled_build')} aria-describedby={`${id}-count`} onChange={e => setName(e.target.value)} />
         </div>
         <PrivacyChoices value={visibility} onChange={setVisibility} disabled={waiting} />
         <fieldset className="publish-tags" disabled={waiting}>
@@ -221,6 +226,7 @@ export function PublishModal({ open, onClose }: { open: boolean; onClose: () => 
                       return (
                         <button type="button" key={tag.id} aria-pressed={on} disabled={!on && full}
                           onClick={() => setTagIds(on ? tagIds.filter(x => x !== tag.id) : [...tagIds, tag.id])}>
+                          {on && <Check size={13} strokeWidth={2.6} aria-hidden="true" />}
                           {t(`tag_${tag.name}`)}
                         </button>
                       )

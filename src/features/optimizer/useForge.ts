@@ -11,6 +11,7 @@ import { flattenRunes } from '@/engine/runes.ts'
 import { useForgePicks, planRequired } from './forgePicks.ts'
 import { forgePassiveState, forgePassiveEffects, passiveStateFor } from './forgePassives.ts'
 import { track } from '@/lib/analytics.ts'
+import { playForgeDone } from '@/lib/sound.ts'
 
 // The Forge's search and order, shared by every presentation: phases, the
 // order config and its persistence, the Workers and their reports, heat,
@@ -343,6 +344,7 @@ export function useForge({ open, onClose }: { open: boolean; onClose: () => void
     terminateWorkers()
     setTempering(false)
     setPhase('forged')
+    playForgeDone()
     void finishForgeRun(runRef.current, {
       allMet:  forged[0]?.meetsRequired ?? false,
       seconds: (performance.now() - startRef.current) / 1000,

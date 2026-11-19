@@ -6,7 +6,7 @@ import { useDataStore } from '@/store/dataStore.ts'
 import { useToastStore } from '@/store/toastStore.ts'
 import { useFavorites } from '@/store/useFavorites.ts'
 import { Modal, StatFilter, normalizeSearch, slotToastIcon } from '@/ui'
-import { playEquip } from '@/lib/sound.ts'
+import { playEquip, playDenied } from '@/lib/sound.ts'
 import type { AppItem, AppSet } from '@/data/loaders.ts'
 import type { SlotConfig } from './slotConfig.ts'
 import { matchesSlot, matchesStatFilter, levelCap, changeLevelRange, catalogBlock, isAttackEffect } from './catalogFilters.ts'
@@ -113,7 +113,8 @@ export function ItemCatalog({ slot, slotId, onClose, onAfterEquip }: Props) {
   }
 
   function equip(item: AppItem) {
-    if (catalogBlock(item, slotId, equipped, byId) || equipped[slotId] === item.ankama_id) return
+    if (equipped[slotId] === item.ankama_id) return
+    if (catalogBlock(item, slotId, equipped, byId)) { playDenied(); return }
     playEquip()
     addToast(t('toast_equipped', { slot: slotName, item: item.name }), slotToastIcon(slotId))
     if (onAfterEquip && (continueDofus || !slotId.startsWith('dofus'))) onAfterEquip(slotId)

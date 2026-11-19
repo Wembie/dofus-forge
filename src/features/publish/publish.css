@@ -136,7 +136,7 @@
   padding: 0;
 }
 .publish-tag-group .publish-tag-category {
-  margin: 0 0 8px;
+  margin: 4px 0 8px;
   font: 600 10px "IBM Plex Mono";
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -148,16 +148,28 @@
   gap: 6px;
 }
 .publish-tag-group button {
-  min-height: 36px;
-  padding: 6px 12px;
-  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
   font-size: 13px;
   font-weight: 500;
 }
+.publish-tag-group button:hover:not(:disabled) {
+  border-color: var(--muted);
+}
 .publish-tag-group button[aria-pressed="true"] {
   border-color: var(--accent);
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  color: var(--text);
+}
+.publish-tag-group button[aria-pressed="true"] svg {
+  color: var(--accent);
 }
 .publish-tag-group button:disabled {
   opacity: 0.4;
@@ -197,7 +209,7 @@
   gap: 10px;
   position: sticky;
   bottom: 0;
-  margin: 0 -22px -22px;
+  margin: 14px -22px -22px;
   padding: 14px 22px;
   background: var(--surface);
   border-top: 1px solid var(--line);
@@ -319,4 +331,18 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+.publish-actions > div {
+  display: flex;
+  gap: 10px;
+}
+.publish-actions > div > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 4px;
+  font-weight: 600;
 }

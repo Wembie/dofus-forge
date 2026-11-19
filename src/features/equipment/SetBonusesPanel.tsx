@@ -1,9 +1,9 @@
-import { useMemo, useState, lazy, Suspense } from 'react'
+import { useEffect, useMemo, useRef, useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Eye } from 'lucide-react'
 import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
 import { useToastStore } from '@/store/toastStore.ts'
-import { playEquip } from '@/lib/sound.ts'
+import { playEquip, playSetBonus } from '@/lib/sound.ts'
 import { Modal, slotToastIcon } from '@/ui'
 import { SLOT_CONFIGS } from './slotConfig.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
@@ -224,6 +224,16 @@ export function SetBonusesPanel() {
   const activeSets = useMemo(() => computeActiveSets(equipped, _equipment, _sets), [equipped, _equipment, _sets])
   const byId = useMemo(() => new Map(_equipment.map(it => [it.ankama_id, it])), [_equipment])
   const worn = new Set(Object.values(equipped))
+
+  // A set reaching a new bonus tier gets its own sound (not on first render).
+  const tiersRef = useRef<Map<number, number> | null>(null)
+  useEffect(() => {
+    const now = new Map(activeSets.map(({ set, count }) =>
+      [set.ankama_id, Object.keys(set.bonuses).map(Number).filter(n => n <= count).sort((a, b) => a - b).at(-1) ?? 0]))
+    const before = tiersRef.current
+    tiersRef.current = now
+    if (before && [...now].some(([id, tier]) => tier > (before.get(id) ?? 0))) playSetBonus()
+  }, [activeSets])
   const [pending, setPending] = useState<{ item: AppItem; slot: SlotId; replaces: AppItem } | null>(null)
 
   /** Its first free slot, else the first one it fits — asking before replacing what is there. */
