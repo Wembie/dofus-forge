@@ -19,7 +19,6 @@ import {
   type SpellView,
 } from "@/features/spells/spellView.ts";
 import { runeIconUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
-import { PvpArena } from "@/features/pvp/PvpArena.tsx";
 import "./spells.css";
 
 type Filter = AppSpellElement | "all";
@@ -539,7 +538,7 @@ function pairs(list: AppSpell[]) {
 }
 
 /** The weapon attack, then each spell next to its variant, with damage for the build's stats. */
-export function SpellsPanel() {
+export function SpellsPanel({ heading = true }: { heading?: boolean } = {}) {
   const { t } = useTranslation(),
     b = useBuildStore(),
     stats = useCombatStats(),
@@ -594,7 +593,7 @@ export function SpellsPanel() {
   };
   return (
     <div className="sp">
-      <h2 className="sp-title">{t("tool_spells")}</h2>
+      {heading && <h2 className="sp-title">{t("tool_spells")}</h2>}
       <div className="sp-controls">
         <div role="group" aria-label={t("spells_grades")} className="sp-grades">
           <span>{t("spells_grade")}</span>
@@ -649,7 +648,6 @@ export function SpellsPanel() {
           <p className="sp-empty">{t("spells_loading")}</p>
         ))}
       {common && common.spells.length > 0 && section(t("spells_common"), common.spells)}
-      <div data-tool="pvp"><PvpArena /></div>
     </div>
   );
 }

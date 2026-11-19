@@ -1359,3 +1359,15 @@ button.workshop-level:hover {
   color: var(--canvas);
   font: 600 11px/16px 'IBM Plex Mono', ui-monospace, monospace;
 }
+
+/* Spells and combat simulation open as windows from the tool bar. */
+.tool-modal-body {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 22px 22px;
+}
+@media (max-width: 640px) {
+  .tool-modal-body {
+    padding: 12px 14px 16px;
+  }
+}

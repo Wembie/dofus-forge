@@ -43,7 +43,7 @@ const critChance = (base: number, bonus: number) =>
 const span = (lo: number, hi: number) => (hi > lo ? `${lo} – ${hi}` : String(lo));
 
 /** Every attack of the build against one target: the normal and critical range, side by side. */
-export function PvpArena() {
+export function PvpArena({ heading = true }: { heading?: boolean } = {}) {
   const { t } = useTranslation(),
     b = useBuildStore(),
     stats = useCombatStats(),
@@ -129,7 +129,7 @@ export function PvpArena() {
   );
   return (
     <div className="combat">
-      <h2 className="combat-title">{t("tool_pvp")}</h2>
+      {heading && <h2 className="combat-title">{t("tool_pvp")}</h2>}
       <div className="combat-layout">
         <section className="combat-target" aria-label={t("sim_target")}>
           <header>

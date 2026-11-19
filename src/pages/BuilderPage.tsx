@@ -37,6 +37,7 @@ import type { Characteristic } from '@/engine/types.ts'
 // only render after a class is picked / compare mode is toggled; the
 // modals only mount on click) — keeps them out of the eager bundle.
 const SpellsPanel     = lazy(() => import('@/features/spells/SpellsPanel.tsx').then(m => ({ default: m.SpellsPanel })))
+const PvpArena        = lazy(() => import('@/features/pvp/PvpArena.tsx').then(m => ({ default: m.PvpArena })))
 const ComparePanel    = lazy(() => import('@/features/compare/ComparePanel.tsx').then(m => ({ default: m.ComparePanel })))
 const ChangelogModal  = lazy(() => import('@/features/changelog/ChangelogModal.tsx').then(m => ({ default: m.ChangelogModal })))
 const OptimizerModal  = lazy(() => import('@/features/optimizer/OptimizerModal.tsx').then(m => ({ default: m.OptimizerModal })))
@@ -115,6 +116,8 @@ function BuilderContent() {
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [showCharacteristics, setShowCharacteristics] = useState(false)
+  const [showSpells, setShowSpells] = useState(false)
+  const [showPvp, setShowPvp]       = useState(false)
   const [charFocus, setCharFocus] = useState<Characteristic | undefined>()
   useEffect(() => {
     const open = (e: Event) => { setCharFocus((e as CustomEvent<Characteristic | undefined>).detail); setShowCharacteristics(true) }
@@ -229,6 +232,8 @@ function BuilderContent() {
     if (tool === 'characteristics') return openCharacteristics()
     if (tool === 'compare') return toggleCompare()
     if (tool === 'share') return setShowShare(true)
+    if (tool === 'spells') return setShowSpells(true)
+    if (tool === 'pvp') return setShowPvp(true)
     // Until each tool gets its own panel, the bar reaches the one on the page.
     if (!window.matchMedia('(min-width: 1024px)').matches) setActiveTab('equipment')
     setTimeout(() => {
@@ -280,6 +285,12 @@ function BuilderContent() {
       <Modal open={showCharacteristics} onClose={() => setShowCharacteristics(false)} title={t('tool_characteristics')} size="2xl">
         <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel focus={charFocus} /></div>
       </Modal>
+      <Modal open={showSpells} onClose={() => setShowSpells(false)} title={t('tool_spells')} size="4xl" className="tool-modal">
+        {showSpells && <div className="tool-modal-body"><Suspense fallback={null}><SpellsPanel heading={false} /></Suspense></div>}
+      </Modal>
+      <Modal open={showPvp} onClose={() => setShowPvp(false)} title={t('tool_pvp')} size="4xl" className="tool-modal">
+        {showPvp && <div className="tool-modal-body"><Suspense fallback={null}><PvpArena heading={false} /></Suspense></div>}
+      </Modal>
       <Modal open={showShare} onClose={() => setShowShare(false)} title={t('tool_share')} size="xl">
         {showShare && <Suspense fallback={null}><SharePanel /></Suspense>}
       </Modal>
@@ -324,7 +335,6 @@ function BuilderContent() {
               <section aria-label={t('equipment')} className="rounded-frame overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
                 <EquipmentGrid />
               </section>
-              {hasClass && <div data-tool="spells"><Frame><Suspense fallback={null}><SpellsPanel /></Suspense></Frame></div>}
             </>
           )}
           {activeTab === 'stats' && (
@@ -345,11 +355,6 @@ function BuilderContent() {
             >
               <EquipmentGrid />
             </section>
-            {hasClass && (
-              <div data-tool="spells" style={{ animation: 'page-rise 520ms var(--ease-out) 200ms both' }}>
-                <Frame padding="lg"><Suspense fallback={null}><SpellsPanel /></Suspense></Frame>
-              </div>
-            )}
           </div>
 
           <aside
