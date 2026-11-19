@@ -5,7 +5,8 @@ import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { Actions, GoLink, Reading, SectionHead } from '@/features/reading/Reading.tsx'
 
 const GROUPS: { id: string; Icon: LucideIcon; items: [string, string[]?][] }[] = [
-  { id: 'mouse', Icon: MousePointerClick, items: [['drag_ring'], ['drag_dofus'], ['rightclick']] },
+  { id: 'mouse', Icon: MousePointerClick, items: [['drag_ring'], ['drag_dofus'], ['rightclick'], ['slot_click'], ['slot_dblclick']] },
+  { id: 'slot', Icon: Keyboard, items: [['slot_change', ['C']], ['slot_runes', ['R']], ['slot_pin', ['P']], ['slot_remove', ['Supr']]] },
   { id: 'keyboard', Icon: Keyboard, items: [['undo', ['Ctrl', 'Z']], ['redo', ['Ctrl', 'Shift', 'Z']], ['palette', ['Ctrl', 'K']], ['palette_nav', ['↑', '↓', '↵', 'Esc']]] },
   { id: 'mobile', Icon: Smartphone, items: [['mobile_tap'], ['mobile_nodrag'], ['mobile_pin']] },
 ]

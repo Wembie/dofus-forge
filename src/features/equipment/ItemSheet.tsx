@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeftRight, Layers, Pin, Sparkles, Trash2 } from 'lucide-react'
 import { Modal } from '@/ui'
@@ -25,6 +26,26 @@ interface ItemSheetProps {
 export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, onRunes, onViewSet, onUnequip }: ItemSheetProps) {
   const { t } = useTranslation()
   const pinned = useForgePicks(s => s.required.includes(item.ankama_id))
+  const togglePin = () => useForgePicks.getState().toggleRequired(item.ankama_id)
+
+  // The slot's shortcuts work here too: C, R, P, Delete.
+  const keys = useRef<(e: KeyboardEvent) => void>(() => {})
+  keys.current = e => {
+    if (e.ctrlKey || e.metaKey || e.altKey || (e.target as HTMLElement).closest?.('input, textarea, select')) return
+    const key = e.key.toLowerCase()
+    if (key === 'c') onChange()
+    else if (key === 'r' && onRunes) onRunes()
+    else if (key === 'p') togglePin()
+    else if (key === 'delete' || key === 'backspace') onUnequip()
+    else return
+    e.preventDefault()
+  }
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => keys.current(e)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   const runes = Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
 
   return (
@@ -86,12 +107,20 @@ export function ItemSheet({ slotLabel, item, slotRunes, set, onClose, onChange, 
         </div>
 
         <div className="item-sheet-actions">
-          <button type="button" onClick={onChange}><ArrowLeftRight size={15} aria-hidden="true" />{t('item_sheet_change')}</button>
-          {onRunes && <button type="button" onClick={onRunes}><Sparkles size={15} aria-hidden="true" />{t('magesmithy')}</button>}
-          <button type="button" aria-pressed={pinned} onClick={() => useForgePicks.getState().toggleRequired(item.ankama_id)}>
-            <Pin size={15} aria-hidden="true" />{t(pinned ? 'slot_unpin_forge' : 'slot_pin_forge')}
+          <button type="button" onClick={onChange} aria-keyshortcuts="C">
+            <ArrowLeftRight size={15} aria-hidden="true" />{t('item_sheet_change')}<kbd aria-hidden="true">C</kbd>
           </button>
-          <button type="button" className="is-danger" onClick={onUnequip}><Trash2 size={15} aria-hidden="true" />{t('item_sheet_remove')}</button>
+          {onRunes && (
+            <button type="button" onClick={onRunes} aria-keyshortcuts="R">
+              <Sparkles size={15} aria-hidden="true" />{t('magesmithy')}<kbd aria-hidden="true">R</kbd>
+            </button>
+          )}
+          <button type="button" aria-pressed={pinned} onClick={togglePin} aria-keyshortcuts="P">
+            <Pin size={15} aria-hidden="true" />{t(pinned ? 'slot_unpin_forge' : 'slot_pin_forge')}<kbd aria-hidden="true">P</kbd>
+          </button>
+          <button type="button" className="is-danger" onClick={onUnequip} aria-keyshortcuts="Delete">
+            <Trash2 size={15} aria-hidden="true" />{t('item_sheet_remove')}<kbd aria-hidden="true">{t('key_delete')}</kbd>
+          </button>
         </div>
       </div>
     </Modal>

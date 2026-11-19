@@ -60,6 +60,10 @@ type SlotButtonProps = {
   item:         AppItem | undefined
   onOpen:       () => void
   onUnequip:    () => void
+  /** Straight to the catalog (double click, C). */
+  onChangeItem?: () => void
+  /** Magesmithy (R); absent where runes don't apply. */
+  onRune?:      () => void
   onViewSet?:   () => void
   slotRunes?:   Record<string, number>
   small?:       boolean
@@ -79,7 +83,7 @@ type SlotButtonProps = {
   onDrop?:      React.DragEventHandler<HTMLDivElement>
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onViewSet, slotRunes, small, size: sizeProp, wide, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onChangeItem, onRune, onViewSet, slotRunes, small, size: sizeProp, wide, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
   const { t }         = useTranslation()
   const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
@@ -90,6 +94,45 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onViewSet, slotRunes, sma
   const leaveRef                = useRef<ReturnType<typeof setTimeout>>(undefined)
   const prevItemRef             = useRef(item)
   const enter = () => { clearTimeout(leaveRef.current); setHovered(true) }
+
+  // Shortcuts on a worn piece, with the pointer on it or the slot focused:
+  // C change, R magesmithy, P pin for The Forger, Delete/Backspace remove.
+  const shortcut = useRef<(e: KeyboardEvent | React.KeyboardEvent) => void>(() => {})
+  shortcut.current = e => {
+    if (!item || e.ctrlKey || e.metaKey || e.altKey) return
+    const key = e.key.toLowerCase()
+    if (key === 'c' && onChangeItem) onChangeItem()
+    else if (key === 'r' && onRune) onRune()
+    else if (key === 'p') useForgePicks.getState().toggleRequired(item.ankama_id)
+    else if (key === 'delete' || key === 'backspace') onUnequip()
+    else return
+    e.preventDefault()
+  }
+  useEffect(() => {
+    if (!hovered || !item) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || document.querySelector('[role="dialog"]')) return
+      if ((e.target as HTMLElement).closest?.('input, textarea, select, [contenteditable="true"]')) return
+      shortcut.current(e)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [hovered, item])
+
+  // A single click opens the item sheet a beat later, so a double click can go
+  // straight to the catalog instead.
+  const clickTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => () => clearTimeout(clickTimer.current), [])
+  const click = () => {
+    if (!item || !onChangeItem) return onOpen()
+    clearTimeout(clickTimer.current)
+    clickTimer.current = setTimeout(onOpen, 220)
+  }
+  const doubleClick = () => {
+    if (!item || !onChangeItem) return
+    clearTimeout(clickTimer.current)
+    onChangeItem()
+  }
   const leave = () => { clearTimeout(leaveRef.current); setHovered(false) }
   const px      = sizeProp ?? (small ? 62 : 80)
   const activeRunes = Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
@@ -117,7 +160,9 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onViewSet, slotRunes, sma
       style={{ cursor: item && onDragStart ? 'grab' : undefined }}
     >
       <button
-        onClick={onOpen}
+        onClick={click}
+        onDoubleClick={doubleClick}
+        onKeyDown={e => shortcut.current(e)}
         onContextMenu={e => {
           if (!item) return
           e.preventDefault()
@@ -603,6 +648,8 @@ export function EquipmentGrid() {
         key={id} slotId={id}
         item={getItem(id)}
         onOpen={() => (getItem(id) ? setSheetSlot(id) : openCatalog(id))}
+        onChangeItem={() => openCatalog(id)}
+        onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
         onUnequip={() => { unequipItem(id); playUnequip() }}
         slotRunes={runes[id]}
         isDragOver={dragOverSlot === id && isValidTarget}
