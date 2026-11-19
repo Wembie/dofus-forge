@@ -949,10 +949,9 @@
   font: 600 10px 'IBM Plex Mono', ui-monospace, monospace;
   color: var(--accent);
 }
+/* Over the game's cap: in its own label ("AP ▲1"), so it can't be read as the next stat's. */
 .stats-metric .stats-over {
-  position: absolute;
-  top: 0;
-  right: 0;
+  margin-left: 2px;
 }
 .stats-characteristics {
   display: grid;

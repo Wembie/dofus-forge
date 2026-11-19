@@ -101,9 +101,11 @@ export function StatsOverview({ s, base, runes, inCombat, onAllocate }: {
           const over = cap ? (s[cap[0]] as number) - cap[1] : 0
           return (
             <div key={key} className={`stats-metric is-${key}${value < 0 ? ' is-negative' : ''}`}>
-              <span className="stats-metric-label"><img src={statIconUrl(STAT_FIELDS[key].icon)} alt="" width={14} height={14} />{t(label)}</span>
+              <span className="stats-metric-label">
+                <img src={statIconUrl(STAT_FIELDS[key].icon)} alt="" width={14} height={14} />{t(label)}
+                {over > 0 && <span className="stats-over" title={t('stats_over_cap', { cap: cap![1] })}>▲{over}</span>}
+              </span>
               <strong>{fmt.format(value)}{suffix && <em>{suffix}</em>}</strong>
-              {over > 0 && <span className="stats-over" title={t('stats_over_cap', { cap: cap![1] })}>▲{over}</span>}
               <DeltaChip delta={delta(key)} suffix={suffix} />
             </div>
           )
