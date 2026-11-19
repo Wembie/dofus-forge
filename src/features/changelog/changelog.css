@@ -92,3 +92,11 @@
     gap: 8px;
   }
 }
+
+/* A big release's headline, above its notes. */
+.notes-headline {
+  margin: 8px 0 6px;
+  font: 600 22px/1.2 Alegreya, Georgia, serif;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}

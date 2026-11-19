@@ -5,21 +5,27 @@ Game version is read automatically from `public/data/version.json` (currently **
 
 ---
 
-## [0.4.0] — 2026-11-19
-A full redesign of Dofus Forge, migrated screen by screen from the 0.4.0 design study. Flat and quiet, built on the game's own art, with the production names and every feature kept.
-- **Design**: one visual language everywhere: flat surfaces, thin borders, Alegreya titles, IBM Plex Mono numbers, the game's own icons. No glows, gradients, bevels, cursor glow or background particles. Dark theme by default (light stays in Settings)
-- **Workshop**: new header and tool bar; class choice as slot-like tiles with the class name and male/female; editable level, class and gender under the animated character; flat equipment slots with the item's runes on the slot, corner actions (unequip, Forger pin) and an item sheet on click (effects, runes, conditions; change item, magesmithy, pin, remove); slot and workshop keyboard shortcuts (C, R, P, Del, double click, F, H, S, 1–6, /)
-- **Stats**: new overview with characteristics shown with Power added, a points-left counter and a "+" on each characteristic that opens the window on it; damage breakdown on hover; over-cap AP/MP/range marked on their own label
-- **Items**: one flat hover card for slots and builds; catalog shows what a pick replaces with its picture; equip toasts show the item
-- **Sets**: active sets panel equips a missing piece with one click (asks before replacing) and shows only the bonus in force; set window from any item
-- **Prysmaradite**: only in the first Dofus slot, also for Forger results and multi-equips; the other Dofus catalogs hide them once one is worn
-- **The Forger**: redesigned order, search and results; clearer locked screen; closes on outside click (not while forging); flat forging scene
-- **Spells and combat**: spells and the combat simulation open as windows; the simulation targets an animated Poutch Ingball (from the game's bones) that takes each hit, with a floating damage number; one cast never adds up alternatives (random element, steal-or-heal, charge tiers)
-- **Community**: Explore, build page, publish, library, profiles, sets pages, reading pages, sign-in, account, what's new and admin redesigned; build cards show HP, AP, MP, range, crit and summons with magesmithy counted; flat rank badges
-- **Builds**: a build without a name goes by its class, main characteristic, AP/MP/range and level ("Ocra Chance-Agility 11/6/6 · Lvl 150")
-- **Sounds**: anvil when The Forger finishes, a sparkle on a new set bonus, a tap on runes, a low note on a refused pick
-- **Analytics**: Google Analytics through Tag Manager with consent mode (denied by default in the EEA, UK and Switzerland); privacy policy updated in 4 languages
-- **Removed**: the 0.4.0 study prototype and its 967 translation keys; ~1,000 lines of the old stats, set and UI components
+## [0.4.0] — 2026-11-19 · REFORGED · The 0.4.0 mega design update
+- A brand-new Dofus Forge. Every screen redesigned from scratch: flat, calm and built on the game's own art. Same features, same names you know, a lot more to love
+- Dark theme by default, with light still one click away in Settings. No glows, no gradients, no noise: just your build
+- Workshop: choose your class from clean tiles, then change class, gender and level right under your animated character
+- Equipment slots show your runes at a glance. Click a piece to open its sheet: effects, runes, conditions, and change it, forge it, pin it or remove it
+- Keyboard power: C change item, R magesmithy, P pin, Del remove, double click to swap; F The Forger, H spells, S combat, 1–6 your Dofus, / to search
+- Stats: characteristics now include Power, a live "points left" counter and a "+" on each one to allocate on the spot; hover any value for its full breakdown
+- Items: one clean hover card everywhere, the catalog shows what a pick will replace, and equip toasts show the actual item
+- Sets: equip a missing piece straight from Active Sets (it asks before replacing), see only the bonus in force, open any set in its own window
+- Prysmaradites follow the game: first Dofus slot only, The Forger included
+- The Forger, redesigned: clearer order, live forging, readable results, a proper locked screen, and it closes when you click outside
+- Spells and weapon open in their own window, with grades, element filters and damage worked out from your gear
+- Simulate a fight against an animated Poutch Ingball, straight from the game: click an attack, watch it take the hit and the damage pop up. One cast never adds up alternative damage lines
+- Explore: shareable filters in the URL and new build cards with HP, AP, MP, range, crit and summons, magesmithy included
+- Build pages, publishing, your library and collections, profiles, every set page, class guides and help pages: all redesigned
+- Sign in, sign up, password reset and your account page: redesigned, with the same accounts and data
+- Builds without a name now get a smart one: class, main characteristic, AP/MP/range and level, like "Cra Chance-Agility 11/6/6"
+- New sounds: an anvil strike when The Forger finishes, a sparkle on a new set bonus, a tap on every rune
+- Flat rank badges on profiles, new link previews when you share, new install screenshots, and dark account emails with the logo
+- Analytics with consent mode and an updated privacy policy in all four languages
+- Under the hood: 967 old translation keys and about 1,000 lines of retired code removed, 483 tests passing
 
 ## [0.3.153] — 2026-11-13
 - **Removed (stats)**: the "What's Missing?" panel (gap checklist, community-percentile comparison, and "Next upgrade" suggestions) is gone from the Stats panel — user feedback was that the findings didn't add anything you couldn't already see on screen. May come back in a different shape later

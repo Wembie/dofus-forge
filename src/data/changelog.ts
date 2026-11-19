@@ -3,6 +3,8 @@ export { DOFUS_GAME_VERSION } from './gameVersion.ts'
 export type ChangelogEntry = {
   version: string
   date:    string
+  /** Headline for a big release, shown above its notes. */
+  title?:  string
   notes:   string[]
 }
 
@@ -10,20 +12,28 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     version: '0.4.0',
     date: '2026-11-19',
+    title: "REFORGED · The 0.4.0 mega design update",
     notes: [
-      "New design across the whole site: flat and quiet, built on the game's own art, with every feature kept. Dark theme by default",
-      'Workshop: slot-like class tiles, editable level, class and gender under the character, flat equipment slots with runes shown, and an item sheet on click (change item, magesmithy, pin, remove)',
-      'Keyboard: C change item, R magesmithy, P pin, Del remove, double click to change; F The Forger, H spells, S combat, 1–6 Dofus slots, / catalog search',
-      'Stats: characteristics with Power added, points left with a "+" on each characteristic, damage breakdown on hover',
-      'Items: one flat hover card everywhere; the catalog shows what a pick replaces',
-      'Sets: equip a missing piece from the active sets panel in one click; only the bonus in force is shown',
-      'Prysmaradite only in the first Dofus slot, Forger results included',
-      'The Forger: redesigned, clearer locked screen, closes on outside click',
-      'Spells and combat simulation open as windows; the simulation hits an animated Poutch Ingball and never adds up alternative damage lines',
-      "Explore, build page, publish, library, profiles, sets, guides, sign-in, account, what's new and admin redesigned",
-      'Builds without a name get one from their class, main characteristic, AP/MP/range and level',
-      'New sounds: anvil when The Forger finishes, sparkle on a new set bonus, tap on runes',
-      'Google Analytics with consent mode; privacy policy updated',
+      "A brand-new Dofus Forge. Every screen redesigned from scratch: flat, calm and built on the game's own art. Same features, same names you know, a lot more to love",
+      "Dark theme by default, with light still one click away in Settings. No glows, no gradients, no noise: just your build",
+      "Workshop: choose your class from clean tiles, then change class, gender and level right under your animated character",
+      "Equipment slots show your runes at a glance. Click a piece to open its sheet: effects, runes, conditions, and change it, forge it, pin it or remove it",
+      "Keyboard power: C change item, R magesmithy, P pin, Del remove, double click to swap; F The Forger, H spells, S combat, 1–6 your Dofus, / to search",
+      "Stats: characteristics now include Power, a live \"points left\" counter and a \"+\" on each one to allocate on the spot; hover any value for its full breakdown",
+      "Items: one clean hover card everywhere, the catalog shows what a pick will replace, and equip toasts show the actual item",
+      "Sets: equip a missing piece straight from Active Sets (it asks before replacing), see only the bonus in force, open any set in its own window",
+      "Prysmaradites follow the game: first Dofus slot only, The Forger included",
+      "The Forger, redesigned: clearer order, live forging, readable results, a proper locked screen, and it closes when you click outside",
+      "Spells and weapon open in their own window, with grades, element filters and damage worked out from your gear",
+      "Simulate a fight against an animated Poutch Ingball, straight from the game: click an attack, watch it take the hit and the damage pop up. One cast never adds up alternative damage lines",
+      "Explore: shareable filters in the URL and new build cards with HP, AP, MP, range, crit and summons, magesmithy included",
+      "Build pages, publishing, your library and collections, profiles, every set page, class guides and help pages: all redesigned",
+      "Sign in, sign up, password reset and your account page: redesigned, with the same accounts and data",
+      "Builds without a name now get a smart one: class, main characteristic, AP/MP/range and level, like \"Cra Chance-Agility 11/6/6\"",
+      "New sounds: an anvil strike when The Forger finishes, a sparkle on a new set bonus, a tap on every rune",
+      "Flat rank badges on profiles, new link previews when you share, new install screenshots, and dark account emails with the logo",
+      "Analytics with consent mode and an updated privacy policy in all four languages",
+      "Under the hood: 967 old translation keys and about 1,000 lines of retired code removed, 483 tests passing",
     ],
   },
   {
