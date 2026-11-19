@@ -1,8 +1,7 @@
-import { useState, lazy, Suspense } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SlotId, BuildSnapshot } from '@/store/buildStore.ts'
 import { ALL_SLOTS } from '@/store/buildStore.ts'
-import { LEFT_SLOTS, RIGHT_SLOTS, EXTRAS_SLOTS, DOFUS_SLOTS } from '@/features/equipment/EquipmentGrid.tsx'
 import { SlotIcon } from '@/ui'
 import { ItemHoverTooltip } from '@/features/equipment/ItemHoverTooltip.tsx'
 import type { AppItem } from '@/data/loaders.ts'
@@ -10,100 +9,31 @@ import { useCharacterStage } from '@/components/useCharacterStage.ts'
 
 const CharacterStage = lazy(() => import('@/components/CharacterStage.tsx').then(m => ({ default: m.CharacterStage })))
 
-const STAGE_WIDTH  = 170
-const STAGE_HEIGHT = 230
+const LEFT: SlotId[] = ['hat', 'cape', 'weapon', 'shield', 'companion']
+const RIGHT: SlotId[] = ['amulet', 'ring1', 'ring2', 'belt', 'boots']
+const DOFUS: SlotId[] = ['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6']
 
 /** The animated character of the build: its class, gender and companion. */
 export type BuildStage = { breed: number; gender: 'male' | 'female' }
 
 type Hovered = { item: AppItem; slot: SlotId; rect: DOMRect }
 
-function SlotCell({ slot, item, size, onHover, onLeave }: {
-  slot:    SlotId
-  item:    AppItem | undefined
-  size:    number
-  onHover: (e: React.MouseEvent<HTMLDivElement>) => void
-  onLeave: () => void
-}) {
-  const { t }   = useTranslation()
-  const isSet   = item?.set_id != null
-  const isDofus = slot.startsWith('dofus')
-
-  return (
-    <div className="relative flex flex-col items-center gap-1">
-      {item && isDofus && (
-        <div
-          className="absolute pointer-events-none dofus-aura rounded-lg"
-          style={{ width: size, height: size }}
-          aria-hidden="true"
-        />
-      )}
-      <div
-        onMouseEnter={onHover}
-        onMouseLeave={onLeave}
-        className="relative rounded-lg flex items-center justify-center overflow-hidden"
-        style={{
-          width: size, height: size,
-          background: item
-            ? 'linear-gradient(145deg, var(--surface-parchment), var(--surface-void))'
-            : 'var(--surface-void)',
-          border: item
-            ? isSet
-              ? '1.5px solid color-mix(in srgb, var(--water) 55%, var(--gold) 45%)'
-              : '1.5px solid color-mix(in srgb, var(--gold) 48%, transparent)'
-            : '1px dashed rgba(60,80,130,0.55)',
-          boxShadow: item
-            ? isSet
-              ? 'inset 0 0 18px color-mix(in srgb, var(--water) 14%, transparent), 0 0 10px color-mix(in srgb, var(--water) 22%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-              : 'inset 0 0 18px color-mix(in srgb, var(--gold) 10%, transparent), 0 2px 8px rgba(0,0,0,0.5)'
-            : 'var(--well-inset)',
-        }}
-      >
-        {item?.image_url
-          ? <img src={item.image_url} alt={item.name} className="w-full h-full object-contain p-1.5" loading="lazy" />
-          : item && isDofus
-          ? <span className="opacity-60" style={{ color: 'var(--gold)' }}><SlotIcon slot={slot} /></span>
-          : <span className="opacity-20 scale-110" style={{ color: 'var(--ink-muted)' }}><SlotIcon slot={slot} /></span>
-        }
-        {item && (
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0%, transparent 55%)' }}
-          />
-        )}
-      </div>
-      <span className="text-[8px] font-medium tracking-wide uppercase select-none" style={{ color: 'var(--ink-faint)' }}>
-        {t(`slot_${slot}`)}
-      </span>
-    </div>
-  )
+function useNarrow() {
+  const [narrow, setNarrow] = useState(false)
+  useEffect(() => {
+    if (typeof matchMedia !== 'function') return
+    const q = matchMedia('(max-width: 700px)')
+    const on = () => setNarrow(q.matches)
+    on()
+    q.addEventListener('change', on)
+    return () => q.removeEventListener('change', on)
+  }, [])
+  return narrow
 }
 
-function PortraitFrame({ portrait, classLabel }: { portrait?: string; classLabel: string }) {
-  return (
-    <div
-      className="rounded-xl overflow-hidden flex-shrink-0"
-      style={{
-        width: 120, height: 120,
-        border:     '2px solid color-mix(in srgb, var(--gold) 45%, transparent)',
-        boxShadow:  '0 0 30px color-mix(in srgb, var(--gold) 25%, transparent)',
-        background: 'var(--surface-void)',
-      }}
-    >
-      {portrait
-        ? <img src={portrait} alt={classLabel} className="w-full h-full object-contain" draggable={false} />
-        : <div className="w-full h-full" />
-      }
-    </div>
-  )
-}
-
-/** Read-only equipment view mirroring the live EquipmentGrid's
- * character-centered layout (portrait in the middle, gear arranged around
- * it, dofus row below) instead of a generic list — used on the build
- * detail page so a viewed build looks like "the real thing", not an
- * approximation. Hovering a slot shows the same ItemHoverTooltip used
- * everywhere else, including magesmithy runes from the snapshot. */
+/** A published build's gear around its character, as in the workshop: five
+ * slots each side, the Dofus row below, the sidekick by the stage. Hovering
+ * or focusing a piece shows its tooltip with the build's magesmithy. */
 export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, level, stage }: {
   snapshot:   BuildSnapshot
   equipment:  AppItem[] | null
@@ -113,67 +43,75 @@ export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, 
   /** Animated character in the middle (when the player has 3D on); the portrait otherwise. */
   stage?:     BuildStage
 }) {
+  const { t } = useTranslation()
   const [hovered, setHovered] = useState<Hovered | null>(null)
   const characterStage = useCharacterStage()
+  const narrow = useNarrow()
   const showStage = Boolean(stage) && characterStage.show
   const companionId = snapshot.e[ALL_SLOTS.indexOf('companion')] ?? undefined
   const map = new Map((equipment ?? []).map(it => [it.ankama_id, it]))
-
-  function itemFor(slot: SlotId): AppItem | undefined {
-    const i  = ALL_SLOTS.indexOf(slot)
-    const id = snapshot.e[i]
+  const itemFor = (slot: SlotId) => {
+    const id = snapshot.e[ALL_SLOTS.indexOf(slot)]
     return id != null ? map.get(id) : undefined
   }
+  const slotName = (slot: SlotId) => t(`slot_${slot}`)
+  const show = (slot: SlotId, item: AppItem) => (e: { currentTarget: HTMLElement }) =>
+    setHovered({ item, slot, rect: e.currentTarget.getBoundingClientRect() })
+  const hide = () => setHovered(null)
 
-  function cell(slot: SlotId, size = 56) {
+  const tile = (slot: SlotId) => {
     const item = itemFor(slot)
+    if (!item) {
+      return (
+        <span key={slot} className="detail-tile is-empty" role="img" aria-label={t('build_slot_empty', { slot: slotName(slot) })}>
+          <SlotIcon slot={slot} />
+        </span>
+      )
+    }
     return (
-      <SlotCell
-        key={slot}
-        slot={slot}
-        item={item}
-        size={size}
-        onHover={e => item && setHovered({ item, slot, rect: e.currentTarget.getBoundingClientRect() })}
-        onLeave={() => setHovered(null)}
-      />
+      <span key={slot} className={'detail-tile' + (item.set_id != null ? ' is-set' : '')} tabIndex={0}
+        onMouseEnter={show(slot, item)} onMouseLeave={hide} onFocus={show(slot, item)} onBlur={hide}>
+        {item.image_url
+          ? <img src={item.image_url} alt={`${slotName(slot)}: ${item.name}`} loading="lazy" />
+          : <span role="img" aria-label={`${slotName(slot)}: ${item.name}`}><SlotIcon slot={slot} /></span>}
+      </span>
     )
   }
+  const worn = [...LEFT, ...RIGHT, ...DOFUS].filter(slot => itemFor(slot)).length
+  const sidekick = itemFor('sidekick')
+  const portraitImage = <img className="detail-stage-portrait" src={portrait} alt={classLabel} />
 
   return (
-    <>
-      <div className="flex items-start justify-center gap-3 flex-wrap">
-        <div className="flex flex-col gap-2.5">{LEFT_SLOTS.map(id => cell(id))}</div>
-
-        <div className="flex flex-col items-center flex-shrink-0" style={{ width: showStage ? STAGE_WIDTH : 140 }}>
+    <section className="detail-gear" aria-labelledby="detail-gear-title">
+      <div className="detail-section-head">
+        <h2 id="detail-gear-title">{t('build_gear')}</h2>
+        <span>{t('build_worn', { count: worn, total: 16 })}</span>
+      </div>
+      <div className="detail-stage-grid">
+        <div className="detail-slots">{LEFT.map(tile)}</div>
+        <div className="detail-stage">
           {showStage && stage ? (
-            <Suspense fallback={<PortraitFrame portrait={portrait} classLabel={classLabel} />}>
+            <Suspense fallback={portraitImage}>
               <CharacterStage
                 breed={stage.breed}
                 gender={stage.gender}
                 companion={companionId}
-                width={STAGE_WIDTH}
-                height={STAGE_HEIGHT}
+                width={narrow ? 150 : 240}
+                height={narrow ? 236 : 330}
                 onError={characterStage.fail}
               />
             </Suspense>
-          ) : (
-            <PortraitFrame portrait={portrait} classLabel={classLabel} />
-          )}
-          <p className="mt-2 font-display text-xs uppercase tracking-[0.2em] font-bold" style={{ color: 'var(--gold)' }}>
+          ) : portraitImage}
+          <p>
             {classLabel}
+            <span>{t('level_short', { level })}</span>
           </p>
-          <p className="text-[11px] font-mono" style={{ color: 'var(--ink-faint)' }}>Nv.{level}</p>
+          {sidekick && <span className="detail-sidekick">{tile('sidekick')}</span>}
         </div>
-
-        <div className="flex flex-col gap-2.5">{RIGHT_SLOTS.map(id => cell(id))}</div>
+        <div className="detail-slots">{RIGHT.map(tile)}</div>
+        <div className="detail-dofus">{DOFUS.map(tile)}</div>
       </div>
-
-      {EXTRAS_SLOTS.length > 0 && (
-        <div className="flex justify-center gap-3 mt-3">{EXTRAS_SLOTS.map(id => cell(id, 48))}</div>
-      )}
-
-      <div className="flex justify-center gap-2 mt-3">{DOFUS_SLOTS.map(id => cell(id, 44))}</div>
-
+      <p className="detail-gear-hint">{t('build_gear_hint')}</p>
       {hovered && (
         <ItemHoverTooltip
           item={hovered.item}
@@ -182,6 +120,6 @@ export function BuildCharacterView({ snapshot, equipment, portrait, classLabel, 
           forjamagoName={snapshot.fn?.[hovered.slot]}
         />
       )}
-    </>
+    </section>
   )
 }

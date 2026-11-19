@@ -1,131 +1,85 @@
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router'
-import { Compass, FolderOpen, Home, SunMoon, Volume2, Settings, Info, BookOpen, ShieldCheck, Keyboard, Library } from 'lucide-react'
+import { BookOpen, Compass, FolderOpen, Hammer, Home, Info, Keyboard, Library, Menu, Search, Settings, ShieldCheck, SunMoon, Volume2 } from 'lucide-react'
 import { toggleTheme } from '@/ui/ThemeToggle.tsx'
-import { BrandMark, IconButton } from '@/ui'
+import { BrandMark } from '@/ui'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
-import { HeaderMenuButton } from '@/components/HeaderMenuButton.tsx'
-import { CommandPalette } from '@/components/CommandPalette.tsx'
+import { CommandPalette, openCommandPalette, type Command } from '@/components/CommandPalette.tsx'
 import { SettingsModal } from '@/components/SettingsModal.tsx'
+import { SiteNavSheet } from '@/components/SiteNavSheet.tsx'
 import { toggleSound } from '@/lib/sound.ts'
 import { useAuthStore } from '@/store/authStore.ts'
 
 const AuthButton = lazy(() => import('@/features/auth/AuthButton.tsx').then(m => ({ default: m.AuthButton })))
 const NotificationBell = lazy(() => import('@/features/notifications/NotificationBell.tsx').then(m => ({ default: m.NotificationBell })))
 
-/** Same brand/nav/language/theme/auth controls as BuilderPage's header,
- * without the build-editing tools (undo/redo, optimizer, etc.) — used by
- * every page that isn't the builder itself (Explore, My Builds, build
- * detail) so navigating between them doesn't feel like leaving the app. */
-export function SiteHeader() {
+/** The site header shared by every page: brand, main destinations as real
+ * links (crawlable), all-actions palette, preferences, notifications,
+ * account and, on narrow screens, the full menu. The workshop passes its own
+ * brand link (reset on click, full build in the href) and its command list. */
+export function SiteHeader({ brand, commands, workshop = false }: {
+  brand?: ReactNode
+  commands?: (openSettings: () => void) => Command[]
+  workshop?: boolean
+} = {}) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
-  const location = useLocation()
+  const { pathname } = useLocation()
   const prefix = langPathPrefix(i18n.language)
   const homePath = `/${langPathRootSegment(i18n.language)}`
   const isAdmin = useAuthStore(s => s.profile?.role === 'admin')
-  const isExplore   = location.pathname.includes('/explore')
-  const isMyBuilds  = location.pathname.includes('/my-builds')
-  const isAbout     = location.pathname.includes('/about')
-  const isHowToUse  = location.pathname.includes('/how-to-use')
-  const isShortcuts = location.pathname.includes('/shortcuts')
-  const isSets      = /(?:^|\/)sets(?:\/|$)/.test(location.pathname)
-  const isAdminSection = /(?:^|\/)admin(?:\/|$)/.test(location.pathname)
+  const at = (segment: string) => new RegExp(`(?:^|/)${segment}(?:/|$)`).test(pathname)
   const [showSettings, setShowSettings] = useState(false)
+  const [showNav, setShowNav] = useState(false)
+
+  const links: [string, string, typeof Compass][] = [
+    ['explore', 'explore_open', Compass],
+    ['my-builds', 'my_builds', FolderOpen],
+    ['sets', 'nav_sets', Library],
+    ...(isAdmin ? [['admin', 'admin_nav', ShieldCheck] as [string, string, typeof Compass]] : []),
+  ]
 
   return (
-    <header
-      className="sticky top-0 z-40 px-3 sm:px-6 h-[52px] flex items-center gap-2 sm:gap-4"
-      style={{
-        background:   'linear-gradient(to bottom, var(--surface-stone), var(--surface-void))',
-        borderBottom: '1px solid var(--metal-edge)',
-        boxShadow:    '0 1px 0 color-mix(in srgb, var(--gold) 10%, transparent), 0 4px 28px rgba(0,0,0,0.65)',
-      }}
-    >
+    <header className="site-header">
       <a href="#main-content" className="skip-link">{t('skip_to_main')}</a>
-      <Link to={homePath} className="flex items-center gap-2 flex-shrink-0" style={{ textDecoration: 'none' }}>
-        <BrandMark />
-        {/* Persistent brand mark, not a page heading — it's the same element on
-            every page this header is used on (Explore, My Builds, build
-            detail, About, How to Use), each of which has its own real <h1>.
-            An <h1> here duplicated that on every one of them. */}
-        <span
-          className="font-display font-bold uppercase"
-          style={{ fontSize: '0.82rem', color: 'var(--gold)', textShadow: '0 0 32px rgba(201,162,75,0.5), 0 1px 0 rgba(0,0,0,0.8)', letterSpacing: '0.2em' }}
-        >
-          {t('app_title')}
-        </span>
-      </Link>
+      {/* Persistent brand, not a heading: each page has its own <h1>. */}
+      {brand ?? (
+        <Link to={homePath} className="site-brand">
+          <BrandMark />
+          <span className="brand-wordmark">{t('app_title')}</span>
+        </Link>
+      )}
 
-      <nav className="hidden sm:flex items-center gap-1.5 ml-1" aria-label={t('a11y_main_nav')}>
-        <Link
-          to={`/${prefix}explore`}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-          style={isExplore
-            ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
-            : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-        >
-          <Compass size={13} />
-          {t('explore_open')}
+      <nav className="site-nav" aria-label={t('a11y_main_nav')}>
+        <Link to={homePath} aria-current={workshop ? 'page' : undefined}>
+          <Hammer size={15} aria-hidden="true" />
+          {t('nav_workshop')}
         </Link>
-        <Link
-          to={`/${prefix}my-builds`}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-          style={isMyBuilds
-            ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
-            : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-        >
-          <FolderOpen size={13} />
-          {t('my_builds')}
-        </Link>
-        <Link
-          to={`/${prefix}sets`}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-          style={isSets
-            ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
-            : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-        >
-          <Library size={13} />
-          {t('nav_sets')}
-        </Link>
-        {isAdmin && (
-          <Link
-            to={`/${prefix}admin`}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors border"
-            style={isAdminSection
-              ? { background: 'color-mix(in srgb, var(--gold) 12%, transparent)', borderColor: 'color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }
-              : { background: 'transparent', borderColor: 'var(--metal-edge)', color: 'var(--ink-faint)' }}
-          >
-            <ShieldCheck size={13} />
-            {t('admin_nav')}
+        {links.map(([segment, label]) => (
+          <Link key={segment} to={`/${prefix}${segment}`} aria-current={at(segment) ? 'page' : undefined}>
+            {t(label)}
           </Link>
-        )}
+        ))}
       </nav>
 
-      <div className="ml-auto flex items-center gap-1.5">
-        <IconButton label={t('settings_title')} variant="subtle" size="md" onClick={() => setShowSettings(true)}>
-          <Settings size={14} />
-        </IconButton>
-        <HeaderMenuButton
-          className="sm:hidden"
-          items={[
-            { key: 'explore',    label: t('explore_open'),   Icon: Compass,    active: isExplore,    onClick: () => navigate(`/${prefix}explore`) },
-            { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, active: isMyBuilds,   onClick: () => navigate(`/${prefix}my-builds`) },
-            { key: 'sets',       label: t('nav_sets'),       Icon: Library,    active: isSets,       onClick: () => navigate(`/${prefix}sets`) },
-            { key: 'how-to-use', label: t('nav_how_to_use'), Icon: BookOpen,   active: isHowToUse,   onClick: () => navigate(`/${prefix}how-to-use`) },
-            { key: 'shortcuts',  label: t('nav_shortcuts'),  Icon: Keyboard,   active: isShortcuts,  onClick: () => navigate(`/${prefix}shortcuts`) },
-            { key: 'about',      label: t('nav_about'),      Icon: Info,       active: isAbout,      onClick: () => navigate(`/${prefix}about`) },
-            ...(isAdmin ? [{ key: 'admin', label: t('admin_nav'), Icon: ShieldCheck, active: isAdminSection, onClick: () => navigate(`/${prefix}admin`) }] : []),
-          ]}
-        />
-        <div className="hidden lg:block w-px h-5 mx-1" style={{ background: 'var(--metal-edge)' }} />
+      <div className="site-actions">
+        <button type="button" className="site-icon site-wide" onClick={openCommandPalette}
+          aria-label={`${t('palette_open')} (Ctrl K)`} title={`${t('palette_open')} · Ctrl K`}>
+          <Search size={18} />
+        </button>
+        <button type="button" className="site-icon site-wide" onClick={() => setShowSettings(true)} aria-label={t('settings_title')} title={t('settings_title')}>
+          <Settings size={18} />
+        </button>
         <Suspense fallback={null}><NotificationBell /></Suspense>
         <Suspense fallback={null}><AuthButton /></Suspense>
+        <button type="button" className="site-icon site-menu" onClick={() => setShowNav(true)} aria-label={t('open_menu')}>
+          <Menu size={22} />
+        </button>
       </div>
 
       <CommandPalette
-        commands={[
+        commands={commands ? commands(() => setShowSettings(true)) : [
           { key: 'home',       label: t('app_title'),      Icon: Home,       onRun: () => navigate(homePath) },
           { key: 'explore',    label: t('explore_open'),   Icon: Compass,    onRun: () => navigate(`/${prefix}explore`) },
           { key: 'my-builds',  label: t('my_builds'),      Icon: FolderOpen, onRun: () => navigate(`/${prefix}my-builds`) },
@@ -140,6 +94,7 @@ export function SiteHeader() {
         ]}
       />
       <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
+      <SiteNavSheet open={showNav} onClose={() => setShowNav(false)} isAdmin={isAdmin} onSettings={() => setShowSettings(true)} />
     </header>
   )
 }

@@ -40,7 +40,8 @@ describe('ItemCatalog', () => {
   it('Escape closes only the set modal when one is open over the catalog', () => {
     const onClose = vi.fn()
     render(<ItemCatalog slot={HAT} slotId="hat" onClose={onClose} />)
-    fireEvent.click(screen.getAllByText('Test Set')[0])
+    // The card's set link (the set filter lists the same name as an <option>).
+    fireEvent.click(screen.getByRole('button', { name: /Test Set/ }))
     expect(screen.getAllByText('Test Set').length).toBeGreaterThan(1)
 
     fireEvent.keyDown(document, { key: 'Escape' })

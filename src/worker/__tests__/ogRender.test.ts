@@ -1,3 +1,4 @@
+import { VISUAL_REVISION } from '../../data/visual.ts'
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -30,7 +31,7 @@ describe('share card storage', () => {
   it('a build card key changes with the build, ignores the id case and sits under the expiring prefix', () => {
     const id = '26BA3A5B-43A7-4E5D-AE86-4ABB11865E4E'
     const key = buildCardKey(id, 'fr', '2026-10-01T00:00:00Z')
-    expect(key).toBe(`${BUILD_CARDS_PREFIX}${id.toLowerCase()}/fr-${Date.parse('2026-10-01T00:00:00Z')}.png`)
+    expect(key).toBe(`${BUILD_CARDS_PREFIX}${id.toLowerCase()}/fr-${Date.parse('2026-10-01T00:00:00Z')}-${VISUAL_REVISION}.png`)
     expect(buildCardKey(id, 'fr', '2026-10-02T00:00:00Z')).not.toBe(key)
   })
 

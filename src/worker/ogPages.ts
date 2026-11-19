@@ -1,3 +1,4 @@
+import { PREVIEW_COLORS as P } from '../data/visual.ts'
 import satori from 'satori'
 import { fullSetTotals, setLevel, setSlugs, statElements } from '../data/setGuide.ts'
 import type { OgFont } from './ogImage.ts'
@@ -5,13 +6,9 @@ import type { WorkerAppItem, WorkerAppSet } from './data.ts'
 
 // Share cards for set pages and class guides (/og/<lang>/set/<slug>.png,
 // /og/<lang>/class/<id>.png), in the same language as the site's own cards
-// (docs/brand/dofus-forge): void background, gold Cinzel title, real game icons.
+// (docs/brand/dofus-forge): void background, gold Alegreya title, real game icons.
 
-const C = {
-  void: '#0a0d13', panel: '#171c28', parch: '#1c2130', edge: '#2b3446', edgeS: '#3a465e',
-  gold: '#c9a24b', goldB: '#eccb78', ink: '#e9e5da', muted: '#9aa0b0',
-  earth: '#c98a2b', fire: '#e65f40', water: '#2f93d8', air: '#74b93f',
-}
+const C = {void:P.bg,panel:P.surface,parch:P.stage,edge:P.border,edgeS:P.borderStrong,gold:P.accent,goldB:P.accent,ink:P.text,muted:P.muted,earth:P.earth,fire:P.fire,water:P.water,air:P.air}
 const ELEMENT_COLOR: Record<string, string> = { earth: C.earth, fire: C.fire, water: C.water, air: C.air }
 
 function el(type: string, props: Record<string, unknown> = {}, children?: unknown) {
@@ -47,8 +44,8 @@ function frame(children: unknown[]) {
   return el('div', {
     style: {
       width: 1200, height: 630, display: 'flex', flexDirection: 'column', padding: '44px 56px',
-      background: `radial-gradient(circle at 85% 20%, rgba(201,162,75,0.14), rgba(10,13,19,0) 55%), ${C.void}`,
-      fontFamily: 'Inter', color: C.ink, border: `1px solid ${C.edge}`,
+      background: C.void,
+      fontFamily: 'SourceSans3', color: C.ink, border: `1px solid ${C.edge}`,
     },
   }, children)
 }
@@ -56,7 +53,7 @@ function frame(children: unknown[]) {
 function brandRow(logoUri: string | undefined, kicker: string) {
   return el('div', { style: { display: 'flex', alignItems: 'center', gap: 14 } }, [
     ...(logoUri ? [el('img', { src: logoUri, width: 44, height: 44 })] : []),
-    el('div', { style: { display: 'flex', fontFamily: 'Cinzel', fontSize: 24, color: C.goldB, letterSpacing: 2 } }, 'Dofus Forge'),
+    el('div', { style: { display: 'flex', fontFamily: 'BarlowCondensed', fontWeight:600, fontSize: 28, color: C.goldB, letterSpacing: 2 } }, 'DOFUS FORGE'),
     el('div', { style: { display: 'flex', width: 1, height: 26, background: C.edgeS, margin: '0 6px' } }),
     el('div', { style: { display: 'flex', fontSize: 18, color: C.muted, letterSpacing: 3, textTransform: 'uppercase' } }, kicker),
   ])
@@ -82,7 +79,7 @@ function footer(url: string) {
 
 function setTree(d: OgSetCard) {
   const title = el('div', {
-    style: { display: 'flex', fontFamily: 'Cinzel', fontSize: d.name.length > 28 ? 50 : 62, color: C.goldB, marginTop: 34, lineHeight: 1.05 },
+    style: { display: 'flex', fontFamily: 'Alegreya', fontSize: d.name.length > 28 ? 50 : 62, color: C.goldB, marginTop: 34, lineHeight: 1.05 },
   }, d.name)
   const icons = d.items.filter((src): src is string => !!src).slice(0, 9)
   const items = el('div', { style: { display: 'flex', gap: 12, marginTop: 30 } }, icons.map(src => el('div', {
@@ -100,7 +97,7 @@ function setTree(d: OgSetCard) {
       },
     }, [
       ...(s.iconUri ? [el('img', { src: s.iconUri, width: 28, height: 28 })] : []),
-      el('div', { style: { display: 'flex', fontFamily: 'JetBrainsMono', fontSize: 24, color: s.color } }, `${s.value > 0 ? '+' : ''}${s.value}`),
+      el('div', { style: { display: 'flex', fontFamily: 'IBMPlexMono', fontSize: 24, color: s.color } }, `${s.value > 0 ? '+' : ''}${s.value}`),
       el('div', { style: { display: 'flex', fontSize: 15, color: C.muted } }, s.label),
     ]))),
   ])
@@ -117,7 +114,7 @@ function classTree(d: OgClassCard) {
     // Portraits are busts cut at their bottom edge: sit them on the frame's floor.
     }, d.portraitUri ? [el('img', { src: d.portraitUri, width: 196, height: 196 })] : []),
     el('div', { style: { display: 'flex', flexDirection: 'column', flex: 1 } }, [
-      el('div', { style: { display: 'flex', fontFamily: 'Cinzel', fontSize: 88, color: C.goldB, lineHeight: 1 } }, d.className),
+      el('div', { style: { display: 'flex', fontFamily: 'Alegreya', fontSize: 88, color: C.goldB, lineHeight: 1 } }, d.className),
       el('div', { style: { display: 'flex', fontSize: 30, color: C.ink, marginTop: 14 } }, d.title),
       chipRow(d.chips),
       el('div', { style: { display: 'flex', gap: 22, marginTop: 26 } }, d.sections.map(s => el('div', {
@@ -145,8 +142,8 @@ type SetItem = WorkerAppItem & { level: number }
 
 // Stats that have an OG icon (public/data/stats-og) and a label key in translation.json.
 export const CARD_STATS: Record<string, { icon: string; tKey: string; color: string }> = {
-  Vitality: { icon: 'vitality', tKey: 'stat_vitality', color: '#db5a74' },
-  Wisdom: { icon: 'wisdom', tKey: 'stat_wisdom', color: '#a06fd0' },
+  Vitality: { icon: 'vitality', tKey: 'stat_vitality', color: P.vitality },
+  Wisdom: { icon: 'wisdom', tKey: 'stat_wisdom', color: P.wisdom },
   Strength: { icon: 'strength', tKey: 'stat_strength', color: C.earth },
   Intelligence: { icon: 'intelligence', tKey: 'stat_intelligence', color: C.fire },
   Chance: { icon: 'chance', tKey: 'stat_chance', color: C.water },

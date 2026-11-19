@@ -45,9 +45,10 @@ describe('legal acceptance', () => {
   })
 
   it('the legal pages render every section that has a translation, and no more', () => {
-    for (const [page, key] of [['TermsPage', 'terms'], ['PrivacyPolicyPage', 'privacy']]) {
-      const source = readFileSync(join(ROOT, 'src', 'pages', `${page}.tsx`), 'utf8')
-      const count = Number(source.match(/length: (\d+)/)![1])
+    // Both pages render LegalPage, which holds how many sections each one has.
+    const source = readFileSync(join(ROOT, 'src', 'features', 'reading', 'LegalPage.tsx'), 'utf8')
+    for (const key of ['terms', 'privacy']) {
+      const count = Number(source.match(new RegExp(`${key}: (\\d+)`))![1])
       for (const lang of ['es', 'en', 'fr', 'pt']) {
         const json = JSON.parse(readFileSync(join(ROOT, 'public', 'locales', lang, 'translation.json'), 'utf8'))
         const sections = Object.keys(json).filter(k => new RegExp(`^${key}_s\\d+_body$`).test(k)).length

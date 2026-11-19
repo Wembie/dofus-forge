@@ -52,10 +52,10 @@ export type BuildDetailRow = BuildRow & { updated_at: string }
 // `profiles(...)` embed is ambiguous and PostgREST rejects it (PGRST201).
 const ROW_COLUMNS = 'id, name, slug, class_slug, gender, level, visibility, is_featured, like_count, avg_rating, rating_count, view_count, comment_count, created_at, user_id, fork_of, profiles!builds_user_id_fkey(username, display_name, avatar_url), build_tags(tags(id, name, category))'
 const DETAIL_COLUMNS = `${ROW_COLUMNS}, snapshot, updated_at`
-// Cards only draw the equipment icons (snapshot.e): the rest of the snapshot
-// (characteristics, runes, names, passives) is the bulk of a build row, so
-// lists fetch just that path and cardRows() rebuilds a minimal snapshot.
-const LIST_COLUMNS = `${ROW_COLUMNS}, e:snapshot->e`
+// Cards draw the equipment icons (snapshot.e) and the build's main stats, which
+// need the points, scrolls and magesmithy too (a, s, r). Names and passives are
+// left out, and cardRows() rebuilds a minimal snapshot from those paths.
+const LIST_COLUMNS = `${ROW_COLUMNS}, e:snapshot->e, a:snapshot->a, s:snapshot->s, r:snapshot->r`
 
 // Each function below reports failures as an `error` value. Supabase already
 // does that for failed requests, but getSupabase() itself can still reject
@@ -80,9 +80,9 @@ function safeRow<T extends { snapshot: BuildSnapshot }>(row: T): T {
   return { ...row, snapshot: sanitizeSnapshot(row.snapshot) ?? EMPTY_SNAPSHOT }
 }
 const safeRows = <T extends { snapshot: BuildSnapshot }>(rows: T[]): T[] => rows.map(safeRow)
-type CardRow = Omit<BuildRow, 'snapshot'> & { e?: unknown }
-function cardRow({ e, ...row }: CardRow): BuildRow {
-  const snapshot = sanitizeSnapshot({ v: 1, c: row.class_slug, l: row.level, g: row.gender === 'female' ? 'f' : 'm', e }) ?? EMPTY_SNAPSHOT
+type CardRow = Omit<BuildRow, 'snapshot'> & { e?: unknown; a?: unknown; s?: unknown; r?: unknown }
+function cardRow({ e, a, s, r, ...row }: CardRow): BuildRow {
+  const snapshot = sanitizeSnapshot({ v: 1, c: row.class_slug, l: row.level, g: row.gender === 'female' ? 'f' : 'm', e, a, s, r }) ?? EMPTY_SNAPSHOT
   return { ...row, snapshot }
 }
 const cardRows = (rows: unknown[]): BuildRow[] => (rows as CardRow[]).map(cardRow)

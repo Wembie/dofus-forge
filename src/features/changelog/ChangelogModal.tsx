@@ -1,48 +1,43 @@
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal } from '@/ui'
 import { CHANGELOG, DOFUS_GAME_VERSION } from '@/data/changelog.ts'
+import './changelog.css'
 
+const FIRST = 12
+const MORE = 24
+
+/** What's new: the game data version, then every release, newest first. */
 export function ChangelogModal({ onClose }: { onClose: () => void }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const [shown, setShown] = useState(FIRST)
+  const day = useMemo(() => new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }), [i18n.language])
 
   return (
-    <Modal open onClose={onClose} title={t('changelog_title')} size="md">
-      {/* Dofus game version badge */}
-      <div className="px-4 pt-3 pb-0 flex items-center gap-2">
-        <span
-          className="text-[10px] font-mono px-2 py-0.5 rounded"
-          style={{
-            background: 'color-mix(in srgb, var(--gold) 10%, transparent)',
-            border:     '1px solid color-mix(in srgb, var(--gold) 25%, transparent)',
-            color:      'var(--gold)',
-          }}
-        >
-          {t('dofus_data_version', { version: DOFUS_GAME_VERSION })}
-        </span>
-      </div>
-
-      {/* Entries */}
-      <div className="overflow-y-auto max-h-[30rem] px-4 py-4 space-y-5">
-        {CHANGELOG.map(entry => (
-          <div key={entry.version}>
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="font-mono text-[13px] font-bold" style={{ color: 'var(--gold)' }}>
-                v{entry.version}
-              </span>
-              <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>
-                {entry.date}
-              </span>
-            </div>
-            <ul className="space-y-1">
-              {entry.notes.map((note, i) => (
-                <li key={i} className="flex gap-2 text-[11px]" style={{ color: 'var(--ink-muted)' }}>
-                  <span style={{ color: 'var(--gold-muted)', flexShrink: 0 }}>·</span>
-                  <span>{note}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+    <Modal open onClose={onClose} title={t('changelog_title')} size="3xl">
+      <div className="notes">
+        <p className="notes-data">
+          {t('changelog_game_data')} <strong>{DOFUS_GAME_VERSION}</strong>
+          <span>{t('changelog_versions', { count: CHANGELOG.length })}</span>
+        </p>
+        <ol>
+          {CHANGELOG.slice(0, shown).map((entry, i) => (
+            <li key={entry.version}>
+              <div>
+                <strong>{entry.version}</strong>
+                <time dateTime={entry.date}>{day.format(new Date(`${entry.date}T00:00:00Z`))}</time>
+                {i === 0 && <em>{t('changelog_current')}</em>}
+              </div>
+              {entry.title && <h3 className="notes-headline">{entry.title}</h3>}
+              <ul>
+                {entry.notes.map((note, n) => <li key={n}>{note}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+        {shown < CHANGELOG.length && (
+          <button type="button" onClick={() => setShown(shown + MORE)}>{t('changelog_older')}</button>
+        )}
       </div>
     </Modal>
   )

@@ -2,13 +2,14 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNo
 import { Link, Navigate, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import {
-  Archive, ArrowUpRight, Award, CalendarClock, Check, ChevronDown, ChevronRight, CircleAlert, Clock3, Infinity as InfinityIcon,
-  Crown, Eye, EyeOff, History, LockKeyhole, Palette, Plus, Search, ShieldCheck, Sparkles,
+  Archive, ArrowUpRight, Award, CalendarClock, Check, ChevronDown, CircleAlert, Clock3, Infinity as InfinityIcon,
+  Eye, EyeOff, History, LockKeyhole, Palette, Plus, Search, ShieldCheck, Sparkles,
   UserPlus, Users, X,
 } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { Button, Frame, Modal, SectionHeader } from '@/ui'
+import '@/features/admin/admin.css'
+import { Button, Modal } from '@/ui'
 import { getSupabase } from '@/lib/supabase.ts'
 import { isSafeImageUrl, useAuthStore } from '@/store/authStore.ts'
 import { useToastStore } from '@/store/toastStore.ts'
@@ -58,8 +59,6 @@ type RankDraft = {
   build_limit: string
 }
 
-const INPUT = 'w-full rounded-md border px-3 py-2 text-xs outline-none transition-colors focus:border-gold/60 focus:ring-1 focus:ring-gold/20'
-const INPUT_STYLE = { background: 'var(--surface-void)', borderColor: 'var(--metal-edge)', color: 'var(--ink)' }
 const EMPTY_DRAFT: RankDraft = {
   slug: '', name: '', description: '', icon: 'sparkles', color: '#C9A24B',
   is_public: true, is_active: true, sort_order: 100, badge_style: 'standard',
@@ -360,114 +359,95 @@ export function AdminRanksPage() {
     return RANK_BADGE_STYLES.filter(style => !query || t(`admin_ranks_style_${style}`).toLocaleLowerCase(i18n.language).includes(query))
   }, [i18n.language, styleSearch, t])
   const PreviewIcon = RANK_ICONS[draft.icon]
+  const noticeIsError = notice.includes('error') || notice.includes('taken')
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
       <SiteHeader />
-      <main id="main-content" className="flex-1 max-w-6xl w-full mx-auto px-4 py-8 sm:py-10 space-y-6">
-        <nav aria-label={t('admin_hub_breadcrumb')} className="flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-          <Link to={adminPath} className="hover:text-gold transition-colors inline-flex items-center gap-1.5">
-            <ShieldCheck size={12} /> {t('admin_nav')}
-          </Link>
-          <ChevronRight size={13} aria-hidden="true" />
-          <span aria-current="page" style={{ color: 'var(--gold)' }}>{t('admin_ranks_title')}</span>
+      <main id="main-content" className="admin-page flex-1">
+        <div className="admin-study">
+        <nav aria-label={t('admin_hub_breadcrumb')} className="admin-crumbs">
+          <Link to={adminPath}>{t('admin_nav')}</Link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{t('admin_ranks_title')}</span>
         </nav>
-        <div className="relative overflow-hidden rounded-xl p-5 sm:p-7" style={{
-          background: 'radial-gradient(ellipse at 88% 10%, color-mix(in srgb, var(--gold) 15%, transparent), transparent 36%), linear-gradient(135deg, var(--surface-panel), var(--surface-void))',
-          border: '1px solid var(--metal-edge)', borderTop: '2px solid color-mix(in srgb, var(--gold) 65%, transparent)',
-          boxShadow: 'var(--shadow-frame), var(--inset-bevel)',
-        }}>
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
-            <div className="max-w-2xl">
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--gold)' }}>
-                <ShieldCheck size={14} /> {t('admin_ranks_eyebrow')}
-              </div>
-              <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-wide" style={{ color: 'var(--ink)' }}>{t('admin_ranks_title')}</h1>
-              <p className="mt-2 text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_subtitle')}</p>
-            </div>
-            {isAdmin && (
-              <Button variant="primary" size="md" onClick={() => openRankModal()}>
-                <Plus size={14} /> {t('admin_ranks_new')}
-              </Button>
-            )}
+        <div className="admin-heading">
+          <div>
+            <p className="admin-eyebrow"><ShieldCheck size={12} aria-hidden="true" />{t('admin_ranks_eyebrow')}</p>
+            <h1>{t('admin_ranks_title')}</h1>
+            <p>{t('admin_ranks_subtitle')}</p>
           </div>
-          <div aria-hidden="true" className="absolute -right-7 -bottom-14 opacity-[0.055] rotate-12 pointer-events-none">
-            <Crown size={220} strokeWidth={0.8} />
-          </div>
+          {isAdmin && (
+            <Button variant="primary" size="md" onClick={() => openRankModal()}>
+              <Plus size={14} /> {t('admin_ranks_new')}
+            </Button>
+          )}
         </div>
 
         {notice && (
-          <div role="status" className="flex items-center gap-2 rounded-md px-3 py-2 text-xs" style={{
-            color: notice.includes('error') || notice.includes('taken') ? 'var(--bad)' : 'var(--good)',
-            background: notice.includes('error') || notice.includes('taken') ? 'color-mix(in srgb, var(--bad) 10%, var(--surface-panel))' : 'color-mix(in srgb, var(--good) 10%, var(--surface-panel))',
-            border: '1px solid var(--metal-edge)',
-          }}>
-            {notice.includes('error') || notice.includes('taken') ? <CircleAlert size={14} /> : <Check size={14} />}
+          <div role="status" className={`ranks-notice${noticeIsError ? ' is-error' : ''}`}>
+            {noticeIsError ? <CircleAlert size={14} /> : <Check size={14} />}
             {t(notice)}
           </div>
         )}
 
         {authLoading ? (
-          <Frame className="py-12 text-center text-xs" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_loading')}</Frame>
+          <div className="admin-state">{t('admin_ranks_loading')}</div>
         ) : !session ? (
           <AccessRedirect to={homePath} message={t('admin_ranks_signin_title')} />
         ) : !isAdmin ? (
           <AccessRedirect to={homePath} message={t('admin_ranks_denied_body')} />
         ) : pageError ? (
-          <Frame material="panel" className="p-6 sm:p-8">
-            <div className="flex items-start gap-3">
-              <div className="rounded-lg p-2.5" style={{ color: 'var(--bad)', background: 'color-mix(in srgb, var(--bad) 11%, var(--surface-void))' }}><CircleAlert size={18} /></div>
-              <div>
-                <h2 className="font-display text-base font-bold" style={{ color: 'var(--ink)' }}>{t('admin_ranks_migration_title')}</h2>
-                <p className="text-xs mt-1 max-w-2xl" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_migration_body')}</p>
-                <code className="inline-flex mt-3 rounded px-2 py-1 text-[10px]" style={{ background: 'var(--surface-void)', color: 'var(--gold)' }}>supabase/migrations/20261018_custom_ranks.sql</code>
-                <p className="text-[10px] mt-2" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_migration_detail')}</p>
-              </div>
+          <div className="ranks-card ranks-migration">
+            <CircleAlert size={18} className="ranks-migration-icon" />
+            <div>
+              <h2 className="ranks-card-title">{t('admin_ranks_migration_title')}</h2>
+              <p className="ranks-hint">{t('admin_ranks_migration_body')}</p>
+              <code className="ranks-code">supabase/migrations/20261018_custom_ranks.sql</code>
+              <p className="ranks-hint">{t('admin_ranks_migration_detail')}</p>
             </div>
-          </Frame>
+          </div>
         ) : (
           <>
-            <section className="grid grid-cols-2 xl:grid-cols-4 gap-3" aria-label={t('admin_ranks_overview')}>
+            <section className="ranks-metrics" aria-label={t('admin_ranks_overview')}>
               <Metric icon={Award} value={ranks.length} label={t('admin_ranks_metric_total')} />
-              <Metric icon={Sparkles} value={activeRankCount} label={t('admin_ranks_metric_active')} accent="var(--gold)" />
-              <Metric icon={Eye} value={publicRankCount} label={t('admin_ranks_metric_public')} accent="var(--air)" />
-              <Metric icon={Users} value={activeAssignmentCount} label={t('admin_ranks_metric_assigned')} accent="var(--good)" />
+              <Metric icon={Sparkles} value={activeRankCount} label={t('admin_ranks_metric_active')} />
+              <Metric icon={Eye} value={publicRankCount} label={t('admin_ranks_metric_public')} />
+              <Metric icon={Users} value={activeAssignmentCount} label={t('admin_ranks_metric_assigned')} />
             </section>
 
-            <div className="flex items-center gap-1 border-b" style={{ borderColor: 'var(--metal-edge)' }}>
+            <div className="admin-tabs">
               {(['ranks', 'assignments'] as const).map(tab => {
                 const selected = activeTab === tab
                 return (
-                  <button key={tab} type="button" onClick={() => setActiveTab(tab)}
-                    className="flex items-center gap-2 px-3 py-2.5 text-xs font-semibold border-b-2 transition-colors"
-                    style={{ color: selected ? 'var(--gold)' : 'var(--ink-faint)', borderBottomColor: selected ? 'var(--gold)' : 'transparent' }}>
+                  <button key={tab} type="button" onClick={() => setActiveTab(tab)} className={selected ? 'is-active' : undefined}>
                     {tab === 'ranks' ? <Award size={14} /> : <History size={14} />}
                     {t(tab === 'ranks' ? 'admin_ranks_tab_definitions' : 'admin_ranks_tab_assignments')}
-                    {tab === 'assignments' && <span className="text-[9px] rounded-full px-1.5 py-0.5" style={{ background: 'var(--surface-raised)', color: 'var(--ink-faint)' }}>{assignments.length}</span>}
+                    {tab === 'assignments' && <span className="ranks-count">{assignments.length}</span>}
                   </button>
                 )
               })}
-              <span className="ml-auto hidden sm:inline-flex items-center gap-1 text-[9px] uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}><LockKeyhole size={11} /> {t('admin_ranks_private_panel')}</span>
+              <span className="ranks-private"><LockKeyhole size={11} /> {t('admin_ranks_private_panel')}</span>
             </div>
 
             {activeTab === 'ranks' ? (
-              <section className="space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <section className="ranks-section">
+                <div className="ranks-toolbar">
                   <div>
-                    <SectionHeader label={t('admin_ranks_section_definitions')} />
-                    <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_section_hint')}</p>
+                    <h3 className="ranks-section-title">{t('admin_ranks_section_definitions')}</h3>
+                    <p className="ranks-hint">{t('admin_ranks_section_hint')}</p>
                   </div>
                   <SearchField value={rankSearch} onChange={setRankSearch} placeholder={t('admin_ranks_search')} clearLabel={t('admin_ranks_clear_search')} />
                 </div>
                 {loading ? <LoadingRows label={t('admin_ranks_loading')} /> : filteredRanks.length === 0 ? (
-                  <Frame material="panel" className="px-6 py-12 text-center">
-                    <div className="mx-auto mb-3 w-10 h-10 rounded-xl flex items-center justify-center" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 12%, var(--surface-void))' }}><Award size={19} /></div>
-                    <h3 className="font-display text-sm font-bold" style={{ color: 'var(--ink)' }}>{rankSearch ? t('admin_ranks_no_results') : t('admin_ranks_empty_title')}</h3>
-                    {!rankSearch && <p className="text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_empty_body')}</p>}
-                    {!rankSearch && <Button className="mt-4" variant="secondary" size="sm" onClick={() => openRankModal()}><Plus size={13} />{t('admin_ranks_new')}</Button>}
-                  </Frame>
+                  <div className="ranks-card ranks-empty">
+                    <Award size={20} />
+                    <h3 className="ranks-card-title">{rankSearch ? t('admin_ranks_no_results') : t('admin_ranks_empty_title')}</h3>
+                    {!rankSearch && <p className="ranks-hint">{t('admin_ranks_empty_body')}</p>}
+                    {!rankSearch && <Button className="mt-2" variant="secondary" size="sm" onClick={() => openRankModal()}><Plus size={13} />{t('admin_ranks_new')}</Button>}
+                  </div>
                 ) : (
-                  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
+                  <div className="ranks-grid">
                     {filteredRanks.map(rank => {
                       const buildLimitValue = benefits.find(row => row.rank_id === rank.id && row.benefit_key === 'build_limit')?.benefit_value
                       return <RankCard
@@ -485,27 +465,27 @@ export function AdminRanksPage() {
                 )}
               </section>
             ) : (
-              <section className="space-y-4">
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3">
+              <section className="ranks-section">
+                <div className="ranks-toolbar">
                   <div>
-                    <SectionHeader label={t('admin_ranks_section_assignments')} />
-                    <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_assignment_hint')}</p>
+                    <h3 className="ranks-section-title">{t('admin_ranks_section_assignments')}</h3>
+                    <p className="ranks-hint">{t('admin_ranks_assignment_hint')}</p>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <div className="flex rounded-md p-0.5" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-                      {(['all', 'current', 'history'] as const).map(filter => <button key={filter} type="button" onClick={() => setAssignmentFilter(filter)} className="rounded px-2.5 py-1.5 text-[10px] font-semibold transition-colors" style={{ color: assignmentFilter === filter ? 'var(--gold)' : 'var(--ink-faint)', background: assignmentFilter === filter ? 'var(--surface-raised)' : 'transparent' }}>{t(`admin_ranks_filter_${filter}`)}</button>)}
+                  <div className="ranks-toolbar-tools">
+                    <div className="ranks-segment">
+                      {(['all', 'current', 'history'] as const).map(filter => <button key={filter} type="button" onClick={() => setAssignmentFilter(filter)} className={assignmentFilter === filter ? 'is-active' : undefined}>{t(`admin_ranks_filter_${filter}`)}</button>)}
                     </div>
                     <SearchField value={assignmentSearch} onChange={setAssignmentSearch} placeholder={t('admin_ranks_search_assignments')} clearLabel={t('admin_ranks_clear_search')} />
                   </div>
                 </div>
                 {loading ? <LoadingRows label={t('admin_ranks_loading')} /> : filteredAssignments.length === 0 ? (
-                  <Frame material="panel" className="px-6 py-12 text-center">
-                    <History size={20} className="mx-auto mb-2" style={{ color: 'var(--ink-faint)' }} />
-                    <h3 className="font-display text-sm font-bold" style={{ color: 'var(--ink)' }}>{t('admin_ranks_no_assignments')}</h3>
-                    <p className="text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_no_assignments_hint')}</p>
-                  </Frame>
+                  <div className="ranks-card ranks-empty">
+                    <History size={20} />
+                    <h3 className="ranks-card-title">{t('admin_ranks_no_assignments')}</h3>
+                    <p className="ranks-hint">{t('admin_ranks_no_assignments_hint')}</p>
+                  </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="ranks-assignments">
                     {filteredAssignments.map(row => {
                       const state = assignmentState(row, now)
                       const user = users[row.user_id]
@@ -514,47 +494,41 @@ export function AdminRanksPage() {
                       const badgeStyle = (benefits.find(item => item.rank_id === row.rank_id && item.benefit_key === 'profile_badge_style')?.benefit_value ?? 'standard') as RankBadgeStyle
                       const profilePath = user ? `/${langPathPrefix(i18n.language)}u/${encodeURIComponent(user.username)}` : null
                       return (
-                        <Frame key={row.id} material="panel" padding="none" className="group relative overflow-hidden transition duration-200 hover:-translate-y-px" style={{
-                          borderLeft: `3px solid ${rank?.color ?? 'var(--gold)'}`,
-                          background: `linear-gradient(105deg, color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 9%, var(--surface-panel)), var(--surface-panel) 48%)`,
-                          boxShadow: 'var(--inset-bevel), 0 3px 12px rgba(0,0,0,.12)',
-                        }}>
-                          <div className="flex flex-col gap-4 p-4 sm:p-5 lg:flex-row lg:items-center">
-                            <div className="flex min-w-0 flex-1 items-start gap-3.5">
-                              {profilePath && user ? (
-                                <Link to={profilePath} aria-label={`@${user.username}`} className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70" style={{ borderColor: `color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 54%, var(--metal-edge))`, background: `color-mix(in srgb, ${rank?.color ?? 'var(--gold)'} 14%, var(--surface-void))`, color: rank?.color ?? 'var(--gold)' }}>
-                                  {isSafeImageUrl(user.avatar_url) ? <img src={user.avatar_url!} alt="" className="h-full w-full object-cover" /> : <span className="text-xs font-bold">{user.username.slice(0, 1).toUpperCase()}</span>}
-                                </Link>
-                              ) : (
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold" style={{ borderColor: 'var(--metal-edge)', background: 'var(--surface-void)', color: 'var(--ink-faint)' }}>?</div>
-                              )}
-                              <div className="min-w-0 flex-1 pt-0.5">
-                                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
-                                  {profilePath && user ? (
-                                    <Link to={profilePath} className="inline-flex min-w-0 items-center gap-1 text-xs font-bold transition-colors hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ color: 'var(--ink)' }}>
-                                      <span className="truncate">{user.username}</span><ArrowUpRight size={12} className="shrink-0 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
-                                    </Link>
-                                  ) : <span className="text-xs font-bold" style={{ color: 'var(--ink)' }}>{t('admin_ranks_deleted_user')}</span>}
-                                  {rank ? <CustomRankBadge rank={{ name: rank.name, description: rank.description, icon: rank.icon, color: rank.color, badgeStyle }} /> : <span className="text-[10px] font-medium" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_archived_rank')}</span>}
-                                  <AssignmentState state={state} t={t} />
-                                </div>
-                                <div className="mt-3 flex flex-wrap gap-2 text-[10px]">
-                                  <span className="flex max-w-full flex-wrap items-center gap-1.5 rounded-md border px-2 py-1.5" style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-void) 72%, transparent)' }}>
-                                    <CalendarClock size={12} style={{ color: 'var(--gold)' }} aria-hidden="true" />
-                                    <span className="font-semibold">{t('admin_ranks_starts')}:</span>
-                                    <time dateTime={row.starts_at}>{new Date(row.starts_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time>
-                                  </span>
-                                  <span className="flex max-w-full flex-wrap items-center gap-1.5 rounded-md border px-2 py-1.5" style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-void) 72%, transparent)' }}>
-                                    <Clock3 size={12} style={{ color: row.expires_at ? 'var(--ink-faint)' : 'var(--good)' }} aria-hidden="true" />
-                                    {row.expires_at ? <><span className="font-semibold">{t('admin_ranks_expires')}:</span><time dateTime={row.expires_at}>{new Date(row.expires_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time></> : <span className="font-semibold">{t('admin_ranks_permanent')}</span>}
-                                  </span>
-                                </div>
-                                {row.internal_note && <p className="mt-2 flex items-start gap-1.5 text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}><span className="shrink-0 font-semibold" style={{ color: 'var(--ink-muted)' }}>{t('admin_ranks_note_label')}:</span><span className="break-words">{row.internal_note}</span></p>}
+                        <div key={row.id} className="ranks-card ranks-assignment">
+                          <div className="ranks-assignment-main">
+                            {profilePath && user ? (
+                              <Link to={profilePath} aria-label={`@${user.username}`} className="ranks-avatar">
+                                {isSafeImageUrl(user.avatar_url) ? <img src={user.avatar_url!} alt="" /> : <span>{user.username.slice(0, 1).toUpperCase()}</span>}
+                              </Link>
+                            ) : (
+                              <div className="ranks-avatar">?</div>
+                            )}
+                            <div className="ranks-assignment-body">
+                              <div className="ranks-assignment-head">
+                                {profilePath && user ? (
+                                  <Link to={profilePath} className="ranks-user">
+                                    <span>{user.username}</span><ArrowUpRight size={12} aria-hidden="true" />
+                                  </Link>
+                                ) : <span className="ranks-user">{t('admin_ranks_deleted_user')}</span>}
+                                {rank ? <CustomRankBadge rank={{ name: rank.name, description: rank.description, icon: rank.icon, color: rank.color, badgeStyle }} /> : <span className="ranks-meta">{t('admin_ranks_archived_rank')}</span>}
+                                <AssignmentState state={state} t={t} />
                               </div>
+                              <div className="ranks-dates">
+                                <span className="ranks-meta">
+                                  <CalendarClock size={12} aria-hidden="true" />
+                                  <span>{t('admin_ranks_starts')}:</span>
+                                  <time dateTime={row.starts_at}>{new Date(row.starts_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time>
+                                </span>
+                                <span className="ranks-meta">
+                                  <Clock3 size={12} aria-hidden="true" />
+                                  {row.expires_at ? <><span>{t('admin_ranks_expires')}:</span><time dateTime={row.expires_at}>{new Date(row.expires_at).toLocaleString(i18n.language, { dateStyle: 'medium', timeStyle: 'short' })}</time></> : <span>{t('admin_ranks_permanent')}</span>}
+                                </span>
+                              </div>
+                              {row.internal_note && <p className="ranks-note"><span>{t('admin_ranks_note_label')}:</span><span>{row.internal_note}</span></p>}
                             </div>
-                            {active && <Button variant="danger" size="sm" className="self-start lg:self-center" onClick={() => void revokeAssignment(row)}><Archive size={12} />{t('admin_ranks_revoke')}</Button>}
                           </div>
-                        </Frame>
+                          {active && <Button variant="danger" size="sm" className="ranks-assignment-action" onClick={() => void revokeAssignment(row)}><Archive size={12} />{t('admin_ranks_revoke')}</Button>}
+                        </div>
                       )
                     })}
                   </div>
@@ -563,137 +537,135 @@ export function AdminRanksPage() {
             )}
           </>
         )}
+        </div>
       </main>
       <SiteFooter />
 
       <Modal open={rankModal} onClose={() => !savingRank && setRankModal(false)} size="4xl" title={t(editingRank ? 'admin_ranks_edit_title' : 'admin_ranks_create_title')}>
-        <form onSubmit={saveRank} className="flex flex-col" style={{ height: 'min(calc(90vh - 4.25rem), 48rem)' }}>
-          <div className="min-h-0 flex-1 space-y-5 overflow-y-auto p-4 sm:p-5 lg:p-6">
-            <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-5 items-start">
-              <div className="min-w-0 space-y-5">
-                <Frame material="stone" padding="md" className="space-y-4">
-                  <SectionHeading number="01" title={t('admin_ranks_section_identity')} description={t('admin_ranks_section_identity_hint')} />
-                  <div className="grid sm:grid-cols-2 gap-4">
+        <form onSubmit={saveRank} className="ranks-form">
+          <div className="ranks-form-body">
+            <div className="ranks-form-grid">
+              <div className="ranks-form-column">
+                <div className="ranks-panel">
+                  <SectionHeading title={t('admin_ranks_section_identity')} description={t('admin_ranks_section_identity_hint')} />
+                  <div className="ranks-two-col">
                     <Field label={t('admin_ranks_name')}>
-                      <input className={INPUT} style={INPUT_STYLE} maxLength={40} required value={draft.name} onChange={event => setDraft(current => ({ ...current, name: event.target.value, ...(!slugTouched ? { slug: slugFromName(event.target.value) } : {}) }))} />
+                      <input className="ranks-input" maxLength={40} required value={draft.name} onChange={event => setDraft(current => ({ ...current, name: event.target.value, ...(!slugTouched ? { slug: slugFromName(event.target.value) } : {}) }))} />
                     </Field>
                     <Field label={t('admin_ranks_slug')} hint={t(editingRank ? 'admin_ranks_slug_locked' : 'admin_ranks_slug_hint')}>
-                      <input className={INPUT} style={INPUT_STYLE} required pattern="[a-z0-9][a-z0-9_-]{1,39}" maxLength={40} value={draft.slug} readOnly={!!editingRank} onChange={event => { setSlugTouched(true); setDraft(current => ({ ...current, slug: slugFromName(event.target.value) })) }} />
+                      <input className="ranks-input" required pattern="[a-z0-9][a-z0-9_-]{1,39}" maxLength={40} value={draft.slug} readOnly={!!editingRank} onChange={event => { setSlugTouched(true); setDraft(current => ({ ...current, slug: slugFromName(event.target.value) })) }} />
                     </Field>
                   </div>
                   <Field label={t('admin_ranks_description')} hint={t('admin_ranks_description_hint')}>
-                    <textarea className={`${INPUT} resize-y min-h-20`} style={INPUT_STYLE} maxLength={180} value={draft.description} onChange={event => setDraft(current => ({ ...current, description: event.target.value }))} />
+                    <textarea className="ranks-input" maxLength={180} value={draft.description} onChange={event => setDraft(current => ({ ...current, description: event.target.value }))} />
                   </Field>
-                </Frame>
+                </div>
 
-                <Frame material="stone" padding="md" className="space-y-5">
-                  <SectionHeading number="02" title={t('admin_ranks_section_appearance')} description={t('admin_ranks_section_appearance_hint', { count: RANK_BADGE_STYLES.length })} />
+                <div className="ranks-panel">
+                  <SectionHeading title={t('admin_ranks_section_appearance')} description={t('admin_ranks_section_appearance_hint', { count: RANK_BADGE_STYLES.length })} />
 
-                  <section className="space-y-3" aria-labelledby="rank-color-label">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
+                  <section className="ranks-subsection" aria-labelledby="rank-color-label">
+                    <div className="ranks-subsection-head">
                       <div>
                         <FieldLabel><span id="rank-color-label">{t('admin_ranks_color')}</span></FieldLabel>
-                        <p className="mt-1 font-mono text-[10px] tracking-wider" style={{ color: 'var(--ink-faint)' }}>{draft.color.toUpperCase()}</p>
+                        <p className="ranks-hex">{draft.color.toUpperCase()}</p>
                       </div>
-                      <label className="relative inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-xs font-semibold cursor-pointer transition-colors hover:border-gold/60" style={{ color: 'var(--ink)', background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-                        <Palette size={15} style={{ color: 'var(--gold)' }} /> {t('admin_ranks_color_picker')}
-                        <input type="color" aria-label={t('admin_ranks_color_picker')} value={draft.color.toLowerCase()} onChange={event => setDraft(current => ({ ...current, color: event.target.value.toUpperCase() }))} className="absolute inset-0 h-full w-full cursor-pointer opacity-0" />
+                      <label className="ranks-color-picker">
+                        <span className="ranks-swatch-dot" style={{ background: draft.color }} aria-hidden="true" />
+                        <Palette size={15} /> {t('admin_ranks_color_picker')}
+                        <input type="color" aria-label={t('admin_ranks_color_picker')} value={draft.color.toLowerCase()} onChange={event => setDraft(current => ({ ...current, color: event.target.value.toUpperCase() }))} />
                       </label>
                     </div>
-                    <div className="grid grid-cols-6 sm:grid-cols-10 md:grid-cols-12 gap-2" role="group" aria-label={t('admin_ranks_color')}>
-                      {RANK_COLORS.map(color => <button key={color} type="button" aria-label={color} aria-pressed={draft.color === color} onClick={() => setDraft(current => ({ ...current, color }))} className="h-8 w-8 justify-self-center rounded-full border-2 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ background: color, borderColor: draft.color === color ? 'var(--ink)' : 'transparent', boxShadow: draft.color === color ? `0 0 0 2px ${color}` : undefined }}>{draft.color === color && <Check size={13} color="#fff" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.8))' }} />}</button>)}
+                    <div className="ranks-swatches" role="group" aria-label={t('admin_ranks_color')}>
+                      {RANK_COLORS.map(color => <button key={color} type="button" aria-label={color} aria-pressed={draft.color === color} onClick={() => setDraft(current => ({ ...current, color }))} className="ranks-swatch" style={{ background: color }} />)}
                     </div>
                   </section>
 
-                  <section className="space-y-3 border-t pt-5" style={{ borderColor: 'var(--metal-edge)' }} aria-labelledby="rank-icon-label">
-                    <div className="flex flex-wrap items-end justify-between gap-3">
+                  <section className="ranks-subsection" aria-labelledby="rank-icon-label">
+                    <div className="ranks-subsection-head">
                       <div>
                         <FieldLabel><span id="rank-icon-label">{t('admin_ranks_icon')}</span></FieldLabel>
-                        <p className="mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_icon_count', { count: Object.keys(RANK_ICONS).length })}</p>
+                        <p className="ranks-hint">{t('admin_ranks_icon_count', { count: Object.keys(RANK_ICONS).length })}</p>
                       </div>
-                      <label className="relative block w-full sm:w-56">
-                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }} />
-                        <input value={iconSearch} onChange={event => setIconSearch(event.target.value)} placeholder={t('admin_ranks_icon_search')} className={`${INPUT} pl-9`} aria-label={t('admin_ranks_icon_search')} />
+                      <label className="ranks-search">
+                        <Search size={14} />
+                        <input value={iconSearch} onChange={event => setIconSearch(event.target.value)} placeholder={t('admin_ranks_icon_search')} className="ranks-input" aria-label={t('admin_ranks_icon_search')} />
                       </label>
                     </div>
-                    <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 max-h-48 overflow-y-auto pr-1">
+                    <div className="ranks-icon-grid">
                       {filteredRankIcons.map(key => {
                         const Icon = RANK_ICONS[key]
                         const label = key.replace(/_/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase())
-                        return <button key={key} type="button" aria-label={t('admin_ranks_icon_option', { icon: label })} title={label} aria-pressed={draft.icon === key} onClick={() => setDraft(current => ({ ...current, icon: key }))} className="h-10 rounded-md border flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{ color: draft.icon === key ? draft.color : 'var(--ink-faint)', borderColor: draft.icon === key ? draft.color : 'var(--metal-edge)', background: draft.icon === key ? `color-mix(in srgb, ${draft.color} 10%, var(--surface-void))` : 'var(--surface-void)' }}><Icon size={17} /></button>
+                        return <button key={key} type="button" aria-label={t('admin_ranks_icon_option', { icon: label })} title={label} aria-pressed={draft.icon === key} onClick={() => setDraft(current => ({ ...current, icon: key }))} className="ranks-option"><Icon size={17} /></button>
                       })}
                     </div>
-                    {filteredRankIcons.length === 0 && <p className="rounded-md border border-dashed p-4 text-center text-xs" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)' }}>{t('admin_ranks_icon_no_results')}</p>}
+                    {filteredRankIcons.length === 0 && <p className="ranks-empty-line">{t('admin_ranks_icon_no_results')}</p>}
                   </section>
 
-                  <section className="space-y-3 border-t pt-5" style={{ borderColor: 'var(--metal-edge)' }} aria-labelledby="rank-finish-label">
-                    <div className="flex flex-wrap items-end justify-between gap-2">
+                  <section className="ranks-subsection" aria-labelledby="rank-finish-label">
+                    <div className="ranks-subsection-head">
                       <div>
                         <FieldLabel><span id="rank-finish-label">{t('admin_ranks_badge_style')}</span></FieldLabel>
-                        <p className="mt-1 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_style_gallery_hint', { count: RANK_BADGE_STYLES.length })}</p>
+                        <p className="ranks-hint">{t('admin_ranks_style_gallery_hint', { count: RANK_BADGE_STYLES.length })}</p>
                       </div>
-                      <span className="rounded-full px-2.5 py-1 text-[10px] font-semibold" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 10%, var(--surface-void))' }}>{t(`admin_ranks_style_${draft.badge_style}`)}</span>
+                      <span className="ranks-chip">{t(`admin_ranks_style_${draft.badge_style}`)}</span>
                     </div>
-                    <label className="relative block w-full sm:max-w-sm">
-                      <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }} />
-                      <input value={styleSearch} onChange={event => setStyleSearch(event.target.value)} placeholder={t('admin_ranks_style_search')} className={`${INPUT} pl-9`} aria-label={t('admin_ranks_style_search')} />
+                    <label className="ranks-search is-wide">
+                      <Search size={14} />
+                      <input value={styleSearch} onChange={event => setStyleSearch(event.target.value)} placeholder={t('admin_ranks_style_search')} className="ranks-input" aria-label={t('admin_ranks_style_search')} />
                     </label>
-                    <div className="grid max-h-[28rem] grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-3 md:grid-cols-4" role="group" aria-label={t('admin_ranks_badge_style')}>
+                    <div className="ranks-style-grid" role="group" aria-label={t('admin_ranks_badge_style')}>
                       {filteredBadgeStyles.map(style => (
-                        <button key={style} type="button" aria-label={t(`admin_ranks_style_${style}`)} aria-pressed={draft.badge_style === style} onClick={() => setDraft(current => ({ ...current, badge_style: style }))} className="relative flex min-h-[76px] min-w-0 flex-col items-center justify-center gap-2 rounded-lg border px-2 py-3 transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60" style={{
-                          borderColor: draft.badge_style === style ? 'var(--gold)' : 'var(--metal-edge)',
-                          background: draft.badge_style === style ? 'color-mix(in srgb, var(--gold) 8%, var(--surface-void))' : 'var(--surface-void)',
-                          boxShadow: draft.badge_style === style ? '0 0 0 1px color-mix(in srgb, var(--gold) 25%, transparent), 0 4px 12px rgba(0,0,0,.12)' : undefined,
-                        }}>
-                          {draft.badge_style === style && <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full" style={{ color: 'var(--surface-void)', background: 'var(--gold)' }}><Check size={10} /></span>}
+                        <button key={style} type="button" aria-label={t(`admin_ranks_style_${style}`)} aria-pressed={draft.badge_style === style} onClick={() => setDraft(current => ({ ...current, badge_style: style }))} className="ranks-option ranks-style">
+                          {draft.badge_style === style && <Check size={12} className="ranks-style-check" />}
                           <CustomRankBadge rank={{ name: t('admin_ranks_style_preview'), description: '', icon: draft.icon, color: draft.color, badgeStyle: style }} />
-                          <span className="w-full truncate text-center text-[10px] font-medium leading-tight" style={{ color: draft.badge_style === style ? 'var(--gold)' : 'var(--ink-muted)' }}>{t(`admin_ranks_style_${style}`)}</span>
+                          <span className="ranks-style-name">{t(`admin_ranks_style_${style}`)}</span>
                         </button>
                       ))}
                     </div>
-                    {filteredBadgeStyles.length === 0 && <p className="rounded-md border border-dashed p-4 text-center text-xs" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)' }}>{t('admin_ranks_style_no_results')}</p>}
+                    {filteredBadgeStyles.length === 0 && <p className="ranks-empty-line">{t('admin_ranks_style_no_results')}</p>}
                   </section>
-                </Frame>
+                </div>
               </div>
 
-              <aside className="space-y-4 lg:sticky lg:top-0">
-                <Frame material="stone" padding="md" className="space-y-4">
-                  <SectionHeading number="03" title={t('admin_ranks_preview')} description={t('admin_ranks_profile_preview')} />
-                  <div className="relative flex min-h-48 flex-col items-center justify-center gap-3 overflow-hidden rounded-lg p-5 text-center" style={{ background: `radial-gradient(ellipse at top, color-mix(in srgb, ${draft.color} 16%, transparent), transparent 72%), var(--surface-void)`, border: '1px solid var(--metal-edge)' }}>
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full border" style={{ color: draft.color, background: `color-mix(in srgb, ${draft.color} 12%, var(--surface-raised))`, borderColor: `color-mix(in srgb, ${draft.color} 40%, transparent)` }}><PreviewIcon size={20} /></span>
+              <aside className="ranks-form-aside">
+                <div className="ranks-panel">
+                  <SectionHeading title={t('admin_ranks_preview')} description={t('admin_ranks_profile_preview')} />
+                  <div className="ranks-preview">
+                    <span className="ranks-preview-icon" style={{ color: draft.color }}><PreviewIcon size={20} /></span>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold" style={{ color: 'var(--ink)' }}>{draft.name || t('admin_ranks_name_placeholder')}</p>
-                      <p className="mt-0.5 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_profile_preview')}</p>
+                      <p className="ranks-preview-name">{draft.name || t('admin_ranks_name_placeholder')}</p>
+                      <p className="ranks-hint">{t('admin_ranks_profile_preview')}</p>
                     </div>
                     <CustomRankBadge rank={{ name: draft.name || t('admin_ranks_name_placeholder'), description: draft.description, icon: draft.icon, color: draft.color, badgeStyle: draft.badge_style }} />
-                    {draft.description && <p className="line-clamp-2 max-w-xs text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{draft.description}</p>}
+                    {draft.description && <p className="ranks-hint ranks-clamp">{draft.description}</p>}
                   </div>
                   <Field label={t('admin_ranks_order')} hint={t('admin_ranks_order_hint')}>
-                    <input type="number" min={0} max={999} className={INPUT} style={INPUT_STYLE} value={draft.sort_order} onChange={event => setDraft(current => ({ ...current, sort_order: Number(event.target.value) }))} />
+                    <input type="number" min={0} max={999} className="ranks-input" value={draft.sort_order} onChange={event => setDraft(current => ({ ...current, sort_order: Number(event.target.value) }))} />
                   </Field>
-                </Frame>
+                </div>
 
-                <Frame material="stone" padding="md" className="space-y-3">
-                  <SectionHeading number="04" title={t('admin_ranks_section_benefits')} description={t('admin_ranks_section_benefits_hint')} />
+                <div className="ranks-panel">
+                  <SectionHeading title={t('admin_ranks_section_benefits')} description={t('admin_ranks_section_benefits_hint')} />
                   <ToggleRow icon={ShieldCheck} title={t('admin_ranks_build_limit_enabled')} description={t('admin_ranks_build_limit_hint')} checked={draft.build_limit_enabled} onChange={value => setDraft(current => ({ ...current, build_limit_enabled: value, build_limit: value ? current.build_limit || '100' : current.build_limit }))} />
-                  {draft.build_limit_enabled && <div className="space-y-3 rounded-lg border p-3" style={{ borderColor: 'var(--metal-edge)', background: 'color-mix(in srgb, var(--surface-void) 60%, transparent)' }}>
+                  {draft.build_limit_enabled && <div className="ranks-nested">
                     <ToggleRow icon={InfinityIcon} title={t('admin_ranks_build_limit_unlimited')} description={t('admin_ranks_build_limit_unlimited_hint')} checked={draft.build_limit_unlimited} onChange={value => setDraft(current => ({ ...current, build_limit_unlimited: value }))} />
                     {!draft.build_limit_unlimited && <Field label={t('admin_ranks_build_limit')} hint={t('admin_ranks_build_limit_membership_hint')}>
-                      <input type="number" min={1} max={MAX_RANK_BUILD_LIMIT} step={1} required className={INPUT} style={INPUT_STYLE} value={draft.build_limit} onChange={event => setDraft(current => ({ ...current, build_limit: event.target.value }))} />
+                      <input type="number" min={1} max={MAX_RANK_BUILD_LIMIT} step={1} required className="ranks-input" value={draft.build_limit} onChange={event => setDraft(current => ({ ...current, build_limit: event.target.value }))} />
                     </Field>}
                   </div>}
-                </Frame>
+                </div>
 
-                <Frame material="stone" padding="md" className="space-y-3">
-                  <SectionHeading number="05" title={t('admin_ranks_section_visibility')} description={t('admin_ranks_section_visibility_hint')} />
+                <div className="ranks-panel">
+                  <SectionHeading title={t('admin_ranks_section_visibility')} description={t('admin_ranks_section_visibility_hint')} />
                   <ToggleRow icon={draft.is_public ? Eye : EyeOff} title={t('admin_ranks_public')} description={t('admin_ranks_public_hint')} checked={draft.is_public} onChange={value => setDraft(current => ({ ...current, is_public: value }))} />
                   <ToggleRow icon={draft.is_active ? Check : Archive} title={t('admin_ranks_enabled')} description={t('admin_ranks_enabled_hint')} checked={draft.is_active} onChange={value => setDraft(current => ({ ...current, is_active: value }))} />
-                </Frame>
+                </div>
               </aside>
             </div>
-            {notice && <p role="alert" className="rounded-md border px-3 py-2 text-xs" style={{ color: 'var(--bad)', borderColor: 'color-mix(in srgb, var(--bad) 35%, transparent)', background: 'color-mix(in srgb, var(--bad) 8%, var(--surface-void))' }}>{t(notice)}</p>}
+            {notice && <p role="alert" className="ranks-notice is-error">{t(notice)}</p>}
           </div>
-          <div className="flex shrink-0 justify-end gap-2 border-t px-4 py-3 sm:px-6" style={{ borderColor: 'var(--metal-edge)', background: 'var(--surface-panel)', boxShadow: '0 -8px 18px rgba(0,0,0,.12)' }}>
+          <div className="ranks-form-footer">
             <Button type="button" variant="ghost" size="md" disabled={savingRank} onClick={() => setRankModal(false)}>{t('admin_ranks_cancel')}</Button>
             <Button type="submit" variant="primary" size="md" disabled={savingRank || !draft.name.trim() || !draft.slug}><Check size={14} />{savingRank ? t('admin_ranks_saving') : t('admin_ranks_save')}</Button>
           </div>
@@ -701,35 +673,35 @@ export function AdminRanksPage() {
       </Modal>
 
       <Modal open={!!assignRank} onClose={() => !savingAssignment && setAssignRank(null)} size="xl" title={t('admin_ranks_assign_title')}>
-        {assignRank && <form onSubmit={saveAssignment} className="space-y-5 p-4 sm:p-5">
-          <Frame material="stone" padding="md" className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg" style={{ color: assignRank.color, background: `color-mix(in srgb, ${assignRank.color} 13%, var(--surface-void))` }}>{(() => { const Icon = RANK_ICONS[assignRank.icon]; return <Icon size={18} /> })()}</div>
-            <div><p className="text-xs font-bold" style={{ color: 'var(--ink)' }}>{assignRank.name}</p><p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_assign_rank_hint')}</p></div>
-          </Frame>
+        {assignRank && <form onSubmit={saveAssignment} className="ranks-assign-form">
+          <div className="ranks-panel ranks-assign-rank">
+            <span className="ranks-rank-icon" style={{ color: assignRank.color }}>{(() => { const Icon = RANK_ICONS[assignRank.icon]; return <Icon size={18} /> })()}</span>
+            <div><p className="ranks-assign-name">{assignRank.name}</p><p className="ranks-hint">{t('admin_ranks_assign_rank_hint')}</p></div>
+          </div>
           <Field label={t('admin_ranks_search_user')} hint={t('admin_ranks_search_user_hint')}>
             {selectedUser ? (
-              <div className="flex items-center gap-2 rounded-md border p-2" style={{ background: 'var(--surface-void)', borderColor: 'var(--gold)' }}>
-                <div className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-[10px] font-bold" style={{ background: 'var(--surface-raised)', color: 'var(--gold)' }}>{isSafeImageUrl(selectedUser.avatar_url) ? <img src={selectedUser.avatar_url} alt="" className="w-full h-full object-cover" /> : selectedUser.username[0]?.toUpperCase()}</div>
-                <div className="min-w-0 flex-1"><p className="text-xs font-bold" style={{ color: 'var(--ink)' }}>@{selectedUser.username}</p>{selectedUser.display_name && <p className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{selectedUser.display_name}</p>}</div>
-                <button type="button" aria-label={t('admin_ranks_remove_user')} onClick={() => { setSelectedUser(null); setUserQuery('') }} className="p-1" style={{ color: 'var(--ink-faint)' }}><X size={14} /></button>
+              <div className="ranks-picked">
+                <div className="ranks-avatar is-sm">{isSafeImageUrl(selectedUser.avatar_url) ? <img src={selectedUser.avatar_url} alt="" /> : selectedUser.username[0]?.toUpperCase()}</div>
+                <div className="ranks-picked-body"><p className="ranks-user">@{selectedUser.username}</p>{selectedUser.display_name && <p className="ranks-hint">{selectedUser.display_name}</p>}</div>
+                <button type="button" aria-label={t('admin_ranks_remove_user')} onClick={() => { setSelectedUser(null); setUserQuery('') }} className="ranks-icon-btn"><X size={14} /></button>
               </div>
-            ) : <div className="relative">
-              <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }} />
-              <input autoComplete="off" className={`${INPUT} pl-8`} style={INPUT_STYLE} value={userQuery} onChange={event => setUserQuery(event.target.value)} placeholder={t('admin_ranks_search_user_placeholder')} />
-              {userQuery.trim().length >= 2 && <div className="absolute z-20 top-full mt-1 left-0 right-0 rounded-md overflow-hidden" style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', boxShadow: 'var(--shadow-frame)' }}>
-                {userMatches.length ? userMatches.map(user => <button key={user.id} type="button" onClick={() => setSelectedUser(user)} className="w-full px-3 py-2 flex items-center gap-2 text-left hover:bg-surface-raised border-b last:border-0" style={{ borderColor: 'var(--metal-edge)' }}>
-                  <div className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-[10px] font-bold" style={{ background: 'var(--surface-raised)', color: 'var(--gold)' }}>{isSafeImageUrl(user.avatar_url) ? <img src={user.avatar_url} alt="" className="w-full h-full object-cover" /> : user.username[0]?.toUpperCase()}</div><span className="text-xs font-semibold" style={{ color: 'var(--ink)' }}>@{user.username}</span>{user.display_name && <span className="text-[10px] truncate" style={{ color: 'var(--ink-faint)' }}>{user.display_name}</span>}
-                </button>) : <p className="p-3 text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('admin_ranks_no_users')}</p>}
+            ) : <div className="ranks-search is-full">
+              <Search size={13} />
+              <input autoComplete="off" className="ranks-input" value={userQuery} onChange={event => setUserQuery(event.target.value)} placeholder={t('admin_ranks_search_user_placeholder')} />
+              {userQuery.trim().length >= 2 && <div className="ranks-dropdown">
+                {userMatches.length ? userMatches.map(user => <button key={user.id} type="button" onClick={() => setSelectedUser(user)} className="ranks-dropdown-item">
+                  <div className="ranks-avatar is-sm">{isSafeImageUrl(user.avatar_url) ? <img src={user.avatar_url} alt="" /> : user.username[0]?.toUpperCase()}</div><span className="ranks-user">@{user.username}</span>{user.display_name && <span className="ranks-hint">{user.display_name}</span>}
+                </button>) : <p className="ranks-hint ranks-dropdown-empty">{t('admin_ranks_no_users')}</p>}
               </div>}
             </div>}
           </Field>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={t('admin_ranks_starts')}><input type="datetime-local" required className={INPUT} style={INPUT_STYLE} value={startsAt} onChange={event => setStartsAt(event.target.value)} /></Field>
-            <Field label={t('admin_ranks_expires')} hint={t('admin_ranks_expiry_optional')}><input type="datetime-local" className={INPUT} style={INPUT_STYLE} value={expiresAt} min={startsAt} onChange={event => setExpiresAt(event.target.value)} /></Field>
+          <div className="ranks-two-col">
+            <Field label={t('admin_ranks_starts')}><input type="datetime-local" required className="ranks-input" value={startsAt} onChange={event => setStartsAt(event.target.value)} /></Field>
+            <Field label={t('admin_ranks_expires')} hint={t('admin_ranks_expiry_optional')}><input type="datetime-local" className="ranks-input" value={expiresAt} min={startsAt} onChange={event => setExpiresAt(event.target.value)} /></Field>
           </div>
-          <Field label={t('admin_ranks_internal_note')} hint={t('admin_ranks_internal_note_hint')}><textarea className={`${INPUT} min-h-20 resize-y`} style={INPUT_STYLE} maxLength={500} value={internalNote} onChange={event => setInternalNote(event.target.value)} /></Field>
-          {notice && <p role="alert" className="rounded-md border px-3 py-2 text-[11px]" style={{ color: 'var(--bad)', borderColor: 'color-mix(in srgb, var(--bad) 35%, transparent)', background: 'color-mix(in srgb, var(--bad) 8%, var(--surface-void))' }}>{t(notice)}</p>}
-          <div className="flex justify-end gap-2 border-t pt-4" style={{ borderColor: 'var(--metal-edge)' }}>
+          <Field label={t('admin_ranks_internal_note')} hint={t('admin_ranks_internal_note_hint')}><textarea className="ranks-input" maxLength={500} value={internalNote} onChange={event => setInternalNote(event.target.value)} /></Field>
+          {notice && <p role="alert" className="ranks-notice is-error">{t(notice)}</p>}
+          <div className="ranks-assign-footer">
             <Button type="button" variant="ghost" size="md" disabled={savingAssignment} onClick={() => setAssignRank(null)}>{t('admin_ranks_cancel')}</Button>
             <Button type="submit" variant="primary" size="md" disabled={savingAssignment || !selectedUser || !startsAt}><UserPlus size={13} />{savingAssignment ? t('admin_ranks_saving') : t('admin_ranks_confirm_assignment')}</Button>
           </div>
@@ -749,11 +721,11 @@ function AccessRedirect({ to, message }: { to: string; message: string }) {
   return <Navigate to={to} replace />
 }
 
-function Metric({ icon: Icon, value, label, accent = 'var(--gold)' }: { icon: typeof Award; value: number; label: string; accent?: string }) {
-  return <Frame material="panel" padding="sm" className="flex items-center gap-3 min-h-[70px]">
-    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ color: accent, background: `color-mix(in srgb, ${accent} 11%, var(--surface-void))`, border: '1px solid color-mix(in srgb, var(--metal-edge) 80%, transparent)' }}><Icon size={16} /></div>
-    <div className="min-w-0"><div className="font-display text-xl leading-none font-bold tabular-nums" style={{ color: 'var(--ink)' }}>{value}</div><div className="text-[9px] uppercase tracking-wider mt-1 truncate" style={{ color: 'var(--ink-faint)' }}>{label}</div></div>
-  </Frame>
+function Metric({ icon: Icon, value, label }: { icon: typeof Award; value: number; label: string }) {
+  return <div className="ranks-metric">
+    <Icon size={15} />
+    <div className="min-w-0"><div className="ranks-metric-value">{value}</div><div className="ranks-label">{label}</div></div>
+  </div>
 }
 
 function RankCard({ rank, badgeStyle, buildLimit, assignmentCount, onEdit, onAssign, t }: {
@@ -766,73 +738,68 @@ function RankCard({ rank, badgeStyle, buildLimit, assignmentCount, onEdit, onAss
   t: (key: string) => string
 }) {
   const Icon = RANK_ICONS[rank.icon]
-  return <Frame material="panel" padding="none" className="group flex flex-col">
-    <div className="h-1" style={{ background: `linear-gradient(90deg, ${rank.color}, color-mix(in srgb, ${rank.color} 10%, transparent))` }} />
-    <div className="p-4 flex-1 space-y-3">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center" style={{ color: rank.color, background: `color-mix(in srgb, ${rank.color} 12%, var(--surface-void))`, border: `1px solid color-mix(in srgb, ${rank.color} 28%, var(--metal-edge))` }}><Icon size={17} /></div>
-          <div className="min-w-0"><h3 className="font-display text-sm font-bold truncate" style={{ color: 'var(--ink)' }}>{rank.name}</h3><p className="text-[9px] font-mono mt-0.5" style={{ color: 'var(--ink-faint)' }}>{rank.slug}</p></div>
+  return <div className="ranks-card ranks-rank">
+    <div className="ranks-rank-body">
+      <div className="ranks-rank-head">
+        <div className="ranks-rank-id">
+          <span className="ranks-rank-icon" style={{ color: rank.color }}><Icon size={17} /></span>
+          <div className="min-w-0"><h3 className="ranks-card-title">{rank.name}</h3><p className="ranks-slug">{rank.slug}</p></div>
         </div>
-        <span className="rounded-full px-2 py-1 text-[9px] font-bold uppercase tracking-wide flex-shrink-0" style={{ color: rank.is_active ? 'var(--good)' : 'var(--ink-faint)', background: rank.is_active ? 'color-mix(in srgb, var(--good) 10%, var(--surface-void))' : 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>{t(rank.is_active ? 'admin_ranks_active' : 'admin_ranks_archived')}</span>
+        <span className={`ranks-chip${rank.is_active ? ' is-on' : ''}`}>{t(rank.is_active ? 'admin_ranks_active' : 'admin_ranks_archived')}</span>
       </div>
-      <p className="min-h-8 text-[11px] leading-relaxed line-clamp-2" style={{ color: 'var(--ink-faint)' }}>{rank.description || t('admin_ranks_no_description')}</p>
-      <div className="flex flex-wrap items-center gap-2 border-t pt-3" style={{ borderColor: 'var(--metal-edge)' }}>
+      <p className="ranks-desc">{rank.description || t('admin_ranks_no_description')}</p>
+      <div className="ranks-rank-meta">
         <CustomRankBadge rank={{ name: rank.name, description: rank.description, icon: rank.icon, color: rank.color, badgeStyle }} />
-        <span className="flex items-center gap-1 text-[9px]" style={{ color: rank.is_public ? 'var(--air)' : 'var(--ink-faint)' }}>{rank.is_public ? <Eye size={11} /> : <EyeOff size={11} />}{t(rank.is_public ? 'admin_ranks_public' : 'admin_ranks_private')}</span>
-        {buildLimit && <span className="flex items-center gap-1 text-[9px]" style={{ color: 'var(--ink-faint)' }}>{buildLimit === 'unlimited' ? <><InfinityIcon size={11} />{t('admin_ranks_unlimited')}</> : <><ShieldCheck size={11} />{buildLimit} {t('admin_ranks_builds')}</>}</span>}
-        <span className="ml-auto flex items-center gap-1 text-[9px]" style={{ color: 'var(--ink-faint)' }}><Users size={11} />{assignmentCount}</span>
+        <span className="ranks-meta">{rank.is_public ? <Eye size={12} /> : <EyeOff size={12} />}{t(rank.is_public ? 'admin_ranks_public' : 'admin_ranks_private')}</span>
+        {buildLimit && <span className="ranks-meta">{buildLimit === 'unlimited' ? <><InfinityIcon size={12} />{t('admin_ranks_unlimited')}</> : <><ShieldCheck size={12} /><b>{buildLimit}</b> {t('admin_ranks_builds')}</>}</span>}
+        <span className="ranks-meta ranks-meta-end"><Users size={12} /><b>{assignmentCount}</b></span>
       </div>
     </div>
-    <div className="flex gap-2 px-4 pb-4">
+    <div className="ranks-rank-actions">
       <Button variant="secondary" size="sm" className="flex-1" onClick={onEdit}><ChevronDown size={12} className="rotate-[-90deg]" />{t('admin_ranks_edit')}</Button>
       <Button variant="primary" size="sm" className="flex-1" onClick={onAssign} disabled={!rank.is_active}><UserPlus size={12} />{t('admin_ranks_assign')}</Button>
-    </div>
-  </Frame>
-}
-
-function AssignmentState({ state, t }: { state: string; t: (key: string) => string }) {
-  const color = state === 'active' ? 'var(--good)' : state === 'scheduled' ? 'var(--air)' : 'var(--ink-faint)'
-  const icon = state === 'scheduled' ? <CalendarClock size={10} /> : state === 'revoked' ? <Archive size={10} /> : null
-  return <span className="inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[9px] font-bold uppercase tracking-wide" style={{ color, borderColor: `color-mix(in srgb, ${color} 30%, var(--metal-edge))`, background: `color-mix(in srgb, ${color} 10%, var(--surface-void))` }}>{icon}{t(`admin_ranks_status_${state}`)}</span>
-}
-
-function SearchField({ value, onChange, placeholder, clearLabel }: { value: string; onChange: (value: string) => void; placeholder: string; clearLabel: string }) {
-  return <label className="relative block w-full sm:w-64">
-    <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }} />
-    <input value={value} onChange={event => onChange(event.target.value)} placeholder={placeholder} className={`${INPUT} pl-8 pr-8`} style={INPUT_STYLE} />
-    {value && <button type="button" aria-label={clearLabel} onClick={() => onChange('')} className="absolute right-2.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--ink-faint)' }}><X size={12} /></button>}
-  </label>
-}
-
-function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
-  return <label className="block space-y-1.5"><FieldLabel>{label}</FieldLabel>{children}{hint && <span className="block text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{hint}</span>}</label>
-}
-
-function FieldLabel({ children }: { children: ReactNode }) {
-  return <span className="block text-[11px] font-semibold" style={{ color: 'var(--ink-muted)' }}>{children}</span>
-}
-
-function SectionHeading({ number, title, description }: { number: string; title: string; description: string }) {
-  return <div className="flex items-start gap-3">
-    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-[10px] font-bold tabular-nums" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 9%, var(--surface-void))', borderColor: 'color-mix(in srgb, var(--gold) 28%, var(--metal-edge))' }}>{number}</span>
-    <div className="min-w-0 pt-0.5">
-      <h3 className="text-xs font-bold tracking-wide" style={{ color: 'var(--ink)' }}>{title}</h3>
-      <p className="mt-1 text-[10px] leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{description}</p>
     </div>
   </div>
 }
 
+function AssignmentState({ state, t }: { state: string; t: (key: string) => string }) {
+  const icon = state === 'scheduled' ? <CalendarClock size={11} /> : state === 'revoked' ? <Archive size={11} /> : null
+  return <span className={`ranks-chip${state === 'active' ? ' is-on' : ''}`}>{icon}{t(`admin_ranks_status_${state}`)}</span>
+}
+
+function SearchField({ value, onChange, placeholder, clearLabel }: { value: string; onChange: (value: string) => void; placeholder: string; clearLabel: string }) {
+  return <label className="ranks-search">
+    <Search size={13} />
+    <input value={value} onChange={event => onChange(event.target.value)} placeholder={placeholder} className="ranks-input" />
+    {value && <button type="button" aria-label={clearLabel} onClick={() => onChange('')} className="ranks-search-clear"><X size={12} /></button>}
+  </label>
+}
+
+function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
+  return <label className="ranks-field"><FieldLabel>{label}</FieldLabel>{children}{hint && <span className="ranks-hint">{hint}</span>}</label>
+}
+
+function FieldLabel({ children }: { children: ReactNode }) {
+  return <span className="ranks-label">{children}</span>
+}
+
+function SectionHeading({ title, description }: { title: string; description: string }) {
+  return <div className="ranks-panel-head">
+    <h3>{title}</h3>
+    <p className="ranks-hint">{description}</p>
+  </div>
+}
+
 function ToggleRow({ icon: Icon, title, description, checked, onChange }: { icon: typeof Eye; title: string; description: string; checked: boolean; onChange: (value: boolean) => void }) {
-  return <label className="flex items-center gap-2.5 rounded-md border px-2.5 py-2 cursor-pointer" style={{ background: 'var(--surface-void)', borderColor: 'var(--metal-edge)' }}>
-    <Icon size={14} style={{ color: checked ? 'var(--gold)' : 'var(--ink-faint)' }} />
-    <span className="min-w-0 flex-1"><span className="block text-[11px] font-semibold" style={{ color: 'var(--ink)' }}>{title}</span><span className="block text-[10px] mt-1 leading-relaxed" style={{ color: 'var(--ink-faint)' }}>{description}</span></span>
-    <input type="checkbox" checked={checked} onChange={event => onChange(event.target.checked)} className="accent-[var(--gold)]" />
+  return <label className={`ranks-toggle${checked ? ' is-on' : ''}`}>
+    <Icon size={14} />
+    <span className="ranks-toggle-text"><span className="ranks-toggle-title">{title}</span><span className="ranks-hint">{description}</span></span>
+    <input type="checkbox" checked={checked} onChange={event => onChange(event.target.checked)} />
   </label>
 }
 
 function LoadingRows({ label }: { label: string }) {
-  return <Frame material="panel" className="px-6 py-12 text-center text-xs" style={{ color: 'var(--ink-faint)' }}>{label}</Frame>
+  return <div className="admin-state">{label}</div>
 }
 
 export default AdminRanksPage

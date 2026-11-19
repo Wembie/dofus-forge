@@ -71,7 +71,7 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
     const isActive = selectedSet.has(stat)
     return (
       <button
-        className="w-full text-left px-3 py-1.5 text-[11px] flex items-center gap-2 transition-colors hover:bg-white/5"
+        className="w-full text-left px-3 py-1.5 text-[12px] flex items-center gap-2 transition-colors hover:bg-[var(--hover)]"
         style={{
           color:      clr,
           background: isActive ? `color-mix(in srgb, ${clr} 10%, transparent)` : undefined,
@@ -85,10 +85,7 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
         }
         <span className="truncate flex-1">{label}</span>
         {isActive && (
-          <span
-            className="flex-shrink-0 text-[9px] font-bold w-4 h-4 rounded flex items-center justify-center"
-            style={{ background: `color-mix(in srgb, ${clr} 20%, transparent)`, color: clr }}
-          >✓</span>
+          <span className="flex-shrink-0 text-[12px] font-bold" style={{ color: clr }} aria-hidden="true">✓</span>
         )}
       </button>
     )
@@ -96,7 +93,7 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
 
   function GroupTitle({ children }: { children: string }) {
     return (
-      <p className="px-3 pt-2.5 pb-0.5 text-[9px] uppercase tracking-widest font-bold" style={{ color: 'var(--gold)' }}>
+      <p className="px-3 pt-3 pb-1 text-[10px] uppercase tracking-[0.08em] font-semibold" style={{ color: 'var(--muted)', fontFamily: "'IBM Plex Mono', ui-monospace, monospace" }}>
         {children}
       </p>
     )
@@ -104,7 +101,7 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
 
   function SectionTitle({ children }: { children: string }) {
     return (
-      <p className="px-3 pt-1.5 pb-0.5 text-[8px] uppercase tracking-[0.14em] font-semibold" style={{ color: 'var(--ink-faint)' }}>
+      <p className="px-3 pt-1.5 pb-0.5 text-[11px] font-semibold" style={{ color: 'var(--muted)' }}>
         {children}
       </p>
     )
@@ -124,16 +121,16 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
               type="button"
               key={stat}
               aria-label={t('a11y_remove_filter', { name: lbl })}
-              className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium cursor-pointer"
+              className="flex items-center gap-1.5 px-2 py-1 rounded-[4px] text-[12px] font-medium cursor-pointer"
               style={{
-                border:     `1px solid color-mix(in srgb, ${clr} 31%, transparent)`,
-                background: `color-mix(in srgb, ${clr} 8%, transparent)`,
+                border:     '1px solid var(--line)',
+                background: 'var(--surface)',
                 color: clr,
               }}
               onClick={() => toggle(stat)}
             >
               {meta?.icon && (
-                <img src={statIconUrl(meta.icon)} alt="" width={10} height={10} className="object-contain flex-shrink-0" />
+                <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
               )}
               <span className="max-w-[90px] truncate">{lbl}</span>
               <span className="opacity-60 hover:opacity-100 flex-shrink-0" aria-hidden="true">✕</span>
@@ -143,28 +140,28 @@ export function StatFilter({ stats, selected, onSelect }: StatFilterProps) {
 
         {/* Trigger button */}
         <button
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] border transition-colors flex-shrink-0"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[12px] border transition-colors flex-shrink-0"
           style={{
-            background:  open ? 'var(--surface-panel)' : 'var(--surface-void)',
-            borderColor: open ? 'color-mix(in srgb, var(--gold) 30%, transparent)' : 'var(--metal-edge)',
-            color:       open ? 'var(--ink-muted)' : 'var(--ink-faint)',
+            background:  'var(--surface)',
+            borderColor: open ? 'var(--muted)' : 'var(--line)',
+            color:       'var(--text)',
           }}
           onClick={() => { setOpen(o => !o); if (open) setQ('') }}
           aria-expanded={open}
         >
-          <span>⊙</span>
           <span>{selected.length > 0 ? `+${t('filter_by_stat', 'efecto')}` : t('filter_by_stat', 'Filtrar efecto')}</span>
-          <span style={{ fontSize: 9, opacity: 0.5, marginLeft: 2 }}>{open ? '▲' : '▼'}</span>
+          <span style={{ fontSize: 10, color: 'var(--muted)', marginLeft: 2 }} aria-hidden="true">{open ? '▲' : '▼'}</span>
         </button>
       </div>
 
       {/* Dropdown */}
       {open && (
         <div
-          className="absolute left-0 top-full mt-1 z-50 rounded-lg overflow-hidden shadow-2xl"
+          className="absolute left-0 top-full mt-1 z-50 rounded-[5px] overflow-hidden"
           style={{
-            background:  'var(--surface-void)',
-            border:      '1px solid var(--metal-edge)',
+            background:  'var(--surface)',
+            border:      '1px solid var(--line)',
+            boxShadow:   '0 8px 24px rgb(0 0 0 / 0.3)',
             width:       230,
             maxHeight:   360,
             overflowY:   'auto',

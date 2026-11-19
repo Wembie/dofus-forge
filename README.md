@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://dofusforge.com">
-    <img src="public/og-preview.jpg" alt="Dofus Forge — the build planner for the discerning adventurer" width="100%">
+    <img src="public/brand/og-v04-en.jpg" alt="Dofus Forge — build planner for Dofus 3" width="100%">
   </a>
 
   <p>

@@ -1,0 +1,284 @@
+[
+  {
+    "device": "desktop",
+    "id": "characteristics",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "passives",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "spells",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1178,
+      "contentScrollWidth": 1178
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "pvp",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1178,
+      "contentScrollWidth": 1178
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "sets",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1398,
+      "contentScrollWidth": 1398
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "bonuses",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "compare",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1178,
+      "contentScrollWidth": 1178
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "share",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "changelog",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "catalog",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1398,
+      "contentScrollWidth": 1398
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "desktop",
+    "id": "runes",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 1178,
+      "contentScrollWidth": 1178
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "characteristics",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "passives",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "spells",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "pvp",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "sets",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "bonuses",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "compare",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "share",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "changelog",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "catalog",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "device": "mobile",
+    "id": "runes",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "errors": [],
+    "violations": []
+  }
+]

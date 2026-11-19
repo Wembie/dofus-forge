@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
-import { SiteHeader } from '@/components/SiteHeader.tsx'
-import { SiteFooter } from '@/components/SiteFooter.tsx'
+import { Hammer, Wand2 } from 'lucide-react'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { Actions, GoLink, Reading } from '@/features/reading/Reading.tsx'
 
 const STEPS = [1, 2, 3, 4, 5, 6, 7, 8] as const
 
@@ -17,74 +16,29 @@ export function HowToUsePage() {
   })
 
   return (
-    <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
-      <SiteHeader />
-
-      <main id="main-content" className="flex-1 max-w-3xl w-full mx-auto px-4 py-10 space-y-8">
-        <div style={{ animation: 'page-rise 520ms var(--ease-out) 0ms both' }}>
-          <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--gold)' }}>
-            {t('howto_title')}
-          </h1>
-          <p className="text-sm leading-relaxed mt-3 max-w-2xl" style={{ color: 'var(--ink-muted)' }}>
-            {t('howto_intro')}
-          </p>
-        </div>
-
-        <ol className="relative space-y-6 pl-8" style={{ borderLeft: '2px solid var(--metal-edge)' }}>
-          {STEPS.map(n => (
-            <li
-              key={n}
-              className="relative"
-              style={{ animation: `page-rise 420ms var(--ease-out) ${n * 50}ms both` }}
-            >
-              <span
-                className="absolute -left-[41px] top-0 flex items-center justify-center rounded-full font-display text-xs font-bold"
-                style={{
-                  width: 28, height: 28,
-                  background: 'var(--surface-stone)',
-                  border: '1px solid var(--gold)',
-                  color: 'var(--gold)',
-                }}
-              >
-                {n}
-              </span>
-              <h2 className="font-display text-sm font-bold" style={{ color: 'var(--ink)' }}>
-                {t(`howto_step${n}_title`)}
-              </h2>
-              <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--ink-muted)' }}>
-                {t(`howto_step${n}_body`)}
-              </p>
-            </li>
-          ))}
-        </ol>
-
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to={homePath}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
-            style={{ borderColor: 'var(--metal-edge)', color: 'var(--gold)' }}
-          >
-            {t('howto_cta_start')}
-          </Link>
-          <Link
-            to={`/${prefix}about`}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
-            style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
-          >
-            {t('howto_cta_about')}
-          </Link>
-          <Link
-            to={`/${prefix}forge-guide`}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
-            style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
-          >
-            {t('nav_forge_guide')}
-          </Link>
-        </div>
-      </main>
-
-      <SiteFooter />
-    </div>
+    <Reading
+      kicker={t('reading_kicker_guide')}
+      title={t('howto_title')}
+      intro={<p>{t('howto_intro')}</p>}
+      toc={STEPS.map(n => ({ id: `step${n}`, label: t(`howto_step${n}_title`) }))}
+    >
+      <ol className="rd-steps">
+        {STEPS.map(n => (
+          <li key={n} id={`step${n}`}>
+            <span className="rd-step-n" aria-hidden="true">{n}</span>
+            <div>
+              <h2>{t(`howto_step${n}_title`)}</h2>
+              <p>{t(`howto_step${n}_body`)}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <Actions>
+        <GoLink to={homePath} primary><Hammer size={17} aria-hidden="true" />{t('howto_cta_start')}</GoLink>
+        <GoLink to={`/${prefix}about`}>{t('howto_cta_about')}</GoLink>
+        <GoLink to={`/${prefix}forge-guide`}><Wand2 size={17} aria-hidden="true" />{t('nav_forge_guide')}</GoLink>
+      </Actions>
+    </Reading>
   )
 }
 

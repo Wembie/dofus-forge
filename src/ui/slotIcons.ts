@@ -1,8 +1,8 @@
 // Equipment slot icons on a 24 grid, in the brand's faceted style: `base` is the
 // whole silhouette (drawn at reduced opacity), `lit` the facets that catch the
 // light. Plain data so docs/brand/slot-icons/board.mjs can render the same
-// shapes. SlotIcon.tsx draws them in currentColor; the Dofus slots keep the
-// game's Dofus icon (no shape here).
+// shapes. SlotIcon.tsx draws them in currentColor, the Dofus egg included, so
+// an empty Dofus slot reads like every other empty slot.
 
 export type SlotIconKey =
   | 'hat' | 'cape' | 'amulet' | 'ring' | 'weapon' | 'shield' | 'belt' | 'boots'
@@ -23,7 +23,11 @@ const hexLeft = (cx: number, cy: number, rx = 2, ry = 2.6): Pt[] =>
   [[cx, cy - ry], [cx - rx, cy - ry / 2], [cx - rx, cy + ry / 2], [cx, cy + ry]]
 const poly = (pts: Pt[]) => 'M' + pts.map(p => p.join(' ')).join(' L') + ' Z'
 
-export const SLOT_ICON_SHAPES: Record<Exclude<SlotIconKey, 'dofus'>, SlotIconShape> = {
+export const SLOT_ICON_SHAPES: Record<SlotIconKey, SlotIconShape> = {
+  dofus: {
+    base: 'M12 2.5 L15.6 5 L17.8 9.5 L18.3 14 L16.6 18.6 L12 21.5 L7.4 18.6 L5.7 14 L6.2 9.5 L8.4 5 Z',
+    lit: 'M12 2.5 L8.4 5 L6.2 9.5 L5.7 14 L7.4 18.6 L12 21.5 L12 12 Z M12 2.5 L15.6 5 L12 8.2 Z',
+  },
   hat: {
     base: 'M7 12.5 L8.2 6 L12 3.5 L15.8 6 L17 12.5 Z M2.5 13 H21.5 L19.5 16.5 H4.5 Z M12 8.6 L13.6 10.6 L12 12.6 L10.4 10.6 Z',
     lit: 'M7 12.5 L8.2 6 L12 3.5 V8.6 L10.4 10.6 L12 12.6 V12.5 Z M2.5 13 H21.5 L21 14 H3 Z',

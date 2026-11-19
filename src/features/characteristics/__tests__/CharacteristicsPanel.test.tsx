@@ -14,7 +14,8 @@ import { CombatViewBar } from '@/features/passives/CombatViewBar.tsx'
 const DOFUSTEUSE = { ankama_id: 958, name: 'Dofusteuse', level: 200, type: 'Cloak', slot: 'cape', effects: [], set_id: null } as unknown as AppItem
 const NIGHTMARE  = { ankama_id: 26066, name: 'Nightmare Dofus', level: 180, type: 'Dofus', slot: 'dofus', effects: [], set_id: null } as unknown as AppItem
 const store = () => useBuildStore.getState()
-const row = (label: string) => screen.getByText(label).parentElement!
+// The characteristics panel's row; the stats panel shows the same names.
+const row = (label: string) => (screen.queryByTestId('chars') ? within(screen.getByTestId('chars')) : screen).getByText(label).closest('[role="group"]')!
 
 beforeEach(() => {
   localStorage.clear()

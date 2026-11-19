@@ -1,5 +1,6 @@
 import type { SyntheticEvent } from 'react'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
+import type { StatBlock } from '@/engine/types.ts'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -206,3 +207,98 @@ export function runeIconFallback(key: string) {
 export function signatureRuneUrl(): string {
   return `${BASE}data/runes/Signature_Rune.webp`
 }
+
+/** Label key and icon of each computed stat (StatBlock field), with the names
+ * the stats panel has always used. Fields absent here have no production
+ * label; the full sheet names them with `sheet_stat_<field>`. */
+export const STAT_FIELDS: Record<string, { tKey: string; icon: string }> = {
+  maxHp:        { tKey: 'badge_hp',          icon: 'vitality' },
+  ap:           { tKey: 'stat_ap',           icon: 'ap' },
+  mp:           { tKey: 'stat_mp',           icon: 'mp' },
+  range:        { tKey: 'stat_range',        icon: 'range' },
+  vitality:     { tKey: 'stat_vitality',     icon: 'vitality' },
+  wisdom:       { tKey: 'stat_wisdom',       icon: 'wisdom' },
+  strength:     { tKey: 'stat_strength',     icon: 'strength' },
+  intelligence: { tKey: 'stat_intelligence', icon: 'intelligence' },
+  chance:       { tKey: 'stat_chance',       icon: 'chance' },
+  agility:      { tKey: 'stat_agility',      icon: 'agility' },
+  power:        { tKey: 'stat_power',        icon: 'power' },
+  initiative:   { tKey: 'stat_initiative',   icon: 'initiative' },
+  prospecting:  { tKey: 'stat_prospecting',  icon: 'prospecting' },
+  summons:      { tKey: 'stat_summons',      icon: 'summons' },
+  pods:         { tKey: 'stat_pods',         icon: 'pods' },
+  damage:       { tKey: 'stat_damage',       icon: 'damage' },
+  neutralDamage: { tKey: 'stat_neutral_damage', icon: 'neutral' },
+  earthDamage:  { tKey: 'stat_earth_damage', icon: 'strength_damage' },
+  fireDamage:   { tKey: 'stat_fire_damage',  icon: 'intelligence_damage' },
+  waterDamage:  { tKey: 'stat_water_damage', icon: 'chance_damage' },
+  airDamage:    { tKey: 'stat_air_damage',   icon: 'agility_damage' },
+  critChance:   { tKey: 'stat_crit_chance',  icon: 'crit' },
+  critDamage:   { tKey: 'stat_crit_damage',  icon: 'crit_damage' },
+  critResistance: { tKey: 'stat_crit_res',   icon: 'crit_res' },
+  meleeDamagePercent:  { tKey: 'stat_melee_dmg',  icon: 'melee_damage' },
+  rangedDamagePercent: { tKey: 'stat_ranged_dmg', icon: 'ranged_damage' },
+  spellDamagePercent:  { tKey: 'stat_spell_dmg',  icon: 'spell_damage' },
+  weaponDamagePercent: { tKey: 'stat_weapon_dmg', icon: 'weapon_damage' },
+  finalDamagePercent:  { tKey: 'stat_final_dmg',  icon: 'damage' },
+  targetVulnerabilityPercent: { tKey: 'stat_target_vulnerability', icon: 'damage' },
+  meleeResistPercent:  { tKey: 'stat_melee_res',  icon: 'melee_resistance' },
+  rangedResistPercent: { tKey: 'stat_ranged_res', icon: 'ranged_resistance' },
+  pushbackDamage: { tKey: 'stat_push_damage', icon: 'push_damage' },
+  pushbackResist: { tKey: 'stat_push_res',    icon: 'push_resistance' },
+  trapDamage:   { tKey: 'stat_trap_damage',  icon: 'trap_damage' },
+  trapPower:    { tKey: 'stat_trap_power',   icon: 'trap_power' },
+  reflectedDamage: { tKey: 'stat_reflect_dmg', icon: 'damage_reflect' },
+  neutralSteal: { tKey: 'stat_neutral_steal', icon: 'neutral' },
+  earthSteal:   { tKey: 'stat_earth_steal',  icon: 'strength_damage' },
+  fireSteal:    { tKey: 'stat_fire_steal',   icon: 'intelligence_damage' },
+  waterSteal:   { tKey: 'stat_water_steal',  icon: 'chance_damage' },
+  airSteal:     { tKey: 'stat_air_steal',    icon: 'agility_damage' },
+  bestElemSteal:  { tKey: 'stat_best_elem_steal', icon: 'power' },
+  bestElemDamage: { tKey: 'stat_best_elem_dmg',   icon: 'power' },
+  neutralResFixed: { tKey: 'stat_neutral_res', icon: 'neutral_resistance' },
+  earthResFixed:   { tKey: 'stat_earth_res',   icon: 'earth_resistance' },
+  fireResFixed:    { tKey: 'stat_fire_res',    icon: 'fire_resistance' },
+  waterResFixed:   { tKey: 'stat_water_res',   icon: 'water_resistance' },
+  airResFixed:     { tKey: 'stat_air_res',     icon: 'air_resistance' },
+  neutralResPercent: { tKey: 'stat_pct_neutral_res', icon: 'neutral_resistance' },
+  earthResPercent:   { tKey: 'stat_pct_earth_res',   icon: 'earth_resistance' },
+  fireResPercent:    { tKey: 'stat_pct_fire_res',    icon: 'fire_resistance' },
+  waterResPercent:   { tKey: 'stat_pct_water_res',   icon: 'water_resistance' },
+  airResPercent:     { tKey: 'stat_pct_air_res',     icon: 'air_resistance' },
+  lock:         { tKey: 'stat_lock',         icon: 'lock' },
+  dodge:        { tKey: 'stat_dodge',        icon: 'dodge' },
+  apReduction:  { tKey: 'stat_ap_removal',   icon: 'ap_reduction' },
+  mpReduction:  { tKey: 'stat_mp_removal',   icon: 'mp_reduction' },
+  apParry:      { tKey: 'stat_ap_parry',     icon: 'ap_parry' },
+  mpParry:      { tKey: 'stat_mp_parry',     icon: 'mp_parry' },
+  mpSteal:      { tKey: 'stat_mp_steal',     icon: 'mp_reduction' },
+  heals:        { tKey: 'stat_heals',        icon: 'heals' },
+}
+
+export type SheetKey = Exclude<keyof StatBlock, 'unknownStats'> | 'unknownStats'
+
+/** Every field of the StatBlock, grouped as the character sheet reads them.
+ * Vitality is left out: its effect is already the HP. */
+export const STAT_SHEET_GROUPS: [string, SheetKey[]][] = [
+  ['character', [
+    'maxHp', 'ap', 'mp', 'range', 'wisdom', 'strength', 'intelligence', 'chance', 'agility',
+    'power', 'initiative', 'prospecting', 'summons', 'pods', 'pointsBudget', 'pointsSpent',
+  ]],
+  ['section_damage', [
+    'damage', 'neutralDamage', 'earthDamage', 'fireDamage', 'waterDamage', 'airDamage', 'critChance', 'critDamage',
+    'meleeDamagePercent', 'rangedDamagePercent', 'spellDamagePercent', 'weaponDamagePercent', 'finalDamagePercent',
+    'pushbackDamage', 'trapDamage', 'trapPower', 'reflectedDamage', 'neutralSteal', 'earthSteal', 'fireSteal',
+    'waterSteal', 'airSteal', 'bestElemSteal', 'bestElemDamage',
+  ]],
+  ['section_resistances', [
+    'neutralResFixed', 'earthResFixed', 'fireResFixed', 'waterResFixed', 'airResFixed',
+    'neutralResPercent', 'earthResPercent', 'fireResPercent', 'waterResPercent', 'airResPercent',
+    'neutralResPercentRaw', 'earthResPercentRaw', 'fireResPercentRaw', 'waterResPercentRaw', 'airResPercentRaw',
+    'critResistance', 'pushbackResist', 'meleeResistPercent', 'rangedResistPercent', 'targetVulnerabilityPercent',
+  ]],
+  ['stats_group_control', [
+    'apReduction', 'mpReduction', 'apParry', 'mpParry', 'lock', 'dodge', 'mpSteal', 'heals',
+    'apRaw', 'mpRaw', 'rangeRaw', 'unknownStats',
+  ]],
+]

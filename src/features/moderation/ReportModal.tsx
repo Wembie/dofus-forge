@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, Button } from '@/ui'
+import { Flag } from 'lucide-react'
+import { Modal } from '@/ui'
 import { submitReport, REPORT_REASONS, type ReportReason, type ReportTarget } from '@/features/builds/api.ts'
+import './report.css'
+
+const DETAIL_MAX = 500
 
 /** Report a build or a comment: reason + optional detail, stored for moderators. */
 export function ReportModal({ target, reporterId, onClose }: { target: ReportTarget | null; reporterId: string; onClose: () => void }) {
   const { t } = useTranslation()
+  const id = useId()
   const [reason, setReason] = useState<ReportReason>('spam')
   const [detail, setDetail] = useState('')
   const [busy, setBusy]     = useState(false)
@@ -30,35 +35,32 @@ export function ReportModal({ target, reporterId, onClose }: { target: ReportTar
   return (
     <Modal open={target != null} onClose={onClose} title={t(target?.kind === 'comment' ? 'report_comment_title' : 'report_build_title')} size="sm">
       {result === 'sent' || result === 'duplicate' ? (
-        <div className="p-5 space-y-3 text-center">
-          <p className="text-sm" style={{ color: 'var(--ink-muted)' }}>{t(result === 'sent' ? 'report_sent' : 'report_duplicate')}</p>
-          <Button variant="secondary" size="sm" onClick={onClose}>{t('modal_close')}</Button>
+        <div className="report-result" role="status">
+          <Flag size={26} aria-hidden="true" />
+          <p>{t(result === 'sent' ? 'report_sent' : 'report_duplicate')}</p>
+          <button type="button" className="site-primary" onClick={onClose}>{t('modal_close')}</button>
         </div>
       ) : (
-        <form onSubmit={submit} className="p-5 space-y-3">
-          <fieldset className="space-y-1.5">
-            <legend className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>{t('report_reason_label')}</legend>
+        <form className="report-form" onSubmit={submit}>
+          <p className="report-muted">{t('report_intro')}</p>
+          <fieldset className="report-reasons">
+            <legend>{t('report_reason_label')}</legend>
             {REPORT_REASONS.map(r => (
-              <label key={r} className="flex items-center gap-2 text-xs cursor-pointer" style={{ color: 'var(--ink)' }}>
-                <input type="radio" name="report-reason" value={r} checked={reason === r} onChange={() => setReason(r)} />
-                {t(`report_reason_${r}`)}
+              <label key={r} className={reason === r ? 'is-selected' : ''}>
+                <input type="radio" name={`${id}-reason`} value={r} checked={reason === r} onChange={() => setReason(r)} />
+                <span>{t(`report_reason_${r}`)}</span>
               </label>
             ))}
           </fieldset>
-          <textarea
-            value={detail}
-            onChange={e => setDetail(e.target.value)}
-            maxLength={500}
-            rows={3}
-            placeholder={t('report_detail_placeholder')}
-            aria-label={t('report_detail_placeholder')}
-            className="w-full text-xs rounded-lg px-3 py-2 focus:outline-none resize-none"
-            style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-          />
-          {result === 'error' && <p role="alert" className="text-[11px]" style={{ color: 'var(--negative)' }}>{t('report_error')}</p>}
-          <Button type="submit" variant="primary" size="md" disabled={busy} className="w-full justify-center">
-            {busy ? t('auth_loading') : t('report_submit')}
-          </Button>
+          <label className="report-field" htmlFor={`${id}-detail`}>{t('report_detail_placeholder')}</label>
+          <textarea id={`${id}-detail`} value={detail} onChange={e => setDetail(e.target.value)} maxLength={DETAIL_MAX} rows={3}
+            aria-describedby={`${id}-count`} />
+          <small id={`${id}-count`} className="report-count">{detail.length} / {DETAIL_MAX}</small>
+          {result === 'error' && <p role="alert" className="report-error">{t('report_error')}</p>}
+          <div className="report-actions">
+            <button type="button" onClick={onClose}>{t('report_cancel')}</button>
+            <button type="submit" className="site-primary" disabled={busy}>{busy ? t('auth_loading') : t('report_submit')}</button>
+          </div>
         </form>
       )}
     </Modal>

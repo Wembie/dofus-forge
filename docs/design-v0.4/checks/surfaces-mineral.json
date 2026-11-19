@@ -1,0 +1,1544 @@
+[
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "builder",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "explore",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "build",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "my-builds",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "collection",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "profile",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "sets",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "set",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "class",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "how-to-use",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "forge-guide",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "shortcuts",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "about",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "privacy",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "terms",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "account",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "admin",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "ranks",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "page",
+    "id": "reports",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "settings",
+    "geometry": {
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "commands",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "signin",
+    "geometry": {
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "signup",
+    "geometry": {
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "forgot",
+    "geometry": {
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "reset-password",
+    "geometry": {
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "consent",
+    "geometry": {
+      "width": 978,
+      "scrollWidth": 978,
+      "contentWidth": 978,
+      "contentScrollWidth": 978
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "publish",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "update-build",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "visibility",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rename",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "delete-build",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "collection-new",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "collection-edit",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "collection-picker",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "collection-delete",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "followers",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "following",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "report-build",
+    "geometry": {
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "report-comment",
+    "geometry": {
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "delete-comment",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "restore-version",
+    "geometry": {
+      "width": 438,
+      "scrollWidth": 438,
+      "contentWidth": 438,
+      "contentScrollWidth": 438
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "notifications",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-edit",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-assign",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-revoke",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-history",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-icons",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-colors",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "rank-styles",
+    "geometry": {
+      "width": 738,
+      "scrollWidth": 738,
+      "contentWidth": 738,
+      "contentScrollWidth": 738
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "moderate",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "delete-content",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "restore-content",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "signout",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "update-banner",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "dialog",
+    "id": "navigation",
+    "geometry": {
+      "width": 618,
+      "scrollWidth": 618,
+      "contentWidth": 618,
+      "contentScrollWidth": 618
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "state",
+    "id": "empty",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "state",
+    "id": "loading",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "state",
+    "id": "error",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "state",
+    "id": "signed-out",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "state",
+    "id": "forbidden",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "kind": "state",
+    "id": "missing",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "builder",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "explore",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "build",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "my-builds",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "collection",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "profile",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "sets",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "set",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "class",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "how-to-use",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "forge-guide",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "shortcuts",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "about",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "privacy",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "terms",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "account",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "admin",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "ranks",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "page",
+    "id": "reports",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "settings",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "commands",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "signin",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "signup",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "forgot",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "reset-password",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "consent",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "publish",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "update-build",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "visibility",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rename",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "delete-build",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "collection-new",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "collection-edit",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "collection-picker",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "collection-delete",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "followers",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "following",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "report-build",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "report-comment",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "delete-comment",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "restore-version",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "notifications",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-edit",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-assign",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-revoke",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-history",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-icons",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-colors",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "rank-styles",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "moderate",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "delete-content",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "restore-content",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "signout",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "update-banner",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "contentWidth": 0,
+      "contentScrollWidth": 0
+    },
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "dialog",
+    "id": "navigation",
+    "geometry": {
+      "width": 388,
+      "scrollWidth": 388,
+      "contentWidth": 388,
+      "contentScrollWidth": 388
+    },
+    "focusReturned": true,
+    "violations": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "state",
+    "id": "empty",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "state",
+    "id": "loading",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "state",
+    "id": "error",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "state",
+    "id": "signed-out",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "state",
+    "id": "forbidden",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "kind": "state",
+    "id": "missing",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": []
+  }
+]

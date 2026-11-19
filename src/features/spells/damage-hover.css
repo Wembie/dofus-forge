@@ -1,0 +1,67 @@
+/* How a damage value is built, step by step (hover on a damage figure). */
+.dmg-breakdown {
+  position: fixed;
+  z-index: 200;
+  pointer-events: none;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+}
+.dmg-breakdown-title {
+  margin: 0 0 8px;
+  font: 600 10px 'IBM Plex Mono', ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dmg-breakdown-title.is-crit {
+  color: var(--crit);
+}
+.dmg-breakdown-rows {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  column-gap: 10px;
+  row-gap: 4px;
+}
+.dmg-breakdown-label {
+  min-width: 0;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.dmg-breakdown-factor,
+.dmg-breakdown-value {
+  font: 500 12px 'IBM Plex Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.dmg-breakdown-factor {
+  color: var(--accent);
+}
+.dmg-breakdown-rule {
+  grid-column: 1 / -1;
+  height: 0;
+  margin: 4px 0 2px;
+  border-top: 1px solid var(--line);
+}
+.dmg-breakdown-total {
+  grid-column: 1 / 3;
+  font-weight: 700;
+}
+.dmg-breakdown-value.is-total {
+  font-weight: 700;
+  color: var(--text);
+}
+.dmg-breakdown-value.is-crit {
+  color: var(--crit);
+}
+.dmg-breakdown-note {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}

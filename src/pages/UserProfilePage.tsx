@@ -1,17 +1,18 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, Link, useLoaderData, type LoaderFunctionArgs } from 'react-router'
-import { User, Calendar, Heart, MessageSquare, Layers, UserPlus, UserCheck } from 'lucide-react'
+import { ArrowRight, User, UserPlus, UserCheck } from 'lucide-react'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
-import { Button } from '@/ui'
-import { langPathRootSegment } from '@/i18n/langPath.ts'
+import { langPathPrefix } from '@/i18n/langPath.ts'
+import { requestSignIn } from '@/features/auth/requestSignIn.ts'
+import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { useLoadGameData } from '@/data/useLoadGameData.ts'
-import { useAuthStore, isSafeImageUrl } from '@/store/authStore.ts'
+import { useAuthStore } from '@/store/authStore.ts'
 import { BuildCard } from '@/features/builds/BuildCard.tsx'
 import { useIsFollowing } from '@/features/builds/useIsFollowing.ts'
-import { CollectionGrid } from '@/features/collections/Collections.tsx'
+import { CollectionRowLink } from '@/features/library/LibraryParts.tsx'
 import { CustomRankBadge } from '@/features/ranks/CustomRankBadge.tsx'
 import { fetchPublicCustomRank, parsePublicCustomRank } from '@/features/ranks/api.ts'
 import type { PublicCustomRank } from '@/features/ranks/catalog.tsx'
@@ -46,18 +47,6 @@ export async function clientLoader() {
   return null
 }
 
-// Ascending gold intensity by tier — same accent already used for anything
-// "special" on this page (hero border, username), so the ladder reads as
-// "more of the app's own premium color" instead of borrowing the elemental
-// damage hues (earth/fire/water/air), which already mean something else
-// everywhere in this app.
-const TIER_COLOR: Record<Exclude<MembershipTier, 'free'>, string> = {
-  apprentice: 'var(--gold-deep)',
-  artisan:    'var(--gold)',
-  forger:     'var(--gold-bright)',
-  master:     'var(--gold-bright)',
-}
-
 /**
  * Public profile page, routed by USERNAME, never the internal uuid
  * (/u/:username, not /u/:id) — keeps the id out of the URL entirely, even
@@ -70,7 +59,7 @@ const TIER_COLOR: Record<Exclude<MembershipTier, 'free'>, string> = {
 export function UserProfilePage() {
   const { username } = useParams<{ username: string }>()
   const { t, i18n } = useTranslation()
-  const homePath = `/${langPathRootSegment(i18n.language)}`
+  const prefix = langPathPrefix(i18n.language)
   const lang = i18n.language.slice(0, 2)
 
   useLoadGameData()
@@ -100,6 +89,10 @@ export function UserProfilePage() {
   const [page, setPage]             = useState(0)
   const [total, setTotal]           = useState(seed?.total ?? 0)
   const [buildsLoading, setBuildsLoading] = useState(false)
+  const [tab, setTab]         = useState<'builds' | 'collections'>('builds')
+  const [people, setPeople]   = useState<'followers' | 'following' | null>(null)
+  const [copied, setCopied]   = useState('')
+  useEffect(() => { setTab('builds'); setCopied('') }, [username])
 
   useEffect(() => {
     if (!username) return
@@ -164,17 +157,30 @@ export function UserProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-forge-bg flex items-center justify-center text-sm" style={{ color: 'var(--ink-faint)' }}>
-        {t('auth_loading')}
+      <div className="min-h-screen bg-forge-bg text-forge-text">
+        <SiteHeader />
+        <main id="main-content" className="account-page">
+          <div className="account-study"><p role="status" className="account-list-state">{t('auth_loading')}</p></div>
+        </main>
       </div>
     )
   }
 
   if (notFound || !profile) {
     return (
-      <div className="min-h-screen bg-forge-bg flex flex-col items-center justify-center gap-3 text-sm" style={{ color: 'var(--ink-faint)' }}>
-        <p>{t('profile_not_found')}</p>
-        <Link to={homePath} className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>{t('app_title')}</Link>
+      <div className="min-h-screen bg-forge-bg text-forge-text">
+        <SiteHeader />
+        <main id="main-content" className="account-page">
+          <div className="account-study">
+            <div className="account-empty">
+              <User size={30} aria-hidden="true" />
+              <h1>{t('account_unknown')}</h1>
+              <p>{t('profile_not_found')}</p>
+              <Link className="site-primary" to={`/${prefix}explore`}>{t('explore_title')}</Link>
+            </div>
+          </div>
+        </main>
+        <SiteFooter />
       </div>
     )
   }
@@ -185,142 +191,118 @@ export function UserProfilePage() {
   const name = profile.username
   const joinedDate = formatDate(profile.created_at)
 
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(`${location.origin}${import.meta.env.BASE_URL}${prefix}u/${encodeURIComponent(name)}`)
+      setCopied(t('lib_copied'))
+    } catch {
+      setCopied(t('share_copy_error'))
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
+    <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
 
-      <main id="main-content" className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 space-y-8">
-        {/* Hero */}
-        <div
-          className="flex items-center gap-4 p-4 rounded-xl relative overflow-hidden"
-          style={{
-            animation:   'page-rise 520ms var(--ease-out) 0ms both',
-            background:  'linear-gradient(135deg, color-mix(in srgb, var(--gold) 12%, var(--surface-panel)), var(--surface-void))',
-            borderTop:   '2px solid color-mix(in srgb, var(--gold) 55%, transparent)',
-            borderRight: '1px solid var(--metal-edge)',
-            borderBottom:'1px solid var(--metal-edge)',
-            borderLeft:  '1px solid var(--metal-edge)',
-            boxShadow:   '0 0 28px color-mix(in srgb, var(--gold) 12%, transparent), var(--inset-bevel)',
-          }}
-        >
-          <div
-            className="rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center"
-            style={{
-              width: 72, height: 72,
-              border: '1.5px solid color-mix(in srgb, var(--gold) 50%, transparent)',
-              background: 'var(--surface-panel)',
-            }}
-          >
-            {isSafeImageUrl(profile.avatar_url)
-              ? <img src={profile.avatar_url!} alt="" className="w-full h-full object-cover" />
-              : <User size={32} style={{ color: 'var(--ink-faint)' }} />}
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="font-display text-2xl font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{name}</h1>
-              {tier !== 'free' && (
-                <span
-                  className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full"
-                  style={{
-                    color: TIER_COLOR[tier],
-                    background: `color-mix(in srgb, ${TIER_COLOR[tier]} 16%, var(--surface-panel))`,
-                    border: `1px solid color-mix(in srgb, ${TIER_COLOR[tier]} 50%, transparent)`,
-                  }}
-                >
-                  {t(`membership_tier_${tier}`)}
-                </span>
+      <main id="main-content" className="account-page">
+        <div className="account-study">
+          <div className="public-profile-heading">
+            <AccountAvatar username={name} url={profile.avatar_url} />
+            <div>
+              <p className="account-eyebrow">{t('account_public_identity')}</p>
+              <h1>{name}</h1>
+              {(tier !== 'free' || customRank) && (
+                <div className="public-ranks">
+                  {tier !== 'free' && <span>{t(`membership_tier_${tier}`)}</span>}
+                  {customRank && <CustomRankBadge rank={customRank} />}
+                </div>
               )}
-              {customRank && <CustomRankBadge rank={customRank} />}
+              {profile.display_name && <p className="public-display-name">{profile.display_name}</p>}
+              <p className="public-biography">{profile.bio?.trim() || t('account_no_bio')}</p>
+              <small>{t('profile_joined', { date: joinedDate })}</small>
             </div>
-            {profile.display_name && (
-              <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{profile.display_name}</p>
-            )}
-            {profile.bio?.trim() && (
-              <p className="mt-2 max-w-2xl text-xs leading-relaxed whitespace-pre-line break-words" style={{ color: 'var(--ink-muted)' }}>
-                {profile.bio.trim()}
-              </p>
-            )}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs mt-1" style={{ color: 'var(--ink-faint)' }}>
-              <span className="flex items-center gap-1.5">
-                <Calendar size={12} />
-                {t('profile_joined', { date: joinedDate })}
-              </span>
-              <span><strong style={{ color: 'var(--ink)' }}>{followerCount}</strong> {t('profile_followers')}</span>
-              <span><strong style={{ color: 'var(--ink)' }}>{profile.following_count}</strong> {t('profile_following')}</span>
+            <div className="public-profile-actions">
+              {isOwnProfile ? (
+                <Link className="site-primary" to={`/${prefix}account`}>
+                  {t('account_edit')}
+                  <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              ) : session ? (
+                <button type="button" className={isFollowing ? '' : 'site-primary'} onClick={handleToggleFollow}>
+                  {isFollowing ? <UserCheck size={17} aria-hidden="true" /> : <UserPlus size={17} aria-hidden="true" />}
+                  {t(isFollowing ? 'profile_unfollow' : 'profile_follow')}
+                </button>
+              ) : (
+                <button type="button" onClick={requestSignIn} title={t('profile_signin_to_follow')}>
+                  <UserPlus size={17} aria-hidden="true" />
+                  {t('profile_follow')}
+                </button>
+              )}
+              <button type="button" onClick={() => void copyLink()}>{t('account_copy_link')}</button>
             </div>
           </div>
+          {copied && <p role="status" className="account-copy-status">{copied}</p>}
 
-          {!isOwnProfile && (
-            <Button
-              variant={isFollowing ? 'secondary' : 'primary'}
-              size="sm"
-              onClick={handleToggleFollow}
-              disabled={!session}
-              title={session ? undefined : t('profile_signin_to_follow')}
-              className="relative z-10 flex-shrink-0"
-            >
-              {isFollowing ? <UserCheck size={13} /> : <UserPlus size={13} />}
-              {isFollowing ? t('profile_unfollow') : t('profile_follow')}
-            </Button>
-          )}
-        </div>
+          <nav className="public-social-counts" aria-label={t('account_counts')}>
+            <button type="button" onClick={() => setPeople('followers')}>
+              <b>{followerCount}</b>
+              {t('auth_stat_followers')}
+            </button>
+            <button type="button" onClick={() => setPeople('following')}>
+              <b>{profile.following_count}</b>
+              {t('auth_stat_following')}
+            </button>
+          </nav>
+          <section className="public-profile-metrics" aria-label={t('account_counts')}>
+            {([[stats.buildCount, 'profile_public_builds'], [stats.likeCount, 'profile_likes_received'], [commentCount, 'profile_comments_posted']] as const).map(([value, key]) => (
+              <div key={key}>
+                <strong>{value}</strong>
+                <span>{t(key)}</span>
+              </div>
+            ))}
+          </section>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-3">
-          <StatCard Icon={Layers}        value={stats.buildCount} label={t('profile_public_builds')} />
-          <StatCard Icon={Heart}         value={stats.likeCount}  label={t('profile_likes_received')} />
-          <StatCard Icon={MessageSquare} value={commentCount}     label={t('profile_comments_posted')} />
-        </div>
+          <nav className="account-tabs" aria-label={t('account_public_identity')}>
+            <button type="button" aria-current={tab === 'builds' ? 'page' : undefined} onClick={() => setTab('builds')}>
+              {t('profile_public_builds')}
+            </button>
+            <button type="button" aria-current={tab === 'collections' ? 'page' : undefined} onClick={() => setTab('collections')}>
+              {t('account_all_collections')}
+            </button>
+          </nav>
+          <p className="public-only-note">{t('account_public_note')}</p>
 
-        {collections.length > 0 && (
-          <div className="space-y-3">
-            <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
-              {t('profile_collections_title', { username: name })}
-            </h2>
-            <CollectionGrid collections={collections} />
-          </div>
-        )}
-
-        {/* Public builds — paginated, same fetchPublicBuilds/page size Explore uses */}
-        <div className="space-y-4">
-          <h2 className="font-display text-lg font-bold" style={{ color: 'var(--gold)' }}>
-            {t('profile_builds_title', { username: name })}
-          </h2>
-          {builds.length === 0 && !buildsLoading ? (
-            <p className="text-xs" style={{ color: 'var(--ink-faint)' }}>{t('profile_no_builds')}</p>
+          {tab === 'builds' ? (
+            builds.length === 0 && !buildsLoading ? (
+              <div className="account-empty"><p>{t('profile_no_builds')}</p></div>
+            ) : (
+              <>
+                <h2 className="sr-only">{t('profile_builds_title', { username: name })}</h2>
+                <div className="build-grid">
+                  {builds.map(b => <BuildCard key={b.id} build={b} />)}
+                </div>
+                {builds.length < total && (
+                  <button type="button" className="profile-more" disabled={buildsLoading}
+                    onClick={() => { const next = page + 1; setPage(next); loadBuilds(profile.id, next, false) }}>
+                    {t(buildsLoading ? 'auth_loading' : 'explore_load_more')}
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </button>
+                )}
+              </>
+            )
+          ) : collections.length === 0 ? (
+            <p className="account-list-state">{t('account_empty_collections')}</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {builds.map(b => <BuildCard key={b.id} build={b} />)}
-            </div>
-          )}
-          {!buildsLoading && builds.length < total && (
-            <div className="flex justify-center pt-2">
-              <Button
-                variant="secondary"
-                size="md"
-                onClick={() => { const next = page + 1; setPage(next); loadBuilds(profile.id, next, false) }}
-              >
-                {t('explore_load_more')}
-              </Button>
-            </div>
+            <>
+              <h2 className="sr-only">{t('profile_collections_title', { username: name })}</h2>
+              <div className="library-collections">{collections.map(c => <CollectionRowLink key={c.id} collection={c} />)}</div>
+            </>
           )}
         </div>
       </main>
 
+      {people && <FollowListModal userId={profile.id} type={people} onClose={() => setPeople(null)} />}
       <SiteFooter />
-    </div>
-  )
-}
-
-function StatCard({ Icon, value, label }: { Icon: typeof Layers; value: number; label: string }) {
-  return (
-    <div
-      className="flex flex-col items-center gap-1 p-3 rounded-lg text-center"
-      style={{ background: 'var(--surface-stone)', border: '1px solid var(--metal-edge)' }}
-    >
-      <Icon size={16} style={{ color: 'var(--gold)' }} />
-      <span className="text-lg font-bold font-display" style={{ color: 'var(--ink)' }}>{value}</span>
-      <span className="text-[10px] uppercase tracking-wide" style={{ color: 'var(--ink-faint)' }}>{label}</span>
     </div>
   )
 }

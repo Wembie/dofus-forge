@@ -1,0 +1,64 @@
+/* Rank badge: flat, squared, faceted like the rest of 0.4.0 — no glow, no gradient. */
+.rank-badge {
+  --rank-text: color-mix(in srgb, var(--rank) 40%, var(--text));
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  border: 1px solid color-mix(in srgb, var(--rank) 62%, var(--line));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--rank) 12%, var(--surface));
+  color: var(--rank-text);
+  vertical-align: middle;
+  overflow: hidden;
+}
+.rank-badge-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--rank) 24%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--rank) 40%, transparent);
+}
+.rank-badge-name {
+  padding: 3px 8px 2px;
+  font: 600 12px/1.35 "Barlow Condensed", "Source Sans 3", sans-serif;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fill. */
+.rank-badge[data-tone="solid"] {
+  background: var(--rank);
+  border-color: color-mix(in srgb, var(--rank) 70%, #000);
+  color: var(--rank-ink);
+}
+.rank-badge[data-tone="solid"] .rank-badge-icon {
+  background: color-mix(in srgb, #000 14%, transparent);
+  border-right-color: color-mix(in srgb, #000 18%, transparent);
+}
+.rank-badge[data-tone="outline"] {
+  background: transparent;
+}
+.rank-badge[data-tone="outline"] .rank-badge-icon {
+  background: transparent;
+}
+.rank-badge[data-tone="inverse"] {
+  background: #15171c;
+  border-color: color-mix(in srgb, var(--rank) 70%, #15171c);
+  color: color-mix(in srgb, var(--rank) 62%, #ffffff);
+}
+.rank-badge[data-tone="inverse"] .rank-badge-icon {
+  background: color-mix(in srgb, var(--rank) 20%, #15171c);
+}
+
+/* Edge. */
+.rank-badge[data-edge="double"] {
+  border-width: 3px;
+  border-style: double;
+}
+.rank-badge[data-edge="dashed"] {
+  border-style: dashed;
+}

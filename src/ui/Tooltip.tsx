@@ -26,15 +26,15 @@ export function Tooltip({ content, children, side = 'top', className }: TooltipP
           'absolute z-50 pointer-events-none whitespace-nowrap',
           'opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100',
           'transition-[opacity,transform] duration-fast ease-out',
-          'rounded-md border text-[11px] p-2',
+          'rounded-[5px] border text-[12px] px-2.5 py-2',
           positionCls[side],
           className,
         )}
         style={{
-          background:  'var(--surface-parchment)',
-          borderColor: 'var(--metal-edge)',
-          color:       'var(--ink)',
-          boxShadow:   'var(--shadow-frame), var(--inset-bevel)',
+          background:  'var(--surface)',
+          borderColor: 'var(--line)',
+          color:       'var(--text)',
+          boxShadow:   '0 8px 24px rgb(0 0 0 / 0.3)',
           transformOrigin: side === 'top' ? 'bottom center' : side === 'bottom' ? 'top center' : 'center',
         }}
       >

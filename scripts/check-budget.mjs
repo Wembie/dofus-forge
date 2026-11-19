@@ -9,15 +9,17 @@ import { brotliCompressSync } from 'node:zlib'
 
 const CLIENT = 'dist/client'
 
-// kB, brotli. Measured 2026-10-31 (0.3.140) plus ~10% headroom; raise them
-// on purpose, in the same commit as the change that needs it.
+// kB, brotli. JS measured 2026-10-31 (0.3.140) plus ~10% headroom; CSS
+// re-measured 2026-11-19 (0.4.0: the new design system ships its own CSS on
+// top of the legacy index.css still to be trimmed) plus ~10%. Raise them on
+// purpose, in the same commit as the change that needs it.
 const BUDGETS = {
-  '/':                 { js: 210, css: 10 },
-  '/explore':          { js: 190, css: 10 },
-  '/about':            { js: 180, css: 10 },
-  '/classes/iop':      { js: 172, css: 10 },
-  '/sets':             { js: 170, css: 10 },
-  '/sets/gobball-set': { js: 183, css: 10 },
+  '/':                 { js: 210, css: 16 },
+  '/explore':          { js: 190, css: 17 },
+  '/about':            { js: 180, css: 16 },
+  '/classes/iop':      { js: 172, css: 19 },
+  '/sets':             { js: 170, css: 16 },
+  '/sets/gobball-set': { js: 183, css: 16 },
 }
 
 const sizeCache = new Map()

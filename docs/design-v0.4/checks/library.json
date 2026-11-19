@@ -1,0 +1,1665 @@
+[
+  {
+    "id": "mine",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "desktop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "desktop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "laptop",
+    "theme": "tinta",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "laptop",
+    "theme": "mineral",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "tablet",
+    "theme": "tinta",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "tablet",
+    "theme": "mineral",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "mine",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "compact",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "bookmarked",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collections",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-owner",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-visitor",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "rename",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "visibility",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "delete-build",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-new",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-edit",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-picker",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "collection-delete",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-save-error",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-picker-error",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-create-partial",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-forbidden",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-loading",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-error",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-empty",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-loading",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-error",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-empty",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "language-en",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "language-fr",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "language-pt",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "language-es",
+    "device": "mobile",
+    "theme": "mineral",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-private-visitor",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-empty-collection",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-no-matches",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-signed-out",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "state-dialog-signed-out",
+    "device": "mobile",
+    "theme": "tinta",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "flows",
+    "search": true,
+    "visibilityFilter": true,
+    "sort": true,
+    "targetedRename": true,
+    "editRetry": true,
+    "unsavedGuard": true,
+    "focusReturn": true,
+    "visibility": true,
+    "createCollection": true,
+    "editCollection": true,
+    "pickerRollback": true,
+    "createPartialRetry": true,
+    "deleteCollectionPreservesBuilds": true,
+    "removePreservesBuild": true,
+    "unbookmark": true,
+    "deleteBuild": true,
+    "localizedClassSearch": true,
+    "visitorPrivacy": true,
+    "selectedDetail": true,
+    "workshopSnapshot": true,
+    "errors": []
+  }
+]

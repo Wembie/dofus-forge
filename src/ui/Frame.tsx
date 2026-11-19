@@ -39,21 +39,12 @@ export function Frame({
   children,
   ...props
 }: FrameProps) {
-  const shadows = [
-    'var(--inset-bevel)',
-    elevation ? 'var(--shadow-frame)' : null,
-    inset     ? 'var(--well-inset)'   : null,
-  ].filter(Boolean).join(', ')
-
-  const parchmentImage = material === 'parchment'
-    ? 'radial-gradient(ellipse at 50% 0%, rgba(201,162,75,0.06) 0%, transparent 60%)'
-    : undefined
+  const shadows = elevation ? 'var(--shadow-frame)' : inset ? 'var(--well-inset)' : 'none'
 
   return (
     <div
       className={cn('rounded-frame overflow-hidden', materialBg[material], paddingCls[padding], className)}
       style={{
-        backgroundImage: parchmentImage,
         borderTop:    `1px solid ${gold ? 'var(--gold)' : 'var(--metal-edge)'}`,
         borderRight:  `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,
         borderBottom: `1px solid ${gold ? 'var(--gold-deep)' : 'var(--metal-edge)'}`,

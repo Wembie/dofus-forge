@@ -1,505 +1,58 @@
-import { RANK_ICONS, type PublicCustomRank } from './catalog.tsx'
 import type { CSSProperties } from 'react'
+import { RANK_ICONS, type PublicCustomRank, type RankBadgeStyle } from './catalog.tsx'
+import './rankBadge.css'
+
+/**
+ * A rank badge in the 0.4.0 language: a flat, squared chip with the icon in
+ * its own tile and the name in condensed capitals. Each stored style keeps
+ * its identity through a few restrained traits — fill, edge and, for the
+ * metals, the metal's colour — instead of glows, neon and gradients.
+ */
+type Tone = 'tint' | 'solid' | 'outline' | 'inverse'
+type Edge = 'single' | 'double' | 'dashed'
+
+const SOLID = new Set<RankBadgeStyle>(['founder', 'royal', 'champion', 'gold_foil', 'royal_seal', 'champagne', 'platinum', 'solar_flare', 'prismatic', 'holographic', 'enamel', 'celestial'])
+const OUTLINE = new Set<RankBadgeStyle>(['minimal', 'creator', 'glitch', 'matrix', 'silk', 'porcelain', 'marble', 'pearl'])
+const INVERSE = new Set<RankBadgeStyle>(['obsidian', 'obsidian_gold', 'carbon', 'void', 'deep_space', 'black_tie', 'neon', 'nebula', 'cosmic', 'twilight', 'bloodmoon', 'steel_engraved', 'thunder', 'storm'])
+const DOUBLE = new Set<RankBadgeStyle>(['royal', 'royal_seal', 'vintage', 'ancient', 'relic', 'steel_engraved', 'leatherbound', 'champion'])
+const DASHED = new Set<RankBadgeStyle>(['creator', 'glitch', 'matrix'])
+
+const GOLD = '#C9A24B'
+const SILVER = '#A7AFBA'
+const BRONZE = '#B07A45'
+const METAL: Partial<Record<RankBadgeStyle, string>> = {
+  founder: GOLD, gold_foil: GOLD, champagne: GOLD, royal_seal: GOLD, obsidian_gold: GOLD, solar_flare: GOLD,
+  silver: SILVER, platinum: SILVER, blue_steel: SILVER, steel_engraved: SILVER, pearl: SILVER,
+  bronze: BRONZE, copper: BRONZE, vintage: BRONZE, ancient: BRONZE, relic: BRONZE, leatherbound: BRONZE,
+  rose_gold: '#C98F7E',
+}
+
+export function rankBadgeLook(style: RankBadgeStyle, color: string): { tone: Tone; edge: Edge; color: string } {
+  return {
+    tone: SOLID.has(style) ? 'solid' : OUTLINE.has(style) ? 'outline' : INVERSE.has(style) ? 'inverse' : 'tint',
+    edge: DOUBLE.has(style) ? 'double' : DASHED.has(style) ? 'dashed' : 'single',
+    color: METAL[style] ?? color,
+  }
+}
+
+/** Dark or light ink, whichever reads better on a solid fill of `hex`. */
+function inkOn(hex: string) {
+  const n = parseInt(hex.slice(1), 16)
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(v => {
+    const c = v / 255
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  })
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 ?'#14161a' : '#ffffff'
+}
 
 export function CustomRankBadge({ rank }: { rank: PublicCustomRank }) {
   const Icon = RANK_ICONS[rank.icon]
-  const color = rank.color
-  const finish: Record<PublicCustomRank['badgeStyle'], CSSProperties> = {
-    standard: {
-      color,
-      background: `color-mix(in srgb, ${color} 13%, var(--surface-panel))`,
-      border: `1px solid color-mix(in srgb, ${color} 54%, transparent)`,
-    },
-    founder: {
-      color,
-      background: `linear-gradient(115deg, color-mix(in srgb, var(--gold) 18%, var(--surface-panel)), color-mix(in srgb, ${color} 14%, var(--surface-panel)))`,
-      border: `1px solid color-mix(in srgb, var(--gold) 70%, transparent)`,
-      boxShadow: `0 0 12px color-mix(in srgb, ${color} 18%, transparent), inset 0 1px 0 rgba(255,255,255,.16)`,
-    },
-    creator: {
-      color,
-      background: `color-mix(in srgb, ${color} 11%, var(--surface-void))`,
-      border: `1px dashed color-mix(in srgb, ${color} 72%, transparent)`,
-    },
-    royal: {
-      color,
-      background: `linear-gradient(135deg, color-mix(in srgb, ${color} 22%, #171321), color-mix(in srgb, ${color} 8%, #080910))`,
-      border: `3px double color-mix(in srgb, ${color} 82%, white)`,
-      boxShadow: `0 2px 10px color-mix(in srgb, ${color} 18%, transparent)`,
-    },
-    neon: {
-      color,
-      background: '#101018',
-      border: `1px solid ${color}`,
-      boxShadow: `0 0 5px ${color}, 0 0 13px color-mix(in srgb, ${color} 55%, transparent), inset 0 0 8px color-mix(in srgb, ${color} 14%, transparent)`,
-      textShadow: `0 0 8px color-mix(in srgb, ${color} 62%, transparent)`,
-    },
-    crystal: {
-      color,
-      background: `linear-gradient(145deg, rgba(255,255,255,.16), color-mix(in srgb, ${color} 20%, var(--surface-panel)) 48%, color-mix(in srgb, ${color} 8%, var(--surface-void)))`,
-      border: `1px solid color-mix(in srgb, ${color} 62%, white)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.28), 0 2px 8px rgba(0,0,0,.2)',
-    },
-    holographic: {
-      color: '#fff',
-      background: 'linear-gradient(110deg, #f72585, #9b5de5 30%, #3a86ff 56%, #00c9a7 78%, #f9c74f)',
-      border: '1px solid rgba(255,255,255,.72)',
-      boxShadow: '0 0 12px rgba(120,100,255,.35), inset 0 1px 0 rgba(255,255,255,.4)',
-      textShadow: '0 1px 3px rgba(0,0,0,.45)',
-    },
-    obsidian: {
-      color,
-      background: 'linear-gradient(135deg, #242631, #090a0e 70%)',
-      border: `1px solid color-mix(in srgb, ${color} 68%, #8a8d9b)`,
-      boxShadow: `inset 0 1px 0 rgba(255,255,255,.12), 0 3px 8px rgba(0,0,0,.36)`,
-    },
-    minimal: {
-      color,
-      background: 'transparent',
-      border: `1.5px solid ${color}`,
-      borderRadius: 7,
-      letterSpacing: '.08em',
-    },
-    arcane: {
-      color,
-      background: `linear-gradient(125deg, color-mix(in srgb, ${color} 20%, #27123d), color-mix(in srgb, ${color} 8%, #11101a))`,
-      border: `1px solid color-mix(in srgb, ${color} 65%, #a855f7)`,
-      boxShadow: `0 0 14px color-mix(in srgb, ${color} 22%, transparent)`,
-    },
-    vintage: {
-      color,
-      background: `linear-gradient(180deg, color-mix(in srgb, ${color} 18%, #46331f), color-mix(in srgb, ${color} 8%, #211b16))`,
-      border: `2px ridge color-mix(in srgb, ${color} 64%, #d6bd8b)`,
-      borderRadius: 6,
-      letterSpacing: '.055em',
-    },
-    champion: {
-      color,
-      background: `linear-gradient(180deg, color-mix(in srgb, ${color} 21%, var(--surface-raised)), color-mix(in srgb, ${color} 9%, var(--surface-void)))`,
-      border: `2px solid color-mix(in srgb, ${color} 74%, white)`,
-      borderRadius: 8,
-      boxShadow: `0 2px 0 color-mix(in srgb, ${color} 32%, transparent), inset 0 1px 0 rgba(255,255,255,.12)`,
-    },
-    celestial: {
-      color: '#F1E9FF',
-      background: `linear-gradient(115deg, color-mix(in srgb, ${color} 28%, #27204b), #101426 68%, #30234f)`,
-      border: `1px solid color-mix(in srgb, ${color} 56%, #d9caff)`,
-      boxShadow: `0 0 12px color-mix(in srgb, ${color} 24%, #8c72ff), inset 0 1px 0 rgba(255,255,255,.22)`,
-      textShadow: '0 0 7px rgba(218,203,255,.5)',
-    },
-    infernal: {
-      color: '#FFE4D2',
-      background: `linear-gradient(110deg, color-mix(in srgb, ${color} 44%, #6d1717), #210d12 72%, #4c160f)`,
-      border: `1px solid color-mix(in srgb, ${color} 56%, #ff7043)`,
-      boxShadow: `0 0 10px color-mix(in srgb, ${color} 28%, #ff3d00), inset 0 -2px 5px rgba(255,70,20,.18)`,
-    },
-    emerald: {
-      color: '#D9FFE9',
-      background: `linear-gradient(145deg, color-mix(in srgb, ${color} 26%, #14533e), #09251f 68%, #174b39)`,
-      border: `1px solid color-mix(in srgb, ${color} 58%, #7fffc0)`,
-      boxShadow: 'inset 0 1px 0 rgba(221,255,238,.24), 0 2px 9px rgba(0,0,0,.25)',
-    },
-    sapphire: {
-      color: '#E0F2FF',
-      background: `linear-gradient(125deg, color-mix(in srgb, ${color} 32%, #164c86), #0b1931 72%, #193963)`,
-      border: `1px solid color-mix(in srgb, ${color} 60%, #8bd4ff)`,
-      boxShadow: `inset 0 1px 0 rgba(226,245,255,.2), 0 0 9px color-mix(in srgb, ${color} 22%, transparent)`,
-    },
-    ruby: {
-      color: '#FFE5EA',
-      background: `linear-gradient(150deg, color-mix(in srgb, ${color} 38%, #81243b), #2a101b 70%, #551729)`,
-      border: `2px solid color-mix(in srgb, ${color} 62%, #ff9aaf)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,235,240,.2), 0 2px 8px rgba(40,0,12,.36)',
-    },
-    bronze: {
-      color: '#FFE4BD',
-      background: 'linear-gradient(180deg, #77502f 0%, #35251c 28%, #9b6838 52%, #322319 100%)',
-      border: `2px ridge color-mix(in srgb, ${color} 64%, #e8b879)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,229,190,.24), 0 2px 6px rgba(0,0,0,.24)',
-    },
-    silver: {
-      color: '#F3F6FF',
-      background: 'linear-gradient(180deg, #697483, #242a34 34%, #8b95a2 56%, #252a33)',
-      border: `1px solid color-mix(in srgb, ${color} 58%, #e5eaf2)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.34), 0 2px 7px rgba(0,0,0,.26)',
-      textShadow: '0 1px 2px rgba(0,0,0,.55)',
-    },
-    platinum: {
-      color: '#F8F5FF',
-      background: 'linear-gradient(115deg, #77768b, #292a38 30%, #aaa5c3 54%, #343141 78%, #77768b)',
-      border: '1px solid rgba(234,228,255,.78)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.46), 0 0 9px rgba(193,182,255,.2)',
-      textShadow: '0 1px 2px rgba(0,0,0,.58)',
-    },
-    carbon: {
-      color,
-      background: `repeating-linear-gradient(135deg, color-mix(in srgb, ${color} 12%, #25272d) 0 3px, #111318 3px 6px)`,
-      border: `1px solid color-mix(in srgb, ${color} 66%, #676b75)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.1), 0 2px 6px rgba(0,0,0,.3)',
-    },
-    aurora: {
-      color: '#F4FFF9',
-      background: 'linear-gradient(105deg, #10565b, #355d87 24%, #674b82 48%, #347464 72%, #8a773e)',
-      border: '1px solid rgba(208,255,238,.7)',
-      boxShadow: '0 0 12px rgba(75,218,182,.22), inset 0 1px 0 rgba(255,255,255,.3)',
-      textShadow: '0 1px 3px rgba(0,0,0,.5)',
-    },
-    cosmic: {
-      color: '#EEE9FF',
-      background: 'radial-gradient(ellipse at 20% 15%, #573c7c 0%, transparent 46%), radial-gradient(ellipse at 82% 95%, #174d67 0%, transparent 50%), #10111e',
-      border: `1px solid color-mix(in srgb, ${color} 64%, #9d87df)`,
-      boxShadow: '0 0 12px rgba(103,79,181,.24), inset 0 1px 0 rgba(255,255,255,.15)',
-    },
-    toxic: {
-      color: '#E8FFC2',
-      background: `linear-gradient(110deg, color-mix(in srgb, ${color} 28%, #27330c), #11160b 65%, #303d0e)`,
-      border: '1px solid #a5e635',
-      boxShadow: '0 0 9px rgba(163,230,53,.3), inset 0 0 7px rgba(163,230,53,.12)',
-      textShadow: '0 0 6px rgba(163,230,53,.42)',
-    },
-    gold_foil: {
-      color: '#FFF4D5',
-      background: 'linear-gradient(115deg, #54370f 0%, #e6bb61 17%, #80531a 33%, #fff0b8 49%, #bc8733 66%, #49300f 100%)',
-      border: '1px solid rgba(255,236,184,.85)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.48), 0 2px 9px rgba(0,0,0,.32)',
-      textShadow: '0 1px 2px rgba(45,25,4,.72)',
-    },
-    royal_seal: {
-      color: '#FFE8AE',
-      background: 'radial-gradient(circle at 50% 0%, #9d373a, #4a111a 72%)',
-      border: '3px double #d7ad59',
-      boxShadow: 'inset 0 1px 0 rgba(255,235,183,.24), 0 2px 8px rgba(0,0,0,.32)',
-      letterSpacing: '.045em',
-    },
-    blue_steel: {
-      color: '#E1F0FF',
-      background: 'linear-gradient(125deg, #172d43, #547b99 24%, #243f59 46%, #7895a8 58%, #1b3045)',
-      border: '1px solid rgba(194,225,248,.72)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.28), 0 2px 7px rgba(0,0,0,.28)',
-      textShadow: '0 1px 2px rgba(0,0,0,.55)',
-    },
-    copper: {
-      color: '#FFE3C5',
-      background: 'linear-gradient(145deg, #3f2017, #b76538 28%, #542b1e 48%, #d59462 64%, #392018)',
-      border: `1px solid color-mix(in srgb, ${color} 62%, #edb47c)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,225,195,.22), 0 2px 7px rgba(0,0,0,.28)',
-    },
-    pearl: {
-      color: '#45384C',
-      background: 'linear-gradient(125deg, #fbf3ed, #d8e7f2 28%, #f5e0eb 55%, #d7d5f0 78%, #fff8ed)',
-      border: '1px solid rgba(255,255,255,.9)',
-      boxShadow: 'inset 0 1px 0 #fff, 0 2px 8px rgba(170,147,180,.2)',
-    },
-    marble: {
-      color: '#EAF0F6',
-      background: 'linear-gradient(120deg, #181e27, #424d5c 28%, #202934 47%, #586171 52%, #1a202a 76%)',
-      border: `1px solid color-mix(in srgb, ${color} 42%, #b5c4d4)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.18), 0 2px 8px rgba(0,0,0,.26)',
-    },
-    enamel: {
-      color: '#FFF5F0',
-      background: `linear-gradient(180deg, color-mix(in srgb, ${color} 52%, #fff) 0%, ${color} 34%, color-mix(in srgb, ${color} 54%, #171321) 100%)`,
-      border: `1px solid color-mix(in srgb, ${color} 76%, white)`,
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.52), 0 2px 7px rgba(0,0,0,.26)',
-      textShadow: '0 1px 2px rgba(0,0,0,.46)',
-    },
-    runic: {
-      color: '#E7DDFF',
-      background: 'linear-gradient(135deg, #171124, #39285c 48%, #171124)',
-      border: '1px solid rgba(190,158,255,.78)',
-      boxShadow: 'inset 0 0 0 2px rgba(142,105,216,.13), 0 0 12px rgba(142,105,216,.22)',
-      letterSpacing: '.06em',
-    },
-    dragonfire: {
-      color: '#FFF0D4',
-      background: 'linear-gradient(110deg, #34110f, #9f2c19 32%, #e47727 58%, #5a1712 86%)',
-      border: '1px solid rgba(255,170,92,.8)',
-      boxShadow: '0 0 11px rgba(228,92,34,.28), inset 0 1px 0 rgba(255,218,171,.2)',
-      textShadow: '0 1px 3px rgba(39,9,5,.7)',
-    },
-    frost: {
-      color: '#EAFBFF',
-      background: 'linear-gradient(135deg, #10354a, #73bfd5 30%, #25617b 52%, #c1f3ff 72%, #164159)',
-      border: '1px solid rgba(200,247,255,.8)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.5), 0 0 10px rgba(115,220,255,.2)',
-      textShadow: '0 1px 2px rgba(5,32,49,.6)',
-    },
-    storm: {
-      color: '#E9EEFF',
-      background: 'radial-gradient(ellipse at 18% 0%, #647396 0%, transparent 44%), linear-gradient(115deg, #171d2b, #30384d 56%, #121722)',
-      border: `1px solid color-mix(in srgb, ${color} 60%, #aab8df)`,
-      boxShadow: '0 0 11px rgba(111,143,205,.18), inset 0 1px 0 rgba(255,255,255,.16)',
-    },
-    oceanic: {
-      color: '#D9FFFA',
-      background: 'linear-gradient(120deg, #082c36, #087c83 32%, #114f69 64%, #102b48)',
-      border: '1px solid rgba(106,231,215,.7)',
-      boxShadow: 'inset 0 1px 0 rgba(209,255,251,.2), 0 0 10px rgba(0,197,181,.2)',
-    },
-    forest: {
-      color: '#E6FFE9',
-      background: 'linear-gradient(130deg, #10281d, #286347 34%, #143729 70%, #0c2119)',
-      border: '1px solid rgba(143,210,157,.62)',
-      boxShadow: 'inset 0 1px 0 rgba(230,255,233,.16), 0 2px 8px rgba(0,0,0,.3)',
-    },
-    desert: {
-      color: '#FFF0D6',
-      background: 'linear-gradient(115deg, #56331d, #c08048 32%, #80502e 58%, #42291e)',
-      border: '1px solid rgba(235,184,125,.72)',
-      boxShadow: 'inset 0 1px 0 rgba(255,235,201,.22), 0 2px 8px rgba(0,0,0,.26)',
-    },
-    sakura: {
-      color: '#FFF0F7',
-      background: 'linear-gradient(125deg, #47233c, #a44b78 35%, #572c5b 69%, #292447)',
-      border: '1px solid rgba(255,177,215,.74)',
-      boxShadow: '0 0 10px rgba(229,123,179,.22), inset 0 1px 0 rgba(255,255,255,.2)',
-    },
-    twilight: {
-      color: '#EEE9FF',
-      background: 'linear-gradient(110deg, #202442, #654b82 35%, #3d4c78 68%, #151a31)',
-      border: '1px solid rgba(187,172,255,.68)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.18), 0 0 11px rgba(133,113,219,.2)',
-    },
-    bloodmoon: {
-      color: '#FFE5E5',
-      background: 'radial-gradient(circle at 82% 0%, #9a303c 0%, transparent 39%), linear-gradient(120deg, #220e19, #4b1726 58%, #180d18)',
-      border: '1px solid rgba(224,90,108,.72)',
-      boxShadow: '0 0 12px rgba(194,46,73,.22), inset 0 1px 0 rgba(255,221,225,.14)',
-    },
-    prismatic: {
-      color: '#fff',
-      background: 'conic-gradient(from 210deg at 50% 50%, #ef476f, #f7b267, #f9f871, #06d6a0, #00b4d8, #7b61ff, #ef476f)',
-      border: '1px solid rgba(255,255,255,.84)',
-      boxShadow: '0 0 12px rgba(123,97,255,.25), inset 0 1px 0 rgba(255,255,255,.48)',
-      textShadow: '0 1px 3px rgba(14,14,28,.78)',
-    },
-    glitch: {
-      color: '#F4FFFF',
-      background: 'linear-gradient(90deg, rgba(255,43,117,.28) 0 2px, transparent 2px 5px), linear-gradient(105deg, #111521, #211b35 55%, #101820)',
-      border: '1px solid #47e6db',
-      boxShadow: '2px 0 0 rgba(255,43,117,.42), -2px 0 0 rgba(71,230,219,.32), 0 0 10px rgba(71,230,219,.16)',
-      textShadow: '1px 0 #f52d78, -1px 0 #47e6db',
-    },
-    matrix: {
-      color: '#D9FFE6',
-      background: 'repeating-linear-gradient(0deg, #071d14 0 4px, #0b2a1c 4px 8px)',
-      border: '1px solid #3cc979',
-      boxShadow: '0 0 10px rgba(42,205,116,.24), inset 0 0 8px rgba(42,205,116,.12)',
-      textShadow: '0 0 7px rgba(96,255,164,.46)',
-    },
-    velvet: {
-      color: '#FFEAF4',
-      background: 'linear-gradient(145deg, #321326, #682a4c 36%, #381831 70%, #211226)',
-      border: '1px solid rgba(226,155,193,.66)',
-      boxShadow: 'inset 0 1px 0 rgba(255,226,240,.18), 0 3px 9px rgba(0,0,0,.3)',
-    },
-    champagne: {
-      color: '#4A3927',
-      background: 'linear-gradient(115deg, #f7e7bd, #caa76c 28%, #fff4d9 52%, #c39b5d 78%, #f5e2b6)',
-      border: '1px solid rgba(255,248,224,.94)',
-      boxShadow: 'inset 0 1px 0 #fff, 0 2px 7px rgba(85,62,28,.25)',
-    },
-    coral: {
-      color: '#FFF2ED',
-      background: 'linear-gradient(120deg, #632d32, #e47768 34%, #b64f55 67%, #4e2936)',
-      border: '1px solid rgba(255,181,163,.76)',
-      boxShadow: '0 0 9px rgba(235,111,100,.18), inset 0 1px 0 rgba(255,255,255,.2)',
-    },
-    lavender: {
-      color: '#F5EDFF',
-      background: 'linear-gradient(120deg, #34284e, #8871b3 35%, #554475 70%, #29233f)',
-      border: '1px solid rgba(211,191,255,.72)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.2), 0 0 10px rgba(169,139,229,.18)',
-    },
-    moss: {
-      color: '#F0FFE2',
-      background: 'linear-gradient(130deg, #222b1a, #596b36 36%, #34442a 68%, #1b261b)',
-      border: '1px solid rgba(178,204,113,.68)',
-      boxShadow: 'inset 0 1px 0 rgba(240,255,218,.16), 0 2px 8px rgba(0,0,0,.3)',
-    },
-    ancient: {
-      color: '#FBECCB',
-      background: 'linear-gradient(180deg, #544329, #aa8951 28%, #4b3b29 53%, #80633a 76%, #30271e)',
-      border: '2px ridge rgba(218,188,125,.78)',
-      boxShadow: 'inset 0 1px 0 rgba(255,243,207,.2), 0 2px 7px rgba(0,0,0,.28)',
-      letterSpacing: '.04em',
-    },
-    relic: {
-      color: '#E8D9B7',
-      background: 'linear-gradient(125deg, #28302c, #657052 32%, #37392d 58%, #756044)',
-      border: '1px solid rgba(192,173,123,.68)',
-      boxShadow: 'inset 0 1px 0 rgba(255,239,196,.14), 0 2px 8px rgba(0,0,0,.3)',
-    },
-    crimson: {
-      color: '#FFF0F1',
-      background: 'linear-gradient(110deg, #3d101d, #b7223d 36%, #6f1732 72%, #29111f)',
-      border: '1px solid rgba(255,136,153,.78)',
-      boxShadow: '0 0 10px rgba(214,39,73,.22), inset 0 1px 0 rgba(255,222,227,.18)',
-    },
-    amethyst: {
-      color: '#F5E8FF',
-      background: 'linear-gradient(135deg, #211331, #7043a2 34%, #38204f 68%, #17101f)',
-      border: '1px solid rgba(221,180,255,.78)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.24), 0 0 12px rgba(163,105,225,.25)',
-    },
-    opal: {
-      color: '#233340',
-      background: 'linear-gradient(112deg, #d8f5ee, #fff3df 24%, #dce7ff 48%, #f8dff0 72%, #d9f5f1)',
-      border: '1px solid rgba(255,255,255,.92)',
-      boxShadow: 'inset 0 1px 0 #fff, 0 2px 10px rgba(146,194,203,.24)',
-    },
-    rose_gold: {
-      color: '#FFF0EC',
-      background: 'linear-gradient(115deg, #4a202a, #bd6f73 27%, #f1c0a8 48%, #8b4653 69%, #3d1d2b)',
-      border: '1px solid rgba(255,211,191,.84)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.3), 0 2px 9px rgba(94,31,46,.32)',
-    },
-    black_tie: {
-      color: '#F5EBD0',
-      background: 'linear-gradient(135deg, #050609, #20232b 45%, #08090d)',
-      border: '1px solid rgba(201,162,75,.84)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.14), 0 2px 10px rgba(0,0,0,.45)',
-      letterSpacing: '.07em',
-    },
-    obsidian_gold: {
-      color: '#FFE9A8',
-      background: 'linear-gradient(120deg, #090a0d, #302716 34%, #111116 68%, #4c3717)',
-      border: '1px solid #D4A943',
-      boxShadow: 'inset 0 1px 0 rgba(255,235,180,.24), 0 0 10px rgba(205,158,55,.24)',
-    },
-    sapphire_glass: {
-      color: '#E6F6FF',
-      background: 'linear-gradient(135deg, rgba(70,157,226,.52), rgba(13,34,68,.9) 52%, rgba(117,207,240,.34))',
-      border: '1px solid rgba(184,230,255,.82)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.45), 0 0 11px rgba(75,164,232,.22)',
-      backdropFilter: 'blur(5px)',
-    },
-    ruby_facet: {
-      color: '#FFF0F2',
-      background: 'linear-gradient(135deg, #3d0b1b 0%, #aa1739 23%, #e34b68 39%, #5d1029 62%, #c3264e 79%, #280b18 100%)',
-      border: '1px solid rgba(255,165,184,.82)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.22), 0 0 10px rgba(205,35,77,.2)',
-    },
-    emerald_facet: {
-      color: '#E7FFF2',
-      background: 'linear-gradient(135deg, #08251d 0%, #087453 24%, #54c78e 39%, #0c503c 62%, #25a76d 80%, #06251d 100%)',
-      border: '1px solid rgba(169,255,208,.76)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.2), 0 0 10px rgba(37,167,109,.2)',
-    },
-    ice_crystal: {
-      color: '#F0FCFF',
-      background: 'linear-gradient(130deg, #173d59, #7ed7ef 26%, #d6f8ff 43%, #438eae 62%, #122f50)',
-      border: '1px solid rgba(220,250,255,.9)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.6), 0 0 12px rgba(115,220,255,.27)',
-      textShadow: '0 1px 3px rgba(10,47,69,.6)',
-    },
-    solar_flare: {
-      color: '#FFF8D9',
-      background: 'linear-gradient(110deg, #692411, #dc5420 28%, #ffc857 48%, #e87921 65%, #612010)',
-      border: '1px solid rgba(255,222,142,.9)',
-      boxShadow: '0 0 13px rgba(255,153,45,.3), inset 0 1px 0 rgba(255,255,255,.35)',
-      textShadow: '0 1px 3px rgba(81,27,7,.65)',
-    },
-    nebula: {
-      color: '#F7E9FF',
-      background: 'radial-gradient(ellipse at 18% 35%, #bd4c9b 0%, transparent 42%), radial-gradient(ellipse at 82% 65%, #4269c8 0%, transparent 48%), #171329',
-      border: '1px solid rgba(228,174,255,.76)',
-      boxShadow: '0 0 12px rgba(151,88,223,.28), inset 0 1px 0 rgba(255,255,255,.2)',
-    },
-    void: {
-      color: '#E4DFFF',
-      background: 'radial-gradient(ellipse at 50% 50%, #302345, #09080f 72%)',
-      border: '1px solid rgba(151,128,198,.68)',
-      boxShadow: 'inset 0 0 10px rgba(141,111,205,.19), 0 2px 9px rgba(0,0,0,.48)',
-    },
-    thunder: {
-      color: '#F4F6FF',
-      background: 'linear-gradient(115deg, #151923, #4c5874 34%, #aab9d4 48%, #343c54 62%, #111620)',
-      border: '1px solid rgba(222,232,255,.76)',
-      boxShadow: '0 0 11px rgba(157,188,255,.2), inset 0 1px 0 rgba(255,255,255,.27)',
-      textShadow: '0 1px 3px rgba(10,14,24,.65)',
-    },
-    emberglow: {
-      color: '#FFF0DB',
-      background: 'linear-gradient(120deg, #2c1110, #8e321e 31%, #e06a32 54%, #77301e 76%, #261011)',
-      border: '1px solid rgba(255,175,111,.8)',
-      boxShadow: '0 0 12px rgba(230,97,38,.24), inset 0 1px 0 rgba(255,224,181,.2)',
-    },
-    soulfire: {
-      color: '#FFF1FF',
-      background: 'linear-gradient(110deg, #271334, #803b78 30%, #d06b83 52%, #793b70 75%, #21122e)',
-      border: '1px solid rgba(255,185,220,.78)',
-      boxShadow: '0 0 12px rgba(217,91,159,.24), inset 0 1px 0 rgba(255,255,255,.24)',
-    },
-    deep_space: {
-      color: '#E5F1FF',
-      background: 'radial-gradient(circle at 22% 28%, #394d86 0 1px, transparent 2px), radial-gradient(circle at 78% 72%, #b98dea 0 1px, transparent 2px), linear-gradient(120deg, #080e20, #172345 52%, #090d1c)',
-      backgroundSize: '22px 22px, 28px 28px, auto',
-      border: '1px solid rgba(133,166,230,.72)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.14), 0 0 10px rgba(86,120,200,.2)',
-    },
-    royal_purple: {
-      color: '#FFF0FF',
-      background: 'linear-gradient(135deg, #27133f, #6c3fa0 28%, #381c61 58%, #160e2a)',
-      border: '2px double rgba(222,184,255,.88)',
-      boxShadow: '0 2px 10px rgba(125,72,181,.25), inset 0 1px 0 rgba(255,255,255,.22)',
-      letterSpacing: '.04em',
-    },
-    monsoon: {
-      color: '#E8FFFC',
-      background: 'linear-gradient(125deg, #102e39, #267d83 31%, #1b5268 63%, #14253b)',
-      border: '1px solid rgba(151,238,226,.72)',
-      boxShadow: 'inset 0 1px 0 rgba(227,255,250,.2), 0 0 10px rgba(58,180,177,.18)',
-    },
-    bamboo: {
-      color: '#F1FFE4',
-      background: 'repeating-linear-gradient(100deg, #243b24 0 11px, #486c39 11px 13px, #2e4b2a 13px 24px)',
-      border: '1px solid rgba(184,219,132,.74)',
-      boxShadow: 'inset 0 1px 0 rgba(240,255,218,.18), 0 2px 8px rgba(0,0,0,.26)',
-    },
-    leatherbound: {
-      color: '#F8E5C6',
-      background: 'linear-gradient(135deg, #2b1a13, #71452b 34%, #493021 68%, #211610)',
-      border: '2px ridge rgba(205,158,103,.72)',
-      boxShadow: 'inset 0 1px 0 rgba(255,232,192,.18), 0 2px 8px rgba(0,0,0,.32)',
-      letterSpacing: '.025em',
-    },
-    silk: {
-      color: '#3C3049',
-      background: 'linear-gradient(115deg, #f4e7f6, #d8d5f3 26%, #fff1e8 50%, #e4d2eb 76%, #f7e8ed)',
-      border: '1px solid rgba(255,255,255,.94)',
-      boxShadow: 'inset 0 1px 0 #fff, 0 2px 9px rgba(181,153,191,.24)',
-    },
-    porcelain: {
-      color: '#29434B',
-      background: 'linear-gradient(145deg, #f8ffff, #d5f0ec 48%, #fffdf4)',
-      border: '2px solid #8fc8c3',
-      boxShadow: 'inset 0 0 0 2px rgba(255,255,255,.72), 0 2px 8px rgba(59,118,122,.2)',
-    },
-    steel_engraved: {
-      color: '#E9F1F7',
-      background: 'repeating-linear-gradient(175deg, #1b2732 0 3px, #354756 3px 4px, #202e39 4px 8px)',
-      border: '1px solid rgba(187,207,222,.8)',
-      boxShadow: 'inset 0 1px 0 rgba(255,255,255,.24), 0 2px 8px rgba(0,0,0,.32)',
-      textShadow: '0 1px 2px rgba(0,0,0,.65)',
-    },
-    constellation: {
-      color: '#F5EFFF',
-      background: 'radial-gradient(circle at 16% 30%, #fff 0 1px, transparent 1.8px), radial-gradient(circle at 76% 66%, #c9b3ff 0 1px, transparent 2px), linear-gradient(120deg, #10162d, #25224c 52%, #10152a)',
-      backgroundSize: '19px 19px, 27px 27px, auto',
-      border: '1px solid rgba(205,191,255,.76)',
-      boxShadow: '0 0 11px rgba(138,118,228,.2), inset 0 1px 0 rgba(255,255,255,.16)',
-    },
-  }
-
+  const look = rankBadgeLook(rank.badgeStyle, rank.color)
+  const style = { '--rank': look.color, '--rank-ink': inkOn(look.color) } as CSSProperties
   return (
-    <span
-      title={rank.description || rank.name}
-      className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide"
-      style={finish[rank.badgeStyle]}
-    >
-      <Icon size={11} strokeWidth={2.2} aria-hidden="true" />
-      {rank.name}
+    <span className="rank-badge" data-tone={look.tone} data-edge={look.edge} style={style} title={rank.description || rank.name}>
+      <span className="rank-badge-icon"><Icon size={12} strokeWidth={2.2} aria-hidden="true" /></span>
+      <span className="rank-badge-name">{rank.name}</span>
     </span>
   )
 }

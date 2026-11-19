@@ -1,0 +1,324 @@
+/* Fight simulator (0.4): the target's resistances and every attack's normal and critical range. */
+:where(.combat) button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 5px; background: transparent; color: var(--text); font: 600 13px 'Source Sans 3', sans-serif; cursor: pointer; }
+:where(.combat) button:where(:hover:not(:disabled)) { background: var(--hover); }
+:where(.combat) button:disabled { opacity: 0.35; cursor: default; }
+:where(.combat) :is(button, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+:where(.combat) input { font: 500 14px 'IBM Plex Mono', ui-monospace, monospace; color: var(--text); background: var(--canvas); border: 1px solid var(--line); border-radius: 5px; }
+:where(.combat) img { display: inline-block; }
+.combat { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.combat-title { margin: 0 0 14px; font: 600 19px/1.2 Alegreya, Georgia, serif; color: var(--text); }
+
+.tool-empty {
+  padding: 28px 0;
+  max-width: 46ch;
+}
+.tool-empty h3 {
+  font: 500 24px Alegreya;
+  margin: 0 0 8px;
+}
+.tool-empty p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.combat-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 36px;
+}
+/* Stage and target share the left column, which stays in view while the
+   attack table scrolls. */
+.combat-side {
+  align-self: start;
+  position: sticky;
+  top: 0;
+}
+.combat-target header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.combat-target h3 {
+  font: 500 22px Alegreya;
+  margin: 0;
+}
+.combat-target header button {
+  border: 0;
+  padding: 0 4px;
+  min-height: 32px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.combat-target header button:disabled {
+  opacity: 0.4;
+}
+.combat-resist,
+.combat-resist > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px 60px;
+  gap: 8px;
+  align-items: center;
+}
+.combat-resist {
+  row-gap: 6px;
+}
+.combat-resist > span {
+  font-size: 11px;
+  color: var(--muted);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.combat-resist > span + span {
+  text-align: center;
+}
+.combat-resist > div {
+  grid-column: 1 / -1;
+}
+.combat-resist > div > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.combat-resist img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.combat-resist input {
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--canvas);
+  color: var(--text);
+  font: 500 14px "IBM Plex Mono";
+  text-align: center;
+  appearance: textfield;
+}
+.combat-resist input::-webkit-inner-spin-button {
+  appearance: none;
+}
+.combat-target p {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.combat-damage table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.combat-damage thead th {
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: right;
+}
+.combat-damage thead th:first-child {
+  text-align: left;
+}
+.combat-damage .combat-group th {
+  padding: 18px 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+.combat-damage tbody tr:not(.combat-group) > * {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--subtle);
+}
+.combat-damage tbody th[scope="row"] {
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+}
+.combat-cast {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.combat-attack {
+  cursor: pointer;
+}
+.combat-attack:hover > * {
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.combat-attack:hover .combat-cast {
+  color: var(--accent);
+}
+.combat-damage tbody img,
+.combat-damage tbody i {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.combat-damage td {
+  width: 124px;
+  font: 500 14px "IBM Plex Mono";
+  text-align: right;
+  white-space: nowrap;
+}
+.combat-damage td.is-crit {
+  color: var(--accent);
+}
+.combat-damage td small {
+  display: block;
+  margin-top: 2px;
+  font: 10px "Source Sans 3", sans-serif;
+  color: var(--muted);
+}
+.combat-damage tr.is-rolled > * {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.combat-roll {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.combat-roll span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.combat-roll strong {
+  font: 500 34px/1.1 "IBM Plex Mono";
+}
+.combat-roll strong.is-crit {
+  color: var(--accent);
+}
+.combat-roll small {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.combat-hit {
+  display: block;
+  margin: 2px 0 0 38px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.combat-hit b {
+  font: 500 12px "IBM Plex Mono";
+  color: var(--accent);
+}
+.combat-damage td.is-none {
+  font: 12px "Source Sans 3", sans-serif;
+  color: var(--muted);
+}
+/* One column: the side wrapper steps aside so the stage alone pins to the
+   top of the window, over the whole attack list; the target scrolls by. */
+@media (max-width: 899px) {
+  .combat-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .combat-side {
+    display: contents;
+  }
+  .combat-stage {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 10px 0;
+    background: var(--surface);
+  }
+  .combat-stage canvas {
+    width: 96px !important;
+    height: 104px !important;
+  }
+}
+@media (max-width: 700px) {
+  .combat-resist input,
+  .combat-target header button {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .combat-target header button {
+    font-size: 13px;
+  }
+  .combat-damage td {
+    width: 88px;
+    font-size: 13px;
+  }
+  .combat-cast {
+    min-height: 44px;
+  }
+  .combat-roll strong {
+    font-size: 24px;
+  }
+  .combat-damage tbody th[scope="row"] {
+    font-size: 13px;
+  }
+}
+.combat-damage {
+  overflow-x: auto;
+}
+.is-rolled .combat-hit,
+.combat-damage tr.is-rolled > td.is-none {
+  color: var(--text);
+}
+
+
+/* The stage: the Poutch Ingball and the last hit, first in the target column
+   (which stays in view on wider screens) so every roll is seen. */
+.combat-stage {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.combat-stage.is-flat {
+  display: block;
+}
+.combat-poutch {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+.combat-pop {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  font: 700 22px 'IBM Plex Mono', ui-monospace, monospace;
+  color: var(--text);
+  text-shadow: 0 1px 0 var(--canvas), 0 0 6px var(--canvas);
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: combat-pop 900ms var(--ease-out) forwards;
+}
+.combat-pop.is-crit {
+  color: var(--accent);
+  font-size: 26px;
+}
+@keyframes combat-pop {
+  0%   { opacity: 0; transform: translate(-50%, 10px) scale(0.9); }
+  15%  { opacity: 1; transform: translate(-50%, 0) scale(1.08); }
+  70%  { opacity: 1; transform: translate(-50%, -18px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -28px) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .combat-pop {
+    animation: none;
+  }
+}

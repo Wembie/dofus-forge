@@ -94,9 +94,10 @@ const font = (file: string) => {
   return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength)
 }
 const FONTS: OgFont[] = [
-  { name: 'Cinzel', data: font('Cinzel-Bold.ttf'), weight: 700, style: 'normal' },
-  { name: 'Inter', data: font('Inter-Regular.ttf'), weight: 400, style: 'normal' },
-  { name: 'JetBrainsMono', data: font('JetBrainsMono-Bold.ttf'), weight: 700, style: 'normal' },
+  {name:'BarlowCondensed',data:font('BarlowCondensed-SemiBold.ttf'),weight:600,style:'normal'},
+  { name: 'Alegreya', data: font('Alegreya-SemiBold.ttf'), weight: 700, style: 'normal' },
+  { name: 'SourceSans3', data: font('SourceSans3-Regular.ttf'), weight: 400, style: 'normal' },
+  { name: 'IBMPlexMono', data: font('IBMPlexMono-Medium.ttf'), weight: 700, style: 'normal' },
 ]
 
 const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONTS }
@@ -105,6 +106,7 @@ const src: OgSources = { assets, origin: ORIGIN, bucket: itemBucket, fonts: FONT
 function rendererFingerprint(): string {
   const files = [
     'src/worker/ogRender.ts',
+    'src/data/visual.ts',
     'src/worker/ogPages.ts',
     'src/worker/data.ts',
     'src/data/setGuide.ts',
@@ -160,7 +162,18 @@ function r2() {
   const send = async (key: string, init: RequestInit): Promise<Response> => {
     for (let attempt = 1; ; attempt++) {
       await paced()
-      const res = await fetch(url(key), { ...init, headers: { ...headers, ...(init.headers as Record<string, string>) } })
+      // A thrown fetch (DNS blip, connection reset — no HTTP response at all) is retried the
+      // same as a 429/5xx response; previously it wasn't caught here, so a single transient
+      // network error failed the card outright (observed live: a class card's PUT to R2 threw
+      // "fetch failed" with no retry, failing the whole shard for one card).
+      let res: Response
+      try {
+        res = await fetch(url(key), { ...init, headers: { ...headers, ...(init.headers as Record<string, string>) } })
+      } catch (e) {
+        if (attempt >= 6) throw e
+        await new Promise(r => setTimeout(r, Math.min(60_000, 2000 * 2 ** attempt)))
+        continue
+      }
       const retryable = res.status === 429 || res.status >= 500
       if (!retryable || attempt >= 6) return res
       await res.body?.cancel()

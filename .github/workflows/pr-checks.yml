@@ -3,12 +3,11 @@ name: PR Checks
 on:
   pull_request:
     branches: [main, dev]
-    # Default types (opened/synchronize/reopened) don't include a title/body
-    # edit, so a PR title fixed after a failed pr-metadata check never
-    # reruns it on its own — editing alone leaves the old failed run stuck.
-    # `edited` closes that gap; the `changes` job below skips on it so the
-    # expensive build/test/security jobs don't rerun for a title-only edit.
-    types: [opened, synchronize, reopened, edited]
+    # No `edited`: a title/body edit is checked by pr-metadata.yml. Running
+    # this workflow on an edit made every job here report "skipped", and a
+    # skipped required check counts as passing, so an edit could hide a
+    # failed build behind green checks.
+    types: [opened, synchronize, reopened]
 
 concurrency:
   group: pr-checks-${{ github.event.pull_request.number }}
@@ -27,9 +26,6 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    # A title/body edit alone has no new diff to check — skip so validate/
-    # dependency-review (which need this job) skip too, cascading for free.
-    if: github.event.action != 'edited'
     outputs:
       code: ${{ steps.diff.outputs.code }}
     steps:
@@ -50,38 +46,6 @@ jobs:
           fi
 
   # ── PR metadata ───────────────────────────────────────────────────────
-  # Runs on every PR, docs-only included — no checkout needed, title/body
-  # come straight from the pull_request event payload.
-  pr-metadata:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      contents: read
-    steps:
-      - name: Validate PR title (Conventional Commits)
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          if [ "${#PR_TITLE}" -gt 100 ]; then
-            echo "::error::PR title is ${#PR_TITLE} chars, must be <= 100: $PR_TITLE"
-            exit 1
-          fi
-          if ! printf '%s' "$PR_TITLE" | grep -qE '^(feat|fix|refactor|chore|style|perf|docs|test|ci|build)(\([a-z0-9_-]+\))?: .+'; then
-            echo "::error::PR title must follow Conventional Commits — type(scope): description. Allowed types: feat, fix, refactor, chore, style, perf, docs, test, ci, build. Got: $PR_TITLE"
-            exit 1
-          fi
-
-      - name: Validate PR has a real description
-        env:
-          PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
-          trimmed=$(printf '%s' "$PR_BODY" | tr -d '[:space:]')
-          if [ "${#trimmed}" -lt 10 ]; then
-            echo "::error::PR description is missing or too short — explain the why and what changed, not just the title again."
-            exit 1
-          fi
-
-  # ── Build, lint, type-check, tests ───────────────────────────────────
   validate:
     needs: changes
     if: needs.changes.outputs.code == 'true'

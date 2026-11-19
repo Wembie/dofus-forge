@@ -1,0 +1,27 @@
+[
+  {
+    "name": "desktop",
+    "geometry": {
+      "width": 1318,
+      "scrollWidth": 1318,
+      "bodyWidth": 1303,
+      "bodyScrollWidth": 1303
+    },
+    "controls": 79,
+    "resultCount": 5,
+    "appliedHp": "3.850",
+    "undoRestored": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 375,
+      "bodyScrollWidth": 375
+    },
+    "controls": 79,
+    "errors": []
+  }
+]

@@ -11,6 +11,7 @@ consumed by src/lib/character:
   <out>/looks.json              breed -> {male, female} body skin, head skin, colors, look scale
   <out>/pets.json               pet item id -> creature bone, scale (+ palette when needed)
   <out>/mounts.json             mount / petsmount item id -> mount bone, palette, scale
+  <out>/creatures.json          standalone creatures (the Poutch target) -> bone, scale
   <out>/bones/<id>.json         node names, own graphics, animation list (bounds, frame count)
   <out>/bones/<id>/<anim>.bin   raw animation timelines (format: src/lib/character/anim.ts)
   <out>/skins/<id>.bin          skin geometry (format: src/lib/character/skin.ts)
@@ -41,6 +42,10 @@ CREATURE_LOOK = re.compile(r'^\{(\d+)\|\|\|(\d+)\}$')
 MOUNT_LOOK = re.compile(r'^\{(\d+)\|\|([\d=,]*)\|(\d+)\}$')
 NEUTRAL_TINT = 0x808080  # tint at 50% gray leaves a part as authored
 RIDER_BONE = '2'
+# Creatures the site draws on their own, not tied to an item: the Poutch
+# Ingball (monster 5499, look {431|||100}) as the combat simulation target.
+CREATURES = {'poutch': {'bone': '431', 'scale': 100}}
+STANDALONE_ANIMS = re.compile(r'^Anim(Statique|Hit)_\d$')
 
 # Creatures whose bone has tinted parts but whose look carries no palette:
 # colors fitted so the render matches the item icon (slot N -> index N-1;
@@ -334,10 +339,20 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--client', default=DEFAULT_CLIENT)
     ap.add_argument('--out', default=os.path.join(os.getcwd(), 'char-assets'))
+    ap.add_argument('--only', choices=['all', 'creatures'], default='all',
+                    help='creatures: only the standalone creatures (fast)')
     args = ap.parse_args()
 
     os.makedirs(os.path.join(args.out, 'skins'), exist_ok=True)
     os.makedirs(os.path.join(args.out, 'bones'), exist_ok=True)
+
+    print('creatures')
+    creatures = {k: v for k, v in CREATURES.items()
+                 if export_bone(args.client, args.out, v['bone'], keep=STANDALONE_ANIMS.match)}
+    with open(os.path.join(args.out, 'creatures.json'), 'w') as f:
+        json.dump(creatures, f, separators=(',', ':'))
+    if args.only == 'creatures':
+        return
 
     print('bones')
     for bone in BONES:

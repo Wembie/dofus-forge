@@ -1,0 +1,44 @@
+[
+  {
+    "device": "desktop",
+    "detailGeometry": {
+      "width": 357,
+      "scrollWidth": 357
+    },
+    "equipAndUndo": true,
+    "nestedSetDialog": true,
+    "runeAndUndo": true,
+    "commandPalette": true,
+    "setEquipAndUndo": true,
+    "characteristics": true,
+    "passives": true,
+    "spells": true,
+    "combatTable": true,
+    "holdAndModifiers": true,
+    "singleSetPiece": true,
+    "compare": true,
+    "exported": true,
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "detailGeometry": {
+      "width": 373,
+      "scrollWidth": 373
+    },
+    "equipAndUndo": true,
+    "nestedSetDialog": true,
+    "runeAndUndo": true,
+    "commandPalette": true,
+    "setEquipAndUndo": true,
+    "characteristics": true,
+    "passives": true,
+    "spells": true,
+    "combatTable": true,
+    "holdAndModifiers": true,
+    "singleSetPiece": true,
+    "compare": true,
+    "exported": false,
+    "errors": []
+  }
+]

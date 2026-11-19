@@ -106,7 +106,8 @@ export function planRequired(
     const overLevel = item.level > characterLevel
     if (kept.has(id)) return { id, item, slot: ALL_SLOTS.find(s => lockedSlots.has(s) && equipped[s] === id) ?? null, status: 'kept', overLevel }
     if (isPrysmaradite(item) && prysma) return { id, item, slot: null, status: 'prysmaradite', overLevel }
-    const fits = slotsFor(item)
+    // A Prysmaradite only goes in the first Dofus slot.
+    const fits = isPrysmaradite(item) ? ['dofus1'] : slotsFor(item)
     const candidates = free.filter(s => fits.includes(s))
     const fromLast = item.slot === 'dofus' && !isPrysmaradite(item)
     const slot = (fromLast ? candidates.at(-1) : candidates[0]) ?? null

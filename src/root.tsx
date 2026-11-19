@@ -3,8 +3,6 @@ import { Links, Outlet, Scripts, isRouteErrorResponse, useLocation, useRouteErro
 import { useTranslation } from 'react-i18next'
 import stylesheet from './index.css?url'
 import { Toaster } from './components/Toaster.tsx'
-import { MagicCursor } from './components/MagicCursor.tsx'
-import { ParticleField } from './components/ParticleField.tsx'
 import { UpdateBanner } from './components/UpdateBanner.tsx'
 import { ConsentGate } from './features/auth/ConsentGate.tsx'
 import { useAuthStore } from './store/authStore.ts'
@@ -14,7 +12,6 @@ import { BRAND } from './data/brand.ts'
 
 export const links = () => [{ rel: 'stylesheet', href: stylesheet }]
 
-const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap'
 
 // These run before hydration, in this order, so they are plain inline
 // scripts rather than effects.
@@ -33,6 +30,7 @@ const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;
 //    hash is kept: Supabase's auth confirmation links carry the session in
 //    it. In-app navigation is handled by LangRoute.
 // 4. Theme class before first paint, so there is no flash of the wrong theme.
+//    Dark unless the visitor picked light in Settings.
 // 5. The font stylesheet loads as media="print" (never render-blocking) and
 //    switches to its data-swap-media once loaded. Load events don't bubble,
 //    but a capturing listener on the document still sees them.
@@ -70,14 +68,33 @@ const BOOT_SCRIPT = `
 (function() {
   var t = null
   try { t = localStorage.getItem('dofus-forge-theme') } catch (_) {}
-  var prefer = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
-  var theme = (t === 'light' || t === 'dark') ? t : prefer
-  document.documentElement.classList.add(theme === 'light' ? 'light' : 'dark')
+  document.documentElement.classList.add(t === 'light' ? 'light' : 'dark')
 })();
 document.addEventListener('load', function(e) {
   var el = e.target
   if (el && el.tagName === 'LINK' && el.getAttribute('data-swap-media')) el.media = el.getAttribute('data-swap-media')
 }, true);
+`
+
+// Google Analytics, through the Tag Manager container. Consent mode v2
+// defaults go first: denied in the EEA, the UK and Switzerland until the
+// Google consent message (loaded with AdSense) grants them, granted
+// elsewhere. The container only loads on the production host, so local
+// runs, previews and tests send nothing.
+const GTM_ID = 'GTM-M8TP3WDV'
+const CONSENT_REGIONS = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH']
+const ANALYTICS_SCRIPT = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', region: ${JSON.stringify(CONSENT_REGIONS)}, wait_for_update: 500 });
+gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
+gtag('js', new Date());
+if (location.hostname === 'dofusforge.com') {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtm.js?id=${GTM_ID}';
+  document.head.appendChild(s);
+}
 `
 
 const WEB_APPLICATION_LD = {
@@ -168,6 +185,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: ANALYTICS_SCRIPT }} />
 
         {/* Google AdSense site verification/loader — must stay high in <head> per Google's requirement */}
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7408183630551993" crossOrigin="anonymous" />
@@ -201,14 +219,10 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="apple-mobile-web-app-title" content="Dofus Forge" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#0a0d13" />
+        <meta name="theme-color" content="#111615" />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* Never render-blocking: fetched as print media, switched to all once loaded (BOOT_SCRIPT). */}
-        <link rel="preload" as="style" href={FONTS_URL} />
-        <link rel="stylesheet" href={FONTS_URL} media="print" data-swap-media="all" suppressHydrationWarning />
-        <noscript><link rel="stylesheet" href={FONTS_URL} /></noscript>
+        <link rel="preload" as="font" type="font/woff" href="/fonts/sourcesans3/SourceSans3-v04.woff" crossOrigin="anonymous" />
         <Links />
       </head>
       <body>
@@ -232,8 +246,6 @@ export default function App() {
     <>
       <Outlet />
       <Toaster />
-      <ParticleField />
-      <MagicCursor />
       <UpdateBanner />
       <ConsentGate />
     </>

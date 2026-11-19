@@ -1,0 +1,348 @@
+/* The form owns the padding so its sticky footer can run edge to edge. */
+.publish-dialog form,
+.publish-signin {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 18px 22px 22px;
+}
+.publish-dialog .publish-review {
+  margin: 0;
+  padding: 0 0 12px;
+}
+.publish-muted {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* The build being published, read back before it goes out. */
+.publish-subject {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--stage);
+}
+.publish-subject > img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 5px;
+  background: var(--surface);
+}
+.publish-subject > span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.publish-subject b {
+  font: 500 19px/1.2 Alegreya;
+  overflow-wrap: anywhere;
+}
+.publish-subject small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.publish-subject ul {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.publish-subject li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.publish-subject li img {
+  width: 15px;
+  height: 15px;
+}
+.publish-subject li strong {
+  font: 500 14px "IBM Plex Mono";
+  color: var(--text);
+}
+.publish-note {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 11px 13px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.publish-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--accent);
+}
+
+.publish-field > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.publish-field label,
+.publish-tags legend {
+  font-size: 14px;
+  font-weight: 500;
+}
+.publish-field small,
+.publish-tags legend small {
+  font: 400 11px "IBM Plex Mono";
+  color: var(--muted);
+}
+.publish-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font: 400 16px "Source Sans 3";
+}
+.publish-field input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.publish-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.publish-tags legend {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 0;
+}
+.publish-tag-group .publish-tag-category {
+  margin: 4px 0 8px;
+  font: 600 10px "IBM Plex Mono";
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.publish-tag-group > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.publish-tag-group button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+}
+.publish-tag-group button:hover:not(:disabled) {
+  border-color: var(--muted);
+}
+.publish-tag-group button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  color: var(--text);
+}
+.publish-tag-group button[aria-pressed="true"] svg {
+  color: var(--accent);
+}
+.publish-tag-group button:disabled {
+  opacity: 0.4;
+}
+.publish-inline-error,
+.publish-error {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--negative);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--negative) 8%, transparent);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.publish-inline-error p,
+.publish-error p {
+  margin: 0;
+  flex: 1;
+  min-width: 180px;
+}
+.publish-error > svg {
+  color: var(--negative);
+  flex-shrink: 0;
+}
+.publish-inline-error button,
+.publish-error button {
+  min-height: 40px;
+  font-size: 13px;
+}
+
+.publish-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  position: sticky;
+  bottom: 0;
+  margin: 14px -22px -22px;
+  padding: 14px 22px;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+/* Three visibilities side by side: the choice reads at a glance and the form stays short. */
+.publish-dialog .library-privacy-choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.publish-dialog .library-privacy-choices legend {
+  grid-column: 1 / -1;
+}
+.publish-dialog .library-privacy-choices > label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: start;
+  gap: 8px 10px;
+  padding: 12px;
+}
+.publish-dialog .library-privacy-choices > label > svg {
+  justify-self: end;
+}
+.publish-dialog .library-privacy-choices > label > span {
+  grid-column: 1 / -1;
+}
+.publish-actions.has-status {
+  flex-direction: column;
+  align-items: stretch;
+}
+.publish-actions.has-status > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.publish-actions button {
+  min-height: 46px;
+}
+.publish-actions .primary {
+  min-width: 160px;
+}
+.publish-signin {
+  align-items: center;
+  text-align: center;
+}
+.publish-signin > svg {
+  color: var(--accent);
+}
+.publish-signin p {
+  margin: 0;
+  font-size: 14px;
+}
+.publish-signin .publish-actions {
+  position: static;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  align-self: stretch;
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .publish-dialog form {
+    padding: 16px;
+  }
+  .publish-subject {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+  .publish-subject > img {
+    width: 44px;
+    height: 44px;
+  }
+  .publish-subject ul {
+    grid-column: 1 / -1;
+  }
+  .publish-actions {
+    margin: 0 -16px -16px;
+    padding: 12px 16px;
+  }
+  .publish-dialog .library-privacy-choices {
+    grid-template-columns: 1fr;
+  }
+  .publish-dialog .library-privacy-choices > label {
+    display: flex;
+  }
+  .publish-actions > div > button,
+  .publish-signin .publish-actions button {
+    flex: 1;
+  }
+}
+
+/* Production base for this dialog's plain buttons (the study's global button). */
+:where(.publish-dialog form, .publish-signin) button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+:where(.publish-dialog form, .publish-signin) button:where(:hover:not(:disabled)) {
+  background: var(--hover);
+  border-color: var(--muted);
+}
+:where(.publish-dialog form, .publish-signin) button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* The form scrolls inside the window so its footer can stick to the bottom. */
+.publish-dialog form {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.publish-actions > div {
+  display: flex;
+  gap: 10px;
+}
+.publish-actions > div > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 4px;
+  font-weight: 600;
+}

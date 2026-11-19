@@ -1,0 +1,6 @@
+# Reviewed false positives (approved by the repository owner, 2026-11-19).
+#
+# Figma file key of the retired 0.4.0 design study (docs/design-v0.4/figma-state.json,
+# now removed). An identifier from the Figma file URL, not a credential: opening the
+# file still needs the owner's Figma permissions.
+026dc8225cbc6d5c615c2e5c1712a0617b60d150:docs/design-v0.4/figma-state.json:generic-api-key:2

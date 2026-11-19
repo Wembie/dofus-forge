@@ -1,0 +1,156 @@
+/* The hover card of an item (workshop slots, published builds). Flat: one
+   surface, thin rules between sections, the game's own icons. */
+.item-card {
+  max-height: min(82vh, 640px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  animation: tooltip-in 140ms var(--ease-out) forwards;
+}
+.item-card > * {
+  padding: 9px 12px;
+}
+.item-card > * + * {
+  border-top: 1px solid var(--line);
+}
+.item-card-name {
+  margin: 0;
+  font: 600 15px/1.25 Alegreya, Georgia, serif;
+}
+.item-card-meta,
+.item-card-set {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.item-card-set {
+  color: var(--water);
+  font-weight: 600;
+}
+.item-card-set span {
+  margin-left: 4px;
+  font: 500 11px 'IBM Plex Mono', ui-monospace, monospace;
+  color: var(--muted);
+}
+.item-card h4 {
+  margin: 0 0 5px;
+  font: 600 10px 'IBM Plex Mono', ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.item-card-ability p {
+  margin: 0;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.item-card-ability p + p {
+  margin-top: 3px;
+}
+.item-card-ability .is-title {
+  font-weight: 600;
+  color: var(--text);
+}
+.item-card-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item-card-lines li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  line-height: 1.3;
+}
+.item-card-lines img,
+.item-card-lines i {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+.item-card-lines.is-runes img,
+.item-card-lines.is-runes i {
+  width: 15px;
+  height: 15px;
+}
+.item-card-lines b {
+  font: 600 12px 'IBM Plex Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+.item-card-lines span {
+  min-width: 0;
+}
+.item-card-lines small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.item-card-lines .is-negative {
+  color: var(--negative) !important;
+}
+.item-card-lines.is-runes b {
+  color: var(--accent);
+}
+.item-card-note {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.item-card-note.is-section {
+  margin: 0;
+}
+.item-card-lore {
+  margin: 0;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--muted);
+}
+/* Spell effects of an item (cards, catalog). */
+.item-spell-effects h4 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.item-spell-effects ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item-spell-effects li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.item-spell-effects li > img,
+.item-spell-effects li > svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  object-fit: contain;
+  color: var(--muted);
+}
+.item-spell-effects li b {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.item-spell-effects li small {
+  display: block;
+  font-size: 11px;
+  line-height: 1.3;
+}

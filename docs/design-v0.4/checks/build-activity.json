@@ -1,0 +1,574 @@
+[
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "profile-activity",
+    "device": "desktop",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "profile-activity",
+    "device": "desktop",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "laptop",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 1366,
+      "scrollWidth": 1366,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "tablet",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 768,
+      "scrollWidth": 768,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "profile-activity",
+    "device": "mobile",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "profile-activity",
+    "device": "mobile",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 390,
+      "scrollWidth": 390,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "en",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "fr",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "tinta",
+    "lang": "pt",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "es",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "en",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "fr",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  },
+  {
+    "id": "activity",
+    "device": "small-mobile",
+    "theme": "mineral",
+    "lang": "pt",
+    "geometry": {
+      "width": 360,
+      "scrollWidth": 360,
+      "clippedLabels": 0
+    },
+    "errors": [],
+    "violations": []
+  }
+]

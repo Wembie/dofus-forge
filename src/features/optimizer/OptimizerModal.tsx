@@ -1,1081 +1,1187 @@
-import { useState, useRef, useEffect, useMemo, type CSSProperties } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
-import { ChevronDown, Lock, Unlock, X, Flame, Anvil, RotateCcw, Settings2, Wind, AlertTriangle, Pin, BookOpen, Infinity as InfinityIcon } from 'lucide-react'
-import { Modal } from '@/ui/Modal.tsx'
-import { useBuildStore, ALL_SLOTS, type SlotId } from '@/store/buildStore.ts'
-import { useDataStore } from '@/store/dataStore.ts'
-import { ClassPicker } from '@/features/class-picker/ClassPicker.tsx'
-import type { OptimizerConfig, BuildResult, ForgeReport, ForgeRequirement, ForgeIntensity, OptimizerStatKey } from './types.ts'
-import type { OptimizerStatMeta } from './statList.ts'
-import { BuildResultCard } from './BuildResultCard.tsx'
-import { startForgeRun, finishForgeRun } from '@/features/builds/api.ts'
-import { ForgeScene, HeatGauge, ForgeLog, LeyScale, LevelField, type LogEntry } from './ForgeParts.tsx'
-import { OPTIMIZER_STATS, STAT_GROUPS, POWER_BOOSTED, LEY_PRESETS, leyPreset, matchingPreset, suggestedCap, runeStatLabelKey } from './statList.ts'
-import { emptyReq, isActive, normalizeCap, loadSavedConfig, persistConfig, toWireConfig, loadForgeResult } from './forgeConfig.ts'
-import { statIconUrl } from '@/features/equipment/statDisplay.ts'
-import { CHARACTERISTICS } from '@/engine/types.ts'
-import { flattenRunes } from '@/engine/runes.ts'
-import { useForgePicks, planRequired } from './forgePicks.ts'
-import { forgePassiveState, forgePassiveEffects, passiveStateFor } from './forgePassives.ts'
-import { ForgePassivesBlock } from './ForgePassivesBlock.tsx'
-import { ForgeItemsPanel } from './ForgeItemsPanel.tsx'
-import { langPathPrefix } from '@/i18n/langPath.ts'
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { Trans, useTranslation } from "react-i18next";
+import {
+  AlertTriangle,
+  Anvil,
+  ArrowLeft,
+  Ban,
+  BookOpen,
+  Check,
+  ChevronDown,
+  Flame,
+  Infinity as InfinityIcon,
+  Lock,
+  Pin,
+  Plus,
+  RotateCcw,
+  Search,
+  Settings2,
+  Unlock,
+  Wind,
+  X,
+} from "lucide-react";
+import { ALL_SLOTS, type SlotId } from "@/store/buildStore.ts";
+import type { AppItem } from "@/data/loaders.ts";
+import { CHARACTERISTICS } from "@/engine/types.ts";
+import { ClassPicker } from "@/features/class-picker/ClassPicker.tsx";
+import { ForgeScene } from "@/features/optimizer/ForgeParts.tsx";
+import type { BuildResult, ForgeIntensity, ForgeRequirement } from "@/features/optimizer/types.ts";
+import {
+  LEY_PRESETS,
+  OPTIMIZER_STATS,
+  POWER_BOOSTED,
+  STAT_GROUPS,
+  leyPreset,
+  matchingPreset,
+  runeStatLabelKey,
+  suggestedCap,
+  type OptimizerStatMeta,
+} from "@/features/optimizer/statList.ts";
+import { clampLevel, emptyReq, isActive, normalizeCap } from "@/features/optimizer/forgeConfig.ts";
+import { searchItems, slotNameKey, slotsFor, useForgePicks, type RequiredPlacement } from "@/features/optimizer/forgePicks.ts";
+import {
+  PASSIVE_MODES,
+  PASSIVE_SECTIONS,
+  forgePassiveState,
+  orderPassiveBonus,
+  orderPassiveItems,
+  passiveSection,
+  type ForgePassiveMode,
+  type PassiveSection,
+} from "@/features/optimizer/forgePassives.ts";
+import {
+  INTENSITY,
+  META_MAP,
+  SLOT_LABEL_KEY,
+  fingerprint,
+  formatCount,
+  requirementChecks,
+  surplusRows,
+  useForge,
+  type Forge as ForgeState,
+} from "@/features/optimizer/useForge.ts";
+import { bonusParts } from "@/features/passives/passiveLabels.ts";
+import { runeIconUrl, signatureRuneUrl, statIconUrl } from "@/features/equipment/statDisplay.ts";
+import { useFocusTrap } from "@/ui/useFocusTrap.ts";
+import "./forge.css";
 
-type Phase = 'locked' | 'order' | 'forging' | 'forged'
-type Equipped = Partial<Record<SlotId, number>>
+const group = (n: number, lang: string) => Math.round(n).toLocaleString(lang);
 
-const SLOT_LABEL_KEY: Record<SlotId, string> = {
-  hat:       'slot_hat',
-  cape:      'slot_cape',
-  amulet:    'slot_amulet',
-  ring1:     'slot_ring1',
-  ring2:     'slot_ring2',
-  belt:      'slot_belt',
-  boots:     'slot_boots',
-  weapon:    'slot_weapon',
-  shield:    'slot_shield',
-  companion: 'slot_companion',
-  sidekick:  'slot_sidekick',
-  dofus1:    'slot_dofus1',
-  dofus2:    'slot_dofus2',
-  dofus3:    'slot_dofus3',
-  dofus4:    'slot_dofus4',
-  dofus5:    'slot_dofus5',
-  dofus6:    'slot_dofus6',
-}
-
-const META_MAP = new Map(OPTIMIZER_STATS.map(m => [m.key, m]))
-
-// Measured on real multi-basin orders: every Worker keeps at least 24
-// islands (fewer per Worker let one basin take them all over), and a run
-// keeps at least 96 islands overall. 2 Workers x 24 found the best piece
-// 3/8 times with runes; 4 x 24 and 8 x 24 found it 8/8.
-const ISLANDS_PER_WORKER = 24
-const MIN_TOTAL_ISLANDS = 96
-const HW = Math.max(1, globalThis.navigator?.hardwareConcurrency || 4)
-const BELLOWS_COOLDOWN_MS = 4000
-const LOG_SIZE = 7
-
-// How long and how wide the Forge searches. It tempers on its own only once
-// `minSec` has passed, every minimum is met and `stall` generations went by
-// without a significant gain (see PLATEAU_GAIN); `capSec` is the hard limit
-// (Infinity: only the player tempers).
-const INTENSITY: Record<ForgeIntensity, { threads: number; stall: number; minSec: number; capSec: number; temperMs: number }> = {
-  quick:    { threads: Math.min(4, HW),                                  stall: 120,      minSec: 15,  capSec: 45,       temperMs: 1500 },
-  standard: { threads: Math.min(HW, 8, Math.max(4, Math.floor(HW / 2))), stall: 300,      minSec: 45,  capSec: 180,      temperMs: 3000 },
-  master:   { threads: Math.min(8, HW),                                  stall: 600,      minSec: 120, capSec: 480,      temperMs: 6000 },
-  eternal:  { threads: Math.min(8, HW),                                  stall: Infinity, minSec: 0,   capSec: Infinity, temperMs: 6000 },
-}
-// Only a gain of at least this share of the quality (or 1 point) keeps the
-// forge hot. With transcendence runes the hammer keeps finding +1/+2 rune
-// swaps for a long time; those still show, but no longer stop the forge
-// from settling once the piece is essentially done.
-const PLATEAU_GAIN = 0.002
-// Visual heat scale for the eternal forge, which never cools on its own.
-const ETERNAL_HEAT_SCALE = 300
-
-// Rings and Dofus slots are interchangeable, so they compare as sets.
-function fingerprint(r: BuildResult): string {
-  const rings = [r.equipped.ring1 ?? 0, r.equipped.ring2 ?? 0].sort((a, b) => a - b)
-  const dofus = (['dofus1', 'dofus2', 'dofus3', 'dofus4', 'dofus5', 'dofus6'] as SlotId[]).map(s => r.equipped[s] ?? 0).sort((a, b) => a - b)
-  const rest = ALL_SLOTS.filter(s => !s.startsWith('ring') && !s.startsWith('dofus')).map(s => r.equipped[s] ?? 0)
-  return [...rest, ...rings, ...dofus].join(',')
-}
-
-function mergeResults(reports: (ForgeReport | null)[]): { result: BuildResult; worker: number }[] {
-  const merged = new Map<string, { result: BuildResult; worker: number }>()
-  reports.forEach((r, w) => r?.results.forEach(result => {
-    const fp = fingerprint(result)
-    const existing = merged.get(fp)
-    if (!existing || existing.result.score < result.score) merged.set(fp, { result, worker: w })
-  }))
-  // Equal quality = only filler items differ, not a real alternative.
-  const ranked = [...merged.values()].sort((a, b) => b.result.score - a.result.score)
-  return ranked.filter((r, i) => i === 0 || Math.abs(r.result.score - ranked[i - 1].result.score) > 1e-6)
-}
-
-function targetValue(result: BuildResult, stat: OptimizerStatKey): number {
-  const own = (result.stats as unknown as Record<string, number>)[stat] ?? 0
-  return POWER_BOOSTED.has(stat) ? own + result.stats.power : own
-}
-
-function formatCount(n: number): string {
-  if (n >= 1e9) return `${(n / 1e9).toFixed(1)}B`
-  if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`
-  if (n >= 1e3) return `${(n / 1e3).toFixed(1)}k`
-  return String(n)
-}
-
-const fieldStyle = (active: boolean, color: string): CSSProperties => ({
-  background: active ? `color-mix(in srgb, ${color} 10%, var(--surface-panel))` : 'var(--surface-panel)',
-  border:     `1px solid ${active ? `color-mix(in srgb, ${color} 30%, var(--metal-edge))` : 'var(--metal-edge)'}`,
-  color:      active ? color : 'var(--ink-muted)',
-})
-
-function NumberField({ value, placeholder, onCommit, color, active, title, max = 100000 }: {
-  value:       number | null
-  placeholder: string
-  onCommit:    (v: number | null) => void
-  color:       string
-  active:      boolean
-  title:       string
-  max?:        number
+/** Number typed freely and committed on blur or Enter, like the production order fields. */
+function NumberInput({
+  value,
+  label,
+  placeholder,
+  max = 100000,
+  onCommit,
+}: {
+  value: number | null;
+  label: string;
+  placeholder: string;
+  max?: number;
+  onCommit: (value: number | null) => void;
 }) {
-  const [raw, setRaw] = useState(value == null || value === 0 ? '' : String(value))
-  useEffect(() => { setRaw(value == null || value === 0 ? '' : String(value)) }, [value])
+  const shown = value == null || value === 0 ? "" : String(value);
+  const [raw, setRaw] = useState(shown);
+  useEffect(() => setRaw(shown), [shown]);
   return (
     <input
-      type="text"
       inputMode="numeric"
-      title={title}
-      aria-label={title}
+      aria-label={label}
+      title={label}
       placeholder={placeholder}
       value={raw}
-      onClick={e => e.stopPropagation()}
-      onChange={e => setRaw(e.target.value.replace(/[^0-9]/g, ''))}
+      onChange={(e) => setRaw(e.target.value.replace(/\D/g, ""))}
       onBlur={() => {
-        const n = parseInt(raw, 10)
-        onCommit(isNaN(n) ? null : Math.min(max, n))
+        const n = parseInt(raw, 10);
+        onCommit(Number.isNaN(n) ? null : Math.min(max, n));
       }}
-      onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-      className="w-full min-w-0 text-[11px] font-mono text-right rounded px-1 py-0.5 outline-none transition-colors"
-      style={fieldStyle(active, color)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") e.currentTarget.blur();
+      }}
     />
-  )
+  );
 }
 
-// ── Requirement card ──────────────────────────────────────────────────────────
-function RequirementCard({ meta, req, onChange }: {
-  meta:     OptimizerStatMeta
-  req:      ForgeRequirement
-  onChange: (next: ForgeRequirement) => void
+function GoalRow({
+  meta,
+  req,
+  onChange,
+}: {
+  meta: OptimizerStatMeta;
+  req: ForgeRequirement;
+  onChange: (next: ForgeRequirement) => void;
 }) {
-  const { t } = useTranslation()
-  const active = isActive(req)
-  const preset = matchingPreset(meta.key, req.weight)
-  const unpursued = req.minimum > 0 && req.weight === 0
-
-  function activate() {
-    if (!active) onChange({ ...req, weight: leyPreset(meta.key, 2), cap: suggestedCap(meta.key) })
-  }
-
+  const { t } = useTranslation();
+  const name = t(meta.tKey);
+  if (!isActive(req))
+    return (
+      <li className="fg-goal is-off">
+        <img src={statIconUrl(meta.icon)} alt="" />
+        <span>{name}</span>
+        <button
+          aria-label={t("fg_add", { name })}
+          title={t("optimizer_activate_hint")}
+          onClick={() => onChange({ ...req, weight: leyPreset(meta.key, 2), cap: suggestedCap(meta.key) })}
+        >
+          <Plus size={15} />
+        </button>
+      </li>
+    );
+  const preset = matchingPreset(meta.key, req.weight);
   return (
-    <div
-      className="relative rounded-lg p-2 flex flex-col gap-1 transition-all duration-200"
-      style={{
-        cursor:     active ? 'default' : 'pointer',
-        background: active ? `color-mix(in srgb, ${meta.color} 8%, var(--surface-stone))` : 'var(--surface-stone)',
-        border:     `1px solid ${active ? `color-mix(in srgb, ${meta.color} 50%, var(--metal-edge))` : 'var(--metal-edge)'}`,
-        boxShadow:  active ? `0 0 14px -6px ${meta.color}` : 'none',
-      }}
-      onClick={activate}
-      title={active ? t(`${meta.tKey}_desc`) : t('optimizer_activate_hint')}
-      {...(!active && {
-        role: 'button',
-        tabIndex: 0,
-        'aria-label': `${t(meta.tKey)} — ${t('optimizer_activate_hint')}`,
-        onKeyDown: (e: React.KeyboardEvent) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate() }
-        },
-      })}
-    >
-      <div className="flex items-center gap-1 min-w-0">
-        <img src={statIconUrl(meta.icon)} alt="" width={12} height={12} className="object-contain flex-shrink-0" />
-        <span className="text-[10px] font-semibold truncate leading-tight flex-1" style={{ color: active ? meta.color : 'var(--ink-faint)' }}>
-          {t(meta.tKey)}
-        </span>
-        {unpursued && (
-          <span title={t('optimizer_unpursued_hint')}>
-            <AlertTriangle size={10} style={{ color: 'var(--gold)' }} />
-          </span>
+    <li className="fg-goal">
+      <img src={statIconUrl(meta.icon)} alt="" />
+      <span className="fg-goal-name">
+        {name}
+        {req.minimum > 0 && req.weight === 0 && (
+          <AlertTriangle size={13} aria-label={t("optimizer_unpursued_hint")}>
+            <title>{t("optimizer_unpursued_hint")}</title>
+          </AlertTriangle>
         )}
-        {active && (
+      </span>
+      <label className="fg-num">
+        <span>{t("optimizer_min_val_label")}</span>
+        <NumberInput
+          value={req.minimum}
+          label={t("fg_min_of", { name })}
+          placeholder="—"
+          onCommit={(v) => onChange({ ...req, minimum: v ?? 0 })}
+        />
+      </label>
+      <label className="fg-num">
+        <span>{t("fg_cap")}</span>
+        <NumberInput
+          value={req.cap}
+          label={t("fg_cap_of", { name })}
+          placeholder="∞"
+          onCommit={(v) => onChange({ ...req, cap: normalizeCap(v) })}
+        />
+      </label>
+      <button
+        className={"fg-lock" + (req.strictCap ? " is-strict" : "")}
+        aria-pressed={req.strictCap}
+        aria-label={t("fg_strict_of", { name })}
+        title={req.strictCap ? t("optimizer_cap_strict_hint") : t("optimizer_cap_soft_hint")}
+        onClick={() => onChange({ ...req, strictCap: !req.strictCap })}
+      >
+        {req.strictCap ? <Lock size={14} /> : <Unlock size={14} />}
+      </button>
+      <label className="fg-num">
+        <span>{t("optimizer_ley")}</span>
+        <NumberInput
+          value={req.weight}
+          label={t("fg_ley_of", { name })}
+          placeholder="0"
+          max={10000}
+          onCommit={(v) => onChange({ ...req, weight: v ?? 0 })}
+        />
+      </label>
+      <div className="fg-presets" role="group" aria-label={t("fg_ley_levels_of", { name })}>
+        {LEY_PRESETS.map((_, level) => (
           <button
-            type="button"
-            onClick={e => { e.stopPropagation(); onChange(emptyReq(meta.key)) }}
-            className="flex-shrink-0 opacity-50 hover:opacity-100 transition-opacity"
-            title={t('optimizer_clear_condition')}
-            aria-label={t('optimizer_clear_condition')}
-          >
-            <X size={10} style={{ color: 'var(--ink-faint)' }} />
-          </button>
-        )}
+            key={level}
+            aria-pressed={preset >= level && preset !== -1}
+            aria-label={t("optimizer_ley_preset", { n: level + 1, value: leyPreset(meta.key, level) })}
+            title={t("optimizer_ley_preset", { n: level + 1, value: leyPreset(meta.key, level) })}
+            onClick={() => onChange({ ...req, weight: leyPreset(meta.key, level) })}
+          />
+        ))}
       </div>
-      {active && (
-        <div className="forge-log-in flex flex-col gap-1">
-          <div className="flex items-center gap-1">
-            <span className="text-[9px] w-3 text-center flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>≥</span>
-            <NumberField value={req.minimum} placeholder="—" title={t('optimizer_minimum_hint')} color={meta.color} active onCommit={v => onChange({ ...req, minimum: v ?? 0 })} />
-            <span className="text-[9px] w-3 text-center flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>≤</span>
-            <NumberField
-              value={req.cap}
-              placeholder="∞"
-              title={req.strictCap ? t('optimizer_cap_strict_hint') : t('optimizer_cap_soft_hint')}
-              color={req.strictCap ? 'var(--negative)' : meta.color}
-              active={req.cap != null}
-              onCommit={v => onChange({ ...req, cap: normalizeCap(v) })}
-            />
-            <button
-              type="button"
-              onClick={e => { e.stopPropagation(); onChange({ ...req, strictCap: !req.strictCap }) }}
-              title={req.strictCap ? t('optimizer_cap_strict_hint') : t('optimizer_cap_soft_hint')}
-              aria-label={req.strictCap ? t('optimizer_cap_strict_hint') : t('optimizer_cap_soft_hint')}
-              aria-pressed={req.strictCap}
-              className="flex-shrink-0"
-            >
-              {req.strictCap ? <Lock size={9} style={{ color: 'var(--negative)' }} /> : <Unlock size={9} style={{ color: 'var(--ink-faint)' }} />}
-            </button>
-          </div>
-          <div className="flex items-center gap-1" onClick={e => e.stopPropagation()}>
-            <span className="text-[8px] uppercase tracking-wide flex-shrink-0 w-6" style={{ color: 'var(--ink-faint)' }} title={t('optimizer_ley_hint')}>{t('optimizer_ley')}</span>
-            <div className="w-14 flex-shrink-0">
-              <NumberField value={req.weight} placeholder="0" title={t('optimizer_ley_hint')} color={meta.color} active max={10000} onCommit={v => onChange({ ...req, weight: v ?? 0 })} />
-            </div>
-            <div className="flex gap-0.5 ml-auto" role="group" aria-label={t('optimizer_ley_presets')}>
-              {LEY_PRESETS.map((_, level) => {
-                const on = preset >= level && preset !== -1
-                return (
-                  <button
-                    key={level}
-                    type="button"
-                    onClick={() => onChange({ ...req, weight: leyPreset(meta.key, level) })}
-                    className="flex-shrink-0 transition-transform hover:scale-125"
-                    style={{ width: 8, height: 8, transform: 'rotate(45deg)', borderRadius: 2, background: on ? meta.color : 'var(--surface-panel)', border: `1px solid ${on ? meta.color : 'var(--metal-edge)'}` }}
-                    title={t('optimizer_ley_preset', { n: level + 1, value: leyPreset(meta.key, level) })}
-                    aria-label={t('optimizer_ley_preset', { n: level + 1, value: leyPreset(meta.key, level) })}
-                  />
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+      <button
+        className="fg-remove"
+        aria-label={t("fg_remove", { name })}
+        onClick={() => onChange(emptyReq(meta.key))}
+      >
+        <X size={15} />
+      </button>
+    </li>
+  );
 }
 
-function RequirementChecklist({ reqs, result }: { reqs: ForgeRequirement[]; result: BuildResult }) {
-  const { t } = useTranslation()
-  const withMinimum = reqs.filter(r => r.minimum > 0)
-  if (withMinimum.length === 0) return null
+/** How much each active stat is worth next to the lightest one, from their leys. */
+function LeyScale({ reqs }: { reqs: ForgeRequirement[] }) {
+  const { t } = useTranslation();
+  const weighted = reqs.filter((r) => r.weight > 0).sort((a, b) => b.weight - a.weight);
+  if (weighted.length < 2) return null;
+  const lightest = weighted[weighted.length - 1],
+    light = META_MAP.get(lightest.stat),
+    maxLog = Math.log10(weighted[0].weight + 1);
+  const ratio = (n: number) => (n >= 10 ? String(Math.round(n)) : String(Math.round(n * 10) / 10));
   return (
-    <div className="w-full grid gap-x-4 gap-y-1 grid-cols-2 sm:grid-cols-3">
-      {withMinimum.map(r => {
-        const meta = META_MAP.get(r.stat)
-        if (!meta) return null
-        const value = targetValue(result, r.stat)
-        const ok = value >= r.minimum
-        return (
-          <div key={r.stat} className="flex items-center gap-1.5 text-[10px]">
-            <span key={String(ok)} className="forge-pop inline-block" style={{ color: ok ? 'var(--positive, #5cb85c)' : 'var(--negative)' }}>{ok ? '✓' : '✗'}</span>
-            <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain" />
-            <span className="truncate" style={{ color: 'var(--ink-muted)' }}>{t(meta.tKey)}</span>
-            <span className="ml-auto font-mono" style={{ color: ok ? meta.color : 'var(--negative)' }}>
-              {value}<span style={{ color: 'var(--ink-faint)' }}>/{r.minimum}</span>
-            </span>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-// What the piece has beyond each minimum and what that is worth in ley, so
-// the player knows how much room is left to ask for more.
-function SurplusPanel({ reqs, result }: { reqs: ForgeRequirement[]; result: BuildResult }) {
-  const { t } = useTranslation()
-  const rows = reqs
-    .filter(r => r.weight > 0)
-    .map(r => {
-      const raw = targetValue(result, r.stat)
-      const counted = r.cap != null ? Math.min(raw, r.cap) : raw
-      const extra = counted - r.minimum
-      return { r, raw, extra, worth: extra * r.weight, capped: r.cap != null && raw >= r.cap }
-    })
-    .filter(x => x.extra > 0)
-    .sort((a, b) => b.worth - a.worth)
-  if (rows.length === 0) return null
-  const total = rows.reduce((sum, x) => sum + x.worth, 0)
-  return (
-    <div className="rounded-lg p-3 space-y-1.5 forge-log-in" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', animationDelay: '200ms' }}>
-      <div className="flex items-baseline justify-between gap-2">
-        <p className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>⚖ {t('optimizer_surplus_title')}</p>
-        <span className="text-[10px] font-mono" style={{ color: 'var(--gold)' }}>{t('optimizer_surplus_total', { n: Math.round(total).toLocaleString() })}</span>
-      </div>
-      <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_surplus_hint')}</p>
-      <div className="grid gap-x-4 gap-y-1 grid-cols-1 sm:grid-cols-2">
-        {rows.map(({ r, raw, extra, worth, capped }) => {
-          const meta = META_MAP.get(r.stat)
-          if (!meta) return null
+    <section className="fg-scale" aria-label={t("optimizer_scale_title")}>
+      <h4>{t("optimizer_scale_title")}</h4>
+      <p>{t("optimizer_scale_hint")}</p>
+      <ul>
+        {weighted.slice(0, 10).map((r) => {
+          const meta = META_MAP.get(r.stat);
+          if (!meta) return null;
           return (
-            <div key={r.stat} className="flex items-center gap-1.5 text-[10px]">
-              <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain flex-shrink-0" />
-              <span className="truncate flex-1" style={{ color: 'var(--ink-muted)' }}>{t(meta.tKey)}</span>
-              <span className="font-mono" style={{ color: meta.color }} title={t('optimizer_surplus_row', { value: raw, min: r.minimum })}>
-                +{extra}{capped && <span style={{ color: 'var(--ink-faint)' }}> ({t('optimizer_surplus_capped')})</span>}
-              </span>
-              <span className="font-mono w-16 text-right" style={{ color: 'var(--ink-faint)' }} title={t('optimizer_ley_hint')}>
-                ⚖ {Math.round(worth).toLocaleString()}
-              </span>
-            </div>
-          )
+            <li key={r.stat}>
+              <img src={statIconUrl(meta.icon)} alt="" />
+              <span>{t(meta.tKey)}</span>
+              <i>
+                <b style={{ width: `${Math.max(4, (Math.log10(r.weight + 1) / maxLog) * 100)}%` }} />
+              </i>
+              <small>
+                ≈ {ratio(r.weight / lightest.weight)} {light ? t(light.tKey) : ""}
+              </small>
+            </li>
+          );
         })}
-      </div>
-    </div>
-  )
+      </ul>
+    </section>
+  );
 }
 
-// ── Main modal ────────────────────────────────────────────────────────────────
-type Props = { open: boolean; onClose: () => void }
-
-export function OptimizerModal({ open, onClose }: Props) {
-  const { t, i18n } = useTranslation()
-
-  const selectedClass = useBuildStore(s => s.selectedClass)
-
-  const [phase,          setPhase]          = useState<Phase>(() => selectedClass ? 'order' : 'locked')
-  const [config,         setConfig]         = useState<OptimizerConfig>(loadSavedConfig)
-  const [results,        setResults]        = useState<BuildResult[]>([])
-  const [heat,           setHeat]           = useState(1)
-  const [tempering,      setTempering]      = useState(false)
-  const [elapsed,        setElapsed]        = useState(0)
-  const [strikes,        setStrikes]        = useState(0)
-  const [burst,          setBurst]          = useState(0)
-  const [log,            setLog]            = useState<LogEntry[]>([])
-  const [bellowsReady,   setBellowsReady]   = useState(true)
-  const [settled,        setSettled]        = useState(false)
-  const [error,          setError]          = useState<string | null>(null)
-  const [showSlots,      setShowSlots]      = useState(false)
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => {
-    const cfg = loadSavedConfig()
-    const activeKeys = new Set(cfg.stats.filter(isActive).map(s => s.stat))
-    return new Set(STAT_GROUPS.filter(g => g.defaultOpen || g.statKeys.some(k => activeKeys.has(k))).map(g => g.key))
-  })
-
-  const workersRef   = useRef<Worker[]>([])
-  const reportsRef   = useRef<(ForgeReport | null)[]>([])
-  const temperedRef  = useRef(0)
-  const bestRef      = useRef({ score: -Infinity, generation: 0 })
-  const plateauRef   = useRef({ score: -Infinity, generation: 0 })
-  const prevBestRef  = useRef<BuildResult | null>(null)
-  const generationRef = useRef(0)
-  const startRef     = useRef(0)
-  const runRef       = useRef<Promise<number | null> | null>(null)
-  const finishingRef = useRef(false)
-  const presetRef    = useRef(INTENSITY.standard)
-  const logIdRef     = useRef(0)
-  // Items whose passive the current forge counts (marked on the result cards).
-  const countedPassivesRef = useRef<ReadonlySet<number>>(new Set())
-
-  // Debounced: every keystroke in a minimum / ley / cap field is a config
-  // change. The unmount flush keeps the last edit when the modal closes
-  // inside the debounce window.
-  const latestConfigRef = useRef(config)
-  latestConfigRef.current = config
-  useEffect(() => {
-    const id = setTimeout(() => persistConfig(config), 400)
-    return () => clearTimeout(id)
-  }, [config])
-  useEffect(() => () => persistConfig(latestConfigRef.current), [])
-  useEffect(() => () => terminateWorkers(), [])
-
-  useEffect(() => {
-    if (open && !selectedClass) setPhase('locked')
-    else if (open && selectedClass) setPhase(p => p === 'locked' ? 'order' : p)
-  }, [open, selectedClass])
-
-  // Clock for the forging screen and the hard time limit.
-  useEffect(() => {
-    if (phase !== 'forging') return
-    const id = setInterval(() => {
-      const secs = (performance.now() - startRef.current) / 1000
-      setElapsed(Math.floor(secs))
-      if (secs >= presetRef.current.capSec) finishForging()
-    }, 1000)
-    return () => clearInterval(id)
-  }, [phase])
-
-  const level         = useBuildStore(s => s.level)
-  const allocated     = useBuildStore(s => s.allocated)
-  const scrolled      = useBuildStore(s => s.scrolled)
-  const equipped      = useBuildStore(s => s.equipped)
-  const runes         = useBuildStore(s => s.runes)
-  const plannerPassives = useBuildStore(s => s.passives)
-  const equipment     = useDataStore(s => s.equipment)
-  const sets          = useDataStore(s => s.sets)
-  const required      = useForgePicks(s => s.required)
-  const banned        = useForgePicks(s => s.banned)
-  const { require: pinItem, ban: banItem } = useForgePicks.getState()
-  const itemsById     = useMemo(() => new Map((equipment ?? []).map(it => [it.ankama_id, it])), [equipment])
-  const placements    = useMemo(
-    () => planRequired(required, itemsById, config.lockedSlots, equipped, level),
-    [required, itemsById, config.lockedSlots, equipped, level],
-  )
-
-  function terminateWorkers() {
-    workersRef.current.forEach(w => w.terminate())
-    workersRef.current = []
-    reportsRef.current = []
-  }
-
-  function handleClose() {
-    terminateWorkers()
-    setPhase(selectedClass ? 'order' : 'locked')
-    setResults([])
-    onClose()
-  }
-
-  function addLog(text: string, tone: LogEntry['tone']) {
-    setLog(l => [{ id: logIdRef.current++, text, tone }, ...l].slice(0, LOG_SIZE))
-  }
-
-  function updateReq(next: ForgeRequirement) {
-    if (isActive(next)) {
-      const group = STAT_GROUPS.find(g => g.statKeys.includes(next.stat))
-      if (group) setExpandedGroups(s => new Set([...s, group.key]))
-    }
-    setConfig(c => ({ ...c, stats: c.stats.map(s => s.stat === next.stat ? next : s) }))
-  }
-
-  function toggleGroup(key: string) {
-    setExpandedGroups(s => {
-      const n = new Set(s)
-      if (n.has(key)) n.delete(key)
-      else n.add(key)
-      return n
-    })
-  }
-
-  function toggleSlot(slot: SlotId) {
-    setConfig(c => {
-      const ls = new Set(c.lockedSlots)
-      if (ls.has(slot)) ls.delete(slot)
-      else ls.add(slot)
-      return { ...c, lockedSlots: ls }
-    })
-  }
-
-  // Narrates what changed between the previous best piece and the new one.
-  function narrate(next: BuildResult) {
-    const prev = prevBestRef.current
-    prevBestRef.current = next
-    if (!prev) {
-      addLog(t('optimizer_log_first', { q: Math.round(next.score).toLocaleString() }), 'gold')
-      return
-    }
-    addLog(t('optimizer_log_better', { q: Math.round(next.score).toLocaleString(), d: Math.round(next.score - prev.score).toLocaleString() }), 'gold')
-    for (const r of config.stats.filter(x => x.minimum > 0)) {
-      const before = targetValue(prev, r.stat) >= r.minimum
-      const now = targetValue(next, r.stat) >= r.minimum
-      const meta = META_MAP.get(r.stat)
-      if (!before && now && meta) addLog(t('optimizer_log_minimum', { stat: t(meta.tKey), value: targetValue(next, r.stat) }), 'good')
-    }
-    let runesLogged = 0
-    for (const [slot, rune] of Object.entries(next.runes) as [SlotId, { stat: string; value: number }][]) {
-      const old = prev.runes[slot]
-      if (runesLogged < 2 && (!old || old.stat !== rune.stat)) {
-        const labelKey = runeStatLabelKey(rune.stat)
-        addLog(t('optimizer_log_rune', { value: rune.value, stat: labelKey ? t(labelKey) : rune.stat, slot: t(SLOT_LABEL_KEY[slot]) }), 'muted')
-        runesLogged++
-      }
-    }
-    if (next.meetsRequired && !prev.meetsRequired) addLog(t('optimizer_log_all_met'), 'good')
-  }
-
-  function onReport(index: number, report: ForgeReport, emigrants?: Equipped[]) {
-    reportsRef.current[index] = report
-    const ranked = mergeResults(reportsRef.current)
-    setResults(ranked.map(r => r.result))
-    const generation = Math.max(...reportsRef.current.map(r => r?.generation ?? 0))
-    generationRef.current = generation
-    setStrikes(reportsRef.current.reduce((sum, r) => sum + (r?.evaluations ?? 0), 0))
-
-    // Workers deliberately do not share each new best right away: that
-    // pulled every island into the first good basin found. They only trade
-    // pieces through the slow ring migration below.
-    const top = ranked[0]
-    if (top && top.result.score > bestRef.current.score + 1e-9) {
-      bestRef.current = { score: top.result.score, generation }
-      setBurst(b => b + 1)
-      narrate(top.result)
-      const last = plateauRef.current.score
-      const significant = !Number.isFinite(last)
-        || (last < 0 && top.result.score >= 0)
-        || top.result.score - last >= Math.max(1, Math.abs(last) * PLATEAU_GAIN)
-      if (significant) plateauRef.current = { score: top.result.score, generation }
-    }
-    // Ring migration: each Worker's emigrants go to the next one.
-    if (emigrants?.length && workersRef.current.length > 1) {
-      workersRef.current[(index + 1) % workersRef.current.length].postMessage({ type: 'inject', builds: emigrants })
-    }
-
-    const preset = presetRef.current
-    const stall = generation - plateauRef.current.generation
-    const eternal = !Number.isFinite(preset.stall)
-    setHeat(1 - stall / (eternal ? ETERNAL_HEAT_SCALE : preset.stall))
-    // The forge never cools off while minimums are still missing, nor
-    // before its minimum time.
-    const missing = top ? !top.result.meetsRequired : true
-    setSettled(eternal && !missing && stall >= ETERNAL_HEAT_SCALE)
-    const seconds = (performance.now() - startRef.current) / 1000
-    if (!eternal && !missing && stall >= preset.stall && seconds >= preset.minSec) finishForging()
-  }
-
-  function finishForging() {
-    if (finishingRef.current || workersRef.current.length === 0) return
-    finishingRef.current = true
-    setTempering(true)
-    addLog(t('optimizer_log_tempering'), 'fire')
-    temperedRef.current = 0
-    workersRef.current.forEach(w => w.postMessage({ type: 'finish', temperMs: presetRef.current.temperMs }))
-  }
-
-  function onTempered(index: number, report: ForgeReport) {
-    reportsRef.current[index] = report
-    temperedRef.current++
-    if (temperedRef.current < workersRef.current.length) return
-    const forged = mergeResults(reportsRef.current).map(r => r.result)
-    setResults(forged)
-    terminateWorkers()
-    setTempering(false)
-    setPhase('forged')
-    void finishForgeRun(runRef.current, {
-      allMet:  forged[0]?.meetsRequired ?? false,
-      seconds: (performance.now() - startRef.current) / 1000,
-    })
-  }
-
-  function stoke() {
-    if (!bellowsReady || finishingRef.current) return
-    workersRef.current.forEach(w => w.postMessage({ type: 'stoke' }))
-    bestRef.current = { ...bestRef.current, generation: generationRef.current }
-    plateauRef.current = { ...plateauRef.current, generation: generationRef.current }
-    setSettled(false)
-    setHeat(1)
-    setBurst(b => b + 1)
-    addLog(t('optimizer_log_stoked'), 'fire')
-    setBellowsReady(false)
-    setTimeout(() => setBellowsReady(true), BELLOWS_COOLDOWN_MS)
-  }
-
-  function lightForge(seedBuilds: Equipped[] = []) {
-    if (!selectedClass) { setError(t('optimizer_no_class')); return }
-    if (!equipment || !sets) return
-    if (!config.stats.some(isActive)) { setError(t('optimizer_no_stats')); return }
-    if (ALL_SLOTS.every(s => config.lockedSlots.has(s))) { setError(t('optimizer_no_slots')); return }
-    if (placements.some(p => p.status === 'no_slot' || p.status === 'prysmaradite')) { setError(t('optimizer_items_conflicts')); return }
-    setError(null)
-    terminateWorkers()
-
-    const preset = INTENSITY[config.intensity]
-    presetRef.current = preset
-    const count = preset.threads
-    const picks = { required: placements.filter(p => p.status === 'placed').map(p => p.id), banned }
-    // Resolved once per forge; the engine folds them into each item's stats.
-    const passiveEffects = config.passives === 'off' ? [] : forgePassiveEffects(forgePassiveState(config.passives, plannerPassives), new Set(config.passiveExcluded))
-    countedPassivesRef.current = new Set(passiveEffects.map(p => p.id))
-    const wire = toWireConfig(config, Math.max(ISLANDS_PER_WORKER, Math.ceil(MIN_TOTAL_ISLANDS / count)), level, picks, passiveEffects)
-    const base = { selectedClass, level, allocated, scrolled, equipped, runes: Object.fromEntries(Object.entries(runes).map(([slot, map]) => [slot, flattenRunes(map)])) }
-    reportsRef.current = Array(count).fill(null)
-    bestRef.current = { score: -Infinity, generation: 0 }
-    plateauRef.current = { score: -Infinity, generation: 0 }
-    setSettled(false)
-    prevBestRef.current = null
-    generationRef.current = 0
-    finishingRef.current = false
-    startRef.current = performance.now()
-    // Usage stats only (shown on Explore); never blocks the forge.
-    runRef.current = startForgeRun({
-      intensity:     config.intensity,
-      transcendence: config.transcendence,
-      requirements:  config.stats.filter(r => r.minimum > 0).length,
-    })
-    setResults([])
-    setHeat(1)
-    setElapsed(0)
-    setStrikes(0)
-    setBurst(0)
-    setTempering(false)
-    setLog([])
-    addLog(t(seedBuilds.length ? 'optimizer_log_relit' : 'optimizer_log_lit'), 'fire')
-    if (passiveEffects.length) addLog(t(`optimizer_log_passives_${config.passives}`, { n: passiveEffects.length }), 'muted')
-    let ready = 0
-
-    for (let i = 0; i < count; i++) {
-      const worker = new Worker(new URL('../../workers/optimizer.worker.ts', import.meta.url), { type: 'module' })
-      worker.onmessage = (e: MessageEvent) => {
-        const msg = e.data as { type: string; report?: ForgeReport; emigrants?: Equipped[] }
-        if (msg.type === 'ready') {
-          ready++
-          if (ready === count) workersRef.current.forEach(w => w.postMessage({ type: 'run' }))
-        } else if (msg.type === 'report' && msg.report) {
-          if (!finishingRef.current) onReport(i, msg.report, msg.emigrants)
-        } else if (msg.type === 'tempered' && msg.report) {
-          onTempered(i, msg.report)
-        } else if (msg.type === 'error') {
-          setError(t('optimizer_wasm_unavailable'))
-          terminateWorkers()
-          setPhase('order')
-        }
-      }
-      const seed = crypto.getRandomValues(new Uint32Array(1))[0]
-      worker.postMessage({ type: 'init', config: wire, items: equipment, sets, base, seed, seedBuilds })
-      workersRef.current.push(worker)
-    }
-    setPhase('forging')
-  }
-
-  function extinguish() {
-    terminateWorkers()
-    setPhase('order')
-  }
-
-  function loadBuild(result: BuildResult) {
-    const counted = config.passives === 'max'
-      ? passiveStateFor(forgePassiveState('max', {}), Object.values(result.equipped).filter(id => countedPassivesRef.current.has(id)))
-      : undefined
-    loadForgeResult(result, config.lockedSlots, counted)
-    handleClose()
-  }
-
-  const activeSlots = ALL_SLOTS.length - config.lockedSlots.size
-  const pinnedSlots = new Map(placements.filter(p => p.status === 'placed' && p.slot).map(p => [p.slot!, p.item?.name ?? '']))
-  const activeReqs = config.stats.filter(isActive)
-
-  // ── Locked (no class selected yet) ───────────────────────────────────────
-  if (phase === 'locked') {
-    return (
-      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
-        <div className="p-4 space-y-4">
-          <div
-            className="flex flex-col items-center gap-2 text-center py-5 rounded-xl"
-            style={{ background: 'color-mix(in srgb, var(--gold) 6%, var(--surface-void))', border: '1px solid color-mix(in srgb, var(--gold) 35%, var(--metal-edge))' }}
-          >
-            <div
-              className="w-11 h-11 rounded-full flex items-center justify-center"
-              style={{ background: 'color-mix(in srgb, var(--gold) 18%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 55%, transparent)' }}
-            >
-              <Lock size={18} style={{ color: 'var(--gold)' }} />
-            </div>
-            <p className="text-[13px] font-bold tracking-wide" style={{ color: 'var(--gold)' }}>{t('optimizer_locked_title')}</p>
-            <p className="text-[11px] max-w-sm" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_locked_hint')}</p>
-          </div>
-          <ClassPicker />
-        </div>
-      </Modal>
-    )
-  }
-
-  // ── Forging ───────────────────────────────────────────────────────────────
-  if (phase === 'forging') {
-    const best = results[0]
-    const eternal = config.intensity === 'eternal'
-    const stageKey = tempering
-      ? 'optimizer_stage_tempering'
-      : !best ? 'optimizer_stage_lighting'
-      : !best.meetsRequired ? 'optimizer_stage_melting'
-      : heat > 0.5 ? 'optimizer_stage_shaping'
-      : 'optimizer_stage_cooling'
-
-    return (
-      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
-        <div className="p-5 flex flex-col items-center gap-3 text-[11px]">
-          <div
-            className="w-full rounded-xl flex flex-col items-center gap-2 pt-3 pb-4 px-4"
-            style={{
-              background: `radial-gradient(ellipse at 50% 85%, color-mix(in srgb, var(--fire) ${Math.round(Math.max(0.1, tempering ? 0.15 : heat) * 18)}%, var(--surface-void)) 0%, var(--surface-void) 70%)`,
-              border:     '1px solid color-mix(in srgb, var(--gold) 25%, var(--metal-edge))',
-            }}
-          >
-            <ForgeScene heat={tempering ? 0.2 : Math.max(0.1, heat)} burst={burst} tempering={tempering} />
-            <HeatGauge heat={tempering ? 0 : heat} label={t(stageKey)} eternal={eternal} />
-            <div className="flex items-center gap-4 text-[10px] font-mono" style={{ color: 'var(--ink-faint)' }}>
-              <span>⏱ {t('optimizer_elapsed', { s: elapsed })}</span>
-              <span title={t('optimizer_strikes_hint')}>🔨 {t('optimizer_strikes', { n: formatCount(strikes) })}</span>
-              {best && (
-                <span key={Math.round(best.score)} className="forge-flash inline-block" style={{ color: best.score < 0 ? 'var(--negative)' : 'var(--gold)' }} title={t('optimizer_quality_hint')}>
-                  ✦ {t('optimizer_quality')} {Math.round(best.score).toLocaleString()}
-                </span>
-              )}
-            </div>
-          </div>
-
-          {settled && !tempering && (
-            <p className="w-full px-3 py-2 rounded-lg text-[10px] text-center forge-log-in" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 30%, transparent)' }}>
-              ✦ {t('optimizer_plateau_hint')}
-            </p>
-          )}
-
-          {best && <RequirementChecklist reqs={activeReqs} result={best} />}
-
-          <ForgeLog entries={log} />
-
-          {best && (
-            <div className="w-full text-left">
-              <p className="text-[10px] font-semibold uppercase tracking-wide mb-1.5 text-center" style={{ color: 'var(--ink-faint)' }}>
-                {t('optimizer_on_the_anvil')}
-              </p>
-              <BuildResultCard
-                result={best}
-                rank={1}
-                items={equipment ?? []}
-                requirements={config.stats}
-                runes={runes}
-                lockedSlots={config.lockedSlots}
-                passiveItems={countedPassivesRef.current}
-                requiredItems={required}
-                onLoad={loadBuild}
-              />
-            </div>
-          )}
-
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <button
-              onClick={stoke}
-              disabled={!bellowsReady || tempering || !best}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-[11px] transition-all disabled:opacity-40 hover:brightness-125"
-              style={{ color: 'var(--fire)', border: '1px solid color-mix(in srgb, var(--fire) 45%, transparent)', background: 'color-mix(in srgb, var(--fire) 10%, transparent)' }}
-              title={t('optimizer_bellows_hint')}
-            >
-              <Wind size={12} className={bellowsReady ? '' : 'forge-bellows-pump'} /> {t('optimizer_bellows')}
+function Goals({ forge }: { forge: ForgeState }) {
+  const { t } = useTranslation();
+  return (
+    <section className="fg-goals" aria-labelledby="fg-goals-title">
+      <header className="fg-step">
+        <h3 id="fg-goals-title">{t("fg_goals_title")}</h3>
+        <button
+          className="fg-link is-danger"
+          onClick={() =>
+            forge.setConfig((c) => ({ ...c, stats: OPTIMIZER_STATS.map((s) => emptyReq(s.key)) }))
+          }
+        >
+          {t("optimizer_clear_stats")}
+        </button>
+      </header>
+      <p className="fg-lead">
+        <Trans i18nKey="fg_lead" components={{ b: <b /> }} />
+      </p>
+      {STAT_GROUPS.map((g) => {
+        const active = g.statKeys.filter((k) => {
+            const r = forge.config.stats.find((s) => s.stat === k);
+            return r && isActive(r);
+          }).length,
+          open = forge.expandedGroups.has(g.key);
+        return (
+          <div className="fg-group" key={g.key}>
+            <button className="fg-group-head" aria-expanded={open} onClick={() => forge.toggleGroup(g.key)}>
+              <span>{t(g.tKey)}</span>
+              {active > 0 && <b>{active}</b>}
+              <ChevronDown size={16} />
             </button>
-            <button
-              onClick={finishForging}
-              disabled={!best || tempering}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-[11px] transition-all disabled:opacity-40 hover:brightness-125"
-              style={{ color: 'var(--gold)', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)', background: 'color-mix(in srgb, var(--gold) 10%, transparent)' }}
-            >
-              <Anvil size={12} /> {t('optimizer_temper_now')}
-            </button>
-            <button
-              onClick={extinguish}
-              className="px-3 py-1.5 rounded-lg text-[11px] border transition-colors hover:text-[var(--ink)]"
-              style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}
-            >
-              {t('optimizer_extinguish')}
-            </button>
-          </div>
-        </div>
-      </Modal>
-    )
-  }
-
-  // ── Forged ────────────────────────────────────────────────────────────────
-  if (phase === 'forged') {
-    const [masterpiece, ...others] = results
-    return (
-      <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
-        <div className="p-4 space-y-3 text-[11px]">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-[12px] font-bold font-display tracking-wider forge-log-in" style={{ color: 'var(--gold)' }}>
-              ✦ {t('optimizer_forged_title')}
-            </p>
-            <div className="flex items-center gap-1.5">
-              <button
-                onClick={() => lightForge(results.map(r => r.equipped))}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border transition-colors hover:text-[var(--gold)]"
-                style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)' }}
-                title={t('optimizer_reforge_hint')}
-              >
-                <Flame size={11} /> {t('optimizer_reforge')}
-              </button>
-              <button
-                onClick={() => lightForge()}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border transition-colors hover:text-[var(--gold)]"
-                style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)' }}
-              >
-                <RotateCcw size={11} /> {t('optimizer_forge_again')}
-              </button>
-              <button
-                onClick={() => setPhase('order')}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] border transition-colors hover:text-[var(--gold)]"
-                style={{ color: 'var(--ink-muted)', borderColor: 'var(--metal-edge)' }}
-              >
-                <Settings2 size={11} /> {t('optimizer_adjust_order')}
-              </button>
-            </div>
-          </div>
-
-          {!masterpiece ? (
-            <p className="text-center py-8" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_nothing_forged')}</p>
-          ) : (
-            <>
-              {!masterpiece.meetsRequired && (
-                <p className="px-3 py-2 rounded-lg text-[10px]" style={{ color: 'var(--gold)', background: 'color-mix(in srgb, var(--gold) 8%, transparent)', border: '1px solid color-mix(in srgb, var(--gold) 30%, transparent)' }}>
-                  {t('optimizer_unmet_advice', { met: masterpiece.requirementsMet, total: masterpiece.requirementsTotal })}
-                </p>
-              )}
-              <div className="relative overflow-hidden rounded-xl" style={{ animation: 'col-rise 480ms var(--ease-out) both', boxShadow: masterpiece.meetsRequired ? '0 0 24px -8px var(--gold)' : 'none' }}>
-                {masterpiece.meetsRequired && <span className="forge-shine" />}
-                <BuildResultCard
-                  result={masterpiece}
-                  rank={1}
-                  items={equipment ?? []}
-                  requirements={config.stats}
-                  runes={runes}
-                  lockedSlots={config.lockedSlots}
-                  passiveItems={countedPassivesRef.current}
-                  onLoad={loadBuild}
-                  onBan={banItem}
-                  onPin={pinItem}
-                  requiredItems={required}
-                  bannedItems={banned}
-                  ribbon={{ label: masterpiece.meetsRequired ? t('optimizer_masterpiece') : t('optimizer_best_piece'), gold: masterpiece.meetsRequired }}
-                />
-              </div>
-              <SurplusPanel reqs={activeReqs} result={masterpiece} />
-              {others.length > 0 && (
-                <p className="text-[10px] font-semibold uppercase tracking-wide pt-1" style={{ color: 'var(--ink-faint)' }}>
-                  {t('optimizer_other_pieces')}
-                </p>
-              )}
-              {others.slice(0, 4).map((r, i) => (
-                <div key={fingerprint(r)} style={{ animation: `col-rise 420ms var(--ease-out) ${120 + i * 90}ms both` }}>
-                  <BuildResultCard
-                    result={r}
-                    rank={i + 2}
-                    items={equipment ?? []}
-                    requirements={config.stats}
-                    runes={runes}
-                    lockedSlots={config.lockedSlots}
-                    passiveItems={countedPassivesRef.current}
-                    onLoad={loadBuild}
-                    onBan={banItem}
-                    onPin={pinItem}
-                    requiredItems={required}
-                    bannedItems={banned}
-                  />
+            {open &&
+              g.sections.map((section, i) => (
+                <div key={section.tKey ?? i}>
+                  {section.tKey && <h5>{t(section.tKey)}</h5>}
+                  <ul>
+                    {/* Vitality is not a goal: HP already covers it. */}
+                    {section.statKeys.filter((key) => key !== "vitality").map((key) => {
+                      const meta = META_MAP.get(key),
+                        req = forge.config.stats.find((s) => s.stat === key);
+                      return meta && req ? (
+                        <GoalRow key={key} meta={meta} req={req} onChange={forge.updateReq} />
+                      ) : null;
+                    })}
+                  </ul>
                 </div>
               ))}
-            </>
-          )}
-        </div>
-      </Modal>
-    )
+          </div>
+        );
+      })}
+      <LeyScale reqs={forge.activeReqs} />
+    </section>
+  );
+}
+
+function ItemArt({ item, size = 32 }: { item?: AppItem; size?: number }) {
+  return item?.image_url ? (
+    <img className="fg-item-art" src={item.image_url} alt="" width={size} height={size} loading="lazy" />
+  ) : (
+    <span className="fg-item-art" style={{ width: size, height: size }} />
+  );
+}
+
+/** Items every piece must wear, and items no piece may wear. */
+function Picks({ forge }: { forge: ForgeState }) {
+  const { t } = useTranslation(),
+    listId = useId();
+  const required = useForgePicks((s) => s.required),
+    banned = useForgePicks((s) => s.banned),
+    { require, ban, release, toggleRequired, clearRequired, clearBanned } = useForgePicks.getState();
+  const [query, setQuery] = useState(""),
+    [active, setActive] = useState(0);
+  const setNames = useMemo(() => new Map((forge.sets ?? []).map((s) => [s.ankama_id, s.name])), [forge.sets]);
+  const results = useMemo(() => searchItems(forge.equipment ?? [], setNames, query), [forge.equipment, setNames, query]);
+  const worn = ALL_SLOTS.map((slot) => forge.itemsById.get(forge.equipped[slot] ?? -1)).filter(
+    (it, i, all): it is AppItem => it != null && all.indexOf(it) === i,
+  );
+  const issue = (p: RequiredPlacement) =>
+    p.status === "no_slot"
+      ? t("optimizer_items_no_slot")
+      : p.status === "prysmaradite"
+        ? t("optimizer_items_prysmaradite")
+        : p.status === "unknown"
+          ? t("optimizer_items_unknown")
+          : null;
+  function pin(item: AppItem) {
+    require(item.ankama_id);
+    setQuery("");
   }
-
-  // ── Order (what to forge) ─────────────────────────────────────────────────
   return (
-    <Modal open={open} onClose={handleClose} title={t('optimizer_title')} size="4xl">
-      <div className="p-4 space-y-3 text-[11px]">
-
-        {error && (
-          <p className="px-3 py-2 rounded-lg forge-log-in" style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 30%, transparent)' }}>
-            {error}
-          </p>
-        )}
-
-        <p className="text-[10px] leading-snug" style={{ color: 'var(--ink-faint)' }}>
-          {t('optimizer_order_help')}{' '}
-          <Link
-            to={`/${langPathPrefix(i18n.language)}forge-guide`}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-0.5 font-semibold underline-offset-2 hover:underline"
-            style={{ color: 'var(--gold)' }}
-          >
-            <BookOpen size={10} /> {t('optimizer_guide_link')}
-          </Link>
-        </p>
-
-        {/* Base build summary */}
-        <div className="rounded-lg px-2.5 py-2 flex flex-wrap items-center gap-x-3 gap-y-1" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-          <span className="text-[9px] uppercase tracking-wide flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_base_summary', { level })}</span>
-          {CHARACTERISTICS.map(c => {
-            const meta = META_MAP.get(c)
-            if (!meta || !scrolled[c]) return null
-            return (
-              <span key={c} className="flex items-center gap-0.5" title={`${t(meta.tKey)} — ${t('optimizer_scrolled_hint')}`}>
-                <img src={statIconUrl(meta.icon)} alt="" width={11} height={11} className="object-contain" />🧪
-              </span>
-            )
-          })}
-          <span className="text-[9px] italic" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_points_auto')}</span>
-        </div>
-
-        {/* Intensity */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>{t('optimizer_intensity')}</span>
-          <div className="flex rounded-lg overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }} role="radiogroup" aria-label={t('optimizer_intensity')}>
-            {(Object.keys(INTENSITY) as ForgeIntensity[]).map(k => (
-              <button
-                key={k}
-                role="radio"
-                aria-checked={config.intensity === k}
-                onClick={() => setConfig(c => ({ ...c, intensity: k }))}
-                className="flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold transition-colors"
-                title={t(`optimizer_intensity_${k}_hint`)}
-                style={{
-                  color:      config.intensity === k ? 'var(--surface-void)' : k === 'eternal' ? 'var(--fire)' : 'var(--ink-muted)',
-                  background: config.intensity === k ? (k === 'eternal' ? 'var(--fire)' : 'var(--gold)') : 'var(--surface-stone)',
-                }}
-              >
-                {k === 'eternal' && <InfinityIcon size={11} />}
-                {t(`optimizer_intensity_${k}`)}
-              </button>
-            ))}
-          </div>
-          <span key={config.intensity} className="text-[9px] italic forge-log-in" style={{ color: 'var(--ink-faint)' }}>{t(`optimizer_intensity_${config.intensity}_hint`)}</span>
-        </div>
-
-        {/* Top config bar */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <label className="flex items-center gap-1.5">
-            <span style={{ color: 'var(--ink-faint)' }}>{t('optimizer_max_level')}:</span>
-            <LevelField value={config.maxLevel} label={t('optimizer_max_level_hint')} onCommit={v => setConfig(c => ({ ...c, maxLevel: v }))} />
-          </label>
-          <button onClick={() => setShowSlots(s => !s)} className="flex items-center gap-1.5 px-2 py-1 rounded border text-[10px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
-            {t('optimizer_slots')}:
-            <span className="font-mono font-bold" style={{ color: 'var(--gold)' }}>{activeSlots}</span>
-            <ChevronDown size={10} style={{ transform: showSlots ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
-          </button>
-          <label className="flex items-center gap-1.5 cursor-pointer select-none" title={t('optimizer_assume_scrolled_hint')}>
-            <input type="checkbox" checked={config.assumeFullyScrolled} onChange={e => setConfig(c => ({ ...c, assumeFullyScrolled: e.target.checked }))} />
-            <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>{t('optimizer_assume_scrolled')}</span>
-          </label>
-          <button
-            onClick={() => setConfig(c => ({ ...c, stats: OPTIMIZER_STATS.map(s => emptyReq(s.key)) }))}
-            className="ml-auto text-[10px] hover:underline"
-            style={{ color: 'var(--negative)' }}
-          >
-            {t('optimizer_clear_stats')}
-          </button>
-        </div>
-
-        {/* Forgemagie */}
-        <div className="rounded-lg p-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-          <span className="text-[10px] font-bold tracking-widest uppercase flex-shrink-0" style={{ color: 'var(--gold)' }}>🔨 {t('optimizer_forgemagie')}</span>
-          <label className="flex items-center gap-1 cursor-pointer select-none" title={t('optimizer_transcendence_hint')}>
-            <input type="checkbox" checked={config.transcendence} onChange={e => setConfig(c => ({ ...c, transcendence: e.target.checked }))} />
-            <span className="font-semibold text-[10px]" style={{ color: 'var(--ink-muted)' }}>{t('optimizer_transcendence')}</span>
-          </label>
-          <div className="flex items-center gap-3">
-            {(['ap', 'mp', 'range'] as const).map(k => (
-              <label key={k} className="flex items-center gap-1 cursor-pointer select-none">
-                <input type="checkbox" checked={config.exo[k]} onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))} />
-                <span className="font-semibold text-[10px]" style={{ color: 'var(--ink-muted)' }}>{t(`optimizer_exo_${k}`)}</span>
-              </label>
-            ))}
-          </div>
-          <label className="flex items-center gap-1 cursor-pointer select-none">
-            <input type="checkbox" checked={config.exo.onlyOnRing} onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, onlyOnRing: e.target.checked } }))} />
-            <span className="text-[10px]" style={{ color: 'var(--ink-muted)' }}>{t('optimizer_exo_only_ring')}</span>
-          </label>
-          <label className="flex items-center gap-1">
-            <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_exo_max')}</span>
-            <select
-              value={config.exo.maxCount}
-              onChange={e => setConfig(c => ({ ...c, exo: { ...c.exo, maxCount: Number(e.target.value) } }))}
-              className="rounded px-1 py-0.5 text-[10px] font-mono outline-none"
-              style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-            >
-              {[0, 1, 2, 3].map(n => <option key={n} value={n}>{n}</option>)}
-            </select>
-          </label>
-          <span className="text-[9px] italic w-full" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_forgemagie_hint')}</span>
-        </div>
-
-        <ForgePassivesBlock
-          mode={config.passives}
-          excluded={config.passiveExcluded}
-          itemsById={itemsById}
-          planner={plannerPassives}
-          onMode={passives => setConfig(c => ({ ...c, passives }))}
-          onExcluded={passiveExcluded => setConfig(c => ({ ...c, passiveExcluded }))}
+    <section className="fg-rule" aria-label={t("optimizer_items_title")}>
+      <h4>{t("fg_picks_title")}</h4>
+      <p>{t("fg_picks_hint")}</p>
+      <label className="fg-search">
+        <Search size={15} aria-hidden="true" />
+        <input
+          type="search"
+          role="combobox"
+          aria-expanded={query.trim().length >= 2}
+          aria-controls={listId}
+          aria-label={t("optimizer_items_search")}
+          placeholder={t("fg_search_placeholder")}
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setActive(0);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              setActive((a) => Math.min(results.length - 1, a + 1));
+            } else if (e.key === "ArrowUp") {
+              e.preventDefault();
+              setActive((a) => Math.max(0, a - 1));
+            } else if (e.key === "Enter" && results[active]) {
+              e.preventDefault();
+              pin(results[active]);
+            } else if (e.key === "Escape" && query) {
+              e.stopPropagation();
+              setQuery("");
+            }
+          }}
         />
-
-        <ForgeItemsPanel items={equipment ?? []} sets={sets ?? []} equipped={equipped} placements={placements} />
-
-        {/* Slots panel */}
-        {showSlots && (
-          <div className="rounded-lg p-3 space-y-2 forge-log-in" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--gold)' }}>{t('optimizer_slots')}</span>
-              <div className="flex gap-1.5">
-                <button onClick={() => setConfig(c => ({ ...c, lockedSlots: new Set<SlotId>() }))} className="text-[9px] px-1.5 py-0.5 rounded border" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
-                  {t('optimizer_slot_mark_all')}
+      </label>
+      {query.trim().length >= 2 && (
+        <ul id={listId} className="fg-results-list" role="listbox" aria-label={t("fg_found")}>
+          {!results.length && <li className="fg-muted">{t("optimizer_items_no_match")}</li>}
+          {results.map((item, i) => {
+            const isPinned = required.includes(item.ankama_id),
+              isBanned = banned.includes(item.ankama_id),
+              set = item.set_id != null ? setNames.get(item.set_id) : undefined;
+            return (
+              <li key={item.ankama_id} role="option" aria-selected={i === active} onMouseMove={() => setActive(i)}>
+                <ItemArt item={item} />
+                <span>
+                  <b>{item.name}</b>
+                  <small>
+                    {t("sets_bracket_single", { level: item.level })} · {t(slotNameKey(slotsFor(item)[0]))}
+                    {set && ` · ${set}`}
+                  </small>
+                </span>
+                <button
+                  aria-pressed={isPinned}
+                  aria-label={isPinned ? t("fg_unpin_item", { name: item.name }) : t("fg_pin_item", { name: item.name })}
+                  onClick={() => (isPinned ? release(item.ankama_id) : pin(item))}
+                >
+                  <Pin size={14} /> {t("optimizer_items_pin")}
                 </button>
-                <button onClick={() => setConfig(c => ({ ...c, lockedSlots: new Set(ALL_SLOTS) }))} className="text-[9px] px-1.5 py-0.5 rounded border" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
-                  {t('optimizer_slot_clear_all')}
+                <button
+                  className="is-danger"
+                  aria-pressed={isBanned}
+                  aria-label={isBanned ? t("fg_allow_item", { name: item.name }) : t("fg_ban_item", { name: item.name })}
+                  onClick={() => (isBanned ? release(item.ankama_id) : ban(item.ankama_id))}
+                >
+                  <Ban size={14} /> {t("fg_ban")}
                 </button>
-              </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {worn.length > 0 && (
+        <div className="fg-worn" role="group" aria-label={t("fg_worn_aria")}>
+          <span>{t("fg_worn")}</span>
+          {worn.map((item) => {
+            const on = required.includes(item.ankama_id);
+            return (
+              <button
+                key={item.ankama_id}
+                aria-pressed={on}
+                aria-label={on ? t("fg_unpin_item", { name: item.name }) : t("fg_pin_item", { name: item.name })}
+                title={item.name}
+                onClick={() => toggleRequired(item.ankama_id)}
+              >
+                <ItemArt item={item} size={30} />
+                {on && <Pin size={11} className="fg-pin-mark" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      {forge.placements.length > 0 && (
+        <div className="fg-picked">
+          <h5>
+            {t("fg_pinned_count", { n: forge.placements.length })}
+            <button className="fg-link" onClick={clearRequired}>
+              {t("optimizer_items_clear")}
+            </button>
+          </h5>
+          <ul>
+            {forge.placements.map((p) => {
+              const problem = issue(p),
+                name = p.item?.name ?? `#${p.id}`;
+              return (
+                <li key={p.id} className={problem ? "is-problem" : ""}>
+                  <ItemArt item={p.item} size={28} />
+                  <span>
+                    <b>{name}</b>
+                    <small>
+                      {problem ? (
+                        <>
+                          <AlertTriangle size={12} /> {problem}
+                        </>
+                      ) : p.status === "kept" ? (
+                        t("optimizer_items_kept")
+                      ) : (
+                        p.slot && t("optimizer_items_goes_to", { slot: t(slotNameKey(p.slot)) })
+                      )}
+                      {!problem && p.overLevel && p.item && (
+                        <em> · {t("optimizer_items_over_level", { level: p.item.level })}</em>
+                      )}
+                    </small>
+                  </span>
+                  <button aria-label={t("fg_unpin_item", { name })} onClick={() => release(p.id)}>
+                    <X size={14} />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+      {banned.length > 0 && (
+        <div className="fg-picked is-banned">
+          <h5>
+            {t("fg_banned_count", { n: banned.length })}
+            <button className="fg-link" onClick={clearBanned}>
+              {t("optimizer_items_clear")}
+            </button>
+          </h5>
+          <ul>
+            {banned.map((id) => {
+              const item = forge.itemsById.get(id),
+                name = item?.name ?? `#${id}`;
+              return (
+                <li key={id}>
+                  <ItemArt item={item} size={28} />
+                  <span>
+                    <b>{name}</b>
+                  </span>
+                  <button aria-label={t("fg_allow_item", { name })} onClick={() => release(id)}>
+                    <X size={14} />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function PassivesRule({ forge }: { forge: ForgeState }) {
+  const { t } = useTranslation();
+  const mode = forge.config.passives,
+    on = mode !== "off",
+    excluded = useMemo(() => new Set(forge.config.passiveExcluded), [forge.config.passiveExcluded]);
+  const sections = useMemo(() => {
+    const out = new Map<PassiveSection, AppItem[]>(PASSIVE_SECTIONS.map((s) => [s, []]));
+    for (const id of orderPassiveItems()) {
+      const item = forge.itemsById.get(id);
+      if (item) out.get(passiveSection(item))!.push(item);
+    }
+    for (const list of out.values()) list.sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
+    return out;
+  }, [forge.itemsById]);
+  const state = useMemo(() => forgePassiveState(on ? mode : "max", forge.plannerPassives), [on, mode, forge.plannerPassives]);
+  const [openSection, setOpenSection] = useState<PassiveSection | null>(null);
+  function include(ids: number[], yes: boolean) {
+    const next = new Set(excluded);
+    for (const id of ids) {
+      if (yes) next.delete(id);
+      else next.add(id);
+    }
+    forge.setConfig((c) => ({ ...c, passiveExcluded: [...next] }));
+  }
+  const setMode = (passives: ForgePassiveMode) => forge.setConfig((c) => ({ ...c, passives }));
+  return (
+    <section className="fg-rule" aria-label={t("optimizer_passives")}>
+      <h4>{t("tool_passives")}</h4>
+      <label className="fg-check">
+        <input type="checkbox" checked={on} onChange={(e) => setMode(e.target.checked ? "max" : "off")} />
+        {t("optimizer_passives_count")}
+      </label>
+      {on && (
+        <div className="fg-segment" role="radiogroup" aria-label={t("fg_passive_mode")}>
+          {PASSIVE_MODES.filter((m): m is Exclude<ForgePassiveMode, "off"> => m !== "off").map((m) => (
+            <button key={m} role="radio" aria-checked={mode === m} onClick={() => setMode(m)}>
+              {t(`optimizer_passives_${m}`)}
+            </button>
+          ))}
+        </div>
+      )}
+      <p>{t(`optimizer_passives_${mode}_hint`)}</p>
+      {on && (
+        <ul className="fg-passive-sections">
+          {PASSIVE_SECTIONS.map((section) => {
+            const items = sections.get(section)!;
+            if (!items.length) return null;
+            const ids = items.map((it) => it.ankama_id),
+              count = ids.filter((id) => !excluded.has(id)).length,
+              label = t(`optimizer_passive_section_${section}`),
+              open = openSection === section;
+            return (
+              <li key={section}>
+                <div className="fg-passive-head">
+                  <label className="fg-check">
+                    <input
+                      type="checkbox"
+                      checked={count > 0}
+                      ref={(el) => {
+                        if (el) el.indeterminate = count > 0 && count < ids.length;
+                      }}
+                      onChange={() => include(ids, count < ids.length)}
+                    />
+                    {label}
+                  </label>
+                  <small>{t("fg_of", { n: count, total: ids.length })}</small>
+                  <button
+                    aria-expanded={open}
+                    aria-label={t("optimizer_passive_section_configure", { section: label })}
+                    onClick={() => setOpenSection(open ? null : section)}
+                  >
+                    <Settings2 size={15} />
+                  </button>
+                </div>
+                {open && (
+                  <ul>
+                    {items.map((item) => {
+                      const counted = !excluded.has(item.ankama_id),
+                        parts = bonusParts(orderPassiveBonus(item.ankama_id, state));
+                      return (
+                        <li key={item.ankama_id} className={counted ? "" : "is-off"}>
+                          <label className="fg-check">
+                            <input type="checkbox" checked={counted} onChange={() => include([item.ankama_id], !counted)} />
+                            <ItemArt item={item} size={24} />
+                            <span>{item.name}</span>
+                          </label>
+                          <span className="fg-bonus">
+                            {parts.length === 0 ? (
+                              <em>{t("optimizer_passive_not_set")}</em>
+                            ) : (
+                              parts.map((p) => (
+                                <span key={p.key} className={p.negative ? "is-negative" : ""}>
+                                  <img src={statIconUrl(p.icon)} alt="" />
+                                  {p.value}
+                                  <span className="sr-only"> {t(p.tKey)}</span>
+                                </span>
+                              ))
+                            )}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+function Rules({ forge }: { forge: ForgeState }) {
+  const { t } = useTranslation();
+  const { config, setConfig } = forge;
+  return (
+    <section className="fg-rules" aria-labelledby="fg-rules-title">
+      <header className="fg-step">
+        <h3 id="fg-rules-title">{t("fg_rules_title")}</h3>
+      </header>
+      <section className="fg-rule" aria-label={t("optimizer_intensity")}>
+        <h4>{t("forgeguide_intensity_title")}</h4>
+        <div className="fg-segment" role="radiogroup" aria-label={t("optimizer_intensity")}>
+          {(Object.keys(INTENSITY) as ForgeIntensity[]).map((k) => (
+            <button
+              key={k}
+              role="radio"
+              aria-checked={config.intensity === k}
+              className={k === "eternal" ? "is-eternal" : ""}
+              onClick={() => setConfig((c) => ({ ...c, intensity: k }))}
+            >
+              {k === "eternal" && <InfinityIcon size={14} />}
+              {t(`optimizer_intensity_${k}`)}
+            </button>
+          ))}
+        </div>
+        <p>{t(`optimizer_intensity_${config.intensity}_hint`)}</p>
+      </section>
+      <section className="fg-rule" aria-label={t("fg_level_chars")}>
+        <h4>{t("fg_level_chars")}</h4>
+        <div className="fg-inline">
+          <label className="fg-num">
+            <span>{t("optimizer_max_level")}</span>
+            <NumberInput
+              value={config.maxLevel}
+              label={t("optimizer_max_level_hint")}
+              placeholder="200"
+              max={200}
+              onCommit={(v) => setConfig((c) => ({ ...c, maxLevel: clampLevel(v) }))}
+            />
+          </label>
+          <label className="fg-check" title={t("optimizer_assume_scrolled_hint")}>
+            <input
+              type="checkbox"
+              checked={config.assumeFullyScrolled}
+              onChange={(e) => setConfig((c) => ({ ...c, assumeFullyScrolled: e.target.checked }))}
+            />
+            {t("optimizer_assume_scrolled")}
+          </label>
+        </div>
+      </section>
+      <section className="fg-rule" aria-label={t("optimizer_slots")}>
+        <h4>
+          {t("fg_slots_title")}
+          <button className="fg-link" aria-expanded={forge.showSlots} onClick={() => forge.setShowSlots((s) => !s)}>
+            {t("fg_of", { n: forge.activeSlots, total: ALL_SLOTS.length })}
+            <ChevronDown size={14} />
+          </button>
+        </h4>
+        <p>{t("optimizer_slots_hint")}</p>
+        {forge.showSlots && (
+          <>
+            <div className="fg-inline">
+              <button className="fg-link" onClick={() => setConfig((c) => ({ ...c, lockedSlots: new Set<SlotId>() }))}>
+                {t("optimizer_slot_mark_all")}
+              </button>
+              <button className="fg-link" onClick={() => setConfig((c) => ({ ...c, lockedSlots: new Set(ALL_SLOTS) }))}>
+                {t("optimizer_slot_clear_all")}
+              </button>
             </div>
-            <p className="text-[9px]" style={{ color: 'var(--ink-faint)' }}>{t('optimizer_slots_hint')}</p>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-4 gap-y-0.5">
-              {ALL_SLOTS.map(slot => (
-                <label key={slot} className="flex items-center gap-1.5 cursor-pointer select-none" title={pinnedSlots.has(slot) ? t('optimizer_slot_pinned', { name: pinnedSlots.get(slot) }) : undefined}>
-                  <input type="checkbox" checked={!config.lockedSlots.has(slot)} onChange={() => toggleSlot(slot)} className="flex-shrink-0" />
-                  <span className="text-[10px] truncate" style={{ color: pinnedSlots.has(slot) ? 'var(--gold)' : 'var(--ink-muted)' }}>{t(SLOT_LABEL_KEY[slot])}</span>
-                  {pinnedSlots.has(slot) && <Pin size={9} className="flex-shrink-0" style={{ color: 'var(--gold)' }} />}
+            <div className="fg-slots">
+              {ALL_SLOTS.map((slot) => (
+                <label key={slot} className="fg-check">
+                  <input type="checkbox" checked={!config.lockedSlots.has(slot)} onChange={() => forge.toggleSlot(slot)} />
+                  {t(SLOT_LABEL_KEY[slot])}
+                  {forge.pinnedSlots.has(slot) && (
+                    <Pin size={12} aria-label={t("optimizer_slot_pinned", { name: forge.pinnedSlots.get(slot) })} />
+                  )}
                 </label>
               ))}
             </div>
-          </div>
+          </>
         )}
-
-        <LeyScale reqs={activeReqs} />
-
-        {/* Stat groups */}
-        <div className="space-y-2">
-          {STAT_GROUPS.map(group => {
-            const activeCount = group.statKeys.filter(k => { const r = config.stats.find(s => s.stat === k); return r && isActive(r) }).length
-            const isExpanded = expandedGroups.has(group.key)
-            return (
-              <div key={group.key}>
-                <button className="w-full flex items-center gap-2 py-1 text-left" onClick={() => toggleGroup(group.key)}>
-                  <span className="text-[10px] font-bold tracking-widest uppercase flex-shrink-0" style={{ color: 'var(--gold)' }}>{t(group.tKey)}</span>
-                  <span className="flex-1 h-px" style={{ background: 'var(--metal-edge)' }} />
-                  {activeCount > 0 && (
-                    <span key={activeCount} className="forge-pop text-[9px] font-mono px-1.5 py-0.5 rounded font-bold flex-shrink-0" style={{ background: 'color-mix(in srgb, var(--gold) 15%, transparent)', color: 'var(--gold)' }}>
-                      {activeCount}
-                    </span>
-                  )}
-                  <ChevronDown size={11} style={{ color: 'var(--ink-faint)', transform: isExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s', flexShrink: 0 }} />
-                </button>
-                {isExpanded && (
-                  <div className="space-y-2 mt-1 forge-log-in">
-                    {group.sections.map((section, i) => (
-                      <div key={section.tKey ?? i}>
-                        {section.tKey && (
-                          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] mb-1 px-0.5" style={{ color: 'var(--ink-faint)' }}>{t(section.tKey)}</p>
-                        )}
-                        <div className="grid gap-1.5 grid-cols-2 sm:grid-cols-4">
-                          {section.statKeys.map(sk => {
-                            const meta = META_MAP.get(sk)
-                            const req = config.stats.find(s => s.stat === sk)
-                            if (!meta || !req) return null
-                            return <RequirementCard key={sk} meta={meta} req={req} onChange={updateReq} />
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )
-          })}
+      </section>
+      <section className="fg-rule" aria-label={t("optimizer_forgemagie")}>
+        <h4>{t("magesmithy")}</h4>
+        <label className="fg-check" title={t("optimizer_transcendence_hint")}>
+          <input
+            type="checkbox"
+            checked={config.transcendence}
+            onChange={(e) => setConfig((c) => ({ ...c, transcendence: e.target.checked }))}
+          />
+          {t("optimizer_transcendence")}
+        </label>
+        <div className="fg-inline">
+          {(["ap", "mp", "range"] as const).map((k) => (
+            <label key={k} className="fg-check">
+              <input
+                type="checkbox"
+                checked={config.exo[k]}
+                onChange={(e) => setConfig((c) => ({ ...c, exo: { ...c.exo, [k]: e.target.checked } }))}
+              />
+              {t(`optimizer_exo_${k}`)}
+            </label>
+          ))}
         </div>
+        <div className="fg-inline">
+          <label className="fg-check">
+            <input
+              type="checkbox"
+              checked={config.exo.onlyOnRing}
+              onChange={(e) => setConfig((c) => ({ ...c, exo: { ...c.exo, onlyOnRing: e.target.checked } }))}
+            />
+            {t("optimizer_exo_only_ring")}
+          </label>
+          <label className="fg-num">
+            <span>{t("optimizer_exo_max")}</span>
+            <select
+              value={config.exo.maxCount}
+              onChange={(e) => setConfig((c) => ({ ...c, exo: { ...c.exo, maxCount: Number(e.target.value) } }))}
+            >
+              {[0, 1, 2, 3].map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <p>{t("optimizer_forgemagie_hint")}</p>
+      </section>
+      <PassivesRule forge={forge} />
+      <Picks forge={forge} />
+    </section>
+  );
+}
 
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-2 pt-2" style={{ borderTop: '1px solid var(--metal-edge)' }}>
-          <button onClick={handleClose} className="px-3 py-1.5 rounded-lg border text-[11px]" style={{ color: 'var(--ink-faint)', borderColor: 'var(--metal-edge)', background: 'transparent' }}>
-            {t('optimizer_cancel')}
-          </button>
+const EXO_ICON = { ap: "ap", mp: "mp", range: "range" } as const;
+
+/** A forged piece: what it wears, how it scores against the order, and what to do with it. */
+function ResultCard({
+  forge,
+  result,
+  rank,
+  ribbon,
+  actions = true,
+}: {
+  forge: ForgeState;
+  result: BuildResult;
+  rank: number;
+  ribbon?: string;
+  actions?: boolean;
+}) {
+  const { t, i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const runeLabel = (stat: string) => {
+    const k = runeStatLabelKey(stat);
+    return k ? t(k) : stat;
+  };
+  const pieces = ALL_SLOTS.map((slot) => ({ slot, item: forge.itemsById.get(result.equipped[slot] ?? -1) })).filter(
+    (e): e is { slot: SlotId; item: AppItem } => e.item != null,
+  );
+  // Only a locked slot keeps the player's own forged runes in the result.
+  const forged = (slot: SlotId) =>
+    forge.config.lockedSlots.has(slot) && Object.values(forge.runes[slot] ?? {}).some((v) => v > 0);
+  // Minimums always show; ley-only stats fill the rest up to six.
+  const goals = forge.config.stats.filter((r) => r.minimum > 0).sort((a, b) => b.weight - a.weight),
+    leyOnly = forge.config.stats.filter((r) => r.minimum <= 0 && r.weight > 0).sort((a, b) => b.weight - a.weight),
+    shown = [...goals, ...leyOnly].slice(0, Math.max(6, goals.length)),
+    numbers = result.stats as unknown as Record<string, number>,
+    pointsLeft = result.stats.pointsBudget - result.stats.pointsSpent,
+    passives = pieces.some((p) => forge.countedPassivesRef.current.has(p.item.ankama_id));
+  return (
+    <article
+      className={"fg-result" + (goals.length && !result.meetsRequired ? " is-unmet" : "")}
+      aria-label={`${t("optimizer_rank", { n: rank })}${ribbon ? ` · ${ribbon}` : ""}`}
+    >
+      <div className="fg-result-head">
+        <b className="fg-rank">{rank}</b>
+        <span>
+          <strong>{ribbon ?? t("optimizer_rank", { n: rank })}</strong>
+          <small>
+            {goals.length > 0 &&
+              (result.meetsRequired
+                ? t("fg_meets_all")
+                : t("fg_meets_some", { met: result.requirementsMet, count: result.requirementsTotal }))}
+            {passives && ` · ${t("optimizer_with_passives")}`}
+          </small>
+        </span>
+        <span className="fg-quality" title={t("optimizer_quality_hint")}>
+          {t("optimizer_quality")} <b className={result.score < 0 ? "is-negative" : ""}>{group(result.score, i18n.language)}</b>
+        </span>
+      </div>
+      <div className="fg-pieces" aria-hidden="true">
+        {pieces.map(({ slot, item }) => {
+          const exo = result.exo[slot],
+            rune = result.runes[slot],
+            pinned = forge.required.includes(item.ankama_id);
+          return (
+            <span
+              key={slot}
+              className={"fg-piece" + (pinned ? " is-pinned" : "") + (exo || rune || forged(slot) ? " is-forged" : "")}
+              title={item.name}
+            >
+              <ItemArt item={item} size={34} />
+              {exo && <img className="fg-badge" src={statIconUrl(EXO_ICON[exo])} alt="" />}
+              {rune && <img className="fg-badge" src={runeIconUrl(rune.stat) ?? signatureRuneUrl()} alt="" />}
+              {!exo && !rune && forged(slot) && <img className="fg-badge" src={signatureRuneUrl()} alt="" />}
+              {pinned && <Pin size={11} className="fg-pin-mark" />}
+            </span>
+          );
+        })}
+      </div>
+      {shown.length > 0 && (
+        <dl className="fg-result-stats">
+          {shown.map((cfg) => {
+            const meta = OPTIMIZER_STATS.find((s) => s.key === cfg.stat);
+            if (!meta) return null;
+            const own = numbers[cfg.stat] ?? 0,
+              value = POWER_BOOSTED.has(cfg.stat) ? own + result.stats.power : own,
+              ok = cfg.minimum <= 0 || value >= cfg.minimum;
+            return (
+              <div
+                key={cfg.stat}
+                className={ok ? "" : "is-unmet"}
+                title={POWER_BOOSTED.has(cfg.stat) ? t("optimizer_power_included", { own, power: result.stats.power }) : undefined}
+              >
+                <dt>
+                  <img src={statIconUrl(meta.icon)} alt="" />
+                  {t(meta.tKey)}
+                </dt>
+                <dd>
+                  <b>{value}</b>
+                  {cfg.minimum > 0 && <small>/ {cfg.minimum}</small>}
+                  {cfg.minimum > 0 && value > cfg.minimum && <em>+{value - cfg.minimum}</em>}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      )}
+      <button className="fg-disclosure" aria-expanded={open} onClick={() => setOpen(!open)}>
+        <ChevronDown size={15} />
+        {open ? t("fg_hide_pieces") : t("fg_show_pieces", { count: pieces.length })}
+      </button>
+      {open && (
+        <ul className="fg-piece-list">
+          {pieces.map(({ slot, item }) => {
+            const exo = result.exo[slot],
+              rune = result.runes[slot],
+              pinned = forge.required.includes(item.ankama_id),
+              passive = forge.countedPassivesRef.current.has(item.ankama_id),
+              locked = forge.config.lockedSlots.has(slot),
+              banned = forge.banned.includes(item.ankama_id);
+            return (
+              <li key={slot}>
+                <ItemArt item={item} size={30} />
+                <span>
+                  <b>{item.name}</b>
+                  <small>
+                    {t("cmp_name_level", { name: t(SLOT_LABEL_KEY[slot]), level: item.level })}
+                    {pinned && ` · ${t("fg_tag_pinned")}`}
+                    {locked && ` · ${t("fg_tag_kept")}`}
+                    {forged(slot) && ` · ${t("fg_tag_runes")}`}
+                    {exo && ` · ${t(`optimizer_exo_${exo}`)}`}
+                    {rune && ` · ${t("optimizer_rune_badge", { value: rune.value, stat: runeLabel(rune.stat) })}`}
+                    {passive && ` · ${t("optimizer_passive_badge")}`}
+                  </small>
+                </span>
+                {actions && !pinned && !locked && (
+                  <button aria-label={t("fg_pin_next", { name: item.name })} onClick={() => forge.pinItem(item.ankama_id)}>
+                    <Pin size={14} /> {t("optimizer_items_pin")}
+                  </button>
+                )}
+                {actions && !pinned && !locked && !banned && (
+                  <button className="is-danger" aria-label={t("fg_ban_item", { name: item.name })} onClick={() => forge.banItem(item.ankama_id)}>
+                    <Ban size={14} /> {t("fg_ban")}
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <div className="fg-card-foot">
+        {pointsLeft > 0 && <small>{t("optimizer_points_left", { n: pointsLeft })}</small>}
+        <button className="primary site-primary" onClick={() => forge.loadBuild(result)}>
+          {t("optimizer_load_build")} →
+        </button>
+      </div>
+    </article>
+  );
+}
+
+function Checklist({ forge, result }: { forge: ForgeState; result: BuildResult }) {
+  const { t } = useTranslation();
+  const checks = requirementChecks(forge.activeReqs, result);
+  if (!checks.length) return null;
+  return (
+    <ul className="fg-checklist" aria-label={t("fg_checklist")}>
+      {checks.map(({ requirement: r, meta, value, ok }) => (
+        <li key={r.stat} className={ok ? "is-ok" : "is-missing"}>
+          {ok ? <Check size={14} aria-label={t("fg_met")} /> : <X size={14} aria-label={t("fg_missing")} />}
+          <img src={statIconUrl(meta.icon)} alt="" />
+          <span>{t(meta.tKey)}</span>
+          <b>
+            {value}
+            <small> / {r.minimum}</small>
+          </b>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Surplus({ forge, result }: { forge: ForgeState; result: BuildResult }) {
+  const { t, i18n } = useTranslation();
+  const { rows, total } = surplusRows(forge.activeReqs, result);
+  if (!rows.length) return null;
+  return (
+    <section className="fg-surplus" aria-label={t("optimizer_surplus_title")}>
+      <h4>
+        {t("fg_surplus_title")}
+        <span>{t("fg_surplus_total", { n: group(total, i18n.language) })}</span>
+      </h4>
+      <p>{t("optimizer_surplus_hint")}</p>
+      <ul>
+        {rows.map(({ r, raw, extra, worth, capped }) => {
+          const meta = META_MAP.get(r.stat);
+          if (!meta) return null;
+          return (
+            <li key={r.stat} title={t("optimizer_surplus_row", { value: raw, min: r.minimum })}>
+              <img src={statIconUrl(meta.icon)} alt="" />
+              <span>{t(meta.tKey)}</span>
+              <b>
+                +{extra}
+                {capped && <small> ({t("optimizer_surplus_capped")})</small>}
+              </b>
+              <em>{group(worth, i18n.language)}</em>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function Forging({ forge }: { forge: ForgeState }) {
+  const { t, i18n } = useTranslation();
+  const best = forge.results[0],
+    eternal = forge.config.intensity === "eternal";
+  const stage = forge.tempering
+    ? "optimizer_stage_tempering"
+    : !best
+      ? "optimizer_stage_lighting"
+      : !best.meetsRequired
+        ? "optimizer_stage_melting"
+        : forge.heat > 0.5
+          ? "optimizer_stage_shaping"
+          : "optimizer_stage_cooling";
+  const pct = Math.round(Math.max(0.04, Math.min(1, forge.tempering ? 0 : forge.heat)) * 100);
+  return (
+    <div className="fg-forging">
+      <section className="fg-furnace" aria-label={t("fg_furnace")}>
+        <ForgeScene heat={forge.tempering ? 0.2 : Math.max(0.1, forge.heat)} burst={forge.burst} tempering={forge.tempering} />
+        <div className="fg-heat">
+          <p aria-live="polite">
+            <Flame size={16} />
+            <b>{t(stage)}</b>
+            {eternal && <span>∞ {t("optimizer_intensity_eternal")}</span>}
+          </p>
+          <div role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={t("optimizer_heat")}>
+            <i style={{ width: `${pct}%` }} />
+          </div>
+          <small>{eternal ? t("optimizer_heat_eternal_hint") : t("optimizer_heat_hint")}</small>
+        </div>
+        <dl className="fg-counters">
+          <div>
+            <dt>{t("fg_time")}</dt>
+            <dd>{forge.elapsed} s</dd>
+          </div>
+          <div title={t("optimizer_strikes_hint")}>
+            <dt>{t("fg_tried")}</dt>
+            <dd>{formatCount(forge.strikes)}</dd>
+          </div>
+          <div title={t("optimizer_quality_hint")}>
+            <dt>{t("optimizer_quality")}</dt>
+            <dd className={best && best.score < 0 ? "is-negative" : ""}>{best ? group(best.score, i18n.language) : "—"}</dd>
+          </div>
+        </dl>
+        {forge.settled && !forge.tempering && <p className="fg-note">{t("optimizer_plateau_hint")}</p>}
+        <div className="fg-actions">
           <button
-            onClick={() => lightForge()}
-            className="group flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-[12px] transition-all hover:brightness-125"
-            style={{
-              background: config.intensity === 'eternal' ? 'color-mix(in srgb, var(--fire) 22%, transparent)' : 'color-mix(in srgb, var(--gold) 20%, transparent)',
-              border:     `1px solid color-mix(in srgb, ${config.intensity === 'eternal' ? 'var(--fire)' : 'var(--gold)'} 50%, transparent)`,
-              color:      config.intensity === 'eternal' ? 'var(--fire)' : 'var(--gold)',
-              boxShadow:  '0 0 18px -8px var(--fire)',
-            }}
+            onClick={forge.stoke}
+            disabled={!forge.bellowsReady || forge.tempering || !best}
+            title={t("optimizer_bellows_hint")}
           >
-            <Flame size={13} className="transition-transform group-hover:scale-125" /> {t('optimizer_light_forge')}
+            <Wind size={15} /> {t("optimizer_bellows")}
+          </button>
+          <button className="primary site-primary" onClick={forge.finishForging} disabled={!best || forge.tempering}>
+            <Anvil size={15} /> {t("optimizer_temper_now")}
+          </button>
+          <button onClick={forge.extinguish}>{t("optimizer_extinguish")}</button>
+        </div>
+      </section>
+      <section className="fg-progress" aria-label={t("fg_progress")}>
+        {best && <Checklist forge={forge} result={best} />}
+        <section className="fg-log" aria-label={t("optimizer_log_title")}>
+          <h4>{t("optimizer_log_title")}</h4>
+          <ul aria-live="polite">
+            {!forge.log.length && <li className="fg-muted">{t("optimizer_log_empty")}</li>}
+            {forge.log.map((e) => (
+              <li key={e.id} className={"tone-" + e.tone}>
+                {e.text}
+              </li>
+            ))}
+          </ul>
+        </section>
+        {best && (
+          <>
+            <h4 className="fg-subtitle">{t("optimizer_on_the_anvil")}</h4>
+            <ResultCard forge={forge} result={best} rank={1} actions={false} />
+          </>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function Forged({ forge }: { forge: ForgeState }) {
+  const { t } = useTranslation();
+  const [masterpiece, ...others] = forge.results;
+  return (
+    <div className="fg-forged">
+      <div className="fg-forged-head">
+        <h3>{t("optimizer_forged_title")}</h3>
+        <div className="fg-actions">
+          <button title={t("optimizer_reforge_hint")} onClick={() => forge.lightForge(forge.results.map((r) => r.equipped))}>
+            <Flame size={15} /> {t("optimizer_reforge")}
+          </button>
+          <button onClick={() => forge.lightForge()}>
+            <RotateCcw size={15} /> {t("optimizer_forge_again")}
+          </button>
+          <button onClick={() => forge.setPhase("order")}>
+            <Settings2 size={15} /> {t("optimizer_adjust_order")}
           </button>
         </div>
       </div>
-    </Modal>
-  )
+      {!masterpiece ? (
+        <p className="fg-empty">{t("optimizer_nothing_forged")}</p>
+      ) : (
+        <>
+          {!masterpiece.meetsRequired && (
+            <p className="fg-note" role="status">
+              {t("optimizer_unmet_advice", { met: masterpiece.requirementsMet, total: masterpiece.requirementsTotal })}
+            </p>
+          )}
+          <div className="fg-forged-grid">
+            <div>
+              <ResultCard
+                forge={forge}
+                result={masterpiece}
+                rank={1}
+                ribbon={masterpiece.meetsRequired ? t("optimizer_masterpiece") : t("optimizer_best_piece")}
+              />
+              <Surplus forge={forge} result={masterpiece} />
+            </div>
+            {others.length > 0 && (
+              <section aria-label={t("optimizer_other_pieces")}>
+                <h4 className="fg-subtitle">{t("optimizer_other_pieces")}</h4>
+                {others.slice(0, 4).map((r, i) => (
+                  <ResultCard key={fingerprint(r)} forge={forge} result={r} rank={i + 2} />
+                ))}
+              </section>
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function Order({ forge }: { forge: ForgeState }) {
+  const { t } = useTranslation();
+  return (
+    <div className="fg-order">
+      {forge.error && (
+        <p className="fg-error" role="alert">
+          <AlertTriangle size={16} /> {forge.error}
+        </p>
+      )}
+      <div className="fg-context">
+        <span>
+          {t("fg_base", { level: forge.level })}
+          {CHARACTERISTICS.filter((c) => forge.scrolled[c]).length > 0 && ` · ${t("fg_scrolled_in")} `}
+          {CHARACTERISTICS.filter((c) => forge.scrolled[c]).map((c) => {
+            const meta = META_MAP.get(c);
+            return meta ? <img key={c} src={statIconUrl(meta.icon)} alt={t(meta.tKey)} title={t(meta.tKey)} /> : null;
+          })}
+        </span>
+        <span>{t("optimizer_points_auto")}</span>
+        <a href="/surfaces.html?view=forge-guide" target="_blank" rel="noopener">
+          <BookOpen size={14} /> {t("optimizer_guide_link")}
+        </a>
+      </div>
+      <div className="fg-columns">
+        <Goals forge={forge} />
+        <Rules forge={forge} />
+      </div>
+      <div className="fg-footer">
+        <span>
+          {forge.activeReqs.length
+            ? `${t("fg_goals", { count: forge.activeReqs.length })} · ${t("fg_slots", { count: forge.activeSlots })} · ${t(`optimizer_intensity_${forge.config.intensity}`)}`
+            : t("fg_empty_order")}
+        </span>
+        <button onClick={forge.handleClose}>{t("optimizer_cancel")}</button>
+        <button
+          className={"primary site-primary" + (forge.config.intensity === "eternal" ? " is-eternal" : "")}
+          onClick={() => forge.lightForge()}
+        >
+          <Flame size={16} /> {t("optimizer_light_forge")}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** La Forjadora with its own presentation; every rule and the search come from useForge. */
+/** La Forjadora: a full-window dialog over the workshop, in three steps
+ * (order, search, results), driven by useForge. */
+export function OptimizerModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  if (!open) return null;
+  return <ForgeDialog onClose={onClose} />;
+}
+
+function ForgeDialog({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
+  const forge = useForge({ open: true, onClose });
+  const ref = useRef<HTMLDivElement>(null);
+  // Production's trap: only the topmost window answers Tab and Escape.
+  useFocusTrap(ref, true, forge.handleClose);
+  useEffect(() => {
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, []);
+  let body: ReactNode;
+  if (forge.phase === "locked")
+    body = (
+      <div className="fg-locked">
+        <Lock size={20} />
+        <h3>{t("optimizer_locked_title")}</h3>
+        <p>{t("optimizer_locked_hint")}</p>
+        <div className="fg-locked-picker">
+          <ClassPicker heading={false} />
+        </div>
+      </div>
+    );
+  else if (forge.phase === "forging") body = <Forging forge={forge} />;
+  else if (forge.phase === "forged") body = <Forged forge={forge} />;
+  else body = <Order forge={forge} />;
+  return createPortal(
+    <div className="fg-overlay" onClick={(e) => { if (e.target === e.currentTarget && forge.phase !== "forging") forge.handleClose(); }}>
+      <div ref={ref} className="fg-dialog" role="dialog" aria-modal="true" aria-label={t("optimizer_title")} tabIndex={-1}>
+        <div className="fg-header">
+          <button type="button" onClick={forge.handleClose} aria-label={t("fg_back")}>
+            <ArrowLeft size={18} aria-hidden="true" />
+            <span>{t("fg_back")}</span>
+          </button>
+          <div>
+            <h2>{t("optimizer_title")}</h2>
+          </div>
+          <ol className="fg-phases" aria-label={t("fg_steps")}>
+            <li aria-current={forge.phase === "order" || forge.phase === "locked" ? "step" : undefined}>{t("fg_step_order")}</li>
+            <li aria-current={forge.phase === "forging" ? "step" : undefined}>{t("fg_step_search")}</li>
+            <li aria-current={forge.phase === "forged" ? "step" : undefined}>{t("fg_step_results")}</li>
+          </ol>
+        </div>
+        <div className="fg-body">{body}</div>
+      </div>
+    </div>,
+    document.body,
+  );
 }

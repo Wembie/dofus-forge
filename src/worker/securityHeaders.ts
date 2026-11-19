@@ -8,11 +8,11 @@ const SUPABASE = 'https://wkllwjxodqxhiptjaccj.supabase.co'
 // legitimate violations — see docs/security/CLOUDFLARE_HARDENING.md.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://challenges.cloudflare.com https://static.cloudflareinsights.com",
+  "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://challenges.cloudflare.com https://static.cloudflareinsights.com https://www.googletagmanager.com https://fundingchoicesmessages.google.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",
-  `connect-src 'self' ${SUPABASE} ${SUPABASE.replace('https:', 'wss:')} https://assets.dofusforge.com https://api.dofusdu.de https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://cloudflareinsights.com`,
+  `connect-src 'self' ${SUPABASE} ${SUPABASE.replace('https:', 'wss:')} https://assets.dofusforge.com https://api.dofusdu.de https://pagead2.googlesyndication.com https://*.adtrafficquality.google https://cloudflareinsights.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://fundingchoicesmessages.google.com`,
   "frame-src https://challenges.cloudflare.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://*.adtrafficquality.google",
   "worker-src 'self' blob:",
   "object-src 'none'",

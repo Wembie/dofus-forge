@@ -34,10 +34,12 @@ test('public routes render and the optimizer runs in the browser with WASM', asy
   await expect(dialog).toBeVisible()
   await dialog.getByRole('radio', { name: 'Iop' }).click()
   await dialog.getByRole('radio', { name: 'Quick' }).click()
-  await dialog.getByText('AP', { exact: true }).click()
-  // Pin an item: every build must wear it.
-  await dialog.getByRole('searchbox').fill('wand')
-  await dialog.getByRole('searchbox').press('Enter')
+  await dialog.getByRole('button', { name: 'Add AP to the order' }).click()
+  // Pin an item: every build must wear it. The search is a combobox (its
+  // matches drop down as you type), named by its label.
+  const itemSearch = dialog.getByRole('combobox', { name: 'Search an item or set…' })
+  await itemSearch.fill('wand')
+  await itemSearch.press('Enter')
   await expect(dialog.getByText(/goes in Weapon/)).toBeVisible()
 
   const wasmLoaded = page.waitForResponse(response =>
@@ -46,6 +48,8 @@ test('public routes render and the optimizer runs in the browser with WASM', asy
   await dialog.getByRole('button', { name: 'Light the forge' }).click()
   await wasmLoaded
   await expect(dialog.getByText(/Build #1/)).toBeVisible({ timeout: 60_000 })
-  await expect(dialog.getByLabel('Pinned').first()).toBeVisible()
+  // The best build's pieces are folded; open them to find the pinned one.
+  await dialog.getByRole('button', { name: /^Show the \d+ pieces?$/ }).first().click()
+  await expect(dialog.getByText(/· pinned/).first()).toBeVisible()
   expect(pageErrors).toEqual([])
 })

@@ -1,0 +1,190 @@
+/* Choosing a class when the workshop has none (0.4.0 language). */
+.cp {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.cp-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.cp-eyebrow {
+  margin: 0;
+  font: 10px/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cp-head h2 {
+  margin: 6px 0 6px;
+  font: 600 26px/1.15 Alegreya, Georgia, serif;
+  color: var(--text);
+}
+.cp-head p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+/* Each class reads like an equipment slot: framed portrait and name. */
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+  gap: 8px;
+}
+.cp-class {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 7px 10px 7px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms, background 120ms;
+}
+.cp-class:hover {
+  border-color: var(--muted);
+  background: var(--hover);
+}
+.cp-class[aria-checked="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 2px 0 var(--accent);
+}
+.cp-portrait {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--canvas);
+  overflow: hidden;
+}
+.cp-portrait img {
+  display: block;
+  width: 48px;
+  height: 48px;
+}
+.cp-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+}
+.cp-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.cp-option {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cp-option > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.cp-segment {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.cp-segment button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.cp-segment button + button {
+  border-left: 1px solid var(--line);
+}
+.cp-segment button[aria-pressed="true"] {
+  background: var(--stage);
+  color: var(--text);
+  box-shadow: inset 0 -2px var(--accent);
+}
+.cp-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cp-stepper button,
+.cp-cancel {
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+.cp-cancel {
+  padding: 0 14px;
+  font-size: 13px;
+}
+.cp-stepper button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.cp-stepper input {
+  width: 72px;
+  min-height: 40px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--canvas);
+  color: var(--text);
+  font: 500 15px "IBM Plex Mono", monospace;
+  text-align: center;
+}
+.cp-stepper small {
+  font-size: 13px;
+  color: var(--muted);
+}
+.cp-modal {
+  padding: 4px 16px 16px;
+}
+@media (max-width: 520px) {
+  .cp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .cp-class {
+    gap: 8px;
+    padding: 5px 8px 5px 5px;
+  }
+  .cp-portrait {
+    width: 42px;
+    height: 42px;
+  }
+  .cp-portrait img {
+    width: 40px;
+    height: 40px;
+  }
+  .cp-name {
+    font-size: 13px;
+  }
+}

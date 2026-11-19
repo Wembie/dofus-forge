@@ -74,3 +74,31 @@ export function playSelect() {
 export function playUiClick() {
   tone(300, 0, 0.05, 0.02, 'triangle')
 }
+
+/** The Forger has its results: a struck anvil, two bright ringing partials. */
+export function playForgeDone() {
+  tone(1568, 0,    0.55, 0.04)
+  tone(2349, 0.01, 0.45, 0.022)
+  tone(3136, 0.02, 0.3,  0.012)
+}
+
+/** A set reached a new bonus tier: a short rising sparkle. */
+export function playSetBonus() {
+  tone(659,  0,    0.09, 0.035)
+  tone(784,  0.06, 0.09, 0.035)
+  tone(988,  0.12, 0.09, 0.035)
+  tone(1319, 0.18, 0.2,  0.03)
+}
+
+/** A rune set on an item; an exotic one rings longer. */
+export function playRune(exotic = false) {
+  tone(1180, 0,    0.06, 0.03, 'triangle')
+  tone(1770, 0.02, 0.08, 0.016)
+  if (exotic) tone(2360, 0.07, 0.3, 0.018)
+}
+
+/** Something the game does not allow (a second Prysmaradite, the same set ring twice). */
+export function playDenied() {
+  tone(220, 0,    0.08, 0.035, 'triangle')
+  tone(185, 0.09, 0.12, 0.035, 'triangle')
+}

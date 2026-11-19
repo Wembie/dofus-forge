@@ -243,13 +243,7 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
     return () => { cancelled = true }
   }, [companion, motion, facing])
 
-  const btn = 'flex items-center justify-center rounded-md border transition-colors hover:brightness-125'
-  const btnStyle = {
-    width: 24, height: 24,
-    background: 'color-mix(in srgb, var(--surface-void) 80%, transparent)',
-    borderColor: 'var(--metal-edge)',
-    color: 'var(--ink-faint)',
-  }
+  const btn = 'character-stage-button'
 
   return (
     <div className="flex flex-col items-center gap-1" style={{ width }}>
@@ -259,16 +253,16 @@ export function CharacterStage({ breed, gender, companion, width, height, onErro
         aria-label={t('character_stage_label')}
       />
       <div className="flex justify-center gap-1">
-        <button className={btn} style={btnStyle} title={t('character_rotate_left')} aria-label={t('character_rotate_left')}
+        <button className={btn} title={t('character_rotate_left')} aria-label={t('character_rotate_left')}
           onClick={() => setFacing(f => (f + 7) % 8)}>
           <RotateCcw size={13} />
         </button>
-        <button className={btn} style={{ ...btnStyle, color: motion === 'idle' ? 'var(--ink-faint)' : 'var(--gold)' }}
+        <button className={btn} style={motion === 'idle' ? undefined : { color: 'var(--accent)', borderColor: 'var(--accent)' }}
           title={t(`character_motion_${NEXT_MOTION[motion]}`)} aria-label={t(`character_motion_${NEXT_MOTION[motion]}`)}
           onClick={() => setMotion(m => NEXT_MOTION[m])}>
           <Footprints size={13} />
         </button>
-        <button className={btn} style={btnStyle} title={t('character_rotate_right')} aria-label={t('character_rotate_right')}
+        <button className={btn} title={t('character_rotate_right')} aria-label={t('character_rotate_right')}
           onClick={() => setFacing(f => (f + 1) % 8)}>
           <RotateCw size={13} />
         </button>

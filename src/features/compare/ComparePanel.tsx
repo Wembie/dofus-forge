@@ -1,737 +1,431 @@
-import { useState, useMemo, useEffect, useId, useRef } from 'react'
-import { useFocusTrap } from '@/ui/useFocusTrap.ts'
-import { useTranslation } from 'react-i18next'
-import { langPathRootSegment } from '@/i18n/langPath.ts'
-import { useShallow } from 'zustand/react/shallow'
-import { useCompareStore } from '@/store/compareStore.ts'
-import { useBuildStore } from '@/store/buildStore.ts'
-import { useDataStore } from '@/store/dataStore.ts'
-import { useAuthStore } from '@/store/authStore.ts'
-import { listBuilds } from '@/features/share/savedBuilds.ts'
-import { fetchMyBuilds, fetchBuildById, type MyBuildRow } from '@/features/builds/api.ts'
-import { decodeBuild, encodeBuild, encodeSnapshot } from '@/features/share/codec.ts'
-import { SLOT_CONFIGS } from '@/features/equipment/slotConfig.ts'
-import { SlotIcon } from '@/ui'
-import { CLASS_DATA } from '@/features/class-picker/classData.ts'
-import { useClassName } from '@/features/class-picker/useClassName.ts'
-import type { StatBlock } from '@/engine/types.ts'
-import { COMPARE_STATS, type CompareStatDef } from './compareStats.ts'
-import { CompareRadar } from './CompareRadar.tsx'
-import { CompareStatBar } from './CompareStatBar.tsx'
-import type { AppItem, AppSet } from '@/data/loaders.ts'
+import { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { ALL_SLOTS, useBuildStore, type BuildSnapshot } from "@/store/buildStore.ts";
+import { useCompareStore } from "@/store/compareStore.ts";
+import { useDataStore } from "@/store/dataStore.ts";
+import { useAuthStore } from "@/store/authStore.ts";
+import { COMPARE_STATS } from "@/features/compare/compareStats.ts";
+import { CompareRadar } from "@/features/compare/CompareRadar.tsx";
+import {
+  buildSnapshotFromState,
+  decodeBuild,
+  encodeBuild,
+  encodeSnapshot,
+} from "@/features/share/codec.ts";
+import { listBuilds } from "@/features/share/savedBuilds.ts";
+import {
+  fetchBuildById,
+  fetchMyBuilds,
+  type MyBuildRow,
+} from "@/features/builds/api.ts";
+import { langPathRootSegment } from "@/i18n/langPath.ts";
+import { resolveClassName } from "@/features/class-picker/useClassName.ts";
+import { statIconUrl } from "@/features/equipment/statDisplay.ts";
+import "./compare.css";
 
-const SECTIONS = ['core', 'chars', 'damage', 'steal', 'res_fixed', 'res_pct', 'combat', 'mods'] as const
+/** Section id and the translation key of its title. */
+/** Vitality is shown as HP, so it is not compared twice. */
+const SHOWN_STATS = COMPARE_STATS.filter((def) => def.key !== "vitality");
+const SECTIONS: [string, string][] = [
+  ["core", "cmp_section_core"],
+  ["chars", "compare_section_chars"],
+  ["damage", "stat_group_damage"],
+  ["steal", "cmp_section_steal"],
+  ["res_fixed", "cmp_section_res_fixed"],
+  ["res_pct", "cmp_section_res_pct"],
+  ["combat", "stats_combat"],
+  ["mods", "compare_section_mods"],
+];
+const separators = new Map<string, string>();
+/** Thousands always grouped, with the language's own separator (es: 1.234). */
+const group = (n: number, lang: string) => {
+  let sep = separators.get(lang);
+  if (sep === undefined) {
+    sep =
+      new Intl.NumberFormat(lang)
+        .formatToParts(10000)
+        .find((p) => p.type === "group")?.value ?? ".";
+    separators.set(lang, sep);
+  }
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+};
+const signed = (n: number, lang: string) =>
+  (n > 0 ? "+" : n < 0 ? "−" : "") + group(Math.abs(n), lang);
 
-const SECTION_TKEYS: Record<string, string> = {
-  core:      'compare_section_core',
-  chars:     'compare_section_chars',
-  damage:    'stats_damage',
-  steal:     'stats_steal',
-  res_fixed: 'stats_res_fixed',
-  res_pct:   'stats_res_pct',
-  combat:    'stats_combat',
-  mods:      'compare_section_mods',
-}
-
-
-function CoreStatsBadges({ stats }: { stats: StatBlock }) {
-  const { t } = useTranslation()
-  const badges = [
-    { label: t('stat_ap'),          value: String(stats.ap),             color: 'var(--ap)' },
-    { label: t('stat_mp'),          value: String(stats.mp),             color: 'var(--mp)' },
-    { label: t('badge_hp'),         value: stats.maxHp.toLocaleString(), color: 'var(--vitality)' },
-    { label: t('stat_range'),       value: String(stats.range),          color: 'var(--water)' },
-    { label: t('stat_crit_chance'), value: `${stats.critChance}%`,       color: 'var(--crit)' },
-  ]
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-      {badges.map(b => (
-        <div key={b.label} style={{
-          background:   `color-mix(in srgb, ${b.color} 12%, transparent)`,
-          border:       `1px solid color-mix(in srgb, ${b.color} 30%, transparent)`,
-          borderRadius: 6, padding: '3px 8px', textAlign: 'center', minWidth: 42,
-        }}>
-          <p style={{ fontSize: 9, color: 'var(--ink-faint)', marginBottom: 1 }}>{b.label}</p>
-          <p style={{ fontSize: 13, fontWeight: 700, color: b.color, fontFamily: 'monospace' }}>{b.value}</p>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-// Stable fallbacks while game data loads: an inline `?? []` is a new array
-// on every store notification, so the selector would never settle.
-const NO_EQUIPMENT: AppItem[] = []
-const NO_SETS: AppSet[] = []
-
+/** Your build against a reference: who is ahead on each stat, by how much, and which pieces differ. */
 export function ComparePanel() {
-  const { t, i18n } = useTranslation()
-
-  const { nameB, statsB, equippedB, classB, levelB, genderB, snapshotB, loadBuild, clearB, toggle } = useCompareStore(useShallow(s => ({
-    nameB: s.nameB, statsB: s.statsB, equippedB: s.equippedB, classB: s.classB, levelB: s.levelB, genderB: s.genderB,
-    snapshotB: s.snapshotB, loadBuild: s.loadBuild, clearB: s.clearB, toggle: s.toggle,
-  })))
-  // No `s => s` subscription here on purpose — it would re-render this whole
-  // panel (both sides' comparison tables) on every single build A mutation,
-  // making the narrow selectors below pointless. handleShare below reads the
-  // full state on demand via useBuildStore.getState() instead.
-  const statsA     = useBuildStore(s => s.stats)
-  const equippedA  = useBuildStore(s => s.equipped)
-  const classA     = useBuildStore(s => s.selectedClass)
-  const levelA     = useBuildStore(s => s.level)
-  const genderA    = useBuildStore(s => s.gender)
-  const _equip     = useBuildStore(s => s._equipment)
-  const equipment  = useDataStore(s => s.equipment ?? NO_EQUIPMENT)
-  const sets       = useDataStore(s => s.sets ?? NO_SETS)
-
-  const [showSelector, setShowSelector] = useState(false)
-  const selectorRef     = useRef<HTMLDivElement>(null)
-  const selectorTitleId = useId()
-  useFocusTrap(selectorRef, showSelector, () => setShowSelector(false))
-  const [urlInput, setUrlInput]         = useState('')
-  const [urlError, setUrlError]         = useState(false)
-  const [copied, setCopied]             = useState(false)
-  const [myBuilds, setMyBuilds]         = useState<MyBuildRow[] | null>(null)
-
-  const session = useAuthStore(s => s.session)
-
-  // Fetched once on mount (not gated behind opening the "Change" modal) — the
-  // very first pick, before Build B is ever loaded, happens in the compact
-  // empty-state below, which needs this list just as much as the modal does.
+  const { t, i18n } = useTranslation(),
+    b = useBuildStore(),
+    ref = useCompareStore(),
+    data = useDataStore(),
+    session = useAuthStore((s) => s.session),
+    lang = i18n.language,
+    day = useMemo(
+      () => new Intl.DateTimeFormat(lang, { day: "numeric", month: "short" }),
+      [lang],
+    );
+  const [onlyChanges, setOnlyChanges] = useState(true),
+    [code, setCode] = useState(""),
+    [error, setError] = useState(""),
+    [picking, setPicking] = useState(false),
+    [copied, setCopied] = useState(false),
+    [account, setAccount] = useState<MyBuildRow[] | null>(null);
+  const mine = b.stats,
+    theirs = ref.statsB,
+    local = listBuilds(),
+    byId = useMemo(() => new Map((data.equipment ?? []).map((it) => [it.ankama_id, it])), [data.equipment]);
   useEffect(() => {
-    if (!session) return
-    let cancelled = false
-    fetchMyBuilds(session.user.id).then(({ data }) => { if (!cancelled) setMyBuilds(data) })
-    return () => { cancelled = true }
-  }, [session])
-
-  const classAInfo = useMemo(() => CLASS_DATA.find(c => c.id === classA), [classA])
-  const classBInfo = useMemo(() => CLASS_DATA.find(c => c.id === classB), [classB])
-  const classAName = useClassName(classA)
-  const classBName = useClassName(classB)
-  const itemMap    = useMemo(() => new Map(_equip.map(it => [it.ankama_id, it])), [_equip])
-  const saved      = listBuilds()
-
-  const handleLoadB = (encoded: string, name: string) => {
-    const snap = decodeBuild(encoded)
-    if (!snap) return
-    loadBuild(snap, name, equipment, sets)
-    setShowSelector(false)
-    setUrlInput('')
+    if (!session) return;
+    let live = true;
+    void fetchMyBuilds(session.user.id).then(
+      ({ data: rows }) => live && setAccount(rows),
+    );
+    return () => {
+      live = false;
+    };
+  }, [session]);
+  function load(snapshot: BuildSnapshot | null, name: string) {
+    if (!snapshot)
+      return setError(t("cmp_err_code"));
+    ref.loadBuild(snapshot, name, data.equipment || [], data.sets || []);
+    setCode("");
+    setError("");
+    setPicking(false);
   }
-
-  const handleLoadUrl = async () => {
-    setUrlError(false)
-    const raw = urlInput.trim()
-    if (!raw) return
-
-    // Short published-build link (dofusforge.com/.../build/<uuid>, or just
-    // the bare uuid) — doesn't carry the snapshot inline like a ?b= link
-    // does, so it needs an actual fetch to resolve.
-    const uuidMatch = raw.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i)
-    if (uuidMatch) {
-      const { data } = await fetchBuildById(uuidMatch[0])
-      if (data) {
-        loadBuild(data.snapshot, data.name, equipment, sets)
-        setUrlInput('')
-        setShowSelector(false)
-        return
-      }
-      setUrlError(true)
-      return
+  /** Same inputs production accepts: a published build link or id, a `?b=` link (current or legacy hash form), or the bare code. */
+  async function paste() {
+    const raw = code.trim(),
+      id = raw.match(
+        /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i,
+      );
+    if (id) {
+      const { data: found } = await fetchBuildById(id[0]);
+      if (found) return load(found.snapshot, found.name);
+      return setError(t("cmp_err_missing"));
     }
-
-    let encoded = raw
+    let encoded = raw;
     try {
-      const url = new URL(raw)
-      // Current format: query string directly on the URL (…/es/?b=...)
-      let b = url.searchParams.get('b')
-      // Legacy HashRouter links carried the query inside the hash (#/?b=...)
-      if (!b && url.hash.includes('?')) {
-        b = new URLSearchParams(url.hash.slice(url.hash.indexOf('?') + 1)).get('b')
-      }
-      if (b) encoded = b
-    } catch { /* not a full URL — assume the raw encoded string was pasted directly */ }
-    const snap = decodeBuild(encoded)
-    if (!snap) { setUrlError(true); return }
-    loadBuild(snap, t('compare_build_b'), equipment, sets)
-    setUrlInput('')
-    setShowSelector(false)
-  }
-
-  const handleShare = () => {
-    const encodedA  = encodeBuild(useBuildStore.getState())
-    const encodedB  = snapshotB ? encodeSnapshot(snapshotB) : ''
-    const lang      = i18n.language.slice(0, 2)
-    const langPath  = langPathRootSegment(lang)
-    const base      = `${location.origin}${import.meta.env.BASE_URL}${langPath}`
-    const url = encodedB
-      ? `${base}?b=${encodedA}&c=${encodedB}`
-      : `${base}?b=${encodedA}`
-    navigator.clipboard.writeText(url).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
-
-  const statsBySection = useMemo(() => {
-    const result: Record<string, CompareStatDef[]> = {}
-    for (const sec of SECTIONS) {
-      result[sec] = COMPARE_STATS.filter(def => {
-        if (def.section !== sec) return false
-        const a = statsA ? (statsA[def.key] as number) : 0
-        const b = statsB ? (statsB[def.key] as number) : 0
-        return def.always || a !== 0 || b !== 0
-      })
+      const url = new URL(raw);
+      encoded =
+        url.searchParams.get("b") ||
+        (url.hash.includes("?")
+          ? new URLSearchParams(url.hash.slice(url.hash.indexOf("?") + 1)).get(
+              "b",
+            )
+          : null) ||
+        raw;
+    } catch {
+      /* Not a link: treat it as the build code itself. */
     }
-    return result
-  }, [statsA, statsB])
-
-  const portraitA = classAInfo
-    ? (genderA === 'female' ? classAInfo.imageFUrl : classAInfo.imageUrl)
-    : null
-  const portraitB = classBInfo
-    ? (genderB === 'female' ? classBInfo.imageFUrl : classBInfo.imageUrl)
-    : null
-
-  return (
-    <div
-      className="rounded-xl overflow-hidden"
-      style={{
-        border:     '1px solid var(--metal-edge)',
-        background: 'var(--surface-void)',
-        boxShadow:  'inset 0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.4)',
-      }}
-    >
-      {/* ── Header bar ── */}
-      <div
-        className="flex items-center justify-between gap-3 px-4 py-2.5"
-        style={{
-          background:   'linear-gradient(to right, color-mix(in srgb, var(--gold) 8%, var(--surface-stone)), var(--surface-void))',
-          borderBottom: '1px solid var(--metal-edge)',
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <span style={{ fontSize: 16 }}>⚖</span>
-          <span
-            className="font-display font-bold tracking-[0.18em] uppercase text-[13px]"
-            style={{ color: 'var(--gold)', textShadow: '0 0 20px rgba(201,162,75,0.4)' }}
-          >
-            {t('compare')}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleShare}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold transition-all"
-            style={{
-              background:  copied
-                ? 'color-mix(in srgb, var(--positive) 15%, transparent)'
-                : 'color-mix(in srgb, var(--gold) 10%, transparent)',
-              border:      copied
-                ? '1px solid color-mix(in srgb, var(--positive) 40%, transparent)'
-                : '1px solid color-mix(in srgb, var(--gold) 30%, transparent)',
-              color:       copied ? 'var(--positive)' : 'var(--gold)',
-            }}
-            title={t('compare_share')}
-          >
-            <span>{copied ? '✓' : '🔗'}</span>
-            <span className="hidden sm:inline">{copied ? t('copied') : t('compare_share')}</span>
-          </button>
-          <button
-            onClick={toggle}
-            className="w-6 h-6 rounded flex items-center justify-center text-[14px] transition-colors"
-            style={{ color: 'var(--ink-faint)', background: 'transparent', border: '1px solid var(--metal-edge)' }}
-            title={t('modal_close')}
-            aria-label={t('modal_close')}
-          >
-            ×
-          </button>
-        </div>
-      </div>
-
-      {/* ── Hero grid ── */}
-      <div
-        className="grid gap-3 px-4 pt-4 pb-3"
-        style={{ gridTemplateColumns: '1fr auto 1fr' }}
-      >
-        {/* Build A card */}
-        <div
-          className="rounded-lg p-3 flex flex-col gap-2"
-          style={{
-            background:  'color-mix(in srgb, var(--gold) 5%, var(--surface-stone))',
-            border:      '1px solid color-mix(in srgb, var(--gold) 25%, transparent)',
-          }}
-        >
-          <div className="flex items-center gap-2">
-            {portraitA && (
-              <img
-                src={portraitA}
-                alt=""
-                width={56}
-                height={56}
-                className="rounded-lg object-cover object-top flex-shrink-0"
-                style={{ border: '1px solid color-mix(in srgb, var(--gold) 35%, transparent)' }}
-              />
-            )}
-            <div className="min-w-0">
-              <p className="text-[9px] uppercase tracking-widest font-semibold mb-0.5" style={{ color: 'var(--gold-muted)' }}>
-                {t('compare_build_a')}
-              </p>
-              <p className="text-[13px] font-bold truncate" style={{ color: 'var(--gold)' }}>
-                {classAName || '—'}
-              </p>
-              {classA && (
-                <p className="text-[11px] font-mono" style={{ color: 'var(--ink-muted)' }}>
-                  Lv {levelA}
-                </p>
-              )}
-            </div>
-          </div>
-          {statsA && <CoreStatsBadges stats={statsA} />}
-        </div>
-
-        {/* VS badge */}
-        <div className="flex items-center justify-center">
-          <div
-            style={{
-              width:        32,
-              height:       32,
-              borderRadius: '50%',
-              background:   'var(--surface-stone)',
-              border:       '1px solid var(--metal-edge)',
-              display:      'flex',
-              alignItems:   'center',
-              justifyContent: 'center',
-              fontSize:     10,
-              fontWeight:   700,
-              color:        'var(--ink-faint)',
-              fontFamily:   'var(--font-display, sans-serif)',
-              letterSpacing: '0.05em',
+    load(decodeBuild(encoded), t("cmp_pasted"));
+  }
+  function share() {
+    const base = `${location.origin}${import.meta.env.BASE_URL}${langPathRootSegment(i18n.language)}`,
+      a = encodeBuild(useBuildStore.getState()),
+      z = ref.snapshotB ? encodeSnapshot(ref.snapshotB) : "";
+    void navigator.clipboard
+      .writeText(z ? `${base}?b=${a}&c=${z}` : `${base}?b=${a}`)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      });
+  }
+  const picker = (
+        <div className="cmp-pick">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void paste();
             }}
           >
-            VS
-          </div>
-        </div>
-
-        {/* Build B card */}
-        {statsB ? (
-          <div
-            className="rounded-lg p-3 flex flex-col gap-2"
-            style={{
-              background: 'color-mix(in srgb, var(--water) 5%, var(--surface-stone))',
-              border:     '1px solid color-mix(in srgb, var(--water) 25%, transparent)',
-            }}
-          >
-            <div className="flex items-center gap-2">
-              {portraitB && (
-                <img
-                  src={portraitB}
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="rounded-lg object-cover object-top flex-shrink-0"
-                  style={{ border: '1px solid color-mix(in srgb, var(--water) 35%, transparent)' }}
-                />
-              )}
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-1 mb-0.5">
-                  <p className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--ink-faint)' }}>
-                    {t('compare_build_b')}
-                  </p>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => setShowSelector(true)}
-                      className="text-[9px] px-1.5 py-0.5 rounded font-semibold transition-colors"
-                      style={{
-                        color:      'var(--ink-faint)',
-                        background: 'var(--surface-void)',
-                        border:     '1px solid var(--metal-edge)',
-                      }}
-                    >
-                      {t('change')} ▾
-                    </button>
-                    <button
-                      onClick={clearB}
-                      className="w-5 h-5 rounded flex items-center justify-center text-[11px] transition-colors"
-                      style={{ color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)', background: 'transparent' }}
-                      title={t('compare_clear_b')}
-                      aria-label={t('compare_clear_b')}
-                    >
-                      ×
-                    </button>
-                  </div>
-                </div>
-                <p className="text-[13px] font-bold truncate" style={{ color: 'var(--water)' }}>
-                  {nameB || classBName || '—'}
-                </p>
-                <p className="text-[11px] font-mono" style={{ color: 'var(--ink-muted)' }}>
-                  Lv {levelB}
-                </p>
-              </div>
-            </div>
-            <CoreStatsBadges stats={statsB} />
-          </div>
-        ) : (
-          <div
-            className="rounded-lg p-3 flex flex-col items-center justify-center gap-2"
-            style={{
-              border:     '1px dashed color-mix(in srgb, var(--metal-edge) 80%, transparent)',
-              background: 'color-mix(in srgb, var(--surface-stone) 40%, transparent)',
-              minHeight:  100,
-            }}
-          >
-            <span style={{ fontSize: 22, opacity: 0.3 }}>⚖</span>
-            <p className="text-[11px] text-center" style={{ color: 'var(--ink-faint)' }}>
-              {t('compare_empty_b')}
-            </p>
-            {/* URL paste input */}
-            <div className="w-full flex gap-1 mt-1">
+            <label>
+              {t("cmp_code_label")}
               <input
-                type="text"
-                value={urlInput}
-                onChange={e => { setUrlInput(e.target.value); setUrlError(false) }}
-                onKeyDown={e => e.key === 'Enter' && handleLoadUrl()}
-                placeholder={t('compare_url_placeholder')}
-                aria-label={t('compare_url_placeholder')}
-                aria-invalid={urlError || undefined}
-                className="flex-1 rounded px-2 py-1 text-[10px] min-w-0"
-                style={{
-                  background: 'var(--surface-void)',
-                  border:     `1px solid ${urlError ? 'var(--negative)' : 'var(--metal-edge)'}`,
-                  color:      'var(--ink)',
-                  outline:    'none',
+                value={code}
+                aria-invalid={!!error}
+                aria-describedby={error ? "cmp-paste-error" : undefined}
+                placeholder={`https://dofusforge.com/${langPathRootSegment(lang) ? langPathRootSegment(lang) + "/" : ""}?b=…`}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                  setError("");
                 }}
               />
-              <button
-                onClick={handleLoadUrl}
-                disabled={!urlInput.trim()}
-                className="px-2 py-1 rounded text-[10px] font-semibold flex-shrink-0"
-                style={{
-                  background: 'color-mix(in srgb, var(--gold) 15%, transparent)',
-                  border:     '1px solid color-mix(in srgb, var(--gold) 30%, transparent)',
-                  color:      'var(--gold)',
-                  opacity:    urlInput.trim() ? 1 : 0.4,
-                  cursor:     urlInput.trim() ? 'pointer' : 'default',
-                }}
-              >
-                {t('compare_load_url_btn')}
-              </button>
-            </div>
-            {urlError && (
-              <p className="text-[10px] w-full" style={{ color: 'var(--negative)' }}>
-                {t('compare_url_invalid')}
+            </label>
+            <button className="site-primary" disabled={!code.trim()}>
+              {t("compare")}
+            </button>
+            {error && (
+              <p id="cmp-paste-error" role="alert">
+                {error}
               </p>
             )}
-            {/* My Builds (real Supabase builds, not the legacy local list below) */}
-            {myBuilds && myBuilds.length > 0 && (
-              <div className="w-full mt-1">
-                <p className="text-[9px] mb-1 uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}>
-                  {t('compare_or_my_builds')}
-                </p>
-                <div className="flex flex-col gap-1">
-                  {myBuilds.slice(0, 4).map(b => (
-                    <button
-                      key={b.id}
-                      onClick={() => { loadBuild(b.snapshot, b.name, equipment, sets); setShowSelector(false) }}
-                      className="w-full text-left px-2 py-1 rounded text-[10px] truncate transition-colors"
-                      style={{
-                        background: 'var(--surface-void)',
-                        border:     '1px solid var(--metal-edge)',
-                        color:      'var(--ink-muted)',
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--gold) 35%, transparent)')}
-                      onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                    >
-                      {b.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-            {/* Saved builds list */}
-            {saved.length > 0 && (
-              <div className="w-full mt-1">
-                <p className="text-[9px] mb-1 uppercase tracking-widest" style={{ color: 'var(--ink-faint)' }}>
-                  {t('compare_or_saved')}
-                </p>
-                <div className="flex flex-col gap-1">
-                  {saved.slice(0, 4).map(b => (
-                    <button
-                      key={b.id}
-                      onClick={() => handleLoadB(b.encoded, b.name)}
-                      className="w-full text-left px-2 py-1 rounded text-[10px] truncate transition-colors"
-                      style={{
-                        background: 'var(--surface-void)',
-                        border:     '1px solid var(--metal-edge)',
-                        color:      'var(--ink-muted)',
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--gold) 35%, transparent)')}
-                      onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                    >
-                      {b.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* ── Equipment comparison ── */}
-      {statsB && (
-        <div className="px-4 pb-3">
-          <p
-            className="text-[9px] uppercase tracking-widest font-semibold mb-2 pb-1"
-            style={{ color: 'var(--gold-muted)', borderBottom: '1px solid var(--metal-edge)' }}
-          >
-            {t('compare_equipment')}
-          </p>
-          <div className="flex flex-col gap-px">
-            {SLOT_CONFIGS.map(sc => {
-              const idA   = equippedA[sc.id]
-              const idB   = equippedB[sc.id]
-              const itemA = idA ? itemMap.get(idA) : null
-              const itemB = idB ? itemMap.get(idB) : null
-              if (!itemA && !itemB) return null
-              const same = idA === idB && idA != null
-              return (
-                <div
-                  key={sc.id}
-                  className="grid items-center py-0.5"
-                  style={{
-                    gridTemplateColumns: '1fr 28px 1fr',
-                    gap: 4,
-                    opacity: same ? 0.45 : 1,
-                  }}
-                >
-                  {/* Build A item — right-aligned */}
-                  <div className="flex items-center justify-end gap-1.5 min-w-0">
-                    {itemA ? (
-                      <>
-                        <span
-                          className="text-[10px] truncate"
-                          style={{ color: same ? 'var(--ink-faint)' : 'var(--ink-muted)' }}
-                        >
-                          {itemA.name}
-                        </span>
-                        {itemA.image_url && (
-                          <img src={itemA.image_url} alt="" width={22} height={22} className="object-contain flex-shrink-0" />
-                        )}
-                      </>
-                    ) : (
-                      <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>—</span>
-                    )}
-                  </div>
-                  {/* Slot icon — center */}
-                  <div className="flex items-center justify-center">
-                    <span style={{ color: 'var(--ink-faint)' }}><SlotIcon slot={sc.id} className="w-[13px] h-[13px]" /></span>
-                  </div>
-                  {/* Build B item — left-aligned */}
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    {itemB ? (
-                      <>
-                        {itemB.image_url && (
-                          <img src={itemB.image_url} alt="" width={22} height={22} className="object-contain flex-shrink-0" />
-                        )}
-                        <span
-                          className="text-[10px] truncate"
-                          style={{ color: same ? 'var(--ink-faint)' : 'var(--ink-muted)' }}
-                        >
-                          {itemB.name}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="text-[10px]" style={{ color: 'var(--ink-faint)' }}>—</span>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* ── Radar snapshot ── */}
-      {statsA && statsB && (
-        <div className="px-4 pb-2">
-          <CompareRadar statsA={statsA} statsB={statsB} />
-          <div className="flex items-center justify-center gap-4 mt-1">
-            <span className="flex items-center gap-1.5 text-[10px] font-semibold" style={{ color: 'var(--gold)' }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} />
-              {t('compare_build_a')}
-            </span>
-            <span className="flex items-center gap-1.5 text-[10px] font-semibold" style={{ color: 'var(--water)' }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--water)', display: 'inline-block' }} />
-              {nameB || t('compare_build_b')}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* ── Stat bars (tug-of-war) ── */}
-      {statsA && statsB && (
-        <div className="px-4 pb-4">
-          <div className="rounded-lg overflow-hidden" style={{ border: '1px solid var(--metal-edge)' }}>
-            {SECTIONS.map(sec => {
-              const rows = statsBySection[sec]
-              if (!rows || rows.length === 0) return null
-              return (
-                <div key={sec}>
-                  {/* Section label */}
-                  <div
-                    className="px-3 py-1"
-                    style={{
-                      background:   'color-mix(in srgb, var(--surface-stone) 60%, transparent)',
-                      borderBottom: '1px solid var(--metal-edge)',
-                    }}
-                  >
-                    <span className="text-[9px] uppercase tracking-widest font-semibold" style={{ color: 'var(--gold-muted)' }}>
-                      {t(SECTION_TKEYS[sec])}
-                    </span>
-                  </div>
-                  {/* Stat rows */}
-                  <div className="px-3 divide-y" style={{ borderColor: 'color-mix(in srgb, var(--metal-edge) 40%, transparent)' }}>
-                    {rows.map(def => {
-                      const a = statsA ? (statsA[def.key] as number) : 0
-                      const b = statsB ? (statsB[def.key] as number) : 0
-                      return (
-                        <div key={def.key} style={{ borderColor: 'color-mix(in srgb, var(--metal-edge) 40%, transparent)' }} className="border-b last:border-b-0">
-                          <CompareStatBar def={def} a={a} b={b} />
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* ── Change Build B modal ── */}
-      {showSelector && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: 'rgba(0,0,0,0.65)' }}
-          onClick={() => setShowSelector(false)}
-        >
-          <div
-            ref={selectorRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={selectorTitleId}
-            tabIndex={-1}
-            className="rounded-xl overflow-hidden w-full max-w-sm mx-4 focus:outline-none"
-            style={{
-              background: 'var(--surface-stone)',
-              border:     '1px solid var(--metal-edge)',
-              boxShadow:  '0 8px 40px rgba(0,0,0,0.7)',
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div
-              className="flex items-center justify-between px-4 py-2.5"
-              style={{ borderBottom: '1px solid var(--metal-edge)' }}
-            >
-              <span id={selectorTitleId} className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: 'var(--gold)' }}>
-                {t('compare_load_b')}
-              </span>
-              <button
-                onClick={() => setShowSelector(false)}
-                aria-label={t('modal_close')}
-                className="w-6 h-6 rounded flex items-center justify-center text-[13px]"
-                style={{ color: 'var(--ink-faint)', border: '1px solid var(--metal-edge)' }}
-              >
-                ×
-              </button>
-            </div>
-            {/* URL input */}
-            <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--metal-edge)' }}>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={urlInput}
-                  onChange={e => { setUrlInput(e.target.value); setUrlError(false) }}
-                  onKeyDown={e => e.key === 'Enter' && handleLoadUrl()}
-                  placeholder={t('compare_url_placeholder')}
-                  aria-label={t('compare_url_placeholder')}
-                  aria-invalid={urlError || undefined}
-                  className="flex-1 rounded px-2 py-1.5 text-[11px] min-w-0"
-                  style={{
-                    background: 'var(--surface-void)',
-                    border:     `1px solid ${urlError ? 'var(--negative)' : 'var(--metal-edge)'}`,
-                    color:      'var(--ink)',
-                    outline:    'none',
-                  }}
-                  autoFocus
-                />
-                <button
-                  onClick={handleLoadUrl}
-                  disabled={!urlInput.trim()}
-                  className="px-3 py-1.5 rounded text-[11px] font-semibold flex-shrink-0"
-                  style={{
-                    background: 'color-mix(in srgb, var(--gold) 15%, transparent)',
-                    border:     '1px solid color-mix(in srgb, var(--gold) 30%, transparent)',
-                    color:      'var(--gold)',
-                    opacity:    urlInput.trim() ? 1 : 0.4,
-                    cursor:     urlInput.trim() ? 'pointer' : 'default',
-                  }}
-                >
-                  {t('compare_load_url_btn')}
-                </button>
-              </div>
-              {urlError && (
-                <p className="mt-1 text-[10px]" style={{ color: 'var(--negative)' }}>
-                  {t('compare_url_invalid')}
-                </p>
-              )}
-            </div>
-            {/* My Builds (real Supabase builds) + legacy local saves */}
-            {(!myBuilds || myBuilds.length === 0) && saved.length === 0 ? (
-              <p className="p-4 text-center text-[11px]" style={{ color: 'var(--ink-faint)' }}>
-                {t('no_saved_builds')}
-              </p>
+          </form>
+          <section aria-label={t("cmp_account_aria")}>
+            <h4>{t("cmp_account")}</h4>
+            {!session ? (
+              <p>{t("cmp_signin")}</p>
+            ) : !account ? (
+              <p>{t("cmp_loading")}</p>
+            ) : !account.length ? (
+              <p>{t("cmp_account_empty")}</p>
             ) : (
-              <ul className="max-h-52 overflow-y-auto">
-                {myBuilds?.map(b => (
-                  <li key={b.id} style={{ borderTop: '1px solid var(--metal-edge)' }}>
-                    <button
-                      onClick={() => { loadBuild(b.snapshot, b.name, equipment, sets); setShowSelector(false) }}
-                      className="w-full text-left px-4 py-2 text-[11px] flex items-center justify-between gap-2 transition-colors"
-                      style={{ color: 'var(--ink)' }}
-                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-void)')}
-                      onMouseLeave={e => (e.currentTarget.style.background = '')}
-                    >
-                      <span className="truncate">{b.name}</span>
-                      <span className="text-[10px] flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
-                        {t('level_short', { level: b.level })}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-                {saved.map(b => (
-                  <li key={b.id} style={{ borderTop: '1px solid var(--metal-edge)' }}>
-                    <button
-                      onClick={() => handleLoadB(b.encoded, b.name)}
-                      className="w-full text-left px-4 py-2 text-[11px] flex items-center justify-between gap-2 transition-colors"
-                      style={{ color: 'var(--ink)' }}
-                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface-void)')}
-                      onMouseLeave={e => (e.currentTarget.style.background = '')}
-                    >
-                      <span className="truncate">{b.name}</span>
-                      <span className="text-[10px] flex-shrink-0" style={{ color: 'var(--ink-faint)' }}>
-                        {new Date(b.savedAt).toLocaleDateString()}
-                      </span>
+              <ul>
+                {account.map((row) => (
+                  <li key={row.id}>
+                    <button onClick={() => load(row.snapshot, row.name)}>
+                      <b>{row.name}</b>
+                      <small>
+                        {t("cmp_name_level", {
+                          name: resolveClassName(row.class_slug, lang, null),
+                          level: row.level,
+                        })}
+                      </small>
                     </button>
                   </li>
                 ))}
               </ul>
             )}
-          </div>
+          </section>
+          <section aria-label={t("cmp_device_aria")}>
+            <h4>{t("cmp_device")}</h4>
+            {!local.length ? (
+              <p>{t("cmp_device_empty")}</p>
+            ) : (
+              <ul>
+                {local.map((row) => (
+                  <li key={row.id}>
+                    <button
+                      onClick={() => load(decodeBuild(row.encoded), row.name)}
+                    >
+                      <b>{row.name}</b>
+                      <small>{t("cmp_saved_on", { date: day.format(row.savedAt) })}</small>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
         </div>
+  );
+  const top = (
+    <div className="cmp-top">
+      <h2>{t("tool_compare")}</h2>
+      <div>
+        {theirs && <button onClick={ref.clearB}>{t("compare_clear_b")}</button>}
+        <button onClick={ref.toggle}>{t("modal_close")}</button>
+      </div>
+    </div>
+  );
+  if (!mine || !theirs)
+    return (
+      <div className="cmp">
+        {top}
+        <div className="tool-empty">
+          <h3>{t("cmp_none_title")}</h3>
+          <p>{t("cmp_none_body")}</p>
+        </div>
+        {mine && (
+          <div className="cmp-actions">
+            <button onClick={() => load(buildSnapshotFromState(useBuildStore.getState()), t("cmp_pinned_name"))}>
+              {t("cmp_pin_current")}
+            </button>
+          </div>
+        )}
+        {mine && picker}
+      </div>
+    );
+  const sections = SECTIONS.map(([id, titleKey]) => ({
+    title: t(titleKey),
+    rows: SHOWN_STATS.filter((def) => def.section === id)
+      .map((def) => {
+        const a = Number(mine[def.key]) || 0,
+          z = Number(theirs[def.key]) || 0;
+        return { def, a, z, diff: a - z };
+      })
+      .filter((r) =>
+        onlyChanges ? r.diff !== 0 : r.def.always || r.a !== 0 || r.z !== 0,
+      ),
+  })).filter((s) => s.rows.length);
+  const every = SHOWN_STATS.map(
+      (def) => (Number(mine[def.key]) || 0) - (Number(theirs[def.key]) || 0),
+    ),
+    ahead = every.filter((d) => d > 0).length,
+    behind = every.filter((d) => d < 0).length;
+  const gear = ALL_SLOTS
+    .map((slot) => ({
+      slot,
+      a: byId.get(b.equipped[slot] ?? -1),
+      z: byId.get(ref.equippedB[slot] ?? -1),
+    }))
+    .filter((g) => g.a || g.z);
+  const swapped = gear.filter((g) => g.a?.ankama_id !== g.z?.ankama_id);
+  const shownGear = onlyChanges ? swapped : gear;
+  return (
+    <div className="cmp">
+      {top}
+      <div className="cmp-head">
+        <div>
+          <span>{t("cmp_reference")}</span>
+          <strong>{ref.nameB || t("cmp_unnamed")}</strong>
+          <small>
+            {t("cmp_name_level", {
+              name: resolveClassName(ref.classB, lang, null),
+              level: ref.levelB,
+            })}
+          </small>
+        </div>
+        <figure>
+          <CompareRadar statsA={mine} statsB={theirs} />
+          <figcaption aria-live="polite">
+            {ahead || behind || swapped.length ? (
+              <>
+                <Trans
+                  i18nKey="cmp_summary"
+                  values={{ ahead, behind }}
+                  components={{
+                    win: <b className="positive" />,
+                    lose: <b className="negative" />,
+                  }}
+                />{" "}
+                {t("cmp_pieces", { count: swapped.length })}
+              </>
+            ) : (
+              t("cmp_same")
+            )}
+          </figcaption>
+        </figure>
+        <div>
+          <span>{t("cmp_yours")}</span>
+          <strong>{b.buildName || t("cmp_draft")}</strong>
+          <small>
+            {t("cmp_name_level", {
+              name: resolveClassName(b.selectedClass || "", lang, null),
+              level: b.level,
+            })}
+          </small>
+        </div>
+      </div>
+      <div className="cmp-actions">
+        <label>
+          <input
+            type="checkbox"
+            checked={onlyChanges}
+            onChange={(e) => setOnlyChanges(e.target.checked)}
+          />
+          {t("cmp_only_diff")}
+        </label>
+        <button onClick={share} aria-live="polite">
+          {copied ? t("cmp_copied") : t("cmp_copy")}
+        </button>
+        <button
+          onClick={() =>
+            load(
+              buildSnapshotFromState(useBuildStore.getState()),
+              t("cmp_pinned_name"),
+            )
+          }
+        >
+          {t("cmp_pin_current")}
+        </button>
+        <button aria-expanded={picking} onClick={() => setPicking(!picking)}>
+          {t("cmp_use_other")}
+        </button>
+      </div>
+      {picking && picker}
+      {sections.map((section) => (
+        <section key={section.title} aria-label={section.title}>
+          <h3>{section.title}</h3>
+          <ul className="cmp-rows">
+            {section.rows.map(({ def, a, z, diff }) => {
+              const floor = Math.min(a, z, 0),
+                sum = a + z - 2 * floor,
+                share = sum ? ((a - floor) / sum) * 100 : 50;
+              return (
+                <li key={def.key}>
+                  <span className="cmp-name">
+                    <img src={statIconUrl(def.icon)} alt="" />
+                    {t(def.tKey)}
+                  </span>
+                  <span className="cmp-z">
+                    {group(z, lang)}
+                    {def.suffix}
+                  </span>
+                  <span
+                    className="cmp-bar"
+                    role="img"
+                    aria-label={
+                      diff > 0
+                        ? t("cmp_ahead")
+                        : diff < 0
+                          ? t("cmp_behind")
+                          : t("cmp_even")
+                    }
+                  >
+                    <i
+                      className={diff < 0 ? "is-lead" : ""}
+                      style={{ width: 100 - share + "%" }}
+                    />
+                    <i
+                      className={diff > 0 ? "is-ahead" : ""}
+                      style={{ width: share + "%" }}
+                    />
+                  </span>
+                  <span className="cmp-a">
+                    {group(a, lang)}
+                    {def.suffix}
+                  </span>
+                  <span
+                    className={
+                      "cmp-diff " +
+                      (diff > 0 ? "positive" : diff < 0 ? "negative" : "")
+                    }
+                  >
+                    {diff ? signed(diff, lang) : "="}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+      {!sections.length && onlyChanges && (
+        <p className="cmp-none">{t("cmp_no_change")}</p>
+      )}
+      {shownGear.length > 0 && (
+        <section aria-label={t("compare_equipment")}>
+          <h3>{t("compare_equipment")}</h3>
+          <ul className="cmp-gear">
+            {shownGear.map(({ slot, a, z }) => {
+              const same = a?.ankama_id === z?.ankama_id;
+              return (
+                <li key={slot} className={same ? "is-same" : ""}>
+                  <span className="cmp-slot">{t(`slot_${slot}`)}</span>
+                  <span className="cmp-piece">
+                    {z ? (
+                      <>
+                        <img src={z.image_url || ""} alt="" />
+                        {z.name}
+                      </>
+                    ) : (
+                      <em>{t("cmp_empty")}</em>
+                    )}
+                  </span>
+                  <span className="cmp-piece">
+                    {a ? (
+                      <>
+                        <img src={a.image_url || ""} alt="" />
+                        {a.name}
+                      </>
+                    ) : (
+                      <em>{t("cmp_empty")}</em>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       )}
     </div>
-  )
+  );
 }

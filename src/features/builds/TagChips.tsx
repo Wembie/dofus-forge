@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { fetchTags, MAX_BUILD_TAGS, type Tag, type TagCategory } from './api.ts'
-
-const CATEGORIES: TagCategory[] = ['playstyle', 'element', 'general']
+import { fetchTags, type Tag } from './api.ts'
 
 const ELEMENT_COLOR: Record<string, string> = {
   air: 'var(--air)', fire: 'var(--fire)', earth: 'var(--earth)', water: 'var(--water)', neutral: 'var(--neutral)', omni: 'var(--gold)',
@@ -46,35 +44,5 @@ export function TagChip({ tag, active, disabled, onClick, small }: {
     <button type="button" onClick={onClick} disabled={disabled} aria-pressed={active} className={`${className} disabled:opacity-35 disabled:cursor-not-allowed`} style={style}>
       {label}
     </button>
-  )
-}
-
-/** Tag selector for publishing, grouped by category, capped at MAX_BUILD_TAGS. */
-export function TagPicker({ selected, onChange }: { selected: number[]; onChange: (ids: number[]) => void }) {
-  const { t } = useTranslation()
-  const tags  = useTags() ?? []
-  const full  = selected.length >= MAX_BUILD_TAGS
-  if (tags.length === 0) return null
-
-  function toggle(id: number) {
-    onChange(selected.includes(id) ? selected.filter(x => x !== id) : [...selected, id])
-  }
-
-  return (
-    <div className="space-y-1.5">
-      {CATEGORIES.map(cat => {
-        const inCat = tags.filter(tag => tag.category === cat)
-        if (inCat.length === 0) return null
-        return (
-          <div key={cat} className="flex flex-wrap items-center gap-1">
-            <span className="text-[9px] uppercase tracking-wider w-full" style={{ color: 'var(--ink-faint)' }}>{t(`tag_category_${cat}`)}</span>
-            {inCat.map(tag => {
-              const active = selected.includes(tag.id)
-              return <TagChip key={tag.id} tag={tag} active={active} disabled={!active && full} onClick={() => toggle(tag.id)} />
-            })}
-          </div>
-        )
-      })}
-    </div>
   )
 }

@@ -9,9 +9,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Cinzel', 'serif'],
-        body:    ['Inter', 'Inter Fallback', 'sans-serif'],
-        mono:    ['JetBrains Mono', 'ui-monospace', 'monospace'],
+        display: ['Alegreya', 'Georgia', 'serif'],
+        body:    ['Source Sans 3', 'Arial', 'sans-serif'],
+        mono:    ['IBM Plex Mono', 'ui-monospace', 'monospace'],
       },
       colors: {
         /* ── Legacy forge-* — kept for Phase 2 component migration ── */

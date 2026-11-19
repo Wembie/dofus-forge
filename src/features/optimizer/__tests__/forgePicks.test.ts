@@ -46,6 +46,10 @@ describe('planRequired (mirrors the engine placement)', () => {
     expect(p.map(x => [x.slot, x.status])).toEqual([[null, 'no_slot'], ['ring1', 'kept'], ['ring2', 'placed']])
   })
 
+  it('a pinned Prysmaradite needs the first Dofus slot', () => {
+    expect(plan([6], new Set<SlotId>(['dofus1']), { dofus1: 99 })[0]).toMatchObject({ slot: null, status: 'no_slot' })
+  })
+
   it('only one Prysmaradite, counting one kept in a locked slot', () => {
     expect(plan([6, 7]).map(x => x.status)).toEqual(['placed', 'prysmaradite'])
     expect(plan([7], new Set<SlotId>(['dofus1']), { dofus1: 6 })[0].status).toBe('prysmaradite')

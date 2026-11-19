@@ -1,7 +1,9 @@
+import barlowSemiBold from './fonts/BarlowCondensed-SemiBold.ttf'
+import { VISUAL_REVISION } from '../data/visual.ts'
 import { Resvg } from '@cf-wasm/resvg/workerd'
-import cinzelBold from './fonts/Cinzel-Bold.ttf'
-import interRegular from './fonts/Inter-Regular.ttf'
-import jetBrainsMonoBold from './fonts/JetBrainsMono-Bold.ttf'
+import cinzelBold from './fonts/Alegreya-SemiBold.ttf'
+import interRegular from './fonts/SourceSans3-Regular.ttf'
+import jetBrainsMonoBold from './fonts/IBMPlexMono-Medium.ttf'
 import type { OgFont } from './ogImage.ts'
 import { buildCardKey, interpolate, pageCardKey, renderBuildCard, renderClassCard, renderSetCard, type OgSources } from './ogRender.ts'
 import { fetchBuildMeta, fetchBuildPageMeta, profileExists, type BuildPageMeta } from './supabase.ts'
@@ -102,9 +104,10 @@ async function serveProfilePage(env: Env, request: Request, username: string, is
 }
 
 const FONTS: OgFont[] = [
-  { name: 'Cinzel', data: cinzelBold, weight: 700, style: 'normal' },
-  { name: 'Inter', data: interRegular, weight: 400, style: 'normal' },
-  { name: 'JetBrainsMono', data: jetBrainsMonoBold, weight: 700, style: 'normal' },
+  {name:'BarlowCondensed',data:barlowSemiBold,weight:600,style:'normal'},
+  { name: 'Alegreya', data: cinzelBold, weight: 700, style: 'normal' },
+  { name: 'SourceSans3', data: interRegular, weight: 400, style: 'normal' },
+  { name: 'IBMPlexMono', data: jetBrainsMonoBold, weight: 700, style: 'normal' },
 ]
 
 const sources = (env: Env, origin: string): OgSources => ({ assets: env.ASSETS, origin, bucket: env.ASSETS_BUCKET, fonts: FONTS })
@@ -223,7 +226,7 @@ async function rewriteBuildMeta(env: Env, origin: string, lang: Lang, id: string
   // cache by exact image URL, so without this a stale image can stick
   // around well past our own Cache-Control window after an edit.
   const imageVersion = Date.parse(build.updated_at) || Date.now()
-  const imageUrl = `${origin}/og/${lang}/${id}.png?v=${imageVersion}`
+  const imageUrl = `${origin}/og/${lang}/${id}.png?v=${imageVersion}-${VISUAL_REVISION}`
 
   return new HTMLRewriter()
     .on('html', { element(el) { el.setAttribute('lang', lang) } })
@@ -310,7 +313,7 @@ async function serveOgImage(request: Request, env: Env, ctx: ExecutionContext | 
 
   return serveCard(
     request, env, ctx,
-    `${url.origin}/og/${lang}/${id}.png?v=${Date.parse(build.updated_at) || 0}`,
+    `${url.origin}/og/${lang}/${id}.png?v=${Date.parse(build.updated_at) || 0}-${VISUAL_REVISION}`,
     buildCardKey(id, lang, build.updated_at),
     BUILD_CARD_CACHE,
     () => renderBuildCard(sources(env, url.origin), lang, build),
