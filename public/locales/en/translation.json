@@ -3130,5 +3130,7 @@
   "stats_points_done": "All assigned",
   "stats_allocate_stat": "Allocate {{name}}",
   "stats_power_own": "Own: {{value}}",
-  "stats_power_bonus": "{{value}} Power"
+  "stats_power_bonus": "{{value}} Power",
+  "item_sheet_change": "Change item",
+  "item_sheet_remove": "Remove"
 }

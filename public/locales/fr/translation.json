@@ -3130,5 +3130,7 @@
   "stats_points_done": "Tout est attribué",
   "stats_allocate_stat": "Répartir {{name}}",
   "stats_power_own": "Propres : {{value}}",
-  "stats_power_bonus": "{{value}} de Puissance"
+  "stats_power_bonus": "{{value}} de Puissance",
+  "item_sheet_change": "Changer d'objet",
+  "item_sheet_remove": "Retirer"
 }

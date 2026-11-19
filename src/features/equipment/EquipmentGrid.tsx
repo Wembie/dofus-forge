@@ -1,13 +1,14 @@
 import { useState, useMemo, useCallback, useRef, useEffect, useSyncExternalStore, lazy, Suspense } from 'react'
-import { ArrowLeftRight, Layers, Pin, Sparkles, X } from 'lucide-react'
+import { ArrowLeftRight, Pin, X } from 'lucide-react'
 import { useForgePicks } from '@/features/optimizer/forgePicks.ts'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
-import { useBuildStore, ALL_SLOTS } from '@/store/buildStore.ts'
+import { useBuildStore, ALL_SLOTS, PRYSMA_SLOT } from '@/store/buildStore.ts'
 import { useDataStore } from '@/store/dataStore.ts'
 import { SLOT_CONFIGS, type SlotConfig } from './slotConfig.ts'
 import { SetBonusesPanel } from './SetBonusesPanel.tsx'
+import { ItemSheet } from './ItemSheet.tsx'
 import { ItemSpellEffects } from './ItemSpellEffects.tsx'
 import { isExoticKey, runeStat } from '@/engine/runes.ts'
 
@@ -59,9 +60,7 @@ type SlotButtonProps = {
   item:         AppItem | undefined
   onOpen:       () => void
   onUnequip:    () => void
-  onRune?:      () => void
   onViewSet?:   () => void
-  runeCount?:   number
   slotRunes?:   Record<string, number>
   small?:       boolean
   size?:        number   // explicit pixel override (bypasses small ? 62 : 80)
@@ -80,7 +79,7 @@ type SlotButtonProps = {
   onDrop?:      React.DragEventHandler<HTMLDivElement>
 }
 
-function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCount, slotRunes, small, size: sizeProp, wide, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
+function SlotButton({ slotId, item, onOpen, onUnequip, onViewSet, slotRunes, small, size: sizeProp, wide, setName, setCount, setMax, nextBonus, tooltipSide = 'top', isDragOver, onDragStart, onDragEnd, onDragOver, onDragLeave, onDrop }: SlotButtonProps) {
   const { t }         = useTranslation()
   const forjamagoName   = useBuildStore(s => s.forjamagoNames[slotId] ?? '')
   const weaponTransform = useBuildStore(s => s.weaponTransforms[slotId] ?? null)
@@ -95,7 +94,6 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
   const px      = sizeProp ?? (small ? 62 : 80)
   const activeRunes = Object.entries(slotRunes ?? {}).filter(([, v]) => v > 0).sort(([a], [b]) => Number(isExoticKey(b)) - Number(isExoticKey(a)))
   const slotLabel = t(slotTKey(slotId))
-  const isDofus   = slotId.startsWith('dofus')
 
   useEffect(() => {
     if (item && !prevItemRef.current) {
@@ -118,13 +116,6 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
       onDrop={onDrop}
       style={{ cursor: item && onDragStart ? 'grab' : undefined }}
     >
-      {item && isDofus && (
-        <div
-          className="absolute pointer-events-none dofus-aura rounded-lg"
-          style={{ top: 0, left: '50%', transform: 'translateX(-50%)', width: px, height: px }}
-          aria-hidden="true"
-        />
-      )}
       <button
         onClick={onOpen}
         onContextMenu={e => {
@@ -166,36 +157,22 @@ function SlotButton({ slotId, item, onOpen, onUnequip, onRune, onViewSet, runeCo
 
       {!small && !wide && <span className="slot-under">{slotLabel}</span>}
 
-      {/* Actions sit in the tile's corners: shown on hover or keyboard focus,
-          and kept on screen while they hold a state (pinned, runes). */}
+      {/* Quick actions in the tile's corners: unequip on hover or keyboard
+          focus, the pin only while pinned. Everything else is in the item sheet. */}
       {item && (
         <div className={'slot-actions' + (hovered ? ' is-open' : '')} style={{ width: wide ?? px, height: px }}>
-          <button type="button" className={'slot-action is-pin' + (forgePinned ? ' is-on' : '')}
+          {forgePinned && <button type="button" className="slot-action is-pin is-on"
             onClick={e => { e.stopPropagation(); useForgePicks.getState().toggleRequired(item.ankama_id) }}
             aria-pressed={forgePinned}
             aria-label={`${t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}: ${item.name}`}
             title={t(forgePinned ? 'slot_unpin_forge' : 'slot_pin_forge')}>
             <Pin size={11} aria-hidden="true" />
-          </button>
+          </button>}
           <button type="button" className="slot-action is-remove"
             onClick={e => { e.stopPropagation(); onUnequip() }}
             aria-label={t('unequip', { name: item.name })} title={t('unequip', { name: item.name })}>
             <X size={12} aria-hidden="true" />
           </button>
-          {onRune && (
-            <button type="button" className={'slot-action is-rune' + ((runeCount ?? 0) > 0 ? ' has-runes' : '')}
-              onClick={e => { e.stopPropagation(); onRune() }}
-              aria-label={`${t('magesmithy')}: ${item.name}`} title={t('magesmithy_title')}>
-              <Sparkles size={11} aria-hidden="true" />
-            </button>
-          )}
-          {onViewSet && (
-            <button type="button" className="slot-action is-set"
-              onClick={e => { e.stopPropagation(); onViewSet() }}
-              aria-label={t('view_set')} title={t('view_set')}>
-              <Layers size={11} aria-hidden="true" />
-            </button>
-          )}
         </div>
       )}
 
@@ -552,6 +529,7 @@ export function EquipmentGrid() {
 
   const [openSlot, setOpenSlot] = useState<{ config: SlotConfig; id: SlotId } | null>(null)
   const [runeSlot, setRuneSlot] = useState<SlotId | null>(null)
+  const [sheetSlot, setSheetSlot] = useState<SlotId | null>(null)
   const [openSetId, setOpenSetId] = useState<number | null>(null)
   const [dragSlot, setDragSlot]         = useState<SlotId | null>(null)
   const [dragOverSlot, setDragOverSlot] = useState<SlotId | null>(null)
@@ -610,6 +588,9 @@ export function EquipmentGrid() {
 
   function slotsCompatible(a: SlotId, b: SlotId): boolean {
     if (a === b) return false
+    // A Prysmaradite only lives in the first Dofus slot.
+    const prysma = (id: SlotId) => getItem(id)?.type === 'Prysmaradite'
+    if ((prysma(a) && b !== PRYSMA_SLOT) || (prysma(b) && a !== PRYSMA_SLOT)) return false
     return a.replace(/\d+$/, '') === b.replace(/\d+$/, '')
   }
 
@@ -621,10 +602,8 @@ export function EquipmentGrid() {
       <SlotButton
         key={id} slotId={id}
         item={getItem(id)}
-        onOpen={() => openCatalog(id)}
+        onOpen={() => (getItem(id) ? setSheetSlot(id) : openCatalog(id))}
         onUnequip={() => { unequipItem(id); playUnequip() }}
-        onRune={NO_RUNE_SLOTS.has(id) ? undefined : () => setRuneSlot(id)}
-        runeCount={Object.values(runes[id] ?? {}).filter(v => v > 0).length}
         slotRunes={runes[id]}
         isDragOver={dragOverSlot === id && isValidTarget}
         onDragStart={hasItem ? (e) => { e.dataTransfer.effectAllowed = 'move'; setDragSlot(id) } : undefined}
@@ -686,6 +665,24 @@ export function EquipmentGrid() {
         </Suspense>,
         document.body
       )}
+
+      {sheetSlot && getItem(sheetSlot) && (() => {
+        const id = sheetSlot
+        const set = getSetProps(id)
+        return (
+          <ItemSheet
+            slotLabel={t(slotTKey(id))}
+            slotRunes={runes[id]}
+            item={getItem(id)!}
+            set={set.setName ? { name: set.setName, count: set.setCount!, max: set.setMax! } : undefined}
+            onClose={() => setSheetSlot(null)}
+            onChange={() => { setSheetSlot(null); openCatalog(id) }}
+            onRunes={NO_RUNE_SLOTS.has(id) ? undefined : () => { setSheetSlot(null); setRuneSlot(id) }}
+            onViewSet={set.onViewSet ? () => { setSheetSlot(null); set.onViewSet!() } : undefined}
+            onUnequip={() => { setSheetSlot(null); unequipItem(id); playUnequip() }}
+          />
+        )
+      })()}
 
       {runeSlot && getItem(runeSlot) && (
         <Suspense fallback={null}>
