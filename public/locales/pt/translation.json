@@ -3124,5 +3124,11 @@
   "changelog_current": "Atual",
   "changelog_older": "Ver versões anteriores",
   "class_pick_title": "Escolha sua classe",
-  "class_pick_intro": "A classe define seus feitiços e o elemento com que sua build começa. Você pode trocá-la quando quiser."
+  "class_pick_intro": "A classe define seus feitiços e o elemento com que sua build começa. Você pode trocá-la quando quiser.",
+  "stats_points_left_one": "{{n}} ponto sem atribuir",
+  "stats_points_left_other": "{{n}} pontos sem atribuir",
+  "stats_points_done": "Tudo atribuído",
+  "stats_allocate_stat": "Distribuir {{name}}",
+  "stats_power_own": "Próprios: {{value}}",
+  "stats_power_bonus": "{{value}} de Poder"
 }

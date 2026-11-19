@@ -3124,5 +3124,11 @@
   "changelog_current": "Actuelle",
   "changelog_older": "Voir les versions précédentes",
   "class_pick_title": "Choisissez votre classe",
-  "class_pick_intro": "La classe détermine vos sorts et l’élément de départ de votre build. Vous pouvez la changer à tout moment."
+  "class_pick_intro": "La classe détermine vos sorts et l’élément de départ de votre build. Vous pouvez la changer à tout moment.",
+  "stats_points_left_one": "{{n}} point non attribué",
+  "stats_points_left_other": "{{n}} points non attribués",
+  "stats_points_done": "Tout est attribué",
+  "stats_allocate_stat": "Répartir {{name}}",
+  "stats_power_own": "Propres : {{value}}",
+  "stats_power_bonus": "{{value}} de Puissance"
 }

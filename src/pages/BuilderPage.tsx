@@ -30,6 +30,8 @@ import { DOFUS_CLASSES, type DofusClass } from '@/engine/types.ts'
 import { getSidebarSide, LAYOUT_SETTINGS_EVENT, type SidebarSide } from '@/lib/layoutSettings.ts'
 import { scrollBehavior } from '@/lib/motionSettings.ts'
 import { langPathRootSegment } from '@/i18n/langPath.ts'
+import { OPEN_CHARACTERISTICS_EVENT, openCharacteristics } from '@/features/characteristics/openCharacteristics.ts'
+import type { Characteristic } from '@/engine/types.ts'
 
 // Lazy: none of these are needed for the initial paint (spells/compare
 // only render after a class is picked / compare mode is toggled; the
@@ -113,6 +115,12 @@ function BuilderContent() {
   const [showSetsCatalog, setShowSetsCatalog] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [showCharacteristics, setShowCharacteristics] = useState(false)
+  const [charFocus, setCharFocus] = useState<Characteristic | undefined>()
+  useEffect(() => {
+    const open = (e: Event) => { setCharFocus((e as CustomEvent<Characteristic | undefined>).detail); setShowCharacteristics(true) }
+    window.addEventListener(OPEN_CHARACTERISTICS_EVENT, open)
+    return () => window.removeEventListener(OPEN_CHARACTERISTICS_EVENT, open)
+  }, [])
   const [showShare, setShowShare] = useState(false)
   const [showIdentity, setShowIdentity] = useState(false)
   // The saved side is applied after mount; the prerendered page uses the default.
@@ -218,7 +226,7 @@ function BuilderContent() {
 
   function selectTool(tool: WorkshopTool) {
     if (tool === 'sets') return setShowSetsCatalog(true)
-    if (tool === 'characteristics') return setShowCharacteristics(true)
+    if (tool === 'characteristics') return openCharacteristics()
     if (tool === 'compare') return toggleCompare()
     if (tool === 'share') return setShowShare(true)
     // Until each tool gets its own panel, the bar reaches the one on the page.
@@ -244,7 +252,7 @@ function BuilderContent() {
           { key: 'share',     label: t('tool_share'),        Icon: Share2,      disabled: !hasClass, onRun: () => setShowShare(true) },
           { key: 'undo',      label: t('undo'),               Icon: Undo2,      disabled: !canUndo, onRun: undo },
           { key: 'redo',      label: t('redo'),               Icon: Redo2,      disabled: !canRedo, onRun: redo },
-          { key: 'characteristics', label: t('tool_characteristics'), Icon: User, disabled: !hasClass, onRun: () => setShowCharacteristics(true) },
+          { key: 'characteristics', label: t('tool_characteristics'), Icon: User, disabled: !hasClass, onRun: () => openCharacteristics() },
           { key: 'identity',  label: t('tool_identity'),      Icon: Settings,   disabled: !hasClass, onRun: () => setShowIdentity(true) },
           { key: 'reset',     label: t('reset_build'),        Icon: RotateCcw,  onRun: resetBuild },
           { key: 'sets-page',  label: t('nav_sets'),          Icon: Library,    onRun: () => navToLangPath('sets') },
@@ -270,7 +278,7 @@ function BuilderContent() {
       />
       <WorkshopIdentity open={showIdentity} onClose={() => setShowIdentity(false)} />
       <Modal open={showCharacteristics} onClose={() => setShowCharacteristics(false)} title={t('tool_characteristics')} size="2xl">
-        <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel /></div>
+        <div className="p-4 space-y-4"><CombatViewBar /><CharacteristicsPanel focus={charFocus} /></div>
       </Modal>
       <Modal open={showShare} onClose={() => setShowShare(false)} title={t('tool_share')} size="xl">
         {showShare && <Suspense fallback={null}><SharePanel /></Suspense>}

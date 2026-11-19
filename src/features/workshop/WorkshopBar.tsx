@@ -93,12 +93,16 @@ export function WorkshopBar({ onForge, onCompare, compareActive, onPublish, publ
 /** Tool shortcuts under the heading; each one opens or reaches its tool. */
 export function WorkshopTools({ onSelect, compareActive }: { onSelect: (tool: WorkshopTool) => void; compareActive: boolean }) {
   const { t } = useTranslation()
+  const pointsLeft = useBuildStore(s => (s.selectedClass && s.stats ? s.stats.pointsBudget - s.stats.pointsSpent : 0))
   return (
     <nav className="workshop-tools" aria-label={t('workshop_tools')}>
       {TOOLS.map(tool => (
         <button key={tool} type="button" onClick={() => onSelect(tool)}
           aria-pressed={tool === 'compare' ? compareActive : undefined}>
           {t(`tool_${tool}`)}
+          {tool === 'characteristics' && pointsLeft > 0 && (
+            <span className="workshop-tool-badge" title={t('stats_points_left', { count: pointsLeft, n: pointsLeft })}>{pointsLeft}</span>
+          )}
         </button>
       ))}
     </nav>

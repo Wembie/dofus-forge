@@ -63,13 +63,14 @@ function Step({ label, disabled, apply, children }: { label: string; disabled: b
 }
 
 /** Typed points, buffered while editing and committed on blur or Enter. */
-function Points({ name, value, onCommit }: { name: string; value: number; onCommit: (target: number) => void }) {
+function Points({ id, name, value, onCommit }: { id: string; name: string; value: number; onCommit: (target: number) => void }) {
   const { t } = useTranslation()
   const [text, setText] = useState(String(value))
   const editing = useRef(false)
   useEffect(() => { if (!editing.current) setText(String(value)) }, [value])
   return (
     <input
+      id={id}
       inputMode="numeric"
       aria-label={t('chars_points_in', { name })}
       value={text}
@@ -83,7 +84,7 @@ function Points({ name, value, onCommit }: { name: string; value: number; onComm
 
 /** One row per characteristic — scroll, points and the resulting total, read
  * left to right — under the points left of the level's budget. */
-export function CharacteristicsPanel() {
+export function CharacteristicsPanel({ focus }: { focus?: Characteristic } = {}) {
   const { t, i18n } = useTranslation()
   const lang = i18n.language
   const fmt = (n: number) => formatNumber(n, lang)
@@ -101,6 +102,13 @@ export function CharacteristicsPanel() {
   const hasPassives  = useHasPassives()
   const combat = combatView && hasPassives && combatStats != null
   const stats = combat ? combatStats : gear
+
+  // After the window's own focus handling, so closing still returns to the opener.
+  useEffect(() => {
+    if (!focus) return
+    const raf = requestAnimationFrame(() => document.getElementById(`chars-points-${focus}`)?.focus())
+    return () => cancelAnimationFrame(raf)
+  }, [focus])
 
   const budget = statBudget(level)
   const spent = CHARACTERISTICS.reduce((sum, c) => sum + pointCost(c, allocated[c]), 0)
@@ -159,7 +167,7 @@ export function CharacteristicsPanel() {
             </button>
             <div className="chars-points">
               <Step label={t('chars_remove', { name: name(char) })} disabled={points <= 0} apply={n => remove(char, n)}>−</Step>
-              <Points name={name(char)} value={points} onCommit={target => commit(char, target)} />
+              <Points id={`chars-points-${char}`} name={name(char)} value={points} onCommit={target => commit(char, target)} />
               <Step label={t('chars_add', { name: name(char) })} disabled={left < next} apply={n => add(char, n)}>+</Step>
               <button type="button" className="chars-max" aria-label={t('chars_max_label', { name: name(char) })}
                 disabled={most <= points} onClick={() => commit(char, most)}>

@@ -11,6 +11,7 @@ import { useCombatView, useHasPassives } from '@/store/useCombatView.ts'
 import { CombatViewTag } from '@/features/passives/CombatViewBar.tsx'
 import { DeltaChip } from '@/features/passives/DeltaChip.tsx'
 import { StatsOverview } from './StatsOverview.tsx'
+import { openCharacteristics } from '@/features/characteristics/openCharacteristics.ts'
 
 function icon(name: string, size = 16) {
   return (
@@ -509,7 +510,7 @@ export function StatsPanel() {
         <h2>{t('stats')}</h2>
         <CombatViewTag />
       </header>
-      <StatsOverview s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} inCombat={combat} />
+      <StatsOverview s={combat ? combatStats! : stats} base={combat ? stats : undefined} runes={runes} inCombat={combat} onAllocate={openCharacteristics} />
     </section>
   )
 }

@@ -1214,14 +1214,6 @@ button.workshop-level:hover {
   gap: 6px;
   cursor: help;
 }
-.stats-base {
-  font-size: 14px;
-  color: var(--muted);
-}
-.stats-power {
-  font-size: 12px;
-  color: var(--accent);
-}
 
 /* Workshop on mobile: quick stats and the bottom bar. */
 .stats-quick {
@@ -1299,4 +1291,66 @@ button.workshop-level:hover {
   .workshop-mobile-nav button:disabled {
     opacity: 0.35;
   }
+}
+
+/* Characteristics: points left to spend and the way into the window. */
+.stats-points {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding-top: 14px;
+}
+.stats-points h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stats-points-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.stats-points.is-pending .stats-points-left {
+  font-weight: 600;
+  color: var(--accent);
+}
+.stats-characteristics.has-allocate {
+  padding-top: 10px;
+}
+.stats-characteristics dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stats-char-add {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+  opacity: 0.7;
+  transition: opacity 120ms, color 120ms, border-color 120ms;
+}
+.stats-characteristics > div:hover .stats-char-add,
+.stats-char-add:focus-visible {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.workshop-tool-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 5px;
+  border-radius: 3px;
+  background: var(--accent);
+  color: var(--canvas);
+  font: 600 11px/16px 'IBM Plex Mono', ui-monospace, monospace;
 }

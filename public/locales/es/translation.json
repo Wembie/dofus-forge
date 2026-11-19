@@ -3124,5 +3124,11 @@
   "changelog_current": "Actual",
   "changelog_older": "Ver versiones anteriores",
   "class_pick_title": "Elige tu clase",
-  "class_pick_intro": "La clase define tus hechizos y el elemento con el que empieza tu build. Puedes cambiarla cuando quieras."
+  "class_pick_intro": "La clase define tus hechizos y el elemento con el que empieza tu build. Puedes cambiarla cuando quieras.",
+  "stats_points_left_one": "{{n}} punto sin asignar",
+  "stats_points_left_other": "{{n}} puntos sin asignar",
+  "stats_points_done": "Todo asignado",
+  "stats_allocate_stat": "Distribuir {{name}}",
+  "stats_power_own": "Propios: {{value}}",
+  "stats_power_bonus": "{{value}} de Potencia"
 }

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Shield } from 'lucide-react'
-import type { StatBlock } from '@/engine/types.ts'
+import { Check, Plus, Shield } from 'lucide-react'
+import type { Characteristic, StatBlock } from '@/engine/types.ts'
 import type { BuildState } from '@/store/buildStore.ts'
 import { runeStat } from '@/engine/runes.ts'
 import { statIconUrl, STAT_FIELDS, STAT_META } from '../equipment/statDisplay.ts'
@@ -68,11 +68,13 @@ const DAMAGE_MODS: Key[] = [
  * groups, and — when present — damage modifiers, runes and unmapped effects.
  * With `base` (the gear stats) `s` is the combat view and each value shows
  * what the active passives add. */
-export function StatsOverview({ s, base, runes, inCombat }: {
+export function StatsOverview({ s, base, runes, inCombat, onAllocate }: {
   s: StatBlock
   base?: StatBlock
   runes: BuildState['runes']
   inCombat: boolean
+  /** Workshop only: opens the characteristics window, on one of them if given. */
+  onAllocate?: (focus?: Characteristic) => void
 }) {
   const { t, i18n } = useTranslation()
   const fmt = new Intl.NumberFormat(i18n.language === 'es' ? 'es-CO' : i18n.language)
@@ -86,6 +88,7 @@ export function StatsOverview({ s, base, runes, inCombat }: {
     }
     return Object.entries(acc).sort((a, b) => b[1] - a[1])
   }, [runes])
+  const pointsLeft = (base ?? s).pointsBudget - (base ?? s).pointsSpent
   const mods = DAMAGE_MODS.filter(key => s[key] !== 0)
   const unknown = Object.entries(s.unknownStats)
 
@@ -107,22 +110,44 @@ export function StatsOverview({ s, base, runes, inCombat }: {
         })}
       </div>
 
-      <dl className="stats-characteristics" aria-label={t('characteristics')}>
-        {CHARACTERISTICS.map(key => (
-          <div key={key}>
-            <dt><StatName field={key} /></dt>
-            <dd>
-              {POWERED.has(key) && s.power !== 0 ? (
-                <span title={t('stats_with_power', { value: fmt.format(s[key] as number), power: fmt.format(s.power) })}>
-                  <span className="stats-base">{fmt.format(s[key] as number)}</span>
-                  <span className="stats-power">{s.power > 0 ? '+' : '−'}{fmt.format(Math.abs(s.power))}</span>
-                  <span className="stats-total">{fmt.format((s[key] as number) + s.power)}</span>
-                </span>
-              ) : <span className="stats-total">{fmt.format(s[key] as number)}</span>}
-              <DeltaChip delta={delta(key)} />
-            </dd>
-          </div>
-        ))}
+      {onAllocate && (
+        <div className={'stats-points' + (pointsLeft > 0 ? ' is-pending' : '')}>
+          <h3>{t('characteristics')}</h3>
+          <span className="stats-points-left">
+            {pointsLeft > 0 ? t('stats_points_left', { count: pointsLeft, n: fmt.format(pointsLeft) }) : <><Check size={13} aria-hidden="true" />{t('stats_points_done')}</>}
+          </span>
+        </div>
+      )}
+      <dl className={'stats-characteristics' + (onAllocate ? ' has-allocate' : '')} aria-label={t('characteristics')}>
+        {CHARACTERISTICS.map(key => {
+          const own = s[key] as number
+          const powered = POWERED.has(key) && s.power !== 0
+          const value = <span className="stats-total">{fmt.format(powered ? own + s.power : own)}</span>
+          return (
+            <div key={key}>
+              <dt>
+                <StatName field={key} />
+                {onAllocate && (
+                  <button type="button" className="stats-char-add" onClick={() => onAllocate(key as Characteristic)}
+                    aria-label={t('stats_allocate_stat', { name: t(STAT_FIELDS[key]?.tKey ?? `stat_${key}`) })}>
+                    <Plus size={12} aria-hidden="true" />
+                  </button>
+                )}
+              </dt>
+              <dd>
+                {powered ? (
+                  <Tooltip content={(
+                    <div className="space-y-0.5">
+                      <div>{t('stats_power_own', { value: fmt.format(own) })}</div>
+                      <div style={{ color: 'var(--gold)' }}>{t('stats_power_bonus', { value: `${s.power > 0 ? '+' : '−'}${fmt.format(Math.abs(s.power))}` })}</div>
+                    </div>
+                  )}><span className="stats-has-breakdown">{value}</span></Tooltip>
+                ) : value}
+                <DeltaChip delta={delta(key)} />
+              </dd>
+            </div>
+          )
+        })}
       </dl>
 
       <table className="stats-elements">

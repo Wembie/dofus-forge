@@ -3124,5 +3124,11 @@
   "changelog_current": "Current",
   "changelog_older": "See earlier versions",
   "class_pick_title": "Choose your class",
-  "class_pick_intro": "The class sets your spells and the element your build starts with. You can change it anytime."
+  "class_pick_intro": "The class sets your spells and the element your build starts with. You can change it anytime.",
+  "stats_points_left_one": "{{n}} point unassigned",
+  "stats_points_left_other": "{{n}} points unassigned",
+  "stats_points_done": "All assigned",
+  "stats_allocate_stat": "Allocate {{name}}",
+  "stats_power_own": "Own: {{value}}",
+  "stats_power_bonus": "{{value}} Power"
 }
