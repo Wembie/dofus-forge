@@ -87,9 +87,9 @@ El estudio (`prototype/`) es la referencia. Cada sección reemplaza la interfaz 
 
 ## R0 · Cierre de la release
 
-1. Check que falle si queda una clave `_v4_` en `public/locales` o en `src/`, o una clave sin uso.
-2. Retirar el adaptador de tokens viejos (`--forge-*`, alias de `design-v04.css`) cuando ninguna ruta los use.
-3. Decidir con el usuario si se retira el código del estudio (depende de las claves `_v4_`); las capturas y documentos se quedan.
+1. Check que falle si queda una clave `_v4_` en `public/locales` o en `src/`, o una clave sin uso. **Hecho 19-11-2026:** `locales.test.ts` falla con cualquier clave `_v4_`. La detección de claves sin uso no se automatizó: muchas se arman en tiempo de ejecución (`${kind}_${id}_title`) y daría falsos positivos.
+2. Retirar el adaptador de tokens viejos (`--forge-*`, alias de `design-v04.css`) cuando ninguna ruta los use. **19-11-2026:** se queda; los alias (`--gold`, `--metal-edge`, `--surface-*`) siguen en uso y ya resuelven a los colores planos de 0.4.0. Degradados, brillos y biseles escritos a mano se quitaron.
+3. Decidir con el usuario si se retira el código del estudio (depende de las claves `_v4_`); las capturas y documentos se quedan. **Hecho 19-11-2026:** se retiraron `prototype/`, `tools/` y las 967 claves `_v4_` de los cuatro idiomas.
 4. QA completo de las 19 rutas y los criterios de release del ROADMAP.
 5. `VERSION` y `package.json` a 0.4.0, `docs/CHANGELOG.md` y `src/data/changelog.ts` con una sola entrada.
 

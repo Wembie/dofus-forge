@@ -34,6 +34,11 @@ describe('locales', () => {
     expect(missing).toEqual([])
   })
 
+  // The 0.4.0 study's keys (*_v4_*) were retired with it; none may come back.
+  it('has no study keys left', () => {
+    for (const lang of LANGS) expect(Object.keys(dicts[lang]).filter(k => k.includes('_v4_')), lang).toEqual([])
+  })
+
   it('all four languages have the same keys', () => {
     const base = Object.keys(dicts.es).sort()
     for (const lang of LANGS) expect(Object.keys(dicts[lang]).sort(), lang).toEqual(base)
