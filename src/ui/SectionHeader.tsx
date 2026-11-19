@@ -22,7 +22,7 @@ export function SectionHeader({ label, action, size = 'md', className }: Section
         >
           {label}
         </h3>
-        <div style={{ flex: 1, height: 1, background: 'linear-gradient(to right, var(--gold-deep), transparent)', opacity: 0.45, minWidth: 8 }} />
+        <div style={{ flex: 1, height: 1, background: 'var(--line)', minWidth: 8 }} />
       </div>
       {action && <div className="flex items-center gap-1 flex-shrink-0">{action}</div>}
     </div>
