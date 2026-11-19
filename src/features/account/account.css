@@ -141,7 +141,11 @@
   gap: 24px;
 }
 .account-identity nav > button,
+.account-identity nav > a,
 .public-social-counts > button {
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
   border: 0;
   padding: 6px 0;
   display: flex;
@@ -957,7 +961,9 @@
 }
 
 /* Production base for this area's plain buttons (the study's global button). */
-:where(.account-study, .people-dialog) button {
+:where(.account-study, .people-dialog, .account-dialog-body) button,
+:where(.account-study) a.account-button {
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -971,11 +977,12 @@
   font: inherit;
   cursor: pointer;
 }
-:where(.account-study, .people-dialog) button:where(:hover:not(:disabled)) {
+:where(.account-study, .people-dialog, .account-dialog-body) button:where(:hover:not(:disabled)),
+:where(.account-study) a.account-button:where(:hover) {
   background: var(--hover);
   border-color: var(--muted);
 }
-:where(.account-study, .people-dialog) button:disabled {
+:where(.account-study, .people-dialog, .account-dialog-body) button:disabled {
   opacity: 0.35;
   cursor: default;
 }

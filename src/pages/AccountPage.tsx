@@ -1,364 +1,342 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'react-router'
-import { User, FileText, LogOut, Camera, Lock, Calendar } from 'lucide-react'
-import { Frame, SectionHeader, Button, PasswordInput } from '@/ui'
+import { Link } from 'react-router'
+import { AlertCircle, ArrowRight, ArrowUpRight, Check, Eye, EyeOff, Lock, LogOut, User } from 'lucide-react'
+import { Modal } from '@/ui'
 import { SiteHeader } from '@/components/SiteHeader.tsx'
 import { SiteFooter } from '@/components/SiteFooter.tsx'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
 import { langPathPrefix } from '@/i18n/langPath.ts'
-import { useAuthStore, isSafeImageUrl, isAcceptedAvatarType, AVATAR_ACCEPT, AVATAR_MAX_BYTES } from '@/store/authStore.ts'
-import { FollowListModal } from '@/features/builds/FollowListModal.tsx'
+import { useAuthStore } from '@/store/authStore.ts'
+import { AccountAvatar, FollowListModal } from '@/features/builds/FollowListModal.tsx'
+import { requestSignIn } from '@/features/auth/requestSignIn.ts'
+import { PASSWORD_MIN_LENGTH, USERNAME_PATTERN, USERNAME_RE } from '@/features/auth/authRules.ts'
+import '@/features/account/account.css'
 
-// Flip once the `avatars` Storage bucket + RLS policies (schema.sql) are
-// actually created in the Supabase project — until then upload would just
-// fail against a bucket that doesn't exist yet.
-const AVATAR_UPLOAD_ENABLED = false
+type Tab = 'profile' | 'security' | 'session'
+const TABS: Tab[] = ['profile', 'security', 'session']
 
-/** Account settings — its own page (not a modal) so editing a profile feels
- * like a real destination instead of a cramped popup, matching the rest of
- * the site's "premium" treatment (SectionHeader's gold rule, Frame panels). */
+function PasswordField({ label, value, onChange, id, disabled }: { label: string; value: string; onChange: (v: string) => void; id: string; disabled?: boolean }) {
+  const { t } = useTranslation()
+  const [visible, setVisible] = useState(false)
+  return (
+    <div className="account-field">
+      <label htmlFor={id}>{label}</label>
+      <span className="account-password">
+        <input id={id} type={visible ? 'text' : 'password'} minLength={PASSWORD_MIN_LENGTH} required disabled={disabled}
+          autoComplete="new-password" value={value} onChange={e => onChange(e.target.value)} />
+        <button type="button" aria-label={`${t(visible ? 'auth_password_hide' : 'auth_password_show')}: ${label}`} aria-pressed={visible} onClick={() => setVisible(!visible)}>
+          {visible ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
+        </button>
+      </span>
+    </div>
+  )
+}
+
+function Message({ children, error = false }: { children: ReactNode; error?: boolean }) {
+  return (
+    <div className={'account-message' + (error ? ' is-error' : '')} role={error ? 'alert' : 'status'}>
+      {error ? <AlertCircle size={18} aria-hidden="true" /> : <Check size={18} aria-hidden="true" />}
+      <span>{children}</span>
+    </div>
+  )
+}
+
+/** Your account: the public identity others see, the password, and the session. */
 export function AccountPage() {
   const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
   const prefix = langPathPrefix(i18n.language)
   usePageSeo(i18n.language.slice(0, 2) as SeoLang, 'account', { noindex: true })
+  const id = useId()
 
-  const [followModal, setFollowModal] = useState<'followers' | 'following' | null>(null)
+  const session        = useAuthStore(s => s.session)
+  const authLoading    = useAuthStore(s => s.loading)
+  const profile        = useAuthStore(s => s.profile)
+  const updateUsername = useAuthStore(s => s.updateUsername)
+  const updateProfile  = useAuthStore(s => s.updateProfile)
+  const updatePassword = useAuthStore(s => s.updatePassword)
+  const signOut        = useAuthStore(s => s.signOut)
 
-  const session         = useAuthStore(s => s.session)
-  const profile         = useAuthStore(s => s.profile)
-  const updateUsername  = useAuthStore(s => s.updateUsername)
-  const updateProfile   = useAuthStore(s => s.updateProfile)
-  const uploadAvatar    = useAuthStore(s => s.uploadAvatar)
-  const updatePassword  = useAuthStore(s => s.updatePassword)
-  const signOut         = useAuthStore(s => s.signOut)
-
+  const [tab, setTab]                 = useState<Tab>('profile')
+  const [people, setPeople]           = useState<'followers' | 'following' | null>(null)
   const [username, setUsername]       = useState(profile?.username ?? '')
   const [displayName, setDisplayName] = useState(profile?.display_name ?? '')
   const [bio, setBio]                 = useState(profile?.bio ?? '')
-  const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url ?? '')
-  const [pendingAvatarUrl, setPendingAvatarUrl] = useState<string | null>(null)
-  const [uploadingAvatar, setUploadingAvatar]   = useState(false)
   const [busy, setBusy]       = useState(false)
   const [error, setError]     = useState<string | null>(null)
   const [saved, setSaved]     = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [partial, setPartial] = useState(false)
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm]   = useState('')
+  const [passwordBusy, setPasswordBusy]   = useState(false)
+  const [passwordError, setPasswordError] = useState<string | null>(null)
+  const [passwordDone, setPasswordDone]   = useState(false)
+  const [signout, setSignout] = useState(false)
 
-  const [newPassword, setNewPassword]         = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [passwordBusy, setPasswordBusy]       = useState(false)
-  const [passwordError, setPasswordError]     = useState<string | null>(null)
-  const [passwordDone, setPasswordDone]       = useState(false)
-
-  // Profile loads async after this page already mounted — pick up the real
-  // values once it resolves instead of staying seeded with null/empty.
+  // The profile loads after the page mounts: pick up the real values when it does.
   useEffect(() => {
     setUsername(profile?.username ?? '')
     setDisplayName(profile?.display_name ?? '')
     setBio(profile?.bio ?? '')
-    // Sanitize where the value enters state, not just at the <img src> render
-    // site — isSafeImageUrl() already guarded the render, but a static
-    // analyzer can't see that a boolean check on the same variable guards
-    // the sink; storing only the already-safe value closes that gap too.
-    const safeProfileAvatar = profile?.avatar_url ?? ''
-    setAvatarPreview(isSafeImageUrl(safeProfileAvatar) ? safeProfileAvatar : '')
   }, [profile])
 
+  const profileDirty = !!profile && (
+    username.trim().toLowerCase() !== profile.username ||
+    (displayName.trim() || null) !== (profile.display_name ?? null) ||
+    (bio.trim() || null) !== (profile.bio ?? null))
+  const dirty = profileDirty || !!password || !!confirm
+
+  // Leaving with unsaved changes asks first.
   useEffect(() => {
-    const url = avatarPreview
-    return () => { if (url.startsWith('blob:')) URL.revokeObjectURL(url) }
-  }, [avatarPreview])
+    if (!dirty) return
+    const guard = (e: BeforeUnloadEvent) => { e.preventDefault(); e.returnValue = '' }
+    addEventListener('beforeunload', guard)
+    return () => removeEventListener('beforeunload', guard)
+  }, [dirty])
 
-  async function onAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    e.target.value = ''
-    if (!file) return
+  function edit(fn: () => void) {
+    fn()
+    setSaved(false)
     setError(null)
-    if (!isAcceptedAvatarType(file.type)) { setError(t('auth_avatar_type_invalid')); return }
-    if (file.size > AVATAR_MAX_BYTES) { setError(t('auth_avatar_too_large')); return }
-
-    const blobUrl = URL.createObjectURL(file)
-    if (!blobUrl.startsWith('blob:')) { setError(t('auth_username_error')); return }
-    setAvatarPreview(blobUrl)
-    setUploadingAvatar(true)
-    const { url, error: err } = await uploadAvatar(file)
-    setUploadingAvatar(false)
-    if (err) { setError(t('auth_username_error')); setAvatarPreview(profile?.avatar_url ?? ''); return }
-    setPendingAvatarUrl(url)
+  }
+  function restore() {
+    setUsername(profile?.username ?? '')
+    setDisplayName(profile?.display_name ?? '')
+    setBio(profile?.bio ?? '')
+    setError(null)
+    setPartial(false)
+    setSaved(false)
   }
 
-  async function submitProfile(e: React.FormEvent) {
+  async function save(e: React.FormEvent) {
     e.preventDefault()
+    if (busy || !profileDirty || !profile) return
+    const name = username.trim().toLowerCase()
+    if (!USERNAME_RE.test(name)) { setError(t('auth_username_invalid')); return }
     setBusy(true)
     setError(null)
     setSaved(false)
-
-    if (username.trim().toLowerCase() !== profile?.username) {
-      const { error: err } = await updateUsername(username.trim().toLowerCase())
+    setPartial(false)
+    let renamed = false
+    if (name !== profile.username) {
+      const { error: err } = await updateUsername(name)
       if (err) {
         setBusy(false)
         setError(t(err === 'invalid_username' ? 'auth_username_invalid' : err === 'username_taken' ? 'auth_username_taken' : 'auth_username_error'))
         return
       }
+      renamed = true
     }
-
-    const { error: err } = await updateProfile({
-      display_name: displayName.trim() || null,
-      bio:          bio.trim() || null,
-      ...(pendingAvatarUrl ? { avatar_url: pendingAvatarUrl } : {}),
-    })
+    const { error: err } = await updateProfile({ display_name: displayName.trim() || null, bio: bio.trim() || null })
     setBusy(false)
-    if (err) { setError(t('auth_username_error')); return }
+    if (err) {
+      setPartial(renamed)
+      setError(t(renamed ? 'account_partial' : 'auth_username_error'))
+      return
+    }
     setSaved(true)
   }
 
-  async function submitPassword(e: React.FormEvent) {
+  async function changePassword(e: React.FormEvent) {
     e.preventDefault()
-    if (newPassword !== confirmPassword) { setPasswordError(t('auth_password_mismatch')); return }
-    setPasswordError(null)
+    if (passwordBusy) return
+    setPasswordDone(false)
+    if (password !== confirm) { setPasswordError(t('auth_password_mismatch')); return }
     setPasswordBusy(true)
-    const { error: err } = await updatePassword(newPassword)
+    setPasswordError(null)
+    const { error: err } = await updatePassword(password)
     setPasswordBusy(false)
     if (err) { setPasswordError(err); return }
-    setNewPassword(''); setConfirmPassword('')
+    setPassword('')
+    setConfirm('')
     setPasswordDone(true)
   }
+
+  const email = session?.user.email ?? ''
+  const joined = session ? new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' }).format(new Date(session.user.created_at)) : ''
+  const publicPath = profile ? `/${prefix}u/${profile.username}` : `/${prefix}`
 
   return (
     <div className="min-h-screen bg-forge-bg text-forge-text">
       <SiteHeader />
+      <main id="main-content" className="account-page">
+        <div className="account-study">
+          <div className="account-heading">
+            <div>
+              <p className="account-eyebrow">{t('account_private')}</p>
+              <h1>{t('auth_profile_title')}</h1>
+              <p>{t('account_intro')}</p>
+            </div>
+            {session && profile && (
+              <Link className="account-button" to={publicPath}>
+                {t('account_public_preview')}
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </Link>
+            )}
+          </div>
 
-      <main id="main-content" className="px-4 sm:px-6 py-8 max-w-2xl mx-auto space-y-6">
-        {!session ? (
-          <p className="text-sm text-center py-10" style={{ color: 'var(--ink-faint)' }}>{t('my_builds_signin_required')}</p>
-        ) : (
-          <>
-            {/* Hero: avatar + identity + stats */}
-            <Frame padding="lg" gold className="flex items-center gap-5">
-              <button
-                type="button"
-                onClick={() => AVATAR_UPLOAD_ENABLED && fileInputRef.current?.click()}
-                disabled={!AVATAR_UPLOAD_ENABLED}
-                className="relative flex-shrink-0 w-20 h-20 rounded-full group"
-                title={AVATAR_UPLOAD_ENABLED ? t('auth_avatar_change') : undefined}
-                style={{ boxShadow: '0 0 0 2px color-mix(in srgb, var(--gold) 35%, transparent), 0 0 24px color-mix(in srgb, var(--gold) 18%, transparent)' }}
-              >
-                {avatarPreview.startsWith('blob:') || isSafeImageUrl(avatarPreview)
-                  // codeql[js/xss-through-dom] -- avatarPreview is restricted to http(s)/blob: before this branch (see the profile-sync effect and onAvatarChange above); <img src> sets a DOM attribute/URL fetch, it never parses the value as HTML.
-                  ? <img src={avatarPreview} alt="" width={80} height={80} className="w-20 h-20 rounded-full object-cover" />
-                  : (
-                    <div
-                      className="flex items-center justify-center w-20 h-20 rounded-full"
-                      style={{ background: 'color-mix(in srgb, var(--gold) 12%, transparent)' }}
-                    >
-                      <User size={32} style={{ color: 'var(--gold)' }} />
-                    </div>
-                  )
-                }
-                {AVATAR_UPLOAD_ENABLED && (
-                  <div
-                    className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ background: 'rgba(10,13,19,.6)' }}
-                  >
-                    <Camera size={20} color="#fff" />
-                  </div>
-                )}
-                {AVATAR_UPLOAD_ENABLED && (
-                  <input ref={fileInputRef} type="file" accept={AVATAR_ACCEPT} onChange={onAvatarChange} className="hidden" />
-                )}
-              </button>
-
-              <div className="min-w-0 flex-1">
-                {/* Username is the real identity everywhere on the site (build/comment
-                    attribution, UserProfilePage) — display_name is flavor text under it,
-                    never primary. Links to the public profile (/u/:username). */}
-                <Link to={`/${prefix}u/${profile?.username}`} className="hover:underline">
-                  <h1 className="font-display font-bold text-lg truncate" style={{ color: 'var(--gold)' }}>
-                    {profile?.username || ''}
-                  </h1>
-                </Link>
-                {profile?.display_name && (
-                  <p className="text-[11px] truncate" style={{ color: 'var(--ink-faint)' }}>{profile.display_name}</p>
-                )}
-                {session?.user.created_at && (
-                  <p className="flex items-center gap-1 text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>
-                    <Calendar size={11} />
-                    {t('profile_joined', { date: new Date(session.user.created_at).toLocaleDateString(i18n.language) })}
-                  </p>
-                )}
-                <div className="flex gap-4 text-[11px] mt-2" style={{ color: 'var(--ink-faint)' }}>
-                  <button type="button" onClick={() => navigate(`/${prefix}my-builds`)} className="hover:underline">
-                    <strong style={{ color: 'var(--ink)' }}>{profile?.builds_count ?? 0}</strong> {t('auth_stat_builds')}
-                  </button>
-                  <button type="button" onClick={() => setFollowModal('followers')} className="hover:underline">
-                    <strong style={{ color: 'var(--ink)' }}>{profile?.followers_count ?? 0}</strong> {t('auth_stat_followers')}
-                  </button>
-                  <button type="button" onClick={() => setFollowModal('following')} className="hover:underline">
-                    <strong style={{ color: 'var(--ink)' }}>{profile?.following_count ?? 0}</strong> {t('auth_stat_following')}
-                  </button>
+          {!session ? (
+            authLoading ? <p role="status" className="account-list-state">{t('auth_loading')}</p> : (
+              <section className="account-empty">
+                <Lock size={30} aria-hidden="true" />
+                <h2>{t('auth_signin_title')}</h2>
+                <p>{t('account_sign_in')}</p>
+                <button type="button" className="site-primary" onClick={requestSignIn}>
+                  {t('auth_signin_btn')}
+                  <ArrowRight size={17} aria-hidden="true" />
+                </button>
+                <Link to={`/${prefix}`}>{t('app_title')}</Link>
+              </section>
+            )
+          ) : (
+            <>
+              <div className="account-identity">
+                <AccountAvatar username={profile?.username ?? email} url={profile?.avatar_url} />
+                <div>
+                  <h2>{profile?.username}</h2>
+                  {profile?.display_name && <p>{profile.display_name}</p>}
+                  <small>{t('profile_joined', { date: joined })}</small>
                 </div>
-                {uploadingAvatar && <p className="text-[10px] mt-1.5" style={{ color: 'var(--ink-faint)' }}>{t('auth_loading')}</p>}
+                <nav aria-label={t('account_counts')}>
+                  <Link className="account-count" to={`/${prefix}my-builds`}>
+                    <b>{profile?.builds_count ?? 0}</b>
+                    {t('auth_stat_builds')}
+                  </Link>
+                  <button type="button" onClick={() => setPeople('followers')}>
+                    <b>{profile?.followers_count ?? 0}</b>
+                    {t('auth_stat_followers')}
+                  </button>
+                  <button type="button" onClick={() => setPeople('following')}>
+                    <b>{profile?.following_count ?? 0}</b>
+                    {t('auth_stat_following')}
+                  </button>
+                </nav>
               </div>
-            </Frame>
 
-            {/* Profile */}
-            <section className="space-y-3">
-              <SectionHeader label={t('account_section_profile')} />
-              <Frame padding="lg">
-                <form onSubmit={submitProfile} className="space-y-3.5">
-                  <div>
-                    <label htmlFor="account-auth-username" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                      {t('auth_username')}
-                    </label>
-                    <div className="relative">
-                      <User size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-                      <input
-                        id="account-auth-username"
-                        type="text"
-                        required
-                        minLength={3}
-                        maxLength={30}
-                        pattern="[a-z0-9_-]{3,30}"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none"
-                        style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
-                        onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                      />
-                    </div>
-                    <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_username_hint')}</p>
-                  </div>
+              <nav className="account-tabs" aria-label={t('auth_profile_title')}>
+                {TABS.map(v => (
+                  <button key={v} type="button" aria-current={tab === v ? 'page' : undefined} onClick={() => setTab(v)}>
+                    {t(`account_tab_${v}`)}
+                    {v === 'profile' && profileDirty && <span className="account-dirty-dot" role="img" aria-label={t('account_unsaved')} />}
+                  </button>
+                ))}
+              </nav>
 
-                  <div>
-                    <label htmlFor="account-auth-display-name" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                      {t('auth_display_name')}
-                    </label>
-                    <input
-                      id="account-auth-display-name"
-                      type="text"
-                      maxLength={50}
-                      value={displayName}
-                      onChange={e => setDisplayName(e.target.value)}
-                      className="w-full text-sm rounded-lg px-3 py-2 transition-colors focus:outline-none"
-                      style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                      onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
-                      onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                    />
-                    <p className="text-[10px] mt-1" style={{ color: 'var(--ink-faint)' }}>{t('auth_display_name_hint')}</p>
-                  </div>
-
-                  <div>
-                    <label htmlFor="account-auth-bio" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                      {t('auth_bio')}
-                    </label>
-                    <div className="relative">
-                      <FileText size={14} className="absolute left-2.5 top-2.5 pointer-events-none" style={{ color: 'var(--ink-faint)' }} />
-                      <textarea
-                        id="account-auth-bio"
-                        maxLength={300}
-                        rows={3}
-                        value={bio}
-                        onChange={e => setBio(e.target.value)}
-                        className="w-full text-sm rounded-lg pl-8 pr-3 py-2 transition-colors focus:outline-none resize-none"
-                        style={{ background: 'var(--surface-panel)', border: '1px solid var(--metal-edge)', color: 'var(--ink)' }}
-                        onFocus={e => (e.currentTarget.style.borderColor = 'var(--gold-deep)')}
-                        onBlur={e => (e.currentTarget.style.borderColor = 'var(--metal-edge)')}
-                      />
-                    </div>
-                  </div>
-
-                  {error && (
-                    <p
-                      role="alert"
-                      className="text-[11px] rounded-md px-2.5 py-1.5"
-                      style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
-                    >
-                      {error}
-                    </p>
-                  )}
-                  {saved && !error && (
-                    <p role="status" className="text-[11px]" style={{ color: 'var(--gold)' }}>{t('save')} ✓</p>
-                  )}
-
-                  <Button type="submit" variant="primary" size="md" disabled={busy || uploadingAvatar}>
-                    {busy ? t('auth_loading') : t('save')}
-                  </Button>
-                </form>
-              </Frame>
-            </section>
-
-            {/* Security */}
-            <section className="space-y-3">
-              <SectionHeader label={t('account_section_security')} />
-              <Frame padding="lg">
-                {passwordDone ? (
-                  <p className="text-[12px] flex items-center gap-2" style={{ color: 'var(--gold)' }}>
-                    <Lock size={13} />{t('auth_password_updated')}
-                  </p>
-                ) : (
-                  <form onSubmit={submitPassword} className="space-y-3">
-                    <div>
-                      <label htmlFor="account-auth-new-password" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                        {t('auth_new_password')}
-                      </label>
-                      <PasswordInput
-                        id="account-auth-new-password"
-                        required
-                        minLength={6}
-                        autoComplete="new-password"
-                        value={newPassword}
-                        onChange={e => setNewPassword(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="account-auth-confirm-password" className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--ink-faint)' }}>
-                        {t('auth_confirm_password')}
-                      </label>
-                      <PasswordInput
-                        id="account-auth-confirm-password"
-                        required
-                        minLength={6}
-                        autoComplete="new-password"
-                        value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
-                      />
-                    </div>
-                    {passwordError && (
-                      <p
-                        role="alert"
-                        className="text-[11px] rounded-md px-2.5 py-1.5"
-                        style={{ color: 'var(--negative)', background: 'color-mix(in srgb, var(--negative) 10%, transparent)', border: '1px solid color-mix(in srgb, var(--negative) 25%, transparent)' }}
-                      >
-                        {passwordError}
+              <div className="account-editor-layout">
+                <div className="account-editor">
+                  <section className="account-section" hidden={tab !== 'profile'} aria-labelledby={`${id}-profile`}>
+                    <h2 id={`${id}-profile`}>{t('account_public_identity')}</h2>
+                    <p>{t('account_profile_hint')}</p>
+                    <form onSubmit={save} aria-busy={busy} className="account-form">
+                      <div className="account-field">
+                        <label htmlFor={`${id}-username`}>{t('auth_username')}</label>
+                        <input id={`${id}-username`} value={username} disabled={busy} onChange={e => edit(() => setUsername(e.target.value))}
+                          required minLength={3} maxLength={30} pattern={USERNAME_PATTERN} autoComplete="username" spellCheck={false}
+                          autoCapitalize="none" aria-describedby={`${id}-username-hint`} />
+                        <small id={`${id}-username-hint`}>{t('auth_username_hint')}</small>
+                      </div>
+                      <div className="account-field">
+                        <label htmlFor={`${id}-display`}>{t('auth_display_name')}</label>
+                        <input id={`${id}-display`} value={displayName} disabled={busy} onChange={e => edit(() => setDisplayName(e.target.value))}
+                          maxLength={50} autoComplete="nickname" aria-describedby={`${id}-display-hint`} />
+                        <small id={`${id}-display-hint`}>{t('auth_display_name_hint')}</small>
+                      </div>
+                      <div className="account-field">
+                        <label htmlFor={`${id}-bio`}>{t('auth_bio')}</label>
+                        <textarea id={`${id}-bio`} rows={4} maxLength={300} value={bio} disabled={busy} onChange={e => edit(() => setBio(e.target.value))}
+                          aria-describedby={`${id}-bio-count`} />
+                        <small id={`${id}-bio-count`} className="account-counter">{bio.length} / 300</small>
+                      </div>
+                      <p className="account-avatar-note">
+                        <User size={16} aria-hidden="true" />
+                        {t('account_avatar_unavailable')}
                       </p>
-                    )}
-                    <Button type="submit" variant="secondary" size="md" disabled={passwordBusy}>
-                      {passwordBusy ? t('auth_loading') : t('auth_reset_btn')}
-                    </Button>
-                  </form>
-                )}
-              </Frame>
-            </section>
+                      {error && <Message error>{error}</Message>}
+                      {saved && <Message>{t('account_saved')}</Message>}
+                      <div className={'account-savebar' + (profileDirty ? ' is-dirty' : '')}>
+                        <span>{partial ? t('account_username_partial') : profileDirty ? t('account_unsaved') : t('account_profile_hint')}</span>
+                        <div>
+                          <button type="button" disabled={busy || !profileDirty} onClick={restore}>{t('account_discard')}</button>
+                          <button type="submit" className="site-primary" disabled={busy || !profileDirty}>
+                            {t(busy ? 'account_saving' : 'account_save')}
+                            {!busy && <Check size={16} aria-hidden="true" />}
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </section>
 
-            {/* Sign out */}
-            <Frame padding="md" className="flex items-center justify-between gap-3">
-              <span className="text-[12px]" style={{ color: 'var(--ink-faint)' }}>{t('auth_signout')}</span>
-              <Button variant="danger" size="sm" onClick={() => signOut()}>
-                <LogOut size={13} />
-                {t('auth_signout')}
-              </Button>
-            </Frame>
-          </>
-        )}
+                  <section className="account-section" hidden={tab !== 'security'} aria-labelledby={`${id}-security`}>
+                    <h2 id={`${id}-security`}>{t('auth_change_password')}</h2>
+                    <p>{t('account_password_intro')}</p>
+                    <div className="account-private-email">
+                      <Lock size={16} aria-hidden="true" />
+                      <span>{t('account_private_email')}<b>{email}</b></span>
+                    </div>
+                    <form className="account-form" onSubmit={changePassword} aria-busy={passwordBusy}>
+                      <PasswordField label={t('auth_new_password')} id={`${id}-password`} value={password} disabled={passwordBusy}
+                        onChange={v => { setPassword(v); setPasswordError(null); setPasswordDone(false) }} />
+                      <small>{t('auth_password_hint', { count: PASSWORD_MIN_LENGTH })}</small>
+                      <PasswordField label={t('auth_confirm_password')} id={`${id}-confirm`} value={confirm} disabled={passwordBusy}
+                        onChange={v => { setConfirm(v); setPasswordError(null); setPasswordDone(false) }} />
+                      {passwordError && <Message error>{passwordError}</Message>}
+                      {passwordDone && <Message>{t('account_password_saved')}</Message>}
+                      <button type="submit" className="site-primary account-password-submit" disabled={passwordBusy}>
+                        {t(passwordBusy ? 'account_saving' : 'auth_change_password')}
+                        <Lock size={16} aria-hidden="true" />
+                      </button>
+                    </form>
+                  </section>
+
+                  <section className="account-section" hidden={tab !== 'session'} aria-labelledby={`${id}-session`}>
+                    <h2 id={`${id}-session`}>{t('account_tab_session')}</h2>
+                    <p>{t('account_session_intro')}</p>
+                    <div className="account-session-row">
+                      <span>
+                        <b>{profile?.username}</b>
+                        <small>{email}</small>
+                      </span>
+                      <button type="button" onClick={() => setSignout(true)}>
+                        {t('auth_signout')}
+                        <LogOut size={16} aria-hidden="true" />
+                      </button>
+                    </div>
+                    {dirty && <p className="account-pending-note">{t('account_unsaved')}</p>}
+                  </section>
+                </div>
+
+                <aside className="account-side-note" aria-label={t('account_public_identity')}>
+                  <span className="account-eyebrow">{t('account_public_identity')}</span>
+                  <AccountAvatar username={profile?.username ?? email} url={profile?.avatar_url} />
+                  <h3>{profile?.username}</h3>
+                  {profile?.display_name && <p>{profile.display_name}</p>}
+                  <p>{profile?.bio || t('account_no_bio')}</p>
+                  <Link className="account-button" to={publicPath}>
+                    {t('account_public_preview')}
+                    <ArrowRight size={16} aria-hidden="true" />
+                  </Link>
+                </aside>
+              </div>
+            </>
+          )}
+        </div>
       </main>
 
-      <SiteFooter />
-
-      {followModal && profile && (
-        <FollowListModal userId={profile.id} type={followModal} onClose={() => setFollowModal(null)} />
+      {people && session && <FollowListModal userId={session.user.id} type={people} onClose={() => setPeople(null)} />}
+      {signout && (
+        <Modal open onClose={() => setSignout(false)} title={t('account_signout_title')} size="md">
+          <div className="account-dialog-body">
+            <LogOut size={28} aria-hidden="true" />
+            <p>{t('account_session_intro')}</p>
+            {dirty && <p>{t('account_leave_body')}</p>}
+            <div className="account-dialog-actions">
+              <button type="button" onClick={() => setSignout(false)}>{t('report_cancel')}</button>
+              <button type="button" className="site-primary" onClick={() => { setSignout(false); void signOut() }}>{t('auth_signout')}</button>
+            </div>
+          </div>
+        </Modal>
       )}
+      <SiteFooter />
     </div>
   )
 }
