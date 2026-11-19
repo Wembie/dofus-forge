@@ -8,6 +8,25 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.4.0',
+    date: '2026-11-19',
+    notes: [
+      "New design across the whole site: flat and quiet, built on the game's own art, with every feature kept. Dark theme by default",
+      'Workshop: slot-like class tiles, editable level, class and gender under the character, flat equipment slots with runes shown, and an item sheet on click (change item, magesmithy, pin, remove)',
+      'Keyboard: C change item, R magesmithy, P pin, Del remove, double click to change; F The Forger, H spells, S combat, 1–6 Dofus slots, / catalog search',
+      'Stats: characteristics with Power added, points left with a "+" on each characteristic, damage breakdown on hover',
+      'Items: one flat hover card everywhere; the catalog shows what a pick replaces',
+      'Sets: equip a missing piece from the active sets panel in one click; only the bonus in force is shown',
+      'Prysmaradite only in the first Dofus slot, Forger results included',
+      'The Forger: redesigned, clearer locked screen, closes on outside click',
+      'Spells and combat simulation open as windows; the simulation hits an animated Poutch Ingball and never adds up alternative damage lines',
+      "Explore, build page, publish, library, profiles, sets, guides, sign-in, account, what's new and admin redesigned",
+      'Builds without a name get one from their class, main characteristic, AP/MP/range and level',
+      'New sounds: anvil when The Forger finishes, sparkle on a new set bonus, tap on runes',
+      'Google Analytics with consent mode; privacy policy updated',
+    ],
+  },
+  {
     version: '0.3.153',
     date: '2026-11-13',
     notes: [
