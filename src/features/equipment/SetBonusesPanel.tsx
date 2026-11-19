@@ -1,7 +1,11 @@
 import { useMemo, useState, lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Eye } from 'lucide-react'
-import { useBuildStore } from '@/store/buildStore.ts'
+import { useBuildStore, type SlotId } from '@/store/buildStore.ts'
+import { useToastStore } from '@/store/toastStore.ts'
+import { playEquip } from '@/lib/sound.ts'
+import { Modal, slotToastIcon } from '@/ui'
+import { SLOT_CONFIGS } from './slotConfig.ts'
 import type { AppSet, AppEffect, AppItem } from '@/data/loaders.ts'
 import { IconButton, Frame } from '@/ui'
 
@@ -206,7 +210,9 @@ export function ActiveSetsGrid({ activeSets, onOpenSet }: {
   )
 }
 
-// ── Workshop panel: each set you wear, its pieces and every tier ─────────────
+const slotLabelKey = (slot: SlotId) => slot.startsWith('ring') ? 'slot_ring' : slot.startsWith('dofus') ? 'slot_dofus' : `slot_${slot}`
+
+// ── Workshop panel: each set you wear, its pieces and its bonus in force ─────
 
 export function SetBonusesPanel() {
   const { t } = useTranslation()
@@ -218,6 +224,22 @@ export function SetBonusesPanel() {
   const activeSets = useMemo(() => computeActiveSets(equipped, _equipment, _sets), [equipped, _equipment, _sets])
   const byId = useMemo(() => new Map(_equipment.map(it => [it.ankama_id, it])), [_equipment])
   const worn = new Set(Object.values(equipped))
+  const [pending, setPending] = useState<{ item: AppItem; slot: SlotId; replaces: AppItem } | null>(null)
+
+  /** Its first free slot, else the first one it fits — asking before replacing what is there. */
+  function requestEquip(item: AppItem) {
+    const fits = SLOT_CONFIGS.filter(c => (Array.isArray(c.apiSlot) ? c.apiSlot : [c.apiSlot]).includes(item.slot)).map(c => c.id)
+    const slot = fits.find(id => equipped[id] == null) ?? fits[0]
+    if (!slot) return
+    const current = equipped[slot] != null ? byId.get(equipped[slot]!) : undefined
+    if (current) setPending({ item, slot, replaces: current })
+    else equip(item, slot)
+  }
+  function equip(item: AppItem, slot: SlotId) {
+    useBuildStore.getState().equipItem(slot, item.ankama_id)
+    playEquip()
+    useToastStore.getState().addToast(t('toast_equipped', { slot: t(slotLabelKey(slot)), item: item.name }), slotToastIcon(slot))
+  }
 
   return (
     <section className="bonus-panel" aria-labelledby="bonus-panel-title">
@@ -233,6 +255,7 @@ export function SetBonusesPanel() {
             const pieces = set.items.flatMap(id => byId.get(id) ?? [])
             const tiers = Object.keys(set.bonuses).map(Number).sort((x, y) => x - y)
             const inForce = tiers.filter(n => n <= count).at(-1)
+            const shown = inForce ?? tiers.find(n => n > count)
             return (
               <section key={set.ankama_id} aria-label={set.name}>
                 <header>
@@ -244,24 +267,33 @@ export function SetBonusesPanel() {
                   </button>
                 </header>
                 <ul className="bonus-pieces">
-                  {pieces.map(it => (
-                    <li key={it.ankama_id} className={worn.has(it.ankama_id) ? '' : 'is-missing'}
-                      title={worn.has(it.ankama_id) ? it.name : t('setcat_piece_unworn_title', { name: it.name })}>
+                  {pieces.map(it => worn.has(it.ankama_id) ? (
+                    <li key={it.ankama_id} title={it.name}>
                       {it.image_url && <img src={it.image_url} alt="" />}
-                      <span className="sr-only">{t(worn.has(it.ankama_id) ? 'setcat_piece_worn_sr' : 'setcat_piece_unworn_sr', { name: it.name })}</span>
+                      <span className="sr-only">{t('setcat_piece_worn_sr', { name: it.name })}</span>
+                    </li>
+                  ) : (
+                    <li key={it.ankama_id} className="is-missing">
+                      <button type="button" onClick={() => requestEquip(it)}
+                        title={t('setcat_piece_equip', { name: it.name })} aria-label={t('setcat_piece_equip', { name: it.name })}>
+                        {it.image_url && <img src={it.image_url} alt="" />}
+                      </button>
                     </li>
                   ))}
                 </ul>
-                <ol className="set-tiers">
-                  {tiers.map(n => (
-                    <li key={n} className={n === inForce ? 'is-reached' : ''}>
-                      <span className="set-tier-count">{n} <small>{t('setcat_tier_pieces', { count: n })}</small></span>
-                      <span className="set-tier-effects"><SetBonusEffects effects={set.bonuses[n].filter(e => !isIgnored(e.stat))} /></span>
-                      {n === inForce && <span className="set-tier-note">{t('passives_on')}</span>}
-                      {n === count + 1 && <span className="set-tier-note is-next">{t('setcat_one_more')}</span>}
+                {/* Only the bonus in force, or the next one while none is; the
+                    set window has every tier. */}
+                {shown != null && (
+                  <ol className="set-tiers">
+                    <li className={shown === inForce ? 'is-reached' : ''}>
+                      <span className="set-tier-count">{shown} <small>{t('setcat_tier_pieces', { count: shown })}</small></span>
+                      <span className="set-tier-effects"><SetBonusEffects effects={set.bonuses[shown].filter(e => !isIgnored(e.stat))} /></span>
+                      {shown === inForce
+                        ? <span className="set-tier-note">{t('passives_on')}</span>
+                        : <span className="set-tier-note is-next">{t('setcat_more_pieces', { count: shown - count })}</span>}
                     </li>
-                  ))}
-                </ol>
+                  </ol>
+                )}
               </section>
             )
           })}
@@ -271,6 +303,22 @@ export function SetBonusesPanel() {
         <Suspense fallback={null}>
           <SetDetailModal set={openSet} onClose={() => setOpenSet(null)} />
         </Suspense>
+      )}
+      {pending && (
+        <Modal open onClose={() => setPending(null)} title={t('setcat_replace_title')} size="sm">
+          <div className="bonus-replace">
+            <div className="bonus-replace-pair" aria-hidden="true">
+              <figure>{pending.replaces.image_url && <img src={pending.replaces.image_url} alt="" />}<figcaption>{pending.replaces.name}</figcaption></figure>
+              <ArrowRight size={18} />
+              <figure className="is-new">{pending.item.image_url && <img src={pending.item.image_url} alt="" />}<figcaption>{pending.item.name}</figcaption></figure>
+            </div>
+            <p>{t('setcat_replace_body', { old: pending.replaces.name, new: pending.item.name, slot: t(slotLabelKey(pending.slot)) })}</p>
+            <div className="bonus-replace-actions">
+              <button type="button" onClick={() => setPending(null)}>{t('cancel')}</button>
+              <button type="button" className="site-primary" onClick={() => { equip(pending.item, pending.slot); setPending(null) }}>{t('setcat_replace_confirm')}</button>
+            </div>
+          </div>
+        </Modal>
       )}
     </section>
   )

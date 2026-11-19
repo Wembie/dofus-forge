@@ -3132,5 +3132,11 @@
   "stats_power_own": "Próprios: {{value}}",
   "stats_power_bonus": "{{value}} de Poder",
   "item_sheet_change": "Trocar item",
-  "item_sheet_remove": "Remover"
+  "item_sheet_remove": "Remover",
+  "setcat_more_pieces_one": "Com mais {{count}} peça",
+  "setcat_more_pieces_other": "Com mais {{count}} peças",
+  "setcat_piece_equip": "Equipar {{name}}",
+  "setcat_replace_title": "Substituir item",
+  "setcat_replace_body": "Substituir {{old}} por {{new}} em {{slot}}?",
+  "setcat_replace_confirm": "Substituir"
 }

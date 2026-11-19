@@ -327,3 +327,84 @@
   overflow: visible;
   grid-area: auto;
 }
+
+/* A missing piece equips on click; replacing a worn one asks first. */
+.bonus-pieces .is-missing button {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.bonus-pieces .is-missing:hover {
+  border-style: solid;
+  border-color: var(--accent);
+}
+.bonus-pieces .is-missing:hover img,
+.bonus-pieces .is-missing button:focus-visible img {
+  opacity: 1;
+  filter: none;
+}
+.bonus-replace {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 18px 18px;
+}
+.bonus-replace-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--muted);
+}
+.bonus-replace-pair figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 120px;
+  margin: 0;
+  text-align: center;
+}
+.bonus-replace-pair img {
+  width: 56px;
+  height: 56px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--canvas);
+  object-fit: contain;
+}
+.bonus-replace-pair figure:not(.is-new) img {
+  opacity: 0.55;
+}
+.bonus-replace-pair .is-new img {
+  border-color: var(--accent);
+}
+.bonus-replace-pair figcaption {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.bonus-replace p {
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--muted);
+}
+.bonus-replace-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.bonus-replace-actions button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-weight: 600;
+}
