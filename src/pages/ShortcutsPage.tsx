@@ -1,62 +1,14 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
-import { MousePointerClick, Keyboard, Smartphone, type LucideIcon } from 'lucide-react'
-import { SiteHeader } from '@/components/SiteHeader.tsx'
-import { SiteFooter } from '@/components/SiteFooter.tsx'
+import { Hammer, Keyboard, MousePointerClick, Smartphone, type LucideIcon } from 'lucide-react'
 import { langPathPrefix, langPathRootSegment } from '@/i18n/langPath.ts'
 import { usePageSeo, type SeoLang } from '@/seo/useSeoMeta.ts'
+import { Actions, GoLink, Reading, SectionHead } from '@/features/reading/Reading.tsx'
 
-type Group = { id: string; icon: LucideIcon; items: string[] }
-
-// Each item's text lives in shortcuts_<item>_title / _body in every locale.
-const GROUPS: Group[] = [
-  { id: 'mouse',    icon: MousePointerClick, items: ['drag_ring', 'drag_dofus', 'rightclick'] },
-  { id: 'keyboard', icon: Keyboard,          items: ['undo', 'redo', 'palette', 'palette_nav'] },
-  { id: 'mobile',   icon: Smartphone,        items: ['mobile_tap', 'mobile_nodrag', 'mobile_pin'] },
+const GROUPS: { id: string; Icon: LucideIcon; items: [string, string[]?][] }[] = [
+  { id: 'mouse', Icon: MousePointerClick, items: [['drag_ring'], ['drag_dofus'], ['rightclick']] },
+  { id: 'keyboard', Icon: Keyboard, items: [['undo', ['Ctrl', 'Z']], ['redo', ['Ctrl', 'Shift', 'Z']], ['palette', ['Ctrl', 'K']], ['palette_nav', ['↑', '↓', '↵', 'Esc']]] },
+  { id: 'mobile', Icon: Smartphone, items: [['mobile_tap'], ['mobile_nodrag'], ['mobile_pin']] },
 ]
-
-// Key combos are the same label everywhere regardless of language — only the
-// surrounding copy (what the shortcut does) needs translating.
-const KEYS: Record<string, string[]> = {
-  undo:        ['Ctrl', 'Z'],
-  redo:        ['Ctrl', 'Shift', 'Z'],
-  palette:     ['Ctrl', 'K'],
-  palette_nav: ['↑', '↓', '↵', 'Esc'],
-}
-
-function Kbd({ children }: { children: string }) {
-  return (
-    <kbd
-      className="text-[10px] font-mono px-1.5 py-0.5 rounded"
-      style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)', color: 'var(--ink-faint)' }}
-    >
-      {children}
-    </kbd>
-  )
-}
-
-function ShortcutCard({ id }: { id: string }) {
-  const { t } = useTranslation()
-  const keys = KEYS[id]
-  return (
-    <div className="rounded-xl p-3.5 h-full" style={{ background: 'var(--surface-void)', border: '1px solid var(--metal-edge)' }}>
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="font-display text-[13px] font-bold" style={{ color: 'var(--gold)' }}>{t(`shortcuts_${id}_title`)}</h3>
-        {keys && (
-          <div className="flex items-center gap-1 flex-shrink-0">
-            {keys.map((k, i) => (
-              <span key={i} className="flex items-center gap-1">
-                <Kbd>{k}</Kbd>
-                {i < keys.length - 1 && <span style={{ color: 'var(--ink-faint)' }}>+</span>}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-      <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--ink-muted)' }}>{t(`shortcuts_${id}_body`)}</p>
-    </div>
-  )
-}
 
 export function ShortcutsPage() {
   const { t, i18n } = useTranslation()
@@ -68,58 +20,42 @@ export function ShortcutsPage() {
   })
 
   return (
-    <div className="min-h-screen bg-forge-bg text-forge-text flex flex-col">
-      <SiteHeader />
-
-      <main id="main-content" className="flex-1 max-w-3xl w-full mx-auto px-4 py-10 space-y-8">
-        <div style={{ animation: 'page-rise 520ms var(--ease-out) 0ms both' }}>
-          <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--gold)' }}>
-            {t('shortcuts_title')}
-          </h1>
-          <p className="text-sm leading-relaxed mt-3 max-w-2xl" style={{ color: 'var(--ink-muted)' }}>
-            {t('shortcuts_intro')}
-          </p>
-        </div>
-
-        {GROUPS.map((g, gi) => (
-          <section key={g.id} className="space-y-3" style={{ animation: `page-rise 420ms var(--ease-out) ${80 + gi * 60}ms both` }}>
-            <div className="flex items-center gap-2">
-              <span
-                className="flex items-center justify-center rounded-xl flex-shrink-0"
-                style={{ width: 30, height: 30, background: 'color-mix(in srgb, var(--gold) 12%, var(--surface-stone))', border: '1px solid color-mix(in srgb, var(--gold) 45%, transparent)', color: 'var(--gold)' }}
-              >
-                <g.icon size={14} />
-              </span>
-              <h2 className="font-display text-base font-bold" style={{ color: 'var(--ink)' }}>
-                {t(`shortcuts_group_${g.id}_title`)}
-              </h2>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {g.items.map(id => <ShortcutCard key={id} id={id} />)}
-            </div>
-          </section>
-        ))}
-
-        <div className="flex flex-wrap gap-3">
-          <Link
-            to={homePath}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
-            style={{ borderColor: 'var(--metal-edge)', color: 'var(--gold)' }}
-          >
-            {t('shortcuts_cta_start')}
-          </Link>
-          <Link
-            to={`/${prefix}how-to-use`}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors"
-            style={{ borderColor: 'var(--metal-edge)', color: 'var(--ink-muted)' }}
-          >
-            {t('shortcuts_cta_howto')}
-          </Link>
-        </div>
-      </main>
-
-      <SiteFooter />
-    </div>
+    <Reading
+      kicker={t('reading_kicker_guide')}
+      title={t('shortcuts_title')}
+      intro={<p>{t('shortcuts_intro')}</p>}
+      toc={GROUPS.map(g => ({ id: `group-${g.id}`, label: t(`shortcuts_group_${g.id}_title`), Icon: g.Icon }))}
+    >
+      {GROUPS.map(g => (
+        <section key={g.id} id={`group-${g.id}`} className="rd-section">
+          <SectionHead Icon={g.Icon}>{t(`shortcuts_group_${g.id}_title`)}</SectionHead>
+          <dl className="rd-keys">
+            {g.items.map(([key, combo]) => (
+              <div key={key}>
+                <dt>
+                  {combo && (
+                    <span className="rd-combo">
+                      {combo.map((k, i) => (
+                        <span key={k}>
+                          {i > 0 && combo.length < 4 && <i aria-hidden="true">+</i>}
+                          <kbd>{k}</kbd>
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                  {t(`shortcuts_${key}_title`)}
+                </dt>
+                <dd>{t(`shortcuts_${key}_body`)}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))}
+      <Actions>
+        <GoLink to={homePath} primary><Hammer size={17} aria-hidden="true" />{t('shortcuts_cta_start')}</GoLink>
+        <GoLink to={`/${prefix}how-to-use`}>{t('shortcuts_cta_howto')}</GoLink>
+      </Actions>
+    </Reading>
   )
 }
 

@@ -3074,5 +3074,10 @@
   "sets_eyebrow": "ENCICLOPÉDIA",
   "sets_controls": "Buscar e filtrar conjuntos",
   "sets_full_set": "Conjunto completo",
-  "sets_description": "Descrição"
+  "sets_description": "Descrição",
+  "reading_kicker_guide": "CADERNO DA OFICINA",
+  "reading_kicker_legal": "INFORMAÇÕES LEGAIS",
+  "reading_kicker_about": "O PROJETO",
+  "reading_about_project": "O projeto",
+  "reading_mobile_nav": "Navegação móvel"
 }

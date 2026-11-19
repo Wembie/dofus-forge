@@ -3074,5 +3074,10 @@
   "sets_eyebrow": "ENCYCLOPEDIA",
   "sets_controls": "Search and filter sets",
   "sets_full_set": "Full set",
-  "sets_description": "Description"
+  "sets_description": "Description",
+  "reading_kicker_guide": "WORKSHOP NOTEBOOK",
+  "reading_kicker_legal": "LEGAL INFORMATION",
+  "reading_kicker_about": "THE PROJECT",
+  "reading_about_project": "The project",
+  "reading_mobile_nav": "Mobile navigation"
 }

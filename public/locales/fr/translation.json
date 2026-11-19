@@ -3074,5 +3074,10 @@
   "sets_eyebrow": "ENCYCLOPÉDIE",
   "sets_controls": "Rechercher et filtrer les panoplies",
   "sets_full_set": "Panoplie complète",
-  "sets_description": "Description"
+  "sets_description": "Description",
+  "reading_kicker_guide": "CARNET DE L’ATELIER",
+  "reading_kicker_legal": "INFORMATIONS LÉGALES",
+  "reading_kicker_about": "LE PROJET",
+  "reading_about_project": "Le projet",
+  "reading_mobile_nav": "Navigation mobile"
 }
