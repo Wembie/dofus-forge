@@ -3070,5 +3070,9 @@
   "account_empty_collections": "There are no public collections yet.",
   "account_search_people": "Search players",
   "people_followers_title": "Followers",
-  "people_following_title": "Following"
+  "people_following_title": "Following",
+  "sets_eyebrow": "ENCYCLOPEDIA",
+  "sets_controls": "Search and filter sets",
+  "sets_full_set": "Full set",
+  "sets_description": "Description"
 }

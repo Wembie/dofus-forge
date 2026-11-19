@@ -13,7 +13,7 @@ import type { PathLang } from '@/i18n/langPath.ts'
 // index and the class guides' set and build sections.
 const DATA = join(process.cwd(), 'public', 'data')
 
-type SetEntry = SetLink & { items: AppItem[]; set: AppSet; scores: Record<GuideElement, number> }
+type SetEntry = SetLink & { items: AppItem[]; set: AppSet; scores: Record<GuideElement, number>; totalsList: StatTotal[] }
 
 type Guide = { entries: SetEntry[]; bySlug: Map<string, SetEntry> }
 
@@ -50,6 +50,7 @@ function guide(lang: PathLang): Promise<Guide> {
           icon:     items[0]?.image_url ?? null,
           elements: statElements(totals),
           classId:  setClass(items, spellClasses),
+          totalsList: totals.list(),
           scores:   Object.fromEntries(GUIDE_ELEMENTS.map(el => [el, elementScore(totals, el)])) as Record<GuideElement, number>,
         })
       }
@@ -61,7 +62,7 @@ function guide(lang: PathLang): Promise<Guide> {
   return pending
 }
 
-const toLink = ({ id, slug, name, level, pieces, icon, elements, classId }: SetEntry): SetLink => ({ id, slug, name, level, pieces, icon, elements, classId })
+const toLink = ({ id, slug, name, level, pieces, icon, elements, classId, totalsList }: SetEntry): SetLink => ({ id, slug, name, level, pieces, icon, elements, classId, top: totalsList.slice(0, 3) })
 
 /** Every set slug, for the list of pages to prerender and the sitemap. */
 export async function allSetSlugs(): Promise<string[]> {

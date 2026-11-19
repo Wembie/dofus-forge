@@ -10,6 +10,7 @@ import type { StatBlock } from '@/engine/types.ts'
 import type { AppEffect, AppItem } from '@/data/loaders.ts'
 import { isAttackEffect } from './catalogFilters.ts'
 import { STAT_FIELDS, STAT_META, fmtValue, isIgnored, statIconUrl } from './statDisplay.ts'
+import './facts.css'
 
 /** Effects an item card shows: no display-only junk, attacks apart for weapons, spell effects. */
 export function itemFacts(item: AppItem) {

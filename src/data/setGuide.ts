@@ -26,6 +26,8 @@ export type SetLink = {
   icon:     string | null
   elements: GuideElement[]
   classId:  string | null
+  /** The full set's first totals, in the stats panel's order (cards show three). */
+  top?:     StatTotal[]
 }
 
 /** A community build as the guide pages list it: no snapshot, just what its card shows. */

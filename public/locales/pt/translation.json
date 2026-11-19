@@ -3070,5 +3070,9 @@
   "account_empty_collections": "Ainda não há coleções públicas.",
   "account_search_people": "Buscar jogador",
   "people_followers_title": "Seguidores",
-  "people_following_title": "Seguindo"
+  "people_following_title": "Seguindo",
+  "sets_eyebrow": "ENCICLOPÉDIA",
+  "sets_controls": "Buscar e filtrar conjuntos",
+  "sets_full_set": "Conjunto completo",
+  "sets_description": "Descrição"
 }

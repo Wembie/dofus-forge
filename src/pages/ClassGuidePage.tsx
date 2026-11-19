@@ -163,9 +163,9 @@ export function ClassGuidePage() {
             <section className="space-y-3">
               <GuideHeading id="community-builds" title={t('class_guide_builds_title', { class: className })} />
               {guide.builds.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="sp-builds"><ul>
                   {guide.builds.map(b => <GuideBuildCard key={b.id} build={b} />)}
-                </div>
+                </ul></div>
               ) : (
                 <p className="text-xs rounded-xl p-4" style={{ color: 'var(--ink-faint)', background: 'var(--surface-stone)', border: '1px solid var(--metal-edge)' }}>
                   {t('class_guide_builds_empty', { class: className })}{' '}
